@@ -37,6 +37,27 @@
           "children": [
             {
               "id": 6,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 7,
+                  "name": "new CommentedClass",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 5,
+                    "name": "CommentedClass"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 8,
               "name": "prop",
               "kind": 1024,
               "kindString": "Property",
@@ -50,14 +71,14 @@
               }
             },
             {
-              "id": 20,
+              "id": 22,
               "name": "mixedHidden",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 23,
+                  "id": 25,
                   "name": "mixedHidden",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -67,7 +88,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 24,
+                      "id": 26,
                       "name": "arg1",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -78,7 +99,7 @@
                       }
                     },
                     {
-                      "id": 25,
+                      "id": 27,
                       "name": "arg2",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -99,17 +120,24 @@
           ],
           "groups": [
             {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                6
+              ]
+            },
+            {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                6
+                8
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                20
+                22
               ]
             }
           ]
@@ -173,7 +201,7 @@
       ]
     },
     {
-      "id": 27,
+      "id": 29,
       "name": "comment2",
       "kind": 1,
       "kindString": "Module",
@@ -183,21 +211,21 @@
       },
       "children": [
         {
-          "id": 28,
+          "id": 30,
           "name": "multiply",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 29,
+              "id": 31,
               "name": "multiply",
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
-                  "id": 30,
+                  "id": 32,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -208,7 +236,7 @@
                   }
                 },
                 {
-                  "id": 31,
+                  "id": 33,
                   "name": "b",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -232,7 +260,7 @@
           "title": "Functions",
           "kind": 64,
           "children": [
-            28
+            30
           ]
         }
       ]
@@ -244,7 +272,7 @@
       "kind": 1,
       "children": [
         1,
-        27
+        29
       ]
     }
   ]

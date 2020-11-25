@@ -5,6 +5,7 @@ import * as ts from "typescript";
 
 import { OptionsReader, Options } from "../options";
 import { Logger } from "../../loggers";
+import { normalizePath } from "../..";
 
 function isFile(file: string) {
     return existsSync(file) && statSync(file).isFile();
@@ -51,7 +52,7 @@ export class TSConfigReader implements OptionsReader {
             return;
         }
 
-        fileToRead = resolve(fileToRead);
+        fileToRead = normalizePath(resolve(fileToRead));
 
         const { config } = ts.readConfigFile(fileToRead, ts.sys.readFile);
         const {

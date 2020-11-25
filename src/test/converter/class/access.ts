@@ -31,23 +31,23 @@ export class PrivateClass {
      * A variable that is made private via comment.
      * @private
      */
-    fakePrivateVariable: string;
+    fakePrivateProperty: string;
 
     /**
      * A variable that is made protected via comment.
      * @protected
      */
-    fakeProtectedVariable: string;
+    fakeProtectedProperty: string;
 
     /**
      * A function that is made private via comment.
      * @private
      */
-    fakePrivateFunction() {}
+    fakePrivateMethod() {}
 
     /**
      * A function that is made protected via comment.
      * @protected
      */
-    fakeProtectedFunction() {}
+    fakeProtectedMethod() {}
 }

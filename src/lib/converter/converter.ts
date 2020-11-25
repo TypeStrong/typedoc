@@ -1,19 +1,28 @@
 import * as ts from "typescript";
 import * as _ts from "../ts-internal";
 import * as _ from "lodash";
+import * as assert from "assert";
 
 import { Application } from "../application";
-import { Reflection, Type, ProjectReflection } from "../models/index";
-import { Context } from "./context";
-import { ConverterComponent, ConverterNodeComponent } from "./components";
 import {
-    Component,
-    ChildableComponent,
-    ComponentClass,
-} from "../utils/component";
-import { BindOption } from "../utils";
+    Type,
+    ProjectReflection,
+    ReflectionKind,
+    ContainerReflection,
+    DeclarationReflection,
+} from "../models/index";
+import { Context } from "./context";
+import { ConverterComponent } from "./components";
+import { Component, ChildableComponent } from "../utils/component";
+import { BindOption, normalizePath } from "../utils";
 import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
+import { convertSymbol } from "./symbols";
+import { relative } from "path";
+import { getCommonDirectory } from "../utils/fs";
+import { createMinimatch } from "../utils/paths";
+import { IMinimatch } from "minimatch";
+import { hasFlag } from "../utils/enum";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -34,7 +43,8 @@ export class Converter extends ChildableComponent<
     name!: string;
 
     @BindOption("externalPattern")
-    externalPattern!: Array<string>;
+    externalPattern!: string[];
+    private externalPatternCache?: IMinimatch[];
 
     @BindOption("excludeExternals")
     excludeExternals!: boolean;
@@ -47,13 +57,6 @@ export class Converter extends ChildableComponent<
 
     @BindOption("excludeProtected")
     excludeProtected!: boolean;
-
-    /**
-     * Defined in the initialize method
-     */
-    private nodeConverters!: {
-        [syntaxKind: string]: ConverterNodeComponent<ts.Node>;
-    };
 
     /**
      * General events
@@ -77,10 +80,12 @@ export class Converter extends ChildableComponent<
      * Factory events
      */
 
+    // TODO: FILE_BEGIN is never emitted
     /**
      * Triggered when the converter begins converting a source file.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
+     * @deprecated
      */
     static readonly EVENT_FILE_BEGIN = ConverterEvents.FILE_BEGIN;
 
@@ -148,76 +153,25 @@ export class Converter extends ChildableComponent<
     static readonly EVENT_RESOLVE_END = ConverterEvents.RESOLVE_END;
 
     /**
-     * Create a new Converter instance.
-     *
-     * @param application  The application instance this converter relies on. The application
-     *   must expose the settings that should be used and serves as a global logging endpoint.
-     */
-    initialize() {
-        this.nodeConverters = {};
-    }
-
-    addComponent<T extends ConverterComponent & Component>(
-        name: string,
-        componentClass: T | ComponentClass<T>
-    ): T {
-        const component = super.addComponent(name, componentClass);
-        if (component instanceof ConverterNodeComponent) {
-            this.addNodeConverter(component);
-        }
-
-        return component;
-    }
-
-    private addNodeConverter(converter: ConverterNodeComponent<any>) {
-        for (const supports of converter.supports) {
-            this.nodeConverters[supports] = converter;
-        }
-    }
-
-    removeComponent(name: string): ConverterComponent | undefined {
-        const component = super.removeComponent(name);
-        if (component instanceof ConverterNodeComponent) {
-            this.removeNodeConverter(component);
-        }
-
-        return component;
-    }
-
-    private removeNodeConverter(converter: ConverterNodeComponent<any>) {
-        const converters = this.nodeConverters;
-        const keys = _.keys(this.nodeConverters);
-        for (const key of keys) {
-            if (converters[key] === converter) {
-                delete converters[key];
-            }
-        }
-    }
-
-    removeAllComponents() {
-        super.removeAllComponents();
-
-        this.nodeConverters = {};
-    }
-
-    /**
      * Compile the given source files and create a project reflection for them.
      *
      * @param fileNames  Array of the file names that should be compiled.
      */
     convert(
-        entryPoints: string[]
+        entryPoints: readonly string[]
     ): ProjectReflection | readonly ts.Diagnostic[] {
+        this.externalPatternCache = void 0;
+
         const program = ts.createProgram(
             this.application.options.getFileNames(),
             this.application.options.getCompilerOptions()
         );
         const checker = program.getTypeChecker();
-        const context = new Context(this, entryPoints, checker, program);
+        const context = new Context(this, checker);
 
         this.trigger(Converter.EVENT_BEGIN, context);
 
-        const errors = this.compile(context);
+        const errors = this.compile(program, entryPoints, context);
         if (errors.length) {
             return errors;
         }
@@ -232,71 +186,73 @@ export class Converter extends ChildableComponent<
     }
 
     /**
-     * Analyze the given node and create a suitable reflection.
-     *
-     * This function checks the kind of the node and delegates to the matching function implementation.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param node     The compiler node that should be analyzed.
-     * @return The resulting reflection or undefined.
-     */
-    convertNode(context: Context, node: ts.Node): Reflection | undefined {
-        if (context.visitStack.includes(node)) {
-            return;
-        }
-
-        const oldVisitStack = context.visitStack.slice();
-        context.visitStack.push(node);
-
-        let result: Reflection | undefined;
-        if (node.kind in this.nodeConverters) {
-            result = this.nodeConverters[node.kind].convert(context, node);
-        } else {
-            this.application.logger.warn(
-                `Missing converter for node with kind ${
-                    ts.SyntaxKind[node.kind]
-                }`
-            );
-        }
-
-        context.visitStack = oldVisitStack;
-        return result;
-    }
-
-    /**
      * Convert the given TypeScript type into its TypeDoc type reflection.
      *
      * @param context  The context object describing the current state the converter is in.
-     * @param node  The node whose type should be reflected.
-     * @param type  The type of the node if already known.
+     * @param referenceTarget The target to be used to attempt to resolve reference types
      * @returns The TypeDoc type reflection representing the given node and type.
      */
     convertType(
         context: Context,
-        node: ts.TypeNode | ts.Type | undefined
+        node: ts.TypeNode | ts.Type | undefined,
+        referenceTarget: ts.Node | undefined
     ): Type {
-        return convertType(context, node);
+        return convertType(context, node, referenceTarget);
     }
 
-    /**
-     * Helper function to convert multiple types at once, filtering out types which fail to convert.
-     *
-     * @param context
-     * @param nodes
-     */
-    convertTypes(
-        context: Context,
-        nodes: ReadonlyArray<ts.TypeNode> = [],
-        types: ReadonlyArray<ts.Type> = []
-    ): Type[] {
-        const result: Type[] = [];
-        _.zip(nodes, types).forEach(([node, type]) => {
-            const converted = this.convertType(context, node ?? type!);
-            if (converted) {
-                result.push(converted);
-            }
-        });
-        return result;
+    getNodesForSymbol(symbol: ts.Symbol, kind: ReflectionKind) {
+        const wantedKinds: ts.SyntaxKind[] = {
+            [ReflectionKind.Project]: [ts.SyntaxKind.SourceFile],
+            [ReflectionKind.Module]: [ts.SyntaxKind.SourceFile],
+            [ReflectionKind.Namespace]: [ts.SyntaxKind.ModuleDeclaration],
+            [ReflectionKind.Enum]: [ts.SyntaxKind.EnumDeclaration],
+            [ReflectionKind.EnumMember]: [ts.SyntaxKind.EnumMember],
+            [ReflectionKind.Variable]: [ts.SyntaxKind.VariableDeclaration],
+            [ReflectionKind.Function]: [
+                ts.SyntaxKind.FunctionDeclaration,
+                // Tricky: We need this because we pretend some variables are functions
+                ts.SyntaxKind.VariableDeclaration,
+            ],
+            [ReflectionKind.Class]: [ts.SyntaxKind.ClassDeclaration],
+            [ReflectionKind.Interface]: [ts.SyntaxKind.InterfaceDeclaration],
+            [ReflectionKind.Constructor]: [ts.SyntaxKind.Constructor],
+            [ReflectionKind.Property]: [
+                ts.SyntaxKind.PropertyDeclaration,
+                ts.SyntaxKind.PropertySignature,
+            ],
+            [ReflectionKind.Method]: [
+                ts.SyntaxKind.MethodDeclaration,
+                // Tricky: We need this because some properties are treated as methods
+                ts.SyntaxKind.PropertyDeclaration,
+                ts.SyntaxKind.PropertySignature,
+            ],
+            [ReflectionKind.CallSignature]: [ts.SyntaxKind.CallSignature],
+            [ReflectionKind.IndexSignature]: [ts.SyntaxKind.IndexSignature],
+            [ReflectionKind.ConstructorSignature]: [
+                ts.SyntaxKind.ConstructSignature,
+            ],
+            [ReflectionKind.Parameter]: [ts.SyntaxKind.Parameter],
+            [ReflectionKind.TypeLiteral]: [ts.SyntaxKind.TypeLiteral],
+            [ReflectionKind.TypeParameter]: [ts.SyntaxKind.TypeParameter],
+            [ReflectionKind.Accessor]: [
+                ts.SyntaxKind.GetAccessor,
+                ts.SyntaxKind.SetAccessor,
+            ],
+            [ReflectionKind.GetSignature]: [ts.SyntaxKind.GetAccessor],
+            [ReflectionKind.SetSignature]: [ts.SyntaxKind.SetAccessor],
+            [ReflectionKind.ObjectLiteral]: [
+                ts.SyntaxKind.ObjectLiteralExpression,
+            ],
+            [ReflectionKind.TypeAlias]: [ts.SyntaxKind.TypeAliasDeclaration],
+            [ReflectionKind.Event]: [], /// this needs to go away
+            [ReflectionKind.Reference]: [
+                ts.SyntaxKind.NamespaceExport,
+                ts.SyntaxKind.ExportSpecifier,
+            ],
+        }[kind];
+
+        const declarations = symbol.getDeclarations() ?? [];
+        return declarations.filter((d) => wantedKinds.includes(d.kind));
     }
 
     /**
@@ -305,20 +261,22 @@ export class Converter extends ChildableComponent<
      * @param context  The context object describing the current state the converter is in.
      * @returns An array containing all errors generated by the TypeScript compiler.
      */
-    private compile(context: Context): ReadonlyArray<ts.Diagnostic> {
-        const errors = ts.getPreEmitDiagnostics(context.program);
+    private compile(
+        program: ts.Program,
+        entryPoints: readonly string[],
+        context: Context
+    ): ReadonlyArray<ts.Diagnostic> {
+        const errors = ts.getPreEmitDiagnostics(program);
         if (errors.length) {
             return errors;
         }
 
+        const baseDir = getCommonDirectory(entryPoints);
         const needsSecondPass: ts.SourceFile[] = [];
-        context.inFirstPass = true;
 
-        for (const entry of context.entryPoints) {
+        for (const entry of entryPoints) {
             if (entry.endsWith(".json")) continue;
-            const sourceFile = context.program.getSourceFile(
-                entry.replace(/\\/g, "/")
-            );
+            const sourceFile = program.getSourceFile(entry.replace(/\\/g, "/"));
             if (!sourceFile) {
                 this.application.logger.warn(
                     `Unable to locate entry point: ${entry}`
@@ -327,15 +285,72 @@ export class Converter extends ChildableComponent<
             }
 
             needsSecondPass.push(sourceFile);
-            this.convertNode(context, sourceFile);
+            this.convertExports(context, sourceFile, entryPoints, baseDir);
         }
 
-        context.inFirstPass = false;
         for (const file of needsSecondPass) {
-            this.convertNode(context, file);
+            this.convertReExports(context, file);
         }
 
         return [];
+    }
+
+    private convertExports(
+        context: Context,
+        node: ts.SourceFile,
+        entryPoints: readonly string[],
+        baseDir: string
+    ) {
+        const symbol = context.checker.getSymbolAtLocation(node) ?? node.symbol;
+        if (!symbol) return;
+        let moduleContext: Context;
+
+        if (entryPoints.length === 1) {
+            // Special case for when we're giving a single entry point, we don't need to
+            // create modules for each entry. Register the project as this module.
+            context.project.registerReflection(context.project, symbol);
+            moduleContext = context;
+        } else {
+            const reflection = context.createDeclarationReflection(
+                ReflectionKind.Module,
+                symbol,
+                getModuleName(node.fileName, baseDir)
+            );
+            moduleContext = context.withScope(reflection);
+        }
+
+        for (const exp of getExports(context, node).filter((exp) =>
+            context
+                .resolveAliasedSymbol(exp)
+                .getDeclarations()
+                ?.every((d) => d.getSourceFile() === node.getSourceFile())
+        )) {
+            convertSymbol(moduleContext, exp);
+        }
+    }
+
+    private convertReExports(context: Context, node: ts.SourceFile) {
+        const symbol = context.checker.getSymbolAtLocation(node) ?? node.symbol;
+        // Was a global "module"... no re exports.
+        if (symbol == null) return;
+
+        const moduleReflection = context.project.getReflectionFromSymbol(
+            symbol
+        );
+        assert(
+            moduleReflection instanceof ContainerReflection ||
+                moduleReflection instanceof DeclarationReflection
+        );
+
+        const moduleContext = context.withScope(moduleReflection);
+        for (const exp of getExports(context, node).filter((exp) =>
+            context
+                .resolveAliasedSymbol(exp)
+                .getDeclarations()
+                ?.some((d) => d.getSourceFile() !== node.getSourceFile())
+        )) {
+            convertSymbol(moduleContext, exp);
+        }
     }
 
     /**
@@ -356,14 +371,70 @@ export class Converter extends ChildableComponent<
         return project;
     }
 
-    /**
-     * Return the basename of the default library that should be used.
-     *
-     * @returns The basename of the default library.
-     */
-    getDefaultLib(): string {
-        return ts.getDefaultLibFileName(
-            this.application.options.getCompilerOptions()
-        );
+    /** @internal */
+    shouldIgnore(symbol: ts.Symbol, checker: ts.TypeChecker) {
+        if (
+            this.excludeNotDocumented &&
+            // If the enum is included, we should include members even if not documented.
+            !hasFlag(symbol.flags, ts.SymbolFlags.EnumMember) &&
+            !symbol.getDocumentationComment(checker)
+        ) {
+            return true;
+        }
+
+        if (!this.excludeExternals) {
+            return false;
+        }
+
+        this.externalPatternCache ??= createMinimatch(this.externalPattern);
+        for (const node of symbol.getDeclarations() ?? []) {
+            if (
+                this.externalPatternCache.some((p) =>
+                    p.match(node.getSourceFile().fileName)
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
+}
+
+function getModuleName(fileName: string, baseDir: string) {
+    return normalizePath(relative(baseDir, fileName)).replace(
+        /(\.d)?\.[tj]sx?$/,
+        ""
+    );
+}
+
+function getExports(
+    context: Context,
+    node: ts.SourceFile | ts.ModuleBlock
+): ts.Symbol[] {
+    let symbol = context.checker.getSymbolAtLocation(node) ?? node.symbol;
+    if (!symbol && ts.isModuleBlock(node)) {
+        symbol = context.checker.getSymbolAtLocation(node.parent.name);
+    }
+
+    // The generated docs aren't great, but you really ought not be using
+    // this in the first place... so it's better than nothing.
+    const exportEq = symbol?.exports?.get("export=" as ts.__String);
+    if (exportEq) {
+        return [exportEq];
+    }
+
+    if (symbol) {
+        return context.checker.getExportsOfModule(symbol);
+    }
+
+    // This is a global file, get all symbols declared in this file...
+    // this isn't the best solution, it would be nice to have all globals given to a special
+    // "globals" file, but this is uncommon enough that I'm skipping it for now.
+    const sourceFile = node.getSourceFile();
+    return context.checker
+        .getSymbolsInScope(node, ts.SymbolFlags.Type | ts.SymbolFlags.Value)
+        .filter((s) =>
+            s.getDeclarations()?.some((d) => d.getSourceFile() === sourceFile)
+        );
 }

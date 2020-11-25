@@ -14,7 +14,7 @@ import { Converter } from "../converter";
 import { Context } from "../context";
 import { partition, uniq } from "lodash";
 import { SourceReference } from "../../models";
-import { BindOption } from "../../utils";
+import { BindOption, removeIfPresent } from "../../utils";
 
 /**
  * These tags are not useful to display in the generated documentation.
@@ -181,8 +181,7 @@ export class CommentPlugin extends ConverterComponent {
 
             if (tag) {
                 reflection.comment = new Comment(tag.text);
-                // comment.tags must be set if we found a tag.
-                comment.tags!.splice(comment.tags!.indexOf(tag), 1);
+                removeIfPresent(comment.tags, tag);
             }
         }
     }

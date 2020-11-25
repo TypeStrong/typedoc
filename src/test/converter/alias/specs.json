@@ -64,7 +64,7 @@
               "flags": {},
               "typeParameter": [
                 {
-                  "id": 36,
+                  "id": 38,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -74,30 +74,30 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 37,
+                  "id": 36,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 38,
+                      "id": 37,
                       "name": "key",
-                      "kind": 32,
-                      "kindString": "Variable",
+                      "kind": 1024,
+                      "kindString": "Property",
                       "flags": {},
                       "type": {
-                        "type": "typeParameter",
+                        "type": "reference",
                         "name": "T"
                       }
                     }
                   ],
                   "groups": [
                     {
-                      "title": "Variables",
-                      "kind": 32,
+                      "title": "Properties",
+                      "kind": 1024,
                       "children": [
-                        38
+                        37
                       ]
                     }
                   ]
@@ -194,7 +194,7 @@
           },
           "typeParameter": [
             {
-              "id": 23,
+              "id": 26,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -208,7 +208,7 @@
               }
             },
             {
-              "id": 25,
+              "id": 28,
               "name": "R",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -216,7 +216,7 @@
               "default": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 24,
+                  "id": 27,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
@@ -236,15 +236,8 @@
                   "value": "length"
                 },
                 "objectType": {
-                  "type": "typeParameter",
-                  "name": "T",
-                  "constraint": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "intrinsic",
-                      "name": "any"
-                    }
-                  }
+                  "type": "reference",
+                  "name": "T"
                 }
               },
               "extendsType": {
@@ -263,38 +256,28 @@
             "objectType": {
               "type": "reflection",
               "declaration": {
-                "id": 26,
+                "id": 23,
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
                 "flags": {},
                 "children": [
                   {
-                    "id": 27,
+                    "id": 24,
                     "name": "0",
-                    "kind": 32,
-                    "kindString": "Variable",
+                    "kind": 1024,
+                    "kindString": "Property",
                     "flags": {},
                     "type": {
-                      "type": "typeParameter",
-                      "name": "R",
-                      "default": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 24,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {}
-                        }
-                      }
+                      "type": "reference",
+                      "name": "R"
                     }
                   },
                   {
-                    "id": 28,
+                    "id": 25,
                     "name": "1",
-                    "kind": 32,
-                    "kindString": "Variable",
+                    "kind": 1024,
+                    "kindString": "Property",
                     "flags": {},
                     "type": {
                       "type": "reference",
@@ -305,15 +288,8 @@
                           "id": 13,
                           "typeArguments": [
                             {
-                              "type": "typeParameter",
-                              "name": "T",
-                              "constraint": {
-                                "type": "array",
-                                "elementType": {
-                                  "type": "intrinsic",
-                                  "name": "any"
-                                }
-                              }
+                              "type": "reference",
+                              "name": "T"
                             }
                           ],
                           "name": "PopFront"
@@ -328,18 +304,8 @@
                                 "type": "typeOperator",
                                 "operator": "keyof",
                                 "target": {
-                                  "type": "typeParameter",
-                                  "name": "R",
-                                  "default": {
-                                    "type": "reflection",
-                                    "declaration": {
-                                      "id": 24,
-                                      "name": "__type",
-                                      "kind": 65536,
-                                      "kindString": "Type literal",
-                                      "flags": {}
-                                    }
-                                  }
+                                  "type": "reference",
+                                  "name": "R"
                                 }
                               },
                               {
@@ -352,15 +318,8 @@
                                     "value": 0
                                   },
                                   "objectType": {
-                                    "type": "typeParameter",
-                                    "name": "T",
-                                    "constraint": {
-                                      "type": "array",
-                                      "elementType": {
-                                        "type": "intrinsic",
-                                        "name": "any"
-                                      }
-                                    }
+                                    "type": "reference",
+                                    "name": "T"
                                   }
                                 }
                               }
@@ -376,18 +335,8 @@
                               "type": "typeOperator",
                               "operator": "keyof",
                               "target": {
-                                "type": "typeParameter",
-                                "name": "R",
-                                "default": {
-                                  "type": "reflection",
-                                  "declaration": {
-                                    "id": 24,
-                                    "name": "__type",
-                                    "kind": 65536,
-                                    "kindString": "Type literal",
-                                    "flags": {}
-                                  }
-                                }
+                                "type": "reference",
+                                "name": "R"
                               }
                             },
                             "trueType": {
@@ -397,18 +346,8 @@
                                 "name": "K"
                               },
                               "objectType": {
-                                "type": "typeParameter",
-                                "name": "R",
-                                "default": {
-                                  "type": "reflection",
-                                  "declaration": {
-                                    "id": 24,
-                                    "name": "__type",
-                                    "kind": 65536,
-                                    "kindString": "Type literal",
-                                    "flags": {}
-                                  }
-                                }
+                                "type": "reference",
+                                "name": "R"
                               }
                             },
                             "falseType": {
@@ -424,15 +363,8 @@
                                   "value": 0
                                 },
                                 "objectType": {
-                                  "type": "typeParameter",
-                                  "name": "T",
-                                  "constraint": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "intrinsic",
-                                      "name": "any"
-                                    }
-                                  }
+                                  "type": "reference",
+                                  "name": "T"
                                 }
                               }
                             }
@@ -445,11 +377,11 @@
                 ],
                 "groups": [
                   {
-                    "title": "Variables",
-                    "kind": 32,
+                    "title": "Properties",
+                    "kind": 1024,
                     "children": [
-                      27,
-                      28
+                      24,
+                      25
                     ]
                   }
                 ]
@@ -478,7 +410,7 @@
           "type": {
             "type": "conditional",
             "checkType": {
-              "type": "typeParameter",
+              "type": "reference",
               "name": "T"
             },
             "extendsType": {
@@ -506,7 +438,7 @@
           },
           "typeParameter": [
             {
-              "id": 14,
+              "id": 21,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -525,21 +457,21 @@
             "checkType": {
               "type": "reflection",
               "declaration": {
-                "id": 15,
+                "id": 14,
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
                 "flags": {},
                 "signatures": [
                   {
-                    "id": 16,
-                    "name": "__call",
+                    "id": 15,
+                    "name": "__type",
                     "kind": 4096,
                     "kindString": "Call signature",
                     "flags": {},
                     "parameters": [
                       {
-                        "id": 17,
+                        "id": 16,
                         "name": "args",
                         "kind": 32768,
                         "kindString": "Parameter",
@@ -547,15 +479,8 @@
                           "isRest": true
                         },
                         "type": {
-                          "type": "typeParameter",
-                          "name": "T",
-                          "constraint": {
-                            "type": "array",
-                            "elementType": {
-                              "type": "intrinsic",
-                              "name": "any"
-                            }
-                          }
+                          "type": "reference",
+                          "name": "T"
                         }
                       }
                     ],
@@ -570,21 +495,21 @@
             "extendsType": {
               "type": "reflection",
               "declaration": {
-                "id": 18,
+                "id": 17,
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
                 "flags": {},
                 "signatures": [
                   {
-                    "id": 19,
-                    "name": "__call",
+                    "id": 18,
+                    "name": "__type",
                     "kind": 4096,
                     "kindString": "Call signature",
                     "flags": {},
                     "parameters": [
                       {
-                        "id": 20,
+                        "id": 19,
                         "name": "a",
                         "kind": 32768,
                         "kindString": "Parameter",
@@ -595,7 +520,7 @@
                         }
                       },
                       {
-                        "id": 21,
+                        "id": 20,
                         "name": "r",
                         "kind": 32768,
                         "kindString": "Parameter",
@@ -647,7 +572,7 @@
           "type": {
             "type": "conditional",
             "checkType": {
-              "type": "typeParameter",
+              "type": "reference",
               "name": "T"
             },
             "extendsType": {
@@ -665,7 +590,7 @@
               "name": "U"
             },
             "falseType": {
-              "type": "typeParameter",
+              "type": "reference",
               "name": "T"
             }
           }
@@ -681,7 +606,7 @@
           },
           "typeParameter": [
             {
-              "id": 3,
+              "id": 7,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -691,38 +616,38 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 4,
+              "id": 3,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "signatures": [
                 {
-                  "id": 5,
-                  "name": "__call",
+                  "id": 4,
+                  "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 6,
+                      "id": 5,
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "type": {
-                        "type": "typeParameter",
+                        "type": "reference",
                         "name": "T"
                       }
                     },
                     {
-                      "id": 7,
+                      "id": 6,
                       "name": "b",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "type": {
-                        "type": "typeParameter",
+                        "type": "reference",
                         "name": "T"
                       }
                     }

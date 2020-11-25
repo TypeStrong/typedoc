@@ -1,84 +1,140 @@
 import * as ts from "typescript";
-
+import * as assert from "assert";
 import {
+    DeclarationReflection,
+    ParameterReflection,
+    Reflection,
+    ReflectionFlag,
     ReflectionKind,
     SignatureReflection,
-    ContainerReflection,
-    DeclarationReflection,
-    Type,
-} from "../../models/index";
+    TypeParameterReflection,
+} from "../../models";
 import { Context } from "../context";
-import { Converter } from "../converter";
-import { createParameter } from "./parameter";
+import { ConverterEvents } from "../converter-events";
+import { convertDefaultValue } from "..";
 
-/**
- * Create a new signature reflection from the given node.
- *
- * @param context  The context object describing the current state the converter is in.
- * @param node  The TypeScript node containing the signature declaration that should be reflected.
- * @param name  The name of the function or method this signature belongs to.
- * @param kind  The desired kind of the reflection.
- * @returns The newly created signature reflection describing the given node.
- */
 export function createSignature(
     context: Context,
-    node: ts.SignatureDeclaration,
-    name: string,
-    kind: ReflectionKind
-): SignatureReflection {
-    const container = <DeclarationReflection>context.scope;
-    if (!(container instanceof ContainerReflection)) {
-        throw new Error("Expected container reflection.");
+    kind:
+        | ReflectionKind.CallSignature
+        | ReflectionKind.ConstructorSignature
+        | ReflectionKind.GetSignature
+        | ReflectionKind.SetSignature,
+    signature: ts.Signature,
+    declaration?: ts.SignatureDeclaration
+) {
+    assert(context.scope instanceof DeclarationReflection);
+    // signature.getDeclaration might return undefined.
+    // https://github.com/microsoft/TypeScript/issues/30014
+    declaration ??= signature.getDeclaration() as
+        | ts.SignatureDeclaration
+        | undefined;
+
+    let commentDeclaration: ts.Node | undefined = declaration;
+    if (commentDeclaration && ts.isArrowFunction(commentDeclaration)) {
+        commentDeclaration = commentDeclaration.parent;
     }
 
-    const signature = new SignatureReflection(name, kind, container);
-    context.registerReflection(signature);
-    context.withScope(signature, node.typeParameters, true, () => {
-        node.parameters.forEach((parameter: ts.ParameterDeclaration) => {
-            createParameter(context, parameter);
-        });
+    const sigRef = new SignatureReflection(
+        context.scope.name,
+        kind,
+        context.scope
+    );
 
-        signature.type = extractSignatureType(context, node);
+    sigRef.typeParameters = convertTypeParameters(
+        context,
+        sigRef,
+        signature.typeParameters,
+        commentDeclaration
+    );
 
-        if (container.inheritedFrom) {
-            signature.inheritedFrom = container.inheritedFrom.clone();
-        }
-    });
+    sigRef.parameters = convertParameters(
+        context,
+        sigRef,
+        signature.parameters,
+        declaration?.parameters
+    );
 
-    context.trigger(Converter.EVENT_CREATE_SIGNATURE, signature, node);
-    return signature;
+    sigRef.type = context.converter.convertType(
+        context,
+        declaration?.type ?? signature.getReturnType(),
+        declaration
+    );
+
+    context.registerReflection(sigRef, undefined);
+    context.trigger(
+        ConverterEvents.CREATE_SIGNATURE,
+        sigRef,
+        commentDeclaration
+    );
+    return sigRef;
 }
 
-/**
- * Extract the return type of the given signature declaration.
- *
- * @param context  The context object describing the current state the converter is in.
- * @param node  The signature declaration whose return type should be determined.
- * @returns The return type reflection of the given signature.
- */
-function extractSignatureType(
+function convertParameters(
     context: Context,
-    node: ts.SignatureDeclaration
-): Type | undefined {
-    const checker = context.checker;
-    if (
-        node.kind & ts.SyntaxKind.CallSignature ||
-        node.kind & ts.SyntaxKind.CallExpression
-    ) {
-        try {
-            const signature = checker.getSignatureFromDeclaration(node);
-            // This is essentially what checker.getReturnTypeOfSignature will do, but doing it ourselves avoids type errors.
-            if (!signature) {
-                throw new Error("Failed to retrieve signature for node.");
-            }
-            return context.converter.convertType(
-                context,
-                node.type ?? checker.getReturnTypeOfSignature(signature)
-            );
-        } catch (error) {
-            // ignore
-        }
-    }
+    sigRef: SignatureReflection,
+    parameters: readonly ts.Symbol[],
+    parameterNodes: readonly ts.ParameterDeclaration[] | undefined
+) {
+    return parameters.map((param, i) => {
+        const declaration = param.valueDeclaration;
+        assert(declaration && ts.isParameter(declaration));
+        const paramRefl = new ParameterReflection(
+            /__\d+/.test(param.name) ? "__namedParameters" : param.name,
+            ReflectionKind.Parameter,
+            sigRef
+        );
+        context.registerReflection(paramRefl, param);
 
-    return context.converter.convertType(context, node.type);
+        paramRefl.type = context.converter.convertType(
+            context.withScope(paramRefl),
+            parameterNodes?.[i].type ?? getTypeOfSymbol(param, context),
+            parameterNodes?.[i]
+        );
+
+        paramRefl.defaultValue = convertDefaultValue(parameterNodes?.[i]);
+        paramRefl.setFlag(ReflectionFlag.Optional, !!declaration.questionToken);
+        paramRefl.setFlag(ReflectionFlag.Rest, !!declaration.dotDotDotToken);
+        return paramRefl;
+    });
+}
+
+function convertTypeParameters(
+    context: Context,
+    parent: Reflection,
+    parameters: readonly ts.TypeParameter[] | undefined,
+    typeContextNode: ts.Node | undefined
+) {
+    return parameters?.map((param) => {
+        const constraintT = param.getConstraint();
+        const defaultT = param.getDefault();
+
+        const constraint = constraintT
+            ? context.converter.convertType(
+                  context,
+                  constraintT,
+                  typeContextNode
+              )
+            : void 0;
+        const defaultType = defaultT
+            ? context.converter.convertType(context, defaultT, typeContextNode)
+            : void 0;
+        const paramRefl = new TypeParameterReflection(
+            param.symbol.name,
+            constraint,
+            defaultType,
+            parent
+        );
+        context.registerReflection(paramRefl, undefined);
+        context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
+
+        return paramRefl;
+    });
+}
+
+function getTypeOfSymbol(symbol: ts.Symbol, context: Context) {
+    const decl = symbol.getDeclarations()?.[0];
+    return decl
+        ? context.checker.getTypeOfSymbolAtLocation(symbol, decl)
+        : context.checker.getDeclaredTypeOfSymbol(symbol);
 }

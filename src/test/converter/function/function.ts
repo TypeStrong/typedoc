@@ -75,7 +75,7 @@ export function functionWithDefaults(
  * @param rest  The rest parameter.
  * @return This is the return value of the function.
  */
-function functionWithRest(...rest: string[]): string {
+export function functionWithRest(...rest: string[]): string {
     return rest.join(", ");
 }
 

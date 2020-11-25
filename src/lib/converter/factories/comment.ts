@@ -122,7 +122,7 @@ export function getRawComment(node: ts.Node): string | undefined {
                 comment = explicitPackageComment;
             } else if (comments.length > 1) {
                 // Legacy behavior, require more than one comment and use the first comment.
-                // TODO: GH#1083, follow deprecation process to phase this out.
+                // FUTURE: GH#1083, follow deprecation process to phase this out.
                 comment = comments[0];
             } else {
                 // Single comment that may be a license comment, bail.

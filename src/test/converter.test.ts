@@ -19,6 +19,7 @@ describe("Converter", function () {
         excludeExternals: true,
         disableSources: true,
         tsconfig: Path.join(base, "tsconfig.json"),
+        externalPattern: ["**/node_modules/**"],
     });
 
     const checks: [string, () => void, () => void][] = [

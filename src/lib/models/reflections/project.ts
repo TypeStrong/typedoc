@@ -232,6 +232,7 @@ export class ProjectReflection extends ContainerReflection {
 
     /**
      * Gets the reflection associated with the given symbol, if it exists.
+     * @internal
      */
     getReflectionFromSymbol(symbol: ts.Symbol) {
         const id = this.symbolToReflectionIdMap.get(symbol);

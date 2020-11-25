@@ -1,4 +1,4 @@
-import { Type, TypeParameterType } from "../types/index";
+import { Type } from "../types/index";
 import { Reflection, ReflectionKind, TypeContainer } from "./abstract";
 import { DeclarationReflection } from "./declaration";
 
@@ -14,9 +14,14 @@ export class TypeParameterReflection
     /**
      * Create a new TypeParameterReflection instance.
      */
-    constructor(type: TypeParameterType, parent?: Reflection) {
-        super(type.name, ReflectionKind.TypeParameter, parent);
-        this.type = type.constraint;
-        this.default = type.default;
+    constructor(
+        name: string,
+        constraint?: Type,
+        defaultType?: Type,
+        parent?: Reflection
+    ) {
+        super(name, ReflectionKind.TypeParameter, parent);
+        this.type = constraint;
+        this.default = defaultType;
     }
 }

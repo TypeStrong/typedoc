@@ -35,46 +35,65 @@ export function resetReflectionID() {
  * Defines the available reflection kinds.
  */
 export enum ReflectionKind {
-    Project = 0,
-    Module = 1 << 0,
-    Namespace = 1 << 1,
-    Enum = 1 << 2,
-    EnumMember = 1 << 4,
-    Variable = 1 << 5,
-    Function = 1 << 6,
-    Class = 1 << 7,
-    Interface = 1 << 8,
-    Constructor = 1 << 9,
-    Property = 1 << 10,
-    Method = 1 << 11,
-    CallSignature = 1 << 12,
-    IndexSignature = 1 << 13,
-    ConstructorSignature = 1 << 14,
-    Parameter = 1 << 15,
-    TypeLiteral = 1 << 16,
-    TypeParameter = 1 << 17,
-    Accessor = 1 << 18,
-    GetSignature = 1 << 19,
-    SetSignature = 1 << 20,
-    ObjectLiteral = 1 << 21,
-    TypeAlias = 1 << 22,
-    Event = 1 << 23,
-    Reference = 1 << 24,
+    Project = 0x0,
+    Module = 0x1,
+    Namespace = 0x2,
+    Enum = 0x4,
+    // what happened to 8?
+    EnumMember = 0x10,
+    Variable = 0x20,
+    Function = 0x40,
+    Class = 0x80,
+    Interface = 0x100,
+    Constructor = 0x200,
+    Property = 0x400,
+    Method = 0x800,
+    CallSignature = 0x1000,
+    IndexSignature = 0x2000,
+    ConstructorSignature = 0x4000,
+    Parameter = 0x8000,
+    TypeLiteral = 0x10000,
+    TypeParameter = 0x20000,
+    Accessor = 0x40000,
+    GetSignature = 0x80000,
+    SetSignature = 0x100000,
+    ObjectLiteral = 0x200000,
+    TypeAlias = 0x400000,
+    Event = 0x800000,
+    Reference = 0x1000000,
+}
 
-    All = Reference * 2 - 1,
+export namespace ReflectionKind {
+    export const All = ReflectionKind.Reference * 2 - 1;
 
-    ClassOrInterface = Class | Interface,
-    VariableOrProperty = Variable | Property,
-    FunctionOrMethod = ReflectionKind.Function | Method,
-    ClassMember = Accessor | Constructor | Method | Property | Event,
-    SomeSignature = CallSignature |
-        IndexSignature |
-        ConstructorSignature |
-        GetSignature |
-        SetSignature,
-    SomeModule = Namespace | Module,
-    SomeType = Interface | TypeLiteral | TypeParameter | TypeAlias,
-    SomeValue = Variable | Function | ObjectLiteral,
+    export const ClassOrInterface =
+        ReflectionKind.Class | ReflectionKind.Interface;
+    export const VariableOrProperty =
+        ReflectionKind.Variable | ReflectionKind.Property;
+    export const FunctionOrMethod =
+        ReflectionKind.Function | ReflectionKind.Method;
+    export const ClassMember =
+        ReflectionKind.Accessor |
+        ReflectionKind.Constructor |
+        ReflectionKind.Method |
+        ReflectionKind.Property |
+        ReflectionKind.Event;
+    export const SomeSignature =
+        ReflectionKind.CallSignature |
+        ReflectionKind.IndexSignature |
+        ReflectionKind.ConstructorSignature |
+        ReflectionKind.GetSignature |
+        ReflectionKind.SetSignature;
+    export const SomeModule = ReflectionKind.Namespace | ReflectionKind.Module;
+    export const SomeType =
+        ReflectionKind.Interface |
+        ReflectionKind.TypeLiteral |
+        ReflectionKind.TypeParameter |
+        ReflectionKind.TypeAlias;
+    export const SomeValue =
+        ReflectionKind.Variable |
+        ReflectionKind.Function |
+        ReflectionKind.ObjectLiteral;
 }
 
 export enum ReflectionFlag {
@@ -337,6 +356,7 @@ export abstract class Reflection {
 
     /**
      * The human readable string representation of the kind of this reflection.
+     * Set during the resolution phase by GroupPlugin
      */
     kindString?: string;
 

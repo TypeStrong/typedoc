@@ -1,5 +1,4 @@
 import * as Path from "path";
-import { Minimatch } from "minimatch";
 
 import isEqual = require("lodash/isEqual");
 import Assert = require("assert");
@@ -12,18 +11,6 @@ const absolutePath = (path: string) =>
 
 describe("Paths", () => {
     describe("createMinimatch", () => {
-        it("Converts an array of paths to an array of Minimatch expressions", () => {
-            const mms = createMinimatch([
-                "/some/path/**",
-                "**/another/path/**",
-                "./relative/**/path",
-            ]);
-            Assert(Array.isArray(mms), "Didn't return an array");
-
-            const allAreMm = mms.every((mm) => mm instanceof Minimatch);
-            Assert(allAreMm, "Not all paths are coverted to Minimatch");
-        });
-
         it("Minimatch can match absolute paths expressions", () => {
             const paths = [
                 "/unix/absolute/**/path",
@@ -40,30 +27,19 @@ describe("Paths", () => {
                 "**/arbitrary/path/**",
             ];
 
-            Assert(
-                isEqual(patterns, comparePaths),
-                `Patterns have been altered:\nMMS: ${patterns}\nPaths: ${comparePaths}`
-            );
+            Assert(isEqual(patterns, comparePaths));
 
             Assert(
-                mms[0].match(absolutePath("/unix/absolute/some/sub/dir/path")),
-                "Din't match unix path"
+                mms[0].match(absolutePath("/unix/absolute/some/sub/dir/path"))
             );
             Assert(
-                mms[1].match(
-                    absolutePath("/windows/alternative/absolute/path")
-                ),
-                "Din't match windows alternative path"
+                mms[1].match(absolutePath("/windows/alternative/absolute/path"))
             );
-            Assert(
-                mms[2].match(absolutePath("/Windows/absolute/test/path")),
-                "Din't match windows path"
-            );
+            Assert(mms[2].match(absolutePath("/Windows/absolute/test/path")));
             Assert(
                 mms[3].match(
                     absolutePath("/some/deep/arbitrary/path/leading/nowhere")
-                ),
-                "Din't match arbitrary path"
+                )
             );
         });
 
@@ -73,53 +49,26 @@ describe("Paths", () => {
                 "../parent/*/path",
                 "no/dot/relative/**/path/*",
                 "*/subdir/**/path/*",
-                ".dot/relative/**/path/*",
             ];
             const absPaths = paths.map((path) => absolutePath(path));
             const mms = createMinimatch(paths);
             const patterns = mms.map(({ pattern }) => pattern);
 
-            Assert(
-                isEqual(patterns, absPaths),
-                `Project root have not been added to paths:\nMMS: ${patterns}\nPaths: ${absPaths}`
-            );
-
-            Assert(
-                mms[0].match(Path.resolve("relative/some/sub/dir/path")),
-                "Din't match relative path"
-            );
-            Assert(
-                mms[1].match(Path.resolve("../parent/dir/path")),
-                "Din't match parent path"
-            );
+            Assert(isEqual(patterns, absPaths));
+            Assert(mms[0].match(Path.resolve("relative/some/sub/dir/path")));
+            Assert(mms[1].match(Path.resolve("../parent/dir/path")));
             Assert(
                 mms[2].match(
                     Path.resolve("no/dot/relative/some/sub/dir/path/test")
-                ),
-                "Din't match no dot path"
+                )
             );
-            Assert(
-                mms[3].match(Path.resolve("some/subdir/path/here")),
-                "Din't match single star path"
-            );
-            Assert(
-                mms[4].match(
-                    Path.resolve(".dot/relative/some/sub/dir/path/test")
-                ),
-                "Din't match dot path"
-            );
+            Assert(mms[3].match(Path.resolve("some/subdir/path/here")));
         });
 
         it("Minimatch matches dot files", () => {
             const mm = createMinimatch(["/some/path/**"])[0];
-            Assert(
-                mm.match(absolutePath("/some/path/.dot/dir")),
-                "Didn't match .dot path"
-            );
-            Assert(
-                mm.match(absolutePath("/some/path/normal/dir")),
-                "Didn't match normal path"
-            );
+            Assert(mm.match(absolutePath("/some/path/.dot/dir")));
+            Assert(mm.match(absolutePath("/some/path/normal/dir")));
         });
 
         it("Minimatch matches negated expressions", () => {

@@ -12,7 +12,7 @@
       "flags": {},
       "children": [
         {
-          "id": 27,
+          "id": 33,
           "name": "moduleFunction",
           "kind": 2,
           "kindString": "Namespace",
@@ -20,41 +20,9 @@
           "comment": {
             "shortText": "This is the module extending the function moduleFunction()."
           },
-          "signatures": [
-            {
-              "id": 28,
-              "name": "moduleFunction",
-              "kind": 4096,
-              "kindString": "Call signature",
-              "flags": {},
-              "comment": {
-                "shortText": "This is a function that is extended by a module."
-              },
-              "parameters": [
-                {
-                  "id": 29,
-                  "name": "arg",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {},
-                  "comment": {
-                    "text": "An argument.\n"
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ],
           "children": [
             {
-              "id": 34,
+              "id": 38,
               "name": "functionVariable",
               "kind": 32,
               "kindString": "Variable",
@@ -70,14 +38,14 @@
               }
             },
             {
-              "id": 30,
+              "id": 34,
               "name": "append",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 31,
+                  "id": 35,
                   "name": "append",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -93,14 +61,14 @@
               ]
             },
             {
-              "id": 32,
+              "id": 36,
               "name": "prepend",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 33,
+                  "id": 37,
                   "name": "prepend",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -121,28 +89,28 @@
               "title": "Variables",
               "kind": 32,
               "children": [
-                34
+                38
               ]
             },
             {
               "title": "Functions",
               "kind": 64,
               "children": [
-                30,
-                32
+                34,
+                36
               ]
             }
           ]
         },
         {
-          "id": 41,
+          "id": 45,
           "name": "assertIsNonNull",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 42,
+              "id": 46,
               "name": "assertIsNonNull",
               "kind": 4096,
               "kindString": "Call signature",
@@ -152,7 +120,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 43,
+                  "id": 47,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -161,7 +129,7 @@
               ],
               "parameters": [
                 {
-                  "id": 44,
+                  "id": 48,
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -173,7 +141,7 @@
                     "type": "union",
                     "types": [
                       {
-                        "type": "typeParameter",
+                        "type": "reference",
                         "name": "T"
                       },
                       {
@@ -193,7 +161,7 @@
                 "name": "arg",
                 "asserts": true,
                 "targetType": {
-                  "type": "typeParameter",
+                  "type": "reference",
                   "name": "T"
                 }
               }
@@ -201,14 +169,14 @@
           ]
         },
         {
-          "id": 35,
+          "id": 39,
           "name": "assertionFunction",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 36,
+              "id": 40,
               "name": "assertionFunction",
               "kind": 4096,
               "kindString": "Call signature",
@@ -218,7 +186,7 @@
               },
               "parameters": [
                 {
-                  "id": 37,
+                  "id": 41,
                   "name": "condition",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -241,14 +209,14 @@
           ]
         },
         {
-          "id": 38,
+          "id": 42,
           "name": "checkerFunction",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 39,
+              "id": 43,
               "name": "checkerFunction",
               "kind": 4096,
               "kindString": "Call signature",
@@ -258,7 +226,7 @@
               },
               "parameters": [
                 {
-                  "id": 40,
+                  "id": 44,
                   "name": "anything",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -532,14 +500,59 @@
           ]
         },
         {
-          "id": 45,
+          "id": 20,
+          "name": "functionWithRest",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 21,
+              "name": "functionWithRest",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "This is a function with rest parameter.",
+                "returns": "This is the return value of the function.\n"
+              },
+              "parameters": [
+                {
+                  "id": 22,
+                  "name": "rest",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isRest": true
+                  },
+                  "comment": {
+                    "text": "The rest parameter."
+                  },
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "intrinsic",
+                      "name": "string"
+                    }
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "id": 49,
           "name": "isNonNull",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 46,
+              "id": 50,
               "name": "isNonNull",
               "kind": 4096,
               "kindString": "Call signature",
@@ -549,7 +562,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 47,
+                  "id": 51,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -558,7 +571,7 @@
               ],
               "parameters": [
                 {
-                  "id": 48,
+                  "id": 52,
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -570,7 +583,7 @@
                     "type": "union",
                     "types": [
                       {
-                        "type": "typeParameter",
+                        "type": "reference",
                         "name": "T"
                       },
                       {
@@ -590,7 +603,7 @@
                 "name": "arg",
                 "asserts": false,
                 "targetType": {
-                  "type": "typeParameter",
+                  "type": "reference",
                   "name": "T"
                 }
               }
@@ -598,7 +611,46 @@
           ]
         },
         {
-          "id": 20,
+          "id": 30,
+          "name": "moduleFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 31,
+              "name": "moduleFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "This is a function that is extended by a module."
+              },
+              "parameters": [
+                {
+                  "id": 32,
+                  "name": "arg",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "An argument.\n"
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "id": 23,
           "name": "multipleSignatures",
           "kind": 64,
           "kindString": "Function",
@@ -609,7 +661,7 @@
           },
           "signatures": [
             {
-              "id": 21,
+              "id": 24,
               "name": "multipleSignatures",
               "kind": 4096,
               "kindString": "Call signature",
@@ -620,7 +672,7 @@
               },
               "parameters": [
                 {
-                  "id": 22,
+                  "id": 25,
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -640,7 +692,7 @@
               }
             },
             {
-              "id": 23,
+              "id": 26,
               "name": "multipleSignatures",
               "kind": 4096,
               "kindString": "Call signature",
@@ -651,7 +703,7 @@
               },
               "parameters": [
                 {
-                  "id": 24,
+                  "id": 27,
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -662,17 +714,17 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 25,
+                      "id": 28,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 26,
+                          "id": 29,
                           "name": "name",
-                          "kind": 32,
-                          "kindString": "Variable",
+                          "kind": 1024,
+                          "kindString": "Property",
                           "flags": {},
                           "comment": {
                             "text": "A value of the object.\n"
@@ -685,10 +737,10 @@
                       ],
                       "groups": [
                         {
-                          "title": "Variables",
-                          "kind": 32,
+                          "title": "Properties",
+                          "kind": 1024,
                           "children": [
-                            26
+                            29
                           ]
                         }
                       ]
@@ -704,7 +756,7 @@
           ]
         },
         {
-          "id": 49,
+          "id": 53,
           "name": "variableFunction",
           "kind": 64,
           "kindString": "Function",
@@ -717,7 +769,7 @@
           },
           "signatures": [
             {
-              "id": 50,
+              "id": 54,
               "name": "variableFunction",
               "kind": 4096,
               "kindString": "Call signature",
@@ -728,7 +780,7 @@
               },
               "parameters": [
                 {
-                  "id": 51,
+                  "id": 55,
                   "name": "someParam",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -755,43 +807,45 @@
           "title": "Namespaces",
           "kind": 2,
           "children": [
-            27
+            33
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            41,
-            35,
-            38,
+            45,
+            39,
+            42,
             2,
             13,
             9,
             4,
-            45,
             20,
-            49
+            49,
+            30,
+            23,
+            53
           ]
         }
       ]
     },
     {
-      "id": 52,
+      "id": 56,
       "name": "generic-function",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 57,
+          "id": 61,
           "name": "functionWithGenericArrayParameter",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 58,
+              "id": 62,
               "name": "functionWithGenericArrayParameter",
               "kind": 4096,
               "kindString": "Call signature",
@@ -802,7 +856,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 59,
+                  "id": 63,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -811,7 +865,7 @@
               ],
               "parameters": [
                 {
-                  "id": 60,
+                  "id": 64,
                   "name": "param",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -820,12 +874,12 @@
                     "text": "A generic parameter."
                   },
                   "type": {
-                    "type": "typeParameter",
+                    "type": "reference",
                     "name": "T"
                   }
                 },
                 {
-                  "id": 61,
+                  "id": 65,
                   "name": "params",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -836,7 +890,7 @@
                   "type": {
                     "type": "array",
                     "elementType": {
-                      "type": "typeParameter",
+                      "type": "reference",
                       "name": "T"
                     }
                   }
@@ -845,7 +899,7 @@
               "type": {
                 "type": "array",
                 "elementType": {
-                  "type": "typeParameter",
+                  "type": "reference",
                   "name": "T"
                 }
               }
@@ -853,14 +907,14 @@
           ]
         },
         {
-          "id": 62,
+          "id": 66,
           "name": "functionWithTemplate",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 63,
+              "id": 67,
               "name": "functionWithTemplate",
               "kind": 4096,
               "kindString": "Call signature",
@@ -868,7 +922,7 @@
               "comment": {},
               "typeParameter": [
                 {
-                  "id": 64,
+                  "id": 68,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -880,7 +934,7 @@
               ],
               "parameters": [
                 {
-                  "id": 65,
+                  "id": 69,
                   "name": "param",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -889,27 +943,27 @@
                     "text": "this describes param"
                   },
                   "type": {
-                    "type": "typeParameter",
+                    "type": "reference",
                     "name": "T"
                   }
                 }
               ],
               "type": {
-                "type": "typeParameter",
+                "type": "reference",
                 "name": "T"
               }
             }
           ]
         },
         {
-          "id": 53,
+          "id": 57,
           "name": "genericFunction",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 54,
+              "id": 58,
               "name": "genericFunction",
               "kind": 4096,
               "kindString": "Call signature",
@@ -920,7 +974,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 55,
+                  "id": 59,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -936,7 +990,7 @@
               ],
               "parameters": [
                 {
-                  "id": 56,
+                  "id": 60,
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -945,22 +999,14 @@
                     "text": "Generic function parameter."
                   },
                   "type": {
-                    "type": "typeParameter",
-                    "name": "T",
-                    "constraint": {
-                      "type": "reference",
-                      "name": "Object"
-                    }
+                    "type": "reference",
+                    "name": "T"
                   }
                 }
               ],
               "type": {
-                "type": "typeParameter",
-                "name": "T",
-                "constraint": {
-                  "type": "reference",
-                  "name": "Object"
-                }
+                "type": "reference",
+                "name": "T"
               }
             }
           ]
@@ -971,29 +1017,29 @@
           "title": "Functions",
           "kind": 64,
           "children": [
-            57,
-            62,
-            53
+            61,
+            66,
+            57
           ]
         }
       ]
     },
     {
-      "id": 66,
+      "id": 70,
       "name": "implicit-types",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 75,
+          "id": 79,
           "name": "BreakpointRange",
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
           "children": [
             {
-              "id": 77,
+              "id": 81,
               "name": "end",
               "kind": 1024,
               "kindString": "Property",
@@ -1004,7 +1050,7 @@
               }
             },
             {
-              "id": 76,
+              "id": 80,
               "name": "start",
               "kind": 1024,
               "kindString": "Property",
@@ -1020,21 +1066,21 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                77,
-                76
+                81,
+                80
               ]
             }
           ]
         },
         {
-          "id": 67,
+          "id": 71,
           "name": "getBreakpoints",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 68,
+              "id": 72,
               "name": "getBreakpoints",
               "kind": 4096,
               "kindString": "Call signature",
@@ -1042,83 +1088,83 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 69,
+                  "id": 73,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 72,
+                      "id": 76,
                       "name": "large",
-                      "kind": 32,
-                      "kindString": "Variable",
+                      "kind": 1024,
+                      "kindString": "Property",
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 75,
+                        "id": 79,
                         "name": "BreakpointRange"
                       }
                     },
                     {
-                      "id": 71,
+                      "id": 75,
                       "name": "medium",
-                      "kind": 32,
-                      "kindString": "Variable",
+                      "kind": 1024,
+                      "kindString": "Property",
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 75,
-                        "name": "BreakpointRange"
-                      }
-                    },
-                    {
-                      "id": 70,
-                      "name": "small",
-                      "kind": 32,
-                      "kindString": "Variable",
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "id": 75,
-                        "name": "BreakpointRange"
-                      }
-                    },
-                    {
-                      "id": 73,
-                      "name": "xlarge",
-                      "kind": 32,
-                      "kindString": "Variable",
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "id": 75,
+                        "id": 79,
                         "name": "BreakpointRange"
                       }
                     },
                     {
                       "id": 74,
-                      "name": "xxlarge",
-                      "kind": 32,
-                      "kindString": "Variable",
+                      "name": "small",
+                      "kind": 1024,
+                      "kindString": "Property",
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 75,
+                        "id": 79,
+                        "name": "BreakpointRange"
+                      }
+                    },
+                    {
+                      "id": 77,
+                      "name": "xlarge",
+                      "kind": 1024,
+                      "kindString": "Property",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "id": 79,
+                        "name": "BreakpointRange"
+                      }
+                    },
+                    {
+                      "id": 78,
+                      "name": "xxlarge",
+                      "kind": 1024,
+                      "kindString": "Property",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "id": 79,
                         "name": "BreakpointRange"
                       }
                     }
                   ],
                   "groups": [
                     {
-                      "title": "Variables",
-                      "kind": 32,
+                      "title": "Properties",
+                      "kind": 1024,
                       "children": [
-                        72,
-                        71,
-                        70,
-                        73,
-                        74
+                        76,
+                        75,
+                        74,
+                        77,
+                        78
                       ]
                     }
                   ]
@@ -1133,14 +1179,14 @@
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            75
+            79
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            67
+            71
           ]
         }
       ]
@@ -1152,8 +1198,8 @@
       "kind": 1,
       "children": [
         1,
-        52,
-        66
+        56,
+        70
       ]
     }
   ]

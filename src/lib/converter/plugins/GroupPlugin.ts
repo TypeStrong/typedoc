@@ -205,8 +205,10 @@ export class GroupPlugin extends ConverterComponent {
      * @returns The singular name of the given internal typescript kind identifier
      */
     static getKindSingular(kind: ReflectionKind): string {
-        if (GroupPlugin.SINGULARS[kind]) {
-            return GroupPlugin.SINGULARS[kind];
+        if (kind in GroupPlugin.SINGULARS) {
+            return GroupPlugin.SINGULARS[
+                kind as keyof typeof GroupPlugin.SINGULARS
+            ];
         } else {
             return GroupPlugin.getKindString(kind);
         }
@@ -219,8 +221,10 @@ export class GroupPlugin extends ConverterComponent {
      * @returns The plural name of the given internal typescript kind identifier
      */
     static getKindPlural(kind: ReflectionKind): string {
-        if (GroupPlugin.PLURALS[kind]) {
-            return GroupPlugin.PLURALS[kind];
+        if (kind in GroupPlugin.PLURALS) {
+            return GroupPlugin.PLURALS[
+                kind as keyof typeof GroupPlugin.PLURALS
+            ];
         } else {
             return this.getKindString(kind) + "s";
         }

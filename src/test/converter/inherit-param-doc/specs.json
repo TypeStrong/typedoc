@@ -20,13 +20,34 @@
           "children": [
             {
               "id": 8,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 9,
+                  "name": "new Class1",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 7,
+                    "name": "Class1"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 10,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 9,
+                  "id": 11,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -34,7 +55,7 @@
                   "comment": {},
                   "parameters": [
                     {
-                      "id": 10,
+                      "id": 12,
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -48,7 +69,7 @@
                       }
                     },
                     {
-                      "id": 11,
+                      "id": 13,
                       "name": "b",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -82,10 +103,17 @@
           ],
           "groups": [
             {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                8
+              ]
+            },
+            {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                8
+                10
               ]
             }
           ],
@@ -98,21 +126,42 @@
           ]
         },
         {
-          "id": 12,
+          "id": 14,
           "name": "Class2",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
           "children": [
             {
-              "id": 13,
+              "id": 15,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 16,
+                  "name": "new Class2",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 14,
+                    "name": "Class2"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 17,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 14,
+                  "id": 18,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -120,7 +169,7 @@
                   "comment": {},
                   "parameters": [
                     {
-                      "id": 15,
+                      "id": 19,
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -134,7 +183,7 @@
                       }
                     },
                     {
-                      "id": 16,
+                      "id": 20,
                       "name": "b",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -168,10 +217,17 @@
           ],
           "groups": [
             {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                15
+              ]
+            },
+            {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                13
+                17
               ]
             }
           ],
@@ -184,21 +240,42 @@
           ]
         },
         {
-          "id": 17,
+          "id": 21,
           "name": "Class3",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
           "children": [
             {
-              "id": 18,
+              "id": 22,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 23,
+                  "name": "new Class3",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 21,
+                    "name": "Class3"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 24,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 19,
+                  "id": 25,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -206,7 +283,7 @@
                   "comment": {},
                   "parameters": [
                     {
-                      "id": 20,
+                      "id": 26,
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -220,7 +297,7 @@
                       }
                     },
                     {
-                      "id": 21,
+                      "id": 27,
                       "name": "c",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -254,10 +331,17 @@
           ],
           "groups": [
             {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                22
+              ]
+            },
+            {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                18
+                24
               ]
             }
           ],
@@ -345,12 +429,12 @@
             },
             {
               "type": "reference",
-              "id": 12,
+              "id": 14,
               "name": "Class2"
             },
             {
               "type": "reference",
-              "id": 17,
+              "id": 21,
               "name": "Class3"
             }
           ]
@@ -362,8 +446,8 @@
           "kind": 128,
           "children": [
             7,
-            12,
-            17
+            14,
+            21
           ]
         },
         {

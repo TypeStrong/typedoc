@@ -184,15 +184,14 @@
       "children": [
         {
           "id": 2,
-          "name": "export =",
+          "name": "export=",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
-          "originalName": "add",
           "signatures": [
             {
               "id": 3,
-              "name": "add",
+              "name": "export=",
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
@@ -253,7 +252,6 @@
           "flags": {
             "isConst": true
           },
-          "originalName": "x",
           "type": {
             "type": "literal",
             "value": 5

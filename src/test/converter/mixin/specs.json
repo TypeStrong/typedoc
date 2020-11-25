@@ -23,6 +23,27 @@
           "children": [
             {
               "id": 12,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 13,
+                  "name": "new Base",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 11,
+                    "name": "Base"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 14,
               "name": "baseProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -34,14 +55,14 @@
               "defaultValue": "\"init\""
             },
             {
-              "id": 13,
+              "id": 15,
               "name": "baseMethod",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 14,
+                  "id": 16,
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -56,23 +77,30 @@
           ],
           "groups": [
             {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                12
+              ]
+            },
+            {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                12
+                14
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                13
+                15
               ]
             }
           ]
         },
         {
-          "id": 72,
+          "id": 56,
           "name": "SomeClassWithMixin",
           "kind": 128,
           "kindString": "Class",
@@ -82,7 +110,28 @@
           },
           "children": [
             {
-              "id": 84,
+              "id": 57,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 58,
+                  "name": "new SomeClassWithMixin",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 56,
+                    "name": "SomeClassWithMixin"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 70,
               "name": "baseProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -91,20 +140,10 @@
                 "type": "intrinsic",
                 "name": "string"
               },
-              "defaultValue": "\"init\"",
-              "overwrites": {
-                "type": "reference",
-                "id": 12,
-                "name": "Base.baseProperty"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 12,
-                "name": "Base.baseProperty"
-              }
+              "defaultValue": "\"init\""
             },
             {
-              "id": 73,
+              "id": 59,
               "name": "classWithMixinProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -116,7 +155,7 @@
               "defaultValue": "\"init\""
             },
             {
-              "id": 80,
+              "id": 66,
               "name": "property1",
               "kind": 1024,
               "kindString": "Property",
@@ -125,20 +164,10 @@
                 "type": "intrinsic",
                 "name": "string"
               },
-              "defaultValue": "\"init\"",
-              "overwrites": {
-                "type": "reference",
-                "id": 21,
-                "name": "Mixin1Class.property1"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 21,
-                "name": "Mixin1Class.property1"
-              }
+              "defaultValue": "\"init\""
             },
             {
-              "id": 76,
+              "id": 62,
               "name": "property2",
               "kind": 1024,
               "kindString": "Property",
@@ -147,22 +176,17 @@
                 "type": "intrinsic",
                 "name": "string"
               },
-              "defaultValue": "\"init\"",
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 42,
-                "name": "Mixin2.property2"
-              }
+              "defaultValue": "\"init\""
             },
             {
-              "id": 85,
+              "id": 71,
               "name": "baseMethod",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 86,
+                  "id": 72,
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -170,39 +194,19 @@
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
-                  },
-                  "overwrites": {
-                    "type": "reference",
-                    "id": 13,
-                    "name": "Base.baseMethod"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 13,
-                    "name": "Base.baseMethod"
                   }
                 }
-              ],
-              "overwrites": {
-                "type": "reference",
-                "id": 13,
-                "name": "Base.baseMethod"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 13,
-                "name": "Base.baseMethod"
-              }
+              ]
             },
             {
-              "id": 74,
+              "id": 60,
               "name": "classWithMixinMethod",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 75,
+                  "id": 61,
                   "name": "classWithMixinMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -215,21 +219,21 @@
               ]
             },
             {
-              "id": 81,
+              "id": 67,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 82,
+                  "id": 68,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 83,
+                      "id": 69,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -238,7 +242,7 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "id": 28,
+                          "id": 23,
                           "name": "Mixin1Type"
                         }
                       }
@@ -248,56 +252,36 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 28,
+                      "id": 23,
                       "name": "Mixin1Type"
                     }
-                  },
-                  "overwrites": {
-                    "type": "reference",
-                    "id": 22,
-                    "name": "Mixin1Class.method1"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 22,
-                    "name": "Mixin1Class.method1"
                   }
                 }
-              ],
-              "overwrites": {
-                "type": "reference",
-                "id": 22,
-                "name": "Mixin1Class.method1"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 22,
-                "name": "Mixin1Class.method1"
-              }
+              ]
             },
             {
-              "id": 77,
+              "id": 63,
               "name": "method2",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 78,
+                  "id": 64,
                   "name": "method2",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 79,
+                      "id": 65,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 40,
+                        "id": 35,
                         "name": "Mixin2"
                       }
                     }
@@ -306,43 +290,40 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 40,
+                      "id": 35,
                       "name": "Mixin2"
                     }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 43,
-                    "name": "Mixin2.method2"
                   }
                 }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 43,
-                "name": "Mixin2.method2"
-              }
+              ]
             }
           ],
           "groups": [
             {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                57
+              ]
+            },
+            {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                84,
-                73,
-                80,
-                76
+                70,
+                59,
+                66,
+                62
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                85,
-                74,
-                81,
-                77
+                71,
+                60,
+                67,
+                63
               ]
             }
           ],
@@ -352,12 +333,12 @@
               "types": [
                 {
                   "type": "reference",
-                  "id": 40,
+                  "id": 35,
                   "name": "Mixin2"
                 },
                 {
                   "type": "reference",
-                  "id": 19,
+                  "id": 21,
                   "name": "Mixin1Class"
                 },
                 {
@@ -370,7 +351,7 @@
           ]
         },
         {
-          "id": 28,
+          "id": 23,
           "name": "Mixin1Type",
           "kind": 256,
           "kindString": "Interface",
@@ -380,7 +361,7 @@
           },
           "children": [
             {
-              "id": 33,
+              "id": 28,
               "name": "baseProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -389,20 +370,10 @@
                 "type": "intrinsic",
                 "name": "string"
               },
-              "defaultValue": "\"init\"",
-              "overwrites": {
-                "type": "reference",
-                "id": 12,
-                "name": "Base.baseProperty"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 12,
-                "name": "Base.baseProperty"
-              }
+              "defaultValue": "\"init\""
             },
             {
-              "id": 29,
+              "id": 24,
               "name": "property1",
               "kind": 1024,
               "kindString": "Property",
@@ -411,22 +382,17 @@
                 "type": "intrinsic",
                 "name": "string"
               },
-              "defaultValue": "\"init\"",
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 21,
-                "name": "Mixin1Class.property1"
-              }
+              "defaultValue": "\"init\""
             },
             {
-              "id": 34,
+              "id": 29,
               "name": "baseMethod",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 35,
+                  "id": 30,
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -434,46 +400,26 @@
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
-                  },
-                  "overwrites": {
-                    "type": "reference",
-                    "id": 13,
-                    "name": "Base.baseMethod"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 13,
-                    "name": "Base.baseMethod"
                   }
                 }
-              ],
-              "overwrites": {
-                "type": "reference",
-                "id": 13,
-                "name": "Base.baseMethod"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 13,
-                "name": "Base.baseMethod"
-              }
+              ]
             },
             {
-              "id": 30,
+              "id": 25,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 31,
+                  "id": 26,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 32,
+                      "id": 27,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -482,7 +428,7 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "id": 28,
+                          "id": 23,
                           "name": "Mixin1Type"
                         }
                       }
@@ -492,22 +438,12 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 28,
+                      "id": 23,
                       "name": "Mixin1Type"
                     }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 22,
-                    "name": "Mixin1Class.method1"
                   }
                 }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 22,
-                "name": "Mixin1Class.method1"
-              }
+              ]
             }
           ],
           "groups": [
@@ -515,16 +451,16 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                33,
-                29
+                28,
+                24
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                34,
-                30
+                29,
+                25
               ]
             }
           ],
@@ -537,7 +473,7 @@
                   "type": "query",
                   "queryType": {
                     "type": "reference",
-                    "id": 15,
+                    "id": 17,
                     "name": "Mixin1Func"
                   }
                 }
@@ -547,7 +483,7 @@
           ]
         },
         {
-          "id": 53,
+          "id": 37,
           "name": "Mixin2",
           "kind": 256,
           "kindString": "Interface",
@@ -557,7 +493,7 @@
           },
           "children": [
             {
-              "id": 62,
+              "id": 46,
               "name": "baseProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -566,20 +502,10 @@
                 "type": "intrinsic",
                 "name": "string"
               },
-              "defaultValue": "\"init\"",
-              "overwrites": {
-                "type": "reference",
-                "id": 12,
-                "name": "Base.baseProperty"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 12,
-                "name": "Base.baseProperty"
-              }
+              "defaultValue": "\"init\""
             },
             {
-              "id": 58,
+              "id": 42,
               "name": "property1",
               "kind": 1024,
               "kindString": "Property",
@@ -588,20 +514,10 @@
                 "type": "intrinsic",
                 "name": "string"
               },
-              "defaultValue": "\"init\"",
-              "overwrites": {
-                "type": "reference",
-                "id": 21,
-                "name": "Mixin1Class.property1"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 21,
-                "name": "Mixin1Class.property1"
-              }
+              "defaultValue": "\"init\""
             },
             {
-              "id": 54,
+              "id": 38,
               "name": "property2",
               "kind": 1024,
               "kindString": "Property",
@@ -610,22 +526,17 @@
                 "type": "intrinsic",
                 "name": "string"
               },
-              "defaultValue": "\"init\"",
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 42,
-                "name": "Mixin2.property2"
-              }
+              "defaultValue": "\"init\""
             },
             {
-              "id": 63,
+              "id": 47,
               "name": "baseMethod",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 64,
+                  "id": 48,
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -633,46 +544,26 @@
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
-                  },
-                  "overwrites": {
-                    "type": "reference",
-                    "id": 13,
-                    "name": "Base.baseMethod"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 13,
-                    "name": "Base.baseMethod"
                   }
                 }
-              ],
-              "overwrites": {
-                "type": "reference",
-                "id": 13,
-                "name": "Base.baseMethod"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 13,
-                "name": "Base.baseMethod"
-              }
+              ]
             },
             {
-              "id": 59,
+              "id": 43,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 60,
+                  "id": 44,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 61,
+                      "id": 45,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -681,7 +572,7 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "id": 28,
+                          "id": 23,
                           "name": "Mixin1Type"
                         }
                       }
@@ -691,56 +582,36 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 28,
+                      "id": 23,
                       "name": "Mixin1Type"
                     }
-                  },
-                  "overwrites": {
-                    "type": "reference",
-                    "id": 22,
-                    "name": "Mixin1Class.method1"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 22,
-                    "name": "Mixin1Class.method1"
                   }
                 }
-              ],
-              "overwrites": {
-                "type": "reference",
-                "id": 22,
-                "name": "Mixin1Class.method1"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 22,
-                "name": "Mixin1Class.method1"
-              }
+              ]
             },
             {
-              "id": 55,
+              "id": 39,
               "name": "method2",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 56,
+                  "id": 40,
                   "name": "method2",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 57,
+                      "id": 41,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 40,
+                        "id": 35,
                         "name": "Mixin2"
                       }
                     }
@@ -749,22 +620,12 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 40,
+                      "id": 35,
                       "name": "Mixin2"
                     }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 43,
-                    "name": "Mixin2.method2"
                   }
                 }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 43,
-                "name": "Mixin2.method2"
-              }
+              ]
             }
           ],
           "groups": [
@@ -772,18 +633,18 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                62,
-                58,
-                54
+                46,
+                42,
+                38
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                63,
-                59,
-                55
+                47,
+                43,
+                39
               ]
             }
           ],
@@ -796,7 +657,7 @@
                   "type": "query",
                   "queryType": {
                     "type": "reference",
-                    "id": 36,
+                    "id": 31,
                     "name": "Mixin2"
                   }
                 }
@@ -843,7 +704,7 @@
           },
           "typeParameter": [
             {
-              "id": 3,
+              "id": 6,
               "name": "A",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -857,21 +718,21 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 4,
+              "id": 3,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "signatures": [
                 {
-                  "id": 5,
-                  "name": "__call",
+                  "id": 4,
+                  "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 6,
+                      "id": 5,
                       "name": "input",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -888,12 +749,8 @@
                     }
                   ],
                   "type": {
-                    "type": "typeParameter",
-                    "name": "A",
-                    "default": {
-                      "type": "intrinsic",
-                      "name": "any"
-                    }
+                    "type": "reference",
+                    "name": "A"
                   }
                 }
               ]
@@ -930,13 +787,8 @@
                 "type": "reference",
                 "typeArguments": [
                   {
-                    "type": "typeParameter",
-                    "name": "T",
-                    "constraint": {
-                      "type": "reference",
-                      "id": 2,
-                      "name": "AnyFunction"
-                    }
+                    "type": "reference",
+                    "name": "T"
                   }
                 ],
                 "name": "ReturnType"
@@ -947,18 +799,18 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 28,
+              "id": 23,
               "name": "Mixin1Type"
             },
             {
               "type": "reference",
-              "id": 53,
+              "id": 37,
               "name": "Mixin2"
             }
           ]
         },
         {
-          "id": 71,
+          "id": 55,
           "name": "Mixin3",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -974,7 +826,7 @@
                 "type": "query",
                 "queryType": {
                   "type": "reference",
-                  "id": 65,
+                  "id": 49,
                   "name": "Mixin3"
                 }
               }
@@ -983,7 +835,7 @@
           }
         },
         {
-          "id": 15,
+          "id": 17,
           "name": "Mixin1Func",
           "kind": 64,
           "kindString": "Function",
@@ -995,7 +847,7 @@
           },
           "signatures": [
             {
-              "id": 16,
+              "id": 18,
               "name": "Mixin1Func",
               "kind": 4096,
               "kindString": "Call signature",
@@ -1005,7 +857,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 17,
+                  "id": 19,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -1026,26 +878,14 @@
               ],
               "parameters": [
                 {
-                  "id": 18,
+                  "id": 20,
                   "name": "base",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
                   "type": {
-                    "type": "typeParameter",
-                    "name": "T",
-                    "constraint": {
-                      "type": "reference",
-                      "id": 7,
-                      "typeArguments": [
-                        {
-                          "type": "reference",
-                          "id": 11,
-                          "name": "Base"
-                        }
-                      ],
-                      "name": "AnyConstructor"
-                    }
+                    "type": "reference",
+                    "name": "T"
                   }
                 }
               ],
@@ -1055,155 +895,26 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 19,
+                      "id": 21,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 20,
-                          "name": "Mixin1Class",
-                          "kind": 128,
-                          "kindString": "Class",
-                          "flags": {},
-                          "comment": {
-                            "shortText": "Internal class of the Mixin1"
-                          },
-                          "children": [
-                            {
-                              "id": 25,
-                              "name": "baseProperty",
-                              "kind": 1024,
-                              "kindString": "Property",
-                              "flags": {},
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              },
-                              "defaultValue": "\"init\"",
-                              "inheritedFrom": {
-                                "type": "reference",
-                                "id": 12,
-                                "name": "Base.baseProperty"
-                              }
-                            },
-                            {
-                              "id": 21,
-                              "name": "property1",
-                              "kind": 1024,
-                              "kindString": "Property",
-                              "flags": {},
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              },
-                              "defaultValue": "\"init\""
-                            },
-                            {
-                              "id": 26,
-                              "name": "baseMethod",
-                              "kind": 2048,
-                              "kindString": "Method",
-                              "flags": {},
-                              "signatures": [
-                                {
-                                  "id": 27,
-                                  "name": "baseMethod",
-                                  "kind": 4096,
-                                  "kindString": "Call signature",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  },
-                                  "inheritedFrom": {
-                                    "type": "reference",
-                                    "id": 13,
-                                    "name": "Base.baseMethod"
-                                  }
-                                }
-                              ],
-                              "inheritedFrom": {
-                                "type": "reference",
-                                "id": 13,
-                                "name": "Base.baseMethod"
-                              }
-                            },
-                            {
-                              "id": 22,
-                              "name": "method1",
-                              "kind": 2048,
-                              "kindString": "Method",
-                              "flags": {},
-                              "signatures": [
-                                {
-                                  "id": 23,
-                                  "name": "method1",
-                                  "kind": 4096,
-                                  "kindString": "Call signature",
-                                  "flags": {},
-                                  "parameters": [
-                                    {
-                                      "id": 24,
-                                      "name": "arg",
-                                      "kind": 32768,
-                                      "kindString": "Parameter",
-                                      "flags": {},
-                                      "type": {
-                                        "type": "array",
-                                        "elementType": {
-                                          "type": "reference",
-                                          "id": 28,
-                                          "name": "Mixin1Type"
-                                        }
-                                      }
-                                    }
-                                  ],
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 28,
-                                      "name": "Mixin1Type"
-                                    }
-                                  }
-                                }
-                              ]
-                            }
-                          ],
-                          "groups": [
-                            {
-                              "title": "Properties",
-                              "kind": 1024,
-                              "children": [
-                                25,
-                                21
-                              ]
-                            },
-                            {
-                              "title": "Methods",
-                              "kind": 2048,
-                              "children": [
-                                26,
-                                22
-                              ]
-                            }
-                          ],
-                          "extendedTypes": [
-                            {
-                              "type": "reference",
-                              "name": "base"
-                            }
-                          ]
+                          "id": 22,
+                          "name": "prototype",
+                          "kind": 2048,
+                          "kindString": "Method",
+                          "flags": {}
                         }
                       ],
                       "groups": [
                         {
-                          "title": "Classes",
-                          "kind": 128,
+                          "title": "Methods",
+                          "kind": 2048,
                           "children": [
-                            20
+                            22
                           ]
                         }
                       ]
@@ -1219,7 +930,7 @@
           ]
         },
         {
-          "id": 36,
+          "id": 31,
           "name": "Mixin2",
           "kind": 64,
           "kindString": "Function",
@@ -1231,7 +942,7 @@
           },
           "signatures": [
             {
-              "id": 37,
+              "id": 32,
               "name": "Mixin2",
               "kind": 4096,
               "kindString": "Call signature",
@@ -1241,7 +952,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 38,
+                  "id": 33,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -1255,7 +966,7 @@
                         "types": [
                           {
                             "type": "reference",
-                            "id": 28,
+                            "id": 23,
                             "name": "Mixin1Type"
                           },
                           {
@@ -1272,36 +983,14 @@
               ],
               "parameters": [
                 {
-                  "id": 39,
+                  "id": 34,
                   "name": "base",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
                   "type": {
-                    "type": "typeParameter",
-                    "name": "T",
-                    "constraint": {
-                      "type": "reference",
-                      "id": 7,
-                      "typeArguments": [
-                        {
-                          "type": "intersection",
-                          "types": [
-                            {
-                              "type": "reference",
-                              "id": 28,
-                              "name": "Mixin1Type"
-                            },
-                            {
-                              "type": "reference",
-                              "id": 11,
-                              "name": "Base"
-                            }
-                          ]
-                        }
-                      ],
-                      "name": "AnyConstructor"
-                    }
+                    "type": "reference",
+                    "name": "T"
                   }
                 }
               ],
@@ -1311,237 +1000,26 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 40,
+                      "id": 35,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 41,
-                          "name": "Mixin2",
-                          "kind": 128,
-                          "kindString": "Class",
-                          "flags": {},
-                          "comment": {
-                            "shortText": "Internal class of the Mixin2"
-                          },
-                          "children": [
-                            {
-                              "id": 50,
-                              "name": "baseProperty",
-                              "kind": 1024,
-                              "kindString": "Property",
-                              "flags": {},
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              },
-                              "defaultValue": "\"init\"",
-                              "overwrites": {
-                                "type": "reference",
-                                "id": 12,
-                                "name": "Base.baseProperty"
-                              },
-                              "inheritedFrom": {
-                                "type": "reference",
-                                "id": 12,
-                                "name": "Base.baseProperty"
-                              }
-                            },
-                            {
-                              "id": 46,
-                              "name": "property1",
-                              "kind": 1024,
-                              "kindString": "Property",
-                              "flags": {},
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              },
-                              "defaultValue": "\"init\"",
-                              "inheritedFrom": {
-                                "type": "reference",
-                                "id": 21,
-                                "name": "Mixin1Class.property1"
-                              }
-                            },
-                            {
-                              "id": 42,
-                              "name": "property2",
-                              "kind": 1024,
-                              "kindString": "Property",
-                              "flags": {},
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              },
-                              "defaultValue": "\"init\""
-                            },
-                            {
-                              "id": 51,
-                              "name": "baseMethod",
-                              "kind": 2048,
-                              "kindString": "Method",
-                              "flags": {},
-                              "signatures": [
-                                {
-                                  "id": 52,
-                                  "name": "baseMethod",
-                                  "kind": 4096,
-                                  "kindString": "Call signature",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  },
-                                  "overwrites": {
-                                    "type": "reference",
-                                    "id": 13,
-                                    "name": "Base.baseMethod"
-                                  },
-                                  "inheritedFrom": {
-                                    "type": "reference",
-                                    "id": 13,
-                                    "name": "Base.baseMethod"
-                                  }
-                                }
-                              ],
-                              "overwrites": {
-                                "type": "reference",
-                                "id": 13,
-                                "name": "Base.baseMethod"
-                              },
-                              "inheritedFrom": {
-                                "type": "reference",
-                                "id": 13,
-                                "name": "Base.baseMethod"
-                              }
-                            },
-                            {
-                              "id": 47,
-                              "name": "method1",
-                              "kind": 2048,
-                              "kindString": "Method",
-                              "flags": {},
-                              "signatures": [
-                                {
-                                  "id": 48,
-                                  "name": "method1",
-                                  "kind": 4096,
-                                  "kindString": "Call signature",
-                                  "flags": {},
-                                  "parameters": [
-                                    {
-                                      "id": 49,
-                                      "name": "arg",
-                                      "kind": 32768,
-                                      "kindString": "Parameter",
-                                      "flags": {},
-                                      "type": {
-                                        "type": "array",
-                                        "elementType": {
-                                          "type": "reference",
-                                          "id": 28,
-                                          "name": "Mixin1Type"
-                                        }
-                                      }
-                                    }
-                                  ],
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 28,
-                                      "name": "Mixin1Type"
-                                    }
-                                  },
-                                  "inheritedFrom": {
-                                    "type": "reference",
-                                    "id": 22,
-                                    "name": "Mixin1Class.method1"
-                                  }
-                                }
-                              ],
-                              "inheritedFrom": {
-                                "type": "reference",
-                                "id": 22,
-                                "name": "Mixin1Class.method1"
-                              }
-                            },
-                            {
-                              "id": 43,
-                              "name": "method2",
-                              "kind": 2048,
-                              "kindString": "Method",
-                              "flags": {},
-                              "signatures": [
-                                {
-                                  "id": 44,
-                                  "name": "method2",
-                                  "kind": 4096,
-                                  "kindString": "Call signature",
-                                  "flags": {},
-                                  "parameters": [
-                                    {
-                                      "id": 45,
-                                      "name": "arg",
-                                      "kind": 32768,
-                                      "kindString": "Parameter",
-                                      "flags": {},
-                                      "type": {
-                                        "type": "reference",
-                                        "id": 40,
-                                        "name": "Mixin2"
-                                      }
-                                    }
-                                  ],
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 40,
-                                      "name": "Mixin2"
-                                    }
-                                  }
-                                }
-                              ]
-                            }
-                          ],
-                          "groups": [
-                            {
-                              "title": "Properties",
-                              "kind": 1024,
-                              "children": [
-                                50,
-                                46,
-                                42
-                              ]
-                            },
-                            {
-                              "title": "Methods",
-                              "kind": 2048,
-                              "children": [
-                                51,
-                                47,
-                                43
-                              ]
-                            }
-                          ],
-                          "extendedTypes": [
-                            {
-                              "type": "reference",
-                              "name": "base"
-                            }
-                          ]
+                          "id": 36,
+                          "name": "prototype",
+                          "kind": 2048,
+                          "kindString": "Method",
+                          "flags": {}
                         }
                       ],
                       "groups": [
                         {
-                          "title": "Classes",
-                          "kind": 128,
+                          "title": "Methods",
+                          "kind": 2048,
                           "children": [
-                            41
+                            36
                           ]
                         }
                       ]
@@ -1557,7 +1035,7 @@
           ]
         },
         {
-          "id": 65,
+          "id": 49,
           "name": "Mixin3",
           "kind": 64,
           "kindString": "Function",
@@ -1569,7 +1047,7 @@
           },
           "signatures": [
             {
-              "id": 66,
+              "id": 50,
               "name": "Mixin3",
               "kind": 4096,
               "kindString": "Call signature",
@@ -1579,7 +1057,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 67,
+                  "id": 51,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -1599,25 +1077,14 @@
               ],
               "parameters": [
                 {
-                  "id": 68,
+                  "id": 52,
                   "name": "base",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
                   "type": {
-                    "type": "typeParameter",
-                    "name": "T",
-                    "constraint": {
-                      "type": "reference",
-                      "id": 7,
-                      "typeArguments": [
-                        {
-                          "type": "intrinsic",
-                          "name": "object"
-                        }
-                      ],
-                      "name": "AnyConstructor"
-                    }
+                    "type": "reference",
+                    "name": "T"
                   }
                 }
               ],
@@ -1627,35 +1094,26 @@
                   {
                     "type": "reflection",
                     "declaration": {
-                      "id": 69,
+                      "id": 53,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 70,
-                          "name": "Mixin3",
-                          "kind": 128,
-                          "kindString": "Class",
-                          "flags": {},
-                          "comment": {
-                            "shortText": "Internal class of the Mixin3"
-                          },
-                          "extendedTypes": [
-                            {
-                              "type": "reference",
-                              "name": "base"
-                            }
-                          ]
+                          "id": 54,
+                          "name": "prototype",
+                          "kind": 2048,
+                          "kindString": "Method",
+                          "flags": {}
                         }
                       ],
                       "groups": [
                         {
-                          "title": "Classes",
-                          "kind": 128,
+                          "title": "Methods",
+                          "kind": 2048,
                           "children": [
-                            70
+                            54
                           ]
                         }
                       ]
@@ -1677,15 +1135,15 @@
           "kind": 128,
           "children": [
             11,
-            72
+            56
           ]
         },
         {
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            28,
-            53
+            23,
+            37
           ]
         },
         {
@@ -1695,16 +1153,16 @@
             7,
             2,
             9,
-            71
+            55
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            15,
-            36,
-            65
+            17,
+            31,
+            49
           ]
         }
       ]

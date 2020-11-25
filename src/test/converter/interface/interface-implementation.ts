@@ -3,6 +3,7 @@ export module Forms {
      * Function signature of an event listener callback
      */
     export interface EventListener<T> {
+        /** @param parameter param text */
         (parameter: T): any;
     }
 

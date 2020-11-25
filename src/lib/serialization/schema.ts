@@ -50,7 +50,7 @@ type _ModelToObject<T> =
         : T extends M.ParameterReflection
         ? ParameterReflection
         : T extends M.DeclarationReflection
-        ? DeclarationReflection | ReflectionPointer
+        ? DeclarationReflection
         : T extends M.TypeParameterReflection
         ? TypeParameterReflection
         : T extends M.ProjectReflection

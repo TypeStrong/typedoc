@@ -32,7 +32,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
      */
     private onRendererBegin(event: RendererEvent) {
         const rows: any[] = [];
-        const kinds: Record<ReflectionKind, string | undefined> = {};
+        const kinds: { [K in ReflectionKind]?: string } = {};
 
         for (const reflection of event.project.getReflectionsByKind(
             ReflectionKind.All

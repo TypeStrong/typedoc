@@ -1,5 +1,4 @@
 import * as ts from "typescript";
-import * as _ts from "../ts-internal";
 
 /**
  * Return the default value of the given node.
@@ -7,12 +6,12 @@ import * as _ts from "../ts-internal";
  * @param node  The TypeScript node whose default value should be extracted.
  * @returns The default value as a string.
  */
-
 export function convertDefaultValue(
-    node: ts.VariableDeclaration | ts.ParameterDeclaration | ts.EnumMember
+    node: ts.Declaration | undefined
 ): string | undefined {
-    if (node.initializer) {
-        return convertExpression(node.initializer);
+    const anyNode = node as any;
+    if (anyNode?.initializer) {
+        return convertExpression(anyNode.initializer);
     } else {
         return undefined;
     }

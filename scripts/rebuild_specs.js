@@ -18,6 +18,7 @@ app.bootstrap({
         "converter",
         "tsconfig.json"
     ),
+    externalPattern: ["**/node_modules/**"],
 });
 
 // Note that this uses the test files in dist, not in src, this is important since

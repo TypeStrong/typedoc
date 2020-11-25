@@ -68,6 +68,24 @@ export function unique<T>(arr: Iterable<T> | undefined): T[] {
 }
 
 /**
+ * Filters out duplicate values from the given array with a custom equals check.
+ * @param arr
+ */
+export function uniqueByEquals<T extends { equals(other: T): boolean }>(
+    arr: readonly T[] | undefined
+) {
+    const result: T[] = [];
+
+    for (const item of arr ?? []) {
+        if (result.every((other) => !other.equals(item))) {
+            result.push(item);
+        }
+    }
+
+    return result;
+}
+
+/**
  * Ensures the given item is an array.
  * @param item
  */
@@ -76,4 +94,52 @@ export function toArray<T>(item: T | readonly T[] | undefined): T[] {
         return [];
     }
     return Array.isArray(item) ? [...item] : [item];
+}
+
+export function* zip<T extends Iterable<any>[]>(
+    ...args: T
+): Iterable<{ [K in keyof T]: T[K] extends Iterable<infer U> ? U : T[K] }> {
+    const iterators = args.map((x) => x[Symbol.iterator]());
+
+    while (true) {
+        const next = iterators.map((i) => i.next());
+        if (next.some((v) => v.done)) {
+            break;
+        }
+        yield next.map((v) => v.value) as any;
+    }
+}
+
+export function filterMap<T, U>(
+    arr: readonly T[],
+    fn: (item: T, index: number) => U | undefined
+): U[] {
+    const result: U[] = [];
+
+    arr.forEach((item, index) => {
+        const newItem = fn(item, index);
+        if (newItem !== void 0) {
+            result.push(newItem);
+        }
+    });
+
+    return result;
+}
+
+export function flatMap<T, U>(
+    arr: readonly T[],
+    fn: (item: T, index: number) => U | U[]
+): U[] {
+    const result: U[] = [];
+
+    arr.forEach((item, index) => {
+        const newItem = fn(item, index);
+        if (Array.isArray(newItem)) {
+            result.push(...newItem);
+        } else {
+            result.push(newItem);
+        }
+    });
+
+    return result;
 }

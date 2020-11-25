@@ -19,21 +19,21 @@
           "flags": {},
           "children": [
             {
-              "id": 7,
+              "id": 6,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 8,
+                  "id": 7,
                   "name": "new Demo",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 9,
+                      "id": 8,
                       "name": "props",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -54,7 +54,7 @@
               ]
             },
             {
-              "id": 6,
+              "id": 9,
               "name": "foo",
               "kind": 1024,
               "kindString": "Property",
@@ -92,14 +92,14 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                7
+                6
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                6
+                9
               ]
             },
             {

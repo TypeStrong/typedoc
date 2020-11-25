@@ -12,17 +12,86 @@
       "flags": {},
       "children": [
         {
-          "id": 13,
+          "id": 10,
+          "name": "ModuleEnum",
+          "kind": 2,
+          "kindString": "Namespace",
+          "flags": {},
+          "comment": {
+            "shortText": "This is a module extending an enumeration."
+          },
+          "children": [
+            {
+              "id": 13,
+              "name": "enumValue",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isLet": true
+              },
+              "comment": {
+                "shortText": "This is a variable appended to an enumeration."
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 11,
+              "name": "enumFunction",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 12,
+                  "name": "enumFunction",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "This is a function appended to an enumeration."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Variables",
+              "kind": 32,
+              "children": [
+                13
+              ]
+            },
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                11
+              ]
+            }
+          ]
+        },
+        {
+          "id": 14,
           "name": "ConstEnum",
           "kind": 4,
           "kindString": "Enumeration",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "This is a const enum."
           },
           "children": [
             {
-              "id": 14,
+              "id": 15,
               "name": "a",
               "kind": 16,
               "kindString": "Enumeration member",
@@ -30,12 +99,12 @@
               "defaultValue": "1"
             },
             {
-              "id": 15,
+              "id": 16,
               "name": "b",
               "kind": 16,
               "kindString": "Enumeration member",
               "flags": {},
-              "defaultValue": "a + 1"
+              "defaultValue": "2"
             }
           ],
           "groups": [
@@ -43,8 +112,8 @@
               "title": "Enumeration members",
               "kind": 16,
               "children": [
-                14,
-                15
+                15,
+                16
               ]
             }
           ]
@@ -56,7 +125,7 @@
           "kindString": "Enumeration",
           "flags": {},
           "comment": {
-            "shortText": "This is an enumeration extended by a module.\nThis is a module extending an enumeration."
+            "shortText": "This is an enumeration extended by a module."
           },
           "children": [
             {
@@ -91,45 +160,6 @@
                 "shortText": "This is the third enum member."
               },
               "defaultValue": "4"
-            },
-            {
-              "id": 12,
-              "name": "enumValue",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isLet": true
-              },
-              "comment": {
-                "shortText": "This is a variable appended to an enumeration."
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            },
-            {
-              "id": 10,
-              "name": "enumFunction",
-              "kind": 64,
-              "kindString": "Function",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 11,
-                  "name": "enumFunction",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "This is a function appended to an enumeration."
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
-                  }
-                }
-              ]
             }
           ],
           "groups": [
@@ -140,20 +170,6 @@
                 7,
                 8,
                 9
-              ]
-            },
-            {
-              "title": "Variables",
-              "kind": 32,
-              "children": [
-                12
-              ]
-            },
-            {
-              "title": "Functions",
-              "kind": 64,
-              "children": [
-                10
               ]
             }
           ]
@@ -217,10 +233,17 @@
       ],
       "groups": [
         {
+          "title": "Namespaces",
+          "kind": 2,
+          "children": [
+            10
+          ]
+        },
+        {
           "title": "Enumerations",
           "kind": 4,
           "children": [
-            13,
+            14,
             6,
             2
           ]

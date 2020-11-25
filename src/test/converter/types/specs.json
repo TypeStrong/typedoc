@@ -167,7 +167,7 @@
               "type": "typeOperator",
               "operator": "keyof",
               "target": {
-                "type": "typeParameter",
+                "type": "reference",
                 "name": "T"
               }
             },
@@ -178,7 +178,7 @@
                 "name": "K"
               },
               "objectType": {
-                "type": "typeParameter",
+                "type": "reference",
                 "name": "T"
               }
             }
@@ -214,7 +214,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "type": {
-                    "type": "typeParameter",
+                    "type": "reference",
                     "name": "T"
                   }
                 }
@@ -299,8 +299,8 @@
                     {
                       "id": 19,
                       "name": "a",
-                      "kind": 32,
-                      "kindString": "Variable",
+                      "kind": 1024,
+                      "kindString": "Property",
                       "flags": {},
                       "type": {
                         "type": "intrinsic",
@@ -310,8 +310,8 @@
                   ],
                   "groups": [
                     {
-                      "title": "Variables",
-                      "kind": 32,
+                      "title": "Properties",
+                      "kind": 1024,
                       "children": [
                         19
                       ]
@@ -436,12 +436,22 @@
             "type": "tuple",
             "elements": [
               {
-                "type": "intrinsic",
-                "name": "string"
+                "type": "named-tuple-member",
+                "name": "name",
+                "isOptional": false,
+                "element": {
+                  "type": "intrinsic",
+                  "name": "string"
+                }
               },
               {
-                "type": "intrinsic",
-                "name": "number"
+                "type": "named-tuple-member",
+                "name": "optionalName",
+                "isOptional": true,
+                "element": {
+                  "type": "intrinsic",
+                  "name": "number"
+                }
               }
             ]
           },
@@ -508,8 +518,8 @@
                 {
                   "id": 31,
                   "name": "prop1",
-                  "kind": 32,
-                  "kindString": "Variable",
+                  "kind": 1024,
+                  "kindString": "Property",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -519,8 +529,8 @@
                 {
                   "id": 32,
                   "name": "prop2",
-                  "kind": 32,
-                  "kindString": "Variable",
+                  "kind": 1024,
+                  "kindString": "Property",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -530,8 +540,8 @@
               ],
               "groups": [
                 {
-                  "title": "Variables",
-                  "kind": 32,
+                  "title": "Properties",
+                  "kind": 1024,
                   "children": [
                     31,
                     32

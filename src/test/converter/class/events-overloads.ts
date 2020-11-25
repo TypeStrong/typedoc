@@ -1,7 +1,7 @@
 /**
  * Encapsulates some information for background http transfers.
  *
- * @see https://github.com/sebastian-lenz/typedoc/issues/136
+ * @see https://github.com/TypeStrong/typedoc/issues/136
  */
 export interface Test {
     /**

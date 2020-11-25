@@ -12,17 +12,116 @@
       "flags": {},
       "children": [
         {
-          "id": 6,
+          "id": 2,
+          "name": "Array",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "A custom array class."
+          },
+          "typeParameter": [
+            {
+              "id": 6,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "children": [
+            {
+              "id": 3,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 4,
+                  "name": "new Array",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "typeParameter": [
+                    {
+                      "id": 5,
+                      "name": "T",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {}
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 2,
+                    "name": "Array"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "id": 12,
+              "name": "FooList"
+            }
+          ]
+        },
+        {
+          "id": 9,
           "name": "Foo",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
           "comment": {
             "shortText": "Class array class item"
-          }
+          },
+          "children": [
+            {
+              "id": 10,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 11,
+                  "name": "new Foo",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 9,
+                    "name": "Foo"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                10
+              ]
+            }
+          ]
         },
         {
-          "id": 7,
+          "id": 12,
           "name": "FooList",
           "kind": 128,
           "kindString": "Class",
@@ -30,3565 +129,35 @@
           "comment": {
             "shortText": "Custom list class"
           },
-          "indexSignature": [
-            {
-              "id": 162,
-              "name": "__index",
-              "kind": 8192,
-              "kindString": "Index signature",
-              "flags": {},
-              "comment": {
-                "shortText": "Custom list class"
-              },
-              "parameters": [
-                {
-                  "id": 163,
-                  "name": "n",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                }
-              ],
-              "type": {
-                "type": "reference",
-                "id": 6,
-                "name": "Foo"
-              }
-            }
-          ],
           "children": [
             {
-              "id": 8,
-              "name": "length",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {},
-              "comment": {
-                "shortText": "Gets or sets the length of the array. This is a number one higher than the highest element defined in an array."
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 8,
-                "name": "Array.length"
-              }
-            },
-            {
-              "id": 194,
-              "name": "[Symbol.iterator]",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 195,
-                  "name": "[Symbol.iterator]",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Iterator"
-                  },
-                  "type": {
-                    "type": "reference",
-                    "typeArguments": [
-                      {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    ],
-                    "name": "IterableIterator"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 194,
-                    "name": "Array.[Symbol.iterator]"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 194,
-                "name": "Array.[Symbol.iterator]"
-              }
-            },
-            {
-              "id": 202,
-              "name": "[Symbol.unscopables]",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 203,
-                  "name": "[Symbol.unscopables]",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns an object whose properties have the value 'true'\nwhen they will be absent when used in a 'with' statement."
-                  },
-                  "type": {
-                    "type": "reflection",
-                    "declaration": {
-                      "id": 204,
-                      "name": "__type",
-                      "kind": 65536,
-                      "kindString": "Type literal",
-                      "flags": {},
-                      "children": [
-                        {
-                          "id": 205,
-                          "name": "copyWithin",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          }
-                        },
-                        {
-                          "id": 206,
-                          "name": "entries",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          }
-                        },
-                        {
-                          "id": 207,
-                          "name": "fill",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          }
-                        },
-                        {
-                          "id": 208,
-                          "name": "find",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          }
-                        },
-                        {
-                          "id": 209,
-                          "name": "findIndex",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          }
-                        },
-                        {
-                          "id": 210,
-                          "name": "keys",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          }
-                        },
-                        {
-                          "id": 211,
-                          "name": "values",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          }
-                        }
-                      ],
-                      "groups": [
-                        {
-                          "title": "Variables",
-                          "kind": 32,
-                          "children": [
-                            205,
-                            206,
-                            207,
-                            208,
-                            209,
-                            210,
-                            211
-                          ]
-                        }
-                      ]
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 202,
-                    "name": "Array.[Symbol.unscopables]"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 202,
-                "name": "Array.[Symbol.unscopables]"
-              }
-            },
-            {
-              "id": 18,
-              "name": "concat",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 19,
-                  "name": "concat",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Combines two or more arrays."
-                  },
-                  "parameters": [
-                    {
-                      "id": 20,
-                      "name": "items",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isRest": true
-                      },
-                      "comment": {
-                        "text": "Additional items to add to the end of array1.\n"
-                      },
-                      "type": {
-                        "type": "array",
-                        "elementType": {
-                          "type": "reference",
-                          "typeArguments": [
-                            {
-                              "type": "reference",
-                              "id": 6,
-                              "name": "Foo"
-                            }
-                          ],
-                          "name": "ConcatArray"
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "id": 6,
-                      "name": "Foo"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 18,
-                    "name": "Array.concat"
-                  }
-                },
-                {
-                  "id": 21,
-                  "name": "concat",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Combines two or more arrays."
-                  },
-                  "parameters": [
-                    {
-                      "id": 22,
-                      "name": "items",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isRest": true
-                      },
-                      "comment": {
-                        "text": "Additional items to add to the end of array1.\n"
-                      },
-                      "type": {
-                        "type": "array",
-                        "elementType": {
-                          "type": "union",
-                          "types": [
-                            {
-                              "type": "reference",
-                              "id": 6,
-                              "name": "Foo"
-                            },
-                            {
-                              "type": "reference",
-                              "typeArguments": [
-                                {
-                                  "type": "reference",
-                                  "id": 6,
-                                  "name": "Foo"
-                                }
-                              ],
-                              "name": "ConcatArray"
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "id": 6,
-                      "name": "Foo"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 18,
-                    "name": "Array.concat"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 18,
-                "name": "Array.concat"
-              }
-            },
-            {
-              "id": 189,
-              "name": "copyWithin",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 190,
-                  "name": "copyWithin",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns the this object after copying a section of the array identified by start and end\nto the same array starting at position target"
-                  },
-                  "parameters": [
-                    {
-                      "id": 191,
-                      "name": "target",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "If target is negative, it is treated as length+target where length is the\nlength of the array."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 192,
-                      "name": "start",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "If start is negative, it is treated as length+start. If end is negative, it\nis treated as length+end."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 193,
-                      "name": "end",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "If not specified, length of the this object is used as its default value.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "this"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 189,
-                    "name": "Array.copyWithin"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 189,
-                "name": "Array.copyWithin"
-              }
-            },
-            {
-              "id": 196,
-              "name": "entries",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 197,
-                  "name": "entries",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns an iterable of key, value pairs for every entry in the array"
-                  },
-                  "type": {
-                    "type": "reference",
-                    "typeArguments": [
-                      {
-                        "type": "tuple",
-                        "elements": [
-                          {
-                            "type": "intrinsic",
-                            "name": "number"
-                          },
-                          {
-                            "type": "reference",
-                            "id": 6,
-                            "name": "Foo"
-                          }
-                        ]
-                      }
-                    ],
-                    "name": "IterableIterator"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 196,
-                    "name": "Array.entries"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 196,
-                "name": "Array.entries"
-              }
-            },
-            {
-              "id": 60,
-              "name": "every",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 61,
-                  "name": "every",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Determines whether all the members of an array satisfy the specified test."
-                  },
-                  "typeParameter": [
-                    {
-                      "id": 62,
-                      "name": "S",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 63,
-                      "name": "predicate",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to three arguments. The every method calls\nthe predicate function for each element in the array until the predicate returns a value\nwhich is coercible to the Boolean value false, or until the end of the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 64,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 65,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 66,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 67,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 68,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "predicate",
-                                "name": "value",
-                                "asserts": false,
-                                "targetType": {
-                                  "type": "typeParameter",
-                                  "name": "S",
-                                  "constraint": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 69,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "An object to which the this keyword can refer in the predicate function.\nIf thisArg is omitted, undefined is used as the this value.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "predicate",
-                    "name": "this",
-                    "asserts": false,
-                    "targetType": {
-                      "type": "array",
-                      "elementType": {
-                        "type": "typeParameter",
-                        "name": "S",
-                        "constraint": {
-                          "type": "reference",
-                          "id": 6,
-                          "name": "Foo"
-                        }
-                      }
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 60,
-                    "name": "Array.every"
-                  }
-                },
-                {
-                  "id": 70,
-                  "name": "every",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Determines whether all the members of an array satisfy the specified test."
-                  },
-                  "parameters": [
-                    {
-                      "id": 71,
-                      "name": "predicate",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to three arguments. The every method calls\nthe predicate function for each element in the array until the predicate returns a value\nwhich is coercible to the Boolean value false, or until the end of the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 72,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 73,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 74,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 75,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 76,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "unknown"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 77,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "An object to which the this keyword can refer in the predicate function.\nIf thisArg is omitted, undefined is used as the this value.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "boolean"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 60,
-                    "name": "Array.every"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 60,
-                "name": "Array.every"
-              }
-            },
-            {
-              "id": 184,
-              "name": "fill",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 185,
-                  "name": "fill",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns the this object after filling the section identified by start and end with value"
-                  },
-                  "parameters": [
-                    {
-                      "id": 186,
-                      "name": "value",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "value to fill array section with"
-                      },
-                      "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    },
-                    {
-                      "id": 187,
-                      "name": "start",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "index to start filling the array at. If start is negative, it is treated as\nlength+start where length is the length of the array."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 188,
-                      "name": "end",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "index to stop filling the array at. If end is negative, it is treated as\nlength+end.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "this"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 184,
-                    "name": "Array.fill"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 184,
-                "name": "Array.fill"
-              }
-            },
-            {
-              "id": 106,
-              "name": "filter",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 107,
-                  "name": "filter",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns the elements of an array that meet the condition specified in a callback function."
-                  },
-                  "typeParameter": [
-                    {
-                      "id": 108,
-                      "name": "S",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 109,
-                      "name": "predicate",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to three arguments. The filter method calls the predicate function one time for each element in the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 110,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 111,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 112,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 113,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 114,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "predicate",
-                                "name": "value",
-                                "asserts": false,
-                                "targetType": {
-                                  "type": "typeParameter",
-                                  "name": "S",
-                                  "constraint": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 115,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "An object to which the this keyword can refer in the predicate function. If thisArg is omitted, undefined is used as the this value.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "typeParameter",
-                      "name": "S",
-                      "constraint": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 106,
-                    "name": "Array.filter"
-                  }
-                },
-                {
-                  "id": 116,
-                  "name": "filter",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns the elements of an array that meet the condition specified in a callback function."
-                  },
-                  "parameters": [
-                    {
-                      "id": 117,
-                      "name": "predicate",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to three arguments. The filter method calls the predicate function one time for each element in the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 118,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 119,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 120,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 121,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 122,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "unknown"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 123,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "An object to which the this keyword can refer in the predicate function. If thisArg is omitted, undefined is used as the this value.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "id": 6,
-                      "name": "Foo"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 106,
-                    "name": "Array.filter"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 106,
-                "name": "Array.filter"
-              }
-            },
-            {
-              "id": 164,
-              "name": "find",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 165,
-                  "name": "find",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns the value of the first element in the array where predicate is true, and undefined\notherwise."
-                  },
-                  "typeParameter": [
-                    {
-                      "id": 166,
-                      "name": "S",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 167,
-                      "name": "predicate",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "find calls predicate once for each element of the array, in ascending\norder, until it finds one where predicate returns true. If such an element is found, find\nimmediately returns that element value. Otherwise, find returns undefined."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 168,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 169,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 170,
-                                  "name": "this",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "void"
-                                  }
-                                },
-                                {
-                                  "id": 171,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 172,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 173,
-                                  "name": "obj",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "predicate",
-                                "name": "value",
-                                "asserts": false,
-                                "targetType": {
-                                  "type": "typeParameter",
-                                  "name": "S",
-                                  "constraint": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 174,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "If provided, it will be used as the this value for each invocation of\npredicate. If it is not provided, undefined is used instead.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "union",
-                    "types": [
-                      {
-                        "type": "typeParameter",
-                        "name": "S",
-                        "constraint": {
-                          "type": "reference",
-                          "id": 6,
-                          "name": "Foo"
-                        }
-                      },
-                      {
-                        "type": "intrinsic",
-                        "name": "undefined"
-                      }
-                    ]
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 164,
-                    "name": "Array.find"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 164,
-                "name": "Array.find"
-              }
-            },
-            {
-              "id": 175,
-              "name": "findIndex",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 176,
-                  "name": "findIndex",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns the index of the first element in the array where predicate is true, and -1\notherwise."
-                  },
-                  "parameters": [
-                    {
-                      "id": 177,
-                      "name": "predicate",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "find calls predicate once for each element of the array, in ascending\norder, until it finds one where predicate returns true. If such an element is found,\nfindIndex immediately returns that element index. Otherwise, findIndex returns -1."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 178,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 179,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 180,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 181,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 182,
-                                  "name": "obj",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "unknown"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 183,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "If provided, it will be used as the this value for each invocation of\npredicate. If it is not provided, undefined is used instead.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 175,
-                    "name": "Array.findIndex"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 175,
-                "name": "Array.findIndex"
-              }
-            },
-            {
-              "id": 228,
-              "name": "flat",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 229,
-                  "name": "flat",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns a new array with all sub-array elements concatenated into it recursively up to the\nspecified depth."
-                  },
-                  "typeParameter": [
-                    {
-                      "id": 230,
-                      "name": "A",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {}
-                    },
-                    {
-                      "id": 231,
-                      "name": "D",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      },
-                      "default": {
-                        "type": "literal",
-                        "value": 1
-                      }
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 232,
-                      "name": "this",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "typeParameter",
-                        "name": "A"
-                      }
-                    },
-                    {
-                      "id": 233,
-                      "name": "depth",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "The maximum recursion depth\n"
-                      },
-                      "type": {
-                        "type": "typeParameter",
-                        "name": "D",
-                        "constraint": {
-                          "type": "intrinsic",
-                          "name": "number"
-                        },
-                        "default": {
-                          "type": "literal",
-                          "value": 1
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "typeArguments": [
-                        {
-                          "type": "typeParameter",
-                          "name": "A"
-                        },
-                        {
-                          "type": "typeParameter",
-                          "name": "D",
-                          "constraint": {
-                            "type": "intrinsic",
-                            "name": "number"
-                          },
-                          "default": {
-                            "type": "literal",
-                            "value": 1
-                          }
-                        }
-                      ],
-                      "name": "FlatArray"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 228,
-                    "name": "Array.flat"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 228,
-                "name": "Array.flat"
-              }
-            },
-            {
-              "id": 216,
-              "name": "flatMap",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 217,
-                  "name": "flatMap",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Calls a defined callback function on each element of an array. Then, flattens the result into\na new array.\nThis is identical to a map followed by flat with depth 1."
-                  },
-                  "typeParameter": [
-                    {
-                      "id": 218,
-                      "name": "U",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {}
-                    },
-                    {
-                      "id": 219,
-                      "name": "This",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {},
-                      "default": {
-                        "type": "intrinsic",
-                        "name": "undefined"
-                      }
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 220,
-                      "name": "callback",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to three arguments. The flatMap method calls the\ncallback function one time for each element in the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 221,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 222,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 223,
-                                  "name": "this",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "typeParameter",
-                                    "name": "This",
-                                    "default": {
-                                      "type": "intrinsic",
-                                      "name": "undefined"
-                                    }
-                                  }
-                                },
-                                {
-                                  "id": 224,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 225,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 226,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "union",
-                                "types": [
-                                  {
-                                    "type": "typeParameter",
-                                    "name": "U"
-                                  },
-                                  {
-                                    "type": "reference",
-                                    "typeArguments": [
-                                      {
-                                        "type": "typeParameter",
-                                        "name": "U"
-                                      }
-                                    ],
-                                    "name": "ReadonlyArray"
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 227,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "An object to which the this keyword can refer in the callback function. If\nthisArg is omitted, undefined is used as the this value.\n"
-                      },
-                      "type": {
-                        "type": "typeParameter",
-                        "name": "This",
-                        "default": {
-                          "type": "intrinsic",
-                          "name": "undefined"
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "typeParameter",
-                      "name": "U"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 216,
-                    "name": "Array.flatMap"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 216,
-                "name": "Array.flatMap"
-              }
-            },
-            {
-              "id": 87,
-              "name": "forEach",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 88,
-                  "name": "forEach",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Performs the specified action for each element in an array."
-                  },
-                  "parameters": [
-                    {
-                      "id": 89,
-                      "name": "callbackfn",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 90,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 91,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 92,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 93,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 94,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "void"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 95,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 87,
-                    "name": "Array.forEach"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 87,
-                "name": "Array.forEach"
-              }
-            },
-            {
-              "id": 212,
-              "name": "includes",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 213,
-                  "name": "includes",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Determines whether an array includes a certain element, returning true or false as appropriate."
-                  },
-                  "parameters": [
-                    {
-                      "id": 214,
-                      "name": "searchElement",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "The element to search for."
-                      },
-                      "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    },
-                    {
-                      "id": 215,
-                      "name": "fromIndex",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "The position in this array at which to begin searching for searchElement.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "boolean"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 212,
-                    "name": "Array.includes"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 212,
-                "name": "Array.includes"
-              }
-            },
-            {
-              "id": 52,
-              "name": "indexOf",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 53,
-                  "name": "indexOf",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns the index of the first occurrence of a value in an array."
-                  },
-                  "parameters": [
-                    {
-                      "id": 54,
-                      "name": "searchElement",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "The value to locate in the array."
-                      },
-                      "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    },
-                    {
-                      "id": 55,
-                      "name": "fromIndex",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 52,
-                    "name": "Array.indexOf"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 52,
-                "name": "Array.indexOf"
-              }
-            },
-            {
-              "id": 23,
-              "name": "join",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 24,
-                  "name": "join",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Adds all the elements of an array separated by the specified separator string."
-                  },
-                  "parameters": [
-                    {
-                      "id": 25,
-                      "name": "separator",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 23,
-                    "name": "Array.join"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 23,
-                "name": "Array.join"
-              }
-            },
-            {
-              "id": 198,
-              "name": "keys",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 199,
-                  "name": "keys",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns an iterable of keys in the array"
-                  },
-                  "type": {
-                    "type": "reference",
-                    "typeArguments": [
-                      {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    ],
-                    "name": "IterableIterator"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 198,
-                    "name": "Array.keys"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 198,
-                "name": "Array.keys"
-              }
-            },
-            {
-              "id": 56,
-              "name": "lastIndexOf",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 57,
-                  "name": "lastIndexOf",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns the index of the last occurrence of a specified value in an array."
-                  },
-                  "parameters": [
-                    {
-                      "id": 58,
-                      "name": "searchElement",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "The value to locate in the array."
-                      },
-                      "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    },
-                    {
-                      "id": 59,
-                      "name": "fromIndex",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "The array index at which to begin the search. If fromIndex is omitted, the search starts at the last index in the array.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 56,
-                    "name": "Array.lastIndexOf"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 56,
-                "name": "Array.lastIndexOf"
-              }
-            },
-            {
-              "id": 96,
-              "name": "map",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 97,
-                  "name": "map",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Calls a defined callback function on each element of an array, and returns an array that contains the results."
-                  },
-                  "typeParameter": [
-                    {
-                      "id": 98,
-                      "name": "U",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {}
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 99,
-                      "name": "callbackfn",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 100,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 101,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 102,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 103,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 104,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "typeParameter",
-                                "name": "U"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 105,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "typeParameter",
-                      "name": "U"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 96,
-                    "name": "Array.map"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 96,
-                "name": "Array.map"
-              }
-            },
-            {
               "id": 13,
-              "name": "pop",
-              "kind": 2048,
-              "kindString": "Method",
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 14,
-                  "name": "pop",
-                  "kind": 4096,
-                  "kindString": "Call signature",
+                  "name": "new FooList",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
                   "flags": {},
-                  "comment": {
-                    "shortText": "Removes the last element from an array and returns it."
-                  },
                   "type": {
-                    "type": "union",
-                    "types": [
-                      {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      },
-                      {
-                        "type": "intrinsic",
-                        "name": "undefined"
-                      }
-                    ]
-                  },
-                  "inheritedFrom": {
                     "type": "reference",
-                    "id": 13,
-                    "name": "Array.pop"
+                    "id": 12,
+                    "name": "FooList"
                   }
                 }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 13,
-                "name": "Array.pop"
-              }
-            },
-            {
-              "id": 15,
-              "name": "push",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 16,
-                  "name": "push",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Appends new elements to an array, and returns the new length of the array."
-                  },
-                  "parameters": [
-                    {
-                      "id": 17,
-                      "name": "items",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isRest": true
-                      },
-                      "comment": {
-                        "text": "New elements of the Array.\n"
-                      },
-                      "type": {
-                        "type": "array",
-                        "elementType": {
-                          "type": "reference",
-                          "id": 6,
-                          "name": "Foo"
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 15,
-                    "name": "Array.push"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 15,
-                "name": "Array.push"
-              }
-            },
-            {
-              "id": 124,
-              "name": "reduce",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 125,
-                  "name": "reduce",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
-                  },
-                  "parameters": [
-                    {
-                      "id": 126,
-                      "name": "callbackfn",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 127,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 128,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 129,
-                                  "name": "previousValue",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 130,
-                                  "name": "currentValue",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 131,
-                                  "name": "currentIndex",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 132,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "reference",
-                                "id": 6,
-                                "name": "Foo"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "id": 6,
-                    "name": "Foo"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 124,
-                    "name": "Array.reduce"
-                  }
-                },
-                {
-                  "id": 133,
-                  "name": "reduce",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
-                  },
-                  "typeParameter": [
-                    {
-                      "id": 134,
-                      "name": "U",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {}
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 135,
-                      "name": "callbackfn",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 136,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 137,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 138,
-                                  "name": "previousValue",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "typeParameter",
-                                    "name": "U"
-                                  }
-                                },
-                                {
-                                  "id": 139,
-                                  "name": "currentValue",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 140,
-                                  "name": "currentIndex",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 141,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "typeParameter",
-                                "name": "U"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 142,
-                      "name": "initialValue",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.\n"
-                      },
-                      "type": {
-                        "type": "typeParameter",
-                        "name": "U"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "typeParameter",
-                    "name": "U"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 124,
-                    "name": "Array.reduce"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 124,
-                "name": "Array.reduce"
-              }
-            },
-            {
-              "id": 143,
-              "name": "reduceRight",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 144,
-                  "name": "reduceRight",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
-                  },
-                  "parameters": [
-                    {
-                      "id": 145,
-                      "name": "callbackfn",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 146,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 147,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 148,
-                                  "name": "previousValue",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 149,
-                                  "name": "currentValue",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 150,
-                                  "name": "currentIndex",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 151,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "reference",
-                                "id": 6,
-                                "name": "Foo"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "id": 6,
-                    "name": "Foo"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 143,
-                    "name": "Array.reduceRight"
-                  }
-                },
-                {
-                  "id": 152,
-                  "name": "reduceRight",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
-                  },
-                  "typeParameter": [
-                    {
-                      "id": 153,
-                      "name": "U",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {}
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 154,
-                      "name": "callbackfn",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 155,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 156,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 157,
-                                  "name": "previousValue",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "typeParameter",
-                                    "name": "U"
-                                  }
-                                },
-                                {
-                                  "id": 158,
-                                  "name": "currentValue",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 159,
-                                  "name": "currentIndex",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 160,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "typeParameter",
-                                "name": "U"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 161,
-                      "name": "initialValue",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.\n"
-                      },
-                      "type": {
-                        "type": "typeParameter",
-                        "name": "U"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "typeParameter",
-                    "name": "U"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 143,
-                    "name": "Array.reduceRight"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 143,
-                "name": "Array.reduceRight"
-              }
-            },
-            {
-              "id": 26,
-              "name": "reverse",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 27,
-                  "name": "reverse",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Reverses the elements in an Array."
-                  },
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "id": 6,
-                      "name": "Foo"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 26,
-                    "name": "Array.reverse"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 26,
-                "name": "Array.reverse"
-              }
-            },
-            {
-              "id": 28,
-              "name": "shift",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 29,
-                  "name": "shift",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Removes the first element from an array and returns it."
-                  },
-                  "type": {
-                    "type": "union",
-                    "types": [
-                      {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      },
-                      {
-                        "type": "intrinsic",
-                        "name": "undefined"
-                      }
-                    ]
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 28,
-                    "name": "Array.shift"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 28,
-                "name": "Array.shift"
-              }
-            },
-            {
-              "id": 30,
-              "name": "slice",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 31,
-                  "name": "slice",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns a section of an array."
-                  },
-                  "parameters": [
-                    {
-                      "id": 32,
-                      "name": "start",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "The beginning of the specified portion of the array."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 33,
-                      "name": "end",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "The end of the specified portion of the array. This is exclusive of the element at the index 'end'.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "id": 6,
-                      "name": "Foo"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 30,
-                    "name": "Array.slice"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 30,
-                "name": "Array.slice"
-              }
-            },
-            {
-              "id": 78,
-              "name": "some",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 79,
-                  "name": "some",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Determines whether the specified callback function returns true for any element of an array."
-                  },
-                  "parameters": [
-                    {
-                      "id": 80,
-                      "name": "predicate",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "A function that accepts up to three arguments. The some method calls\nthe predicate function for each element in the array until the predicate returns a value\nwhich is coercible to the Boolean value true, or until the end of the array."
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 81,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 82,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 83,
-                                  "name": "value",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 84,
-                                  "name": "index",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                },
-                                {
-                                  "id": 85,
-                                  "name": "array",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "array",
-                                    "elementType": {
-                                      "type": "reference",
-                                      "id": 6,
-                                      "name": "Foo"
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "unknown"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 86,
-                      "name": "thisArg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "An object to which the this keyword can refer in the predicate function.\nIf thisArg is omitted, undefined is used as the this value.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "boolean"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 78,
-                    "name": "Array.some"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 78,
-                "name": "Array.some"
-              }
-            },
-            {
-              "id": 34,
-              "name": "sort",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 35,
-                  "name": "sort",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Sorts an array."
-                  },
-                  "parameters": [
-                    {
-                      "id": 36,
-                      "name": "compareFn",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "Function used to determine the order of the elements. It is expected to return\na negative value if first argument is less than second argument, zero if they're equal and a positive\nvalue otherwise. If omitted, the elements are sorted in ascending, ASCII character order.\n```ts\n[11,2,22,1].sort((a, b) => a - b)\n```\n"
-                      },
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 37,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 38,
-                              "name": "__call",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 39,
-                                  "name": "a",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 40,
-                                  "name": "b",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 6,
-                                    "name": "Foo"
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "number"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "this"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 34,
-                    "name": "Array.sort"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 34,
-                "name": "Array.sort"
-              }
-            },
-            {
-              "id": 41,
-              "name": "splice",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 42,
-                  "name": "splice",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements."
-                  },
-                  "parameters": [
-                    {
-                      "id": 43,
-                      "name": "start",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "The zero-based location in the array from which to start removing elements."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 44,
-                      "name": "deleteCount",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isOptional": true
-                      },
-                      "comment": {
-                        "text": "The number of elements to remove.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "id": 6,
-                      "name": "Foo"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 41,
-                    "name": "Array.splice"
-                  }
-                },
-                {
-                  "id": 45,
-                  "name": "splice",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements."
-                  },
-                  "parameters": [
-                    {
-                      "id": 46,
-                      "name": "start",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "The zero-based location in the array from which to start removing elements."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 47,
-                      "name": "deleteCount",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "The number of elements to remove."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 48,
-                      "name": "items",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isRest": true
-                      },
-                      "comment": {
-                        "text": "Elements to insert into the array in place of the deleted elements.\n"
-                      },
-                      "type": {
-                        "type": "array",
-                        "elementType": {
-                          "type": "reference",
-                          "id": 6,
-                          "name": "Foo"
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "id": 6,
-                      "name": "Foo"
-                    }
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 41,
-                    "name": "Array.splice"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 41,
-                "name": "Array.splice"
-              }
-            },
-            {
-              "id": 11,
-              "name": "toLocaleString",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 12,
-                  "name": "toLocaleString",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns a string representation of an array. The elements are converted to string using their toLocalString methods."
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 11,
-                    "name": "Array.toLocaleString"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 11,
-                "name": "Array.toLocaleString"
-              }
-            },
-            {
-              "id": 9,
-              "name": "toString",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 10,
-                  "name": "toString",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns a string representation of an array."
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 9,
-                    "name": "Array.toString"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 9,
-                "name": "Array.toString"
-              }
-            },
-            {
-              "id": 49,
-              "name": "unshift",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 50,
-                  "name": "unshift",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Inserts new elements at the start of an array."
-                  },
-                  "parameters": [
-                    {
-                      "id": 51,
-                      "name": "items",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isRest": true
-                      },
-                      "comment": {
-                        "text": "Elements to insert at the start of the Array.\n"
-                      },
-                      "type": {
-                        "type": "array",
-                        "elementType": {
-                          "type": "reference",
-                          "id": 6,
-                          "name": "Foo"
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 49,
-                    "name": "Array.unshift"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 49,
-                "name": "Array.unshift"
-              }
-            },
-            {
-              "id": 200,
-              "name": "values",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 201,
-                  "name": "values",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Returns an iterable of values in the array"
-                  },
-                  "type": {
-                    "type": "reference",
-                    "typeArguments": [
-                      {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Foo"
-                      }
-                    ],
-                    "name": "IterableIterator"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 200,
-                    "name": "Array.values"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 200,
-                "name": "Array.values"
-              }
+              ]
             }
           ],
           "groups": [
             {
-              "title": "Properties",
-              "kind": 1024,
+              "title": "Constructors",
+              "kind": 512,
               "children": [
-                8
-              ]
-            },
-            {
-              "title": "Methods",
-              "kind": 2048,
-              "children": [
-                194,
-                202,
-                18,
-                189,
-                196,
-                60,
-                184,
-                106,
-                164,
-                175,
-                228,
-                216,
-                87,
-                212,
-                52,
-                23,
-                198,
-                56,
-                96,
-                13,
-                15,
-                124,
-                143,
-                26,
-                28,
-                30,
-                78,
-                34,
-                41,
-                11,
-                9,
-                49,
-                200
+                13
               ]
             }
           ],
@@ -3599,7 +168,7 @@
               "typeArguments": [
                 {
                   "type": "reference",
-                  "id": 6,
+                  "id": 9,
                   "name": "Foo"
                 }
               ],
@@ -3608,33 +177,7 @@
           ]
         },
         {
-          "id": 2,
-          "name": "Array",
-          "kind": 256,
-          "kindString": "Interface",
-          "flags": {},
-          "comment": {
-            "shortText": "A custom array interface."
-          },
-          "typeParameter": [
-            {
-              "id": 3,
-              "name": "T",
-              "kind": 131072,
-              "kindString": "Type parameter",
-              "flags": {}
-            }
-          ],
-          "extendedBy": [
-            {
-              "type": "reference",
-              "id": 7,
-              "name": "FooList"
-            }
-          ]
-        },
-        {
-          "id": 4,
+          "id": 7,
           "name": "complex",
           "kind": 32,
           "kindString": "Variable",
@@ -3691,7 +234,7 @@
           "defaultValue": "[]"
         },
         {
-          "id": 5,
+          "id": 8,
           "name": "custom",
           "kind": 32,
           "kindString": "Variable",
@@ -3711,7 +254,8 @@
               }
             ],
             "name": "Array"
-          }
+          },
+          "defaultValue": "{}"
         }
       ],
       "groups": [
@@ -3719,62 +263,62 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            6,
-            7
-          ]
-        },
-        {
-          "title": "Interfaces",
-          "kind": 256,
-          "children": [
-            2
+            2,
+            9,
+            12
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            4,
-            5
+            7,
+            8
           ]
         }
       ]
     },
     {
-      "id": 234,
+      "id": 15,
       "name": "destructuring",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 241,
+          "id": 22,
           "name": "destructArrayA",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "intrinsic",
             "name": "number"
           }
         },
         {
-          "id": 242,
+          "id": 23,
           "name": "destructArrayB",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "intrinsic",
             "name": "string"
           }
         },
         {
-          "id": 243,
+          "id": 24,
           "name": "destructArrayC",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "union",
             "types": [
@@ -3791,22 +335,26 @@
           "defaultValue": "10"
         },
         {
-          "id": 247,
+          "id": 28,
           "name": "destructArrayWithIgnoresA",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "intrinsic",
             "name": "number"
           }
         },
         {
-          "id": 248,
+          "id": 29,
           "name": "destructArrayWithIgnoresRest",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "tuple",
             "elements": [
@@ -3822,11 +370,13 @@
           }
         },
         {
-          "id": 246,
+          "id": 27,
           "name": "destructArrayWithRest",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "tuple",
             "elements": [
@@ -3842,69 +392,79 @@
           }
         },
         {
-          "id": 244,
+          "id": 25,
           "name": "destructArrayWithRestA",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "intrinsic",
             "name": "number"
           }
         },
         {
-          "id": 245,
+          "id": 26,
           "name": "destructArrayWithRestB",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "intrinsic",
             "name": "number"
           }
         },
         {
-          "id": 238,
+          "id": 19,
           "name": "destructObjectA",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "intrinsic",
             "name": "number"
           }
         },
         {
-          "id": 239,
+          "id": 20,
           "name": "destructObjectB",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "intrinsic",
             "name": "string"
           }
         },
         {
-          "id": 240,
+          "id": 21,
           "name": "destructObjectC",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "type": {
             "type": "intrinsic",
             "name": "number"
           }
         },
         {
-          "id": 235,
+          "id": 16,
           "name": "drawText",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 236,
+              "id": 17,
               "name": "drawText",
               "kind": 4096,
               "kindString": "Call signature",
@@ -3914,12 +474,11 @@
               },
               "parameters": [
                 {
-                  "id": 237,
+                  "id": 18,
                   "name": "__namedParameters",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "originalName": "__0",
                   "type": {
                     "type": "intrinsic",
                     "name": "Object"
@@ -3939,101 +498,357 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            241,
-            242,
-            243,
-            247,
-            248,
-            246,
-            244,
-            245,
-            238,
-            239,
-            240
+            22,
+            23,
+            24,
+            28,
+            29,
+            27,
+            25,
+            26,
+            19,
+            20,
+            21
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            235
+            16
           ]
         }
       ]
     },
     {
-      "id": 249,
+      "id": 30,
       "name": "literal",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 250,
-          "name": "typeLiteral",
+          "id": 50,
+          "name": "callbackReturn",
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isLet": true
-          },
-          "comment": {
-            "shortText": "A typed literal without an initializer."
+            "isConst": true
           },
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 251,
+              "id": 51,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
-                  "id": 267,
-                  "name": "valueA",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {
-                    "isOptional": true
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                },
-                {
-                  "id": 268,
-                  "name": "valueB",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {
-                    "isOptional": true
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "boolean"
-                  }
-                },
-                {
-                  "id": 256,
-                  "name": "valueX",
-                  "kind": 32,
-                  "kindString": "Variable",
+                  "id": 58,
+                  "name": "error",
+                  "kind": 1024,
+                  "kindString": "Property",
                   "flags": {},
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 257,
+                      "id": 59,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "signatures": [
+                        {
+                          "id": 60,
+                          "name": "__type",
+                          "kind": 4096,
+                          "kindString": "Call signature",
+                          "flags": {},
+                          "parameters": [
+                            {
+                              "id": 61,
+                              "name": "errorCallback",
+                              "kind": 32768,
+                              "kindString": "Parameter",
+                              "flags": {},
+                              "type": {
+                                "type": "reflection",
+                                "declaration": {
+                                  "id": 62,
+                                  "name": "__type",
+                                  "kind": 65536,
+                                  "kindString": "Type literal",
+                                  "flags": {},
+                                  "signatures": [
+                                    {
+                                      "id": 63,
+                                      "name": "__type",
+                                      "kind": 4096,
+                                      "kindString": "Call signature",
+                                      "flags": {},
+                                      "type": {
+                                        "type": "intrinsic",
+                                        "name": "any"
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "type": {
+                            "type": "unknown",
+                            "name": "{ success: (successCallback: () => any) => ...; error: (errorCallback: () => any) => ...; finally: (finallyCallback: () => any) => ...; }"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "defaultValue": "(errorCallback: () => any) => {\n        onError = errorCallback;\n        return callbackReturn;\n    }"
+                },
+                {
+                  "id": 64,
+                  "name": "finally",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 65,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "signatures": [
+                        {
+                          "id": 66,
+                          "name": "__type",
+                          "kind": 4096,
+                          "kindString": "Call signature",
+                          "flags": {},
+                          "parameters": [
+                            {
+                              "id": 67,
+                              "name": "finallyCallback",
+                              "kind": 32768,
+                              "kindString": "Parameter",
+                              "flags": {},
+                              "type": {
+                                "type": "reflection",
+                                "declaration": {
+                                  "id": 68,
+                                  "name": "__type",
+                                  "kind": 65536,
+                                  "kindString": "Type literal",
+                                  "flags": {},
+                                  "signatures": [
+                                    {
+                                      "id": 69,
+                                      "name": "__type",
+                                      "kind": 4096,
+                                      "kindString": "Call signature",
+                                      "flags": {},
+                                      "type": {
+                                        "type": "intrinsic",
+                                        "name": "any"
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "type": {
+                            "type": "unknown",
+                            "name": "{ success: (successCallback: () => any) => ...; error: (errorCallback: () => any) => ...; finally: (finallyCallback: () => any) => ...; }"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "defaultValue": "(finallyCallback: () => any) => {\n        onFinally = finallyCallback;\n        return callbackReturn;\n    }"
+                },
+                {
+                  "id": 52,
+                  "name": "success",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 53,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "signatures": [
+                        {
+                          "id": 54,
+                          "name": "__type",
+                          "kind": 4096,
+                          "kindString": "Call signature",
+                          "flags": {},
+                          "parameters": [
+                            {
+                              "id": 55,
+                              "name": "successCallback",
+                              "kind": 32768,
+                              "kindString": "Parameter",
+                              "flags": {},
+                              "type": {
+                                "type": "reflection",
+                                "declaration": {
+                                  "id": 56,
+                                  "name": "__type",
+                                  "kind": 65536,
+                                  "kindString": "Type literal",
+                                  "flags": {},
+                                  "signatures": [
+                                    {
+                                      "id": 57,
+                                      "name": "__type",
+                                      "kind": 4096,
+                                      "kindString": "Call signature",
+                                      "flags": {},
+                                      "type": {
+                                        "type": "intrinsic",
+                                        "name": "any"
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "type": {
+                            "type": "unknown",
+                            "name": "{ success: (successCallback: () => any) => ...; error: (errorCallback: () => any) => ...; finally: (finallyCallback: () => any) => ...; }"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "defaultValue": "(successCallback: () => any) => {\n        onSuccess = successCallback;\n        return callbackReturn;\n    }"
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "kind": 1024,
+                  "children": [
+                    58,
+                    64,
+                    52
+                  ]
+                }
+              ]
+            }
+          },
+          "defaultValue": "{\n    success: (successCallback: () => any) => {\n        onSuccess = successCallback;\n        return callbackReturn;\n    },\n    error: (errorCallback: () => any) => {\n        onError = errorCallback;\n        return callbackReturn;\n    },\n    finally: (finallyCallback: () => any) => {\n        onFinally = finallyCallback;\n        return callbackReturn;\n    },\n}"
+        },
+        {
+          "id": 70,
+          "name": "objectLiteral",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "comment": {
+            "shortText": "An object literal."
+          },
+          "type": {
+            "type": "reflection",
+            "declaration": {
+              "id": 71,
+              "name": "__type",
+              "kind": 65536,
+              "kindString": "Type literal",
+              "flags": {},
+              "children": [
+                {
+                  "id": 89,
+                  "name": "[Symbol.toStringTag]",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "defaultValue": "\"computed\""
+                },
+                {
+                  "id": 90,
+                  "name": "literal",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  "defaultValue": "true"
+                },
+                {
+                  "id": 91,
+                  "name": "literal2",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  "defaultValue": "true"
+                },
+                {
+                  "id": 87,
+                  "name": "valueA",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "defaultValue": "100"
+                },
+                {
+                  "id": 88,
+                  "name": "valueB",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  "defaultValue": "true"
+                },
+                {
+                  "id": 76,
+                  "name": "valueX",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 77,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 266,
+                          "id": 86,
                           "name": "valueA",
-                          "kind": 32,
-                          "kindString": "Variable",
+                          "kind": 1024,
+                          "kindString": "Property",
                           "flags": {},
                           "type": {
                             "type": "array",
@@ -4041,32 +856,33 @@
                               "type": "intrinsic",
                               "name": "number"
                             }
-                          }
+                          },
+                          "defaultValue": "[100, 200, 300]"
                         },
                         {
-                          "id": 259,
+                          "id": 79,
                           "name": "valueY",
-                          "kind": 32,
-                          "kindString": "Variable",
+                          "kind": 1024,
+                          "kindString": "Property",
                           "flags": {},
                           "type": {
                             "type": "reflection",
                             "declaration": {
-                              "id": 260,
+                              "id": 80,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
                               "signatures": [
                                 {
-                                  "id": 261,
-                                  "name": "__call",
+                                  "id": 81,
+                                  "name": "__type",
                                   "kind": 4096,
                                   "kindString": "Call signature",
                                   "flags": {},
                                   "parameters": [
                                     {
-                                      "id": 262,
+                                      "id": 82,
                                       "name": "z",
                                       "kind": 32768,
                                       "kindString": "Parameter",
@@ -4080,17 +896,270 @@
                                   "type": {
                                     "type": "reflection",
                                     "declaration": {
-                                      "id": 263,
+                                      "id": 83,
                                       "name": "__type",
                                       "kind": 65536,
                                       "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
-                                          "id": 264,
+                                          "id": 84,
                                           "name": "a",
-                                          "kind": 32,
-                                          "kindString": "Variable",
+                                          "kind": 1024,
+                                          "kindString": "Property",
+                                          "flags": {},
+                                          "type": {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                          },
+                                          "defaultValue": "\"test\""
+                                        },
+                                        {
+                                          "id": 85,
+                                          "name": "b",
+                                          "kind": 1024,
+                                          "kindString": "Property",
+                                          "flags": {},
+                                          "type": {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                          },
+                                          "defaultValue": "z"
+                                        }
+                                      ],
+                                      "groups": [
+                                        {
+                                          "title": "Properties",
+                                          "kind": 1024,
+                                          "children": [
+                                            84,
+                                            85
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "defaultValue": "(z: string) => {\n            return { a: \"test\", b: z };\n        }"
+                        },
+                        {
+                          "id": 78,
+                          "name": "valueZ",
+                          "kind": 1024,
+                          "kindString": "Property",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          },
+                          "defaultValue": "\"foo\""
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Properties",
+                          "kind": 1024,
+                          "children": [
+                            86,
+                            79,
+                            78
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "defaultValue": "{\n        valueZ: \"foo\",\n        valueY: (z: string) => {\n            return { a: \"test\", b: z };\n        },\n        valueA: [100, 200, 300],\n    }"
+                },
+                {
+                  "id": 73,
+                  "name": "valueY",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 74,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "signatures": [
+                        {
+                          "id": 75,
+                          "name": "__type",
+                          "kind": 4096,
+                          "kindString": "Call signature",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "defaultValue": "function () {\n        return \"foo\";\n    }"
+                },
+                {
+                  "id": 72,
+                  "name": "valueZ",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "defaultValue": "\"foo\""
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "kind": 1024,
+                  "children": [
+                    89,
+                    90,
+                    91,
+                    87,
+                    88,
+                    76,
+                    73,
+                    72
+                  ]
+                }
+              ]
+            }
+          },
+          "defaultValue": "{\n    valueZ: \"foo\",\n    valueY: function () {\n        return \"foo\";\n    },\n    valueX: {\n        valueZ: \"foo\",\n        valueY: (z: string) => {\n            return { a: \"test\", b: z };\n        },\n        valueA: [100, 200, 300],\n    },\n    valueA: 100,\n    valueB: true,\n    [Symbol.toStringTag]: \"computed\",\n    [x]: true,\n    [\"literal2\"]: true,\n}"
+        },
+        {
+          "id": 31,
+          "name": "typeLiteral",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "comment": {
+            "shortText": "A typed literal without an initializer."
+          },
+          "type": {
+            "type": "reflection",
+            "declaration": {
+              "id": 32,
+              "name": "__type",
+              "kind": 65536,
+              "kindString": "Type literal",
+              "flags": {},
+              "children": [
+                {
+                  "id": 48,
+                  "name": "valueA",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isOptional": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 49,
+                  "name": "valueB",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isOptional": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  }
+                },
+                {
+                  "id": 37,
+                  "name": "valueX",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 38,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "children": [
+                        {
+                          "id": 47,
+                          "name": "valueA",
+                          "kind": 1024,
+                          "kindString": "Property",
+                          "flags": {},
+                          "type": {
+                            "type": "array",
+                            "elementType": {
+                              "type": "intrinsic",
+                              "name": "number"
+                            }
+                          }
+                        },
+                        {
+                          "id": 40,
+                          "name": "valueY",
+                          "kind": 1024,
+                          "kindString": "Property",
+                          "flags": {},
+                          "type": {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 41,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "signatures": [
+                                {
+                                  "id": 42,
+                                  "name": "__type",
+                                  "kind": 4096,
+                                  "kindString": "Call signature",
+                                  "flags": {},
+                                  "parameters": [
+                                    {
+                                      "id": 43,
+                                      "name": "z",
+                                      "kind": 32768,
+                                      "kindString": "Parameter",
+                                      "flags": {},
+                                      "type": {
+                                        "type": "intrinsic",
+                                        "name": "string"
+                                      }
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "reflection",
+                                    "declaration": {
+                                      "id": 44,
+                                      "name": "__type",
+                                      "kind": 65536,
+                                      "kindString": "Type literal",
+                                      "flags": {},
+                                      "children": [
+                                        {
+                                          "id": 45,
+                                          "name": "a",
+                                          "kind": 1024,
+                                          "kindString": "Property",
                                           "flags": {},
                                           "type": {
                                             "type": "intrinsic",
@@ -4098,10 +1167,10 @@
                                           }
                                         },
                                         {
-                                          "id": 265,
+                                          "id": 46,
                                           "name": "b",
-                                          "kind": 32,
-                                          "kindString": "Variable",
+                                          "kind": 1024,
+                                          "kindString": "Property",
                                           "flags": {},
                                           "type": {
                                             "type": "intrinsic",
@@ -4111,11 +1180,11 @@
                                       ],
                                       "groups": [
                                         {
-                                          "title": "Variables",
-                                          "kind": 32,
+                                          "title": "Properties",
+                                          "kind": 1024,
                                           "children": [
-                                            264,
-                                            265
+                                            45,
+                                            46
                                           ]
                                         }
                                       ]
@@ -4127,10 +1196,10 @@
                           }
                         },
                         {
-                          "id": 258,
+                          "id": 39,
                           "name": "valueZ",
-                          "kind": 32,
-                          "kindString": "Variable",
+                          "kind": 1024,
+                          "kindString": "Property",
                           "flags": {},
                           "type": {
                             "type": "intrinsic",
@@ -4140,12 +1209,12 @@
                       ],
                       "groups": [
                         {
-                          "title": "Variables",
-                          "kind": 32,
+                          "title": "Properties",
+                          "kind": 1024,
                           "children": [
-                            266,
-                            259,
-                            258
+                            47,
+                            40,
+                            39
                           ]
                         }
                       ]
@@ -4153,23 +1222,23 @@
                   }
                 },
                 {
-                  "id": 253,
+                  "id": 34,
                   "name": "valueY",
-                  "kind": 32,
-                  "kindString": "Variable",
+                  "kind": 1024,
+                  "kindString": "Property",
                   "flags": {},
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 254,
+                      "id": 35,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 255,
-                          "name": "__call",
+                          "id": 36,
+                          "name": "__type",
                           "kind": 4096,
                           "kindString": "Call signature",
                           "flags": {},
@@ -4183,10 +1252,10 @@
                   }
                 },
                 {
-                  "id": 252,
+                  "id": 33,
                   "name": "valueZ",
-                  "kind": 32,
-                  "kindString": "Variable",
+                  "kind": 1024,
+                  "kindString": "Property",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -4196,288 +1265,18 @@
               ],
               "groups": [
                 {
-                  "title": "Variables",
-                  "kind": 32,
+                  "title": "Properties",
+                  "kind": 1024,
                   "children": [
-                    267,
-                    268,
-                    256,
-                    253,
-                    252
+                    48,
+                    49,
+                    37,
+                    34,
+                    33
                   ]
                 }
               ]
             }
-          }
-        },
-        {
-          "id": 269,
-          "name": "objectLiteral",
-          "kind": 2097152,
-          "kindString": "Object literal",
-          "flags": {
-            "isConst": true
-          },
-          "comment": {
-            "shortText": "An object literal."
-          },
-          "children": [
-            {
-              "id": 284,
-              "name": "[Symbol.toStringTag]",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {},
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              },
-              "defaultValue": "\"computed\""
-            },
-            {
-              "id": 285,
-              "name": "[x]",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {},
-              "type": {
-                "type": "intrinsic",
-                "name": "boolean"
-              },
-              "defaultValue": "true"
-            },
-            {
-              "id": 286,
-              "name": "literal2",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {},
-              "type": {
-                "type": "intrinsic",
-                "name": "boolean"
-              },
-              "defaultValue": "true"
-            },
-            {
-              "id": 282,
-              "name": "valueA",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {},
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              },
-              "defaultValue": "100"
-            },
-            {
-              "id": 283,
-              "name": "valueB",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {},
-              "type": {
-                "type": "intrinsic",
-                "name": "boolean"
-              },
-              "defaultValue": "true"
-            },
-            {
-              "id": 270,
-              "name": "valueZ",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {},
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              },
-              "defaultValue": "\"foo\""
-            },
-            {
-              "id": 271,
-              "name": "valueY",
-              "kind": 64,
-              "kindString": "Function",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 272,
-                  "name": "valueY",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "id": 273,
-              "name": "valueX",
-              "kind": 2097152,
-              "kindString": "Object literal",
-              "flags": {},
-              "children": [
-                {
-                  "id": 281,
-                  "name": "valueA",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {},
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "intrinsic",
-                      "name": "number"
-                    }
-                  },
-                  "defaultValue": "[100, 200, 300]"
-                },
-                {
-                  "id": 274,
-                  "name": "valueZ",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  },
-                  "defaultValue": "\"foo\""
-                },
-                {
-                  "id": 275,
-                  "name": "valueY",
-                  "kind": 64,
-                  "kindString": "Function",
-                  "flags": {},
-                  "signatures": [
-                    {
-                      "id": 276,
-                      "name": "valueY",
-                      "kind": 4096,
-                      "kindString": "Call signature",
-                      "flags": {},
-                      "parameters": [
-                        {
-                          "id": 277,
-                          "name": "z",
-                          "kind": 32768,
-                          "kindString": "Parameter",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "string"
-                          }
-                        }
-                      ],
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 278,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {},
-                          "children": [
-                            {
-                              "id": 279,
-                              "name": "a",
-                              "kind": 32,
-                              "kindString": "Variable",
-                              "flags": {},
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              },
-                              "defaultValue": "\"test\""
-                            },
-                            {
-                              "id": 280,
-                              "name": "b",
-                              "kind": 32,
-                              "kindString": "Variable",
-                              "flags": {},
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              },
-                              "defaultValue": "z"
-                            }
-                          ],
-                          "groups": [
-                            {
-                              "title": "Variables",
-                              "kind": 32,
-                              "children": [
-                                279,
-                                280
-                              ]
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ]
-                }
-              ],
-              "groups": [
-                {
-                  "title": "Variables",
-                  "kind": 32,
-                  "children": [
-                    281,
-                    274
-                  ]
-                },
-                {
-                  "title": "Functions",
-                  "kind": 64,
-                  "children": [
-                    275
-                  ]
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "object"
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Variables",
-              "kind": 32,
-              "children": [
-                284,
-                285,
-                286,
-                282,
-                283,
-                270
-              ]
-            },
-            {
-              "title": "Functions",
-              "kind": 64,
-              "children": [
-                271
-              ]
-            },
-            {
-              "title": "Object literals",
-              "kind": 2097152,
-              "children": [
-                273
-              ]
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "object"
           }
         }
       ],
@@ -4486,24 +1285,126 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            250
-          ]
-        },
-        {
-          "title": "Object literals",
-          "kind": 2097152,
-          "children": [
-            269
+            50,
+            70,
+            31
           ]
         }
       ]
     },
     {
-      "id": 287,
+      "id": 92,
       "name": "variable",
       "kind": 1,
       "kindString": "Module",
-      "flags": {}
+      "flags": {},
+      "children": [
+        {
+          "id": 93,
+          "name": "myConst",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "type": {
+            "type": "literal",
+            "value": 15
+          },
+          "defaultValue": "15"
+        },
+        {
+          "id": 94,
+          "name": "myLet",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          },
+          "defaultValue": "15"
+        },
+        {
+          "id": 95,
+          "name": "myVar",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          },
+          "defaultValue": "15"
+        },
+        {
+          "id": 96,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "type": {
+            "type": "intrinsic",
+            "name": "object"
+          }
+        },
+        {
+          "id": 97,
+          "name": "y",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "type": {
+            "type": "reference",
+            "typeArguments": [
+              {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            ],
+            "name": "Promise"
+          }
+        },
+        {
+          "id": 98,
+          "name": "z",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "type": {
+            "type": "reference",
+            "typeArguments": [
+              {
+                "type": "intrinsic",
+                "name": "object"
+              }
+            ],
+            "name": "Promise"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            93,
+            94,
+            95,
+            96,
+            97,
+            98
+          ]
+        }
+      ]
     }
   ],
   "groups": [
@@ -4512,9 +1413,9 @@
       "kind": 1,
       "children": [
         1,
-        234,
-        249,
-        287
+        15,
+        30,
+        92
       ]
     }
   ]

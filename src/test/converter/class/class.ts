@@ -17,7 +17,7 @@ export class TestClass {
     private privateProperty: number[];
 
     /**
-     * privateProperty short text.
+     * staticProperty short text.
      */
     static staticProperty: TestClass;
 

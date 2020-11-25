@@ -8,6 +8,7 @@ import { Comment, CommentTag } from "../../models/comments/index";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import { Context } from "../context";
+import { removeIfPresent } from "../../utils";
 
 /**
  * A handler that moves comments with dot syntax to their target.
@@ -89,11 +90,7 @@ export class DeepCommentPlugin extends ConverterComponent {
                     }
 
                     if (tag) {
-                        // If we found a tag, comment.tags mus be set.
-                        target.comment.tags!.splice(
-                            target.comment.tags!.indexOf(tag),
-                            1
-                        );
+                        removeIfPresent(target.comment.tags, tag);
                         reflection.comment = new Comment("", tag.text);
                         break;
                     }
