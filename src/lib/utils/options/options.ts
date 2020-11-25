@@ -9,6 +9,7 @@ import {
     TypeDocOptions,
     KeyToDeclaration,
     TypeDocOptionMap,
+    TypeDocOptionValues,
 } from "./declaration";
 import { Logger } from "../loggers";
 import { insertPrioritySorted, unique } from "../array";
@@ -233,7 +234,7 @@ export class Options {
      * Gets a value for the given option key, throwing if the option has not been declared.
      * @param name
      */
-    getValue<K extends keyof TypeDocOptions>(name: K): TypeDocOptions[K];
+    getValue<K extends keyof TypeDocOptions>(name: K): TypeDocOptionValues[K];
     getValue(name: NeverIfInternal<string>): unknown;
     getValue(name: string): unknown {
         const declaration = this.getDeclaration(name);
@@ -331,7 +332,7 @@ export function BindOption<K extends keyof TypeDocOptionMap>(
     name: K
 ): <IK extends PropertyKey>(
     target: ({ application: Application } | { options: Options }) &
-        { [K2 in IK]: TypeDocOptions[K] },
+        { [K2 in IK]: TypeDocOptionValues[K] },
     key: IK
 ) => void;
 

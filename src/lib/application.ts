@@ -145,6 +145,7 @@ export class Application extends ChildableComponent<
             this.logger = new Logger();
             this.options.setLogger(this.logger);
         }
+        this.logger.level = this.options.getValue("logLevel");
 
         this.plugins.load();
 
