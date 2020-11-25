@@ -39,8 +39,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -89,12 +87,7 @@
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="modules.mymodule.html#exportedmodulevariable" class="tsd-kind-icon">exported<wbr>Module<wbr>Variable</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Object literals</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-namespace"><a href="modules.mymodule.html#object" class="tsd-kind-icon">object</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="modules.mymodule.html#object" class="tsd-kind-icon">object</a></li>
 							</ul>
 						</section>
 					</div>
@@ -109,13 +102,10 @@
 					<aside class="tsd-sources">
 					</aside>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Object literals</h2>
-				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-namespace">
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
 					<a name="object" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagLet">Let</span> object</h3>
-					<div class="tsd-signature tsd-kind-icon">object<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<div class="tsd-signature tsd-kind-icon">object<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>print<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {/*** An object literal value.*/name: &quot;Test&quot;,/*** An object literal function.*/print: function (value: string) {},}</span></div>
 					<aside class="tsd-sources">
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -123,43 +113,35 @@
 							<p>This is an object literal.</p>
 						</div>
 					</div>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="object.name" class="tsd-anchor"></a>
-						<h3>name</h3>
-						<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;Test&quot;</span></div>
-						<aside class="tsd-sources">
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>An object literal value.</p>
-							</div>
-						</div>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
-						<a name="object.print" class="tsd-anchor"></a>
-						<h3>print</h3>
-						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">print<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						</ul>
-						<ul class="tsd-descriptions">
-							<li class="tsd-description">
-								<aside class="tsd-sources">
-								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>An object literal function.</p>
-									</div>
-								</div>
-								<h4 class="tsd-parameters-title">Parameters</h4>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>print<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
 								<ul class="tsd-parameters">
-									<li>
-										<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>value: <span class="tsd-signature-type">string</span></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
 									</li>
 								</ul>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 							</li>
 						</ul>
-					</section>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -182,13 +164,7 @@
 						<a href="enumerations.html">enumerations</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="flattened.html">flattened</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="functions.html">functions</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="generics.html">generics</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="mixin.html">mixin</a>
@@ -225,7 +201,7 @@
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
 						<a href="modules.mymodule.html#exportedmodulevariable" class="tsd-kind-icon">exported<wbr>Module<wbr>Variable</a>
 					</li>
-					<li class=" tsd-kind-object-literal tsd-parent-kind-namespace">
+					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
 						<a href="modules.mymodule.html#object" class="tsd-kind-icon">object</a>
 					</li>
 				</ul>
@@ -239,7 +215,6 @@
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
 				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
@@ -247,15 +222,14 @@
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>

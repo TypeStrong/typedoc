@@ -39,8 +39,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -94,13 +92,8 @@
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="modules.html#exportedglobalvariable" class="tsd-kind-icon">exported<wbr>Global<wbr>Variable</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="modules.html#objectliteral" class="tsd-kind-icon">object<wbr>Literal</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="modules.html#typeliteral" class="tsd-kind-icon">type<wbr>Literal</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Object literals</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-module"><a href="modules.html#objectliteral" class="tsd-kind-icon">object<wbr>Literal</a></li>
 							</ul>
 						</section>
 					</div>
@@ -128,6 +121,87 @@
 						<div class="lead">
 							<p>An exported global variable.</p>
 						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="objectliteral" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagLet">Let</span> object<wbr>Literal</h3>
+					<div class="tsd-signature tsd-kind-icon">object<wbr>Literal<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>valueA<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>valueB<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>valueX<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>valueA<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>valueY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">{ </span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>valueZ<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>valueY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>valueZ<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {valueZ: &quot;foo&quot;,valueY: function () {return &quot;foo&quot;;},valueX: {valueZ: &quot;foo&quot;,valueY: (z: string) &#x3D;&gt; {return { a: &quot;test&quot;, b: z };},valueA: [100, 200, 300],},valueA: 100,valueB: true,}</span></div>
+					<aside class="tsd-sources">
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An object literal.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>valueA<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>valueB<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>valueX<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>valueA<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>valueY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">{ </span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>valueZ<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter">
+										<h5>valueA<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+									</li>
+									<li class="tsd-parameter">
+										<h5>valueY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">{ </span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h5>
+										<ul class="tsd-parameters">
+											<li class="tsd-parameter-signature">
+												<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+													<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></li>
+												</ul>
+												<ul class="tsd-descriptions">
+													<li class="tsd-description">
+														<h4 class="tsd-parameters-title">Parameters</h4>
+														<ul class="tsd-parameters">
+															<li>
+																<h5>z: <span class="tsd-signature-type">string</span></h5>
+															</li>
+														</ul>
+														<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h4>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter">
+																<h5>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+															</li>
+															<li class="tsd-parameter">
+																<h5>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li class="tsd-parameter">
+										<h5>valueZ<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>valueY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>valueZ<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
@@ -165,7 +239,7 @@
 										<h5>valueY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">{ </span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h5>
 										<ul class="tsd-parameters">
 											<li class="tsd-parameter-signature">
-												<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+												<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
 													<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></li>
 												</ul>
 												<ul class="tsd-descriptions">
@@ -199,7 +273,7 @@
 								<h5>valueY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span></h5>
 								<ul class="tsd-parameters">
 									<li class="tsd-parameter-signature">
-										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
 											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
@@ -215,105 +289,6 @@
 							</li>
 						</ul>
 					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Object literals</h2>
-				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-module">
-					<a name="objectliteral" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagLet">Let</span> object<wbr>Literal</h3>
-					<div class="tsd-signature tsd-kind-icon">object<wbr>Literal<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An object literal.</p>
-						</div>
-					</div>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="objectliteral.valuea-2" class="tsd-anchor"></a>
-						<h3>valueA</h3>
-						<div class="tsd-signature tsd-kind-icon">valueA<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 100</span></div>
-						<aside class="tsd-sources">
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="objectliteral.valueb-1" class="tsd-anchor"></a>
-						<h3>valueB</h3>
-						<div class="tsd-signature tsd-kind-icon">valueB<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
-						<aside class="tsd-sources">
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="objectliteral.valuez-2" class="tsd-anchor"></a>
-						<h3>valueZ</h3>
-						<div class="tsd-signature tsd-kind-icon">valueZ<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;foo&quot;</span></div>
-						<aside class="tsd-sources">
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
-						<a name="objectliteral.valuey-2" class="tsd-anchor"></a>
-						<h3>valueY</h3>
-						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">valueY<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-						</ul>
-						<ul class="tsd-descriptions">
-							<li class="tsd-description">
-								<aside class="tsd-sources">
-								</aside>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							</li>
-						</ul>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
-						<a name="objectliteral.valuex-1" class="tsd-anchor"></a>
-						<h3>valueX</h3>
-						<div class="tsd-signature tsd-kind-icon">valueX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-						<aside class="tsd-sources">
-						</aside>
-						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-							<a name="objectliteral.valuex-1.valuea-3" class="tsd-anchor"></a>
-							<h3>valueA</h3>
-							<div class="tsd-signature tsd-kind-icon">valueA<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [100, 200, 300]</span></div>
-							<aside class="tsd-sources">
-							</aside>
-						</section>
-						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-							<a name="objectliteral.valuex-1.valuez-3" class="tsd-anchor"></a>
-							<h3>valueZ</h3>
-							<div class="tsd-signature tsd-kind-icon">valueZ<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;foo&quot;</span></div>
-							<aside class="tsd-sources">
-							</aside>
-						</section>
-						<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
-							<a name="objectliteral.valuex-1.valuey-3" class="tsd-anchor"></a>
-							<h3>valueY</h3>
-							<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-								<li class="tsd-signature tsd-kind-icon">valueY<span class="tsd-signature-symbol">(</span>z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></li>
-							</ul>
-							<ul class="tsd-descriptions">
-								<li class="tsd-description">
-									<aside class="tsd-sources">
-									</aside>
-									<h4 class="tsd-parameters-title">Parameters</h4>
-									<ul class="tsd-parameters">
-										<li>
-											<h5>z: <span class="tsd-signature-type">string</span></h5>
-										</li>
-									</ul>
-									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h4>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter">
-											<h5>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</section>
-					</section>
 				</section>
 			</section>
 		</div>
@@ -336,13 +311,7 @@
 						<a href="enumerations.html">enumerations</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="flattened.html">flattened</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="functions.html">functions</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="generics.html">generics</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="mixin.html">mixin</a>
@@ -378,10 +347,10 @@
 						<a href="modules.html#exportedglobalvariable" class="tsd-kind-icon">exported<wbr>Global<wbr>Variable</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
-						<a href="modules.html#typeliteral" class="tsd-kind-icon">type<wbr>Literal</a>
-					</li>
-					<li class=" tsd-kind-object-literal tsd-parent-kind-module">
 						<a href="modules.html#objectliteral" class="tsd-kind-icon">object<wbr>Literal</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="modules.html#typeliteral" class="tsd-kind-icon">type<wbr>Literal</a>
 					</li>
 				</ul>
 			</nav>
@@ -394,7 +363,6 @@
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
 				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
@@ -402,15 +370,14 @@
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>

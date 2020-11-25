@@ -39,8 +39,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -70,20 +68,20 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Object literals</h3>
+							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-module"><a href="weird_names.html#foo" class="tsd-kind-icon">foo</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="weird_names.html#foo" class="tsd-kind-icon">foo</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Object literals</h2>
-				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-module">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
 					<a name="foo" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> foo</h3>
-					<div class="tsd-signature tsd-kind-icon">foo<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<div class="tsd-signature tsd-kind-icon">foo<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>&lt;c-a&gt;<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>&#x3D;<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {&quot;&lt;c-a&gt;&quot;: &quot;&lt;c-b&gt;&quot;,&quot;&#x3D;&quot;: &quot;&#x3D;&quot;,}</span></div>
 					<aside class="tsd-sources">
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -91,20 +89,17 @@
 							<p>Object with characters that must be escaped.</p>
 						</div>
 					</div>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="foo._c_a_" class="tsd-anchor"></a>
-						<h3>&lt;c-<wbr>a&gt;</h3>
-						<div class="tsd-signature tsd-kind-icon">&lt;c-<wbr>a&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&lt;c-b&gt;&quot;</span></div>
-						<aside class="tsd-sources">
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="foo._" class="tsd-anchor"></a>
-						<h3>&#61;</h3>
-						<div class="tsd-signature tsd-kind-icon">&#61;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&#x3D;&quot;</span></div>
-						<aside class="tsd-sources">
-						</aside>
-					</section>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>&lt;c-<wbr>a&gt;<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>&#61;<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -127,13 +122,7 @@
 						<a href="enumerations.html">enumerations</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="flattened.html">flattened</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="functions.html">functions</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="generics.html">generics</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="mixin.html">mixin</a>
@@ -157,7 +146,7 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-object-literal tsd-parent-kind-module">
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
 						<a href="weird_names.html#foo" class="tsd-kind-icon">foo</a>
 					</li>
 				</ul>
@@ -171,7 +160,6 @@
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
 				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
@@ -179,15 +167,14 @@
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>

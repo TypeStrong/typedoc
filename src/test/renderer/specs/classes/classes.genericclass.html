@@ -39,8 +39,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -108,7 +106,7 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="classes.genericclass.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter"><a href="classes.genericclass.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -133,11 +131,11 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Generic<wbr>Class<span class="tsd-signature-symbol">(</span>p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, p5<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes.genericclass.html" class="tsd-signature-type">GenericClass</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Generic<wbr>Class&lt;T&gt;<span class="tsd-signature-symbol">(</span>p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, p5<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes.genericclass.html" class="tsd-signature-type">GenericClass</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -148,46 +146,42 @@
 									<p>Constructor short text.</p>
 								</div>
 							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><a href="classes.baseclass.html" class="tsd-signature-type">BaseClass</a></h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>p1: <span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Constructor param</p>
-										</div>
+										<p>Constructor param</p>
 									</div>
 								</li>
 								<li>
 									<h5>p2: <span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Private string property</p>
-										</div>
+										<p>Private string property</p>
 									</div>
 								</li>
 								<li>
 									<h5>p3: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Public number property</p>
-										</div>
+										<p>Public number property</p>
 									</div>
 								</li>
 								<li>
 									<h5>p4: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Public implicit any property</p>
-										</div>
+										<p>Public implicit any property</p>
 									</div>
 								</li>
 								<li>
 									<h5>p5: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Readonly property</p>
-										</div>
+										<p>Readonly property</p>
 									</div>
 								</li>
 							</ul>
@@ -204,11 +198,6 @@
 					<div class="tsd-signature tsd-kind-icon">p2<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
 					<aside class="tsd-sources">
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Private string property</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="p3" class="tsd-anchor"></a>
@@ -216,11 +205,6 @@
 					<div class="tsd-signature tsd-kind-icon">p3<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Public number property</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="p4" class="tsd-anchor"></a>
@@ -228,11 +212,6 @@
 					<div class="tsd-signature tsd-kind-icon">p4<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Public implicit any property</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="p5" class="tsd-anchor"></a>
@@ -240,11 +219,6 @@
 					<div class="tsd-signature tsd-kind-icon">p5<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Readonly property</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="value" class="tsd-anchor"></a>
@@ -316,13 +290,7 @@
 						<a href="../modules/enumerations.html">enumerations</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/flattened.html">flattened</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/functions.html">functions</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/generics.html">generics</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/mixin.html">mixin</a>
@@ -354,7 +322,7 @@
 					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="classes.genericclass.html" class="tsd-kind-icon">Generic<wbr>Class</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="classes.genericclass.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
@@ -411,7 +379,6 @@
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
 				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
@@ -421,16 +388,14 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>

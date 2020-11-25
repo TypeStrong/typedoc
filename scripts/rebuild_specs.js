@@ -81,9 +81,10 @@ async function rebuildRendererTest() {
     app.options.addReader(new TypeDoc.TSConfigReader());
     app.bootstrap({
         name: "typedoc",
-        excludeExternals: false,
         disableSources: true,
+        gaSite: "foo.com",
         tsconfig: path.join(src, "..", "tsconfig.json"),
+        externalPattern: ["**/node_modules/**"],
     });
 
     app.options.setValue("entryPoints", app.expandInputFiles([src]));
