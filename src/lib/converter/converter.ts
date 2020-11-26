@@ -146,27 +146,21 @@ export class Converter extends ChildableComponent<
     /**
      * Compile the given source files and create a project reflection for them.
      *
-     * @param fileNames  Array of the file names that should be compiled.
+     * @param entryPoints the entry points of this program.
+     * @param program the program to document that has already been type checked.
      */
     convert(
-        entryPoints: readonly string[]
-    ): ProjectReflection | readonly ts.Diagnostic[] {
+        entryPoints: readonly string[],
+        program: ts.Program
+    ): ProjectReflection | undefined {
         this.externalPatternCache = void 0;
 
-        const program = ts.createProgram(
-            this.application.options.getFileNames(),
-            this.application.options.getCompilerOptions()
-        );
         const checker = program.getTypeChecker();
         const context = new Context(this, checker, program);
 
         this.trigger(Converter.EVENT_BEGIN, context);
 
-        const errors = this.compile(program, entryPoints, context);
-        if (errors.length) {
-            return errors;
-        }
-
+        this.compile(program, entryPoints, context);
         const project = this.resolve(context);
         // This should only do anything if a plugin does something bad.
         project.removeDanglingReferences();
@@ -259,18 +253,12 @@ export class Converter extends ChildableComponent<
         program: ts.Program,
         entryPoints: readonly string[],
         context: Context
-    ): ReadonlyArray<ts.Diagnostic> {
-        const errors = ts.getPreEmitDiagnostics(program);
-        if (errors.length) {
-            return errors;
-        }
-
+    ) {
         const baseDir = getCommonDirectory(entryPoints);
         const needsSecondPass: ts.SourceFile[] = [];
 
         for (const entry of entryPoints) {
-            if (entry.endsWith(".json")) continue;
-            const sourceFile = program.getSourceFile(entry.replace(/\\/g, "/"));
+            const sourceFile = program.getSourceFile(normalizePath(entry));
             if (!sourceFile) {
                 this.application.logger.warn(
                     `Unable to locate entry point: ${entry}`
@@ -285,8 +273,6 @@ export class Converter extends ChildableComponent<
         for (const file of needsSecondPass) {
             this.convertReExports(context, file);
         }
-
-        return [];
     }
 
     private convertExports(

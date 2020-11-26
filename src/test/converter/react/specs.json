@@ -2,169 +2,145 @@
   "id": 0,
   "name": "typedoc",
   "kind": 0,
+  "kindString": "Project",
   "flags": {},
   "children": [
     {
-      "id": 1,
-      "name": "react",
-      "kind": 1,
-      "kindString": "Module",
+      "id": 4,
+      "name": "Demo",
+      "kind": 128,
+      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 5,
-          "name": "Demo",
-          "kind": 128,
-          "kindString": "Class",
+          "name": "constructor",
+          "kind": 512,
+          "kindString": "Constructor",
           "flags": {},
-          "children": [
+          "signatures": [
             {
               "id": 6,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
+              "name": "new Demo",
+              "kind": 16384,
+              "kindString": "Constructor signature",
               "flags": {},
-              "signatures": [
+              "parameters": [
                 {
                   "id": 7,
-                  "name": "new Demo",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
+                  "name": "props",
+                  "kind": 32768,
+                  "kindString": "Parameter",
                   "flags": {},
-                  "parameters": [
-                    {
-                      "id": 8,
-                      "name": "props",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "id": 2,
-                        "name": "DemoProps"
-                      }
-                    }
-                  ],
                   "type": {
                     "type": "reference",
-                    "id": 5,
-                    "name": "Demo"
+                    "id": 1,
+                    "name": "DemoProps"
                   }
                 }
-              ]
-            },
-            {
-              "id": 9,
-              "name": "foo",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {
-                "isPrivate": true
-              },
+              ],
               "type": {
-                "type": "intrinsic",
-                "name": "number"
+                "type": "reference",
+                "id": 4,
+                "name": "Demo"
               }
-            },
-            {
-              "id": 10,
-              "name": "render",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 11,
-                  "name": "render",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "any"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "kind": 512,
-              "children": [
-                6
-              ]
-            },
-            {
-              "title": "Properties",
-              "kind": 1024,
-              "children": [
-                9
-              ]
-            },
-            {
-              "title": "Methods",
-              "kind": 2048,
-              "children": [
-                10
-              ]
             }
           ]
         },
         {
-          "id": 2,
-          "name": "DemoProps",
-          "kind": 256,
-          "kindString": "Interface",
+          "id": 8,
+          "name": "foo",
+          "kind": 1024,
+          "kindString": "Property",
+          "flags": {
+            "isPrivate": true
+          },
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          }
+        },
+        {
+          "id": 9,
+          "name": "render",
+          "kind": 2048,
+          "kindString": "Method",
           "flags": {},
-          "children": [
+          "signatures": [
             {
-              "id": 4,
-              "name": "age",
-              "kind": 1024,
-              "kindString": "Property",
+              "id": 10,
+              "name": "render",
+              "kind": 4096,
+              "kindString": "Call signature",
               "flags": {},
               "type": {
                 "type": "intrinsic",
-                "name": "number"
+                "name": "any"
               }
-            },
-            {
-              "id": 3,
-              "name": "name",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {},
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Properties",
-              "kind": 1024,
-              "children": [
-                4,
-                3
-              ]
             }
           ]
         }
       ],
       "groups": [
         {
-          "title": "Classes",
-          "kind": 128,
+          "title": "Constructors",
+          "kind": 512,
           "children": [
             5
           ]
         },
         {
-          "title": "Interfaces",
-          "kind": 256,
+          "title": "Properties",
+          "kind": 1024,
           "children": [
+            8
+          ]
+        },
+        {
+          "title": "Methods",
+          "kind": 2048,
+          "children": [
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "DemoProps",
+      "kind": 256,
+      "kindString": "Interface",
+      "flags": {},
+      "children": [
+        {
+          "id": 3,
+          "name": "age",
+          "kind": 1024,
+          "kindString": "Property",
+          "flags": {},
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          }
+        },
+        {
+          "id": 2,
+          "name": "name",
+          "kind": 1024,
+          "kindString": "Property",
+          "flags": {},
+          "type": {
+            "type": "intrinsic",
+            "name": "string"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Properties",
+          "kind": 1024,
+          "children": [
+            3,
             2
           ]
         }
@@ -173,8 +149,15 @@
   ],
   "groups": [
     {
-      "title": "Modules",
-      "kind": 1,
+      "title": "Classes",
+      "kind": 128,
+      "children": [
+        4
+      ]
+    },
+    {
+      "title": "Interfaces",
+      "kind": 256,
       "children": [
         1
       ]

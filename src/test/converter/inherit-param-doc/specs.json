@@ -2,98 +2,85 @@
   "id": 0,
   "name": "typedoc",
   "kind": 0,
+  "kindString": "Project",
   "flags": {},
   "children": [
     {
-      "id": 1,
-      "name": "inherit-param-doc",
-      "kind": 1,
-      "kindString": "Module",
+      "id": 6,
+      "name": "Class1",
+      "kind": 128,
+      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 7,
-          "name": "Class1",
-          "kind": 128,
-          "kindString": "Class",
+          "name": "constructor",
+          "kind": 512,
+          "kindString": "Constructor",
           "flags": {},
-          "children": [
+          "signatures": [
             {
               "id": 8,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
+              "name": "new Class1",
+              "kind": 16384,
+              "kindString": "Constructor signature",
               "flags": {},
-              "signatures": [
-                {
-                  "id": 9,
-                  "name": "new Class1",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 7,
-                    "name": "Class1"
-                  }
-                }
-              ]
-            },
+              "type": {
+                "type": "reference",
+                "id": 6,
+                "name": "Class1"
+              }
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "method1",
+          "kind": 2048,
+          "kindString": "Method",
+          "flags": {},
+          "signatures": [
             {
               "id": 10,
               "name": "method1",
-              "kind": 2048,
-              "kindString": "Method",
+              "kind": 4096,
+              "kindString": "Call signature",
               "flags": {},
-              "signatures": [
+              "comment": {},
+              "parameters": [
                 {
                   "id": 11,
-                  "name": "method1",
-                  "kind": 4096,
-                  "kindString": "Call signature",
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
                   "flags": {},
-                  "comment": {},
-                  "parameters": [
-                    {
-                      "id": 12,
-                      "name": "a",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Parameter A."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 13,
-                      "name": "b",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Parameter B.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
+                  "comment": {
+                    "text": "Parameter A."
+                  },
                   "type": {
                     "type": "intrinsic",
-                    "name": "void"
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 12,
+                  "name": "b",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Parameter B.\n"
                   },
-                  "implementationOf": {
-                    "type": "reference",
-                    "id": 4,
-                    "name": "Base.method1"
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
                   }
                 }
               ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              },
               "implementationOf": {
                 "type": "reference",
                 "id": 3,
@@ -101,113 +88,113 @@
               }
             }
           ],
-          "groups": [
+          "implementationOf": {
+            "type": "reference",
+            "id": 2,
+            "name": "Base.method1"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Constructors",
+          "kind": 512,
+          "children": [
+            7
+          ]
+        },
+        {
+          "title": "Methods",
+          "kind": 2048,
+          "children": [
+            9
+          ]
+        }
+      ],
+      "implementedTypes": [
+        {
+          "type": "reference",
+          "id": 1,
+          "name": "Base"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Class2",
+      "kind": 128,
+      "kindString": "Class",
+      "flags": {},
+      "children": [
+        {
+          "id": 14,
+          "name": "constructor",
+          "kind": 512,
+          "kindString": "Constructor",
+          "flags": {},
+          "signatures": [
             {
-              "title": "Constructors",
-              "kind": 512,
-              "children": [
-                8
-              ]
-            },
-            {
-              "title": "Methods",
-              "kind": 2048,
-              "children": [
-                10
-              ]
-            }
-          ],
-          "implementedTypes": [
-            {
-              "type": "reference",
-              "id": 2,
-              "name": "Base"
+              "id": 15,
+              "name": "new Class2",
+              "kind": 16384,
+              "kindString": "Constructor signature",
+              "flags": {},
+              "type": {
+                "type": "reference",
+                "id": 13,
+                "name": "Class2"
+              }
             }
           ]
         },
         {
-          "id": 14,
-          "name": "Class2",
-          "kind": 128,
-          "kindString": "Class",
+          "id": 16,
+          "name": "method1",
+          "kind": 2048,
+          "kindString": "Method",
           "flags": {},
-          "children": [
-            {
-              "id": 15,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 16,
-                  "name": "new Class2",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 14,
-                    "name": "Class2"
-                  }
-                }
-              ]
-            },
+          "signatures": [
             {
               "id": 17,
               "name": "method1",
-              "kind": 2048,
-              "kindString": "Method",
+              "kind": 4096,
+              "kindString": "Call signature",
               "flags": {},
-              "signatures": [
+              "comment": {},
+              "parameters": [
                 {
                   "id": 18,
-                  "name": "method1",
-                  "kind": 4096,
-                  "kindString": "Call signature",
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
                   "flags": {},
-                  "comment": {},
-                  "parameters": [
-                    {
-                      "id": 19,
-                      "name": "a",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Custom parameter A doc.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 20,
-                      "name": "b",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Parameter B.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
+                  "comment": {
+                    "text": "Custom parameter A doc.\n"
+                  },
                   "type": {
                     "type": "intrinsic",
-                    "name": "void"
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 19,
+                  "name": "b",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Parameter B.\n"
                   },
-                  "implementationOf": {
-                    "type": "reference",
-                    "id": 4,
-                    "name": "Base.method1"
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
                   }
                 }
               ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              },
               "implementationOf": {
                 "type": "reference",
                 "id": 3,
@@ -215,113 +202,113 @@
               }
             }
           ],
-          "groups": [
+          "implementationOf": {
+            "type": "reference",
+            "id": 2,
+            "name": "Base.method1"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Constructors",
+          "kind": 512,
+          "children": [
+            14
+          ]
+        },
+        {
+          "title": "Methods",
+          "kind": 2048,
+          "children": [
+            16
+          ]
+        }
+      ],
+      "implementedTypes": [
+        {
+          "type": "reference",
+          "id": 1,
+          "name": "Base"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Class3",
+      "kind": 128,
+      "kindString": "Class",
+      "flags": {},
+      "children": [
+        {
+          "id": 21,
+          "name": "constructor",
+          "kind": 512,
+          "kindString": "Constructor",
+          "flags": {},
+          "signatures": [
             {
-              "title": "Constructors",
-              "kind": 512,
-              "children": [
-                15
-              ]
-            },
-            {
-              "title": "Methods",
-              "kind": 2048,
-              "children": [
-                17
-              ]
-            }
-          ],
-          "implementedTypes": [
-            {
-              "type": "reference",
-              "id": 2,
-              "name": "Base"
+              "id": 22,
+              "name": "new Class3",
+              "kind": 16384,
+              "kindString": "Constructor signature",
+              "flags": {},
+              "type": {
+                "type": "reference",
+                "id": 20,
+                "name": "Class3"
+              }
             }
           ]
         },
         {
-          "id": 21,
-          "name": "Class3",
-          "kind": 128,
-          "kindString": "Class",
+          "id": 23,
+          "name": "method1",
+          "kind": 2048,
+          "kindString": "Method",
           "flags": {},
-          "children": [
-            {
-              "id": 22,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 23,
-                  "name": "new Class3",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 21,
-                    "name": "Class3"
-                  }
-                }
-              ]
-            },
+          "signatures": [
             {
               "id": 24,
               "name": "method1",
-              "kind": 2048,
-              "kindString": "Method",
+              "kind": 4096,
+              "kindString": "Call signature",
               "flags": {},
-              "signatures": [
+              "comment": {},
+              "parameters": [
                 {
                   "id": 25,
-                  "name": "method1",
-                  "kind": 4096,
-                  "kindString": "Call signature",
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
                   "flags": {},
-                  "comment": {},
-                  "parameters": [
-                    {
-                      "id": 26,
-                      "name": "a",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Parameter A."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 27,
-                      "name": "c",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Custom second parameter doc with name change.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
+                  "comment": {
+                    "text": "Parameter A."
+                  },
                   "type": {
                     "type": "intrinsic",
-                    "name": "void"
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 26,
+                  "name": "c",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Custom second parameter doc with name change.\n"
                   },
-                  "implementationOf": {
-                    "type": "reference",
-                    "id": 4,
-                    "name": "Base.method1"
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
                   }
                 }
               ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              },
               "implementationOf": {
                 "type": "reference",
                 "id": 3,
@@ -329,141 +316,137 @@
               }
             }
           ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "kind": 512,
-              "children": [
-                22
-              ]
-            },
-            {
-              "title": "Methods",
-              "kind": 2048,
-              "children": [
-                24
-              ]
-            }
-          ],
-          "implementedTypes": [
-            {
-              "type": "reference",
-              "id": 2,
-              "name": "Base"
-            }
+          "implementationOf": {
+            "type": "reference",
+            "id": 2,
+            "name": "Base.method1"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Constructors",
+          "kind": 512,
+          "children": [
+            21
           ]
         },
         {
-          "id": 2,
-          "name": "Base",
-          "kind": 256,
-          "kindString": "Interface",
-          "flags": {},
+          "title": "Methods",
+          "kind": 2048,
           "children": [
+            23
+          ]
+        }
+      ],
+      "implementedTypes": [
+        {
+          "type": "reference",
+          "id": 1,
+          "name": "Base"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Base",
+      "kind": 256,
+      "kindString": "Interface",
+      "flags": {},
+      "children": [
+        {
+          "id": 2,
+          "name": "method1",
+          "kind": 2048,
+          "kindString": "Method",
+          "flags": {},
+          "signatures": [
             {
               "id": 3,
               "name": "method1",
-              "kind": 2048,
-              "kindString": "Method",
+              "kind": 4096,
+              "kindString": "Call signature",
               "flags": {},
-              "signatures": [
+              "comment": {},
+              "parameters": [
                 {
                   "id": 4,
-                  "name": "method1",
-                  "kind": 4096,
-                  "kindString": "Call signature",
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
                   "flags": {},
-                  "comment": {},
-                  "parameters": [
-                    {
-                      "id": 5,
-                      "name": "a",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Parameter A."
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 6,
-                      "name": "b",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "comment": {
-                        "text": "Parameter B.\n"
-                      },
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
+                  "comment": {
+                    "text": "Parameter A."
+                  },
                   "type": {
                     "type": "intrinsic",
-                    "name": "void"
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 5,
+                  "name": "b",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Parameter B.\n"
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
                   }
                 }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Methods",
-              "kind": 2048,
-              "children": [
-                3
-              ]
-            }
-          ],
-          "implementedBy": [
-            {
-              "type": "reference",
-              "id": 7,
-              "name": "Class1"
-            },
-            {
-              "type": "reference",
-              "id": 14,
-              "name": "Class2"
-            },
-            {
-              "type": "reference",
-              "id": 21,
-              "name": "Class3"
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
             }
           ]
         }
       ],
       "groups": [
         {
-          "title": "Classes",
-          "kind": 128,
-          "children": [
-            7,
-            14,
-            21
-          ]
-        },
-        {
-          "title": "Interfaces",
-          "kind": 256,
+          "title": "Methods",
+          "kind": 2048,
           "children": [
             2
           ]
+        }
+      ],
+      "implementedBy": [
+        {
+          "type": "reference",
+          "id": 6,
+          "name": "Class1"
+        },
+        {
+          "type": "reference",
+          "id": 13,
+          "name": "Class2"
+        },
+        {
+          "type": "reference",
+          "id": 20,
+          "name": "Class3"
         }
       ]
     }
   ],
   "groups": [
     {
-      "title": "Modules",
-      "kind": 1,
+      "title": "Classes",
+      "kind": 128,
+      "children": [
+        6,
+        13,
+        20
+      ]
+    },
+    {
+      "title": "Interfaces",
+      "kind": 256,
       "children": [
         1
       ]
