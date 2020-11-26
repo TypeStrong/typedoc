@@ -1,15 +1,14 @@
+import { deepStrictEqual as equal, throws } from "assert";
 import {
-    convert,
     ArrayDeclarationOption,
-    BooleanDeclarationOption,
+    convert,
     DeclarationOption,
-    ParameterType,
     MapDeclarationOption,
     MixedDeclarationOption,
     NumberDeclarationOption,
+    ParameterType,
     StringDeclarationOption,
 } from "../../../lib/utils/options/declaration";
-import { deepStrictEqual as equal, throws } from "assert";
 
 describe("Options - Default convert function", () => {
     const optionWithType = (type: ParameterType) =>
@@ -155,37 +154,6 @@ describe("Options - Default convert function", () => {
         equal(convert(false, optionWithType(ParameterType.Boolean)), false);
     });
 
-    it("Generates no error for a boolean option if the validation function doesn't throw one", () => {
-        const declaration: BooleanDeclarationOption = {
-            name: "test",
-            help: "",
-            type: ParameterType.Boolean,
-            validate: (value: boolean) => {
-                if (!value) {
-                    throw new Error("test must be true");
-                }
-            },
-        };
-        equal(convert(true, declaration), true);
-    });
-
-    it("Generates an error for a boolean option if the validation function throws one", () => {
-        const declaration: BooleanDeclarationOption = {
-            name: "test",
-            help: "",
-            type: ParameterType.Boolean,
-            validate: (value: boolean) => {
-                if (!value) {
-                    throw new Error("test must be true");
-                }
-            },
-        };
-        throws(
-            () => convert(false, declaration),
-            new Error("test must be true")
-        );
-    });
-
     it("Converts to arrays", () => {
         equal(convert("12,3", optionWithType(ParameterType.Array)), [
             "12",
@@ -306,47 +274,6 @@ describe("Options - Default convert function", () => {
         throws(
             () => convert("c", declaration),
             new Error("test must be one of a, b")
-        );
-    });
-
-    it("Generates no error for a mapped option if the validation function doesn't throw one", () => {
-        const declaration: MapDeclarationOption<number> = {
-            name: "test",
-            help: "",
-            type: ParameterType.Map,
-            map: new Map([
-                ["a", 1],
-                ["b", 2],
-            ]),
-            defaultValue: 1,
-            validate: (value: number) => {
-                if (value === 2) {
-                    throw new Error("test must not be b");
-                }
-            },
-        };
-        equal(convert("a", declaration), 1);
-    });
-
-    it("Generates an error for a mapped option if the validation function throws one", () => {
-        const declaration: MapDeclarationOption<number> = {
-            name: "test",
-            help: "",
-            type: ParameterType.Map,
-            map: new Map([
-                ["a", 1],
-                ["b", 2],
-            ]),
-            defaultValue: 1,
-            validate: (value: number) => {
-                if (value === 2) {
-                    throw new Error("test must not be b");
-                }
-            },
-        };
-        throws(
-            () => convert("b", declaration),
-            new Error("test must not be b")
         );
     });
 
