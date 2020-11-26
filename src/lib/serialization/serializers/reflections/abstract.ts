@@ -42,7 +42,6 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
             "isOptional",
             "isRest",
             "hasExportAssignment",
-            "isConstructorProperty",
             "isAbstract",
             "isConst",
             "isLet",

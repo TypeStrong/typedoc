@@ -102,18 +102,15 @@ export enum ReflectionFlag {
     Protected = 2,
     Public = 4,
     Static = 8,
-    /** @deprecated */
-    Exported = 16,
-    ExportAssignment = 32,
-    External = 64,
-    Optional = 128,
-    DefaultValue = 256,
-    Rest = 512,
-    ConstructorProperty = 1024,
-    Abstract = 2048,
-    Const = 4096,
-    Let = 8192,
-    Readonly = 16384,
+    ExportAssignment = 16,
+    External = 32,
+    Optional = 64,
+    DefaultValue = 128,
+    Rest = 256,
+    Abstract = 512,
+    Const = 1024,
+    Let = 2048,
+    Readonly = 4096,
 }
 
 const relevantFlags: ReflectionFlag[] = [
@@ -193,10 +190,6 @@ export class ReflectionFlags extends Array<string> {
 
     get hasExportAssignment(): boolean {
         return this.hasFlag(ReflectionFlag.ExportAssignment);
-    }
-
-    get isConstructorProperty(): boolean {
-        return this.hasFlag(ReflectionFlag.ConstructorProperty);
     }
 
     get isAbstract(): boolean {
