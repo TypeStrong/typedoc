@@ -432,6 +432,11 @@ export abstract class Reflection {
         this.name = name;
         this.originalName = name;
         this.kind = kind;
+
+        // If our parent is external, we are too.
+        if (parent?.flags.isExternal) {
+            this.setFlag(ReflectionFlag.External);
+        }
     }
 
     /**

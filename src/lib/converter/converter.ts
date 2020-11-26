@@ -384,6 +384,11 @@ export class Converter extends ChildableComponent<
             return false;
         }
 
+        return this.isExternal(symbol);
+    }
+
+    /** @internal */
+    isExternal(symbol: ts.Symbol) {
         this.externalPatternCache ??= createMinimatch(this.externalPattern);
         for (const node of symbol.getDeclarations() ?? []) {
             if (

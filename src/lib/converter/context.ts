@@ -6,6 +6,7 @@ import {
     ContainerReflection,
     DeclarationReflection,
     ReflectionKind,
+    ReflectionFlag,
 } from "../models/index";
 
 import type { Converter } from "./converter";
@@ -150,6 +151,9 @@ export class Context {
     ) {
         const reflection = new DeclarationReflection(name, kind, this.scope);
         this.addChild(reflection);
+        if (this.converter.isExternal(symbol)) {
+            reflection.setFlag(ReflectionFlag.External);
+        }
         this.registerReflection(reflection, symbol);
 
         this.converter.trigger(
