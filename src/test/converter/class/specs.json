@@ -1362,10 +1362,12 @@
     },
     {
       "id": 81,
-      "name": "clodule-with-subclass",
+      "name": "clodule",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
+      "comment": {},
+      "originalName": "clodule-with-subclass",
       "children": [
         {
           "id": 85,

@@ -1,3 +1,8 @@
+/**
+ * @packageDocumentation
+ * @module clodule
+ */
+
 // see https://github.com/TypeStrong/typedoc/issues/869
 export class Foo {}
 export namespace Foo {

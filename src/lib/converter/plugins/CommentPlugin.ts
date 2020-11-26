@@ -226,6 +226,14 @@ export class CommentPlugin extends ConverterComponent {
             this.removeExcludedTags(comment);
             reflection.comment = comment;
         }
+
+        if (reflection.kindOf(ReflectionKind.Module)) {
+            const tag = reflection.comment?.getTag("module");
+            if (tag) {
+                reflection.name = tag.text.trim();
+                removeIfPresent(reflection.comment?.tags, tag);
+            }
+        }
     }
 
     /**
