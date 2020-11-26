@@ -41,7 +41,9 @@ export type ModelToObject<T> = T extends Array<infer U>
 // Order matters here. Some types are subtypes of other types.
 type _ModelToObject<T> =
     // Reflections
-    T extends M.ReflectionGroup
+    T extends Primitive
+        ? T
+        : T extends M.ReflectionGroup
         ? ReflectionGroup
         : T extends M.ReflectionCategory
         ? ReflectionCategory

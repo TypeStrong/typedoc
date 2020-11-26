@@ -273,6 +273,7 @@ const keywordNames = {
     [ts.SyntaxKind.UndefinedKeyword]: "undefined",
     [ts.SyntaxKind.UnknownKeyword]: "unknown",
     [ts.SyntaxKind.VoidKeyword]: "void",
+    [ts.SyntaxKind.IntrinsicKeyword]: "intrinsic",
 };
 
 const keywordConverter: TypeConverter<ts.KeywordTypeNode> = {

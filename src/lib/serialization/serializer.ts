@@ -43,16 +43,17 @@ export class Serializer extends EventDispatcher {
         group.sort((a, b) => b.priority - a.priority);
     }
 
-    toObject<T>(value: T, init: object = {}): ModelToObject<T> {
+    toObject<T>(value: T, init?: object): ModelToObject<T>;
+    toObject(value: unknown, init: object = {}): unknown {
         if (value == null || typeof value !== "object") {
-            return value as any; // Serializing some primitive
+            return value; // Serializing some primitive
         }
 
         if (Array.isArray(value)) {
             if (value.length === 0) {
-                return undefined as any;
+                return undefined;
             }
-            return value.map((val) => this.toObject(val)) as any;
+            return value.map((val) => this.toObject(val));
         }
 
         // Note: This type *could* potentially lie, if a serializer declares a partial type but fails to provide
