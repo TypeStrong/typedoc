@@ -21,7 +21,6 @@ import { convertDefaultValue } from "./convert-expression";
 import { ConverterEvents } from "./converter-events";
 import { createSignature } from "./factories/signature";
 
-// TODO: implementationOf / overwrites
 // TODO: Index signatures
 
 function getSymbolExportsWithFlag(symbol: ts.Symbol, flag: ts.SymbolFlags) {

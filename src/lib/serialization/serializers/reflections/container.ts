@@ -23,34 +23,14 @@ export class ContainerReflectionSerializer extends ReflectionSerializerComponent
         container: ContainerReflection,
         obj: JSONReflection
     ): JSONContainerReflection {
-        const result: JSONContainerReflection = {
+        return {
             ...obj,
+            children: this.owner.toObject(container.children),
+            groups: this.owner.toObject(container.groups),
+            categories: this.owner.toObject(container.categories),
+            sources: this.owner.toObject(
+                container.sources?.map((s) => new SourceReferenceWrapper(s))
+            ),
         };
-
-        if (container.groups && container.groups.length > 0) {
-            result.groups = container.groups.map((group) =>
-                this.owner.toObject(group)
-            );
-        }
-
-        if (container.categories && container.categories.length > 0) {
-            result.categories = container.categories.map((category) =>
-                this.owner.toObject(category)
-            );
-        }
-
-        if (container.sources && container.sources.length > 0) {
-            result.sources = container.sources.map((source) =>
-                this.owner.toObject(
-                    new SourceReferenceWrapper({
-                        fileName: source.fileName,
-                        line: source.line,
-                        character: source.character,
-                    })
-                )
-            );
-        }
-
-        return result;
     }
 }

@@ -44,6 +44,17 @@ export class Serializer extends EventDispatcher {
     }
 
     toObject<T>(value: T, init: object = {}): ModelToObject<T> {
+        if (value == null || typeof value !== "object") {
+            return value as any; // Serializing some primitive
+        }
+
+        if (Array.isArray(value)) {
+            if (value.length === 0) {
+                return undefined as any;
+            }
+            return value.map((val) => this.toObject(val)) as any;
+        }
+
         // Note: This type *could* potentially lie, if a serializer declares a partial type but fails to provide
         // the defined property, but the benefit of being mostly typed is probably worth it.
         // TypeScript errors out if init is correctly typed as `Partial<ModelToObject<T>>`
@@ -117,7 +128,6 @@ const serializerComponents: (new (owner: Serializer) => SerializerComponent<
     S.ContainerReflectionSerializer,
     S.DeclarationReflectionSerializer,
     S.ParameterReflectionSerializer,
-    S.ProjectReflectionSerializer,
     S.SignatureReflectionSerializer,
     S.TypeParameterReflectionSerializer,
 

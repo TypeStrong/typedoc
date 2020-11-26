@@ -17,15 +17,10 @@ export class TypeParameterReflectionSerializer extends ReflectionSerializerCompo
         typeParameter: TypeParameterReflection,
         obj: JSONReflection
     ): JSONTypeParameterReflection {
-        const result: JSONTypeParameterReflection = { ...obj };
-
-        if (typeParameter.type) {
-            result.type = this.owner.toObject(typeParameter.type);
-        }
-        if (typeParameter.default) {
-            result.default = this.owner.toObject(typeParameter.default);
-        }
-
-        return result;
+        return {
+            ...obj,
+            type: this.owner.toObject(typeParameter.type),
+            default: this.owner.toObject(typeParameter.default),
+        };
     }
 }

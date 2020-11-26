@@ -20,15 +20,6 @@
           "comment": {
             "shortText": "A custom array class."
           },
-          "typeParameter": [
-            {
-              "id": 6,
-              "name": "T",
-              "kind": 131072,
-              "kindString": "Type parameter",
-              "flags": {}
-            }
-          ],
           "children": [
             {
               "id": 3,
@@ -68,6 +59,15 @@
               "children": [
                 3
               ]
+            }
+          ],
+          "typeParameter": [
+            {
+              "id": 6,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
             }
           ],
           "extendedBy": [

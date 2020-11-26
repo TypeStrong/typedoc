@@ -17,61 +17,33 @@ export class DeclarationReflectionSerializer extends ReflectionSerializerCompone
     }
 
     toObject(
-        declaration: DeclarationReflection,
+        d: DeclarationReflection,
         obj: JSONContainerReflection
     ): JSONDeclarationReflection {
         const result: JSONDeclarationReflection = {
             ...obj,
+            typeParameter: this.owner.toObject(d.typeParameters),
+            type: this.owner.toObject(d.type),
+            signatures: this.owner.toObject(d.signatures),
+            indexSignature: this.owner.toObject(d.indexSignature),
         };
 
-        if (declaration.type) {
-            result.type = this.owner.toObject(declaration.type);
+        if (d.getSignature) {
+            result.getSignature = [this.owner.toObject(d.getSignature)];
+        }
+        if (d.setSignature) {
+            result.setSignature = [this.owner.toObject(d.setSignature)];
         }
 
-        if (declaration.defaultValue) {
-            result.defaultValue = declaration.defaultValue;
-        }
-
-        if (declaration.overwrites) {
-            result.overwrites = this.owner.toObject(declaration.overwrites);
-        }
-
-        if (declaration.inheritedFrom) {
-            result.inheritedFrom = this.owner.toObject(
-                declaration.inheritedFrom
-            );
-        }
-
-        if (declaration.extendedTypes) {
-            result.extendedTypes = declaration.extendedTypes.map((t) =>
-                this.owner.toObject(t)
-            );
-        }
-
-        if (declaration.extendedBy) {
-            result.extendedBy = declaration.extendedBy.map((t) =>
-                this.owner.toObject(t)
-            );
-        }
-
-        if (declaration.implementedTypes) {
-            result.implementedTypes = declaration.implementedTypes.map((t) =>
-                this.owner.toObject(t)
-            );
-        }
-
-        if (declaration.implementedBy) {
-            result.implementedBy = declaration.implementedBy.map((t) =>
-                this.owner.toObject(t)
-            );
-        }
-
-        if (declaration.implementationOf) {
-            result.implementationOf = this.owner.toObject(
-                declaration.implementationOf
-            );
-        }
-
-        return result;
+        return Object.assign(result, {
+            defaultValue: this.owner.toObject(d.defaultValue),
+            overwrites: this.owner.toObject(d.overwrites),
+            inheritedFrom: this.owner.toObject(d.inheritedFrom),
+            implementationOf: this.owner.toObject(d.implementationOf),
+            extendedTypes: this.owner.toObject(d.extendedTypes),
+            extendedBy: this.owner.toObject(d.extendedBy),
+            implementedTypes: this.owner.toObject(d.implementedTypes),
+            implementedBy: this.owner.toObject(d.implementedBy),
+        });
     }
 }

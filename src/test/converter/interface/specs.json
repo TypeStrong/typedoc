@@ -333,15 +333,6 @@
                   }
                 ]
               },
-              "typeParameter": [
-                {
-                  "id": 87,
-                  "name": "T",
-                  "kind": 131072,
-                  "kindString": "Type parameter",
-                  "flags": {}
-                }
-              ],
               "children": [
                 {
                   "id": 68,
@@ -653,6 +644,15 @@
                   ]
                 }
               ],
+              "typeParameter": [
+                {
+                  "id": 87,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
               "implementedTypes": [
                 {
                   "type": "reference",
@@ -673,15 +673,6 @@
               "kind": 128,
               "kindString": "Class",
               "flags": {},
-              "typeParameter": [
-                {
-                  "id": 49,
-                  "name": "V",
-                  "kind": 131072,
-                  "kindString": "Type parameter",
-                  "flags": {}
-                }
-              ],
               "children": [
                 {
                   "id": 36,
@@ -911,6 +902,15 @@
                   ]
                 }
               ],
+              "typeParameter": [
+                {
+                  "id": 49,
+                  "name": "V",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
               "implementedTypes": [
                 {
                   "type": "reference",
@@ -934,15 +934,6 @@
               "comment": {
                 "shortText": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."
               },
-              "typeParameter": [
-                {
-                  "id": 66,
-                  "name": "U",
-                  "kind": 131072,
-                  "kindString": "Type parameter",
-                  "flags": {}
-                }
-              ],
               "children": [
                 {
                   "id": 51,
@@ -1144,6 +1135,15 @@
                   ]
                 }
               ],
+              "typeParameter": [
+                {
+                  "id": 66,
+                  "name": "U",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
               "implementedBy": [
                 {
                   "type": "reference",
@@ -1212,15 +1212,6 @@
               "comment": {
                 "shortText": "Encapsulates a subscription to an event dispatcher, and allows for unsubscribing"
               },
-              "typeParameter": [
-                {
-                  "id": 34,
-                  "name": "T",
-                  "kind": 131072,
-                  "kindString": "Type parameter",
-                  "flags": {}
-                }
-              ],
               "children": [
                 {
                   "id": 31,
@@ -1302,6 +1293,15 @@
                   "children": [
                     32
                   ]
+                }
+              ],
+              "typeParameter": [
+                {
+                  "id": 34,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
                 }
               ],
               "implementedBy": [

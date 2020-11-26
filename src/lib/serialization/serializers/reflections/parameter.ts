@@ -19,15 +19,9 @@ export class ParameterReflectionSerializer extends ReflectionSerializerComponent
     ): JSONParameterReflection {
         const result: JSONParameterReflection = {
             ...obj,
+            type: this.owner.toObject(parameter.type),
+            defaultValue: this.owner.toObject(parameter.defaultValue),
         };
-
-        if (parameter.type) {
-            result.type = this.owner.toObject(parameter.type);
-        }
-
-        if (parameter.defaultValue) {
-            result.defaultValue = parameter.defaultValue;
-        }
 
         return result;
     }

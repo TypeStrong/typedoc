@@ -17,7 +17,6 @@ export {
     IntrinsicTypeSerializer,
     LiteralTypeSerializer,
     ParameterReflectionSerializer,
-    ProjectReflectionSerializer,
     ReferenceTypeSerializer,
     ReflectionCategorySerializer,
     ReflectionGroupSerializer,

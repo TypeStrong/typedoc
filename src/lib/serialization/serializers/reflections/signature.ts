@@ -17,26 +17,14 @@ export class SignatureReflectionSerializer extends ReflectionSerializerComponent
         signature: SignatureReflection,
         obj: JSONReflection
     ): JSONSignatureReflection {
-        const result: JSONSignatureReflection = { ...obj };
-
-        if (signature.type) {
-            result.type = this.owner.toObject(signature.type);
-        }
-
-        if (signature.overwrites) {
-            result.overwrites = this.owner.toObject(signature.overwrites);
-        }
-
-        if (signature.inheritedFrom) {
-            result.inheritedFrom = this.owner.toObject(signature.inheritedFrom);
-        }
-
-        if (signature.implementationOf) {
-            result.implementationOf = this.owner.toObject(
-                signature.implementationOf
-            );
-        }
-
-        return result;
+        return {
+            ...obj,
+            typeParameter: this.owner.toObject(signature.typeParameters),
+            parameters: this.owner.toObject(signature.parameters),
+            type: this.owner.toObject(signature.type),
+            overwrites: this.owner.toObject(signature.overwrites),
+            inheritedFrom: this.owner.toObject(signature.inheritedFrom),
+            implementationOf: this.owner.toObject(signature.implementationOf),
+        };
     }
 }

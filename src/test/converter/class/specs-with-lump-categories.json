@@ -2671,18 +2671,6 @@
           "comment": {
             "shortText": "GenericClass short text."
           },
-          "typeParameter": [
-            {
-              "id": 172,
-              "name": "T",
-              "kind": 131072,
-              "kindString": "Type parameter",
-              "flags": {},
-              "comment": {
-                "shortText": "Generic parameter.\n"
-              }
-            }
-          ],
           "children": [
             {
               "id": 164,
@@ -2815,6 +2803,18 @@
               "children": [
                 170
               ]
+            }
+          ],
+          "typeParameter": [
+            {
+              "id": 172,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {},
+              "comment": {
+                "shortText": "Generic parameter.\n"
+              }
             }
           ],
           "extendedBy": [
@@ -3293,24 +3293,6 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {},
-          "typeParameter": [
-            {
-              "id": 212,
-              "name": "T",
-              "kind": 131072,
-              "kindString": "Type parameter",
-              "flags": {},
-              "type": {
-                "type": "typeOperator",
-                "operator": "keyof",
-                "target": {
-                  "type": "reference",
-                  "id": 202,
-                  "name": "TestClass"
-                }
-              }
-            }
-          ],
           "children": [
             {
               "id": 208,
@@ -3381,6 +3363,24 @@
               "children": [
                 211
               ]
+            }
+          ],
+          "typeParameter": [
+            {
+              "id": 212,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {},
+              "type": {
+                "type": "typeOperator",
+                "operator": "keyof",
+                "target": {
+                  "type": "reference",
+                  "id": 202,
+                  "name": "TestClass"
+                }
+              }
             }
           ]
         },

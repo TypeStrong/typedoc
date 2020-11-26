@@ -143,8 +143,15 @@ export interface SignatureReflection
     extends Reflection,
         S<
             M.SignatureReflection,
-            "type" | "overwrites" | "inheritedFrom" | "implementationOf"
-        > {}
+            | "parameters"
+            | "type"
+            | "overwrites"
+            | "inheritedFrom"
+            | "implementationOf"
+        > {
+    // Weird not to call this typeParameters... preserving backwards compatibility for now.
+    typeParameter?: ModelToObject<M.SignatureReflection["typeParameters"]>;
+}
 
 export interface ParameterReflection
     extends Reflection,
@@ -155,15 +162,26 @@ export interface DeclarationReflection
         S<
             M.DeclarationReflection,
             | "type"
+            | "signatures"
+            | "indexSignature"
             | "defaultValue"
             | "overwrites"
             | "inheritedFrom"
+            | "implementationOf"
             | "extendedTypes"
             | "extendedBy"
             | "implementedTypes"
             | "implementedBy"
-            | "implementationOf"
-        > {}
+        > {
+    // Weird not to call this typeParameters... preserving backwards compatibility for now.
+    typeParameter?: ModelToObject<M.DeclarationReflection["typeParameters"]>;
+
+    // Yep... backwards compatibility. This is an optional one-tuple.
+    getSignature?: [ModelToObject<M.DeclarationReflection["getSignature"]>];
+
+    // Yep... backwards compatibility. This is an optional one-tuple.
+    setSignature?: [ModelToObject<M.DeclarationReflection["setSignature"]>];
+}
 
 export interface TypeParameterReflection
     extends Reflection,
@@ -174,32 +192,19 @@ export interface ProjectReflection extends ContainerReflection {}
 
 export interface ContainerReflection
     extends Reflection,
-        S<M.ContainerReflection, "groups" | "categories"> {
+        S<M.ContainerReflection, "children" | "groups" | "categories"> {
     sources?: ModelToObject<SourceReferenceWrapper[]>;
 }
-
-/**
- * If a 3rd party serializer creates a loop when serializing, a pointer will be created
- * instead of re-serializing the [[DeclarationReflection]]
- */
-export interface ReflectionPointer extends S<M.Reflection, "id"> {}
 
 export interface Reflection
     extends S<
         M.Reflection,
         "id" | "name" | "kind" | "kindString" | "comment" | "decorates"
     > {
+    /** Will not be present if name === originalName */
     originalName?: M.Reflection["originalName"];
     flags: ReflectionFlags;
     decorators?: ModelToObject<DecoratorWrapper[]>;
-
-    children?: ModelToObject<M.Reflection>[];
-    parameters?: ModelToObject<M.Reflection>[];
-    typeParameter?: ModelToObject<M.Reflection>[];
-    signatures?: ModelToObject<M.Reflection>[];
-    indexSignature?: ModelToObject<M.Reflection>[];
-    getSignature?: ModelToObject<M.Reflection>[];
-    setSignature?: ModelToObject<M.Reflection>[];
 }
 
 // Types
