@@ -35,13 +35,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help:
             "Define patterns for files that should be considered being external.",
         type: ParameterType.Array,
+        defaultValue: ["**/node_modules/**"],
     });
     options.addDeclaration({
         name: "excludeExternals",
-        help:
-            "Prevent externally resolved TypeScript files from being documented.",
+        help: "Prevent externally resolved symbols from being documented.",
         type: ParameterType.Boolean,
-        defaultValue: true,
     });
     options.addDeclaration({
         name: "excludeNotDocumented",
