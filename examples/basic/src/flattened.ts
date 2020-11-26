@@ -1,7 +1,7 @@
 /**
  * A class that contains members with flattened properties.
  */
-class FlattenedClass {
+export class FlattenedClass {
     /**
      * A member that accepts an option object defined inline.
      *
@@ -92,7 +92,7 @@ class FlattenedClass {
  * @param callback.param          A parameter of the typed function callback.
  * @param callback.optionalParam  An optional parameter of the typed function callback.
  */
-function flattenedCallback(
+export function flattenedCallback(
     callback: (param: number, optionalParam?: string) => string
 ) {}
 
@@ -105,7 +105,7 @@ function flattenedCallback(
  * @param options.moreOptions             A typed child object of the options object.
  * @param options.moreOptions.moreValues  A value of the typed child object.
  */
-function flattenedParameter(options: {
+export function flattenedParameter(options: {
     [name: string]: any;
     value?: string;
     anotherValue?: string;
@@ -121,7 +121,7 @@ function flattenedParameter(options: {
  * @param indexed.index  The index property comment.
  * @param indexed.test   A property of the index signature instance.
  */
-function flattenedIndexSignature(indexed: {
+export function flattenedIndexSignature(indexed: {
     [index: number]: { name: string; value?: number };
     test: string;
 }) {}

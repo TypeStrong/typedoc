@@ -4,7 +4,7 @@ import { Type } from "./abstract";
  * Represents a mapped type.
  *
  * ```ts
- * { -readonly [K in keyof U]?: Foo }
+ * { -readonly [K in keyof U & string as `a${K}`]?: Foo }
  * ```
  */
 export class MappedType extends Type {
@@ -15,7 +15,8 @@ export class MappedType extends Type {
         public parameterType: Type,
         public templateType: Type,
         public readonlyModifier?: "+" | "-",
-        public optionalModifier?: "+" | "-"
+        public optionalModifier?: "+" | "-",
+        public nameType?: Type
     ) {
         super();
     }
@@ -26,11 +27,24 @@ export class MappedType extends Type {
             this.parameterType.clone(),
             this.templateType.clone(),
             this.readonlyModifier,
-            this.optionalModifier
+            this.optionalModifier,
+            this.nameType?.clone()
         );
     }
 
     equals(other: Type): boolean {
+        if (!(other instanceof MappedType)) {
+            return false;
+        }
+
+        if (this.nameType && other.nameType) {
+            if (!this.nameType.equals(other.nameType)) {
+                return false;
+            }
+        } else if (this.nameType !== other.nameType) {
+            return false;
+        }
+
         return (
             other instanceof MappedType &&
             other.parameter == this.parameter &&
@@ -54,6 +68,8 @@ export class MappedType extends Type {
             "": "",
         }[this.optionalModifier ?? ""];
 
-        return `{ ${read}[${this.parameter} in ${this.parameterType}]${opt}: ${this.templateType}}`;
+        const name = this.nameType ? ` as ${this.nameType}` : "";
+
+        return `{ ${read}[${this.parameter} in ${this.parameterType}${name}]${opt}: ${this.templateType}}`;
     }
 }

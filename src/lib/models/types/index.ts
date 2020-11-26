@@ -11,6 +11,7 @@ export { PredicateType } from "./predicate";
 export { QueryType } from "./query";
 export { ReferenceType } from "./reference";
 export { ReflectionType } from "./reflection";
+export { TemplateLiteralType } from "./template-literal";
 export { NamedTupleMember, TupleType } from "./tuple";
 export { TypeOperatorType } from "./type-operator";
 export { TypeParameterType } from "./type-parameter";

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Mixin1Type | typedoc</title>
+	<title>AB | typedoc</title>
 	<meta name="description" content="Documentation for typedoc">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -53,13 +53,13 @@
 					<a href="../modules.html">typedoc</a>
 				</li>
 				<li>
-					<a href="../modules/mixin.html">mixin</a>
+					<a href="../modules/generics.html">generics</a>
 				</li>
 				<li>
-					<a href="mixin.mixin1type.html">Mixin1Type</a>
+					<a href="generics.ab.html">AB</a>
 				</li>
 			</ul>
-			<h1>Interface Mixin1Type</h1>
+			<h1>Interface AB&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -69,18 +69,43 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The &quot;instance type&quot; of the Mixin1 using the interface notation (supports recursive type definition)</p>
+						<p>A generic interface extending two other generic interfaces
+						and setting one of the type parameters.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>The leftover generic type parameter.</p>
+							</div>
+						</div>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="../modules/mixin.html#mixin-1" class="tsd-signature-type">Mixin</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">typeof </span><a href="../modules/mixin.html#mixin1func" class="tsd-signature-type">Mixin1Func</a><span class="tsd-signature-symbol">&gt;</span>
+						<a href="generics.a.html" class="tsd-signature-type">A</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>
+					</li>
+					<li>
+						<a href="generics.b.html" class="tsd-signature-type">B</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">Mixin1Type</span>
+								<span class="target">AB</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="generics.abstring.html" class="tsd-signature-type">ABString</a>
+									</li>
+									<li>
+										<a href="generics.abnumber.html" class="tsd-signature-type">ABNumber</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -91,72 +116,86 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mixin.mixin1type.html#baseproperty" class="tsd-kind-icon">base<wbr>Property</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mixin.mixin1type.html#property1" class="tsd-kind-icon">property1</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="mixin.mixin1type.html#basemethod" class="tsd-kind-icon">base<wbr>Method</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="mixin.mixin1type.html#method1" class="tsd-kind-icon">method1</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="generics.ab.html#getc" class="tsd-kind-icon">getC</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="generics.ab.html#gett" class="tsd-kind-icon">getT</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="generics.ab.html#sett" class="tsd-kind-icon">setT</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="baseproperty" class="tsd-anchor"></a>
-					<h3>base<wbr>Property</h3>
-					<div class="tsd-signature tsd-kind-icon">base<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;init&quot;</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="property1" class="tsd-anchor"></a>
-					<h3>property1</h3>
-					<div class="tsd-signature tsd-kind-icon">property1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;init&quot;</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="basemethod" class="tsd-anchor"></a>
-					<h3>base<wbr>Method</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">base<wbr>Method<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<a name="getc" class="tsd-anchor"></a>
+					<h3>getC</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">getC<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">C</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="generics.b.html">B</a>.<a href="generics.b.html#getc">getC</a></p>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A generic member function.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">C</span></h4>
+							<p>A generic return value.</p>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="method1" class="tsd-anchor"></a>
-					<h3>method1</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">method1<span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="mixin.mixin1type.html" class="tsd-signature-type">Mixin1Type</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mixin.mixin1type.html" class="tsd-signature-type">Mixin1Type</a><span class="tsd-signature-symbol">[]</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<a name="gett" class="tsd-anchor"></a>
+					<h3>getT</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">getT<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="generics.a.html">A</a>.<a href="generics.a.html#gett">getT</a></p>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A generic member function.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+							<p>A generic return value.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<a name="sett" class="tsd-anchor"></a>
+					<h3>setT</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">setT<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="generics.b.html">B</a>.<a href="generics.b.html#sett">setT</a></p>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A generic member function.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>arg: <a href="mixin.mixin1type.html" class="tsd-signature-type">Mixin1Type</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>value: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A generic parameter.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mixin.mixin1type.html" class="tsd-signature-type">Mixin1Type</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -186,10 +225,10 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/functions.html">functions</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/generics.html">generics</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/mixin.html">mixin</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -211,56 +250,53 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/mixin.base.html" class="tsd-kind-icon">Base</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/mixin.someclasswithmixin.html" class="tsd-kind-icon">Some<wbr>Class<wbr>With<wbr>Mixin</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="generics.a.html" class="tsd-kind-icon">A</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="mixin.mixin1type.html" class="tsd-kind-icon">Mixin1<wbr>Type</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="generics.ab.html" class="tsd-kind-icon">AB</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="mixin.mixin1type.html#baseproperty" class="tsd-kind-icon">base<wbr>Property</a>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+								<a href="generics.ab.html#getc" class="tsd-kind-icon">getC</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="mixin.mixin1type.html#property1" class="tsd-kind-icon">property1</a>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+								<a href="generics.ab.html#gett" class="tsd-kind-icon">getT</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="mixin.mixin1type.html#basemethod" class="tsd-kind-icon">base<wbr>Method</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="mixin.mixin1type.html#method1" class="tsd-kind-icon">method1</a>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+								<a href="generics.ab.html#sett" class="tsd-kind-icon">setT</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="mixin.mixin2.html" class="tsd-kind-icon">Mixin2</a>
+						<a href="generics.abnumber.html" class="tsd-kind-icon">ABNumber</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="generics.abstring.html" class="tsd-kind-icon">ABString</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="generics.b.html" class="tsd-kind-icon">B</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="../modules/mixin.html#anyconstructor" class="tsd-kind-icon">Any<wbr>Constructor</a>
+						<a href="../modules/generics.html#doublekey" class="tsd-kind-icon">Double<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="../modules/mixin.html#anyfunction" class="tsd-kind-icon">Any<wbr>Function</a>
+						<a href="../modules/generics.html#horriblerecursivetypethatshouldnotbeusedbyanyone" class="tsd-kind-icon">Horrible<wbr>Recursive<wbr>Type<wbr>That<wbr>Should<wbr>Not<wbr>BeUsed<wbr>ByAnyone</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="../modules/mixin.html#mixin-1" class="tsd-kind-icon">Mixin</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/mixin.html#mixin3" class="tsd-kind-icon">Mixin3</a>
+						<a href="../modules/generics.html#popfront" class="tsd-kind-icon">Pop<wbr>Front</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="../modules/mixin.html#mixin1func" class="tsd-kind-icon">Mixin1<wbr>Func</a>
+						<a href="../modules/generics.html#doublekey-1" class="tsd-kind-icon">double<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/generics.html#getgenericarray" class="tsd-kind-icon">get<wbr>Generic<wbr>Array</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="../modules/mixin.html#mixin2-1" class="tsd-kind-icon">Mixin2</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="../modules/mixin.html#mixin3-1" class="tsd-kind-icon">Mixin3</a>
+						<a href="../modules/generics.html#testfunction" class="tsd-kind-icon">test<wbr>Function</a>
 					</li>
 				</ul>
 			</nav>
@@ -282,8 +318,6 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>

@@ -22,6 +22,8 @@ import {
     UnknownType,
     MappedType,
 } from "../models";
+import { TemplateLiteralType } from "../models/types/template-literal";
+import { zip } from "../utils/array";
 import { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
 import { createSignature } from "./factories/signature";
@@ -68,6 +70,7 @@ export function loadConverters() {
         namedTupleMemberConverter,
         mappedConverter,
         literalTypeConverter,
+        templateLiteralConverter,
         thisConverter,
         tupleConverter,
         typeOperatorConverter,
@@ -500,6 +503,7 @@ const mappedConverter: TypeConverter<
         templateType: ts.Type;
         typeParameter: ts.TypeParameter;
         constraintType: ts.Type;
+        nameType?: ts.Type;
     }
 > = {
     kind: [ts.SyntaxKind.MappedType],
@@ -514,7 +518,8 @@ const mappedConverter: TypeConverter<
                 ? removeUndefined(templateType)
                 : templateType,
             kindToModifier(node.readonlyToken?.kind),
-            optionalModifier
+            optionalModifier,
+            node.nameType ? convertType(context, node.nameType, target) : void 0
         );
     },
     convertType(context, type, node, target) {
@@ -529,7 +534,8 @@ const mappedConverter: TypeConverter<
                 ? removeUndefined(templateType)
                 : templateType,
             kindToModifier(node.readonlyToken?.kind),
-            optionalModifier
+            optionalModifier,
+            type.nameType ? convertType(context, type.nameType, target) : void 0
         );
     },
 };
@@ -598,6 +604,33 @@ const literalTypeConverter: TypeConverter<
         }
 
         return requestBugReport(context, type);
+    },
+};
+
+const templateLiteralConverter: TypeConverter<
+    ts.TemplateLiteralTypeNode,
+    ts.TemplateLiteralType
+> = {
+    kind: [ts.SyntaxKind.TemplateLiteralType],
+    convert(context, node, target) {
+        return new TemplateLiteralType(
+            node.head.text,
+            node.templateSpans.map((span) => {
+                return [
+                    convertType(context, span.type, target),
+                    span.literal.text,
+                ];
+            })
+        );
+    },
+    convertType(context, type, _node, target) {
+        assert(type.texts.length === type.types.length + 1);
+        const parts: [Type, string][] = [];
+        for (const [a, b] of zip(type.types, type.texts.slice(1))) {
+            parts.push([convertType(context, a, target), b]);
+        }
+
+        return new TemplateLiteralType(type.texts[0], parts);
     },
 };
 

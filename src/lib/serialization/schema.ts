@@ -88,6 +88,8 @@ type _ModelToObject<T> =
         ? TupleType
         : T extends M.UnknownType
         ? UnknownType
+        : T extends M.TemplateLiteralType
+        ? TemplateLiteralType
         : T extends M.Type
         ? SomeType // Technically AbstractType, but the union is more useful
         : // Miscellaneous
@@ -285,6 +287,11 @@ export interface NamedTupleMemberType
     element: ModelToObject<M.NamedTupleMember["element"]>;
 }
 
+export interface TemplateLiteralType
+    extends Type,
+        S<M.TemplateLiteralType, "type" | "head"> {
+    tail: [Type, string][];
+}
 export interface MappedType
     extends Type,
         S<
@@ -295,6 +302,7 @@ export interface MappedType
             | "templateType"
             | "readonlyModifier"
             | "optionalModifier"
+            | "nameType"
         > {}
 
 export interface TypeOperatorType

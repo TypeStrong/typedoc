@@ -5,7 +5,7 @@
  * @param value  A generic parameter.
  * @returns A generic return value.
  */
-function testFunction<T>(value: T): T {
+export function testFunction<T>(value: T): T {
     return value;
 }
 
@@ -14,7 +14,7 @@ function testFunction<T>(value: T): T {
  *
  * @param T  The generic type parameter.
  */
-interface A<T> {
+export interface A<T> {
     /**
      * A generic member function.
      *
@@ -29,7 +29,7 @@ interface A<T> {
  * @param <T>  The first generic type parameter.
  * @param <C>  The second generic type parameter.
  */
-interface B<T, C> {
+export interface B<T, C> {
     /**
      * A generic member function.
      *
@@ -51,31 +51,31 @@ interface B<T, C> {
  *
  * @typeparam T  The leftover generic type parameter.
  */
-interface AB<T> extends A<T>, B<T, boolean> {}
+export interface AB<T> extends A<T>, B<T, boolean> {}
 
 /**
  * An interface extending a generic interface and setting its type parameter.
  */
-interface ABString extends AB<string> {}
+export interface ABString extends AB<string> {}
 
 /**
  * An interface extending a generic interface and setting its type parameter.
  */
-interface ABNumber extends AB<number> {}
+export interface ABNumber extends AB<number> {}
 
 /**
  * A function returning a generic array with type parameters.
  *
  * @return The return value with type arguments.
  */
-function getGenericArray(): Array<string> {
+export function getGenericArray(): Array<string> {
     return [""];
 }
 
 /**
  * Conditional type with infer
  */
-type PopFront<T extends any[]> = ((...args: T) => any) extends (
+export type PopFront<T extends any[]> = ((...args: T) => any) extends (
     a: any,
     ...r: infer R
 ) => any
@@ -86,7 +86,7 @@ type PopFront<T extends any[]> = ((...args: T) => any) extends (
  * See GH#1150. Calling typeChecker.typeToString on this type will send TS into an infinite
  * loop, which is undesirable.
  */
-type HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<
+export type HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<
     T extends any[],
     R = {}
 > = {
@@ -98,3 +98,9 @@ type HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<
         }
     >;
 }[T["length"] extends 0 ? 0 : 1];
+
+export type DoubleKey<T> = { [K in keyof T & string as `${K}${K}`]: T[K] }
+
+export function doubleKey<T>(arg: T) {
+    return {} as { [K in keyof T & string as `${K}${K}`]: T[K] }
+}

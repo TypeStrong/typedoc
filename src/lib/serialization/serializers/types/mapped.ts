@@ -18,6 +18,7 @@ export class MappedTypeSerializer extends TypeSerializerComponent<MappedType> {
             templateType: this.owner.toObject(map.templateType),
             readonlyModifier: map.readonlyModifier,
             optionalModifier: map.optionalModifier,
+            nameType: this.owner.toObject(map.nameType),
         };
     }
 }
