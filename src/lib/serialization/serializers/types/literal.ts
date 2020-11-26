@@ -3,9 +3,7 @@ import { LiteralType } from "../../../models";
 import { TypeSerializerComponent } from "../../components";
 import { LiteralType as JSONLiteralType } from "../../schema";
 
-export class LiteralTypeSerializer extends TypeSerializerComponent<
-    LiteralType
-> {
+export class LiteralTypeSerializer extends TypeSerializerComponent<LiteralType> {
     supports(t: unknown) {
         return t instanceof LiteralType;
     }

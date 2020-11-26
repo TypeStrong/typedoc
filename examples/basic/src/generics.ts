@@ -99,8 +99,8 @@ export type HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<
     >;
 }[T["length"] extends 0 ? 0 : 1];
 
-export type DoubleKey<T> = { [K in keyof T & string as `${K}${K}`]: T[K] }
+export type DoubleKey<T> = { [K in keyof T & string as `${K}${K}`]: T[K] };
 
 export function doubleKey<T>(arg: T) {
-    return {} as { [K in keyof T & string as `${K}${K}`]: T[K] }
+    return {} as { [K in keyof T & string as `${K}${K}`]: T[K] };
 }

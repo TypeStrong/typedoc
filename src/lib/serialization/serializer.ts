@@ -118,9 +118,9 @@ export class Serializer extends EventDispatcher {
     }
 }
 
-const serializerComponents: (new (owner: Serializer) => SerializerComponent<
-    any
->)[] = [
+const serializerComponents: (new (
+    owner: Serializer
+) => SerializerComponent<any>)[] = [
     S.CommentTagSerializer,
     S.CommentSerializer,
 

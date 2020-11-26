@@ -7,9 +7,7 @@ import {
     Reflection as JSONReflection,
 } from "../../schema";
 
-export class ContainerReflectionSerializer extends ReflectionSerializerComponent<
-    ContainerReflection
-> {
+export class ContainerReflectionSerializer extends ReflectionSerializerComponent<ContainerReflection> {
     supports(t: unknown) {
         return t instanceof ContainerReflection;
     }

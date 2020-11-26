@@ -3,9 +3,7 @@ import { ReflectionGroup } from "../../models/ReflectionGroup";
 import { SerializerComponent } from "../components";
 import { ReflectionGroup as JSONReflectionGroup } from "../schema";
 
-export class ReflectionGroupSerializer extends SerializerComponent<
-    ReflectionGroup
-> {
+export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGroup> {
     static PRIORITY = 1000;
 
     /**

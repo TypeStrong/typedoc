@@ -5,9 +5,7 @@ import {
     IndexedAccessType as JSONIndexedAccessType,
 } from "../../schema";
 
-export class IndexedAccessTypeSerializer extends TypeSerializerComponent<
-    IndexedAccessType
-> {
+export class IndexedAccessTypeSerializer extends TypeSerializerComponent<IndexedAccessType> {
     supports(item: unknown): boolean {
         return item instanceof IndexedAccessType;
     }

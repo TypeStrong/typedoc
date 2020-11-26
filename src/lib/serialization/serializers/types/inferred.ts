@@ -6,9 +6,7 @@ import {
     InferredType as JSONInferredType,
 } from "../../schema";
 
-export class InferredTypeSerializer extends TypeSerializerComponent<
-    InferredType
-> {
+export class InferredTypeSerializer extends TypeSerializerComponent<InferredType> {
     supports(item: unknown): boolean {
         return item instanceof InferredType;
     }

@@ -5,9 +5,7 @@ import {
     ConditionalType as JSONConditionalType,
 } from "../../schema";
 
-export class ConditionalTypeSerializer extends TypeSerializerComponent<
-    ConditionalType
-> {
+export class ConditionalTypeSerializer extends TypeSerializerComponent<ConditionalType> {
     supports(item: unknown): boolean {
         return item instanceof ConditionalType;
     }

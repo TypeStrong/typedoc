@@ -2,9 +2,7 @@ import { SerializerComponent } from "../../components";
 import { SourceReferenceWrapper } from "../models";
 import { SourceReference as JSONSourceReference } from "../../schema";
 
-export class SourceReferenceContainerSerializer extends SerializerComponent<
-    SourceReferenceWrapper
-> {
+export class SourceReferenceContainerSerializer extends SerializerComponent<SourceReferenceWrapper> {
     static PRIORITY = 1000;
 
     serializeGroup(instance: unknown) {

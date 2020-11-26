@@ -26,9 +26,7 @@ export class TupleTypeSerializer extends TypeSerializerComponent<TupleType> {
     }
 }
 
-export class NamedTupleMemberTypeSerializer extends TypeSerializerComponent<
-    NamedTupleMember
-> {
+export class NamedTupleMemberTypeSerializer extends TypeSerializerComponent<NamedTupleMember> {
     supports(t: unknown) {
         return t instanceof NamedTupleMember;
     }

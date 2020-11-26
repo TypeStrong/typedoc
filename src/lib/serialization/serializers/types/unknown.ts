@@ -3,9 +3,7 @@ import { UnknownType } from "../../../models";
 import { TypeSerializerComponent } from "../../components";
 import { UnknownType as JSONUnknownType } from "../../schema";
 
-export class UnknownTypeSerializer extends TypeSerializerComponent<
-    UnknownType
-> {
+export class UnknownTypeSerializer extends TypeSerializerComponent<UnknownType> {
     supports(t: unknown) {
         return t instanceof UnknownType;
     }

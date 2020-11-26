@@ -6,9 +6,7 @@ import {
     Reflection as JSONReflection,
 } from "../../schema";
 
-export class TypeParameterReflectionSerializer extends ReflectionSerializerComponent<
-    TypeParameterReflection
-> {
+export class TypeParameterReflectionSerializer extends ReflectionSerializerComponent<TypeParameterReflection> {
     supports(t: unknown) {
         return t instanceof TypeParameterReflection;
     }

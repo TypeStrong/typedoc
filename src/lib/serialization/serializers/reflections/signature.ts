@@ -6,9 +6,7 @@ import {
     Reflection as JSONReflection,
 } from "../../schema";
 
-export class SignatureReflectionSerializer extends ReflectionSerializerComponent<
-    SignatureReflection
-> {
+export class SignatureReflectionSerializer extends ReflectionSerializerComponent<SignatureReflection> {
     supports(t: unknown) {
         return t instanceof SignatureReflection;
     }

@@ -6,9 +6,7 @@ import {
 } from "../../schema";
 import { DeclarationReflectionSerializer } from "./declaration";
 
-export class ReferenceReflectionSerializer extends ReflectionSerializerComponent<
-    ReferenceReflection
-> {
+export class ReferenceReflectionSerializer extends ReflectionSerializerComponent<ReferenceReflection> {
     static PRIORITY = DeclarationReflectionSerializer.PRIORITY - 1;
 
     supports(t: unknown) {

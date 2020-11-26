@@ -3,9 +3,7 @@ import { TypeParameterType } from "../../../models";
 import { TypeSerializerComponent } from "../../components";
 import { TypeParameterType as JSONTypeParameterType } from "../../schema";
 
-export class TypeParameterTypeSerializer extends TypeSerializerComponent<
-    TypeParameterType
-> {
+export class TypeParameterTypeSerializer extends TypeSerializerComponent<TypeParameterType> {
     supports(t: unknown) {
         return t instanceof TypeParameterType;
     }
