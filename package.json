@@ -29,7 +29,7 @@
     "progress": "^2.0.3",
     "shelljs": "^0.8.4",
     "shiki": "^0.2.7",
-    "typedoc-default-themes": "0.12.0-beta.8"
+    "typedoc-default-themes": "0.12.0-beta.9"
   },
   "peerDependencies": {
     "typescript": "3.9.x || 4.0.x || 4.1.x"
