@@ -273,9 +273,11 @@ export class Application extends ChildableComponent<
             return exclude.some((mm) => mm.match(fileName));
         }
 
-        const supportedFileRegex = this.options.getCompilerOptions().allowJs
-            ? /\.[tj]sx?$/
-            : /\.tsx?$/;
+        const supportedFileRegex =
+            this.options.getCompilerOptions().allowJs ||
+            this.options.getCompilerOptions().checkJs
+                ? /\.[tj]sx?$/
+                : /\.tsx?$/;
         function add(file: string, entryPoint: boolean) {
             let stats: FS.Stats;
             try {
@@ -303,7 +305,15 @@ export class Application extends ChildableComponent<
         }
 
         inputFiles.forEach((file) => {
-            add(Path.resolve(file), true);
+            const resolved = Path.resolve(file);
+            if (!FS.existsSync(resolved)) {
+                this.logger.warn(
+                    `Provided entry point ${file} does not exist and will not be included in the docs.`
+                );
+                return;
+            }
+
+            add(resolved, true);
         });
 
         return files;

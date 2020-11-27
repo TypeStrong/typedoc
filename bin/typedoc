@@ -27,10 +27,6 @@ process.exit(run(app));
 
 /** @param {td.Application} app */
 function run(app) {
-    if (app.logger.hasErrors()) {
-        return ExitCodes.OptionError;
-    }
-
     if (app.options.getValue("version")) {
         console.log(app.toString());
         return ExitCodes.Ok;
@@ -38,6 +34,10 @@ function run(app) {
 
     if (app.options.getValue("help")) {
         console.log(getOptionsHelp(app.options));
+    }
+
+    if (app.logger.hasErrors()) {
+        return ExitCodes.OptionError;
     }
 
     if (app.options.getValue("entryPoints").length === 0) {
