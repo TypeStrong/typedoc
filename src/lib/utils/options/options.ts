@@ -3,14 +3,14 @@ import * as _ from "lodash";
 import * as ts from "typescript";
 
 import {
+    convert,
     DeclarationOption,
+    KeyToDeclaration,
     ParameterScope,
     ParameterType,
-    convert,
-    TypeDocOptions,
-    KeyToDeclaration,
     TypeDocAndTSOptions,
     TypeDocOptionMap,
+    TypeDocOptions,
 } from "./declaration";
 import { Logger } from "../loggers";
 import { insertPrioritySorted } from "../array";
@@ -150,7 +150,7 @@ export class Options {
     /**
      * Adds an option declaration to the container with extra type checking to ensure that
      * the runtime type is consistent with the declared type.
-     * @param declaration
+     * @param declaration The option declaration that should be added.
      */
     addDeclaration<K extends keyof TypeDocOptions>(
         declaration: { name: K } & KeyToDeclaration<K>
@@ -158,12 +158,11 @@ export class Options {
 
     /**
      * Adds an option declaration to the container.
-     * @param declaration
+     * @param declaration The option declaration that should be added.
      */
     addDeclaration(
         declaration: NeverIfInternal<Readonly<DeclarationOption>>
     ): void;
-
     addDeclaration(declaration: Readonly<DeclarationOption>): void {
         const names = [declaration.name];
         if (declaration.short) {
