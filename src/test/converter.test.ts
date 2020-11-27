@@ -83,39 +83,3 @@ describe("Converter", function () {
         });
     });
 });
-
-// describe('Converter with excludeNotDocumented=true', function() {
-//     const base = Path.join(__dirname, 'converter');
-//     const fixtureDir = Path.join(base, 'exclude-not-documented');
-//     let app: Application;
-//
-//     before('constructs', function() {
-//         app = new Application({
-//             mode:   'Modules',
-//             logger: 'none',
-//             target: 'ES5',
-//             module: 'CommonJS',
-//             experimentalDecorators: true,
-//             excludeNotDocumented: true,
-//             jsx: 'react'
-//         });
-//     });
-//
-//     let result: ProjectReflection | undefined;
-//
-//     describe('Exclude not documented symbols', () => {
-//         it('converts fixtures', function() {
-//             resetReflectionID();
-//             result = app.convert(app.expandInputFiles([fixtureDir]));
-//             Assert(result instanceof ProjectReflection, 'No reflection returned');
-//         });
-//
-//         it('matches specs', function() {
-//             const specs = JSON.parse(FS.readFileSync(Path.join(fixtureDir, 'specs-without-undocumented.json')).toString());
-//             let data = JSON.stringify(result!.toObject(), null, '  ');
-//             data = data.split(normalizePath(base)).join('%BASE%');
-//
-//             compareReflections(JSON.parse(data), specs);
-//         });
-//     });
-// });

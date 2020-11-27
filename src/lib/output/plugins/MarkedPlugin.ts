@@ -1,12 +1,12 @@
 import * as FS from "fs-extra";
 import * as Path from "path";
 import * as Marked from "marked";
-import * as HighlightJS from "highlight.js";
 import * as Handlebars from "handlebars";
 
 import { Component, ContextAwareRendererComponent } from "../components";
 import { RendererEvent, MarkdownEvent } from "../events";
 import { BindOption, readFile } from "../../utils";
+import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 
 const customMarkedRenderer = new Marked.Renderer();
 
@@ -109,16 +109,16 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      * @return A html string with syntax highlighting.
      */
     public getHighlighted(text: string, lang?: string): string {
-        try {
-            if (lang) {
-                return HighlightJS.highlight(lang, text).value;
-            } else {
-                return HighlightJS.highlightAuto(text).value;
-            }
-        } catch (error) {
-            this.application.logger.warn(error.message);
+        lang = lang || "typescript";
+        lang = lang.toLowerCase();
+        if (!isSupportedLanguage(lang)) {
+            this.application.logger.warn(
+                `Unsupported highlight language "${lang}" will not be highlighted`
+            );
             return text;
         }
+
+        return highlight(text, lang);
     }
 
     /**

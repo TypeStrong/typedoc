@@ -5,6 +5,7 @@ import {
     ParameterType,
     DeclarationOption,
 } from "./declaration";
+import { getSupportedLanguages } from "../highlighter";
 
 export interface ParameterHelp {
     names: string[];
@@ -55,6 +56,28 @@ function getParameterHelp(options: Options): ParameterHelp {
     return { names, helps, margin };
 }
 
+function toEvenColumns(values: string[], maxLineWidth: number) {
+    const columnWidth =
+        values.reduce((acc, val) => Math.max(acc, val.length), 0) + 2;
+
+    const numColumns = Math.max(1, Math.min(maxLineWidth / columnWidth));
+    let line = "";
+    const out: string[] = [];
+
+    for (let i = 0; i < values.length; ++i) {
+        if (i !== 0 && i % numColumns === 0) {
+            out.push(line);
+            line = "";
+        }
+        line += values[i].padEnd(columnWidth);
+    }
+    if (line != "") {
+        out.push(line);
+    }
+
+    return out;
+}
+
 export function getOptionsHelp(options: Options): string {
     const output = ["Usage:", "  typedoc path/to/entry.ts", "", "Options:"];
 
@@ -65,6 +88,12 @@ export function getOptionsHelp(options: Options): string {
         output.push(usage.padEnd(columns.margin + 2) + description);
     }
 
-    output.push("");
+    console.log(process.stdout.columns);
+    output.push(
+        "",
+        "Supported highlighting languages:",
+        ...toEvenColumns(getSupportedLanguages(), 80)
+    );
+
     return output.join("\n");
 }

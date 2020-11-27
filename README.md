@@ -13,8 +13,8 @@ For more detailed documentation, and TypeDoc documentation rendered with TypeDoc
 
 TypeDoc runs on Node.js and is available as a NPM package.
 
-```bash
-$ npm install typedoc --save-dev
+```text
+npm install typedoc --save-dev
 ```
 
 ## Usage
@@ -23,15 +23,15 @@ To generate documentation TypeDoc needs to know your project entry point, and Ty
 compiler options. It will automatically try to find your `tsconfig.json` file, so you can
 just specify the entry point of your library:
 
-```bash
-$ typedoc src/index.ts
+```text
+typedoc src/index.ts
 ```
 
 If you have multiple entry points, specify each of them. If you specify a directory, TypeDoc
 will treat each file contained within it as an entry point.
 
-```bash
-$ typedoc package1/index.ts package2/index.ts
+```text
+typedoc package1/index.ts package2/index.ts
 ```
 
 ### Arguments

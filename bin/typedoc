@@ -23,10 +23,15 @@ app.options.addReader(new td.ArgumentsReader(300));
 
 app.bootstrap();
 
-process.exit(run(app));
+run(app)
+    .then(process.exit)
+    .catch((error) => {
+        console.error("TypeDoc exiting with unexpected error:");
+        console.error(error);
+    });
 
 /** @param {td.Application} app */
-function run(app) {
+async function run(app) {
     if (app.options.getValue("version")) {
         console.log(app.toString());
         return ExitCodes.Ok;
@@ -34,6 +39,7 @@ function run(app) {
 
     if (app.options.getValue("help")) {
         console.log(getOptionsHelp(app.options));
+        return ExitCodes.Ok;
     }
 
     if (app.logger.hasErrors()) {
@@ -52,15 +58,15 @@ function run(app) {
 
     const out = app.options.getValue("out");
     if (out) {
-        app.generateDocs(project, out);
+        await app.generateDocs(project, out);
     }
     const json = app.options.getValue("json");
     if (json) {
-        app.generateJson(project, json);
+        await app.generateJson(project, json);
     }
 
     if (!out && !json) {
-        app.generateDocs(project, "./docs");
+        await app.generateDocs(project, "./docs");
     }
 
     if (app.logger.hasErrors()) {

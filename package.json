@@ -22,13 +22,13 @@
   "dependencies": {
     "fs-extra": "^9.0.1",
     "handlebars": "^4.7.6",
-    "highlight.js": "^10.4.0",
     "lodash": "^4.17.20",
     "lunr": "^2.3.9",
     "marked": "^1.2.5",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.4",
+    "shiki": "^0.2.7",
     "typedoc-default-themes": "0.12.0-beta.8"
   },
   "peerDependencies": {

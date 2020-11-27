@@ -11,7 +11,6 @@ import {
     ConsoleLogger,
     CallbackLogger,
     PluginHost,
-    writeFile,
     normalizePath,
 } from "./utils/index";
 import { createMinimatch } from "./utils/paths";
@@ -222,9 +221,12 @@ export class Application extends ChildableComponent<
     /**
      * Render HTML for the given project
      */
-    public generateDocs(project: ProjectReflection, out: string): void {
+    public async generateDocs(
+        project: ProjectReflection,
+        out: string
+    ): Promise<void> {
         out = Path.resolve(out);
-        this.renderer.render(project, out);
+        await this.renderer.render(project, out);
         if (this.logger.hasErrors()) {
             this.logger.error(
                 "Documentation could not be generated due to the errors above."
@@ -240,7 +242,10 @@ export class Application extends ChildableComponent<
      * @param out  The path and file name of the target file.
      * @returns TRUE if the json file could be written successfully, otherwise FALSE.
      */
-    public generateJson(project: ProjectReflection, out: string): void {
+    public async generateJson(
+        project: ProjectReflection,
+        out: string
+    ): Promise<void> {
         out = Path.resolve(out);
         const eventData = {
             outputDirectory: Path.dirname(out),
@@ -250,7 +255,7 @@ export class Application extends ChildableComponent<
             begin: eventData,
             end: eventData,
         });
-        writeFile(out, JSON.stringify(ser, null, "\t"), false);
+        await FS.promises.writeFile(out, JSON.stringify(ser, null, "\t"));
         this.logger.success("JSON written to %s", out);
     }
 

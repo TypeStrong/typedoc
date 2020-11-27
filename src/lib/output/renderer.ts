@@ -22,6 +22,7 @@ import { DefaultTheme } from "./themes/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
 import { BindOption } from "../utils";
+import { loadHighlighter } from "../utils/highlighter";
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
@@ -95,7 +96,11 @@ export class Renderer extends ChildableComponent<
      * @param project  The project that should be rendered.
      * @param outputDirectory  The path of the directory the documentation should be rendered to.
      */
-    render(project: ProjectReflection, outputDirectory: string) {
+    async render(
+        project: ProjectReflection,
+        outputDirectory: string
+    ): Promise<void> {
+        await loadHighlighter();
         if (
             !this.prepareTheme() ||
             !this.prepareOutputDirectory(outputDirectory)

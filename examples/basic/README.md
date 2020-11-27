@@ -6,7 +6,7 @@
 
 Example install
 
-```bash
+```text
 $ npm install examples --save-dev
 ```
 
@@ -18,7 +18,7 @@ Example executable: `examples`.
 
 Example usage.
 
-```bash
+```text
 $ examples --out path/to/documentation/ path/to/example/project/
 ```
 

@@ -90,9 +90,9 @@ describe("Renderer", function () {
         );
     });
 
-    it("renders basic example", function () {
+    it("renders basic example", async function () {
         this.timeout(0);
-        app.generateDocs(project!, out);
+        await app.generateDocs(project!, out);
 
         FS.removeSync(Path.join(out, "assets"));
         compareDirectories(Path.join(__dirname, "renderer", "specs"), out);
