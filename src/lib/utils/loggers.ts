@@ -1,6 +1,8 @@
 import * as ts from "typescript";
 import * as Util from "util";
 import { url } from "inspector";
+import { resolve } from "path";
+import { red, yellow, cyan, green, gray } from "colors/safe";
 
 const isDebugging = () => Boolean(url());
 
@@ -162,29 +164,11 @@ export class Logger {
      * @param diagnostic  The TypeScript message that should be logged.
      */
     public diagnostic(diagnostic: ts.Diagnostic) {
-        let output: string;
-        if (diagnostic.file) {
-            output = diagnostic.file.fileName;
-            output +=
-                "(" +
-                ts.getLineAndCharacterOfPosition(
-                    diagnostic.file,
-                    diagnostic.start || 0
-                ).line +
-                ")";
-            output +=
-                ts.sys.newLine +
-                " " +
-                ts.flattenDiagnosticMessageText(
-                    diagnostic.messageText,
-                    ts.sys.newLine
-                );
-        } else {
-            output = ts.flattenDiagnosticMessageText(
-                diagnostic.messageText,
-                ts.sys.newLine
-            );
-        }
+        const output = ts.formatDiagnosticsWithColorAndContext([diagnostic], {
+            getCanonicalFileName: resolve,
+            getCurrentDirectory: () => process.cwd(),
+            getNewLine: () => ts.sys.newLine,
+        });
 
         switch (diagnostic.category) {
             case ts.DiagnosticCategory.Error:
@@ -220,14 +204,14 @@ export class ConsoleLogger extends Logger {
             return;
         }
 
-        let output = "";
-        if (level === LogLevel.Error) {
-            output += "Error: ";
-        }
-        if (level === LogLevel.Warn) {
-            output += "Warning: ";
-        }
-        output += message;
+        const output =
+            {
+                [LogLevel.Error]: red("Error: "),
+                [LogLevel.Warn]: yellow("Warning: "),
+                [LogLevel.Info]: cyan("Info: "),
+                [LogLevel.Success]: green("Ok: "),
+                [LogLevel.Verbose]: gray("Debug: "),
+            }[level] + message;
 
         if (newLine || level === LogLevel.Success) {
             ts.sys.write(ts.sys.newLine);
