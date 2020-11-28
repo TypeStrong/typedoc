@@ -88,7 +88,6 @@ export function getOptionsHelp(options: Options): string {
         output.push(usage.padEnd(columns.margin + 2) + description);
     }
 
-    console.log(process.stdout.columns);
     output.push(
         "",
         "Supported highlighting languages:",

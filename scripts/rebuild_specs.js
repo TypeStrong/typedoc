@@ -1,5 +1,7 @@
+"use strict";
 // @ts-check
 
+const ts = require("typescript");
 const fs = require("fs-extra");
 const path = require("path");
 const TypeDoc = require("..");
@@ -45,6 +47,17 @@ const conversions = [
  * @param {string[]} dirs
  */
 function rebuildConverterTests(dirs) {
+    const program = ts.createProgram(
+        app.options.getFileNames(),
+        app.options.getCompilerOptions()
+    );
+
+    const errors = ts.getPreEmitDiagnostics(program);
+    if (errors.length) {
+        app.logger.diagnostics(errors);
+        return;
+    }
+
     return Promise.all(
         dirs.map((fullPath) => {
             console.log(fullPath);
@@ -55,8 +68,7 @@ function rebuildConverterTests(dirs) {
                     if (fs.existsSync(out)) {
                         TypeDoc.resetReflectionID();
                         before();
-                        app.options.setValue("entryPoints", src);
-                        const result = app.convert();
+                        const result = app.converter.convert(src, program);
                         const serialized = app.serializer.toObject(result);
 
                         const data = JSON.stringify(serialized, null, "  ")

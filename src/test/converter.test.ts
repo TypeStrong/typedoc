@@ -7,6 +7,7 @@ import {
 import * as FS from "fs";
 import * as Path from "path";
 import { deepStrictEqual as equal, ok } from "assert";
+import * as ts from "typescript";
 import { TSConfigReader } from "../lib/utils/options";
 
 describe("Converter", function () {
@@ -20,6 +21,17 @@ describe("Converter", function () {
         disableSources: true,
         tsconfig: Path.join(base, "tsconfig.json"),
         externalPattern: ["**/node_modules/**"],
+    });
+
+    let program: ts.Program;
+    it("Compiles", () => {
+        program = ts.createProgram(
+            app.options.getFileNames(),
+            app.options.getCompilerOptions()
+        );
+
+        const errors = ts.getPreEmitDiagnostics(program);
+        equal(errors, []);
     });
 
     const checks: [string, () => void, () => void][] = [
@@ -54,11 +66,10 @@ describe("Converter", function () {
                 it(`[${file}] converts fixtures`, function () {
                     before();
                     resetReflectionID();
-                    app.options.setValue(
-                        "entryPoints",
-                        app.expandInputFiles([path])
+                    result = app.converter.convert(
+                        app.expandInputFiles([path]),
+                        program
                     );
-                    result = app.convert();
                     after();
                     ok(
                         result instanceof ProjectReflection,
