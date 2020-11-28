@@ -819,7 +819,7 @@ function convertAccessor(
             setDeclaration
         );
         if (signature) {
-            reflection.getSignature = createSignature(
+            reflection.setSignature = createSignature(
                 rc,
                 ReflectionKind.SetSignature,
                 signature,

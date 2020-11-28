@@ -3073,6 +3073,19 @@
               "flags": {},
               "getSignature": [
                 {
+                  "id": 187,
+                  "name": "name",
+                  "kind": 524288,
+                  "kindString": "Get signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "setSignature": [
+                {
                   "id": 188,
                   "name": "name",
                   "kind": 1048576,
@@ -3124,7 +3137,7 @@
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
-              "getSignature": [
+              "setSignature": [
                 {
                   "id": 193,
                   "name": "writeOnlyName",
