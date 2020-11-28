@@ -77,6 +77,10 @@ export function loadConverters() {
         unionConverter,
     ]) {
         for (const key of actor.kind) {
+            if (key === undefined) {
+                // Might happen if running on an older TS version.
+                continue;
+            }
             assert(!converters.has(key));
             converters.set(key, actor);
         }
