@@ -101,6 +101,11 @@ export function convertSymbol(
         flags = removeFlag(flags, ts.SymbolFlags.SetAccessor);
     }
 
+    if (hasFlag(symbol.flags, ts.SymbolFlags.NamespaceModule)) {
+        // This might be here if a namespace is declared several times.
+        flags = removeFlag(flags, ts.SymbolFlags.ValueModule);
+    }
+
     for (const flag of getEnumFlags(flags)) {
         if (!(flag in symbolConverters)) {
             context.logger.verbose(

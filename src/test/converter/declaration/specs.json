@@ -204,6 +204,72 @@
       "flags": {},
       "children": [
         {
+          "id": 19,
+          "name": "GH1124",
+          "kind": 2,
+          "kindString": "Namespace",
+          "flags": {},
+          "children": [
+            {
+              "id": 20,
+              "name": "PrimitiveType",
+              "kind": 4194304,
+              "kindString": "Type alias",
+              "flags": {},
+              "type": {
+                "type": "union",
+                "types": [
+                  {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  {
+                    "type": "reference",
+                    "name": "Date"
+                  }
+                ]
+              }
+            },
+            {
+              "id": 21,
+              "name": "Value",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isConst": true
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Type aliases",
+              "kind": 4194304,
+              "children": [
+                20
+              ]
+            },
+            {
+              "title": "Variables",
+              "kind": 32,
+              "children": [
+                21
+              ]
+            }
+          ]
+        },
+        {
           "id": 17,
           "name": "GH1366",
           "kind": 2,
@@ -264,6 +330,7 @@
           "title": "Namespaces",
           "kind": 2,
           "children": [
+            19,
             17
           ]
         },
