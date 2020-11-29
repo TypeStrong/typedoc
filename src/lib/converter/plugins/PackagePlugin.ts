@@ -57,10 +57,8 @@ export class PackagePlugin extends ConverterComponent {
 
     /**
      * Triggered when the converter begins converting a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context: Context) {
+    private onBegin() {
         this.readmeFile = undefined;
         this.packageFile = undefined;
         this.visited = [];

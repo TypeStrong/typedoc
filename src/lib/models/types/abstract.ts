@@ -22,6 +22,7 @@ export abstract class Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- This abstract class defines the interface.
     equals(type: Type): boolean {
         return false;
     }

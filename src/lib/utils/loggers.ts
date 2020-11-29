@@ -74,7 +74,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given message.
      */
     public writeln(text: string, ...args: string[]) {
-        this.log(Util.format(text, ...args), LogLevel.Info, true);
+        this.log(Util.format(text, ...args), LogLevel.Info);
     }
 
     /**
@@ -122,13 +122,8 @@ export class Logger {
      *
      * @param message  The message itself.
      * @param level  The urgency of the log message.
-     * @param newLine  Should the logger print a trailing whitespace?
      */
-    public log(
-        message: string,
-        level: LogLevel = LogLevel.Info,
-        newLine?: boolean
-    ) {
+    public log(message: string, level: LogLevel = LogLevel.Info) {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
@@ -207,7 +202,7 @@ export class ConsoleLogger extends Logger {
         level: LogLevel = LogLevel.Info,
         newLine?: boolean
     ) {
-        super.log(message, level, newLine);
+        super.log(message, level);
 
         let output = "";
         if (level === LogLevel.Error) {
@@ -259,7 +254,7 @@ export class CallbackLogger extends Logger {
         level: LogLevel = LogLevel.Info,
         newLine?: boolean
     ) {
-        super.log(message, level, newLine);
+        super.log(message, level);
 
         this.callback(message, level, newLine);
     }

@@ -1,6 +1,5 @@
 // @ts-check
 
-const assert = require("assert");
 const fs = require("fs-extra");
 const path = require("path");
 const TypeDoc = require("..");

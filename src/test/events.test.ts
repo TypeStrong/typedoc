@@ -919,7 +919,7 @@ describe("Events (customized)", function () {
             count++;
             e.stopPropagation();
         });
-        events.on("myEvent", function (e) {
+        events.on("myEvent", function () {
             count++;
             Assert(false);
         });
@@ -932,7 +932,7 @@ describe("Events (customized)", function () {
         const events = new Events();
         events.on(
             "myEvent",
-            function (e) {
+            function () {
                 Assert.equal(count, 1);
                 count++;
             },
@@ -941,7 +941,7 @@ describe("Events (customized)", function () {
         );
         events.on(
             "myEvent",
-            function (e) {
+            function () {
                 Assert.equal(count, 0);
                 count++;
             },

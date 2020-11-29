@@ -13,7 +13,7 @@ export class CommentSerializer extends SerializerComponent<Comment> {
         return instance instanceof Comment;
     }
 
-    supports(t: unknown) {
+    supports() {
         return true;
     }
 

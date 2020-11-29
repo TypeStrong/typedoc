@@ -1,4 +1,3 @@
-import * as ts from "typescript";
 import * as Path from "path";
 
 import { Reflection, ReflectionKind } from "../../models/reflections/abstract";
@@ -54,13 +53,8 @@ export class DynamicModulePlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently processed.
-     * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(
-        context: Context,
-        reflection: Reflection,
-        node?: ts.Node
-    ) {
+    private onDeclaration(context: Context, reflection: Reflection) {
         if (reflection.kindOf(ReflectionKind.Module)) {
             let name = reflection.name;
             if (!name.includes("/")) {
@@ -75,10 +69,8 @@ export class DynamicModulePlugin extends ConverterComponent {
 
     /**
      * Triggered when the converter begins resolving a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
      */
-    private onBeginResolve(context: Context) {
+    private onBeginResolve() {
         this.reflections.forEach((reflection) => {
             let name = reflection.name.replace(/"/g, "");
             name = name.substr(0, name.length - Path.extname(name).length);

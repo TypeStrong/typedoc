@@ -11,7 +11,7 @@ export class SourceReferenceContainerSerializer extends SerializerComponent<
         return instance instanceof SourceReferenceWrapper;
     }
 
-    supports(_: unknown) {
+    supports() {
         return true;
     }
 
