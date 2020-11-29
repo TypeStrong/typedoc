@@ -8,7 +8,7 @@ const IGNORED_OPTIONS = new Set(["help", "version"]);
 const IGNORED_DEFAULT_OPTIONS = new Set(["options", "tsconfig"]);
 
 const schema = {
-    $schema: "https://json-schema.org/draft/2019-09/schema",
+    $schema: "https://json-schema.org/draft-07/schema",
     title: "JSON Schema for typedoc.json",
     type: "object",
     properties: {},
@@ -51,7 +51,9 @@ addTypeDocOptions({
                 const map = /** @type {import("../dist").MapDeclarationOption} */ (option)
                     .map;
                 data.enum =
-                    map instanceof Map ? [...map.keys()] : Object.keys(map);
+                    map instanceof Map
+                        ? [...map.keys()]
+                        : Object.keys(map).filter((key) => isNaN(+key));
                 data.default = option.defaultValue;
                 break;
             }
