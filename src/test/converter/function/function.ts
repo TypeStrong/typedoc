@@ -96,7 +96,9 @@ export function multipleSignatures(value: { name: string }): string;
 
 /**
  * This is the actual implementation, this comment will not be visible
- * in the generated documentation.
+ * in the generated documentation. The `@inheritdoc` tag can not be used
+ * to pull content from this signature into documentation for the real
+ * signatures.
  *
  * @return This is the return value of the function.
  */

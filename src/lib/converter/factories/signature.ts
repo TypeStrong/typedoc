@@ -31,7 +31,11 @@ export function createSignature(
         | undefined;
 
     let commentDeclaration: ts.Node | undefined = declaration;
-    if (commentDeclaration && ts.isArrowFunction(commentDeclaration)) {
+    if (
+        commentDeclaration &&
+        (ts.isArrowFunction(commentDeclaration) ||
+            ts.isFunctionExpression(commentDeclaration))
+    ) {
         commentDeclaration = commentDeclaration.parent;
     }
 

@@ -5,7 +5,6 @@ export const ConverterEvents = {
     CREATE_SIGNATURE: "createSignature",
     CREATE_PARAMETER: "createParameter",
     CREATE_TYPE_PARAMETER: "createTypeParameter",
-    FUNCTION_IMPLEMENTATION: "functionImplementation",
     RESOLVE_BEGIN: "resolveBegin",
     RESOLVE: "resolveReflection",
     RESOLVE_END: "resolveEnd",

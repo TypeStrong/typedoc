@@ -8,13 +8,7 @@ import {
     ReflectionKind,
     TypeParameterReflection,
 } from "../models";
-import {
-    filterMap,
-    flatMap,
-    unique,
-    uniqueByEquals,
-    zip,
-} from "../utils/array";
+import { flatMap, uniqueByEquals, zip } from "../utils/array";
 import { getEnumFlags, hasFlag, removeFlag } from "../utils/enum";
 import { Context } from "./context";
 import { convertDefaultValue } from "./convert-expression";
@@ -246,32 +240,44 @@ function convertFunctionOrMethod(
         (ts.SymbolFlags.Property | ts.SymbolFlags.Method)
     );
 
-    const allDeclarations =
+    const declarations =
         symbol.getDeclarations()?.filter(ts.isFunctionLike) ?? [];
 
     // Don't do anything if we inherited this method and it is private.
     if (
         isMethod &&
         isInherited(context, symbol) &&
-        allDeclarations.length > 0 &&
+        declarations.length > 0 &&
         hasFlag(
-            ts.getCombinedModifierFlags(allDeclarations[0]),
+            ts.getCombinedModifierFlags(declarations[0]),
             ts.ModifierFlags.Private
         )
     ) {
         return;
     }
 
+    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
+    assert(parentSymbol, "Missing parent symbol when converting function");
+
+    const locationDeclaration =
+        parentSymbol
+            ?.getDeclarations()
+            ?.find(
+                (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d)
+            ) ?? parentSymbol.getDeclarations()?.[0]?.getSourceFile();
+    assert(locationDeclaration, "Missing declaration context");
+
+    const type = context.checker.getTypeOfSymbolAtLocation(
+        symbol,
+        locationDeclaration
+    );
+    const signatures = type.getCallSignatures();
+
     const reflection = context.createDeclarationReflection(
         isMethod ? ReflectionKind.Method : ReflectionKind.Function,
         symbol,
         nameOverride
     );
-
-    // Note: We have to filter unique declarations here because TS might give us
-    // the same declaration twice in mixins. This happens to method1 in the mixin
-    // test when converting SomeClassWithMixin
-    const declarations = unique(allDeclarations);
 
     if (declarations.length && isMethod) {
         // All method signatures must have the same modifier flags.
@@ -280,10 +286,7 @@ function convertFunctionOrMethod(
         const parentSymbol = context.project.getSymbolFromReflection(
             context.scope
         );
-        assert(
-            parentSymbol,
-            "Tried to convert an arrow method without a parent."
-        );
+        assert(parentSymbol, "Tried to convert a method without a parent.");
         if (
             parentSymbol
                 .getDeclarations()
@@ -292,18 +295,6 @@ function convertFunctionOrMethod(
             reflection.setOverwrites();
         }
     }
-
-    const signatures = filterMap(declarations, (decl) => {
-        if (!!(decl as any).body && declarations.length > 1) {
-            context.trigger(
-                ConverterEvents.FUNCTION_IMPLEMENTATION,
-                reflection,
-                decl
-            );
-            return;
-        }
-        return context.checker.getSignatureFromDeclaration(decl);
-    });
 
     const scope = context.withScope(reflection);
     reflection.signatures ??= [];
@@ -747,7 +738,9 @@ function convertVariableAsFunction(
     symbol: ts.Symbol,
     nameOverride?: string
 ) {
-    const declaration = symbol.getDeclarations()?.[0];
+    const declaration = symbol
+        .getDeclarations()
+        ?.find(ts.isVariableDeclaration);
     assert(declaration);
 
     const type = context.checker.getTypeOfSymbolAtLocation(symbol, declaration);
@@ -767,12 +760,6 @@ function convertVariableAsFunction(
     }
 
     const reflectionContext = context.withScope(reflection);
-
-    context.trigger(
-        ConverterEvents.FUNCTION_IMPLEMENTATION,
-        reflection,
-        declaration
-    );
 
     reflection.signatures ??= [];
     for (const signature of type.getCallSignatures()) {

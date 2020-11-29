@@ -655,10 +655,6 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
-          "comment": {
-            "shortText": "This is the actual implementation, this comment will not be visible\nin the generated documentation.",
-            "returns": "This is the return value of the function.\n"
-          },
           "signatures": [
             {
               "id": 24,
@@ -667,8 +663,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is the first signature of a function with multiple signatures.",
-                "returns": "This is the return value of the function.\n"
+                "shortText": "This is the first signature of a function with multiple signatures."
               },
               "parameters": [
                 {
@@ -698,8 +693,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is the second signature of a function with multiple signatures.",
-                "returns": "This is the return value of the function.\n"
+                "shortText": "This is the second signature of a function with multiple signatures."
               },
               "parameters": [
                 {
@@ -763,10 +757,6 @@
           "flags": {
             "isConst": true
           },
-          "comment": {
-            "shortText": "This is a function that is assigned to a variable.",
-            "returns": "This is the return value of the function.\n"
-          },
           "signatures": [
             {
               "id": 54,
@@ -786,7 +776,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This is some numeric parameter."
+                    "text": "This is some numeric parameter."
                   },
                   "type": {
                     "type": "intrinsic",

@@ -82,8 +82,6 @@ export class CommentPlugin extends ConverterComponent {
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
             [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,
             [Converter.EVENT_CREATE_TYPE_PARAMETER]: this.onCreateTypeParameter,
-            [Converter.EVENT_FUNCTION_IMPLEMENTATION]: this
-                .onFunctionImplementation,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
             [Converter.EVENT_RESOLVE]: this.onResolve,
         });
@@ -121,22 +119,33 @@ export class CommentPlugin extends ConverterComponent {
     private applyModifiers(reflection: Reflection, comment: Comment) {
         if (comment.hasTag("private")) {
             reflection.setFlag(ReflectionFlag.Private);
+            if (reflection.kindOf(ReflectionKind.CallSignature)) {
+                reflection.parent?.setFlag(ReflectionFlag.Private);
+            }
             comment.removeTags("private");
         }
 
         if (comment.hasTag("protected")) {
             reflection.setFlag(ReflectionFlag.Protected);
+            if (reflection.kindOf(ReflectionKind.CallSignature)) {
+                reflection.parent?.setFlag(ReflectionFlag.Protected);
+            }
             comment.removeTags("protected");
         }
 
         if (comment.hasTag("public")) {
             reflection.setFlag(ReflectionFlag.Public);
+            if (reflection.kindOf(ReflectionKind.CallSignature)) {
+                reflection.parent?.setFlag(ReflectionFlag.Public);
+            }
             comment.removeTags("public");
         }
 
         if (comment.hasTag("event")) {
             reflection.kind = ReflectionKind.Event;
-            // reflection.setFlag(ReflectionFlag.Event);
+            if (reflection.kindOf(ReflectionKind.CallSignature)) {
+                reflection.parent?.setFlag(ReflectionFlag.Public);
+            }
             comment.removeTags("event");
         }
 
@@ -205,20 +214,15 @@ export class CommentPlugin extends ConverterComponent {
         if (!node) {
             return;
         }
+        if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
+            return;
+        }
         const rawComment = getRawComment(node);
         if (!rawComment) {
             return;
         }
 
-        if (
-            reflection.kindOf(ReflectionKind.FunctionOrMethod) ||
-            (reflection.kindOf(ReflectionKind.Event) &&
-                "signatures" in reflection)
-        ) {
-            const comment = parseComment(rawComment, reflection.comment);
-            this.applyModifiers(reflection, comment);
-            this.removeExcludedTags(comment);
-        } else if (reflection.kindOf(ReflectionKind.Namespace)) {
+        if (reflection.kindOf(ReflectionKind.Namespace)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
             const comment = parseComment(rawComment, reflection.comment);
@@ -233,28 +237,6 @@ export class CommentPlugin extends ConverterComponent {
                 reflection.name = tag.text.trim();
                 removeIfPresent(reflection.comment?.tags, tag);
             }
-        }
-    }
-
-    /**
-     * Triggered when the converter has found a function implementation.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently processed.
-     * @param node  The node that is currently processed if available.
-     */
-    private onFunctionImplementation(
-        _context: Context,
-        reflection: Reflection,
-        node?: ts.Node
-    ) {
-        if (!node) {
-            return;
-        }
-
-        const comment = getRawComment(node);
-        if (comment) {
-            reflection.comment = parseComment(comment, reflection.comment);
         }
     }
 

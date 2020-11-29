@@ -111,14 +111,6 @@ export class Converter extends ChildableComponent<
         ConverterEvents.CREATE_TYPE_PARAMETER;
 
     /**
-     * Triggered when the converter has found a function implementation.
-     * The listener should implement [[IConverterNodeCallback]].
-     * @event
-     */
-    static readonly EVENT_FUNCTION_IMPLEMENTATION =
-        ConverterEvents.FUNCTION_IMPLEMENTATION;
-
-    /**
      * Resolve events
      */
 
@@ -198,7 +190,6 @@ export class Converter extends ChildableComponent<
             [ReflectionKind.Variable]: [ts.SyntaxKind.VariableDeclaration],
             [ReflectionKind.Function]: [
                 ts.SyntaxKind.FunctionDeclaration,
-                // Tricky: We need this because we pretend some variables are functions
                 ts.SyntaxKind.VariableDeclaration,
             ],
             [ReflectionKind.Class]: [ts.SyntaxKind.ClassDeclaration],
@@ -210,11 +201,18 @@ export class Converter extends ChildableComponent<
             ],
             [ReflectionKind.Method]: [
                 ts.SyntaxKind.MethodDeclaration,
-                // Tricky: We need this because some properties are treated as methods
                 ts.SyntaxKind.PropertyDeclaration,
                 ts.SyntaxKind.PropertySignature,
             ],
-            [ReflectionKind.CallSignature]: [ts.SyntaxKind.CallSignature],
+            [ReflectionKind.CallSignature]: [
+                ts.SyntaxKind.FunctionDeclaration,
+                ts.SyntaxKind.VariableDeclaration,
+                ts.SyntaxKind.MethodDeclaration,
+                ts.SyntaxKind.MethodDeclaration,
+                ts.SyntaxKind.PropertyDeclaration,
+                ts.SyntaxKind.PropertySignature,
+                ts.SyntaxKind.CallSignature,
+            ],
             [ReflectionKind.IndexSignature]: [ts.SyntaxKind.IndexSignature],
             [ReflectionKind.ConstructorSignature]: [
                 ts.SyntaxKind.ConstructSignature,

@@ -836,9 +836,6 @@
       "flags": {
         "isConst": true
       },
-      "comment": {
-        "shortText": "The \"mixin function\" of the Mixin1"
-      },
       "signatures": [
         {
           "id": 17,
@@ -930,9 +927,6 @@
       "kindString": "Function",
       "flags": {
         "isConst": true
-      },
-      "comment": {
-        "shortText": "The \"mixin function\" of the Mixin2"
       },
       "signatures": [
         {
@@ -1035,9 +1029,6 @@
       "kindString": "Function",
       "flags": {
         "isConst": true
-      },
-      "comment": {
-        "shortText": "The \"mixin function\" of the Mixin3"
       },
       "signatures": [
         {
