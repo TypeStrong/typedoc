@@ -48,8 +48,7 @@ export function createSignature(
     sigRef.typeParameters = convertTypeParameters(
         context,
         sigRef,
-        signature.typeParameters,
-        commentDeclaration
+        signature.typeParameters
     );
 
     sigRef.parameters = convertParameters(
@@ -61,8 +60,7 @@ export function createSignature(
 
     sigRef.type = context.converter.convertType(
         context,
-        declaration?.type ?? signature.getReturnType(),
-        declaration
+        declaration?.type ?? signature.getReturnType()
     );
 
     context.registerReflection(sigRef, undefined);
@@ -92,8 +90,7 @@ function convertParameters(
 
         paramRefl.type = context.converter.convertType(
             context.withScope(paramRefl),
-            parameterNodes?.[i].type ?? getTypeOfSymbol(param, context),
-            parameterNodes?.[i]
+            parameterNodes?.[i].type ?? getTypeOfSymbol(param, context)
         );
 
         paramRefl.defaultValue = convertDefaultValue(parameterNodes?.[i]);
@@ -106,22 +103,17 @@ function convertParameters(
 function convertTypeParameters(
     context: Context,
     parent: Reflection,
-    parameters: readonly ts.TypeParameter[] | undefined,
-    typeContextNode: ts.Node | undefined
+    parameters: readonly ts.TypeParameter[] | undefined
 ) {
     return parameters?.map((param) => {
         const constraintT = param.getConstraint();
         const defaultT = param.getDefault();
 
         const constraint = constraintT
-            ? context.converter.convertType(
-                  context,
-                  constraintT,
-                  typeContextNode
-              )
+            ? context.converter.convertType(context, constraintT)
             : void 0;
         const defaultType = defaultT
-            ? context.converter.convertType(context, defaultT, typeContextNode)
+            ? context.converter.convertType(context, defaultT)
             : void 0;
         const paramRefl = new TypeParameterReflection(
             param.symbol.name,

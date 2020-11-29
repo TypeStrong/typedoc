@@ -35,19 +35,10 @@ export interface TypeConverter<
 > {
     kind: TNode["kind"][];
     // getTypeAtLocation is expensive, so don't pass the type here.
-    convert(
-        context: Context,
-        node: TNode,
-        contextNode: ts.Node | undefined
-    ): Type;
+    convert(context: Context, node: TNode): Type;
     // We use typeToTypeNode to figure out what method to call in the first place,
     // so we have a non-type-checkable node here, necessary for some converters.
-    convertType(
-        context: Context,
-        type: TType,
-        node: TNode,
-        contextNode: ts.Node | undefined
-    ): Type;
+    convertType(context: Context, type: TType, node: TNode): Type;
 }
 
 const converters = new Map<ts.SyntaxKind, TypeConverter>();
@@ -93,8 +84,7 @@ const seenTypeSymbols = new Set<ts.Symbol>();
 
 export function convertType(
     context: Context,
-    typeOrNode: ts.Type | ts.TypeNode | undefined,
-    referenceTarget: ts.Node | undefined
+    typeOrNode: ts.Type | ts.TypeNode | undefined
 ) {
     if (!typeOrNode) {
         return new IntrinsicType("any");
@@ -104,7 +94,7 @@ export function convertType(
     if ("kind" in typeOrNode) {
         const converter = converters.get(typeOrNode.kind);
         if (converter) {
-            return converter.convert(context, typeOrNode, referenceTarget);
+            return converter.convert(context, typeOrNode);
         }
         context.logger.warn(
             `Missing type node converter for kind ${typeOrNode.kind} (${
@@ -139,12 +129,7 @@ export function convertType(
 
     const converter = converters.get(node.kind);
     if (converter) {
-        const result = converter.convertType(
-            context,
-            typeOrNode,
-            node,
-            referenceTarget
-        );
+        const result = converter.convertType(context, typeOrNode, node);
         if (symbol) seenTypeSymbols.delete(symbol);
         return result;
     }
@@ -159,13 +144,13 @@ export function convertType(
 
 const arrayConverter: TypeConverter<ts.ArrayTypeNode, ts.TypeReference> = {
     kind: [ts.SyntaxKind.ArrayType],
-    convert(context, node, target) {
-        return new ArrayType(convertType(context, node.elementType, target));
+    convert(context, node) {
+        return new ArrayType(convertType(context, node.elementType));
     },
-    convertType(context, type, target) {
+    convertType(context, type) {
         const params = context.checker.getTypeArguments(type);
         assert(params.length === 1);
-        return new ArrayType(convertType(context, params[0], target));
+        return new ArrayType(convertType(context, params[0]));
     },
 };
 
@@ -174,20 +159,20 @@ const conditionalConverter: TypeConverter<
     ts.ConditionalType
 > = {
     kind: [ts.SyntaxKind.ConditionalType],
-    convert(context, node, target) {
+    convert(context, node) {
         return new ConditionalType(
-            convertType(context, node.checkType, target),
-            convertType(context, node.extendsType, target),
-            convertType(context, node.trueType, target),
-            convertType(context, node.falseType, target)
+            convertType(context, node.checkType),
+            convertType(context, node.extendsType),
+            convertType(context, node.trueType),
+            convertType(context, node.falseType)
         );
     },
-    convertType(context, type, target) {
+    convertType(context, type) {
         return new ConditionalType(
-            convertType(context, type.checkType, target),
-            convertType(context, type.extendsType, target),
-            convertType(context, type.resolvedTrueType, target),
-            convertType(context, type.resolvedFalseType, target)
+            convertType(context, type.checkType),
+            convertType(context, type.extendsType),
+            convertType(context, type.resolvedTrueType),
+            convertType(context, type.resolvedFalseType)
         );
     },
 };
@@ -197,20 +182,17 @@ const exprWithTypeArgsConverter: TypeConverter<
     ts.Type
 > = {
     kind: [ts.SyntaxKind.ExpressionWithTypeArguments],
-    convert(context, node, target) {
+    convert(context, node) {
         const targetSymbol = context.getSymbolAtLocation(node.expression);
         // Mixins... we might not have a symbol here.
         if (!targetSymbol) {
             return convertType(
                 context,
-                context.checker.getTypeAtLocation(node),
-                target
+                context.checker.getTypeAtLocation(node)
             );
         }
         const parameters =
-            node.typeArguments?.map((type) =>
-                convertType(context, type, target)
-            ) ?? [];
+            node.typeArguments?.map((type) => convertType(context, type)) ?? [];
         const ref = new ReferenceType(
             targetSymbol.name,
             context.resolveAliasedSymbol(targetSymbol),
@@ -227,16 +209,16 @@ const indexedAccessConverter: TypeConverter<
     ts.IndexedAccessType
 > = {
     kind: [ts.SyntaxKind.IndexedAccessType],
-    convert(context, node, target) {
+    convert(context, node) {
         return new IndexedAccessType(
-            convertType(context, node.objectType, target),
-            convertType(context, node.indexType, target)
+            convertType(context, node.objectType),
+            convertType(context, node.indexType)
         );
     },
-    convertType(context, type, target) {
+    convertType(context, type) {
         return new IndexedAccessType(
-            convertType(context, type.objectType, target),
-            convertType(context, type.indexType, target)
+            convertType(context, type.objectType),
+            convertType(context, type.indexType)
         );
     },
 };
@@ -256,14 +238,14 @@ const intersectionConverter: TypeConverter<
     ts.IntersectionType
 > = {
     kind: [ts.SyntaxKind.IntersectionType],
-    convert(context, node, target) {
+    convert(context, node) {
         return new IntersectionType(
-            node.types.map((type) => convertType(context, type, target))
+            node.types.map((type) => convertType(context, type))
         );
     },
-    convertType(context, type, target) {
+    convertType(context, type) {
         return new IntersectionType(
-            type.types.map((type) => convertType(context, type, target))
+            type.types.map((type) => convertType(context, type))
         );
     },
 };
@@ -307,8 +289,8 @@ const keywordConverter: TypeConverter<ts.KeywordTypeNode> = {
 
 const parensConverter: TypeConverter<ts.ParenthesizedTypeNode> = {
     kind: [ts.SyntaxKind.ParenthesizedType],
-    convert(context, node, target) {
-        return convertType(context, node.type, target);
+    convert(context, node) {
+        return convertType(context, node.type);
     },
     // TS strips these out too... shouldn't run into this.
     convertType: requestBugReport,
@@ -316,14 +298,12 @@ const parensConverter: TypeConverter<ts.ParenthesizedTypeNode> = {
 
 const predicateConverter: TypeConverter<ts.TypePredicateNode, ts.Type> = {
     kind: [ts.SyntaxKind.TypePredicate],
-    convert(context, node, target) {
+    convert(context, node) {
         const name = ts.isThisTypeNode(node.parameterName)
             ? "this"
             : node.parameterName.getText();
         const asserts = !!node.assertsModifier;
-        const targetType = node.type
-            ? convertType(context, node.type, target)
-            : void 0;
+        const targetType = node.type ? convertType(context, node.type) : void 0;
         return new PredicateType(name, asserts, targetType);
     },
     // Never inferred by TS 4.0, could potentially change in a future TS version.
@@ -433,18 +413,15 @@ const referenceConverter: TypeConverter<
     ts.TypeReference
 > = {
     kind: [ts.SyntaxKind.TypeReference],
-    convert(context, node, target) {
+    convert(context, node) {
         const symbol = context.expectSymbolAtLocation(node.typeName);
         // We might need to resolve this type (e.g a parent class has a property with a generic type)
         // but we are in a child type, so the generic type should be resolved to a concrete one.
-        if (target && symbol.flags & ts.SymbolFlags.TypeParameter) {
-            const resolvedType = context.checker.getTypeOfSymbolAtLocation(
-                symbol,
-                target
-            );
-            if (!isErrorType(resolvedType) && !resolvedType.isTypeParameter()) {
-                return convertType(context, resolvedType, target);
-            }
+        if (symbol.flags & ts.SymbolFlags.TypeParameter) {
+            // if (!isErrorType(resolvedType) && !resolvedType.isTypeParameter()) {
+            //     return convertType(context, resolvedType);
+            // }
+            // TODO: Fix type parameters
         }
 
         const name = node.typeName.getText();
@@ -455,11 +432,11 @@ const referenceConverter: TypeConverter<
             context.project
         );
         type.typeArguments = node.typeArguments?.map((type) =>
-            convertType(context, type, target)
+            convertType(context, type)
         );
         return type;
     },
-    convertType(context, type, target) {
+    convertType(context, type) {
         const symbol = type.aliasSymbol ?? type.getSymbol();
         if (!symbol) {
             // If we get in here, the user is doing something bad. Probably using mixins.
@@ -474,7 +451,7 @@ const referenceConverter: TypeConverter<
             context.project
         );
         ref.typeArguments = type.aliasTypeArguments?.map((ref) =>
-            convertType(context, ref, target)
+            convertType(context, ref)
         );
         return ref;
     },
@@ -482,8 +459,8 @@ const referenceConverter: TypeConverter<
 
 const namedTupleMemberConverter: TypeConverter<ts.NamedTupleMember> = {
     kind: [ts.SyntaxKind.NamedTupleMember],
-    convert(context, node, target) {
-        const innerType = convertType(context, node.type, target);
+    convert(context, node) {
+        const innerType = convertType(context, node.type);
         return new NamedTupleMember(
             node.name.getText(),
             !!node.questionToken,
@@ -511,35 +488,35 @@ const mappedConverter: TypeConverter<
     }
 > = {
     kind: [ts.SyntaxKind.MappedType],
-    convert(context, node, target) {
+    convert(context, node) {
         const optionalModifier = kindToModifier(node.questionToken?.kind);
-        const templateType = convertType(context, node.type, target);
+        const templateType = convertType(context, node.type);
 
         return new MappedType(
             node.typeParameter.name.text,
-            convertType(context, node.typeParameter.constraint, target),
+            convertType(context, node.typeParameter.constraint),
             optionalModifier === "+"
                 ? removeUndefined(templateType)
                 : templateType,
             kindToModifier(node.readonlyToken?.kind),
             optionalModifier,
-            node.nameType ? convertType(context, node.nameType, target) : void 0
+            node.nameType ? convertType(context, node.nameType) : void 0
         );
     },
-    convertType(context, type, node, target) {
+    convertType(context, type, node) {
         // This can happen if a generic function does not have a return type annotated.
         const optionalModifier = kindToModifier(node.questionToken?.kind);
-        const templateType = convertType(context, type.templateType, target);
+        const templateType = convertType(context, type.templateType);
 
         return new MappedType(
             type.typeParameter.symbol?.name,
-            convertType(context, type.typeParameter.getConstraint(), target),
+            convertType(context, type.typeParameter.getConstraint()),
             optionalModifier === "+"
                 ? removeUndefined(templateType)
                 : templateType,
             kindToModifier(node.readonlyToken?.kind),
             optionalModifier,
-            type.nameType ? convertType(context, type.nameType, target) : void 0
+            type.nameType ? convertType(context, type.nameType) : void 0
         );
     },
 };
@@ -616,22 +593,19 @@ const templateLiteralConverter: TypeConverter<
     ts.TemplateLiteralType
 > = {
     kind: [ts.SyntaxKind.TemplateLiteralType],
-    convert(context, node, target) {
+    convert(context, node) {
         return new TemplateLiteralType(
             node.head.text,
             node.templateSpans.map((span) => {
-                return [
-                    convertType(context, span.type, target),
-                    span.literal.text,
-                ];
+                return [convertType(context, span.type), span.literal.text];
             })
         );
     },
-    convertType(context, type, _node, target) {
+    convertType(context, type) {
         assert(type.texts.length === type.types.length + 1);
         const parts: [Type, string][] = [];
         for (const [a, b] of zip(type.types, type.texts.slice(1))) {
-            parts.push([convertType(context, a, target), b]);
+            parts.push([convertType(context, a), b]);
         }
 
         return new TemplateLiteralType(type.texts[0], parts);
@@ -650,17 +624,15 @@ const thisConverter: TypeConverter<ts.ThisTypeNode> = {
 
 const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleType> = {
     kind: [ts.SyntaxKind.TupleType],
-    convert(context, node, target) {
+    convert(context, node) {
         // TS 3.9 support
         const elementTypes = node.elements ?? (node as any).elementTypes;
-        const elements = elementTypes.map((node) =>
-            convertType(context, node, target)
-        );
+        const elements = elementTypes.map((node) => convertType(context, node));
         return new TupleType(elements);
     },
-    convertType(context, type, node, target) {
+    convertType(context, type, node) {
         let elements = type.typeArguments?.map((type) =>
-            convertType(context, type, target)
+            convertType(context, type)
         );
 
         if (node.elements.every(ts.isNamedTupleMember)) {
@@ -687,19 +659,19 @@ const supportedOperatorNames = {
 
 const typeOperatorConverter: TypeConverter<ts.TypeOperatorNode> = {
     kind: [ts.SyntaxKind.TypeOperator],
-    convert(context, node, target) {
+    convert(context, node) {
         return new TypeOperatorType(
-            convertType(context, node.type, target),
+            convertType(context, node.type),
             supportedOperatorNames[node.operator]
         );
     },
-    convertType(context, type, node, target) {
+    convertType(context, type, node) {
         // readonly is only valid on array and tuple literal types.
         if (node.operator === ts.SyntaxKind.ReadonlyKeyword) {
             assert(isObjectType(type));
             const args = context.checker
                 .getTypeArguments(type as ts.TypeReference)
-                .map((type) => convertType(context, type, target));
+                .map((type) => convertType(context, type));
             const inner =
                 type.objectFlags & ts.ObjectFlags.Tuple
                     ? new TupleType(args)
@@ -714,7 +686,7 @@ const typeOperatorConverter: TypeConverter<ts.TypeOperatorNode> = {
             // There's probably an interface for this somewhere... I couldn't find it.
             const targetType = (type as ts.Type & { type: ts.Type }).type;
             return new TypeOperatorType(
-                convertType(context, targetType, target),
+                convertType(context, targetType),
                 "keyof"
             );
         }
@@ -727,14 +699,14 @@ const typeOperatorConverter: TypeConverter<ts.TypeOperatorNode> = {
 
 const unionConverter: TypeConverter<ts.UnionTypeNode, ts.UnionType> = {
     kind: [ts.SyntaxKind.UnionType],
-    convert(context, node, target) {
+    convert(context, node) {
         return new UnionType(
-            node.types.map((type) => convertType(context, type, target))
+            node.types.map((type) => convertType(context, type))
         );
     },
-    convertType(context, type, target) {
+    convertType(context, type) {
         return new UnionType(
-            type.types.map((type) => convertType(context, type, target))
+            type.types.map((type) => convertType(context, type))
         );
     },
 };
@@ -798,8 +770,4 @@ function removeUndefined(type: Type) {
         return type;
     }
     return type;
-}
-
-function isErrorType(type: ts.Type) {
-    return (type as any).intrinsicName === "error";
 }

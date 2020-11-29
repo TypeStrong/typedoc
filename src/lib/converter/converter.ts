@@ -171,10 +171,9 @@ export class Converter extends ChildableComponent<
      */
     convertType(
         context: Context,
-        node: ts.TypeNode | ts.Type | undefined,
-        referenceTarget: ts.Node | undefined
+        node: ts.TypeNode | ts.Type | undefined
     ): Type {
-        return convertType(context, node, referenceTarget);
+        return convertType(context, node);
     }
 
     getNodesForSymbol(symbol: ts.Symbol, kind: ReflectionKind) {

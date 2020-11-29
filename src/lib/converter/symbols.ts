@@ -187,35 +187,22 @@ function convertTypeAlias(
         ?.getDeclarations()
         ?.find(ts.isTypeAliasDeclaration);
     assert(declaration);
-    reflection.type = context.converter.convertType(
-        context,
-        declaration.type,
-        declaration
-    );
+    reflection.type = context.converter.convertType(context, declaration.type);
 
     reflection.typeParameters = declaration.typeParameters?.map((param) =>
-        createTypeParamReflection(
-            param,
-            context.withScope(reflection),
-            declaration
-        )
+        createTypeParamReflection(param, context.withScope(reflection))
     );
 }
 
 function createTypeParamReflection(
     param: ts.TypeParameterDeclaration,
-    context: Context,
-    typeContextNode: ts.Node | undefined
+    context: Context
 ) {
     const constraint = param.constraint
-        ? context.converter.convertType(
-              context,
-              param.constraint,
-              typeContextNode
-          )
+        ? context.converter.convertType(context, param.constraint)
         : void 0;
     const defaultType = param.default
-        ? context.converter.convertType(context, param.default, typeContextNode)
+        ? context.converter.convertType(context, param.default)
         : void 0;
     const paramRefl = new TypeParameterReflection(
         param.name.text,
@@ -392,11 +379,7 @@ function convertClassOrInterface(
         reflection.typeParameters = instanceType.typeParameters.map((param) => {
             const declaration = param.symbol?.declarations?.[0];
             assert(ts.isTypeParameterDeclaration(declaration));
-            return createTypeParamReflection(
-                declaration,
-                reflectionContext,
-                symbol.getDeclarations()?.[0]
-            );
+            return createTypeParamReflection(declaration, reflectionContext);
         });
     }
 
@@ -415,7 +398,7 @@ function convertClassOrInterface(
                 return [];
             }
             return clause.types.map((type) =>
-                context.converter.convertType(reflectionContext, type, decl)
+                context.converter.convertType(reflectionContext, type)
             );
         })
     );
@@ -429,7 +412,7 @@ function convertClassOrInterface(
                 return [];
             }
             return clause.types.map((type) =>
-                context.converter.convertType(reflectionContext, type, decl)
+                context.converter.convertType(reflectionContext, type)
             );
         })
     );
@@ -547,8 +530,7 @@ function convertProperty(
     reflection.type = context.converter.convertType(
         context,
         parameterType ??
-            context.checker.getTypeOfSymbolAtLocation(symbol, {} as any),
-        declaration
+            context.checker.getTypeOfSymbolAtLocation(symbol, {} as any)
     );
 }
 
@@ -716,8 +698,7 @@ function convertVariable(
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
         typeNode ??
-            context.checker.getTypeOfSymbolAtLocation(symbol, declaration),
-        declaration
+            context.checker.getTypeOfSymbolAtLocation(symbol, declaration)
     );
 
     setModifiers(declaration, reflection);
