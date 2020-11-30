@@ -1,5 +1,4 @@
 import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
 
 import { ReferenceType } from "../../models/types/index";
 import { Reflection, Decorator } from "../../models/reflections/index";
@@ -58,10 +57,8 @@ export class DecoratorPlugin extends ConverterComponent {
 
     /**
      * Triggered when the converter begins converting a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context: Context) {
+    private onBegin() {
         this.usages = {};
     }
 

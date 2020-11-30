@@ -15,11 +15,7 @@ export class ThisConverter
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    public supportsNode(
-        context: Context,
-        node: ts.ThisTypeNode,
-        type: ts.Type
-    ): boolean {
+    public supportsNode(context: Context, node: ts.ThisTypeNode): boolean {
         return node.kind === ts.SyntaxKind.ThisType;
     }
 
@@ -33,16 +29,9 @@ export class ThisConverter
      * const someValue:SomeClass;
      * ```
      *
-     * @param context  The context object describing the current state the converter is in.
-     * @param node  The type reference node that should be converted.
-     * @param type  The type of the type reference node.
      * @returns The type reflection representing the given reference node.
      */
-    public convertNode(
-        context: Context,
-        node: ts.ThisTypeNode,
-        type: ts.Type
-    ): Type {
+    public convertNode(): Type {
         return new IntrinsicType("this");
     }
 }

@@ -48,10 +48,8 @@ export class CategoryPlugin extends ConverterComponent {
 
     /**
      * Triggered when the converter begins converting a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context: Context) {
+    private onBegin() {
         // Set up static properties
         if (this.defaultCategory) {
             CategoryPlugin.defaultCategory = this.defaultCategory;

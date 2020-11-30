@@ -1,3 +1,1 @@
-import { Application } from "../..";
-
-module.exports = (pluginHost: Application) => {};
+module.exports = () => {};

@@ -1,5 +1,4 @@
 import * as ts from "typescript";
-import * as _ts from "../ts-internal";
 import * as _ from "lodash";
 
 import { Application } from "../application";

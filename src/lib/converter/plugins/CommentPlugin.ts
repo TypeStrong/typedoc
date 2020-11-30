@@ -148,10 +148,8 @@ export class CommentPlugin extends ConverterComponent {
 
     /**
      * Triggered when the converter begins converting a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context: Context) {
+    private onBegin() {
         this.comments = {};
     }
 
@@ -160,12 +158,10 @@ export class CommentPlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently processed.
-     * @param node  The node that is currently processed if available.
      */
     private onCreateTypeParameter(
         context: Context,
-        reflection: TypeParameterReflection,
-        node?: ts.Node
+        reflection: TypeParameterReflection
     ) {
         const comment = reflection.parent && reflection.parent.comment;
         if (comment) {

@@ -14,7 +14,7 @@ export class DecoratorContainerSerializer extends SerializerComponent<
         return instance instanceof DecoratorWrapper;
     }
 
-    supports(_: unknown) {
+    supports() {
         return true;
     }
 
