@@ -58,29 +58,26 @@ function rebuildConverterTests(dirs) {
         return;
     }
 
-    return Promise.all(
-        dirs.map((fullPath) => {
-            console.log(fullPath);
-            const src = app.expandInputFiles([fullPath]);
-            return Promise.all(
-                conversions.map(([file, before, after]) => {
-                    const out = path.join(fullPath, `${file}.json`);
-                    if (fs.existsSync(out)) {
-                        TypeDoc.resetReflectionID();
-                        before();
-                        const result = app.converter.convert(src, program);
-                        const serialized = app.serializer.toObject(result);
+    for (const fullPath of dirs) {
+        console.log(fullPath);
+        const src = app.expandInputFiles([fullPath]);
 
-                        const data = JSON.stringify(serialized, null, "  ")
-                            .split(TypeDoc.normalizePath(base))
-                            .join("%BASE%");
-                        after();
-                        return fs.writeFile(out.replace("dist", "src"), data);
-                    }
-                })
-            );
-        })
-    );
+        for (const [file, before, after] of conversions) {
+            const out = path.join(fullPath, `${file}.json`);
+            if (fs.existsSync(out)) {
+                TypeDoc.resetReflectionID();
+                before();
+                const result = app.converter.convert(src, program);
+                const serialized = app.serializer.toObject(result);
+
+                const data = JSON.stringify(serialized, null, "  ")
+                    .split(TypeDoc.normalizePath(base))
+                    .join("%BASE%");
+                after();
+                fs.writeFileSync(out.replace("dist", "src"), data);
+            }
+        }
+    }
 }
 
 async function rebuildRendererTest() {

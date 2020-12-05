@@ -61,3 +61,7 @@ export namespace GH1330 {
     declare const makeProp: <T>(x: T) => HasProp<T>;
     export const testValue3 = makeProp(1);
 }
+
+export namespace GH1408 {
+    export declare function foo<T extends unknown[]>(): T;
+}

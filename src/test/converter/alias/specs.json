@@ -178,6 +178,60 @@
       ]
     },
     {
+      "id": 39,
+      "name": "GH1408",
+      "kind": 2,
+      "kindString": "Namespace",
+      "flags": {},
+      "children": [
+        {
+          "id": 40,
+          "name": "foo",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 41,
+              "name": "foo",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "typeParameter": [
+                {
+                  "id": 42,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "intrinsic",
+                      "name": "unknown"
+                    }
+                  }
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "T"
+              }
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            40
+          ]
+        }
+      ]
+    },
+    {
       "id": 21,
       "name": "HorribleRecursiveTypeThatShouldNotBeUsedByAnyone",
       "kind": 4194304,
@@ -684,7 +738,8 @@
       "title": "Namespaces",
       "kind": 2,
       "children": [
-        28
+        28,
+        39
       ]
     },
     {
