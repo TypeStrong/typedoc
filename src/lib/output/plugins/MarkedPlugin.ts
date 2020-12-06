@@ -221,29 +221,26 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      * @returns The options object for the markdown parser.
      */
     private createMarkedOptions(): Marked.MarkedOptions {
-        const markedOptionsViaOption = this.application.options.getValue(
+        const markedOptions = (this.application.options.getValue(
             "markedOptions"
-        );
+        ) ?? {}) as Marked.MarkedOptions;
 
         if (
-            markedOptionsViaOption != undefined &&
-            typeof markedOptionsViaOption !== "object"
+            typeof markedOptions === "object" &&
+            !Array.isArray(markedOptions)
         ) {
-            throw new Error(
-                "The value provided via the 'markedOptions' option must be an object."
-            );
+            // Set some default values if they are not specified via the TypeDoc option
+            markedOptions.highlight ??= (text: any, lang: any) =>
+                this.getHighlighted(text, lang);
+            markedOptions.renderer ??= customMarkedRenderer;
+            markedOptions.mangle ??= false; // See https://github.com/TypeStrong/typedoc/issues/1395
+
+            return markedOptions;
         }
 
-        const markedOptions = (markedOptionsViaOption ??
-            {}) as Marked.MarkedOptions;
-
-        // Set some default values if they are not specified via the TypeDoc option
-        markedOptions.highlight ??= (text: any, lang: any) =>
-            this.getHighlighted(text, lang);
-        markedOptions.renderer ??= customMarkedRenderer;
-        markedOptions.mangle ??= false; // See https://github.com/TypeStrong/typedoc/issues/1395
-
-        return markedOptions;
+        throw new Error(
+            "The value provided via the 'markedOptions' option must be a non-array object."
+        );
     }
 
     /**
