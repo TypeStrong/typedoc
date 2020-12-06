@@ -315,7 +315,9 @@ describe("Events", function () {
     it("stopListening cleans up references", function () {
         const a: any = new Events();
         const b: any = new Events();
-        const fn = function () {};
+        const fn = function () {
+            // nop
+        };
         b.on("event", fn);
 
         a.listenTo(b, "event", fn).stopListening();
@@ -342,7 +344,9 @@ describe("Events", function () {
     it("stopListening cleans up references from listenToOnce", function () {
         const a: any = new Events();
         const b: any = new Events();
-        const fn = function () {};
+        const fn = function () {
+            // nop
+        };
         b.on("event", fn);
 
         a.listenToOnce(b, "event", fn).stopListening();
@@ -369,7 +373,9 @@ describe("Events", function () {
     it("listenTo and off cleaning up references", function () {
         const a: any = new Events();
         const b: any = new Events();
-        const fn = function () {};
+        const fn = function () {
+            // nop
+        };
 
         a.listenTo(b, "event", fn);
         b.off();
@@ -835,7 +841,9 @@ describe("Events", function () {
             this.off("event", f);
         };
         obj.on("event", f);
-        obj.once("event", function () {});
+        obj.once("event", function () {
+            // nop
+        });
         obj.on("event", function () {
             count += 1;
         });
@@ -869,7 +877,9 @@ describe("Events", function () {
     it("event functions are chainable", function () {
         const obj = new Events();
         const obj2 = new Events();
-        const fn = function () {};
+        const fn = function () {
+            // nop
+        };
 
         Assert.equal(obj, obj.trigger("noeventssetyet"));
         Assert.equal(obj, obj.off("noeventssetyet"));

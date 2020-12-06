@@ -30,7 +30,15 @@ describe("Converter", function () {
     });
 
     const checks: [string, () => void, () => void][] = [
-        ["specs", () => {}, () => {}],
+        [
+            "specs",
+            () => {
+                // nop
+            },
+            () => {
+                // nop
+            },
+        ],
         [
             "specs.d",
             () => app.options.setValue("includeDeclarations", true),

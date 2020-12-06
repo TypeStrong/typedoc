@@ -9,8 +9,12 @@ describe("PluginHost", function () {
             warnOnReplace: false,
             warnOnUnregistered: false,
         });
-        mockery.registerMock("typedoc-plugin-1", () => {});
-        mockery.registerMock("typedoc-plugin-2", () => {});
+        mockery.registerMock("typedoc-plugin-1", () => {
+            // nop
+        });
+        mockery.registerMock("typedoc-plugin-2", () => {
+            // nop
+        });
     });
 
     after(function () {
