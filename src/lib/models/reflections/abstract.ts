@@ -570,7 +570,9 @@ export abstract class Reflection {
      * @param callback  The callback function that should be applied for each child reflection.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- This abstract class defines the interface.
-    traverse(callback: TraverseCallback) {}
+    traverse(callback: TraverseCallback) {
+        // empty default implementation
+    }
 
     /**
      * Return a string representation of this reflection.
