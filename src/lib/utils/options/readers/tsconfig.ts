@@ -1,4 +1,4 @@
-import { resolve, dirname, basename } from "path";
+import { resolve, basename } from "path";
 import { existsSync, statSync } from "fs";
 
 import * as ts from "typescript";
@@ -54,22 +54,26 @@ export class TSConfigReader implements OptionsReader {
 
         fileToRead = normalizePath(resolve(fileToRead));
 
-        const { config } = ts.readConfigFile(fileToRead, ts.sys.readFile);
-        const {
-            fileNames,
-            errors,
-            options,
-            raw: { typedocOptions = {} },
-        } = ts.parseJsonConfigFileContent(
-            config,
-            ts.sys,
-            dirname(fileToRead),
+        let fatalError = false as boolean;
+        const parsed = ts.getParsedCommandLineOfConfigFile(
+            fileToRead,
             {},
-            fileToRead
+            {
+                ...ts.sys,
+                onUnRecoverableConfigFileDiagnostic(error) {
+                    logger?.diagnostic(error);
+                    fatalError = true;
+                },
+            }
         );
 
-        logger?.diagnostics(errors);
+        if (!parsed || fatalError) {
+            return;
+        }
 
+        logger?.diagnostics(parsed.errors);
+
+        const typedocOptions = parsed.raw?.typedocOptions ?? {};
         if (typedocOptions.options) {
             logger?.error(
                 [
@@ -86,7 +90,11 @@ export class TSConfigReader implements OptionsReader {
             delete typedocOptions.tsconfig;
         }
 
-        container.setCompilerOptions(fileNames, options);
+        container.setCompilerOptions(
+            parsed.fileNames,
+            parsed.options,
+            parsed.projectReferences
+        );
         for (const [key, val] of Object.entries(typedocOptions || {})) {
             try {
                 container.setValue(key, val);

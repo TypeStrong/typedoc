@@ -23,6 +23,7 @@ import {
 } from "./utils/component";
 import { Options, BindOption } from "./utils";
 import { TypeDocOptions } from "./utils/options/declaration";
+import { flatMap } from "./utils/array";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -201,12 +202,32 @@ export class Application extends ChildableComponent<
             );
         }
 
-        const program = ts.createProgram(
-            this.application.options.getFileNames(),
-            this.application.options.getCompilerOptions()
-        );
+        const programs = [
+            ts.createProgram({
+                rootNames: this.application.options.getFileNames(),
+                options: this.application.options.getCompilerOptions(),
+                projectReferences: this.application.options.getProjectReferences(),
+            }),
+        ];
 
-        const errors = ts.getPreEmitDiagnostics(program);
+        // This might be a solution style tsconfig, in which case we need to add a program for each
+        // reference so that the converter can look through each of these.
+        const resolvedReferences = programs[0].getResolvedProjectReferences();
+        for (const ref of resolvedReferences ?? []) {
+            if (!ref) continue; // This indicates bad configuration... will be reported later.
+
+            programs.push(
+                ts.createProgram({
+                    options: ref.commandLine.options,
+                    rootNames: ref.commandLine.fileNames,
+                    projectReferences: ref.commandLine.projectReferences,
+                })
+            );
+        }
+
+        this.logger.verbose(`Converting with ${programs.length} programs`);
+
+        const errors = flatMap(programs, ts.getPreEmitDiagnostics);
         if (errors.length) {
             this.logger.diagnostics(errors);
             return;
@@ -214,7 +235,7 @@ export class Application extends ChildableComponent<
 
         return this.converter.convert(
             this.expandInputFiles(this.entryPoints),
-            program
+            programs
         );
     }
 

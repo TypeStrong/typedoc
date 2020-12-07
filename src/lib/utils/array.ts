@@ -128,18 +128,18 @@ export function filterMap<T, U>(
 
 export function flatMap<T, U>(
     arr: readonly T[],
-    fn: (item: T, index: number) => U | U[]
+    fn: (item: T) => U | readonly U[]
 ): U[] {
     const result: U[] = [];
 
-    arr.forEach((item, index) => {
-        const newItem = fn(item, index);
+    for (const item of arr) {
+        const newItem = fn(item);
         if (Array.isArray(newItem)) {
             result.push(...newItem);
         } else {
             result.push(newItem);
         }
-    });
+    }
 
     return result;
 }

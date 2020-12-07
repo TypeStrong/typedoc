@@ -6,6 +6,7 @@ import { Converter } from "../converter";
 import { Context } from "../context";
 import { BindOption, readFile } from "../../utils";
 import { getCommonDirectory } from "../../utils/fs";
+import { flatMap } from "../../utils/array";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -63,7 +64,11 @@ export class PackagePlugin extends ConverterComponent {
             dirName === Path.resolve(Path.join(dirName, ".."));
 
         let dirName = Path.resolve(
-            getCommonDirectory(context.program.getRootFileNames())
+            getCommonDirectory(
+                flatMap(context.programs, (program) =>
+                    program.getRootFileNames()
+                )
+            )
         );
         while (!packageAndReadmeFound() && !reachedTopDirectory(dirName)) {
             FS.readdirSync(dirName).forEach((file) => {

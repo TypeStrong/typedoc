@@ -1,3 +1,4 @@
+import { ok as assert } from "assert";
 import * as ts from "typescript";
 
 import {
@@ -26,12 +27,27 @@ export class Context {
     /**
      * The TypeChecker instance returned by the TypeScript compiler.
      */
-    readonly checker: ts.TypeChecker;
+    get checker(): ts.TypeChecker {
+        return this.program.getTypeChecker();
+    }
 
     /**
-     * The program being converted.
+     * The program currently being converted.
+     * Accessing this property will throw if a source file is not currently being converted.
      */
-    readonly program: ts.Program;
+    get program(): ts.Program {
+        assert(
+            this._program,
+            "Tried to access Context.program when not converting a source file"
+        );
+        return this._program;
+    }
+    private _program?: ts.Program;
+
+    /**
+     * All programs being converted.
+     */
+    readonly programs: readonly ts.Program[];
 
     /**
      * The project that is currently processed.
@@ -53,14 +69,12 @@ export class Context {
      */
     constructor(
         converter: Converter,
-        checker: ts.TypeChecker,
-        program: ts.Program,
-        project = new ProjectReflection(converter.name),
+        programs: readonly ts.Program[],
+        project: ProjectReflection,
         scope: Context["scope"] = project
     ) {
         this.converter = converter;
-        this.checker = checker;
-        this.program = program;
+        this.programs = programs;
 
         this.project = project;
         this.scope = scope;
@@ -202,17 +216,22 @@ export class Context {
         this.converter.trigger(name, this, reflection, node);
     }
 
+    /** @internal */
+    setActiveProgram(program: ts.Program | undefined) {
+        this._program = program;
+    }
+
     /**
      * @param callback  The callback function that should be executed with the changed context.
      */
     public withScope(scope: Reflection): Context {
         const context = new Context(
             this.converter,
-            this.checker,
-            this.program,
+            this.programs,
             this.project,
             scope
         );
+        context.setActiveProgram(this._program);
         return context;
     }
 }

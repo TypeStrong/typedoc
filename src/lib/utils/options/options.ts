@@ -79,7 +79,8 @@ export class Options {
     private _declarations = new Map<string, Readonly<DeclarationOption>>();
     private _values: Record<string, unknown> = {};
     private _compilerOptions: ts.CompilerOptions = {};
-    private _fileNames: string[] = [];
+    private _fileNames: readonly string[] = [];
+    private _projectReferences: readonly ts.ProjectReference[] = [];
     private _logger: Logger;
 
     constructor(logger: Logger) {
@@ -284,14 +285,23 @@ export class Options {
     }
 
     /**
+     * Gets the project references - used in solution style tsconfig setups.
+     */
+    getProjectReferences(): readonly ts.ProjectReference[] {
+        return this._projectReferences;
+    }
+
+    /**
      * Sets the compiler options that will be used to get a TS program.
      */
     setCompilerOptions(
         fileNames: readonly string[],
-        options: ts.CompilerOptions
+        options: ts.CompilerOptions,
+        projectReferences: readonly ts.ProjectReference[] | undefined
     ) {
-        this._fileNames = fileNames.slice();
+        this._fileNames = fileNames;
         this._compilerOptions = _.cloneDeep(options);
+        this._projectReferences = projectReferences ?? [];
     }
 
     /**
