@@ -254,7 +254,7 @@ export class DefaultTheme extends Theme {
     }
 
     /**
-     * Return the template mapping fore the given reflection.
+     * Return the template mapping for the given reflection.
      *
      * @param reflection  The reflection whose mapping should be resolved.
      * @returns           The found mapping or undefined if no mapping could be found.
