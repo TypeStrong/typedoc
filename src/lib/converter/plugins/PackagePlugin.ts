@@ -6,7 +6,6 @@ import { Converter } from "../converter";
 import { Context } from "../context";
 import { BindOption, readFile } from "../../utils";
 import { getCommonDirectory } from "../../utils/fs";
-import { flatMap } from "../../utils/array";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -45,7 +44,7 @@ export class PackagePlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context: Context) {
+    private onBegin(_context: Context) {
         this.readmeFile = undefined;
         this.packageFile = undefined;
 
@@ -65,11 +64,12 @@ export class PackagePlugin extends ConverterComponent {
 
         let dirName = Path.resolve(
             getCommonDirectory(
-                flatMap(context.programs, (program) =>
-                    program.getRootFileNames()
-                )
+                this.application.options
+                    .getValue("entryPoints")
+                    .map((path) => Path.resolve(path))
             )
         );
+        this.application.logger.verbose(`Begin readme search at ${dirName}`);
         while (!packageAndReadmeFound() && !reachedTopDirectory(dirName)) {
             FS.readdirSync(dirName).forEach((file) => {
                 const lowercaseFileName = file.toLowerCase();
