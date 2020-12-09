@@ -233,4 +233,10 @@ export function addTypeDocOptions(options: Options) {
             "Emits a list of broken symbol [[navigation]] links after documentation generation",
         type: ParameterType.Boolean,
     });
+    options.addDeclaration({
+        name: "markedOptions",
+        help:
+            "Specify the options passed to Marked, the Markdown parser used by TypeDoc",
+        type: ParameterType.Mixed,
+    });
 }

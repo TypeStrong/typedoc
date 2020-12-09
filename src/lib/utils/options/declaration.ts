@@ -2,7 +2,7 @@ import { CompilerOptions } from "typescript";
 import { IgnoredTsOptionKeys } from "./sources/typescript";
 
 /**
- * An interface describing all TypeDoc specific options options. Generated from a
+ * An interface describing all TypeDoc specific options. Generated from a
  * map which contains more information about each option for better types when
  * defining said options.
  */
@@ -89,6 +89,7 @@ export interface TypeDocOptionMap {
     plugin: string[];
     logger: unknown; // string | Function
     listInvalidSymbolLinks: boolean;
+    markedOptions: unknown;
 }
 
 /**
