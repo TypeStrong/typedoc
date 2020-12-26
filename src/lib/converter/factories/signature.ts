@@ -33,7 +33,12 @@ export function createSignature(
         | ts.SignatureDeclaration
         | undefined;
 
-    if (!commentDeclaration && declaration && (ts.isArrowFunction(declaration) || ts.isFunctionExpression(declaration)) {
+    if (
+        !commentDeclaration &&
+        declaration &&
+        (ts.isArrowFunction(declaration) ||
+            ts.isFunctionExpression(declaration))
+    ) {
         commentDeclaration = declaration.parent;
     }
     commentDeclaration ??= declaration;

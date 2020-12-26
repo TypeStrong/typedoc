@@ -294,7 +294,7 @@
               "flags": {},
               "comment": {
                 "shortText": "Returns true if fn returns true for every item in the iterator",
-                "text": "Returns true if the iterator is empty\n\n## Example\n```typescript\nall(e => e > 1, [1, 2, 3]) // false\nall(e => e > 0, [1, 2, 3]) // true\nall(e => e > 1, [])        // true\n```\n"
+                "text": "Returns true if the iterator is empty\n"
               },
               "typeParameter": [
                 {
@@ -380,7 +380,7 @@
               "flags": {},
               "comment": {
                 "shortText": "Returns true if fn returns true for every item in the iterator",
-                "text": "Returns true if the iterator is empty\n\n## Example\n```typescript\nall(e => e > 1, [1, 2, 3]) // false\nall(e => e > 0, [1, 2, 3]) // true\nall(e => e > 1, [])        // true\n```\n"
+                "text": "Returns true if the iterator is empty\n"
               },
               "typeParameter": [
                 {
