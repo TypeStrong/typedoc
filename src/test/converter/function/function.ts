@@ -188,3 +188,13 @@ export class Predicates {
     static assert(x: unknown): asserts x {}
     assertString(): asserts this is string {}
 }
+
+/**
+ * Returns true if fn returns true for every item in the iterator
+ *
+ * Returns true if the iterator is empty
+ */
+export const all: {
+    <T>(fn: (item: T) => boolean, iterator: Iterable<T>): boolean;
+    <T>(fn: (item: T) => boolean): (iterator: Iterable<T>) => boolean;
+} = () => false as any;

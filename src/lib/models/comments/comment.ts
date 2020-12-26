@@ -1,10 +1,11 @@
+import { removeIf } from "../../utils";
 import { CommentTag } from "./tag";
 
 /**
- * A model that represents a javadoc comment.
+ * A model that represents a comment.
  *
- * Instances of this model are created by the [[CommentHandler]]. You can retrieve comments
- * through the [[BaseReflection.comment]] property.
+ * Instances of this model are created by the [[CommentPlugin]]. You can retrieve comments
+ * through the [[DeclarationReflection.comment]] property.
  */
 export class Comment {
     /**
@@ -24,9 +25,9 @@ export class Comment {
     returns?: string;
 
     /**
-     * All associated javadoc tags.
+     * All associated tags.
      */
-    tags?: CommentTag[];
+    tags: CommentTag[] = [];
 
     /**
      * Creates a new Comment instance.
@@ -42,7 +43,7 @@ export class Comment {
      * @returns TRUE when this comment has a visible component.
      */
     hasVisibleComponent(): boolean {
-        return !!this.shortText || !!this.text || !!this.tags;
+        return !!this.shortText || !!this.text || this.tags.length > 0;
     }
 
     /**
@@ -52,15 +53,7 @@ export class Comment {
      * @returns TRUE when this comment contains a tag with the given name, otherwise FALSE.
      */
     hasTag(tagName: string): boolean {
-        if (!this.tags) {
-            return false;
-        }
-        for (let i = 0, c = this.tags.length; i < c; i++) {
-            if (this.tags[i].tagName === tagName) {
-                return true;
-            }
-        }
-        return false;
+        return this.tags.some((tag) => tag.tagName === tagName);
     }
 
     /**
@@ -73,7 +66,7 @@ export class Comment {
      * @returns The found tag or undefined.
      */
     getTag(tagName: string, paramName?: string): CommentTag | undefined {
-        return (this.tags || []).find((tag) => {
+        return this.tags.find((tag) => {
             return (
                 tag.tagName === tagName &&
                 (paramName === void 0 || tag.paramName === paramName)
@@ -86,20 +79,7 @@ export class Comment {
      * @param tagName
      */
     removeTags(tagName: string) {
-        if (!this.tags) {
-            return;
-        }
-
-        let i = 0,
-            c = this.tags.length ?? 0;
-        while (i < c) {
-            if (this.tags[i].tagName === tagName) {
-                this.tags.splice(i, 1);
-                c--;
-            } else {
-                i++;
-            }
-        }
+        removeIf(this.tags, (tag) => tag.tagName === tagName);
     }
 
     /**
@@ -111,10 +91,8 @@ export class Comment {
         this.shortText = comment.shortText;
         this.text = comment.text;
         this.returns = comment.returns;
-        this.tags = comment.tags
-            ? comment.tags.map(
-                  (tag) => new CommentTag(tag.tagName, tag.paramName, tag.text)
-              )
-            : undefined;
+        this.tags = comment.tags.map(
+            (tag) => new CommentTag(tag.tagName, tag.paramName, tag.text)
+        );
     }
 }

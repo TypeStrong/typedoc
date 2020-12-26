@@ -748,7 +748,9 @@ function convertVariableAsFunction(
             createSignature(
                 reflectionContext,
                 ReflectionKind.CallSignature,
-                signature
+                signature,
+                void 0,
+                declaration
             )
         );
     }

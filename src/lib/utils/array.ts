@@ -60,6 +60,20 @@ export function removeIfPresent<T>(arr: T[] | undefined, item: T) {
 }
 
 /**
+ * Remove items in an array which match a predicate.
+ * @param arr
+ * @param predicate
+ */
+export function removeIf<T>(arr: T[], predicate: (item: T) => boolean) {
+    const indices = filterMap(arr, (item, index) =>
+        predicate(item) ? index : void 0
+    );
+    for (const index of indices.reverse()) {
+        arr.splice(index, 1);
+    }
+}
+
+/**
  * Filters out duplicate values from the given iterable.
  * @param arr
  */

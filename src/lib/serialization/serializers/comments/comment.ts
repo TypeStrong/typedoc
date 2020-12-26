@@ -27,7 +27,7 @@ export class CommentSerializer extends SerializerComponent<Comment> {
         if (comment.returns) {
             obj.returns = comment.returns;
         }
-        if (comment.tags && comment.tags.length) {
+        if (comment.tags.length) {
             obj.tags = comment.tags.map((tag) => this.owner.toObject(tag));
         }
 

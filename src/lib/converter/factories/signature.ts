@@ -23,7 +23,8 @@ export function createSignature(
         | ReflectionKind.GetSignature
         | ReflectionKind.SetSignature,
     signature: ts.Signature,
-    declaration?: ts.SignatureDeclaration
+    declaration?: ts.SignatureDeclaration,
+    commentDeclaration?: ts.Node
 ) {
     assert(context.scope instanceof DeclarationReflection);
     // signature.getDeclaration might return undefined.
@@ -32,14 +33,10 @@ export function createSignature(
         | ts.SignatureDeclaration
         | undefined;
 
-    let commentDeclaration: ts.Node | undefined = declaration;
-    if (
-        commentDeclaration &&
-        (ts.isArrowFunction(commentDeclaration) ||
-            ts.isFunctionExpression(commentDeclaration))
-    ) {
-        commentDeclaration = commentDeclaration.parent;
+    if (!commentDeclaration && declaration && (ts.isArrowFunction(declaration) || ts.isFunctionExpression(declaration)) {
+        commentDeclaration = declaration.parent;
     }
+    commentDeclaration ??= declaration;
 
     const sigRef = new SignatureReflection(
         context.scope.name,

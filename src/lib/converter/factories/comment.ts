@@ -211,9 +211,6 @@ export function parseComment(
         }
 
         currentTag = new CommentTag(tagName, paramName, line);
-        if (!comment.tags) {
-            comment.tags = [];
-        }
         comment.tags.push(currentTag);
     }
 
