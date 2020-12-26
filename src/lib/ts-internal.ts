@@ -5,7 +5,15 @@ import * as ts from "typescript";
  */
 declare module "typescript" {
     interface Node {
-        // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L497
+        // https://github.com/microsoft/TypeScript/blob/v4.1.3/src/compiler/types.ts#L847
         symbol?: ts.Symbol;
+    }
+
+    interface TypeChecker {
+        // https://github.com/microsoft/TypeScript/blob/v4.1.3/src/compiler/types.ts#L4145
+        // https://github.com/microsoft/TypeScript/issues/42118
+        getTypePredicateOfSignature(
+            signature: ts.Signature
+        ): ts.TypePredicate | undefined;
     }
 }

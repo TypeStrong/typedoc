@@ -359,6 +359,12 @@
                       "type": {
                         "type": "reference",
                         "id": 67,
+                        "typeArguments": [
+                          {
+                            "type": "reference",
+                            "name": "T"
+                          }
+                        ],
                         "name": "EventDispatcher"
                       }
                     }
@@ -759,6 +765,12 @@
                       "type": {
                         "type": "reference",
                         "id": 35,
+                        "typeArguments": [
+                          {
+                            "type": "reference",
+                            "name": "V"
+                          }
+                        ],
                         "name": "Subscription"
                       }
                     }

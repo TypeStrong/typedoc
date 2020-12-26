@@ -125,7 +125,7 @@
           ]
         },
         {
-          "id": 69,
+          "id": 73,
           "name": "baseProperty",
           "kind": 1024,
           "kindString": "Property",
@@ -149,7 +149,7 @@
           "defaultValue": "\"init\""
         },
         {
-          "id": 65,
+          "id": 69,
           "name": "property1",
           "kind": 1024,
           "kindString": "Property",
@@ -173,14 +173,14 @@
           "defaultValue": "\"init\""
         },
         {
-          "id": 70,
+          "id": 74,
           "name": "baseMethod",
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
           "signatures": [
             {
-              "id": 71,
+              "id": 75,
               "name": "baseMethod",
               "kind": 4096,
               "kindString": "Call signature",
@@ -213,21 +213,21 @@
           ]
         },
         {
-          "id": 66,
+          "id": 70,
           "name": "method1",
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
           "signatures": [
             {
-              "id": 67,
+              "id": 71,
               "name": "method1",
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
-                  "id": 68,
+                  "id": 72,
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -276,6 +276,49 @@
                   "type": {
                     "type": "reference",
                     "id": 34,
+                    "typeArguments": [
+                      {
+                        "type": "intersection",
+                        "types": [
+                          {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 65,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "children": [
+                                {
+                                  "id": 66,
+                                  "name": "prototype",
+                                  "kind": 2048,
+                                  "kindString": "Method",
+                                  "flags": {}
+                                }
+                              ],
+                              "groups": [
+                                {
+                                  "title": "Methods",
+                                  "kind": 2048,
+                                  "children": [
+                                    66
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "query",
+                            "queryType": {
+                              "type": "reference",
+                              "id": 10,
+                              "name": "Base"
+                            }
+                          }
+                        ]
+                      }
+                    ],
                     "name": "Mixin2"
                   }
                 }
@@ -285,6 +328,49 @@
                 "elementType": {
                   "type": "reference",
                   "id": 34,
+                  "typeArguments": [
+                    {
+                      "type": "intersection",
+                      "types": [
+                        {
+                          "type": "reflection",
+                          "declaration": {
+                            "id": 67,
+                            "name": "__type",
+                            "kind": 65536,
+                            "kindString": "Type literal",
+                            "flags": {},
+                            "children": [
+                              {
+                                "id": 68,
+                                "name": "prototype",
+                                "kind": 2048,
+                                "kindString": "Method",
+                                "flags": {}
+                              }
+                            ],
+                            "groups": [
+                              {
+                                "title": "Methods",
+                                "kind": 2048,
+                                "children": [
+                                  68
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "query",
+                          "queryType": {
+                            "type": "reference",
+                            "id": 10,
+                            "name": "Base"
+                          }
+                        }
+                      ]
+                    }
+                  ],
                   "name": "Mixin2"
                 }
               }
@@ -304,9 +390,9 @@
           "title": "Properties",
           "kind": 1024,
           "children": [
-            69,
+            73,
             58,
-            65,
+            69,
             61
           ]
         },
@@ -314,9 +400,9 @@
           "title": "Methods",
           "kind": 2048,
           "children": [
-            70,
+            74,
             59,
-            66,
+            70,
             62
           ]
         }
@@ -328,16 +414,83 @@
             {
               "type": "reference",
               "id": 34,
+              "typeArguments": [
+                {
+                  "type": "intersection",
+                  "types": [
+                    {
+                      "type": "reflection",
+                      "declaration": {
+                        "id": 76,
+                        "name": "__type",
+                        "kind": 65536,
+                        "kindString": "Type literal",
+                        "flags": {},
+                        "children": [
+                          {
+                            "id": 77,
+                            "name": "prototype",
+                            "kind": 2048,
+                            "kindString": "Method",
+                            "flags": {}
+                          }
+                        ],
+                        "groups": [
+                          {
+                            "title": "Methods",
+                            "kind": 2048,
+                            "children": [
+                              77
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "query",
+                      "queryType": {
+                        "type": "reference",
+                        "id": 10,
+                        "name": "Base"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "intrinsic",
+                  "name": "this"
+                }
+              ],
               "name": "Mixin2"
             },
             {
               "type": "reference",
               "id": 20,
+              "typeArguments": [
+                {
+                  "type": "query",
+                  "queryType": {
+                    "type": "reference",
+                    "id": 10,
+                    "name": "Base"
+                  }
+                },
+                {
+                  "type": "intrinsic",
+                  "name": "this"
+                }
+              ],
               "name": "Mixin1Class"
             },
             {
               "type": "reference",
               "id": 10,
+              "typeArguments": [
+                {
+                  "type": "intrinsic",
+                  "name": "this"
+                }
+              ],
               "name": "Base"
             }
           ]
@@ -606,6 +759,30 @@
                   "type": {
                     "type": "reference",
                     "id": 34,
+                    "typeArguments": [
+                      {
+                        "type": "reference",
+                        "id": 6,
+                        "typeArguments": [
+                          {
+                            "type": "intersection",
+                            "types": [
+                              {
+                                "type": "reference",
+                                "id": 22,
+                                "name": "Mixin1Type"
+                              },
+                              {
+                                "type": "reference",
+                                "id": 10,
+                                "name": "Base"
+                              }
+                            ]
+                          }
+                        ],
+                        "name": "AnyConstructor"
+                      }
+                    ],
                     "name": "Mixin2"
                   }
                 }
@@ -615,6 +792,30 @@
                 "elementType": {
                   "type": "reference",
                   "id": 34,
+                  "typeArguments": [
+                    {
+                      "type": "reference",
+                      "id": 6,
+                      "typeArguments": [
+                        {
+                          "type": "intersection",
+                          "types": [
+                            {
+                              "type": "reference",
+                              "id": 22,
+                              "name": "Mixin1Type"
+                            },
+                            {
+                              "type": "reference",
+                              "id": 10,
+                              "name": "Base"
+                            }
+                          ]
+                        }
+                      ],
+                      "name": "AnyConstructor"
+                    }
+                  ],
                   "name": "Mixin2"
                 }
               }

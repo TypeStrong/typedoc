@@ -46,6 +46,12 @@
                   "type": {
                     "type": "reference",
                     "id": 2,
+                    "typeArguments": [
+                      {
+                        "type": "reference",
+                        "name": "T"
+                      }
+                    ],
                     "name": "Array"
                   }
                 }

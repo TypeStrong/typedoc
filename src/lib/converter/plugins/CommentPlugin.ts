@@ -142,10 +142,12 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         if (comment.hasTag("event")) {
-            reflection.kind = ReflectionKind.Event;
             if (reflection.kindOf(ReflectionKind.CallSignature)) {
-                reflection.parent?.setFlag(ReflectionFlag.Public);
+                if (reflection.parent) {
+                    reflection.parent.kind = ReflectionKind.Event;
+                }
             }
+            reflection.kind = ReflectionKind.Event;
             comment.removeTags("event");
         }
 

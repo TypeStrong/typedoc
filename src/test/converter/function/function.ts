@@ -64,7 +64,7 @@ export function functionWithDefaults(
     valueB: number = 100,
     valueC: number = Number.NaN,
     valueD: boolean = true,
-    valueE: boolean = null
+    valueE: boolean = null!
 ): string {
     return valueA;
 }
@@ -176,4 +176,15 @@ export module moduleFunction {
      * This function is appended to another function.
      */
     export function prepend() {}
+}
+
+export class Predicates {
+    static isString(x: unknown): x is string {
+        return false;
+    }
+    isString(): this is string {
+        return false;
+    }
+    static assert(x: unknown): asserts x {}
+    assertString(): asserts this is string {}
 }

@@ -109,6 +109,13 @@
           "type": {
             "type": "reference",
             "id": 30,
+            "typeArguments": [
+              {
+                "type": "reference",
+                "id": 29,
+                "name": "ExampleParam"
+              }
+            ],
             "name": "Example"
           },
           "defaultValue": "makeExample()"

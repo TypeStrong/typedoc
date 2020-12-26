@@ -21,13 +21,19 @@ import {
     UnionType,
     UnknownType,
     MappedType,
+    SignatureReflection,
 } from "../models";
 import { TemplateLiteralType } from "../models/types/template-literal";
 import { zip } from "../utils/array";
 import { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
-import { createSignature } from "./factories/signature";
+import {
+    convertParameterNodes,
+    convertTypeParameterNodes,
+    createSignature,
+} from "./factories/signature";
 import { convertSymbol } from "./symbols";
+import { removeUndefined } from "./utils/reflections";
 
 export interface TypeConverter<
     TNode extends ts.TypeNode = ts.TypeNode,
@@ -49,6 +55,7 @@ export function loadConverters() {
         arrayConverter,
         conditionalConverter,
         exprWithTypeArgsConverter,
+        functionTypeConverter,
         indexedAccessConverter,
         inferredConverter,
         intersectionConverter,
@@ -206,6 +213,71 @@ const exprWithTypeArgsConverter: TypeConverter<
     convertType: requestBugReport,
 };
 
+const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
+    kind: [ts.SyntaxKind.FunctionType],
+    convert(context, node) {
+        const symbol = context.getSymbolAtLocation(node) ?? node.symbol;
+        const type = context.getTypeAtLocation(node);
+        if (!symbol || !type) {
+            return new IntrinsicType("Function");
+        }
+
+        const reflection = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+            context.scope
+        );
+        context.registerReflection(reflection, symbol);
+        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
+
+        const signature = new SignatureReflection(
+            "__type",
+            ReflectionKind.CallSignature,
+            reflection
+        );
+        context.registerReflection(signature, void 0);
+        const signatureCtx = context.withScope(signature);
+
+        reflection.signatures = [signature];
+        signature.type = convertType(signatureCtx, node.type);
+        signature.parameters = convertParameterNodes(
+            signatureCtx,
+            signature,
+            node.parameters
+        );
+        signature.typeParameters = convertTypeParameterNodes(
+            signatureCtx,
+            reflection,
+            node.typeParameters
+        );
+
+        return new ReflectionType(reflection);
+    },
+    convertType(context, type) {
+        if (!type.symbol) {
+            return new IntrinsicType("Function");
+        }
+
+        const reflection = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+            context.scope
+        );
+        context.registerReflection(reflection, type.symbol);
+        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
+
+        reflection.signatures = [
+            createSignature(
+                context.withScope(reflection),
+                ReflectionKind.CallSignature,
+                type.getCallSignatures()[0]
+            ),
+        ];
+
+        return new ReflectionType(reflection);
+    },
+};
+
 const indexedAccessConverter: TypeConverter<
     ts.IndexedAccessTypeNode,
     ts.IndexedAccessType
@@ -314,10 +386,8 @@ const predicateConverter: TypeConverter<ts.TypePredicateNode, ts.Type> = {
 
 // This is a horrible thing... we're going to want to split this into converters
 // for different types at some point.
-const typeLiteralConverter: TypeConverter<
-    ts.TypeLiteralNode | ts.FunctionTypeNode
-> = {
-    kind: [ts.SyntaxKind.TypeLiteral, ts.SyntaxKind.FunctionType],
+const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
+    kind: [ts.SyntaxKind.TypeLiteral],
     convert(context, node) {
         const symbol = context.getSymbolAtLocation(node) ?? node.symbol;
         const type = context.getTypeAtLocation(node);
@@ -452,9 +522,10 @@ const referenceConverter: TypeConverter<
             context.resolveAliasedSymbol(symbol),
             context.project
         );
-        ref.typeArguments = type.aliasTypeArguments?.map((ref) =>
-            convertType(context, ref)
-        );
+        ref.typeArguments = (type.aliasSymbol
+            ? type.aliasTypeArguments
+            : type.typeArguments
+        )?.map((ref) => convertType(context, ref));
         return ref;
     },
 };
@@ -758,18 +829,4 @@ function kindToModifier(
         default:
             return undefined;
     }
-}
-
-function removeUndefined(type: Type) {
-    if (type instanceof UnionType) {
-        const types = type.types.filter(
-            (t) => !t.equals(new IntrinsicType("undefined"))
-        );
-        if (types.length === 1) {
-            return types[0];
-        }
-        type.types = types;
-        return type;
-    }
-    return type;
 }

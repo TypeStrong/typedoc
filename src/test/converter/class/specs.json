@@ -2321,8 +2321,8 @@
             {
               "id": 132,
               "name": "on",
-              "kind": 2048,
-              "kindString": "Method",
+              "kind": 8388608,
+              "kindString": "Event",
               "flags": {},
               "signatures": [
                 {
@@ -2634,8 +2634,8 @@
           ],
           "groups": [
             {
-              "title": "Methods",
-              "kind": 2048,
+              "title": "Events",
+              "kind": 8388608,
               "children": [
                 132
               ]
@@ -2714,6 +2714,12 @@
                   "type": {
                     "type": "reference",
                     "id": 163,
+                    "typeArguments": [
+                      {
+                        "type": "reference",
+                        "name": "T"
+                      }
+                    ],
                     "name": "GenericClass"
                   }
                 }
@@ -2860,8 +2866,8 @@
                         "text": "Constructor parameter.\n"
                       },
                       "type": {
-                        "type": "reference",
-                        "name": "T"
+                        "type": "intrinsic",
+                        "name": "string"
                       }
                     }
                   ],
@@ -2946,8 +2952,8 @@
                     "returns": "Return value comment.\n"
                   },
                   "type": {
-                    "type": "reference",
-                    "name": "T"
+                    "type": "intrinsic",
+                    "name": "string"
                   },
                   "inheritedFrom": {
                     "type": "reference",
@@ -3256,8 +3262,9 @@
                     "shortText": "Chain method that returns this."
                   },
                   "type": {
-                    "type": "intrinsic",
-                    "name": "this"
+                    "type": "reference",
+                    "id": 196,
+                    "name": "ChainClass"
                   }
                 }
               ]
@@ -3343,6 +3350,12 @@
                   "type": {
                     "type": "reference",
                     "id": 207,
+                    "typeArguments": [
+                      {
+                        "type": "reference",
+                        "name": "T"
+                      }
+                    ],
                     "name": "GenericClass"
                   }
                 }
