@@ -184,6 +184,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "showConfig",
+        help: "Print the resolved configuration and exit",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "plugin",
         help:
             "Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.",

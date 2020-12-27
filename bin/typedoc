@@ -42,6 +42,11 @@ async function run(app) {
         return ExitCodes.Ok;
     }
 
+    if (app.options.getValue("showConfig")) {
+        console.log(app.options.getRawValues());
+        return ExitCodes.Ok;
+    }
+
     if (app.logger.hasErrors()) {
         return ExitCodes.OptionError;
     }

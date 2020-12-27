@@ -9,6 +9,7 @@ import { SourceDirectory } from "../../models/sources/directory";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import { Context } from "../context";
+import { ReflectionCategory } from "../../models";
 
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.
@@ -88,12 +89,7 @@ export class GroupPlugin extends ConverterComponent {
         reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
 
         if (reflection instanceof ContainerReflection) {
-            if (reflection.children && reflection.children.length > 0) {
-                reflection.children.sort(GroupPlugin.sortCallback);
-                reflection.groups = GroupPlugin.getReflectionGroups(
-                    reflection.children
-                );
-            }
+            this.group(reflection);
         }
     }
 
@@ -114,15 +110,25 @@ export class GroupPlugin extends ConverterComponent {
         }
 
         const project = context.project;
-        if (project.children && project.children.length > 0) {
-            project.children.sort(GroupPlugin.sortCallback);
-            project.groups = GroupPlugin.getReflectionGroups(project.children);
-        }
+        this.group(project);
 
         walkDirectory(project.directory);
         project.files.forEach((file) => {
             file.groups = GroupPlugin.getReflectionGroups(file.reflections);
         });
+    }
+
+    private group(reflection: ContainerReflection) {
+        if (
+            reflection.children &&
+            reflection.children.length > 0 &&
+            !reflection.groups
+        ) {
+            reflection.children.sort(GroupPlugin.sortCallback);
+            reflection.groups = GroupPlugin.getReflectionGroups(
+                reflection.children
+            );
+        }
     }
 
     /**

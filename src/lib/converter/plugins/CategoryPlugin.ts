@@ -96,6 +96,8 @@ export class CategoryPlugin extends ConverterComponent {
             return;
         }
         obj.groups.forEach((group) => {
+            if (group.categories) return;
+
             group.categories = CategoryPlugin.getReflectionCategories(
                 group.children
             );
@@ -112,7 +114,7 @@ export class CategoryPlugin extends ConverterComponent {
     }
 
     private lumpCategorize(obj: ContainerReflection) {
-        if (!obj.children || obj.children.length === 0) {
+        if (!obj.children || obj.children.length === 0 || obj.categories) {
             return;
         }
         obj.categories = CategoryPlugin.getReflectionCategories(obj.children);
@@ -196,11 +198,14 @@ export class CategoryPlugin extends ConverterComponent {
             reflection.signatures
         ) {
             // If a reflection has signatures, use the first category tag amongst them
-            reflection.signatures.forEach((sig) => {
-                if (sig.comment && category === "") {
+            for (const sig of reflection.signatures) {
+                if (sig.comment) {
                     category = extractCategoryTag(sig.comment);
                 }
-            });
+                if (category != "") {
+                    break;
+                }
+            }
         }
         return category;
     }
