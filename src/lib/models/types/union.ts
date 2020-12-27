@@ -1,4 +1,6 @@
 import { Type } from "./abstract";
+import { IntrinsicType } from "./intrinsic";
+import { LiteralType } from "./literal";
 
 /**
  * Represents an union type.
@@ -26,6 +28,7 @@ export class UnionType extends Type {
     constructor(types: Type[]) {
         super();
         this.types = types;
+        this.normalize();
     }
 
     /**
@@ -60,5 +63,23 @@ export class UnionType extends Type {
         });
 
         return names.join(" | ");
+    }
+
+    private normalize() {
+        const trueIndex = this.types.findIndex((t) =>
+            t.equals(new LiteralType(true))
+        );
+        const falseIndex = this.types.findIndex((t) =>
+            t.equals(new LiteralType(false))
+        );
+
+        if (trueIndex !== -1 && falseIndex !== -1) {
+            this.types.splice(Math.max(trueIndex, falseIndex), 1);
+            this.types.splice(
+                Math.min(trueIndex, falseIndex),
+                1,
+                new IntrinsicType("boolean")
+            );
+        }
     }
 }

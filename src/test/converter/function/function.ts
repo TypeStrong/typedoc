@@ -198,3 +198,9 @@ export const all: {
     <T>(fn: (item: T) => boolean, iterator: Iterable<T>): boolean;
     <T>(fn: (item: T) => boolean): (iterator: Iterable<T>) => boolean;
 } = () => false as any;
+
+export function boolOrUndef(x: number) {
+    if (x < 5) return true;
+    if (x > 20) return false;
+    return undefined;
+}
