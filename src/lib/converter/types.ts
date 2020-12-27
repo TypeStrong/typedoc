@@ -55,6 +55,7 @@ export function loadConverters() {
     for (const actor of [
         arrayConverter,
         conditionalConverter,
+        constructorConverter,
         exprWithTypeArgsConverter,
         functionTypeConverter,
         indexedAccessConverter,
@@ -184,6 +185,71 @@ const conditionalConverter: TypeConverter<
             convertType(context, type.resolvedTrueType),
             convertType(context, type.resolvedFalseType)
         );
+    },
+};
+
+const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
+    kind: [ts.SyntaxKind.ConstructorType],
+    convert(context, node) {
+        const symbol = context.getSymbolAtLocation(node) ?? node.symbol;
+        const type = context.getTypeAtLocation(node);
+        if (!symbol || !type) {
+            return new IntrinsicType("Function");
+        }
+
+        const reflection = new DeclarationReflection(
+            "__type",
+            ReflectionKind.Constructor,
+            context.scope
+        );
+        context.registerReflection(reflection, symbol);
+        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
+
+        const signature = new SignatureReflection(
+            "__type",
+            ReflectionKind.ConstructorSignature,
+            reflection
+        );
+        context.registerReflection(signature, void 0);
+        const signatureCtx = context.withScope(signature);
+
+        reflection.signatures = [signature];
+        signature.type = convertType(signatureCtx, node.type);
+        signature.parameters = convertParameterNodes(
+            signatureCtx,
+            signature,
+            node.parameters
+        );
+        signature.typeParameters = convertTypeParameterNodes(
+            signatureCtx,
+            reflection,
+            node.typeParameters
+        );
+
+        return new ReflectionType(reflection);
+    },
+    convertType(context, type) {
+        if (!type.symbol) {
+            return new IntrinsicType("Function");
+        }
+
+        const reflection = new DeclarationReflection(
+            "__type",
+            ReflectionKind.Constructor,
+            context.scope
+        );
+        context.registerReflection(reflection, type.symbol);
+        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
+
+        reflection.signatures = [
+            createSignature(
+                context.withScope(reflection),
+                ReflectionKind.ConstructorSignature,
+                type.getConstructSignatures()[0]
+            ),
+        ];
+
+        return new ReflectionType(reflection);
     },
 };
 
