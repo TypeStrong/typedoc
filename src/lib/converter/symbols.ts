@@ -13,9 +13,8 @@ import { getEnumFlags, hasFlag, removeFlag } from "../utils/enum";
 import { Context } from "./context";
 import { convertDefaultValue } from "./convert-expression";
 import { ConverterEvents } from "./converter-events";
+import { convertIndexSignature } from "./factories/index-signature";
 import { createSignature } from "./factories/signature";
-
-// TODO: Index signatures
 
 function getSymbolExportsWithFlag(symbol: ts.Symbol, flag: ts.SymbolFlags) {
     const childSymbols: ts.Symbol[] = [];
@@ -438,6 +437,9 @@ function convertClassOrInterface(
     // We also might have constructor signatures
     // This is potentially a problem with classes having
     convertConstructSignatures(reflectionContext, symbol);
+
+    // And finally, index signatures
+    convertIndexSignature(reflectionContext, symbol);
 }
 
 function convertProperty(

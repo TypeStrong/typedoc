@@ -27,6 +27,7 @@ import { TemplateLiteralType } from "../models/types/template-literal";
 import { zip } from "../utils/array";
 import { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
+import { convertIndexSignature } from "./factories/index-signature";
 import {
     convertParameterNodes,
     convertTypeParameterNodes,
@@ -417,6 +418,8 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             );
         }
 
+        convertIndexSignature(context.withScope(reflection), symbol);
+
         return new ReflectionType(reflection);
     },
     convertType(context, type) {
@@ -445,6 +448,8 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
                 )
             );
         }
+
+        convertIndexSignature(context.withScope(reflection), type.symbol);
 
         return new ReflectionType(reflection);
     },
@@ -487,14 +492,6 @@ const referenceConverter: TypeConverter<
     kind: [ts.SyntaxKind.TypeReference],
     convert(context, node) {
         const symbol = context.expectSymbolAtLocation(node.typeName);
-        // We might need to resolve this type (e.g a parent class has a property with a generic type)
-        // but we are in a child type, so the generic type should be resolved to a concrete one.
-        if (symbol.flags & ts.SymbolFlags.TypeParameter) {
-            // if (!isErrorType(resolvedType) && !resolvedType.isTypeParameter()) {
-            //     return convertType(context, resolvedType);
-            // }
-            // TODO: Fix type parameters
-        }
 
         const name = node.typeName.getText();
 
