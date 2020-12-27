@@ -9,7 +9,6 @@ import { SourceDirectory } from "../../models/sources/directory";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import { Context } from "../context";
-import { ReflectionCategory } from "../../models";
 
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.
