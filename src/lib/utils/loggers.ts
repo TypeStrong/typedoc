@@ -133,11 +133,7 @@ export class Logger {
      * @param level  The urgency of the log message.
      * @param _newLine  Should the logger print a trailing whitespace?
      */
-    public log(
-        _message: string,
-        level: LogLevel = LogLevel.Info,
-        _newLine?: boolean
-    ) {
+    public log(_message: string, level: LogLevel = LogLevel.Info) {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
@@ -193,12 +189,8 @@ export class ConsoleLogger extends Logger {
      * @param level  The urgency of the log message.
      * @param newLine  Should the logger print a trailing whitespace?
      */
-    public log(
-        message: string,
-        level: LogLevel = LogLevel.Info,
-        newLine?: boolean
-    ) {
-        super.log(message, level, newLine);
+    public log(message: string, level: LogLevel = LogLevel.Info) {
+        super.log(message, level);
         if (level < this.level && !isDebugging()) {
             return;
         }
@@ -211,9 +203,6 @@ export class ConsoleLogger extends Logger {
                 [LogLevel.Verbose]: gray("Debug: "),
             }[level] + message;
 
-        if (newLine) {
-            ts.sys.write(ts.sys.newLine);
-        }
         ts.sys.write(output + ts.sys.newLine);
     }
 }
