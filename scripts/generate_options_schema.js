@@ -1,5 +1,6 @@
 //@ts-check
 
+const { writeFileSync } = require("fs");
 const { addTypeDocOptions } = require("../dist/lib/utils/options/sources");
 const { ParameterType } = require("../dist");
 
@@ -68,4 +69,10 @@ addTypeDocOptions({
 schema.properties.logger.enum = ["console", "none"];
 schema.properties.logger.default = "console";
 
-console.log(JSON.stringify(schema, null, "\t"));
+const output = JSON.stringify(schema, null, "\t");
+
+if (process.argv.length > 2) {
+    writeFileSync(process.argv[2], output);
+} else {
+    console.log(output);
+}
