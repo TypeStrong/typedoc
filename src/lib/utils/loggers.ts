@@ -83,7 +83,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given message.
      */
     public writeln(text: string, ...args: string[]) {
-        this.log(Util.format(text, ...args), LogLevel.Info, true);
+        this.log(Util.format(text, ...args), LogLevel.Info);
     }
 
     /**
@@ -249,7 +249,7 @@ export class CallbackLogger extends Logger {
         level: LogLevel = LogLevel.Info,
         newLine?: boolean
     ) {
-        super.log(message, level, newLine);
+        super.log(message, level);
 
         this.callback(message, level, newLine);
     }

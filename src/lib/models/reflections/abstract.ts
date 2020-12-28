@@ -572,7 +572,9 @@ export abstract class Reflection {
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(_callback: TraverseCallback) {}
+    traverse(_callback: TraverseCallback) {
+        // do nothing here, overridden by child classes
+    }
 
     /**
      * Return a string representation of this reflection.

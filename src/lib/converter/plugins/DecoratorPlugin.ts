@@ -1,5 +1,4 @@
 import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
 
 import { ReferenceType } from "../../models/types/index";
 import { Reflection, Decorator } from "../../models/reflections/index";

@@ -144,7 +144,9 @@ export abstract class AbstractComponent<O extends ComponentHost>
     /**
      * Initialize this component.
      */
-    protected initialize() {}
+    protected initialize() {
+        // empty default implementation
+    }
 
     protected bubble(name: Event | EventMap | string, ...args: any[]) {
         super.trigger(name, ...args);

@@ -1,3 +1,5 @@
 import { Application } from "../..";
 
-module.exports = (_pluginHost: Application) => {};
+module.exports = (_pluginHost: Application) => {
+    // nop
+};

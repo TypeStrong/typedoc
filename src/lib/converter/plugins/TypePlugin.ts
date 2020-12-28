@@ -94,8 +94,6 @@ export class TypePlugin extends ConverterComponent {
 
     /**
      * Triggered when the converter has finished resolving a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
      */
     private onResolveEnd(context: Context) {
         this.reflections.forEach((reflection) => {

@@ -1,8 +1,7 @@
-import * as _ from "lodash";
 import { LogLevel } from "../loggers";
 
 /**
- * An interface describing all TypeDoc specific options options. Generated from a
+ * An interface describing all TypeDoc specific options. Generated from a
  * map which contains more information about each option for better types when
  * defining said options.
  */
@@ -74,6 +73,7 @@ export interface TypeDocOptionMap {
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
     listInvalidSymbolLinks: boolean;
+    markedOptions: unknown;
 }
 
 /**

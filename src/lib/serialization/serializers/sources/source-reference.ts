@@ -9,7 +9,7 @@ export class SourceReferenceContainerSerializer extends SerializerComponent<Sour
         return instance instanceof SourceReferenceWrapper;
     }
 
-    supports(_: unknown) {
+    supports() {
         return true;
     }
 

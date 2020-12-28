@@ -84,13 +84,6 @@ export class Renderer extends ChildableComponent<
     toc!: string[];
 
     /**
-     * Create a new Renderer instance.
-     *
-     * @param application  The application this dispatcher is attached to.
-     */
-    initialize() {}
-
-    /**
      * Render the given project reflection to the specified output directory.
      *
      * @param project  The project that should be rendered.

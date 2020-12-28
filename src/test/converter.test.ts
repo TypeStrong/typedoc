@@ -35,7 +35,15 @@ describe("Converter", function () {
     });
 
     const checks: [string, () => void, () => void][] = [
-        ["specs", () => {}, () => {}],
+        [
+            "specs",
+            () => {
+                // nop
+            },
+            () => {
+                // nop
+            },
+        ],
         [
             "specs-with-lump-categories",
             () => app.options.setValue("categorizeByGroup", false),

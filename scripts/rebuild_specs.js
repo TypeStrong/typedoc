@@ -29,7 +29,15 @@ const base = path.join(__dirname, "../dist/test/converter");
 
 /** @type {[string, () => void, () => void][]} */
 const conversions = [
-    ["specs", () => {}, () => {}],
+    [
+        "specs",
+        () => {
+            // nop
+        },
+        () => {
+            // nop
+        },
+    ],
     [
         "specs-with-lump-categories",
         () => app.options.setValue("categorizeByGroup", false),
