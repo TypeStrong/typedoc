@@ -2,7 +2,7 @@ import * as ts from "typescript";
 import * as Util from "util";
 import { url } from "inspector";
 import { resolve } from "path";
-import { red, yellow, cyan, green, gray } from "colors/safe";
+import { red, yellow, cyan, gray } from "colors/safe";
 
 const isDebugging = () => Boolean(url());
 
@@ -14,7 +14,6 @@ export enum LogLevel {
     Info,
     Warn,
     Error,
-    Success,
 }
 
 /**
@@ -94,7 +93,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given message.
      */
     public success(text: string, ...args: string[]) {
-        this.log(Util.format(text, ...args), LogLevel.Success);
+        this.log(Util.format(text, ...args), LogLevel.Info);
     }
 
     /**
@@ -209,17 +208,13 @@ export class ConsoleLogger extends Logger {
                 [LogLevel.Error]: red("Error: "),
                 [LogLevel.Warn]: yellow("Warning: "),
                 [LogLevel.Info]: cyan("Info: "),
-                [LogLevel.Success]: green("Ok: "),
                 [LogLevel.Verbose]: gray("Debug: "),
             }[level] + message;
 
-        if (newLine || level === LogLevel.Success) {
+        if (newLine) {
             ts.sys.write(ts.sys.newLine);
         }
         ts.sys.write(output + ts.sys.newLine);
-        if (level === LogLevel.Success) {
-            ts.sys.write(ts.sys.newLine);
-        }
     }
 }
 

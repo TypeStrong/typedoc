@@ -27,7 +27,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "exclude",
-        help: "Define patterns for excluded files when specifying paths.",
+        help:
+            "Define paths to be excluded when expanding a directory that was specified as an entry point.",
         type: ParameterType.Array,
     });
     options.addDeclaration({
