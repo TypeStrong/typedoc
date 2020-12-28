@@ -148,7 +148,7 @@ export function flatMap<T, U>(
 
     for (const item of arr) {
         const newItem = fn(item);
-        if (Array.isArray(newItem)) {
+        if (newItem instanceof Array) {
             result.push(...newItem);
         } else {
             result.push(newItem);

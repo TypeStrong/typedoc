@@ -145,7 +145,7 @@ export class Converter extends ChildableComponent<
         entryPoints: readonly string[],
         programs: ts.Program | readonly ts.Program[]
     ): ProjectReflection | undefined {
-        programs = Array.isArray(programs) ? programs : [programs];
+        programs = programs instanceof Array ? programs : [programs];
         this.externalPatternCache = void 0;
 
         const project = new ProjectReflection(this.name);
