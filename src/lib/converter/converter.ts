@@ -427,9 +427,20 @@ function getExports(
     // this isn't the best solution, it would be nice to have all globals given to a special
     // "globals" file, but this is uncommon enough that I'm skipping it for now.
     const sourceFile = node.getSourceFile();
-    return context.checker
+    const globalSymbols = context.checker
         .getSymbolsInScope(node, ts.SymbolFlags.ModuleMember)
         .filter((s) =>
             s.getDeclarations()?.some((d) => d.getSourceFile() === sourceFile)
         );
+
+    // Detect declaration files with declare module "foo" as their only export
+    // and lift that up one level
+    if (
+        globalSymbols.length === 1 &&
+        globalSymbols[0].getDeclarations()?.every(ts.isModuleDeclaration)
+    ) {
+        return context.checker.getExportsOfModule(globalSymbols[0]);
+    }
+
+    return globalSymbols;
 }
