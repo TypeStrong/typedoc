@@ -9,6 +9,9 @@ import { unique } from "./array";
 const aliases = new Map<string, string>([
     ["ts", "typescript"],
     ["js", "javascript"],
+    ["bash", "shellscript"],
+    ["sh", "shellscript"],
+    ["shell", "shellscript"],
 ]);
 
 const supportedLanguages = unique([
