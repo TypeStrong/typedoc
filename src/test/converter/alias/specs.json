@@ -118,7 +118,7 @@
             ],
             "name": "Example"
           },
-          "defaultValue": "makeExample()"
+          "defaultValue": "..."
         },
         {
           "id": 33,
@@ -133,7 +133,7 @@
             "id": 29,
             "name": "ExampleParam"
           },
-          "defaultValue": "makeExample2()"
+          "defaultValue": "..."
         },
         {
           "id": 38,
@@ -154,7 +154,7 @@
             ],
             "name": "HasProp"
           },
-          "defaultValue": "makeProp(1)"
+          "defaultValue": "..."
         }
       ],
       "groups": [

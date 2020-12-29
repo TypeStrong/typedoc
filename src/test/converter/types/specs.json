@@ -79,7 +79,7 @@
               "negative": false
             }
           },
-          "defaultValue": "makeValue<1n>()"
+          "defaultValue": "..."
         },
         {
           "id": 5,
@@ -96,7 +96,7 @@
               "negative": true
             }
           },
-          "defaultValue": "makeValue<-1n>()"
+          "defaultValue": "..."
         },
         {
           "id": 7,
@@ -113,7 +113,7 @@
               "name": "number"
             }
           },
-          "defaultValue": "makeValue<number[]>()"
+          "defaultValue": "..."
         }
       ],
       "groups": [
@@ -602,7 +602,7 @@
               }
             ]
           },
-          "defaultValue": "returnMapped<NamedTuple>()"
+          "defaultValue": "..."
         }
       ],
       "groups": [
@@ -730,7 +730,7 @@
               "name": "symbol"
             }
           },
-          "defaultValue": "Symbol()"
+          "defaultValue": "..."
         }
       ],
       "groups": [

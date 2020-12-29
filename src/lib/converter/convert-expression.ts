@@ -17,19 +17,20 @@ export function convertDefaultValue(
     }
 }
 
-export function convertExpression(expression: ts.Expression): string {
+export function convertExpression(
+    expression: ts.Expression
+): string | undefined {
     switch (expression.kind) {
         case ts.SyntaxKind.StringLiteral:
-            return '"' + (<ts.LiteralExpression>expression).text + '"';
-        case ts.SyntaxKind.NumericLiteral:
-            return (<ts.LiteralExpression>expression).text;
         case ts.SyntaxKind.TrueKeyword:
-            return "true";
         case ts.SyntaxKind.FalseKeyword:
-            return "false";
         case ts.SyntaxKind.NullKeyword:
-            return "null";
+        case ts.SyntaxKind.NumericLiteral:
+        case ts.SyntaxKind.PrefixUnaryExpression:
+            return expression.getText();
         default:
-            return expression.getText(expression.getSourceFile());
+            // More complex expressions are generally not useful in the documentation.
+            // Show that there was a value, but not specifics.
+            return "...";
     }
 }

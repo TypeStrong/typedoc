@@ -247,7 +247,7 @@
               }
             }
           },
-          "defaultValue": "[]"
+          "defaultValue": "..."
         },
         {
           "id": 8,
@@ -271,7 +271,7 @@
             ],
             "name": "Array"
           },
-          "defaultValue": "{}"
+          "defaultValue": "..."
         }
       ],
       "groups": [
@@ -621,7 +621,7 @@
                       ]
                     }
                   },
-                  "defaultValue": "(errorCallback: () => any) => {\n        onError = errorCallback;\n        return callbackReturn;\n    }"
+                  "defaultValue": "..."
                 },
                 {
                   "id": 64,
@@ -684,7 +684,7 @@
                       ]
                     }
                   },
-                  "defaultValue": "(finallyCallback: () => any) => {\n        onFinally = finallyCallback;\n        return callbackReturn;\n    }"
+                  "defaultValue": "..."
                 },
                 {
                   "id": 52,
@@ -747,7 +747,7 @@
                       ]
                     }
                   },
-                  "defaultValue": "(successCallback: () => any) => {\n        onSuccess = successCallback;\n        return callbackReturn;\n    }"
+                  "defaultValue": "..."
                 }
               ],
               "groups": [
@@ -763,7 +763,7 @@
               ]
             }
           },
-          "defaultValue": "{\n    success: (successCallback: () => any) => {\n        onSuccess = successCallback;\n        return callbackReturn;\n    },\n    error: (errorCallback: () => any) => {\n        onError = errorCallback;\n        return callbackReturn;\n    },\n    finally: (finallyCallback: () => any) => {\n        onFinally = finallyCallback;\n        return callbackReturn;\n    },\n}"
+          "defaultValue": "..."
         },
         {
           "id": 70,
@@ -873,7 +873,7 @@
                               "name": "number"
                             }
                           },
-                          "defaultValue": "[100, 200, 300]"
+                          "defaultValue": "..."
                         },
                         {
                           "id": 79,
@@ -940,7 +940,7 @@
                                             "type": "intrinsic",
                                             "name": "string"
                                           },
-                                          "defaultValue": "z"
+                                          "defaultValue": "..."
                                         }
                                       ],
                                       "groups": [
@@ -959,7 +959,7 @@
                               ]
                             }
                           },
-                          "defaultValue": "(z: string) => {\n            return { a: \"test\", b: z };\n        }"
+                          "defaultValue": "..."
                         },
                         {
                           "id": 78,
@@ -987,7 +987,7 @@
                       ]
                     }
                   },
-                  "defaultValue": "{\n        valueZ: \"foo\",\n        valueY: (z: string) => {\n            return { a: \"test\", b: z };\n        },\n        valueA: [100, 200, 300],\n    }"
+                  "defaultValue": "..."
                 },
                 {
                   "id": 73,
@@ -1018,7 +1018,7 @@
                       ]
                     }
                   },
-                  "defaultValue": "function () {\n        return \"foo\";\n    }"
+                  "defaultValue": "..."
                 },
                 {
                   "id": 72,
@@ -1051,7 +1051,7 @@
               ]
             }
           },
-          "defaultValue": "{\n    valueZ: \"foo\",\n    valueY: function () {\n        return \"foo\";\n    },\n    valueX: {\n        valueZ: \"foo\",\n        valueY: (z: string) => {\n            return { a: \"test\", b: z };\n        },\n        valueA: [100, 200, 300],\n    },\n    valueA: 100,\n    valueB: true,\n    [Symbol.toStringTag]: \"computed\",\n    [x]: true,\n    [\"literal2\"]: true,\n}"
+          "defaultValue": "..."
         },
         {
           "id": 31,
