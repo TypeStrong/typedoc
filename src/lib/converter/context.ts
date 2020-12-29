@@ -160,12 +160,12 @@ export class Context {
 
     createDeclarationReflection(
         kind: ReflectionKind,
-        symbol: ts.Symbol,
-        name = getHumanName(symbol.name)
+        symbol: ts.Symbol | undefined,
+        name = getHumanName(symbol?.name ?? "unknown")
     ) {
         const reflection = new DeclarationReflection(name, kind, this.scope);
         this.addChild(reflection);
-        if (this.converter.isExternal(symbol)) {
+        if (symbol && this.converter.isExternal(symbol)) {
             reflection.setFlag(ReflectionFlag.External);
         }
         this.registerReflection(reflection, symbol);
@@ -175,7 +175,7 @@ export class Context {
             this,
             reflection,
             // FIXME this isn't good enough.
-            this.converter.getNodesForSymbol(symbol, kind)[0]
+            symbol && this.converter.getNodesForSymbol(symbol, kind)[0]
         );
 
         return reflection;

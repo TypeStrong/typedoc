@@ -4,13 +4,7 @@ import * as assert from "assert";
 import { resolve } from "path";
 
 import { Application } from "../application";
-import {
-    Type,
-    ProjectReflection,
-    ReflectionKind,
-    ContainerReflection,
-    DeclarationReflection,
-} from "../models/index";
+import { Type, ProjectReflection, ReflectionKind } from "../models/index";
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
@@ -249,34 +243,40 @@ export class Converter extends ChildableComponent<
      */
     private compile(entryPoints: readonly string[], context: Context) {
         const baseDir = getCommonDirectory(entryPoints);
-        const entries: [string, ts.SourceFile, ts.Program][] = [];
+        const entries: {
+            file: string;
+            sourceFile: ts.SourceFile;
+            program: ts.Program;
+            context?: Context;
+        }[] = [];
 
-        entryLoop: for (const entry of entryPoints.map(normalizePath)) {
+        entryLoop: for (const file of entryPoints.map(normalizePath)) {
             for (const program of context.programs) {
-                const sourceFile = program.getSourceFile(entry);
+                const sourceFile = program.getSourceFile(file);
                 if (sourceFile) {
-                    entries.push([entry, sourceFile, program]);
+                    entries.push({ file, sourceFile, program });
                     continue entryLoop;
                 }
             }
             this.application.logger.warn(
-                `Unable to locate entry point: ${entry}`
+                `Unable to locate entry point: ${file}`
             );
         }
 
-        for (const [entry, file, program] of entries) {
-            context.setActiveProgram(program);
-            this.convertExports(
+        for (const entry of entries) {
+            context.setActiveProgram(entry.program);
+            entry.context = this.convertExports(
                 context,
-                file,
+                entry.sourceFile,
                 entryPoints,
-                getModuleName(resolve(entry), baseDir)
+                getModuleName(resolve(entry.file), baseDir)
             );
         }
 
-        for (const [, file, program] of entries) {
-            context.setActiveProgram(program);
-            this.convertReExports(context, file);
+        for (const { sourceFile, context } of entries) {
+            // active program is already set on context
+            assert(context);
+            this.convertReExports(context, sourceFile);
         }
 
         context.setActiveProgram(undefined);
@@ -296,49 +296,28 @@ export class Converter extends ChildableComponent<
             // create modules for each entry. Register the project as this module.
             context.project.registerReflection(context.project, symbol);
             moduleContext = context;
-        } else if (symbol) {
+        } else {
             const reflection = context.createDeclarationReflection(
                 ReflectionKind.Module,
                 symbol,
                 entryName
             );
             moduleContext = context.withScope(reflection);
-        } else {
-            this.application.logger.warn(
-                `If specifying a global file as an entry point, only one entry point may be specified. (${node.fileName})`
-            );
-            return;
         }
 
         for (const exp of getExports(context, node).filter((exp) =>
-            context
-                .resolveAliasedSymbol(exp)
-                .getDeclarations()
-                ?.every((d) => d.getSourceFile() === node.getSourceFile())
+            isDirectExport(context.resolveAliasedSymbol(exp), node)
         )) {
             convertSymbol(moduleContext, exp);
         }
+
+        return moduleContext;
     }
 
-    private convertReExports(context: Context, node: ts.SourceFile) {
-        const symbol = context.checker.getSymbolAtLocation(node) ?? node.symbol;
-        // Was a global "module"... no re exports.
-        if (symbol == null) return;
-
-        const moduleReflection = context.project.getReflectionFromSymbol(
-            symbol
-        );
-        assert(
-            moduleReflection instanceof ContainerReflection ||
-                moduleReflection instanceof DeclarationReflection
-        );
-
-        const moduleContext = context.withScope(moduleReflection);
-        for (const exp of getExports(context, node).filter((exp) =>
-            context
-                .resolveAliasedSymbol(exp)
-                .getDeclarations()
-                ?.some((d) => d.getSourceFile() !== node.getSourceFile())
+    private convertReExports(moduleContext: Context, node: ts.SourceFile) {
+        for (const exp of getExports(moduleContext, node).filter(
+            (exp) =>
+                !isDirectExport(moduleContext.resolveAliasedSymbol(exp), node)
         )) {
             convertSymbol(moduleContext, exp);
         }
@@ -437,10 +416,24 @@ function getExports(
     // and lift that up one level
     if (
         globalSymbols.length === 1 &&
-        globalSymbols[0].getDeclarations()?.every(ts.isModuleDeclaration)
+        globalSymbols[0]
+            .getDeclarations()
+            ?.every(
+                (declaration) =>
+                    ts.isModuleDeclaration(declaration) &&
+                    ts.isStringLiteral(declaration.name)
+            )
     ) {
         return context.checker.getExportsOfModule(globalSymbols[0]);
     }
 
     return globalSymbols;
+}
+
+function isDirectExport(symbol: ts.Symbol, file: ts.SourceFile): boolean {
+    return (
+        symbol
+            .getDeclarations()
+            ?.every((decl) => decl.getSourceFile() === file) ?? false
+    );
 }
