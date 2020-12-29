@@ -16,6 +16,10 @@ export class ArgumentsReader implements OptionsReader {
     }
 
     read(container: Options, logger: Logger): void {
+        logger.verbose(
+            `Arguments reader reading with: ${JSON.stringify(this.args)}`
+        );
+
         // Make container's type more lax, we do the appropriate checks manually.
         const options = container as Options & {
             setValue(name: string, value: unknown): void;
@@ -57,6 +61,12 @@ export class ArgumentsReader implements OptionsReader {
                         index--;
                     }
                 } else {
+                    if (index === this.args.length) {
+                        // Only boolean values have optional values.
+                        logger.warn(
+                            `--${decl.name} expected a value, but none was given as an argument`
+                        );
+                    }
                     trySet(decl.name, this.args[index]);
                 }
                 seen.add(decl.name);

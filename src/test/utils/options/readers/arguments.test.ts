@@ -1,4 +1,4 @@
-import { deepStrictEqual as equal } from "assert";
+import { deepStrictEqual as equal, ok } from "assert";
 
 import { Options, Logger } from "../../../../lib/utils";
 import { ArgumentsReader } from "../../../../lib/utils/options/readers";
@@ -131,6 +131,23 @@ describe("Options - ArgumentsReader", () => {
             }
         }
         const reader = new ArgumentsReader(1, ["--badOption"]);
+        options.reset();
+        options.addReader(reader);
+        options.read(new TestLogger());
+        options.removeReaderByName(reader.name);
+        equal(check, true, "Reader did not report an error.");
+    });
+
+    it("Warns if option is expecting a value but no value is provided", () => {
+        let check = false;
+        class TestLogger extends Logger {
+            warn(msg: string) {
+                ok(msg.includes("--out"));
+                check = true;
+            }
+        }
+
+        const reader = new ArgumentsReader(1, ["--out"]);
         options.reset();
         options.addReader(reader);
         options.read(new TestLogger());
