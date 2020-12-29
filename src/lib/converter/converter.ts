@@ -346,7 +346,7 @@ export class Converter extends ChildableComponent<
             this.excludeNotDocumented &&
             // If the enum is included, we should include members even if not documented.
             !hasFlag(symbol.flags, ts.SymbolFlags.EnumMember) &&
-            !symbol.getDocumentationComment(checker)
+            symbol.getDocumentationComment(checker).length === 0
         ) {
             return true;
         }
