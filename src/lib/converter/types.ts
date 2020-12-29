@@ -70,6 +70,8 @@ export function loadConverters() {
         namedTupleMemberConverter,
         mappedConverter,
         ts3LiteralBooleanConverter,
+        ts3LiteralNullConverter,
+        ts3LiteralThisConverter,
         literalTypeConverter,
         templateLiteralConverter,
         thisConverter,
@@ -665,6 +667,26 @@ const ts3LiteralBooleanConverter: TypeConverter<ts.TypeNode, ts.Type> = {
     },
     convertType(_context, _type, node) {
         return new LiteralType(node.kind === ts.SyntaxKind.TrueKeyword);
+    },
+};
+
+const ts3LiteralNullConverter: TypeConverter<ts.TypeNode, ts.Type> = {
+    kind: [ts.SyntaxKind.NullKeyword],
+    convert() {
+        return new LiteralType(null);
+    },
+    convertType() {
+        return new LiteralType(null);
+    },
+};
+
+const ts3LiteralThisConverter: TypeConverter<ts.TypeNode, ts.Type> = {
+    kind: [ts.SyntaxKind.ThisKeyword],
+    convert() {
+        return new IntrinsicType("this");
+    },
+    convertType() {
+        return new IntrinsicType("this");
     },
 };
 
