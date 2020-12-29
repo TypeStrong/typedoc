@@ -10,3 +10,6 @@ export type NumArray = number[];
 export const numArray = makeValue<number[]>();
 
 export type BigIntAlias = bigint;
+
+export type NegativeOne = -1;
+export const negativeOne = -1;

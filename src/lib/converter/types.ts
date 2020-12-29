@@ -730,7 +730,7 @@ const literalTypeConverter: TypeConverter<
 
         return requestBugReport(context, node.literal);
     },
-    convertType(context, type, node) {
+    convertType(_context, type, node) {
         switch (node.literal.kind) {
             case ts.SyntaxKind.StringLiteral:
                 return new LiteralType(node.literal.text);
@@ -753,7 +753,7 @@ const literalTypeConverter: TypeConverter<
             );
         }
 
-        return requestBugReport(context, type);
+        return new LiteralType(type.value);
     },
 };
 
@@ -897,7 +897,7 @@ function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
     } else {
         const typeString = context.checker.typeToString(nodeOrType);
         context.logger.warn(
-            `Failed to convert type: ${typeString}. Please report a bug.`
+            `Failed to convert type: ${typeString} when converting ${context.scope.getFullName()}. Please report a bug.`
         );
         return new UnknownType(typeString);
     }
