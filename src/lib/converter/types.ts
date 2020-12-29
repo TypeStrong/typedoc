@@ -69,6 +69,7 @@ export function loadConverters() {
         referenceConverter,
         namedTupleMemberConverter,
         mappedConverter,
+        ts3LiteralBooleanConverter,
         literalTypeConverter,
         templateLiteralConverter,
         thisConverter,
@@ -146,7 +147,7 @@ export function convertType(
     context.logger.warn(
         `Missing type converter for type: ${context.checker.typeToString(
             typeOrNode
-        )}`
+        )} with kind ${ts.SyntaxKind[node.kind]} (${node.kind})`
     );
     return new UnknownType(context.checker.typeToString(typeOrNode));
 }
@@ -654,6 +655,16 @@ const mappedConverter: TypeConverter<
             optionalModifier,
             type.nameType ? convertType(context, type.nameType) : void 0
         );
+    },
+};
+
+const ts3LiteralBooleanConverter: TypeConverter<ts.TypeNode, ts.Type> = {
+    kind: [ts.SyntaxKind.TrueKeyword, ts.SyntaxKind.FalseKeyword],
+    convert(_context, node) {
+        return new LiteralType(node.kind === ts.SyntaxKind.TrueKeyword);
+    },
+    convertType(_context, _type, node) {
+        return new LiteralType(node.kind === ts.SyntaxKind.TrueKeyword);
     },
 };
 
