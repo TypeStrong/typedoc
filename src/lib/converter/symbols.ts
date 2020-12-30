@@ -249,7 +249,9 @@ function convertFunctionOrMethod(
             ?.getDeclarations()
             ?.find(
                 (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d)
-            ) ?? symbol.getDeclarations()?.[0]?.getSourceFile();
+            ) ??
+        parentSymbol?.getDeclarations()?.[0]?.getSourceFile() ??
+        symbol.getDeclarations()?.[0]?.getSourceFile();
     assert(locationDeclaration, "Missing declaration context");
 
     const type = context.checker.getTypeOfSymbolAtLocation(
