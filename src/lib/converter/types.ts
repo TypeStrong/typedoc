@@ -61,6 +61,7 @@ export function loadConverters() {
         indexedAccessConverter,
         inferredConverter,
         intersectionConverter,
+        jsDocVariadicTypeConverter,
         keywordConverter,
         parensConverter,
         predicateConverter,
@@ -108,12 +109,7 @@ export function convertType(
         if (converter) {
             return converter.convert(context, typeOrNode);
         }
-        context.logger.warn(
-            `Missing type node converter for kind ${typeOrNode.kind} (${
-                ts.SyntaxKind[typeOrNode.kind]
-            })`
-        );
-        return new UnknownType(typeOrNode.getText());
+        return requestBugReport(context, typeOrNode);
     }
 
     // IgnoreErrors is important, without it, we can't assert that we will get a node.
@@ -146,12 +142,7 @@ export function convertType(
         return result;
     }
 
-    context.logger.warn(
-        `Missing type converter for type: ${context.checker.typeToString(
-            typeOrNode
-        )} with kind ${ts.SyntaxKind[node.kind]} (${node.kind})`
-    );
-    return new UnknownType(context.checker.typeToString(typeOrNode));
+    return requestBugReport(context, typeOrNode);
 }
 
 const arrayConverter: TypeConverter<ts.ArrayTypeNode, ts.TypeReference> = {
@@ -224,8 +215,7 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
             node.parameters
         );
         signature.typeParameters = convertTypeParameterNodes(
-            signatureCtx,
-            reflection,
+            context.withScope(reflection),
             node.typeParameters
         );
 
@@ -316,8 +306,7 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
             node.parameters
         );
         signature.typeParameters = convertTypeParameterNodes(
-            signatureCtx,
-            reflection,
+            context.withScope(reflection),
             node.typeParameters
         );
 
@@ -392,6 +381,15 @@ const intersectionConverter: TypeConverter<
             type.types.map((type) => convertType(context, type))
         );
     },
+};
+
+const jsDocVariadicTypeConverter: TypeConverter<ts.JSDocVariadicType> = {
+    kind: [ts.SyntaxKind.JSDocVariadicType],
+    convert(context, node) {
+        return new ArrayType(convertType(context, node.type));
+    },
+    // Should just be an ArrayType
+    convertType: requestBugReport,
 };
 
 const keywordNames = {
