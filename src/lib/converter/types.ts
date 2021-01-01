@@ -809,7 +809,9 @@ const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleType> = {
             convertType(context, type)
         );
 
-        if (node.elements.every(ts.isNamedTupleMember)) {
+        // TODO: TS apparently lies about this... GH1439.
+        // Unfortunately, I can't seem to reproduce this. Needs a test case.
+        if (node.elements && node.elements.every(ts.isNamedTupleMember)) {
             const namedMembers = node.elements as readonly ts.NamedTupleMember[];
             elements = elements?.map(
                 (el, i) =>
