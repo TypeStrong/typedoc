@@ -809,8 +809,8 @@ const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleType> = {
             convertType(context, type)
         );
 
-        // TODO: TS apparently lies about this... GH1439.
-        // Unfortunately, I can't seem to reproduce this. Needs a test case.
+        // elements was called elementTypes in TS 3.9.
+        // 3.9 doesn't have tuple members, so it's fine to skip this there.
         if (node.elements && node.elements.every(ts.isNamedTupleMember)) {
             const namedMembers = node.elements as readonly ts.NamedTupleMember[];
             elements = elements?.map(
