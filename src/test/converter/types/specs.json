@@ -881,6 +881,10 @@
                   "type": "union",
                   "types": [
                     {
+                      "type": "intrinsic",
+                      "name": "string"
+                    },
+                    {
                       "type": "array",
                       "elementType": {
                         "type": "intersection",
@@ -897,10 +901,6 @@
                           }
                         ]
                       }
-                    },
-                    {
-                      "type": "intrinsic",
-                      "name": "string"
                     }
                   ]
                 }

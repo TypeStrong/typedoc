@@ -200,7 +200,7 @@ function convertTypeAlias(
         );
 
         reflection.type = context.converter.convertType(
-            context,
+            context.withScope(reflection),
             declaration.type
         );
 
@@ -550,7 +550,7 @@ function convertProperty(
     // parent node. This will probably break in a future TS version.
     reflection.type = context.converter.convertType(
         context,
-        parameterType ??
+        (context.isConvertingTypeNode() ? parameterType : void 0) ??
             context.checker.getTypeOfSymbolAtLocation(symbol, {} as any)
     );
 }

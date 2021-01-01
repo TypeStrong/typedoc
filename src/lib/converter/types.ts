@@ -124,6 +124,7 @@ export function convertType(
     if (symbol) {
         if (
             node.kind !== ts.SyntaxKind.TypeReference &&
+            node.kind !== ts.SyntaxKind.ArrayType &&
             seenTypeSymbols.has(symbol)
         ) {
             const typeString = context.checker.typeToString(typeOrNode);
@@ -196,6 +197,9 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
             ReflectionKind.Constructor,
             context.scope
         );
+        const rc = context.withScope(reflection);
+        rc.setConvertingTypeNode();
+
         context.registerReflection(reflection, symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
 
@@ -205,7 +209,7 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
             reflection
         );
         context.registerReflection(signature, void 0);
-        const signatureCtx = context.withScope(signature);
+        const signatureCtx = rc.withScope(signature);
 
         reflection.signatures = [signature];
         signature.type = convertType(signatureCtx, node.type);
@@ -215,7 +219,7 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
             node.parameters
         );
         signature.typeParameters = convertTypeParameterNodes(
-            context.withScope(reflection),
+            signatureCtx,
             node.typeParameters
         );
 
@@ -287,6 +291,8 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
             ReflectionKind.TypeLiteral,
             context.scope
         );
+        const rc = context.withScope(reflection);
+
         context.registerReflection(reflection, symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
 
@@ -296,7 +302,7 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
             reflection
         );
         context.registerReflection(signature, void 0);
-        const signatureCtx = context.withScope(signature);
+        const signatureCtx = rc.withScope(signature);
 
         reflection.signatures = [signature];
         signature.type = convertType(signatureCtx, node.type);
@@ -306,7 +312,7 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
             node.parameters
         );
         signature.typeParameters = convertTypeParameterNodes(
-            context.withScope(reflection),
+            signatureCtx,
             node.typeParameters
         );
 
@@ -468,24 +474,23 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             ReflectionKind.TypeLiteral,
             context.scope
         );
+        const rc = context.withScope(reflection);
+        rc.setConvertingTypeNode();
+
         context.registerReflection(reflection, symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
 
         for (const prop of context.checker.getPropertiesOfType(type)) {
-            convertSymbol(context.withScope(reflection), prop);
+            convertSymbol(rc, prop);
         }
         for (const signature of type.getCallSignatures()) {
             reflection.signatures ??= [];
             reflection.signatures.push(
-                createSignature(
-                    context.withScope(reflection),
-                    ReflectionKind.CallSignature,
-                    signature
-                )
+                createSignature(rc, ReflectionKind.CallSignature, signature)
             );
         }
 
-        convertIndexSignature(context.withScope(reflection), symbol);
+        convertIndexSignature(rc, symbol);
 
         return new ReflectionType(reflection);
     },
@@ -575,10 +580,12 @@ const referenceConverter: TypeConverter<
     convertType(context, type) {
         const symbol = type.aliasSymbol ?? type.getSymbol();
         if (!symbol) {
-            // If we get in here, the user is doing something bad. Probably using mixins.
-            const broken = new UnknownType(context.checker.typeToString(type));
-            context.logger.warn(`Bad reference type: ${broken.name}`);
-            return broken;
+            // This happens when we get a reference to a type parameter
+            // created within a mapped type, `K` in: `{ [K in T]: string }`
+            return ReferenceType.createBrokenReference(
+                context.checker.typeToString(type),
+                context.project
+            );
         }
 
         const ref = new ReferenceType(
