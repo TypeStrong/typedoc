@@ -110,7 +110,9 @@ function convertParameters(
 
         paramRefl.type = context.converter.convertType(
             context.withScope(paramRefl),
-            param.type
+            declaration
+                ? context.checker.getTypeOfSymbolAtLocation(param, declaration)
+                : param.type
         );
 
         let isOptional = false;
