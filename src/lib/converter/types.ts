@@ -805,13 +805,17 @@ const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleType> = {
         return new TupleType(elements);
     },
     convertType(context, type, node) {
-        let elements = type.typeArguments?.map((type) =>
-            convertType(context, type)
-        );
+        // TS 3.9 support
+        const elementTypes = node.elements ?? (node as any).elementTypes;
+        // We need to do this because of type argument constraints, see GH1449
+        const types = type.typeArguments?.slice(0, elementTypes.length);
+        let elements = types?.map((type) => convertType(context, type));
 
-        // elements was called elementTypes in TS 3.9.
-        // 3.9 doesn't have tuple members, so it's fine to skip this there.
-        if (node.elements && node.elements.every(ts.isNamedTupleMember)) {
+        // 3.9 doesn't have named tuple members, so it's fine to skip this there.
+        if (
+            ts.isNamedTupleMember &&
+            elementTypes.every(ts.isNamedTupleMember)
+        ) {
             const namedMembers = node.elements as readonly ts.NamedTupleMember[];
             elements = elements?.map(
                 (el, i) =>

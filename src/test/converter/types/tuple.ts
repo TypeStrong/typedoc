@@ -6,3 +6,7 @@ export const namedTuple = returnMapped<NamedTuple>();
 function returnMapped<T>() {
     return ({} as any) as { [K in keyof T]: T[K] };
 }
+
+export function gh1449<T extends [foo: any, bar?: any]>(a: T): T {
+    return a;
+}
