@@ -572,6 +572,7 @@ function convertArrowAsMethod(
         symbol,
         nameOverride
     );
+    setModifiers(arrow.parent as ts.PropertyDeclaration, reflection);
     const rc = context.withScope(reflection);
 
     const signature = context.checker.getSignatureFromDeclaration(arrow);
