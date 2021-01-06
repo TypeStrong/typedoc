@@ -579,6 +579,17 @@ const referenceConverter: TypeConverter<
 > = {
     kind: [ts.SyntaxKind.TypeReference],
     convert(context, node) {
+        const isArray =
+            context.checker.typeToTypeNode(
+                context.checker.getTypeAtLocation(node.typeName),
+                void 0,
+                ts.NodeBuilderFlags.IgnoreErrors
+            )?.kind === ts.SyntaxKind.ArrayType;
+
+        if (isArray) {
+            return new ArrayType(convertType(context, node.typeArguments?.[0]));
+        }
+
         const symbol = context.expectSymbolAtLocation(node.typeName);
 
         const name = node.typeName.getText();
