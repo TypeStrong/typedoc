@@ -23,6 +23,7 @@ import {
     MappedType,
     SignatureReflection,
 } from "../models";
+import { OptionalType } from "../models/types/optional";
 import { RestType } from "../models/types/rest";
 import { TemplateLiteralType } from "../models/types/template-literal";
 import { zip } from "../utils/array";
@@ -65,6 +66,7 @@ export function loadConverters() {
         intersectionConverter,
         jsDocVariadicTypeConverter,
         keywordConverter,
+        optionalConverter,
         parensConverter,
         predicateConverter,
         queryConverter,
@@ -451,6 +453,17 @@ const keywordConverter: TypeConverter<ts.KeywordTypeNode> = {
     convertType(_context, _type, node) {
         return new IntrinsicType(keywordNames[node.kind]);
     },
+};
+
+const optionalConverter: TypeConverter<ts.OptionalTypeNode> = {
+    kind: [ts.SyntaxKind.OptionalType],
+    convert(context, node) {
+        return new OptionalType(
+            removeUndefined(convertType(context, node.type))
+        );
+    },
+    // Handled by the tuple converter
+    convertType: requestBugReport,
 };
 
 const parensConverter: TypeConverter<ts.ParenthesizedTypeNode> = {
@@ -881,7 +894,14 @@ const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference> = {
 
                     return new RestType(new ArrayType(el));
                 }
-                // TODO: Optional elements
+
+                if (
+                    type.target.elementFlags[i] & ts.ElementFlags.Optional &&
+                    !(el instanceof NamedTupleMember)
+                ) {
+                    return new OptionalType(removeUndefined(el));
+                }
+
                 return el;
             });
         }

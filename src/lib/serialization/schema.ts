@@ -76,8 +76,12 @@ type _ModelToObject<T> =
         ? IntersectionType
         : T extends M.IntrinsicType
         ? IntrinsicType
+        : T extends M.OptionalType
+        ? OptionalType
         : T extends M.PredicateType
         ? PredicateType
+        : T extends M.QueryType
+        ? QueryType
         : T extends M.ReferenceType
         ? ReferenceType
         : T extends M.ReflectionType
@@ -223,7 +227,9 @@ export type SomeType =
     | IntersectionType
     | IntrinsicType
     | LiteralType
+    | OptionalType
     | PredicateType
+    | QueryType
     | ReferenceType
     | ReflectionType
     | RestType
@@ -260,11 +266,15 @@ export interface IntrinsicType
     extends Type,
         S<M.IntrinsicType, "type" | "name"> {}
 
-export interface QueryType extends Type, S<M.QueryType, "type" | "queryType"> {}
+export interface OptionalType
+    extends Type,
+        S<M.OptionalType, "type" | "elementType"> {}
 
 export interface PredicateType
     extends Type,
         S<M.PredicateType, "type" | "name" | "asserts" | "targetType"> {}
+
+export interface QueryType extends Type, S<M.QueryType, "type" | "queryType"> {}
 
 export interface ReferenceType
     extends Type,

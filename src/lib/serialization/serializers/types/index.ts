@@ -7,6 +7,7 @@ export * from "./intersection";
 export * from "./intrinsic";
 export * from "./literal";
 export * from "./mapped";
+export * from "./optional";
 export * from "./predicate";
 export * from "./query";
 export * from "./reference";
