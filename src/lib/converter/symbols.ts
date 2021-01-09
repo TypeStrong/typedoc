@@ -731,7 +731,10 @@ function convertVariable(
     setModifiers(declaration, reflection);
 
     // Does anyone care about this? I doubt it...
-    if (hasFlag(symbol.flags, ts.SymbolFlags.BlockScopedVariable)) {
+    if (
+        ts.isVariableDeclaration(declaration) &&
+        hasFlag(symbol.flags, ts.SymbolFlags.BlockScopedVariable)
+    ) {
         reflection.setFlag(
             ReflectionFlag.Const,
             hasFlag(declaration.parent.flags, ts.NodeFlags.Const)
@@ -749,21 +752,29 @@ function convertVariableAsFunction(
     const declaration = symbol
         .getDeclarations()
         ?.find(ts.isVariableDeclaration);
-    assert(declaration);
 
-    const type = context.checker.getTypeOfSymbolAtLocation(symbol, declaration);
+    const type = context.checker.getTypeOfSymbolAtLocation(
+        symbol,
+        declaration ?? symbol.valueDeclaration
+    );
 
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Function,
         symbol,
         nameOverride
     );
-    setModifiers(declaration, reflection);
+    setModifiers(declaration ?? symbol.valueDeclaration, reflection);
     // Does anyone care about this? I doubt it...
-    if (hasFlag(symbol.flags, ts.SymbolFlags.BlockScopedVariable)) {
+    if (
+        declaration &&
+        hasFlag(symbol.flags, ts.SymbolFlags.BlockScopedVariable)
+    ) {
         reflection.setFlag(
             ReflectionFlag.Const,
-            hasFlag(declaration.parent.flags, ts.NodeFlags.Const)
+            hasFlag(
+                (declaration || symbol.valueDeclaration).parent.flags,
+                ts.NodeFlags.Const
+            )
         );
     }
 

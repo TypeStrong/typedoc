@@ -306,9 +306,7 @@
           "name": "destructArrayA",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -319,9 +317,7 @@
           "name": "destructArrayB",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -332,9 +328,7 @@
           "name": "destructArrayC",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "union",
             "types": [
@@ -355,9 +349,7 @@
           "name": "destructArrayWithIgnoresA",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -368,9 +360,7 @@
           "name": "destructArrayWithIgnoresRest",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "tuple",
             "elements": [
@@ -390,9 +380,7 @@
           "name": "destructArrayWithRest",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "tuple",
             "elements": [
@@ -412,9 +400,7 @@
           "name": "destructArrayWithRestA",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -425,9 +411,7 @@
           "name": "destructArrayWithRestB",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -438,9 +422,7 @@
           "name": "destructObjectA",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -451,9 +433,7 @@
           "name": "destructObjectB",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -464,9 +444,7 @@
           "name": "destructObjectC",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "number"
