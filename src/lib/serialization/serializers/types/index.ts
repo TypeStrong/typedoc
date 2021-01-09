@@ -11,6 +11,7 @@ export * from "./predicate";
 export * from "./query";
 export * from "./reference";
 export * from "./reflection";
+export * from "./rest";
 export * from "./template-literal";
 export * from "./tuple";
 export * from "./type-operator";

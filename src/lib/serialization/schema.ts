@@ -82,6 +82,8 @@ type _ModelToObject<T> =
         ? ReferenceType
         : T extends M.ReflectionType
         ? ReflectionType
+        : T extends M.RestType
+        ? RestType
         : T extends M.LiteralType
         ? LiteralType
         : T extends M.TupleType
@@ -224,6 +226,7 @@ export type SomeType =
     | PredicateType
     | ReferenceType
     | ReflectionType
+    | RestType
     | TupleType
     | TypeOperatorType
     | TypeParameterType
@@ -272,6 +275,8 @@ export interface ReferenceType
 export interface ReflectionType extends Type, S<M.ReflectionType, "type"> {
     declaration?: ModelToObject<M.ReflectionType["declaration"]>;
 }
+
+export interface RestType extends Type, S<M.RestType, "type" | "elementType"> {}
 
 export interface LiteralType extends Type, S<M.LiteralType, "type" | "value"> {}
 

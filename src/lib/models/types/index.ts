@@ -13,6 +13,7 @@ export { ReferenceType } from "./reference";
 export { ReflectionType } from "./reflection";
 export { TemplateLiteralType } from "./template-literal";
 export { NamedTupleMember, TupleType } from "./tuple";
+export { RestType } from "./rest";
 export { TypeOperatorType } from "./type-operator";
 export { TypeParameterType } from "./type-parameter";
 export { UnionType } from "./union";

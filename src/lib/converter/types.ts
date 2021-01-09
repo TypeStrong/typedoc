@@ -23,6 +23,7 @@ import {
     MappedType,
     SignatureReflection,
 } from "../models";
+import { RestType } from "../models/types/rest";
 import { TemplateLiteralType } from "../models/types/template-literal";
 import { zip } from "../utils/array";
 import { Context } from "./context";
@@ -69,6 +70,7 @@ export function loadConverters() {
         queryConverter,
         typeLiteralConverter,
         referenceConverter,
+        restConverter,
         namedTupleMemberConverter,
         mappedConverter,
         ts3LiteralBooleanConverter,
@@ -628,6 +630,15 @@ const referenceConverter: TypeConverter<
     },
 };
 
+const restConverter: TypeConverter<ts.RestTypeNode> = {
+    kind: [ts.SyntaxKind.RestType],
+    convert(context, node) {
+        return new RestType(convertType(context, node.type));
+    },
+    // This is handled in the tuple converter
+    convertType: requestBugReport,
+};
+
 const namedTupleMemberConverter: TypeConverter<ts.NamedTupleMember> = {
     kind: [ts.SyntaxKind.NamedTupleMember],
     convert(context, node) {
@@ -825,7 +836,7 @@ const thisConverter: TypeConverter<ts.ThisTypeNode> = {
     },
 };
 
-const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleType> = {
+const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference> = {
     kind: [ts.SyntaxKind.TupleType],
     convert(context, node) {
         // TS 3.9 support
@@ -837,23 +848,42 @@ const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleType> = {
         // TS 3.9 support
         const elementTypes = node.elements ?? (node as any).elementTypes;
         // We need to do this because of type argument constraints, see GH1449
+        // In TS 4.0 we could use type.target.fixedLength
         const types = type.typeArguments?.slice(0, elementTypes.length);
         let elements = types?.map((type) => convertType(context, type));
 
-        // 3.9 doesn't have named tuple members, so it's fine to skip this there.
-        if (
-            ts.isNamedTupleMember &&
-            elementTypes.every(ts.isNamedTupleMember)
-        ) {
-            const namedMembers = node.elements as readonly ts.NamedTupleMember[];
+        if (type.target.labeledElementDeclarations) {
+            const namedDeclarations = type.target.labeledElementDeclarations;
             elements = elements?.map(
                 (el, i) =>
                     new NamedTupleMember(
-                        namedMembers[i].name.text,
-                        !!namedMembers[i].questionToken,
+                        namedDeclarations[i].name.getText(),
+                        !!namedDeclarations[i].questionToken,
                         removeUndefined(el)
                     )
             );
+        }
+
+        // TS 3.9 support - always defined in 4.0
+        if (type.target.elementFlags) {
+            elements = elements?.map((el, i) => {
+                if (type.target.elementFlags[i] & ts.ElementFlags.Variable) {
+                    // In the node case, we don't need to add the wrapping Array type... but we do here.
+                    if (el instanceof NamedTupleMember) {
+                        return new RestType(
+                            new NamedTupleMember(
+                                el.name,
+                                el.isOptional,
+                                new ArrayType(el.element)
+                            )
+                        );
+                    }
+
+                    return new RestType(new ArrayType(el));
+                }
+                // TODO: Optional elements
+                return el;
+            });
         }
 
         return new TupleType(elements ?? []);

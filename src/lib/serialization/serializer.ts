@@ -146,6 +146,7 @@ const serializerComponents: (new (
     S.ReferenceTypeSerializer,
     S.ReferenceTypeSerializer,
     S.ReflectionTypeSerializer,
+    S.RestTypeSerializer,
     S.LiteralTypeSerializer,
     S.TupleTypeSerializer,
     S.TemplateLiteralTypeSerializer,
