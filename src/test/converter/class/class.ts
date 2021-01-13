@@ -35,11 +35,14 @@ export class TestClass {
     /**
      * protectedMethod short text.
      * @category Test
+     * @category AnotherTest
      */
     protected protectedMethod() {}
 
     /**
      * privateMethod short text.
+     *
+     * @category AnotherTest
      */
     private privateMethod() {}
 
