@@ -28,6 +28,7 @@ export class TestClass {
 
     /**
      * publicMethod short text.
+     * @category AnotherTest
      * @category Test
      */
     public publicMethod() {}
