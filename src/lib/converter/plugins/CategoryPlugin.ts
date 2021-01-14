@@ -187,7 +187,11 @@ export class CategoryPlugin extends ConverterComponent {
                     commentTags.push(tag);
                     return;
                 }
-                categories.push(tag.text.trim());
+                const text = tag.text.trim();
+                if (!text) {
+                    return;
+                }
+                categories.push(text);
             });
             comment.tags = commentTags;
             return categories;
@@ -204,8 +208,9 @@ export class CategoryPlugin extends ConverterComponent {
                     if (!signature.comment) {
                         return categories;
                     }
-                    categories.push(...extractCategoryTag(signature.comment));
-                    return categories;
+                    return categories.concat(
+                        extractCategoryTag(signature.comment)
+                    );
                 },
                 []
             );
