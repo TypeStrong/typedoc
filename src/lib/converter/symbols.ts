@@ -478,8 +478,6 @@ function convertProperty(
     nameOverride?: string
 ) {
     const declarations = symbol.getDeclarations() ?? [];
-    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
-    assert(parentSymbol);
 
     // Don't do anything if we inherited this property and it is private.
     if (

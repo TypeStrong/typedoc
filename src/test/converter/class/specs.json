@@ -904,12 +904,12 @@
               ],
               "categories": [
                 {
-                    "title": "AnotherTest",
-                    "children": [
-                        32,
-                        30,
-                        28
-                    ]
+                  "title": "AnotherTest",
+                  "children": [
+                    32,
+                    30,
+                    28
+                  ]
                 },
                 {
                   "title": "Other",
