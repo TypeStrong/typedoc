@@ -17,6 +17,7 @@ import { getCommonDirectory } from "../utils/fs";
 import { createMinimatch } from "../utils/paths";
 import { IMinimatch } from "minimatch";
 import { hasFlag } from "../utils/enum";
+import { resolveAliasedSymbol } from "./utils/symbols";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -360,7 +361,9 @@ export class Converter extends ChildableComponent<
             this.excludeNotDocumented &&
             // If the enum is included, we should include members even if not documented.
             !hasFlag(symbol.flags, ts.SymbolFlags.EnumMember) &&
-            symbol.getDocumentationComment(checker).length === 0
+            resolveAliasedSymbol(symbol, checker).getDocumentationComment(
+                checker
+            ).length === 0
         ) {
             return true;
         }
