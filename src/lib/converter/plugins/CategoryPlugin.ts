@@ -161,7 +161,7 @@ export class CategoryPlugin extends ConverterComponent {
                 let category = categories.find((cat) => cat.title === childCat);
                 if (category) {
                     category.children.push(child);
-                    return;
+                    continue;
                 }
                 category = new ReflectionCategory(childCat);
                 category.children.push(child);
