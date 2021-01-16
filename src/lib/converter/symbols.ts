@@ -15,7 +15,7 @@ import { convertDefaultValue } from "./convert-expression";
 import { ConverterEvents } from "./converter-events";
 import { convertIndexSignature } from "./factories/index-signature";
 import { createSignature } from "./factories/signature";
-import { convertJsDocCallback, convertJsDocTypedef } from "./jsdoc";
+import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc";
 
 function getSymbolExportsWithFlag(symbol: ts.Symbol, flag: ts.SymbolFlags) {
     const childSymbols: ts.Symbol[] = [];
@@ -191,10 +191,12 @@ function convertTypeAlias(
             ): d is
                 | ts.TypeAliasDeclaration
                 | ts.JSDocTypedefTag
-                | ts.JSDocCallbackTag =>
+                | ts.JSDocCallbackTag
+                | ts.JSDocEnumTag =>
                 ts.isTypeAliasDeclaration(d) ||
                 ts.isJSDocTypedefTag(d) ||
-                ts.isJSDocCallbackTag(d)
+                ts.isJSDocCallbackTag(d) ||
+                ts.isJSDocEnumTag(d)
         );
     assert(declaration);
 
@@ -213,8 +215,11 @@ function convertTypeAlias(
         reflection.typeParameters = declaration.typeParameters?.map((param) =>
             createTypeParamReflection(param, context.withScope(reflection))
         );
-    } else if (ts.isJSDocTypedefTag(declaration)) {
-        convertJsDocTypedef(context, symbol, declaration, nameOverride);
+    } else if (
+        ts.isJSDocTypedefTag(declaration) ||
+        ts.isJSDocEnumTag(declaration)
+    ) {
+        convertJsDocAlias(context, symbol, declaration, nameOverride);
     } else {
         convertJsDocCallback(context, symbol, declaration, nameOverride);
     }
