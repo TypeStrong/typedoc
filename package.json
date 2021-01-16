@@ -30,7 +30,7 @@
     "progress": "^2.0.3",
     "shelljs": "^0.8.4",
     "shiki": "^0.2.7",
-    "typedoc-default-themes": "^0.12.3"
+    "typedoc-default-themes": "^0.12.4"
   },
   "peerDependencies": {
     "typescript": "3.9.x || 4.0.x || 4.1.x"
@@ -48,7 +48,7 @@
     "@types/shelljs": "^0.8.8",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",
-    "eslint": "^7.17.0",
+    "eslint": "^7.18.0",
     "mocha": "^8.2.1",
     "mockery": "^2.1.0",
     "nyc": "^15.1.0",
