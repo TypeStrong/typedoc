@@ -78,6 +78,7 @@ export class Options {
     private _readers: OptionsReader[] = [];
     private _declarations = new Map<string, Readonly<DeclarationOption>>();
     private _values: Record<string, unknown> = {};
+    private _setOptions = new Set<string>();
     private _compilerOptions: ts.CompilerOptions = {};
     private _fileNames: readonly string[] = [];
     private _projectReferences: readonly ts.ProjectReference[] = [];
@@ -109,6 +110,7 @@ export class Options {
         for (const declaration of this.getDeclarations()) {
             this.setOptionValueToDefault(declaration);
         }
+        this._setOptions.clear();
         this._compilerOptions = {};
         this._fileNames = [];
     }
@@ -211,6 +213,7 @@ export class Options {
 
     /**
      * Checks if the given option's value is deeply strict equal to the default.
+     * @deprecated Will be removed in v0.21. Use `isSet` instead.
      * @param name
      */
     isDefault(name: keyof TypeDocOptions): boolean;
@@ -221,6 +224,19 @@ export class Options {
             this.getValue(name as keyof TypeDocOptions),
             this.getDefaultOptionValue(this.getDeclaration(name)!)
         );
+    }
+
+    /**
+     * Checks if the given option's value is deeply strict equal to the default.
+     * @param name
+     */
+    isSet(name: keyof TypeDocOptions): boolean;
+    isSet(name: NeverIfInternal<string>): boolean;
+    isSet(name: string): boolean {
+        if (!this._declarations.has(name)) {
+            throw new Error("Tried to check if an undefined option was set");
+        }
+        return this._setOptions.has(name);
     }
 
     /**
@@ -268,6 +284,7 @@ export class Options {
 
         const converted = convert(value, declaration);
         this._values[declaration.name] = converted;
+        this._setOptions.add(name);
     }
 
     /**
@@ -299,6 +316,14 @@ export class Options {
         options: ts.CompilerOptions,
         projectReferences: readonly ts.ProjectReference[] | undefined
     ) {
+        // We do this here instead of in the tsconfig reader so that API consumers which
+        // supply a program to `Converter.convert` instead of letting TypeDoc create one
+        // can just set the compiler options, and not need to know about this mapping.
+        // It feels a bit like a hack... but it's better to have it here than to put it
+        // in Application or Converter.
+        if (options.stripInternal && !this.isSet("excludeInternal")) {
+            this.setValue("excludeInternal", true);
+        }
         this._fileNames = fileNames;
         this._compilerOptions = _.cloneDeep(options);
         this._projectReferences = projectReferences ?? [];
