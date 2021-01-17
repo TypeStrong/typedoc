@@ -288,7 +288,10 @@ export class CommentPlugin extends ConverterComponent {
             hidden
                 .map((reflection) => reflection.parent!)
                 .filter((method) =>
-                    method.kindOf(ReflectionKind.FunctionOrMethod)
+                    method.kindOf(
+                        ReflectionKind.FunctionOrMethod |
+                            ReflectionKind.Constructor
+                    )
                 ) as DeclarationReflection[],
             (method) => method.signatures?.length === 0
         );
