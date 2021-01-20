@@ -209,7 +209,8 @@ export function parseComment(
         if (
             tagName === "param" ||
             tagName === "typeparam" ||
-            tagName === "template"
+            tagName === "template" ||
+            tagName === "inheritdoc"
         ) {
             line = consumeTypeData(line);
             const param = /[^\s]+/.exec(line);
