@@ -85,6 +85,23 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "watch",
+        help: "Watch files for changes and rebuild docs on change.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
+        name: "preserveWatchOutput",
+        help:
+            "If set, TypeDoc will not clear the screen between compilation runs.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
+        name: "emit",
+        help: "If set, TypeDoc will emit the TypeScript compilation result",
+        type: ParameterType.Boolean,
+    });
+
+    options.addDeclaration({
         name: "out",
         help: "Specifies the location the documentation should be written to.",
         hint: ParameterHint.Directory,
