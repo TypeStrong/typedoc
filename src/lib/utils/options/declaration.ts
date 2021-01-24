@@ -48,6 +48,10 @@ export interface TypeDocOptionMap {
     includes: string;
     media: string;
 
+    emit: boolean;
+    watch: boolean;
+    preserveWatchOutput: boolean;
+
     out: string;
     json: string;
 

@@ -139,7 +139,7 @@ export class Converter extends ChildableComponent<
     convert(
         entryPoints: readonly string[],
         programs: ts.Program | readonly ts.Program[]
-    ): ProjectReflection | undefined {
+    ): ProjectReflection {
         programs = programs instanceof Array ? programs : [programs];
         this.externalPatternCache = void 0;
 
