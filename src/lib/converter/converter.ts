@@ -16,7 +16,7 @@ import { relative } from "path";
 import { getCommonDirectory } from "../utils/fs";
 import { createMinimatch } from "../utils/paths";
 import { IMinimatch } from "minimatch";
-import { hasFlag } from "../utils/enum";
+import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import { resolveAliasedSymbol } from "./utils/symbols";
 
 /**
@@ -369,7 +369,7 @@ export class Converter extends ChildableComponent<
         if (
             this.excludeNotDocumented &&
             // If the enum is included, we should include members even if not documented.
-            !hasFlag(symbol.flags, ts.SymbolFlags.EnumMember) &&
+            !hasAllFlags(symbol.flags, ts.SymbolFlags.EnumMember) &&
             resolveAliasedSymbol(symbol, checker).getDocumentationComment(
                 checker
             ).length === 0
@@ -449,21 +449,30 @@ function getExports(
     node: ts.SourceFile | ts.ModuleBlock,
     symbol: ts.Symbol | undefined
 ): ts.Symbol[] {
-    const exports: ts.Symbol[] = [];
-
     // The generated docs aren't great, but you really ought not be using
     // this in the first place... so it's better than nothing.
     const exportEq = symbol?.exports?.get("export=" as ts.__String);
     if (exportEq) {
-        exports.push(exportEq);
+        // JS users might also have exported types here.
+        // We need to filter for types because otherwise static methods can show up as both
+        // members of the export= class and as functions if a class is directly exported.
+        return [exportEq].concat(
+            context.checker
+                .getExportsOfModule(symbol!)
+                .filter(
+                    (s) =>
+                        !hasAnyFlag(
+                            s.flags,
+                            ts.SymbolFlags.Prototype | ts.SymbolFlags.Value
+                        )
+                )
+        );
     }
 
     if (symbol) {
-        return exports.concat(
-            context.checker
-                .getExportsOfModule(symbol)
-                .filter((s) => !hasFlag(s.flags, ts.SymbolFlags.Prototype))
-        );
+        return context.checker
+            .getExportsOfModule(symbol)
+            .filter((s) => !hasAllFlags(s.flags, ts.SymbolFlags.Prototype));
     }
 
     // Global file with no inferred top level symbol, get all symbols declared in this file.
