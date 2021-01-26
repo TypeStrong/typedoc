@@ -120,6 +120,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.String,
         defaultValue: "default",
     });
+
     options.addDeclaration({
         name: "name",
         help:
@@ -242,5 +243,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help:
             "Specify the options passed to Marked, the Markdown parser used by TypeDoc",
         type: ParameterType.Mixed,
+    });
+    options.addDeclaration({
+        name: "highlightTheme",
+        help: "Specifies the code highlighting theme.",
+        type: ParameterType.String,
     });
 }

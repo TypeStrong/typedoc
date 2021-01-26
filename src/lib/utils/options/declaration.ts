@@ -79,6 +79,8 @@ export interface TypeDocOptionMap {
     logLevel: typeof LogLevel;
     listInvalidSymbolLinks: boolean;
     markedOptions: unknown;
+
+    highlightTheme: string;
 }
 
 /**
