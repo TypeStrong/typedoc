@@ -1,6 +1,7 @@
 import { Options } from "..";
 import { LogLevel } from "../../loggers";
 import { ParameterType, ParameterHint } from "../declaration";
+import { BUNDLED_THEMES as ShikiThemes } from "shiki-themes";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
@@ -244,9 +245,20 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             "Specify the options passed to Marked, the Markdown parser used by TypeDoc",
         type: ParameterType.Mixed,
     });
+
     options.addDeclaration({
         name: "highlightTheme",
         help: "Specifies the code highlighting theme.",
         type: ParameterType.String,
+        defaultValue: "light-plus",
+        validate: (value: string): void => {
+            if (!ShikiThemes.includes(value)) {
+                throw new Error(
+                    `Highlight Theme must be one of the following: ${ShikiThemes.join(
+                        ", "
+                    )}`
+                );
+            }
+        },
     });
 }
