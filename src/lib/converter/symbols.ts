@@ -9,7 +9,12 @@ import {
     TypeParameterReflection,
 } from "../models";
 import { flatMap, uniqueByEquals } from "../utils/array";
-import { getEnumFlags, hasAllFlags, removeFlag } from "../utils/enum";
+import {
+    getEnumFlags,
+    hasAllFlags,
+    hasAnyFlag,
+    removeFlag,
+} from "../utils/enum";
 import { Context } from "./context";
 import { convertDefaultValue } from "./convert-expression";
 import { ConverterEvents } from "./converter-events";
@@ -87,7 +92,10 @@ export function convertSymbol(
     // that TD supports is merging a class and interface. All others are
     // represented as multiple reflections
     if (hasAllFlags(symbol.flags, ts.SymbolFlags.Class)) {
-        flags = removeFlag(flags, ts.SymbolFlags.Interface);
+        flags = removeFlag(
+            flags,
+            ts.SymbolFlags.Interface | ts.SymbolFlags.Function
+        );
     }
 
     // Kind of declaration merging... we treat this as a property with get/set signatures.
@@ -166,15 +174,15 @@ function convertNamespace(
     symbol: ts.Symbol,
     nameOverride?: string
 ) {
-    // This can happen in JS land where a user defines a class using a mixture
-    // of ES6 class syntax and adding properties to the class manually.
-    if (
-        symbol
-            .getDeclarations()
-            ?.some((d) => ts.isModuleDeclaration(d) || ts.isSourceFile(d)) ===
-        false
-    ) {
-        return;
+    let exportFlags = ts.SymbolFlags.ModuleMember;
+
+    // This can happen in JS land where "class" functions get tagged as a namespace too
+    if (symbol.getDeclarations()?.some(ts.isModuleDeclaration) !== true) {
+        exportFlags = ts.SymbolFlags.ClassMember;
+
+        if (hasAnyFlag(symbol.flags, ts.SymbolFlags.Class)) {
+            return;
+        }
     }
 
     const reflection = context.createDeclarationReflection(
@@ -185,7 +193,7 @@ function convertNamespace(
 
     convertSymbols(
         context.withScope(reflection),
-        getSymbolExportsWithFlag(symbol, ts.SymbolFlags.ModuleMember)
+        getSymbolExportsWithFlag(symbol, exportFlags)
     );
 }
 
@@ -304,7 +312,13 @@ function convertFunctionOrMethod(
     const signatures = type.getCallSignatures();
 
     const reflection = context.createDeclarationReflection(
-        isMethod ? ReflectionKind.Method : ReflectionKind.Function,
+        context.scope.kindOf(
+            ReflectionKind.ClassOrInterface |
+                ReflectionKind.VariableOrProperty |
+                ReflectionKind.TypeLiteral
+        )
+            ? ReflectionKind.Method
+            : ReflectionKind.Function,
         symbol,
         nameOverride
     );
@@ -360,7 +374,7 @@ function convertClassOrInterface(
 
     const classDeclaration = symbol
         .getDeclarations()
-        ?.find(ts.isClassDeclaration);
+        ?.find((d) => ts.isClassDeclaration(d) || ts.isFunctionDeclaration(d));
     if (classDeclaration) {
         setModifiers(classDeclaration, reflection);
 
@@ -544,7 +558,9 @@ function convertProperty(
     }
 
     const reflection = context.createDeclarationReflection(
-        ReflectionKind.Property,
+        context.scope.kindOf(ReflectionKind.Namespace)
+            ? ReflectionKind.Variable
+            : ReflectionKind.Property,
         symbol,
         nameOverride
     );

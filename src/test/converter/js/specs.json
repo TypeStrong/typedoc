@@ -6,14 +6,52 @@
   "children": [
     {
       "id": 1,
-      "name": "export-eq-class",
+      "name": "declaration-merging",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
+          "id": 9,
+          "name": "gh1483",
+          "kind": 2,
+          "kindString": "Namespace",
+          "flags": {},
+          "children": [
+            {
+              "id": 10,
+              "name": "namespaceExport",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 11,
+                  "name": "namespaceExport",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                10
+              ]
+            }
+          ]
+        },
+        {
           "id": 2,
-          "name": "export=",
+          "name": "GH1481",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
@@ -27,7 +65,7 @@
               "signatures": [
                 {
                   "id": 6,
-                  "name": "new export=",
+                  "name": "new GH1481",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
@@ -81,20 +119,124 @@
               ]
             }
           ]
+        },
+        {
+          "id": 12,
+          "name": "gh1483_2",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "children": [
+            {
+              "id": 15,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 16,
+                  "name": "new gh1483_2",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 12,
+                    "name": "gh1483_2"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 13,
+              "name": "staticMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isStatic": true
+              },
+              "signatures": [
+                {
+                  "id": 14,
+                  "name": "staticMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                15
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                13
+              ]
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "gh1483",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 8,
+              "name": "gh1483",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ]
         }
       ],
       "groups": [
         {
+          "title": "Namespaces",
+          "kind": 2,
+          "children": [
+            9
+          ]
+        },
+        {
           "title": "Classes",
           "kind": 128,
           "children": [
-            2
+            2,
+            12
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            7
           ]
         }
       ]
     },
     {
-      "id": 7,
+      "id": 17,
       "name": "export-eq-type",
       "kind": 1,
       "kindString": "Module",
@@ -102,7 +244,7 @@
       "comment": {},
       "children": [
         {
-          "id": 11,
+          "id": 21,
           "name": "Foo",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -113,7 +255,7 @@
           }
         },
         {
-          "id": 8,
+          "id": 18,
           "name": "export=",
           "kind": 64,
           "kindString": "Function",
@@ -122,7 +264,7 @@
           },
           "signatures": [
             {
-              "id": 9,
+              "id": 19,
               "name": "export=",
               "kind": 4096,
               "kindString": "Call signature",
@@ -130,7 +272,7 @@
               "comment": {},
               "parameters": [
                 {
-                  "id": 10,
+                  "id": 20,
                   "name": "x",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -155,20 +297,20 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            11
+            21
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            8
+            18
           ]
         }
       ]
     },
     {
-      "id": 12,
+      "id": 22,
       "name": "index",
       "kind": 1,
       "kindString": "Module",
@@ -176,35 +318,35 @@
       "comment": {},
       "children": [
         {
-          "id": 21,
+          "id": 31,
           "name": "GH1481",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
           "children": [
             {
-              "id": 24,
+              "id": 34,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 25,
+                  "id": 35,
                   "name": "new GH1481",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 21,
+                    "id": 31,
                     "name": "GH1481"
                   }
                 }
               ]
             },
             {
-              "id": 22,
+              "id": 32,
               "name": "static",
               "kind": 2048,
               "kindString": "Method",
@@ -213,7 +355,7 @@
               },
               "signatures": [
                 {
-                  "id": 23,
+                  "id": 33,
                   "name": "static",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -234,20 +376,20 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                24
+                34
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                22
+                32
               ]
             }
           ]
         },
         {
-          "id": 28,
+          "id": 38,
           "name": "AlsoInterfaceIsh",
           "kind": 256,
           "kindString": "Interface",
@@ -257,7 +399,7 @@
           },
           "children": [
             {
-              "id": 30,
+              "id": 40,
               "name": "bar",
               "kind": 1024,
               "kindString": "Property",
@@ -271,7 +413,7 @@
               }
             },
             {
-              "id": 29,
+              "id": 39,
               "name": "foo",
               "kind": 1024,
               "kindString": "Property",
@@ -290,21 +432,21 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                30,
-                29
+                40,
+                39
               ]
             }
           ]
         },
         {
-          "id": 26,
+          "id": 36,
           "name": "InterfaceIsh",
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
           "children": [
             {
-              "id": 27,
+              "id": 37,
               "name": "foo",
               "kind": 1024,
               "kindString": "Property",
@@ -323,13 +465,13 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                27
+                37
               ]
             }
           ]
         },
         {
-          "id": 20,
+          "id": 30,
           "name": "ColumnType",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -340,7 +482,7 @@
           }
         },
         {
-          "id": 55,
+          "id": 65,
           "name": "Foo",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -348,21 +490,21 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 56,
+              "id": 66,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "signatures": [
                 {
-                  "id": 57,
+                  "id": 67,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 58,
+                      "id": 68,
                       "name": "args",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -388,7 +530,7 @@
           }
         },
         {
-          "id": 41,
+          "id": 51,
           "name": "HasReturnTag",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -396,14 +538,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 42,
+              "id": 52,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "signatures": [
                 {
-                  "id": 43,
+                  "id": 53,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -418,7 +560,7 @@
           }
         },
         {
-          "id": 53,
+          "id": 63,
           "name": "Identity",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -428,7 +570,7 @@
           },
           "typeParameter": [
             {
-              "id": 54,
+              "id": 64,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -444,14 +586,14 @@
           }
         },
         {
-          "id": 44,
+          "id": 54,
           "name": "IdentityFn",
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
           "typeParameter": [
             {
-              "id": 48,
+              "id": 58,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -461,21 +603,21 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 45,
+              "id": 55,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "signatures": [
                 {
-                  "id": 46,
+                  "id": 56,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 47,
+                      "id": 57,
                       "name": "data",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -496,7 +638,7 @@
           }
         },
         {
-          "id": 33,
+          "id": 43,
           "name": "IntersectionType",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -510,14 +652,14 @@
               {
                 "type": "reflection",
                 "declaration": {
-                  "id": 34,
+                  "id": 44,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 35,
+                      "id": 45,
                       "name": "x",
                       "kind": 1024,
                       "kindString": "Property",
@@ -533,7 +675,7 @@
                       "title": "Properties",
                       "kind": 1024,
                       "children": [
-                        35
+                        45
                       ]
                     }
                   ]
@@ -542,14 +684,14 @@
               {
                 "type": "reflection",
                 "declaration": {
-                  "id": 36,
+                  "id": 46,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 37,
+                      "id": 47,
                       "name": "y",
                       "kind": 1024,
                       "kindString": "Property",
@@ -565,7 +707,7 @@
                       "title": "Properties",
                       "kind": 1024,
                       "children": [
-                        37
+                        47
                       ]
                     }
                   ]
@@ -575,7 +717,7 @@
           }
         },
         {
-          "id": 38,
+          "id": 48,
           "name": "NoReturnTag",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -583,14 +725,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 39,
+              "id": 49,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "signatures": [
                 {
-                  "id": 40,
+                  "id": 50,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -605,7 +747,7 @@
           }
         },
         {
-          "id": 31,
+          "id": 41,
           "name": "ObjectAlias",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -619,7 +761,7 @@
           }
         },
         {
-          "id": 49,
+          "id": 59,
           "name": "OptionalArg",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -627,21 +769,21 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 50,
+              "id": 60,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "signatures": [
                 {
-                  "id": 51,
+                  "id": 61,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 52,
+                      "id": 62,
                       "name": "data",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -664,7 +806,7 @@
           }
         },
         {
-          "id": 32,
+          "id": 42,
           "name": "UnionType",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -687,7 +829,7 @@
           }
         },
         {
-          "id": 16,
+          "id": 26,
           "name": "ColumnType",
           "kind": 32,
           "kindString": "Variable",
@@ -698,14 +840,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 17,
+              "id": 27,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
-                  "id": 19,
+                  "id": 29,
                   "name": "NUMBER",
                   "kind": 1024,
                   "kindString": "Property",
@@ -717,7 +859,7 @@
                   "defaultValue": "\"number\""
                 },
                 {
-                  "id": 18,
+                  "id": 28,
                   "name": "STRING",
                   "kind": 1024,
                   "kindString": "Property",
@@ -734,8 +876,8 @@
                   "title": "Properties",
                   "kind": 1024,
                   "children": [
-                    19,
-                    18
+                    29,
+                    28
                   ]
                 }
               ]
@@ -744,7 +886,7 @@
           "defaultValue": "..."
         },
         {
-          "id": 13,
+          "id": 23,
           "name": "usedFoo",
           "kind": 64,
           "kindString": "Function",
@@ -753,7 +895,7 @@
           },
           "signatures": [
             {
-              "id": 14,
+              "id": 24,
               "name": "usedFoo",
               "kind": 4096,
               "kindString": "Call signature",
@@ -761,7 +903,7 @@
               "comment": {},
               "parameters": [
                 {
-                  "id": 15,
+                  "id": 25,
                   "name": "args",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -790,45 +932,45 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            21
+            31
           ]
         },
         {
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            28,
-            26
+            38,
+            36
           ]
         },
         {
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            20,
-            55,
+            30,
+            65,
+            51,
+            63,
+            54,
+            43,
+            48,
             41,
-            53,
-            44,
-            33,
-            38,
-            31,
-            49,
-            32
+            59,
+            42
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            16
+            26
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            13
+            23
           ]
         }
       ]
@@ -840,8 +982,8 @@
       "kind": 1,
       "children": [
         1,
-        7,
-        12
+        17,
+        22
       ]
     }
   ]
