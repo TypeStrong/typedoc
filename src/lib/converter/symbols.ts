@@ -309,7 +309,9 @@ function convertFunctionOrMethod(
         symbol,
         locationDeclaration
     );
-    const signatures = type.getCallSignatures();
+    // Need to get the non nullable type because interface methods might be declared
+    // with a question token. See GH1490.
+    const signatures = type.getNonNullableType().getCallSignatures();
 
     const reflection = context.createDeclarationReflection(
         context.scope.kindOf(
