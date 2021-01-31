@@ -14,7 +14,7 @@ import { Converter } from "../converter";
 import { Context } from "../context";
 import { partition, uniq } from "lodash";
 import { SourceReference } from "../../models";
-import { BindOption, removeIfPresent } from "../../utils";
+import { BindOption, filterMap, removeIfPresent } from "../../utils";
 
 /**
  * These tags are not useful to display in the generated documentation.
@@ -219,14 +219,13 @@ export class CommentPlugin extends ConverterComponent {
 
         // remove functions with empty signatures after their signatures have been removed
         const [allRemoved, someRemoved] = partition(
-            hidden
-                .map((reflection) => reflection.parent!)
-                .filter((method) =>
-                    method.kindOf(
-                        ReflectionKind.FunctionOrMethod |
-                            ReflectionKind.Constructor
-                    )
-                ) as DeclarationReflection[],
+            filterMap(hidden, (reflection) =>
+                reflection.parent?.kindOf(
+                    ReflectionKind.FunctionOrMethod | ReflectionKind.Constructor
+                )
+                    ? reflection.parent
+                    : void 0
+            ) as DeclarationReflection[],
             (method) => method.signatures?.length === 0
         );
         allRemoved.forEach((reflection) =>
