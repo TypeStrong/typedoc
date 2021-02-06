@@ -9,7 +9,6 @@
 
 import * as Path from "path";
 import * as FS from "fs-extra";
-import { Theme as ShikiTheme } from "shiki-themes";
 // eslint-disable-next-line
 const ProgressBar = require("progress");
 
@@ -23,7 +22,7 @@ import { DefaultTheme } from "./themes/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
 import { BindOption } from "../utils";
-import { loadHighlighter } from "../utils/highlighter";
+import { loadHighlighter, ShikiTheme } from "../utils/highlighter";
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes

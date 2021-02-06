@@ -1,5 +1,5 @@
+import { ShikiTheme } from "../highlighter";
 import { LogLevel } from "../loggers";
-import { Theme as ShikiTheme } from "shiki-themes";
 
 /**
  * An interface describing all TypeDoc specific options. Generated from a

@@ -1,8 +1,9 @@
 import { ok as assert } from "assert";
 import * as shiki from "shiki";
-import { Theme as ShikiTheme } from "shiki-themes";
 import { Highlighter } from "shiki/dist/highlighter";
 import { unique } from "./array";
+
+export type ShikiTheme = Parameters<typeof import("shiki")["getTheme"]>[0];
 
 // This is needed because Shiki includes some "fake" languages
 // ts / js are expected by users to be equivalent to typescript / javascript
