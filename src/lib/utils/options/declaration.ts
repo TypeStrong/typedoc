@@ -1,4 +1,4 @@
-import { ShikiTheme } from "../highlighter";
+import { Theme as ShikiTheme } from "shiki";
 import { LogLevel } from "../loggers";
 
 /**

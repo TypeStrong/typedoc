@@ -22,7 +22,8 @@ import { DefaultTheme } from "./themes/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
 import { BindOption } from "../utils";
-import { loadHighlighter, ShikiTheme } from "../utils/highlighter";
+import { loadHighlighter } from "../utils/highlighter";
+import { Theme as ShikiTheme } from "shiki";
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
