@@ -58,7 +58,7 @@ export class Repository {
         ShellJS.pushd(path);
 
         for (let i = 0, c = repoLinks.length; i < c; i++) {
-            const url = /(github(?:\.[a-z]+)*\.com)[:/]([^/]+)\/(.*)/.exec(
+            const url = /(github(?:\.[a-z]+)*\.[a-z]{2,})[:/]([^/]+)\/(.*)/.exec(
                 repoLinks[i]
             );
 
