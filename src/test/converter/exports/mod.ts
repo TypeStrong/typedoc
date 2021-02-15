@@ -1,4 +1,8 @@
 /**
+ * Doc comment for Mod
+ */
+
+/**
  * A simple named export that will be exported from export.ts
  */
 export const a = 1;

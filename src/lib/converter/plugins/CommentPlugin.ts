@@ -107,6 +107,7 @@ export class CommentPlugin extends ConverterComponent {
             ) ||
             reflection.kind === ReflectionKind.Project
         ) {
+            comment.removeTags("module");
             comment.removeTags("packagedocumentation");
         }
     }
@@ -158,33 +159,40 @@ export class CommentPlugin extends ConverterComponent {
      * @param node  The node that is currently processed if available.
      */
     private onDeclaration(
-        _context: Context,
+        context: Context,
         reflection: Reflection,
         node?: ts.Node
     ) {
-        if (!node) {
-            return;
-        }
         if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
             return;
         }
-        const rawComment = getRawComment(node);
+
+        // Clean this up in 0.21. We should really accept a ts.Symbol so we don't need exportSymbol on Context
+        const exportNode = context.exportSymbol?.getDeclarations()?.[0];
+        let rawComment = exportNode && getRawComment(exportNode);
+        rawComment ??= node && getRawComment(node);
         if (!rawComment) {
             return;
         }
 
         const comment = parseComment(rawComment, reflection.comment);
+
+        if (reflection.kindOf(ReflectionKind.Module)) {
+            const tag = comment.getTag("module");
+            if (tag) {
+                // If no name is specified, this is a flag to mark a comment as a module comment
+                // and should not result in a reflection rename.
+                const newName = tag.text.trim();
+                if (newName.length) {
+                    reflection.name = newName;
+                }
+                removeIfPresent(comment.tags, tag);
+            }
+        }
+
         this.applyModifiers(reflection, comment);
         this.removeExcludedTags(comment);
         reflection.comment = comment;
-
-        if (reflection.kindOf(ReflectionKind.Module)) {
-            const tag = reflection.comment?.getTag("module");
-            if (tag) {
-                reflection.name = tag.text.trim();
-                removeIfPresent(reflection.comment?.tags, tag);
-            }
-        }
     }
 
     /**

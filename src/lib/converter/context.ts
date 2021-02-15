@@ -70,6 +70,19 @@ export class Context {
         this.convertingTypeNode = true;
     }
 
+    /**
+     * This is a horrible hack to avoid breaking backwards compatibility for plugins
+     * that use EVENT_CREATE_DECLARATION. The comment plugin needs to be able to check
+     * this to properly get the comment for module re-exports:
+     * ```ts
+     * /** We should use this comment *&#47;
+     * export * as Mod from "./mod"
+     * ```
+     * Will be removed in 0.21.
+     * @internal
+     */
+    exportSymbol?: ts.Symbol;
+
     private convertingTypeNode = false;
 
     /**
@@ -169,22 +182,31 @@ export class Context {
     createDeclarationReflection(
         kind: ReflectionKind,
         symbol: ts.Symbol | undefined,
-        name = getHumanName(symbol?.name ?? "unknown")
+        exportSymbol: ts.Symbol | undefined,
+        // We need this because modules don't always have symbols.
+        nameOverride?: string
     ) {
+        const name = getHumanName(
+            nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
+        );
         const reflection = new DeclarationReflection(name, kind, this.scope);
         this.addChild(reflection);
         if (symbol && this.converter.isExternal(symbol)) {
             reflection.setFlag(ReflectionFlag.External);
         }
+        if (exportSymbol) {
+            this.registerReflection(reflection, exportSymbol);
+        }
         this.registerReflection(reflection, symbol);
 
+        this.exportSymbol = exportSymbol;
         this.converter.trigger(
             ConverterEvents.CREATE_DECLARATION,
             this,
             reflection,
-            // FIXME this isn't good enough.
             symbol && this.converter.getNodesForSymbol(symbol, kind)[0]
         );
+        this.exportSymbol = undefined;
 
         return reflection;
     }

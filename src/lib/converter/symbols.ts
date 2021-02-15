@@ -26,7 +26,7 @@ const symbolConverters: {
     [K in ts.SymbolFlags]?: (
         context: Context,
         symbol: ts.Symbol,
-        nameOverride?: string
+        exportSymbol?: ts.Symbol
     ) => void;
 } = {
     [ts.SymbolFlags.RegularEnum]: convertEnum,
@@ -62,7 +62,7 @@ for (const key of Object.keys(symbolConverters)) {
 export function convertSymbol(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ): void {
     if (context.shouldIgnore(symbol)) {
         return;
@@ -108,7 +108,7 @@ export function convertSymbol(
                 `Missing converter for symbol: ${symbol.name} with flag ${ts.SymbolFlags[flag]}`
             );
         }
-        symbolConverters[flag]?.(context, symbol, nameOverride);
+        symbolConverters[flag]?.(context, symbol, exportSymbol);
     }
 }
 
@@ -121,12 +121,12 @@ function convertSymbols(context: Context, symbols: readonly ts.Symbol[]) {
 function convertEnum(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Enum,
         symbol,
-        nameOverride
+        exportSymbol
     );
 
     if (symbol.flags & ts.SymbolFlags.ConstEnum) {
@@ -144,12 +144,12 @@ function convertEnum(
 function convertEnumMember(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.EnumMember,
         symbol,
-        nameOverride
+        exportSymbol
     );
 
     reflection.defaultValue = JSON.stringify(
@@ -162,7 +162,7 @@ function convertEnumMember(
 function convertNamespace(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     let exportFlags = ts.SymbolFlags.ModuleMember;
 
@@ -183,7 +183,7 @@ function convertNamespace(
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Namespace,
         symbol,
-        nameOverride
+        exportSymbol
     );
 
     convertSymbols(
@@ -197,7 +197,7 @@ function convertNamespace(
 function convertTypeAlias(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const declaration = symbol
         ?.getDeclarations()
@@ -220,7 +220,7 @@ function convertTypeAlias(
         const reflection = context.createDeclarationReflection(
             ReflectionKind.TypeAlias,
             symbol,
-            nameOverride
+            exportSymbol
         );
 
         reflection.type = context.converter.convertType(
@@ -235,9 +235,9 @@ function convertTypeAlias(
         ts.isJSDocTypedefTag(declaration) ||
         ts.isJSDocEnumTag(declaration)
     ) {
-        convertJsDocAlias(context, symbol, declaration, nameOverride);
+        convertJsDocAlias(context, symbol, declaration, exportSymbol);
     } else {
-        convertJsDocCallback(context, symbol, declaration, nameOverride);
+        convertJsDocCallback(context, symbol, declaration, exportSymbol);
     }
 }
 
@@ -265,7 +265,7 @@ function createTypeParamReflection(
 function convertFunctionOrMethod(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     // Can't just check method flag because this might be called for properties as well
     // This will *NOT* be called for variables that look like functions, they need a special case.
@@ -319,7 +319,7 @@ function convertFunctionOrMethod(
             ? ReflectionKind.Method
             : ReflectionKind.Function,
         symbol,
-        nameOverride
+        exportSymbol
     );
 
     if (declarations.length && isMethod) {
@@ -357,14 +357,14 @@ function convertFunctionOrMethod(
 function convertClassOrInterface(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const reflection = context.createDeclarationReflection(
         ts.SymbolFlags.Class & symbol.flags
             ? ReflectionKind.Class
             : ReflectionKind.Interface,
         symbol,
-        nameOverride
+        exportSymbol
     );
     const reflectionContext = context.withScope(reflection);
 
@@ -512,7 +512,7 @@ function convertClassOrInterface(
 function convertProperty(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const declarations = symbol.getDeclarations() ?? [];
 
@@ -535,7 +535,7 @@ function convertProperty(
             (decl) => ts.isMethodSignature(decl) || ts.isMethodDeclaration(decl)
         )
     ) {
-        return convertFunctionOrMethod(context, symbol, nameOverride);
+        return convertFunctionOrMethod(context, symbol, exportSymbol);
     }
 
     // Special case: "arrow methods" should be treated as methods.
@@ -551,7 +551,7 @@ function convertProperty(
                 context,
                 symbol,
                 declaration.initializer,
-                nameOverride
+                exportSymbol
             );
         }
     }
@@ -561,7 +561,7 @@ function convertProperty(
             ? ReflectionKind.Variable
             : ReflectionKind.Property,
         symbol,
-        nameOverride
+        exportSymbol
     );
 
     const declaration = symbol.getDeclarations()?.[0];
@@ -607,12 +607,12 @@ function convertArrowAsMethod(
     context: Context,
     symbol: ts.Symbol,
     arrow: ts.ArrowFunction,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Method,
         symbol,
-        nameOverride
+        exportSymbol
     );
     setModifiers(arrow.parent as ts.PropertyDeclaration, reflection);
     const rc = context.withScope(reflection);
@@ -635,6 +635,7 @@ function convertConstructor(context: Context, symbol: ts.Symbol) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Constructor,
         symbol,
+        void 0,
         "constructor"
     );
     const reflectionContext = context.withScope(reflection);
@@ -705,7 +706,7 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
 function convertAlias(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const reflection = context.project.getReflectionFromSymbol(
         context.resolveAliasedSymbol(symbol)
@@ -715,12 +716,12 @@ function convertAlias(
         convertSymbol(
             context,
             context.resolveAliasedSymbol(symbol),
-            nameOverride ?? symbol.name
+            exportSymbol ?? symbol
         );
     } else {
         // We already have this. Create a reference.
         const ref = new ReferenceReflection(
-            nameOverride ?? symbol.name,
+            exportSymbol?.name ?? symbol.name,
             reflection,
             context.scope
         );
@@ -729,7 +730,7 @@ function convertAlias(
 
         context.trigger(
             ConverterEvents.CREATE_DECLARATION,
-            reflection,
+            ref,
             // FIXME this isn't good enough.
             context.converter.getNodesForSymbol(
                 symbol,
@@ -742,7 +743,7 @@ function convertAlias(
 function convertVariable(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const declaration = symbol.getDeclarations()?.[0];
     assert(declaration);
@@ -750,13 +751,13 @@ function convertVariable(
     const type = context.checker.getTypeOfSymbolAtLocation(symbol, declaration);
 
     if (type.getCallSignatures().length && !type.getProperties().length) {
-        return convertVariableAsFunction(context, symbol, nameOverride);
+        return convertVariableAsFunction(context, symbol, exportSymbol);
     }
 
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Variable,
         symbol,
-        nameOverride
+        exportSymbol
     );
 
     let typeNode: ts.TypeNode | undefined;
@@ -789,7 +790,7 @@ function convertVariable(
 function convertVariableAsFunction(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const declaration = symbol
         .getDeclarations()
@@ -803,7 +804,7 @@ function convertVariableAsFunction(
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Function,
         symbol,
-        nameOverride
+        exportSymbol
     );
     setModifiers(declaration ?? symbol.valueDeclaration, reflection);
     // Does anyone care about this? I doubt it...
@@ -839,12 +840,12 @@ function convertVariableAsFunction(
 function convertAccessor(
     context: Context,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Accessor,
         symbol,
-        nameOverride
+        exportSymbol
     );
     const rc = context.withScope(reflection);
 

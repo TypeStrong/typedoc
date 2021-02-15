@@ -320,6 +320,7 @@ export class Converter extends ChildableComponent<
             const reflection = context.createDeclarationReflection(
                 ReflectionKind.Module,
                 symbol,
+                void 0,
                 entryName
             );
             moduleContext = context.withScope(reflection);

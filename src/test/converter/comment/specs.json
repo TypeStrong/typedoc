@@ -257,7 +257,8 @@
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
+        "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function.",
+        "text": "This behavior will be deprecated and removed in the future. Use the `module` tag instead.\n"
       },
       "children": [
         {
@@ -314,6 +315,71 @@
           ]
         }
       ]
+    },
+    {
+      "id": 37,
+      "name": "comment3",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {},
+      "comment": {
+        "shortText": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
+      },
+      "children": [
+        {
+          "id": 38,
+          "name": "multiply",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 39,
+              "name": "multiply",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 40,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 41,
+                  "name": "b",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            38
+          ]
+        }
+      ]
     }
   ],
   "groups": [
@@ -322,7 +388,8 @@
       "kind": 1,
       "children": [
         1,
-        32
+        32,
+        37
       ]
     }
   ]

@@ -23,20 +23,20 @@ export function convertJsDocAlias(
     context: Context,
     symbol: ts.Symbol,
     declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     if (
         declaration.typeExpression &&
         ts.isJSDocTypeLiteral(declaration.typeExpression)
     ) {
-        convertJsDocInterface(context, declaration, symbol, nameOverride);
+        convertJsDocInterface(context, declaration, symbol, exportSymbol);
         return;
     }
 
     const reflection = context.createDeclarationReflection(
         ReflectionKind.TypeAlias,
         symbol,
-        nameOverride
+        exportSymbol
     );
 
     reflection.type = context.converter.convertType(
@@ -54,12 +54,12 @@ export function convertJsDocCallback(
     context: Context,
     symbol: ts.Symbol,
     declaration: ts.JSDocCallbackTag,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const alias = context.createDeclarationReflection(
         ReflectionKind.TypeAlias,
         symbol,
-        nameOverride
+        exportSymbol
     );
     const ac = context.withScope(alias);
 
@@ -71,12 +71,12 @@ function convertJsDocInterface(
     context: Context,
     declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
     symbol: ts.Symbol,
-    nameOverride?: string
+    exportSymbol?: ts.Symbol
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Interface,
         symbol,
-        nameOverride
+        exportSymbol
     );
     const rc = context.withScope(reflection);
 

@@ -20,6 +20,17 @@
           "target": 33
         },
         {
+          "id": 45,
+          "name": "Mod2",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {},
+          "comment": {
+            "shortText": "This is a comment for Mod that overwrites the one specified in \"mod\""
+          },
+          "target": 33
+        },
+        {
           "id": 44,
           "name": "ModDefault",
           "kind": 16777216,
@@ -28,7 +39,7 @@
           "target": 34
         },
         {
-          "id": 48,
+          "id": 49,
           "name": "ThisModule",
           "kind": 16777216,
           "kindString": "Reference",
@@ -36,11 +47,14 @@
           "target": 33
         },
         {
-          "id": 46,
+          "id": 47,
           "name": "b",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "comment": {
+            "shortText": "An export of a local under a different name."
+          },
           "target": 36
         },
         {
@@ -210,7 +224,7 @@
           ]
         },
         {
-          "id": 49,
+          "id": 50,
           "name": "GH1453Helper",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -221,7 +235,7 @@
           }
         },
         {
-          "id": 45,
+          "id": 46,
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
@@ -321,9 +335,10 @@
           "kind": 16777216,
           "children": [
             43,
+            45,
             44,
-            48,
-            46,
+            49,
+            47,
             42
           ]
         },
@@ -339,14 +354,14 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            49
+            50
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            45
+            46
           ]
         },
         {
@@ -542,6 +557,9 @@
       "kind": 1,
       "kindString": "Module",
       "flags": {},
+      "comment": {
+        "shortText": "Doc comment for Mod"
+      },
       "children": [
         {
           "id": 40,
@@ -557,6 +575,9 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "comment": {
+            "shortText": "An export of a local under a different name."
+          },
           "target": 36
         },
         {
@@ -565,6 +586,9 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "comment": {
+            "shortText": "An export with a module specifier that comes from this file."
+          },
           "target": 36
         },
         {

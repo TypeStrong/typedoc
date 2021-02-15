@@ -119,13 +119,26 @@ export function getRawComment(node: ts.Node): string | undefined {
         } else {
             node = getRootModuleDeclaration(<ts.ModuleDeclaration>node);
         }
+    } else if (node.kind === ts.SyntaxKind.NamespaceExport) {
+        node = node.parent;
+    } else if (node.kind === ts.SyntaxKind.ExportSpecifier) {
+        node = node.parent.parent;
     }
 
     const sourceFile = node.getSourceFile();
     const comments = getJSDocCommentRanges(node, sourceFile.text);
     if (comments.length) {
         let comment: ts.CommentRange;
-        const explicitPackageComment = comments.find((comment) =>
+        let explicitPackageComment = comments.find((comment) =>
+            sourceFile.text
+                .substring(comment.pos, comment.end)
+                .includes("@module")
+        );
+
+        // TODO: Deprecate and remove. This is an abuse of the @packageDocumentation tag. See:
+        // https://github.com/TypeStrong/typedoc/issues/1504#issuecomment-775842609
+        // Deprecate in 0.21, remove in 0.22
+        explicitPackageComment ??= comments.find((comment) =>
             sourceFile.text
                 .substring(comment.pos, comment.end)
                 .includes("@packageDocumentation")
@@ -138,17 +151,30 @@ export function getRawComment(node: ts.Node): string | undefined {
                 // FUTURE: GH#1083, follow deprecation process to phase this out.
                 comment = comments[0];
             } else {
-                // Single comment that may be a license comment, bail.
+                // Single comment that may be a license comment, or no comments, bail.
                 return;
             }
         } else {
             comment = comments[comments.length - 1];
             // If a non-SourceFile node comment has this tag, it should not be attached to the node
             // as it documents the whole file by convention.
+            // TODO: Deprecate and remove. This is an abuse of the @packageDocumentation tag. See:
+            // https://github.com/TypeStrong/typedoc/issues/1504#issuecomment-775842609
+            // Deprecate in 0.21, remove in 0.22
             if (
                 sourceFile.text
                     .substring(comment.pos, comment.end)
                     .includes("@packageDocumentation")
+            ) {
+                return;
+            }
+
+            // If a non-SourceFile node comment has this tag, it should not be attached to the node
+            // as it documents the module.
+            if (
+                sourceFile.text
+                    .substring(comment.pos, comment.end)
+                    .includes("@module")
             ) {
                 return;
             }
@@ -164,8 +190,8 @@ export function getRawComment(node: ts.Node): string | undefined {
  * Parse the given doc comment string.
  *
  * @param text     The doc comment string that should be parsed.
- * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
- * @returns        A populated [[Models.Comment]] instance.
+ * @param comment  The {@link Comment} instance the parsed results should be stored into.
+ * @returns        A populated {@link Comment} instance.
  */
 export function parseComment(
     text: string,

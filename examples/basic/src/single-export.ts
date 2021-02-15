@@ -46,7 +46,4 @@ class SingleExportedClass {
     }
 }
 
-/**
- * The export statement.
- */
 export = SingleExportedClass;
