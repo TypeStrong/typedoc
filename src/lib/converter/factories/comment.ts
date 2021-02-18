@@ -258,6 +258,7 @@ export function parseComment(
     let inFencedCode = false;
     function readLine(line: string) {
         line = line.replace(/^\s*\*? ?/, "");
+        const rawLine = line;
         line = line.replace(/\s*$/, "");
 
         if (CODE_FENCE.test(line)) {
@@ -271,7 +272,12 @@ export function parseComment(
                 return readTagLine(line, tag);
             }
         }
-        readBareLine(line);
+        if (inFencedCode) {
+            // This will not include code blocks declared with four spaces
+            readBareLine(rawLine);
+        } else {
+            readBareLine(line);
+        }
     }
 
     text = text.replace(/^\s*\/\*+/, "");
