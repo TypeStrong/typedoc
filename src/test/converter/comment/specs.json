@@ -380,6 +380,71 @@
           ]
         }
       ]
+    },
+    {
+      "id": 42,
+      "name": "comment4",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {},
+      "comment": {
+        "shortText": "This is a comment containing a multiline code block\n```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+      },
+      "children": [
+        {
+          "id": 43,
+          "name": "multiply",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 44,
+              "name": "multiply",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 45,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 46,
+                  "name": "b",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            43
+          ]
+        }
+      ]
     }
   ],
   "groups": [
@@ -389,7 +454,8 @@
       "children": [
         1,
         32,
-        37
+        37,
+        42
       ]
     }
   ]
