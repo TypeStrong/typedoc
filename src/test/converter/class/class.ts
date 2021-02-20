@@ -121,3 +121,12 @@ export class Ts38PrivateFields {
     /** Docs */
     #foo = 1;
 }
+
+export namespace GH1509 {
+    export interface Foo {
+        foo: number;
+    }
+
+    export interface PartialFoo extends Partial<Foo> {}
+    export interface ReadonlyFoo extends Readonly<Partial<Foo>> {}
+}
