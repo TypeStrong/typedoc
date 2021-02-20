@@ -1374,13 +1374,85 @@
     },
     {
       "id": 99,
+      "name": "symbols",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {},
+      "children": [
+        {
+          "id": 101,
+          "name": "ComputedUniqueName",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {},
+          "children": [
+            {
+              "id": 102,
+              "name": "[UNIQUE_SYMBOL]",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                102
+              ]
+            }
+          ]
+        },
+        {
+          "id": 100,
+          "name": "UNIQUE_SYMBOL",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "type": {
+            "type": "query",
+            "queryType": {
+              "type": "reference",
+              "id": 100,
+              "name": "UNIQUE_SYMBOL"
+            }
+          },
+          "defaultValue": "..."
+        }
+      ],
+      "groups": [
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            101
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            100
+          ]
+        }
+      ]
+    },
+    {
+      "id": 103,
       "name": "variable",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 100,
+          "id": 104,
           "name": "myConst",
           "kind": 32,
           "kindString": "Variable",
@@ -1394,7 +1466,7 @@
           "defaultValue": "15"
         },
         {
-          "id": 101,
+          "id": 105,
           "name": "myLet",
           "kind": 32,
           "kindString": "Variable",
@@ -1408,7 +1480,7 @@
           "defaultValue": "15"
         },
         {
-          "id": 102,
+          "id": 106,
           "name": "myVar",
           "kind": 32,
           "kindString": "Variable",
@@ -1420,7 +1492,7 @@
           "defaultValue": "15"
         },
         {
-          "id": 103,
+          "id": 107,
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
@@ -1433,7 +1505,7 @@
           }
         },
         {
-          "id": 104,
+          "id": 108,
           "name": "y",
           "kind": 32,
           "kindString": "Variable",
@@ -1452,7 +1524,7 @@
           }
         },
         {
-          "id": 105,
+          "id": 109,
           "name": "z",
           "kind": 32,
           "kindString": "Variable",
@@ -1476,12 +1548,12 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            100,
-            101,
-            102,
-            103,
             104,
-            105
+            105,
+            106,
+            107,
+            108,
+            109
           ]
         }
       ]
@@ -1495,7 +1567,8 @@
         1,
         15,
         30,
-        99
+        99,
+        103
       ]
     }
   ]
