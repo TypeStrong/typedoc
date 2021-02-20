@@ -324,7 +324,7 @@ function convertFunctionOrMethod(
 
     if (declarations.length && isMethod) {
         // All method signatures must have the same modifier flags.
-        setModifiers(declarations[0], reflection);
+        setModifiers(symbol, declarations[0], reflection);
 
         assert(parentSymbol, "Tried to convert a method without a parent.");
         if (
@@ -375,7 +375,7 @@ function convertClassOrInterface(
         .getDeclarations()
         ?.find((d) => ts.isClassDeclaration(d) || ts.isFunctionDeclaration(d));
     if (classDeclaration) {
-        setModifiers(classDeclaration, reflection);
+        setModifiers(symbol, classDeclaration, reflection);
 
         // Classes can have static props
         const staticType = context.checker.getTypeOfSymbolAtLocation(
@@ -421,7 +421,7 @@ function convertClassOrInterface(
             .map((sig, i) => {
                 // Modifiers are the same for all constructors
                 if (sig.declaration && i === 0) {
-                    setModifiers(sig.declaration, constructMember);
+                    setModifiers(symbol, sig.declaration, constructMember);
                 }
                 const sigRef = createSignature(
                     constructContext,
@@ -574,7 +574,7 @@ function convertProperty(
             ts.isParameter(declaration))
     ) {
         parameterType = declaration.type;
-        setModifiers(declaration, reflection);
+        setModifiers(symbol, declaration, reflection);
         const parentSymbol = context.project.getSymbolFromReflection(
             context.scope
         );
@@ -614,7 +614,7 @@ function convertArrowAsMethod(
         symbol,
         exportSymbol
     );
-    setModifiers(arrow.parent as ts.PropertyDeclaration, reflection);
+    setModifiers(symbol, arrow.parent as ts.PropertyDeclaration, reflection);
     const rc = context.withScope(reflection);
 
     const signature = context.checker.getSignatureFromDeclaration(arrow);
@@ -771,7 +771,7 @@ function convertVariable(
         typeNode ?? type
     );
 
-    setModifiers(declaration, reflection);
+    setModifiers(symbol, declaration, reflection);
 
     // Does anyone care about this? I doubt it...
     if (
@@ -806,7 +806,7 @@ function convertVariableAsFunction(
         symbol,
         exportSymbol
     );
-    setModifiers(declaration ?? symbol.valueDeclaration, reflection);
+    setModifiers(symbol, declaration ?? symbol.valueDeclaration, reflection);
     // Does anyone care about this? I doubt it...
     if (
         declaration &&
@@ -892,7 +892,11 @@ function isInherited(context: Context, symbol: ts.Symbol) {
     );
 }
 
-function setModifiers(declaration: ts.Declaration, reflection: Reflection) {
+function setModifiers(
+    symbol: ts.Symbol,
+    declaration: ts.Declaration,
+    reflection: Reflection
+) {
     const modifiers = ts.getCombinedModifierFlags(declaration);
     // Note: We only set this flag if the modifier is present because we allow
     // fake "private" or "protected" members via @private and @protected
@@ -907,11 +911,12 @@ function setModifiers(declaration: ts.Declaration, reflection: Reflection) {
     }
     reflection.setFlag(
         ReflectionFlag.Optional,
-        !!(declaration as any).questionToken
+        hasAllFlags(symbol.flags, ts.SymbolFlags.Optional)
     );
     reflection.setFlag(
         ReflectionFlag.Readonly,
-        hasAllFlags(modifiers, ts.ModifierFlags.Readonly)
+        hasAllFlags(symbol.checkFlags ?? 0, ts.CheckFlags.Readonly) ||
+            hasAllFlags(modifiers, ts.ModifierFlags.Readonly)
     );
     reflection.setFlag(
         ReflectionFlag.Abstract,
