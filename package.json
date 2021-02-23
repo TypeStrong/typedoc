@@ -58,6 +58,7 @@
   "files": [
     "bin",
     "dist",
+    "!*.map",
     "!dist/test",
     "tasks",
     "LICENSE"
@@ -68,9 +69,10 @@
     "prerebuild_specs": "npm run pretest",
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "tsc --project .",
+    "build:prod": "tsc --project . --sourceMap false",
     "build_and_test": "npm run build && npm run test",
     "lint": "eslint . && prettier --check .",
-    "prepublishOnly": "node scripts/set_strict.js false && npm run lint && npm run build_and_test",
+    "prepublishOnly": "node scripts/set_strict.js false && npm run lint && npm run build:prod && npm test",
     "postpublish": "node scripts/set_strict.js true",
     "clean": "rm -rf node_modules package-lock.json lib coverage"
   },
