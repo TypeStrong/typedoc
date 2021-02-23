@@ -55,4 +55,8 @@ export class PrivateClass {
 
     /** @hidden - should not show up */
     constructor() {}
+
+    private static get privateStaticGetter() {
+        return 1;
+    }
 }

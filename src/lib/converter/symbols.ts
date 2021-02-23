@@ -849,6 +849,11 @@ function convertAccessor(
     );
     const rc = context.withScope(reflection);
 
+    const declaration = symbol.getDeclarations()?.[0];
+    if (declaration) {
+        setModifiers(symbol, declaration, reflection);
+    }
+
     const getDeclaration = symbol.getDeclarations()?.find(ts.isGetAccessor);
     if (getDeclaration) {
         const signature = context.checker.getSignatureFromDeclaration(
