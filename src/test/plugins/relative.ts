@@ -1,3 +1,3 @@
-module.exports = () => {
+export function load() {
     // nop
-};
+}

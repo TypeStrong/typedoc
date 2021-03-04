@@ -130,3 +130,10 @@ export namespace GH1509 {
     export interface PartialFoo extends Partial<Foo> {}
     export interface ReadonlyFoo extends Readonly<Partial<Foo>> {}
 }
+
+export abstract class Abstract {
+    abstract needsImpl(): number
+}
+
+// TS 4.2
+export type AbstractMe = abstract new () => Abstract

@@ -22,6 +22,7 @@ import {
     UnknownType,
     MappedType,
     SignatureReflection,
+    ReflectionFlag,
 } from "../models";
 import { OptionalType } from "../models/types/optional";
 import { RestType } from "../models/types/rest";
@@ -103,7 +104,7 @@ const seenTypeSymbols = new Set<ts.Symbol>();
 export function convertType(
     context: Context,
     typeOrNode: ts.Type | ts.TypeNode | undefined
-) {
+): Type {
     if (!typeOrNode) {
         return new IntrinsicType("any");
     }
@@ -115,6 +116,11 @@ export function convertType(
             return converter.convert(context, typeOrNode);
         }
         return requestBugReport(context, typeOrNode);
+    }
+
+    // TS 4.2 added this to enable better tracking of type aliases.
+    if (typeOrNode.isUnion() && typeOrNode.origin) {
+        return convertType(context, typeOrNode.origin);
     }
 
     // IgnoreErrors is important, without it, we can't assert that we will get a node.
@@ -213,6 +219,16 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
             ReflectionKind.ConstructorSignature,
             reflection
         );
+        // This is unfortunate... but seems the obvious place to put this with the current
+        // architecture. Ideally, this would be a property on a "ConstructorType"... but that
+        // needs to wait until TypeDoc 0.22 when making other breaking changes.
+        if (
+            node.modifiers?.some(
+                (m) => m.kind === ts.SyntaxKind.AbstractKeyword
+            )
+        ) {
+            signature.setFlag(ReflectionFlag.Abstract);
+        }
         context.registerReflection(signature, void 0);
         const signatureCtx = rc.withScope(signature);
 

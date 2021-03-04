@@ -1,2 +1,3 @@
 export { SourceDirectory } from "./directory";
-export { SourceFile, SourceReference } from "./file";
+export { SourceFile } from "./file";
+export type { SourceReference } from "./file";

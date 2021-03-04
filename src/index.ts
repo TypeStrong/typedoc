@@ -16,15 +16,18 @@ export { UrlMapping } from "./lib/output/models/UrlMapping";
 export {
     BindOption,
     Options,
-    OptionsReader,
     ParameterHint,
     ParameterType,
-    TypeDocOptions,
-    TypeDocOptionMap,
-    KeyToDeclaration,
     TSConfigReader,
     TypeDocReader,
     ArgumentsReader,
+} from "./lib/utils/options";
+
+export type {
+    OptionsReader,
+    TypeDocOptions,
+    TypeDocOptionMap,
+    KeyToDeclaration,
     DeclarationOption,
     DeclarationOptionBase,
     StringDeclarationOption,

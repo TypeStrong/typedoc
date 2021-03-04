@@ -22,9 +22,15 @@ declare module "typescript" {
         ): ts.TypePredicate | undefined;
     }
 
+    // https://github.com/microsoft/TypeScript/blob/e213b2af3430bdc9cf5fbc76a8634d832e7aaaaa/src/compiler/types.ts#L5298-L5299
+    export interface UnionType {
+        /* @internal */
+        origin?: ts.Type; // Denormalized union, intersection, or index type in which union originates
+    }
+
     // https://github.com/microsoft/TypeScript/blob/v4.1.5/src/compiler/types.ts#L4707-L4732
     /* @internal */
-    export const enum CheckFlags {
+    export enum CheckFlags {
         Instantiated = 1 << 0, // Instantiated symbol
         SyntheticProperty = 1 << 1, // Property in union or intersection type
         SyntheticMethod = 1 << 2, // Method in union or intersection type
