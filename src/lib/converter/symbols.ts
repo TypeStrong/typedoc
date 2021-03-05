@@ -21,6 +21,7 @@ import { ConverterEvents } from "./converter-events";
 import { convertIndexSignature } from "./factories/index-signature";
 import { createSignature } from "./factories/signature";
 import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc";
+import { removeUndefined } from "./utils/reflections";
 
 const symbolConverters: {
     [K in ts.SymbolFlags]?: (
@@ -601,6 +602,10 @@ function convertProperty(
         (context.isConvertingTypeNode() ? parameterType : void 0) ??
             context.checker.getTypeOfSymbolAtLocation(symbol, {} as any)
     );
+
+    if (reflection.flags.isOptional) {
+        reflection.type = removeUndefined(reflection.type);
+    }
 }
 
 function convertArrowAsMethod(

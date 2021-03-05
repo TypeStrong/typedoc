@@ -358,17 +358,8 @@
                     "isOptional": true
                   },
                   "type": {
-                    "type": "union",
-                    "types": [
-                      {
-                        "type": "intrinsic",
-                        "name": "undefined"
-                      },
-                      {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    ]
+                    "type": "intrinsic",
+                    "name": "number"
                   }
                 }
               ],
@@ -412,17 +403,8 @@
                     "isReadonly": true
                   },
                   "type": {
-                    "type": "union",
-                    "types": [
-                      {
-                        "type": "intrinsic",
-                        "name": "undefined"
-                      },
-                      {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    ]
+                    "type": "intrinsic",
+                    "name": "number"
                   }
                 }
               ],
