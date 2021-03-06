@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.20.29",
+  "version": "0.20.30",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -72,7 +72,7 @@
     "build:prod": "tsc --project . --sourceMap false",
     "build_and_test": "npm run build && npm run test",
     "lint": "eslint . && prettier --check .",
-    "prepublishOnly": "node scripts/set_strict.js false && npm run lint && npm run build:prod && npm test",
+    "prepublishOnly": "node scripts/set_strict.js false && npm run build:prod && npm test",
     "postpublish": "node scripts/set_strict.js true",
     "clean": "rm -rf node_modules package-lock.json lib coverage"
   },
