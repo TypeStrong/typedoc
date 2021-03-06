@@ -96,3 +96,10 @@ export interface GH1490 {
     /** With comment */
     optionalMethod?(): void;
 }
+
+export declare namespace GH1522 {
+    /** @category cat */
+    export function over(): string;
+    /** @category cat */
+    export function over(x: number): number;
+}

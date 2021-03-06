@@ -141,7 +141,7 @@ export class CategoryPlugin extends ConverterComponent {
         let defaultCat: ReflectionCategory | undefined;
         reflections.forEach((child) => {
             const childCategories = CategoryPlugin.getCategories(child);
-            if (childCategories.length === 0) {
+            if (childCategories.size === 0) {
                 if (!defaultCat) {
                     defaultCat = categories.find(
                         (category) =>
@@ -177,9 +177,9 @@ export class CategoryPlugin extends ConverterComponent {
      * @param reflection The reflection.
      * @returns The category the reflection belongs to
      */
-    static getCategories(reflection: Reflection): string[] {
-        function extractCategoryTag(comment: Comment): string[] {
-            const categories: string[] = [];
+    static getCategories(reflection: Reflection) {
+        function extractCategoryTag(comment: Comment) {
+            const categories = new Set<string>();
             const tags = comment.tags;
             const commentTags: CommentTag[] = [];
             tags.forEach((tag) => {
@@ -191,11 +191,13 @@ export class CategoryPlugin extends ConverterComponent {
                 if (!text) {
                     return;
                 }
-                categories.push(text);
+                categories.add(text);
             });
             comment.tags = commentTags;
             return categories;
         }
+
+        const categories = new Set<string>();
 
         if (reflection.comment) {
             return extractCategoryTag(reflection.comment);
@@ -203,19 +205,15 @@ export class CategoryPlugin extends ConverterComponent {
             reflection instanceof DeclarationReflection &&
             reflection.signatures
         ) {
-            return reflection.signatures.reduce(
-                (categories: string[], signature) => {
-                    if (!signature.comment) {
-                        return categories;
-                    }
-                    return categories.concat(
-                        extractCategoryTag(signature.comment)
-                    );
-                },
-                []
-            );
+            for (const sig of reflection.signatures) {
+                for (const cat of sig.comment
+                    ? extractCategoryTag(sig.comment)
+                    : []) {
+                    categories.add(cat);
+                }
+            }
         }
-        return [];
+        return categories;
     }
 
     /**

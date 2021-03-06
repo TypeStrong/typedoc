@@ -15,6 +15,78 @@
       },
       "children": [
         {
+          "id": 32,
+          "name": "GH1522",
+          "kind": 2,
+          "kindString": "Namespace",
+          "flags": {},
+          "children": [
+            {
+              "id": 33,
+              "name": "over",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 34,
+                  "name": "over",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                },
+                {
+                  "id": 35,
+                  "name": "over",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {},
+                  "parameters": [
+                    {
+                      "id": 36,
+                      "name": "x",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                33
+              ],
+              "categories": [
+                {
+                  "title": "cat",
+                  "children": [
+                    33
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
           "id": 5,
           "name": "CommentedClass",
           "kind": 128,
@@ -228,6 +300,13 @@
       ],
       "groups": [
         {
+          "title": "Namespaces",
+          "kind": 2,
+          "children": [
+            32
+          ]
+        },
+        {
           "title": "Classes",
           "kind": 128,
           "children": [
@@ -251,7 +330,7 @@
       ]
     },
     {
-      "id": 32,
+      "id": 37,
       "name": "comment2",
       "kind": 1,
       "kindString": "Module",
@@ -259,71 +338,6 @@
       "comment": {
         "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function.",
         "text": "This behavior will be deprecated and removed in the future. Use the `module` tag instead.\n"
-      },
-      "children": [
-        {
-          "id": 33,
-          "name": "multiply",
-          "kind": 64,
-          "kindString": "Function",
-          "flags": {},
-          "signatures": [
-            {
-              "id": 34,
-              "name": "multiply",
-              "kind": 4096,
-              "kindString": "Call signature",
-              "flags": {},
-              "parameters": [
-                {
-                  "id": 35,
-                  "name": "a",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                },
-                {
-                  "id": 36,
-                  "name": "b",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Functions",
-          "kind": 64,
-          "children": [
-            33
-          ]
-        }
-      ]
-    },
-    {
-      "id": 37,
-      "name": "comment3",
-      "kind": 1,
-      "kindString": "Module",
-      "flags": {},
-      "comment": {
-        "shortText": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
       },
       "children": [
         {
@@ -383,12 +397,12 @@
     },
     {
       "id": 42,
-      "name": "comment4",
+      "name": "comment3",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "shortText": "This is a comment containing a multiline code block\n```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+        "shortText": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
       },
       "children": [
         {
@@ -445,6 +459,71 @@
           ]
         }
       ]
+    },
+    {
+      "id": 47,
+      "name": "comment4",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {},
+      "comment": {
+        "shortText": "This is a comment containing a multiline code block\n```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+      },
+      "children": [
+        {
+          "id": 48,
+          "name": "multiply",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 49,
+              "name": "multiply",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 50,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 51,
+                  "name": "b",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            48
+          ]
+        }
+      ]
     }
   ],
   "groups": [
@@ -453,9 +532,9 @@
       "kind": 1,
       "children": [
         1,
-        32,
         37,
-        42
+        42,
+        47
       ]
     }
   ]
