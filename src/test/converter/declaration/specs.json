@@ -12,6 +12,100 @@
       "flags": {},
       "children": [
         {
+          "id": 7,
+          "name": "GH1524",
+          "kind": 2,
+          "kindString": "Namespace",
+          "flags": {},
+          "children": [
+            {
+              "id": 11,
+              "name": "nonNullable",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 12,
+                  "name": "nonNullable",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 13,
+                      "name": "opt",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "name": "nullable",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 9,
+                  "name": "nullable",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 10,
+                      "name": "opt",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "intrinsic",
+                            "name": "string"
+                          },
+                          {
+                            "type": "literal",
+                            "value": null
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                11,
+                8
+              ]
+            }
+          ]
+        },
+        {
           "id": 2,
           "name": "Decl",
           "kind": 128,
@@ -84,6 +178,13 @@
       ],
       "groups": [
         {
+          "title": "Namespaces",
+          "kind": 2,
+          "children": [
+            7
+          ]
+        },
+        {
           "title": "Classes",
           "kind": 128,
           "children": [
@@ -100,35 +201,35 @@
       ]
     },
     {
-      "id": 7,
+      "id": 14,
       "name": "export-declaration",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 8,
+          "id": 15,
           "name": "Exported",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
           "children": [
             {
-              "id": 9,
+              "id": 16,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 10,
+                  "id": 17,
                   "name": "new Exported",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 8,
+                    "id": 15,
                     "name": "Exported"
                   }
                 }
@@ -140,34 +241,34 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                9
+                16
               ]
             }
           ]
         },
         {
-          "id": 11,
+          "id": 18,
           "name": "NotExported",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
           "children": [
             {
-              "id": 12,
+              "id": 19,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 13,
+                  "id": 20,
                   "name": "new NotExported",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 11,
+                    "id": 18,
                     "name": "NotExported"
                   }
                 }
@@ -179,7 +280,7 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                12
+                19
               ]
             }
           ]
@@ -190,28 +291,28 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            8,
-            11
+            15,
+            18
           ]
         }
       ]
     },
     {
-      "id": 14,
+      "id": 21,
       "name": "global-fn",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 15,
+          "id": 22,
           "name": "gh1436",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 16,
+              "id": 23,
               "name": "gh1436",
               "kind": 4096,
               "kindString": "Call signature",
@@ -229,27 +330,27 @@
           "title": "Functions",
           "kind": 64,
           "children": [
-            15
+            22
           ]
         }
       ]
     },
     {
-      "id": 17,
+      "id": 24,
       "name": "namespaces",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 22,
+          "id": 29,
           "name": "GH1124",
           "kind": 2,
           "kindString": "Namespace",
           "flags": {},
           "children": [
             {
-              "id": 23,
+              "id": 30,
               "name": "PrimitiveType",
               "kind": 4194304,
               "kindString": "Type alias",
@@ -277,7 +378,7 @@
               }
             },
             {
-              "id": 24,
+              "id": 31,
               "name": "Value",
               "kind": 32,
               "kindString": "Variable",
@@ -295,32 +396,32 @@
               "title": "Type aliases",
               "kind": 4194304,
               "children": [
-                23
+                30
               ]
             },
             {
               "title": "Variables",
               "kind": 32,
               "children": [
-                24
+                31
               ]
             }
           ]
         },
         {
-          "id": 20,
+          "id": 27,
           "name": "GH1366",
           "kind": 2,
           "kindString": "Namespace",
           "flags": {},
           "children": [
             {
-              "id": 21,
+              "id": 28,
               "name": "Foo",
               "kind": 16777216,
               "kindString": "Reference",
               "flags": {},
-              "target": 18
+              "target": 25
             }
           ],
           "groups": [
@@ -328,20 +429,20 @@
               "title": "References",
               "kind": 16777216,
               "children": [
-                21
+                28
               ]
             }
           ]
         },
         {
-          "id": 18,
+          "id": 25,
           "name": "Foo",
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
           "children": [
             {
-              "id": 19,
+              "id": 26,
               "name": "prop",
               "kind": 1024,
               "kindString": "Property",
@@ -357,7 +458,7 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                19
+                26
               ]
             }
           ]
@@ -368,15 +469,15 @@
           "title": "Namespaces",
           "kind": 2,
           "children": [
-            22,
-            20
+            29,
+            27
           ]
         },
         {
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            18
+            25
           ]
         }
       ]
@@ -388,9 +489,9 @@
       "kind": 1,
       "children": [
         1,
-        7,
         14,
-        17
+        21,
+        24
       ]
     }
   ]

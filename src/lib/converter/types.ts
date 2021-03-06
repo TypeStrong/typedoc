@@ -85,6 +85,9 @@ export function loadConverters() {
         tupleConverter,
         typeOperatorConverter,
         unionConverter,
+        // Only used if skipLibCheck: true
+        jsDocNullableTypeConverter,
+        jsDocNonNullableTypeConverter,
     ]) {
         for (const key of actor.kind) {
             if (key === undefined) {
@@ -984,6 +987,27 @@ const unionConverter: TypeConverter<ts.UnionTypeNode, ts.UnionType> = {
             type.types.map((type) => convertType(context, type))
         );
     },
+};
+
+const jsDocNullableTypeConverter: TypeConverter<ts.JSDocNullableType> = {
+    kind: [ts.SyntaxKind.JSDocNullableType],
+    convert(context, node) {
+        return new UnionType([
+            convertType(context, node.type),
+            new LiteralType(null),
+        ]);
+    },
+    // Should be a UnionType
+    convertType: requestBugReport,
+};
+
+const jsDocNonNullableTypeConverter: TypeConverter<ts.JSDocNonNullableType> = {
+    kind: [ts.SyntaxKind.JSDocNonNullableType],
+    convert(context, node) {
+        return convertType(context, node.type);
+    },
+    // Should be a UnionType
+    convertType: requestBugReport,
 };
 
 function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
