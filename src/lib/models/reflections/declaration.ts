@@ -1,15 +1,16 @@
+import { toArray } from "lodash";
+import type * as ts from "typescript";
+import { ReferenceType, ReflectionType, Type } from "../types/index";
 import {
     DefaultValueContainer,
-    TypeContainer,
-    TypeParameterContainer,
     TraverseCallback,
     TraverseProperty,
+    TypeContainer,
+    TypeParameterContainer,
 } from "./abstract";
-import { Type, ReflectionType } from "../types/index";
 import { ContainerReflection } from "./container";
 import { SignatureReflection } from "./signature";
 import { TypeParameterReflection } from "./type-parameter";
-import { toArray } from "lodash";
 
 /**
  * Stores hierarchical type data.
@@ -42,6 +43,13 @@ export interface DeclarationHierarchy {
 export class DeclarationReflection
     extends ContainerReflection
     implements DefaultValueContainer, TypeContainer, TypeParameterContainer {
+    /**
+     * The escaped name of this declaration assigned by the TS compiler if there is an associated symbol.
+     * This is used to retrieve properties for analyzing inherited members.
+     * @internal
+     */
+    escapedName?: ts.__String;
+
     /**
      * The type of the reflection.
      *
@@ -87,27 +95,21 @@ export class DeclarationReflection
      *
      * Applies to interface and class members.
      */
-    overwrites?: Type;
-
-    /**
-     * Flag to determine if this reflection ought to be documented as overwriting another reflection
-     * or inheriting from it.
-     */
-    private _overwrites = false;
+    overwrites?: ReferenceType;
 
     /**
      * A type that points to the reflection this reflection has been inherited from.
      *
      * Applies to interface and class members.
      */
-    inheritedFrom?: Type;
+    inheritedFrom?: ReferenceType;
 
     /**
      * A type that points to the reflection this reflection is the implementation of.
      *
      * Applies to class members.
      */
-    implementationOf?: Type;
+    implementationOf?: ReferenceType;
 
     /**
      * A list of all types this reflection extends (e.g. the parent classes).
@@ -117,7 +119,7 @@ export class DeclarationReflection
     /**
      * A list of all types that extend this reflection (e.g. the subclasses).
      */
-    extendedBy?: Type[];
+    extendedBy?: ReferenceType[];
 
     /**
      * A list of all types this reflection implements.
@@ -127,7 +129,7 @@ export class DeclarationReflection
     /**
      * A list of all types that implement this reflection.
      */
-    implementedBy?: Type[];
+    implementedBy?: ReferenceType[];
 
     /**
      * Contains a simplified representation of the type hierarchy suitable for being
@@ -241,15 +243,5 @@ export class DeclarationReflection
         }
 
         return result;
-    }
-
-    /** @internal */
-    setOverwrites() {
-        this._overwrites = true;
-    }
-
-    /** @internal */
-    getOverwrites() {
-        return this._overwrites;
     }
 }

@@ -94,6 +94,12 @@ export namespace ReflectionKind {
         ReflectionKind.Variable |
         ReflectionKind.Function |
         ReflectionKind.ObjectLiteral;
+
+    /** @internal */
+    export const Inheritable =
+        ReflectionKind.Property |
+        ReflectionKind.Method |
+        ReflectionKind.Constructor;
 }
 
 export enum ReflectionFlag {

@@ -1,20 +1,39 @@
-import { Type, ReflectionType } from "../types/index";
+import { Type, ReflectionType, ReferenceType } from "../types/index";
 import {
     Reflection,
     TypeContainer,
     TypeParameterContainer,
     TraverseProperty,
     TraverseCallback,
+    ReflectionKind,
 } from "./abstract";
-import { ContainerReflection } from "./container";
 import { ParameterReflection } from "./parameter";
 import { TypeParameterReflection } from "./type-parameter";
 import { toArray } from "lodash";
+import type { DeclarationReflection } from "./declaration";
 
 export class SignatureReflection
     extends Reflection
     implements TypeContainer, TypeParameterContainer {
-    parent?: ContainerReflection;
+    /**
+     * Create a new SignatureReflection to contain a specific type of signature.
+     */
+    constructor(
+        name: string,
+        kind: SignatureReflection["kind"],
+        parent: DeclarationReflection
+    ) {
+        super(name, kind, parent);
+    }
+
+    kind!:
+        | ReflectionKind.SetSignature
+        | ReflectionKind.GetSignature
+        | ReflectionKind.IndexSignature
+        | ReflectionKind.CallSignature
+        | ReflectionKind.ConstructorSignature;
+
+    parent!: DeclarationReflection;
 
     parameters?: ParameterReflection[];
 
@@ -27,21 +46,21 @@ export class SignatureReflection
      *
      * Applies to interface and class members.
      */
-    overwrites?: Type;
+    overwrites?: ReferenceType;
 
     /**
      * A type that points to the reflection this reflection has been inherited from.
      *
      * Applies to interface and class members.
      */
-    inheritedFrom?: Type;
+    inheritedFrom?: ReferenceType;
 
     /**
      * A type that points to the reflection this reflection is the implementation of.
      *
      * Applies to class members.
      */
-    implementationOf?: Type;
+    implementationOf?: ReferenceType;
 
     /**
      * Return an array of the parameter types.

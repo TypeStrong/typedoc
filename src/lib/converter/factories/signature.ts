@@ -44,7 +44,9 @@ export function createSignature(
     commentDeclaration ??= declaration;
 
     const sigRef = new SignatureReflection(
-        context.scope.name,
+        kind == ReflectionKind.ConstructorSignature
+            ? `new ${context.scope.parent!.name}`
+            : context.scope.name,
         kind,
         context.scope
     );
@@ -75,12 +77,26 @@ export function createSignature(
     }
 
     context.registerReflection(sigRef, undefined);
+
+    switch (kind) {
+        case ReflectionKind.GetSignature:
+            context.scope.getSignature = sigRef;
+            break;
+        case ReflectionKind.SetSignature:
+            context.scope.setSignature = sigRef;
+            break;
+        case ReflectionKind.CallSignature:
+        case ReflectionKind.ConstructorSignature:
+            context.scope.signatures ??= [];
+            context.scope.signatures.push(sigRef);
+            break;
+    }
+
     context.trigger(
         ConverterEvents.CREATE_SIGNATURE,
         sigRef,
         commentDeclaration
     );
-    return sigRef;
 }
 
 function convertParameters(

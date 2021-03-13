@@ -262,13 +262,11 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
         context.registerReflection(reflection, type.symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
-        reflection.signatures = [
-            createSignature(
-                context.withScope(reflection),
-                ReflectionKind.ConstructorSignature,
-                type.getConstructSignatures()[0]
-            ),
-        ];
+        createSignature(
+            context.withScope(reflection),
+            ReflectionKind.ConstructorSignature,
+            type.getConstructSignatures()[0]
+        );
 
         return new ReflectionType(reflection);
     },
@@ -355,13 +353,11 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
         context.registerReflection(reflection, type.symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
-        reflection.signatures = [
-            createSignature(
-                context.withScope(reflection),
-                ReflectionKind.CallSignature,
-                type.getCallSignatures()[0]
-            ),
-        ];
+        createSignature(
+            context.withScope(reflection),
+            ReflectionKind.CallSignature,
+            type.getCallSignatures()[0]
+        );
 
         return new ReflectionType(reflection);
     },
@@ -534,10 +530,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             convertSymbol(rc, prop);
         }
         for (const signature of type.getCallSignatures()) {
-            reflection.signatures ??= [];
-            reflection.signatures.push(
-                createSignature(rc, ReflectionKind.CallSignature, signature)
-            );
+            createSignature(rc, ReflectionKind.CallSignature, signature);
         }
 
         convertIndexSignature(rc, symbol);
@@ -561,13 +554,10 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             convertSymbol(context.withScope(reflection), prop);
         }
         for (const signature of type.getCallSignatures()) {
-            reflection.signatures ??= [];
-            reflection.signatures.push(
-                createSignature(
-                    context.withScope(reflection),
-                    ReflectionKind.CallSignature,
-                    signature
-                )
+            createSignature(
+                context.withScope(reflection),
+                ReflectionKind.CallSignature,
+                signature
             );
         }
 

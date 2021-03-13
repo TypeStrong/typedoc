@@ -323,6 +323,7 @@ export class Converter extends ChildableComponent<
                 void 0,
                 entryName
             );
+            context.finalizeDeclarationReflection(reflection, symbol);
             moduleContext = context.withScope(reflection);
         }
 

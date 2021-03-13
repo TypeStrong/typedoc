@@ -134,6 +134,8 @@ function convertEnum(
         reflection.setFlag(ReflectionFlag.Const);
     }
 
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+
     convertSymbols(
         context.withScope(reflection),
         context.checker
@@ -158,6 +160,8 @@ function convertEnumMember(
             symbol.getDeclarations()![0] as ts.EnumMember
         )
     );
+
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
 }
 
 function convertNamespace(
@@ -186,6 +190,7 @@ function convertNamespace(
         symbol,
         exportSymbol
     );
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
 
     convertSymbols(
         context.withScope(reflection),
@@ -232,6 +237,8 @@ function convertTypeAlias(
         reflection.typeParameters = declaration.typeParameters?.map((param) =>
             createTypeParamReflection(param, context.withScope(reflection))
         );
+
+        context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
     } else if (
         ts.isJSDocTypedefTag(declaration) ||
         ts.isJSDocEnumTag(declaration)
@@ -320,22 +327,15 @@ function convertFunctionOrMethod(
             ? ReflectionKind.Method
             : ReflectionKind.Function,
         symbol,
-        exportSymbol
+        exportSymbol,
+        void 0
     );
 
-    if (declarations.length && isMethod) {
+    if (symbol.declarations?.length && isMethod) {
         // All method signatures must have the same modifier flags.
-        setModifiers(symbol, declarations[0], reflection);
-
-        assert(parentSymbol, "Tried to convert a method without a parent.");
-        if (
-            parentSymbol
-                .getDeclarations()
-                ?.some((d) => d === declarations[0].parent)
-        ) {
-            reflection.setOverwrites();
-        }
+        setModifiers(symbol, symbol.declarations[0], reflection);
     }
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
 
     const scope = context.withScope(reflection);
     reflection.signatures ??= [];
@@ -343,13 +343,12 @@ function convertFunctionOrMethod(
     // Can't use zip here. We might have less declarations than signatures
     // or less signatures than declarations.
     for (let i = 0; i < signatures.length; i++) {
-        const converted = createSignature(
+        createSignature(
             scope,
             ReflectionKind.CallSignature,
             signatures[i],
             declarations[i]
         );
-        reflection.signatures.push(converted);
     }
 }
 
@@ -365,92 +364,21 @@ function convertClassOrInterface(
             ? ReflectionKind.Class
             : ReflectionKind.Interface,
         symbol,
-        exportSymbol
+        exportSymbol,
+        void 0
     );
+
+    const classDeclaration = symbol
+        .getDeclarations()
+        ?.find((d) => ts.isClassDeclaration(d) || ts.isFunctionDeclaration(d));
+    if (classDeclaration) setModifiers(symbol, classDeclaration, reflection);
+
     const reflectionContext = context.withScope(reflection);
 
     const instanceType = context.checker.getDeclaredTypeOfSymbol(symbol);
     assert(instanceType.isClassOrInterface());
 
-    const classDeclaration = symbol
-        .getDeclarations()
-        ?.find((d) => ts.isClassDeclaration(d) || ts.isFunctionDeclaration(d));
-    if (classDeclaration) {
-        setModifiers(symbol, classDeclaration, reflection);
-
-        // Classes can have static props
-        const staticType = context.checker.getTypeOfSymbolAtLocation(
-            symbol,
-            classDeclaration
-        );
-
-        for (const prop of context.checker.getPropertiesOfType(staticType)) {
-            // Don't convert namespace members, or the prototype here.
-            if (
-                prop.flags &
-                (ts.SymbolFlags.ModuleMember | ts.SymbolFlags.Prototype)
-            )
-                continue;
-            convertSymbol(reflectionContext, prop);
-
-            // We need to do this because of JS users. See GH1481
-            const refl = context.project.getReflectionFromSymbol(prop);
-            if (refl) {
-                refl.setFlag(ReflectionFlag.Static);
-            }
-        }
-
-        const constructMember = new DeclarationReflection(
-            "constructor",
-            ReflectionKind.Constructor,
-            reflection
-        );
-        reflectionContext.addChild(constructMember);
-        // The symbol is already taken by the class.
-        context.registerReflection(constructMember, undefined);
-
-        context.trigger(
-            ConverterEvents.CREATE_DECLARATION,
-            constructMember,
-            classDeclaration.getChildren().find(ts.isConstructorDeclaration)
-        );
-
-        const constructContext = reflectionContext.withScope(constructMember);
-
-        constructMember.signatures = staticType
-            .getConstructSignatures()
-            .map((sig, i) => {
-                // Modifiers are the same for all constructors
-                if (sig.declaration && i === 0) {
-                    setModifiers(symbol, sig.declaration, constructMember);
-                }
-                const sigRef = createSignature(
-                    constructContext,
-                    ReflectionKind.ConstructorSignature,
-                    sig
-                );
-                sigRef.name = `new ${reflectionContext.scope.name}`; // eww.. preserving legacy behavior.
-                sigRef.originalName = sigRef.name;
-                return sigRef;
-            });
-    }
-
-    // Classes/interfaces usually just have properties...
-    convertSymbols(
-        reflectionContext,
-        context.checker.getPropertiesOfType(instanceType)
-    );
-
-    // And type arguments
-    if (instanceType.typeParameters) {
-        reflection.typeParameters = instanceType.typeParameters.map((param) => {
-            const declaration = param.symbol?.declarations?.[0];
-            assert(ts.isTypeParameterDeclaration(declaration));
-            return createTypeParamReflection(declaration, reflectionContext);
-        });
-    }
-
-    // We also might do some inheritance
+    // We might do some inheritance - do this first so that it's set when converting properties
     const declarations =
         symbol
             .getDeclarations()
@@ -487,23 +415,88 @@ function convertClassOrInterface(
         reflection.implementedTypes = uniqueByEquals(implementedTypes);
     }
 
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+
+    if (classDeclaration) {
+        // Classes can have static props
+        const staticType = context.checker.getTypeOfSymbolAtLocation(
+            symbol,
+            classDeclaration
+        );
+
+        for (const prop of context.checker.getPropertiesOfType(staticType)) {
+            // Don't convert namespace members, or the prototype here.
+            if (
+                prop.flags &
+                (ts.SymbolFlags.ModuleMember | ts.SymbolFlags.Prototype)
+            )
+                continue;
+            convertSymbol(reflectionContext, prop);
+        }
+
+        const constructMember = new DeclarationReflection(
+            "constructor",
+            ReflectionKind.Constructor,
+            reflection
+        );
+        reflectionContext.addChild(constructMember);
+        // The symbol is already taken by the class.
+        context.registerReflection(constructMember, undefined);
+
+        const ctors = staticType.getConstructSignatures();
+
+        // Modifiers are the same for all constructors
+        if (ctors.length && ctors[0].declaration) {
+            setModifiers(symbol, ctors[0].declaration, constructMember);
+        }
+
+        context.trigger(
+            ConverterEvents.CREATE_DECLARATION,
+            constructMember,
+            classDeclaration.getChildren().find(ts.isConstructorDeclaration)
+        );
+
+        const constructContext = reflectionContext.withScope(constructMember);
+
+        ctors.forEach((sig) => {
+            createSignature(
+                constructContext,
+                ReflectionKind.ConstructorSignature,
+                sig
+            );
+        });
+    }
+
+    // Classes/interfaces usually just have properties...
+    convertSymbols(
+        reflectionContext,
+        context.checker.getPropertiesOfType(instanceType)
+    );
+
+    // And type arguments
+    if (instanceType.typeParameters) {
+        reflection.typeParameters = instanceType.typeParameters.map((param) => {
+            const declaration = param.symbol?.declarations?.[0];
+            assert(ts.isTypeParameterDeclaration(declaration));
+            return createTypeParamReflection(declaration, reflectionContext);
+        });
+    }
+
     // Interfaces might also have call signatures
     // Classes might too, because of declaration merging
-    const callSignatures = context.checker
+    context.checker
         .getSignaturesOfType(instanceType, ts.SignatureKind.Call)
-        .map((sig) =>
+        .forEach((sig) =>
             createSignature(
                 reflectionContext,
                 ReflectionKind.CallSignature,
                 sig
             )
         );
-    if (callSignatures.length) {
-        reflection.signatures = callSignatures;
-    }
 
     // We also might have constructor signatures
-    // This is potentially a problem with classes having
+    // This is potentially a problem with classes having multiple "constructor" members...
+    // but nobody has complained yet.
     convertConstructSignatures(reflectionContext, symbol);
 
     // And finally, index signatures
@@ -572,21 +565,17 @@ function convertProperty(
         declaration &&
         (ts.isPropertyDeclaration(declaration) ||
             ts.isPropertySignature(declaration) ||
-            ts.isParameter(declaration))
+            ts.isParameter(declaration) ||
+            ts.isPropertyAccessExpression(declaration))
     ) {
-        parameterType = declaration.type;
+        if (!ts.isPropertyAccessExpression(declaration)) {
+            parameterType = declaration.type;
+        }
         setModifiers(symbol, declaration, reflection);
         const parentSymbol = context.project.getSymbolFromReflection(
             context.scope
         );
         assert(parentSymbol, "Tried to convert a property without a parent.");
-        if (
-            parentSymbol
-                .getDeclarations()
-                ?.some((d) => d === declaration.parent)
-        ) {
-            reflection.setOverwrites();
-        }
         if (ts.isPrivateIdentifier(declaration.name)) {
             reflection.setFlag(ReflectionFlag.Private);
         }
@@ -606,6 +595,8 @@ function convertProperty(
     if (reflection.flags.isOptional) {
         reflection.type = removeUndefined(reflection.type);
     }
+
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
 }
 
 function convertArrowAsMethod(
@@ -617,23 +608,18 @@ function convertArrowAsMethod(
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Method,
         symbol,
-        exportSymbol
+        exportSymbol,
+        void 0
     );
     setModifiers(symbol, arrow.parent as ts.PropertyDeclaration, reflection);
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+
     const rc = context.withScope(reflection);
 
     const signature = context.checker.getSignatureFromDeclaration(arrow);
     assert(signature);
 
-    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
-    assert(parentSymbol, "Tried to convert an arrow method without a parent.");
-    if (parentSymbol.getDeclarations()?.some((d) => d === arrow.parent)) {
-        reflection.setOverwrites();
-    }
-
-    reflection.signatures = [
-        createSignature(rc, ReflectionKind.CallSignature, signature, arrow),
-    ];
+    createSignature(rc, ReflectionKind.CallSignature, signature, arrow);
 }
 
 function convertConstructor(context: Context, symbol: ts.Symbol) {
@@ -643,6 +629,8 @@ function convertConstructor(context: Context, symbol: ts.Symbol) {
         void 0,
         "constructor"
     );
+    context.finalizeDeclarationReflection(reflection, symbol);
+
     const reflectionContext = context.withScope(reflection);
 
     const declarations =
@@ -653,16 +641,13 @@ function convertConstructor(context: Context, symbol: ts.Symbol) {
         return sig;
     });
 
-    reflection.signatures = signatures.map((sig) => {
-        const sigRef = createSignature(
+    for (const sig of signatures) {
+        createSignature(
             reflectionContext,
             ReflectionKind.ConstructorSignature,
             sig
         );
-        sigRef.name = `new ${context.scope.name}`; // eww.. preserving legacy behavior.
-        sigRef.originalName = sigRef.name;
-        return sigRef;
-    });
+    }
 }
 
 function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
@@ -695,16 +680,13 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
 
         const constructContext = context.withScope(constructMember);
 
-        constructMember.signatures = constructSignatures.map((sig) => {
-            const sigRef = createSignature(
+        constructSignatures.forEach((sig) =>
+            createSignature(
                 constructContext,
                 ReflectionKind.ConstructorSignature,
                 sig
-            );
-            sigRef.name = `new ${context.scope.name}`; // eww.. preserving legacy behavior.
-            sigRef.originalName = sigRef.name;
-            return sigRef;
-        });
+            )
+        );
     }
 }
 
@@ -790,6 +772,8 @@ function convertVariable(
     }
 
     reflection.defaultValue = convertDefaultValue(declaration);
+
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
 }
 
 function convertVariableAsFunction(
@@ -826,18 +810,18 @@ function convertVariableAsFunction(
         );
     }
 
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+
     const reflectionContext = context.withScope(reflection);
 
     reflection.signatures ??= [];
     for (const signature of type.getCallSignatures()) {
-        reflection.signatures.push(
-            createSignature(
-                reflectionContext,
-                ReflectionKind.CallSignature,
-                signature,
-                void 0,
-                declaration
-            )
+        createSignature(
+            reflectionContext,
+            ReflectionKind.CallSignature,
+            signature,
+            void 0,
+            declaration
         );
     }
 }
@@ -859,13 +843,15 @@ function convertAccessor(
         setModifiers(symbol, declaration, reflection);
     }
 
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+
     const getDeclaration = symbol.getDeclarations()?.find(ts.isGetAccessor);
     if (getDeclaration) {
         const signature = context.checker.getSignatureFromDeclaration(
             getDeclaration
         );
         if (signature) {
-            reflection.getSignature = createSignature(
+            createSignature(
                 rc,
                 ReflectionKind.GetSignature,
                 signature,
@@ -880,7 +866,7 @@ function convertAccessor(
             setDeclaration
         );
         if (signature) {
-            reflection.setSignature = createSignature(
+            createSignature(
                 rc,
                 ReflectionKind.SetSignature,
                 signature,
@@ -936,4 +922,12 @@ function setModifiers(
         ReflectionFlag.Static,
         hasAllFlags(modifiers, ts.ModifierFlags.Static)
     );
+
+    // JS users can create "classes" by adding properties to functions. See GH1481.
+    if (
+        reflection.parent?.kind == ReflectionKind.Class &&
+        ts.isPropertyAccessExpression(declaration)
+    ) {
+        reflection.setFlag(ReflectionFlag.Static);
+    }
 }

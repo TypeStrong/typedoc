@@ -44,12 +44,12 @@ export function convertIndexSignature(context: Context, symbol: ts.Symbol) {
             indexDeclaration.type
         );
         context.registerReflection(index, indexSymbol);
+        context.scope.indexSignature = index;
+
         context.trigger(
             ConverterEvents.CREATE_SIGNATURE,
             index,
             indexDeclaration
         );
-
-        context.scope.indexSignature = index;
     }
 }

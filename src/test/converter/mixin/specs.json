@@ -104,14 +104,14 @@
       },
       "children": [
         {
-          "id": 59,
+          "id": 61,
           "name": "constructor",
           "kind": 512,
           "kindString": "Constructor",
           "flags": {},
           "signatures": [
             {
-              "id": 60,
+              "id": 62,
               "name": "new SomeClassWithMixin",
               "kind": 16384,
               "kindString": "Constructor signature",
@@ -120,12 +120,20 @@
                 "type": "reference",
                 "id": 58,
                 "name": "SomeClassWithMixin"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Mixin2(Mixin1Func(Base)).constructor"
               }
             }
-          ]
+          ],
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin2(Mixin1Func(Base)).constructor"
+          }
         },
         {
-          "id": 76,
+          "id": 78,
           "name": "baseProperty",
           "kind": 1024,
           "kindString": "Property",
@@ -134,10 +142,14 @@
             "type": "intrinsic",
             "name": "string"
           },
-          "defaultValue": "\"init\""
+          "defaultValue": "\"init\"",
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin2(Mixin1Func(Base)).baseProperty"
+          }
         },
         {
-          "id": 61,
+          "id": 63,
           "name": "classWithMixinProperty",
           "kind": 1024,
           "kindString": "Property",
@@ -149,7 +161,7 @@
           "defaultValue": "\"init\""
         },
         {
-          "id": 72,
+          "id": 74,
           "name": "property1",
           "kind": 1024,
           "kindString": "Property",
@@ -158,10 +170,14 @@
             "type": "intrinsic",
             "name": "string"
           },
-          "defaultValue": "\"init\""
+          "defaultValue": "\"init\"",
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin2(Mixin1Func(Base)).property1"
+          }
         },
         {
-          "id": 64,
+          "id": 66,
           "name": "property2",
           "kind": 1024,
           "kindString": "Property",
@@ -170,17 +186,21 @@
             "type": "intrinsic",
             "name": "string"
           },
-          "defaultValue": "\"init\""
+          "defaultValue": "\"init\"",
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin2(Mixin1Func(Base)).property2"
+          }
         },
         {
-          "id": 77,
+          "id": 79,
           "name": "baseMethod",
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
           "signatures": [
             {
-              "id": 78,
+              "id": 80,
               "name": "baseMethod",
               "kind": 4096,
               "kindString": "Call signature",
@@ -188,19 +208,27 @@
               "type": {
                 "type": "intrinsic",
                 "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Mixin2(Mixin1Func(Base)).baseMethod"
               }
             }
-          ]
+          ],
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin2(Mixin1Func(Base)).baseMethod"
+          }
         },
         {
-          "id": 62,
+          "id": 64,
           "name": "classWithMixinMethod",
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
           "signatures": [
             {
-              "id": 63,
+              "id": 65,
               "name": "classWithMixinMethod",
               "kind": 4096,
               "kindString": "Call signature",
@@ -213,21 +241,21 @@
           ]
         },
         {
-          "id": 73,
+          "id": 75,
           "name": "method1",
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
           "signatures": [
             {
-              "id": 74,
+              "id": 76,
               "name": "method1",
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
-                  "id": 75,
+                  "id": 77,
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -249,26 +277,34 @@
                   "id": 25,
                   "name": "Mixin1Type"
                 }
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Mixin2(Mixin1Func(Base)).method1"
               }
             }
-          ]
+          ],
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin2(Mixin1Func(Base)).method1"
+          }
         },
         {
-          "id": 65,
+          "id": 67,
           "name": "method2",
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
           "signatures": [
             {
-              "id": 66,
+              "id": 68,
               "name": "method2",
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
-                  "id": 67,
+                  "id": 69,
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -283,14 +319,14 @@
                           {
                             "type": "reflection",
                             "declaration": {
-                              "id": 68,
+                              "id": 70,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
                               "children": [
                                 {
-                                  "id": 69,
+                                  "id": 71,
                                   "name": "prototype",
                                   "kind": 2048,
                                   "kindString": "Method",
@@ -302,7 +338,7 @@
                                   "title": "Methods",
                                   "kind": 2048,
                                   "children": [
-                                    69
+                                    71
                                   ]
                                 }
                               ]
@@ -335,14 +371,14 @@
                         {
                           "type": "reflection",
                           "declaration": {
-                            "id": 70,
+                            "id": 72,
                             "name": "__type",
                             "kind": 65536,
                             "kindString": "Type literal",
                             "flags": {},
                             "children": [
                               {
-                                "id": 71,
+                                "id": 73,
                                 "name": "prototype",
                                 "kind": 2048,
                                 "kindString": "Method",
@@ -354,7 +390,7 @@
                                 "title": "Methods",
                                 "kind": 2048,
                                 "children": [
-                                  71
+                                  73
                                 ]
                               }
                             ]
@@ -373,9 +409,17 @@
                   ],
                   "name": "Mixin2"
                 }
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Mixin2(Mixin1Func(Base)).method2"
               }
             }
-          ]
+          ],
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin2(Mixin1Func(Base)).method2"
+          }
         }
       ],
       "groups": [
@@ -383,27 +427,27 @@
           "title": "Constructors",
           "kind": 512,
           "children": [
-            59
+            61
           ]
         },
         {
           "title": "Properties",
           "kind": 1024,
           "children": [
-            76,
-            61,
-            72,
-            64
+            78,
+            63,
+            74,
+            66
           ]
         },
         {
           "title": "Methods",
           "kind": 2048,
           "children": [
-            77,
-            62,
-            73,
-            65
+            79,
+            64,
+            75,
+            67
           ]
         }
       ],
@@ -421,14 +465,14 @@
                     {
                       "type": "reflection",
                       "declaration": {
-                        "id": 79,
+                        "id": 59,
                         "name": "__type",
                         "kind": 65536,
                         "kindString": "Type literal",
                         "flags": {},
                         "children": [
                           {
-                            "id": 80,
+                            "id": 60,
                             "name": "prototype",
                             "kind": 2048,
                             "kindString": "Method",
@@ -440,7 +484,7 @@
                             "title": "Methods",
                             "kind": 2048,
                             "children": [
-                              80
+                              60
                             ]
                           }
                         ]
@@ -517,7 +561,11 @@
             "type": "intrinsic",
             "name": "string"
           },
-          "defaultValue": "\"init\""
+          "defaultValue": "\"init\"",
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.baseProperty"
+          }
         },
         {
           "id": 26,
@@ -529,7 +577,11 @@
             "type": "intrinsic",
             "name": "string"
           },
-          "defaultValue": "\"init\""
+          "defaultValue": "\"init\"",
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.property1"
+          }
         },
         {
           "id": 31,
@@ -547,9 +599,17 @@
               "type": {
                 "type": "intrinsic",
                 "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Mixin.baseMethod"
               }
             }
-          ]
+          ],
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.baseMethod"
+          }
         },
         {
           "id": 27,
@@ -588,9 +648,17 @@
                   "id": 25,
                   "name": "Mixin1Type"
                 }
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Mixin.method1"
               }
             }
-          ]
+          ],
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.method1"
+          }
         }
       ],
       "groups": [
@@ -649,7 +717,11 @@
             "type": "intrinsic",
             "name": "string"
           },
-          "defaultValue": "\"init\""
+          "defaultValue": "\"init\"",
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.baseProperty"
+          }
         },
         {
           "id": 44,
@@ -661,7 +733,11 @@
             "type": "intrinsic",
             "name": "string"
           },
-          "defaultValue": "\"init\""
+          "defaultValue": "\"init\"",
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.property1"
+          }
         },
         {
           "id": 40,
@@ -673,7 +749,11 @@
             "type": "intrinsic",
             "name": "string"
           },
-          "defaultValue": "\"init\""
+          "defaultValue": "\"init\"",
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.property2"
+          }
         },
         {
           "id": 49,
@@ -691,9 +771,17 @@
               "type": {
                 "type": "intrinsic",
                 "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Mixin.baseMethod"
               }
             }
-          ]
+          ],
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.baseMethod"
+          }
         },
         {
           "id": 45,
@@ -732,9 +820,17 @@
                   "id": 25,
                   "name": "Mixin1Type"
                 }
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Mixin.method1"
               }
             }
-          ]
+          ],
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.method1"
+          }
         },
         {
           "id": 41,
@@ -818,9 +914,17 @@
                   ],
                   "name": "Mixin2"
                 }
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Mixin.method2"
               }
             }
-          ]
+          ],
+          "inheritedFrom": {
+            "type": "reference",
+            "name": "Mixin.method2"
+          }
         }
       ],
       "groups": [

@@ -190,6 +190,8 @@ export class Context {
             nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
         );
         const reflection = new DeclarationReflection(name, kind, this.scope);
+        reflection.escapedName = symbol?.escapedName;
+
         this.addChild(reflection);
         if (symbol && this.converter.isExternal(symbol)) {
             reflection.setFlag(ReflectionFlag.External);
@@ -199,16 +201,23 @@ export class Context {
         }
         this.registerReflection(reflection, symbol);
 
+        return reflection;
+    }
+
+    finalizeDeclarationReflection(
+        reflection: DeclarationReflection,
+        symbol: ts.Symbol | undefined,
+        exportSymbol?: ts.Symbol
+    ) {
         this.exportSymbol = exportSymbol;
         this.converter.trigger(
             ConverterEvents.CREATE_DECLARATION,
             this,
             reflection,
-            symbol && this.converter.getNodesForSymbol(symbol, kind)[0]
+            symbol &&
+                this.converter.getNodesForSymbol(symbol, reflection.kind)[0]
         );
         this.exportSymbol = undefined;
-
-        return reflection;
     }
 
     addChild(reflection: DeclarationReflection) {

@@ -690,6 +690,11 @@
                       "type": {
                         "type": "intrinsic",
                         "name": "boolean"
+                      },
+                      "implementationOf": {
+                        "type": "reference",
+                        "id": 74,
+                        "name": "EventDispatcherInt.dispatch"
                       }
                     }
                   ],

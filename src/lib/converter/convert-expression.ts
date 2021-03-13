@@ -17,9 +17,7 @@ export function convertDefaultValue(
     }
 }
 
-export function convertExpression(
-    expression: ts.Expression
-): string | undefined {
+export function convertExpression(expression: ts.Expression) {
     switch (expression.kind) {
         case ts.SyntaxKind.StringLiteral:
         case ts.SyntaxKind.TrueKeyword:

@@ -48,6 +48,8 @@ export function convertJsDocAlias(
         context.withScope(reflection),
         declaration.parent
     );
+
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
 }
 
 export function convertJsDocCallback(
@@ -61,6 +63,8 @@ export function convertJsDocCallback(
         symbol,
         exportSymbol
     );
+    context.finalizeDeclarationReflection(alias, symbol, exportSymbol);
+
     const ac = context.withScope(alias);
 
     alias.type = convertJsDocSignature(ac, declaration.typeExpression);
@@ -78,6 +82,8 @@ function convertJsDocInterface(
         symbol,
         exportSymbol
     );
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+
     const rc = context.withScope(reflection);
 
     const type = context.checker.getDeclaredTypeOfSymbol(symbol);

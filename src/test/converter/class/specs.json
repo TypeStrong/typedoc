@@ -360,6 +360,10 @@
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Partial.foo"
                   }
                 }
               ],
@@ -405,6 +409,10 @@
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Readonly.foo"
                   }
                 }
               ],
@@ -1238,14 +1246,14 @@
                     "id": 38,
                     "name": "TestSubClass"
                   },
-                  "inheritedFrom": {
+                  "overwrites": {
                     "type": "reference",
                     "id": 27,
                     "name": "TestClass.constructor"
                   }
                 }
               ],
-              "inheritedFrom": {
+              "overwrites": {
                 "type": "reference",
                 "id": 26,
                 "name": "TestClass.constructor"
@@ -2046,14 +2054,14 @@
                     "id": 119,
                     "name": "Vector3"
                   },
-                  "inheritedFrom": {
+                  "overwrites": {
                     "type": "reference",
                     "id": 112,
                     "name": "Vector2.constructor"
                   }
                 }
               ],
-              "inheritedFrom": {
+              "overwrites": {
                 "type": "reference",
                 "id": 111,
                 "name": "Vector2.constructor"
