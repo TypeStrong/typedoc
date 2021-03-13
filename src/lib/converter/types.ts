@@ -950,8 +950,10 @@ const typeOperatorConverter: TypeConverter<ts.TypeOperatorNode> = {
             const args = context.checker
                 .getTypeArguments(type as ts.TypeReference)
                 .map((type) => convertType(context, type));
+
+            // TODO: wait for https://github.com/microsoft/TypeScript/issues/37711 and remove 'any' cast
             const inner =
-                type.objectFlags & ts.ObjectFlags.Tuple
+                (context as any).checker.isTupleType(type)
                     ? new TupleType(args)
                     : new ArrayType(args[0]);
 

@@ -56,6 +56,13 @@ export class TestClass {
      * arrow method
      */
     arrowMethod = () => {};
+
+    /**
+     * methodWithComplexArgs short text.
+     *
+     * @param readonlyTuple
+     */
+    methodWithComplexArgs(readonlyTuple: readonly [number, string]) {}
 }
 
 export class TestSubClass extends TestClass {
