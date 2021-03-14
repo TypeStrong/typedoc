@@ -1,4 +1,3 @@
-import { ok } from "assert";
 import * as ts from "typescript";
 import {
     DeclarationReflection,
@@ -233,10 +232,13 @@ export class ImplementsPlugin extends ConverterComponent {
             return;
         }
 
-        ok(
-            reflection.parent instanceof DeclarationReflection,
-            "Should be impossible, disallowed by converter."
-        );
+        // Need this because we re-use reflections for type literals.
+        if (
+            !reflection.parent ||
+            !reflection.parent.kindOf(ReflectionKind.ClassOrInterface)
+        ) {
+            return;
+        }
 
         const symbol = context.project.getSymbolFromReflection(
             reflection.parent
