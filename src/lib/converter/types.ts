@@ -936,12 +936,13 @@ const typeOperatorConverter: TypeConverter<ts.TypeOperatorNode> = {
     convertType(context, type, node) {
         // readonly is only valid on array and tuple literal types.
         if (node.operator === ts.SyntaxKind.ReadonlyKeyword) {
-            assert(isObjectType(type));
+            const resolved = resolveReference(type);
+            assert(isObjectType(resolved));
             const args = context.checker
                 .getTypeArguments(type as ts.TypeReference)
                 .map((type) => convertType(context, type));
             const inner =
-                type.objectFlags & ts.ObjectFlags.Tuple
+                resolved.objectFlags & ts.ObjectFlags.Tuple
                     ? new TupleType(args)
                     : new ArrayType(args[0]);
 
@@ -1025,6 +1026,13 @@ function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
 
 function isObjectType(type: ts.Type): type is ts.ObjectType {
     return typeof (type as any).objectFlags === "number";
+}
+
+function resolveReference(type: ts.Type) {
+    if (isObjectType(type) && type.objectFlags & ts.ObjectFlags.Reference) {
+        return (type as ts.TypeReference).target;
+    }
+    return type;
 }
 
 function kindToModifier(

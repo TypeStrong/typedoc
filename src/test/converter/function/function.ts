@@ -207,3 +207,5 @@ export function boolOrUndef(x: number) {
 
 export function merged() {}
 merged.nsFn = function () {};
+
+export function gh1534(rt: readonly [number, string]) {}
