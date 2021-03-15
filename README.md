@@ -7,7 +7,7 @@ Documentation generator for TypeScript projects.
 
 ## Documentation
 
-For more detailed documentation, and TypeDoc documentation rendered with TypeDoc, see https://typedoc.org.
+For more detailed documentation, the changelog, and TypeDoc documentation rendered with TypeDoc, see https://typedoc.org.
 
 ## Installation
 

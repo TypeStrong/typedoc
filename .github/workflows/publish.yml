@@ -10,6 +10,8 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
             - id: check
               uses: EndBug/version-check@v1
               with:
@@ -30,3 +32,11 @@ jobs:
             - name: Publish
               if: steps.check.outputs.changed == 'true'
               run: npm publish
+            - name: Generate Release
+              if: steps.check.outputs.changed == 'true'
+              run: |
+                  git config user.email "typedoc@gerritbirkeland.com"
+                  git config user.name "TypeDoc Bot"
+                  node scripts/create_release.js
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
