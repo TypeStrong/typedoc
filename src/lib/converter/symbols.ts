@@ -424,6 +424,7 @@ function convertClassOrInterface(
             classDeclaration
         );
 
+        reflectionContext.shouldBeStatic = true;
         for (const prop of context.checker.getPropertiesOfType(staticType)) {
             // Don't convert namespace members, or the prototype here.
             if (
@@ -433,6 +434,7 @@ function convertClassOrInterface(
                 continue;
             convertSymbol(reflectionContext, prop);
         }
+        reflectionContext.shouldBeStatic = false;
 
         const constructMember = new DeclarationReflection(
             "constructor",
@@ -918,16 +920,7 @@ function setModifiers(
         ReflectionFlag.Abstract,
         hasAllFlags(modifiers, ts.ModifierFlags.Abstract)
     );
-    reflection.setFlag(
-        ReflectionFlag.Static,
-        hasAllFlags(modifiers, ts.ModifierFlags.Static)
-    );
 
-    // JS users can create "classes" by adding properties to functions. See GH1481.
-    if (
-        reflection.parent?.kind == ReflectionKind.Class &&
-        ts.isPropertyAccessExpression(declaration)
-    ) {
-        reflection.setFlag(ReflectionFlag.Static);
-    }
+    // ReflectionFlag.Static happens when constructing the reflection.
+    // We don't have sufficient information here to determine if it ought to be static.
 }

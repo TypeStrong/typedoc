@@ -83,6 +83,9 @@ export class Context {
      */
     exportSymbol?: ts.Symbol;
 
+    /** @internal */
+    shouldBeStatic = false;
+
     private convertingTypeNode = false;
 
     /**
@@ -190,6 +193,9 @@ export class Context {
             nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
         );
         const reflection = new DeclarationReflection(name, kind, this.scope);
+        if (this.shouldBeStatic) {
+            reflection.setFlag(ReflectionFlag.Static);
+        }
         reflection.escapedName = symbol?.escapedName;
 
         this.addChild(reflection);
