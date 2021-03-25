@@ -12,6 +12,14 @@
       "flags": {},
       "children": [
         {
+          "id": 50,
+          "name": "GH1453Helper",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {},
+          "target": 41
+        },
+        {
           "id": 43,
           "name": "Mod",
           "kind": 16777216,
@@ -44,7 +52,15 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 33
+          "target": 40
+        },
+        {
+          "id": 46,
+          "name": "a",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {},
+          "target": 36
         },
         {
           "id": 47,
@@ -55,7 +71,7 @@
           "comment": {
             "shortText": "An export of a local under a different name."
           },
-          "target": 36
+          "target": 37
         },
         {
           "id": 42,
@@ -224,34 +240,6 @@
           ]
         },
         {
-          "id": 50,
-          "name": "GH1453Helper",
-          "kind": 4194304,
-          "kindString": "Type alias",
-          "flags": {},
-          "type": {
-            "type": "literal",
-            "value": "1"
-          }
-        },
-        {
-          "id": 46,
-          "name": "a",
-          "kind": 32,
-          "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
-          "comment": {
-            "shortText": "A simple named export that will be exported from export.ts"
-          },
-          "type": {
-            "type": "literal",
-            "value": 1
-          },
-          "defaultValue": "1"
-        },
-        {
           "id": 18,
           "name": "add",
           "kind": 64,
@@ -334,10 +322,12 @@
           "title": "References",
           "kind": 16777216,
           "children": [
+            50,
             43,
             45,
             44,
             49,
+            46,
             47,
             42
           ]
@@ -348,20 +338,6 @@
           "children": [
             23,
             29
-          ]
-        },
-        {
-          "title": "Type aliases",
-          "kind": 4194304,
-          "children": [
-            50
-          ]
-        },
-        {
-          "title": "Variables",
-          "kind": 32,
-          "children": [
-            46
           ]
         },
         {

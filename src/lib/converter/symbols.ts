@@ -69,6 +69,17 @@ export function convertSymbol(
         return;
     }
 
+    // This check can catch symbols which ought to be documented as references
+    // but aren't aliased symbols because `export *` was used.
+    const previous = context.project.getReflectionFromSymbol(symbol);
+    if (
+        previous &&
+        previous.parent?.kindOf(ReflectionKind.Module | ReflectionKind.Project)
+    ) {
+        createAlias(previous, context, symbol, exportSymbol);
+        return;
+    }
+
     let flags = removeFlag(
         symbol.flags,
         ts.SymbolFlags.Transient |
@@ -708,25 +719,31 @@ function convertAlias(
             exportSymbol ?? symbol
         );
     } else {
-        // We already have this. Create a reference.
-        const ref = new ReferenceReflection(
-            exportSymbol?.name ?? symbol.name,
-            reflection,
-            context.scope
-        );
-        context.addChild(ref);
-        context.registerReflection(ref, symbol);
-
-        context.trigger(
-            ConverterEvents.CREATE_DECLARATION,
-            ref,
-            // FIXME this isn't good enough.
-            context.converter.getNodesForSymbol(
-                symbol,
-                ReflectionKind.Reference
-            )[0]
-        );
+        createAlias(reflection, context, symbol, exportSymbol);
     }
+}
+
+function createAlias(
+    target: Reflection,
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol: ts.Symbol | undefined
+) {
+    // We already have this. Create a reference.
+    const ref = new ReferenceReflection(
+        exportSymbol?.name ?? symbol.name,
+        target,
+        context.scope
+    );
+    context.addChild(ref);
+    context.registerReflection(ref, symbol);
+
+    context.trigger(
+        ConverterEvents.CREATE_DECLARATION,
+        ref,
+        // FIXME this isn't good enough.
+        context.converter.getNodesForSymbol(symbol, ReflectionKind.Reference)[0]
+    );
 }
 
 function convertVariable(
