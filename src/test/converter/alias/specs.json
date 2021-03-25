@@ -376,6 +376,184 @@
       ]
     },
     {
+      "id": 52,
+      "name": "GH1547",
+      "kind": 2,
+      "kindString": "Namespace",
+      "flags": {},
+      "children": [
+        {
+          "id": 57,
+          "name": "Test",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "Test."
+          },
+          "children": [
+            {
+              "id": 58,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 59,
+                  "name": "new Test",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 57,
+                    "name": "Test"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 60,
+              "name": "log_thing",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 61,
+                  "name": "log_thing",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Log a thing."
+                  },
+                  "parameters": [
+                    {
+                      "id": 62,
+                      "name": "things",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Array of things or a thing.\n"
+                      },
+                      "type": {
+                        "type": "reference",
+                        "typeArguments": [
+                          {
+                            "type": "reference",
+                            "name": "Things"
+                          }
+                        ],
+                        "name": "ValueOrArray"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                58
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                60
+              ]
+            }
+          ]
+        },
+        {
+          "id": 53,
+          "name": "ThingA",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {},
+          "children": [
+            {
+              "id": 54,
+              "name": "type",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "type": {
+                "type": "literal",
+                "value": "ThingA"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                54
+              ]
+            }
+          ]
+        },
+        {
+          "id": 55,
+          "name": "ThingB",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {},
+          "children": [
+            {
+              "id": 56,
+              "name": "type",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "type": {
+                "type": "literal",
+                "value": "ThingB"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                56
+              ]
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            57
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            53,
+            55
+          ]
+        }
+      ]
+    },
+    {
       "id": 21,
       "name": "HorribleRecursiveTypeThatShouldNotBeUsedByAnyone",
       "kind": 4194304,
@@ -884,7 +1062,8 @@
       "children": [
         28,
         39,
-        43
+        43,
+        52
       ]
     },
     {
