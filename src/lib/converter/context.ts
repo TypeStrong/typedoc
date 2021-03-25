@@ -213,15 +213,17 @@ export class Context {
     finalizeDeclarationReflection(
         reflection: DeclarationReflection,
         symbol: ts.Symbol | undefined,
-        exportSymbol?: ts.Symbol
+        exportSymbol?: ts.Symbol,
+        commentNode?: ts.Node
     ) {
         this.exportSymbol = exportSymbol;
         this.converter.trigger(
             ConverterEvents.CREATE_DECLARATION,
             this,
             reflection,
-            symbol &&
-                this.converter.getNodesForSymbol(symbol, reflection.kind)[0]
+            (symbol &&
+                this.converter.getNodesForSymbol(symbol, reflection.kind)[0]) ??
+                commentNode
         );
         this.exportSymbol = undefined;
     }
