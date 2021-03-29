@@ -307,158 +307,6 @@
       "flags": {},
       "children": [
         {
-          "id": 85,
-          "name": "GH1509",
-          "kind": 2,
-          "kindString": "Namespace",
-          "flags": {},
-          "children": [
-            {
-              "id": 86,
-              "name": "Foo",
-              "kind": 256,
-              "kindString": "Interface",
-              "flags": {},
-              "children": [
-                {
-                  "id": 87,
-                  "name": "foo",
-                  "kind": 1024,
-                  "kindString": "Property",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                }
-              ],
-              "groups": [
-                {
-                  "title": "Properties",
-                  "kind": 1024,
-                  "children": [
-                    87
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 88,
-              "name": "PartialFoo",
-              "kind": 256,
-              "kindString": "Interface",
-              "flags": {},
-              "children": [
-                {
-                  "id": 89,
-                  "name": "foo",
-                  "kind": 1024,
-                  "kindString": "Property",
-                  "flags": {
-                    "isOptional": true
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "name": "Partial.foo"
-                  }
-                }
-              ],
-              "groups": [
-                {
-                  "title": "Properties",
-                  "kind": 1024,
-                  "children": [
-                    89
-                  ]
-                }
-              ],
-              "extendedTypes": [
-                {
-                  "type": "reference",
-                  "typeArguments": [
-                    {
-                      "type": "reference",
-                      "id": 86,
-                      "name": "Foo"
-                    }
-                  ],
-                  "name": "Partial"
-                }
-              ]
-            },
-            {
-              "id": 90,
-              "name": "ReadonlyFoo",
-              "kind": 256,
-              "kindString": "Interface",
-              "flags": {},
-              "children": [
-                {
-                  "id": 91,
-                  "name": "foo",
-                  "kind": 1024,
-                  "kindString": "Property",
-                  "flags": {
-                    "isOptional": true,
-                    "isReadonly": true
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "name": "Readonly.foo"
-                  }
-                }
-              ],
-              "groups": [
-                {
-                  "title": "Properties",
-                  "kind": 1024,
-                  "children": [
-                    91
-                  ]
-                }
-              ],
-              "extendedTypes": [
-                {
-                  "type": "reference",
-                  "typeArguments": [
-                    {
-                      "type": "reference",
-                      "typeArguments": [
-                        {
-                          "type": "reference",
-                          "id": 86,
-                          "name": "Foo"
-                        }
-                      ],
-                      "name": "Partial"
-                    }
-                  ],
-                  "name": "Readonly"
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Interfaces",
-              "kind": 256,
-              "children": [
-                86,
-                88,
-                90
-              ]
-            }
-          ]
-        },
-        {
           "id": 59,
           "name": "TestSubClass",
           "kind": 2,
@@ -500,7 +348,7 @@
           ]
         },
         {
-          "id": 92,
+          "id": 85,
           "name": "Abstract",
           "kind": 128,
           "kindString": "Class",
@@ -509,28 +357,28 @@
           },
           "children": [
             {
-              "id": 93,
+              "id": 86,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 94,
+                  "id": 87,
                   "name": "new Abstract",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 92,
+                    "id": 85,
                     "name": "Abstract"
                   }
                 }
               ]
             },
             {
-              "id": 95,
+              "id": 88,
               "name": "needsImpl",
               "kind": 2048,
               "kindString": "Method",
@@ -539,7 +387,7 @@
               },
               "signatures": [
                 {
-                  "id": 96,
+                  "id": 89,
                   "name": "needsImpl",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -557,14 +405,14 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                93
+                86
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                95
+                88
               ]
             }
           ]
@@ -1592,7 +1440,7 @@
           ]
         },
         {
-          "id": 97,
+          "id": 90,
           "name": "AbstractMe",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -1600,14 +1448,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 98,
+              "id": 91,
               "name": "__type",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 99,
+                  "id": 92,
                   "name": "__type",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -1616,7 +1464,7 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 92,
+                    "id": 85,
                     "name": "Abstract"
                   }
                 }
@@ -1630,7 +1478,6 @@
           "title": "Namespaces",
           "kind": 2,
           "children": [
-            85,
             59
           ]
         },
@@ -1638,7 +1485,7 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            92,
+            85,
             74,
             62,
             68,
@@ -1651,182 +1498,20 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            97
+            90
           ]
         }
       ]
     },
     {
-      "id": 100,
-      "name": "clodule",
-      "kind": 1,
-      "kindString": "Module",
-      "flags": {},
-      "comment": {},
-      "originalName": "clodule-with-subclass",
-      "children": [
-        {
-          "id": 104,
-          "name": "Foo",
-          "kind": 2,
-          "kindString": "Namespace",
-          "flags": {},
-          "children": [
-            {
-              "id": 105,
-              "name": "x",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isConst": true
-              },
-              "type": {
-                "type": "literal",
-                "value": 1
-              },
-              "defaultValue": "1"
-            }
-          ],
-          "groups": [
-            {
-              "title": "Variables",
-              "kind": 32,
-              "children": [
-                105
-              ]
-            }
-          ]
-        },
-        {
-          "id": 106,
-          "name": "Bar",
-          "kind": 128,
-          "kindString": "Class",
-          "flags": {},
-          "children": [
-            {
-              "id": 107,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 108,
-                  "name": "new Bar",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 106,
-                    "name": "Bar"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 103,
-                    "name": "Foo.constructor"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 102,
-                "name": "Foo.constructor"
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "kind": 512,
-              "children": [
-                107
-              ]
-            }
-          ],
-          "extendedTypes": [
-            {
-              "type": "reference",
-              "id": 101,
-              "name": "Foo"
-            }
-          ]
-        },
-        {
-          "id": 101,
-          "name": "Foo",
-          "kind": 128,
-          "kindString": "Class",
-          "flags": {},
-          "children": [
-            {
-              "id": 102,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 103,
-                  "name": "new Foo",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 101,
-                    "name": "Foo"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "kind": 512,
-              "children": [
-                102
-              ]
-            }
-          ],
-          "extendedBy": [
-            {
-              "type": "reference",
-              "id": 106,
-              "name": "Bar"
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Namespaces",
-          "kind": 2,
-          "children": [
-            104
-          ]
-        },
-        {
-          "title": "Classes",
-          "kind": 128,
-          "children": [
-            106,
-            101
-          ]
-        }
-      ]
-    },
-    {
-      "id": 109,
+      "id": 93,
       "name": "constructor-properties",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 110,
+          "id": 94,
           "name": "Vector2",
           "kind": 128,
           "kindString": "Class",
@@ -1836,14 +1521,14 @@
           },
           "children": [
             {
-              "id": 111,
+              "id": 95,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 112,
+                  "id": 96,
                   "name": "new Vector2",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -1851,7 +1536,7 @@
                   "comment": {},
                   "parameters": [
                     {
-                      "id": 113,
+                      "id": 97,
                       "name": "x",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -1865,7 +1550,7 @@
                       }
                     },
                     {
-                      "id": 114,
+                      "id": 98,
                       "name": "y",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -1879,7 +1564,7 @@
                       }
                     },
                     {
-                      "id": 115,
+                      "id": 99,
                       "name": "name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -1895,14 +1580,14 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 110,
+                    "id": 94,
                     "name": "Vector2"
                   }
                 }
               ]
             },
             {
-              "id": 118,
+              "id": 102,
               "name": "name",
               "kind": 1024,
               "kindString": "Property",
@@ -1915,7 +1600,7 @@
               }
             },
             {
-              "id": 116,
+              "id": 100,
               "name": "x",
               "kind": 1024,
               "kindString": "Property",
@@ -1928,7 +1613,7 @@
               }
             },
             {
-              "id": 117,
+              "id": 101,
               "name": "y",
               "kind": 1024,
               "kindString": "Property",
@@ -1946,29 +1631,29 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                111
+                95
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                118,
-                116,
-                117
+                102,
+                100,
+                101
               ]
             }
           ],
           "extendedBy": [
             {
               "type": "reference",
-              "id": 119,
+              "id": 103,
               "name": "Vector3"
             }
           ]
         },
         {
-          "id": 119,
+          "id": 103,
           "name": "Vector3",
           "kind": 128,
           "kindString": "Class",
@@ -1978,14 +1663,14 @@
           },
           "children": [
             {
-              "id": 120,
+              "id": 104,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 121,
+                  "id": 105,
                   "name": "new Vector3",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -1993,7 +1678,7 @@
                   "comment": {},
                   "parameters": [
                     {
-                      "id": 122,
+                      "id": 106,
                       "name": "x",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2007,7 +1692,7 @@
                       }
                     },
                     {
-                      "id": 123,
+                      "id": 107,
                       "name": "y",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2021,7 +1706,7 @@
                       }
                     },
                     {
-                      "id": 124,
+                      "id": 108,
                       "name": "z",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2035,7 +1720,7 @@
                       }
                     },
                     {
-                      "id": 125,
+                      "id": 109,
                       "name": "name",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2051,24 +1736,24 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 119,
+                    "id": 103,
                     "name": "Vector3"
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 112,
+                    "id": 96,
                     "name": "Vector2.constructor"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 111,
+                "id": 95,
                 "name": "Vector2.constructor"
               }
             },
             {
-              "id": 128,
+              "id": 112,
               "name": "name",
               "kind": 1024,
               "kindString": "Property",
@@ -2081,12 +1766,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 118,
+                "id": 102,
                 "name": "Vector2.name"
               }
             },
             {
-              "id": 129,
+              "id": 113,
               "name": "x",
               "kind": 1024,
               "kindString": "Property",
@@ -2099,12 +1784,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 116,
+                "id": 100,
                 "name": "Vector2.x"
               }
             },
             {
-              "id": 126,
+              "id": 110,
               "name": "y",
               "kind": 1024,
               "kindString": "Property",
@@ -2117,12 +1802,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 117,
+                "id": 101,
                 "name": "Vector2.y"
               }
             },
             {
-              "id": 127,
+              "id": 111,
               "name": "z",
               "kind": 1024,
               "kindString": "Property",
@@ -2140,24 +1825,24 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                120
+                104
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                128,
-                129,
-                126,
-                127
+                112,
+                113,
+                110,
+                111
               ]
             }
           ],
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 110,
+              "id": 94,
               "name": "Vector2"
             }
           ]
@@ -2168,21 +1853,21 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            110,
-            119
+            94,
+            103
           ]
         }
       ]
     },
     {
-      "id": 130,
+      "id": 114,
       "name": "decorators",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 144,
+          "id": 128,
           "name": "DecoratedClass",
           "kind": 128,
           "kindString": "Class",
@@ -2195,7 +1880,7 @@
               "name": "decoratorWithOptions",
               "type": {
                 "type": "reference",
-                "id": 139,
+                "id": 123,
                 "name": "decoratorWithOptions"
               },
               "arguments": {
@@ -2205,28 +1890,28 @@
           ],
           "children": [
             {
-              "id": 145,
+              "id": 129,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 146,
+                  "id": 130,
                   "name": "new DecoratedClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 144,
+                    "id": 128,
                     "name": "DecoratedClass"
                   }
                 }
               ]
             },
             {
-              "id": 147,
+              "id": 131,
               "name": "decoratedMethod",
               "kind": 2048,
               "kindString": "Method",
@@ -2236,7 +1921,7 @@
                   "name": "decoratorAtom",
                   "type": {
                     "type": "reference",
-                    "id": 131,
+                    "id": 115,
                     "name": "decoratorAtom"
                   }
                 },
@@ -2244,7 +1929,7 @@
                   "name": "decoratorWithParam",
                   "type": {
                     "type": "reference",
-                    "id": 136,
+                    "id": 120,
                     "name": "decoratorWithParam"
                   },
                   "arguments": {
@@ -2254,7 +1939,7 @@
               ],
               "signatures": [
                 {
-                  "id": 148,
+                  "id": 132,
                   "name": "decoratedMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -2275,20 +1960,20 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                145
+                129
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                147
+                131
               ]
             }
           ]
         },
         {
-          "id": 131,
+          "id": 115,
           "name": "decoratorAtom",
           "kind": 64,
           "kindString": "Function",
@@ -2296,13 +1981,13 @@
           "decorates": [
             {
               "type": "reference",
-              "id": 147,
+              "id": 131,
               "name": "decoratedMethod"
             }
           ],
           "signatures": [
             {
-              "id": 132,
+              "id": 116,
               "name": "decoratorAtom",
               "kind": 4096,
               "kindString": "Call signature",
@@ -2312,7 +1997,7 @@
               },
               "parameters": [
                 {
-                  "id": 133,
+                  "id": 117,
                   "name": "target",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -2323,7 +2008,7 @@
                   }
                 },
                 {
-                  "id": 134,
+                  "id": 118,
                   "name": "propertyKey",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -2343,7 +2028,7 @@
                   }
                 },
                 {
-                  "id": 135,
+                  "id": 119,
                   "name": "descriptor",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -2368,7 +2053,7 @@
           ]
         },
         {
-          "id": 139,
+          "id": 123,
           "name": "decoratorWithOptions",
           "kind": 64,
           "kindString": "Function",
@@ -2376,13 +2061,13 @@
           "decorates": [
             {
               "type": "reference",
-              "id": 144,
+              "id": 128,
               "name": "DecoratedClass"
             }
           ],
           "signatures": [
             {
-              "id": 140,
+              "id": 124,
               "name": "decoratorWithOptions",
               "kind": 4096,
               "kindString": "Call signature",
@@ -2392,7 +2077,7 @@
               },
               "parameters": [
                 {
-                  "id": 141,
+                  "id": 125,
                   "name": "options",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -2403,14 +2088,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 142,
+                      "id": 126,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 143,
+                          "id": 127,
                           "name": "name",
                           "kind": 1024,
                           "kindString": "Property",
@@ -2429,7 +2114,7 @@
                           "title": "Properties",
                           "kind": 1024,
                           "children": [
-                            143
+                            127
                           ]
                         }
                       ]
@@ -2445,7 +2130,7 @@
           ]
         },
         {
-          "id": 136,
+          "id": 120,
           "name": "decoratorWithParam",
           "kind": 64,
           "kindString": "Function",
@@ -2453,13 +2138,13 @@
           "decorates": [
             {
               "type": "reference",
-              "id": 147,
+              "id": 131,
               "name": "decoratedMethod"
             }
           ],
           "signatures": [
             {
-              "id": 137,
+              "id": 121,
               "name": "decoratorWithParam",
               "kind": 4096,
               "kindString": "Call signature",
@@ -2469,7 +2154,7 @@
               },
               "parameters": [
                 {
-                  "id": 138,
+                  "id": 122,
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -2496,57 +2181,57 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            144
+            128
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            131,
-            139,
-            136
+            115,
+            123,
+            120
           ]
         }
       ]
     },
     {
-      "id": 176,
+      "id": 160,
       "name": "events",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 177,
+          "id": 161,
           "name": "EventDispatcher",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
           "children": [
             {
-              "id": 179,
+              "id": 163,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 180,
+                  "id": 164,
                   "name": "new EventDispatcher",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 177,
+                    "id": 161,
                     "name": "EventDispatcher"
                   }
                 }
               ]
             },
             {
-              "id": 178,
+              "id": 162,
               "name": "EVENT_CLICK",
               "kind": 8388608,
               "kindString": "Event",
@@ -2568,14 +2253,14 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                179
+                163
               ]
             },
             {
               "title": "Events",
               "kind": 8388608,
               "children": [
-                178
+                162
               ]
             }
           ]
@@ -2586,20 +2271,20 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            177
+            161
           ]
         }
       ]
     },
     {
-      "id": 149,
+      "id": 133,
       "name": "events-overloads",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 150,
+          "id": 134,
           "name": "Test",
           "kind": 256,
           "kindString": "Interface",
@@ -2615,14 +2300,14 @@
           },
           "children": [
             {
-              "id": 151,
+              "id": 135,
               "name": "on",
               "kind": 8388608,
               "kindString": "Event",
               "flags": {},
               "signatures": [
                 {
-                  "id": 152,
+                  "id": 136,
                   "name": "on",
                   "kind": 8388608,
                   "kindString": "Event",
@@ -2632,7 +2317,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 153,
+                      "id": 137,
                       "name": "event",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2646,7 +2331,7 @@
                       }
                     },
                     {
-                      "id": 154,
+                      "id": 138,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2657,21 +2342,21 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 155,
+                          "id": 139,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 156,
+                              "id": 140,
                               "name": "__type",
                               "kind": 4096,
                               "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
-                                  "id": 157,
+                                  "id": 141,
                                   "name": "e",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -2698,7 +2383,7 @@
                   }
                 },
                 {
-                  "id": 158,
+                  "id": 142,
                   "name": "on",
                   "kind": 8388608,
                   "kindString": "Event",
@@ -2708,7 +2393,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 159,
+                      "id": 143,
                       "name": "event",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2722,7 +2407,7 @@
                       }
                     },
                     {
-                      "id": 160,
+                      "id": 144,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2733,21 +2418,21 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 161,
+                          "id": 145,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 162,
+                              "id": 146,
                               "name": "__type",
                               "kind": 4096,
                               "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
-                                  "id": 163,
+                                  "id": 147,
                                   "name": "e",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -2774,7 +2459,7 @@
                   }
                 },
                 {
-                  "id": 164,
+                  "id": 148,
                   "name": "on",
                   "kind": 8388608,
                   "kindString": "Event",
@@ -2784,7 +2469,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 165,
+                      "id": 149,
                       "name": "event",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2798,7 +2483,7 @@
                       }
                     },
                     {
-                      "id": 166,
+                      "id": 150,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2809,21 +2494,21 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 167,
+                          "id": 151,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 168,
+                              "id": 152,
                               "name": "__type",
                               "kind": 4096,
                               "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
-                                  "id": 169,
+                                  "id": 153,
                                   "name": "e",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -2850,7 +2535,7 @@
                   }
                 },
                 {
-                  "id": 170,
+                  "id": 154,
                   "name": "on",
                   "kind": 8388608,
                   "kindString": "Event",
@@ -2860,7 +2545,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 171,
+                      "id": 155,
                       "name": "event",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2874,7 +2559,7 @@
                       }
                     },
                     {
-                      "id": 172,
+                      "id": 156,
                       "name": "handler",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -2885,21 +2570,21 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 173,
+                          "id": 157,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 174,
+                              "id": 158,
                               "name": "__type",
                               "kind": 4096,
                               "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
-                                  "id": 175,
+                                  "id": 159,
                                   "name": "e",
                                   "kind": 32768,
                                   "kindString": "Parameter",
@@ -2933,7 +2618,7 @@
               "title": "Events",
               "kind": 8388608,
               "children": [
-                151
+                135
               ]
             }
           ]
@@ -2944,20 +2629,20 @@
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            150
+            134
           ]
         }
       ]
     },
     {
-      "id": 181,
+      "id": 165,
       "name": "generic-class",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 182,
+          "id": 166,
           "name": "GenericClass",
           "kind": 128,
           "kindString": "Class",
@@ -2967,14 +2652,14 @@
           },
           "children": [
             {
-              "id": 183,
+              "id": 167,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 184,
+                  "id": 168,
                   "name": "new GenericClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -2984,7 +2669,7 @@
                   },
                   "typeParameter": [
                     {
-                      "id": 185,
+                      "id": 169,
                       "name": "T",
                       "kind": 131072,
                       "kindString": "Type parameter",
@@ -2993,7 +2678,7 @@
                   ],
                   "parameters": [
                     {
-                      "id": 186,
+                      "id": 170,
                       "name": "value",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -3009,7 +2694,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 182,
+                    "id": 166,
                     "typeArguments": [
                       {
                         "type": "reference",
@@ -3022,7 +2707,7 @@
               ]
             },
             {
-              "id": 187,
+              "id": 171,
               "name": "value",
               "kind": 1024,
               "kindString": "Property",
@@ -3038,7 +2723,7 @@
               }
             },
             {
-              "id": 188,
+              "id": 172,
               "name": "values",
               "kind": 1024,
               "kindString": "Property",
@@ -3057,14 +2742,14 @@
               }
             },
             {
-              "id": 189,
+              "id": 173,
               "name": "getValue",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 190,
+                  "id": 174,
                   "name": "getValue",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -3086,28 +2771,28 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                183
+                167
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                187,
-                188
+                171,
+                172
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                189
+                173
               ]
             }
           ],
           "typeParameter": [
             {
-              "id": 191,
+              "id": 175,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -3120,13 +2805,13 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 192,
+              "id": 176,
               "name": "NonGenericClass"
             }
           ]
         },
         {
-          "id": 192,
+          "id": 176,
           "name": "NonGenericClass",
           "kind": 128,
           "kindString": "Class",
@@ -3136,14 +2821,14 @@
           },
           "children": [
             {
-              "id": 193,
+              "id": 177,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 194,
+                  "id": 178,
                   "name": "new NonGenericClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -3153,7 +2838,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 195,
+                      "id": 179,
                       "name": "value",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -3169,24 +2854,24 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 192,
+                    "id": 176,
                     "name": "NonGenericClass"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 184,
+                    "id": 168,
                     "name": "GenericClass.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 183,
+                "id": 167,
                 "name": "GenericClass.constructor"
               }
             },
             {
-              "id": 196,
+              "id": 180,
               "name": "value",
               "kind": 1024,
               "kindString": "Property",
@@ -3202,12 +2887,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 187,
+                "id": 171,
                 "name": "GenericClass.value"
               }
             },
             {
-              "id": 197,
+              "id": 181,
               "name": "values",
               "kind": 1024,
               "kindString": "Property",
@@ -3226,19 +2911,19 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 188,
+                "id": 172,
                 "name": "GenericClass.values"
               }
             },
             {
-              "id": 198,
+              "id": 182,
               "name": "getValue",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 199,
+                  "id": 183,
                   "name": "getValue",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -3253,14 +2938,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 190,
+                    "id": 174,
                     "name": "GenericClass.getValue"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 189,
+                "id": 173,
                 "name": "GenericClass.getValue"
               }
             }
@@ -3270,29 +2955,29 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                193
+                177
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                196,
-                197
+                180,
+                181
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                198
+                182
               ]
             }
           ],
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 182,
+              "id": 166,
               "typeArguments": [
                 {
                   "type": "intrinsic",
@@ -3309,49 +2994,49 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            182,
-            192
+            166,
+            176
           ]
         }
       ]
     },
     {
-      "id": 200,
+      "id": 184,
       "name": "getter-setter",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 201,
+          "id": 185,
           "name": "GetterSetter",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
           "children": [
             {
-              "id": 202,
+              "id": 186,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 203,
+                  "id": 187,
                   "name": "new GetterSetter",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 201,
+                    "id": 185,
                     "name": "GetterSetter"
                   }
                 }
               ]
             },
             {
-              "id": 204,
+              "id": 188,
               "name": "_name",
               "kind": 1024,
               "kindString": "Property",
@@ -3364,14 +3049,14 @@
               }
             },
             {
-              "id": 205,
+              "id": 189,
               "name": "name",
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
               "getSignature": [
                 {
-                  "id": 206,
+                  "id": 190,
                   "name": "name",
                   "kind": 524288,
                   "kindString": "Get signature",
@@ -3384,14 +3069,14 @@
               ],
               "setSignature": [
                 {
-                  "id": 207,
+                  "id": 191,
                   "name": "name",
                   "kind": 1048576,
                   "kindString": "Set signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 208,
+                      "id": 192,
                       "name": "value",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -3410,14 +3095,14 @@
               ]
             },
             {
-              "id": 209,
+              "id": 193,
               "name": "readOnlyName",
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
               "getSignature": [
                 {
-                  "id": 210,
+                  "id": 194,
                   "name": "readOnlyName",
                   "kind": 524288,
                   "kindString": "Get signature",
@@ -3430,21 +3115,21 @@
               ]
             },
             {
-              "id": 211,
+              "id": 195,
               "name": "writeOnlyName",
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
               "setSignature": [
                 {
-                  "id": 212,
+                  "id": 196,
                   "name": "writeOnlyName",
                   "kind": 1048576,
                   "kindString": "Set signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 213,
+                      "id": 197,
                       "name": "value",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -3468,23 +3153,23 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                202
+                186
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                204
+                188
               ]
             },
             {
               "title": "Accessors",
               "kind": 262144,
               "children": [
-                205,
-                209,
-                211
+                189,
+                193,
+                195
               ]
             }
           ]
@@ -3495,20 +3180,20 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            201
+            185
           ]
         }
       ]
     },
     {
-      "id": 214,
+      "id": 198,
       "name": "this",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 215,
+          "id": 199,
           "name": "ChainClass",
           "kind": 128,
           "kindString": "Class",
@@ -3519,28 +3204,28 @@
           },
           "children": [
             {
-              "id": 216,
+              "id": 200,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 217,
+                  "id": 201,
                   "name": "new ChainClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 215,
+                    "id": 199,
                     "name": "ChainClass"
                   }
                 }
               ]
             },
             {
-              "id": 218,
+              "id": 202,
               "name": "chain",
               "kind": 2048,
               "kindString": "Method",
@@ -3549,7 +3234,7 @@
               },
               "signatures": [
                 {
-                  "id": 219,
+                  "id": 203,
                   "name": "chain",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -3559,7 +3244,7 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 215,
+                    "id": 199,
                     "name": "ChainClass"
                   }
                 }
@@ -3571,14 +3256,14 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                216
+                200
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                218
+                202
               ]
             }
           ]
@@ -3589,41 +3274,41 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            215
+            199
           ]
         }
       ]
     },
     {
-      "id": 220,
+      "id": 204,
       "name": "type-operator",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 226,
+          "id": 210,
           "name": "GenericClass",
           "kind": 128,
           "kindString": "Class",
           "flags": {},
           "children": [
             {
-              "id": 227,
+              "id": 211,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 228,
+                  "id": 212,
                   "name": "new GenericClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "typeParameter": [
                     {
-                      "id": 229,
+                      "id": 213,
                       "name": "T",
                       "kind": 131072,
                       "kindString": "Type parameter",
@@ -3633,7 +3318,7 @@
                         "operator": "keyof",
                         "target": {
                           "type": "reference",
-                          "id": 221,
+                          "id": 205,
                           "name": "TestClass"
                         }
                       }
@@ -3641,7 +3326,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 226,
+                    "id": 210,
                     "typeArguments": [
                       {
                         "type": "reference",
@@ -3654,7 +3339,7 @@
               ]
             },
             {
-              "id": 230,
+              "id": 214,
               "name": "c",
               "kind": 1024,
               "kindString": "Property",
@@ -3670,20 +3355,20 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                227
+                211
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                230
+                214
               ]
             }
           ],
           "typeParameter": [
             {
-              "id": 231,
+              "id": 215,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -3693,7 +3378,7 @@
                 "operator": "keyof",
                 "target": {
                   "type": "reference",
-                  "id": 221,
+                  "id": 205,
                   "name": "TestClass"
                 }
               }
@@ -3701,7 +3386,7 @@
           ]
         },
         {
-          "id": 221,
+          "id": 205,
           "name": "TestClass",
           "kind": 128,
           "kindString": "Class",
@@ -3718,28 +3403,28 @@
           },
           "children": [
             {
-              "id": 222,
+              "id": 206,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
-                  "id": 223,
+                  "id": 207,
                   "name": "new TestClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 221,
+                    "id": 205,
                     "name": "TestClass"
                   }
                 }
               ]
             },
             {
-              "id": 224,
+              "id": 208,
               "name": "a",
               "kind": 1024,
               "kindString": "Property",
@@ -3750,7 +3435,7 @@
               }
             },
             {
-              "id": 225,
+              "id": 209,
               "name": "b",
               "kind": 1024,
               "kindString": "Property",
@@ -3766,15 +3451,15 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                222
+                206
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                224,
-                225
+                208,
+                209
               ]
             }
           ]
@@ -3785,8 +3470,8 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            226,
-            221
+            210,
+            205
           ]
         }
       ]
@@ -3799,15 +3484,14 @@
       "children": [
         1,
         21,
-        100,
-        109,
-        130,
-        176,
-        149,
-        181,
-        200,
-        214,
-        220
+        93,
+        114,
+        160,
+        133,
+        165,
+        184,
+        198,
+        204
       ]
     }
   ]

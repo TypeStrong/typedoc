@@ -82,24 +82,3 @@ export class CommentedClass {
      */
     ignoredprop: string;
 }
-
-/** Function description
- *
- *  @param scope {@link CommentedClass} Test description.
- *  @returns Test description.
- */
-export function gh1164(scope: string) {
-    return scope;
-}
-
-export interface GH1490 {
-    /** With comment */
-    optionalMethod?(): void;
-}
-
-export declare namespace GH1522 {
-    /** @category cat */
-    export function over(): string;
-    /** @category cat */
-    export function over(x: number): number;
-}

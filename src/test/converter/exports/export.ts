@@ -30,14 +30,3 @@ export namespace GH1453 {
 
     export type Foo = import("./mod").GH1453Helper;
 }
-
-export namespace GH1462 {
-    const sideEffects = {
-        /** method docs */
-        method() {},
-        /** prop docs */
-        prop: 1,
-    };
-
-    export const { method: METHOD, prop: PROP } = sideEffects;
-}

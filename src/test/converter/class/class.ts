@@ -122,15 +122,6 @@ export class Ts38PrivateFields {
     #foo = 1;
 }
 
-export namespace GH1509 {
-    export interface Foo {
-        foo: number;
-    }
-
-    export interface PartialFoo extends Partial<Foo> {}
-    export interface ReadonlyFoo extends Readonly<Partial<Foo>> {}
-}
-
 export abstract class Abstract {
     abstract needsImpl(): number
 }

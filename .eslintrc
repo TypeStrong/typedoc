@@ -41,7 +41,11 @@
     },
     "overrides": [
         {
-            "files": ["src/test/converter/**", "src/test/renderer/**"],
+            "files": [
+                "src/test/converter/**",
+                "src/test/converter2/**",
+                "src/test/renderer/**"
+            ],
             "rules": {
                 "prefer-rest-params": 0,
                 "no-inner-declarations": 0,

@@ -59,7 +59,3 @@ export const ColumnType = {
     STRING: "string",
     NUMBER: "number",
 };
-
-export class GH1481 {}
-/** static docs */
-GH1481.static = function () {};

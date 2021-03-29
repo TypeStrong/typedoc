@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "module": "CommonJS",
+        "allowJs": true,
+        "outDir": "dist",
+        "target": "ESNext",
+
+        // See #1524. We might force this to false eventually.
+        "skipLibCheck": true
+    }
+}

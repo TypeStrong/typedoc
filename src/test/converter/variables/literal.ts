@@ -56,10 +56,3 @@ export const callbackReturn = {
 };
 
 export { objectLiteral };
-
-export const gh1475 = {
-    get getIt(): number {
-        return 1;
-    },
-    set setIt(n: number) {},
-};

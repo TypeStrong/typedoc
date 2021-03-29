@@ -2,10 +2,6 @@ export type NamedTuple = [name: string, optionalName?: number];
 
 export const namedTuple = returnMapped<NamedTuple>();
 
-export function gh1449<T extends [foo: any, bar?: any]>(a: T): T {
-    return a;
-}
-
 export type WithRestType = [1, ...2[]];
 export const withRestType = returnMapped<WithRestType>();
 

@@ -30,6 +30,7 @@
     "include": ["src/**/*.ts"],
     "exclude": [
         "src/test/converter/**/*.ts",
+        "src/test/converter2/**/*.ts",
         "src/test/renderer/specs",
         "src/test/.dot/**/*.ts",
         "src/test/module/**/*.ts"

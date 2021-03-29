@@ -1,9 +1,3 @@
-class GH1481 {}
-/** static docs */
-GH1481.static = function () {};
-
-exports.GH1481 = GH1481;
-
 function gh1483() {}
 gh1483.namespaceExport = function () {};
 exports.gh1483 = gh1483;

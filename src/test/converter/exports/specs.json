@@ -12,23 +12,23 @@
       "flags": {},
       "children": [
         {
-          "id": 50,
+          "id": 46,
           "name": "GH1453Helper",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 41
+          "target": 37
         },
         {
-          "id": 43,
+          "id": 39,
           "name": "Mod",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 33
+          "target": 29
         },
         {
-          "id": 45,
+          "id": 41,
           "name": "Mod2",
           "kind": 16777216,
           "kindString": "Reference",
@@ -36,34 +36,34 @@
           "comment": {
             "shortText": "This is a comment for Mod that overwrites the one specified in \"mod\""
           },
-          "target": 33
+          "target": 29
         },
         {
-          "id": 44,
+          "id": 40,
           "name": "ModDefault",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 34
+          "target": 30
         },
         {
-          "id": 49,
+          "id": 45,
           "name": "ThisModule",
-          "kind": 16777216,
-          "kindString": "Reference",
-          "flags": {},
-          "target": 40
-        },
-        {
-          "id": 46,
-          "name": "a",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
           "target": 36
         },
         {
-          "id": 47,
+          "id": 42,
+          "name": "a",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {},
+          "target": 32
+        },
+        {
+          "id": 43,
           "name": "b",
           "kind": 16777216,
           "kindString": "Reference",
@@ -71,15 +71,15 @@
           "comment": {
             "shortText": "An export of a local under a different name."
           },
-          "target": 37
+          "target": 33
         },
         {
-          "id": 42,
+          "id": 38,
           "name": "c",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 36
+          "target": 32
         },
         {
           "id": 23,
@@ -96,7 +96,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 33,
+                "id": 29,
                 "name": "GH1453Helper"
               }
             },
@@ -124,7 +124,7 @@
               },
               "type": {
                 "type": "reference",
-                "id": 33,
+                "id": 29,
                 "name": "__module"
               },
               "defaultValue": "..."
@@ -139,7 +139,7 @@
               },
               "type": {
                 "type": "reference",
-                "id": 33,
+                "id": 29,
                 "name": "a"
               },
               "defaultValue": "..."
@@ -154,7 +154,7 @@
               },
               "type": {
                 "type": "reference",
-                "id": 33,
+                "id": 29,
                 "name": "__module"
               },
               "defaultValue": "..."
@@ -176,65 +176,6 @@
                 24,
                 27,
                 25
-              ]
-            }
-          ]
-        },
-        {
-          "id": 29,
-          "name": "GH1462",
-          "kind": 2,
-          "kindString": "Namespace",
-          "flags": {},
-          "children": [
-            {
-              "id": 32,
-              "name": "PROP",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {},
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            },
-            {
-              "id": 30,
-              "name": "METHOD",
-              "kind": 64,
-              "kindString": "Function",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 31,
-                  "name": "METHOD",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "method docs"
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Variables",
-              "kind": 32,
-              "children": [
-                32
-              ]
-            },
-            {
-              "title": "Functions",
-              "kind": 64,
-              "children": [
-                30
               ]
             }
           ]
@@ -322,22 +263,21 @@
           "title": "References",
           "kind": 16777216,
           "children": [
-            50,
-            43,
-            45,
-            44,
-            49,
             46,
-            47,
-            42
+            39,
+            41,
+            40,
+            45,
+            42,
+            43,
+            38
           ]
         },
         {
           "title": "Namespaces",
           "kind": 2,
           "children": [
-            23,
-            29
+            23
           ]
         },
         {
@@ -528,7 +468,7 @@
       ]
     },
     {
-      "id": 33,
+      "id": 29,
       "name": "mod",
       "kind": 1,
       "kindString": "Module",
@@ -538,15 +478,15 @@
       },
       "children": [
         {
-          "id": 40,
+          "id": 36,
           "name": "ThisModule",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 33
+          "target": 29
         },
         {
-          "id": 37,
+          "id": 33,
           "name": "b",
           "kind": 16777216,
           "kindString": "Reference",
@@ -554,10 +494,10 @@
           "comment": {
             "shortText": "An export of a local under a different name."
           },
-          "target": 36
+          "target": 32
         },
         {
-          "id": 38,
+          "id": 34,
           "name": "c",
           "kind": 16777216,
           "kindString": "Reference",
@@ -565,10 +505,10 @@
           "comment": {
             "shortText": "An export with a module specifier that comes from this file."
           },
-          "target": 36
+          "target": 32
         },
         {
-          "id": 41,
+          "id": 37,
           "name": "GH1453Helper",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -579,7 +519,7 @@
           }
         },
         {
-          "id": 36,
+          "id": 32,
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
@@ -596,14 +536,14 @@
           "defaultValue": "1"
         },
         {
-          "id": 34,
+          "id": 30,
           "name": "default",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 35,
+              "id": 31,
               "name": "default",
               "kind": 4096,
               "kindString": "Call signature",
@@ -624,30 +564,30 @@
           "title": "References",
           "kind": 16777216,
           "children": [
-            40,
-            37,
-            38
+            36,
+            33,
+            34
           ]
         },
         {
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            41
+            37
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            36
+            32
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            34
+            30
           ]
         }
       ]
@@ -662,7 +602,7 @@
         1,
         6,
         8,
-        33
+        29
       ]
     }
   ]
