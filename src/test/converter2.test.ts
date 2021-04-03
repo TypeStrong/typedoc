@@ -179,6 +179,13 @@ const issueTests: Record<string, (project: ProjectReflection) => void> = {
             ["Test", "ThingA", "ThingB"]
         );
     },
+
+    gh1552(project) {
+        equal(query(project, "emptyArr").defaultValue, "[]");
+        equal(query(project, "nonEmptyArr").defaultValue, "...");
+        equal(query(project, "emptyObj").defaultValue, "{}");
+        equal(query(project, "nonEmptyObj").defaultValue, "...");
+    },
 };
 
 describe("Converter2", () => {

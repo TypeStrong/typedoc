@@ -26,9 +26,23 @@ export function convertExpression(expression: ts.Expression) {
         case ts.SyntaxKind.NumericLiteral:
         case ts.SyntaxKind.PrefixUnaryExpression:
             return expression.getText();
-        default:
-            // More complex expressions are generally not useful in the documentation.
-            // Show that there was a value, but not specifics.
-            return "...";
     }
+
+    if (
+        ts.isArrayLiteralExpression(expression) &&
+        expression.elements.length === 0
+    ) {
+        return "[]";
+    }
+
+    if (
+        ts.isObjectLiteralExpression(expression) &&
+        expression.properties.length === 0
+    ) {
+        return "{}";
+    }
+
+    // More complex expressions are generally not useful in the documentation.
+    // Show that there was a value, but not specifics.
+    return "...";
 }
