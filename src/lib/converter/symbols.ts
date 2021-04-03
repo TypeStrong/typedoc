@@ -585,13 +585,6 @@ function convertProperty(
             parameterType = declaration.type;
         }
         setModifiers(symbol, declaration, reflection);
-        const parentSymbol = context.project.getSymbolFromReflection(
-            context.scope
-        );
-        assert(parentSymbol, "Tried to convert a property without a parent.");
-        if (ts.isPrivateIdentifier(declaration.name)) {
-            reflection.setFlag(ReflectionFlag.Private);
-        }
     }
     reflection.defaultValue = declaration && convertDefaultValue(declaration);
 
@@ -913,8 +906,16 @@ function setModifiers(
     reflection: Reflection
 ) {
     const modifiers = ts.getCombinedModifierFlags(declaration);
-    // Note: We only set this flag if the modifier is present because we allow
-    // fake "private" or "protected" members via @private and @protected
+
+    if (
+        ts.isMethodDeclaration(declaration) ||
+        ts.isPropertyDeclaration(declaration) ||
+        ts.isAccessor(declaration)
+    ) {
+        if (ts.isPrivateIdentifier(declaration.name)) {
+            reflection.setFlag(ReflectionFlag.Private);
+        }
+    }
     if (hasAllFlags(modifiers, ts.ModifierFlags.Private)) {
         reflection.setFlag(ReflectionFlag.Private);
     }
