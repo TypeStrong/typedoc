@@ -107,7 +107,7 @@ async function rebuildRendererTest() {
     app.options.setValue("entryPoints", app.expandInputFiles([src]));
     const project = app.convert();
     await app.generateDocs(project, out);
-    await app.generateJson(project, path.join(out, "specs.json"));
+    await app.generateJson(project, path.join(out, "specs.json"), true);
 
     /**
      * Avoiding sync methods here is... difficult.

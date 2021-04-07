@@ -387,12 +387,14 @@ export class Application extends ChildableComponent<
     /**
      * Run the converter for the given set of files and write the reflections to a json file.
      *
-     * @param out  The path and file name of the target file.
-     * @returns TRUE if the json file could be written successfully, otherwise FALSE.
+     * @param out The path and file name of the target file.
+     * @param format Whether the JSON data should be formatted with tabs.
+     * @returns Whether the JSON file could be written successfully.
      */
     public async generateJson(
         project: ProjectReflection,
-        out: string
+        out: string,
+        format = true
     ): Promise<void> {
         out = Path.resolve(out);
         const eventData = {
@@ -403,7 +405,9 @@ export class Application extends ChildableComponent<
             begin: eventData,
             end: eventData,
         });
-        await FS.promises.writeFile(out, JSON.stringify(ser, null, "\t"));
+
+        const space = format ? "\t" : "";
+        await FS.promises.writeFile(out, JSON.stringify(ser, null, space));
         this.logger.success("JSON written to %s", out);
     }
 
