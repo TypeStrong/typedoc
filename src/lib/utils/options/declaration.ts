@@ -55,6 +55,7 @@ export interface TypeDocOptionMap {
 
     out: string;
     json: string;
+    pretty: boolean;
 
     theme: string;
     name: string;
