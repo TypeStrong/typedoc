@@ -66,8 +66,7 @@ async function run(app) {
             }
             const json = app.options.getValue("json");
             if (json) {
-                const pretty = app.options.getValue("pretty");
-                await app.generateJson(project, json, pretty);
+                await app.generateJson(project, json);
             }
 
             if (!out && !json) {
@@ -88,8 +87,7 @@ async function run(app) {
     }
     const json = app.options.getValue("json");
     if (json) {
-        const pretty = app.options.getValue("pretty");
-        await app.generateJson(project, json, pretty);
+        await app.generateJson(project, json);
     }
 
     if (!out && !json) {
