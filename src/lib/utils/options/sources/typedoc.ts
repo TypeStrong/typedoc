@@ -14,7 +14,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "tsconfig",
         help:
-            "Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
+            "Specify a TypeScript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
         hint: ParameterHint.File,
         defaultValue: process.cwd(),
     });
@@ -60,7 +60,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "excludeInternal",
         help:
-            "Prevent symbols that marked with @internal from being documented.",
+            "Prevent symbols that are marked with @internal from being documented.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
@@ -117,14 +117,21 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "json",
         help:
-            "Specifies the location and file name a json file describing the project is written to.",
+            "Specifies the location and filename a JSON file describing the project is written to.",
         hint: ParameterHint.File,
+    });
+    options.addDeclaration({
+        name: "pretty",
+        help:
+            "Specifies whether the output JSON should be formatted with tabs.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
     });
 
     options.addDeclaration({
         name: "theme",
         help:
-            "Specify the path to the theme that should be used or 'default' or 'minimal' to use built-in themes.",
+            "Specify the path to the theme that should be used, or 'default' or 'minimal' to use built-in themes.",
         type: ParameterType.String,
         defaultValue: "default",
     });

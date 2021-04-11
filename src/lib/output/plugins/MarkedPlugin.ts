@@ -82,6 +82,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      */
     private mediaPattern = /media:\/\/([^ ")\]}]+)/g;
 
+    private sources?: { fileName: string; line: number }[];
+    private outputFileName?: string;
+
     /**
      * Create a new MarkedPlugin instance.
      */
@@ -92,6 +95,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const that = this;
         Handlebars.registerHelper("markdown", function (this: any, arg: any) {
+            const root = arg.data.root;
+            that.outputFileName = root.filename;
+            that.sources = root.model.sources;
             return that.parseMarkdown(arg.fn(this), this);
         });
         Handlebars.registerHelper("relativeURL", (url: string) =>
@@ -111,9 +117,13 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         lang = lang.toLowerCase();
         if (!isSupportedLanguage(lang)) {
             // Extra newline because of the progress bar
-            this.application.logger.warn(
-                `\nUnsupported highlight language "${lang}" will not be highlighted. Run typedoc --help for a list of supported languages.`
-            );
+            this.application.logger.warn(`
+Unsupported highlight language "${lang}" will not be highlighted. Run typedoc --help for a list of supported languages.
+target code block :
+\t${text.split("\n").join("\n\t")}
+source files :${this.sources?.map((source) => `\n\t${source.fileName}`).join()}
+output file :
+\t${this.outputFileName}`);
             return text;
         }
 

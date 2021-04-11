@@ -247,7 +247,7 @@
               }
             }
           },
-          "defaultValue": "..."
+          "defaultValue": "[]"
         },
         {
           "id": 8,
@@ -271,7 +271,7 @@
             ],
             "name": "Array"
           },
-          "defaultValue": "..."
+          "defaultValue": "{}"
         }
       ],
       "groups": [

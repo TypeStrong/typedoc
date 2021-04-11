@@ -490,8 +490,8 @@ export class Application extends ChildableComponent<
     /**
      * Run the converter for the given set of files and write the reflections to a json file.
      *
-     * @param out  The path and file name of the target file.
-     * @returns TRUE if the json file could be written successfully, otherwise FALSE.
+     * @param out The path and file name of the target file.
+     * @returns Whether the JSON file could be written successfully.
      */
     public async generateJson(
         project: ProjectReflection,
@@ -506,7 +506,9 @@ export class Application extends ChildableComponent<
             begin: eventData,
             end: eventData,
         });
-        await FS.promises.writeFile(out, JSON.stringify(ser, null, "\t"));
+
+        const space = this.application.options.getValue("pretty") ? "\t" : "";
+        await FS.promises.writeFile(out, JSON.stringify(ser, null, space));
         this.logger.success("JSON written to %s", out);
     }
 
