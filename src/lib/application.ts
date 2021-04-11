@@ -2,7 +2,7 @@ import * as Path from "path";
 import * as FS from "fs";
 import * as ts from "typescript";
 
-import { Converter } from "./converter/index";
+import { Converter, PackageProgram } from "./converter/index";
 import { Renderer } from "./output/renderer";
 import { Serializer } from "./serialization";
 import { ProjectReflection } from "./models/index";
@@ -24,7 +24,13 @@ import {
 import { Options, BindOption } from "./utils";
 import { TypeDocOptions } from "./utils/options/declaration";
 import { flatMap } from "./utils/array";
-import { basename } from "path";
+import { basename, resolve } from "path";
+import {
+    expandPackages,
+    getTsEntryPointForPackage,
+    ignorePackage,
+    loadPackageManifest,
+} from "./utils/package-manifest";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -35,6 +41,84 @@ const packageInfo = require("../../package.json") as {
 const supportedVersionMajorMinor = packageInfo.peerDependencies.typescript
     .split("||")
     .map((version) => version.replace(/^\s*|\.x\s*$/g, ""));
+
+/**
+ * Expand the provided packages configuration paths, determining the entry points
+ * and creating the ts.Programs for any which are found.
+ * @param logger
+ * @param packageGlobPaths
+ * @returns The information about the discovered programs, undefined if an error occurs.
+ */
+function getProgramsForPackages(
+    logger: Logger,
+    packageGlobPaths: string[]
+): PackageProgram[] | undefined {
+    const results = new Array<PackageProgram>();
+    // --packages arguments are workspace tree roots, or glob patterns
+    // This expands them to leave only leaf packages
+    const expandedPackages = expandPackages(logger, ".", packageGlobPaths);
+    for (const packagePath of expandedPackages) {
+        const packageJsonPath = resolve(packagePath, "package.json");
+        const packageJson = loadPackageManifest(logger, packageJsonPath);
+        if (packageJson === undefined) {
+            logger.error(`Could not load package manifest ${packageJsonPath}`);
+            return;
+        }
+        const packageEntryPoint = getTsEntryPointForPackage(
+            logger,
+            packageJsonPath,
+            packageJson
+        );
+        if (packageEntryPoint === undefined) {
+            logger.error(
+                `Could not determine TS entry point for package ${packageJsonPath}`
+            );
+            return;
+        }
+        if (packageEntryPoint === ignorePackage) {
+            continue;
+        }
+        const tsconfigFile = ts.findConfigFile(
+            packageEntryPoint,
+            ts.sys.fileExists
+        );
+        if (tsconfigFile === undefined) {
+            logger.error(
+                `Could not determine tsconfig.json for source file ${packageEntryPoint} (it must be on an ancestor path)`
+            );
+            return;
+        }
+        // Consider deduplicating this with similar code in src/lib/utils/options/readers/tsconfig.ts
+        let fatalError = false;
+        const parsedCommandLine = ts.getParsedCommandLineOfConfigFile(
+            tsconfigFile,
+            {},
+            {
+                ...ts.sys,
+                onUnRecoverableConfigFileDiagnostic: (error) => {
+                    logger.diagnostic(error);
+                    fatalError = true;
+                },
+            }
+        );
+        if (!parsedCommandLine) {
+            return;
+        }
+        logger.diagnostics(parsedCommandLine.errors);
+        if (fatalError) {
+            return;
+        }
+        results.push({
+            packageName: packageJson.name as string,
+            entryPoint: packageEntryPoint,
+            program: ts.createProgram({
+                rootNames: parsedCommandLine.fileNames,
+                options: parsedCommandLine.options,
+            }),
+        });
+    }
+    return results;
+}
 
 /**
  * The default TypeDoc main application class.
@@ -197,37 +281,54 @@ export class Application extends ChildableComponent<
             );
         }
 
-        if (Object.keys(this.options.getCompilerOptions()).length === 0) {
+        if (
+            Object.keys(this.options.getCompilerOptions()).length === 0 &&
+            this.application.options.getValue("packages").length === 0
+        ) {
             this.logger.warn(
                 `No compiler options set. This likely means that TypeDoc did not find your tsconfig.json. Generated documentation will probably be empty.`
             );
         }
 
-        const programs = [
-            ts.createProgram({
+        const programs = new Array<ts.Program>();
+        const packages = this.application.options
+            .getValue("packages")
+            .map(normalizePath);
+        const packagePrograms = getProgramsForPackages(this.logger, packages);
+        if (packagePrograms === undefined) {
+            return;
+        }
+        // Add all package programs to programs list so that they go through the same processing.
+        programs.push(...packagePrograms.map((x) => x.program));
+
+        // If no packages were specified, handle explicity provided
+        // entry points and ts project references
+        if (packagePrograms.length === 0) {
+            const rootProgram = ts.createProgram({
                 rootNames: this.application.options.getFileNames(),
                 options: this.application.options.getCompilerOptions(),
                 projectReferences: this.application.options.getProjectReferences(),
-            }),
-        ];
-
-        // This might be a solution style tsconfig, in which case we need to add a program for each
-        // reference so that the converter can look through each of these.
-        if (programs[0].getRootFileNames().length === 0) {
-            this.logger.verbose(
-                "tsconfig appears to be a solution style tsconfig - creating programs for references"
-            );
-            const resolvedReferences = programs[0].getResolvedProjectReferences();
-            for (const ref of resolvedReferences ?? []) {
-                if (!ref) continue; // This indicates bad configuration... will be reported later.
-
-                programs.push(
-                    ts.createProgram({
-                        options: ref.commandLine.options,
-                        rootNames: ref.commandLine.fileNames,
-                        projectReferences: ref.commandLine.projectReferences,
-                    })
+            });
+            programs.push(rootProgram);
+            // This might be a solution style tsconfig, in which case we need to add a program for each
+            // reference so that the converter can look through each of these.
+            if (rootProgram.getRootFileNames().length === 0) {
+                this.logger.verbose(
+                    "tsconfig appears to be a solution style tsconfig - creating programs for references"
                 );
+                const resolvedReferences = rootProgram.getResolvedProjectReferences();
+                for (const ref of resolvedReferences ?? []) {
+                    if (!ref) continue; // This indicates bad configuration... will be reported later.
+
+                    programs.push(
+                        ts.createProgram({
+                            options: ref.commandLine.options,
+                            rootNames: ref.commandLine.fileNames,
+                            projectReferences:
+                                ref.commandLine.projectReferences,
+                        })
+                    );
+                }
             }
         }
 
@@ -247,7 +348,8 @@ export class Application extends ChildableComponent<
 
         return this.converter.convert(
             this.expandInputFiles(this.entryPoints),
-            programs
+            programs,
+            packagePrograms
         );
     }
 
@@ -343,7 +445,8 @@ export class Application extends ChildableComponent<
                 this.logger.resetErrors();
                 const project = this.converter.convert(
                     this.expandInputFiles(this.entryPoints),
-                    currentProgram
+                    currentProgram,
+                    []
                 );
                 currentProgram = undefined;
                 successFinished = false;

@@ -157,10 +157,12 @@ export class DefaultTheme extends Theme {
      * @returns        The root navigation item.
      */
     getNavigation(project: ProjectReflection): NavigationItem {
+        const multipleEntryPoints =
+            project.getReflectionsByKind(ReflectionKind.Module).length > 1;
         const builder = new NavigationBuilder(
             project,
             project,
-            this.application.options.getValue("entryPoints").length > 1
+            multipleEntryPoints
         );
         return builder.build(
             this.application.options.getValue("readme") !== "none"

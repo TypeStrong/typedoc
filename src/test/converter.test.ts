@@ -76,7 +76,8 @@ describe("Converter", function () {
                     resetReflectionID();
                     result = app.converter.convert(
                         app.expandInputFiles([path]),
-                        program
+                        program,
+                        []
                     );
                     after();
                     ok(

@@ -36,6 +36,7 @@ export type TypeDocOptionValues = {
 export interface TypeDocOptionMap {
     options: string;
     tsconfig: string;
+    packages: string[];
 
     entryPoints: string[];
     exclude: string[];

@@ -34,6 +34,39 @@ will treat each file contained within it as an entry point.
 typedoc package1/index.ts package2/index.ts
 ```
 
+### Monorepos / Workspaces
+
+If your codebase is comprised of one or more npm packages, you can pass the paths to these
+packages and TypeDoc will attempt to determine entry points from your `package.json`'s `main`
+property (or its default value `index.js`).
+If any of the packages given are the root of an [npm Workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
+or a [Yarn Workspace](https://classic.yarnpkg.com/en/docs/workspaces/) TypeDoc will find all
+the `workpsaces` defined in the `package.json`.
+This mode requires sourcemaps in your JS entry points, in order to find the TS entry points.
+Supports wildcard paths in the same fashion as those found in npm or Yarn workspaces.
+
+#### Single npm module
+
+```text
+typedoc --packages .
+```
+
+#### Monorepo with npm/Yarn workspace at the root
+
+```text
+typedoc --packages .
+```
+
+#### Monorepo with manually specified sub-packages to document
+
+This can be useful if you do not want all your workspaces to be processed.
+Accepts the same paths as would go in the `package.json`'s workspaces
+
+```text
+# Note the single quotes prevent shell widcard expansion, allowing typedoc to do the expansion
+typedoc --packages a-package --packages 'some-more-packages/*' --packages 'some-other-packages/*'
+```
+
 ### Arguments
 
 For a complete list of the command line arguments run `typedoc --help` or visit
@@ -47,6 +80,9 @@ For a complete list of the command line arguments run `typedoc --help` or visit
 -   `--options`<br>
     Specify a json option file that should be loaded. If not specified TypeDoc
     will look for 'typedoc.json' in the current directory.
+-   `--packages <path/to/package/>`<br>
+    Specify one or more sub packages, or the root of a monorepo with workspaces.
+    Supports wildcard paths in the same fashion as those found in npm or Yarn workspaces.
 -   `--tsconfig <path/to/tsconfig.json>`<br>
     Specify a typescript config file that should be loaded. If not
     specified TypeDoc will look for 'tsconfig.json' in the current directory.
