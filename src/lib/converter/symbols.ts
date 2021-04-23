@@ -73,7 +73,7 @@ export function convertSymbol(
     // but aren't aliased symbols because `export *` was used.
     const previous = context.project.getReflectionFromSymbol(symbol);
     if (
-        !context.converter.disableAliases &&
+        !context.converter.application.options.getValue("disableAliases") &&
         previous &&
         previous.parent?.kindOf(ReflectionKind.Module | ReflectionKind.Project)
     ) {
