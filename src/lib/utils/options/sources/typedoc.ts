@@ -74,8 +74,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "disableAliases",
-        help:
-            "Disables creating aliases for shared reflections.",
+        help: "Disables creating aliases for shared reflections.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
