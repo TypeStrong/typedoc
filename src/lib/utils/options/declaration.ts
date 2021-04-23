@@ -46,6 +46,7 @@ export interface TypeDocOptionMap {
     excludeNotDocumented: boolean;
     excludeInternal: boolean;
     disableSources: boolean;
+    disableAliases: boolean;
     includes: string;
     media: string;
 

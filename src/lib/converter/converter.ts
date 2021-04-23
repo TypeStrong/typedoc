@@ -53,6 +53,9 @@ export class Converter extends ChildableComponent<
     @BindOption("excludeProtected")
     excludeProtected!: boolean;
 
+    @BindOption("disableAliases")
+    disableAliases!: boolean;
+
     /**
      * General events
      */

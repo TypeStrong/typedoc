@@ -73,6 +73,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "disableAliases",
+        help:
+            "Disables creating aliases for shared reflections.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "includes",
         help:
             "Specifies the location to look for included documents (use [[include:FILENAME]] in comments).",
