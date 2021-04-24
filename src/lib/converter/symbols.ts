@@ -713,7 +713,6 @@ function convertAlias(
             exportSymbol ?? symbol
         );
     } else if (
-        !reflection ||
         !context.converter.application.options.getValue("disableAliases")
     ) {
         createAlias(reflection, context, symbol, exportSymbol);
