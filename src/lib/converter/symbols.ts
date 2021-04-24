@@ -705,16 +705,17 @@ function convertAlias(
     const reflection = context.project.getReflectionFromSymbol(
         context.resolveAliasedSymbol(symbol)
     );
-    if (!reflection) {
+    if (
+        !reflection ||
+        context.converter.application.options.getValue("disableAliases")
+    ) {
         // We don't have this, convert it.
         convertSymbol(
             context,
             context.resolveAliasedSymbol(symbol),
             exportSymbol ?? symbol
         );
-    } else if (
-        !context.converter.application.options.getValue("disableAliases")
-    ) {
+    } else {
         createAlias(reflection, context, symbol, exportSymbol);
     }
 }
