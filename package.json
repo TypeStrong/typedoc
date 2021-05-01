@@ -20,14 +20,12 @@
     "node": ">= 10.8.0"
   },
   "dependencies": {
-    "colors": "^1.4.0",
     "handlebars": "^4.7.7",
     "lodash": "^4.17.21",
     "lunr": "^2.3.9",
     "marked": "^2.0.3",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
-    "shelljs": "^0.8.4",
     "shiki": "^0.9.3",
     "typedoc-default-themes": "^0.12.10"
   },
@@ -42,7 +40,6 @@
     "@types/mocha": "^8.2.2",
     "@types/mockery": "^1.4.29",
     "@types/node": "^15.0.1",
-    "@types/shelljs": "^0.8.8",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "eslint": "^7.25.0",
