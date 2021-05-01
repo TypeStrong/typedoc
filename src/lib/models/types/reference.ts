@@ -3,6 +3,8 @@ import type { ProjectReflection } from "../reflections";
 import { Reflection } from "../reflections/abstract";
 import { Type } from "./abstract";
 
+const BROKEN_REFERENCE_ID = -1;
+
 /**
  * Represents a type that refers to another reflection like a class, interface or enum.
  *
@@ -66,7 +68,7 @@ export class ReferenceType extends Type {
 
     /** @internal this is used for type parameters, which don't actually point to something */
     static createBrokenReference(name: string, project: ProjectReflection) {
-        return new ReferenceType(name, -1, project);
+        return new ReferenceType(name, BROKEN_REFERENCE_ID, project);
     }
 
     /**
@@ -93,7 +95,14 @@ export class ReferenceType extends Type {
 
         let matchesTarget;
         if (!this.reflection) {
-            matchesTarget = this._target === other._target;
+            if (
+                this._target === BROKEN_REFERENCE_ID &&
+                other._target === BROKEN_REFERENCE_ID
+            ) {
+                matchesTarget = this.name === other.name;
+            } else {
+                matchesTarget = this._target === other._target;
+            }
         } else {
             matchesTarget = this.reflection === other.reflection;
         }

@@ -66,5 +66,11 @@ describe("Reference Type", () => {
 
             equal(type1.equals(type2), false);
         });
+
+        it("intentionally broken reference types with different names are not equal", () => {
+            const type1 = ReferenceType.createBrokenReference("Type1", project);
+            const type2 = ReferenceType.createBrokenReference("Type2", project);
+            equal(type1.equals(type2), false);
+        });
     });
 });
