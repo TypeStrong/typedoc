@@ -22,4 +22,4 @@ export {
     remove,
 } from "./fs";
 export { Logger, LogLevel, ConsoleLogger, CallbackLogger } from "./loggers";
-export { PluginHost } from "./plugins";
+export { loadPlugins, discoverNpmPlugins } from "./plugins";

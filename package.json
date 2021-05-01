@@ -38,13 +38,11 @@
     "@types/marked": "^2.0.2",
     "@types/minimatch": "3.0.4",
     "@types/mocha": "^8.2.2",
-    "@types/mockery": "^1.4.29",
     "@types/node": "^15.0.1",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "eslint": "^7.25.0",
     "mocha": "^8.3.2",
-    "mockery": "^2.1.0",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "typescript": "^4.2.4"

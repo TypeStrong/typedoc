@@ -10,9 +10,11 @@ import {
     Logger,
     ConsoleLogger,
     CallbackLogger,
-    PluginHost,
+    loadPlugins,
     normalizePath,
     writeFile,
+    discoverNpmPlugins,
+    NeverIfInternal,
 } from "./utils/index";
 import { createMinimatch } from "./utils/paths";
 
@@ -78,8 +80,6 @@ export class Application extends ChildableComponent<
 
     options: Options;
 
-    plugins: PluginHost;
-
     @BindOption("logger")
     loggerType!: string | Function;
 
@@ -114,7 +114,6 @@ export class Application extends ChildableComponent<
         this.serializer = new Serializer();
         this.converter = this.addComponent<Converter>("converter", Converter);
         this.renderer = this.addComponent<Renderer>("renderer", Renderer);
-        this.plugins = this.addComponent("plugins", PluginHost);
     }
 
     /**
@@ -142,7 +141,11 @@ export class Application extends ChildableComponent<
         }
         this.logger.level = this.options.getValue("logLevel");
 
-        this.plugins.load();
+        let plugins = this.options.getValue("plugin");
+        if (plugins.length === 0) {
+            plugins = discoverNpmPlugins(this);
+        }
+        loadPlugins(this, this.options.getValue("plugin"));
 
         this.options.reset();
         for (const [key, val] of Object.entries(options)) {
@@ -158,8 +161,11 @@ export class Application extends ChildableComponent<
     /**
      * Return the application / root component instance.
      */
-    get application(): Application {
-        return this;
+    get application(): NeverIfInternal<Application> {
+        this.logger.deprecated(
+            "Application.application is deprecated. Plugins are now passed the application instance when loaded."
+        );
+        return this as never;
     }
 
     /**
@@ -204,9 +210,9 @@ export class Application extends ChildableComponent<
 
         const programs = [
             ts.createProgram({
-                rootNames: this.application.options.getFileNames(),
-                options: this.application.options.getCompilerOptions(),
-                projectReferences: this.application.options.getProjectReferences(),
+                rootNames: this.options.getFileNames(),
+                options: this.options.getCompilerOptions(),
+                projectReferences: this.options.getProjectReferences(),
             }),
         ];
 
@@ -238,7 +244,7 @@ export class Application extends ChildableComponent<
             return;
         }
 
-        if (this.application.options.getValue("emit")) {
+        if (this.options.getValue("emit")) {
             for (const program of programs) {
                 program.emit();
             }
@@ -284,7 +290,7 @@ export class Application extends ChildableComponent<
 
         // Doing this is considerably more complicated, we'd need to manage an array of programs, not convert until all programs
         // have reported in the first time... just error out for now. I'm not convinced anyone will actually notice.
-        if (this.application.options.getFileNames().length === 0) {
+        if (this.options.getFileNames().length === 0) {
             this.logger.error(
                 "The provided tsconfig file looks like a solution style tsconfig, which is not supported in watch mode."
             );
@@ -308,7 +314,7 @@ export class Application extends ChildableComponent<
 
         const host = ts.createWatchCompilerHost(
             tsconfigFile,
-            { noEmit: !this.application.options.getValue("emit") },
+            { noEmit: !this.options.getValue("emit") },
             ts.sys,
             ts.createEmitAndSemanticDiagnosticsBuilderProgram,
             (diagnostic) => this.logger.diagnostic(diagnostic),
@@ -401,7 +407,7 @@ export class Application extends ChildableComponent<
             end: eventData,
         });
 
-        const space = this.application.options.getValue("pretty") ? "\t" : "";
+        const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
         this.logger.info(`JSON written to ${out}`);
     }

@@ -861,8 +861,8 @@ const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference> = {
         );
         return new TupleType(elements);
     },
-    convertType(context, type) {
-        const types = type.typeArguments?.slice(0, type.target.fixedLength);
+    convertType(context, type, node) {
+        const types = type.typeArguments?.slice(0, node.elements.length);
         let elements = types?.map((type) => convertType(context, type));
 
         if (type.target.labeledElementDeclarations) {

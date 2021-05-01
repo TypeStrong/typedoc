@@ -172,9 +172,17 @@ export abstract class AbstractComponent<O extends ComponentHost>
      * Return the application / root component instance.
      */
     get application(): Application {
-        return this._componentOwner === DUMMY_APPLICATION_OWNER
-            ? ((this as any) as Application)
-            : this._componentOwner.application;
+        if (this._componentOwner === DUMMY_APPLICATION_OWNER) {
+            return (this as any) as Application;
+        }
+        // Temporary hack, Application.application is going away.
+        if (
+            this._componentOwner instanceof AbstractComponent &&
+            this._componentOwner._componentOwner === DUMMY_APPLICATION_OWNER
+        ) {
+            return (this._componentOwner as any) as Application;
+        }
+        return this._componentOwner.application;
     }
 
     /**
