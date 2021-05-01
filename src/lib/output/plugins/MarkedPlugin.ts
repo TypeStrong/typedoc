@@ -1,11 +1,11 @@
-import * as FS from "fs-extra";
+import * as fs from "fs";
 import * as Path from "path";
 import * as Marked from "marked";
 import * as Handlebars from "handlebars";
 
 import { Component, ContextAwareRendererComponent } from "../components";
 import { RendererEvent, MarkdownEvent } from "../events";
-import { BindOption, readFile } from "../../utils";
+import { BindOption, readFile, copySync } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import { Theme } from "shiki";
 
@@ -141,7 +141,7 @@ output file :
         if (this.includes) {
             text = text.replace(this.includePattern, (_match, path) => {
                 path = Path.join(this.includes!, path.trim());
-                if (FS.existsSync(path) && FS.statSync(path).isFile()) {
+                if (fs.existsSync(path) && fs.statSync(path).isFile()) {
                     const contents = readFile(path);
                     if (path.substr(-4).toLocaleLowerCase() === ".hbs") {
                         const template = Handlebars.compile(contents);
@@ -168,8 +168,8 @@ output file :
                     const fileName = Path.join(this.mediaDirectory!, path);
 
                     if (
-                        FS.existsSync(fileName) &&
-                        FS.statSync(fileName).isFile()
+                        fs.existsSync(fileName) &&
+                        fs.statSync(fileName).isFile()
                     ) {
                         return this.getRelativeUrl("media") + "/" + path;
                     } else {
@@ -202,8 +202,8 @@ output file :
         if (this.includeSource) {
             const includes = Path.resolve(this.includeSource);
             if (
-                FS.existsSync(includes) &&
-                FS.statSync(includes).isDirectory()
+                fs.existsSync(includes) &&
+                fs.statSync(includes).isDirectory()
             ) {
                 this.includes = includes;
             } else {
@@ -215,9 +215,9 @@ output file :
 
         if (this.mediaSource) {
             const media = Path.resolve(this.mediaSource);
-            if (FS.existsSync(media) && FS.statSync(media).isDirectory()) {
+            if (fs.existsSync(media) && fs.statSync(media).isDirectory()) {
                 this.mediaDirectory = Path.join(event.outputDirectory, "media");
-                FS.copySync(media, this.mediaDirectory);
+                copySync(media, this.mediaDirectory);
             } else {
                 this.mediaDirectory = undefined;
                 this.application.logger.warn(

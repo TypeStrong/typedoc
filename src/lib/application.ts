@@ -12,7 +12,7 @@ import {
     CallbackLogger,
     PluginHost,
     normalizePath,
-    ensureDirectoriesExist,
+    writeFile,
 } from "./utils/index";
 import { createMinimatch } from "./utils/paths";
 
@@ -181,9 +181,7 @@ export class Application extends ChildableComponent<
      */
     public convert(): ProjectReflection | undefined {
         this.logger.verbose(
-            "Using TypeScript %s from %s",
-            this.getTypeScriptVersion(),
-            this.getTypeScriptPath()
+            `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`
         );
 
         if (
@@ -263,9 +261,7 @@ export class Application extends ChildableComponent<
         }
 
         this.logger.verbose(
-            "Using TypeScript %s from %s",
-            this.getTypeScriptVersion(),
-            this.getTypeScriptPath()
+            `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`
         );
 
         if (
@@ -326,7 +322,7 @@ export class Application extends ChildableComponent<
                     ts.sys.clearScreen?.();
                 }
                 firstStatusReport = false;
-                this.logger.write(
+                this.logger.info(
                     ts.flattenDiagnosticMessageText(status.messageText, newLine)
                 );
             }
@@ -348,7 +344,7 @@ export class Application extends ChildableComponent<
                 );
                 currentProgram = undefined;
                 successFinished = false;
-                success(project).then(() => {
+                void success(project).then(() => {
                     successFinished = true;
                     runSuccess();
                 });
@@ -381,7 +377,7 @@ export class Application extends ChildableComponent<
                 "Documentation could not be generated due to the errors above."
             );
         } else {
-            this.logger.success("Documentation generated at %s", out);
+            this.logger.info(`Documentation generated at ${out}`);
         }
     }
 
@@ -406,9 +402,8 @@ export class Application extends ChildableComponent<
         });
 
         const space = this.application.options.getValue("pretty") ? "\t" : "";
-        ensureDirectoriesExist(Path.dirname(out));
-        await FS.promises.writeFile(out, JSON.stringify(ser, null, space));
-        this.logger.success("JSON written to %s", out);
+        await writeFile(out, JSON.stringify(ser, null, space));
+        this.logger.info(`JSON written to ${out}`);
     }
 
     /**

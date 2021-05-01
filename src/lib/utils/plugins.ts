@@ -38,16 +38,15 @@ export class PluginHost extends AbstractComponent<Application> {
                         : instance; // support legacy plugins
                 if (typeof initFunction === "function") {
                     initFunction(this);
-                    logger.write("Loaded plugin %s", plugin);
+                    logger.info(`Loaded plugin ${plugin}`);
                 } else {
                     logger.error(
-                        "Invalid structure in plugin %s, no function found.",
-                        plugin
+                        `Invalid structure in plugin ${plugin}, no function found.`
                     );
                 }
             } catch (error) {
-                logger.error("The plugin %s could not be loaded.", plugin);
-                logger.writeln(error.stack);
+                logger.error(`The plugin ${plugin} could not be loaded.`);
+                logger.verbose(error.stack);
                 return false;
             }
         }
@@ -119,7 +118,7 @@ export class PluginHost extends AbstractComponent<Application> {
             try {
                 return JSON.parse(readFile(fileName));
             } catch (error) {
-                logger.error("Could not parse %s", fileName);
+                logger.error(`Could not parse ${fileName}`);
                 return {};
             }
         }

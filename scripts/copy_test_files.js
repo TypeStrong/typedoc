@@ -1,9 +1,9 @@
 // @ts-check
 
-const fs = require("fs-extra");
+const { remove, copy } = require("../dist/lib/utils/fs");
 const { join } = require("path");
 
-const copy = [
+const toCopy = [
     "test/converter",
     "test/converter2",
     "test/renderer",
@@ -11,13 +11,11 @@ const copy = [
     "test/utils/options/readers/data",
 ];
 
-const copies = copy.map((dir) => {
+const copies = toCopy.map(async (dir) => {
     const source = join(__dirname, "../src", dir);
     const target = join(__dirname, "../dist", dir);
-    return fs
-        .remove(target)
-        .then(() => fs.mkdirp(target))
-        .then(() => fs.copy(source, target));
+    await remove(target);
+    await copy(source, target);
 });
 
 Promise.all(copies).catch((reason) => {

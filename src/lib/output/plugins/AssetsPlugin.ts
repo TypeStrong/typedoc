@@ -1,8 +1,9 @@
 import * as Path from "path";
-import * as FS from "fs-extra";
+import * as fs from "fs";
 
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
+import { copySync } from "../../utils/fs";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
@@ -37,14 +38,14 @@ export class AssetsPlugin extends RendererComponent {
         const to = Path.join(event.outputDirectory, "assets");
 
         if (this.copyDefaultAssets) {
-            FS.copySync(fromDefault, to);
+            copySync(fromDefault, to);
         } else {
             fromDefault = undefined;
         }
 
         const from = Path.join(this.owner.theme!.basePath, "assets");
-        if (from !== fromDefault && FS.existsSync(from)) {
-            FS.copySync(from, to);
+        if (from !== fromDefault && fs.existsSync(from)) {
+            copySync(from, to);
         }
     }
 }

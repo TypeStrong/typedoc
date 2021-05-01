@@ -1,6 +1,6 @@
-import * as ts from "typescript";
-import * as FS from "fs";
-import { dirname } from "path";
+import * as fs from "fs";
+import { promises as fsp } from "fs";
+import { dirname, join } from "path";
 
 /**
  * Get the longest directory path common to all files.
@@ -25,11 +25,6 @@ export function getCommonDirectory(files: readonly string[]): string {
 }
 
 /**
- * List of known existent directories. Used to speed up [[directoryExists]].
- */
-const existingDirectories = new Set<string>();
-
-/**
  * Normalize the given path.
  *
  * @param path  The path that should be normalized.
@@ -40,71 +35,13 @@ export function normalizePath(path: string) {
 }
 
 /**
- * Test whether the given directory exists.
- *
- * @param directoryPath  The directory that should be tested.
- * @returns TRUE if the given directory exists, FALSE otherwise.
- */
-export function directoryExists(directoryPath: string): boolean {
-    if (existingDirectories.has(directoryPath)) {
-        return true;
-    }
-
-    if (ts.sys.directoryExists(directoryPath)) {
-        existingDirectories.add(directoryPath);
-        return true;
-    }
-
-    return false;
-}
-
-/**
- * Make sure that the given directory exists.
- *
- * @param directoryPath  The directory that should be validated.
- */
-export function ensureDirectoriesExist(directoryPath: string) {
-    if (!directoryExists(directoryPath)) {
-        const parentDirectory = dirname(directoryPath);
-        ensureDirectoriesExist(parentDirectory);
-        ts.sys.createDirectory(directoryPath);
-    }
-}
-
-/**
- * Write a file to disc.
- *
- * If the containing directory does not exist it will be created.
- *
- * @param fileName  The name of the file that should be written.
- * @param data  The contents of the file.
- * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
- * @param onError  A callback that will be invoked if an error occurs.
- */
-export function writeFile(
-    fileName: string,
-    data: string,
-    writeByteOrderMark: boolean,
-    onError?: (message: string) => void
-) {
-    try {
-        ensureDirectoriesExist(dirname(normalizePath(fileName)));
-        ts.sys.writeFile(fileName, data, writeByteOrderMark);
-    } catch (e) {
-        if (onError) {
-            onError(e.message);
-        }
-    }
-}
-
-/**
  * Load the given file and return its contents.
  *
  * @param file  The path of the file to read.
  * @returns The files contents.
  */
 export function readFile(file: string): string {
-    const buffer = FS.readFileSync(file);
+    const buffer = fs.readFileSync(file);
     switch (buffer[0]) {
         case 0xfe:
             if (buffer[1] === 0xff) {
@@ -130,4 +67,80 @@ export function readFile(file: string): string {
     }
 
     return buffer.toString("utf8", 0);
+}
+
+/**
+ * Write a file to disc.
+ *
+ * If the containing directory does not exist it will be created.
+ *
+ * @param fileName  The name of the file that should be written.
+ * @param data  The contents of the file.
+ */
+export function writeFileSync(fileName: string, data: string) {
+    fs.mkdirSync(dirname(normalizePath(fileName)), { recursive: true });
+    fs.writeFileSync(normalizePath(fileName), data);
+}
+
+/**
+ * Write a file to disc.
+ *
+ * If the containing directory does not exist it will be created.
+ *
+ * @param fileName  The name of the file that should be written.
+ * @param data  The contents of the file.
+ */
+export async function writeFile(fileName: string, data: string) {
+    await fsp.mkdir(dirname(normalizePath(fileName)), {
+        recursive: true,
+    });
+    await fsp.writeFile(normalizePath(fileName), data);
+}
+
+/**
+ * Copy a file or directory recursively.
+ */
+export async function copy(src: string, dest: string): Promise<void> {
+    const stat = await fsp.stat(src);
+
+    if (stat.isDirectory()) {
+        const contained = await fsp.readdir(src);
+        await Promise.all(
+            contained.map((file) => copy(join(src, file), join(dest, file)))
+        );
+    } else if (stat.isFile()) {
+        await fsp.mkdir(dirname(dest), { recursive: true });
+        await fsp.copyFile(src, dest);
+    } else {
+        // Do nothing for FIFO, special devices.
+    }
+}
+
+export function copySync(src: string, dest: string): void {
+    const stat = fs.statSync(src);
+
+    if (stat.isDirectory()) {
+        const contained = fs.readdirSync(src);
+        contained.forEach((file) =>
+            copySync(join(src, file), join(dest, file))
+        );
+    } else if (stat.isFile()) {
+        fs.mkdirSync(dirname(dest), { recursive: true });
+        fs.copyFileSync(src, dest);
+    } else {
+        // Do nothing for FIFO, special devices.
+    }
+}
+
+/**
+ * Equivalent to rm -rf
+ * @param target
+ */
+export async function remove(target: string) {
+    // Since v14.14
+    if (fsp.rm) {
+        await fsp.rm(target, { recursive: true, force: true });
+    } else {
+        await fsp.rmdir(target, { recursive: true });
+    }
 }

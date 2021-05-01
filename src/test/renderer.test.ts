@@ -1,17 +1,18 @@
 import { Application, ProjectReflection } from "..";
-import * as FS from "fs-extra";
 import * as Path from "path";
 import Assert = require("assert");
 import { TSConfigReader } from "../lib/utils/options";
+import { readdirSync, readFileSync, statSync } from "fs";
+import { remove } from "../lib/utils/fs";
 
 function getFileIndex(base: string, dir = "", results: string[] = []) {
-    const files = FS.readdirSync(Path.join(base, dir));
+    const files = readdirSync(Path.join(base, dir));
     files.forEach(function (file) {
         if (file === "assets" || file === "specs.json") {
             return;
         }
         file = Path.join(dir, file);
-        if (FS.statSync(Path.join(base, file)).isDirectory()) {
+        if (statSync(Path.join(base, file)).isDirectory()) {
             getFileIndex(base, file, results);
         } else {
             results.push(file);
@@ -32,10 +33,10 @@ function compareDirectories(a: string, b: string) {
 
     const gitHubRegExp = /https:\/\/github.com\/[A-Za-z0-9-]+\/typedoc\/blob\/[^/]*\/examples/g;
     aFiles.forEach(function (file) {
-        const aSrc = FS.readFileSync(Path.join(a, file), { encoding: "utf-8" })
+        const aSrc = readFileSync(Path.join(a, file), { encoding: "utf-8" })
             .replace("\r", "")
             .replace(gitHubRegExp, "%GITHUB%");
-        const bSrc = FS.readFileSync(Path.join(b, file), { encoding: "utf-8" })
+        const bSrc = readFileSync(Path.join(b, file), { encoding: "utf-8" })
             .replace("\r", "")
             .replace(gitHubRegExp, "%GITHUB%");
 
@@ -54,12 +55,12 @@ describe("Renderer", function () {
     const out = Path.join(__dirname, "..", "tmp", "test");
     let app: Application, project: ProjectReflection | undefined;
 
-    before(function () {
-        FS.removeSync(out);
+    before(async function () {
+        await remove(out);
     });
 
-    after(function () {
-        FS.removeSync(out);
+    after(async function () {
+        await remove(out);
     });
 
     it("constructs", function () {
@@ -94,7 +95,7 @@ describe("Renderer", function () {
         this.timeout(0);
         await app.generateDocs(project!, out);
 
-        FS.removeSync(Path.join(out, "assets"));
+        await remove(Path.join(out, "assets"));
         compareDirectories(Path.join(__dirname, "renderer", "specs"), out);
     });
 });

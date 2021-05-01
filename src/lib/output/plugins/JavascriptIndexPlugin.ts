@@ -8,8 +8,8 @@ import {
 } from "../../models/reflections/index";
 import { GroupPlugin } from "../../converter/plugins/GroupPlugin";
 import { Component, RendererComponent } from "../components";
-import { writeFile } from "../../utils/fs";
 import { RendererEvent } from "../events";
+import { writeFileSync } from "../../utils";
 
 /**
  * A plugin that exports an index of the project to a javascript file.
@@ -99,6 +99,6 @@ export class JavascriptIndexPlugin extends RendererComponent {
             index,
         });
 
-        writeFile(jsonFileName, `window.searchData = ${jsonData}`, false);
+        writeFileSync(jsonFileName, `window.searchData = ${jsonData}`);
     }
 }

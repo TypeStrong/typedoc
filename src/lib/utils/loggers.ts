@@ -1,10 +1,10 @@
 import * as ts from "typescript";
-import * as Util from "util";
+import { format } from "util";
 import { url } from "inspector";
 import { resolve } from "path";
-import { red, yellow, cyan, gray } from "colors/safe";
+import type { NeverIfInternal } from "./general";
 
-const isDebugging = () => Boolean(url());
+const isDebugging = () => !!url();
 
 /**
  * List of known log levels. Used to specify the urgency of a log message.
@@ -15,6 +15,21 @@ export enum LogLevel {
     Warn,
     Error,
 }
+
+const Colors = {
+    red: "\u001b[91m",
+    yellow: "\u001b[93m",
+    cyan: "\u001b[96m",
+    gray: "\u001b[90m",
+    reset: "\u001b[0m",
+};
+
+const messagePrefixes = {
+    [LogLevel.Error]: `${Colors.red}Error: ${Colors.reset}`,
+    [LogLevel.Warn]: `${Colors.yellow}Warning: ${Colors.reset}`,
+    [LogLevel.Info]: `${Colors.cyan}Info: ${Colors.reset}`,
+    [LogLevel.Verbose]: `${Colors.gray}Debug: ${Colors.reset}`,
+};
 
 /**
  * A logger that will not produce any output.
@@ -32,6 +47,7 @@ export class Logger {
      * How many warning messages have been logged?
      */
     warningCount = 0;
+    private deprecationWarnings = new Set<string>();
 
     /**
      * The minimum logging level to print.
@@ -41,59 +57,54 @@ export class Logger {
     /**
      * Has an error been raised through the log method?
      */
-    public hasErrors(): boolean {
+    hasErrors(): boolean {
         return this.errorCount > 0;
     }
 
     /**
      * Has a warning been raised through the log method?
      */
-    public hasWarnings(): boolean {
+    hasWarnings(): boolean {
         return this.warningCount > 0;
     }
 
     /**
      * Reset the error counter.
      */
-    public resetErrors() {
+    resetErrors() {
         this.errorCount = 0;
     }
 
     /**
      * Reset the warning counter.
      */
-    public resetWarnings() {
+    resetWarnings() {
         this.warningCount = 0;
+        this.deprecationWarnings.clear();
     }
 
     /**
-     * Log the given message.
-     *
-     * @param text  The message that should be logged.
-     * @param args  The arguments that should be printed into the given message.
+     * @deprecated prefer Logger.info, will be removed in 0.22
      */
-    public write(text: string, ...args: string[]) {
-        this.log(Util.format(text, ...args), LogLevel.Info);
+    write(text: NeverIfInternal<string>, ...args: string[]) {
+        this.deprecated("Logger.write is deprecated, prefer Logger.info");
+        this.log(format(text, ...args), LogLevel.Info);
     }
 
     /**
-     * Log the given message with a trailing whitespace.
-     *
-     * @param text  The message that should be logged.
-     * @param args  The arguments that should be printed into the given message.
+     * @deprecated prefer Logger.info, will be removed in 0.22
      */
-    public writeln(text: string, ...args: string[]) {
-        this.log(Util.format(text, ...args), LogLevel.Info);
+    writeln(text: NeverIfInternal<string>, ...args: string[]) {
+        this.deprecated("Logger.writeln is deprecated, prefer Logger.info");
+        this.log(format(text, ...args), LogLevel.Info);
     }
 
     /**
-     * Log the given success message.
-     *
-     * @param text  The message that should be logged.
-     * @param args  The arguments that should be printed into the given message.
+     * @deprecated prefer Logger.info, will be removed in 0.22
      */
-    public success(text: string, ...args: string[]) {
-        this.log(Util.format(text, ...args), LogLevel.Info);
+    success(text: NeverIfInternal<string>, ...args: string[]) {
+        this.deprecated("Logger.success is deprecated, prefer Logger.info");
+        this.log(format(text, ...args), LogLevel.Info);
     }
 
     /**
@@ -102,8 +113,21 @@ export class Logger {
      * @param text  The message that should be logged.
      * @param args  The arguments that should be printed into the given message.
      */
-    public verbose(text: string, ...args: string[]) {
-        this.log(Util.format(text, ...args), LogLevel.Verbose);
+    verbose(text: string): void;
+    /** @deprecated prefer signature without formatting, will be removed in 0.22 */
+    verbose(text: string, ...args: NeverIfInternal<string[]>): void;
+    verbose(text: string, ...args: string[]) {
+        if (args.length) {
+            this.deprecated(
+                "Logger.verbose: Providing formatting arguments is deprecated"
+            );
+        }
+        this.log(format(text, ...args), LogLevel.Verbose);
+    }
+
+    /** Log the given info message. */
+    info(text: string) {
+        this.log(text, LogLevel.Info);
     }
 
     /**
@@ -112,8 +136,16 @@ export class Logger {
      * @param text  The warning that should be logged.
      * @param args  The arguments that should be printed into the given warning.
      */
-    public warn(text: string, ...args: string[]) {
-        this.log(Util.format(text, ...args), LogLevel.Warn);
+    warn(text: string): void;
+    /** @deprecated prefer signature without formatting, will be removed in 0.22 */
+    warn(text: string, ...args: NeverIfInternal<string[]>): void;
+    warn(text: string, ...args: string[]) {
+        if (args.length) {
+            this.deprecated(
+                "Logger.warn: Providing formatting arguments is deprecated"
+            );
+        }
+        this.log(format(text, ...args), LogLevel.Warn);
     }
 
     /**
@@ -122,8 +154,28 @@ export class Logger {
      * @param text  The error that should be logged.
      * @param args  The arguments that should be printed into the given error.
      */
-    public error(text: string, ...args: string[]) {
-        this.log(Util.format(text, ...args), LogLevel.Error);
+    error(text: string): void;
+    /** @deprecated prefer signature without formatting, will be removed in 0.22 */
+    error(text: string, ...args: NeverIfInternal<string[]>): void;
+    error(text: string, ...args: string[]) {
+        if (args.length) {
+            this.deprecated(
+                "Logger.error: Providing formatting arguments is deprecated"
+            );
+        }
+        this.log(format(text, ...args), LogLevel.Error);
+    }
+
+    /** @internal */
+    deprecated(text: string) {
+        const stack = new Error().stack?.split("\n");
+        if (stack && stack.length >= 4) {
+            text = text + "\n" + stack[3];
+        }
+        if (!this.deprecationWarnings.has(text)) {
+            this.deprecationWarnings.add(text);
+            this.warn(text);
+        }
     }
 
     /**
@@ -131,9 +183,8 @@ export class Logger {
      *
      * @param _message  The message itself.
      * @param level  The urgency of the log message.
-     * @param _newLine  Should the logger print a trailing whitespace?
      */
-    public log(_message: string, level: LogLevel = LogLevel.Info) {
+    log(_message: string, level: LogLevel = LogLevel.Info) {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
@@ -147,7 +198,7 @@ export class Logger {
      *
      * @param diagnostics  The TypeScript messages that should be logged.
      */
-    public diagnostics(diagnostics: ReadonlyArray<ts.Diagnostic>) {
+    diagnostics(diagnostics: ReadonlyArray<ts.Diagnostic>) {
         diagnostics.forEach((diagnostic) => {
             this.diagnostic(diagnostic);
         });
@@ -158,7 +209,7 @@ export class Logger {
      *
      * @param diagnostic  The TypeScript message that should be logged.
      */
-    public diagnostic(diagnostic: ts.Diagnostic) {
+    diagnostic(diagnostic: ts.Diagnostic) {
         const output = ts.formatDiagnosticsWithColorAndContext([diagnostic], {
             getCanonicalFileName: resolve,
             getCurrentDirectory: () => process.cwd(),
@@ -187,23 +238,21 @@ export class ConsoleLogger extends Logger {
      *
      * @param message  The message itself.
      * @param level  The urgency of the log message.
-     * @param newLine  Should the logger print a trailing whitespace?
      */
-    public log(message: string, level: LogLevel = LogLevel.Info) {
+    log(message: string, level: LogLevel = LogLevel.Info) {
         super.log(message, level);
         if (level < this.level && !isDebugging()) {
             return;
         }
 
-        const output =
-            {
-                [LogLevel.Error]: red("Error: "),
-                [LogLevel.Warn]: yellow("Warning: "),
-                [LogLevel.Info]: cyan("Info: "),
-                [LogLevel.Verbose]: gray("Debug: "),
-            }[level] + message;
+        const method = ({
+            [LogLevel.Error]: "error",
+            [LogLevel.Warn]: "warn",
+            [LogLevel.Info]: "info",
+            [LogLevel.Verbose]: "log",
+        } as const)[level];
 
-        ts.sys.write(output + ts.sys.newLine);
+        console[method](messagePrefixes[level] + message);
     }
 }
 
@@ -231,15 +280,9 @@ export class CallbackLogger extends Logger {
      *
      * @param message  The message itself.
      * @param level  The urgency of the log message.
-     * @param newLine  Should the logger print a trailing whitespace?
      */
-    public log(
-        message: string,
-        level: LogLevel = LogLevel.Info,
-        newLine?: boolean
-    ) {
+    log(message: string, level: LogLevel = LogLevel.Info) {
         super.log(message, level);
-
-        this.callback(message, level, newLine);
+        this.callback(message, level);
     }
 }
