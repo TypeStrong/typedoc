@@ -87,13 +87,25 @@ export class ReferenceType extends Type {
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
     equals(other: ReferenceType): boolean {
-        if (other instanceof ReferenceType) {
-            if (this.reflection != null) {
-                return this.reflection === other.reflection;
-            }
-            return this._target === other._target;
+        if (!(other instanceof ReferenceType)) {
+            return false;
         }
-        return false;
+
+        let matchesTarget;
+        if (!this.reflection) {
+            matchesTarget = this._target === other._target;
+        } else {
+            matchesTarget = this.reflection === other.reflection;
+        }
+
+        if (!matchesTarget) {
+            return false;
+        }
+
+        return Type.isTypeListEqual(
+            this.typeArguments ?? [],
+            other.typeArguments ?? []
+        );
     }
 
     /**

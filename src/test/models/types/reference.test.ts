@@ -1,6 +1,10 @@
 import type * as ts from "typescript";
 import { deepStrictEqual as equal } from "assert";
-import { ProjectReflection, ReflectionKind } from "../../../lib/models";
+import {
+    LiteralType,
+    ProjectReflection,
+    ReflectionKind,
+} from "../../../lib/models";
 import { DeclarationReflection } from "../../../lib/models/reflections/declaration";
 import { ReferenceType } from "../../../lib/models/types/reference";
 
@@ -44,6 +48,23 @@ describe("Reference Type", () => {
             const type2 = new ReferenceType("Type2", fakeSymbol1, project);
 
             equal(type1.equals(type2), true);
+        });
+
+        it("types with the same type parameters are equal", () => {
+            const type1 = new ReferenceType("Type1", reflection, project);
+            type1.typeArguments = [new LiteralType(null)];
+            const type2 = new ReferenceType("Type2", fakeSymbol1, project);
+            type2.typeArguments = [new LiteralType(null)];
+
+            equal(type1.equals(type2), true);
+        });
+
+        it("types with different type parameters are not equal", () => {
+            const type1 = new ReferenceType("Type1", reflection, project);
+            type1.typeArguments = [new LiteralType(null)];
+            const type2 = new ReferenceType("Type2", fakeSymbol1, project);
+
+            equal(type1.equals(type2), false);
         });
     });
 });
