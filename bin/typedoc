@@ -52,6 +52,12 @@ async function run(app) {
     if (app.logger.hasErrors()) {
         return ExitCodes.OptionError;
     }
+    if (
+        app.options.getValue("treatWarningsAsErrors") &&
+        app.logger.hasWarnings()
+    ) {
+        return ExitCodes.OptionError;
+    }
 
     if (app.options.getValue("entryPoints").length === 0) {
         app.logger.error("No entry points provided");
@@ -95,6 +101,12 @@ async function run(app) {
     }
 
     if (app.logger.hasErrors()) {
+        return ExitCodes.OutputError;
+    }
+    if (
+        app.options.getValue("treatWarningsAsErrors") &&
+        app.logger.hasWarnings()
+    ) {
         return ExitCodes.OutputError;
     }
     return ExitCodes.Ok;

@@ -261,6 +261,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: LogLevel.Info,
     });
     options.addDeclaration({
+        name: "treatWarningsAsErrors",
+        help: "If set, warnings will be treated as errors.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "listInvalidSymbolLinks",
         help:
             "Emits a list of broken symbol [[navigation]] links after documentation generation",

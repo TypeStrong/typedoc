@@ -80,6 +80,7 @@ export interface TypeDocOptionMap {
     plugin: string[];
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
+    treatWarningsAsErrors: boolean;
     listInvalidSymbolLinks: boolean;
     markedOptions: unknown;
 
