@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.20.35",
+  "version": "0.20.36",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -26,36 +26,36 @@
     "handlebars": "^4.7.7",
     "lodash": "^4.17.21",
     "lunr": "^2.3.9",
-    "marked": "^2.0.1",
+    "marked": "^2.0.3",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.4",
     "shiki": "^0.9.3",
-    "typedoc-default-themes": "^0.12.9"
+    "typedoc-default-themes": "^0.12.10"
   },
   "peerDependencies": {
     "typescript": "3.9.x || 4.0.x || 4.1.x || 4.2.x"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.8",
+    "@types/fs-extra": "^9.0.11",
     "@types/glob": "^7.1.3",
     "@types/lodash": "^4.14.168",
     "@types/lunr": "^2.3.3",
-    "@types/marked": "^2.0.0",
-    "@types/minimatch": "3.0.3",
-    "@types/mocha": "^8.2.1",
+    "@types/marked": "^2.0.2",
+    "@types/minimatch": "3.0.4",
+    "@types/mocha": "^8.2.2",
     "@types/mockery": "^1.4.29",
-    "@types/node": "^14.14.34",
+    "@types/node": "^14.14.41",
     "@types/semver": "^7.3.4",
     "@types/shelljs": "^0.8.8",
-    "@typescript-eslint/eslint-plugin": "^4.17.0",
-    "@typescript-eslint/parser": "^4.17.0",
-    "eslint": "^7.22.0",
-    "mocha": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.24.0",
+    "mocha": "^8.3.2",
     "mockery": "^2.1.0",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   },
   "files": [
     "bin",

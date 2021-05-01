@@ -114,6 +114,7 @@ export class Renderer extends ChildableComponent<
         output.urls = this.theme!.getUrls(project);
 
         const bar = new ProgressBar("Rendering [:bar] :percent", {
+            stream: process.stdout,
             total: output.urls.length,
             width: 40,
         });

@@ -12,6 +12,7 @@ import {
     CallbackLogger,
     PluginHost,
     normalizePath,
+    ensureDirectoriesExist,
 } from "./utils/index";
 import { createMinimatch } from "./utils/paths";
 
@@ -508,6 +509,7 @@ export class Application extends ChildableComponent<
         });
 
         const space = this.application.options.getValue("pretty") ? "\t" : "";
+        ensureDirectoriesExist(Path.dirname(out));
         await FS.promises.writeFile(out, JSON.stringify(ser, null, space));
         this.logger.success("JSON written to %s", out);
     }
