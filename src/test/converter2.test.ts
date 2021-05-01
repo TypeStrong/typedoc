@@ -186,6 +186,14 @@ const issueTests: Record<string, (project: ProjectReflection) => void> = {
         equal(query(project, "emptyObj").defaultValue, "{}");
         equal(query(project, "nonEmptyObj").defaultValue, "...");
     },
+
+    gh1578(project) {
+        ok(query(project, "notIgnored"));
+        ok(
+            !project.findReflectionByName("ignored"),
+            "Symbol re-exported from ignored file is ignored."
+        );
+    },
 };
 
 describe("Converter2", () => {
@@ -221,7 +229,7 @@ describe("Converter2", () => {
                 join(base, "issues", `${entry}.d.ts`),
                 join(base, "issues", `${entry}.tsx`),
                 join(base, "issues", `${entry}.js`),
-                join(base, "issues", entry),
+                join(base, "issues", entry, "index.ts"),
             ].find(existsSync);
 
             ok(entryPoint, `No entry point found for ${entry}`);

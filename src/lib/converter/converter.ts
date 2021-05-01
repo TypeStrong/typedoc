@@ -40,6 +40,7 @@ export class Converter extends ChildableComponent<
     @BindOption("externalPattern")
     externalPattern!: string[];
     private externalPatternCache?: IMinimatch[];
+    private excludeCache?: IMinimatch[];
 
     @BindOption("excludeExternals")
     excludeExternals!: boolean;
@@ -384,11 +385,31 @@ export class Converter extends ChildableComponent<
             return true;
         }
 
+        if (this.isExcluded(symbol)) {
+            return true;
+        }
+
         if (!this.excludeExternals) {
             return false;
         }
 
         return this.isExternal(symbol);
+    }
+
+    private isExcluded(symbol: ts.Symbol) {
+        this.excludeCache ??= createMinimatch(this.application.exclude);
+
+        for (const node of symbol.getDeclarations() ?? []) {
+            if (
+                this.excludeCache.some((p) =>
+                    p.match(node.getSourceFile().fileName)
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /** @internal */
