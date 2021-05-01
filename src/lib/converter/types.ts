@@ -856,17 +856,13 @@ const thisConverter: TypeConverter<ts.ThisTypeNode> = {
 const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference> = {
     kind: [ts.SyntaxKind.TupleType],
     convert(context, node) {
-        // TS 3.9 support
-        const elementTypes = node.elements ?? (node as any).elementTypes;
-        const elements = elementTypes.map((node) => convertType(context, node));
+        const elements = node.elements.map((node) =>
+            convertType(context, node)
+        );
         return new TupleType(elements);
     },
-    convertType(context, type, node) {
-        // TS 3.9 support
-        const elementTypes = node.elements ?? (node as any).elementTypes;
-        // We need to do this because of type argument constraints, see GH1449
-        // In TS 4.0 we could use type.target.fixedLength
-        const types = type.typeArguments?.slice(0, elementTypes.length);
+    convertType(context, type) {
+        const types = type.typeArguments?.slice(0, type.target.fixedLength);
         let elements = types?.map((type) => convertType(context, type));
 
         if (type.target.labeledElementDeclarations) {
@@ -881,34 +877,31 @@ const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference> = {
             );
         }
 
-        // TS 3.9 support - always defined in 4.0
-        if (type.target.elementFlags) {
-            elements = elements?.map((el, i) => {
-                if (type.target.elementFlags[i] & ts.ElementFlags.Variable) {
-                    // In the node case, we don't need to add the wrapping Array type... but we do here.
-                    if (el instanceof NamedTupleMember) {
-                        return new RestType(
-                            new NamedTupleMember(
-                                el.name,
-                                el.isOptional,
-                                new ArrayType(el.element)
-                            )
-                        );
-                    }
-
-                    return new RestType(new ArrayType(el));
+        elements = elements?.map((el, i) => {
+            if (type.target.elementFlags[i] & ts.ElementFlags.Variable) {
+                // In the node case, we don't need to add the wrapping Array type... but we do here.
+                if (el instanceof NamedTupleMember) {
+                    return new RestType(
+                        new NamedTupleMember(
+                            el.name,
+                            el.isOptional,
+                            new ArrayType(el.element)
+                        )
+                    );
                 }
 
-                if (
-                    type.target.elementFlags[i] & ts.ElementFlags.Optional &&
-                    !(el instanceof NamedTupleMember)
-                ) {
-                    return new OptionalType(removeUndefined(el));
-                }
+                return new RestType(new ArrayType(el));
+            }
 
-                return el;
-            });
-        }
+            if (
+                type.target.elementFlags[i] & ts.ElementFlags.Optional &&
+                !(el instanceof NamedTupleMember)
+            ) {
+                return new OptionalType(removeUndefined(el));
+            }
+
+            return el;
+        });
 
         return new TupleType(elements ?? []);
     },
