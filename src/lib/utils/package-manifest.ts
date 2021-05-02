@@ -1,8 +1,7 @@
 // Utilities to support the inspection of node package "manifests" (package.json's)
 
-import { existsSync, statSync } from "fs";
 import glob = require("glob");
-import { dirname, resolve } from "path";
+import { dirname, join, resolve } from "path";
 import { flatMap } from "./array";
 
 import { readFile } from "./fs";
@@ -140,30 +139,33 @@ function getTsSourceFromJsSource(
         return undefined;
     }
     if (
-        !hasOwnProperty(sourceMap, "sourceRoot") ||
-        !(typeof sourceMap.sourceRoot === "string") ||
         !hasOwnProperty(sourceMap, "sources") ||
         !Array.isArray(sourceMap.sources)
     ) {
         logger.error(
-            `The source map ${resolvedSourceMapURL} does not contain both "sourceRoot" and "sources".`
+            `The source map ${resolvedSourceMapURL} does not contain "sources".`
         );
         return undefined;
+    }
+    let sourceRoot: string | undefined;
+    if (
+        hasOwnProperty(sourceMap, "sourceRoot") &&
+        typeof sourceMap.sourceRoot === "string"
+    ) {
+        sourceRoot = sourceMap.sourceRoot;
     }
     // There's a pretty large assumption in here that we only have
     // 1 source file per js file. This is a pretty standard typescript approach,
     // but people might do interesting things with transpilation that could break this.
-    const sourcePath = resolve(
-        resolvedSourceMapURL,
-        "..",
-        sourceMap.sourceRoot,
-        sourceMap.sources[0]
-    );
+    let source = sourceMap.sources[0];
+    // If we have a sourceRoot, trim any leading slash from the source, and join them
+    // Similar to how it's done at https://github.com/mozilla/source-map/blob/58819f09018d56ef84dc41ba9c93f554e0645169/lib/util.js#L412
+    if (sourceRoot !== undefined) {
+        source = source.replace(/^\//, "");
+        source = join(sourceRoot, source);
+    }
+    const sourcePath = resolve(resolvedSourceMapURL, "..", source);
     return sourcePath;
-}
-
-function isFile(file: string) {
-    return existsSync(file) && statSync(file).isFile();
 }
 
 // A Symbol used to communicate that this package should be ignored
@@ -190,12 +192,23 @@ export function getTsEntryPointForPackage(
     ) {
         packageMain = packageJson.main;
     }
-    const jsEntryPointPath = resolve(packageJsonPath, "..", packageMain);
-    if (!isFile(jsEntryPointPath)) {
-        logger.warn(
-            `Could not determine the JS entry point for ${packageJsonPath}. Package will be ignored.`
-        );
-        return ignorePackage;
+    let jsEntryPointPath = resolve(packageJsonPath, "..", packageMain);
+    // The jsEntryPointPath from the package manifest can be like a require path.
+    // It could end with .js, or it could end without .js, or it could be a folder containing an index.js
+    // We can use require.resolve to let node do its magic.
+    // Pass an empty `paths` as node_modules locations do not need to be examined
+    try {
+        jsEntryPointPath = require.resolve(jsEntryPointPath, { paths: [] });
+    } catch (e) {
+        if (e.code !== "MODULE_NOT_FOUND") {
+            throw e;
+        } else {
+            logger.warn(
+                `Could not determine the JS entry point for "${packageJsonPath}". Package will be ignored.`
+            );
+            logger.verbose(e.message);
+            return ignorePackage;
+        }
     }
     return getTsSourceFromJsSource(logger, jsEntryPointPath);
 }
