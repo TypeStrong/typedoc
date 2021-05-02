@@ -73,7 +73,7 @@ describe("Renderer", function () {
             disableSources: true,
             tsconfig: Path.join(src, "..", "tsconfig.json"),
         });
-        app.options.setValue("entryPoints", app.expandInputFiles([src]));
+        app.options.setValue("entryPoints", [src]);
     });
 
     it("converts basic example", function () {

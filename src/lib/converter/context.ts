@@ -92,8 +92,6 @@ export class Context {
      * Create a new Context instance.
      *
      * @param converter  The converter instance that has created the context.
-     * @param entryPoints  A list of all entry points for this project.
-     * @param checker  The TypeChecker instance returned by the TypeScript compiler.
      * @internal
      */
     constructor(

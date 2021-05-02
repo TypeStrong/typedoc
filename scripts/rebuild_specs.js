@@ -68,14 +68,14 @@ function rebuildConverterTests(dirs) {
 
     for (const fullPath of dirs) {
         console.log(fullPath);
-        const src = app.expandInputFiles([fullPath]);
-
         for (const [file, before, after] of conversions) {
             const out = path.join(fullPath, `${file}.json`);
             if (fs.existsSync(out)) {
                 TypeDoc.resetReflectionID();
                 before();
-                const result = app.converter.convert(src, program);
+                const result = app.converter.convert(
+                    app.getEntrypointsForPaths([fullPath])
+                );
                 const serialized = app.serializer.toObject(result);
 
                 const data = JSON.stringify(serialized, null, "  ")
@@ -104,7 +104,7 @@ async function rebuildRendererTest() {
         externalPattern: ["**/node_modules/**"],
     });
 
-    app.options.setValue("entryPoints", app.expandInputFiles([src]));
+    app.options.setValue("entryPoints", [src]);
     const project = app.convert();
     await app.generateDocs(project, out);
     await app.generateJson(project, path.join(out, "specs.json"));

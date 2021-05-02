@@ -57,7 +57,7 @@ async function run(app) {
         app.options.getValue("entryPoints").length === 0 &&
         app.options.getValue("packages").length === 0
     ) {
-        app.logger.error("No entry points provided");
+        app.logger.error("No entry points or packages provided");
         return ExitCodes.NoEntryPoints;
     }
 

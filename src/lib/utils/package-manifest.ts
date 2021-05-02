@@ -14,12 +14,11 @@ import { Logger } from "./loggers";
  * @param obj the receiver of the hasOwnProperty method call
  * @param prop the property to test for
  */
-function hasOwnProperty<X extends {}, Y extends PropertyKey>(
-    obj: X,
-    prop: Y
-): obj is X & Record<Y, unknown> {
-    // eslint-disable-next-line no-prototype-builtins
-    return obj.hasOwnProperty(prop);
+function hasOwnProperty<K extends PropertyKey>(
+    obj: object,
+    prop: K
+): obj is Record<K, unknown> {
+    return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
 /**
@@ -45,14 +44,18 @@ export function loadPackageManifest(
 function getPackagePaths(
     packageJSON: Record<string, unknown>
 ): string[] | undefined {
-    if (Array.isArray(packageJSON.workspaces)) {
+    if (
+        Array.isArray(packageJSON.workspaces) &&
+        packageJSON.workspaces.every((i) => typeof i === "string")
+    ) {
         return packageJSON.workspaces;
     }
     if (
         typeof packageJSON.workspaces === "object" &&
         packageJSON.workspaces != null &&
         hasOwnProperty(packageJSON.workspaces, "packages") &&
-        Array.isArray(packageJSON.workspaces.packages)
+        Array.isArray(packageJSON.workspaces.packages) &&
+        packageJSON.workspaces.packages.every((i) => typeof i === "string")
     ) {
         return packageJSON.workspaces.packages;
     }
@@ -115,17 +118,17 @@ function getTsSourceFromJsSource(
     jsPath: string
 ): string | undefined {
     const contents = readFile(jsPath);
-    const sourceMapPrefix = "//# sourceMappingURL=";
-    const searchResult = contents.search(
-        new RegExp(`^${sourceMapPrefix}.*$`, "m")
-    );
-    if (searchResult === -1) {
+    const sourceMapPrefix = "\n//# sourceMappingURL=";
+    const indexOfSourceMapPrefix = contents.indexOf(sourceMapPrefix);
+    if (indexOfSourceMapPrefix === -1) {
         logger.error(`The file ${jsPath} does not contain a sourceMappingURL`);
         return;
     }
-    const newLineIndex = contents.indexOf("\n", searchResult);
+    const endOfSourceMapPrefix =
+        indexOfSourceMapPrefix + sourceMapPrefix.length;
+    const newLineIndex = contents.indexOf("\n", endOfSourceMapPrefix);
     const sourceMapURL = contents.slice(
-        searchResult + sourceMapPrefix.length,
+        endOfSourceMapPrefix,
         newLineIndex === -1 ? undefined : newLineIndex
     );
     const resolvedSourceMapURL = resolve(jsPath, "..", sourceMapURL);
@@ -169,6 +172,11 @@ export const ignorePackage = Symbol("ignorePackage");
 /**
  * Given a package.json, attempt to find the TS file that defines its entry point
  * The JS must be built with sourcemaps.
+ *
+ * When the TS file cannot be determined, the intention is to
+ * - Ignore things which don't appear to be `require`-able node packages.
+ * - Fail on things which appear to be `require`-able node packages but are missing
+ *   the necessary metadata for us to document.
  */
 export function getTsEntryPointForPackage(
     logger: Logger,

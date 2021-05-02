@@ -158,7 +158,7 @@ export class DefaultTheme extends Theme {
      */
     getNavigation(project: ProjectReflection): NavigationItem {
         const multipleEntryPoints =
-            project.getReflectionsByKind(ReflectionKind.Module).length > 1;
+            project.getChildrenByKind(ReflectionKind.Module).length !== 0;
         const builder = new NavigationBuilder(
             project,
             project,

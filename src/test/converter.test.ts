@@ -75,9 +75,7 @@ describe("Converter", function () {
                     before();
                     resetReflectionID();
                     result = app.converter.convert(
-                        app.expandInputFiles([path]),
-                        program,
-                        []
+                        app.getEntrypointsForPaths([path])
                     );
                     after();
                     ok(
