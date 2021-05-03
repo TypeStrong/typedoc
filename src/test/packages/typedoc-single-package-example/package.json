@@ -1,0 +1,28 @@
+{
+  "name": "typedoc-single-package-example",
+  "version": "1.0.0",
+  "description": "An example of using typedoc with a single package",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node ."
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TypeStrong/TypeDoc.git"
+  },
+  "keywords": [
+    "typedoc",
+    "example"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/TypeStrong/TypeDoc/issues"
+  },
+  "homepage": "https://github.com/TypeStrong/TypeDoc#readme"
+}

@@ -1,0 +1,7 @@
+{
+    "gitRevision": "master",
+    "name": "typedoc-single-package-example",
+    "out": "docs",
+    "packages": ["."],
+    "plugin": []
+}
