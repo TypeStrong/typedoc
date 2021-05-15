@@ -171,6 +171,7 @@ export class ImplementsPlugin extends ConverterComponent {
                             parentSig,
                             context.project
                         );
+                        copyComment(childSig, parentSig);
                     }
 
                     child[key] = new ReferenceType(

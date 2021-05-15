@@ -98,11 +98,11 @@ export class TypePlugin extends ConverterComponent {
     private onResolveEnd(context: Context) {
         this.reflections.forEach((reflection) => {
             if (reflection.implementedBy) {
-                reflection.implementedBy.sort((a: any, b: any) => {
-                    if (a["name"] === b["name"]) {
+                reflection.implementedBy.sort((a, b) => {
+                    if (a.name === b.name) {
                         return 0;
                     }
-                    return a["name"] > b["name"] ? 1 : -1;
+                    return a.name > b.name ? 1 : -1;
                 });
             }
 

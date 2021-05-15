@@ -194,6 +194,17 @@ const issueTests: Record<string, (project: ProjectReflection) => void> = {
             "Symbol re-exported from ignored file is ignored."
         );
     },
+
+    gh1580(project) {
+        ok(
+            query(project, "B.prop").hasComment(),
+            "Overwritten property with no comment should be inherited"
+        );
+        ok(
+            query(project, "B.run").signatures?.[0]?.hasComment(),
+            "Overwritten method with no comment should be inherited"
+        );
+    },
 };
 
 describe("Converter2", () => {
