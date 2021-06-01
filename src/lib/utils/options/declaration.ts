@@ -1,5 +1,6 @@
 import { Theme as ShikiTheme } from "shiki";
 import { LogLevel } from "../loggers";
+import { SortStrategy } from "../sort";
 
 /**
  * An interface describing all TypeDoc specific options. Generated from a
@@ -66,6 +67,7 @@ export interface TypeDocOptionMap {
     defaultCategory: string;
     categoryOrder: string[];
     categorizeByGroup: boolean;
+    sort: SortStrategy[];
     gitRevision: string;
     gitRemote: string;
     gaID: string;

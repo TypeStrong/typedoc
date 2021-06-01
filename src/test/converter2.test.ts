@@ -216,6 +216,7 @@ describe("Converter2", () => {
         excludeExternals: true,
         disableSources: true,
         tsconfig: join(base, "tsconfig.json"),
+        plugin: [],
     });
 
     let program: ts.Program;

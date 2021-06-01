@@ -73,6 +73,7 @@ describe("Renderer", function () {
             name: "typedoc",
             disableSources: true,
             tsconfig: Path.join(src, "..", "tsconfig.json"),
+            plugin: [],
         });
         app.options.setValue("entryPoints", app.expandInputFiles([src]));
     });

@@ -21,7 +21,7 @@ export {
     TSConfigReader,
     TypeDocReader,
     ArgumentsReader,
-} from "./lib/utils/options";
+} from "./lib/utils";
 
 export type {
     OptionsReader,
@@ -37,7 +37,8 @@ export type {
     MixedDeclarationOption,
     MapDeclarationOption,
     DeclarationOptionToOptionType,
-} from "./lib/utils/options";
+    SortStrategy,
+} from "./lib/utils";
 
 export { JSONOutput } from "./lib/serialization";
 

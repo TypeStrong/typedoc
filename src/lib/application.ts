@@ -141,11 +141,10 @@ export class Application extends ChildableComponent<
         }
         this.logger.level = this.options.getValue("logLevel");
 
-        let plugins = this.options.getValue("plugin");
-        if (plugins.length === 0) {
-            plugins = discoverNpmPlugins(this);
-        }
-        loadPlugins(this, this.options.getValue("plugin"));
+        const plugins = this.options.isSet("plugin")
+            ? this.options.getValue("plugin")
+            : discoverNpmPlugins(this);
+        loadPlugins(this, plugins);
 
         this.options.reset();
         for (const [key, val] of Object.entries(options)) {

@@ -1,3 +1,4 @@
+import { ok } from "assert";
 import { SourceReference } from "../sources/file";
 import { Type } from "../types/index";
 import { Comment } from "../comments/comment";
@@ -365,6 +366,15 @@ export abstract class Reflection {
      * The reflection this reflection is a child of.
      */
     parent?: Reflection;
+
+    get project(): ProjectReflection {
+        if (this.isProject()) return this;
+        ok(
+            this.parent,
+            "Tried to get the project on a reflection not in a project"
+        );
+        return this.parent.project;
+    }
 
     /**
      * The parsed documentation comment attached to this reflection.

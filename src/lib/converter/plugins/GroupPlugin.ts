@@ -9,6 +9,7 @@ import { SourceDirectory } from "../../models/sources/directory";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import { Context } from "../context";
+import { sortReflections } from "../../utils/sort";
 
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.
@@ -17,38 +18,6 @@ import { Context } from "../context";
  */
 @Component({ name: "group" })
 export class GroupPlugin extends ConverterComponent {
-    /**
-     * Define the sort order of reflections.
-     */
-    static WEIGHTS = [
-        ReflectionKind.Project,
-        ReflectionKind.Module,
-        ReflectionKind.Namespace,
-        ReflectionKind.Enum,
-        ReflectionKind.EnumMember,
-        ReflectionKind.Class,
-        ReflectionKind.Interface,
-        ReflectionKind.TypeAlias,
-
-        ReflectionKind.Constructor,
-        ReflectionKind.Event,
-        ReflectionKind.Property,
-        ReflectionKind.Variable,
-        ReflectionKind.Function,
-        ReflectionKind.Accessor,
-        ReflectionKind.Method,
-        ReflectionKind.ObjectLiteral,
-
-        ReflectionKind.Parameter,
-        ReflectionKind.TypeParameter,
-        ReflectionKind.TypeLiteral,
-        ReflectionKind.CallSignature,
-        ReflectionKind.ConstructorSignature,
-        ReflectionKind.IndexSignature,
-        ReflectionKind.GetSignature,
-        ReflectionKind.SetSignature,
-    ];
-
     /**
      * Define the singular name of individual reflection kinds.
      */
@@ -123,7 +92,10 @@ export class GroupPlugin extends ConverterComponent {
             reflection.children.length > 0 &&
             !reflection.groups
         ) {
-            reflection.children.sort(GroupPlugin.sortCallback);
+            sortReflections(
+                reflection.children,
+                this.application.options.getValue("sort")
+            );
             reflection.groups = GroupPlugin.getReflectionGroups(
                 reflection.children
             );
@@ -232,32 +204,6 @@ export class GroupPlugin extends ConverterComponent {
             ];
         } else {
             return this.getKindString(kind) + "s";
-        }
-    }
-
-    /**
-     * Callback used to sort reflections by weight defined by ´GroupPlugin.WEIGHTS´ and name.
-     *
-     * @param a The left reflection to sort.
-     * @param b The right reflection to sort.
-     * @returns The sorting weight.
-     */
-    static sortCallback(a: Reflection, b: Reflection): number {
-        const aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
-        const bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
-        if (aWeight === bWeight) {
-            if (a.flags.isStatic && !b.flags.isStatic) {
-                return 1;
-            }
-            if (!a.flags.isStatic && b.flags.isStatic) {
-                return -1;
-            }
-            if (a.name === b.name) {
-                return 0;
-            }
-            return a.name > b.name ? 1 : -1;
-        } else {
-            return aWeight - bWeight;
         }
     }
 }

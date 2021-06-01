@@ -21,6 +21,7 @@ describe("Converter", function () {
         disableSources: true,
         tsconfig: Path.join(base, "tsconfig.json"),
         externalPattern: ["**/node_modules/**"],
+        plugin: [],
     });
 
     let program: ts.Program;

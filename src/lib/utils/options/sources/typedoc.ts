@@ -2,6 +2,7 @@ import { Options } from "..";
 import { LogLevel } from "../../loggers";
 import { ParameterType, ParameterHint } from "../declaration";
 import { BUNDLED_THEMES } from "shiki";
+import { SORT_STRATEGIES } from "../../sort";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
@@ -187,6 +188,30 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             "Specifies whether categorization will be done at the group level.",
         type: ParameterType.Boolean,
         defaultValue: true,
+    });
+    options.addDeclaration({
+        name: "sort",
+        help: "Specify the sort strategy for documented values",
+        type: ParameterType.Array,
+        defaultValue: ["kind", "instance-first", "alphabetical"],
+        validate(value) {
+            const invalid = new Set(value);
+            for (const v of SORT_STRATEGIES) {
+                invalid.delete(v);
+            }
+
+            if (invalid.size !== 0) {
+                throw new Error(
+                    `sort may only specify known values, and invalid values were provided (${Array.from(
+                        invalid
+                    ).join(
+                        ", "
+                    )}). The valid sort strategies are:\n${SORT_STRATEGIES.join(
+                        ", "
+                    )}`
+                );
+            }
+        },
     });
     options.addDeclaration({
         name: "gitRevision",

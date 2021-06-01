@@ -79,7 +79,7 @@ describe("Options - Default convert function", () => {
         );
     });
 
-    it("Generates no error for a number option if the validation function doesn't throw one", () => {
+    it("Validates number options", () => {
         const declaration: NumberDeclarationOption = {
             name: "test",
             help: "",
@@ -93,19 +93,6 @@ describe("Options - Default convert function", () => {
         equal(convert(0, declaration), 0);
         equal(convert(2, declaration), 2);
         equal(convert(4, declaration), 4);
-    });
-
-    it("Generates an error for a number option if the validation function throws one", () => {
-        const declaration: NumberDeclarationOption = {
-            name: "test",
-            help: "",
-            type: ParameterType.Number,
-            validate: (value: number) => {
-                if (value % 2 !== 0) {
-                    throw new Error("test must be even");
-                }
-            },
-        };
         throws(() => convert(1, declaration), new Error("test must be even"));
     });
 
@@ -117,7 +104,7 @@ describe("Options - Default convert function", () => {
         equal(convert(void 0, optionWithType(ParameterType.String)), "");
     });
 
-    it("Generates no error for a string option if the validation function doesn't throw one", () => {
+    it("Validates string options", () => {
         const declaration: StringDeclarationOption = {
             name: "test",
             help: "",
@@ -129,19 +116,6 @@ describe("Options - Default convert function", () => {
             },
         };
         equal(convert("TOASTY", declaration), "TOASTY");
-    });
-
-    it("Generates an error for a string option if the validation function throws one", () => {
-        const declaration: StringDeclarationOption = {
-            name: "test",
-            help: "",
-            type: ParameterType.String,
-            validate: (value: string) => {
-                if (value !== value.toUpperCase()) {
-                    throw new Error("test must be upper case");
-                }
-            },
-        };
         throws(
             () => convert("toasty", declaration),
             new Error("test must be upper case")
@@ -163,7 +137,7 @@ describe("Options - Default convert function", () => {
         equal(convert(true, optionWithType(ParameterType.Array)), []);
     });
 
-    it("Generates no error for an array option if the validation function doesn't throw one", () => {
+    it("Validates array options", () => {
         const declaration: ArrayDeclarationOption = {
             name: "test",
             help: "",
@@ -176,19 +150,6 @@ describe("Options - Default convert function", () => {
         };
         equal(convert(["1"], declaration), ["1"]);
         equal(convert(["1", "2"], declaration), ["1", "2"]);
-    });
-
-    it("Generates an error for an array option if the validation function throws one", () => {
-        const declaration: ArrayDeclarationOption = {
-            name: "test",
-            help: "",
-            type: ParameterType.Array,
-            validate: (value: string[]) => {
-                if (value.length === 0) {
-                    throw new Error("test must not be empty");
-                }
-            },
-        };
         throws(
             () => convert([], declaration),
             new Error("test must not be empty")
@@ -282,7 +243,7 @@ describe("Options - Default convert function", () => {
         equal(convert(data, optionWithType(ParameterType.Mixed)), data);
     });
 
-    it("Generates no error for a mixed option if the validation function doesn't throw one", () => {
+    it("Validates mixed options", () => {
         const declaration: MixedDeclarationOption = {
             name: "test",
             help: "",
@@ -295,20 +256,6 @@ describe("Options - Default convert function", () => {
             },
         };
         equal(convert("text", declaration), "text");
-    });
-
-    it("Generates an error for a mixed option if the validation function throws one", () => {
-        const declaration: MixedDeclarationOption = {
-            name: "test",
-            help: "",
-            type: ParameterType.Mixed,
-            defaultValue: "default",
-            validate: (value: unknown) => {
-                if (typeof value === "number") {
-                    throw new Error("test must not be a number");
-                }
-            },
-        };
         throws(
             () => convert(1, declaration),
             new Error("test must not be a number")
