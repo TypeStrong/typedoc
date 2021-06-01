@@ -205,6 +205,7 @@ export class Converter extends ChildableComponent<
                 ts.SyntaxKind.PropertyDeclaration,
                 ts.SyntaxKind.PropertySignature,
                 ts.SyntaxKind.JSDocPropertyTag,
+                ts.SyntaxKind.BinaryExpression,
             ],
             [ReflectionKind.Method]: [
                 ts.SyntaxKind.MethodDeclaration,

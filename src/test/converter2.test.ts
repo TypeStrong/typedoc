@@ -56,6 +56,11 @@ const issueTests: Record<string, (project: ProjectReflection) => void> = {
         equal(refl.signatures?.[0]?.comment?.returns, "Test description.\n");
     },
 
+    gh1255(project) {
+        const foo = query(project, "C.foo");
+        equal(foo.comment?.shortText, "Docs!");
+    },
+
     gh1330(project) {
         const example = query(project, "ExampleParam");
         equal(example?.type?.type, "reference");
@@ -220,7 +225,7 @@ describe("Converter2", () => {
     });
 
     let program: ts.Program;
-    it("Compiles", () => {
+    before("Compiles", () => {
         program = ts.createProgram(
             app.options.getFileNames(),
             app.options.getCompilerOptions()
