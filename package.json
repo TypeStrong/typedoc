@@ -33,7 +33,7 @@
     "typedoc-default-themes": "^0.12.10"
   },
   "peerDependencies": {
-    "typescript": "3.9.x || 4.0.x || 4.1.x || 4.2.x"
+    "typescript": "^3.9 || ^4.0 || ^4.1 || ^4.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.11",
