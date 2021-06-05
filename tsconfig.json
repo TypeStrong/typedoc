@@ -33,6 +33,7 @@
         "src/test/converter2/**/*.ts",
         "src/test/renderer/specs",
         "src/test/.dot/**/*.ts",
-        "src/test/module/**/*.ts"
+        "src/test/module/**/*.ts",
+        "src/test/packages/**/*.ts"
     ]
 }

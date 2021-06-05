@@ -76,7 +76,7 @@ describe("Renderer", function () {
             tsconfig: Path.join(src, "..", "tsconfig.json"),
             plugin: [],
         });
-        app.options.setValue("entryPoints", app.expandInputFiles([src]));
+        app.options.setValue("entryPoints", [src]);
     });
 
     it("converts basic example", function () {

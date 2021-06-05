@@ -17,6 +17,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         hint: ParameterHint.File,
         defaultValue: process.cwd(),
     });
+    options.addDeclaration({
+        name: "packages",
+        help:
+            "Specify one or more package folders from which a package.json file should be loaded to determine the entry points. Your JS files must have sourcemaps for this to work. If the root of an npm or Yarn workspace is given, the packages specified in `workpaces` will be loaded.",
+        type: ParameterType.Array,
+        defaultValue: [],
+    });
 
     options.addDeclaration({
         name: "entryPoints",

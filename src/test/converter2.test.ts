@@ -252,7 +252,9 @@ describe("Converter2", () => {
 
             ok(entryPoint, `No entry point found for ${entry}`);
 
-            const project = app.converter.convert([entryPoint], program);
+            const project = app.converter.convert(
+                app.getEntryPointsForPaths([entryPoint])
+            );
             check(project);
         });
     }

@@ -59,8 +59,11 @@ async function run(app) {
         return ExitCodes.OptionError;
     }
 
-    if (app.options.getValue("entryPoints").length === 0) {
-        app.logger.error("No entry points provided");
+    if (
+        app.options.getValue("entryPoints").length === 0 &&
+        app.options.getValue("packages").length === 0
+    ) {
+        app.logger.error("No entry points or packages provided");
         return ExitCodes.NoEntryPoints;
     }
 
