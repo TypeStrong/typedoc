@@ -41,7 +41,10 @@ addTypeDocOptions({
                 data.default = option.defaultValue ?? false;
                 break;
             case ParameterType.Number: {
-                const decl = /** @type {import("../dist").NumberDeclarationOption} */ (option);
+                const decl =
+                    /** @type {import("../dist").NumberDeclarationOption} */ (
+                        option
+                    );
                 data.type = "number";
                 data.default = decl.defaultValue ?? 0;
                 data.maximum = decl.maxValue;
@@ -49,8 +52,10 @@ addTypeDocOptions({
                 break;
             }
             case ParameterType.Map: {
-                const map = /** @type {import("../dist").MapDeclarationOption} */ (option)
-                    .map;
+                const map =
+                    /** @type {import("../dist").MapDeclarationOption} */ (
+                        option
+                    ).map;
                 data.enum =
                     map instanceof Map
                         ? [...map.keys()]

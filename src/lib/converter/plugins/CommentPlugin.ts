@@ -207,15 +207,12 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context: Context) {
-        const excludeInternal = this.application.options.getValue(
-            "excludeInternal"
-        );
-        const excludePrivate = this.application.options.getValue(
-            "excludePrivate"
-        );
-        const excludeProtected = this.application.options.getValue(
-            "excludeProtected"
-        );
+        const excludeInternal =
+            this.application.options.getValue("excludeInternal");
+        const excludePrivate =
+            this.application.options.getValue("excludePrivate");
+        const excludeProtected =
+            this.application.options.getValue("excludeProtected");
 
         const project = context.project;
         const reflections = Object.values(project.reflections);

@@ -92,21 +92,20 @@ export interface TypeDocOptionMap {
 /**
  * Converts a given TypeDoc option key to the type of the declaration expected.
  */
-export type KeyToDeclaration<
-    K extends keyof TypeDocOptionMap
-> = TypeDocOptionMap[K] extends boolean
-    ? BooleanDeclarationOption
-    : TypeDocOptionMap[K] extends string
-    ? StringDeclarationOption
-    : TypeDocOptionMap[K] extends number
-    ? NumberDeclarationOption
-    : TypeDocOptionMap[K] extends string[]
-    ? ArrayDeclarationOption
-    : unknown extends TypeDocOptionMap[K]
-    ? MixedDeclarationOption
-    : TypeDocOptionMap[K] extends Record<string | number, infer U>
-    ? MapDeclarationOption<U>
-    : never;
+export type KeyToDeclaration<K extends keyof TypeDocOptionMap> =
+    TypeDocOptionMap[K] extends boolean
+        ? BooleanDeclarationOption
+        : TypeDocOptionMap[K] extends string
+        ? StringDeclarationOption
+        : TypeDocOptionMap[K] extends number
+        ? NumberDeclarationOption
+        : TypeDocOptionMap[K] extends string[]
+        ? ArrayDeclarationOption
+        : unknown extends TypeDocOptionMap[K]
+        ? MixedDeclarationOption
+        : TypeDocOptionMap[K] extends Record<string | number, infer U>
+        ? MapDeclarationOption<U>
+        : never;
 
 export enum ParameterHint {
     File,
@@ -254,21 +253,20 @@ export type DeclarationOption =
     | MapDeclarationOption<unknown>
     | ArrayDeclarationOption;
 
-export type DeclarationOptionToOptionType<
-    T extends DeclarationOption
-> = T extends StringDeclarationOption
-    ? string
-    : T extends NumberDeclarationOption
-    ? number
-    : T extends BooleanDeclarationOption
-    ? boolean
-    : T extends MixedDeclarationOption
-    ? unknown
-    : T extends MapDeclarationOption<infer U>
-    ? U
-    : T extends ArrayDeclarationOption
-    ? string[]
-    : never;
+export type DeclarationOptionToOptionType<T extends DeclarationOption> =
+    T extends StringDeclarationOption
+        ? string
+        : T extends NumberDeclarationOption
+        ? number
+        : T extends BooleanDeclarationOption
+        ? boolean
+        : T extends MixedDeclarationOption
+        ? unknown
+        : T extends MapDeclarationOption<infer U>
+        ? U
+        : T extends ArrayDeclarationOption
+        ? string[]
+        : never;
 
 /**
  * The default conversion function used by the Options container. Readers may

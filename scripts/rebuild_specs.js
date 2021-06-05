@@ -130,7 +130,8 @@ async function rebuildRendererTest() {
         return results;
     }
 
-    const gitHubRegExp = /https:\/\/github.com\/[A-Za-z0-9-]+\/typedoc\/blob\/[^/]*\/examples/g;
+    const gitHubRegExp =
+        /https:\/\/github.com\/[A-Za-z0-9-]+\/typedoc\/blob\/[^/]*\/examples/g;
     return getFiles(out).map((file) => {
         const full = path.join(out, file);
         return fs.promises
@@ -157,7 +158,9 @@ async function main(command = "all", filter = "") {
 
     if (["all", "converter"].includes(command)) {
         const dirs = await Promise.all(
-            (await fs.promises.readdir(base)).map((dir) => {
+            (
+                await fs.promises.readdir(base)
+            ).map((dir) => {
                 const dirPath = path.join(base, dir);
                 return Promise.all([dirPath, fs.promises.stat(dirPath)]);
             })

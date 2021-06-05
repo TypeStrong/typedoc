@@ -55,8 +55,8 @@ export class InheritDocPlugin extends ConverterComponent {
         if (reflection instanceof ContainerReflection) {
             const descendantsCallback: TraverseCallback = (item) => {
                 item.traverse(descendantsCallback);
-                const inheritDoc = item.comment?.getTag("inheritdoc")
-                    ?.paramName;
+                const inheritDoc =
+                    item.comment?.getTag("inheritdoc")?.paramName;
                 const source =
                     inheritDoc && reflection.findReflectionByName(inheritDoc);
                 let referencedReflection = source;

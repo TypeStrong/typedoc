@@ -116,7 +116,8 @@ export const DUMMY_APPLICATION_OWNER = Symbol();
  */
 export abstract class AbstractComponent<O extends ComponentHost>
     extends EventDispatcher
-    implements ComponentHost {
+    implements ComponentHost
+{
     /**
      * The owner of this component instance.
      */
@@ -173,14 +174,14 @@ export abstract class AbstractComponent<O extends ComponentHost>
      */
     get application(): Application {
         if (this._componentOwner === DUMMY_APPLICATION_OWNER) {
-            return (this as any) as Application;
+            return this as any as Application;
         }
         // Temporary hack, Application.application is going away.
         if (
             this._componentOwner instanceof AbstractComponent &&
             this._componentOwner._componentOwner === DUMMY_APPLICATION_OWNER
         ) {
-            return (this._componentOwner as any) as Application;
+            return this._componentOwner as any as Application;
         }
         return this._componentOwner.application;
     }

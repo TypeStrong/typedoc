@@ -639,9 +639,8 @@ const referenceConverter: TypeConverter<
             context.resolveAliasedSymbol(symbol),
             context.project
         );
-        ref.typeArguments = (type.aliasSymbol
-            ? type.aliasTypeArguments
-            : type.typeArguments
+        ref.typeArguments = (
+            type.aliasSymbol ? type.aliasTypeArguments : type.typeArguments
         )?.map((ref) => convertType(context, ref));
         return ref;
     },
@@ -750,74 +749,76 @@ const ts3LiteralThisConverter: TypeConverter<ts.TypeNode, ts.Type> = {
     },
 };
 
-const literalTypeConverter: TypeConverter<
-    ts.LiteralTypeNode,
-    ts.LiteralType
-> = {
-    kind: [ts.SyntaxKind.LiteralType],
-    convert(context, node) {
-        switch (node.literal.kind) {
-            case ts.SyntaxKind.TrueKeyword:
-            case ts.SyntaxKind.FalseKeyword:
-                return new LiteralType(
-                    node.literal.kind === ts.SyntaxKind.TrueKeyword
-                );
-            case ts.SyntaxKind.StringLiteral:
-                return new LiteralType(node.literal.text);
-            case ts.SyntaxKind.NumericLiteral:
-                return new LiteralType(Number(node.literal.text));
-            case ts.SyntaxKind.NullKeyword:
-                return new LiteralType(null);
-            case ts.SyntaxKind.PrefixUnaryExpression: {
-                const operand = (node.literal as ts.PrefixUnaryExpression)
-                    .operand;
-                switch (operand.kind) {
-                    case ts.SyntaxKind.NumericLiteral:
-                        return new LiteralType(Number(node.literal.getText()));
-                    case ts.SyntaxKind.BigIntLiteral:
-                        return new LiteralType(
-                            BigInt(node.literal.getText().replace("n", ""))
-                        );
-                    default:
-                        return requestBugReport(context, node.literal);
+const literalTypeConverter: TypeConverter<ts.LiteralTypeNode, ts.LiteralType> =
+    {
+        kind: [ts.SyntaxKind.LiteralType],
+        convert(context, node) {
+            switch (node.literal.kind) {
+                case ts.SyntaxKind.TrueKeyword:
+                case ts.SyntaxKind.FalseKeyword:
+                    return new LiteralType(
+                        node.literal.kind === ts.SyntaxKind.TrueKeyword
+                    );
+                case ts.SyntaxKind.StringLiteral:
+                    return new LiteralType(node.literal.text);
+                case ts.SyntaxKind.NumericLiteral:
+                    return new LiteralType(Number(node.literal.text));
+                case ts.SyntaxKind.NullKeyword:
+                    return new LiteralType(null);
+                case ts.SyntaxKind.PrefixUnaryExpression: {
+                    const operand = (node.literal as ts.PrefixUnaryExpression)
+                        .operand;
+                    switch (operand.kind) {
+                        case ts.SyntaxKind.NumericLiteral:
+                            return new LiteralType(
+                                Number(node.literal.getText())
+                            );
+                        case ts.SyntaxKind.BigIntLiteral:
+                            return new LiteralType(
+                                BigInt(node.literal.getText().replace("n", ""))
+                            );
+                        default:
+                            return requestBugReport(context, node.literal);
+                    }
                 }
+                case ts.SyntaxKind.BigIntLiteral:
+                    return new LiteralType(
+                        BigInt(node.literal.getText().replace("n", ""))
+                    );
+                case ts.SyntaxKind.NoSubstitutionTemplateLiteral:
+                    return new LiteralType(node.literal.text);
             }
-            case ts.SyntaxKind.BigIntLiteral:
+
+            return requestBugReport(context, node.literal);
+        },
+        convertType(_context, type, node) {
+            switch (node.literal.kind) {
+                case ts.SyntaxKind.StringLiteral:
+                    return new LiteralType(node.literal.text);
+                case ts.SyntaxKind.NumericLiteral:
+                    return new LiteralType(+node.literal.text);
+                case ts.SyntaxKind.TrueKeyword:
+                case ts.SyntaxKind.FalseKeyword:
+                    return new LiteralType(
+                        node.literal.kind === ts.SyntaxKind.TrueKeyword
+                    );
+                case ts.SyntaxKind.NullKeyword:
+                    return new LiteralType(null);
+            }
+
+            if (typeof type.value === "object") {
                 return new LiteralType(
-                    BigInt(node.literal.getText().replace("n", ""))
+                    BigInt(
+                        `${type.value.negative ? "-" : ""}${
+                            type.value.base10Value
+                        }`
+                    )
                 );
-            case ts.SyntaxKind.NoSubstitutionTemplateLiteral:
-                return new LiteralType(node.literal.text);
-        }
+            }
 
-        return requestBugReport(context, node.literal);
-    },
-    convertType(_context, type, node) {
-        switch (node.literal.kind) {
-            case ts.SyntaxKind.StringLiteral:
-                return new LiteralType(node.literal.text);
-            case ts.SyntaxKind.NumericLiteral:
-                return new LiteralType(+node.literal.text);
-            case ts.SyntaxKind.TrueKeyword:
-            case ts.SyntaxKind.FalseKeyword:
-                return new LiteralType(
-                    node.literal.kind === ts.SyntaxKind.TrueKeyword
-                );
-            case ts.SyntaxKind.NullKeyword:
-                return new LiteralType(null);
-        }
-
-        if (typeof type.value === "object") {
-            return new LiteralType(
-                BigInt(
-                    `${type.value.negative ? "-" : ""}${type.value.base10Value}`
-                )
-            );
-        }
-
-        return new LiteralType(type.value);
-    },
-};
+            return new LiteralType(type.value);
+        },
+    };
 
 const templateLiteralConverter: TypeConverter<
     ts.TemplateLiteralTypeNode,

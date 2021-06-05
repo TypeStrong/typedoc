@@ -278,9 +278,11 @@ export class ImplementsPlugin extends ConverterComponent {
         }
 
         if (reflection.kind === ReflectionKind.Constructor) {
-            const ctor = (info.declaration.members as ReadonlyArray<
-                ts.ClassElement | ts.TypeElement
-            >).find(ts.isConstructorDeclaration);
+            const ctor = (
+                info.declaration.members as ReadonlyArray<
+                    ts.ClassElement | ts.TypeElement
+                >
+            ).find(ts.isConstructorDeclaration);
             constructorInheritance(context, reflection, info.declaration, ctor);
             return;
         }

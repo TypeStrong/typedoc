@@ -27,9 +27,7 @@ const maintainers = new Set(["Gerrit Birkeland", "dependabot[bot]"]);
 
 /** @param {string} since */
 async function getLogs(since) {
-    const { stdout: log } = await promisify(
-        exec
-    )(
+    const { stdout: log } = await promisify(exec)(
         `git log --pretty="format:%H%x00%at%x00%an%x00%B%x00" --no-merges ${since}..master`,
         { encoding: "utf-8" }
     );

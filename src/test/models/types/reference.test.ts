@@ -10,8 +10,8 @@ import { ReferenceType } from "../../../lib/models/types/reference";
 
 describe("Reference Type", () => {
     describe("equals", () => {
-        const fakeSymbol1 = (Symbol() as any) as ts.Symbol;
-        const fakeSymbol2 = (Symbol() as any) as ts.Symbol;
+        const fakeSymbol1 = Symbol() as any as ts.Symbol;
+        const fakeSymbol2 = Symbol() as any as ts.Symbol;
         const project = new ProjectReflection("");
 
         const reflection = new DeclarationReflection(

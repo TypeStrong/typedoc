@@ -18,7 +18,8 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
     /**
      * Regular expression for detecting inline tags like {&amp;link ...}.
      */
-    private inlineTag = /(?:\[(.+?)\])?\{@(link|linkcode|linkplain)\s+((?:.|\n)+?)\}/gi;
+    private inlineTag =
+        /(?:\[(.+?)\])?\{@(link|linkcode|linkplain)\s+((?:.|\n)+?)\}/gi;
 
     @BindOption("listInvalidSymbolLinks")
     listInvalidSymbolLinks!: boolean;

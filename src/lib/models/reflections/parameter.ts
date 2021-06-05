@@ -10,7 +10,8 @@ import { SignatureReflection } from "./signature";
 
 export class ParameterReflection
     extends Reflection
-    implements DefaultValueContainer, TypeContainer {
+    implements DefaultValueContainer, TypeContainer
+{
     parent?: SignatureReflection;
 
     defaultValue?: string;

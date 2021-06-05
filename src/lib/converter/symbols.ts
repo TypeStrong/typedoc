@@ -866,9 +866,8 @@ function convertAccessor(
 
     const getDeclaration = symbol.getDeclarations()?.find(ts.isGetAccessor);
     if (getDeclaration) {
-        const signature = context.checker.getSignatureFromDeclaration(
-            getDeclaration
-        );
+        const signature =
+            context.checker.getSignatureFromDeclaration(getDeclaration);
         if (signature) {
             createSignature(
                 rc,
@@ -881,9 +880,8 @@ function convertAccessor(
 
     const setDeclaration = symbol.getDeclarations()?.find(ts.isSetAccessor);
     if (setDeclaration) {
-        const signature = context.checker.getSignatureFromDeclaration(
-            setDeclaration
-        );
+        const signature =
+            context.checker.getSignatureFromDeclaration(setDeclaration);
         if (signature) {
             createSignature(
                 rc,

@@ -42,7 +42,8 @@ export interface DeclarationHierarchy {
  */
 export class DeclarationReflection
     extends ContainerReflection
-    implements DefaultValueContainer, TypeContainer, TypeParameterContainer {
+    implements DefaultValueContainer, TypeContainer, TypeParameterContainer
+{
     /**
      * The escaped name of this declaration assigned by the TS compiler if there is an associated symbol.
      * This is used to retrieve properties for analyzing inherited members.

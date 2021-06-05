@@ -14,7 +14,8 @@ import type { DeclarationReflection } from "./declaration";
 
 export class SignatureReflection
     extends Reflection
-    implements TypeContainer, TypeParameterContainer {
+    implements TypeContainer, TypeParameterContainer
+{
     /**
      * Create a new SignatureReflection to contain a specific type of signature.
      */

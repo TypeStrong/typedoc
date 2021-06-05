@@ -29,10 +29,7 @@ export const [
  * Array Destructuring with ignores
  */
 export const [destructArrayWithIgnoresA, , ...destructArrayWithIgnoresRest] = [
-    1,
-    2,
-    3,
-    4,
+    1, 2, 3, 4,
 ];
 
 /**

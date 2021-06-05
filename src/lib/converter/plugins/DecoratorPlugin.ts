@@ -96,9 +96,8 @@ export class DecoratorPlugin extends ConverterComponent {
                 );
 
                 if (callExpression && callExpression.arguments) {
-                    const signature = context.checker.getResolvedSignature(
-                        callExpression
-                    );
+                    const signature =
+                        context.checker.getResolvedSignature(callExpression);
                     if (signature) {
                         info.arguments = this.extractArguments(
                             callExpression.arguments,

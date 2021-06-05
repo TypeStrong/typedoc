@@ -247,12 +247,14 @@ export class ConsoleLogger extends Logger {
             return;
         }
 
-        const method = ({
-            [LogLevel.Error]: "error",
-            [LogLevel.Warn]: "warn",
-            [LogLevel.Info]: "info",
-            [LogLevel.Verbose]: "log",
-        } as const)[level];
+        const method = (
+            {
+                [LogLevel.Error]: "error",
+                [LogLevel.Warn]: "warn",
+                [LogLevel.Info]: "info",
+                [LogLevel.Verbose]: "log",
+            } as const
+        )[level];
 
         console[method](messagePrefixes[level] + message);
     }

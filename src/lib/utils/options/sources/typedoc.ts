@@ -7,36 +7,31 @@ import { SORT_STRATEGIES } from "../../sort";
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "options",
-        help:
-            "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory",
+        help: "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory",
         hint: ParameterHint.File,
         defaultValue: process.cwd(),
     });
     options.addDeclaration({
         name: "tsconfig",
-        help:
-            "Specify a TypeScript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
+        help: "Specify a TypeScript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
         hint: ParameterHint.File,
         defaultValue: process.cwd(),
     });
 
     options.addDeclaration({
         name: "entryPoints",
-        help:
-            "The entry points of your library, which files should be documented as available to consumers.",
+        help: "The entry points of your library, which files should be documented as available to consumers.",
         type: ParameterType.Array,
     });
 
     options.addDeclaration({
         name: "exclude",
-        help:
-            "Define paths to be excluded when expanding a directory that was specified as an entry point.",
+        help: "Define paths to be excluded when expanding a directory that was specified as an entry point.",
         type: ParameterType.Array,
     });
     options.addDeclaration({
         name: "externalPattern",
-        help:
-            "Define patterns for files that should be considered being external.",
+        help: "Define patterns for files that should be considered being external.",
         type: ParameterType.Array,
         defaultValue: ["**/node_modules/**"],
     });
@@ -47,14 +42,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "excludeNotDocumented",
-        help:
-            "Prevent symbols that are not explicitly documented from appearing in the results.",
+        help: "Prevent symbols that are not explicitly documented from appearing in the results.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "excludeInternal",
-        help:
-            "Prevent symbols that are marked with @internal from being documented.",
+        help: "Prevent symbols that are marked with @internal from being documented.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
@@ -69,8 +62,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "disableSources",
-        help:
-            "Disables setting the source of a reflection when documenting it.",
+        help: "Disables setting the source of a reflection when documenting it.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
@@ -80,14 +72,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "includes",
-        help:
-            "Specifies the location to look for included documents (use [[include:FILENAME]] in comments).",
+        help: "Specifies the location to look for included documents (use [[include:FILENAME]] in comments).",
         hint: ParameterHint.Directory,
     });
     options.addDeclaration({
         name: "media",
-        help:
-            "Specifies the location with media files that should be copied to the output directory.",
+        help: "Specifies the location with media files that should be copied to the output directory.",
         hint: ParameterHint.Directory,
     });
 
@@ -98,8 +88,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "preserveWatchOutput",
-        help:
-            "If set, TypeDoc will not clear the screen between compilation runs.",
+        help: "If set, TypeDoc will not clear the screen between compilation runs.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
@@ -115,22 +104,19 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "json",
-        help:
-            "Specifies the location and filename a JSON file describing the project is written to.",
+        help: "Specifies the location and filename a JSON file describing the project is written to.",
         hint: ParameterHint.File,
     });
     options.addDeclaration({
         name: "pretty",
-        help:
-            "Specifies whether the output JSON should be formatted with tabs.",
+        help: "Specifies whether the output JSON should be formatted with tabs.",
         type: ParameterType.Boolean,
         defaultValue: true,
     });
 
     options.addDeclaration({
         name: "theme",
-        help:
-            "Specify the path to the theme that should be used, or 'default' or 'minimal' to use built-in themes.",
+        help: "Specify the path to the theme that should be used, or 'default' or 'minimal' to use built-in themes.",
         type: ParameterType.String,
         defaultValue: "default",
     });
@@ -152,8 +138,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "name",
-        help:
-            "Set the name of the project that will be used in the header of the template.",
+        help: "Set the name of the project that will be used in the header of the template.",
     });
     options.addDeclaration({
         name: "includeVersion",
@@ -167,25 +152,21 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "readme",
-        help:
-            "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.",
+        help: "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.",
     });
     options.addDeclaration({
         name: "defaultCategory",
-        help:
-            "Specifies the default category for reflections without a category.",
+        help: "Specifies the default category for reflections without a category.",
         defaultValue: "Other",
     });
     options.addDeclaration({
         name: "categoryOrder",
-        help:
-            "Specifies the order in which categories appear. * indicates the relative order for categories not in the list.",
+        help: "Specifies the order in which categories appear. * indicates the relative order for categories not in the list.",
         type: ParameterType.Array,
     });
     options.addDeclaration({
         name: "categorizeByGroup",
-        help:
-            "Specifies whether categorization will be done at the group level.",
+        help: "Specifies whether categorization will be done at the group level.",
         type: ParameterType.Boolean,
         defaultValue: true,
     });
@@ -215,8 +196,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "gitRevision",
-        help:
-            "Use specified revision instead of the last revision for linking to GitHub source files.",
+        help: "Use specified revision instead of the last revision for linking to GitHub source files.",
     });
     options.addDeclaration({
         name: "gitRemote",
@@ -225,8 +205,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "gaID",
-        help:
-            "Set the Google Analytics tracking ID and activate tracking code.",
+        help: "Set the Google Analytics tracking ID and activate tracking code.",
     });
     options.addDeclaration({
         name: "gaSite",
@@ -240,14 +219,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "toc",
-        help:
-            "Define the contents of the top level table of contents as a comma-separated list of global symbols.",
+        help: "Define the contents of the top level table of contents as a comma-separated list of global symbols.",
         type: ParameterType.Array,
     });
     options.addDeclaration({
         name: "disableOutputCheck",
-        help:
-            "Should TypeDoc disable the testing and cleaning of the output directory?",
+        help: "Should TypeDoc disable the testing and cleaning of the output directory?",
         type: ParameterType.Boolean,
     });
 
@@ -268,8 +245,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "plugin",
-        help:
-            "Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.",
+        help: "Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.",
         type: ParameterType.Array,
     });
     options.addDeclaration({
@@ -292,14 +268,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "listInvalidSymbolLinks",
-        help:
-            "Emits a list of broken symbol [[navigation]] links after documentation generation",
+        help: "Emits a list of broken symbol [[navigation]] links after documentation generation",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "markedOptions",
-        help:
-            "Specify the options passed to Marked, the Markdown parser used by TypeDoc",
+        help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc",
         type: ParameterType.Mixed,
     });
 }

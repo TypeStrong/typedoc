@@ -221,7 +221,8 @@ export class Application extends ChildableComponent<
             this.logger.verbose(
                 "tsconfig appears to be a solution style tsconfig - creating programs for references"
             );
-            const resolvedReferences = programs[0].getResolvedProjectReferences();
+            const resolvedReferences =
+                programs[0].getResolvedProjectReferences();
             for (const ref of resolvedReferences ?? []) {
                 if (!ref) continue; // This indicates bad configuration... will be reported later.
 

@@ -320,9 +320,8 @@ export class Options {
     private setOptionValueToDefault(
         declaration: Readonly<DeclarationOption>
     ): void {
-        this._values[declaration.name] = this.getDefaultOptionValue(
-            declaration
-        );
+        this._values[declaration.name] =
+            this.getDefaultOptionValue(declaration);
     }
 
     private getDefaultOptionValue(

@@ -4,7 +4,8 @@ import { DeclarationReflection } from "./declaration";
 
 export class TypeParameterReflection
     extends Reflection
-    implements TypeContainer {
+    implements TypeContainer
+{
     parent?: DeclarationReflection;
 
     type?: Type;
