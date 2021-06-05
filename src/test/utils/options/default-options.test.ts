@@ -8,8 +8,9 @@ describe("Default Options", () => {
 
     describe("highlightTheme", () => {
         it("Errors if an invalid theme is provided", () => {
-            // @ts-expect-error setValue should require a valid theme.
-            throws(() => opts.setValue("highlightTheme", "randomTheme"));
+            throws(() =>
+                opts.setValue("highlightTheme", "randomTheme" as never)
+            );
             opts.setValue("highlightTheme", BUNDLED_THEMES[0] as Theme);
             strictEqual(opts.getValue("highlightTheme"), BUNDLED_THEMES[0]);
         });
@@ -17,14 +18,18 @@ describe("Default Options", () => {
 
     describe("sort", () => {
         it("Errors if an invalid sort version is provided", () => {
-            // @ts-expect-error setValue should require a valid sort version.
-            throws(() => opts.setValue("sort", ["random", "alphabetical"]));
+            throws(() =>
+                opts.setValue("sort", ["random", "alphabetical"] as never)
+            );
         });
 
         it("Reports which sort option(s) was invalid", () => {
             try {
-                // @ts-expect-error setValue should require a valid sort version.
-                opts.setValue("sort", ["random", "alphabetical", "foo"]);
+                opts.setValue("sort", [
+                    "random",
+                    "alphabetical",
+                    "foo",
+                ] as never);
             } catch (e) {
                 ok(e.message.includes("random"));
                 ok(e.message.includes("foo"));
