@@ -208,7 +208,7 @@ class InternalClass<TTT extends keyof BaseClass> {
  * from BaseClass.
  */
 export class SubClassA extends BaseClass implements PrintNameInterface {
-    public name: string;
+    public declare name: string;
 
     /**
      * This is a simple interface function.
@@ -269,7 +269,7 @@ export class SubClassA extends BaseClass implements PrintNameInterface {
  * The constructor of the original class should be overwritten.
  */
 export class SubClassB extends BaseClass {
-    public name: string;
+    public declare name: string;
 
     constructor(name: string) {
         super(name);
@@ -323,4 +323,4 @@ export class GenericClass<T extends BaseClass> {
 export class NonGenericClass extends GenericClass<SubClassB> {}
 
 // TS 4.2
-export type AbstractMe = abstract new () => NonGenericClass
+export type AbstractMe = abstract new () => NonGenericClass;

@@ -9,7 +9,7 @@ export class A {
 }
 
 export class B extends A {
-    prop!: "B";
+    declare prop: "B";
 
     run(): void {
         super.run();

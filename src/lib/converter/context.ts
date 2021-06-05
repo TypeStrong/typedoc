@@ -78,7 +78,7 @@ export class Context {
      * /** We should use this comment *&#47;
      * export * as Mod from "./mod"
      * ```
-     * Will be removed in 0.21.
+     * Will be removed in 0.22.
      * @internal
      */
     exportSymbol?: ts.Symbol;
@@ -288,6 +288,7 @@ const builtInSymbolRegExp = /^__@(\w+)$/;
 const uniqueSymbolRegExp = /^__@(.*)@\d+$/;
 
 function getHumanName(name: string) {
+    // TS 4.0, 4.1, 4.2 - well known symbols are treated specially.
     let match = builtInSymbolRegExp.exec(name);
     if (match) {
         return `[Symbol.${match[1]}]`;

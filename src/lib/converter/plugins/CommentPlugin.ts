@@ -9,7 +9,11 @@ import {
     DeclarationReflection,
 } from "../../models/reflections/index";
 import { Component, ConverterComponent } from "../components";
-import { parseComment, getRawComment } from "../factories/comment";
+import {
+    parseComment,
+    getRawComment,
+    getJsDocCommentText,
+} from "../factories/comment";
 import { Converter } from "../converter";
 import { Context } from "../context";
 import { partition, uniq } from "lodash";
@@ -124,8 +128,9 @@ export class CommentPlugin extends ConverterComponent {
         node?: ts.Node
     ) {
         if (node && ts.isJSDocTemplateTag(node.parent)) {
-            if (node.parent.comment) {
-                reflection.comment = new Comment(node.parent.comment);
+            const comment = getJsDocCommentText(node.parent.comment);
+            if (comment) {
+                reflection.comment = new Comment(comment);
             }
         }
 
@@ -167,10 +172,11 @@ export class CommentPlugin extends ConverterComponent {
             return;
         }
 
-        // Clean this up in 0.21. We should really accept a ts.Symbol so we don't need exportSymbol on Context
+        // Clean this up in 0.22. We should really accept a ts.Symbol so we don't need exportSymbol on Context
         const exportNode = context.exportSymbol?.getDeclarations()?.[0];
-        let rawComment = exportNode && getRawComment(exportNode);
-        rawComment ??= node && getRawComment(node);
+        let rawComment =
+            exportNode && getRawComment(exportNode, this.application.logger);
+        rawComment ??= node && getRawComment(node, this.application.logger);
         if (!rawComment) {
             return;
         }

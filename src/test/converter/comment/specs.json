@@ -160,8 +160,7 @@
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function.",
-        "text": "This behavior will be deprecated and removed in the future. Use the `module` tag instead.\n"
+        "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
       },
       "children": [
         {

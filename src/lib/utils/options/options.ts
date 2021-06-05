@@ -1,5 +1,4 @@
-import { isDeepStrictEqual } from "util";
-import * as _ from "lodash";
+import { cloneDeep } from "lodash";
 import * as ts from "typescript";
 
 import {
@@ -213,21 +212,6 @@ export class Options {
 
     /**
      * Checks if the given option's value is deeply strict equal to the default.
-     * @deprecated Will be removed in v0.21. Use `isSet` instead.
-     * @param name
-     */
-    isDefault(name: keyof TypeDocOptions): boolean;
-    isDefault(name: NeverIfInternal<string>): boolean;
-    isDefault(name: string): boolean {
-        // getValue will throw if the declaration does not exist.
-        return isDeepStrictEqual(
-            this.getValue(name as keyof TypeDocOptions),
-            this.getDefaultOptionValue(this.getDeclaration(name)!)
-        );
-    }
-
-    /**
-     * Checks if the given option's value is deeply strict equal to the default.
      * @param name
      */
     isSet(name: keyof TypeDocOptions): boolean;
@@ -243,7 +227,7 @@ export class Options {
      * Gets all of the TypeDoc option values defined in this option container.
      */
     getRawValues(): Partial<TypeDocOptions> {
-        return _.cloneDeep(this._values);
+        return cloneDeep(this._values);
     }
 
     /**
@@ -291,7 +275,7 @@ export class Options {
      * Gets the set compiler options.
      */
     getCompilerOptions(): ts.CompilerOptions {
-        return _.cloneDeep(this._compilerOptions);
+        return cloneDeep(this._compilerOptions);
     }
 
     /**
@@ -325,7 +309,7 @@ export class Options {
             this.setValue("excludeInternal", true);
         }
         this._fileNames = fileNames;
-        this._compilerOptions = _.cloneDeep(options);
+        this._compilerOptions = cloneDeep(options);
         this._projectReferences = projectReferences ?? [];
     }
 

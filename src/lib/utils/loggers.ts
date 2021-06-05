@@ -167,10 +167,12 @@ export class Logger {
     }
 
     /** @internal */
-    deprecated(text: string) {
-        const stack = new Error().stack?.split("\n");
-        if (stack && stack.length >= 4) {
-            text = text + "\n" + stack[3];
+    deprecated(text: string, addStack = true) {
+        if (addStack) {
+            const stack = new Error().stack?.split("\n");
+            if (stack && stack.length >= 4) {
+                text = text + "\n" + stack[3];
+            }
         }
         if (!this.deprecationWarnings.has(text)) {
             this.deprecationWarnings.add(text);

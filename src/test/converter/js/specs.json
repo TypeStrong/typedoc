@@ -609,17 +609,11 @@
                     "isRest": true
                   },
                   "type": {
-                    "type": "union",
-                    "types": [
-                      {
-                        "type": "intrinsic",
-                        "name": "undefined"
-                      },
-                      {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    ]
+                    "type": "array",
+                    "elementType": {
+                      "type": "intrinsic",
+                      "name": "string"
+                    }
                   }
                 }
               ],

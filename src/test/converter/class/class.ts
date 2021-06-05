@@ -123,8 +123,8 @@ export class Ts38PrivateFields {
 }
 
 export abstract class Abstract {
-    abstract needsImpl(): number
+    abstract needsImpl(): number;
 }
 
 // TS 4.2
-export type AbstractMe = abstract new () => Abstract
+export type AbstractMe = abstract new () => Abstract;

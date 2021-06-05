@@ -5,7 +5,3 @@ dist
 package-lock.json
 src/test/**/specs*.json
 src/test/renderer/specs
-
-# Temporarily ignored until Prettier 2.3
-examples/basic/src/classes.ts
-src/test/converter/class/class.ts

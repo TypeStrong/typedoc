@@ -765,7 +765,7 @@
               "children": [
                 {
                   "id": 89,
-                  "name": "[Symbol.toStringTag]",
+                  "name": "[toStringTag]",
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},

@@ -491,7 +491,7 @@ function convertClassOrInterface(
     if (instanceType.typeParameters) {
         reflection.typeParameters = instanceType.typeParameters.map((param) => {
             const declaration = param.symbol?.declarations?.[0];
-            assert(ts.isTypeParameterDeclaration(declaration));
+            assert(declaration && ts.isTypeParameterDeclaration(declaration));
             return createTypeParamReflection(declaration, reflectionContext);
         });
     }
@@ -596,7 +596,9 @@ function convertProperty(
     reflection.type = context.converter.convertType(
         context,
         (context.isConvertingTypeNode() ? parameterType : void 0) ??
-            context.checker.getTypeOfSymbolAtLocation(symbol, {} as any)
+            context.checker.getTypeOfSymbolAtLocation(symbol, {
+                kind: ts.SyntaxKind.SourceFile,
+            } as any)
     );
 
     if (reflection.flags.isOptional) {
@@ -801,17 +803,18 @@ function convertVariableAsFunction(
         .getDeclarations()
         ?.find(ts.isVariableDeclaration);
 
-    const type = context.checker.getTypeOfSymbolAtLocation(
-        symbol,
-        declaration ?? symbol.valueDeclaration
-    );
+    const accessDeclaration = declaration ?? symbol.valueDeclaration;
+
+    const type = accessDeclaration
+        ? context.checker.getTypeOfSymbolAtLocation(symbol, accessDeclaration)
+        : context.checker.getDeclaredTypeOfSymbol(symbol);
 
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Function,
         symbol,
         exportSymbol
     );
-    setModifiers(symbol, declaration ?? symbol.valueDeclaration, reflection);
+    setModifiers(symbol, accessDeclaration, reflection);
     // Does anyone care about this? I doubt it...
     if (
         declaration &&
@@ -906,9 +909,13 @@ function isInherited(context: Context, symbol: ts.Symbol) {
 
 function setModifiers(
     symbol: ts.Symbol,
-    declaration: ts.Declaration,
+    declaration: ts.Declaration | undefined,
     reflection: Reflection
 ) {
+    if (!declaration) {
+        return;
+    }
+
     const modifiers = ts.getCombinedModifierFlags(declaration);
 
     if (

@@ -54,15 +54,15 @@ export const Mixin2 = <T extends AnyConstructor<Mixin1Type & Base>>(base: T) =>
     class Mixin2 extends base {
         property2 = "init";
 
-        method2(arg: Mixin2): Mixin2[] {
-            return [arg, this];
+        method2(arg: Mixin2Type): Mixin2Type {
+            return arg;
         }
     };
 
 /**
  * The "instance type" of the Mixin2 using the interface notation (supports recursive type definition)
  */
-export interface Mixin2 extends Mixin<typeof Mixin2> {}
+export interface Mixin2Type extends Mixin<typeof Mixin2> {}
 
 /**
  * The "mixin function" of the Mixin3

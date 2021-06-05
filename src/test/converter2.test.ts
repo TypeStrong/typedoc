@@ -232,7 +232,8 @@ describe("Converter2", () => {
         );
 
         const errors = ts.getPreEmitDiagnostics(program);
-        equal(errors, []);
+        app.logger.diagnostics(errors);
+        equal(errors.length, 0);
     });
 
     for (const [entry, check] of Object.entries(issueTests)) {
