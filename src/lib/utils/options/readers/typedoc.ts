@@ -86,13 +86,17 @@ export class TypeDocReader implements OptionsReader {
             delete data["extends"];
         }
 
-        for (let [key, val] of Object.entries(data)) {
+        for (const [key, val] of Object.entries(data)) {
             try {
                 // The "packages" option is an array of paths and should be interpreted as relative to the typedoc.json
                 if (key === "packages" && Array.isArray(val)) {
-                    val = val.map((e) => Path.resolve(file, "..", e));
+                    container.setValue(
+                        key,
+                        val.map((e) => Path.resolve(file, "..", e))
+                    );
+                } else {
+                    container.setValue(key, val);
                 }
-                container.setValue(key, val);
             } catch (error) {
                 logger.error(error.message);
             }
