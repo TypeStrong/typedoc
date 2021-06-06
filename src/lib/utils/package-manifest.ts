@@ -130,8 +130,22 @@ function getTsSourceFromJsSource(
         endOfSourceMapPrefix,
         newLineIndex === -1 ? undefined : newLineIndex
     );
-    const resolvedSourceMapURL = resolve(jsPath, "..", sourceMapURL);
-    const sourceMap: unknown = JSON.parse(readFile(resolvedSourceMapURL));
+
+    let resolvedSourceMapURL: string;
+    let sourceMap: unknown;
+    if (sourceMapURL.startsWith("data:application/json;base64,")) {
+        resolvedSourceMapURL = jsPath;
+        sourceMap = JSON.parse(
+            Buffer.from(
+                sourceMapURL.substr(sourceMapURL.indexOf(",") + 1),
+                "base64"
+            ).toString()
+        );
+    } else {
+        resolvedSourceMapURL = resolve(jsPath, "..", sourceMapURL);
+        sourceMap = JSON.parse(readFile(resolvedSourceMapURL));
+    }
+
     if (typeof sourceMap !== "object" || !sourceMap) {
         logger.error(
             `The source map file ${resolvedSourceMapURL} is not an object.`

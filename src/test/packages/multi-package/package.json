@@ -1,0 +1,10 @@
+{
+  "name": "typedoc-multi-package-example",
+  "version": "1.0.0",
+  "description": "An example of using typedoc with multiple packages",
+  "private": true,
+  "main": "dist/index.js",
+  "workspaces": [
+    "packages/*"
+  ]
+}

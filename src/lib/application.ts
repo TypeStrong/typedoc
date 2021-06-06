@@ -310,9 +310,17 @@ export class Application extends ChildableComponent<
             );
         }
 
-        const packages = this.options
-            .getValue("packages")
-            .map(normalizePath);
+        if (
+            this.options.getValue("packages").length &&
+            this.entryPoints.length
+        ) {
+            this.logger.error(
+                `Providing both 'packages' and 'entryPoints' is not supported.`
+            );
+            return;
+        }
+
+        const packages = this.options.getValue("packages").map(normalizePath);
         const entryPoints = getEntryPointsForPackages(this.logger, packages);
         if (entryPoints === undefined) {
             return;
@@ -586,31 +594,22 @@ export class Application extends ChildableComponent<
         return files;
     }
 
-    /**
-     * Converts a list of file-oriented paths in to DocumentationEntryPoints for conversion.
-     * This is in contrast with the package-oriented `getEntryPointsForPackages`
-     *
-     * @param entryPointPaths  The list of filepaths that should be expanded.
-     * @returns  The DocumentationEntryPoints corresponding to all the found entry points
-     * @internal
-     */
-    public getEntryPointsForPaths(
-        entryPointPaths: string[]
-    ): DocumentationEntryPoint[] {
+    private getEntryPrograms() {
         const rootProgram = ts.createProgram({
             rootNames: this.options.getFileNames(),
             options: this.options.getCompilerOptions(),
             projectReferences: this.options.getProjectReferences(),
         });
-        const programs = new Array<ts.Program>();
-        programs.push(rootProgram);
+
+        const programs = [rootProgram];
         // This might be a solution style tsconfig, in which case we need to add a program for each
         // reference so that the converter can look through each of these.
         if (rootProgram.getRootFileNames().length === 0) {
             this.logger.verbose(
                 "tsconfig appears to be a solution style tsconfig - creating programs for references"
             );
-            const resolvedReferences = rootProgram.getResolvedProjectReferences();
+            const resolvedReferences =
+                rootProgram.getResolvedProjectReferences();
             for (const ref of resolvedReferences ?? []) {
                 if (!ref) continue; // This indicates bad configuration... will be reported later.
 
@@ -623,9 +622,26 @@ export class Application extends ChildableComponent<
                 );
             }
         }
+
+        return programs;
+    }
+
+    /**
+     * Converts a list of file-oriented paths in to DocumentationEntryPoints for conversion.
+     * This is in contrast with the package-oriented `getEntryPointsForPackages`
+     *
+     * @param entryPointPaths  The list of filepaths that should be expanded.
+     * @returns  The DocumentationEntryPoints corresponding to all the found entry points
+     * @internal - if you want to use this, ask, it's likely okay to expose.
+     */
+    public getEntryPointsForPaths(
+        entryPointPaths: string[],
+        programs: ts.Program[] = this.getEntryPrograms()
+    ): DocumentationEntryPoint[] {
         const inputFiles = this.expandInputFiles(entryPointPaths);
         const baseDir = getCommonDirectory(inputFiles);
-        const entryPoints = new Array<DocumentationEntryPoint>();
+        const entryPoints: DocumentationEntryPoint[] = [];
+
         entryLoop: for (const file of inputFiles.map(normalizePath)) {
             for (const program of programs) {
                 const sourceFile = program.getSourceFile(file);
@@ -639,10 +655,9 @@ export class Application extends ChildableComponent<
                     continue entryLoop;
                 }
             }
-            this.logger.warn(
-                `Unable to locate entry point: ${file}`
-            );
+            this.logger.warn(`Unable to locate entry point: ${file}`);
         }
+
         return entryPoints;
     }
 

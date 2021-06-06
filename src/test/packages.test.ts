@@ -1,62 +1,34 @@
-import { ok, strictEqual } from "assert";
+import { deepStrictEqual as equal, ok } from "assert";
 import * as Path from "path";
+import { Application } from "../lib/application";
 
-import * as td from "..";
-import { Logger } from "../lib/utils";
-import { expandPackages } from "../lib/utils/package-manifest";
-
+// TODO: These tests don't really need to go through the whole process. They could
+// instead just test the package expansion feature. Making this change should cut down on test time by ~50%.
 describe("Packages support", () => {
     it("handles monorepos", () => {
-        const base = Path.join(__dirname, "packages", "ts-monorepo");
-        const app = new td.Application();
-        app.options.addReader(new td.TypeDocReader());
+        const base = Path.join(__dirname, "packages", "multi-package");
+        const app = new Application();
         app.bootstrap({
-            options: Path.join(base, "typedoc.json"),
+            packages: [base],
         });
         const project = app.convert();
-        ok(project, "Failed to convert");
-        const result = app.serializer.projectToObject(project);
-        ok(result.children !== undefined);
-        strictEqual(
-            result.children.length,
-            4,
-            "incorrect number of packages processed"
+        equal(
+            project?.children?.map((r) => r.name),
+            ["typedoc-multi-package-bar", "typedoc-multi-package-foo"]
         );
     });
 
     it("handles single packages", () => {
-        const base = Path.join(
-            __dirname,
-            "packages",
-            "typedoc-single-package-example"
-        );
-        const app = new td.Application();
-        app.options.addReader(new td.TypeDocReader());
+        const base = Path.join(__dirname, "packages", "single-package");
+        const app = new Application();
         app.bootstrap({
-            options: Path.join(base, "typedoc.json"),
+            packages: [base],
         });
         const project = app.convert();
-        ok(project, "Failed to convert");
-        const result = app.serializer.projectToObject(project);
-        ok(result.children !== undefined);
-        strictEqual(
-            result.children.length,
-            1,
-            "incorrect number of packages processed"
+        ok(project, "Failed to convert project");
+        equal(
+            project.children?.map((r) => r.name),
+            ["helloWorld"]
         );
-    });
-
-    describe("expandPackages", () => {
-        it("handles a glob", () => {
-            const base = Path.join(__dirname, "packages", "ts-monorepo");
-            const expandedPackages = expandPackages(new Logger(), base, [
-                "packages/*",
-            ]);
-            strictEqual(
-                expandedPackages.length,
-                3,
-                "Found an unexpected number of packages"
-            );
-        });
     });
 });

@@ -75,7 +75,7 @@ function rebuildConverterTests(dirs) {
                 TypeDoc.resetReflectionID();
                 before();
                 const result = app.converter.convert(
-                    app.getEntrypointsForPaths([fullPath])
+                    app.getEntryPointsForPaths([fullPath], [program])
                 );
                 const serialized = app.serializer.toObject(result);
 

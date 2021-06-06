@@ -24,6 +24,7 @@
         "src/test/converter",
         "src/test/converter2",
         "src/test/module",
+        "src/test/packages",
         "src/test/renderer",
         "scripts",
         "bin"

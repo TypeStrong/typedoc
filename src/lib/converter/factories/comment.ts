@@ -147,7 +147,7 @@ export function getRawComment(
                 comment = comments[0];
 
                 logger.deprecated(
-                    `Specifying multiple comments at the start of a file to use the first comment as the comment for the module has been deprecated. Use @module or @packageDocumentation instead.`,
+                    `Specifying multiple comments at the start of a file to use the first comment as the comment for the module has been deprecated. Use @module or @packageDocumentation instead.\n\t${sourceFile.fileName}`,
                     false
                 );
             } else {

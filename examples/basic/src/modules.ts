@@ -3,6 +3,7 @@
  *
  *     @thisIsADecorator
  *     class Foo {}
+ * @module
  */
 
 /**

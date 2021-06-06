@@ -76,7 +76,7 @@ describe("Converter", function () {
                     before();
                     resetReflectionID();
                     result = app.converter.convert(
-                        app.getEntryPointsForPaths([path])
+                        app.getEntryPointsForPaths([path], [program])
                     );
                     after();
                     ok(

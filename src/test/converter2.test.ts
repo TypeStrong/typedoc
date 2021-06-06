@@ -251,10 +251,17 @@ describe("Converter2", () => {
             ].find(existsSync);
 
             ok(entryPoint, `No entry point found for ${entry}`);
+            const sourceFile = program.getSourceFile(entryPoint);
+            ok(sourceFile, `No source file found for ${entryPoint}`);
 
-            const project = app.converter.convert(
-                app.getEntryPointsForPaths([entryPoint])
-            );
+            const project = app.converter.convert([
+                {
+                    displayName: entry,
+                    path: entryPoint,
+                    program,
+                    sourceFile,
+                },
+            ]);
             check(project);
         });
     }
