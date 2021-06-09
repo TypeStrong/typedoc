@@ -2,6 +2,7 @@
 
 import glob = require("glob");
 import { dirname, join, resolve } from "path";
+import { existsSync } from "fs";
 import { flatMap } from "./array";
 
 import { readFile } from "./fs";
@@ -205,8 +206,25 @@ export function getTsEntryPointForPackage(
         typeof packageJson.main == "string"
     ) {
         packageMain = packageJson.main;
+    } else if (
+        hasOwnProperty(packageJson, "types") &&
+        typeof packageJson.types == "string"
+    ) {
+        packageMain = packageJson.types;
     }
     let jsEntryPointPath = resolve(packageJsonPath, "..", packageMain);
+    // In opposition to .js files, .ts(x) extension must be explicitly declared.
+    if (/\.tsx?$/.test(jsEntryPointPath)) {
+        if (existsSync(jsEntryPointPath)) {
+            return jsEntryPointPath;
+        } else {
+            logger.warn(
+                `Could not determine the TS entry point for "${packageJsonPath}". Package will be ignored.`
+            );
+            return ignorePackage;
+        }
+    }
+
     // The jsEntryPointPath from the package manifest can be like a require path.
     // It could end with .js, or it could end without .js, or it could be a folder containing an index.js
     // We can use require.resolve to let node do its magic.
