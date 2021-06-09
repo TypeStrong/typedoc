@@ -37,13 +37,15 @@ typedoc package1/index.ts package2/index.ts
 ### Monorepos / Workspaces
 
 If your codebase is comprised of one or more npm packages, you can pass the paths to these
-packages and TypeDoc will attempt to determine entry points from your `package.json`'s `main`
-property (or its default value `index.js`).
+packages and TypeDoc will attempt to determine entry points based on `package.json`'s `main`
+property (with default value `index.js`) and if it wasn't found, based on `types` property.
 If any of the packages given are the root of an [npm Workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 or a [Yarn Workspace](https://classic.yarnpkg.com/en/docs/workspaces/) TypeDoc will find all
 the `workspaces` defined in the `package.json`.
 This mode requires sourcemaps in your JS entry points, in order to find the TS entry points.
 Supports wildcard paths in the same fashion as those found in npm or Yarn workspaces.
+
+:warning: In opposition to project entry points, package entry points are determined relatively to options file if provided.
 
 #### Single npm module
 
