@@ -241,7 +241,7 @@ export function getTsEntryPointForPackage(
         if (e.code !== "MODULE_NOT_FOUND") {
             throw e;
         } else {
-            let tsEntryPointPath = resolve(
+            const tsEntryPointPath = resolve(
                 packageJsonPath,
                 "..",
                 packageTypes ?? packageMain
