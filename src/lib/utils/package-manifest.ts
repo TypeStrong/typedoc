@@ -201,6 +201,7 @@ export function getTsEntryPointForPackage(
     packageJson: Record<string, unknown>
 ): string | undefined | typeof ignorePackage {
     let packageMain = "index.js"; // The default, per the npm docs.
+    let packageTypes = null;
     if (
         hasOwnProperty(packageJson, "main") &&
         typeof packageJson.main == "string"
@@ -210,7 +211,12 @@ export function getTsEntryPointForPackage(
         hasOwnProperty(packageJson, "types") &&
         typeof packageJson.types == "string"
     ) {
-        packageMain = packageJson.types;
+        packageTypes = packageJson.types;
+    } else if (
+        hasOwnProperty(packageJson, "typings") &&
+        typeof packageJson.typings == "string"
+    ) {
+        packageTypes = packageJson.typings;
     }
     let jsEntryPointPath = resolve(packageJsonPath, "..", packageMain);
     // In opposition to .js files, .ts(x) extension must be explicitly declared.
@@ -235,11 +241,24 @@ export function getTsEntryPointForPackage(
         if (e.code !== "MODULE_NOT_FOUND") {
             throw e;
         } else {
-            logger.warn(
-                `Could not determine the JS entry point for "${packageJsonPath}". Package will be ignored.`
+            let tsEntryPointPath = resolve(
+                packageJsonPath,
+                "..",
+                packageTypes ?? packageMain
             );
-            logger.verbose(e.message);
-            return ignorePackage;
+            // In opposition to .js files, .ts(x) extension must be explicitly declared.
+            if (
+                /\.tsx?$/.test(tsEntryPointPath) &&
+                existsSync(tsEntryPointPath)
+            ) {
+                return tsEntryPointPath;
+            } else {
+                logger.warn(
+                    `Could not determine the entry point for "${packageJsonPath}". Package will be ignored.`
+                );
+                logger.verbose(e.message);
+                return ignorePackage;
+            }
         }
     }
     return getTsSourceFromJsSource(logger, jsEntryPointPath);
