@@ -1,5 +1,5 @@
 {
   "name": "typedoc-multi-package-bar",
   "version": "1.0.0",
-  "main": "dist/index"
+  "types": "index.d.ts"
 }
