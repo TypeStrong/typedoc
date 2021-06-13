@@ -1,4 +1,4 @@
-// Utilities to support the inspection of node package "manifests" (package.json's)
+// Utilities to support the inspection of node package "manifests"
 
 import glob = require("glob");
 import { dirname, join, resolve } from "path";
@@ -81,7 +81,7 @@ export function expandPackages(
     packageJsonDir: string,
     workspaces: string[]
 ): string[] {
-    // Technnically npm and Yarn workspaces don't support recursive nesting,
+    // Technically npm and Yarn workspaces don't support recursive nesting,
     // however we support the passing of paths to either packages or
     // to the root of a workspace tree in our params and so we could here
     // be dealing with either a root or a leaf. So let's do this recursively,
@@ -99,7 +99,7 @@ export function expandPackages(
                 // Assume this is a single package repo
                 return [dirname(packageJsonPath)];
             }
-            // This is a workpace root package, recurse
+            // This is a workspace root package, recurse
             return expandPackages(
                 logger,
                 dirname(packageJsonPath),
