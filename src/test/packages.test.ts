@@ -14,7 +14,11 @@ describe("Packages support", () => {
         const project = app.convert();
         equal(
             project?.children?.map((r) => r.name),
-            ["typedoc-multi-package-bar", "typedoc-multi-package-foo"]
+            [
+                "typedoc-multi-package-bar",
+                "typedoc-multi-package-baz",
+                "typedoc-multi-package-foo",
+            ]
         );
     });
 

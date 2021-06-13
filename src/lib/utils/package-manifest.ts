@@ -2,6 +2,7 @@
 
 import glob = require("glob");
 import { dirname, join, resolve } from "path";
+import { existsSync } from "fs";
 import { flatMap } from "./array";
 
 import { readFile } from "./fs";
@@ -200,29 +201,52 @@ export function getTsEntryPointForPackage(
     packageJson: Record<string, unknown>
 ): string | undefined | typeof ignorePackage {
     let packageMain = "index.js"; // The default, per the npm docs.
+    let packageTypes = null;
     if (
         hasOwnProperty(packageJson, "main") &&
         typeof packageJson.main == "string"
     ) {
         packageMain = packageJson.main;
+    } else if (
+        hasOwnProperty(packageJson, "types") &&
+        typeof packageJson.types == "string"
+    ) {
+        packageTypes = packageJson.types;
+    } else if (
+        hasOwnProperty(packageJson, "typings") &&
+        typeof packageJson.typings == "string"
+    ) {
+        packageTypes = packageJson.typings;
     }
-    let jsEntryPointPath = resolve(packageJsonPath, "..", packageMain);
-    // The jsEntryPointPath from the package manifest can be like a require path.
+    let entryPointPath = resolve(packageJsonPath, "..", packageMain);
+    // The entryPointPath from the package manifest can be like a require path.
     // It could end with .js, or it could end without .js, or it could be a folder containing an index.js
     // We can use require.resolve to let node do its magic.
     // Pass an empty `paths` as node_modules locations do not need to be examined
     try {
-        jsEntryPointPath = require.resolve(jsEntryPointPath, { paths: [] });
+        entryPointPath = require.resolve(entryPointPath, { paths: [] });
+        if (/\.tsx?$/.test(entryPointPath) && existsSync(entryPointPath)) {
+            return entryPointPath;
+        }
     } catch (e) {
         if (e.code !== "MODULE_NOT_FOUND") {
             throw e;
         } else {
-            logger.warn(
-                `Could not determine the JS entry point for "${packageJsonPath}". Package will be ignored.`
+            entryPointPath = resolve(
+                packageJsonPath,
+                "..",
+                packageTypes ?? packageMain
             );
-            logger.verbose(e.message);
-            return ignorePackage;
+            if (/\.tsx?$/.test(entryPointPath) && existsSync(entryPointPath)) {
+                return entryPointPath;
+            } else {
+                logger.warn(
+                    `Could not determine the entry point for "${packageJsonPath}". Package will be ignored.`
+                );
+                logger.verbose(e.message);
+                return ignorePackage;
+            }
         }
     }
-    return getTsSourceFromJsSource(logger, jsEntryPointPath);
+    return getTsSourceFromJsSource(logger, entryPointPath);
 }
