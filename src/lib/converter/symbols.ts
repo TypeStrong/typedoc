@@ -73,7 +73,6 @@ export function convertSymbol(
     // but aren't aliased symbols because `export *` was used.
     const previous = context.project.getReflectionFromSymbol(symbol);
     if (
-        !context.converter.application.options.getValue("disableAliases") &&
         previous &&
         previous.parent?.kindOf(ReflectionKind.Module | ReflectionKind.Project)
     ) {
@@ -707,10 +706,7 @@ function convertAlias(
     const reflection = context.project.getReflectionFromSymbol(
         context.resolveAliasedSymbol(symbol)
     );
-    if (
-        !reflection ||
-        context.converter.application.options.getValue("disableAliases")
-    ) {
+    if (!reflection) {
         // We don't have this, convert it.
         convertSymbol(
             context,
