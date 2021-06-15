@@ -831,9 +831,6 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
-      "comment": {
-        "shortText": "Any constructor function"
-      },
       "typeParameter": [
         {
           "id": 10,
@@ -862,6 +859,9 @@
               "kind": 16384,
               "kindString": "Constructor signature",
               "flags": {},
+              "comment": {
+                "shortText": "Any constructor function"
+              },
               "parameters": [
                 {
                   "id": 9,
@@ -895,9 +895,6 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
-      "comment": {
-        "shortText": "Any function"
-      },
       "typeParameter": [
         {
           "id": 5,
@@ -926,6 +923,9 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "shortText": "Any function"
+              },
               "parameters": [
                 {
                   "id": 4,

@@ -93,9 +93,6 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
-      "comment": {
-        "shortText": "A type that describes a compare function, e.g. for array.sort()."
-      },
       "typeParameter": [
         {
           "id": 6,
@@ -120,6 +117,9 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "shortText": "A type that describes a compare function, e.g. for array.sort()."
+              },
               "parameters": [
                 {
                   "id": 4,

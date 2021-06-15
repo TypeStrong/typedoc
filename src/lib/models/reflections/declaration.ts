@@ -161,6 +161,15 @@ export class DeclarationReflection
         return result;
     }
 
+    /** @internal */
+    getNonIndexSignatures(): SignatureReflection[] {
+        return ([] as SignatureReflection[]).concat(
+            this.signatures ?? [],
+            this.setSignature ?? [],
+            this.getSignature ?? []
+        );
+    }
+
     /**
      * Traverse all potential child reflections of this reflection.
      *
