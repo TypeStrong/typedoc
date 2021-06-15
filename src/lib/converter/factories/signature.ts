@@ -2,6 +2,7 @@ import * as ts from "typescript";
 import * as assert from "assert";
 import {
     DeclarationReflection,
+    IntrinsicType,
     ParameterReflection,
     PredicateType,
     Reflection,
@@ -67,6 +68,8 @@ export function createSignature(
     const predicate = context.checker.getTypePredicateOfSignature(signature);
     if (predicate) {
         sigRef.type = convertPredicate(predicate, context.withScope(sigRef));
+    } else if (kind == ReflectionKind.SetSignature) {
+        sigRef.type = new IntrinsicType("void");
     } else {
         sigRef.type = context.converter.convertType(
             context.withScope(sigRef),

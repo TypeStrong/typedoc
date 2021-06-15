@@ -7,6 +7,7 @@ import {
     DeclarationReflection,
     ProjectReflection,
     ReflectionKind,
+    SignatureReflection,
 } from "../lib/models";
 
 function query(project: ProjectReflection, name: string) {
@@ -54,6 +55,12 @@ const issueTests: Record<string, (project: ProjectReflection) => void> = {
             "{@link CommentedClass} Test description."
         );
         equal(refl.signatures?.[0]?.comment?.returns, "Test description.\n");
+    },
+
+    gh1215(project) {
+        const foo = query(project, "Foo.bar");
+        ok(foo.setSignature instanceof SignatureReflection);
+        equal(foo.setSignature.type?.toString(), "void");
     },
 
     gh1255(project) {
