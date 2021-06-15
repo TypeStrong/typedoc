@@ -5,7 +5,11 @@ import type { Application } from "../application";
 import type { Logger } from "./loggers";
 
 export function loadPlugins(app: Application, plugins: readonly string[]) {
-    for (const plugin of resolvePluginPaths(plugins)) {
+    if (plugins.includes("none")) {
+        return;
+    }
+
+    for (const plugin of plugins) {
         try {
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             const instance = require(plugin);
@@ -117,15 +121,4 @@ function isPlugin(info: any): boolean {
             typeof keyword === "string" &&
             keyword.toLocaleLowerCase() === "typedocplugin"
     );
-}
-
-function resolvePluginPaths(plugins: readonly string[]) {
-    const cwd = process.cwd();
-    return plugins.map((plugin) => {
-        // treat plugins that start with `.` as relative, requiring resolution
-        if (plugin.startsWith(".")) {
-            return Path.resolve(cwd, plugin);
-        }
-        return plugin;
-    });
 }

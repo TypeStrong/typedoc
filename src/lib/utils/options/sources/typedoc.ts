@@ -6,12 +6,14 @@ import { SORT_STRATEGIES } from "../../sort";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
+        type: ParameterType.Path,
         name: "options",
         help: "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory",
         hint: ParameterHint.File,
         defaultValue: process.cwd(),
     });
     options.addDeclaration({
+        type: ParameterType.Path,
         name: "tsconfig",
         help: "Specify a TypeScript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
         hint: ParameterHint.File,
@@ -22,25 +24,25 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help:
             "Specify one or more package folders from which a package.json file should be loaded to determine the entry points. Your JS files must have sourcemaps for this to work." +
             "If the root of an npm or Yarn workspace is given, the packages specified in `workspaces` will be loaded.",
-        type: ParameterType.Array,
+        type: ParameterType.PathArray,
         defaultValue: [],
     });
 
     options.addDeclaration({
         name: "entryPoints",
         help: "The entry points of your library, which files should be documented as available to consumers.",
-        type: ParameterType.Array,
+        type: ParameterType.PathArray,
     });
 
     options.addDeclaration({
         name: "exclude",
-        help: "Define paths to be excluded when expanding a directory that was specified as an entry point.",
-        type: ParameterType.Array,
+        help: "Define patterns to be excluded when expanding a directory that was specified as an entry point.",
+        type: ParameterType.GlobArray,
     });
     options.addDeclaration({
         name: "externalPattern",
         help: "Define patterns for files that should be considered being external.",
-        type: ParameterType.Array,
+        type: ParameterType.GlobArray,
         defaultValue: ["**/node_modules/**"],
     });
     options.addDeclaration({
@@ -76,11 +78,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "includes",
         help: "Specifies the location to look for included documents (use [[include:FILENAME]] in comments).",
+        type: ParameterType.Path,
         hint: ParameterHint.Directory,
     });
     options.addDeclaration({
         name: "media",
         help: "Specifies the location with media files that should be copied to the output directory.",
+        type: ParameterType.Path,
         hint: ParameterHint.Directory,
     });
 
@@ -103,11 +107,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "out",
         help: "Specifies the location the documentation should be written to.",
+        type: ParameterType.Path,
         hint: ParameterHint.Directory,
     });
     options.addDeclaration({
         name: "json",
         help: "Specifies the location and filename a JSON file describing the project is written to.",
+        type: ParameterType.Path,
         hint: ParameterHint.File,
     });
     options.addDeclaration({
@@ -119,7 +125,9 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "theme",
-        help: "Specify the path to the theme that should be used, or 'default' or 'minimal' to use built-in themes.",
+        help:
+            "Specify the path to the theme that should be used, or 'default' or 'minimal' to use built-in themes." +
+            "Note: Not resolved according to the config file location, always resolved according to cwd.",
         type: ParameterType.String,
         defaultValue: "default",
     });
@@ -156,6 +164,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "readme",
         help: "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.",
+        type: ParameterType.Path,
     });
     options.addDeclaration({
         name: "defaultCategory",
@@ -249,7 +258,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "plugin",
         help: "Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.",
-        type: ParameterType.Array,
+        type: ParameterType.ModuleArray,
     });
     options.addDeclaration({
         name: "logger",

@@ -7,6 +7,7 @@ import {
     NumberDeclarationOption,
     MapDeclarationOption,
 } from "../../../../lib/utils/options";
+import { join, resolve } from "path";
 
 describe("Options - ArgumentsReader", () => {
     // Note: We lie about the type of Options here since we want the less strict
@@ -52,11 +53,14 @@ describe("Options - ArgumentsReader", () => {
     }
 
     test("Puts arguments with no flag into inputFiles", ["foo", "bar"], () => {
-        equal(options.getValue("entryPoints"), ["foo", "bar"]);
+        equal(options.getValue("entryPoints"), [
+            join(process.cwd(), "foo"),
+            join(process.cwd(), "bar"),
+        ]);
     });
 
     test("Works with string options", ["--out", "outDir"], () => {
-        equal(options.getValue("out"), "outDir");
+        equal(options.getValue("out"), join(process.cwd(), "outDir"));
     });
 
     test("Works with number options", ["-numOption", "123"], () => {
@@ -90,7 +94,9 @@ describe("Options - ArgumentsReader", () => {
         ["--includeVersion", "foo"],
         () => {
             equal(options.getValue("includeVersion"), true);
-            equal(options.getValue("entryPoints"), ["foo"]);
+            equal(options.getValue("entryPoints"), [
+                join(process.cwd(), "foo"),
+            ]);
         }
     );
 
@@ -103,22 +109,14 @@ describe("Options - ArgumentsReader", () => {
     });
 
     test("Works with array options", ["--exclude", "a"], () => {
-        equal(options.getValue("exclude"), ["a"]);
+        equal(options.getValue("exclude"), [resolve("a")]);
     });
-
-    test(
-        "Splits array options (backward compatibility)",
-        ["--exclude", "a,b"],
-        () => {
-            equal(options.getValue("exclude"), ["a", "b"]);
-        }
-    );
 
     test(
         "Works with array options passed multiple times",
         ["--exclude", "a", "--exclude", "b"],
         () => {
-            equal(options.getValue("exclude"), ["a", "b"]);
+            equal(options.getValue("exclude"), [resolve("a"), resolve("b")]);
         }
     );
 

@@ -1,4 +1,4 @@
-import * as Path from "path";
+import { join, dirname, resolve } from "path";
 import * as FS from "fs";
 import { cloneDeep } from "lodash";
 
@@ -77,7 +77,7 @@ export class TypeDocReader implements OptionsReader {
             for (const extendedFile of extended) {
                 // Extends is relative to the file it appears in.
                 this.readFile(
-                    Path.resolve(Path.dirname(file), extendedFile),
+                    resolve(dirname(file), extendedFile),
                     container,
                     logger,
                     seen
@@ -88,15 +88,11 @@ export class TypeDocReader implements OptionsReader {
 
         for (const [key, val] of Object.entries(data)) {
             try {
-                // The "packages" option is an array of paths and should be interpreted as relative to the typedoc.json
-                if (key === "packages" && Array.isArray(val)) {
-                    container.setValue(
-                        key,
-                        val.map((e) => Path.resolve(file, "..", e))
-                    );
-                } else {
-                    container.setValue(key, val);
-                }
+                container.setValue(
+                    key as never,
+                    val as never,
+                    resolve(dirname(file))
+                );
             } catch (error) {
                 logger.error(error.message);
             }
@@ -112,12 +108,12 @@ export class TypeDocReader implements OptionsReader {
      * @return the typedoc.(js|json) file path or undefined
      */
     private findTypedocFile(path: string): string | undefined {
-        path = Path.resolve(path);
+        path = resolve(path);
 
         return [
             path,
-            Path.join(path, "typedoc.json"),
-            Path.join(path, "typedoc.js"),
+            join(path, "typedoc.json"),
+            join(path, "typedoc.js"),
         ].find((path) => FS.existsSync(path) && FS.statSync(path).isFile());
     }
 }

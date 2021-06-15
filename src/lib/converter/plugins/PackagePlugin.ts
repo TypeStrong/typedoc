@@ -6,6 +6,7 @@ import { Converter } from "../converter";
 import { Context } from "../context";
 import { BindOption, readFile } from "../../utils";
 import { getCommonDirectory } from "../../utils/fs";
+import { join } from "path";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -46,12 +47,11 @@ export class PackagePlugin extends ConverterComponent {
         this.readmeFile = undefined;
         this.packageFile = undefined;
 
-        let readme = this.readme;
-        const noReadmeFile = readme === "none";
-        if (!noReadmeFile && readme) {
-            readme = Path.resolve(readme);
-            if (FS.existsSync(readme)) {
-                this.readmeFile = readme;
+        // Path will be resolved already. This is kind of ugly, but...
+        const noReadmeFile = this.readme == join(process.cwd(), "none");
+        if (!noReadmeFile && this.readme) {
+            if (FS.existsSync(this.readme)) {
+                this.readmeFile = this.readme;
             }
         }
 
@@ -61,11 +61,7 @@ export class PackagePlugin extends ConverterComponent {
             dirName === Path.resolve(Path.join(dirName, ".."));
 
         let dirName = Path.resolve(
-            getCommonDirectory(
-                this.application.options
-                    .getValue("entryPoints")
-                    .map((path) => Path.resolve(path))
-            )
+            getCommonDirectory(this.application.options.getValue("entryPoints"))
         );
         this.application.logger.verbose(`Begin readme search at ${dirName}`);
         while (!packageAndReadmeFound() && !reachedTopDirectory(dirName)) {

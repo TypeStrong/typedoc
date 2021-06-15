@@ -1,4 +1,4 @@
-import { resolve, basename } from "path";
+import { resolve, basename, join } from "path";
 import { existsSync, statSync } from "fs";
 
 import * as ts from "typescript";
@@ -87,7 +87,11 @@ export class TSConfigReader implements OptionsReader {
         for (const [key, val] of Object.entries(typedocOptions || {})) {
             try {
                 // We catch the error, so can ignore the strict type checks
-                container.setValue(key as never, val as never);
+                container.setValue(
+                    key as never,
+                    val as never,
+                    join(fileToRead, "..")
+                );
             } catch (error) {
                 logger.error(error.message);
             }

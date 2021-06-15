@@ -2,6 +2,13 @@ import { OptionsReader, Options } from "..";
 import { Logger } from "../../loggers";
 import { ParameterType } from "../declaration";
 
+const ARRAY_OPTION_TYPES = new Set<ParameterType | undefined>([
+    ParameterType.Array,
+    ParameterType.PathArray,
+    ParameterType.ModuleArray,
+    ParameterType.GlobArray,
+]);
+
 /**
  * Obtains option values from command-line arguments
  */
@@ -39,7 +46,7 @@ export class ArgumentsReader implements OptionsReader {
                 : options.getDeclaration("entryPoints");
 
             if (decl) {
-                if (seen.has(decl.name) && decl.type === ParameterType.Array) {
+                if (seen.has(decl.name) && ARRAY_OPTION_TYPES.has(decl.type)) {
                     trySet(
                         decl.name,
                         (options.getValue(decl.name) as string[]).concat(

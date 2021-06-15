@@ -1,8 +1,10 @@
-import { deepStrictEqual as equal, throws } from "assert";
+import { deepStrictEqual as equal, ok, throws } from "assert";
+import { join, resolve } from "path";
 import {
     ArrayDeclarationOption,
     convert,
     DeclarationOption,
+    getDefaultValue,
     MapDeclarationOption,
     MixedDeclarationOption,
     NumberDeclarationOption,
@@ -10,19 +12,19 @@ import {
     StringDeclarationOption,
 } from "../../../lib/utils/options/declaration";
 
-describe("Options - Default convert function", () => {
+describe("Options - conversions", () => {
     const optionWithType = (type: ParameterType) =>
         ({
             type,
-            defaultValue: null,
+            defaultValue: undefined,
             name: "test",
             help: "",
         } as DeclarationOption);
 
     it("Converts to numbers", () => {
-        equal(convert("123", optionWithType(ParameterType.Number)), 123);
-        equal(convert("a", optionWithType(ParameterType.Number)), 0);
-        equal(convert(NaN, optionWithType(ParameterType.Number)), 0);
+        equal(convert("123", optionWithType(ParameterType.Number), ""), 123);
+        equal(convert("a", optionWithType(ParameterType.Number), ""), 0);
+        equal(convert(NaN, optionWithType(ParameterType.Number), ""), 0);
     });
 
     it("Converts to number if value is the lowest allowed value for a number option", () => {
@@ -34,7 +36,7 @@ describe("Options - Default convert function", () => {
             maxValue: 10,
             defaultValue: 1,
         };
-        equal(convert(1, declaration), 1);
+        equal(convert(1, declaration, ""), 1);
     });
 
     it("Generates an error if value is too low for a number option", () => {
@@ -47,8 +49,36 @@ describe("Options - Default convert function", () => {
             defaultValue: 1,
         };
         throws(
-            () => convert(0, declaration),
+            () => convert(0, declaration, ""),
             new Error("test must be between 1 and 10")
+        );
+    });
+
+    it("Generates an error if value is too low for a number option with no max", () => {
+        const declaration: NumberDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Number,
+            minValue: 1,
+            defaultValue: 1,
+        };
+        throws(
+            () => convert(0, declaration, ""),
+            new Error("test must be >= 1")
+        );
+    });
+
+    it("Generates an error if value is too high for a number option with no min", () => {
+        const declaration: NumberDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Number,
+            maxValue: 10,
+            defaultValue: 1,
+        };
+        throws(
+            () => convert(11, declaration, ""),
+            new Error("test must be <= 10")
         );
     });
 
@@ -61,7 +91,7 @@ describe("Options - Default convert function", () => {
             maxValue: 10,
             defaultValue: 1,
         };
-        equal(convert(10, declaration), 10);
+        equal(convert(10, declaration, ""), 10);
     });
 
     it("Generates an error if value is too high for a number option", () => {
@@ -74,7 +104,7 @@ describe("Options - Default convert function", () => {
             defaultValue: 1,
         };
         throws(
-            () => convert(11, declaration),
+            () => convert(11, declaration, ""),
             new Error("test must be between 1 and 10")
         );
     });
@@ -90,18 +120,24 @@ describe("Options - Default convert function", () => {
                 }
             },
         };
-        equal(convert(0, declaration), 0);
-        equal(convert(2, declaration), 2);
-        equal(convert(4, declaration), 4);
-        throws(() => convert(1, declaration), new Error("test must be even"));
+        equal(convert(0, declaration, ""), 0);
+        equal(convert(2, declaration, ""), 2);
+        equal(convert(4, declaration, ""), 4);
+        throws(
+            () => convert(1, declaration, ""),
+            new Error("test must be even")
+        );
     });
 
     it("Converts to strings", () => {
-        equal(convert("123", optionWithType(ParameterType.String)), "123");
-        equal(convert(123, optionWithType(ParameterType.String)), "123");
-        equal(convert(["1", "2"], optionWithType(ParameterType.String)), "1,2");
-        equal(convert(null, optionWithType(ParameterType.String)), "");
-        equal(convert(void 0, optionWithType(ParameterType.String)), "");
+        equal(convert("123", optionWithType(ParameterType.String), ""), "123");
+        equal(convert(123, optionWithType(ParameterType.String), ""), "123");
+        equal(
+            convert(["1", "2"], optionWithType(ParameterType.String), ""),
+            "1,2"
+        );
+        equal(convert(null, optionWithType(ParameterType.String), ""), "");
+        equal(convert(void 0, optionWithType(ParameterType.String), ""), "");
     });
 
     it("Validates string options", () => {
@@ -115,26 +151,50 @@ describe("Options - Default convert function", () => {
                 }
             },
         };
-        equal(convert("TOASTY", declaration), "TOASTY");
+        equal(convert("TOASTY", declaration, ""), "TOASTY");
         throws(
-            () => convert("toasty", declaration),
+            () => convert("toasty", declaration, ""),
             new Error("test must be upper case")
         );
     });
 
     it("Converts to booleans", () => {
-        equal(convert("a", optionWithType(ParameterType.Boolean)), true);
-        equal(convert([1], optionWithType(ParameterType.Boolean)), true);
-        equal(convert(false, optionWithType(ParameterType.Boolean)), false);
+        equal(convert("a", optionWithType(ParameterType.Boolean), ""), true);
+        equal(convert([1], optionWithType(ParameterType.Boolean), ""), true);
+        equal(convert(false, optionWithType(ParameterType.Boolean), ""), false);
     });
 
     it("Converts to arrays", () => {
-        equal(convert("12,3", optionWithType(ParameterType.Array)), [
-            "12",
-            "3",
+        equal(convert("12,3", optionWithType(ParameterType.Array), ""), [
+            "12,3",
         ]);
-        equal(convert(["12,3"], optionWithType(ParameterType.Array)), ["12,3"]);
-        equal(convert(true, optionWithType(ParameterType.Array)), []);
+        equal(convert(["12,3"], optionWithType(ParameterType.Array), ""), [
+            "12,3",
+        ]);
+        equal(convert(true, optionWithType(ParameterType.Array), ""), []);
+
+        equal(convert("/,a", optionWithType(ParameterType.PathArray), ""), [
+            resolve("/,a"),
+        ]);
+        equal(convert(["/foo"], optionWithType(ParameterType.PathArray), ""), [
+            resolve("/foo"),
+        ]);
+        equal(convert(true, optionWithType(ParameterType.PathArray), ""), []);
+
+        equal(convert("a,b", optionWithType(ParameterType.ModuleArray), ""), [
+            "a,b",
+        ]);
+        equal(convert(["a,b"], optionWithType(ParameterType.ModuleArray), ""), [
+            "a,b",
+        ]);
+        equal(convert(true, optionWithType(ParameterType.ModuleArray), ""), []);
+    });
+
+    it("ModuleArray is resolved if relative", () => {
+        equal(
+            convert(["./foo"], optionWithType(ParameterType.ModuleArray), ""),
+            [join(process.cwd(), "foo")]
+        );
     });
 
     it("Validates array options", () => {
@@ -148,10 +208,10 @@ describe("Options - Default convert function", () => {
                 }
             },
         };
-        equal(convert(["1"], declaration), ["1"]);
-        equal(convert(["1", "2"], declaration), ["1", "2"]);
+        equal(convert(["1"], declaration, ""), ["1"]);
+        equal(convert(["1", "2"], declaration, ""), ["1", "2"]);
         throws(
-            () => convert([], declaration),
+            () => convert([], declaration, ""),
             new Error("test must not be empty")
         );
     });
@@ -167,9 +227,9 @@ describe("Options - Default convert function", () => {
             },
             defaultValue: 1,
         };
-        equal(convert("a", declaration), 1);
-        equal(convert("b", declaration), 2);
-        equal(convert(2, declaration), 2);
+        equal(convert("a", declaration, ""), 1);
+        equal(convert("b", declaration, ""), 2);
+        equal(convert(2, declaration, ""), 2);
     });
 
     it("Converts to mapped types with a map", () => {
@@ -183,9 +243,9 @@ describe("Options - Default convert function", () => {
             ]),
             defaultValue: 1,
         };
-        equal(convert("a", declaration), 1);
-        equal(convert("b", declaration), 2);
-        equal(convert(2, declaration), 2);
+        equal(convert("a", declaration, ""), 1);
+        equal(convert("b", declaration, ""), 2);
+        equal(convert(2, declaration, ""), 2);
     });
 
     it("Uses the mapError if provided for errors", () => {
@@ -198,7 +258,7 @@ describe("Options - Default convert function", () => {
             mapError: "Test error",
         };
         throws(
-            () => convert("a", declaration),
+            () => convert("a", declaration, ""),
             new Error(declaration.mapError)
         );
     });
@@ -215,7 +275,7 @@ describe("Options - Default convert function", () => {
             defaultValue: 1,
         };
         throws(
-            () => convert("c", declaration),
+            () => convert("c", declaration, ""),
             new Error("test must be one of a, b")
         );
     });
@@ -233,14 +293,14 @@ describe("Options - Default convert function", () => {
             defaultValue: Enum.a,
         } as const;
         throws(
-            () => convert("c", declaration),
+            () => convert("c", declaration, ""),
             new Error("test must be one of a, b")
         );
     });
 
     it("Passes through mixed", () => {
         const data = Symbol();
-        equal(convert(data, optionWithType(ParameterType.Mixed)), data);
+        equal(convert(data, optionWithType(ParameterType.Mixed), ""), data);
     });
 
     it("Validates mixed options", () => {
@@ -255,10 +315,136 @@ describe("Options - Default convert function", () => {
                 }
             },
         };
-        equal(convert("text", declaration), "text");
+        equal(convert("text", declaration, ""), "text");
         throws(
-            () => convert(1, declaration),
+            () => convert(1, declaration, ""),
             new Error("test must not be a number")
+        );
+    });
+});
+
+describe("Options - default values", () => {
+    function getDeclaration(
+        type: ParameterType,
+        defaultValue: unknown
+    ): DeclarationOption {
+        return {
+            type,
+            defaultValue,
+            name: "test",
+            help: "",
+        } as DeclarationOption;
+    }
+
+    it("String", () => {
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.String, void 0)),
+            ""
+        );
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.String, "foo")),
+            "foo"
+        );
+    });
+
+    it("Path", () => {
+        equal(getDefaultValue(getDeclaration(ParameterType.Path, void 0)), "");
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.Path, "foo")),
+            resolve("foo")
+        );
+    });
+
+    it("Number", () => {
+        equal(getDefaultValue(getDeclaration(ParameterType.Number, void 0)), 0);
+        equal(getDefaultValue(getDeclaration(ParameterType.Number, 123)), 123);
+        ok(
+            Number.isNaN(
+                getDefaultValue(getDeclaration(ParameterType.Number, NaN))
+            )
+        );
+    });
+
+    it("Boolean", () => {
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.Boolean, void 0)),
+            false
+        );
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.Boolean, true)),
+            true
+        );
+    });
+
+    it("Map", () => {
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.Map, void 0)),
+            void 0
+        );
+        const def = {};
+        ok(getDefaultValue(getDeclaration(ParameterType.Map, def)) === def);
+    });
+
+    it("Mixed", () => {
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.Mixed, void 0)),
+            void 0
+        );
+        const def = {};
+        ok(getDefaultValue(getDeclaration(ParameterType.Mixed, def)) === def);
+    });
+
+    it("Array", () => {
+        equal(getDefaultValue(getDeclaration(ParameterType.Array, void 0)), []);
+        equal(getDefaultValue(getDeclaration(ParameterType.Array, ["a"])), [
+            "a",
+        ]);
+    });
+
+    it("PathArray", () => {
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.PathArray, void 0)),
+            []
+        );
+        equal(getDefaultValue(getDeclaration(ParameterType.PathArray, ["a"])), [
+            resolve("a"),
+        ]);
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.PathArray, ["/a"])),
+            [resolve("/a")]
+        );
+    });
+
+    it("ModuleArray", () => {
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.ModuleArray, void 0)),
+            []
+        );
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.ModuleArray, ["a"])),
+            ["a"]
+        );
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.ModuleArray, ["./a"])),
+            [resolve("./a")]
+        );
+    });
+
+    it("GlobArray", () => {
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.GlobArray, void 0)),
+            []
+        );
+        equal(getDefaultValue(getDeclaration(ParameterType.GlobArray, ["a"])), [
+            resolve("a"),
+        ]);
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.GlobArray, ["**a"])),
+            ["**a"]
+        );
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.GlobArray, ["#!a"])),
+            ["#!" + resolve("a")]
         );
     });
 });

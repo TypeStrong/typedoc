@@ -1,20 +1,19 @@
 import { cloneDeep } from "lodash";
 import * as ts from "typescript";
-
+import { NeverIfInternal } from "..";
+import { Application } from "../../..";
+import { insertPrioritySorted, unique } from "../array";
+import { Logger } from "../loggers";
 import {
     convert,
     DeclarationOption,
+    getDefaultValue,
     KeyToDeclaration,
-    ParameterType,
     TypeDocOptionMap,
     TypeDocOptions,
     TypeDocOptionValues,
 } from "./declaration";
-import { Logger } from "../loggers";
-import { insertPrioritySorted, unique } from "../array";
 import { addTypeDocOptions } from "./sources";
-import { Application } from "../../..";
-import { NeverIfInternal } from "..";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the
@@ -107,7 +106,7 @@ export class Options {
      */
     reset() {
         for (const declaration of this.getDeclarations()) {
-            this.setOptionValueToDefault(declaration);
+            this._values[declaration.name] = getDefaultValue(declaration);
         }
         this._setOptions.clear();
         this._compilerOptions = {};
@@ -163,7 +162,7 @@ export class Options {
             this._declarations.set(declaration.name, declaration);
         }
 
-        this.setOptionValueToDefault(declaration);
+        this._values[declaration.name] = getDefaultValue(declaration);
     }
 
     /**
@@ -249,16 +248,19 @@ export class Options {
      * Sets the given declared option. Throws if setting the option fails.
      * @param name
      * @param value
+     * @param configPath the directory to resolve Path type values against
      */
     setValue<K extends keyof TypeDocOptions>(
         name: K,
-        value: TypeDocOptions[K]
+        value: TypeDocOptions[K],
+        configPath?: string
     ): void;
     setValue(
         name: NeverIfInternal<string>,
-        value: NeverIfInternal<unknown>
+        value: NeverIfInternal<unknown>,
+        configPath?: NeverIfInternal<string>
     ): void;
-    setValue(name: string, value: unknown): void {
+    setValue(name: string, value: unknown, configPath?: string): void {
         const declaration = this.getDeclaration(name);
         if (!declaration) {
             throw new Error(
@@ -266,7 +268,11 @@ export class Options {
             );
         }
 
-        const converted = convert(value, declaration);
+        const converted = convert(
+            value,
+            declaration,
+            configPath ?? process.cwd()
+        );
         this._values[declaration.name] = converted;
         this._setOptions.add(name);
     }
@@ -311,32 +317,6 @@ export class Options {
         this._fileNames = fileNames;
         this._compilerOptions = cloneDeep(options);
         this._projectReferences = projectReferences ?? [];
-    }
-
-    /**
-     * Sets the value of a given option to its default value.
-     * @param declaration The option whose value should be reset.
-     */
-    private setOptionValueToDefault(
-        declaration: Readonly<DeclarationOption>
-    ): void {
-        this._values[declaration.name] =
-            this.getDefaultOptionValue(declaration);
-    }
-
-    private getDefaultOptionValue(
-        declaration: Readonly<DeclarationOption>
-    ): unknown {
-        // No need to convert the defaultValue for a map type as it has to be of a specific type
-        // Also don't use convert for number options to allow every possible number as a default value.
-        if (
-            declaration.type === ParameterType.Map ||
-            declaration.type === ParameterType.Number
-        ) {
-            return declaration.defaultValue;
-        } else {
-            return convert(declaration.defaultValue, declaration);
-        }
     }
 }
 

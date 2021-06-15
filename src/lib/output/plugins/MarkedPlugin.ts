@@ -200,28 +200,31 @@ output file :
 
         delete this.includes;
         if (this.includeSource) {
-            const includes = Path.resolve(this.includeSource);
             if (
-                fs.existsSync(includes) &&
-                fs.statSync(includes).isDirectory()
+                fs.existsSync(this.includeSource) &&
+                fs.statSync(this.includeSource).isDirectory()
             ) {
-                this.includes = includes;
+                this.includes = this.includeSource;
             } else {
                 this.application.logger.warn(
-                    "Could not find provided includes directory: " + includes
+                    "Could not find provided includes directory: " +
+                        this.includeSource
                 );
             }
         }
 
         if (this.mediaSource) {
-            const media = Path.resolve(this.mediaSource);
-            if (fs.existsSync(media) && fs.statSync(media).isDirectory()) {
+            if (
+                fs.existsSync(this.mediaSource) &&
+                fs.statSync(this.mediaSource).isDirectory()
+            ) {
                 this.mediaDirectory = Path.join(event.outputDirectory, "media");
-                copySync(media, this.mediaDirectory);
+                copySync(this.mediaSource, this.mediaDirectory);
             } else {
                 this.mediaDirectory = undefined;
                 this.application.logger.warn(
-                    "Could not find provided media directory: " + media
+                    "Could not find provided media directory: " +
+                        this.mediaSource
                 );
             }
         }

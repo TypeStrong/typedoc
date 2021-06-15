@@ -1,6 +1,7 @@
 import { Theme as ShikiTheme } from "shiki";
 import { LogLevel } from "../loggers";
 import { SortStrategy } from "../sort";
+import { isAbsolute, join, resolve } from "path";
 
 /**
  * An interface describing all TypeDoc specific options. Generated from a
@@ -114,11 +115,27 @@ export enum ParameterHint {
 
 export enum ParameterType {
     String,
+    /**
+     * Resolved according to the config directory.
+     */
+    Path,
     Number,
     Boolean,
     Map,
     Mixed,
     Array,
+    /**
+     * Resolved according to the config directory.
+     */
+    PathArray,
+    /**
+     * Resolved according to the config directory if it starts with `.`
+     */
+    ModuleArray,
+    /**
+     * Resolved according to the config directory unless it starts with `**`, after skipping any leading `!` and `#` characters.
+     */
+    GlobArray,
 }
 
 export interface DeclarationOptionBase {
@@ -140,10 +157,14 @@ export interface DeclarationOptionBase {
 }
 
 export interface StringDeclarationOption extends DeclarationOptionBase {
-    type?: ParameterType.String;
+    /**
+     * Specifies the resolution strategy. If `Path` is provided, values will be resolved according to their
+     * location in a file. If `String` or no value is provided, values will not be resolved.
+     */
+    type?: ParameterType.String | ParameterType.Path;
 
     /**
-     * If not specified defaults to the empty string.
+     * If not specified defaults to the empty string for both `String` and `Path`.
      */
     defaultValue?: string;
 
@@ -194,7 +215,11 @@ export interface BooleanDeclarationOption extends DeclarationOptionBase {
 }
 
 export interface ArrayDeclarationOption extends DeclarationOptionBase {
-    type: ParameterType.Array;
+    type:
+        | ParameterType.Array
+        | ParameterType.PathArray
+        | ParameterType.ModuleArray
+        | ParameterType.GlobArray;
 
     /**
      * If not specified defaults to an empty array.
@@ -253,20 +278,122 @@ export type DeclarationOption =
     | MapDeclarationOption<unknown>
     | ArrayDeclarationOption;
 
+interface ParameterTypeToOptionTypeMap {
+    [ParameterType.String]: string;
+    [ParameterType.Path]: string;
+    [ParameterType.Number]: number;
+    [ParameterType.Boolean]: boolean;
+    [ParameterType.Mixed]: unknown;
+    [ParameterType.Array]: string[];
+    [ParameterType.PathArray]: string[];
+    [ParameterType.ModuleArray]: string[];
+    [ParameterType.GlobArray]: string[];
+
+    // Special.. avoid this if possible.
+    [ParameterType.Map]: unknown;
+}
+
 export type DeclarationOptionToOptionType<T extends DeclarationOption> =
-    T extends StringDeclarationOption
-        ? string
-        : T extends NumberDeclarationOption
-        ? number
-        : T extends BooleanDeclarationOption
-        ? boolean
-        : T extends MixedDeclarationOption
-        ? unknown
-        : T extends MapDeclarationOption<infer U>
+    T extends MapDeclarationOption<infer U>
         ? U
-        : T extends ArrayDeclarationOption
-        ? string[]
-        : never;
+        : ParameterTypeToOptionTypeMap[Exclude<T["type"], undefined>];
+
+const converters: {
+    [K in ParameterType]: (
+        value: unknown,
+        option: DeclarationOption & { type: K },
+        configPath: string
+    ) => ParameterTypeToOptionTypeMap[K];
+} = {
+    [ParameterType.String](value, option) {
+        const stringValue = value == null ? "" : String(value);
+        option.validate?.(stringValue);
+        return stringValue;
+    },
+    [ParameterType.Path](value, option, configPath) {
+        const stringValue =
+            value == null ? "" : resolve(configPath, String(value));
+        option.validate?.(stringValue);
+        return stringValue;
+    },
+    [ParameterType.Number](value, option) {
+        const numValue = parseInt(String(value), 10) || 0;
+        if (!valueIsWithinBounds(numValue, option.minValue, option.maxValue)) {
+            throw new Error(
+                getBoundsError(option.name, option.minValue, option.maxValue)
+            );
+        }
+        option.validate?.(numValue);
+        return numValue;
+    },
+    [ParameterType.Boolean](value) {
+        return !!value;
+    },
+    [ParameterType.Array](value, option) {
+        let strArrValue = new Array<string>();
+        if (Array.isArray(value)) {
+            strArrValue = value.map(String);
+        } else if (typeof value === "string") {
+            strArrValue = [value];
+        }
+        option.validate?.(strArrValue);
+        return strArrValue;
+    },
+    [ParameterType.PathArray](value, option, configPath) {
+        let strArrValue = new Array<string>();
+        if (Array.isArray(value)) {
+            strArrValue = value.map(String);
+        } else if (typeof value === "string") {
+            strArrValue = [value];
+        }
+        strArrValue = strArrValue.map((path) => resolve(configPath, path));
+        option.validate?.(strArrValue);
+        return strArrValue;
+    },
+    [ParameterType.ModuleArray](value, option, configPath) {
+        let strArrValue = new Array<string>();
+        if (Array.isArray(value)) {
+            strArrValue = value.map(String);
+        } else if (typeof value === "string") {
+            strArrValue = [value];
+        }
+        strArrValue = resolveModulePaths(strArrValue, configPath);
+        option.validate?.(strArrValue);
+        return strArrValue;
+    },
+    [ParameterType.GlobArray](value, option, configPath) {
+        let strArrValue = new Array<string>();
+        if (Array.isArray(value)) {
+            strArrValue = value.map(String);
+        } else if (typeof value === "string") {
+            strArrValue = [value];
+        }
+        strArrValue = resolveGlobPaths(strArrValue, configPath);
+        option.validate?.(strArrValue);
+        return strArrValue;
+    },
+    [ParameterType.Map](value, option) {
+        const key = String(value).toLowerCase();
+        if (option.map instanceof Map) {
+            if (option.map.has(key)) {
+                return option.map.get(key);
+            } else if ([...option.map.values()].includes(value)) {
+                return value;
+            }
+        } else if (key in option.map) {
+            return option.map[key];
+        } else if (Object.values(option.map).includes(value)) {
+            return value;
+        }
+        throw new Error(
+            option.mapError ?? getMapError(option.map, option.name)
+        );
+    },
+    [ParameterType.Mixed](value, option) {
+        option.validate?.(value);
+        return value;
+    },
+};
 
 /**
  * The default conversion function used by the Options container. Readers may
@@ -276,78 +403,99 @@ export type DeclarationOptionToOptionType<T extends DeclarationOption> =
  * @param option The option for which the value should be converted.
  * @returns The result of the conversion. Might be the value or an error.
  */
-export function convert<T extends DeclarationOption>(
+export function convert(
     value: unknown,
-    option: T
-): DeclarationOptionToOptionType<T>;
-export function convert<T>(value: unknown, option: MapDeclarationOption<T>): T;
-export function convert(value: unknown, option: DeclarationOption): unknown {
-    switch (option.type) {
-        case undefined:
-        case ParameterType.String: {
-            const stringValue = value == null ? "" : String(value);
-            if (option.validate) {
-                option.validate(stringValue);
-            }
-            return stringValue;
-        }
-        case ParameterType.Number: {
-            const numValue = parseInt(String(value), 10) || 0;
-            if (
-                !valueIsWithinBounds(numValue, option.minValue, option.maxValue)
-            ) {
-                throw new Error(
-                    getBoundsError(
-                        option.name,
-                        option.minValue,
-                        option.maxValue
-                    )
-                );
-            }
-            if (option.validate) {
-                option.validate(numValue);
-            }
-            return numValue;
-        }
+    option: DeclarationOption,
+    configPath: string
+): unknown {
+    const _converters = converters as Record<
+        ParameterType,
+        (v: unknown, o: DeclarationOption, c: string) => unknown
+    >;
+    return _converters[option.type ?? ParameterType.String](
+        value,
+        option,
+        configPath
+    );
+}
 
-        case ParameterType.Boolean:
-            return Boolean(value);
+const defaultGetters: {
+    [K in ParameterType]: (
+        option: DeclarationOption & { type: K }
+    ) => ParameterTypeToOptionTypeMap[K];
+} = {
+    [ParameterType.String](option) {
+        return option.defaultValue ?? "";
+    },
+    [ParameterType.Path](option) {
+        const defaultStr = option.defaultValue ?? "";
+        if (defaultStr == "") {
+            return "";
+        }
+        return isAbsolute(defaultStr)
+            ? defaultStr
+            : join(process.cwd(), defaultStr);
+    },
+    [ParameterType.Number](option) {
+        return option.defaultValue ?? 0;
+    },
+    [ParameterType.Boolean](option) {
+        return option.defaultValue ?? false;
+    },
+    [ParameterType.Map](option) {
+        return option.defaultValue;
+    },
+    [ParameterType.Mixed](option) {
+        return option.defaultValue;
+    },
+    [ParameterType.Array](option) {
+        return option.defaultValue ?? [];
+    },
+    [ParameterType.PathArray](option) {
+        return (
+            option.defaultValue?.map((value) =>
+                resolve(process.cwd(), value)
+            ) ?? []
+        );
+    },
+    [ParameterType.ModuleArray](option) {
+        return (
+            option.defaultValue?.map((value) =>
+                value.startsWith(".") ? resolve(process.cwd(), value) : value
+            ) ?? []
+        );
+    },
+    [ParameterType.GlobArray](option) {
+        return resolveGlobPaths(option.defaultValue ?? [], process.cwd());
+    },
+};
 
-        case ParameterType.Array: {
-            let strArrValue = new Array<string>();
-            if (Array.isArray(value)) {
-                strArrValue = value.map(String);
-            } else if (typeof value === "string") {
-                strArrValue = value.split(",");
-            }
-            if (option.validate) {
-                option.validate(strArrValue);
-            }
-            return strArrValue;
+export function getDefaultValue(option: DeclarationOption) {
+    const getters = defaultGetters as Record<
+        ParameterType,
+        (o: DeclarationOption) => unknown
+    >;
+    return getters[option.type ?? ParameterType.String](option);
+}
+
+function resolveGlobPaths(globs: readonly string[], configPath: string) {
+    return globs.map((path) => {
+        const start = path.match(/^[!#]+/)?.[0] ?? "";
+        const remaining = path.substr(start.length);
+        if (!remaining.startsWith("**")) {
+            return start + resolve(configPath, remaining);
         }
-        case ParameterType.Map: {
-            const key = String(value).toLowerCase();
-            if (option.map instanceof Map) {
-                if (option.map.has(key)) {
-                    return option.map.get(key);
-                } else if ([...option.map.values()].includes(value)) {
-                    return value;
-                }
-            } else if (key in option.map) {
-                return option.map[key];
-            } else if (Object.values(option.map).includes(value)) {
-                return value;
-            }
-            throw new Error(
-                option.mapError ?? getMapError(option.map, option.name)
-            );
+        return start + remaining;
+    });
+}
+
+function resolveModulePaths(modules: readonly string[], configPath: string) {
+    return modules.map((path) => {
+        if (path.startsWith(".")) {
+            return resolve(configPath, path);
         }
-        case ParameterType.Mixed:
-            if (option.validate) {
-                option.validate(value);
-            }
-            return value;
-    }
+        return path;
+    });
 }
 
 /**
@@ -393,10 +541,9 @@ function getBoundsError(
         return `${name} must be between ${minValue} and ${maxValue}`;
     } else if (isFiniteNumber(minValue)) {
         return `${name} must be >= ${minValue}`;
-    } else if (isFiniteNumber(maxValue)) {
+    } else {
         return `${name} must be <= ${maxValue}`;
     }
-    throw new Error("Unreachable");
 }
 
 /**
