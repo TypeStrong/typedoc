@@ -45,8 +45,6 @@ the `workspaces` defined in the `package.json`.
 This mode requires sourcemaps in your JS entry points, in order to find the TS entry points.
 Supports wildcard paths in the same fashion as those found in npm or Yarn workspaces.
 
-:warning: In opposition to project entry points, package entry points are determined relatively to options file if provided.
-
 #### Single npm module
 
 ```text
