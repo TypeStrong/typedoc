@@ -154,7 +154,9 @@ function getThanks(commits) {
         thanks.delete(person);
     }
 
-    return thanks;
+    return [...thanks].sort((a, b) =>
+        a.localeCompare(b, "en-us", { sensitivity: "base" })
+    );
 }
 
 /**
@@ -246,8 +248,8 @@ function getBody(commits, target) {
     }
 
     const thanks = getThanks(commits);
-    if (thanks.size) {
-        lines.push(`### Thanks!`, "", ...[...thanks].map((t) => ` * ${t}`), "");
+    if (thanks.length > 0) {
+        lines.push(`### Thanks!`, "", ...thanks.map((t) => ` * ${t}`), "");
     }
 
     lines.pop();
