@@ -411,13 +411,6 @@
           ]
         }
       ]
-    },
-    {
-      "id": 24,
-      "name": "variable",
-      "kind": 1,
-      "kindString": "Module",
-      "flags": {}
     }
   ],
   "groups": [
@@ -427,8 +420,7 @@
       "children": [
         1,
         15,
-        19,
-        24
+        19
       ]
     }
   ]
