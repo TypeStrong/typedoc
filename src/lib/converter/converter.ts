@@ -11,7 +11,7 @@ import { BindOption } from "../utils";
 import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
 import { convertSymbol } from "./symbols";
-import { createMinimatch } from "../utils/paths";
+import { createMinimatch, matchesAny } from "../utils/paths";
 import { IMinimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import { resolveAliasedSymbol } from "./utils/symbols";
@@ -391,11 +391,7 @@ export class Converter extends ChildableComponent<
         this.excludeCache ??= createMinimatch(this.application.exclude);
 
         for (const node of symbol.getDeclarations() ?? []) {
-            if (
-                this.excludeCache.some((p) =>
-                    p.match(node.getSourceFile().fileName)
-                )
-            ) {
+            if (matchesAny(this.excludeCache, node.getSourceFile().fileName)) {
                 return true;
             }
         }
@@ -408,8 +404,9 @@ export class Converter extends ChildableComponent<
         this.externalPatternCache ??= createMinimatch(this.externalPattern);
         for (const node of symbol.getDeclarations() ?? []) {
             if (
-                this.externalPatternCache.some((p) =>
-                    p.match(node.getSourceFile().fileName)
+                matchesAny(
+                    this.externalPatternCache,
+                    node.getSourceFile().fileName
                 )
             ) {
                 return true;

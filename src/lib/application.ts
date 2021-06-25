@@ -17,7 +17,7 @@ import {
     discoverNpmPlugins,
     NeverIfInternal,
 } from "./utils/index";
-import { createMinimatch } from "./utils/paths";
+import { createMinimatch, matchesAny } from "./utils/paths";
 
 import {
     AbstractComponent,
@@ -544,10 +544,6 @@ export class Application extends ChildableComponent<
 
         const exclude = createMinimatch(this.exclude);
 
-        function isExcluded(fileName: string): boolean {
-            return exclude.some((mm) => mm.match(fileName));
-        }
-
         const supportedFileRegex =
             this.options.getCompilerOptions().allowJs ||
             this.options.getCompilerOptions().checkJs
@@ -566,7 +562,7 @@ export class Application extends ChildableComponent<
                 file = `${file}/`;
             }
 
-            if (!entryPoint && isExcluded(normalizePath(file))) {
+            if (!entryPoint && matchesAny(exclude, file)) {
                 return;
             }
 

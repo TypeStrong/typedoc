@@ -14,3 +14,8 @@ export function createMinimatch(patterns: string[]): IMinimatch[] {
             })
     );
 }
+
+export function matchesAny(patterns: readonly IMinimatch[], path: string) {
+    const normPath = normalizePath(path).replace(/^\w:\//, "");
+    return patterns.some((pat) => pat.match(normPath));
+}
