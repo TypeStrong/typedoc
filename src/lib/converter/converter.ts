@@ -1,6 +1,5 @@
 import * as ts from "typescript";
 import * as _ from "lodash";
-import * as assert from "assert";
 
 import { Application } from "../application";
 import { Type, ProjectReflection, ReflectionKind } from "../models/index";
@@ -283,8 +282,10 @@ export class Converter extends ChildableComponent<
         });
         for (const { entryPoint, context } of entries) {
             // active program is already set on context
-            assert(context);
-            this.convertReExports(context, entryPoint.sourceFile);
+            // if we don't have a context, then this entry point is being ignored
+            if (context) {
+                this.convertReExports(context, entryPoint.sourceFile);
+            }
         }
         context.setActiveProgram(undefined);
     }
@@ -297,6 +298,17 @@ export class Converter extends ChildableComponent<
     ) {
         const symbol = getSymbolForModuleLike(context, node);
         let moduleContext: Context;
+
+        const allExports = getExports(context, node, symbol);
+
+        if (
+            allExports.every((exp) => this.shouldIgnore(exp, context.checker))
+        ) {
+            this.owner.logger.verbose(
+                `Ignoring entry point ${entryName} since all members will be ignored.`
+            );
+            return;
+        }
 
         if (singleEntryPoint) {
             // Special case for when we're giving a single entry point, we don't need to
@@ -324,7 +336,7 @@ export class Converter extends ChildableComponent<
             moduleContext = context.withScope(reflection);
         }
 
-        for (const exp of getExports(context, node, symbol).filter((exp) =>
+        for (const exp of allExports.filter((exp) =>
             isDirectExport(context.resolveAliasedSymbol(exp), node)
         )) {
             convertSymbol(moduleContext, exp);

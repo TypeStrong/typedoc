@@ -332,10 +332,12 @@ export class Application extends ChildableComponent<
             entryPoints.push(...this.getEntryPointsForPaths(this.entryPoints));
         }
 
-        const programs = entryPoints.map((e) => e.program);
-        this.logger.verbose(`Converting with ${programs.length} programs`);
+        const programs = new Set(entryPoints.map((e) => e.program));
+        this.logger.verbose(
+            `Converting with ${programs.size} programs and ${entryPoints.length} entry points`
+        );
 
-        const errors = flatMap(programs, ts.getPreEmitDiagnostics);
+        const errors = flatMap([...programs], ts.getPreEmitDiagnostics);
         if (errors.length) {
             this.logger.diagnostics(errors);
             return;
