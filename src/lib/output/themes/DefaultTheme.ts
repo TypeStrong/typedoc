@@ -130,7 +130,7 @@ export class DefaultTheme extends Theme {
     getUrls(project: ProjectReflection): UrlMapping[] {
         const urls: UrlMapping[] = [];
 
-        if (this.application.options.getValue("readme") === "none") {
+        if (false == hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
             urls.push(new UrlMapping("index.html", project, "reflection.hbs"));
         } else {
@@ -165,7 +165,7 @@ export class DefaultTheme extends Theme {
             multipleEntryPoints
         );
         return builder.build(
-            this.application.options.getValue("readme") !== "none"
+            hasReadme(this.application.options.getValue("readme"))
         );
     }
 
@@ -580,4 +580,8 @@ export class NavigationBuilder {
             }
         })(reflection);
     }
+}
+
+function hasReadme(readme: string) {
+    return !readme.endsWith("none");
 }
