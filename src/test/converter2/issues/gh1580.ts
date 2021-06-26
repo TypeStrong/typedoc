@@ -1,4 +1,6 @@
-export class A {
+export { B, A };
+
+class A {
     /** Prop docs */
     prop!: string;
 
@@ -8,7 +10,7 @@ export class A {
     }
 }
 
-export class B extends A {
+class B extends A {
     declare prop: "B";
 
     run(): void {
