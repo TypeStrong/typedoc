@@ -239,7 +239,7 @@ function getBody(commits) {
     return lines.join("\n");
 }
 
-async function main(fromVersion = OLDEST_VERSION, where = "CHANGELOG.md") {
+async function main(where = "CHANGELOG.md", fromVersion = OLDEST_VERSION) {
     const versions = await getVersions();
     let end = versions.indexOf(fromVersion) + 1;
     if (end === 0) {
