@@ -484,7 +484,7 @@ export abstract class Reflection {
      */
     getAlias(): string {
         if (!this._alias) {
-            let alias = this.name.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+            let alias = this.name.replace(/[^a-z0-9]/gi, "_");
             if (alias === "") {
                 alias = "reflection-" + this.id;
             }
