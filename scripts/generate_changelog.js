@@ -12,6 +12,7 @@ const { exec } = require("child_process");
 const { promises: fs } = require("fs");
 const { promisify } = require("util");
 const assert = require("assert");
+const { join, resolve } = require("path");
 
 // Commits older than this didn't follow conventional commits, so there's no
 // easy way to guess how to categorize them.
@@ -240,6 +241,11 @@ function getBody(commits) {
 }
 
 async function main(where = "CHANGELOG.md", fromVersion = OLDEST_VERSION) {
+    if (where !== "-") {
+        where = resolve(process.cwd(), where);
+    }
+    process.chdir(join(__dirname, ".."));
+
     const versions = await getVersions();
     let end = versions.indexOf(fromVersion) + 1;
     if (end === 0) {
