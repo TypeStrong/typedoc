@@ -11,9 +11,6 @@ import { Context } from "../context";
  */
 @Component({ name: "decorator" })
 export class DecoratorPlugin extends ConverterComponent {
-    /**
-     * Defined in this.onBegin
-     */
     private readonly usages = new Map<ts.Symbol, ReferenceType[]>();
 
     /**

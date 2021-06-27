@@ -40,7 +40,7 @@ export class SourcePlugin extends ConverterComponent {
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]: this.onBegin,
+            [Converter.EVENT_END]: this.onEnd,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
             [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
@@ -62,14 +62,10 @@ export class SourcePlugin extends ConverterComponent {
         return this.fileMappings[fileName];
     }
 
-    /**
-     * Triggered once per project before the dispatcher invokes the compiler.
-     *
-     * @param event  An event object containing the related project and compiler instance.
-     */
-    private onBegin() {
-        this.fileNames.clear();
+    private onEnd() {
         this.fileMappings = {};
+        this.fileNames.clear();
+        this.basePath = void 0;
     }
 
     /**

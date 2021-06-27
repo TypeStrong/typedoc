@@ -173,6 +173,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
                     this.warnings.join("\n  ")
             );
         }
+        this.warnings = [];
     }
 
     /**

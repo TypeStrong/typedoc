@@ -13,7 +13,7 @@ import { Context } from "../context";
  */
 @Component({ name: "type" })
 export class TypePlugin extends ConverterComponent {
-    reflections: DeclarationReflection[] = [];
+    reflections = new Set<DeclarationReflection>();
 
     /**
      * Create a new TypeHandler instance.
@@ -22,6 +22,7 @@ export class TypePlugin extends ConverterComponent {
         this.listenTo(this.owner, {
             [Converter.EVENT_RESOLVE]: this.onResolve,
             [Converter.EVENT_RESOLVE_END]: this.onResolveEnd,
+            [Converter.EVENT_END]: () => this.reflections.clear(),
         });
     }
 
@@ -87,9 +88,7 @@ export class TypePlugin extends ConverterComponent {
     }
 
     private postpone(reflection: DeclarationReflection) {
-        if (!this.reflections.includes(reflection)) {
-            this.reflections.push(reflection);
-        }
+        this.reflections.add(reflection);
     }
 
     /**
