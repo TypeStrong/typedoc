@@ -1,6 +1,6 @@
 # Example
 
-> Example Documentation
+> **This is not actually an example.** It is used by TypeDoc's tests. For example documentation https://typedoc.org/api/ is recommended.
 
 ## Installation
 
