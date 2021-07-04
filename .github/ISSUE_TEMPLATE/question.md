@@ -1,6 +1,6 @@
 ---
 name: Question
-about: Ask a quesiton about TypeDoc
+about: Ask a question about TypeDoc
 labels: question
 ---
 
