@@ -81,6 +81,7 @@ export class InheritDocPlugin extends ConverterComponent {
                 if (referencedReflection instanceof Reflection) {
                     copyComment(item, referencedReflection);
                 }
+                return true;
             };
             reflection.traverse(descendantsCallback);
         }

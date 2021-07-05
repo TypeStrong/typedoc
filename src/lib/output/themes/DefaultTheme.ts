@@ -297,6 +297,7 @@ export class DefaultTheme extends Theme {
             if (child instanceof DeclarationReflection) {
                 DefaultTheme.applyAnchorUrl(child, container);
             }
+            return true;
         });
     }
 

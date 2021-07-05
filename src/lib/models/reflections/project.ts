@@ -173,7 +173,7 @@ export class ProjectReflection extends ContainerReflection {
         }
         this.getReferenceGraph().delete(reflection.id);
 
-        reflection.traverse((child) => this.removeReflection(child));
+        reflection.traverse((child) => (this.removeReflection(child), true));
 
         const parent = reflection.parent as DeclarationReflection;
         parent?.traverse((child, property) => {

@@ -81,6 +81,24 @@ export function unique<T>(arr: Iterable<T> | undefined): T[] {
     return Array.from(new Set(arr));
 }
 
+export function partition<T>(
+    iter: Iterable<T>,
+    predicate: (item: T) => boolean
+): [T[], T[]] {
+    const left: T[] = [];
+    const right: T[] = [];
+
+    for (const item of iter) {
+        if (predicate(item)) {
+            left.push(item);
+        } else {
+            right.push(item);
+        }
+    }
+
+    return [left, right];
+}
+
 /**
  * Filters out duplicate values from the given array with a custom equals check.
  * @param arr

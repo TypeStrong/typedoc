@@ -1,5 +1,4 @@
 import * as ts from "typescript";
-import * as _ from "lodash";
 
 import { Application } from "../application";
 import { Type, ProjectReflection, ReflectionKind } from "../models/index";

@@ -1,52 +1,50 @@
-export type { IfInternal, NeverIfInternal } from "./general";
-
 export {
-    Options,
-    ParameterType,
-    ParameterHint,
-    BindOption,
-    TSConfigReader,
-    TypeDocReader,
-    ArgumentsReader,
-} from "./options";
-export type {
-    OptionsReader,
-    TypeDocOptions,
-    TypeDocOptionMap,
-    KeyToDeclaration,
-    DeclarationOption,
-    DeclarationOptionBase,
-    StringDeclarationOption,
-    NumberDeclarationOption,
-    BooleanDeclarationOption,
-    ArrayDeclarationOption,
-    MixedDeclarationOption,
-    MapDeclarationOption,
-    DeclarationOptionToOptionType,
-} from "./options";
-
-export {
-    insertPrioritySorted,
-    removeIfPresent,
-    removeIf,
     filterMap,
+    insertPrioritySorted,
+    partition,
+    removeIf,
+    removeIfPresent,
     unique,
     uniqueByEquals,
 } from "./array";
-export { Component, AbstractComponent, ChildableComponent } from "./component";
+export { AbstractComponent, ChildableComponent, Component } from "./component";
 export { Event, EventDispatcher } from "./events";
 export {
+    copy,
+    copySync,
     getCommonDirectory,
     normalizePath,
     readFile,
+    remove,
     writeFile,
     writeFileSync,
-    copy,
-    copySync,
-    remove,
 } from "./fs";
-export { Logger, LogLevel, ConsoleLogger, CallbackLogger } from "./loggers";
-export { loadPlugins, discoverNpmPlugins } from "./plugins";
-
+export type { IfInternal, NeverIfInternal } from "./general";
+export { CallbackLogger, ConsoleLogger, Logger, LogLevel } from "./loggers";
+export {
+    ArgumentsReader,
+    BindOption,
+    Options,
+    ParameterHint,
+    ParameterType,
+    TSConfigReader,
+    TypeDocReader,
+} from "./options";
+export type {
+    ArrayDeclarationOption,
+    BooleanDeclarationOption,
+    DeclarationOption,
+    DeclarationOptionBase,
+    DeclarationOptionToOptionType,
+    KeyToDeclaration,
+    MapDeclarationOption,
+    MixedDeclarationOption,
+    NumberDeclarationOption,
+    OptionsReader,
+    StringDeclarationOption,
+    TypeDocOptionMap,
+    TypeDocOptions,
+} from "./options";
+export { discoverNpmPlugins, loadPlugins } from "./plugins";
 export { sortReflections } from "./sort";
 export type { SortStrategy } from "./sort";

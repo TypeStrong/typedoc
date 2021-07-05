@@ -17,9 +17,14 @@ import {
 } from "../factories/comment";
 import { Converter } from "../converter";
 import { Context } from "../context";
-import { partition, uniq } from "lodash";
 import { ReflectionType, SourceReference } from "../../models";
-import { BindOption, filterMap, removeIfPresent } from "../../utils";
+import {
+    BindOption,
+    filterMap,
+    removeIfPresent,
+    unique,
+    partition,
+} from "../../utils";
 
 /**
  * These tags are not useful to display in the generated documentation.
@@ -244,7 +249,7 @@ export class CommentPlugin extends ConverterComponent {
             project.removeReflection(reflection)
         );
         someRemoved.forEach((reflection) => {
-            reflection.sources = uniq(
+            reflection.sources = unique(
                 reflection.signatures!.reduce<SourceReference[]>(
                     (c, s) => c.concat(s.sources || []),
                     []

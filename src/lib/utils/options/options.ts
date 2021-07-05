@@ -1,4 +1,3 @@
-import { cloneDeep } from "lodash";
 import * as ts from "typescript";
 import { NeverIfInternal } from "..";
 import { Application } from "../../..";
@@ -225,8 +224,8 @@ export class Options {
     /**
      * Gets all of the TypeDoc option values defined in this option container.
      */
-    getRawValues(): Partial<TypeDocOptions> {
-        return cloneDeep(this._values);
+    getRawValues(): Readonly<Partial<TypeDocOptions>> {
+        return this._values;
     }
 
     /**
@@ -280,8 +279,8 @@ export class Options {
     /**
      * Gets the set compiler options.
      */
-    getCompilerOptions(): ts.CompilerOptions {
-        return cloneDeep(this._compilerOptions);
+    getCompilerOptions(): Readonly<ts.CompilerOptions> {
+        return this._compilerOptions;
     }
 
     /**
@@ -315,7 +314,7 @@ export class Options {
             this.setValue("excludeInternal", true);
         }
         this._fileNames = fileNames;
-        this._compilerOptions = cloneDeep(options);
+        this._compilerOptions = { ...options };
         this._projectReferences = projectReferences ?? [];
     }
 }

@@ -7,7 +7,26 @@
 // The Events object is a typesafe conversion of Backbones Events object:
 // https://github.com/jashkenas/backbone/blob/05fde9e201f7e2137796663081105cd6dad12a98/backbone.js#L119-L374
 
-import * as _ from "lodash";
+const uniqueId = (function () {
+    const prefixes: Record<string, number | undefined> = Object.create(null);
+    return function (prefix: string) {
+        const unique = prefixes[prefix] || 1;
+        prefixes[prefix] = unique + 1;
+        return `${prefix}${unique}`;
+    };
+})();
+
+function once<T extends (..._: any) => any>(cb: T): T {
+    let hasRun = false;
+    let result: ReturnType<T>;
+    return function (this: any, ...args: any) {
+        if (hasRun === false) {
+            hasRun = true;
+            result = cb.apply(this, args);
+        }
+        return result;
+    } as T;
+}
 
 export interface EventCallback extends Function {
     _callback?: Function;
@@ -91,7 +110,7 @@ function eventsApi<T, U>(
             anyOptions["context"] = callback;
         }
 
-        for (names = _.keys(name); i < names.length; i++) {
+        for (names = Object.keys(name); i < names.length; i++) {
             events = eventsApi(
                 iteratee,
                 events,
@@ -166,7 +185,7 @@ function offApi(
 
     // Delete all events listeners and "drop" events.
     if (!name && !callback && !context) {
-        const ids = _.keys(listeners);
+        const ids = Object.keys(listeners || {});
         for (; i < ids.length; i++) {
             listening = listeners[ids[i]];
             delete listeners[listening.id];
@@ -175,7 +194,7 @@ function offApi(
         return;
     }
 
-    const names = name ? [name] : _.keys(events);
+    const names = name ? [name] : Object.keys(events || {});
     for (; i < names.length; i++) {
         name = names[i];
         const handlers = events[name];
@@ -213,7 +232,7 @@ function offApi(
         }
     }
 
-    if (_.size(events)) {
+    if (Object.keys(events || {}).length !== 0) {
         return events;
     }
 }
@@ -229,15 +248,15 @@ function onceMap(
     offer: Function
 ): EventMap {
     if (callback) {
-        const once = (map[name] = <EventCallback>_.once(function (
+        const listener: EventCallback = (map[name] = once(function (
             this: any,
-            ...args
+            ...args: any
         ) {
-            offer(name, once);
+            offer(name, listener);
             callback.apply(this, args);
         }));
 
-        once._callback = callback;
+        listener._callback = callback;
     }
 
     return map;
@@ -399,7 +418,7 @@ export class EventDispatcher {
      * A unique id that identifies this instance.
      */
     private get _listenId(): string {
-        return this._savedListenId || (this._savedListenId = _.uniqueId("l"));
+        return this._savedListenId || (this._savedListenId = uniqueId("l"));
     }
     private _savedListenId?: string;
 
@@ -484,7 +503,7 @@ export class EventDispatcher {
             <EventMap>{},
             name,
             callback,
-            _.bind(this.off, this)
+            this.off.bind(this)
         );
         return this.on(events, void 0, context, priority);
     }
@@ -573,7 +592,7 @@ export class EventDispatcher {
             <EventMap>{},
             name,
             callback,
-            _.bind(this.stopListening, this, obj)
+            this.stopListening.bind(this, obj)
         );
         return this.listenTo(obj, events, void 0, priority);
     }
@@ -592,7 +611,7 @@ export class EventDispatcher {
             return this;
         }
 
-        const ids = obj ? [obj._listenId] : _.keys(listeningTo);
+        const ids = obj ? [obj._listenId] : Object.keys(listeningTo);
         for (let i = 0; i < ids.length; i++) {
             const listening = listeningTo[ids[i]];
 
@@ -605,7 +624,7 @@ export class EventDispatcher {
             listening.obj.off(name, callback, this);
         }
 
-        if (_.isEmpty(listeningTo)) {
+        if (Object.keys(listeningTo).length === 0) {
             this._listeningTo = void 0;
         }
 

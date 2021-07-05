@@ -5,6 +5,7 @@ import { Comment } from "../comments/comment";
 import { TypeParameterReflection } from "./type-parameter";
 import { splitUnquotedString } from "./utils";
 import { ProjectReflection } from "./project";
+import { NeverIfInternal } from "../../utils";
 
 /**
  * Holds all data models used by TypeDoc.
@@ -298,7 +299,9 @@ export interface TraverseCallback {
      * May return false to bail out of any further iteration. To preserve backwards compatibility, if
      * a function returns undefined, iteration must continue.
      */
-    (reflection: Reflection, property: TraverseProperty): boolean | void;
+    (reflection: Reflection, property: TraverseProperty):
+        | boolean
+        | NeverIfInternal<void>;
 }
 
 /**
@@ -550,6 +553,7 @@ export abstract class Reflection {
                 }
                 return false;
             }
+            return true;
         });
 
         return result;
@@ -610,6 +614,7 @@ export abstract class Reflection {
         indent += "  ";
         this.traverse((child) => {
             lines.push(child.toStringHierarchy(indent));
+            return true;
         });
 
         return lines.join("\n");
