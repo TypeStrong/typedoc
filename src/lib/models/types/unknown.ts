@@ -12,7 +12,7 @@ export class UnknownType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "unknown";
+    override readonly type = "unknown";
 
     /**
      * Create a new instance of UnknownType.
@@ -39,14 +39,14 @@ export class UnknownType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: UnknownType): boolean {
+    override equals(type: UnknownType): boolean {
         return type instanceof UnknownType && type.name === this.name;
     }
 
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         return this.name;
     }
 }

@@ -38,7 +38,7 @@ export class SourcePlugin extends ConverterComponent {
     /**
      * Create a new SourceHandler instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, {
             [Converter.EVENT_END]: this.onEnd,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,

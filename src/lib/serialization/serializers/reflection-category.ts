@@ -4,7 +4,7 @@ import { SerializerComponent } from "../components";
 import { ReflectionCategory as JSONReflectionCategory } from "../schema";
 
 export class ReflectionCategorySerializer extends SerializerComponent<ReflectionCategory> {
-    static PRIORITY = 1000;
+    static override PRIORITY = 1000;
 
     /**
      * Filter for instances of [[ReflectionCategory]]

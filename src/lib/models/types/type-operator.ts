@@ -12,7 +12,7 @@ export class TypeOperatorType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "typeOperator";
+    override readonly type = "typeOperator";
 
     constructor(
         public target: Type,
@@ -36,7 +36,7 @@ export class TypeOperatorType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: TypeOperatorType): boolean {
+    override equals(type: TypeOperatorType): boolean {
         if (!(type instanceof TypeOperatorType)) {
             return false;
         }
@@ -51,7 +51,7 @@ export class TypeOperatorType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         return `${this.operator} ${this.target.toString()}`;
     }
 }

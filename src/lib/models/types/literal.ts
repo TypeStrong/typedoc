@@ -14,7 +14,7 @@ export class LiteralType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "literal";
+    override readonly type = "literal";
 
     constructor(value: LiteralType["value"]) {
         super();
@@ -36,14 +36,14 @@ export class LiteralType extends Type {
      * @param other  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(other: LiteralType): boolean {
+    override equals(other: LiteralType): boolean {
         return other instanceof LiteralType && other.value === this.value;
     }
 
     /**
      * Return a string representation of this type.
      */
-    toString(): string {
+    override toString(): string {
         if (typeof this.value === "bigint") {
             return this.value.toString();
         }

@@ -17,7 +17,7 @@ export class ReflectionType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "reflection";
+    override readonly type = "reflection";
 
     /**
      * Create a new instance of ReflectionType.
@@ -44,14 +44,14 @@ export class ReflectionType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: ReflectionType): boolean {
+    override equals(type: ReflectionType): boolean {
         return type === this;
     }
 
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         if (!this.declaration.children && this.declaration.signatures) {
             return "function";
         } else {

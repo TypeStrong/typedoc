@@ -37,7 +37,7 @@ export class MinimalTheme extends DefaultTheme {
      * @returns     TRUE if the given path seems to be a previous output directory,
      *              otherwise FALSE.
      */
-    isOutputDirectory(path: string): boolean {
+    override isOutputDirectory(path: string): boolean {
         if (!FS.existsSync(Path.join(path, "index.html"))) {
             return false;
         }
@@ -51,7 +51,7 @@ export class MinimalTheme extends DefaultTheme {
      * @returns        A list of [[UrlMapping]] instances defining which models
      *                 should be rendered to which files.
      */
-    getUrls(project: ProjectReflection): UrlMapping[] {
+    override getUrls(project: ProjectReflection): UrlMapping[] {
         const urls: UrlMapping[] = [];
         urls.push(new UrlMapping("index.html", project, "index.hbs"));
 

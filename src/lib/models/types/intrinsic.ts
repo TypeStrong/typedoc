@@ -16,7 +16,7 @@ export class IntrinsicType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "intrinsic";
+    override readonly type = "intrinsic";
 
     /**
      * Create a new instance of IntrinsicType.
@@ -43,14 +43,14 @@ export class IntrinsicType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: IntrinsicType): boolean {
+    override equals(type: IntrinsicType): boolean {
         return type instanceof IntrinsicType && type.name === this.name;
     }
 
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         return this.name;
     }
 }

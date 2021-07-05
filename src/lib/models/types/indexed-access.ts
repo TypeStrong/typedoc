@@ -7,7 +7,7 @@ export class IndexedAccessType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "indexedAccess";
+    override readonly type = "indexedAccess";
 
     /**
      * Create a new TupleType instance.
@@ -33,7 +33,7 @@ export class IndexedAccessType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: Type): boolean {
+    override equals(type: Type): boolean {
         if (!(type instanceof IndexedAccessType)) {
             return false;
         }
@@ -46,7 +46,7 @@ export class IndexedAccessType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         return `${this.objectType.toString()}[${this.indexType.toString()}]`;
     }
 }

@@ -36,7 +36,7 @@ export class TemplateStack extends ResourceStack<Template> {
 export class PartialStack extends TemplateStack {
     private registeredNames: string[] = [];
 
-    activate(): boolean {
+    override activate(): boolean {
         if (!super.activate()) {
             return false;
         }
@@ -56,7 +56,7 @@ export class PartialStack extends TemplateStack {
         return true;
     }
 
-    deactivate(): boolean {
+    override deactivate(): boolean {
         if (!super.deactivate()) {
             return false;
         }

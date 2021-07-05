@@ -18,7 +18,7 @@ export class OptionalType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "optional";
+    override readonly type = "optional";
 
     /**
      * Create a new OptionalType instance.
@@ -45,7 +45,7 @@ export class OptionalType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: Type): boolean {
+    override equals(type: Type): boolean {
         if (!(type instanceof OptionalType)) {
             return false;
         }
@@ -55,7 +55,7 @@ export class OptionalType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         if (
             this.elementType instanceof UnionType ||
             this.elementType instanceof IntersectionType

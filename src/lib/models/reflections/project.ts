@@ -49,7 +49,7 @@ export class ProjectReflection extends ContainerReflection {
      * The name can be passed as a command line argument or it is read from the package info.
      * this.name is assigned in the Reflection class.
      */
-    name!: string;
+    override name!: string;
 
     /**
      * The contents of the readme.md file of the project when found.
@@ -73,7 +73,7 @@ export class ProjectReflection extends ContainerReflection {
     /**
      * Return whether this reflection is the root / project reflection.
      */
-    isProject(): this is ProjectReflection {
+    override isProject(): this is ProjectReflection {
         return true;
     }
 
@@ -95,7 +95,9 @@ export class ProjectReflection extends ContainerReflection {
      * @param names The name hierarchy to look for, if a string, the name will be split on "."
      * @return The found reflection or undefined.
      */
-    findReflectionByName(arg: string | string[]): Reflection | undefined {
+    override findReflectionByName(
+        arg: string | string[]
+    ): Reflection | undefined {
         const names: string[] = Array.isArray(arg)
             ? arg
             : splitUnquotedString(arg, ".");

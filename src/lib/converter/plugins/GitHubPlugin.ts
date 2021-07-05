@@ -188,7 +188,7 @@ export class GitHubPlugin extends ConverterComponent {
      *
      * @param converter  The converter this plugin should be attached to.
      */
-    initialize() {
+    override initialize() {
         if (git("--version").status === 0) {
             this.listenTo(
                 this.owner,

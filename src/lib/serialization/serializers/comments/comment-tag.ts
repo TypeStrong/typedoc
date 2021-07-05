@@ -4,7 +4,7 @@ import { SerializerComponent } from "../../components";
 import { CommentTag as JSONCommentTag } from "../../schema";
 
 export class CommentTagSerializer extends SerializerComponent<CommentTag> {
-    static PRIORITY = 1000;
+    static override PRIORITY = 1000;
 
     /**
      * Filter for instances of [[CommentTag]]

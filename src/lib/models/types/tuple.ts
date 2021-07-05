@@ -16,7 +16,7 @@ export class TupleType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "tuple";
+    override readonly type = "tuple";
 
     /**
      * Create a new TupleType instance.
@@ -43,7 +43,7 @@ export class TupleType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: TupleType): boolean {
+    override equals(type: TupleType): boolean {
         if (!(type instanceof TupleType)) {
             return false;
         }
@@ -53,7 +53,7 @@ export class TupleType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         const names: string[] = [];
         this.elements.forEach((element) => {
             names.push(element.toString());
@@ -64,7 +64,7 @@ export class TupleType extends Type {
 }
 
 export class NamedTupleMember extends Type {
-    readonly type = "named-tuple-member";
+    override readonly type = "named-tuple-member";
 
     constructor(
         public name: string,
@@ -93,7 +93,7 @@ export class NamedTupleMember extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: Type): boolean {
+    override equals(type: Type): boolean {
         if (!(type instanceof NamedTupleMember)) {
             return false;
         }
@@ -106,7 +106,7 @@ export class NamedTupleMember extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         return `${this.name}${this.isOptional ? "?" : ""}: ${this.element}`;
     }
 }

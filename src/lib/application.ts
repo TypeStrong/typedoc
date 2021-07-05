@@ -261,7 +261,7 @@ export class Application extends ChildableComponent<
     /**
      * Return the application / root component instance.
      */
-    get application(): NeverIfInternal<Application> {
+    override get application(): NeverIfInternal<Application> {
         this.logger.deprecated(
             "Application.application is deprecated. Plugins are now passed the application instance when loaded."
         );
@@ -666,7 +666,7 @@ export class Application extends ChildableComponent<
     /**
      * Print the version number.
      */
-    toString() {
+    override toString() {
         return [
             "",
             `TypeDoc ${Application.VERSION}`,

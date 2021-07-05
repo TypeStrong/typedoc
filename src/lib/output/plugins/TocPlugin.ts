@@ -20,7 +20,7 @@ export class TocPlugin extends RendererComponent {
     /**
      * Create a new TocPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, {
             [PageEvent.BEGIN]: this.onRendererBeginPage,
         });

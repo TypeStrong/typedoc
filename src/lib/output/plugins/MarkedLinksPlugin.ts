@@ -29,7 +29,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
     /**
      * Create a new MarkedLinksPlugin instance.
      */
-    initialize() {
+    override initialize() {
         super.initialize();
         this.listenTo(
             this.owner,

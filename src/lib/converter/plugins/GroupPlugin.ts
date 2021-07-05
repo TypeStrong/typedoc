@@ -45,7 +45,7 @@ export class GroupPlugin extends ConverterComponent {
     /**
      * Create a new GroupPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, {
             [Converter.EVENT_RESOLVE]: this.onResolve,
             [Converter.EVENT_RESOLVE_END]: this.onEndResolve,

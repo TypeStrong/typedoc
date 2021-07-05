@@ -20,7 +20,7 @@ export class NavigationPlugin extends RendererComponent {
     /**
      * Create a new NavigationPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, {
             [RendererEvent.BEGIN]: this.onBeginRenderer,
             [PageEvent.BEGIN]: this.onBeginPage,

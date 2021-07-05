@@ -3,7 +3,7 @@ import { DecoratorWrapper } from "./models/decorator-wrapper";
 import { Decorator } from "../schema";
 
 export class DecoratorContainerSerializer extends SerializerComponent<DecoratorWrapper> {
-    static PRIORITY = 1000;
+    static override PRIORITY = 1000;
 
     /**
      * Filter for instances of [[DecoratorWrapper]]

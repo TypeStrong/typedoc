@@ -88,7 +88,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     /**
      * Create a new MarkedPlugin instance.
      */
-    initialize() {
+    override initialize() {
         super.initialize();
         this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown);
 
@@ -193,7 +193,7 @@ output file :
      *
      * @param event  An event object describing the current render operation.
      */
-    protected onBeginRenderer(event: RendererEvent) {
+    protected override onBeginRenderer(event: RendererEvent) {
         super.onBeginRenderer(event);
 
         Marked.setOptions(this.createMarkedOptions());

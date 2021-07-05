@@ -42,7 +42,7 @@ export class ContainerReflection extends Reflection {
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: TraverseCallback) {
+    override traverse(callback: TraverseCallback) {
         for (const child of this.children ?? []) {
             if (callback(child, TraverseProperty.Children) === false) {
                 return;

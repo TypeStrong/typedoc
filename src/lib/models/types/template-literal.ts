@@ -7,7 +7,7 @@ import { Type } from "./abstract";
  * ```
  */
 export class TemplateLiteralType extends Type {
-    readonly type = "template-literal";
+    override readonly type = "template-literal";
 
     head: string;
     tail: [Type, string][];
@@ -25,7 +25,7 @@ export class TemplateLiteralType extends Type {
         );
     }
 
-    equals(other: Type): boolean {
+    override equals(other: Type): boolean {
         return (
             other instanceof TemplateLiteralType &&
             this.head === other.head &&
@@ -38,7 +38,7 @@ export class TemplateLiteralType extends Type {
         );
     }
 
-    toString() {
+    override toString() {
         return [
             "`",
             this.head,

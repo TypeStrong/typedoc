@@ -30,7 +30,7 @@ export class PredicateType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "predicate";
+    override readonly type = "predicate";
 
     /**
      * Create a new PredicateType instance.
@@ -57,7 +57,7 @@ export class PredicateType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: Type): boolean {
+    override equals(type: Type): boolean {
         if (!(type instanceof PredicateType)) {
             return false;
         }
@@ -79,7 +79,7 @@ export class PredicateType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         const out = this.asserts ? ["asserts", this.name] : [this.name];
         if (this.targetType) {
             out.push("is", this.targetType.toString());

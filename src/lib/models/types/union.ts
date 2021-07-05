@@ -18,7 +18,7 @@ export class UnionType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = "union";
+    override readonly type: string = "union";
 
     /**
      * Create a new TupleType instance.
@@ -46,7 +46,7 @@ export class UnionType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: UnionType): boolean {
+    override equals(type: UnionType): boolean {
         if (!(type instanceof UnionType)) {
             return false;
         }
@@ -56,7 +56,7 @@ export class UnionType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         const names: string[] = [];
         this.types.forEach((element) => {
             names.push(element.toString());

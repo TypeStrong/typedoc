@@ -26,14 +26,14 @@ export class SignatureReflection
         super(name, kind, parent);
     }
 
-    kind!:
+    override kind!:
         | ReflectionKind.SetSignature
         | ReflectionKind.GetSignature
         | ReflectionKind.IndexSignature
         | ReflectionKind.CallSignature
         | ReflectionKind.ConstructorSignature;
 
-    parent!: DeclarationReflection;
+    override parent!: DeclarationReflection;
 
     parameters?: ParameterReflection[];
 
@@ -85,7 +85,7 @@ export class SignatureReflection
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: TraverseCallback) {
+    override traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
             if (
                 callback(
@@ -115,7 +115,7 @@ export class SignatureReflection
     /**
      * Return a string representation of this reflection.
      */
-    toString(): string {
+    override toString(): string {
         let result = super.toString();
 
         if (this.typeParameters) {

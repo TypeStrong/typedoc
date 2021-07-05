@@ -38,7 +38,7 @@ describe("Options - TSConfigReader", () => {
 
     it("Does not error if the option file cannot be found but was not set.", () => {
         const options = new (class LyingOptions extends Options {
-            isSet() {
+            override isSet() {
                 return false;
             }
         })(new Logger());

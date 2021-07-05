@@ -35,7 +35,7 @@ export class HelperStack extends ResourceStack<Helper> {
         this.addCoreHelpers();
     }
 
-    activate(): boolean {
+    override activate(): boolean {
         if (!super.activate()) {
             return false;
         }
@@ -57,7 +57,7 @@ export class HelperStack extends ResourceStack<Helper> {
         return true;
     }
 
-    deactivate(): boolean {
+    override deactivate(): boolean {
         if (!super.deactivate()) {
             return false;
         }
@@ -74,7 +74,7 @@ export class HelperStack extends ResourceStack<Helper> {
         this.addOrigin("core", Path.join(__dirname, "..", "..", "helpers"));
     }
 
-    removeAllOrigins() {
+    override removeAllOrigins() {
         super.removeAllOrigins();
         this.addCoreHelpers();
     }

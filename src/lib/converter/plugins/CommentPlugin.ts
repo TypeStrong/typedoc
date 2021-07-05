@@ -60,7 +60,7 @@ export class CommentPlugin extends ConverterComponent {
     /**
      * Create a new CommentPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, {
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
             [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,

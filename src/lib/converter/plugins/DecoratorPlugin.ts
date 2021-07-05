@@ -16,7 +16,7 @@ export class DecoratorPlugin extends ConverterComponent {
     /**
      * Create a new ImplementsPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, {
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
             [Converter.EVENT_CREATE_PARAMETER]: this.onDeclaration,

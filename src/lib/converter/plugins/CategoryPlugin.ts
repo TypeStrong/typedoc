@@ -34,7 +34,7 @@ export class CategoryPlugin extends ConverterComponent {
     /**
      * Create a new CategoryPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(
             this.owner,
             {

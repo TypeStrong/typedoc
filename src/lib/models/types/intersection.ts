@@ -16,7 +16,7 @@ export class IntersectionType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = "intersection";
+    override readonly type: string = "intersection";
 
     /**
      * Create a new TupleType instance.
@@ -43,7 +43,7 @@ export class IntersectionType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: IntersectionType): boolean {
+    override equals(type: IntersectionType): boolean {
         if (!(type instanceof IntersectionType)) {
             return false;
         }
@@ -53,7 +53,7 @@ export class IntersectionType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         const names: string[] = [];
         this.types.forEach((element) => {
             names.push(element.toString());

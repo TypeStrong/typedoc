@@ -30,7 +30,7 @@ export class InheritDocPlugin extends ConverterComponent {
     /**
      * Create a new InheritDocPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(
             this.owner,
             {

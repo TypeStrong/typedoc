@@ -12,7 +12,7 @@ export class LayoutPlugin extends RendererComponent {
     /**
      * Create a new LayoutPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, PageEvent.END, this.onRendererEndPage);
     }
 

@@ -67,7 +67,7 @@ export class PrettyPrintPlugin extends RendererComponent {
     /**
      * Create a new PrettyPrintPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, PageEvent.END, this.onRendererEndPage, -1024);
     }
 

@@ -6,7 +6,7 @@ export class TypeParameterReflection
     extends Reflection
     implements TypeContainer
 {
-    parent?: DeclarationReflection;
+    override parent?: DeclarationReflection;
 
     type?: Type;
 

@@ -18,7 +18,7 @@ export class ArrayType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "array";
+    override readonly type = "array";
 
     /**
      * Create a new TupleType instance.
@@ -45,7 +45,7 @@ export class ArrayType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: Type): boolean {
+    override equals(type: Type): boolean {
         if (!(type instanceof ArrayType)) {
             return false;
         }
@@ -55,7 +55,7 @@ export class ArrayType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         const elementTypeStr = this.elementType.toString();
         if (
             this.elementType instanceof UnionType ||

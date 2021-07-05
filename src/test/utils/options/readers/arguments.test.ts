@@ -123,7 +123,7 @@ describe("Options - ArgumentsReader", () => {
     it("Errors if given an unknown option", () => {
         let check = false;
         class TestLogger extends Logger {
-            error(msg: string) {
+            override error(msg: string) {
                 equal(msg, "Unknown option: --badOption");
                 check = true;
             }
@@ -139,7 +139,7 @@ describe("Options - ArgumentsReader", () => {
     it("Warns if option is expecting a value but no value is provided", () => {
         let check = false;
         class TestLogger extends Logger {
-            warn(msg: string) {
+            override warn(msg: string) {
                 ok(msg.includes("--out"));
                 check = true;
             }

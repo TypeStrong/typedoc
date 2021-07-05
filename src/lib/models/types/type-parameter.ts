@@ -27,7 +27,7 @@ export class TypeParameterType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = "typeParameter";
+    override readonly type: string = "typeParameter";
 
     constructor(name: string) {
         super();
@@ -52,7 +52,7 @@ export class TypeParameterType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: TypeParameterType): boolean {
+    override equals(type: TypeParameterType): boolean {
         if (!(type instanceof TypeParameterType)) {
             return false;
         }
@@ -79,7 +79,7 @@ export class TypeParameterType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString(): string {
+    override toString(): string {
         return this.name;
     }
 }

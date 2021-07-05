@@ -19,7 +19,7 @@ export class AssetsPlugin extends RendererComponent {
     /**
      * Create a new AssetsPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, {
             [RendererEvent.BEGIN]: this.onRendererBegin,
         });

@@ -7,7 +7,7 @@ import {
 import { DeclarationReflectionSerializer } from "./declaration";
 
 export class ReferenceReflectionSerializer extends ReflectionSerializerComponent<ReferenceReflection> {
-    static PRIORITY = DeclarationReflectionSerializer.PRIORITY - 1;
+    static override PRIORITY = DeclarationReflectionSerializer.PRIORITY - 1;
 
     supports(t: unknown) {
         return t instanceof ReferenceReflection;

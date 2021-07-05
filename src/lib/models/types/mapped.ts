@@ -8,7 +8,7 @@ import { Type } from "./abstract";
  * ```
  */
 export class MappedType extends Type {
-    readonly type = "mapped";
+    override readonly type = "mapped";
 
     constructor(
         public parameter: string,
@@ -32,7 +32,7 @@ export class MappedType extends Type {
         );
     }
 
-    equals(other: Type): boolean {
+    override equals(other: Type): boolean {
         if (!(other instanceof MappedType)) {
             return false;
         }
@@ -55,7 +55,7 @@ export class MappedType extends Type {
         );
     }
 
-    toString(): string {
+    override toString(): string {
         const read = {
             "+": "readonly",
             "-": "-readonly",

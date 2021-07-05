@@ -16,7 +16,7 @@ export class RestType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "rest";
+    override readonly type = "rest";
 
     /**
      * Create a new RestType instance.
@@ -43,7 +43,7 @@ export class RestType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: Type): boolean {
+    override equals(type: Type): boolean {
         if (!(type instanceof RestType)) {
             return false;
         }
@@ -53,7 +53,7 @@ export class RestType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         return `...${this.elementType.toString()}`;
     }
 }

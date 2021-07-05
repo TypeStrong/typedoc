@@ -21,6 +21,7 @@
         "declaration": true,
         "sourceMap": true,
         "isolatedModules": true,
+        "noImplicitOverride": true,
 
         // Output
         "outDir": "dist/",

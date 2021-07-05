@@ -11,7 +11,7 @@ import { ReferenceType } from "./reference";
 export class QueryType extends Type {
     readonly queryType: ReferenceType;
 
-    readonly type = "query";
+    override readonly type = "query";
 
     constructor(reference: ReferenceType) {
         super();
@@ -22,13 +22,13 @@ export class QueryType extends Type {
         return new QueryType(this.queryType);
     }
 
-    equals(other: Type): boolean {
+    override equals(other: Type): boolean {
         return (
             other instanceof QueryType && this.queryType.equals(other.queryType)
         );
     }
 
-    toString() {
+    override toString() {
         return `typeof ${this.queryType.toString()}`;
     }
 }

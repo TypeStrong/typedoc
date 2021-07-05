@@ -12,7 +12,7 @@ export class ParameterReflection
     extends Reflection
     implements DefaultValueContainer, TypeContainer
 {
-    parent?: SignatureReflection;
+    override parent?: SignatureReflection;
 
     defaultValue?: string;
 
@@ -26,7 +26,7 @@ export class ParameterReflection
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: TraverseCallback) {
+    override traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
             if (
                 callback(
@@ -44,7 +44,7 @@ export class ParameterReflection
     /**
      * Return a string representation of this reflection.
      */
-    toString() {
+    override toString() {
         return super.toString() + (this.type ? ":" + this.type.toString() : "");
     }
 }

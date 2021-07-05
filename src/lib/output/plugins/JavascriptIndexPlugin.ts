@@ -21,7 +21,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
     /**
      * Create a new JavascriptIndexPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
     }
 

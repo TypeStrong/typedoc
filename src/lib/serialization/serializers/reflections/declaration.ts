@@ -8,7 +8,7 @@ import {
 } from "../../schema";
 
 export class DeclarationReflectionSerializer extends ReflectionSerializerComponent<DeclarationReflection> {
-    static PRIORITY = ContainerReflectionSerializer.PRIORITY - 1; // mimic inheritance, run after parent
+    static override PRIORITY = ContainerReflectionSerializer.PRIORITY - 1; // mimic inheritance, run after parent
 
     supports(t: unknown) {
         return t instanceof DeclarationReflection;

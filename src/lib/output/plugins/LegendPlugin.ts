@@ -271,7 +271,7 @@ export class LegendPlugin extends RendererComponent {
     /**
      * Create a new LegendPlugin instance.
      */
-    initialize() {
+    override initialize() {
         this.listenTo(this.owner, {
             [RendererEvent.BEGIN]: this.onRenderBegin,
             [PageEvent.BEGIN]: this.onRendererBeginPage,

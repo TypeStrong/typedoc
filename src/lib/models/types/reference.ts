@@ -16,7 +16,7 @@ export class ReferenceType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = "reference";
+    override readonly type = "reference";
 
     /**
      * The name of the referenced type.
@@ -88,7 +88,7 @@ export class ReferenceType extends Type {
      * @param other  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(other: ReferenceType): boolean {
+    override equals(other: ReferenceType): boolean {
         if (!(other instanceof ReferenceType)) {
             return false;
         }
@@ -121,7 +121,7 @@ export class ReferenceType extends Type {
      * Return a string representation of this type.
      * @example EventEmitter<any>
      */
-    toString() {
+    override toString() {
         const name = this.reflection ? this.reflection.name : this.name;
         let typeArgs = "";
 

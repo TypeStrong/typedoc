@@ -12,7 +12,7 @@ export class ConditionalType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = "conditional";
+    override readonly type: string = "conditional";
 
     constructor(
         public checkType: Type,
@@ -43,7 +43,7 @@ export class ConditionalType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: any): boolean {
+    override equals(type: any): boolean {
         if (!(type instanceof ConditionalType)) {
             return false;
         }
@@ -58,7 +58,7 @@ export class ConditionalType extends Type {
     /**
      * Return a string representation of this type.
      */
-    toString() {
+    override toString() {
         return (
             this.checkType +
             " extends " +
