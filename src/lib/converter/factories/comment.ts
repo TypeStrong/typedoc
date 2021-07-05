@@ -35,7 +35,7 @@ function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
         node.parent &&
         node.parent.kind === ts.SyntaxKind.ModuleDeclaration
     ) {
-        const parent = <ts.ModuleDeclaration>node.parent;
+        const parent = node.parent;
         if (node.name.pos === parent.name.end + 1) {
             node = parent;
         } else {

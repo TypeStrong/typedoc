@@ -25,9 +25,9 @@
  * ```
  *
  * For documentation on the JSON output properties, view the corresponding model.
+ * @module
  */
 
-/** */
 import * as M from "../models";
 import { SourceReferenceWrapper, DecoratorWrapper } from "./serializers";
 

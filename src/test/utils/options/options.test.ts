@@ -1,5 +1,6 @@
 import { Logger, Options, ParameterType } from "../../../lib/utils";
 import {
+    BindOption,
     MapDeclarationOption,
     NumberDeclarationOption,
 } from "../../../lib/utils/options";
@@ -107,5 +108,57 @@ describe("Options", () => {
         equal(options.isSet("excludePrivate"), false);
 
         throws(() => options.isSet("does not exist" as never));
+    });
+
+    it("Throws if sealed and a value is set", () => {
+        const options = new Options(new Logger());
+        options.addDefaultDeclarations();
+        options.seal();
+
+        throws(() => options.setValue("emit", true));
+        throws(() => options.setCompilerOptions([], {}, []));
+    });
+});
+
+describe("BindOption", () => {
+    class Container {
+        constructor(public options: Options) {}
+
+        @BindOption("emit")
+        emit!: boolean;
+    }
+
+    it("Supports fetching options", () => {
+        const options = new Options(new Logger());
+        options.addDefaultDeclarations();
+
+        const container = new Container(options);
+        equal(container.emit, false);
+    });
+
+    it("Updates as option values change", () => {
+        const options = new Options(new Logger());
+        options.addDefaultDeclarations();
+
+        const container = new Container(options);
+        equal(container.emit, false);
+
+        options.setValue("emit", true);
+        equal(container.emit, true);
+    });
+
+    it("Caches set options when sealed", () => {
+        const options = new Options(new Logger());
+        options.addDefaultDeclarations();
+
+        const container = new Container(options);
+
+        options.setValue("emit", true);
+        options.seal();
+        equal(container.emit, true);
+
+        const prop = Object.getOwnPropertyDescriptor(container, "emit")!;
+        equal(prop.get, void 0);
+        equal(prop.value, true);
     });
 });

@@ -285,6 +285,9 @@ export class Application extends ChildableComponent<
      * @returns An instance of ProjectReflection on success, undefined otherwise.
      */
     public convert(): ProjectReflection | undefined {
+        // We seal here rather than in the Converter class since TypeDoc's tests reuse the Application
+        // with a few different settings.
+        this.options.seal();
         this.logger.verbose(
             `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`
         );
@@ -355,6 +358,7 @@ export class Application extends ChildableComponent<
     public convertAndWatch(
         success: (project: ProjectReflection) => Promise<void>
     ): void {
+        this.options.seal();
         if (
             !this.options.getValue("preserveWatchOutput") &&
             this.logger instanceof ConsoleLogger

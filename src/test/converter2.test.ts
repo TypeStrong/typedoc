@@ -230,6 +230,7 @@ describe("Converter2", () => {
         tsconfig: join(base, "tsconfig.json"),
         plugin: [],
     });
+    app.options.seal();
 
     let program: ts.Program;
     before("Compiles", () => {
