@@ -22,6 +22,7 @@
         "sourceMap": true,
         "isolatedModules": true,
         "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
 
         // Output
         "outDir": "dist/",

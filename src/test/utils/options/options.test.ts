@@ -110,10 +110,10 @@ describe("Options", () => {
         throws(() => options.isSet("does not exist" as never));
     });
 
-    it("Throws if sealed and a value is set", () => {
+    it("Throws if frozen and a value is set", () => {
         const options = new Options(new Logger());
         options.addDefaultDeclarations();
-        options.seal();
+        options.freeze();
 
         throws(() => options.setValue("emit", true));
         throws(() => options.setCompilerOptions([], {}, []));
@@ -147,14 +147,14 @@ describe("BindOption", () => {
         equal(container.emit, true);
     });
 
-    it("Caches set options when sealed", () => {
+    it("Caches set options when frozen", () => {
         const options = new Options(new Logger());
         options.addDefaultDeclarations();
 
         const container = new Container(options);
 
         options.setValue("emit", true);
-        options.seal();
+        options.freeze();
         equal(container.emit, true);
 
         const prop = Object.getOwnPropertyDescriptor(container, "emit")!;

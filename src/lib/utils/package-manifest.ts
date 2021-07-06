@@ -45,19 +45,23 @@ function getPackagePaths(
     packageJSON: Record<string, unknown>
 ): string[] | undefined {
     if (
-        Array.isArray(packageJSON.workspaces) &&
-        packageJSON.workspaces.every((i) => typeof i === "string")
+        Array.isArray(packageJSON["workspaces"]) &&
+        packageJSON["workspaces"].every((i) => typeof i === "string")
     ) {
-        return packageJSON.workspaces;
+        return packageJSON["workspaces"];
     }
     if (
-        typeof packageJSON.workspaces === "object" &&
-        packageJSON.workspaces != null &&
-        hasOwnProperty(packageJSON.workspaces, "packages") &&
-        Array.isArray(packageJSON.workspaces.packages) &&
-        packageJSON.workspaces.packages.every((i) => typeof i === "string")
+        typeof packageJSON["workspaces"] === "object" &&
+        packageJSON["workspaces"] != null
     ) {
-        return packageJSON.workspaces.packages;
+        const workspaces = packageJSON["workspaces"];
+        if (
+            hasOwnProperty(workspaces, "packages") &&
+            Array.isArray(workspaces["packages"]) &&
+            workspaces["packages"].every((i) => typeof i === "string")
+        ) {
+            return workspaces["packages"];
+        }
     }
     return undefined;
 }

@@ -88,15 +88,15 @@ export class Options {
     /**
      * Marks the options as readonly, enables caching when fetching options, which improves performance.
      */
-    seal() {
-        Object.seal(this._values);
+    freeze() {
+        Object.freeze(this._values);
     }
 
     /**
-     * Checks if the options object has been sealed, preventing future changes to option values.
+     * Checks if the options object has been frozen, preventing future changes to option values.
      */
-    isSealed() {
-        return Object.isSealed(this._values);
+    isFrozen() {
+        return Object.isFrozen(this._values);
     }
 
     /**
@@ -274,7 +274,7 @@ export class Options {
         configPath?: NeverIfInternal<string>
     ): void;
     setValue(name: string, value: unknown, configPath?: string): void {
-        if (this.isSealed()) {
+        if (this.isFrozen()) {
             throw new Error(
                 "Tried to modify an option value after options have been sealed."
             );
@@ -325,7 +325,7 @@ export class Options {
         options: ts.CompilerOptions,
         projectReferences: readonly ts.ProjectReference[] | undefined
     ) {
-        if (this.isSealed()) {
+        if (this.isFrozen()) {
             throw new Error(
                 "Tried to modify an option value after options have been sealed."
             );
@@ -383,7 +383,7 @@ export function BindOption(name: string) {
                     "options" in this ? this.options : this.application.options;
                 const value = options.getValue(name as keyof TypeDocOptions);
 
-                if (options.isSealed()) {
+                if (options.isFrozen()) {
                     Object.defineProperty(this, key, { value });
                 }
 
