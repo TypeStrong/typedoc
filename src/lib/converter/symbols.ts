@@ -545,9 +545,10 @@ function convertProperty(
         return convertFunctionOrMethod(context, symbol, exportSymbol);
     }
 
-    // Special case: "arrow methods" should be treated as methods.
     if (declarations.length === 1) {
         const declaration = declarations[0];
+
+        // Special case: "arrow methods" should be treated as methods.
         if (
             ts.isPropertyDeclaration(declaration) &&
             !declaration.type &&
@@ -558,6 +559,20 @@ function convertProperty(
                 context,
                 symbol,
                 declaration.initializer,
+                exportSymbol
+            );
+        }
+
+        // Special case: "arrow properties" in type space should be treated as methods.
+        if (
+            ts.isPropertySignature(declaration) &&
+            declaration.type &&
+            ts.isFunctionTypeNode(declaration.type)
+        ) {
+            return convertArrowAsMethod(
+                context,
+                symbol,
+                declaration.type,
                 exportSymbol
             );
         }
@@ -610,7 +625,7 @@ function convertProperty(
 function convertArrowAsMethod(
     context: Context,
     symbol: ts.Symbol,
-    arrow: ts.ArrowFunction,
+    arrow: ts.ArrowFunction | ts.FunctionTypeNode,
     exportSymbol?: ts.Symbol
 ) {
     const reflection = context.createDeclarationReflection(

@@ -916,6 +916,9 @@
           "kind": 65536,
           "kindString": "Type literal",
           "flags": {},
+          "comment": {
+            "shortText": "Any function"
+          },
           "signatures": [
             {
               "id": 3,

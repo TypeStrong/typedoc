@@ -119,6 +119,8 @@ export function getRawComment(
         node = node.parent;
     } else if (node.kind === ts.SyntaxKind.ExportSpecifier) {
         node = node.parent.parent;
+    } else if (node.kind === ts.SyntaxKind.FunctionType) {
+        node = node.parent;
     }
 
     const sourceFile = node.getSourceFile();

@@ -217,6 +217,13 @@ const issueTests: Record<string, (project: ProjectReflection) => void> = {
             "Overwritten method with no comment should be inherited"
         );
     },
+
+    gh1624(project) {
+        ok(
+            query(project, "Foo.baz").signatures?.[0]?.hasComment(),
+            "Property methods declared in interface should still allow comment inheritance"
+        );
+    },
 };
 
 describe("Converter2", () => {
