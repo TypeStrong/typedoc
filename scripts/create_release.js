@@ -81,7 +81,7 @@ async function main() {
 
     console.log("Creating release...");
     const changelog = await exec(
-        `node ${join(__dirname, "generate_changelog.js")} - ${lastTag}`
+        `node ${join(__dirname, "generate_changelog.js")} - ${currentVersion}`
     );
     await createGitHubRelease({
         tag_name: currentVersion,
