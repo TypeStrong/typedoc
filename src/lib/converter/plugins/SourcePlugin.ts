@@ -94,10 +94,13 @@ export class SourcePlugin extends ConverterComponent {
         if (isNamedNode(node)) {
             position = ts.getLineAndCharacterOfPosition(
                 sourceFile,
-                node.name.end
+                node.name.getStart()
             );
         } else {
-            position = ts.getLineAndCharacterOfPosition(sourceFile, node.pos);
+            position = ts.getLineAndCharacterOfPosition(
+                sourceFile,
+                node.getStart()
+            );
         }
 
         if (reflection instanceof DeclarationReflection) {

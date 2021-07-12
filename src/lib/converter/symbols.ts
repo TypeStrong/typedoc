@@ -466,7 +466,9 @@ function convertClassOrInterface(
         context.trigger(
             ConverterEvents.CREATE_DECLARATION,
             constructMember,
-            classDeclaration.getChildren().find(ts.isConstructorDeclaration)
+            ts.isClassDeclaration(classDeclaration)
+                ? classDeclaration.members.find(ts.isConstructorDeclaration)
+                : void 0
         );
 
         const constructContext = reflectionContext.withScope(constructMember);

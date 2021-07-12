@@ -753,6 +753,9 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "comment": {
+                "shortText": "Constructor short text."
+              },
               "signatures": [
                 {
                   "id": 27,
@@ -1025,6 +1028,9 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "comment": {
+                "shortText": "Constructor short text."
+              },
               "signatures": [
                 {
                   "id": 43,
@@ -1043,7 +1049,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Constructor param"
+                        "shortText": "Constructor param"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1057,7 +1063,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Private string property"
+                        "shortText": "Private string property"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1071,7 +1077,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Public number property"
+                        "shortText": "Public number property"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1085,7 +1091,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Public implicit any property\n"
+                        "shortText": "Public implicit any property\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1530,6 +1536,7 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "comment": {},
               "signatures": [
                 {
                   "id": 96,
@@ -1546,7 +1553,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "X component of the Vector"
+                        "shortText": "X component of the Vector"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1560,7 +1567,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Y component of the Vector"
+                        "shortText": "Y component of the Vector"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1574,7 +1581,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Vector name\n"
+                        "shortText": "Vector name\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1672,6 +1679,7 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "comment": {},
               "signatures": [
                 {
                   "id": 105,
@@ -1688,7 +1696,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "X component of the Vector"
+                        "shortText": "X component of the Vector"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1702,7 +1710,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Y component of the Vector"
+                        "shortText": "Y component of the Vector"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1716,7 +1724,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Z component of the Vector"
+                        "shortText": "Z component of the Vector"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1730,7 +1738,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Vector name\n"
+                        "shortText": "Vector name\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -2661,6 +2669,9 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "comment": {
+                "shortText": "Constructor short text."
+              },
               "signatures": [
                 {
                   "id": 168,
@@ -2688,7 +2699,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Constructor parameter.\n"
+                        "shortText": "Constructor parameter.\n"
                       },
                       "type": {
                         "type": "reference",
@@ -2830,6 +2841,9 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "comment": {
+                "shortText": "Constructor short text."
+              },
               "signatures": [
                 {
                   "id": 178,

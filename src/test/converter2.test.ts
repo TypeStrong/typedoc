@@ -224,6 +224,12 @@ const issueTests: Record<string, (project: ProjectReflection) => void> = {
             "Property methods declared in interface should still allow comment inheritance"
         );
     },
+
+    gh1626(project) {
+        const ctor = query(project, "Foo.constructor");
+        equal(ctor.sources?.[0]?.line, 2);
+        equal(ctor.sources?.[0]?.character, 4);
+    },
 };
 
 describe("Converter2", () => {
@@ -233,7 +239,6 @@ describe("Converter2", () => {
     app.bootstrap({
         name: "typedoc",
         excludeExternals: true,
-        disableSources: true,
         tsconfig: join(base, "tsconfig.json"),
         plugin: [],
     });
