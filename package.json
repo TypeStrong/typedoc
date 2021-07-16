@@ -17,7 +17,7 @@
     "url": "https://github.com/TypeStrong/TypeDoc/issues"
   },
   "engines": {
-    "node": ">= 12.20.0"
+    "node": ">= 12.10.0"
   },
   "dependencies": {
     "glob": "^7.1.7",
