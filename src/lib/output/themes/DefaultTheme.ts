@@ -56,25 +56,25 @@ export class DefaultTheme extends Theme {
             kind: [ReflectionKind.Class],
             isLeaf: false,
             directory: "classes",
-            template: "reflection.hbs",
+            template: this.reflection.bind(this)
         },
         {
             kind: [ReflectionKind.Interface],
             isLeaf: false,
             directory: "interfaces",
-            template: "reflection.hbs",
+            template: this.reflection.bind(this)
         },
         {
             kind: [ReflectionKind.Enum],
             isLeaf: false,
             directory: "enums",
-            template: "reflection.hbs",
+            template: this.reflection.bind(this)
         },
         {
             kind: [ReflectionKind.Namespace, ReflectionKind.Module],
             isLeaf: false,
             directory: "modules",
-            template: "reflection.hbs",
+            template: this.reflection.bind(this)
         },
     ];
 

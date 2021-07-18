@@ -1,5 +1,4 @@
 import React from "react";
-import { renderToStaticMarkup } from "react-dom/server";
 import { SignatureReflection, Reflection, ReflectionKind } from "../../../..";
 
 /**
@@ -26,7 +25,7 @@ export function With<A, B, C>(
 //     else return undefined;
 // }
 export class IfCond extends React.Component<{ cond: boolean }> {
-    render() {
+    override render() {
         if (this.props.cond) return this.props.children;
         else return undefined;
     }
@@ -63,7 +62,8 @@ export function Compact<T>(props: { children: T }) {
 export function isSignature(
     reflection: Reflection
 ): reflection is SignatureReflection {
-    return !!(reflection.kind & ReflectionKind.SomeSignature);
+    // return !!(reflection.kind & ReflectionKind.SomeSignature);
+    return reflection instanceof SignatureReflection;
 }
 
 export function relativeURL(url: string) {
