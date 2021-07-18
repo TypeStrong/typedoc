@@ -1,0 +1,16 @@
+
+    <span class="tsd-signature-symbol">`</span>
+    {{#if head}}
+        <span class="tsd-signature-type">{{head}}</span>
+    {{/if}}
+    {{#each tail}}
+        <span class="tsd-signature-symbol">${</span>
+        <With superProps=props props=this.[0]>
+            {{__partials__.type}}
+        </With>
+        <span class="tsd-signature-symbol">}</span>
+        {{#if this.[1]}}
+            <span class="tsd-signature-type">{{this.[1]}}</span>
+        {{/if}}
+    {{/each}}
+    <span class="tsd-signature-symbol">`</span>

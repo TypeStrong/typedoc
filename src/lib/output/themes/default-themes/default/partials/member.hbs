@@ -1,0 +1,24 @@
+<section class="tsd-panel tsd-member {{cssClasses}}">
+    <a name="{{anchor}}" class="tsd-anchor"></a>
+    {{#if name}}
+        <h3>{{#each flags}}<span class="tsd-flag ts-flag{{this}}">{{this}}</span> {{/each}}{{{wbr name}}}</h3>
+    {{/if}}
+
+    {{#if signatures}}
+        {{__partials__.member.signatures}}
+    {{else}}{{#if hasGetterOrSetter}}
+        {{__partials__.member.getterSetter}}
+    {{else}}{{#if isReference}}
+        {{__partials__.member.reference}}
+    {{else}}
+        {{__partials__.member.declaration}}
+    {{/if}}{{/if}}{{/if}}
+
+    {{#each groups}}
+        {{#each children}}
+            {{#unless hasOwnDocument}}
+                {{__partials__.member}}
+            {{/unless}}
+        {{/each}}
+    {{/each}}
+</section>

@@ -1,0 +1,13 @@
+
+    {{#if needsParens}}
+        <span class="tsd-signature-symbol">(</span>
+    {{/if}}
+    {{#each types}}
+        {{#unless @first}}
+            <span class="tsd-signature-symbol"> | </span>
+        {{/unless}}
+        {{__partials__.type needsParens=true}}
+    {{/each}}
+    {{#if needsParens}}
+        <span class="tsd-signature-symbol">)</span>
+    {{/if}}

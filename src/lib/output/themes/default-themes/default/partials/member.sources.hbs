@@ -1,0 +1,22 @@
+<aside class="tsd-sources">
+    {{#if implementationOf}}
+        <p>Implementation of <With superProps=props props=implementationOf>{{__partials__.typeAndParent}}</With></p>
+    {{/if}}
+    {{#if inheritedFrom}}
+        <p>Inherited from <With superProps=props props=inheritedFrom>{{__partials__.typeAndParent}}</With></p>
+    {{/if}}
+    {{#if overwrites}}
+        <p>Overrides <With superProps=props props=overwrites>{{__partials__.typeAndParent}}</With></p>
+    {{/if}}
+    {{#if sources}}
+        <ul>
+            {{#each sources}}
+                {{#if url}}
+                    <li>Defined in <a href="{{url}}">{{fileName}}:{{line}}</a></li>
+                {{else}}
+                    <li>Defined in {{fileName}}:{{line}}</li>
+                {{/if}}
+            {{/each}}
+        </ul>
+    {{/if}}
+</aside>

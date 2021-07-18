@@ -1,0 +1,22 @@
+
+    {{#if needsParens}}
+        <span class="tsd-signature-symbol">(</span>
+    {{/if}}
+    <With superProps=props props=checkType>
+        {{__partials__.type needsParens=true}}
+    </With>
+    <span class="tsd-signature-symbol"> extends </span>
+    <With superProps=props props=extendsType>
+        {{__partials__.type}}
+    </With>
+    <span class="tsd-signature-symbol"> ? </span>
+    <With superProps=props props=trueType>
+        {{__partials__.type}}
+    </With>
+    <span class="tsd-signature-symbol"> : </span>
+    <With superProps=props props=falseType>
+        {{__partials__.type}}
+    </With>
+    {{#if needsParens}}
+        <span class="tsd-signature-symbol">)</span>
+    {{/if}}

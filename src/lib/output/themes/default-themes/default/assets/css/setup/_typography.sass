@@ -1,0 +1,50 @@
+body
+    background: var(--color-background)
+    font-family: $FONT_FAMILY
+    font-size: $FONT_SIZE
+    color: var(--color-text)
+
+a
+    color: var(--color-link)
+    text-decoration: none
+
+    &:hover
+        text-decoration: underline
+
+code, pre
+    font-family: $FONT_FAMILY_MONO
+    padding: 0.2em
+    margin: 0
+    font-size: $FONT_SIZE_MONO
+    background-color: var(--color-code-background)
+
+pre
+    padding: 10px
+
+    code
+        padding: 0
+        font-size: 100%
+        background-color: transparent
+
+blockquote
+    margin: 1em 0
+    padding-left: 1em
+    border-left: 4px solid gray
+
+.tsd-typography
+    line-height: $LINE_HEIGHT
+
+    ul
+        list-style: square
+        padding: 0 0 0 20px
+        margin: 0
+
+    h4, h5, h6
+        font-size: 1em
+        margin: 0
+
+    h5, h6
+        font-weight: normal
+
+    p, ul, ol
+        margin: 1em 0

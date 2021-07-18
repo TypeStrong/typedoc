@@ -1,0 +1,42 @@
+
+    <span class="tsd-signature-symbol">{</span>
+    <IfCond cond="readonlyModifier '===' '+'">
+        <span class="tsd-signature-symbol">readonly </span>
+    </IfCond>
+    <IfNotCond cond="readonlyModifier '===' '+'">
+        <IfCond cond="readonlyModifier '===' '-'">
+            <span class="tsd-signature-symbol">-readonly </span>
+        </IfCond>
+    </IfNotCond>
+
+    <span class="tsd-signature-symbol">[ </span>
+    <span class="tsd-signature-type">{{parameter}}</span>
+    <span class="tsd-signature-symbol"> in </span>
+
+    <With superProps=props props=parameterType>
+        {{__partials__.type}}
+    </With>
+
+    <With superProps=props props=nameType>
+        <span class="tsd-signature-symbol"> as </span>
+        {{__partials__.type}}
+    </With>
+
+    <span class="tsd-signature-symbol">]</span>
+    <IfCond cond="readonlyModifier '===' '+'">
+        <span class="tsd-signature-symbol">?: </span>
+    </IfCond>
+    <IfNotCond cond="readonlyModifier '===' '+'">
+        <IfCond cond="readonlyModifier '===' '-'">
+            <span class="tsd-signature-symbol">-?: </span>
+        </IfCond>
+        <IfNotCond cond="readonlyModifier '===' '-'">
+            <span class="tsd-signature-symbol">: </span>
+        </IfNotCond>
+    </IfNotCond>
+
+    <With superProps=props props=templateType>
+        {{__partials__.type}}
+    </With>
+
+    <span class="tsd-signature-symbol"> }</span>

@@ -1,0 +1,56 @@
+{{#unless hideSources}}
+    {{__partials__.member.sources}}
+{{/unless}}
+
+{{__partials__.comment}}
+
+{{#if typeParameters}}
+    <h4 class="tsd-type-parameters-title">Type parameters</h4>
+    {{__partials__.typeParameters}}
+{{/if}}
+
+{{#if parameters}}
+    <h4 class="tsd-parameters-title">Parameters</h4>
+    <ul class="tsd-parameters">
+        {{#each parameters}}
+            <li>
+                <h5><Compact>
+                    {{#each flags}}
+                        <span class="tsd-flag ts-flag{{this}}">{{this}}</span>&nbsp;
+                    {{/each}}
+                    {{#if flags.isRest}}<span class="tsd-signature-symbol">...</span>{{/if}}
+                    {{name}}:&nbsp;
+                    <With superProps=props props=type>{{__partials__.type}}</With>
+                    {{#if defaultValue}}
+                        <span class="tsd-signature-symbol">
+                        &nbsp;=&nbsp;
+                        {{defaultValue}}
+                        </span>
+                    {{/if}}
+                </Compact></h5>
+
+                {{__partials__.comment}}
+
+                {{#if type.declaration}}
+                    <With superProps=props props=type.declaration>
+                        {{__partials__.parameter}}
+                    </With>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ul>
+{{/if}}
+
+{{#if type}}
+    <h4 class="tsd-returns-title">Returns <Compact><With superProps=props props=type>{{__partials__.type}}</With></Compact></h4>
+
+    {{#if comment.returns}}
+        <Markdown>{{{comment.returns}}}</Markdown>
+    {{/if}}
+
+    {{#if type.declaration}}
+        <With superProps=props props=type.declaration>
+            {{__partials__.parameter}}
+        </With>
+    {{/if}}
+{{/if}}

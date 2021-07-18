@@ -1,0 +1,11 @@
+
+    {{#if asserts}}
+        <span class="tsd-signature-symbol">asserts </span>
+    {{/if}}
+    <span class="tsd-signature-type">{{name}}</span>
+    {{#if targetType}}
+        <span class="tsd-signature-symbol"> is </span>
+        <With superProps=props props=targetType>
+            {{__partials__.type}}
+        </With>
+    {{/if}}

@@ -1,0 +1,16 @@
+{{#if parent}}
+    <With superProps=props props=parent>{{__partials__.breadcrumb}}</With>
+    <li>
+        {{#if url}}
+            <a href="{{relativeURL url}}">{{name}}</a>
+        {{else}}
+            <span>{{name}}</span>
+        {{/if}}
+    </li>
+{{else}}
+    {{#if url}}
+        <li>
+            <a href="{{relativeURL url}}">{{ name }}</a>
+        </li>
+    {{/if}}
+{{/if}}

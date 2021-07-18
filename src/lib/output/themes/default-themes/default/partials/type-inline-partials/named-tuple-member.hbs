@@ -1,0 +1,10 @@
+
+    {{name}}
+    {{#if isOptional}}
+        <span class="tsd-signature-symbol">?: </span>
+    {{else}}
+        <span class="tsd-signature-symbol">: </span>
+    {{/if}}
+    <With superProps=props props=element>
+        {{__partials__.type}}
+    </With>

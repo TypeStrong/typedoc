@@ -1,0 +1,20 @@
+
+    {{#if getReflection}}
+    <With superProps=props props=getReflection >
+        <a href="{{relativeURL url}}" class="tsd-signature-type" data-tsd-kind="{{kindString}}">
+            {{name}}
+        </a>
+    </With>
+    {{else}}
+        <span class="tsd-signature-type">{{name}}</span>
+    {{/if}}
+    {{#if typeArguments}}
+        <span class="tsd-signature-symbol">&lt;</span>
+        {{#each typeArguments}}
+            {{#unless @first}}
+                <span class="tsd-signature-symbol">, </span>
+            {{/unless}}
+            {{__partials__.type}}
+        {{/each}}
+        <span class="tsd-signature-symbol">&gt;</span>
+    {{/if}}

@@ -1,0 +1,9 @@
+
+    <span class="tsd-signature-symbol">[</span>
+    {{#each elements}}
+        {{#unless @first}}
+            <span class="tsd-signature-symbol">, </span>
+        {{/unless}}
+        {{__partials__.type}}
+    {{/each}}
+    <span class="tsd-signature-symbol">]</span>

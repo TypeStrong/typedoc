@@ -1,0 +1,91 @@
+
+{{#if declaration.children}} {{! object literal }}
+    <span class="tsd-signature-symbol">{ </span>
+    {{#each declaration.children}}
+        {{#unless @first}}
+            <span class="tsd-signature-symbol">; </span>
+        {{/unless}}
+
+        {{#if getSignature}}
+            {{#if setSignature}}
+                {{name}}
+                <span class="tsd-signature-symbol">: </span>
+                {{#if getSignature.type}}
+                <With superProps=props props=getSignature.type>
+                    {{__partials__.type}}
+                </With>
+                {{else}}
+                    <span class="tsd-signature-type">any</span>
+                {{/if}}
+            {{else}}
+                <span class="tsd-signature-symbol">get </span>
+                {{name}}
+                <span class="tsd-signature-symbol">(): </span>
+                {{#if getSignature.type}}
+                    <With superProps=props props=getSignature.type>
+                        {{__partials__.type}}
+                    </With>
+                {{else}}
+                    <span class="tsd-signature-type">any</span>
+                {{/if}}
+            {{/if}}
+        {{else}}
+            {{#if setSignature}}
+                <span class="tsd-signature-symbol">set </span>
+                {{name}}
+                <span class="tsd-signature-symbol">(</span>
+                {{! Rather hacky to use each here... but we know there is exactly one. }}
+                {{#each setSignature.parameters}}
+                    {{name}}
+                    <span class="tsd-signature-symbol">: </span>
+                    {{#if type}}
+                        <With superProps=props props=type>
+                            {{__partials__.type}}
+                        </With>
+                    {{else}}
+                        <span class="tsd-signature-type">any</span>
+                    {{/if}}
+                {{/each}}
+                <span class="tsd-signature-symbol">)</span>
+            {{else}}
+                {{name}}
+                {{#if flags.isOptional }}
+                    <span class="tsd-signature-symbol">?: </span>
+                {{else}}
+                    <span class="tsd-signature-symbol">: </span>
+                {{/if}}
+                {{#if type}}
+                <With superProps=props props=type>
+                    {{__partials__.type}}
+                </With>
+                {{else}}
+                    <span class="tsd-signature-type">any</span>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    {{/each}}
+    <span class="tsd-signature-symbol"> }</span>
+{{else if declaration.signatures}}
+    {{#if "(lookup declaration.signatures 1)" }} {{! more than one signature}}
+        <span class="tsd-signature-symbol">{ </span>
+        {{#each declaration.signatures}}
+            {{__partials__.member.signature.title hideName=true}}
+            {{#unless @last}}
+                <span class="tsd-signature-symbol">; </span>
+            {{/unless}}
+        {{/each}}
+        <span class="tsd-signature-symbol"> }</span>
+    {{else}}
+        {{#if needsParens}}
+            <span class="tsd-signature-symbol">(</span>
+        {{/if}}
+        <With superProps=props props="(lookup declaration.signatures '0')" >
+            {{__partials__.member.signature.title hideName=true arrowStyle=true}}
+        </With>
+        {{#if needsParens}}
+            <span class="tsd-signature-symbol">)</span>
+        {{/if}}
+    {{/if}}
+{{else}}
+    <span class="tsd-signature-symbol">{}</span>
+{{/if}}
