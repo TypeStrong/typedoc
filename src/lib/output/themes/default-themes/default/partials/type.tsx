@@ -8,7 +8,7 @@ import {
     Markdown,
     __partials__,
 } from "../../lib";
-import React from "react";
+import * as React from "react";
 import { TypeInlinePartialsOptions } from "./type-inline-partials/options";
 import { Type } from "../../../../../models";
 export const type = (props: Type, options?: TypeInlinePartialsOptions) => (

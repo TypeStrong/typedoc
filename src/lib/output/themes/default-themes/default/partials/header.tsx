@@ -1,6 +1,7 @@
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
-export const header = (props) => (
+import * as React from "react";
+import { PageEvent } from "../../../../events";
+export const header = (props: PageEvent) => (
     <>
         <header>
             <div className="tsd-page-toolbar">
@@ -83,7 +84,9 @@ export const header = (props) => (
                     )}{" "}
                     <h1>
                         <Compact>
-                            <IfCond cond={props.model.kindString !== props.Project}>{props.model.kindString}</IfCond>
+                            <IfCond cond={props.model.kindString !== 'Project'}>
+                                {props.model.kindString}
+                            </IfCond>
                             {props.model.name}
                             {!!props.model.typeParameters && (
                                 <>

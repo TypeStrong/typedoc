@@ -1,34 +1,23 @@
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
+import * as React from "react";
 export const hierarchy = (props) => (
-    <>
         <ul className="tsd-hierarchy">
             {props.types.map((item, i) => (
-                <>
-                    {" "}
                     <li>
-                        {!!item.superProps.isTarget ? (
-                            <>
-                                {" "}
+                        {!!props.isTarget ? (
                                 <span className="target">{item}</span>
-                            </>
                         ) : (
-                            <>
-                                {" "}
-                                <Compact>{__partials__.type(item)}</Compact>
-                            </>
+                                __partials__.type(item)
                         )}
                         {!!item.last && (
                             <>
                                 {" "}
-                                {With(item, item.superProps.next, (superProps, props) => (
+                                {With(item, props.next, (superProps, props) => (
                                     <>{__partials__.hierarchy(props)}</>
                                 ))}
                             </>
                         )}{" "}
                     </li>
-                </>
             ))}
         </ul>
-    </>
 );

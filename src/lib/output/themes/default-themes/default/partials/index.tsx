@@ -1,14 +1,5 @@
-import {
-    With,
-    relativeURL,
-    wbr,
-    __partials__,
-    Compact,
-    IfCond,
-    IfNotCond,
-    Markdown,
-} from "../../lib";
-import React from "react";
+import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
+import * as React from "react";
 import { DeclarationReflection } from "../../../../../..";
 export const index = (props: DeclarationReflection) =>
     props.categories ? (
@@ -28,15 +19,8 @@ export const index = (props: DeclarationReflection) =>
                                             <>
                                                 {" "}
                                                 <li className={item.cssClasses}>
-                                                    <a
-                                                        href={relativeURL(TODO)}
-                                                        className="tsd-kind-icon"
-                                                    >
-                                                        {!!item.name ? (
-                                                            wbr(TODO)
-                                                        ) : (
-                                                            <em>{wbr(TODO)}</em>
-                                                        )}
+                                                    <a href={relativeURL(TODO)} className="tsd-kind-icon">
+                                                        {!!item.name ? wbr(TODO) : <em>{wbr(TODO)}</em>}
                                                     </a>
                                                 </li>
                                             </>
@@ -60,54 +44,29 @@ export const index = (props: DeclarationReflection) =>
                             {props.groups.map((item, i) => (
                                 <>
                                     {" "}
-                                    <section
-                                        className={
-                                            "tsd-index-section " +
-                                            item.cssClasses
-                                        }
-                                    >
+                                    <section className={"tsd-index-section " + item.cssClasses}>
                                         {!!item.categories ? (
-                                            item.categories.map((item, i) => (
+                                            item.categories.map((item2, i) => (
                                                 <>
                                                     {" "}
                                                     <h3>
-                                                        {!!item.title && (
-                                                            <>{item.title} </>
-                                                        )}
-                                                        {item.superProps.title}
+                                                        {!!item2.title && <>{item2.title} </>}
+                                                        {item.title}
                                                     </h3>
                                                     <ul className="tsd-index-list">
-                                                        {item.children.map(
-                                                            (item, i) => (
-                                                                <>
-                                                                    {" "}
-                                                                    <li
-                                                                        className={
-                                                                            item.cssClasses
-                                                                        }
+                                                        {item2.children.map((item, i) => (
+                                                            <>
+                                                                {" "}
+                                                                <li className={item.cssClasses}>
+                                                                    <a
+                                                                        href={relativeURL(TODO)}
+                                                                        className="tsd-kind-icon"
                                                                     >
-                                                                        <a
-                                                                            href={relativeURL(
-                                                                                TODO
-                                                                            )}
-                                                                            className="tsd-kind-icon"
-                                                                        >
-                                                                            {!!item.name ? (
-                                                                                wbr(
-                                                                                    TODO
-                                                                                )
-                                                                            ) : (
-                                                                                <em>
-                                                                                    {wbr(
-                                                                                        TODO
-                                                                                    )}
-                                                                                </em>
-                                                                            )}
-                                                                        </a>
-                                                                    </li>
-                                                                </>
-                                                            )
-                                                        )}{" "}
+                                                                        {!!item.name ? wbr(TODO) : <em>{wbr(TODO)}</em>}
+                                                                    </a>
+                                                                </li>
+                                                            </>
+                                                        ))}{" "}
                                                     </ul>
                                                 </>
                                             ))
@@ -116,37 +75,16 @@ export const index = (props: DeclarationReflection) =>
                                                 {" "}
                                                 <h3>{item.title}</h3>
                                                 <ul className="tsd-index-list">
-                                                    {item.children.map(
-                                                        (item, i) => (
-                                                            <>
-                                                                {" "}
-                                                                <li
-                                                                    className={
-                                                                        item.cssClasses
-                                                                    }
-                                                                >
-                                                                    <a
-                                                                        href={relativeURL(
-                                                                            TODO
-                                                                        )}
-                                                                        className="tsd-kind-icon"
-                                                                    >
-                                                                        {!!item.name ? (
-                                                                            wbr(
-                                                                                TODO
-                                                                            )
-                                                                        ) : (
-                                                                            <em>
-                                                                                {wbr(
-                                                                                    TODO
-                                                                                )}
-                                                                            </em>
-                                                                        )}
-                                                                    </a>
-                                                                </li>
-                                                            </>
-                                                        )
-                                                    )}{" "}
+                                                    {item.children.map((item, i) => (
+                                                        <>
+                                                            {" "}
+                                                            <li className={item.cssClasses}>
+                                                                <a href={relativeURL(TODO)} className="tsd-kind-icon">
+                                                                    {!!item.name ? wbr(TODO) : <em>{wbr(TODO)}</em>}
+                                                                </a>
+                                                            </li>
+                                                        </>
+                                                    ))}{" "}
                                                 </ul>
                                             </>
                                         )}{" "}

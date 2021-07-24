@@ -24,6 +24,7 @@ import { Component, ChildableComponent } from "../utils/component";
 import { BindOption } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import { Theme as ShikiTheme } from "shiki";
+import {renderToStaticMarkup} from 'react-dom/server';
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
@@ -148,10 +149,7 @@ export class Renderer extends ChildableComponent<
             this.theme!.resources.templates.getResource(
                 page.templateName
             )!.getTemplate();
-        page.contents = page.template(page, {
-            allowProtoMethodsByDefault: true,
-            allowProtoPropertiesByDefault: true,
-        });
+        page.contents = renderToStaticMarkup(page.template(page));
 
         this.trigger(PageEvent.END, page);
         if (page.isDefaultPrevented) {

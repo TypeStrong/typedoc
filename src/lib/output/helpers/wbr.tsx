@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 /**
  * Insert word break tags ``<wbr>`` into the given string.

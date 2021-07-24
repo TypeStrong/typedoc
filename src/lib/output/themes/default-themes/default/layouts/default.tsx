@@ -1,6 +1,7 @@
 import { With, relativeURL, wbr, __partials__, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
-export const defaultLayout = (props) => (
+import * as React from "react";
+import { PageEvent } from "../../../../events";
+export const defaultLayout = (props: PageEvent) => (
     <>
         <html className="default no-js">
             <head>
@@ -15,8 +16,8 @@ export const defaultLayout = (props) => (
                 <meta name="description" content={"Documentation for " + props.project.name} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-                <link rel="stylesheet" href={relativeURL(TODO)} />
-                <script async={true} src={relativeURL(TODO)} id="search-script"></script>
+                <link rel="stylesheet" href={relativeURL("assets/css/main.css")} />
+                <script async={true} src={relativeURL("assets/js/search.js")} id="search-script"></script>
             </head>
             <body>
                 {__partials__.header(props)}
@@ -27,7 +28,7 @@ export const defaultLayout = (props) => (
                         <div className="col-4 col-menu menu-sticky-wrap menu-highlight">
                             <nav className="tsd-navigation primary">
                                 <ul>
-                                    {props.navigation.children.map((item, i) => (
+                                    {props.navigation?.children?.map((item, i) => (
                                         <> {__partials__.navigation(item)}</>
                                     ))}{" "}
                                 </ul>
@@ -35,7 +36,7 @@ export const defaultLayout = (props) => (
 
                             <nav className="tsd-navigation secondary menu-sticky">
                                 <ul className="before-current">
-                                    {props.toc.children.map((item, i) => (
+                                    {props.toc?.children?.map((item, i) => (
                                         <> {__partials__.tocRoot(item)}</>
                                     ))}{" "}
                                 </ul>
@@ -47,7 +48,7 @@ export const defaultLayout = (props) => (
                 {__partials__.footer(props)}
 
                 <div className="overlay"></div>
-                <script src={relativeURL(TODO)}></script>
+                <script src={relativeURL("assets/js/main.js")}></script>
 
                 {__partials__.analytics(props)}
             </body>

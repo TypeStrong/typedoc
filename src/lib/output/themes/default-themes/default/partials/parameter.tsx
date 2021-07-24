@@ -1,6 +1,7 @@
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
-export const parameter = (props) => (
+import * as React from "react";
+import { DeclarationReflection, ParameterReflection } from "../../../../../models";
+export const parameter = (props: DeclarationReflection) => (
     <>
         <ul className="tsd-parameters">
             {!!props.signatures && (
@@ -40,7 +41,7 @@ export const parameter = (props) => (
                         <h5>
                             <Compact>
                                 <span className="tsd-signature-symbol">[</span>
-                                {props.indexSignature.parameters.map((item, i) => (
+                                {props.indexSignature?.parameters?.map((item, i) => (
                                     <>
                                         {" "}
                                         {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
@@ -59,7 +60,7 @@ export const parameter = (props) => (
                         {With(props, props.indexSignature, (superProps, props) => (
                             <>{__partials__.comment(props)}</>
                         ))}
-                        {!!props.indexSignature.type.declaration && (
+                        {!!props.indexSignature.type?.declaration && (
                             <>
                                 {" "}
                                 {With(props, props.indexSignature.type.declaration, (superProps, props) => (
@@ -70,9 +71,9 @@ export const parameter = (props) => (
                     </li>
                 </>
             )}
-            {props.children.map((item, i) => (
+            {props.children?.map((item, i) => (
                 <>
-                    {!!item.signatures ? (
+                    {item.signatures ? (
                         <>
                             {" "}
                             <li className="tsd-parameter">
@@ -80,7 +81,7 @@ export const parameter = (props) => (
                                     <Compact>
                                         {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
                                         {wbr(TODO)}
-                                        <span className="tsd-signature-symbol">{!!item.isOptional && "?"}:</span>
+                                        <span className="tsd-signature-symbol">{!!item.flags.isOptional && "?"}:</span>
                                         function
                                     </Compact>
                                 </h5>
@@ -102,15 +103,11 @@ export const parameter = (props) => (
                                             </>
                                         ))}{" "}
                                         {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
-                                        {With(item, item.type, (superProps, props) => (
-                                            <>
-                                                {wbr(TODO)}
-                                                <span className="tsd-signature-symbol">
-                                                    {!!props.superProps.flags.isOptional && "?"}:
-                                                </span>
-                                                {__partials__.type(props)}
-                                            </>
-                                        ))}
+                                        {wbr(TODO)}
+                                        <span className="tsd-signature-symbol">
+                                            {!!item.flags.isOptional && "?"}:
+                                        </span>
+                                        {__partials__.type(item.type)}
                                     </Compact>
                                 </h5>
                                 {__partials__.comment(item)}
@@ -171,12 +168,12 @@ export const parameter = (props) => (
                                                 <span className="tsd-signature-symbol">set </span>
                                                 {wbr(TODO)}
                                                 <span className="tsd-signature-symbol">(</span>
-                                                {props.parameters.map((item, i) => (
+                                                {props.parameters?.map((item, i) => (
                                                     <>
                                                         {" "}
                                                         {item.name}
                                                         <span className="tsd-signature-symbol">: </span>
-                                                        {!!item.type ? (
+                                                        {item.type ? (
                                                             <>
                                                                 {" "}
                                                                 {With(item, item.type, (superProps, props) => (

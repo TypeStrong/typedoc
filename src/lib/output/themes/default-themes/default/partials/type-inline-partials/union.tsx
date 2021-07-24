@@ -1,7 +1,7 @@
 import { TypeInlinePartialsOptions } from "./options";
 import { With, relativeURL, wbr, Compact, IfCond, IfNotCond, Markdown, __partials__ } from "../../../lib";
-import React from "react";
-import { UnionType } from "../../../../typedoc/src/lib/models";
+import * as React from "react";
+import { UnionType } from "../../../models";
 export const union = (props: UnionType, { needsParens = false }: TypeInlinePartialsOptions = {}) => (
     <>
         {!!needsParens && (

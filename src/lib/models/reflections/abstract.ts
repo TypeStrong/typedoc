@@ -216,6 +216,10 @@ export class ReflectionFlags extends Array<string> {
         return this.hasFlag(ReflectionFlag.Readonly);
     }
 
+    get isExported() {
+        return TODO as boolean;
+    }
+
     setFlag(flag: ReflectionFlag, set: boolean) {
         switch (flag) {
             case ReflectionFlag.Private:

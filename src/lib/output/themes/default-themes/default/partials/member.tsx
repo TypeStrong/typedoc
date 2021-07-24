@@ -1,5 +1,5 @@
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
+import * as React from "react";
 export const member = (props) => (
     <>
         <section className={"tsd-panel tsd-member " + props.cssClasses}>
@@ -17,7 +17,7 @@ export const member = (props) => (
                     </h3>
                 </>
             )}
-            {!!props.signatures ? (
+            {props.signatures ? (
                 <> {__partials__["memberSignatures"](props)}</>
             ) : props.hasGetterOrSetter ? (
                 <>{__partials__["memberGetterSetter"](props)}</>

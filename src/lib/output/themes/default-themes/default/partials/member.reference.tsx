@@ -1,24 +1,25 @@
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
-export const memberReference = (props) =>
+import * as React from "react";
+import { ReferenceReflection } from "../../../../../models";
+export const memberReference = (props: ReferenceReflection) =>
     props.tryGetTargetReflectionDeep ? (
         <>
             {" "}
-            {With(props, props.tryGetTargetReflectionDeep, (superProps, props) => (
+            {With(props, props.tryGetTargetReflectionDeep(), (props, props2) => (
                 <>
-                    <IfCond cond={superProps.name === name}>
-                        Re-exports <a href={relativeURL(TODO)}>{props.name}</a>
+                    <IfCond cond={props.name === props2.name}>
+                        Re-exports <a href={relativeURL(props2.url)}>{props2.name}</a>
                     </IfCond>
-                    <IfNotCond cond={superProps.name === name}>
-                        {!!props.flags.isExported ? (
+                    <IfNotCond cond={props.name === props2.name}>
+                        {props2.flags.isExported ? (
                             <>
                                 {" "}
-                                Renames and re-exports <a href={relativeURL(TODO)}>{props.name}</a>
+                                Renames and re-exports <a href={relativeURL(props2.url)}>{props2.name}</a>
                             </>
                         ) : (
                             <>
                                 {" "}
-                                Renames and exports <a href={relativeURL(TODO)}>{props.name}</a>
+                                Renames and exports <a href={relativeURL(props2.url)}>{props2.name}</a>
                             </>
                         )}{" "}
                     </IfNotCond>

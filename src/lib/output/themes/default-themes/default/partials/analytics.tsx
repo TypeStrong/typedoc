@@ -1,5 +1,5 @@
 import { With, relativeURL, wbr, __partials__ } from "../../lib";
-import React from "react";
+import * as React from "react";
 export const analytics = (props) =>
     !!props.settings.gaID && (
         <>

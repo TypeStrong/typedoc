@@ -1,5 +1,5 @@
 import {With, __partials__, Compact, IfCond, IfNotCond, Markdown} from '../../../lib';
-import React from 'react';
+import * as React from 'react';
 import { TemplateLiteralType } from '../../../../../../models';
 export const templateLiteral = (props: TemplateLiteralType) => <>
     <span className="tsd-signature-symbol">`</span>

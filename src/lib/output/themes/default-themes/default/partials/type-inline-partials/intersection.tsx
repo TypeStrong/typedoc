@@ -1,8 +1,8 @@
 import { TypeInlinePartialsOptions } from "./options";
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../../lib";
-import React from "react";
-import { IntersectionType } from "../../../../typedoc/src/lib/models";
-export const intersection = (props: IntersectionType) => (
+import * as React from "react";
+import { IntersectionType } from "../../../../../../models";
+export const intersection = (props: IntersectionType, {needsParens}: {needsParens: boolean}) => (
     <>
         {!!needsParens && (
             <>
@@ -12,7 +12,7 @@ export const intersection = (props: IntersectionType) => (
         )}
         {props.types.map((item, i) => (
             <>
-                {!item.first && (
+                {i > 0 && (
                     <>
                         {" "}
                         <span className="tsd-signature-symbol"> & </span>

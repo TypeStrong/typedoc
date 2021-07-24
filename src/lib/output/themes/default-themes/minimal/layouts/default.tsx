@@ -1,6 +1,7 @@
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
-export const component = (props) => (
+import * as React from "react";
+import { PageEvent } from "../../../../events";
+export const layout = (props: PageEvent) => (
     <>
         <html className="minimal no-js">
             <head>
@@ -18,7 +19,7 @@ export const component = (props) => (
 
                 <nav className="tsd-navigation secondary">
                     <ul>
-                        {props.toc.children.map((item, i) => (
+                        {props.toc?.children?.map((item, i) => (
                             <> {__partials__.toc(item)}</>
                         ))}{" "}
                     </ul>

@@ -1,6 +1,6 @@
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../../lib";
-import React from "react";
-import { IntrinsicType } from "../../../../typedoc/src/lib/models";
+import * as React from "react";
+import { IntrinsicType } from "../../../../../../models";
 export const intrinsic = (props: IntrinsicType) => (
     <>
         <span className="tsd-signature-type">{props.name}</span>

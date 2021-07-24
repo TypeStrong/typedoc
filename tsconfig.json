@@ -29,8 +29,7 @@
         "rootDir": "src/",
         "newLine": "LF",
 
-        "jsx": "react",
-        "esModuleInterop": true
+        "jsx": "react"
     },
     "include": [
         "src/**/*.ts",

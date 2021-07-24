@@ -1,7 +1,7 @@
 import { TypeInlinePartialsOptions } from "./options";
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../../lib";
-import React from "react";
-import { QueryType } from "../../../../typedoc/src/lib/models";
+import * as React from "react";
+import { QueryType } from "../../../../../../models";
 export const query = (props: QueryType) => (
     <>
         <span className="tsd-signature-symbol">typeof </span>

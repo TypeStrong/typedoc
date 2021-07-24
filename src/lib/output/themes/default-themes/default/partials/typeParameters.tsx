@@ -1,5 +1,5 @@
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
+import * as React from "react";
 export const typeParameters = (props) => (
     <>
         <ul className="tsd-type-parameters">

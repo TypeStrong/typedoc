@@ -1,9 +1,10 @@
-import { With, relativeURL, wbr, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
-export const memberSignatureTitle = (props) => (
+import { With, relativeURL, wbr, IfCond, IfNotCond, Markdown, __partials__ } from "../../lib";
+import * as React from "react";
+import { SignatureReflection } from "../../../../../models";
+export const memberSignatureTitle = (props: SignatureReflection, {hideName = false, arrowStyle = false}: {hideName?: boolean, arrowStyle?: boolean} = {}) => (
     <>
-        {!props.hideName ? (
-            <> {wbr(TODO)}</>
+        {!hideName ? (
+            <> {wbr(props.name)}</>
         ) : (
             <>
                 {" "}
@@ -25,7 +26,7 @@ export const memberSignatureTitle = (props) => (
                 {props.typeParameters.map((item, i) => (
                     <>
                         {" "}
-                        {!!item.index && ",\xA0"}
+                        {i && ",\xA0"}
                         {item.name}
                     </>
                 ))}{" "}
@@ -33,10 +34,10 @@ export const memberSignatureTitle = (props) => (
             </>
         )}
         <span className="tsd-signature-symbol">(</span>
-        {props.parameters.map((item, i) => (
+        {props.parameters?.map((item, i) => (
             <>
                 {" "}
-                {!!item.index && ",\xA0"}
+                {!!i && ",\xA0"}
                 {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
                 {item.name}
                 <span className="tsd-signature-symbol">
@@ -51,7 +52,7 @@ export const memberSignatureTitle = (props) => (
         <span className="tsd-signature-symbol">)</span>
         {!!props.type && (
             <>
-                {!!props.arrowStyle ? (
+                {arrowStyle ? (
                     <>
                         {" "}
                         <span className="tsd-signature-symbol"> ={">"} </span>
@@ -62,9 +63,7 @@ export const memberSignatureTitle = (props) => (
                         <span className="tsd-signature-symbol">: </span>
                     </>
                 )}{" "}
-                {With(props, props.type, (superProps, props) => (
-                    <>{__partials__.type(props)}</>
-                ))}
+                    {!!props.type && __partials__.type(props.type)}
             </>
         )}
     </>

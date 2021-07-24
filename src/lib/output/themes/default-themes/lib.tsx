@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { SignatureReflection, Reflection, ReflectionKind } from "../../../..";
 
 /**
@@ -14,10 +14,12 @@ import { SignatureReflection, Reflection, ReflectionKind } from "../../../..";
  */
 export function With<A, B, C>(
     superProps: A,
-    props: B,
+    props: B | null | undefined,
     cb: (superProps: A, props: B) => C
-): C {
-    return cb(superProps, props);
+): C | undefined {
+    if(props != null) {
+        return cb(superProps, props);
+    }
 }
 
 // export function IfCond<T>(props: {cond: string, children: T}) {
@@ -31,7 +33,7 @@ export class IfCond extends React.Component<{ cond: boolean }> {
     }
 }
 export class IfNotCond extends React.Component<{ cond: boolean }> {
-    render() {
+    override render() {
         if (!this.props.cond) return this.props.children;
         else return undefined;
     }
@@ -66,11 +68,14 @@ export function isSignature(
     return reflection instanceof SignatureReflection;
 }
 
-export function relativeURL(url: string) {
+export function relativeURL(url: string | undefined) {
     return url ? this.getRelativeUrl(url) : url;
 }
-export function wbr(TODO) {
-    return TODO;
+export {wbr} from '../../helpers/wbr';
+export {stringify} from '../../helpers/stringify';
+
+export function classNames(names: Record<string, boolean | null | undefined>) {
+    return Object.entries(names).filter(([, include]) => include).map(([key]) => key).join(' ');
 }
 
 export { __partials__ } from "./partials";

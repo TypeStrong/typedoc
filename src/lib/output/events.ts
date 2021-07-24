@@ -3,7 +3,7 @@ import * as Path from "path";
 
 import { Event } from "../utils/events";
 import { ProjectReflection } from "../models/reflections/project";
-import { UrlMapping } from "./models/UrlMapping";
+import { RenderTemplate, UrlMapping } from "./models/UrlMapping";
 import { NavigationItem } from "./models/NavigationItem";
 import { LegendItem } from "./plugins/LegendPlugin";
 
@@ -66,13 +66,13 @@ export class RendererEvent extends Event {
      * @param mapping  The mapping that defines the generated [[PageEvent]] state.
      * @returns A newly created [[PageEvent]] instance.
      */
-    public createPageEvent(mapping: UrlMapping): PageEvent {
-        const event = new PageEvent(PageEvent.BEGIN);
+    public createPageEvent<Model>(mapping: UrlMapping<Model>): PageEvent {
+        const event = new PageEvent<Model>(PageEvent.BEGIN);
         event.project = this.project;
         event.settings = this.settings;
         event.url = mapping.url;
         event.model = mapping.model;
-        event.templateName = mapping.template;
+        event.template = mapping.template;
         event.filename = Path.join(this.outputDirectory, mapping.url);
         return event;
     }
@@ -87,7 +87,7 @@ export class RendererEvent extends Event {
  * @see [[Renderer.EVENT_BEGIN_PAGE]]
  * @see [[Renderer.EVENT_END_PAGE]]
  */
-export class PageEvent extends Event {
+export class PageEvent<Model = any> extends Event {
     /**
      * The project the renderer is currently processing.
      */
@@ -111,17 +111,12 @@ export class PageEvent extends Event {
     /**
      * The model that should be rendered on this page.
      */
-    model: any;
+    model!: Model;
 
     /**
      * The template that should be used to render this page.
      */
-    template?: TemplateDelegate;
-
-    /**
-     * The name of the template that should be used to render this page.
-     */
-    templateName!: string;
+    template!: RenderTemplate<Model>;
 
     /**
      * The primary navigation structure of this page.

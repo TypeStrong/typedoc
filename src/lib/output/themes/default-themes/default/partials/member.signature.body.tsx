@@ -1,6 +1,6 @@
 import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
-import React from "react";
-export const memberSignatureBody = (props) => (
+import * as React from "react";
+export const memberSignatureBody = (props, {hideSources = false}: {hideSources?: boolean} = {}) => (
     <>
         {!props.hideSources && <> {__partials__["memberSources"](props)}</>}
         {__partials__.comment(props)}
