@@ -40,7 +40,7 @@ export const memberSources = (props) => (
                 <>
                     {" "}
                     <ul>
-                        {props.sources.map((item, i) => (
+                        {props.sources.map((item) => (
                             <>
                                 {!!item.url ? (
                                     <>

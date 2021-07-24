@@ -9,13 +9,13 @@ export const index = (props: DeclarationReflection) =>
                 <h2>Index</h2>
                 <section className="tsd-panel tsd-index-panel">
                     <div className="tsd-index-content">
-                        {props.categories.map((item, i) => (
+                        {props.categories.map((item) => (
                             <>
                                 {" "}
                                 <section className="tsd-index-section">
                                     <h3>{item.title}</h3>
                                     <ul className="tsd-index-list">
-                                        {item.children.map((item, i) => (
+                                        {item.children.map((item) => (
                                             <>
                                                 {" "}
                                                 <li className={item.cssClasses}>
@@ -41,12 +41,12 @@ export const index = (props: DeclarationReflection) =>
                     <h2>Index</h2>
                     <section className="tsd-panel tsd-index-panel">
                         <div className="tsd-index-content">
-                            {props.groups.map((item, i) => (
+                            {props.groups.map((item) => (
                                 <>
                                     {" "}
                                     <section className={"tsd-index-section " + item.cssClasses}>
                                         {!!item.categories ? (
-                                            item.categories.map((item2, i) => (
+                                            item.categories.map((item2) => (
                                                 <>
                                                     {" "}
                                                     <h3>
@@ -54,7 +54,7 @@ export const index = (props: DeclarationReflection) =>
                                                         {item.title}
                                                     </h3>
                                                     <ul className="tsd-index-list">
-                                                        {item2.children.map((item, i) => (
+                                                        {item2.children.map((item) => (
                                                             <>
                                                                 {" "}
                                                                 <li className={item.cssClasses}>
@@ -75,7 +75,7 @@ export const index = (props: DeclarationReflection) =>
                                                 {" "}
                                                 <h3>{item.title}</h3>
                                                 <ul className="tsd-index-list">
-                                                    {item.children.map((item, i) => (
+                                                    {item.children.map((item) => (
                                                         <>
                                                             {" "}
                                                             <li className={item.cssClasses}>

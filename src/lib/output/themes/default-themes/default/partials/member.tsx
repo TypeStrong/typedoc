@@ -8,7 +8,7 @@ export const member = (props) => (
                 <>
                     {" "}
                     <h3>
-                        {props.flags.map((item, i) => (
+                        {props.flags.map((item) => (
                             <>
                                 <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                             </>
@@ -27,9 +27,9 @@ export const member = (props) => (
                 <> {__partials__["memberDeclaration"](props)}</>
             )}
 
-            {props.groups.map((item, i) => (
+            {props.groups.map((item) => (
                 <>
-                    {item.children.map((item, i) => (
+                    {item.children.map((item) => (
                         <>{!item.hasOwnDocument && <> {__partials__.member(item)}</>}</>
                     ))}
                 </>

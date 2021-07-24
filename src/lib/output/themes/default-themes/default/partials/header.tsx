@@ -92,7 +92,7 @@ export const header = (props: PageEvent) => (
                                 <>
                                     {" "}
                                     {"<"}
-                                    {props.model.typeParameters.map((item, i) => (
+                                    {props.model.typeParameters.map((item) => (
                                         <>
                                             {" "}
                                             {!!item.index && ",\xA0"}

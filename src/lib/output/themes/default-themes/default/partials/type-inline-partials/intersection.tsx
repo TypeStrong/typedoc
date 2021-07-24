@@ -10,7 +10,7 @@ export const intersection = (props: IntersectionType, {needsParens}: {needsParen
                 <span className="tsd-signature-symbol">(</span>
             </>
         )}
-        {props.types.map((item, i) => (
+        {props.types.map((item) => (
             <>
                 {i > 0 && (
                     <>

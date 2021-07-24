@@ -3,7 +3,7 @@ import * as React from "react";
 export const typeParameters = (props) => (
     <>
         <ul className="tsd-type-parameters">
-            {props.typeParameters.map((item, i) => (
+            {props.typeParameters.map((item) => (
                 <>
                     {" "}
                     <li>

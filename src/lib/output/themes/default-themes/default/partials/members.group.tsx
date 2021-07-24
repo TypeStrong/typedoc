@@ -2,7 +2,7 @@ import { __partials__ } from "../../lib";
 import * as React from "react";
 export const membersGroup = (props) =>
     props.categories ? (
-        props.categories.map((item, i) => (
+        props.categories.map((item) => (
             <>
                 {" "}
                 <section className={"tsd-panel-group tsd-member-group " + item.cssClasses}>
@@ -10,7 +10,7 @@ export const membersGroup = (props) =>
                         {!!item.title && <>{item.title} </>}
                         {props.title}
                     </h2>
-                    {item.children.map((item, i) => (
+                    {item.children.map((item) => (
                         <>{!item.hasOwnDocument && <> {__partials__.member(item)}</>}</>
                     ))}{" "}
                 </section>
@@ -21,7 +21,7 @@ export const membersGroup = (props) =>
             {" "}
             <section className={"tsd-panel-group tsd-member-group " + props.cssClasses}>
                 <h2>{props.title}</h2>
-                {props.children.map((item, i) => (
+                {props.children.map((item) => (
                     <>{!item.hasOwnDocument && <> {__partials__.member(item)}</>}</>
                 ))}{" "}
             </section>

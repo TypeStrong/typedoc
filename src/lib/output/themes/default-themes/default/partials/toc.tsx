@@ -10,7 +10,7 @@ export const toc = (props) => (
                 <>
                     {" "}
                     <ul>
-                        {props.children.map((item, i) => (
+                        {props.children.map((item) => (
                             <> {__partials__.toc(item)}</>
                         ))}{" "}
                     </ul>

@@ -15,7 +15,7 @@ export const tocRoot = (item: NavigationItem) => (
                 <>
                     {" "}
                     <ul>
-                        {item.children.map((item, i) => (
+                        {item.children.map((item) => (
                             <> {__partials__.toc(item)}</>
                         ))}{" "}
                     </ul>

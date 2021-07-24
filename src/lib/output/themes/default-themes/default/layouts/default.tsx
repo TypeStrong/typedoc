@@ -28,7 +28,7 @@ export const defaultLayout = (props: PageEvent) => (
                         <div className="col-4 col-menu menu-sticky-wrap menu-highlight">
                             <nav className="tsd-navigation primary">
                                 <ul>
-                                    {props.navigation?.children?.map((item, i) => (
+                                    {props.navigation?.children?.map((item) => (
                                         <> {__partials__.navigation(item)}</>
                                     ))}{" "}
                                 </ul>
@@ -36,7 +36,7 @@ export const defaultLayout = (props: PageEvent) => (
 
                             <nav className="tsd-navigation secondary menu-sticky">
                                 <ul className="before-current">
-                                    {props.toc?.children?.map((item, i) => (
+                                    {props.toc?.children?.map((item) => (
                                         <> {__partials__.tocRoot(item)}</>
                                     ))}{" "}
                                 </ul>

@@ -9,7 +9,7 @@ export const parameter = (props: DeclarationReflection) => (
                     {" "}
                     <li className="tsd-parameter-signature">
                         <ul className={"tsd-signatures " + props.cssClasses}>
-                            {props.signatures.map((item, i) => (
+                            {props.signatures.map((item) => (
                                 <>
                                     {" "}
                                     <li className="tsd-signature tsd-kind-icon">
@@ -22,7 +22,7 @@ export const parameter = (props: DeclarationReflection) => (
                         </ul>
 
                         <ul className="tsd-descriptions">
-                            {props.signatures.map((item, i) => (
+                            {props.signatures.map((item) => (
                                 <>
                                     {" "}
                                     <li className="tsd-description">
@@ -41,7 +41,7 @@ export const parameter = (props: DeclarationReflection) => (
                         <h5>
                             <Compact>
                                 <span className="tsd-signature-symbol">[</span>
-                                {props.indexSignature?.parameters?.map((item, i) => (
+                                {props.indexSignature?.parameters?.map((item) => (
                                     <>
                                         {" "}
                                         {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
@@ -71,7 +71,7 @@ export const parameter = (props: DeclarationReflection) => (
                     </li>
                 </>
             )}
-            {props.children?.map((item, i) => (
+            {props.children?.map((item) => (
                 <>
                     {item.signatures ? (
                         <>
@@ -96,7 +96,7 @@ export const parameter = (props: DeclarationReflection) => (
                             <li className="tsd-parameter">
                                 <h5>
                                     <Compact>
-                                        {item.flags.map((item, i) => (
+                                        {item.flags.map((item) => (
                                             <>
                                                 {" "}
                                                 <span className={"tsd-flag ts-flag" + item}>{item}</span>
@@ -133,7 +133,7 @@ export const parameter = (props: DeclarationReflection) => (
                                     <li className="tsd-parameter">
                                         <h5>
                                             <Compact>
-                                                {props.flags.map((item, i) => (
+                                                {props.flags.map((item) => (
                                                     <>
                                                         {" "}
                                                         <span className={"tsd-flag ts-flag" + item}>{item}</span>
@@ -159,7 +159,7 @@ export const parameter = (props: DeclarationReflection) => (
                                     <li className="tsd-parameter">
                                         <h5>
                                             <Compact>
-                                                {props.flags.map((item, i) => (
+                                                {props.flags.map((item) => (
                                                     <>
                                                         {" "}
                                                         <span className={"tsd-flag ts-flag" + item}>{item}</span>
@@ -168,7 +168,7 @@ export const parameter = (props: DeclarationReflection) => (
                                                 <span className="tsd-signature-symbol">set </span>
                                                 {wbr(TODO)}
                                                 <span className="tsd-signature-symbol">(</span>
-                                                {props.parameters?.map((item, i) => (
+                                                {props.parameters?.map((item) => (
                                                     <>
                                                         {" "}
                                                         {item.name}

@@ -17,13 +17,13 @@ export const memberSignatureBody = (props, {hideSources = false}: {hideSources?:
                 {" "}
                 <h4 className="tsd-parameters-title">Parameters</h4>
                 <ul className="tsd-parameters">
-                    {props.parameters.map((item, i) => (
+                    {props.parameters.map((item) => (
                         <>
                             {" "}
                             <li>
                                 <h5>
                                     <Compact>
-                                        {item.flags.map((item, i) => (
+                                        {item.flags.map((item) => (
                                             <>
                                                 {" "}
                                                 <span className={"tsd-flag ts-flag" + item}>{item}</span>

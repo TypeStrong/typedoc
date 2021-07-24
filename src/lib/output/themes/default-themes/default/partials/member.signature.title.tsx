@@ -23,7 +23,7 @@ export const memberSignatureTitle = (props: SignatureReflection, {hideName = fal
             <>
                 {" "}
                 {"<"}
-                {props.typeParameters.map((item, i) => (
+                {props.typeParameters.map((item) => (
                     <>
                         {" "}
                         {i && ",\xA0"}

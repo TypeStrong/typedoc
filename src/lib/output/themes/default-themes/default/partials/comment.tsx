@@ -26,7 +26,7 @@ export const comment = (props) => (
                                 <>
                                     {" "}
                                     <dl className="tsd-comment-tags">
-                                        {props.tags.map((item, i) => (
+                                        {props.tags.map((item) => (
                                             <>
                                                 {" "}
                                                 <dt>{item.tagName}</dt>

@@ -9,7 +9,7 @@ export const memberDeclaration = (props) => (
                     <>
                         {" "}
                         {"<"}
-                        {props.typeParameters.map((item, i) => (
+                        {props.typeParameters.map((item) => (
                             <>
                                 {" "}
                                 {!!item.index && ",\xA0"}

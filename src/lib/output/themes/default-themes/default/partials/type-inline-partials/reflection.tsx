@@ -64,7 +64,7 @@ export const reflection = (props: ReflectionType, {needsParens}: {needsParens: b
                                 {item.name}
                                 <span className="tsd-signature-symbol">(</span>
                                 {/* Rather hacky to use each here... but we know there is exactly one. */}
-                                {item.setSignature.parameters?.map((item, i) => (
+                                {item.setSignature.parameters?.map((item) => (
                                     <>
                                         {" "}
                                         {item.name}

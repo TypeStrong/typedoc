@@ -1,19 +1,20 @@
-import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
+import { __partials__, classNames } from "../../lib";
 import * as React from "react";
-export const footer = (props) => (
+import { PageEvent } from "../../../../events";
+export const footer = (props: PageEvent) => (
     <>
-        <footer conditional="#unless settings.hideGenerator class=with-border-bottom /unless">
+        <footer className={classNames({'with-border-bottom': !props.settings.hideGenerator})}>
             <div className="container">
                 <h2>Legend</h2>
                 <div className="tsd-legend-group">
-                    {props.legend.map((item, i) => (
+                    {props.legend?.map((item) => (
                         <>
                             {" "}
                             <ul className="tsd-legend">
-                                {item.props.map((item, i) => (
+                                {item.props.map((item) => (
                                     <>
                                         {" "}
-                                        <li className="<Compact>#each classes . /each</Compact>">
+                                        <li className={classNames({}) /* TODO generate the list of classnames from this: "<Compact>#each classes . /each</Compact>" */}>
                                             <span className="tsd-kind-icon">{item.name}</span>
                                         </li>
                                     </>
