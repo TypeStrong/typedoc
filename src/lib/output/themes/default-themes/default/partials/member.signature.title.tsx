@@ -1,4 +1,4 @@
-import { With, relativeURL, wbr, IfCond, IfNotCond, Markdown, __partials__ } from "../../lib";
+import { With, wbr, IfCond, __partials__ } from "../../lib";
 import * as React from "react";
 import { SignatureReflection } from "../../../../../models";
 export const memberSignatureTitle = (props: SignatureReflection, {hideName = false, arrowStyle = false}: {hideName?: boolean, arrowStyle?: boolean} = {}) => (
@@ -44,7 +44,7 @@ export const memberSignatureTitle = (props: SignatureReflection, {hideName = fal
                     {!!item.flags.isOptional && "?"}
                     {!!item.defaultValue && "?"}:
                 </span>
-                {With(item, item.type, (superProps, props) => (
+                {With(item.type, (props) => (
                     <>{__partials__.type(props)}</>
                 ))}
             </>

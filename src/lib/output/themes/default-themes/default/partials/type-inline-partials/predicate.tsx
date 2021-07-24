@@ -15,7 +15,7 @@ export const predicate = (props: PredicateType) => (
             <>
                 {" "}
                 <span className="tsd-signature-symbol"> is </span>
-                {With(props, props.targetType, (superProps, props) => (
+                {With(props.targetType, (props) => (
                     <>{__partials__.type(props)}</>
                 ))}
             </>

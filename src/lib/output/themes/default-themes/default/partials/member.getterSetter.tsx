@@ -1,4 +1,4 @@
-import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
+import { With, __partials__, Compact } from "../../lib";
 import * as React from "react";
 import { DeclarationReflection } from "../../../../../models";
 export const memberGetterSetter = (props: DeclarationReflection) => (
@@ -28,7 +28,7 @@ export const memberGetterSetter = (props: DeclarationReflection) => (
             {!!props.getSignature && (
                 <>
                     {" "}
-                    {With(props, props.getSignature, (superProps, props) => (
+                    {With(props.getSignature, (props) => (
                         <>
                             <li className="tsd-description">{__partials__["memberSignatureBody"](props)}</li>
                         </>
@@ -38,7 +38,7 @@ export const memberGetterSetter = (props: DeclarationReflection) => (
             {!!props.setSignature && (
                 <>
                     {" "}
-                    {With(props, props.setSignature, (superProps, props) => (
+                    {With(props.setSignature, (props) => (
                         <>
                             <li className="tsd-description">{__partials__["memberSignatureBody"](props)}</li>
                         </>

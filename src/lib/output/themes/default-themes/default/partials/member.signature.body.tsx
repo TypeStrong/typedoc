@@ -31,7 +31,7 @@ export const memberSignatureBody = (props, {hideSources = false}: {hideSources?:
                                         ))}{" "}
                                         {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
                                         {item.name}:
-                                        {With(item, item.type, (superProps, props) => (
+                                        {With(item.type, (props) => (
                                             <>{__partials__.type(props)}</>
                                         ))}
                                         {!!item.defaultValue && (
@@ -49,7 +49,7 @@ export const memberSignatureBody = (props, {hideSources = false}: {hideSources?:
                                 {!!item.type.declaration && (
                                     <>
                                         {" "}
-                                        {With(item, item.type.declaration, (superProps, props) => (
+                                        {With(item.type.declaration, (props) => (
                                             <>{__partials__.parameter(props)}</>
                                         ))}
                                     </>
@@ -66,7 +66,7 @@ export const memberSignatureBody = (props, {hideSources = false}: {hideSources?:
                 <h4 className="tsd-returns-title">
                     Returns{" "}
                     <Compact>
-                        {With(props, props.type, (superProps, props) => (
+                        {With(props.type, (props) => (
                             <>{__partials__.type(props)}</>
                         ))}
                     </Compact>
@@ -80,7 +80,7 @@ export const memberSignatureBody = (props, {hideSources = false}: {hideSources?:
                 {!!props.type.declaration && (
                     <>
                         {" "}
-                        {With(props, props.type.declaration, (superProps, props) => (
+                        {With(props.type.declaration, (props) => (
                             <>{__partials__.parameter(props)}</>
                         ))}
                     </>

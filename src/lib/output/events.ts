@@ -1,4 +1,3 @@
-import { TemplateDelegate } from "handlebars";
 import * as Path from "path";
 
 import { Event } from "../utils/events";

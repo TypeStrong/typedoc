@@ -10,19 +10,19 @@ export const conditional = (props: ConditionalType, { needsParens = false }: Typ
                 <span className="tsd-signature-symbol">(</span>
             </>
         )}{" "}
-        {With(props, props.checkType, (superProps, props) => (
+        {With(props.checkType, (props) => (
             <>{__partials__.type(props, { needsParens: true })}</>
         ))}
         <span className="tsd-signature-symbol"> extends </span>
-        {With(props, props.extendsType, (superProps, props) => (
+        {With(props.extendsType, (props) => (
             <>{__partials__.type(props)}</>
         ))}
         <span className="tsd-signature-symbol"> ? </span>
-        {With(props, props.trueType, (superProps, props) => (
+        {With(props.trueType, (props) => (
             <>{__partials__.type(props)}</>
         ))}
         <span className="tsd-signature-symbol"> : </span>
-        {With(props, props.falseType, (superProps, props) => (
+        {With(props.falseType, (props) => (
             <>{__partials__.type(props)}</>
         ))}
         {!!needsParens && (

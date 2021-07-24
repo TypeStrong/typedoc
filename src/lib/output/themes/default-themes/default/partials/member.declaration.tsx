@@ -20,7 +20,7 @@ export const memberDeclaration = (props) => (
                     </>
                 )}{" "}
                 <span className="tsd-signature-symbol">{!!props.isOptional && "?"}:</span>
-                {With(props, props.type, (superProps, props) => (
+                {With(props.type, (props) => (
                     <>{__partials__.type(props)}</>
                 ))}
                 {!!props.defaultValue && (
@@ -51,7 +51,7 @@ export const memberDeclaration = (props) => (
                 {" "}
                 <div className="tsd-type-declaration">
                     <h4>Type declaration</h4>
-                    {With(props, props.type.declaration, (superProps, props) => (
+                    {With(props.type.declaration, (props) => (
                         <>{__partials__.parameter(props)}</>
                     ))}
                 </div>

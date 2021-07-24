@@ -18,11 +18,11 @@ export const mapped = (props: MappedType) => (
         <span className="tsd-signature-type">{props.parameter}</span>
         <span className="tsd-signature-symbol"> in </span>
 
-        {With(props, props.parameterType, (superProps, props) => (
+        {With(props.parameterType, (props) => (
             <>{__partials__.type(props)}</>
         ))}
 
-        {With(props, props.nameType, (superProps, props) => (
+        {With(props.nameType, (props) => (
             <>
                 <span className="tsd-signature-symbol"> as </span>
                 {__partials__.type(props)}
@@ -42,7 +42,7 @@ export const mapped = (props: MappedType) => (
             </IfNotCond>
         </IfNotCond>
 
-        {With(props, props.templateType, (superProps, props) => (
+        {With(props.templateType, (props) => (
             <>{__partials__.type(props)}</>
         ))}
 

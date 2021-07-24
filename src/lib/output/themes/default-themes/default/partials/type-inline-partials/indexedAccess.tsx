@@ -4,11 +4,11 @@ import * as React from "react";
 import { IndexedAccessType } from "../../../../../../models";
 export const indexedAccess = (props: IndexedAccessType) => (
     <>
-        {With(props, props.objectType, (superProps, props) => (
+        {With(props.objectType, (props) => (
             <>{__partials__.type(props)}</>
         ))}
         <span className="tsd-signature-symbol">[</span>
-        {With(props, props.indexType, (superProps, props) => (
+        {With(props.indexType, (props) => (
             <>{__partials__.type(props)}</>
         ))}
         <span className="tsd-signature-symbol">]</span>

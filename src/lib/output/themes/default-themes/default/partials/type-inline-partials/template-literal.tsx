@@ -5,7 +5,7 @@ export const templateLiteral = (props: TemplateLiteralType) => <>
     <span className="tsd-signature-symbol">`</span>
   {!!props.head && <>        <span className="tsd-signature-type">{props.head}</span>
   </>}{props.tail.map((item, i) => <>        <span className="tsd-signature-symbol">${"{"}</span>
-        { With(item, item.this[0], (superProps, props) => (<>
+        { With(item.this[0], (props) => (<>
             {__partials__.type(props)}
         </>)) }
         <span className="tsd-signature-symbol">{"}"}</span>

@@ -1,11 +1,10 @@
-import { TypeInlinePartialsOptions } from "./options";
-import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../../lib";
+import { With, __partials__ } from "../../../lib";
 import * as React from "react";
-import { NamedTupleMember } from "../../../models";
+import { NamedTupleMember } from "../../../../../../models";
 export const namedTupleMember = (props: NamedTupleMember) => (
     <>
         {props.name}
-        {!!props.isOptional ? (
+        {props.isOptional ? (
             <>
                 {" "}
                 <span className="tsd-signature-symbol">?: </span>
@@ -16,7 +15,7 @@ export const namedTupleMember = (props: NamedTupleMember) => (
                 <span className="tsd-signature-symbol">: </span>
             </>
         )}{" "}
-        {With(props, props.element, (superProps, props) => (
+        {With(props.element, (props) => (
             <>{__partials__.type(props)}</>
         ))}
     </>

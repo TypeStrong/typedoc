@@ -8,7 +8,7 @@ export const memberSources = (props) => (
                     {" "}
                     <p>
                         Implementation of{" "}
-                        {With(props, props.implementationOf, (superProps, props) => (
+                        {With(props.implementationOf, (props) => (
                             <>{__partials__.typeAndParent(props)}</>
                         ))}
                     </p>
@@ -19,7 +19,7 @@ export const memberSources = (props) => (
                     {" "}
                     <p>
                         Inherited from{" "}
-                        {With(props, props.inheritedFrom, (superProps, props) => (
+                        {With(props.inheritedFrom, (props) => (
                             <>{__partials__.typeAndParent(props)}</>
                         ))}
                     </p>
@@ -30,7 +30,7 @@ export const memberSources = (props) => (
                     {" "}
                     <p>
                         Overrides{" "}
-                        {With(props, props.overwrites, (superProps, props) => (
+                        {With(props.overwrites, (props) => (
                             <>{__partials__.typeAndParent(props)}</>
                         ))}
                     </p>

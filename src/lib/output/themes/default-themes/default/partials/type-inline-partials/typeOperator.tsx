@@ -5,7 +5,7 @@ import { TypeOperatorType } from "../../../models";
 export const typeOperator = (props: TypeOperatorType) => (
     <>
         <span className="tsd-signature-symbol">{props.operator} </span>
-        {With(props, props.target, (superProps, props) => (
+        {With(props.target, (props) => (
             <>{__partials__.type(props)}</>
         ))}
     </>

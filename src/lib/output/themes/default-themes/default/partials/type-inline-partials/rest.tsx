@@ -5,7 +5,7 @@ import { RestType } from "../../../../../../models";
 export const rest = (props: RestType) => (
     <>
         <span className="tsd-signature-symbol">...</span>
-        {With(props, props.elementType, (superProps, props) => (
+        {With(props.elementType, (props) => (
             <>{__partials__.type(props)}</>
         ))}
     </>

@@ -1,10 +1,10 @@
-import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
+import { With, relativeURL, __partials__ } from "../../lib";
 import * as React from "react";
 export const breadcrumb = (props) =>
     props.parent ? (
         <>
             {" "}
-            {With(props, props.parent, (superProps, props) => (
+            {With(props.parent, (props) => (
                 <>{__partials__.breadcrumb(props)}</>
             ))}
             <li>

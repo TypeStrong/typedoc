@@ -1,4 +1,4 @@
-import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
+import { With, relativeURL, __partials__, Compact, IfCond } from "../../lib";
 import * as React from "react";
 import { PageEvent } from "../../../../events";
 export const header = (props: PageEvent) => (
@@ -76,7 +76,7 @@ export const header = (props: PageEvent) => (
                             {" "}
                             {/* Don't show breadcrumbs on main project page, it is the root page. !*/}
                             <ul className="tsd-breadcrumb">
-                                {With(props, props.model, (superProps, props) => (
+                                {With(props.model, (props) => (
                                     <>{__partials__.breadcrumb(props)}</>
                                 ))}
                             </ul>

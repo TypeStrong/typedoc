@@ -1,6 +1,6 @@
-import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
+import { With, wbr, __partials__, Compact } from "../../lib";
 import * as React from "react";
-import { DeclarationReflection, ParameterReflection } from "../../../../../models";
+import { DeclarationReflection } from "../../../../../models";
 export const parameter = (props: DeclarationReflection) => (
     <>
         <ul className="tsd-parameters">
@@ -46,24 +46,24 @@ export const parameter = (props: DeclarationReflection) => (
                                         {" "}
                                         {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
                                         {item.name}:
-                                        {With(item, item.type, (superProps, props) => (
+                                        {With(item.type, (props) => (
                                             <>{__partials__.type(props)}</>
                                         ))}
                                     </>
                                 ))}{" "}
                                 <span className="tsd-signature-symbol">]: </span>
-                                {With(props, props.indexSignature.type, (superProps, props) => (
+                                {With(props.indexSignature.type, (props) => (
                                     <>{__partials__.type(props)}</>
                                 ))}
                             </Compact>
                         </h5>
-                        {With(props, props.indexSignature, (superProps, props) => (
+                        {With(props.indexSignature, (props) => (
                             <>{__partials__.comment(props)}</>
                         ))}
                         {!!props.indexSignature.type?.declaration && (
                             <>
                                 {" "}
-                                {With(props, props.indexSignature.type.declaration, (superProps, props) => (
+                                {With(props.indexSignature.type.declaration, (props) => (
                                     <>{__partials__.parameter(props)}</>
                                 ))}
                             </>
@@ -115,7 +115,7 @@ export const parameter = (props: DeclarationReflection) => (
                                 {!!item.type.declaration && (
                                     <>
                                         {" "}
-                                        {With(item, item.type.declaration, (superProps, props) => (
+                                        {With(item.type.declaration, (props) => (
                                             <>{__partials__.parameter(props)}</>
                                         ))}
                                     </>
@@ -126,7 +126,7 @@ export const parameter = (props: DeclarationReflection) => (
                         <>
                             {" "}
                             {/* getter/setter */}
-                            {With(item, item.getSignature, (superProps, props) => (
+                            {With(item.getSignature, (props) => (
                                 <>
                                     {" "}
                                     {/* getter */}
@@ -142,7 +142,7 @@ export const parameter = (props: DeclarationReflection) => (
                                                 <span className="tsd-signature-symbol">get </span>
                                                 {wbr(TODO)}
                                                 <span className="tsd-signature-symbol">(): </span>
-                                                {With(props, props.type, (superProps, props) => (
+                                                {With(props.type, (props) => (
                                                     <>{__partials__.type(props)}</>
                                                 ))}
                                             </Compact>
@@ -152,7 +152,7 @@ export const parameter = (props: DeclarationReflection) => (
                                     </li>
                                 </>
                             ))}
-                            {With(item, item.setSignature, (superProps, props) => (
+                            {With(item.setSignature, (props) => (
                                 <>
                                     {" "}
                                     {/* setter */}
@@ -176,7 +176,7 @@ export const parameter = (props: DeclarationReflection) => (
                                                         {item.type ? (
                                                             <>
                                                                 {" "}
-                                                                {With(item, item.type, (superProps, props) => (
+                                                                {With(item.type, (props) => (
                                                                     <>{__partials__.type(props)}</>
                                                                 ))}
                                                             </>
@@ -189,7 +189,7 @@ export const parameter = (props: DeclarationReflection) => (
                                                     </>
                                                 ))}{" "}
                                                 <span className="tsd-signature-symbol">): </span>
-                                                {With(props, props.type, (superProps, props) => (
+                                                {With(props.type, (props) => (
                                                     <>{__partials__.type(props)}</>
                                                 ))}
                                             </Compact>

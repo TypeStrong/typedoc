@@ -1,4 +1,4 @@
-import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../../lib";
+import { With, __partials__ } from "../../../lib";
 import * as React from "react";
 import { ReflectionType } from "../../../../../../models";
 export const reflection = (props: ReflectionType, {needsParens}: {needsParens: boolean}) => (
@@ -25,7 +25,7 @@ export const reflection = (props: ReflectionType, {needsParens}: {needsParens: b
                                     {item.getSignature.type ? (
                                         <>
                                             {" "}
-                                            {With(item, item.getSignature.type, (superProps, props) => (
+                                            {With(item.getSignature.type, (props) => (
                                                 <>{__partials__.type(props)}</>
                                             ))}
                                         </>
@@ -45,7 +45,7 @@ export const reflection = (props: ReflectionType, {needsParens}: {needsParens: b
                                     {item.getSignature.type ? (
                                         <>
                                             {" "}
-                                            {With(item, item.getSignature.type, (superProps, props) => (
+                                            {With(item.getSignature.type, (props) => (
                                                 <>{__partials__.type(props)}</>
                                             ))}
                                         </>
@@ -72,7 +72,7 @@ export const reflection = (props: ReflectionType, {needsParens}: {needsParens: b
                                         {item.type ? (
                                             <>
                                                 {" "}
-                                                {With(item, item.type, (superProps, props) => (
+                                                {With(item.type, (props) => (
                                                     <>{__partials__.type(props)}</>
                                                 ))}
                                             </>
@@ -148,7 +148,7 @@ export const reflection = (props: ReflectionType, {needsParens}: {needsParens: b
                                 <span className="tsd-signature-symbol">(</span>
                             </>
                         )}{" "}
-                        {With(props, props.declaration.signatures[0], (superProps, props) => (
+                        {With(props.declaration.signatures[0], (props) => (
                             <>{__partials__["memberSignatureTitle"](props, { hideName: true, arrowStyle: true })}</>
                         ))}
                         {!!needsParens && (

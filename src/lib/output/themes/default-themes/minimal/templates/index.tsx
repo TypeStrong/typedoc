@@ -2,7 +2,7 @@ import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markd
 import * as React from "react";
 export const component = (props) => (
     <>
-        {With(props, props.model, (superProps, props) => (
+        {With(props.model, (props) => (
             <>{__partials__.comment(props)}</>
         ))}
 
@@ -11,13 +11,13 @@ export const component = (props) => (
                 {" "}
                 <section className="tsd-hierarchy">
                     <h2>Hierarchy</h2>
-                    {With(props, props.model.typeHierarchy, (superProps, props) => (
+                    {With(props.model.typeHierarchy, (props) => (
                         <>{__partials__.hierarchy(props)}</>
                     ))}
                 </section>
             </>
         )}
-        {With(props, props.model, (superProps, props) => (
+        {With(props.model, (props) => (
             <>
                 <div
                     style={{

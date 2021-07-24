@@ -149,7 +149,8 @@ export class Renderer extends ChildableComponent<
             this.theme!.resources.templates.getResource(
                 page.templateName
             )!.getTemplate();
-        page.contents = renderToStaticMarkup(page.template(page));
+        const templateOutput = page.template(page);
+        page.contents = typeof templateOutput === 'string' ? templateOutput : renderToStaticMarkup(templateOutput);
 
         this.trigger(PageEvent.END, page);
         if (page.isDefaultPrevented) {

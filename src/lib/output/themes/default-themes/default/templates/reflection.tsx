@@ -1,9 +1,9 @@
-import { With, relativeURL, wbr, __partials__, Compact, IfCond, IfNotCond, Markdown } from "../../lib";
+import { With, __partials__, Compact } from "../../lib";
 import * as React from "react";
-import { DeclarationReflection } from "../../../typedoc/src";
+import { DeclarationReflection } from "../../../../../../";
 export const component = (props: { model: DeclarationReflection }) => (
     <>
-        {With(props, props.model, (superProps, props) => (
+        {With(props.model, (props) => (
             <>
                 {!!props.hasComment && (
                     <>
@@ -19,7 +19,7 @@ export const component = (props: { model: DeclarationReflection }) => (
                 {" "}
                 <section className="tsd-panel tsd-type-parameters">
                     <h3>Type parameters</h3>
-                    {With(props, props.model, (superProps, props) => (
+                    {With(props.model, (props) => (
                         <>{__partials__.typeParameters(props)}</>
                     ))}
                 </section>
@@ -30,7 +30,7 @@ export const component = (props: { model: DeclarationReflection }) => (
                 {" "}
                 <section className="tsd-panel tsd-hierarchy">
                     <h3>Hierarchy</h3>
-                    {With(props, props.model.typeHierarchy, (superProps, props) => (
+                    {With(props.model.typeHierarchy, (props) => (
                         <>{__partials__.hierarchy(props)}</>
                     ))}
                 </section>
@@ -77,7 +77,7 @@ export const component = (props: { model: DeclarationReflection }) => (
                 {" "}
                 <section className="tsd-panel">
                     <h3 className="tsd-before-signature">Callable</h3>
-                    {With(props, props.model, (superProps, props) => (
+                    {With(props.model, (props) => (
                         <>{__partials__["memberSignatures"](props)}</>
                     ))}
                 </section>
@@ -95,24 +95,24 @@ export const component = (props: { model: DeclarationReflection }) => (
                                 <>
                                     {" "}
                                     {item.name}:
-                                    {With(item, item.type, (superProps, props) => (
+                                    {With(item.type, (props) => (
                                         <>{__partials__.type(props)}</>
                                     ))}
                                 </>
                             ))}{" "}
                             <span className="tsd-signature-symbol">]: </span>
-                            {With(props, props.model.indexSignature!.type, (superProps, props) => (
+                            {With(props.model.indexSignature!.type, (props) => (
                                 <>{__partials__.type(props)}</>
                             ))}
                         </Compact>
                     </div>
-                    {With(props, props.model.indexSignature, (superProps, props) => (
+                    {With(props.model.indexSignature, (props) => (
                         <>{__partials__.comment(props)}</>
                     ))}
                     {!!props.model.indexSignature.type.declaration && (
                         <>
                             {" "}
-                            {With(props, props.model.indexSignature.type.declaration, (superProps, props) => (
+                            {With(props.model.indexSignature.type.declaration, (props) => (
                                 <>{__partials__.parameter(props)}</>
                             ))}
                         </>
@@ -120,7 +120,7 @@ export const component = (props: { model: DeclarationReflection }) => (
                 </section>
             </>
         )}
-        {With(props, props.model, (superProps, props) => (
+        {With(props.model, (props) => (
             <>
                 {__partials__.index(props)}
                 {__partials__.members(props)}

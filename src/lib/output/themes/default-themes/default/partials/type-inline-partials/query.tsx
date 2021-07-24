@@ -5,7 +5,7 @@ import { QueryType } from "../../../../../../models";
 export const query = (props: QueryType) => (
     <>
         <span className="tsd-signature-symbol">typeof </span>
-        {With(props, props.queryType, (superProps, props) => (
+        {With(props.queryType, (props) => (
             <>{__partials__.type(props)}</>
         ))}
     </>

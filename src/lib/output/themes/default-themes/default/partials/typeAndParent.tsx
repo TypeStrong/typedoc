@@ -7,7 +7,7 @@ export const typeAndParent = (props) => (
                 props.elementType ? (
                     <>
                         {" "}
-                        {With(props, props.elementType, (superProps, props) => (
+                        {With(props.elementType, (props) => (
                             <>{__partials__.typeAndParent(props)}</>
                         ))}
                         []

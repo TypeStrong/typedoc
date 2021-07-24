@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SignatureReflection, Reflection, ReflectionKind } from "../../../..";
+import { SignatureReflection, Reflection } from "../../../..";
 
 /**
  * Helper created solely to make it easier to find-and-replace refactor
@@ -10,15 +10,14 @@ import { SignatureReflection, Reflection, ReflectionKind } from "../../../..";
  *
  * Usage typically looks like this:
  *
- *     { With(props, props.foo, (superProps, props, item = props) => <>Markup</>) }
+ *     { With(props.foo, (props, item = props) => <>Markup</>) }
  */
-export function With<A, B, C>(
-    superProps: A,
+export function With<B, C>(
     props: B | null | undefined,
-    cb: (superProps: A, props: B) => C
+    cb: (props: B) => C
 ): C | undefined {
     if(props != null) {
-        return cb(superProps, props);
+        return cb(props);
     }
 }
 
