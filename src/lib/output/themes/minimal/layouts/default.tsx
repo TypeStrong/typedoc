@@ -7,7 +7,7 @@ import { Reflection } from "../../../../models";
 const inlineCss = readFileSync(resolve(__dirname, '../../bin/minimal/assets/css/main.css'), 'utf8');
 const inlineJs = readFileSync(resolve(__dirname, '../../bin/minimal/assets/js/main.js'), 'utf8');
 
-export const layout = (props: PageEvent<Reflection>) => (
+export const defaultLayout = (props: PageEvent<Reflection>) => (
     <>
         <html className="minimal no-js">
             <head>
@@ -41,7 +41,7 @@ export const layout = (props: PageEvent<Reflection>) => (
                                 </div>
                             </>
                         )}
-                        {props.contents}
+                        <div dangerouslySetInnerHTML={{__html: props.contents!}}></div>
                         {__partials__.footer(props)}
                     </div>
                 </div>

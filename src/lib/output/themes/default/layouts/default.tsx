@@ -1,4 +1,4 @@
-import { relativeURL, __partials__, IfCond, IfNotCond } from "../../lib";
+import { relativeURL, __partials__ } from "../../lib";
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
@@ -9,10 +9,7 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                 <meta charSet="utf-8" />
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
                 <title>
-                    <IfCond cond={props.model.name === props.project.name}>{props.project.name}</IfCond>
-                    <IfNotCond cond={props.model.name === props.project.name}>
-                        {props.model.name} | {props.project.name}
-                    </IfNotCond>
+                    {props.model.name === props.project.name ? props.project.name : <>{props.model.name} | {props.project.name}</>}
                 </title>
                 <meta name="description" content={"Documentation for " + props.project.name} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,7 +22,7 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
 
                 <div className="container container-main">
                     <div className="row">
-                        <div className="col-8 col-content">{props.contents}</div>
+                        <div className="col-8 col-content" dangerouslySetInnerHTML={{__html: props.contents!}}></div>
                         <div className="col-4 col-menu menu-sticky-wrap menu-highlight">
                             <nav className="tsd-navigation primary">
                                 <ul>

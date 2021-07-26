@@ -7,6 +7,7 @@ import { RendererEvent, MarkdownEvent } from "../events";
 import { BindOption, readFile, copySync } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import { Theme } from "shiki";
+import { setMarkedPlugin } from "../themes/lib";
 
 const customMarkedRenderer = new Marked.Renderer();
 
@@ -102,6 +103,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         // this.handlebarsRelativeUrlHelper = (url: string) =>
         //     url ? this.getRelativeUrl(url) : url
         // ;
+
+        setMarkedPlugin(this);
     }
 
     /**

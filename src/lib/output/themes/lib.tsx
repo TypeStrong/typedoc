@@ -25,20 +25,22 @@ export function With<B, C>(
     }
 }
 
-// export function IfCond<T>(props: {cond: string, children: T}) {
-//     if(props.cond) return props.children;
-//     else return undefined;
-// }
 export class IfCond extends React.Component<{ cond: boolean }> {
     override render() {
-        if (this.props.cond) return this.props.children;
-        else return undefined;
+        if (this.props.cond) {
+            if(this.props.children == null) return null;
+            return this.props.children;
+        }
+        else return null;
     }
 }
 export class IfNotCond extends React.Component<{ cond: boolean }> {
     override render() {
-        if (!this.props.cond) return this.props.children;
-        else return undefined;
+        if (!this.props.cond) {
+            if(this.props.children == null) return null;
+            return this.props.children;
+        }
+        else return null;
     }
 }
 

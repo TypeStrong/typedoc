@@ -1,3 +1,4 @@
+import { renderToStaticMarkup } from "react-dom/server";
 import { Component, RendererComponent } from "../components";
 import { PageEvent } from "../events";
 
@@ -23,8 +24,8 @@ export class LayoutPlugin extends RendererComponent {
      */
     private onRendererEndPage(page: PageEvent) {
         const layout = this.owner
-            .theme!.resources.layouts.getResource("default")!
-            .getTemplate();
-        page.contents = layout(page);
+            .theme!.getDefaultLayoutTemplate();
+        const templateOutput = layout(page);
+        page.contents = typeof templateOutput === 'string' ? templateOutput : renderToStaticMarkup(templateOutput);
     }
 }

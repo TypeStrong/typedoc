@@ -8,7 +8,8 @@ export interface DemoProps {
 export class Demo {
     private foo: number;
 
-    constructor(_props: DemoProps) {
+    //@ts-ignore
+    constructor(props: DemoProps) {
         this.foo = 42;
         this.foo; // suppress "declared but value never read"
     }

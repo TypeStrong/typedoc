@@ -16,6 +16,7 @@ import { NavigationItem } from "../models/NavigationItem";
 import { PageEvent, RendererEvent } from "../events";
 import { reflectionTemplate } from "./default/templates/reflection";
 import { indexTemplate } from "./default/templates/index";
+import { defaultLayout } from "./default/layouts/default";
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
@@ -56,6 +57,9 @@ export class DefaultTheme extends Theme {
     }
     indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
         return indexTemplate(pageEvent);
+    }
+    getDefaultLayoutTemplate() {
+        return defaultLayout as RenderTemplate<PageEvent>;
     }
 
     /**

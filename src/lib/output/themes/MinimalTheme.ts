@@ -3,7 +3,7 @@ import * as Path from "path";
 
 import { DefaultTheme } from "./DefaultTheme";
 import { Renderer } from "../renderer";
-import { UrlMapping } from "../models/UrlMapping";
+import { RenderTemplate, UrlMapping } from "../models/UrlMapping";
 import {
     Reflection,
     ProjectReflection,
@@ -12,8 +12,16 @@ import {
 import { PageEvent } from "../events";
 import { NavigationItem } from "../models/NavigationItem";
 import { indexTemplate } from "./minimal/templates";
+import { defaultLayout } from './minimal/layouts/default';
 
 export class MinimalTheme extends DefaultTheme {
+
+    override indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
+        return indexTemplate(pageEvent);
+    }
+    override getDefaultLayoutTemplate() {
+        return defaultLayout as RenderTemplate<PageEvent>;
+    }
     /**
      * Create a new DefaultTheme instance.
      *
