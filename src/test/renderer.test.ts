@@ -5,6 +5,7 @@ import { TSConfigReader } from "../lib/utils/options";
 import { readdirSync, readFileSync, statSync } from "fs";
 import { remove } from "../lib/utils/fs";
 import { canonicalizeHtml } from "./prettier-utils";
+const ansidiff = require("ansidiff");
 
 function getFileIndex(base: string, dir = "", results: string[] = []) {
     const files = readdirSync(Path.join(base, dir));
@@ -42,8 +43,8 @@ function compareDirectories(a: string, b: string) {
             .replace("\r", "")
             .replace(gitHubRegExp, "%GITHUB%");
         if(file.endsWith('.html')) {
-            aSrc = canonicalizeHtml(aSrc);
-            bSrc = canonicalizeHtml(bSrc);
+            aSrc = canonicalizeHtml(aSrc).trim();
+            bSrc = canonicalizeHtml(bSrc).trim();
         }
 
         if (aSrc !== bSrc) {

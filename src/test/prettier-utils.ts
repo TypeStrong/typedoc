@@ -4,6 +4,7 @@ export function canonicalizeHtml(text: string) {
     return prettier.format(text, {
         parser: 'html-tests',
         useTabs: true,
+        printWidth: 600,
         plugins: [{
             languages: [{
                 name: 'html-tests',
