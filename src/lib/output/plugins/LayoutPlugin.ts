@@ -26,6 +26,6 @@ export class LayoutPlugin extends RendererComponent {
         const layout = this.owner
             .theme!.getDefaultLayoutTemplate();
         const templateOutput = layout(page);
-        page.contents = typeof templateOutput === 'string' ? templateOutput : renderToStaticMarkup(templateOutput);
+        page.contents = typeof templateOutput === 'string' ? templateOutput : '<!DOCTYPE html>' + renderToStaticMarkup(templateOutput);
     }
 }

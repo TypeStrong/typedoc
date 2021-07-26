@@ -3,6 +3,7 @@ import * as prettier from 'prettier';
 export function canonicalizeHtml(text: string) {
     return prettier.format(text, {
         parser: 'html-tests',
+        useTabs: true,
         plugins: [{
             languages: [{
                 name: 'html-tests',

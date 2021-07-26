@@ -9,7 +9,6 @@
 
 import * as Path from "path";
 import * as fs from "fs";
-import * as util from "util";
 // eslint-disable-next-line
 const ProgressBar = require("progress");
 
