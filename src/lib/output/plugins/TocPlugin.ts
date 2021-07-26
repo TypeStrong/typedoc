@@ -31,7 +31,7 @@ export class TocPlugin extends RendererComponent {
      *
      * @param page  An event object describing the current render operation.
      */
-    private onRendererBeginPage(page: PageEvent) {
+    private onRendererBeginPage(page: PageEvent<Reflection>) {
         let model = page.model;
         if (!(model instanceof Reflection)) {
             return;
@@ -43,7 +43,7 @@ export class TocPlugin extends RendererComponent {
             !model.kindOf(ReflectionKind.SomeModule)
         ) {
             trail.unshift(model);
-            model = model.parent;
+            model = model.parent!;
         }
 
         const tocRestriction = this.owner.toc;

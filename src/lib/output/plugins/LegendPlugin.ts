@@ -288,7 +288,7 @@ export class LegendPlugin extends RendererComponent {
      *
      * @param page  An event object describing the current render operation.
      */
-    private onRendererBeginPage(page: PageEvent) {
+    private onRendererBeginPage(page: PageEvent<Reflection>) {
         const model = page.model;
         const builder = new LegendBuilder();
 

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "CommonJS",
-        "lib": ["ES2018"],
+        "lib": ["ES2018", "dom"],
         "target": "ES2018",
 
         "experimentalDecorators": true,

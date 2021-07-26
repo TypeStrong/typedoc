@@ -144,11 +144,6 @@ export class Renderer extends ChildableComponent<
         }
 
         // Theme must be set as this is only called in render, and render ensures theme is set.
-        page.template =
-            page.template ||
-            this.theme!.resources.templates.getResource(
-                page.templateName
-            )!.getTemplate();
         const templateOutput = page.template(page);
         page.contents = typeof templateOutput === 'string' ? templateOutput : renderToStaticMarkup(templateOutput);
 
@@ -292,7 +287,7 @@ export class Renderer extends ChildableComponent<
      * @returns The path to the theme directory.
      */
     static getThemeDirectory(): string {
-        return Path.dirname(require.resolve("typedoc-default-themes"));
+        return Path.dirname(resolve(__dirname, './themes'));
     }
 
     /**
@@ -305,4 +300,5 @@ export class Renderer extends ChildableComponent<
     }
 }
 
-import "./plugins";
+import "./plugins";import { resolve } from "path";
+

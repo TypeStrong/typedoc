@@ -217,7 +217,9 @@ export class ReflectionFlags extends Array<string> {
     }
 
     get isExported() {
-        return TODO as boolean;
+        // TODO pretty sure this is incorrect implementation
+        // return this.hasFlag(ReflectionFlag.ExportAssignment);
+        return false; // TODO what is this supposed to do?
     }
 
     setFlag(flag: ReflectionFlag, set: boolean) {

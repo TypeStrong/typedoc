@@ -6,11 +6,12 @@ import { Renderer } from "../renderer";
 import { UrlMapping } from "../models/UrlMapping";
 import {
     Reflection,
-    DeclarationReflection,
     ProjectReflection,
+    ContainerReflection,
 } from "../../models/reflections/index";
 import { PageEvent } from "../events";
 import { NavigationItem } from "../models/NavigationItem";
+import { indexTemplate } from "./minimal/templates";
 
 export class MinimalTheme extends DefaultTheme {
     /**
@@ -53,7 +54,7 @@ export class MinimalTheme extends DefaultTheme {
      */
     override getUrls(project: ProjectReflection): UrlMapping[] {
         const urls: UrlMapping[] = [];
-        urls.push(new UrlMapping("index.html", project, "index.hbs"));
+        urls.push(new UrlMapping("index.html", project, indexTemplate));
 
         project.url = "index.html";
         project.anchor = undefined;
@@ -71,7 +72,7 @@ export class MinimalTheme extends DefaultTheme {
      *
      * @param page  An event object describing the current render operation.
      */
-    private onRendererBeginPage(page: PageEvent) {
+    private onRendererBeginPage(page: PageEvent<Reflection>) {
         const model = page.model;
         if (!(model instanceof Reflection)) {
             return;
@@ -87,9 +88,9 @@ export class MinimalTheme extends DefaultTheme {
      * @param model   The models whose children should be written to the toc.
      * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
      */
-    static buildToc(model: DeclarationReflection, parent: NavigationItem) {
-        const children = model.children || [];
-        children.forEach((child: DeclarationReflection) => {
+    static buildToc(model: Reflection, parent: NavigationItem) {
+        const children = (model as ContainerReflection).children || [];
+        children.forEach((child) => {
             const item = NavigationItem.create(child, parent, true);
             MinimalTheme.buildToc(child, item);
         });

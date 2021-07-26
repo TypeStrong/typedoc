@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as Path from "path";
 import * as Marked from "marked";
-import * as Handlebars from "handlebars";
 
 import { Component, ContextAwareRendererComponent } from "../components";
 import { RendererEvent, MarkdownEvent } from "../events";
@@ -93,16 +92,16 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown);
 
         // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const that = this;
-        Handlebars.registerHelper("markdown", function (this: any, arg: any) {
-            const root = arg.data.root;
-            that.outputFileName = root.filename;
-            that.sources = root.model.sources;
-            return that.parseMarkdown(arg.fn(this), this);
-        });
-        Handlebars.registerHelper("relativeURL", (url: string) =>
-            url ? this.getRelativeUrl(url) : url
-        );
+        // const that = this;
+        // this.handlebarsMarkdownHelper = function (this: any, arg: any) {
+        //     const root = arg.data.root;
+        //     that.outputFileName = root.filename;
+        //     that.sources = root.model.sources;
+        //     return that.parseMarkdown(arg.fn(this), this);
+        // };
+        // this.handlebarsRelativeUrlHelper = (url: string) =>
+        //     url ? this.getRelativeUrl(url) : url
+        // ;
     }
 
     /**
@@ -137,21 +136,21 @@ output file :
      * @param context  The current handlebars context.
      * @returns The resulting html string.
      */
-    public parseMarkdown(text: string, context: any) {
+    public parseMarkdown(text: string) {
         if (this.includes) {
             text = text.replace(this.includePattern, (_match, path) => {
                 path = Path.join(this.includes!, path.trim());
                 if (fs.existsSync(path) && fs.statSync(path).isFile()) {
                     const contents = readFile(path);
-                    if (path.substr(-4).toLocaleLowerCase() === ".hbs") {
-                        const template = Handlebars.compile(contents);
-                        return template(context, {
-                            allowProtoMethodsByDefault: true,
-                            allowProtoPropertiesByDefault: true,
-                        });
-                    } else {
+                    // if (path.substr(-4).toLocaleLowerCase() === ".hbs") {
+                    //     const template = Handlebars.compile(contents);
+                    //     return template(context, {
+                    //         allowProtoMethodsByDefault: true,
+                    //         allowProtoPropertiesByDefault: true,
+                    //     });
+                    // } else {
                         return contents;
-                    }
+                    // }
                 } else {
                     this.application.logger.warn(
                         "Could not find file to include: " + path

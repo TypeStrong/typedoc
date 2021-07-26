@@ -65,7 +65,7 @@ export class RendererEvent extends Event {
      * @param mapping  The mapping that defines the generated [[PageEvent]] state.
      * @returns A newly created [[PageEvent]] instance.
      */
-    public createPageEvent<Model>(mapping: UrlMapping<Model>): PageEvent {
+    public createPageEvent<Model>(mapping: UrlMapping<Model>): PageEvent<Model> {
         const event = new PageEvent<Model>(PageEvent.BEGIN);
         event.project = this.project;
         event.settings = this.settings;
@@ -86,7 +86,7 @@ export class RendererEvent extends Event {
  * @see [[Renderer.EVENT_BEGIN_PAGE]]
  * @see [[Renderer.EVENT_END_PAGE]]
  */
-export class PageEvent<Model = any> extends Event {
+export class PageEvent<Model = unknown> extends Event {
     /**
      * The project the renderer is currently processing.
      */
@@ -115,7 +115,7 @@ export class PageEvent<Model = any> extends Event {
     /**
      * The template that should be used to render this page.
      */
-    template!: RenderTemplate<Model>;
+    template!: RenderTemplate<this>;
 
     /**
      * The primary navigation structure of this page.
