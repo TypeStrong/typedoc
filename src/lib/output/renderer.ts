@@ -9,6 +9,7 @@
 
 import * as Path from "path";
 import * as fs from "fs";
+import * as util from "util";
 // eslint-disable-next-line
 const ProgressBar = require("progress");
 
@@ -145,12 +146,7 @@ export class Renderer extends ChildableComponent<
 
         // Theme must be set as this is only called in render, and render ensures theme is set.
         const templateOutput = page.template(page);
-        try {
-            page.contents = typeof templateOutput === 'string' ? templateOutput : renderToStaticMarkup(templateOutput);
-        } catch(e) {
-            console.dir(page);
-            throw e;
-        }
+        page.contents = typeof templateOutput === 'string' ? templateOutput : renderToStaticMarkup(templateOutput);
 
         this.trigger(PageEvent.END, page);
         if (page.isDefaultPrevented) {

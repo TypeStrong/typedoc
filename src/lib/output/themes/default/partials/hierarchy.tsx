@@ -6,7 +6,7 @@ export const hierarchy = (props: DeclarationHierarchy) => (
             {props.types.map((item, i, l) => (
                     <li>
                         {props.isTarget ? (
-                                <span className="target">{item}</span>
+                                <span className="target">{item.toString()}</span>
                         ) : (
                                 __partials__.type(item)
                         )}

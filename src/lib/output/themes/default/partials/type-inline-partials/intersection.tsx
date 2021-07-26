@@ -1,7 +1,8 @@
 import { __partials__ } from "../../../lib";
 import * as React from "react";
 import { IntersectionType } from "../../../../../models";
-export const intersection = (props: IntersectionType, {needsParens}: {needsParens: boolean}) => (
+import { TypeInlinePartialsOptions } from "./options";
+export const intersection = (props: IntersectionType, {needsParens = false}: TypeInlinePartialsOptions = {}) => (
     <>
         {!!needsParens && (
             <>

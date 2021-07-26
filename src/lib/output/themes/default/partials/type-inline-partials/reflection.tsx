@@ -1,7 +1,8 @@
 import { With, __partials__ } from "../../../lib";
 import * as React from "react";
 import { ReflectionType } from "../../../../../models";
-export const reflection = (props: ReflectionType, {needsParens}: {needsParens: boolean}) => (
+import { TypeInlinePartialsOptions } from "./options";
+export const reflection = (props: ReflectionType, {needsParens = false}: TypeInlinePartialsOptions = {}) => (
     <>
         {props.declaration.children ? (
             <>

@@ -4,6 +4,7 @@ import Assert = require("assert");
 import { TSConfigReader } from "../lib/utils/options";
 import { readdirSync, readFileSync, statSync } from "fs";
 import { remove } from "../lib/utils/fs";
+import { canonicalizeHtml } from "./prettier-utils";
 
 function getFileIndex(base: string, dir = "", results: string[] = []) {
     const files = readdirSync(Path.join(base, dir));
@@ -34,12 +35,16 @@ function compareDirectories(a: string, b: string) {
     const gitHubRegExp =
         /https:\/\/github.com\/[A-Za-z0-9-]+\/typedoc\/blob\/[^/]*\/examples/g;
     aFiles.forEach(function (file) {
-        const aSrc = readFileSync(Path.join(a, file), { encoding: "utf-8" })
+        let aSrc = readFileSync(Path.join(a, file), { encoding: "utf-8" })
             .replace("\r", "")
             .replace(gitHubRegExp, "%GITHUB%");
-        const bSrc = readFileSync(Path.join(b, file), { encoding: "utf-8" })
+        let bSrc = readFileSync(Path.join(b, file), { encoding: "utf-8" })
             .replace("\r", "")
             .replace(gitHubRegExp, "%GITHUB%");
+        if(file.endsWith('.html')) {
+            aSrc = canonicalizeHtml(aSrc);
+            bSrc = canonicalizeHtml(bSrc);
+        }
 
         if (aSrc !== bSrc) {
             const err: any = new Error(`File contents of "${file}" differ.`);
