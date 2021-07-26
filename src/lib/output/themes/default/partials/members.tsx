@@ -1,4 +1,4 @@
-import { __partials__ } from "../../lib";
+import { assertIsDeclarationReflection, __partials__ } from "../../lib";
 import * as React from "react";
 import { ContainerReflection } from "../../../../models";
 export const members = (props: ContainerReflection) =>
@@ -11,7 +11,7 @@ export const members = (props: ContainerReflection) =>
                           <section className={"tsd-panel-group tsd-member-group " + props.cssClasses}>
                               <h2>{item.title}</h2>
                               {item.children.map((item) => (
-                                  <>{!item.hasOwnDocument && <> {__partials__.member(item)}</>}</>
+                                  <>{!item.hasOwnDocument && <> {__partials__.member(assertIsDeclarationReflection(item))}</>}</>
                               ))}{" "}
                           </section>
                       </>

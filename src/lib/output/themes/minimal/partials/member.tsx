@@ -1,6 +1,8 @@
-import { wbr, __partials__ } from "../../lib";
+import { assertIsDeclarationReflection, isContainer, isDeclarationReflection, isReferenceReflection, wbr, __partials__ } from "../../lib";
 import * as React from "react";
-export const member = (props) => (
+import { DeclarationReflection } from "../../../../models";
+
+export const member = (props: DeclarationReflection) => (
     <>
         <section className={"tsd-panel tsd-member " + props.cssClasses}>
             <a name={props.anchor} className="tsd-anchor"></a>
@@ -8,36 +10,35 @@ export const member = (props) => (
                 <>
                     {" "}
                     <h3>
-                        {props.flags.map((item, i) => (
+                        {props.flags.map((item) => (
                             <>
                                 <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                             </>
                         ))}
-                        {wbr(TODO)}
+                        {wbr(props.name)}
                     </h3>
                 </>
             )}
-            {!!props.signatures ? (
+            {(isDeclarationReflection(props) && props.signatures) ? (
                 <> {__partials__["memberSignatures"](props)}</>
-            ) : props.hasGetterOrSetter ? (
+            ) : (isDeclarationReflection(props) && props.hasGetterOrSetter()) ? (
                 <>{__partials__["memberGetterSetter"](props)}</>
-            ) : props.tryGetTargetReflectionDeep ? (
+            ) : (isReferenceReflection(props) && props.isReference) ? (
                 <>{__partials__["memberReference"](props)}</>
             ) : (
                 <> {__partials__["memberDeclaration"](props)}</>
             )}
 
-            {!Boolean(props.isContainer) &&
-                props.groups.map((item, i) => (
-                    <>
-                        {item.children.map((item, i) => (
-                            <>{!item.hasOwnDocument && <> {__partials__.member(item)}</>}</>
-                        ))}
-                    </>
-                ))}
+            {!isContainer(props) && (/*TODO*/props as unknown as DeclarationReflection).groups?.map((item) => (
+                <>
+                    {item.children.map((item) => (
+                        <>{!item.hasOwnDocument && <> {__partials__.member(assertIsDeclarationReflection(item))}</>}</>
+                    ))}
+                </>
+                    ))}
         </section>
 
-        {!!props.isContainer && (
+        {isContainer(props) && (
             <>
                 {" "}
                 {__partials__.index(props)}

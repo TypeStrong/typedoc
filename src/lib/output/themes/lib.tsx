@@ -1,7 +1,7 @@
 import assert = require("assert");
 import * as React from "react";
 import { SignatureReflection, Reflection, DeclarationReflection } from "../../..";
-import { ProjectReflection, ReferenceReflection, ReferenceType, ReflectionType, Type, TypeParameterContainer } from "../../models";
+import { ContainerReflection, ProjectReflection, ReferenceReflection, ReferenceType, ReflectionType, Type, TypeParameterContainer } from "../../models";
 import { DefaultValueContainer, TypeContainer } from "../../models/reflections/abstract";
 import { MarkedPlugin } from "../plugins/MarkedPlugin";
 
@@ -128,6 +128,12 @@ export interface ElementTypeContainer extends Type {
 }
 export function hasElementType(type: Type): type is ElementTypeContainer {
     return (type as ElementTypeContainer).elementType != null;
+}
+/**
+ * TODO where this is used, it seems impossible for this to return false.
+ */
+export function isContainer(refl: Reflection | undefined): refl is ContainerReflection {
+    return refl != null && refl instanceof ContainerReflection;
 }
 
 export * as __partials__ from "./partials";
