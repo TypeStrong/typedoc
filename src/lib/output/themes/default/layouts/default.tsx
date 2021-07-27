@@ -33,11 +33,28 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                             </nav>
 
                             <nav className="tsd-navigation secondary menu-sticky">
-                                <ul className="before-current">
-                                    {props.toc?.children?.map((item) => (
-                                        <> {__partials__.tocRoot(item)}</>
-                                    ))}{" "}
-                                </ul>
+                                {(() => {
+                                    const children = props.toc?.children ?? [];
+                                    let indexOfCurrent = children.findIndex(c => c.isInPath);
+                                    // If none are isInPath, make sure all render within "before" block
+                                    if(indexOfCurrent === -1) indexOfCurrent = children.length;
+                                    const childrenBefore = children.slice(0, indexOfCurrent);
+                                    const childInPath = children[indexOfCurrent];
+                                    const childrenAfter = children.slice(indexOfCurrent + 1);
+                                    return <>
+                                        <ul className="before-current">
+                                            {childrenBefore.map((item) => __partials__.tocRoot(item))}
+                                        </ul>
+                                        {childInPath && <>
+                                            <ul className="current">
+                                                {__partials__.tocRoot(childInPath)}
+                                            </ul>
+                                            <ul className="after-current">
+                                                {childrenAfter.map((item) => __partials__.tocRoot(item))}
+                                            </ul>
+                                        </>}
+                                    </>;
+                                })()}
                             </nav>
                         </div>
                     </div>

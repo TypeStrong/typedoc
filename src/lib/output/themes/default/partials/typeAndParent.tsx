@@ -8,7 +8,7 @@ export const typeAndParent = (props: Type) => (
             {props ? (
                 hasElementType(props) ? (
                     <>
-                        {" "}
+                        {"bar "}
                         {With(props.elementType, (props) => (
                             <>{__partials__.typeAndParent(props)}</>
                         ))}
@@ -16,48 +16,43 @@ export const typeAndParent = (props: Type) => (
                     </>
                 ) : isReferenceType(props) && props.reflection ? (
                     <>
-                        {" "}
                         <IfCond cond={isSignature(props.reflection)}>
                             {props.reflection.parent?.parent?.url ? (
                                 <>
-                                    {" "}
                                     <a href={relativeURL(props.reflection.parent.parent.url)}>{props.reflection.parent.parent.name}</a>
                                 </>
                             ) : (
                                 <> {props.reflection.parent?.parent?.name}</>
-                            )}{" "}
+                            )}
                             .
                             {props.reflection.parent?.url ? (
                                 <>
-                                    {" "}
                                     <a href={relativeURL(props.reflection.parent.url)}>{props.reflection.parent.name}</a>
                                 </>
                             ) : (
                                 <> {props.reflection.parent?.name}</>
-                            )}{" "}
+                            )}
                         </IfCond>
                         <IfNotCond cond={isSignature(props.reflection)}>
                             {props.reflection.parent?.url ? (
                                 <>
-                                    {" "}
                                     <a href={relativeURL(props.reflection.parent.url)}>{props.reflection.parent.name}</a>
                                 </>
                             ) : (
                                 <> {props.reflection.parent?.name}</>
-                            )}{" "}
+                            )}
                             .
                             {props.reflection.url ? (
                                 <>
-                                    {" "}
                                     <a href={relativeURL(props.reflection.url)}>{props.reflection.name}</a>
                                 </>
                             ) : (
                                 <> {props.reflection.name}</>
-                            )}{" "}
+                            )}
                         </IfNotCond>
                     </>
                 ) : (
-                    <> {props}</>
+                    <> {props.toString()}</>
                 )
             ) : (
                 "        void\n"

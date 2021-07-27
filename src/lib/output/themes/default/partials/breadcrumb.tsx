@@ -11,7 +11,6 @@ export const breadcrumb = (props: Reflection): React.ReactElement | undefined =>
             <li>
                 {props.url ? (
                     <>
-                        {" "}
                         <a href={relativeURL(props.url)}>{props.name}</a>
                     </>
                 ) : (

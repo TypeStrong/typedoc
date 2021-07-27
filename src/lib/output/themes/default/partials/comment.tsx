@@ -6,21 +6,21 @@ export const comment = (props: Reflection) => (
     <>
         {With(props.comment, (props) => (
             <>
-                {!!props.hasVisibleComponent && (
+                {!!props.hasVisibleComponent() && (
                     <>
                         {" "}
                         <div className="tsd-comment tsd-typography">
                             {!!props.shortText && (
                                 <>
                                     {" "}
-                                    <div className="lead" dangerouslySetInnerHTML={{__html: markdown(props.shortText)}}>
+                                    <div className="lead" dangerouslySetInnerHTML={{__html: '\n' + markdown(props.shortText)}}>
                                     </div>
                                 </>
                             )}
                             {!!props.text && (
                                 <Markdown>{props.text}</Markdown>
                             )}
-                            {!!props.tags && (
+                            {props.tags?.length > 0 && (
                                 <>
                                     {" "}
                                     <dl className="tsd-comment-tags">

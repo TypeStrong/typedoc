@@ -105,7 +105,7 @@ export const parameter = (props: DeclarationReflection) => (
                                         {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
                                         {wbr(item.name)}
                                         <span className="tsd-signature-symbol">
-                                            {!!item.flags.isOptional && "?"}:
+                                            {!!item.flags.isOptional && "?"}{": "}
                                         </span>
                                         {__partials__.type(item.type)}
                                     </Compact>

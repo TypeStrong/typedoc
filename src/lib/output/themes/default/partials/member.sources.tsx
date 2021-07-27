@@ -9,7 +9,7 @@ export const memberSources = (props: SignatureReflection | DeclarationReflection
                 <>
                     {" "}
                     <p>
-                        Implementation of{" "}
+                        {"Implementation of "}
                         {__partials__.typeAndParent(props.implementationOf)}
                     </p>
                 </>

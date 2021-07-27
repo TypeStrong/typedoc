@@ -2,10 +2,9 @@ import { Application, ProjectReflection } from "..";
 import * as Path from "path";
 import Assert = require("assert");
 import { TSConfigReader } from "../lib/utils/options";
-import { readdirSync, readFileSync, statSync } from "fs";
+import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "fs";
 import { remove } from "../lib/utils/fs";
 import { canonicalizeHtml } from "./prettier-utils";
-const ansidiff = require("ansidiff");
 
 function getFileIndex(base: string, dir = "", results: string[] = []) {
     const files = readdirSync(Path.join(base, dir));
@@ -33,8 +32,11 @@ function compareDirectories(a: string, b: string) {
         `Generated files differ. between "${a}" and "${b}"`
     );
 
+    const outAPath = Path.join(__dirname, '../../diagnostic-output/expected');
+    const outBPath = Path.join(__dirname, '../../diagnostic-output/actual');
     const gitHubRegExp =
         /https:\/\/github.com\/[A-Za-z0-9-]+\/typedoc\/blob\/[^/]*\/examples/g;
+    const errors = [];
     aFiles.forEach(function (file) {
         let aSrc = readFileSync(Path.join(a, file), { encoding: "utf-8" })
             .replace("\r", "")
@@ -43,18 +45,26 @@ function compareDirectories(a: string, b: string) {
             .replace("\r", "")
             .replace(gitHubRegExp, "%GITHUB%");
         if(file.endsWith('.html')) {
-            aSrc = canonicalizeHtml(aSrc).trim();
-            bSrc = canonicalizeHtml(bSrc).trim();
+            aSrc = canonicalizeHtml(aSrc);
+            bSrc = canonicalizeHtml(bSrc);
         }
+        mkdirSync(Path.dirname(Path.join(outAPath, file)), {recursive: true});
+        mkdirSync(Path.dirname(Path.join(outBPath, file)), {recursive: true});
+        writeFileSync(Path.join(outAPath, file), aSrc);
+        writeFileSync(Path.join(outBPath, file), bSrc);
 
         if (aSrc !== bSrc) {
-            const err: any = new Error(`File contents of "${file}" differ.`);
-            err.expected = aSrc;
-            err.actual = bSrc;
-            err.showDiff = true;
-            throw err;
+            // @ts-ignore
+            const err: any = new Error(`File contents of "${file}" differ.\n${ require('jest-diff').diff(aSrc, bSrc) }`);
+            // err.expected = aSrc;
+            // err.actual = bSrc;
+            // err.showDiff = true;
+            errors.push(err);
         }
     });
+    if(errors.length) {
+        throw new Error(`${errors.length} files differ`);
+    }
 }
 
 describe("Renderer", function () {

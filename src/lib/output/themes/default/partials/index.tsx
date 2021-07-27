@@ -2,7 +2,7 @@ import { relativeURL, wbr, __partials__ } from "../../lib";
 import * as React from "react";
 import { ContainerReflection } from "../../../../models";
 export const index = (props: ContainerReflection) =>
-    props.categories ? (
+    props.categories && props.categories.length > 0 ? (
         <>
             {" "}
             <section className="tsd-panel-group tsd-index-group">

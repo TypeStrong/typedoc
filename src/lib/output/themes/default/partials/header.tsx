@@ -86,19 +86,18 @@ export const header = (props: PageEvent<Reflection>) => (
                     <h1>
                         <Compact>
                             <IfCond cond={props.model.kindString !== 'Project'}>
-                                {props.model.kindString}
+                                {props.model.kindString}{" "}
                             </IfCond>
                             {props.model.name}
                             {hasTypeParameters(props.model) && (
                                 <>
-                                    {" <"}
+                                    {"<"}
                                     {props.model.typeParameters.map((item, i) => (
                                         <>
-                                            {" "}
                                             {i > 0 && ",\xA0"}
                                             {item.name}
                                         </>
-                                    ))}{" "}
+                                    ))}
                                     {">"}
                                 </>
                             )}{" "}

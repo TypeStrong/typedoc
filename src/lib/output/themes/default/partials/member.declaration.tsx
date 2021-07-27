@@ -18,8 +18,9 @@ export const memberDeclaration = (props: DeclarationReflection) => (
                         ))}{" "}
                         {">"}
                     </>
-                )}{" "}
+                )}
                 <span className="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>
+                {" "}
                 {With(props.type, (props) => (
                     <>{__partials__.type(props)}</>
                 ))}

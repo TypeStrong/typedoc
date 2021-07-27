@@ -8,7 +8,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
             <>
                 {" "}
                 {/* object literal */}
-                <span className="tsd-signature-symbol">{"{"} </span>
+                <span className="tsd-signature-symbol">{"{ "}</span>
                 {props.declaration.children.map((item, i) => (
                     <>
                         {i > 0 && (
@@ -89,27 +89,22 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                             </>
                         ) : (
                             <>
-                                {" "}
                                 {item.name}
                                 {item.flags.isOptional ? (
                                     <>
-                                        {" "}
                                         <span className="tsd-signature-symbol">?: </span>
                                     </>
                                 ) : (
                                     <>
-                                        {" "}
                                         <span className="tsd-signature-symbol">: </span>
                                     </>
                                 )}
                                 {item.type ? (
                                     <>
-                                        {" "}
                                         {__partials__.type(item.type)}
                                     </>
                                 ) : (
                                     <>
-                                        {" "}
                                         <span className="tsd-signature-type">any</span>
                                     </>
                                 )}
@@ -117,7 +112,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                         )}
                     </>
                 ))}{" "}
-                <span className="tsd-signature-symbol"> {"}"}</span>
+                <span className="tsd-signature-symbol">{" }"}</span>
             </>
         ) : props.declaration.signatures ? (
             <>
@@ -129,23 +124,20 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                         <span className="tsd-signature-symbol">{"{"} </span>
                         {props.declaration.signatures.map((item, i, l) => (
                             <>
-                                {" "}
                                 {__partials__["memberSignatureTitle"](item, { hideName: true })}
                                 {i < l.length - 1 && (
                                     <>
-                                        {" "}
                                         <span className="tsd-signature-symbol">; </span>
                                     </>
                                 )}
                             </>
                         ))}{" "}
-                        <span className="tsd-signature-symbol"> {"}"}</span>
+                        <span className="tsd-signature-symbol">{" }"}</span>
                     </>
                 ) : (
                     <>
                         {!!needsParens && (
                             <>
-                                {" "}
                                 <span className="tsd-signature-symbol">(</span>
                             </>
                         )}{" "}
@@ -154,7 +146,6 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                         ))}
                         {!!needsParens && (
                             <>
-                                {" "}
                                 <span className="tsd-signature-symbol">)</span>
                             </>
                         )}

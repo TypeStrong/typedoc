@@ -13,7 +13,7 @@ export const memberSignatureBody = (props: SignatureReflection, {hideSources = f
                 {__partials__.typeParameters(props)}
             </>
         )}
-        {!!props.parameters && (
+        {props.parameters && props.parameters.length > 0 && (
             <>
                 {" "}
                 <h4 className="tsd-parameters-title">Parameters</h4>
@@ -31,7 +31,7 @@ export const memberSignatureBody = (props: SignatureReflection, {hideSources = f
                                             </>
                                         ))}{" "}
                                         {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
-                                        {item.name}:
+                                        {item.name}{": "}
                                         {With(item.type, (props) => (
                                             <>{__partials__.type(props)}</>
                                         ))}
@@ -65,7 +65,7 @@ export const memberSignatureBody = (props: SignatureReflection, {hideSources = f
             <>
                 {" "}
                 <h4 className="tsd-returns-title">
-                    Returns{" "}
+                    {"Returns "}
                     <Compact>
                         {With(props.type, (props) => (
                             <>{__partials__.type(props)}</>

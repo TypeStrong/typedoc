@@ -34,9 +34,9 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
                     {" "}
                     <section className="tsd-panel tsd-hierarchy">
                         <h3>Hierarchy</h3>
-                        {With(props.model.typeHierarchy, (props) => (
-                            <>{__partials__.hierarchy(props)}</>
-                        ))}
+                        {With(props.model.typeHierarchy, (props) =>
+                            __partials__.hierarchy(props)
+                        )}
                     </section>
                 </>
             )}
@@ -97,7 +97,6 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
                                 <span className="tsd-signature-symbol">[</span>
                                 {props.model.indexSignature.parameters!.map((item) => (
                                     <>
-                                        {" "}
                                         {item.name}:
                                         {With(item.type, (props) => (
                                             <>{__partials__.type(props)}</>

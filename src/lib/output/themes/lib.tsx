@@ -81,7 +81,10 @@ export function markdown(md: string | undefined) {
 }
 export function Markdown(props: { children: string | undefined }) {
     // TODO make a plain div, per code-review discussion
-    return <mdcontainer dangerouslySetInnerHTML={{__html: markdown(props.children)}}></mdcontainer>;
+    // console.log(markdown(props.children));
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    return <md {...{'data-markdown':true}} dangerouslySetInnerHTML={{__html: markdown(props.children)}}></md>;
 }
 
 export function relativeURL(url: string | undefined) {

@@ -8,7 +8,6 @@ export const reference = (props: ReferenceType) => {
         <>
             {reflection ? (
                 <>
-                    {" "}
                     {
                         <a
                             href={relativeURL(reflection.url)}
@@ -24,7 +23,7 @@ export const reference = (props: ReferenceType) => {
                     <span className="tsd-signature-type">{props.name}</span>
                 </>
             )}
-            {!!props.typeArguments && (
+            {props.typeArguments && props.typeArguments.length > 0 && (
                 <>
                     <span className="tsd-signature-symbol">{"<"}</span>
                     {props.typeArguments.map((item, i) => (
@@ -33,10 +32,10 @@ export const reference = (props: ReferenceType) => {
                                 <>
                                     <span className="tsd-signature-symbol">, </span>
                                 </>
-                            )}{" "}
+                            )}
                             {__partials__.type(item)}
                         </>
-                    ))}{" "}
+                    ))}
                     <span className="tsd-signature-symbol">{">"}</span>
                 </>
             )}

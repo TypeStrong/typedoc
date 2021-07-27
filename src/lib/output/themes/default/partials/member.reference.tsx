@@ -2,7 +2,7 @@ import { With, relativeURL, __partials__, IfCond, IfNotCond } from "../../lib";
 import * as React from "react";
 import { ReferenceReflection } from "../../../../models";
 export const memberReference = (props: ReferenceReflection) =>
-    props.tryGetTargetReflectionDeep ? (
+    props.tryGetTargetReflectionDeep() ? (
         <>
             {" "}
             {With(props.tryGetTargetReflectionDeep(), (targetReflection) => (

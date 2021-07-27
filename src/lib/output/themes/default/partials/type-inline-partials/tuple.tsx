@@ -8,13 +8,12 @@ export const tuple = (props: TupleType) => (
             <>
                 {i > 0 && (
                     <>
-                        {" "}
                         <span className="tsd-signature-symbol">, </span>
                     </>
-                )}{" "}
+                )}
                 {__partials__.type(item)}
             </>
-        ))}{" "}
+        ))}
         <span className="tsd-signature-symbol">]</span>
     </>
 );

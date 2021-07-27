@@ -7,7 +7,7 @@ export const memberGetterSetter = (props: DeclarationReflection) => (
             {!!props.getSignature && (
                 <li className="tsd-signature tsd-kind-icon">
                     <Compact>
-                        <span className="tsd-signature-symbol">get</span>
+                        <span className="tsd-signature-symbol">get</span>{" "}
                         {props.name}
                         {__partials__["memberSignatureTitle"](props.getSignature, { hideName: true })}
                     </Compact>
@@ -16,7 +16,7 @@ export const memberGetterSetter = (props: DeclarationReflection) => (
             {!!props.setSignature && (
                 <li className="tsd-signature tsd-kind-icon">
                     <Compact>
-                        <span className="tsd-signature-symbol">set</span>
+                        <span className="tsd-signature-symbol">set</span>{" "}
                         {props.name}
                         {__partials__["memberSignatureTitle"](props.setSignature, { hideName: true })}
                     </Compact>

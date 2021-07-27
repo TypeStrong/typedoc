@@ -14,7 +14,6 @@ export const typeParameters = (props: TypeParameterContainer) => (
                                 {item.name}
                                 {!!item.type && (
                                     <>
-                                        {" "}
                                         <span className="tsd-signature-symbol">{": "}</span>
                                         {With(item.type, (props) => (
                                             <>{__partials__.type(props)}</>
@@ -23,7 +22,7 @@ export const typeParameters = (props: TypeParameterContainer) => (
                                 )}
                                 {!!item.default && (
                                     <>
-                                        {" ="}
+                                        {" = "}
                                         {With(item.default, (props) => (
                                             <>{__partials__.type(props)}</>
                                         ))}
