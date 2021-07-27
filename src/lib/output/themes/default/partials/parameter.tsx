@@ -138,9 +138,9 @@ export const parameter = (props: DeclarationReflection) => (
                                                         <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                     </>
                                                 ))}
-                                                <span className="tsd-signature-symbol">get&nbsp;</span>
+                                                <span className="tsd-signature-symbol">get </span>
                                                 {wbr(item.name)}
-                                                <span className="tsd-signature-symbol">():&nbsp;</span>
+                                                <span className="tsd-signature-symbol">(): </span>
                                                 {With(props.type, (props) => (
                                                     <>{__partials__.type(props)}</>
                                                 ))}
@@ -164,7 +164,7 @@ export const parameter = (props: DeclarationReflection) => (
                                                         <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                     </>
                                                 ))}
-                                                <span className="tsd-signature-symbol">set&nbsp;</span>
+                                                <span className="tsd-signature-symbol">{"set "}</span>
                                                 {wbr(item.name)}
                                                 <span className="tsd-signature-symbol">(</span>
                                                 {props.parameters?.map((item) => (
@@ -187,7 +187,7 @@ export const parameter = (props: DeclarationReflection) => (
                                                         )}
                                                     </>
                                                 ))}
-                                                <span className="tsd-signature-symbol">):&nbsp;</span>
+                                                <span className="tsd-signature-symbol">): </span>
                                                 {With(props.type, (props) => (
                                                     <>{__partials__.type(props)}</>
                                                 ))}
