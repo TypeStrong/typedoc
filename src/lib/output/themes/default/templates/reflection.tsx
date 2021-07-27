@@ -8,7 +8,7 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
     <>
         {With(props.model, (props) => (
             <>
-                {!!props.hasComment && (
+                {!!props.hasComment() && (
                     <>
                         {" "}
                         <section className="tsd-panel tsd-comment">{__partials__.comment(props)}</section>
