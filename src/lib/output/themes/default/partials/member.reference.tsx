@@ -4,7 +4,7 @@ import { ReferenceReflection } from "../../../../models";
 export const memberReference = (props: ReferenceReflection) =>
     props.tryGetTargetReflectionDeep() ? (
         <>
-            {" "}
+
             {With(props.tryGetTargetReflectionDeep(), (targetReflection) => (
                 <>
                     <IfCond cond={props.name === targetReflection.name}>
@@ -13,15 +13,15 @@ export const memberReference = (props: ReferenceReflection) =>
                     <IfNotCond cond={props.name === targetReflection.name}>
                         {targetReflection.flags.isExported ? (
                             <>
-                                {" "}
+
                                 Renames and re-exports <a href={relativeURL(targetReflection.url)}>{targetReflection.name}</a>
                             </>
                         ) : (
                             <>
-                                {" "}
+
                                 Renames and exports <a href={relativeURL(targetReflection.url)}>{targetReflection.name}</a>
                             </>
-                        )}{" "}
+                        )}
                     </IfNotCond>
                 </>
             ))}

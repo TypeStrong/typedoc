@@ -6,53 +6,53 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
     <>
         {props.declaration.children ? (
             <>
-                {" "}
+
                 {/* object literal */}
                 <span className="tsd-signature-symbol">{"{ "}</span>
                 {props.declaration.children.map((item, i) => (
                     <>
                         {i > 0 && (
                             <>
-                                {" "}
+
                                 <span className="tsd-signature-symbol">; </span>
                             </>
                         )}
                         {item.getSignature ? (
                             item.setSignature ? (
                                 <>
-                                    {" "}
+
                                     {item.name}
                                     <span className="tsd-signature-symbol">: </span>
                                     {item.getSignature.type ? (
                                         <>
-                                            {" "}
+
                                             {With(item.getSignature.type, (props) => (
                                                 <>{__partials__.type(props)}</>
                                             ))}
                                         </>
                                     ) : (
                                         <>
-                                            {" "}
+
                                             <span className="tsd-signature-type">any</span>
                                         </>
                                     )}
                                 </>
                             ) : (
                                 <>
-                                    {" "}
-                                    <span className="tsd-signature-symbol">get </span>
+
+                                    <span className="tsd-signature-symbol">{"get "}</span>
                                     {item.name}
                                     <span className="tsd-signature-symbol">(): </span>
                                     {item.getSignature.type ? (
                                         <>
-                                            {" "}
+
                                             {With(item.getSignature.type, (props) => (
                                                 <>{__partials__.type(props)}</>
                                             ))}
                                         </>
                                     ) : (
                                         <>
-                                            {" "}
+
                                             <span className="tsd-signature-type">any</span>
                                         </>
                                     )}
@@ -60,31 +60,31 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                             )
                         ) : item.setSignature ? (
                             <>
-                                {" "}
-                                <span className="tsd-signature-symbol">set </span>
+
+                                <span className="tsd-signature-symbol">{"set "}</span>
                                 {item.name}
                                 <span className="tsd-signature-symbol">(</span>
                                 {/* Rather hacky to use each here... but we know there is exactly one. */}
                                 {item.setSignature.parameters?.map((item) => (
                                     <>
-                                        {" "}
+
                                         {item.name}
                                         <span className="tsd-signature-symbol">: </span>
                                         {item.type ? (
                                             <>
-                                                {" "}
+
                                                 {With(item.type, (props) => (
                                                     <>{__partials__.type(props)}</>
                                                 ))}
                                             </>
                                         ) : (
                                             <>
-                                                {" "}
+
                                                 <span className="tsd-signature-type">any</span>
                                             </>
                                         )}
                                     </>
-                                ))}{" "}
+                                ))}
                                 <span className="tsd-signature-symbol">)</span>
                             </>
                         ) : (
@@ -111,15 +111,15 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                             </>
                         )}
                     </>
-                ))}{" "}
+                ))}
                 <span className="tsd-signature-symbol">{" }"}</span>
             </>
         ) : props.declaration.signatures ? (
             <>
-                {" "}
+
                 {props.declaration.signatures[1] ? (
                     <>
-                        {" "}
+
                         {/* more than one signature*/}
                         <span className="tsd-signature-symbol">{"{"} </span>
                         {props.declaration.signatures.map((item, i, l) => (
@@ -131,7 +131,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                                     </>
                                 )}
                             </>
-                        ))}{" "}
+                        ))}
                         <span className="tsd-signature-symbol">{" }"}</span>
                     </>
                 ) : (
@@ -140,7 +140,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                             <>
                                 <span className="tsd-signature-symbol">(</span>
                             </>
-                        )}{" "}
+                        )}
                         {With(props.declaration.signatures[0], (props) => (
                             <>{__partials__["memberSignatureTitle"](props, { hideName: true, arrowStyle: true })}</>
                         ))}
@@ -154,7 +154,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
             </>
         ) : (
             <>
-                {" "}
+
                 <span className="tsd-signature-symbol">
                     {"{"}
                     {"}"}

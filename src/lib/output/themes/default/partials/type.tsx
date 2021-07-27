@@ -20,7 +20,7 @@ export const type = (props: Type, options?: TypeInlinePartialsOptions): React.Re
         return renderFn(props, options);
     } else {
         return <>
-            {" "}
+
             <span className="tsd-signature-type">void</span>
         </>;
     }

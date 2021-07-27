@@ -6,15 +6,15 @@ export const namedTupleMember = (props: NamedTupleMember) => (
         {props.name}
         {props.isOptional ? (
             <>
-                {" "}
+
                 <span className="tsd-signature-symbol">?: </span>
             </>
         ) : (
             <>
-                {" "}
+
                 <span className="tsd-signature-symbol">: </span>
             </>
-        )}{" "}
+        )}
         {With(props.element, (props) => (
             <>{__partials__.type(props)}</>
         ))}

@@ -27,7 +27,7 @@ export const memberGetterSetter = (props: DeclarationReflection) => (
         <ul className="tsd-descriptions">
             {!!props.getSignature && (
                 <>
-                    {" "}
+
                     {With(props.getSignature, (props) => (
                         <>
                             <li className="tsd-description">{__partials__["memberSignatureBody"](props)}</li>
@@ -37,7 +37,7 @@ export const memberGetterSetter = (props: DeclarationReflection) => (
             )}
             {!!props.setSignature && (
                 <>
-                    {" "}
+
                     {With(props.setSignature, (props) => (
                         <>
                             <li className="tsd-description">{__partials__["memberSignatureBody"](props)}</li>

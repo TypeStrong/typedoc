@@ -27,7 +27,7 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                     <ul>
                         {props.toc?.children?.map((item) => (
                             <> {__partials__.toc(item)}</>
-                        ))}{" "}
+                        ))}
                     </ul>
                 </nav>
 
@@ -35,7 +35,7 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                     <div className="content-wrap">
                         {isProjectReflection(props.model) && !!props.model.readme && (
                             <>
-                                {" "}
+
                                 <div className="tsd-panel tsd-typography">
                                     <Markdown>{props.model.readme}</Markdown>
                                 </div>

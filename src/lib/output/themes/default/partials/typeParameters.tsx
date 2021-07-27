@@ -7,7 +7,7 @@ export const typeParameters = (props: TypeParameterContainer) => (
         <ul className="tsd-type-parameters">
             {props.typeParameters?.map((item) => (
                 <>
-                    {" "}
+
                     <li>
                         <h4>
                             <Compact>
@@ -27,7 +27,7 @@ export const typeParameters = (props: TypeParameterContainer) => (
                                             <>{__partials__.type(props)}</>
                                         ))}
                                     </>
-                                )}{" "}
+                                )}
                             </Compact>
                         </h4>
                         {__partials__.comment(item)}

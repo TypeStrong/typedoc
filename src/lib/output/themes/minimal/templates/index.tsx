@@ -11,7 +11,7 @@ export const indexTemplate = (props: PageEvent<ProjectReflection>) => (
         {isDeclarationReflection(props.model) && <>
         {!!props.model.typeHierarchy && (
             <>
-                {" "}
+
                 <section className="tsd-hierarchy">
                     <h2>Hierarchy</h2>
                     {With(props.model.typeHierarchy, (props) => (

@@ -8,7 +8,7 @@ export const member = (props: DeclarationReflection) => (
             <a name={props.anchor} className="tsd-anchor"></a>
             {!!props.name && (
                 <>
-                    {" "}
+
                     <h3>
                         {props.flags.map((item) => (
                             <>

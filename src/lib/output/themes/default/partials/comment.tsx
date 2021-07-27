@@ -8,11 +8,11 @@ export const comment = (props: Reflection) => (
             <>
                 {!!props.hasVisibleComponent() && (
                     <>
-                        {" "}
+
                         <div className="tsd-comment tsd-typography">
                             {!!props.shortText && (
                                 <>
-                                    {" "}
+
                                     <div className="lead" dangerouslySetInnerHTML={{__html: '\n' + markdown(props.shortText)}}>
                                     </div>
                                 </>
@@ -22,19 +22,19 @@ export const comment = (props: Reflection) => (
                             )}
                             {props.tags?.length > 0 && (
                                 <>
-                                    {" "}
+
                                     <dl className="tsd-comment-tags">
                                         {props.tags.map((item) => (
                                             <>
-                                                {" "}
+
                                                 <dt>{item.tagName}</dt>
                                                 <dd dangerouslySetInnerHTML={{__html: markdown(item.text)}}>
                                                 </dd>
                                             </>
-                                        ))}{" "}
+                                        ))}
                                     </dl>
                                 </>
-                            )}{" "}
+                            )}
                         </div>
                     </>
                 )}

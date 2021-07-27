@@ -6,7 +6,7 @@ export const union = (props: UnionType, { needsParens = false }: TypeInlineParti
     <>
         {!!needsParens && (
             <>
-                {" "}
+
                 <span className="tsd-signature-symbol">(</span>
             </>
         )}
@@ -14,16 +14,16 @@ export const union = (props: UnionType, { needsParens = false }: TypeInlineParti
             <>
                 {i !== 0 && (
                     <>
-                        {" "}
+
                         <span className="tsd-signature-symbol"> | </span>
                     </>
-                )}{" "}
+                )}
                 {__partials__.type(item, { needsParens: true })}
             </>
         ))}
         {!!needsParens && (
             <>
-                {" "}
+
                 <span className="tsd-signature-symbol">)</span>
             </>
         )}

@@ -47,6 +47,11 @@ function compareDirectories(a: string, b: string) {
         if(file.endsWith('.html')) {
             aSrc = canonicalizeHtml(aSrc);
             bSrc = canonicalizeHtml(bSrc);
+            const fixAsides = (str: string) => str
+            .replace(/(<aside[^>]*?>)\n\s+</g, '$1<')
+            .replace(/\n\s+(<\/aside>)/g, '$1');
+            aSrc = fixAsides(aSrc);
+            bSrc = fixAsides(bSrc);
         }
         mkdirSync(Path.dirname(Path.join(outAPath, file)), {recursive: true});
         mkdirSync(Path.dirname(Path.join(outBPath, file)), {recursive: true});

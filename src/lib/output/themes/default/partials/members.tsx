@@ -7,12 +7,12 @@ export const members = (props: ContainerReflection) =>
               <>
                   {!item.allChildrenHaveOwnDocument() && (
                       <>
-                          {" "}
+
                           <section className={"tsd-panel-group tsd-member-group " + props.cssClasses}>
                               <h2>{item.title}</h2>
                               {item.children.map((item) => (
                                   <>{!item.hasOwnDocument && <> {__partials__.member(assertIsDeclarationReflection(item))}</>}</>
-                              ))}{" "}
+                              ))}
                           </section>
                       </>
                   )}

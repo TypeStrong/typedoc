@@ -28,7 +28,7 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                                 <ul>
                                     {props.navigation?.children?.map((item) => (
                                         <> {__partials__.navigation(item)}</>
-                                    ))}{" "}
+                                    ))}
                                 </ul>
                             </nav>
 

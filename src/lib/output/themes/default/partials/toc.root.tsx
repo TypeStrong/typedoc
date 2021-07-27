@@ -8,11 +8,11 @@ export const tocRoot = (item: NavigationItem) => (
         </a>
         {!!item.children && (
             <>
-                {" "}
+
                 <ul>
                     {item.children.map((item) => (
                         <> {__partials__.toc(item)}</>
-                    ))}{" "}
+                    ))}
                 </ul>
             </>
         )}

@@ -10,7 +10,7 @@ export const reference = (props: ReferenceType) => {
                 <>
                     {
                         <a
-                            href={relativeURL(reflection.url)}
+                            href={relativeURL(reflection.url) || ''}
                             className="tsd-signature-type"
                             data-tsd-kind={reflection.kindString}
                         >

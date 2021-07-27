@@ -4,7 +4,7 @@ import { Reflection } from "../../../../models";
 export const breadcrumb = (props: Reflection): React.ReactElement | undefined =>
     props.parent ? (
         <>
-            {" "}
+
             {With(props.parent, (props) => (
                 <>{__partials__.breadcrumb(props)}</>
             ))}
@@ -15,16 +15,16 @@ export const breadcrumb = (props: Reflection): React.ReactElement | undefined =>
                     </>
                 ) : (
                     <>
-                        {" "}
+
                         <span>{props.name}</span>
                     </>
-                )}{" "}
+                )}
             </li>
         </>
     ) : (
         props.url ? (
             <>
-                {" "}
+
                 <li>
                     <a href={relativeURL(props.url)}>{props.name}</a>
                 </li>

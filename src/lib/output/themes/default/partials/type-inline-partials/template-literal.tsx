@@ -12,5 +12,6 @@ export const templateLiteral = (props: TemplateLiteralType) => <>
         { !!item[0] && __partials__.type(item[0]) }
         <span className="tsd-signature-symbol">{"}"}</span>
         { !!item[1] && <span className="tsd-signature-type">{item[1]}</span> }
-    </>)}    <span className="tsd-signature-symbol">`</span>
+    </>)}
+    <span className="tsd-signature-symbol">`</span>
 </>;

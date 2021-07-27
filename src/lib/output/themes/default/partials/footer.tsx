@@ -10,26 +10,26 @@ export const footer = (props: PageEvent<Reflection>) => (
                 <div className="tsd-legend-group">
                     {props.legend?.map((item) => (
                         <>
-                            {" "}
+
                             <ul className="tsd-legend">
                                 {item.map((item) => (
                                     <>
-                                        {" "}
+
                                         <li className={item.classes.join(' ')}>
                                             <span className="tsd-kind-icon">{item.name}</span>
                                         </li>
                                     </>
-                                ))}{" "}
+                                ))}
                             </ul>
                         </>
-                    ))}{" "}
+                    ))}
                 </div>
             </div>
         </footer>
 
         {!props.settings.hideGenerator && (
             <>
-                {" "}
+
                 <div className="container tsd-generator">
                     <p>
                         {"Generated using "}

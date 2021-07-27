@@ -1,4 +1,4 @@
-import { With, relativeURL, __partials__, Compact, IfCond, hasTypeParameters } from "../../lib";
+import { With, relativeURL, __partials__, Compact, hasTypeParameters } from "../../lib";
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
@@ -59,7 +59,7 @@ export const header = (props: PageEvent<Reflection>) => (
                                                 Externals
                                             </label>
                                         </>
-                                    )}{" "}
+                                    )}
                                 </div>
                             </div>
 
@@ -74,7 +74,7 @@ export const header = (props: PageEvent<Reflection>) => (
                 <div className="container">
                     {!!props.model.parent && (
                         <>
-                            {" "}
+
                             {/* Don't show breadcrumbs on main project page, it is the root page. !*/}
                             <ul className="tsd-breadcrumb">
                                 {With(props.model, (props) => (
@@ -82,25 +82,25 @@ export const header = (props: PageEvent<Reflection>) => (
                                 ))}
                             </ul>
                         </>
-                    )}{" "}
+                    )}
                     <h1>
                         <Compact>
-                            <IfCond cond={props.model.kindString !== 'Project'}>
-                                {props.model.kindString}{" "}
-                            </IfCond>
+                            {props.model.kindString !== 'Project' &&
+                                `${props.model.kindString ?? ''} `
+                            }
                             {props.model.name}
                             {hasTypeParameters(props.model) && (
                                 <>
                                     {"<"}
                                     {props.model.typeParameters.map((item, i) => (
                                         <>
-                                            {i > 0 && ",\xA0"}
+                                            {i > 0 && ", "}
                                             {item.name}
                                         </>
                                     ))}
                                     {">"}
                                 </>
-                            )}{" "}
+                            )}
                         </Compact>
                     </h1>
                 </div>

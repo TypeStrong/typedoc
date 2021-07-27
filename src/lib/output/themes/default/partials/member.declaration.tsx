@@ -8,14 +8,14 @@ export const memberDeclaration = (props: DeclarationReflection) => (
                 {wbr(props.name)}
                 {!!props.typeParameters && (
                     <>
-                        {" <"}
+                        {"<"}
                         {props.typeParameters.map((item, i) => (
                             <>
-                                {" "}
+
                                 {i > 0 && ",\xA0"}
                                 {item.name}
                             </>
-                        ))}{" "}
+                        ))}
                         {">"}
                     </>
                 )}
@@ -26,9 +26,9 @@ export const memberDeclaration = (props: DeclarationReflection) => (
                 ))}
                 {!!props.defaultValue && (
                     <>
-                        {" "}
+
                         <span className="tsd-signature-symbol">
-                            {" ="}
+                            {" = "}
                             {props.defaultValue}
                         </span>
                     </>
@@ -42,14 +42,14 @@ export const memberDeclaration = (props: DeclarationReflection) => (
 
         {!!props.typeParameters && (
             <>
-                {" "}
+
                 <h4 className="tsd-type-parameters-title">Type parameters</h4>
                 {__partials__.typeParameters(props)}
             </>
         )}
         {isReflectionType(props.type) && !!props.type.declaration && (
             <>
-                {" "}
+
                 <div className="tsd-type-declaration">
                     <h4>Type declaration</h4>
                     {With(props.type.declaration, (props) => (

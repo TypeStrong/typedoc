@@ -10,11 +10,11 @@ export const toc = (props: NavigationItem) => (
             </a>
             {!!props.children && (
                 <>
-                    {" "}
+
                     <ul>
                         {props.children.map((item) => (
                             <> {__partials__.toc(item)}</>
-                        ))}{" "}
+                        ))}
                     </ul>
                 </>
             )}

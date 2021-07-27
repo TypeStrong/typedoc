@@ -5,61 +5,42 @@ import { DeclarationReflection, SignatureReflection } from "../../../../models";
 export const memberSources = (props: SignatureReflection | DeclarationReflection) => (
     <>
         <aside className="tsd-sources">
+            {" "}
             {!!props.implementationOf && (
-                <>
-                    {" "}
-                    <p>
-                        {"Implementation of "}
-                        {__partials__.typeAndParent(props.implementationOf)}
-                    </p>
-                </>
+                <p>
+                    {"Implementation of "}
+                    {__partials__.typeAndParent(props.implementationOf)}
+                </p>
             )}
             {!!props.inheritedFrom && (
-                <>
-                    {" "}
-                    <p>
-                        Inherited from{" "}
-                        {__partials__.typeAndParent(props.inheritedFrom)}
-                    </p>
-                </>
+                <p>
+                    {"Inherited from "}
+                    {__partials__.typeAndParent(props.inheritedFrom)}
+                </p>
             )}
             {!!props.overwrites && (
-                <>
-                    {" "}
-                    <p>
-                        Overrides{" "}
-                        {__partials__.typeAndParent(props.overwrites)}
-                    </p>
-                </>
+                <p>
+                    {"Overrides "}
+                    {__partials__.typeAndParent(props.overwrites)}
+                </p>
             )}
             {!!props.sources && (
-                <>
-                    {" "}
-                    <ul>
-                        {props.sources.map((item) => (
-                            <>
-                                {item.url ? (
-                                    <>
-                                        {" "}
-                                        <li>
-                                            Defined in{" "}
-                                            <a href={item.url}>
-                                                {item.fileName}:{item.line}
-                                            </a>
-                                        </li>
-                                    </>
-                                ) : (
-                                    <>
-                                        {" "}
-                                        <li>
-                                            Defined in {item.fileName}:{item.line}
-                                        </li>
-                                    </>
-                                )}
-                            </>
-                        ))}{" "}
-                    </ul>
-                </>
+                <ul>
+                    {props.sources.map((item) => (
+                            item.url ? (
+                                <li>
+                                    Defined in
+                                    <a href={item.url}>
+                                        {item.fileName}:{item.line}
+                                    </a>
+                                </li>
+                            ) : (
+                                <li>
+                                    Defined in {item.fileName}:{item.line}
+                                </li>
+                            )
+                    ))}
+                </ul>
             )}
         </aside>
     </>

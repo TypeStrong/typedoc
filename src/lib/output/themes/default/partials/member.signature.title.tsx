@@ -10,10 +10,9 @@ export const memberSignatureTitle = (props: SignatureReflection, {hideName = fal
                 <IfCond cond={props.kindString === "Constructor signature"}>
                     {!!props.flags.isAbstract && (
                         <>
-                            {" test2"}
                             <span className="tsd-signature-symbol">abstract </span>
                         </>
-                    )}{" test3"}
+                    )}
                     <span className="tsd-signature-symbol">new </span>
                 </IfCond>
             </>

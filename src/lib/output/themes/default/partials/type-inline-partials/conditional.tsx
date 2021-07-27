@@ -6,10 +6,10 @@ export const conditional = (props: ConditionalType, { needsParens = false }: Typ
     <>
         {!!needsParens && (
             <>
-                {" "}
+
                 <span className="tsd-signature-symbol">(</span>
             </>
-        )}{" "}
+        )}
         {With(props.checkType, (props) => (
             <>{__partials__.type(props, { needsParens: true })}</>
         ))}
@@ -27,7 +27,7 @@ export const conditional = (props: ConditionalType, { needsParens = false }: Typ
         ))}
         {!!needsParens && (
             <>
-                {" "}
+
                 <span className="tsd-signature-symbol">)</span>
             </>
         )}

@@ -37,7 +37,7 @@ export const header = (props: PageEvent<Reflection>) => (
 
                                 {!props.settings.excludeExternals && (
                                     <>
-                                        {" "}
+
                                         <input type="checkbox" id="tsd-filter-externals" checked={true} />
                                         <label className="tsd-widget" htmlFor="tsd-filter-externals">
                                             Externals
