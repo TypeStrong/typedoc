@@ -9,7 +9,7 @@ const config = {
     name: "Minimal Theme",
 
     output: {
-        path: path.resolve(__dirname, "bin", "minimal"),
+        path: path.resolve(__dirname, "../../../../dist/lib/output/themes/bin/minimal"),
         filename: "assets/js/main.js",
     },
 

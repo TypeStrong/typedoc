@@ -287,7 +287,7 @@ export class Renderer extends ChildableComponent<
      * @returns The path to the theme directory.
      */
     static getThemeDirectory(): string {
-        return resolve(__dirname, './themes');
+        return resolve(__dirname, './themes/bin');
     }
 
     /**

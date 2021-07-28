@@ -7,7 +7,7 @@ const config = {
     name: "Default Theme",
 
     output: {
-        path: path.resolve(__dirname, "bin", "default"),
+        path: path.resolve(__dirname, "../../../../dist/lib/output/themes/bin/default"),
         filename: "assets/js/main.js",
     },
 

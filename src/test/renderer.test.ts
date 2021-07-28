@@ -6,6 +6,9 @@ import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "f
 import { remove } from "../lib/utils/fs";
 import { canonicalizeHtml } from "./prettier-utils";
 
+// Set to true if you want to make a visual regression test report
+const PRESERVE_OUTPUT_FOR_VISUAL_REGRESSION_TEST = process.env['PRESERVE_OUTPUT_FOR_VISUAL_REGRESSION_TEST'] === 'true';
+
 function getFileIndex(base: string, dir = "", results: string[] = []) {
     const files = readdirSync(Path.join(base, dir));
     files.forEach(function (file) {
@@ -82,7 +85,8 @@ describe("Renderer", function () {
     });
 
     after(async function () {
-        await remove(out);
+        if(!PRESERVE_OUTPUT_FOR_VISUAL_REGRESSION_TEST)
+            await remove(out);
     });
 
     it("constructs", function () {
@@ -118,7 +122,9 @@ describe("Renderer", function () {
         this.timeout(0);
         await app.generateDocs(project!, out);
 
-        await remove(Path.join(out, "assets"));
+        if(!PRESERVE_OUTPUT_FOR_VISUAL_REGRESSION_TEST)
+            await remove(Path.join(out, "assets"));
+
         compareDirectories(Path.join(__dirname, "renderer", "specs"), out);
     });
 });

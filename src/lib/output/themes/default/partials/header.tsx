@@ -46,7 +46,7 @@ export const header = (props: PageEvent<Reflection>) => (
                                                 All
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div>{" "}
                                     <input type="checkbox" id="tsd-filter-inherited" checked={true} />
                                     <label className="tsd-widget" htmlFor="tsd-filter-inherited">
                                         Inherited

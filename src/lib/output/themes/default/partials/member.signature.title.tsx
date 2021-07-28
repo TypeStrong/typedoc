@@ -4,7 +4,7 @@ import { SignatureReflection } from "../../../../models";
 export const memberSignatureTitle = (props: SignatureReflection, {hideName = false, arrowStyle = false}: {hideName?: boolean, arrowStyle?: boolean} = {}) => (
     <>
         {!hideName ? (
-            <> {wbr(props.name)}</>
+            <>{wbr(props.name)}</>
         ) : (
             <>
                 <IfCond cond={props.kindString === "Constructor signature"}>
