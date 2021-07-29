@@ -15,7 +15,7 @@ async function main() {
 
   const queue = new PQueue({autoStart: true, concurrency});
   for(const file of glob(globPattern, {cwd: baseDirectory})) {
-    queue.add(async () => {
+    void queue.add(async () => {
         const absPath = Path.resolve(baseDirectory, file);
         const outputPath = Path.resolve(outputDirectory, Path.format({...Path.parse(file), ext: '.png', base: undefined}));
         fs.mkdirSync(Path.dirname(outputPath), {recursive: true});

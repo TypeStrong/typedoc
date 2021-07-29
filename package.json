@@ -54,6 +54,7 @@
     "mocha": "^9.0.0",
     "nyc": "^15.1.0",
     "p-queue": "^6.6.2",
+    "prettier": "2.3.1",
     "puppeteer": "^10.1.0",
     "reg-suit": "^0.10.16",
     "resolve-url-loader": "^3.1.2",

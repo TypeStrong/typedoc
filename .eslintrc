@@ -19,6 +19,9 @@
         "examples",
         "dist",
         "coverage",
+        "src/lib/output/themes/webpack.*.js",
+        "src/lib/output/themes/default/assets",
+        "src/lib/output/themes/minimal/assets",
         // Would be nice to lint these, but they shouldn't be included in the project,
         // so we need a second eslint config file.
         "src/test/converter",
