@@ -1,7 +1,8 @@
-import { With, __partials__ } from "../../../lib";
+import { With } from "../../../lib";
+import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
 import * as React from "react";
 import { NamedTupleMember } from "../../../../../models";
-export const namedTupleMember = (props: NamedTupleMember) => (
+export const namedTupleMember = ({partials }: DefaultThemeRenderContext) => (props: NamedTupleMember) => (
     <>
         {props.name}
         {props.isOptional ? (
@@ -16,7 +17,7 @@ export const namedTupleMember = (props: NamedTupleMember) => (
             </>
         )}
         {With(props.element, (props) => (
-            <>{__partials__.type(props)}</>
+            <>{partials.type(props)}</>
         ))}
     </>
 );

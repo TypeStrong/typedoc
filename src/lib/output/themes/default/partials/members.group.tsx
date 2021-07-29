@@ -1,8 +1,9 @@
-import { assertIsDeclarationReflection, __partials__ } from "../../lib";
+import { assertIsDeclarationReflection } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { ReflectionGroup } from "../../../../models";
 
-export const membersGroup = (group: ReflectionGroup) =>
+export const membersGroup = ({partials }: DefaultThemeRenderContext) => (group: ReflectionGroup) =>
     group.categories ? (
         group.categories.map((item) => (
             <>
@@ -13,7 +14,7 @@ export const membersGroup = (group: ReflectionGroup) =>
                         {group.title}
                     </h2>
                     {item.children.map((item) => (
-                        <>{!item.hasOwnDocument && <> {__partials__.member(assertIsDeclarationReflection(item))}</>}</>
+                        <>{!item.hasOwnDocument && <> {partials.member(assertIsDeclarationReflection(item))}</>}</>
                     ))}
                 </section>
             </>
@@ -24,7 +25,7 @@ export const membersGroup = (group: ReflectionGroup) =>
             <section className={"tsd-panel-group tsd-member-group " + group.cssClasses}>
                 <h2>{group.title}</h2>
                 {group.children.map((item) => (
-                    <>{!item.hasOwnDocument && <> {__partials__.member(assertIsDeclarationReflection(item))}</>}</>
+                    <>{!item.hasOwnDocument && <> {partials.member(assertIsDeclarationReflection(item))}</>}</>
                 ))}
             </section>
         </>

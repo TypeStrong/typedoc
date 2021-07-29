@@ -3,9 +3,12 @@ import * as React from "react";
 import { SignatureReflection, Reflection, DeclarationReflection } from "../../..";
 import { ContainerReflection, ProjectReflection, ReferenceReflection, ReferenceType, ReflectionType, Type, TypeParameterContainer } from "../../models";
 import { DefaultValueContainer, TypeContainer } from "../../models/reflections/abstract";
-import { MarkedPlugin } from "../plugins/MarkedPlugin";
+export {wbr} from '../helpers/wbr';
+export {stringify} from '../helpers/stringify';
 
 /**
+ * @deprecated
+ *
  * Helper created solely to make it easier to find-and-replace refactor
  * all handlebars {{#with}} blocks into JSX.
  *
@@ -25,6 +28,7 @@ export function With<B, C>(
     }
 }
 
+/** @deprecated */
 export class IfCond extends React.Component<{ cond: boolean }> {
     override render() {
         if (this.props.cond) {
@@ -34,6 +38,8 @@ export class IfCond extends React.Component<{ cond: boolean }> {
         else return null;
     }
 }
+
+/** @deprecated */
 export class IfNotCond extends React.Component<{ cond: boolean }> {
     override render() {
         if (!this.props.cond) {
@@ -44,14 +50,7 @@ export class IfNotCond extends React.Component<{ cond: boolean }> {
     }
 }
 
-declare global {
-    namespace JSX {
-        interface IntrinsicElements {
-            markdown: {};
-            compact: {};
-        }
-    }
-}
+/** @deprecated */
 export function Compact<T>(props: { children: T }) {
     // TODO should be implemented to remove all newlines from the input
     return <>{props.children}</>;
@@ -65,33 +64,6 @@ export function isSignature(
     // return !!(reflection.kind & ReflectionKind.SomeSignature);
     return reflection instanceof SignatureReflection;
 }
-
-let markedPlugin: MarkedPlugin;
-/**
- * HACK to bind the markedPlugin into the templates.
- * Matches the hacky nature by which the old MarkedPlugin would register itself
- * onto the Handlebars singleton.
- * TODO fix this.
- */
-export function setMarkedPlugin(plugin: MarkedPlugin) {
-    markedPlugin = plugin;
-}
-export function markdown(md: string | undefined) {
-    return md ? markedPlugin.parseMarkdown(md) : '';
-}
-export function Markdown(props: { children: string | undefined }) {
-    // TODO make a plain div, per code-review discussion
-    // console.log(markdown(props.children));
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    return <md {...{'data-markdown':true}} dangerouslySetInnerHTML={{__html: markdown(props.children)}}></md>;
-}
-
-export function relativeURL(url: string | undefined) {
-    return url ? markedPlugin.getRelativeUrl(url) : url;
-}
-export {wbr} from '../helpers/wbr';
-export {stringify} from '../helpers/stringify';
 
 export function classNames(names: Record<string, boolean | null | undefined>) {
     return Object.entries(names).filter(([, include]) => include).map(([key]) => key).join(' ');
@@ -140,5 +112,3 @@ export function hasElementType(type: Type): type is ElementTypeContainer {
 export function isContainer(refl: Reflection | undefined): refl is ContainerReflection {
     return refl != null && refl instanceof ContainerReflection;
 }
-
-export * as __partials__ from "./partials";

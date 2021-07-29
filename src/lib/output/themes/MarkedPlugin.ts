@@ -7,7 +7,6 @@ import { RendererEvent, MarkdownEvent } from "../events";
 import { BindOption, readFile, copySync } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import { Theme } from "shiki";
-import { setMarkedPlugin } from "../themes/lib";
 
 const customMarkedRenderer = new Marked.Renderer();
 
@@ -22,7 +21,7 @@ customMarkedRenderer.heading = (text, level, _, slugger) => {
 };
 
 /**
- * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
+ * Implements markdown and relativeURL helpers for templates.
  *
  * Templates should parse all comments with the markdown handler so authors can
  * easily format their documentation. TypeDoc uses the Marked (https://github.com/markedjs/marked)
@@ -32,17 +31,8 @@ customMarkedRenderer.heading = (text, level, _, slugger) => {
  *
  * You can use the markdown helper anywhere in the templates to convert content to html:
  *
- * ```handlebars
- * {{#markdown}}{{{comment.text}}}{{/markdown}}
- * ```
- *
- * The compact helper removes all newlines of its content:
- *
- * ```handlebars
- * {{#compact}}
- *   Compact
- *   this
- * {{/compact}}
+ * ```typescriptreact
+ * <div dangerouslySetInnerHTML={{__html: markdown(markdownText)}}></div>
  * ```
  *
  * The relativeURL helper simply transforms an absolute url into a relative url:
@@ -51,7 +41,8 @@ customMarkedRenderer.heading = (text, level, _, slugger) => {
  * {{#relativeURL url}}
  * ```
  */
-@Component({ name: "marked" })
+
+@Component({ name: 'marked' })
 export class MarkedPlugin extends ContextAwareRendererComponent {
     @BindOption("includes")
     includeSource!: string;
@@ -91,20 +82,6 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     override initialize() {
         super.initialize();
         this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown);
-
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        // const that = this;
-        // this.handlebarsMarkdownHelper = function (this: any, arg: any) {
-        //     const root = arg.data.root;
-        //     that.outputFileName = root.filename;
-        //     that.sources = root.model.sources;
-        //     return that.parseMarkdown(arg.fn(this), this);
-        // };
-        // this.handlebarsRelativeUrlHelper = (url: string) =>
-        //     url ? this.getRelativeUrl(url) : url
-        // ;
-
-        setMarkedPlugin(this);
     }
 
     /**

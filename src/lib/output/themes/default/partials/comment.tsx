@@ -1,8 +1,9 @@
-import { With, __partials__, Markdown, markdown } from "../../lib";
+import { With } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import {Reflection} from '../../../../models';
 
-export const comment = (props: Reflection) => (
+export const comment = ({markdown, Markdown }: DefaultThemeRenderContext) => (props: Reflection) => (
     <>
         {With(props.comment, (props) => (
             <>

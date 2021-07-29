@@ -1,8 +1,8 @@
-import { relativeURL, __partials__ } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
-export const defaultLayout = (props: PageEvent<Reflection>) => (
+export const defaultLayout = ({relativeURL, partials }: DefaultThemeRenderContext) => (props: PageEvent<Reflection>) => (
     <>
         <html className="default no-js">
             <head>
@@ -18,7 +18,7 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                 <script async={true} src={relativeURL("assets/js/search.js")} id="search-script"></script>
             </head>
             <body>
-                {__partials__.header(props)}
+                {partials.header(props)}
 
                 <div className="container container-main">
                     <div className="row">
@@ -27,7 +27,7 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                             <nav className="tsd-navigation primary">
                                 <ul>
                                     {props.navigation?.children?.map((item) => (
-                                        <> {__partials__.navigation(item)}</>
+                                        <> {partials.navigation(item)}</>
                                     ))}
                                 </ul>
                             </nav>
@@ -43,14 +43,14 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                                     const childrenAfter = children.slice(indexOfCurrent + 1);
                                     return <>
                                         <ul className="before-current">
-                                            {childrenBefore.map((item) => __partials__.tocRoot(item))}
+                                            {childrenBefore.map((item) => partials.tocRoot(item))}
                                         </ul>
                                         {childInPath && <>
                                             <ul className="current">
-                                                {__partials__.tocRoot(childInPath)}
+                                                {partials.tocRoot(childInPath)}
                                             </ul>
                                             <ul className="after-current">
-                                                {childrenAfter.map((item) => __partials__.tocRoot(item))}
+                                                {childrenAfter.map((item) => partials.tocRoot(item))}
                                             </ul>
                                         </>}
                                     </>;
@@ -60,12 +60,12 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                     </div>
                 </div>
 
-                {__partials__.footer(props)}
+                {partials.footer(props)}
 
                 <div className="overlay"></div>
                 <script src={relativeURL("assets/js/main.js")}></script>
 
-                {__partials__.analytics(props)}
+                {partials.analytics(props)}
             </body>
         </html>
     </>

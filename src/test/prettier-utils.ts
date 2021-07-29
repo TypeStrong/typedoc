@@ -1,7 +1,7 @@
 import * as prettier from 'prettier';
 
 export function canonicalizeHtml(text: string) {
-    const preprocessed = text.replace(/[ \t\n]*<md data-markdown="true">/g, '\n').replace(/<\/md>[ \t\n]*/g, '\n');
+    const preprocessed = text.replace(/[ \t\n]*<md>/g, '\n').replace(/<\/md>[ \t\n]*/g, '\n');
     return prettier.format(preprocessed, {
         parser: 'html-tests',
         useTabs: true,

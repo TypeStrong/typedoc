@@ -1,9 +1,9 @@
-import { relativeURL, __partials__ } from "../../lib";
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
+import { MinimalThemeRenderContext } from "../MinimalTheme";
 
-export const header = (props: PageEvent<Reflection>) => (
+export const header = ({relativeURL}: MinimalThemeRenderContext) => (props: PageEvent<Reflection>) => (
     <header>
         <div className="tsd-page-toolbar">
             <div className="container">

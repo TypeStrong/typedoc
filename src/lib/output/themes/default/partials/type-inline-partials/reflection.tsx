@@ -1,8 +1,9 @@
-import { With, __partials__ } from "../../../lib";
+import { With } from "../../../lib";
+import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
 import * as React from "react";
 import { ReflectionType } from "../../../../../models";
 import { TypeInlinePartialsOptions } from "./options";
-export const reflection = (props: ReflectionType, {needsParens = false}: TypeInlinePartialsOptions = {}) => (
+export const reflection = ({partials }: DefaultThemeRenderContext) => (props: ReflectionType, {needsParens = false}: TypeInlinePartialsOptions = {}) => (
     <>
         {props.declaration.children ? (
             <>
@@ -27,7 +28,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                                         <>
 
                                             {With(item.getSignature.type, (props) => (
-                                                <>{__partials__.type(props)}</>
+                                                <>{partials.type(props)}</>
                                             ))}
                                         </>
                                     ) : (
@@ -47,7 +48,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                                         <>
 
                                             {With(item.getSignature.type, (props) => (
-                                                <>{__partials__.type(props)}</>
+                                                <>{partials.type(props)}</>
                                             ))}
                                         </>
                                     ) : (
@@ -74,7 +75,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                                             <>
 
                                                 {With(item.type, (props) => (
-                                                    <>{__partials__.type(props)}</>
+                                                    <>{partials.type(props)}</>
                                                 ))}
                                             </>
                                         ) : (
@@ -101,7 +102,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                                 )}
                                 {item.type ? (
                                     <>
-                                        {__partials__.type(item.type)}
+                                        {partials.type(item.type)}
                                     </>
                                 ) : (
                                     <>
@@ -124,7 +125,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                         <span className="tsd-signature-symbol">{"{"} </span>
                         {props.declaration.signatures.map((item, i, l) => (
                             <>
-                                {__partials__["memberSignatureTitle"](item, { hideName: true })}
+                                {partials["memberSignatureTitle"](item, { hideName: true })}
                                 {i < l.length - 1 && (
                                     <>
                                         <span className="tsd-signature-symbol">; </span>
@@ -142,7 +143,7 @@ export const reflection = (props: ReflectionType, {needsParens = false}: TypeInl
                             </>
                         )}
                         {With(props.declaration.signatures[0], (props) => (
-                            <>{__partials__["memberSignatureTitle"](props, { hideName: true, arrowStyle: true })}</>
+                            <>{partials["memberSignatureTitle"](props, { hideName: true, arrowStyle: true })}</>
                         ))}
                         {!!needsParens && (
                             <>

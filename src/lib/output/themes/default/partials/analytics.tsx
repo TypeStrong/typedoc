@@ -1,8 +1,8 @@
-import { __partials__ } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
-export const analytics = (props: PageEvent<Reflection>) =>
+export const analytics = (_ctx: DefaultThemeRenderContext) => (props: PageEvent<Reflection>) =>
     !!props.settings.gaID && (
         <>
 

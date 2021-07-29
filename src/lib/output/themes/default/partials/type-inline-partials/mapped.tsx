@@ -1,7 +1,8 @@
-import { With, __partials__, IfCond, IfNotCond } from "../../../lib";
+import { With, IfCond, IfNotCond } from "../../../lib";
+import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
 import * as React from "react";
 import { MappedType } from "../../../../../models";
-export const mapped = (props: MappedType) => (
+export const mapped = ({partials }: DefaultThemeRenderContext) => (props: MappedType) => (
     <>
         <span className="tsd-signature-symbol">{"{"}</span>
         <IfCond cond={props.readonlyModifier === "+"}>
@@ -18,13 +19,13 @@ export const mapped = (props: MappedType) => (
         <span className="tsd-signature-symbol"> in </span>
 
         {With(props.parameterType, (props) => (
-            <>{__partials__.type(props)}</>
+            <>{partials.type(props)}</>
         ))}
 
         {With(props.nameType, (props) => (
             <>
                 <span className="tsd-signature-symbol"> as </span>
-                {__partials__.type(props)}
+                {partials.type(props)}
             </>
         ))}
 
@@ -42,7 +43,7 @@ export const mapped = (props: MappedType) => (
         </IfNotCond>
 
         {With(props.templateType, (props) => (
-            <>{__partials__.type(props)}</>
+            <>{partials.type(props)}</>
         ))}
 
         <span className="tsd-signature-symbol"> {"}"}</span>

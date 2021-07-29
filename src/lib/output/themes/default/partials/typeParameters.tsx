@@ -1,8 +1,9 @@
-import { With, __partials__, Compact } from "../../lib";
+import { With, Compact } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { TypeParameterContainer } from "../../../../models";
 
-export const typeParameters = (props: TypeParameterContainer) => (
+export const typeParameters = ({partials }: DefaultThemeRenderContext) => (props: TypeParameterContainer) => (
     <>
         <ul className="tsd-type-parameters">
             {props.typeParameters?.map((item) => (
@@ -16,7 +17,7 @@ export const typeParameters = (props: TypeParameterContainer) => (
                                     <>
                                         <span className="tsd-signature-symbol">{": "}</span>
                                         {With(item.type, (props) => (
-                                            <>{__partials__.type(props)}</>
+                                            <>{partials.type(props)}</>
                                         ))}
                                     </>
                                 )}
@@ -24,13 +25,13 @@ export const typeParameters = (props: TypeParameterContainer) => (
                                     <>
                                         {" = "}
                                         {With(item.default, (props) => (
-                                            <>{__partials__.type(props)}</>
+                                            <>{partials.type(props)}</>
                                         ))}
                                     </>
                                 )}
                             </Compact>
                         </h4>
-                        {__partials__.comment(item)}
+                        {partials.comment(item)}
                     </li>
                 </>
             ))}

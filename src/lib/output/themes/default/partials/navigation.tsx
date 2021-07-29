@@ -1,7 +1,8 @@
-import { relativeURL, wbr, __partials__, classNames } from "../../lib";
+import { wbr, classNames } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { NavigationItem } from "../../../models/NavigationItem";
-export const navigation = (props: NavigationItem) =>
+export const navigation = ({relativeURL, partials }: DefaultThemeRenderContext) => (props: NavigationItem) =>
     Boolean(props.isVisible) &&
     (props.isLabel ? (
         <>
@@ -33,7 +34,7 @@ export const navigation = (props: NavigationItem) =>
 
                         <ul>
                             {props.children.map((item) => (
-                                <> {__partials__.navigation(item)}</>
+                                <> {partials.navigation(item)}</>
                             ))}
                         </ul>
                     </>

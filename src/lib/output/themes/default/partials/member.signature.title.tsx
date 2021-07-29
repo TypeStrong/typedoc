@@ -1,7 +1,8 @@
-import { With, wbr, IfCond, __partials__ } from "../../lib";
+import { With, wbr, IfCond } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { SignatureReflection } from "../../../../models";
-export const memberSignatureTitle = (props: SignatureReflection, {hideName = false, arrowStyle = false}: {hideName?: boolean, arrowStyle?: boolean} = {}) => (
+export const memberSignatureTitle = ({partials }: DefaultThemeRenderContext) => (props: SignatureReflection, {hideName = false, arrowStyle = false}: {hideName?: boolean, arrowStyle?: boolean} = {}) => (
     <>
         {!hideName ? (
             <>{wbr(props.name)}</>
@@ -41,7 +42,7 @@ export const memberSignatureTitle = (props: SignatureReflection, {hideName = fal
                     {": "}
                 </span>
                 {With(item.type, (props) => (
-                    <>{__partials__.type(props)}</>
+                    <>{partials.type(props)}</>
                 ))}
             </>
         ))}
@@ -53,7 +54,7 @@ export const memberSignatureTitle = (props: SignatureReflection, {hideName = fal
                 ) : (
                         <span className="tsd-signature-symbol">: </span>
                 )}
-                {!!props.type && __partials__.type(props.type)}
+                {!!props.type && partials.type(props.type)}
             </>
         )}
     </>

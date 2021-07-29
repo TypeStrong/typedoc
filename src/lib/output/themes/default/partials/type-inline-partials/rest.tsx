@@ -1,11 +1,12 @@
-import { With, __partials__ } from "../../../lib";
+import { With } from "../../../lib";
+import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
 import * as React from "react";
 import { RestType } from "../../../../../models";
-export const rest = (props: RestType) => (
+export const rest = ({partials }: DefaultThemeRenderContext) => (props: RestType) => (
     <>
         <span className="tsd-signature-symbol">...</span>
         {With(props.elementType, (props) => (
-            <>{__partials__.type(props)}</>
+            <>{partials.type(props)}</>
         ))}
     </>
 );

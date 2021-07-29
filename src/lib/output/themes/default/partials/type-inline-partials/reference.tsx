@@ -1,8 +1,8 @@
-import { __partials__, relativeURL } from "../../../lib";
+import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
 import * as React from "react";
 import { ReferenceType } from "../../../../../models";
 
-export const reference = (props: ReferenceType) => {
+export const reference = ({relativeURL, partials }: DefaultThemeRenderContext) => (props: ReferenceType) => {
     const reflection = props.getReflection();
     return (
         <>
@@ -33,7 +33,7 @@ export const reference = (props: ReferenceType) => {
                                     <span className="tsd-signature-symbol">, </span>
                                 </>
                             )}
-                            {__partials__.type(item)}
+                            {partials.type(item)}
                         </>
                     ))}
                     <span className="tsd-signature-symbol">{">"}</span>

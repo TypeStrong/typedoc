@@ -1,7 +1,7 @@
-import { __partials__ } from "../../../lib";
+import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
 import * as React from "react";
 import { TupleType } from "../../../../../models";
-export const tuple = (props: TupleType) => (
+export const tuple = ({partials }: DefaultThemeRenderContext) => (props: TupleType) => (
     <>
         <span className="tsd-signature-symbol">[</span>
         {props.elements.map((item, i) => (
@@ -11,7 +11,7 @@ export const tuple = (props: TupleType) => (
                         <span className="tsd-signature-symbol">, </span>
                     </>
                 )}
-                {__partials__.type(item)}
+                {partials.type(item)}
             </>
         ))}
         <span className="tsd-signature-symbol">]</span>

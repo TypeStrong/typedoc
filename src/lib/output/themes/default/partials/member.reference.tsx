@@ -1,7 +1,8 @@
-import { With, relativeURL, __partials__, IfCond, IfNotCond } from "../../lib";
+import { With, IfCond, IfNotCond } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { ReferenceReflection } from "../../../../models";
-export const memberReference = (props: ReferenceReflection) =>
+export const memberReference = ({relativeURL }: DefaultThemeRenderContext) => (props: ReferenceReflection) =>
     props.tryGetTargetReflectionDeep() ? (
         <>
 

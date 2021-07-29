@@ -1,11 +1,10 @@
 import { Renderer } from "./renderer";
 import { ProjectReflection } from "../models/reflections/project";
-import { RenderTemplate, UrlMapping } from "./models/UrlMapping";
+import { UrlMapping } from "./models/UrlMapping";
 import { NavigationItem } from "./models/NavigationItem";
 import { RendererComponent } from "./components";
 import { Component } from "../utils/component";
 import { Resources } from "./utils/resources";
-import { PageEvent } from "./events";
 
 /**
  * Base class of all themes.
@@ -117,6 +116,4 @@ export abstract class Theme extends RendererComponent {
      * @returns        The root navigation item.
      */
     abstract getNavigation(project: ProjectReflection): NavigationItem;
-
-    abstract getDefaultLayoutTemplate(): RenderTemplate<PageEvent>;
 }

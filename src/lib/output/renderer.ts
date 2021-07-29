@@ -18,7 +18,7 @@ import { RendererEvent, PageEvent } from "./events";
 import { ProjectReflection } from "../models/reflections/project";
 import { UrlMapping } from "./models/UrlMapping";
 import { remove, writeFileSync } from "../utils/fs";
-import { DefaultTheme } from "./themes/DefaultTheme";
+import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
 import { BindOption } from "../utils";

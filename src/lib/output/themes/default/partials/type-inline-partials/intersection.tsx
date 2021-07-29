@@ -1,8 +1,8 @@
-import { __partials__ } from "../../../lib";
+import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
 import * as React from "react";
 import { IntersectionType } from "../../../../../models";
 import { TypeInlinePartialsOptions } from "./options";
-export const intersection = (props: IntersectionType, {needsParens = false}: TypeInlinePartialsOptions = {}) => (
+export const intersection = ({partials }: DefaultThemeRenderContext) => (props: IntersectionType, {needsParens = false}: TypeInlinePartialsOptions = {}) => (
     <>
         {!!needsParens && (
             <>
@@ -18,7 +18,7 @@ export const intersection = (props: IntersectionType, {needsParens = false}: Typ
                         <span className="tsd-signature-symbol"> & </span>
                     </>
                 )}
-                {__partials__.type(item, { needsParens: true })}
+                {partials.type(item, { needsParens: true })}
             </>
         ))}
         {!!needsParens && (

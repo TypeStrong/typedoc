@@ -62,6 +62,8 @@ export function Component(options: ComponentOptions): ClassDecorator {
             proto.componentName = name;
         }
 
+        // If not marked internal, and if we are a subclass of another component T's declared
+        // childClass, then register ourselves as a _defaultComponents of T.
         const internal = !!options.internal;
         if (name && !internal) {
             for (const childMapping of childMappings) {

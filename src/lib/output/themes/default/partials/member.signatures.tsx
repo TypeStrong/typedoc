@@ -1,14 +1,15 @@
-import { __partials__, Compact } from "../../lib";
+import { Compact } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { DeclarationReflection } from "../../../../models";
-export const memberSignatures = (props: DeclarationReflection) => (
+export const memberSignatures = ({partials }: DefaultThemeRenderContext) => (props: DeclarationReflection) => (
     <>
         <ul className={"tsd-signatures " + props.cssClasses}>
             {props.signatures?.map((item) => (
                 <>
 
                     <li className="tsd-signature tsd-kind-icon">
-                        <Compact>{__partials__.memberSignatureTitle(item)}</Compact>
+                        <Compact>{partials.memberSignatureTitle(item)}</Compact>
                     </li>
                 </>
             ))}
@@ -18,7 +19,7 @@ export const memberSignatures = (props: DeclarationReflection) => (
             {props.signatures?.map((item) => (
                 <>
 
-                    <li className="tsd-description">{__partials__.memberSignatureBody(item)}</li>
+                    <li className="tsd-description">{partials.memberSignatureBody(item)}</li>
                 </>
             ))}
         </ul>

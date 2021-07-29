@@ -1,8 +1,9 @@
-import { assertIsDeclarationReflection, isDeclarationReflection, isReferenceReflection, wbr, __partials__ } from "../../lib";
+import { assertIsDeclarationReflection, isDeclarationReflection, isReferenceReflection, wbr } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { DeclarationReflection } from "../../../../models";
 
-export const member = (props: DeclarationReflection) => (
+export const member = ({partials }: DefaultThemeRenderContext) => (props: DeclarationReflection) => (
     <>
         <section className={"tsd-panel tsd-member " + props.cssClasses}>
             <a name={props.anchor} className="tsd-anchor"></a>
@@ -20,19 +21,19 @@ export const member = (props: DeclarationReflection) => (
                 </>
             )}
             {(isDeclarationReflection(props) && props.signatures) ? (
-                <> {__partials__["memberSignatures"](props)}</>
+                <> {partials["memberSignatures"](props)}</>
             ) : (isDeclarationReflection(props) && props.hasGetterOrSetter()) ? (
-                <>{__partials__["memberGetterSetter"](props)}</>
+                <>{partials["memberGetterSetter"](props)}</>
             ) : (isReferenceReflection(props) && props.isReference) ? (
-                <>{__partials__["memberReference"](props)}</>
+                <>{partials["memberReference"](props)}</>
             ) : (
-                <> {__partials__["memberDeclaration"](props)}</>
+                <> {partials["memberDeclaration"](props)}</>
             )}
 
             {props.groups?.map((item) => (
                 <>
                     {item.children.map((item) => (
-                        <>{!item.hasOwnDocument && <> {__partials__.member(assertIsDeclarationReflection(item))}</>}</>
+                        <>{!item.hasOwnDocument && <> {partials.member(assertIsDeclarationReflection(item))}</>}</>
                     ))}
                 </>
             ))}

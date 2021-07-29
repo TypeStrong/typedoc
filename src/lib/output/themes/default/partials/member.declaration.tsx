@@ -1,7 +1,8 @@
-import { With, wbr, __partials__, Compact, isReflectionType } from "../../lib";
+import { With, wbr, Compact, isReflectionType } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { DeclarationReflection } from "../../../../models";
-export const memberDeclaration = (props: DeclarationReflection) => (
+export const memberDeclaration = ({partials }: DefaultThemeRenderContext) => (props: DeclarationReflection) => (
     <>
         <div className="tsd-signature tsd-kind-icon">
             <Compact>
@@ -22,7 +23,7 @@ export const memberDeclaration = (props: DeclarationReflection) => (
                 <span className="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>
                 {" "}
                 {With(props.type, (props) => (
-                    <>{__partials__.type(props)}</>
+                    <>{partials.type(props)}</>
                 ))}
                 {!!props.defaultValue && (
                     <>
@@ -36,15 +37,15 @@ export const memberDeclaration = (props: DeclarationReflection) => (
             </Compact>
         </div>
 
-        {__partials__["memberSources"](props)}
+        {partials["memberSources"](props)}
 
-        {__partials__.comment(props)}
+        {partials.comment(props)}
 
         {!!props.typeParameters && (
             <>
 
                 <h4 className="tsd-type-parameters-title">Type parameters</h4>
-                {__partials__.typeParameters(props)}
+                {partials.typeParameters(props)}
             </>
         )}
         {isReflectionType(props.type) && !!props.type.declaration && (
@@ -53,7 +54,7 @@ export const memberDeclaration = (props: DeclarationReflection) => (
                 <div className="tsd-type-declaration">
                     <h4>Type declaration</h4>
                     {With(props.type.declaration, (props) => (
-                        <>{__partials__.parameter(props)}</>
+                        <>{partials.parameter(props)}</>
                     ))}
                 </div>
             </>

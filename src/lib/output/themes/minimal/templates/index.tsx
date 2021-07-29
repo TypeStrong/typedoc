@@ -1,11 +1,12 @@
-import { isDeclarationReflection, With, __partials__ } from "../../lib";
+import { isDeclarationReflection, With } from "../../lib";
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { ProjectReflection } from "../../../../models";
-export const indexTemplate = (props: PageEvent<ProjectReflection>) => (
+import { MinimalThemeRenderContext } from "../MinimalTheme";
+export const indexTemplate = ({partials}: MinimalThemeRenderContext) => (props: PageEvent<ProjectReflection>) => (
     <>
         {With(props.model, (props) => (
-            <>{__partials__.comment(props)}</>
+            <>{partials.comment(props)}</>
         ))}
 
         {isDeclarationReflection(props.model) && <>
@@ -15,7 +16,7 @@ export const indexTemplate = (props: PageEvent<ProjectReflection>) => (
                 <section className="tsd-hierarchy">
                     <h2>Hierarchy</h2>
                     {With(props.model.typeHierarchy, (props) => (
-                        <>{__partials__.hierarchy(props)}</>
+                        <>{partials.hierarchy(props)}</>
                     ))}
                 </section>
             </>
@@ -29,8 +30,8 @@ export const indexTemplate = (props: PageEvent<ProjectReflection>) => (
                 >
                     <a {...{ name: "typedoc-main-index" }} className="tsd-anchor"></a>
                 </div>
-                {__partials__.index(props)}
-                {__partials__.members(props)}
+                {partials.index(props)}
+                {partials.members(props)}
             </>
         ))}</>}
     </>

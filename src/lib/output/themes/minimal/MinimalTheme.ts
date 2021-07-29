@@ -1,27 +1,22 @@
 import * as FS from "fs";
 import * as Path from "path";
 
-import { DefaultTheme } from "./DefaultTheme";
-import { Renderer } from "../renderer";
-import { RenderTemplate, UrlMapping } from "../models/UrlMapping";
+import { DefaultTheme } from "../default/DefaultTheme";
+import { Renderer } from "../../renderer";
+import { UrlMapping } from "../../models/UrlMapping";
 import {
     Reflection,
     ProjectReflection,
     ContainerReflection,
-} from "../../models/reflections/index";
-import { PageEvent } from "../events";
-import { NavigationItem } from "../models/NavigationItem";
-import { indexTemplate } from "./minimal/templates";
-import { defaultLayout } from './minimal/layouts/default';
+} from "../../../models/reflections/index";
+import { PageEvent } from "../../events";
+import { NavigationItem } from "../../models/NavigationItem";
+import { indexTemplate } from "./templates";
+import { defaultLayout } from './layouts/default';
+import { DefaultThemePartials } from "../default/DefaultThemePartials";
+import { DefaultThemeRenderContext } from "../default/DefaultThemeRenderContext";
 
 export class MinimalTheme extends DefaultTheme {
-
-    override indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return indexTemplate(pageEvent);
-    }
-    override getDefaultLayoutTemplate() {
-        return defaultLayout as RenderTemplate<PageEvent>;
-    }
     /**
      * Create a new DefaultTheme instance.
      *
@@ -37,6 +32,13 @@ export class MinimalTheme extends DefaultTheme {
         renderer.removeComponent("toc");
 
         this.listenTo(renderer, PageEvent.BEGIN, this.onRendererBeginPage);
+    }
+
+    override getRenderContext(_pageEvent: PageEvent<any>) {
+        if(!this._renderContext) {
+            this._renderContext = new MinimalThemeRenderContext(this._markedPlugin);
+        }
+        return this._renderContext;
     }
 
     /**
@@ -62,7 +64,7 @@ export class MinimalTheme extends DefaultTheme {
      */
     override getUrls(project: ProjectReflection): UrlMapping[] {
         const urls: UrlMapping[] = [];
-        urls.push(new UrlMapping("index.html", project, indexTemplate));
+        urls.push(new UrlMapping("index.html", project, this.indexTemplate));
 
         project.url = "index.html";
         project.anchor = undefined;
@@ -103,4 +105,15 @@ export class MinimalTheme extends DefaultTheme {
             MinimalTheme.buildToc(child, item);
         });
     }
+}
+
+export class MinimalThemeRenderContext extends DefaultThemeRenderContext {}
+
+export class MinimalThemePartials extends DefaultThemePartials {
+    protected override bindings!: MinimalThemeRenderContext;
+    constructor(bindings: MinimalThemeRenderContext) {
+        super(bindings);
+    }
+    override indexTemplate = indexTemplate(this.bindings);
+    override defaultLayout = defaultLayout(this.bindings);
 }

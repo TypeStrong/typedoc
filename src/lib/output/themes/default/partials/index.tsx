@@ -1,7 +1,8 @@
-import { relativeURL, wbr, __partials__ } from "../../lib";
+import { wbr } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { ContainerReflection } from "../../../../models";
-export const index = (props: ContainerReflection) =>
+export const index = ({relativeURL }: DefaultThemeRenderContext) => (props: ContainerReflection) =>
     props.categories && props.categories.length > 0 ? (
         <>
 

@@ -1,12 +1,13 @@
-import { With, relativeURL, __partials__ } from "../../lib";
+import { With } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { Reflection } from "../../../../models";
-export const breadcrumb = (props: Reflection): React.ReactElement | undefined =>
+export const breadcrumb = ({relativeURL, partials }: DefaultThemeRenderContext) => (props: Reflection): React.ReactElement | undefined =>
     props.parent ? (
         <>
 
             {With(props.parent, (props) => (
-                <>{__partials__.breadcrumb(props)}</>
+                <>{partials.breadcrumb(props)}</>
             ))}
             <li>
                 {props.url ? (

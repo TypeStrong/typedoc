@@ -1,8 +1,9 @@
-import { __partials__, classNames } from "../../lib";
+import { classNames } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
-export const footer = (props: PageEvent<Reflection>) => (
+export const footer = (_ctx: DefaultThemeRenderContext) => (props: PageEvent<Reflection>) => (
     <>
         <footer className={classNames({'with-border-bottom': !props.settings.hideGenerator})}>
             <div className="container">

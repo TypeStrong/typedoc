@@ -1,7 +1,8 @@
-import { relativeURL, wbr, __partials__, classNames } from "../../lib";
+import { wbr, classNames } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { NavigationItem } from "../../../../..";
-export const tocRoot = (item: NavigationItem) => (
+export const tocRoot = ({relativeURL, partials }: DefaultThemeRenderContext) => (item: NavigationItem) => (
     <li className={classNames({current: item.isInPath}) + ' ' + item.cssClasses}>
         <a href={relativeURL(item.url)} className="tsd-kind-icon">
             {wbr(item.title)}
@@ -11,7 +12,7 @@ export const tocRoot = (item: NavigationItem) => (
 
                 <ul>
                     {item.children.map((item) => (
-                        <> {__partials__.toc(item)}</>
+                        <> {partials.toc(item)}</>
                     ))}
                 </ul>
             </>

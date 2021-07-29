@@ -1,22 +1,23 @@
 import * as Path from "path";
 import * as FS from "fs";
 
-import { Theme } from "../theme";
-import { Renderer } from "../renderer";
+import { Theme } from "../../theme";
+import { Renderer } from "../../renderer";
 import {
     Reflection,
     ReflectionKind,
     ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
-} from "../../models/reflections/index";
-import { ReflectionGroup } from "../../models/ReflectionGroup";
-import { RenderTemplate, UrlMapping } from "../models/UrlMapping";
-import { NavigationItem } from "../models/NavigationItem";
-import { PageEvent, RendererEvent } from "../events";
-import { reflectionTemplate } from "./default/templates/reflection";
-import { indexTemplate } from "./default/templates/index";
-import { defaultLayout } from "./default/layouts/default";
+} from "../../../models/reflections/index";
+import { ReflectionGroup } from "../../../models/ReflectionGroup";
+import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
+import { NavigationItem } from "../../models/NavigationItem";
+import { PageEvent, RendererEvent } from "../../events";
+import { MarkedPlugin } from "../../plugins";
+import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
+import { renderToStaticMarkup } from "react-dom/server";
+
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
@@ -52,14 +53,23 @@ export interface TemplateMapping {
  */
 export class DefaultTheme extends Theme {
 
+    protected _markedPlugin: MarkedPlugin;
+    protected _renderContext?: DefaultThemeRenderContext;
+    getRenderContext(_pageEvent: PageEvent<any>) {
+        if(!this._renderContext) {
+            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin);
+        }
+        return this._renderContext;
+    }
+
     reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
-        return reflectionTemplate(pageEvent);
+        return this.getRenderContext(pageEvent).partials.reflectionTemplate(pageEvent);
     }
     indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return indexTemplate(pageEvent);
+        return this.getRenderContext(pageEvent).partials.indexTemplate(pageEvent);
     }
-    getDefaultLayoutTemplate() {
-        return defaultLayout as RenderTemplate<PageEvent>;
+    defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>) => {
+        return this.getRenderContext(pageEvent).partials.defaultLayout(pageEvent);
     }
 
     /**
@@ -102,10 +112,17 @@ export class DefaultTheme extends Theme {
      */
     constructor(renderer: Renderer, basePath: string) {
         super(renderer, basePath);
+        this._markedPlugin = renderer.getComponent('marked') as MarkedPlugin;
         this.listenTo(
             renderer,
             RendererEvent.BEGIN,
             this.onRendererBegin,
+            1024
+        );
+        this.listenTo(
+            renderer,
+            PageEvent.END,
+            this.onRendererEndPage,
             1024
         );
     }
@@ -206,6 +223,11 @@ export class DefaultTheme extends Theme {
                 reflection.groups.forEach(DefaultTheme.applyGroupClasses);
             }
         }
+    }
+    private onRendererEndPage(page: PageEvent<Reflection>) {
+        const layout = this.defaultLayoutTemplate;
+        const templateOutput = layout(page);
+        page.contents = typeof templateOutput === 'string' ? templateOutput : '<!DOCTYPE html>' + renderToStaticMarkup(templateOutput);
     }
 
     /**

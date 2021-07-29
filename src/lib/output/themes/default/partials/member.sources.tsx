@@ -1,27 +1,27 @@
-import { __partials__ } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { DeclarationReflection, SignatureReflection } from "../../../../models";
 // TODO is this arg type correct?
-export const memberSources = (props: SignatureReflection | DeclarationReflection) => (
+export const memberSources = ({partials }: DefaultThemeRenderContext) => (props: SignatureReflection | DeclarationReflection) => (
     <>
         <aside className="tsd-sources">
             {" "}
             {!!props.implementationOf && (
                 <p>
                     {"Implementation of "}
-                    {__partials__.typeAndParent(props.implementationOf)}
+                    {partials.typeAndParent(props.implementationOf)}
                 </p>
             )}
             {!!props.inheritedFrom && (
                 <p>
                     {"Inherited from "}
-                    {__partials__.typeAndParent(props.inheritedFrom)}
+                    {partials.typeAndParent(props.inheritedFrom)}
                 </p>
             )}
             {!!props.overwrites && (
                 <p>
                     {"Overrides "}
-                    {__partials__.typeAndParent(props.overwrites)}
+                    {partials.typeAndParent(props.overwrites)}
                 </p>
             )}
             {!!props.sources && (

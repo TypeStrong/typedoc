@@ -1,17 +1,18 @@
-import { With, __partials__, Compact, isDeclarationReflection, isReflectionType, hasTypeParameters } from "../../lib";
+import { With, Compact, isDeclarationReflection, isReflectionType, hasTypeParameters } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { ContainerReflection } from "../../../../models";
 
-// export const reflectionTemplate = (props: PageEvent<ProjectReflection | TypeParameterContainer | DeclarationReflection>) => (
-export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
+// export const reflectionTemplate = ({relativeURL, partials, markdown, Markdown }: DefaultThemeRenderContext) => (props: PageEvent<ProjectReflection | TypeParameterContainer | DeclarationReflection>) => (
+export const reflectionTemplate = ({partials }: DefaultThemeRenderContext) => (props: PageEvent<ContainerReflection>) => (
     <>
         {With(props.model, (props) => (
             <>
                 {!!props.hasComment() && (
                     <>
 
-                        <section className="tsd-panel tsd-comment">{__partials__.comment(props)}</section>
+                        <section className="tsd-panel tsd-comment">{partials.comment(props)}</section>
                     </>
                 )}
             </>
@@ -23,7 +24,7 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
                 <section className="tsd-panel tsd-type-parameters">
                     <h3>Type parameters</h3>
                     {With(props.model, (props) => (
-                        <>{__partials__.typeParameters(props)}</>
+                        <>{partials.typeParameters(props)}</>
                     ))}
                 </section>
             </>
@@ -35,7 +36,7 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
                     <section className="tsd-panel tsd-hierarchy">
                         <h3>Hierarchy</h3>
                         {With(props.model.typeHierarchy, (props) =>
-                            __partials__.hierarchy(props)
+                            partials.hierarchy(props)
                         )}
                     </section>
                 </>
@@ -50,7 +51,7 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
                                 <>
 
                                     <li>
-                                        <Compact>{__partials__.type(item)}</Compact>
+                                        <Compact>{partials.type(item)}</Compact>
                                     </li>
                                 </>
                             ))}
@@ -68,7 +69,7 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
                                 <>
 
                                     <li>
-                                        <Compact>{__partials__.type(item)}</Compact>
+                                        <Compact>{partials.type(item)}</Compact>
                                     </li>
                                 </>
                             ))}
@@ -82,7 +83,7 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
                     <section className="tsd-panel">
                         <h3 className="tsd-before-signature">Callable</h3>
                         {With(props.model, (props) => (
-                            <>{__partials__["memberSignatures"](props)}</>
+                            <>{partials["memberSignatures"](props)}</>
                         ))}
                     </section>
                 </>
@@ -99,24 +100,24 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
                                     <>
                                         {item.name}:
                                         {With(item.type, (props) => (
-                                            <>{__partials__.type(props)}</>
+                                            <>{partials.type(props)}</>
                                         ))}
                                     </>
                                 ))}
                                 <span className="tsd-signature-symbol">{"]: "}</span>
                                 {With(props.model.indexSignature!.type, (props) => (
-                                    <>{__partials__.type(props)}</>
+                                    <>{partials.type(props)}</>
                                 ))}
                             </Compact>
                         </div>
                         {With(props.model.indexSignature, (props) => (
-                            <>{__partials__.comment(props)}</>
+                            <>{partials.comment(props)}</>
                         ))}
                         {isReflectionType(props.model.indexSignature?.type) && !!props.model.indexSignature?.type?.declaration && (
                             <>
 
                                 {With(props.model.indexSignature.type.declaration, (props) => (
-                                    <>{__partials__.parameter(props)}</>
+                                    <>{partials.parameter(props)}</>
                                 ))}
                             </>
                         )}
@@ -124,7 +125,7 @@ export const reflectionTemplate = (props: PageEvent<ContainerReflection>) => (
                 </>
             )}
         </>}
-        {__partials__.index(props.model)}
-        {__partials__.members(props.model)}
+        {partials.index(props.model)}
+        {partials.members(props.model)}
     </>
 );

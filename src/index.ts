@@ -9,7 +9,7 @@ export { Renderer } from "./lib/output/renderer";
 export {
     DefaultTheme,
     NavigationBuilder,
-} from "./lib/output/themes/DefaultTheme";
+} from "./lib/output/themes/default/DefaultTheme";
 export { NavigationItem } from "./lib/output/models/NavigationItem";
 export { UrlMapping } from "./lib/output/models/UrlMapping";
 

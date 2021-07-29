@@ -1,13 +1,14 @@
-import { __partials__, Markdown, isProjectReflection } from "../../lib";
+import { isProjectReflection } from "../../lib";
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { Reflection } from "../../../../models";
+import { MinimalThemeRenderContext } from "../MinimalTheme";
 const inlineCss = readFileSync(resolve(__dirname, '../../bin/minimal/assets/css/main.css'), 'utf8');
 const inlineJs = readFileSync(resolve(__dirname, '../../bin/minimal/assets/js/main.js'), 'utf8');
 
-export const defaultLayout = (props: PageEvent<Reflection>) => (
+export const defaultLayout = ({partials, Markdown}: MinimalThemeRenderContext) => (props: PageEvent<Reflection>) => (
     <>
         <html className="minimal no-js">
             <head>
@@ -21,12 +22,12 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                 <style type="text/css" dangerouslySetInnerHTML={{__html: inlineCss}}></style>
             </head>
             <body>
-                {__partials__.header(props)}
+                {partials.header(props)}
 
                 <nav className="tsd-navigation secondary">
                     <ul>
                         {props.toc?.children?.map((item) => (
-                            <> {__partials__.toc(item)}</>
+                            <> {partials.toc(item)}</>
                         ))}
                     </ul>
                 </nav>
@@ -42,13 +43,13 @@ export const defaultLayout = (props: PageEvent<Reflection>) => (
                             </>
                         )}
                         <div dangerouslySetInnerHTML={{__html: props.contents!}}></div>
-                        {__partials__.footer(props)}
+                        {partials.footer(props)}
                     </div>
                 </div>
 
                 <script type="text/javascript" dangerouslySetInnerHTML={{__html: inlineJs}}></script>
 
-                {__partials__.analytics(props)}
+                {partials.analytics(props)}
             </body>
         </html>
     </>

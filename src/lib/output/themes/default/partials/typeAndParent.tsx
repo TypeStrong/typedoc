@@ -1,8 +1,9 @@
-import { With, relativeURL, __partials__, Compact, IfCond, IfNotCond, isSignature, hasElementType, isReferenceType } from "../../lib";
+import { With, Compact, IfCond, IfNotCond, isSignature, hasElementType, isReferenceType } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { Type } from "../../../../models";
 
-export const typeAndParent = (props: Type) => (
+export const typeAndParent = ({relativeURL, partials }: DefaultThemeRenderContext) => (props: Type) => (
     <>
         <Compact>
             {props ? (
@@ -10,7 +11,7 @@ export const typeAndParent = (props: Type) => (
                     <>
                         {"bar "}
                         {With(props.elementType, (props) => (
-                            <>{__partials__.typeAndParent(props)}</>
+                            <>{partials.typeAndParent(props)}</>
                         ))}
                         []
                     </>

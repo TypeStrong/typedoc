@@ -1,16 +1,17 @@
-import { With, __partials__, Compact, Markdown, hasDefaultValue, hasType, isReflectionType } from "../../lib";
+import { With, Compact, hasDefaultValue, hasType, isReflectionType } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { SignatureReflection } from "../../../../models";
-export const memberSignatureBody = (props: SignatureReflection, {hideSources = false}: {hideSources?: boolean} = {}) => (
+export const memberSignatureBody = ({partials, Markdown }: DefaultThemeRenderContext) => (props: SignatureReflection, {hideSources = false}: {hideSources?: boolean} = {}) => (
     <>
-        {!hideSources && <> {__partials__["memberSources"](props)}</>}
-        {__partials__.comment(props)}
+        {!hideSources && <> {partials["memberSources"](props)}</>}
+        {partials.comment(props)}
 
         {!!props.typeParameters && (
             <>
 
                 <h4 className="tsd-type-parameters-title">Type parameters</h4>
-                {__partials__.typeParameters(props)}
+                {partials.typeParameters(props)}
             </>
         )}
         {props.parameters && props.parameters.length > 0 && (
@@ -30,7 +31,7 @@ export const memberSignatureBody = (props: SignatureReflection, {hideSources = f
                                         {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
                                         {item.name}{": "}
                                         {With(item.type, (props) => (
-                                            <>{__partials__.type(props)}</>
+                                            <>{partials.type(props)}</>
                                         ))}
                                         {hasDefaultValue(item) && (
                                             <>
@@ -43,12 +44,12 @@ export const memberSignatureBody = (props: SignatureReflection, {hideSources = f
                                         )}
                                     </Compact>
                                 </h5>
-                                {__partials__.comment(item)}
+                                {partials.comment(item)}
                                 {hasType(item) && isReflectionType(item.type) && !!item.type.declaration && (
                                     <>
 
                                         {With(item.type.declaration, (props) => (
-                                            <>{__partials__.parameter(props)}</>
+                                            <>{partials.parameter(props)}</>
                                         ))}
                                     </>
                                 )}
@@ -65,7 +66,7 @@ export const memberSignatureBody = (props: SignatureReflection, {hideSources = f
                     {"Returns "}
                     <Compact>
                         {With(props.type, (props) => (
-                            <>{__partials__.type(props)}</>
+                            <>{partials.type(props)}</>
                         ))}
                     </Compact>
                 </h4>
@@ -79,7 +80,7 @@ export const memberSignatureBody = (props: SignatureReflection, {hideSources = f
                     <>
 
                         {With(props.type.declaration, (props) => (
-                            <>{__partials__.parameter(props)}</>
+                            <>{partials.parameter(props)}</>
                         ))}
                     </>
                 )}

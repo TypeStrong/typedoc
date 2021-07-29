@@ -1,8 +1,9 @@
 import { TypeInlinePartialsOptions } from "./options";
-import { With, __partials__ } from "../../../lib";
+import { With } from "../../../lib";
+import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
 import * as React from "react";
 import { ConditionalType } from "../../../../../models";
-export const conditional = (props: ConditionalType, { needsParens = false }: TypeInlinePartialsOptions = {}) => (
+export const conditional = ({partials }: DefaultThemeRenderContext) => (props: ConditionalType, { needsParens = false }: TypeInlinePartialsOptions = {}) => (
     <>
         {!!needsParens && (
             <>
@@ -11,19 +12,19 @@ export const conditional = (props: ConditionalType, { needsParens = false }: Typ
             </>
         )}
         {With(props.checkType, (props) => (
-            <>{__partials__.type(props, { needsParens: true })}</>
+            <>{partials.type(props, { needsParens: true })}</>
         ))}
         <span className="tsd-signature-symbol"> extends </span>
         {With(props.extendsType, (props) => (
-            <>{__partials__.type(props)}</>
+            <>{partials.type(props)}</>
         ))}
         <span className="tsd-signature-symbol"> ? </span>
         {With(props.trueType, (props) => (
-            <>{__partials__.type(props)}</>
+            <>{partials.type(props)}</>
         ))}
         <span className="tsd-signature-symbol"> : </span>
         {With(props.falseType, (props) => (
-            <>{__partials__.type(props)}</>
+            <>{partials.type(props)}</>
         ))}
         {!!needsParens && (
             <>

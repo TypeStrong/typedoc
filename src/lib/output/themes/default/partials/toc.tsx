@@ -1,8 +1,9 @@
-import { classNames, relativeURL, wbr, __partials__ } from "../../lib";
+import { classNames, wbr } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { NavigationItem } from "../../../models/NavigationItem";
 
-export const toc = (props: NavigationItem) => (
+export const toc = ({relativeURL, partials }: DefaultThemeRenderContext) => (props: NavigationItem) => (
     <>
         <li className={classNames({current: props.isInPath}) + ' ' + props.cssClasses}>
             <a href={relativeURL(props.url)} className="tsd-kind-icon">
@@ -13,7 +14,7 @@ export const toc = (props: NavigationItem) => (
 
                     <ul>
                         {props.children.map((item) => (
-                            <> {__partials__.toc(item)}</>
+                            <> {partials.toc(item)}</>
                         ))}
                     </ul>
                 </>

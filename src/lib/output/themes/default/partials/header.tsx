@@ -1,8 +1,9 @@
-import { With, relativeURL, __partials__, Compact, hasTypeParameters } from "../../lib";
+import { With, Compact, hasTypeParameters } from "../../lib";
+import {DefaultThemeRenderContext} from '../DefaultThemeRenderContext';
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
-export const header = (props: PageEvent<Reflection>) => (
+export const header = ({relativeURL, partials }: DefaultThemeRenderContext) => (props: PageEvent<Reflection>) => (
     <>
         <header>
             <div className="tsd-page-toolbar">
@@ -78,7 +79,7 @@ export const header = (props: PageEvent<Reflection>) => (
                             {/* Don't show breadcrumbs on main project page, it is the root page. !*/}
                             <ul className="tsd-breadcrumb">
                                 {With(props.model, (props) => (
-                                    <>{__partials__.breadcrumb(props)}</>
+                                    <>{partials.breadcrumb(props)}</>
                                 ))}
                             </ul>
                         </>

@@ -1,8 +1,8 @@
 import { TypeInlinePartialsOptions } from "./options";
-import { __partials__ } from "../../../lib";
+import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
 import * as React from "react";
 import { UnionType } from "../../../../../models";
-export const union = (props: UnionType, { needsParens = false }: TypeInlinePartialsOptions = {}) => (
+export const union = ({partials }: DefaultThemeRenderContext) => (props: UnionType, { needsParens = false }: TypeInlinePartialsOptions = {}) => (
     <>
         {!!needsParens && (
             <>
@@ -18,7 +18,7 @@ export const union = (props: UnionType, { needsParens = false }: TypeInlineParti
                         <span className="tsd-signature-symbol"> | </span>
                     </>
                 )}
-                {__partials__.type(item, { needsParens: true })}
+                {partials.type(item, { needsParens: true })}
             </>
         ))}
         {!!needsParens && (
