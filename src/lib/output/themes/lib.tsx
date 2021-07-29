@@ -1,11 +1,6 @@
 import assert = require("assert");
 import * as React from "react";
 import {
-    SignatureReflection,
-    Reflection,
-    DeclarationReflection,
-} from "../../..";
-import {
     ContainerReflection,
     ProjectReflection,
     ReferenceReflection,
@@ -13,6 +8,9 @@ import {
     ReflectionType,
     Type,
     TypeParameterContainer,
+    SignatureReflection,
+    Reflection,
+    DeclarationReflection,
 } from "../../models";
 import {
     DefaultValueContainer,
