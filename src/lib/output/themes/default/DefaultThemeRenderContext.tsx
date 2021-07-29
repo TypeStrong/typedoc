@@ -35,6 +35,6 @@ export class DefaultThemeRenderContext {
         // console.log(markdown(props.children));
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
-        return <md dangerouslySetInnerHTML={{__html: this.markdown(props.children)}}></md>;
+        return <div data-markdown="true" dangerouslySetInnerHTML={{__html: this.markdown(props.children)}}></div>;
     }
 }
