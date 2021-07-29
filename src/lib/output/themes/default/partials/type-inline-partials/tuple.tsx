@@ -1,19 +1,22 @@
-import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
+import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
 import * as React from "react";
 import { TupleType } from "../../../../../models";
-export const tuple = ({partials }: DefaultThemeRenderContext) => (props: TupleType) => (
-    <>
-        <span className="tsd-signature-symbol">[</span>
-        {props.elements.map((item, i) => (
+export const tuple =
+    ({ partials }: DefaultThemeRenderContext) =>
+    (props: TupleType) =>
+        (
             <>
-                {i > 0 && (
+                <span className="tsd-signature-symbol">[</span>
+                {props.elements.map((item, i) => (
                     <>
-                        <span className="tsd-signature-symbol">, </span>
+                        {i > 0 && (
+                            <>
+                                <span className="tsd-signature-symbol">, </span>
+                            </>
+                        )}
+                        {partials.type(item)}
                     </>
-                )}
-                {partials.type(item)}
+                ))}
+                <span className="tsd-signature-symbol">]</span>
             </>
-        ))}
-        <span className="tsd-signature-symbol">]</span>
-    </>
-);
+        );

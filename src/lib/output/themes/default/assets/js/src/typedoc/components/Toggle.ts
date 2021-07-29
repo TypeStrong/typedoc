@@ -9,7 +9,7 @@ export class Toggle extends Component {
     constructor(options: IComponentOptions) {
         super(options);
 
-        this.className = this.el.dataset['toggle'] || "";
+        this.className = this.el.dataset["toggle"] || "";
         this.el.addEventListener(pointerUp, (e) => this.onPointerUp(e));
         this.el.addEventListener("click", (e) => e.preventDefault());
         document.addEventListener(pointerDown, (e) =>

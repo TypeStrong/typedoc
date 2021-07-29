@@ -75,7 +75,7 @@ export function initSearch() {
     });
 
     const state: SearchState = {
-        base: searchEl.dataset['base'] + "/",
+        base: searchEl.dataset["base"] + "/",
     };
 
     bindEvents(searchEl, results, field, state);

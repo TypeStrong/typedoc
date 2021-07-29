@@ -12,7 +12,7 @@ import {
 import { PageEvent } from "../../events";
 import { NavigationItem } from "../../models/NavigationItem";
 import { indexTemplate } from "./templates";
-import { defaultLayout } from './layouts/default';
+import { defaultLayout } from "./layouts/default";
 import { DefaultThemePartials } from "../default/DefaultThemePartials";
 import { DefaultThemeRenderContext } from "../default/DefaultThemeRenderContext";
 
@@ -35,8 +35,10 @@ export class MinimalTheme extends DefaultTheme {
     }
 
     override getRenderContext(_pageEvent: PageEvent<any>) {
-        if(!this._renderContext) {
-            this._renderContext = new MinimalThemeRenderContext(this._markedPlugin);
+        if (!this._renderContext) {
+            this._renderContext = new MinimalThemeRenderContext(
+                this._markedPlugin
+            );
         }
         return this._renderContext;
     }

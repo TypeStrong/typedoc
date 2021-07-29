@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 /**
  * Insert word break tags ``<wbr>`` into the given string.
@@ -14,7 +14,7 @@ export function wbr(str: string): (string | React.ReactElement)[] {
     const re = /[\s\S]*?(?:([^_-][_-])(?=[^_-])|([^A-Z])(?=[A-Z][^A-Z]))/g;
     let match: RegExpExecArray | null;
     let i = 0;
-    while((match = re.exec(str))) {
+    while ((match = re.exec(str))) {
         ret.push(match[0]);
         ret.push(<wbr />);
         i += match[0].length;

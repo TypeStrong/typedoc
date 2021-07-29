@@ -31,10 +31,7 @@
 
         "jsx": "react"
     },
-    "include": [
-        "src/**/*.ts",
-        "src/**/*.tsx"
-    ],
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": [
         "src/test/converter/**/*.ts",
         "src/test/converter2/**/*.ts",

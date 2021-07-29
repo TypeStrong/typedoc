@@ -42,7 +42,7 @@ customMarkedRenderer.heading = (text, level, _, slugger) => {
  * ```
  */
 
-@Component({ name: 'marked' })
+@Component({ name: "marked" })
 export class MarkedPlugin extends ContextAwareRendererComponent {
     @BindOption("includes")
     includeSource!: string;
@@ -129,7 +129,7 @@ output file :
                     //         allowProtoPropertiesByDefault: true,
                     //     });
                     // } else {
-                        return contents;
+                    return contents;
                     // }
                 } else {
                     this.application.logger.warn(

@@ -24,7 +24,7 @@ import { Component, ChildableComponent } from "../utils/component";
 import { BindOption } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import { Theme as ShikiTheme } from "shiki";
-import {renderToStaticMarkup} from 'react-dom/server';
+import { renderToStaticMarkup } from "react-dom/server";
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
@@ -145,7 +145,10 @@ export class Renderer extends ChildableComponent<
 
         // Theme must be set as this is only called in render, and render ensures theme is set.
         const templateOutput = page.template(page);
-        page.contents = typeof templateOutput === 'string' ? templateOutput : renderToStaticMarkup(templateOutput);
+        page.contents =
+            typeof templateOutput === "string"
+                ? templateOutput
+                : renderToStaticMarkup(templateOutput);
 
         this.trigger(PageEvent.END, page);
         if (page.isDefaultPrevented) {
@@ -287,7 +290,7 @@ export class Renderer extends ChildableComponent<
      * @returns The path to the theme directory.
      */
     static getThemeDirectory(): string {
-        return resolve(__dirname, './themes/bin');
+        return resolve(__dirname, "./themes/bin");
     }
 
     /**
@@ -300,5 +303,5 @@ export class Renderer extends ChildableComponent<
     }
 }
 
-import "./plugins";import { resolve } from "path";
-
+import "./plugins";
+import { resolve } from "path";

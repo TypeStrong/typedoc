@@ -18,7 +18,6 @@ import { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 import { renderToStaticMarkup } from "react-dom/server";
 
-
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
  *
@@ -52,25 +51,32 @@ export interface TemplateMapping {
  * [[BaseTheme]] implementation, this theme class will be used.
  */
 export class DefaultTheme extends Theme {
-
     protected _markedPlugin: MarkedPlugin;
     protected _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
-        if(!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin);
+        if (!this._renderContext) {
+            this._renderContext = new DefaultThemeRenderContext(
+                this._markedPlugin
+            );
         }
         return this._renderContext;
     }
 
     reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
-        return this.getRenderContext(pageEvent).partials.reflectionTemplate(pageEvent);
-    }
+        return this.getRenderContext(pageEvent).partials.reflectionTemplate(
+            pageEvent
+        );
+    };
     indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return this.getRenderContext(pageEvent).partials.indexTemplate(pageEvent);
-    }
+        return this.getRenderContext(pageEvent).partials.indexTemplate(
+            pageEvent
+        );
+    };
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>) => {
-        return this.getRenderContext(pageEvent).partials.defaultLayout(pageEvent);
-    }
+        return this.getRenderContext(pageEvent).partials.defaultLayout(
+            pageEvent
+        );
+    };
 
     /**
      * Mappings of reflections kinds to templates used by this theme.
@@ -112,19 +118,14 @@ export class DefaultTheme extends Theme {
      */
     constructor(renderer: Renderer, basePath: string) {
         super(renderer, basePath);
-        this._markedPlugin = renderer.getComponent('marked') as MarkedPlugin;
+        this._markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
         this.listenTo(
             renderer,
             RendererEvent.BEGIN,
             this.onRendererBegin,
             1024
         );
-        this.listenTo(
-            renderer,
-            PageEvent.END,
-            this.onRendererEndPage,
-            1024
-        );
+        this.listenTo(renderer, PageEvent.END, this.onRendererEndPage, 1024);
     }
 
     /**
@@ -163,13 +164,25 @@ export class DefaultTheme extends Theme {
 
         if (false == hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
-            urls.push(new UrlMapping<ContainerReflection>("index.html", project, this.reflectionTemplate));
+            urls.push(
+                new UrlMapping<ContainerReflection>(
+                    "index.html",
+                    project,
+                    this.reflectionTemplate
+                )
+            );
         } else {
             project.url = "modules.html";
             urls.push(
-                new UrlMapping<ContainerReflection>("modules.html", project, this.reflectionTemplate)
+                new UrlMapping<ContainerReflection>(
+                    "modules.html",
+                    project,
+                    this.reflectionTemplate
+                )
             );
-            urls.push(new UrlMapping("index.html", project, this.indexTemplate));
+            urls.push(
+                new UrlMapping("index.html", project, this.indexTemplate)
+            );
         }
 
         project.children?.forEach((child: Reflection) => {
@@ -227,7 +240,10 @@ export class DefaultTheme extends Theme {
     private onRendererEndPage(page: PageEvent<Reflection>) {
         const layout = this.defaultLayoutTemplate;
         const templateOutput = layout(page);
-        page.contents = typeof templateOutput === 'string' ? templateOutput : '<!DOCTYPE html>' + renderToStaticMarkup(templateOutput);
+        page.contents =
+            typeof templateOutput === "string"
+                ? templateOutput
+                : "<!DOCTYPE html>" + renderToStaticMarkup(templateOutput);
     }
 
     /**
@@ -265,12 +281,8 @@ export class DefaultTheme extends Theme {
      * @param reflection  The reflection whose mapping should be resolved.
      * @returns           The found mapping or undefined if no mapping could be found.
      */
-    getMapping(
-        reflection: DeclarationReflection
-    ): TemplateMapping | undefined {
-        return this.MAPPINGS.find((mapping) =>
-            reflection.kindOf(mapping.kind)
-        );
+    getMapping(reflection: DeclarationReflection): TemplateMapping | undefined {
+        return this.MAPPINGS.find((mapping) => reflection.kindOf(mapping.kind));
     }
 
     /**

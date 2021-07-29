@@ -49,9 +49,10 @@ export let hasPointerMoved: boolean = false;
 /**
  * Is the user agent a mobile agent?
  */
-export const isMobile: boolean = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-);
+export const isMobile: boolean =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+    );
 document.documentElement.classList.add(isMobile ? "is-mobile" : "not-mobile");
 
 if (isMobile && "ontouchstart" in document.documentElement) {

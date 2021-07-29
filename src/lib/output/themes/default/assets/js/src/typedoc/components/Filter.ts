@@ -101,7 +101,7 @@ class FilterItemSelect extends FilterItem<string> {
         this.select.querySelectorAll("li").forEach((el) => {
             el.addEventListener(pointerUp, (e) => {
                 select.classList.remove("active");
-                this.setValue((e.target as HTMLElement).dataset['value'] || "");
+                this.setValue((e.target as HTMLElement).dataset["value"] || "");
             });
         });
 
@@ -120,9 +120,8 @@ class FilterItemSelect extends FilterItem<string> {
         const selected = this.select.querySelector<HTMLElement>(
             'li[data-value="' + newValue + '"]'
         );
-        const label = this.select.querySelector<HTMLElement>(
-            ".tsd-select-label"
-        );
+        const label =
+            this.select.querySelector<HTMLElement>(".tsd-select-label");
 
         if (selected && label) {
             selected.classList.add("selected");

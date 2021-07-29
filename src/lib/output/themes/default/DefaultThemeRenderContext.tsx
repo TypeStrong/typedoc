@@ -1,6 +1,6 @@
 import { DefaultThemePartials } from "./DefaultThemePartials";
 import { MarkedPlugin } from "../MarkedPlugin";
-import * as React from 'react';
+import * as React from "react";
 
 /**
  * Themes can choose to create a single render context shared across all pages,
@@ -11,7 +11,9 @@ export class DefaultThemeRenderContext {
     markedHelpers: MarkedPlugin;
     partials: DefaultThemePartials;
     /** @deprecated TODO remove this */
-    get __partials__() {return this.partials}
+    get __partials__() {
+        return this.partials;
+    }
 
     constructor(markedHelpers: MarkedPlugin) {
         this.markedHelpers = markedHelpers;
@@ -23,11 +25,11 @@ export class DefaultThemeRenderContext {
 
     relativeURL = (url: string | undefined) => {
         return url ? this.markedHelpers.getRelativeUrl(url) : url;
-    }
+    };
 
     markdown = (md: string | undefined) => {
-        return md ? this.markedHelpers.parseMarkdown(md) : '';
-    }
+        return md ? this.markedHelpers.parseMarkdown(md) : "";
+    };
 
     /** @deprecated */
     Markdown = (props: { children: string | undefined }) => {
@@ -35,6 +37,13 @@ export class DefaultThemeRenderContext {
         // console.log(markdown(props.children));
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
-        return <div data-markdown="true" dangerouslySetInnerHTML={{__html: this.markdown(props.children)}}></div>;
-    }
+        return (
+            <div
+                data-markdown="true"
+                dangerouslySetInnerHTML={{
+                    __html: this.markdown(props.children),
+                }}
+            ></div>
+        );
+    };
 }

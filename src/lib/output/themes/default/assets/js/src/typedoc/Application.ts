@@ -43,9 +43,9 @@ export class Application {
     public createComponents(context: HTMLElement) {
         components.forEach((c) => {
             context.querySelectorAll<HTMLElement>(c.selector).forEach((el) => {
-                if (!el.dataset['hasInstance']) {
+                if (!el.dataset["hasInstance"]) {
                     new c.constructor({ el: el });
-                    el.dataset['hasInstance'] = String(true);
+                    el.dataset["hasInstance"] = String(true);
                 }
             });
         });

@@ -48,7 +48,6 @@ import { union } from "./partials/type-inline-partials/union";
 import { unknown } from "./partials/type-inline-partials/unknown";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 
-
 export class DefaultThemePartials {
     constructor(protected bindings: DefaultThemeRenderContext) {}
     private hack() {

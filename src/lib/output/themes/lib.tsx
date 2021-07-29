@@ -1,10 +1,25 @@
 import assert = require("assert");
 import * as React from "react";
-import { SignatureReflection, Reflection, DeclarationReflection } from "../../..";
-import { ContainerReflection, ProjectReflection, ReferenceReflection, ReferenceType, ReflectionType, Type, TypeParameterContainer } from "../../models";
-import { DefaultValueContainer, TypeContainer } from "../../models/reflections/abstract";
-export {wbr} from '../helpers/wbr';
-export {stringify} from '../helpers/stringify';
+import {
+    SignatureReflection,
+    Reflection,
+    DeclarationReflection,
+} from "../../..";
+import {
+    ContainerReflection,
+    ProjectReflection,
+    ReferenceReflection,
+    ReferenceType,
+    ReflectionType,
+    Type,
+    TypeParameterContainer,
+} from "../../models";
+import {
+    DefaultValueContainer,
+    TypeContainer,
+} from "../../models/reflections/abstract";
+export { wbr } from "../helpers/wbr";
+export { stringify } from "../helpers/stringify";
 
 /**
  * @deprecated
@@ -23,7 +38,7 @@ export function With<B, C>(
     props: B | null | undefined,
     cb: (props: B) => C
 ): C | undefined {
-    if(props != null) {
+    if (props != null) {
         return cb(props);
     }
 }
@@ -32,10 +47,9 @@ export function With<B, C>(
 export class IfCond extends React.Component<{ cond: boolean }> {
     override render() {
         if (this.props.cond) {
-            if(this.props.children == null) return null;
+            if (this.props.children == null) return null;
             return this.props.children;
-        }
-        else return null;
+        } else return null;
     }
 }
 
@@ -43,10 +57,9 @@ export class IfCond extends React.Component<{ cond: boolean }> {
 export class IfNotCond extends React.Component<{ cond: boolean }> {
     override render() {
         if (!this.props.cond) {
-            if(this.props.children == null) return null;
+            if (this.props.children == null) return null;
             return this.props.children;
-        }
-        else return null;
+        } else return null;
     }
 }
 
@@ -66,38 +79,64 @@ export function isSignature(
 }
 
 export function classNames(names: Record<string, boolean | null | undefined>) {
-    return Object.entries(names).filter(([, include]) => include).map(([key]) => key).join(' ');
+    return Object.entries(names)
+        .filter(([, include]) => include)
+        .map(([key]) => key)
+        .join(" ");
 }
 
-export function isDeclarationReflection(reflection: Reflection): reflection is DeclarationReflection {
+export function isDeclarationReflection(
+    reflection: Reflection
+): reflection is DeclarationReflection {
     return reflection instanceof DeclarationReflection;
 }
-export function assertIsDeclarationReflection(reflection: Reflection): DeclarationReflection {
+export function assertIsDeclarationReflection(
+    reflection: Reflection
+): DeclarationReflection {
     assert(reflection instanceof DeclarationReflection);
     return reflection;
 }
 
-export function isProjectReflection(reflection: Reflection): reflection is ProjectReflection {
+export function isProjectReflection(
+    reflection: Reflection
+): reflection is ProjectReflection {
     return reflection instanceof ProjectReflection;
 }
 
-export function isReflectionType(type: Type | undefined): type is ReflectionType {
+export function isReflectionType(
+    type: Type | undefined
+): type is ReflectionType {
     return type != null && type instanceof ReflectionType;
 }
 export function isReferenceType(type: Type | undefined): type is ReferenceType {
     return type != null && type instanceof ReferenceType;
 }
 
-export function isReferenceReflection(reflection: Reflection): reflection is ReferenceReflection {
+export function isReferenceReflection(
+    reflection: Reflection
+): reflection is ReferenceReflection {
     return reflection != null && reflection instanceof ReferenceReflection;
 }
-export function hasTypeParameters<T extends Reflection>(reflection: T): reflection is T & {typeParameters: Exclude<TypeParameterContainer['typeParameters'], undefined>} {
+export function hasTypeParameters<T extends Reflection>(
+    reflection: T
+): reflection is T & {
+    typeParameters: Exclude<
+        TypeParameterContainer["typeParameters"],
+        undefined
+    >;
+} {
     return (reflection as TypeParameterContainer).typeParameters != null;
 }
-export function hasType<T extends Reflection>(reflection: T): reflection is T & {type: Exclude<TypeContainer['type'], undefined>} {
+export function hasType<T extends Reflection>(
+    reflection: T
+): reflection is T & { type: Exclude<TypeContainer["type"], undefined> } {
     return (reflection as TypeContainer).type != null;
 }
-export function hasDefaultValue<T extends Reflection>(reflection: T): reflection is T & {defaultValue: Exclude<DefaultValueContainer['defaultValue'], undefined>} {
+export function hasDefaultValue<T extends Reflection>(
+    reflection: T
+): reflection is T & {
+    defaultValue: Exclude<DefaultValueContainer["defaultValue"], undefined>;
+} {
     return (reflection as DefaultValueContainer).defaultValue != null;
 }
 export interface ElementTypeContainer extends Type {
@@ -109,6 +148,8 @@ export function hasElementType(type: Type): type is ElementTypeContainer {
 /**
  * TODO where this is used, it seems impossible for this to return false.
  */
-export function isContainer(refl: Reflection | undefined): refl is ContainerReflection {
+export function isContainer(
+    refl: Reflection | undefined
+): refl is ContainerReflection {
     return refl != null && refl instanceof ContainerReflection;
 }

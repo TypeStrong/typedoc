@@ -65,7 +65,9 @@ export class RendererEvent extends Event {
      * @param mapping  The mapping that defines the generated [[PageEvent]] state.
      * @returns A newly created [[PageEvent]] instance.
      */
-    public createPageEvent<Model>(mapping: UrlMapping<Model>): PageEvent<Model> {
+    public createPageEvent<Model>(
+        mapping: UrlMapping<Model>
+    ): PageEvent<Model> {
         const event = new PageEvent<Model>(PageEvent.BEGIN);
         event.project = this.project;
         event.settings = this.settings;

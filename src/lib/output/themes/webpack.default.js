@@ -7,7 +7,10 @@ const config = {
     name: "Default Theme",
 
     output: {
-        path: path.resolve(__dirname, "../../../../dist/lib/output/themes/bin/default"),
+        path: path.resolve(
+            __dirname,
+            "../../../../dist/lib/output/themes/bin/default"
+        ),
         filename: "assets/js/main.js",
     },
 
@@ -28,7 +31,7 @@ const config = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: "assets/css/main.css",
-        })
+        }),
     ],
 };
 

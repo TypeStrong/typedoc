@@ -1,31 +1,37 @@
-import {DefaultThemeRenderContext} from '../../DefaultThemeRenderContext';
+import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
 import * as React from "react";
 import { IntersectionType } from "../../../../../models";
 import { TypeInlinePartialsOptions } from "./options";
-export const intersection = ({partials }: DefaultThemeRenderContext) => (props: IntersectionType, {needsParens = false}: TypeInlinePartialsOptions = {}) => (
-    <>
-        {!!needsParens && (
+export const intersection =
+    ({ partials }: DefaultThemeRenderContext) =>
+    (
+        props: IntersectionType,
+        { needsParens = false }: TypeInlinePartialsOptions = {}
+    ) =>
+        (
             <>
-
-                <span className="tsd-signature-symbol">(</span>
-            </>
-        )}
-        {props.types.map((item, i) => (
-            <>
-                {i > 0 && (
+                {!!needsParens && (
                     <>
-
-                        <span className="tsd-signature-symbol"> & </span>
+                        <span className="tsd-signature-symbol">(</span>
                     </>
                 )}
-                {partials.type(item, { needsParens: true })}
+                {props.types.map((item, i) => (
+                    <>
+                        {i > 0 && (
+                            <>
+                                <span className="tsd-signature-symbol">
+                                    {" "}
+                                    &{" "}
+                                </span>
+                            </>
+                        )}
+                        {partials.type(item, { needsParens: true })}
+                    </>
+                ))}
+                {!!needsParens && (
+                    <>
+                        <span className="tsd-signature-symbol">)</span>
+                    </>
+                )}
             </>
-        ))}
-        {!!needsParens && (
-            <>
-
-                <span className="tsd-signature-symbol">)</span>
-            </>
-        )}
-    </>
-);
+        );
