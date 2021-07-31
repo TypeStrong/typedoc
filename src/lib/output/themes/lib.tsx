@@ -1,5 +1,4 @@
 import assert = require("assert");
-import * as React from "react";
 import {
     ContainerReflection,
     ProjectReflection,
@@ -32,26 +31,6 @@ export { stringify } from "../helpers/stringify";
 export function With<B, C>(props: B | null | undefined, cb: (props: B) => C): C | undefined {
     if (props != null) {
         return cb(props);
-    }
-}
-
-/** @deprecated */
-export class IfCond extends React.Component<{ cond: boolean }> {
-    override render() {
-        if (this.props.cond) {
-            if (this.props.children == null) return null;
-            return this.props.children;
-        } else return null;
-    }
-}
-
-/** @deprecated */
-export class IfNotCond extends React.Component<{ cond: boolean }> {
-    override render() {
-        if (!this.props.cond) {
-            if (this.props.children == null) return null;
-            return this.props.children;
-        } else return null;
     }
 }
 
