@@ -55,14 +55,6 @@ export class IfNotCond extends React.Component<{ cond: boolean }> {
     }
 }
 
-/** @deprecated */
-export function Compact<T>(props: { children: T }) {
-    // TODO should be implemented to remove all newlines from the input
-    return <>{props.children}</>;
-    // const markup = renderToStaticMarkup(<>{props.children}</>);
-    // return <React.Fragment dangerouslySetInnerHtml={{ __html: markup.replace(/\r|\n/g, "") }}></React.Fragment>;
-}
-
 export function isSignature(reflection: Reflection): reflection is SignatureReflection {
     // return !!(reflection.kind & ReflectionKind.SomeSignature);
     return reflection instanceof SignatureReflection;
