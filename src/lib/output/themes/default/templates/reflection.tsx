@@ -1,4 +1,4 @@
-import { With, Compact, isDeclarationReflection, isReflectionType, hasTypeParameters } from "../../lib";
+import { isDeclarationReflection, isReflectionType, hasTypeParameters } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
 import { PageEvent } from "../../../events";

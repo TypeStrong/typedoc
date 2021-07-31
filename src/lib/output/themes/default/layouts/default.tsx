@@ -39,7 +39,11 @@ export const defaultLayout =
                                 ></div>
                                 <div className="col-4 col-menu menu-sticky-wrap menu-highlight">
                                     <nav className="tsd-navigation primary">
-                                        <ul>{props.navigation?.children?.map((item) => partials.navigation(item))}</ul>
+                                        <ul>
+                                            {props.navigation?.children?.map((item) => (
+                                                <> {partials.navigation(item)}</>
+                                            ))}
+                                        </ul>
                                     </nav>
 
                                     <nav className="tsd-navigation secondary menu-sticky">
