@@ -16,7 +16,7 @@ export const parameter =
                                         <>
                                             <li className="tsd-signature tsd-kind-icon">
                                                 <Compact>
-                                                    {partials["memberSignatureTitle"](item, { hideName: true })}
+                                                    {partials.memberSignatureTitle(item, { hideName: true })}
                                                 </Compact>
                                             </li>
                                         </>
@@ -27,7 +27,7 @@ export const parameter =
                                     {props.signatures.map((item) => (
                                         <>
                                             <li className="tsd-description">
-                                                {partials["memberSignatureBody"](item, { hideSources: true })}
+                                                {partials.memberSignatureBody(item, { hideSources: true })}
                                             </li>
                                         </>
                                     ))}

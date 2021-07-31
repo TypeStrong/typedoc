@@ -9,11 +9,7 @@ export const tuple =
                 <span className="tsd-signature-symbol">[</span>
                 {props.elements.map((item, i) => (
                     <>
-                        {i > 0 && (
-                            <>
-                                <span className="tsd-signature-symbol">, </span>
-                            </>
-                        )}
+                        {i > 0 && <span className="tsd-signature-symbol">, </span>}
                         {partials.type(item)}
                     </>
                 ))}

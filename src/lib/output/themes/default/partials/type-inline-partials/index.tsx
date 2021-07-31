@@ -42,4 +42,4 @@ export const typePartials = {
     typeParameter,
     union,
     unknown,
-};
+} as const;

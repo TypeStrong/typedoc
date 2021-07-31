@@ -28,21 +28,15 @@ export const defaultLayout =
                         {partials.header(props)}
 
                         <nav className="tsd-navigation secondary">
-                            <ul>
-                                {props.toc?.children?.map((item) => (
-                                    <> {partials.toc(item)}</>
-                                ))}
-                            </ul>
+                            <ul>{props.toc?.children?.map((item) => partials.toc(item))}</ul>
                         </nav>
 
                         <div className="container container-main">
                             <div className="content-wrap">
                                 {isProjectReflection(props.model) && !!props.model.readme && (
-                                    <>
-                                        <div className="tsd-panel tsd-typography">
-                                            <Markdown>{props.model.readme}</Markdown>
-                                        </div>
-                                    </>
+                                    <div className="tsd-panel tsd-typography">
+                                        <Markdown>{props.model.readme}</Markdown>
+                                    </div>
                                 )}
                                 <div
                                     dangerouslySetInnerHTML={{

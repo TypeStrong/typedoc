@@ -1,7 +1,6 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
 import { DeclarationReflection, SignatureReflection } from "../../../../models";
-// TODO is this arg type correct?
 export const memberSources =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: SignatureReflection | DeclarationReflection) =>

@@ -1,4 +1,4 @@
-import { With, wbr, IfCond } from "../../lib";
+import { wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
 import { SignatureReflection } from "../../../../models";
@@ -11,17 +11,15 @@ export const memberSignatureTitle =
         (
             <>
                 {!hideName ? (
-                    <>{wbr(props.name)}</>
+                    wbr(props.name)
                 ) : (
                     <>
-                        <IfCond cond={props.kindString === "Constructor signature"}>
-                            {!!props.flags.isAbstract && (
-                                <>
-                                    <span className="tsd-signature-symbol">abstract </span>
-                                </>
-                            )}
-                            <span className="tsd-signature-symbol">new </span>
-                        </IfCond>
+                        {props.kindString === "Constructor signature" && (
+                            <>
+                                {!!props.flags.isAbstract && <span className="tsd-signature-symbol">abstract </span>}
+                                <span className="tsd-signature-symbol">new </span>
+                            </>
+                        )}
                     </>
                 )}
                 {!!props.typeParameters && (
@@ -47,9 +45,7 @@ export const memberSignatureTitle =
                             {!!item.defaultValue && "?"}
                             {": "}
                         </span>
-                        {With(item.type, (props) => (
-                            <>{partials.type(props)}</>
-                        ))}
+                        {item.type && partials.type(item.type)}
                     </>
                 ))}
                 <span className="tsd-signature-symbol">)</span>

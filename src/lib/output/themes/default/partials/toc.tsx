@@ -7,20 +7,16 @@ export const toc =
     ({ relativeURL, partials }: DefaultThemeRenderContext) =>
     (props: NavigationItem) =>
         (
-            <>
-                <li className={classNames({ current: props.isInPath }) + " " + props.cssClasses}>
-                    <a href={relativeURL(props.url)} className="tsd-kind-icon">
-                        {wbr(props.title)}
-                    </a>
-                    {!!props.children && (
-                        <>
-                            <ul>
-                                {props.children.map((item) => (
-                                    <> {partials.toc(item)}</>
-                                ))}
-                            </ul>
-                        </>
-                    )}
-                </li>
-            </>
+            <li className={classNames({ current: props.isInPath }) + " " + props.cssClasses}>
+                <a href={relativeURL(props.url)} className="tsd-kind-icon">
+                    {wbr(props.title)}
+                </a>
+                {!!props.children && (
+                    <ul>
+                        {props.children.map((item) => (
+                            <> {partials.toc(item)}</>
+                        ))}
+                    </ul>
+                )}
+            </li>
         );

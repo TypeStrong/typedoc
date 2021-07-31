@@ -15,33 +15,27 @@ export const footer = (_ctx: DefaultThemeRenderContext) => (props: PageEvent<Ref
                     <h2>Legend</h2>
                     <div className="tsd-legend-group">
                         {props.legend?.map((item) => (
-                            <>
-                                <ul className="tsd-legend">
-                                    {item.map((item) => (
-                                        <>
-                                            <li className={item.classes.join(" ")}>
-                                                <span className="tsd-kind-icon">{item.name}</span>
-                                            </li>
-                                        </>
-                                    ))}
-                                </ul>
-                            </>
+                            <ul className="tsd-legend">
+                                {item.map((item) => (
+                                    <li className={item.classes.join(" ")}>
+                                        <span className="tsd-kind-icon">{item.name}</span>
+                                    </li>
+                                ))}
+                            </ul>
                         ))}
                     </div>
                 </div>
             </footer>
 
             {!props.settings.hideGenerator && (
-                <>
-                    <div className="container tsd-generator">
-                        <p>
-                            {"Generated using "}
-                            <a href="https://typedoc.org/" target="_blank">
-                                TypeDoc
-                            </a>
-                        </p>
-                    </div>
-                </>
+                <div className="container tsd-generator">
+                    <p>
+                        {"Generated using "}
+                        <a href="https://typedoc.org/" target="_blank">
+                            TypeDoc
+                        </a>
+                    </p>
+                </div>
             )}
         </>
     );

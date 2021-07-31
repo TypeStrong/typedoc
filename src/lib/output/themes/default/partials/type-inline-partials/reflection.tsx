@@ -112,7 +112,7 @@ export const reflection =
                                 <span className="tsd-signature-symbol">{"{"} </span>
                                 {props.declaration.signatures.map((item, i, l) => (
                                     <>
-                                        {partials["memberSignatureTitle"](item, { hideName: true })}
+                                        {partials.memberSignatureTitle(item, { hideName: true })}
                                         {i < l.length - 1 && (
                                             <>
                                                 <span className="tsd-signature-symbol">; </span>
@@ -131,7 +131,7 @@ export const reflection =
                                 )}
                                 {With(props.declaration.signatures[0], (props) => (
                                     <>
-                                        {partials["memberSignatureTitle"](props, {
+                                        {partials.memberSignatureTitle(props, {
                                             hideName: true,
                                             arrowStyle: true,
                                         })}

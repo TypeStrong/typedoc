@@ -11,13 +11,11 @@ export const tocRoot =
                     {wbr(item.title)}
                 </a>
                 {!!item.children && (
-                    <>
-                        <ul>
-                            {item.children.map((item) => (
-                                <> {partials.toc(item)}</>
-                            ))}
-                        </ul>
-                    </>
+                    <ul>
+                        {item.children.map((item) => (
+                            <> {partials.toc(item)}</>
+                        ))}
+                    </ul>
                 )}
             </li>
         );

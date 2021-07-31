@@ -9,32 +9,22 @@ export const reference =
         return (
             <>
                 {reflection ? (
-                    <>
-                        {
-                            <a
-                                href={relativeURL(reflection.url) || ""}
-                                className="tsd-signature-type"
-                                data-tsd-kind={reflection.kindString}
-                            >
-                                {reflection.name}
-                            </a>
-                        }
-                    </>
+                    <a
+                        href={relativeURL(reflection.url) || ""}
+                        className="tsd-signature-type"
+                        data-tsd-kind={reflection.kindString}
+                    >
+                        {reflection.name}
+                    </a>
                 ) : (
-                    <>
-                        <span className="tsd-signature-type">{props.name}</span>
-                    </>
+                    <span className="tsd-signature-type">{props.name}</span>
                 )}
                 {props.typeArguments && props.typeArguments.length > 0 && (
                     <>
                         <span className="tsd-signature-symbol">{"<"}</span>
                         {props.typeArguments.map((item, i) => (
                             <>
-                                {i > 0 && (
-                                    <>
-                                        <span className="tsd-signature-symbol">, </span>
-                                    </>
-                                )}
+                                {i > 0 && <span className="tsd-signature-symbol">, </span>}
                                 {partials.type(item)}
                             </>
                         ))}

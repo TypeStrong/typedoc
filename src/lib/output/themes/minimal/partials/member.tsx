@@ -17,25 +17,23 @@ export const member =
                 <section className={"tsd-panel tsd-member " + props.cssClasses}>
                     <a name={props.anchor} className="tsd-anchor"></a>
                     {!!props.name && (
-                        <>
-                            <h3>
-                                {props.flags.map((item) => (
-                                    <>
-                                        <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
-                                    </>
-                                ))}
-                                {wbr(props.name)}
-                            </h3>
-                        </>
+                        <h3>
+                            {props.flags.map((item) => (
+                                <>
+                                    <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
+                                </>
+                            ))}
+                            {wbr(props.name)}
+                        </h3>
                     )}
                     {isDeclarationReflection(props) && props.signatures ? (
-                        <> {partials["memberSignatures"](props)}</>
+                        <> {partials.memberSignatures(props)}</>
                     ) : isDeclarationReflection(props) && props.hasGetterOrSetter() ? (
-                        <>{partials["memberGetterSetter"](props)}</>
+                        <>{partials.memberGetterSetter(props)}</>
                     ) : isReferenceReflection(props) && props.isReference ? (
-                        <>{partials["memberReference"](props)}</>
+                        <>{partials.memberReference(props)}</>
                     ) : (
-                        <> {partials["memberDeclaration"](props)}</>
+                        <> {partials.memberDeclaration(props)}</>
                     )}
 
                     {!isContainer(props) &&

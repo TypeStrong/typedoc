@@ -24,7 +24,7 @@ export const defaultLayout =
                         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
                         <link rel="stylesheet" href={relativeURL("assets/css/main.css")} />
-                        <script async={true} src={relativeURL("assets/js/search.js")} id="search-script"></script>
+                        <script async src={relativeURL("assets/js/search.js")} id="search-script"></script>
                     </head>
                     <body>
                         {partials.header(props)}
@@ -39,11 +39,7 @@ export const defaultLayout =
                                 ></div>
                                 <div className="col-4 col-menu menu-sticky-wrap menu-highlight">
                                     <nav className="tsd-navigation primary">
-                                        <ul>
-                                            {props.navigation?.children?.map((item) => (
-                                                <> {partials.navigation(item)}</>
-                                            ))}
-                                        </ul>
+                                        <ul>{props.navigation?.children?.map((item) => partials.navigation(item))}</ul>
                                     </nav>
 
                                     <nav className="tsd-navigation secondary menu-sticky">

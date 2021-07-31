@@ -1,4 +1,4 @@
-import { With, wbr, Compact, isReflectionType } from "../../lib";
+import { wbr, isReflectionType } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
 import { DeclarationReflection } from "../../../../models";
@@ -8,36 +8,32 @@ export const memberDeclaration =
         (
             <>
                 <div className="tsd-signature tsd-kind-icon">
-                    <Compact>
-                        {wbr(props.name)}
-                        {!!props.typeParameters && (
-                            <>
-                                {"<"}
-                                {props.typeParameters.map((item, i) => (
-                                    <>
-                                        {i > 0 && ",\xA0"}
-                                        {item.name}
-                                    </>
-                                ))}
-                                {">"}
-                            </>
-                        )}
-                        <span className="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
-                        {With(props.type, (props) => (
-                            <>{partials.type(props)}</>
-                        ))}
-                        {!!props.defaultValue && (
-                            <>
-                                <span className="tsd-signature-symbol">
-                                    {" = "}
-                                    {props.defaultValue}
-                                </span>
-                            </>
-                        )}
-                    </Compact>
+                    {wbr(props.name)}
+                    {!!props.typeParameters && (
+                        <>
+                            {"<"}
+                            {props.typeParameters.map((item, i) => (
+                                <>
+                                    {i > 0 && ",\xA0"}
+                                    {item.name}
+                                </>
+                            ))}
+                            {">"}
+                        </>
+                    )}
+                    <span className="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
+                    {props.type && partials.type(props.type)}
+                    {!!props.defaultValue && (
+                        <>
+                            <span className="tsd-signature-symbol">
+                                {" = "}
+                                {props.defaultValue}
+                            </span>
+                        </>
+                    )}
                 </div>
 
-                {partials["memberSources"](props)}
+                {partials.memberSources(props)}
 
                 {partials.comment(props)}
 
@@ -51,9 +47,7 @@ export const memberDeclaration =
                     <>
                         <div className="tsd-type-declaration">
                             <h4>Type declaration</h4>
-                            {With(props.type.declaration, (props) => (
-                                <>{partials.parameter(props)}</>
-                            ))}
+                            {partials.parameter(props.type.declaration)}
                         </div>
                     </>
                 )}
