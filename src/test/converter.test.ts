@@ -26,10 +26,10 @@ describe("Converter", function () {
 
     let program: ts.Program;
     it("Compiles", () => {
-        program = ts.createProgram(
-            app.options.getFileNames(),
-            app.options.getCompilerOptions()
-        );
+        program = ts.createProgram(app.options.getFileNames(), {
+            ...app.options.getCompilerOptions(),
+            noEmit: true,
+        });
 
         const errors = ts.getPreEmitDiagnostics(program);
         equal(errors, []);

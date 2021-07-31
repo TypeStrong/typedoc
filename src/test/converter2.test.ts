@@ -246,10 +246,10 @@ describe("Converter2", () => {
 
     let program: ts.Program;
     before("Compiles", () => {
-        program = ts.createProgram(
-            app.options.getFileNames(),
-            app.options.getCompilerOptions()
-        );
+        program = ts.createProgram(app.options.getFileNames(), {
+            ...app.options.getCompilerOptions(),
+            noEmit: true,
+        });
 
         const errors = ts.getPreEmitDiagnostics(program);
         app.logger.diagnostics(errors);

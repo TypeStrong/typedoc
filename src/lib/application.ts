@@ -55,7 +55,8 @@ const supportedVersionMajorMinor = packageInfo.peerDependencies.typescript
  */
 function getEntryPointsForPackages(
     logger: Logger,
-    packageGlobPaths: string[]
+    packageGlobPaths: string[],
+    willEmit: boolean
 ): DocumentationEntryPoint[] | undefined {
     const results = new Array<DocumentationEntryPoint>();
     // --packages arguments are workspace tree roots, or glob patterns
@@ -114,7 +115,7 @@ function getEntryPointsForPackages(
         }
         const program = ts.createProgram({
             rootNames: parsedCommandLine.fileNames,
-            options: parsedCommandLine.options,
+            options: fixCompilerOptions(parsedCommandLine.options, willEmit),
         });
         const sourceFile = program.getSourceFile(packageEntryPoint);
         if (sourceFile === undefined) {
@@ -131,6 +132,16 @@ function getEntryPointsForPackages(
         });
     }
     return results;
+}
+
+function fixCompilerOptions(
+    options: ts.CompilerOptions,
+    willEmit: boolean
+): ts.CompilerOptions {
+    return {
+        ...options,
+        noEmit: willEmit === false,
+    };
 }
 
 function getModuleName(fileName: string, baseDir: string) {
@@ -181,20 +192,21 @@ export class Application extends ChildableComponent<
 
     options: Options;
 
+    /** @internal */
     @BindOption("logger")
     loggerType!: string | Function;
 
+    /** @internal */
     @BindOption("exclude")
     exclude!: Array<string>;
 
+    /** @internal */
     @BindOption("entryPoints")
     entryPoints!: string[];
 
-    @BindOption("options")
-    optionsFile!: string;
-
-    @BindOption("tsconfig")
-    project!: string;
+    /** @internal */
+    @BindOption("emit")
+    emit!: boolean;
 
     /**
      * The version number of TypeDoc.
@@ -324,7 +336,11 @@ export class Application extends ChildableComponent<
         }
 
         const packages = this.options.getValue("packages").map(normalizePath);
-        const entryPoints = getEntryPointsForPackages(this.logger, packages);
+        const entryPoints = getEntryPointsForPackages(
+            this.logger,
+            packages,
+            this.emit
+        );
         if (entryPoints === undefined) {
             return;
         }
@@ -422,7 +438,7 @@ export class Application extends ChildableComponent<
 
         const host = ts.createWatchCompilerHost(
             tsconfigFile,
-            { noEmit: !this.options.getValue("emit") },
+            fixCompilerOptions({}, this.emit),
             ts.sys,
             ts.createEmitAndSemanticDiagnosticsBuilderProgram,
             (diagnostic) => this.logger.diagnostic(diagnostic),
@@ -599,7 +615,10 @@ export class Application extends ChildableComponent<
     private getEntryPrograms() {
         const rootProgram = ts.createProgram({
             rootNames: this.options.getFileNames(),
-            options: this.options.getCompilerOptions(),
+            options: fixCompilerOptions(
+                this.options.getCompilerOptions(),
+                this.emit
+            ),
             projectReferences: this.options.getProjectReferences(),
         });
 
@@ -617,7 +636,10 @@ export class Application extends ChildableComponent<
 
                 programs.push(
                     ts.createProgram({
-                        options: ref.commandLine.options,
+                        options: fixCompilerOptions(
+                            ref.commandLine.options,
+                            this.emit
+                        ),
                         rootNames: ref.commandLine.fileNames,
                         projectReferences: ref.commandLine.projectReferences,
                     })

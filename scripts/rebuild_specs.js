@@ -56,10 +56,10 @@ const conversions = [
  * @param {string[]} dirs
  */
 function rebuildConverterTests(dirs) {
-    const program = ts.createProgram(
-        app.options.getFileNames(),
-        app.options.getCompilerOptions()
-    );
+    const program = ts.createProgram(app.options.getFileNames(), {
+        ...app.options.getCompilerOptions(),
+        noEmit: true,
+    });
 
     const errors = ts.getPreEmitDiagnostics(program);
     if (errors.length) {
