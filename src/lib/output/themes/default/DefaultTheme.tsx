@@ -1,19 +1,22 @@
 import * as Path from "path";
 import * as FS from "fs";
 
-import { Theme } from "../theme";
-import { Renderer } from "../renderer";
+import { Theme } from "../../theme";
+import { Renderer } from "../../renderer";
 import {
     Reflection,
     ReflectionKind,
     ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
-} from "../../models/reflections/index";
-import { ReflectionGroup } from "../../models/ReflectionGroup";
-import { UrlMapping } from "../models/UrlMapping";
-import { NavigationItem } from "../models/NavigationItem";
-import { RendererEvent } from "../events";
+} from "../../../models/reflections/index";
+import { ReflectionGroup } from "../../../models/ReflectionGroup";
+import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
+import { NavigationItem } from "../../models/NavigationItem";
+import { PageEvent, RendererEvent } from "../../events";
+import { MarkedPlugin } from "../../plugins";
+import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
+import { renderToStaticMarkup } from "react-dom/server";
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
@@ -40,7 +43,7 @@ export interface TemplateMapping {
     /**
      * The name of the template that should be used to render the reflection.
      */
-    template: string;
+    template: RenderTemplate<PageEvent<any>>;
 }
 
 /**
@@ -48,33 +51,60 @@ export interface TemplateMapping {
  * [[BaseTheme]] implementation, this theme class will be used.
  */
 export class DefaultTheme extends Theme {
+    protected _markedPlugin: MarkedPlugin;
+    protected _renderContext?: DefaultThemeRenderContext;
+    getRenderContext(_pageEvent: PageEvent<any>) {
+        if (!this._renderContext) {
+            this._renderContext = new DefaultThemeRenderContext(
+                this._markedPlugin
+            );
+        }
+        return this._renderContext;
+    }
+
+    reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
+        return this.getRenderContext(pageEvent).partials.reflectionTemplate(
+            pageEvent
+        );
+    };
+    indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
+        return this.getRenderContext(pageEvent).partials.indexTemplate(
+            pageEvent
+        );
+    };
+    defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>) => {
+        return this.getRenderContext(pageEvent).partials.defaultLayout(
+            pageEvent
+        );
+    };
+
     /**
      * Mappings of reflections kinds to templates used by this theme.
      */
-    static MAPPINGS: TemplateMapping[] = [
+    MAPPINGS: TemplateMapping[] = [
         {
             kind: [ReflectionKind.Class],
             isLeaf: false,
             directory: "classes",
-            template: "reflection.hbs",
+            template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Interface],
             isLeaf: false,
             directory: "interfaces",
-            template: "reflection.hbs",
+            template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Enum],
             isLeaf: false,
             directory: "enums",
-            template: "reflection.hbs",
+            template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Namespace, ReflectionKind.Module],
             isLeaf: false,
             directory: "modules",
-            template: "reflection.hbs",
+            template: this.reflectionTemplate,
         },
     ];
 
@@ -88,12 +118,14 @@ export class DefaultTheme extends Theme {
      */
     constructor(renderer: Renderer, basePath: string) {
         super(renderer, basePath);
+        this._markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
         this.listenTo(
             renderer,
             RendererEvent.BEGIN,
             this.onRendererBegin,
             1024
         );
+        this.listenTo(renderer, PageEvent.END, this.onRendererEndPage, 1024);
     }
 
     /**
@@ -132,18 +164,30 @@ export class DefaultTheme extends Theme {
 
         if (false == hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
-            urls.push(new UrlMapping("index.html", project, "reflection.hbs"));
+            urls.push(
+                new UrlMapping<ContainerReflection>(
+                    "index.html",
+                    project,
+                    this.reflectionTemplate
+                )
+            );
         } else {
             project.url = "modules.html";
             urls.push(
-                new UrlMapping("modules.html", project, "reflection.hbs")
+                new UrlMapping<ContainerReflection>(
+                    "modules.html",
+                    project,
+                    this.reflectionTemplate
+                )
             );
-            urls.push(new UrlMapping("index.html", project, "index.hbs"));
+            urls.push(
+                new UrlMapping("index.html", project, this.indexTemplate)
+            );
         }
 
         project.children?.forEach((child: Reflection) => {
             if (child instanceof DeclarationReflection) {
-                DefaultTheme.buildUrls(child, urls);
+                this.buildUrls(child, urls);
             }
         });
 
@@ -193,6 +237,14 @@ export class DefaultTheme extends Theme {
             }
         }
     }
+    private onRendererEndPage(page: PageEvent<Reflection>) {
+        const layout = this.defaultLayoutTemplate;
+        const templateOutput = layout(page);
+        page.contents =
+            typeof templateOutput === "string"
+                ? templateOutput
+                : "<!DOCTYPE html>" + renderToStaticMarkup(templateOutput);
+    }
 
     /**
      * Return a url for the given reflection.
@@ -229,12 +281,8 @@ export class DefaultTheme extends Theme {
      * @param reflection  The reflection whose mapping should be resolved.
      * @returns           The found mapping or undefined if no mapping could be found.
      */
-    static getMapping(
-        reflection: DeclarationReflection
-    ): TemplateMapping | undefined {
-        return DefaultTheme.MAPPINGS.find((mapping) =>
-            reflection.kindOf(mapping.kind)
-        );
+    getMapping(reflection: DeclarationReflection): TemplateMapping | undefined {
+        return this.MAPPINGS.find((mapping) => reflection.kindOf(mapping.kind));
     }
 
     /**
@@ -244,11 +292,11 @@ export class DefaultTheme extends Theme {
      * @param urls        The array the url should be appended to.
      * @returns           The altered urls array.
      */
-    static buildUrls(
+    buildUrls(
         reflection: DeclarationReflection,
         urls: UrlMapping[]
     ): UrlMapping[] {
-        const mapping = DefaultTheme.getMapping(reflection);
+        const mapping = this.getMapping(reflection);
         if (mapping) {
             if (
                 !reflection.url ||
@@ -268,7 +316,7 @@ export class DefaultTheme extends Theme {
                 if (mapping.isLeaf) {
                     DefaultTheme.applyAnchorUrl(child, reflection);
                 } else {
-                    DefaultTheme.buildUrls(child, urls);
+                    this.buildUrls(child, urls);
                 }
             }
         } else if (reflection.parent) {

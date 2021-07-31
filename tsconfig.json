@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "CommonJS",
-        "lib": ["ES2018"],
+        "lib": ["ES2018", "dom"],
         "target": "ES2018",
 
         "experimentalDecorators": true,
@@ -27,9 +27,11 @@
         // Output
         "outDir": "dist/",
         "rootDir": "src/",
-        "newLine": "LF"
+        "newLine": "LF",
+
+        "jsx": "react"
     },
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": [
         "src/test/converter/**/*.ts",
         "src/test/converter2/**/*.ts",

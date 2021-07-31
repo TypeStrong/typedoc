@@ -1,0 +1,12 @@
+{
+    "core": {
+        "workingDir": "dist/tmp/.reg",
+        "actualDir": "dist/tmp/__screenshots__",
+        "thresholdRate": 0,
+        "addIgnore": true,
+        "ximgdiff": {
+            "invocationType": "client"
+        }
+    },
+    "plugins": {}
+}
