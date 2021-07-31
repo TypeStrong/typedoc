@@ -22,9 +22,7 @@ export const memberDeclaration =
                                 {">"}
                             </>
                         )}
-                        <span className="tsd-signature-symbol">
-                            {!!props.flags.isOptional && "?"}:
-                        </span>{" "}
+                        <span className="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
                         {With(props.type, (props) => (
                             <>{partials.type(props)}</>
                         ))}
@@ -45,9 +43,7 @@ export const memberDeclaration =
 
                 {!!props.typeParameters && (
                     <>
-                        <h4 className="tsd-type-parameters-title">
-                            Type parameters
-                        </h4>
+                        <h4 className="tsd-type-parameters-title">Type parameters</h4>
                         {partials.typeParameters(props)}
                     </>
                 )}

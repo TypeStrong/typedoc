@@ -20,24 +20,11 @@ export const defaultLayout =
                                 </>
                             )}
                         </title>
-                        <meta
-                            name="description"
-                            content={"Documentation for " + props.project.name}
-                        />
-                        <meta
-                            name="viewport"
-                            content="width=device-width, initial-scale=1"
-                        />
+                        <meta name="description" content={"Documentation for " + props.project.name} />
+                        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-                        <link
-                            rel="stylesheet"
-                            href={relativeURL("assets/css/main.css")}
-                        />
-                        <script
-                            async={true}
-                            src={relativeURL("assets/js/search.js")}
-                            id="search-script"
-                        ></script>
+                        <link rel="stylesheet" href={relativeURL("assets/css/main.css")} />
+                        <script async={true} src={relativeURL("assets/js/search.js")} id="search-script"></script>
                     </head>
                     <body>
                         {partials.header(props)}
@@ -53,66 +40,31 @@ export const defaultLayout =
                                 <div className="col-4 col-menu menu-sticky-wrap menu-highlight">
                                     <nav className="tsd-navigation primary">
                                         <ul>
-                                            {props.navigation?.children?.map(
-                                                (item) => (
-                                                    <>
-                                                        {" "}
-                                                        {partials.navigation(
-                                                            item
-                                                        )}
-                                                    </>
-                                                )
-                                            )}
+                                            {props.navigation?.children?.map((item) => (
+                                                <> {partials.navigation(item)}</>
+                                            ))}
                                         </ul>
                                     </nav>
 
                                     <nav className="tsd-navigation secondary menu-sticky">
                                         {(() => {
-                                            const children =
-                                                props.toc?.children ?? [];
-                                            let indexOfCurrent =
-                                                children.findIndex(
-                                                    (c) => c.isInPath
-                                                );
+                                            const children = props.toc?.children ?? [];
+                                            let indexOfCurrent = children.findIndex((c) => c.isInPath);
                                             // If none are isInPath, make sure all render within "before" block
-                                            if (indexOfCurrent === -1)
-                                                indexOfCurrent =
-                                                    children.length;
-                                            const childrenBefore =
-                                                children.slice(
-                                                    0,
-                                                    indexOfCurrent
-                                                );
-                                            const childInPath =
-                                                children[indexOfCurrent];
-                                            const childrenAfter =
-                                                children.slice(
-                                                    indexOfCurrent + 1
-                                                );
+                                            if (indexOfCurrent === -1) indexOfCurrent = children.length;
+                                            const childrenBefore = children.slice(0, indexOfCurrent);
+                                            const childInPath = children[indexOfCurrent];
+                                            const childrenAfter = children.slice(indexOfCurrent + 1);
                                             return (
                                                 <>
                                                     <ul className="before-current">
-                                                        {childrenBefore.map(
-                                                            (item) =>
-                                                                partials.tocRoot(
-                                                                    item
-                                                                )
-                                                        )}
+                                                        {childrenBefore.map((item) => partials.tocRoot(item))}
                                                     </ul>
                                                     {childInPath && (
                                                         <>
-                                                            <ul className="current">
-                                                                {partials.tocRoot(
-                                                                    childInPath
-                                                                )}
-                                                            </ul>
+                                                            <ul className="current">{partials.tocRoot(childInPath)}</ul>
                                                             <ul className="after-current">
-                                                                {childrenAfter.map(
-                                                                    (item) =>
-                                                                        partials.tocRoot(
-                                                                            item
-                                                                        )
-                                                                )}
+                                                                {childrenAfter.map((item) => partials.tocRoot(item))}
                                                             </ul>
                                                         </>
                                                     )}

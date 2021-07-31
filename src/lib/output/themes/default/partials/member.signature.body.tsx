@@ -1,19 +1,10 @@
-import {
-    With,
-    Compact,
-    hasDefaultValue,
-    hasType,
-    isReflectionType,
-} from "../../lib";
+import { With, Compact, hasDefaultValue, hasType, isReflectionType } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
 import { SignatureReflection } from "../../../../models";
 export const memberSignatureBody =
     ({ partials, Markdown }: DefaultThemeRenderContext) =>
-    (
-        props: SignatureReflection,
-        { hideSources = false }: { hideSources?: boolean } = {}
-    ) =>
+    (props: SignatureReflection, { hideSources = false }: { hideSources?: boolean } = {}) =>
         (
             <>
                 {!hideSources && <> {partials["memberSources"](props)}</>}
@@ -21,9 +12,7 @@ export const memberSignatureBody =
 
                 {!!props.typeParameters && (
                     <>
-                        <h4 className="tsd-type-parameters-title">
-                            Type parameters
-                        </h4>
+                        <h4 className="tsd-type-parameters-title">Type parameters</h4>
                         {partials.typeParameters(props)}
                     </>
                 )}
@@ -38,20 +27,11 @@ export const memberSignatureBody =
                                             <Compact>
                                                 {item.flags.map((item) => (
                                                     <>
-                                                        <span
-                                                            className={
-                                                                "tsd-flag ts-flag" +
-                                                                item
-                                                            }
-                                                        >
-                                                            {item}
-                                                        </span>{" "}
+                                                        <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                     </>
                                                 ))}
                                                 {!!item.flags.isRest && (
-                                                    <span className="tsd-signature-symbol">
-                                                        ...
-                                                    </span>
+                                                    <span className="tsd-signature-symbol">...</span>
                                                 )}
                                                 {item.name}
                                                 {": "}
@@ -69,22 +49,13 @@ export const memberSignatureBody =
                                             </Compact>
                                         </h5>
                                         {partials.comment(item)}
-                                        {hasType(item) &&
-                                            isReflectionType(item.type) &&
-                                            !!item.type.declaration && (
-                                                <>
-                                                    {With(
-                                                        item.type.declaration,
-                                                        (props) => (
-                                                            <>
-                                                                {partials.parameter(
-                                                                    props
-                                                                )}
-                                                            </>
-                                                        )
-                                                    )}
-                                                </>
-                                            )}
+                                        {hasType(item) && isReflectionType(item.type) && !!item.type.declaration && (
+                                            <>
+                                                {With(item.type.declaration, (props) => (
+                                                    <>{partials.parameter(props)}</>
+                                                ))}
+                                            </>
+                                        )}
                                     </li>
                                 </>
                             ))}
@@ -106,14 +77,13 @@ export const memberSignatureBody =
                                 <Markdown>{props.comment.returns}</Markdown>
                             </>
                         )}
-                        {isReflectionType(props.type) &&
-                            props.type.declaration && (
-                                <>
-                                    {With(props.type.declaration, (props) => (
-                                        <>{partials.parameter(props)}</>
-                                    ))}
-                                </>
-                            )}
+                        {isReflectionType(props.type) && props.type.declaration && (
+                            <>
+                                {With(props.type.declaration, (props) => (
+                                    <>{partials.parameter(props)}</>
+                                ))}
+                            </>
+                        )}
                     </>
                 )}
             </>

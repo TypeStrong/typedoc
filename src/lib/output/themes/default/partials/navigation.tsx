@@ -18,13 +18,7 @@ export const navigation =
         ...but that is not declared anywhere in typedoc, so it was always false.
     */ ? (
             <>
-                <li
-                    className={
-                        classNames({ globals: true, current: props.isInPath }) +
-                        " " +
-                        props.cssClasses
-                    }
-                >
+                <li className={classNames({ globals: true, current: props.isInPath }) + " " + props.cssClasses}>
                     <a href={relativeURL(props.url)}>
                         <em>{wbr(props.title)}</em>
                     </a>
@@ -32,13 +26,7 @@ export const navigation =
             </>
         ) : (
             <>
-                <li
-                    className={
-                        classNames({ current: props.isInPath }) +
-                        " " +
-                        props.cssClasses
-                    }
-                >
+                <li className={classNames({ current: props.isInPath }) + " " + props.cssClasses}>
                     <a href={relativeURL(props.url)}>{wbr(props.title)}</a>
                     {!!props.isInPath && !!props.children && (
                         <>

@@ -18,12 +18,9 @@ export const indexTemplate =
                             <>
                                 <section className="tsd-hierarchy">
                                     <h2>Hierarchy</h2>
-                                    {With(
-                                        props.model.typeHierarchy,
-                                        (props) => (
-                                            <>{partials.hierarchy(props)}</>
-                                        )
-                                    )}
+                                    {With(props.model.typeHierarchy, (props) => (
+                                        <>{partials.hierarchy(props)}</>
+                                    ))}
                                 </section>
                             </>
                         )}
@@ -34,10 +31,7 @@ export const indexTemplate =
                                         position: "relative",
                                     }}
                                 >
-                                    <a
-                                        {...{ name: "typedoc-main-index" }}
-                                        className="tsd-anchor"
-                                    ></a>
+                                    <a {...{ name: "typedoc-main-index" }} className="tsd-anchor"></a>
                                 </div>
                                 {partials.index(props)}
                                 {partials.members(props)}

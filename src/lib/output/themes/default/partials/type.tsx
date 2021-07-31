@@ -15,11 +15,8 @@ export const type =
     () => 1 | 2 !== (() => 1) | 2
     */
         if (props) {
-            const typeIdent =
-                props.type as keyof typeof partials["typePartials"];
-            const renderFn = partials.typePartials[
-                typeIdent
-            ] as TypeRenderTemplate;
+            const typeIdent = props.type as keyof typeof partials["typePartials"];
+            const renderFn = partials.typePartials[typeIdent] as TypeRenderTemplate;
             return renderFn(props, options);
         } else {
             return (
@@ -30,7 +27,4 @@ export const type =
         }
     };
 
-type TypeRenderTemplate = (
-    type: Type,
-    options?: TypeInlinePartialsOptions
-) => React.ReactElement;
+type TypeRenderTemplate = (type: Type, options?: TypeInlinePartialsOptions) => React.ReactElement;

@@ -4,10 +4,7 @@ import * as React from "react";
 import { UnionType } from "../../../../../models";
 export const union =
     ({ partials }: DefaultThemeRenderContext) =>
-    (
-        props: UnionType,
-        { needsParens = false }: TypeInlinePartialsOptions = {}
-    ) =>
+    (props: UnionType, { needsParens = false }: TypeInlinePartialsOptions = {}) =>
         (
             <>
                 {!!needsParens && (
@@ -19,10 +16,7 @@ export const union =
                     <>
                         {i !== 0 && (
                             <>
-                                <span className="tsd-signature-symbol">
-                                    {" "}
-                                    |{" "}
-                                </span>
+                                <span className="tsd-signature-symbol"> | </span>
                             </>
                         )}
                         {partials.type(item, { needsParens: true })}

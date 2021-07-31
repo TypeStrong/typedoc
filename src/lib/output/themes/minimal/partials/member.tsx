@@ -21,13 +21,7 @@ export const member =
                             <h3>
                                 {props.flags.map((item) => (
                                     <>
-                                        <span
-                                            className={
-                                                "tsd-flag ts-flag" + item
-                                            }
-                                        >
-                                            {item}
-                                        </span>{" "}
+                                        <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                     </>
                                 ))}
                                 {wbr(props.name)}
@@ -36,8 +30,7 @@ export const member =
                     )}
                     {isDeclarationReflection(props) && props.signatures ? (
                         <> {partials["memberSignatures"](props)}</>
-                    ) : isDeclarationReflection(props) &&
-                      props.hasGetterOrSetter() ? (
+                    ) : isDeclarationReflection(props) && props.hasGetterOrSetter() ? (
                         <>{partials["memberGetterSetter"](props)}</>
                     ) : isReferenceReflection(props) && props.isReference ? (
                         <>{partials["memberReference"](props)}</>
@@ -46,21 +39,12 @@ export const member =
                     )}
 
                     {!isContainer(props) &&
-                        /*TODO*/ (
-                            props as unknown as DeclarationReflection
-                        ).groups?.map((item) => (
+                        /*TODO*/ (props as unknown as DeclarationReflection).groups?.map((item) => (
                             <>
                                 {item.children.map((item) => (
                                     <>
                                         {!item.hasOwnDocument && (
-                                            <>
-                                                {" "}
-                                                {partials.member(
-                                                    assertIsDeclarationReflection(
-                                                        item
-                                                    )
-                                                )}
-                                            </>
+                                            <> {partials.member(assertIsDeclarationReflection(item))}</>
                                         )}
                                     </>
                                 ))}

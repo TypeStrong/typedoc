@@ -4,10 +4,7 @@ import { IntersectionType } from "../../../../../models";
 import { TypeInlinePartialsOptions } from "./options";
 export const intersection =
     ({ partials }: DefaultThemeRenderContext) =>
-    (
-        props: IntersectionType,
-        { needsParens = false }: TypeInlinePartialsOptions = {}
-    ) =>
+    (props: IntersectionType, { needsParens = false }: TypeInlinePartialsOptions = {}) =>
         (
             <>
                 {!!needsParens && (
@@ -19,10 +16,7 @@ export const intersection =
                     <>
                         {i > 0 && (
                             <>
-                                <span className="tsd-signature-symbol">
-                                    {" "}
-                                    &{" "}
-                                </span>
+                                <span className="tsd-signature-symbol"> & </span>
                             </>
                         )}
                         {partials.type(item, { needsParens: true })}

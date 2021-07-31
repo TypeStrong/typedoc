@@ -32,9 +32,7 @@ export const reference =
                             <>
                                 {i > 0 && (
                                     <>
-                                        <span className="tsd-signature-symbol">
-                                            ,{" "}
-                                        </span>
+                                        <span className="tsd-signature-symbol">, </span>
                                     </>
                                 )}
                                 {partials.type(item)}

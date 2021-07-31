@@ -10,24 +10,12 @@ export const members =
                   <>
                       {!item.allChildrenHaveOwnDocument() && (
                           <>
-                              <section
-                                  className={
-                                      "tsd-panel-group tsd-member-group " +
-                                      props.cssClasses
-                                  }
-                              >
+                              <section className={"tsd-panel-group tsd-member-group " + props.cssClasses}>
                                   <h2>{item.title}</h2>
                                   {item.children.map((item) => (
                                       <>
                                           {!item.hasOwnDocument && (
-                                              <>
-                                                  {" "}
-                                                  {partials.member(
-                                                      assertIsDeclarationReflection(
-                                                          item
-                                                      )
-                                                  )}
-                                              </>
+                                              <> {partials.member(assertIsDeclarationReflection(item))}</>
                                           )}
                                       </>
                                   ))}
@@ -37,9 +25,5 @@ export const members =
                   </>
               ))
             : props.groups?.map((item) => (
-                  <>
-                      {!item.allChildrenHaveOwnDocument() && (
-                          <> {partials.membersGroup(item)}</>
-                      )}
-                  </>
+                  <>{!item.allChildrenHaveOwnDocument() && <> {partials.membersGroup(item)}</>}</>
               ));

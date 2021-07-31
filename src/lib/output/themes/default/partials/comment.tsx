@@ -18,18 +18,12 @@ export const comment =
                                             <div
                                                 className="lead"
                                                 dangerouslySetInnerHTML={{
-                                                    __html:
-                                                        "\n" +
-                                                        markdown(
-                                                            props.shortText
-                                                        ),
+                                                    __html: "\n" + markdown(props.shortText),
                                                 }}
                                             ></div>
                                         </>
                                     )}
-                                    {!!props.text && (
-                                        <Markdown>{props.text}</Markdown>
-                                    )}
+                                    {!!props.text && <Markdown>{props.text}</Markdown>}
                                     {props.tags?.length > 0 && (
                                         <>
                                             <dl className="tsd-comment-tags">
@@ -38,9 +32,7 @@ export const comment =
                                                         <dt>{item.tagName}</dt>
                                                         <dd
                                                             dangerouslySetInnerHTML={{
-                                                                __html: markdown(
-                                                                    item.text
-                                                                ),
+                                                                __html: markdown(item.text),
                                                             }}
                                                         ></dd>
                                                     </>

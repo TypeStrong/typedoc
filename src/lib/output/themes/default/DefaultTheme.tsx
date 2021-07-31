@@ -55,27 +55,19 @@ export class DefaultTheme extends Theme {
     protected _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(
-                this._markedPlugin
-            );
+            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin);
         }
         return this._renderContext;
     }
 
     reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
-        return this.getRenderContext(pageEvent).partials.reflectionTemplate(
-            pageEvent
-        );
+        return this.getRenderContext(pageEvent).partials.reflectionTemplate(pageEvent);
     };
     indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return this.getRenderContext(pageEvent).partials.indexTemplate(
-            pageEvent
-        );
+        return this.getRenderContext(pageEvent).partials.indexTemplate(pageEvent);
     };
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>) => {
-        return this.getRenderContext(pageEvent).partials.defaultLayout(
-            pageEvent
-        );
+        return this.getRenderContext(pageEvent).partials.defaultLayout(pageEvent);
     };
 
     /**
@@ -119,12 +111,7 @@ export class DefaultTheme extends Theme {
     constructor(renderer: Renderer, basePath: string) {
         super(renderer, basePath);
         this._markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
-        this.listenTo(
-            renderer,
-            RendererEvent.BEGIN,
-            this.onRendererBegin,
-            1024
-        );
+        this.listenTo(renderer, RendererEvent.BEGIN, this.onRendererBegin, 1024);
         this.listenTo(renderer, PageEvent.END, this.onRendererEndPage, 1024);
     }
 
@@ -164,25 +151,11 @@ export class DefaultTheme extends Theme {
 
         if (false == hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
-            urls.push(
-                new UrlMapping<ContainerReflection>(
-                    "index.html",
-                    project,
-                    this.reflectionTemplate
-                )
-            );
+            urls.push(new UrlMapping<ContainerReflection>("index.html", project, this.reflectionTemplate));
         } else {
             project.url = "modules.html";
-            urls.push(
-                new UrlMapping<ContainerReflection>(
-                    "modules.html",
-                    project,
-                    this.reflectionTemplate
-                )
-            );
-            urls.push(
-                new UrlMapping("index.html", project, this.indexTemplate)
-            );
+            urls.push(new UrlMapping<ContainerReflection>("modules.html", project, this.reflectionTemplate));
+            urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         }
 
         project.children?.forEach((child: Reflection) => {
@@ -201,16 +174,9 @@ export class DefaultTheme extends Theme {
      * @returns        The root navigation item.
      */
     getNavigation(project: ProjectReflection): NavigationItem {
-        const multipleEntryPoints =
-            project.getChildrenByKind(ReflectionKind.Module).length !== 0;
-        const builder = new NavigationBuilder(
-            project,
-            project,
-            multipleEntryPoints
-        );
-        return builder.build(
-            hasReadme(this.application.options.getValue("readme"))
-        );
+        const multipleEntryPoints = project.getChildrenByKind(ReflectionKind.Module).length !== 0;
+        const builder = new NavigationBuilder(project, project, multipleEntryPoints);
+        return builder.build(hasReadme(this.application.options.getValue("readme")));
     }
 
     /**
@@ -229,10 +195,7 @@ export class DefaultTheme extends Theme {
                 DefaultTheme.applyReflectionClasses(reflection);
             }
 
-            if (
-                reflection instanceof ContainerReflection &&
-                reflection.groups
-            ) {
+            if (reflection instanceof ContainerReflection && reflection.groups) {
                 reflection.groups.forEach(DefaultTheme.applyGroupClasses);
             }
         }
@@ -254,22 +217,11 @@ export class DefaultTheme extends Theme {
      * @param separator   The separator used to generate the url.
      * @returns           The generated url.
      */
-    static getUrl(
-        reflection: Reflection,
-        relative?: Reflection,
-        separator = "."
-    ): string {
+    static getUrl(reflection: Reflection, relative?: Reflection, separator = "."): string {
         let url = reflection.getAlias();
 
-        if (
-            reflection.parent &&
-            reflection.parent !== relative &&
-            !(reflection.parent instanceof ProjectReflection)
-        ) {
-            url =
-                DefaultTheme.getUrl(reflection.parent, relative, separator) +
-                separator +
-                url;
+        if (reflection.parent && reflection.parent !== relative && !(reflection.parent instanceof ProjectReflection)) {
+            url = DefaultTheme.getUrl(reflection.parent, relative, separator) + separator + url;
         }
 
         return url;
@@ -292,20 +244,11 @@ export class DefaultTheme extends Theme {
      * @param urls        The array the url should be appended to.
      * @returns           The altered urls array.
      */
-    buildUrls(
-        reflection: DeclarationReflection,
-        urls: UrlMapping[]
-    ): UrlMapping[] {
+    buildUrls(reflection: DeclarationReflection, urls: UrlMapping[]): UrlMapping[] {
         const mapping = this.getMapping(reflection);
         if (mapping) {
-            if (
-                !reflection.url ||
-                !DefaultTheme.URL_PREFIX.test(reflection.url)
-            ) {
-                const url = [
-                    mapping.directory,
-                    DefaultTheme.getUrl(reflection) + ".html",
-                ].join("/");
+            if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
+                const url = [mapping.directory, DefaultTheme.getUrl(reflection) + ".html"].join("/");
                 urls.push(new UrlMapping(url, reflection, mapping.template));
 
                 reflection.url = url;
@@ -372,10 +315,7 @@ export class DefaultTheme extends Theme {
             classes.push(DefaultTheme.toStyleClass("tsd-kind-" + kind));
         }
 
-        if (
-            reflection.parent &&
-            reflection.parent instanceof DeclarationReflection
-        ) {
+        if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
             kind = ReflectionKind[reflection.parent.kind];
             classes.push(DefaultTheme.toStyleClass(`tsd-parent-kind-${kind}`));
         }
@@ -439,9 +379,7 @@ export class DefaultTheme extends Theme {
      * css class, e.g. "constructor method" > "Constructor-method".
      */
     static toStyleClass(str: string) {
-        return str
-            .replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2)
-            .toLowerCase();
+        return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();
     }
 }
 
@@ -468,34 +406,28 @@ export class NavigationBuilder {
         sidebarRoot.isModules = true;
 
         const modules: DeclarationReflection[] = [];
-        this.project
-            .getReflectionsByKind(ReflectionKind.SomeModule)
-            .forEach((someModule) => {
-                let target = someModule.parent;
-                let inScope = someModule === this.entryPoint;
-                while (target) {
-                    if (target.kindOf(ReflectionKind.Module)) {
-                        return;
-                    }
-                    if (this.entryPoint === target) {
-                        inScope = true;
-                    }
-                    target = target.parent;
+        this.project.getReflectionsByKind(ReflectionKind.SomeModule).forEach((someModule) => {
+            let target = someModule.parent;
+            let inScope = someModule === this.entryPoint;
+            while (target) {
+                if (target.kindOf(ReflectionKind.Module)) {
+                    return;
                 }
+                if (this.entryPoint === target) {
+                    inScope = true;
+                }
+                target = target.parent;
+            }
 
-                if (inScope && someModule instanceof DeclarationReflection) {
-                    modules.push(someModule);
-                }
-            });
+            if (inScope && someModule instanceof DeclarationReflection) {
+                modules.push(someModule);
+            }
+        });
 
         if (modules.length < 10) {
             this.buildGroups(modules, root);
         } else {
-            this.buildGroups(
-                this.entryPoint.getChildrenByKind(ReflectionKind.SomeModule),
-                root,
-                true
-            );
+            this.buildGroups(this.entryPoint.getChildrenByKind(ReflectionKind.SomeModule), root, true);
         }
 
         return root;
@@ -509,35 +441,17 @@ export class NavigationBuilder {
      * @param parent       The parent NavigationItem of the newly created nodes.
      * @param buildChildren Whether navigation nodes should also be built for the children of each reflection.
      */
-    protected buildGroups(
-        reflections: DeclarationReflection[],
-        parent: NavigationItem,
-        buildChildren = false
-    ) {
+    protected buildGroups(reflections: DeclarationReflection[], parent: NavigationItem, buildChildren = false) {
         let state = -1;
         const hasExternals = this.containsExternals(reflections);
         this.sortReflections(reflections);
 
         reflections.forEach((reflection) => {
             if (hasExternals && !reflection.flags.isExternal && state !== 1) {
-                new NavigationItem(
-                    "Internals",
-                    undefined,
-                    parent,
-                    "tsd-is-external"
-                );
+                new NavigationItem("Internals", undefined, parent, "tsd-is-external");
                 state = 1;
-            } else if (
-                hasExternals &&
-                reflection.flags.isExternal &&
-                state !== 2
-            ) {
-                new NavigationItem(
-                    "Externals",
-                    undefined,
-                    parent,
-                    "tsd-is-external"
-                );
+            } else if (hasExternals && reflection.flags.isExternal && state !== 2) {
+                new NavigationItem("Externals", undefined, parent, "tsd-is-external");
                 state = 2;
             }
 
@@ -555,10 +469,7 @@ export class NavigationBuilder {
      * @param reflection  The reflection whose children modules should be transformed into navigation nodes.
      * @param parent      The parent NavigationItem of the newly created nodes.
      */
-    protected buildChildren(
-        reflection: DeclarationReflection,
-        parent: NavigationItem
-    ) {
+    protected buildChildren(reflection: DeclarationReflection, parent: NavigationItem) {
         const modules = reflection.getChildrenByKind(ReflectionKind.SomeModule);
         modules.sort((a: DeclarationReflection, b: DeclarationReflection) => {
             return a.getFullName() < b.getFullName() ? -1 : 1;
@@ -610,16 +521,10 @@ export class NavigationBuilder {
      * @param reflection  The reflection whose children urls should be included.
      * @param item        The navigation node whose dedicated urls should be set.
      */
-    protected includeDedicatedUrls(
-        reflection: DeclarationReflection,
-        item: NavigationItem
-    ) {
+    protected includeDedicatedUrls(reflection: DeclarationReflection, item: NavigationItem) {
         (function walk(reflection: DeclarationReflection) {
             for (const child of reflection.children || []) {
-                if (
-                    child.hasOwnDocument &&
-                    !child.kindOf(ReflectionKind.SomeModule)
-                ) {
+                if (child.hasOwnDocument && !child.kindOf(ReflectionKind.SomeModule)) {
                     if (!item.dedicatedUrls) {
                         item.dedicatedUrls = [];
                     }

@@ -1,12 +1,4 @@
-import {
-    With,
-    Compact,
-    IfCond,
-    IfNotCond,
-    isSignature,
-    hasElementType,
-    isReferenceType,
-} from "../../lib";
+import { With, Compact, IfCond, IfNotCond, isSignature, hasElementType, isReferenceType } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
 import { Type } from "../../../../models";
@@ -31,35 +23,17 @@ export const typeAndParent =
                                 <IfCond cond={isSignature(props.reflection)}>
                                     {props.reflection.parent?.parent?.url ? (
                                         <>
-                                            <a
-                                                href={relativeURL(
-                                                    props.reflection.parent
-                                                        .parent.url
-                                                )}
-                                            >
-                                                {
-                                                    props.reflection.parent
-                                                        .parent.name
-                                                }
+                                            <a href={relativeURL(props.reflection.parent.parent.url)}>
+                                                {props.reflection.parent.parent.name}
                                             </a>
                                         </>
                                     ) : (
-                                        <>
-                                            {" "}
-                                            {
-                                                props.reflection.parent?.parent
-                                                    ?.name
-                                            }
-                                        </>
+                                        <> {props.reflection.parent?.parent?.name}</>
                                     )}
                                     .
                                     {props.reflection.parent?.url ? (
                                         <>
-                                            <a
-                                                href={relativeURL(
-                                                    props.reflection.parent.url
-                                                )}
-                                            >
+                                            <a href={relativeURL(props.reflection.parent.url)}>
                                                 {props.reflection.parent.name}
                                             </a>
                                         </>
@@ -70,11 +44,7 @@ export const typeAndParent =
                                 <IfNotCond cond={isSignature(props.reflection)}>
                                     {props.reflection.parent?.url ? (
                                         <>
-                                            <a
-                                                href={relativeURL(
-                                                    props.reflection.parent.url
-                                                )}
-                                            >
+                                            <a href={relativeURL(props.reflection.parent.url)}>
                                                 {props.reflection.parent.name}
                                             </a>
                                         </>
@@ -84,13 +54,7 @@ export const typeAndParent =
                                     .
                                     {props.reflection.url ? (
                                         <>
-                                            <a
-                                                href={relativeURL(
-                                                    props.reflection.url
-                                                )}
-                                            >
-                                                {props.reflection.name}
-                                            </a>
+                                            <a href={relativeURL(props.reflection.url)}>{props.reflection.name}</a>
                                         </>
                                     ) : (
                                         <> {props.reflection.name}</>

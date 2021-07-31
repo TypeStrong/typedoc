@@ -18,25 +18,12 @@ export const index =
                                         <ul className="tsd-index-list">
                                             {item.children.map((item) => (
                                                 <>
-                                                    <li
-                                                        className={
-                                                            item.cssClasses
-                                                        }
-                                                    >
-                                                        <a
-                                                            href={relativeURL(
-                                                                item.url
-                                                            )}
-                                                            className="tsd-kind-icon"
-                                                        >
+                                                    <li className={item.cssClasses}>
+                                                        <a href={relativeURL(item.url)} className="tsd-kind-icon">
                                                             {item.name ? (
                                                                 wbr(item.name)
                                                             ) : (
-                                                                <em>
-                                                                    {wbr(
-                                                                        item.kindString!
-                                                                    )}
-                                                                </em>
+                                                                <em>{wbr(item.kindString!)}</em>
                                                             )}
                                                         </a>
                                                     </li>
@@ -59,56 +46,31 @@ export const index =
                             <div className="tsd-index-content">
                                 {props.groups.map((item) => (
                                     <>
-                                        <section
-                                            className={
-                                                "tsd-index-section " +
-                                                item.cssClasses
-                                            }
-                                        >
+                                        <section className={"tsd-index-section " + item.cssClasses}>
                                             {item.categories ? (
                                                 item.categories.map((item2) => (
                                                     <>
                                                         <h3>
-                                                            {!!item2.title && (
-                                                                <>
-                                                                    {
-                                                                        item2.title
-                                                                    }{" "}
-                                                                </>
-                                                            )}
+                                                            {!!item2.title && <>{item2.title} </>}
                                                             {item.title}
                                                         </h3>
                                                         <ul className="tsd-index-list">
-                                                            {item2.children.map(
-                                                                (item) => (
-                                                                    <>
-                                                                        <li
-                                                                            className={
-                                                                                item.cssClasses
-                                                                            }
+                                                            {item2.children.map((item) => (
+                                                                <>
+                                                                    <li className={item.cssClasses}>
+                                                                        <a
+                                                                            href={relativeURL(item.url)}
+                                                                            className="tsd-kind-icon"
                                                                         >
-                                                                            <a
-                                                                                href={relativeURL(
-                                                                                    item.url
-                                                                                )}
-                                                                                className="tsd-kind-icon"
-                                                                            >
-                                                                                {item.name ? (
-                                                                                    wbr(
-                                                                                        item.name
-                                                                                    )
-                                                                                ) : (
-                                                                                    <em>
-                                                                                        {wbr(
-                                                                                            item.kindString!
-                                                                                        )}
-                                                                                    </em>
-                                                                                )}
-                                                                            </a>
-                                                                        </li>
-                                                                    </>
-                                                                )
-                                                            )}
+                                                                            {item.name ? (
+                                                                                wbr(item.name)
+                                                                            ) : (
+                                                                                <em>{wbr(item.kindString!)}</em>
+                                                                            )}
+                                                                        </a>
+                                                                    </li>
+                                                                </>
+                                                            ))}
                                                         </ul>
                                                     </>
                                                 ))
@@ -116,36 +78,22 @@ export const index =
                                                 <>
                                                     <h3>{item.title}</h3>
                                                     <ul className="tsd-index-list">
-                                                        {item.children.map(
-                                                            (item) => (
-                                                                <>
-                                                                    <li
-                                                                        className={
-                                                                            item.cssClasses
-                                                                        }
+                                                        {item.children.map((item) => (
+                                                            <>
+                                                                <li className={item.cssClasses}>
+                                                                    <a
+                                                                        href={relativeURL(item.url)}
+                                                                        className="tsd-kind-icon"
                                                                     >
-                                                                        <a
-                                                                            href={relativeURL(
-                                                                                item.url
-                                                                            )}
-                                                                            className="tsd-kind-icon"
-                                                                        >
-                                                                            {item.name ? (
-                                                                                wbr(
-                                                                                    item.name
-                                                                                )
-                                                                            ) : (
-                                                                                <em>
-                                                                                    {wbr(
-                                                                                        item.kindString!
-                                                                                    )}
-                                                                                </em>
-                                                                            )}
-                                                                        </a>
-                                                                    </li>
-                                                                </>
-                                                            )
-                                                        )}
+                                                                        {item.name ? (
+                                                                            wbr(item.name)
+                                                                        ) : (
+                                                                            <em>{wbr(item.kindString!)}</em>
+                                                                        )}
+                                                                    </a>
+                                                                </li>
+                                                            </>
+                                                        ))}
                                                     </ul>
                                                 </>
                                             )}

@@ -12,10 +12,7 @@ import {
     Reflection,
     DeclarationReflection,
 } from "../../models";
-import {
-    DefaultValueContainer,
-    TypeContainer,
-} from "../../models/reflections/abstract";
+import { DefaultValueContainer, TypeContainer } from "../../models/reflections/abstract";
 export { wbr } from "../helpers/wbr";
 export { stringify } from "../helpers/stringify";
 
@@ -32,10 +29,7 @@ export { stringify } from "../helpers/stringify";
  *
  *     { With(props.foo, (props, item = props) => <>Markup</>) }
  */
-export function With<B, C>(
-    props: B | null | undefined,
-    cb: (props: B) => C
-): C | undefined {
+export function With<B, C>(props: B | null | undefined, cb: (props: B) => C): C | undefined {
     if (props != null) {
         return cb(props);
     }
@@ -69,9 +63,7 @@ export function Compact<T>(props: { children: T }) {
     // return <React.Fragment dangerouslySetInnerHtml={{ __html: markup.replace(/\r|\n/g, "") }}></React.Fragment>;
 }
 
-export function isSignature(
-    reflection: Reflection
-): reflection is SignatureReflection {
+export function isSignature(reflection: Reflection): reflection is SignatureReflection {
     // return !!(reflection.kind & ReflectionKind.SomeSignature);
     return reflection instanceof SignatureReflection;
 }
@@ -83,45 +75,32 @@ export function classNames(names: Record<string, boolean | null | undefined>) {
         .join(" ");
 }
 
-export function isDeclarationReflection(
-    reflection: Reflection
-): reflection is DeclarationReflection {
+export function isDeclarationReflection(reflection: Reflection): reflection is DeclarationReflection {
     return reflection instanceof DeclarationReflection;
 }
-export function assertIsDeclarationReflection(
-    reflection: Reflection
-): DeclarationReflection {
+export function assertIsDeclarationReflection(reflection: Reflection): DeclarationReflection {
     assert(reflection instanceof DeclarationReflection);
     return reflection;
 }
 
-export function isProjectReflection(
-    reflection: Reflection
-): reflection is ProjectReflection {
+export function isProjectReflection(reflection: Reflection): reflection is ProjectReflection {
     return reflection instanceof ProjectReflection;
 }
 
-export function isReflectionType(
-    type: Type | undefined
-): type is ReflectionType {
+export function isReflectionType(type: Type | undefined): type is ReflectionType {
     return type != null && type instanceof ReflectionType;
 }
 export function isReferenceType(type: Type | undefined): type is ReferenceType {
     return type != null && type instanceof ReferenceType;
 }
 
-export function isReferenceReflection(
-    reflection: Reflection
-): reflection is ReferenceReflection {
+export function isReferenceReflection(reflection: Reflection): reflection is ReferenceReflection {
     return reflection != null && reflection instanceof ReferenceReflection;
 }
 export function hasTypeParameters<T extends Reflection>(
     reflection: T
 ): reflection is T & {
-    typeParameters: Exclude<
-        TypeParameterContainer["typeParameters"],
-        undefined
-    >;
+    typeParameters: Exclude<TypeParameterContainer["typeParameters"], undefined>;
 } {
     return (reflection as TypeParameterContainer).typeParameters != null;
 }
@@ -146,8 +125,6 @@ export function hasElementType(type: Type): type is ElementTypeContainer {
 /**
  * TODO where this is used, it seems impossible for this to return false.
  */
-export function isContainer(
-    refl: Reflection | undefined
-): refl is ContainerReflection {
+export function isContainer(refl: Reflection | undefined): refl is ContainerReflection {
     return refl != null && refl instanceof ContainerReflection;
 }

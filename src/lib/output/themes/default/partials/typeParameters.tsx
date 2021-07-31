@@ -17,9 +17,7 @@ export const typeParameters =
                                         {item.name}
                                         {!!item.type && (
                                             <>
-                                                <span className="tsd-signature-symbol">
-                                                    {": "}
-                                                </span>
+                                                <span className="tsd-signature-symbol">{": "}</span>
                                                 {With(item.type, (props) => (
                                                     <>{partials.type(props)}</>
                                                 ))}

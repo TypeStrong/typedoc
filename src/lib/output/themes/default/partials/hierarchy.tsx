@@ -8,14 +8,8 @@ export const hierarchy =
             <ul className="tsd-hierarchy">
                 {props.types.map((item, i, l) => (
                     <li>
-                        {props.isTarget ? (
-                            <span className="target">{item.toString()}</span>
-                        ) : (
-                            partials.type(item)
-                        )}
-                        {i === l.length - 1 &&
-                            !!props.next &&
-                            partials.hierarchy(props.next)}
+                        {props.isTarget ? <span className="target">{item.toString()}</span> : partials.type(item)}
+                        {i === l.length - 1 && !!props.next && partials.hierarchy(props.next)}
                     </li>
                 ))}
             </ul>

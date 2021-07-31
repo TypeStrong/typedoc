@@ -5,10 +5,7 @@ import * as React from "react";
 import { ConditionalType } from "../../../../../models";
 export const conditional =
     ({ partials }: DefaultThemeRenderContext) =>
-    (
-        props: ConditionalType,
-        { needsParens = false }: TypeInlinePartialsOptions = {}
-    ) =>
+    (props: ConditionalType, { needsParens = false }: TypeInlinePartialsOptions = {}) =>
         (
             <>
                 {!!needsParens && (

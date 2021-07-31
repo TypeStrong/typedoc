@@ -11,28 +11,16 @@ export const memberGetterSetter =
                     {!!props.getSignature && (
                         <li className="tsd-signature tsd-kind-icon">
                             <Compact>
-                                <span className="tsd-signature-symbol">
-                                    get
-                                </span>{" "}
-                                {props.name}
-                                {partials["memberSignatureTitle"](
-                                    props.getSignature,
-                                    { hideName: true }
-                                )}
+                                <span className="tsd-signature-symbol">get</span> {props.name}
+                                {partials["memberSignatureTitle"](props.getSignature, { hideName: true })}
                             </Compact>
                         </li>
                     )}
                     {!!props.setSignature && (
                         <li className="tsd-signature tsd-kind-icon">
                             <Compact>
-                                <span className="tsd-signature-symbol">
-                                    set
-                                </span>{" "}
-                                {props.name}
-                                {partials["memberSignatureTitle"](
-                                    props.setSignature,
-                                    { hideName: true }
-                                )}
+                                <span className="tsd-signature-symbol">set</span> {props.name}
+                                {partials["memberSignatureTitle"](props.setSignature, { hideName: true })}
                             </Compact>
                         </li>
                     )}
@@ -43,9 +31,7 @@ export const memberGetterSetter =
                         <>
                             {With(props.getSignature, (props) => (
                                 <>
-                                    <li className="tsd-description">
-                                        {partials["memberSignatureBody"](props)}
-                                    </li>
+                                    <li className="tsd-description">{partials["memberSignatureBody"](props)}</li>
                                 </>
                             ))}
                         </>
@@ -54,9 +40,7 @@ export const memberGetterSetter =
                         <>
                             {With(props.setSignature, (props) => (
                                 <>
-                                    <li className="tsd-description">
-                                        {partials["memberSignatureBody"](props)}
-                                    </li>
+                                    <li className="tsd-description">{partials["memberSignatureBody"](props)}</li>
                                 </>
                             ))}
                         </>

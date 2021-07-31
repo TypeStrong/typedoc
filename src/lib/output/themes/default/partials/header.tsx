@@ -15,97 +15,51 @@ export const header =
                                 <div
                                     className="table-cell"
                                     id="tsd-search"
-                                    data-index={relativeURL(
-                                        "assets/js/search.json"
-                                    )}
+                                    data-index={relativeURL("assets/js/search.json")}
                                     data-base={relativeURL("./")}
                                 >
                                     <div className="field">
-                                        <label
-                                            htmlFor="tsd-search-field"
-                                            className="tsd-widget search no-caption"
-                                        >
+                                        <label htmlFor="tsd-search-field" className="tsd-widget search no-caption">
                                             Search
                                         </label>
-                                        <input
-                                            id="tsd-search-field"
-                                            type="text"
-                                        />
+                                        <input id="tsd-search-field" type="text" />
                                     </div>
 
                                     <ul className="results">
-                                        <li className="state loading">
-                                            Preparing search index...
-                                        </li>
-                                        <li className="state failure">
-                                            The search index is not available
-                                        </li>
+                                        <li className="state loading">Preparing search index...</li>
+                                        <li className="state failure">The search index is not available</li>
                                     </ul>
 
-                                    <a
-                                        href={relativeURL("index.html")}
-                                        className="title"
-                                    >
+                                    <a href={relativeURL("index.html")} className="title">
                                         {props.project.name}
                                     </a>
                                 </div>
 
                                 <div className="table-cell" id="tsd-widgets">
                                     <div id="tsd-filter">
-                                        <a
-                                            href="#"
-                                            className="tsd-widget options no-caption"
-                                            data-toggle="options"
-                                        >
+                                        <a href="#" className="tsd-widget options no-caption" data-toggle="options">
                                             Options
                                         </a>
                                         <div className="tsd-filter-group">
-                                            <div
-                                                className="tsd-select"
-                                                id="tsd-filter-visibility"
-                                            >
-                                                <span className="tsd-select-label">
-                                                    All
-                                                </span>
+                                            <div className="tsd-select" id="tsd-filter-visibility">
+                                                <span className="tsd-select-label">All</span>
                                                 <ul className="tsd-select-list">
-                                                    <li data-value="public">
-                                                        Public
-                                                    </li>
-                                                    <li data-value="protected">
-                                                        Public/Protected
-                                                    </li>
-                                                    <li
-                                                        data-value="private"
-                                                        className="selected"
-                                                    >
+                                                    <li data-value="public">Public</li>
+                                                    <li data-value="protected">Public/Protected</li>
+                                                    <li data-value="private" className="selected">
                                                         All
                                                     </li>
                                                 </ul>
                                             </div>{" "}
-                                            <input
-                                                type="checkbox"
-                                                id="tsd-filter-inherited"
-                                                checked={true}
-                                            />
-                                            <label
-                                                className="tsd-widget"
-                                                htmlFor="tsd-filter-inherited"
-                                            >
+                                            <input type="checkbox" id="tsd-filter-inherited" checked={true} />
+                                            <label className="tsd-widget" htmlFor="tsd-filter-inherited">
                                                 Inherited
                                             </label>
-                                            {!props.settings
-                                                .excludeExternals && (
+                                            {!props.settings.excludeExternals && (
                                                 <>
                                                     {" "}
-                                                    <input
-                                                        type="checkbox"
-                                                        id="tsd-filter-externals"
-                                                        checked={true}
-                                                    />
-                                                    <label
-                                                        className="tsd-widget"
-                                                        htmlFor="tsd-filter-externals"
-                                                    >
+                                                    <input type="checkbox" id="tsd-filter-externals" checked={true} />
+                                                    <label className="tsd-widget" htmlFor="tsd-filter-externals">
                                                         Externals
                                                     </label>
                                                 </>
@@ -113,11 +67,7 @@ export const header =
                                         </div>
                                     </div>
 
-                                    <a
-                                        href="#"
-                                        className="tsd-widget menu no-caption"
-                                        data-toggle="menu"
-                                    >
+                                    <a href="#" className="tsd-widget menu no-caption" data-toggle="menu">
                                         Menu
                                     </a>
                                 </div>
@@ -138,20 +88,17 @@ export const header =
                             )}
                             <h1>
                                 <Compact>
-                                    {props.model.kindString !== "Project" &&
-                                        `${props.model.kindString ?? ""} `}
+                                    {props.model.kindString !== "Project" && `${props.model.kindString ?? ""} `}
                                     {props.model.name}
                                     {hasTypeParameters(props.model) && (
                                         <>
                                             {"<"}
-                                            {props.model.typeParameters.map(
-                                                (item, i) => (
-                                                    <>
-                                                        {i > 0 && ", "}
-                                                        {item.name}
-                                                    </>
-                                                )
-                                            )}
+                                            {props.model.typeParameters.map((item, i) => (
+                                                <>
+                                                    {i > 0 && ", "}
+                                                    {item.name}
+                                                </>
+                                            ))}
                                             {">"}
                                         </>
                                     )}

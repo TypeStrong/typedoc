@@ -6,10 +6,7 @@ export const memberSignatureTitle =
     ({ partials }: DefaultThemeRenderContext) =>
     (
         props: SignatureReflection,
-        {
-            hideName = false,
-            arrowStyle = false,
-        }: { hideName?: boolean; arrowStyle?: boolean } = {}
+        { hideName = false, arrowStyle = false }: { hideName?: boolean; arrowStyle?: boolean } = {}
     ) =>
         (
             <>
@@ -17,14 +14,10 @@ export const memberSignatureTitle =
                     <>{wbr(props.name)}</>
                 ) : (
                     <>
-                        <IfCond
-                            cond={props.kindString === "Constructor signature"}
-                        >
+                        <IfCond cond={props.kindString === "Constructor signature"}>
                             {!!props.flags.isAbstract && (
                                 <>
-                                    <span className="tsd-signature-symbol">
-                                        abstract{" "}
-                                    </span>
+                                    <span className="tsd-signature-symbol">abstract </span>
                                 </>
                             )}
                             <span className="tsd-signature-symbol">new </span>
@@ -47,9 +40,7 @@ export const memberSignatureTitle =
                 {props.parameters?.map((item, i) => (
                     <>
                         {!!i && ", "}
-                        {!!item.flags.isRest && (
-                            <span className="tsd-signature-symbol">...</span>
-                        )}
+                        {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
                         {item.name}
                         <span className="tsd-signature-symbol">
                             {!!item.flags.isOptional && "?"}
@@ -65,10 +56,7 @@ export const memberSignatureTitle =
                 {!!props.type && (
                     <>
                         {arrowStyle ? (
-                            <span className="tsd-signature-symbol">
-                                {" "}
-                                ={">"}{" "}
-                            </span>
+                            <span className="tsd-signature-symbol"> ={">"} </span>
                         ) : (
                             <span className="tsd-signature-symbol">: </span>
                         )}

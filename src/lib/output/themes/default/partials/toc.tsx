@@ -8,13 +8,7 @@ export const toc =
     (props: NavigationItem) =>
         (
             <>
-                <li
-                    className={
-                        classNames({ current: props.isInPath }) +
-                        " " +
-                        props.cssClasses
-                    }
-                >
+                <li className={classNames({ current: props.isInPath }) + " " + props.cssClasses}>
                     <a href={relativeURL(props.url)} className="tsd-kind-icon">
                         {wbr(props.title)}
                     </a>
