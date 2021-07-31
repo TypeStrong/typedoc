@@ -15,25 +15,6 @@ import { DefaultValueContainer, TypeContainer } from "../../models/reflections/a
 export { wbr } from "../helpers/wbr";
 export { stringify } from "../helpers/stringify";
 
-/**
- * @deprecated
- *
- * Helper created solely to make it easier to find-and-replace refactor
- * all handlebars {{#with}} blocks into JSX.
- *
- * First two arguments are passed to the callback.  Callback's return value is
- * returned.
- *
- * Usage typically looks like this:
- *
- *     { With(props.foo, (props, item = props) => <>Markup</>) }
- */
-export function With<B, C>(props: B | null | undefined, cb: (props: B) => C): C | undefined {
-    if (props != null) {
-        return cb(props);
-    }
-}
-
 export function isSignature(reflection: Reflection): reflection is SignatureReflection {
     // return !!(reflection.kind & ReflectionKind.SomeSignature);
     return reflection instanceof SignatureReflection;

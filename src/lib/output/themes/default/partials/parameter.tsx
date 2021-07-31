@@ -1,4 +1,4 @@
-import { With, wbr, isReflectionType } from "../../lib";
+import { wbr, isReflectionType } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
 import { DeclarationReflection } from "../../../../models";
@@ -9,29 +9,25 @@ export const parameter =
             <>
                 <ul className="tsd-parameters">
                     {!!props.signatures && (
-                        <>
-                            <li className="tsd-parameter-signature">
-                                <ul className={"tsd-signatures " + props.cssClasses}>
-                                    {props.signatures.map((item) => (
-                                        <>
-                                            <li className="tsd-signature tsd-kind-icon">
-                                                {partials.memberSignatureTitle(item, { hideName: true })}
-                                            </li>
-                                        </>
-                                    ))}
-                                </ul>
+                        <li className="tsd-parameter-signature">
+                            <ul className={"tsd-signatures " + props.cssClasses}>
+                                {props.signatures.map((item) => (
+                                    <li className="tsd-signature tsd-kind-icon">
+                                        {partials.memberSignatureTitle(item, { hideName: true })}
+                                    </li>
+                                ))}
+                            </ul>
 
-                                <ul className="tsd-descriptions">
-                                    {props.signatures.map((item) => (
-                                        <>
-                                            <li className="tsd-description">
-                                                {partials.memberSignatureBody(item, { hideSources: true })}
-                                            </li>
-                                        </>
-                                    ))}
-                                </ul>
-                            </li>
-                        </>
+                            <ul className="tsd-descriptions">
+                                {props.signatures.map((item) => (
+                                    <>
+                                        <li className="tsd-description">
+                                            {partials.memberSignatureBody(item, { hideSources: true })}
+                                        </li>
+                                    </>
+                                ))}
+                            </ul>
+                        </li>
                     )}
                     {!!props.indexSignature && (
                         <>
@@ -43,47 +39,32 @@ export const parameter =
                                             {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
                                             {item.name}
                                             {": "}
-                                            {With(item.type, (props) => (
-                                                <>{partials.type(props)}</>
-                                            ))}
+                                            {item.type && partials.type(item.type)}
                                         </>
                                     ))}
                                     <span className="tsd-signature-symbol">{"]: "}</span>
-                                    {With(props.indexSignature.type, (props) => (
-                                        <>{partials.type(props)}</>
-                                    ))}
+                                    {props.indexSignature.type && partials.type(props.indexSignature.type)}
                                 </h5>
-                                {With(props.indexSignature, (props) => (
-                                    <>{partials.comment(props)}</>
-                                ))}
+                                {partials.comment(props.indexSignature)}
                                 {isReflectionType(props.indexSignature.type) &&
-                                    !!props.indexSignature.type.declaration && (
-                                        <>
-                                            {With(props.indexSignature.type.declaration, (props) => (
-                                                <>{partials.parameter(props)}</>
-                                            ))}
-                                        </>
-                                    )}
+                                    !!props.indexSignature.type.declaration &&
+                                    partials.parameter(props.indexSignature.type.declaration)}
                             </li>
                         </>
                     )}
                     {props.children?.map((item) => (
                         <>
                             {item.signatures ? (
-                                <>
-                                    <li className="tsd-parameter">
-                                        <h5>
-                                            {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
-                                            {wbr(item.name)}
-                                            <span className="tsd-signature-symbol">
-                                                {!!item.flags.isOptional && "?"}:
-                                            </span>
-                                            function
-                                        </h5>
+                                <li className="tsd-parameter">
+                                    <h5>
+                                        {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
+                                        {wbr(item.name)}
+                                        <span className="tsd-signature-symbol">{!!item.flags.isOptional && "?"}:</span>
+                                        function
+                                    </h5>
 
-                                        {partials.memberSignatures(item)}
-                                    </li>
-                                </>
+                                    {partials.memberSignatures(item)}
+                                </li>
                             ) : item.type ? (
                                 <>
                                     {/* standard type */}
@@ -104,24 +85,20 @@ export const parameter =
                                         </h5>
                                         {partials.comment(item)}
                                         {!!item.children && <> {partials.parameter(item)}</>}
-                                        {isReflectionType(item.type) && !!item.type.declaration && (
-                                            <>
-                                                {With(item.type.declaration, (props) => (
-                                                    <>{partials.parameter(props)}</>
-                                                ))}
-                                            </>
-                                        )}
+                                        {isReflectionType(item.type) &&
+                                            !!item.type.declaration &&
+                                            partials.parameter(item.type.declaration)}
                                     </li>
                                 </>
                             ) : (
                                 <>
                                     {/* getter/setter */}
-                                    {With(item.getSignature, (props) => (
+                                    {item.getSignature && (
                                         <>
                                             {/* getter */}
                                             <li className="tsd-parameter">
                                                 <h5>
-                                                    {props.flags.map((item) => (
+                                                    {item.getSignature.flags.map((item) => (
                                                         <>
                                                             <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                         </>
@@ -129,55 +106,45 @@ export const parameter =
                                                     <span className="tsd-signature-symbol">get </span>
                                                     {wbr(item.name)}
                                                     <span className="tsd-signature-symbol">(): </span>
-                                                    {With(props.type, (props) => (
-                                                        <>{partials.type(props)}</>
-                                                    ))}
+                                                    {item.getSignature.type && partials.type(item.getSignature.type)}
                                                 </h5>
 
-                                                {partials.comment(props)}
+                                                {partials.comment(item.getSignature)}
                                             </li>
                                         </>
-                                    ))}
-                                    {With(item.setSignature, (props) => (
+                                    )}
+                                    {item.setSignature && (
                                         <>
                                             {/* setter */}
                                             <li className="tsd-parameter">
                                                 <h5>
-                                                    {props.flags.map((item) => (
+                                                    {item.setSignature.flags.map((item) => (
                                                         <>
                                                             <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                         </>
                                                     ))}
-                                                    <span className="tsd-signature-symbol">{"set "}</span>
+                                                    <span className="tsd-signature-symbol">set </span>
                                                     {wbr(item.name)}
                                                     <span className="tsd-signature-symbol">(</span>
-                                                    {props.parameters?.map((item) => (
+                                                    {item.setSignature.parameters?.map((item) => (
                                                         <>
                                                             {item.name}
                                                             <span className="tsd-signature-symbol">: </span>
                                                             {item.type ? (
-                                                                <>
-                                                                    {With(item.type, (props) => (
-                                                                        <>{partials.type(props)}</>
-                                                                    ))}
-                                                                </>
+                                                                partials.type(item.type)
                                                             ) : (
-                                                                <>
-                                                                    <span className="tsd-signature-type">any</span>
-                                                                </>
+                                                                <span className="tsd-signature-type">any</span>
                                                             )}
                                                         </>
                                                     ))}
                                                     <span className="tsd-signature-symbol">): </span>
-                                                    {With(props.type, (props) => (
-                                                        <>{partials.type(props)}</>
-                                                    ))}
+                                                    {item.setSignature.type && partials.type(item.setSignature.type)}
                                                 </h5>
 
-                                                {partials.comment(props)}
+                                                {partials.comment(item.setSignature)}
                                             </li>
                                         </>
-                                    ))}
+                                    )}
                                 </>
                             )}
                         </>
