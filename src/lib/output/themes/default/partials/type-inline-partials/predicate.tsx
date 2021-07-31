@@ -11,7 +11,7 @@ export const predicate =
                 {!!props.targetType && (
                     <>
                         <span className="tsd-signature-symbol"> is </span>
-                        {partials.type(props)}
+                        {partials.type(props.targetType)}
                     </>
                 )}
             </>
