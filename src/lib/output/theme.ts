@@ -4,7 +4,6 @@ import { UrlMapping } from "./models/UrlMapping";
 import { NavigationItem } from "./models/NavigationItem";
 import { RendererComponent } from "./components";
 import { Component } from "../utils/component";
-import { Resources } from "./utils/resources";
 
 /**
  * Base class of all themes.
@@ -56,8 +55,6 @@ export abstract class Theme extends RendererComponent {
      */
     basePath: string;
 
-    resources: Resources;
-
     /**
      * Create a new BaseTheme instance.
      *
@@ -68,7 +65,6 @@ export abstract class Theme extends RendererComponent {
         super(renderer);
 
         this.basePath = basePath;
-        this.resources = new Resources(this);
     }
 
     /**

@@ -122,15 +122,7 @@ output file :
                 path = Path.join(this.includes!, path.trim());
                 if (fs.existsSync(path) && fs.statSync(path).isFile()) {
                     const contents = readFile(path);
-                    // if (path.substr(-4).toLocaleLowerCase() === ".hbs") {
-                    //     const template = Handlebars.compile(contents);
-                    //     return template(context, {
-                    //         allowProtoMethodsByDefault: true,
-                    //         allowProtoPropertiesByDefault: true,
-                    //     });
-                    // } else {
                     return contents;
-                    // }
                 } else {
                     this.application.logger.warn(
                         "Could not find file to include: " + path

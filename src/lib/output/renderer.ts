@@ -206,7 +206,6 @@ export class Renderer extends ChildableComponent<
             }
         }
 
-        this.theme!.resources.activate();
         return true;
     }
 

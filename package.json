@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "glob": "^7.1.7",
-    "handlebars": "^4.7.7",
     "lunr": "^2.3.9",
     "marked": "^2.1.1",
     "minimatch": "^3.0.0",
