@@ -1,7 +1,7 @@
-import { assertIsDeclarationReflection, isDeclarationReflection, isReferenceReflection, wbr } from "../../lib";
+import { assertIsDeclarationReflection, wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
-import { DeclarationReflection } from "../../../../models";
+import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 
 export const member =
     ({ partials }: DefaultThemeRenderContext) =>
@@ -19,11 +19,11 @@ export const member =
                         {wbr(props.name)}
                     </h3>
                 )}
-                {isDeclarationReflection(props) && props.signatures ? (
+                {props.signatures ? (
                     <> {partials.memberSignatures(props)}</>
-                ) : isDeclarationReflection(props) && props.hasGetterOrSetter() ? (
+                ) : props.hasGetterOrSetter() ? (
                     partials.memberGetterSetter(props)
-                ) : isReferenceReflection(props) && props.isReference ? (
+                ) : props instanceof ReferenceReflection ? (
                     partials.memberReference(props)
                 ) : (
                     <> {partials.memberDeclaration(props)}</>

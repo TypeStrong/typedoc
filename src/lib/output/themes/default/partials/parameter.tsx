@@ -1,7 +1,7 @@
-import { wbr, isReflectionType } from "../../lib";
+import { wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
-import { DeclarationReflection } from "../../../../models";
+import { DeclarationReflection, ReflectionType } from "../../../../models";
 export const parameter =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: DeclarationReflection) =>
@@ -46,8 +46,7 @@ export const parameter =
                                     {props.indexSignature.type && partials.type(props.indexSignature.type)}
                                 </h5>
                                 {partials.comment(props.indexSignature)}
-                                {isReflectionType(props.indexSignature.type) &&
-                                    !!props.indexSignature.type.declaration &&
+                                {props.indexSignature.type instanceof ReflectionType &&
                                     partials.parameter(props.indexSignature.type.declaration)}
                             </li>
                         </>
@@ -85,8 +84,7 @@ export const parameter =
                                         </h5>
                                         {partials.comment(item)}
                                         {!!item.children && <> {partials.parameter(item)}</>}
-                                        {isReflectionType(item.type) &&
-                                            !!item.type.declaration &&
+                                        {item.type instanceof ReflectionType &&
                                             partials.parameter(item.type.declaration)}
                                     </li>
                                 </>

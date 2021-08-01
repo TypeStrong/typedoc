@@ -1,4 +1,3 @@
-import { isProjectReflection } from "../../lib";
 import * as React from "react";
 import { PageEvent } from "../../../events";
 import { readFileSync } from "fs";
@@ -33,7 +32,7 @@ export const defaultLayout =
 
                         <div className="container container-main">
                             <div className="content-wrap">
-                                {isProjectReflection(props.model) && !!props.model.readme && (
+                                {props.model.isProject() && !!props.model.readme && (
                                     <div className="tsd-panel tsd-typography">
                                         <Markdown>{props.model.readme}</Markdown>
                                     </div>

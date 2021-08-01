@@ -1,7 +1,7 @@
-import { wbr, isReflectionType } from "../../lib";
+import { wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
-import { DeclarationReflection } from "../../../../models";
+import { DeclarationReflection, ReflectionType } from "../../../../models";
 export const memberDeclaration =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: DeclarationReflection) =>
@@ -43,7 +43,7 @@ export const memberDeclaration =
                         {partials.typeParameters(props)}
                     </>
                 )}
-                {isReflectionType(props.type) && !!props.type.declaration && (
+                {props.type instanceof ReflectionType && (
                     <>
                         <div className="tsd-type-declaration">
                             <h4>Type declaration</h4>

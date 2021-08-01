@@ -1,7 +1,6 @@
-import { isDeclarationReflection } from "../../lib";
 import * as React from "react";
 import { PageEvent } from "../../../events";
-import { ProjectReflection } from "../../../../models";
+import { DeclarationReflection, ProjectReflection } from "../../../../models";
 import { MinimalThemeRenderContext } from "../MinimalTheme";
 
 export const indexTemplate =
@@ -11,7 +10,7 @@ export const indexTemplate =
             <>
                 {partials.comment(props.model)}
 
-                {isDeclarationReflection(props.model) && (
+                {props.model instanceof DeclarationReflection && (
                     <>
                         {!!props.model.typeHierarchy && (
                             <section className="tsd-hierarchy">

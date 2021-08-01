@@ -1,14 +1,13 @@
-import { isSignature, hasElementType, isReferenceType } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
-import { Type } from "../../../../models";
+import { ArrayType, ReferenceType, SignatureReflection, Type } from "../../../../models";
 
 export const typeAndParent =
     ({ relativeURL, partials }: DefaultThemeRenderContext) =>
     (props: Type): JSX.Element => {
         if (!props) return <>{"        void\n"}</>;
 
-        if (hasElementType(props)) {
+        if (props instanceof ArrayType) {
             return (
                 <>
                     {partials.typeAndParent(props.elementType)}
@@ -17,8 +16,8 @@ export const typeAndParent =
             );
         }
 
-        if (isReferenceType(props) && props.reflection) {
-            if (isSignature(props.reflection)) {
+        if (props instanceof ReferenceType && props.reflection) {
+            if (props.reflection instanceof SignatureReflection) {
                 return (
                     <>
                         {props.reflection.parent?.parent?.url ? (

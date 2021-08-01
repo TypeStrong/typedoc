@@ -1,12 +1,6 @@
-import {
-    assertIsDeclarationReflection,
-    isContainer,
-    isDeclarationReflection,
-    isReferenceReflection,
-    wbr,
-} from "../../lib";
+import { wbr } from "../../lib";
 import * as React from "react";
-import { DeclarationReflection } from "../../../../models";
+import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 import { MinimalThemeRenderContext } from "../MinimalTheme";
 
 export const member =
@@ -26,35 +20,18 @@ export const member =
                             {wbr(props.name)}
                         </h3>
                     )}
-                    {isDeclarationReflection(props) && props.signatures ? (
+                    {props.signatures ? (
                         <> {partials.memberSignatures(props)}</>
-                    ) : isDeclarationReflection(props) && props.hasGetterOrSetter() ? (
+                    ) : props.hasGetterOrSetter() ? (
                         <>{partials.memberGetterSetter(props)}</>
-                    ) : isReferenceReflection(props) && props.isReference ? (
+                    ) : props instanceof ReferenceReflection ? (
                         <>{partials.memberReference(props)}</>
                     ) : (
                         <> {partials.memberDeclaration(props)}</>
                     )}
-
-                    {!isContainer(props) &&
-                        /*TODO*/ (props as unknown as DeclarationReflection).groups?.map((item) => (
-                            <>
-                                {item.children.map((item) => (
-                                    <>
-                                        {!item.hasOwnDocument && (
-                                            <> {partials.member(assertIsDeclarationReflection(item))}</>
-                                        )}
-                                    </>
-                                ))}
-                            </>
-                        ))}
                 </section>
 
-                {isContainer(props) && (
-                    <>
-                        {partials.index(props)}
-                        {partials.members(props)}
-                    </>
-                )}
+                {partials.index(props)}
+                {partials.members(props)}
             </>
         );

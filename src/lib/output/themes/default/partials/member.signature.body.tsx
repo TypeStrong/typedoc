@@ -1,7 +1,6 @@
-import { hasDefaultValue, hasType, isReflectionType } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
-import { SignatureReflection } from "../../../../models";
+import { ReflectionType, SignatureReflection } from "../../../../models";
 export const memberSignatureBody =
     ({ partials, Markdown }: DefaultThemeRenderContext) =>
     (props: SignatureReflection, { hideSources = false }: { hideSources?: boolean } = {}) =>
@@ -32,7 +31,7 @@ export const memberSignatureBody =
                                         {item.name}
                                         {": "}
                                         {item.type && partials.type(item.type)}
-                                        {hasDefaultValue(item) && (
+                                        {item.defaultValue != null && (
                                             <span className="tsd-signature-symbol">
                                                 {" = "}
                                                 {item.defaultValue}
@@ -40,25 +39,20 @@ export const memberSignatureBody =
                                         )}
                                     </h5>
                                     {partials.comment(item)}
-                                    {hasType(item) &&
-                                        isReflectionType(item.type) &&
-                                        !!item.type.declaration &&
-                                        partials.parameter(item.type.declaration)}
+                                    {item.type instanceof ReflectionType && partials.parameter(item.type.declaration)}
                                 </li>
                             ))}
                         </ul>
                     </>
                 )}
-                {hasType(props) && (
+                {props.type && (
                     <>
                         <h4 className="tsd-returns-title">
                             {"Returns "}
                             {partials.type(props.type)}
                         </h4>
                         {!!props.comment?.returns && <Markdown>{props.comment.returns}</Markdown>}
-                        {isReflectionType(props.type) &&
-                            props.type.declaration &&
-                            partials.parameter(props.type.declaration)}
+                        {props.type instanceof ReflectionType && partials.parameter(props.type.declaration)}
                     </>
                 )}
             </>

@@ -1,8 +1,8 @@
-import { isDeclarationReflection, isReflectionType, hasTypeParameters } from "../../lib";
+import { hasTypeParameters } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import * as React from "react";
 import { PageEvent } from "../../../events";
-import { ContainerReflection } from "../../../../models";
+import { ContainerReflection, DeclarationReflection, ReflectionType } from "../../../../models";
 
 // export const reflectionTemplate = ({relativeURL, partials, markdown, Markdown }: DefaultThemeRenderContext) => (props: PageEvent<ProjectReflection | TypeParameterContainer | DeclarationReflection>) => (
 export const reflectionTemplate =
@@ -20,7 +20,7 @@ export const reflectionTemplate =
                         {partials.typeParameters(props.model)}
                     </section>
                 )}
-                {isDeclarationReflection(props.model) && (
+                {props.model instanceof DeclarationReflection && (
                     <>
                         {!!props.model.typeHierarchy && (
                             <section className="tsd-panel tsd-hierarchy">
@@ -68,8 +68,7 @@ export const reflectionTemplate =
                                     {props.model.indexSignature.type && partials.type(props.model.indexSignature.type)}
                                 </div>
                                 {partials.comment(props.model.indexSignature)}
-                                {isReflectionType(props.model.indexSignature?.type) &&
-                                    !!props.model.indexSignature?.type?.declaration &&
+                                {props.model.indexSignature?.type instanceof ReflectionType &&
                                     partials.parameter(props.model.indexSignature.type.declaration)}
                             </section>
                         )}

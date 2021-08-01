@@ -38,13 +38,6 @@ export class ReferenceReflection extends DeclarationReflection {
     }
 
     /**
-     * Helper to check if this reflection is a reference for themes.
-     */
-    get isReference() {
-        return true;
-    }
-
-    /**
      * Tries to get the reflection that is referenced. This may be another reference reflection.
      * To fully resolve any references, use [[tryGetTargetReflectionDeep]].
      */
