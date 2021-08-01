@@ -18,14 +18,8 @@ export class QueryType extends Type {
         this.queryType = reference;
     }
 
-    clone(): Type {
+    override clone(): Type {
         return new QueryType(this.queryType);
-    }
-
-    override equals(other: Type): boolean {
-        return (
-            other instanceof QueryType && this.queryType.equals(other.queryType)
-        );
     }
 
     override toString() {

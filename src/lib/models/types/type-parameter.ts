@@ -47,36 +47,6 @@ export class TypeParameterType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: TypeParameterType): boolean {
-        if (!(type instanceof TypeParameterType)) {
-            return false;
-        }
-
-        let constraintEquals = false;
-
-        if (this.constraint && type.constraint) {
-            constraintEquals = type.constraint.equals(this.constraint);
-        } else if (!this.constraint && !type.constraint) {
-            constraintEquals = true;
-        }
-
-        let defaultEquals = false;
-
-        if (this.default && type.default) {
-            defaultEquals = type.default.equals(this.default);
-        } else if (!this.default && !type.default) {
-            defaultEquals = true;
-        }
-
-        return constraintEquals && defaultEquals;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString(): string {

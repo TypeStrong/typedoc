@@ -33,18 +33,8 @@ export class IntrinsicType extends Type {
      *
      * @return A clone of this type.
      */
-    clone(): Type {
+    override clone(): Type {
         return new IntrinsicType(this.name);
-    }
-
-    /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: IntrinsicType): boolean {
-        return type instanceof IntrinsicType && type.name === this.name;
     }
 
     /**

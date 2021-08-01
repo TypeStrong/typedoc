@@ -100,24 +100,6 @@ export function partition<T>(
 }
 
 /**
- * Filters out duplicate values from the given array with a custom equals check.
- * @param arr
- */
-export function uniqueByEquals<T extends { equals(other: T): boolean }>(
-    arr: readonly T[] | undefined
-) {
-    const result: T[] = [];
-
-    for (const item of arr ?? []) {
-        if (result.every((other) => !other.equals(item))) {
-            result.push(item);
-        }
-    }
-
-    return result;
-}
-
-/**
  * Ensures the given item is an array.
  * @param item
  */
@@ -160,7 +142,7 @@ export function filterMap<T, U>(
 
 export function flatMap<T, U>(
     arr: readonly T[],
-    fn: (item: T) => U | readonly U[]
+    fn: (item: T) => U | readonly U[] | undefined
 ): U[] {
     const result: U[] = [];
 
@@ -168,7 +150,7 @@ export function flatMap<T, U>(
         const newItem = fn(item);
         if (newItem instanceof Array) {
             result.push(...newItem);
-        } else {
+        } else if (newItem != null) {
             result.push(newItem);
         }
     }

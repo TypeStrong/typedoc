@@ -34,16 +34,6 @@ export class UnknownType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: UnknownType): boolean {
-        return type instanceof UnknownType && type.name === this.name;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

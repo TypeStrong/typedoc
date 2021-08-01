@@ -38,19 +38,6 @@ export class IntersectionType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: IntersectionType): boolean {
-        if (!(type instanceof IntersectionType)) {
-            return false;
-        }
-        return Type.isTypeListSimilar(type.types, this.types);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

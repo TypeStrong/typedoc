@@ -25,19 +25,6 @@ export class TemplateLiteralType extends Type {
         );
     }
 
-    override equals(other: Type): boolean {
-        return (
-            other instanceof TemplateLiteralType &&
-            this.head === other.head &&
-            this.tail.length === other.tail.length &&
-            this.tail.every(([type, text], i) => {
-                return (
-                    type.equals(other.tail[i][0]) && text === other.tail[i][1]
-                );
-            })
-        );
-    }
-
     override toString() {
         return [
             "`",

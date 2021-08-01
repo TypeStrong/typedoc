@@ -21,7 +21,7 @@ export class MappedType extends Type {
         super();
     }
 
-    clone(): Type {
+    override clone(): Type {
         return new MappedType(
             this.parameter,
             this.parameterType.clone(),
@@ -29,29 +29,6 @@ export class MappedType extends Type {
             this.readonlyModifier,
             this.optionalModifier,
             this.nameType?.clone()
-        );
-    }
-
-    override equals(other: Type): boolean {
-        if (!(other instanceof MappedType)) {
-            return false;
-        }
-
-        if (this.nameType && other.nameType) {
-            if (!this.nameType.equals(other.nameType)) {
-                return false;
-            }
-        } else if (this.nameType !== other.nameType) {
-            return false;
-        }
-
-        return (
-            other instanceof MappedType &&
-            other.parameter == this.parameter &&
-            other.parameterType.equals(this.parameterType) &&
-            other.templateType.equals(this.templateType) &&
-            other.readonlyModifier === this.readonlyModifier &&
-            other.optionalModifier === this.optionalModifier
         );
     }
 

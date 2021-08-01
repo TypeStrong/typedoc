@@ -39,16 +39,6 @@ export class ReflectionType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: ReflectionType): boolean {
-        return type === this;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

@@ -26,18 +26,8 @@ export class LiteralType extends Type {
      *
      * @return A clone of this type.
      */
-    clone(): Type {
+    override clone(): Type {
         return new LiteralType(this.value);
-    }
-
-    /**
-     * Test whether this type equals the given type.
-     *
-     * @param other  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(other: LiteralType): boolean {
-        return other instanceof LiteralType && other.value === this.value;
     }
 
     /**

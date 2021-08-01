@@ -40,19 +40,6 @@ export class OptionalType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: Type): boolean {
-        if (!(type instanceof OptionalType)) {
-            return false;
-        }
-        return type.elementType.equals(this.elementType);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

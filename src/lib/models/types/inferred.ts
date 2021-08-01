@@ -11,7 +11,7 @@ export class InferredType extends Type {
     /**
      * The type name identifier.
      */
-    override readonly type: string = "inferred";
+    override readonly type = "inferred";
 
     constructor(public name: string) {
         super();
@@ -22,21 +22,8 @@ export class InferredType extends Type {
      *
      * @return A clone of this type.
      */
-    clone(): Type {
+    override clone(): Type {
         return new InferredType(this.name);
-    }
-
-    /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: unknown): boolean {
-        if (!(type instanceof InferredType)) {
-            return false;
-        }
-        return this.name === type.name;
     }
 
     /**

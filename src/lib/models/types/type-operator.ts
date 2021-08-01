@@ -31,24 +31,6 @@ export class TypeOperatorType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: TypeOperatorType): boolean {
-        if (!(type instanceof TypeOperatorType)) {
-            return false;
-        }
-
-        return (
-            type instanceof TypeOperatorType &&
-            type.operator === this.operator &&
-            type.target.equals(this.target)
-        );
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

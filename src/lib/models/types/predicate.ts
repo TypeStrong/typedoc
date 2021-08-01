@@ -47,33 +47,8 @@ export class PredicateType extends Type {
      *
      * @return A clone of this type.
      */
-    clone(): Type {
+    override clone(): Type {
         return new PredicateType(this.name, this.asserts, this.targetType);
-    }
-
-    /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: Type): boolean {
-        if (!(type instanceof PredicateType)) {
-            return false;
-        }
-
-        if (!this.targetType && type.targetType) {
-            return false;
-        }
-        if (this.targetType && !type.targetType) {
-            return false;
-        }
-
-        return (
-            this.name === type.name &&
-            this.asserts === type.asserts &&
-            (this.targetType?.equals(type.targetType!) ?? true)
-        );
     }
 
     /**

@@ -3,7 +3,6 @@ import {
     DeclarationReflection,
     ReflectionKind,
     SignatureReflection,
-    Type,
 } from "../../models";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
@@ -67,14 +66,16 @@ export class InheritDocPlugin extends ConverterComponent {
                     const isFunction = source.kindOf(
                         ReflectionKind.FunctionOrMethod
                     );
+
                     if (isFunction) {
-                        referencedReflection =
-                            source.signatures?.find((signature) => {
-                                return Type.isTypeListEqual(
-                                    signature.getParameterTypes(),
-                                    item.getParameterTypes()
-                                );
-                            }) ?? source.signatures?.[0];
+                        // Assumes that if there are overloads, they are declared in the same order as the parent.
+                        // TS doesn't check this, but if a user messes this up then they are almost
+                        // guaranteed to run into bugs where they can't call a method on a child class
+                        // but if they assign (without a type assertion) that child to a variable of the parent class
+                        // then they can call the method.
+                        const itemIndex =
+                            item.parent.signatures?.indexOf(item) ?? 0;
+                        referencedReflection = source.signatures?.[itemIndex];
                     }
                 }
 

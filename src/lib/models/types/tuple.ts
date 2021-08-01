@@ -38,19 +38,6 @@ export class TupleType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: TupleType): boolean {
-        if (!(type instanceof TupleType)) {
-            return false;
-        }
-        return Type.isTypeListEqual(type.elements, this.elements);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {
@@ -84,22 +71,6 @@ export class NamedTupleMember extends Type {
             this.name,
             this.isOptional,
             this.element.clone()
-        );
-    }
-
-    /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: Type): boolean {
-        if (!(type instanceof NamedTupleMember)) {
-            return false;
-        }
-        return (
-            this.isOptional === type.isOptional &&
-            this.element.equals(type.element)
         );
     }
 

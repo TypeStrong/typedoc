@@ -41,19 +41,6 @@ export class UnionType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: UnionType): boolean {
-        if (!(type instanceof UnionType)) {
-            return false;
-        }
-        return Type.isTypeListSimilar(type.types, this.types);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {
@@ -66,11 +53,11 @@ export class UnionType extends Type {
     }
 
     private normalize() {
-        const trueIndex = this.types.findIndex((t) =>
-            t.equals(new LiteralType(true))
+        const trueIndex = this.types.findIndex(
+            (t) => t instanceof LiteralType && t.value === true
         );
-        const falseIndex = this.types.findIndex((t) =>
-            t.equals(new LiteralType(false))
+        const falseIndex = this.types.findIndex(
+            (t) => t instanceof LiteralType && t.value === false
         );
 
         if (trueIndex !== -1 && falseIndex !== -1) {

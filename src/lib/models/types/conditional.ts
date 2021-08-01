@@ -38,24 +38,6 @@ export class ConditionalType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: any): boolean {
-        if (!(type instanceof ConditionalType)) {
-            return false;
-        }
-        return (
-            this.checkType.equals(type.checkType) &&
-            this.extendsType.equals(type.extendsType) &&
-            this.trueType.equals(type.trueType) &&
-            this.falseType.equals(type.falseType)
-        );
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

@@ -63,21 +63,6 @@ export class SignatureReflection
     implementationOf?: ReferenceType;
 
     /**
-     * Return an array of the parameter types.
-     */
-    getParameterTypes(): Type[] {
-        if (!this.parameters) {
-            return [];
-        }
-        function notUndefined<T>(t: T | undefined): t is T {
-            return !!t;
-        }
-        return this.parameters
-            .map((parameter) => parameter.type)
-            .filter(notUndefined);
-    }
-
-    /**
      * Traverse all potential child reflections of this reflection.
      *
      * The given callback will be invoked for all children, signatures and type parameters

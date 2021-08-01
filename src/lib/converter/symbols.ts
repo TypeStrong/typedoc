@@ -8,7 +8,6 @@ import {
     ReflectionKind,
     TypeParameterReflection,
 } from "../models";
-import { flatMap, uniqueByEquals } from "../utils/array";
 import {
     getEnumFlags,
     hasAllFlags,
@@ -21,6 +20,7 @@ import { ConverterEvents } from "./converter-events";
 import { convertIndexSignature } from "./factories/index-signature";
 import { createSignature } from "./factories/signature";
 import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc";
+import { getHeritageTypes } from "./utils/nodes";
 import { removeUndefined } from "./utils/reflections";
 
 const symbolConverters: {
@@ -398,32 +398,20 @@ function convertClassOrInterface(
                     ts.isInterfaceDeclaration(d) || ts.isClassDeclaration(d)
             ) ?? [];
 
-    const extendedTypes = flatMap(declarations, (decl) =>
-        flatMap(decl.heritageClauses ?? [], (clause) => {
-            if (clause.token !== ts.SyntaxKind.ExtendsKeyword) {
-                return [];
-            }
-            return clause.types.map((type) =>
-                context.converter.convertType(reflectionContext, type)
-            );
-        })
-    );
+    const extendedTypes = getHeritageTypes(
+        declarations,
+        ts.SyntaxKind.ExtendsKeyword
+    ).map((t) => context.converter.convertType(reflectionContext, t));
     if (extendedTypes.length) {
-        reflection.extendedTypes = uniqueByEquals(extendedTypes);
+        reflection.extendedTypes = extendedTypes;
     }
 
-    const implementedTypes = flatMap(declarations, (decl) =>
-        flatMap(decl.heritageClauses ?? [], (clause) => {
-            if (clause.token !== ts.SyntaxKind.ImplementsKeyword) {
-                return [];
-            }
-            return clause.types.map((type) =>
-                context.converter.convertType(reflectionContext, type)
-            );
-        })
-    );
+    const implementedTypes = getHeritageTypes(
+        declarations,
+        ts.SyntaxKind.ImplementsKeyword
+    ).map((t) => context.converter.convertType(reflectionContext, t));
     if (implementedTypes.length) {
-        reflection.implementedTypes = uniqueByEquals(implementedTypes);
+        reflection.implementedTypes = implementedTypes;
     }
 
     context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);

@@ -23,23 +23,10 @@ export class IndexedAccessType extends Type {
      *
      * @return A clone of this type.
      */
-    clone(): Type {
-        return new IndexedAccessType(this.objectType, this.indexType);
-    }
-
-    /**
-     * Test whether this type equals the given type.
-     *
-     * @param type  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(type: Type): boolean {
-        if (!(type instanceof IndexedAccessType)) {
-            return false;
-        }
-        return (
-            type.objectType.equals(this.objectType) &&
-            type.indexType.equals(this.indexType)
+    override clone(): Type {
+        return new IndexedAccessType(
+            this.objectType.clone(),
+            this.indexType.clone()
         );
     }
 

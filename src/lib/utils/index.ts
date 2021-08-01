@@ -5,7 +5,6 @@ export {
     removeIf,
     removeIfPresent,
     unique,
-    uniqueByEquals,
 } from "./array";
 export { AbstractComponent, ChildableComponent, Component } from "./component";
 export { Event, EventDispatcher } from "./events";

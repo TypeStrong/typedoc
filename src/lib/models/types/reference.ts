@@ -83,41 +83,6 @@ export class ReferenceType extends Type {
     }
 
     /**
-     * Test whether this type equals the given type.
-     *
-     * @param other  The type that should be checked for equality.
-     * @returns TRUE if the given type equals this type, FALSE otherwise.
-     */
-    override equals(other: ReferenceType): boolean {
-        if (!(other instanceof ReferenceType)) {
-            return false;
-        }
-
-        let matchesTarget;
-        if (!this.reflection) {
-            if (
-                this._target === BROKEN_REFERENCE_ID &&
-                other._target === BROKEN_REFERENCE_ID
-            ) {
-                matchesTarget = this.name === other.name;
-            } else {
-                matchesTarget = this._target === other._target;
-            }
-        } else {
-            matchesTarget = this.reflection === other.reflection;
-        }
-
-        if (!matchesTarget) {
-            return false;
-        }
-
-        return Type.isTypeListEqual(
-            this.typeArguments ?? [],
-            other.typeArguments ?? []
-        );
-    }
-
-    /**
      * Return a string representation of this type.
      * @example EventEmitter<any>
      */
