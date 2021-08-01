@@ -9,8 +9,6 @@
 
 import * as Path from "path";
 import * as fs from "fs";
-// eslint-disable-next-line
-const ProgressBar = require("progress");
 
 import { Application } from "../application";
 import { Theme } from "./theme";
@@ -114,17 +112,10 @@ export class Renderer extends ChildableComponent<
         output.settings = this.application.options.getRawValues();
         output.urls = this.theme!.getUrls(project);
 
-        const bar = new ProgressBar("Rendering [:bar] :percent", {
-            stream: process.stdout,
-            total: output.urls.length,
-            width: 40,
-        });
-
         this.trigger(output);
         if (!output.isDefaultPrevented) {
             output.urls.forEach((mapping: UrlMapping) => {
                 this.renderDocument(output.createPageEvent(mapping));
-                bar.tick();
             });
 
             this.trigger(RendererEvent.END, output);
