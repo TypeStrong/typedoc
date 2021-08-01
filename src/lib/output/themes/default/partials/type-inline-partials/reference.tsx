@@ -5,7 +5,7 @@ import { ReferenceType } from "../../../../../models";
 export const reference =
     ({ relativeURL, partials }: DefaultThemeRenderContext) =>
     (props: ReferenceType) => {
-        const reflection = props.getReflection();
+        const reflection = props.reflection;
         return (
             <>
                 {reflection ? (

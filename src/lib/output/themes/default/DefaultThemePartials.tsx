@@ -43,7 +43,6 @@ import { rest } from "./partials/type-inline-partials/rest";
 import { templateLiteral } from "./partials/type-inline-partials/template-literal";
 import { tuple } from "./partials/type-inline-partials/tuple";
 import { typeOperator } from "./partials/type-inline-partials/typeOperator";
-import { typeParameter } from "./partials/type-inline-partials/typeParameter";
 import { union } from "./partials/type-inline-partials/union";
 import { unknown } from "./partials/type-inline-partials/unknown";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
@@ -106,7 +105,6 @@ export class DefaultThemeTypePartials {
     "template-literal" = templateLiteral(this.bindings);
     tuple = tuple(this.bindings);
     typeOperator = typeOperator(this.bindings);
-    typeParameter = typeParameter(this.bindings);
     union = union(this.bindings);
     unknown = unknown(this.bindings);
 }

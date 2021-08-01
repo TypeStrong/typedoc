@@ -154,7 +154,6 @@ const serializerComponents: (new (
     S.NamedTupleMemberTypeSerializer,
     S.MappedTypeSerializer,
     S.TypeOperatorTypeSerializer,
-    S.TypeParameterTypeSerializer,
     S.UnionTypeSerializer,
     S.UnknownTypeSerializer,
 

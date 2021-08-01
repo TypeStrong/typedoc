@@ -1,5 +1,5 @@
 import type * as ts from "typescript";
-import { ReferenceType, ReflectionType, Type } from "../types/index";
+import { ReferenceType, ReflectionType, Type } from "../types";
 import {
     DefaultValueContainer,
     TraverseCallback,

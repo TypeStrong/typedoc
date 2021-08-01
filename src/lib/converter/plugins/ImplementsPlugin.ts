@@ -5,7 +5,7 @@ import {
     ReflectionKind,
     SignatureReflection,
 } from "../../models/reflections/index";
-import { ReferenceType, Type } from "../../models/types/index";
+import { ReferenceType, Type } from "../../models/types";
 import { filterMap, zip } from "../../utils/array";
 import { Component, ConverterComponent } from "../components";
 import { Context } from "../context";

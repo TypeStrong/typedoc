@@ -16,7 +16,6 @@ import { rest } from "./rest";
 import { templateLiteral } from "./template-literal";
 import { tuple } from "./tuple";
 import { typeOperator } from "./typeOperator";
-import { typeParameter } from "./typeParameter";
 import { union } from "./union";
 import { unknown } from "./unknown";
 
@@ -39,7 +38,6 @@ export const typePartials = {
     "template-literal": templateLiteral,
     tuple,
     typeOperator,
-    typeParameter,
     union,
     unknown,
 } as const;

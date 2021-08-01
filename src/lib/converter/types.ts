@@ -23,10 +23,10 @@ import {
     MappedType,
     SignatureReflection,
     ReflectionFlag,
+    OptionalType,
+    RestType,
+    TemplateLiteralType,
 } from "../models";
-import { OptionalType } from "../models/types/optional";
-import { RestType } from "../models/types/rest";
-import { TemplateLiteralType } from "../models/types/template-literal";
 import { zip } from "../utils/array";
 import { Context } from "./context";
 import { ConverterEvents } from "./converter-events";

@@ -16,6 +16,5 @@ export * from "./rest";
 export * from "./template-literal";
 export * from "./tuple";
 export * from "./type-operator";
-export * from "./type-parameter";
 export * from "./union";
 export * from "./unknown";

@@ -1,6 +1,6 @@
 import { ok } from "assert";
 import { SourceReference } from "../sources/file";
-import { Type } from "../types/index";
+import { Type } from "../types";
 import { Comment } from "../comments/comment";
 import { TypeParameterReflection } from "./type-parameter";
 import { splitUnquotedString } from "./utils";

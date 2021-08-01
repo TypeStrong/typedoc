@@ -64,40 +64,10 @@ type _ModelToObject<T> =
         : T extends M.Reflection
         ? Reflection
         : // Types
-        T extends M.ArrayType
-        ? ArrayType
-        : T extends M.ConditionalType
-        ? ConditionalType
-        : T extends M.IndexedAccessType
-        ? IndexedAccessType
-        : T extends M.InferredType
-        ? InferredType
-        : T extends M.IntersectionType
-        ? IntersectionType
-        : T extends M.IntrinsicType
-        ? IntrinsicType
-        : T extends M.OptionalType
-        ? OptionalType
-        : T extends M.PredicateType
-        ? PredicateType
-        : T extends M.QueryType
-        ? QueryType
-        : T extends M.ReferenceType
-        ? ReferenceType
-        : T extends M.ReflectionType
-        ? ReflectionType
-        : T extends M.RestType
-        ? RestType
-        : T extends M.LiteralType
-        ? LiteralType
-        : T extends M.TupleType
-        ? TupleType
-        : T extends M.UnknownType
-        ? UnknownType
-        : T extends M.TemplateLiteralType
-        ? TemplateLiteralType
+        T extends M.SomeType
+        ? TypeKindMap[T["type"]]
         : T extends M.Type
-        ? SomeType // Technically AbstractType, but the union is more useful
+        ? SomeType
         : // Miscellaneous
         T extends M.Comment
         ? Comment
@@ -235,9 +205,31 @@ export type SomeType =
     | RestType
     | TupleType
     | TypeOperatorType
-    | TypeParameterType
     | UnionType
     | UnknownType;
+
+export type TypeKindMap = {
+    array: ArrayType;
+    conditional: ConditionalType;
+    indexedAccess: IndexedAccessType;
+    inferred: InferredType;
+    intersection: IntersectionType;
+    intrinsic: IntrinsicType;
+    literal: LiteralType;
+    mapped: MappedType;
+    optional: OptionalType;
+    predicate: PredicateType;
+    query: QueryType;
+    reference: ReferenceType;
+    reflection: ReflectionType;
+    rest: RestType;
+    "template-literal": TemplateLiteralType;
+    tuple: TupleType;
+    "named-tuple-member": NamedTupleMemberType;
+    typeOperator: TypeOperatorType;
+    union: UnionType;
+    unknown: UnknownType;
+};
 
 export interface ArrayType
     extends Type,
@@ -305,8 +297,9 @@ export interface NamedTupleMemberType
 export interface TemplateLiteralType
     extends Type,
         S<M.TemplateLiteralType, "type" | "head"> {
-    tail: [Type, string][];
+    tail: [SomeType, string][];
 }
+
 export interface MappedType
     extends Type,
         S<
@@ -323,10 +316,6 @@ export interface MappedType
 export interface TypeOperatorType
     extends Type,
         S<M.TypeOperatorType, "type" | "operator" | "target"> {}
-
-export interface TypeParameterType
-    extends Type,
-        S<M.TypeParameterType, "type" | "name" | "constraint" | "default"> {}
 
 export interface UnionType extends Type, S<M.UnionType, "type" | "types"> {}
 

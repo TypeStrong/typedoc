@@ -3,7 +3,7 @@ import {
     DeclarationReflection,
     DeclarationHierarchy,
 } from "../../models/reflections/index";
-import { Type, ReferenceType } from "../../models/types/index";
+import { Type, ReferenceType } from "../../models/types";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import { Context } from "../context";

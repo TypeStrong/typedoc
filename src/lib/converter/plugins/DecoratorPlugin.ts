@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { ReferenceType } from "../../models/types/index";
+import { ReferenceType } from "../../models/types";
 import { Reflection, Decorator } from "../../models/reflections/index";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";

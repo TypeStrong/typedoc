@@ -28,7 +28,6 @@ export {
     TupleTypeSerializer,
     TypeOperatorTypeSerializer,
     TypeParameterReflectionSerializer,
-    TypeParameterTypeSerializer,
     TypeSerializer,
     UnknownTypeSerializer,
 } from "./serializers";

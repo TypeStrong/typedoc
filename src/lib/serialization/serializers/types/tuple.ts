@@ -1,5 +1,4 @@
-import { TupleType } from "../../../models";
-import { NamedTupleMember } from "../../../models/types/tuple";
+import { NamedTupleMember, TupleType } from "../../../models";
 
 import { TypeSerializerComponent } from "../../components";
 import {

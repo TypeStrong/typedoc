@@ -1,4 +1,4 @@
-import { Type } from "../types/index";
+import { Type } from "../types";
 import { Reflection, ReflectionKind, TypeContainer } from "./abstract";
 import { DeclarationReflection } from "./declaration";
 

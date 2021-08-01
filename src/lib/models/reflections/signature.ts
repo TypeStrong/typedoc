@@ -1,4 +1,4 @@
-import { Type, ReflectionType, ReferenceType } from "../types/index";
+import { Type, ReflectionType, ReferenceType } from "../types";
 import {
     Reflection,
     TypeContainer,
