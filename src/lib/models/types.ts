@@ -1,9 +1,7 @@
 import * as ts from "typescript";
-import {
-    DeclarationReflection,
-    ProjectReflection,
-    Reflection,
-} from "./reflections";
+import { Reflection } from "./reflections/abstract";
+import { DeclarationReflection } from "./reflections/declaration";
+import { ProjectReflection } from "./reflections/project";
 
 /**
  * Base class of all type definitions.
