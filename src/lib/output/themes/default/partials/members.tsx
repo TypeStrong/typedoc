@@ -1,6 +1,6 @@
 import { assertIsDeclarationReflection } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { ContainerReflection } from "../../../../models";
 export const members =
     ({ partials }: DefaultThemeRenderContext) =>
@@ -9,7 +9,7 @@ export const members =
             ? props.categories.map(
                   (item) =>
                       !item.allChildrenHaveOwnDocument() && (
-                          <section className={"tsd-panel-group tsd-member-group " + props.cssClasses}>
+                          <section class={"tsd-panel-group tsd-member-group " + props.cssClasses}>
                               <h2>{item.title}</h2>
                               {item.children.map(
                                   (item) =>

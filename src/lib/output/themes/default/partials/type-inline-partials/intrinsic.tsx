@@ -1,5 +1,5 @@
 import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../../utils";
 import { IntrinsicType } from "../../../../../models";
 export const intrinsic = (_ctx: DefaultThemeRenderContext) => (props: IntrinsicType) =>
-    <span className="tsd-signature-type">{props.name}</span>;
+    <span class="tsd-signature-type">{props.name}</span>;

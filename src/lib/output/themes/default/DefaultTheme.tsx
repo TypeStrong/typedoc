@@ -16,7 +16,7 @@ import { NavigationItem } from "../../models/NavigationItem";
 import { PageEvent, RendererEvent } from "../../events";
 import { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderElement } from "../../../utils";
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
@@ -204,9 +204,7 @@ export class DefaultTheme extends Theme {
         const layout = this.defaultLayoutTemplate;
         const templateOutput = layout(page);
         page.contents =
-            typeof templateOutput === "string"
-                ? templateOutput
-                : "<!DOCTYPE html>" + renderToStaticMarkup(templateOutput);
+            typeof templateOutput === "string" ? templateOutput : "<!DOCTYPE html>" + renderElement(templateOutput);
     }
 
     /**

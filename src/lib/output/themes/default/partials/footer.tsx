@@ -1,24 +1,24 @@
 import { classNames } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
 export const footer = (_ctx: DefaultThemeRenderContext) => (props: PageEvent<Reflection>) =>
     (
         <>
             <footer
-                className={classNames({
+                class={classNames({
                     "with-border-bottom": !props.settings.hideGenerator,
                 })}
             >
-                <div className="container">
+                <div class="container">
                     <h2>Legend</h2>
-                    <div className="tsd-legend-group">
+                    <div class="tsd-legend-group">
                         {props.legend?.map((item) => (
-                            <ul className="tsd-legend">
+                            <ul class="tsd-legend">
                                 {item.map((item) => (
-                                    <li className={item.classes.join(" ")}>
-                                        <span className="tsd-kind-icon">{item.name}</span>
+                                    <li class={item.classes.join(" ")}>
+                                        <span class="tsd-kind-icon">{item.name}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -28,7 +28,7 @@ export const footer = (_ctx: DefaultThemeRenderContext) => (props: PageEvent<Ref
             </footer>
 
             {!props.settings.hideGenerator && (
-                <div className="container tsd-generator">
+                <div class="container tsd-generator">
                     <p>
                         {"Generated using "}
                         <a href="https://typedoc.org/" target="_blank">

@@ -1,5 +1,5 @@
 import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../../utils";
 import { NamedTupleMember } from "../../../../../models";
 export const namedTupleMember =
     ({ partials }: DefaultThemeRenderContext) =>
@@ -8,9 +8,9 @@ export const namedTupleMember =
             <>
                 {props.name}
                 {props.isOptional ? (
-                    <span className="tsd-signature-symbol">?: </span>
+                    <span class="tsd-signature-symbol">?: </span>
                 ) : (
-                    <span className="tsd-signature-symbol">: </span>
+                    <span class="tsd-signature-symbol">: </span>
                 )}
                 {partials.type(props.element)}
             </>

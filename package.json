@@ -25,8 +25,6 @@
     "lunr": "^2.3.9",
     "marked": "^2.1.1",
     "minimatch": "^3.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "shiki": "^0.9.3"
   },
   "peerDependencies": {
@@ -40,8 +38,6 @@
     "@types/mocha": "^8.2.2",
     "@types/node": "^15.12.2",
     "@types/puppeteer": "^5.4.4",
-    "@types/react": "^17.0.15",
-    "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
     "clean-webpack-plugin": "^3.0.0",

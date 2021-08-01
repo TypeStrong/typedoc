@@ -1,4 +1,4 @@
-import * as React from "react";
+import { createElement, JSX } from "../../utils";
 
 /**
  * Insert word break tags ``<wbr>`` into the given string.
@@ -8,9 +8,9 @@ import * as React from "react";
  * @param str The string that should be split.
  * @return The original string containing ``<wbr>`` tags where possible.
  */
-export function wbr(str: string): (string | React.ReactElement)[] {
+export function wbr(str: string): (string | JSX.Element)[] {
     // TODO surely there is a better way to do this, but I'm tired.
-    const ret: (string | React.ReactElement)[] = [];
+    const ret: (string | JSX.Element)[] = [];
     const re = /[\s\S]*?(?:([^_-][_-])(?=[^_-])|([^A-Z])(?=[A-Z][^A-Z]))/g;
     let match: RegExpExecArray | null;
     let i = 0;

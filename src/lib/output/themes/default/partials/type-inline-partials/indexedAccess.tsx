@@ -1,5 +1,5 @@
 import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../../utils";
 import { IndexedAccessType } from "../../../../../models";
 export const indexedAccess =
     ({ partials }: DefaultThemeRenderContext) =>
@@ -7,8 +7,8 @@ export const indexedAccess =
         (
             <>
                 {partials.type(props.objectType)}
-                <span className="tsd-signature-symbol">[</span>
+                <span class="tsd-signature-symbol">[</span>
                 {partials.type(props.indexType)}
-                <span className="tsd-signature-symbol">]</span>
+                <span class="tsd-signature-symbol">]</span>
             </>
         );

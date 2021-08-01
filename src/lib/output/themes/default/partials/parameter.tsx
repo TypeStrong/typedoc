@@ -1,27 +1,27 @@
 import { wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
 export const parameter =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: DeclarationReflection) =>
         (
             <>
-                <ul className="tsd-parameters">
+                <ul class="tsd-parameters">
                     {!!props.signatures && (
-                        <li className="tsd-parameter-signature">
-                            <ul className={"tsd-signatures " + props.cssClasses}>
+                        <li class="tsd-parameter-signature">
+                            <ul class={"tsd-signatures " + props.cssClasses}>
                                 {props.signatures.map((item) => (
-                                    <li className="tsd-signature tsd-kind-icon">
+                                    <li class="tsd-signature tsd-kind-icon">
                                         {partials.memberSignatureTitle(item, { hideName: true })}
                                     </li>
                                 ))}
                             </ul>
 
-                            <ul className="tsd-descriptions">
+                            <ul class="tsd-descriptions">
                                 {props.signatures.map((item) => (
                                     <>
-                                        <li className="tsd-description">
+                                        <li class="tsd-description">
                                             {partials.memberSignatureBody(item, { hideSources: true })}
                                         </li>
                                     </>
@@ -31,18 +31,18 @@ export const parameter =
                     )}
                     {!!props.indexSignature && (
                         <>
-                            <li className="tsd-parameter-index-signature">
+                            <li class="tsd-parameter-index-signature">
                                 <h5>
-                                    <span className="tsd-signature-symbol">[</span>
+                                    <span class="tsd-signature-symbol">[</span>
                                     {props.indexSignature?.parameters?.map((item) => (
                                         <>
-                                            {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
+                                            {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                             {item.name}
                                             {": "}
                                             {item.type && partials.type(item.type)}
                                         </>
                                     ))}
-                                    <span className="tsd-signature-symbol">{"]: "}</span>
+                                    <span class="tsd-signature-symbol">{"]: "}</span>
                                     {props.indexSignature.type && partials.type(props.indexSignature.type)}
                                 </h5>
                                 {partials.comment(props.indexSignature)}
@@ -54,11 +54,11 @@ export const parameter =
                     {props.children?.map((item) => (
                         <>
                             {item.signatures ? (
-                                <li className="tsd-parameter">
+                                <li class="tsd-parameter">
                                     <h5>
-                                        {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
+                                        {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                         {wbr(item.name)}
-                                        <span className="tsd-signature-symbol">{!!item.flags.isOptional && "?"}:</span>
+                                        <span class="tsd-signature-symbol">{!!item.flags.isOptional && "?"}:</span>
                                         function
                                     </h5>
 
@@ -67,16 +67,16 @@ export const parameter =
                             ) : item.type ? (
                                 <>
                                     {/* standard type */}
-                                    <li className="tsd-parameter">
+                                    <li class="tsd-parameter">
                                         <h5>
                                             {item.flags.map((item) => (
                                                 <>
-                                                    <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
+                                                    <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                 </>
                                             ))}
-                                            {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
+                                            {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                             {wbr(item.name)}
-                                            <span className="tsd-signature-symbol">
+                                            <span class="tsd-signature-symbol">
                                                 {!!item.flags.isOptional && "?"}
                                                 {": "}
                                             </span>
@@ -94,16 +94,16 @@ export const parameter =
                                     {item.getSignature && (
                                         <>
                                             {/* getter */}
-                                            <li className="tsd-parameter">
+                                            <li class="tsd-parameter">
                                                 <h5>
                                                     {item.getSignature.flags.map((item) => (
                                                         <>
-                                                            <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
+                                                            <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                         </>
                                                     ))}
-                                                    <span className="tsd-signature-symbol">get </span>
+                                                    <span class="tsd-signature-symbol">get </span>
                                                     {wbr(item.name)}
-                                                    <span className="tsd-signature-symbol">(): </span>
+                                                    <span class="tsd-signature-symbol">(): </span>
                                                     {item.getSignature.type && partials.type(item.getSignature.type)}
                                                 </h5>
 
@@ -114,28 +114,28 @@ export const parameter =
                                     {item.setSignature && (
                                         <>
                                             {/* setter */}
-                                            <li className="tsd-parameter">
+                                            <li class="tsd-parameter">
                                                 <h5>
                                                     {item.setSignature.flags.map((item) => (
                                                         <>
-                                                            <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
+                                                            <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                         </>
                                                     ))}
-                                                    <span className="tsd-signature-symbol">set </span>
+                                                    <span class="tsd-signature-symbol">set </span>
                                                     {wbr(item.name)}
-                                                    <span className="tsd-signature-symbol">(</span>
+                                                    <span class="tsd-signature-symbol">(</span>
                                                     {item.setSignature.parameters?.map((item) => (
                                                         <>
                                                             {item.name}
-                                                            <span className="tsd-signature-symbol">: </span>
+                                                            <span class="tsd-signature-symbol">: </span>
                                                             {item.type ? (
                                                                 partials.type(item.type)
                                                             ) : (
-                                                                <span className="tsd-signature-type">any</span>
+                                                                <span class="tsd-signature-type">any</span>
                                                             )}
                                                         </>
                                                     ))}
-                                                    <span className="tsd-signature-symbol">): </span>
+                                                    <span class="tsd-signature-symbol">): </span>
                                                     {item.setSignature.type && partials.type(item.setSignature.type)}
                                                 </h5>
 

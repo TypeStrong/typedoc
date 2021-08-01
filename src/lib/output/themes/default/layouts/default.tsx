@@ -1,16 +1,17 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
+import { createElement, Raw } from "../../../../utils";
+
 export const defaultLayout =
     ({ relativeURL, partials }: DefaultThemeRenderContext) =>
     (props: PageEvent<Reflection>) =>
         (
             <>
-                <html className="default no-js">
+                <html class="default no-js">
                     <head>
                         <meta charSet="utf-8" />
-                        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+                        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                         <title>
                             {props.model.name === props.project.name ? (
                                 props.project.name
@@ -29,16 +30,13 @@ export const defaultLayout =
                     <body>
                         {partials.header(props)}
 
-                        <div className="container container-main">
-                            <div className="row">
-                                <div
-                                    className="col-8 col-content"
-                                    dangerouslySetInnerHTML={{
-                                        __html: props.contents!,
-                                    }}
-                                ></div>
-                                <div className="col-4 col-menu menu-sticky-wrap menu-highlight">
-                                    <nav className="tsd-navigation primary">
+                        <div class="container container-main">
+                            <div class="row">
+                                <div class="col-8 col-content">
+                                    <Raw html={props.contents!} />
+                                </div>
+                                <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+                                    <nav class="tsd-navigation primary">
                                         <ul>
                                             {props.navigation?.children?.map((item) => (
                                                 <> {partials.navigation(item)}</>
@@ -46,7 +44,7 @@ export const defaultLayout =
                                         </ul>
                                     </nav>
 
-                                    <nav className="tsd-navigation secondary menu-sticky">
+                                    <nav class="tsd-navigation secondary menu-sticky">
                                         {(() => {
                                             const children = props.toc?.children ?? [];
                                             let indexOfCurrent = children.findIndex((c) => c.isInPath);
@@ -57,13 +55,13 @@ export const defaultLayout =
                                             const childrenAfter = children.slice(indexOfCurrent + 1);
                                             return (
                                                 <>
-                                                    <ul className="before-current">
+                                                    <ul class="before-current">
                                                         {childrenBefore.map((item) => partials.tocRoot(item))}
                                                     </ul>
                                                     {childInPath && (
                                                         <>
-                                                            <ul className="current">{partials.tocRoot(childInPath)}</ul>
-                                                            <ul className="after-current">
+                                                            <ul class="current">{partials.tocRoot(childInPath)}</ul>
+                                                            <ul class="after-current">
                                                                 {childrenAfter.map((item) => partials.tocRoot(item))}
                                                             </ul>
                                                         </>
@@ -78,7 +76,7 @@ export const defaultLayout =
 
                         {partials.footer(props)}
 
-                        <div className="overlay"></div>
+                        <div class="overlay"></div>
                         <script src={relativeURL("assets/js/main.js")}></script>
 
                         {partials.analytics(props)}

@@ -1,6 +1,6 @@
 import { wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { SignatureReflection } from "../../../../models";
 export const memberSignatureTitle =
     ({ partials }: DefaultThemeRenderContext) =>
@@ -16,8 +16,8 @@ export const memberSignatureTitle =
                     <>
                         {props.kindString === "Constructor signature" && (
                             <>
-                                {!!props.flags.isAbstract && <span className="tsd-signature-symbol">abstract </span>}
-                                <span className="tsd-signature-symbol">new </span>
+                                {!!props.flags.isAbstract && <span class="tsd-signature-symbol">abstract </span>}
+                                <span class="tsd-signature-symbol">new </span>
                             </>
                         )}
                     </>
@@ -34,13 +34,13 @@ export const memberSignatureTitle =
                         {">"}
                     </>
                 )}
-                <span className="tsd-signature-symbol">(</span>
+                <span class="tsd-signature-symbol">(</span>
                 {props.parameters?.map((item, i) => (
                     <>
                         {!!i && ", "}
-                        {!!item.flags.isRest && <span className="tsd-signature-symbol">...</span>}
+                        {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                         {item.name}
-                        <span className="tsd-signature-symbol">
+                        <span class="tsd-signature-symbol">
                             {!!item.flags.isOptional && "?"}
                             {!!item.defaultValue && "?"}
                             {": "}
@@ -48,13 +48,13 @@ export const memberSignatureTitle =
                         {item.type && partials.type(item.type)}
                     </>
                 ))}
-                <span className="tsd-signature-symbol">)</span>
+                <span class="tsd-signature-symbol">)</span>
                 {!!props.type && (
                     <>
                         {arrowStyle ? (
-                            <span className="tsd-signature-symbol"> ={">"} </span>
+                            <span class="tsd-signature-symbol"> ={">"} </span>
                         ) : (
-                            <span className="tsd-signature-symbol">: </span>
+                            <span class="tsd-signature-symbol">: </span>
                         )}
                         {!!props.type && partials.type(props.type)}
                     </>

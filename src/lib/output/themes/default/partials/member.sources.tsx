@@ -1,12 +1,12 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { DeclarationReflection, SignatureReflection } from "../../../../models";
 export const memberSources =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: SignatureReflection | DeclarationReflection) =>
         (
             <>
-                <aside className="tsd-sources">
+                <aside class="tsd-sources">
                     {" "}
                     {!!props.implementationOf && (
                         <p>

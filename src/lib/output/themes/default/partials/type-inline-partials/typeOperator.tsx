@@ -1,12 +1,13 @@
 import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
-import * as React from "react";
 import { TypeOperatorType } from "../../../../../models";
+import { createElement } from "../../../../../utils";
+
 export const typeOperator =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: TypeOperatorType) =>
         (
             <>
-                <span className="tsd-signature-symbol">{props.operator} </span>
+                <span class="tsd-signature-symbol">{props.operator} </span>
                 {partials.type(props.target)}
             </>
         );

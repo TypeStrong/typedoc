@@ -1,5 +1,5 @@
 import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../../utils";
 import { OptionalType } from "../../../../../models";
 export const optional =
     ({ partials }: DefaultThemeRenderContext) =>
@@ -7,6 +7,6 @@ export const optional =
         (
             <>
                 {partials.type(props.elementType)}
-                <span className="tsd-signature-symbol">?</span>
+                <span class="tsd-signature-symbol">?</span>
             </>
         );

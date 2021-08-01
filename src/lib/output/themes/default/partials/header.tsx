@@ -1,6 +1,6 @@
 import { hasTypeParameters } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
 export const header =
@@ -8,57 +8,57 @@ export const header =
     (props: PageEvent<Reflection>) =>
         (
             <header>
-                <div className="tsd-page-toolbar">
-                    <div className="container">
-                        <div className="table-wrap">
+                <div class="tsd-page-toolbar">
+                    <div class="container">
+                        <div class="table-wrap">
                             <div
-                                className="table-cell"
+                                class="table-cell"
                                 id="tsd-search"
                                 data-index={relativeURL("assets/js/search.json")}
                                 data-base={relativeURL("./")}
                             >
-                                <div className="field">
-                                    <label htmlFor="tsd-search-field" className="tsd-widget search no-caption">
+                                <div class="field">
+                                    <label for="tsd-search-field" class="tsd-widget search no-caption">
                                         Search
                                     </label>
-                                    <input id="tsd-search-field" type="text" />
+                                    <input type="text" id="tsd-search-field" />
                                 </div>
 
-                                <ul className="results">
-                                    <li className="state loading">Preparing search index...</li>
-                                    <li className="state failure">The search index is not available</li>
+                                <ul class="results">
+                                    <li class="state loading">Preparing search index...</li>
+                                    <li class="state failure">The search index is not available</li>
                                 </ul>
 
-                                <a href={relativeURL("index.html")} className="title">
+                                <a href={relativeURL("index.html")} class="title">
                                     {props.project.name}
                                 </a>
                             </div>
 
-                            <div className="table-cell" id="tsd-widgets">
+                            <div class="table-cell" id="tsd-widgets">
                                 <div id="tsd-filter">
-                                    <a href="#" className="tsd-widget options no-caption" data-toggle="options">
+                                    <a href="#" class="tsd-widget options no-caption" data-toggle="options">
                                         Options
                                     </a>
-                                    <div className="tsd-filter-group">
-                                        <div className="tsd-select" id="tsd-filter-visibility">
-                                            <span className="tsd-select-label">All</span>
-                                            <ul className="tsd-select-list">
+                                    <div class="tsd-filter-group">
+                                        <div class="tsd-select" id="tsd-filter-visibility">
+                                            <span class="tsd-select-label">All</span>
+                                            <ul class="tsd-select-list">
                                                 <li data-value="public">Public</li>
                                                 <li data-value="protected">Public/Protected</li>
-                                                <li data-value="private" className="selected">
+                                                <li data-value="private" class="selected">
                                                     All
                                                 </li>
                                             </ul>
                                         </div>{" "}
                                         <input type="checkbox" id="tsd-filter-inherited" checked={true} />
-                                        <label className="tsd-widget" htmlFor="tsd-filter-inherited">
+                                        <label class="tsd-widget" for="tsd-filter-inherited">
                                             Inherited
                                         </label>
                                         {!props.settings.excludeExternals && (
                                             <>
                                                 {" "}
                                                 <input type="checkbox" id="tsd-filter-externals" checked={true} />
-                                                <label className="tsd-widget" htmlFor="tsd-filter-externals">
+                                                <label class="tsd-widget" for="tsd-filter-externals">
                                                     Externals
                                                 </label>
                                             </>
@@ -66,16 +66,16 @@ export const header =
                                     </div>
                                 </div>
 
-                                <a href="#" className="tsd-widget menu no-caption" data-toggle="menu">
+                                <a href="#" class="tsd-widget menu no-caption" data-toggle="menu">
                                     Menu
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="tsd-page-title">
-                    <div className="container">
-                        {!!props.model.parent && <ul className="tsd-breadcrumb">{partials.breadcrumb(props.model)}</ul>}
+                <div class="tsd-page-title">
+                    <div class="container">
+                        {!!props.model.parent && <ul class="tsd-breadcrumb">{partials.breadcrumb(props.model)}</ul>}
                         <h1>
                             <>
                                 {props.model.kindString !== "Project" && `${props.model.kindString ?? ""} `}

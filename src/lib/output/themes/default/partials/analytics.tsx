@@ -1,5 +1,5 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
 export const analytics = (_ctx: DefaultThemeRenderContext) => (props: PageEvent<Reflection>) =>

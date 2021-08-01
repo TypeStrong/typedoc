@@ -1,8 +1,9 @@
-import * as puppeteer from "puppeteer";
 import * as fs from "fs";
-import * as Path from "path";
 import { sync as glob } from "glob";
+import { platform } from "os";
 import PQueue from "p-queue";
+import * as Path from "path";
+import * as puppeteer from "puppeteer";
 
 const concurrency = 10;
 const baseDirectory = Path.join(__dirname, "../../dist/tmp/test");
@@ -12,7 +13,10 @@ const viewport = { width: 1024, height: 768 };
 
 async function main() {
     const browser = await puppeteer.launch({
-        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        args:
+            platform() === "win32"
+                ? []
+                : ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
     const queue = new PQueue({ autoStart: true, concurrency });

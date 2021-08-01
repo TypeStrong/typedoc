@@ -1,6 +1,6 @@
 // @ts-check
 "use strict";
-
+Error.stackTraceLimit = 50;
 const ts = require("typescript");
 const fs = require("fs");
 const { remove } = require("../dist/lib/utils/fs");

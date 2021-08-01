@@ -1,9 +1,9 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement, JSX } from "../../../../utils";
 import { Reflection } from "../../../../models";
 export const breadcrumb =
     ({ relativeURL, partials }: DefaultThemeRenderContext) =>
-    (props: Reflection): React.ReactElement | undefined =>
+    (props: Reflection): JSX.Element | undefined =>
         props.parent ? (
             <>
                 {partials.breadcrumb(props.parent)}

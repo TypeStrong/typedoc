@@ -1,5 +1,5 @@
 import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../../utils";
 import { ArrayType } from "../../../../../models";
 export const array =
     ({ partials }: DefaultThemeRenderContext) =>
@@ -7,6 +7,6 @@ export const array =
         (
             <>
                 {partials.type(props.elementType, { needsParens: true })}
-                <span className="tsd-signature-symbol">[]</span>
+                <span class="tsd-signature-symbol">[]</span>
             </>
         );

@@ -1,16 +1,16 @@
 import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../../utils";
 import { PredicateType } from "../../../../../models";
 export const predicate =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: PredicateType) =>
         (
             <>
-                {!!props.asserts && <span className="tsd-signature-symbol">asserts </span>}
-                <span className="tsd-signature-type">{props.name}</span>
+                {!!props.asserts && <span class="tsd-signature-symbol">asserts </span>}
+                <span class="tsd-signature-type">{props.name}</span>
                 {!!props.targetType && (
                     <>
-                        <span className="tsd-signature-symbol"> is </span>
+                        <span class="tsd-signature-symbol"> is </span>
                         {partials.type(props.targetType)}
                     </>
                 )}

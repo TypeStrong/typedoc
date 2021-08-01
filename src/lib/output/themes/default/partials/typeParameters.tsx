@@ -1,19 +1,19 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
 import { TypeParameterContainer } from "../../../../models";
+import { createElement } from "../../../../utils";
 
 export const typeParameters =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: TypeParameterContainer) =>
         (
-            <ul className="tsd-type-parameters">
+            <ul class="tsd-type-parameters">
                 {props.typeParameters?.map((item) => (
                     <li>
                         <h4>
                             {item.name}
                             {!!item.type && (
                                 <>
-                                    <span className="tsd-signature-symbol">{": "}</span>
+                                    <span class="tsd-signature-symbol">{": "}</span>
                                     {partials.type(item.type)}
                                 </>
                             )}

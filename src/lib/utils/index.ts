@@ -47,3 +47,5 @@ export type {
 export { discoverNpmPlugins, loadPlugins } from "./plugins";
 export { sortReflections } from "./sort";
 export type { SortStrategy } from "./sort";
+
+export * from "./template";

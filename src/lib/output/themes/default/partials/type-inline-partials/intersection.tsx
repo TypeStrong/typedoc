@@ -1,5 +1,5 @@
 import { DefaultThemeRenderContext } from "../../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../../utils";
 import { IntersectionType } from "../../../../../models";
 import { TypeInlinePartialsOptions } from "./options";
 export const intersection =
@@ -7,13 +7,13 @@ export const intersection =
     (props: IntersectionType, { needsParens = false }: TypeInlinePartialsOptions = {}) =>
         (
             <>
-                {needsParens && <span className="tsd-signature-symbol">(</span>}
+                {needsParens && <span class="tsd-signature-symbol">(</span>}
                 {props.types.map((item, i) => (
                     <>
-                        {i > 0 && <span className="tsd-signature-symbol"> & </span>}
+                        {i > 0 && <span class="tsd-signature-symbol"> & </span>}
                         {partials.type(item, { needsParens: true })}
                     </>
                 ))}
-                {needsParens && <span className="tsd-signature-symbol">)</span>}
+                {needsParens && <span class="tsd-signature-symbol">)</span>}
             </>
         );

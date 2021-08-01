@@ -1,22 +1,22 @@
 import { wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { ContainerReflection } from "../../../../models";
 export const index =
     ({ relativeURL }: DefaultThemeRenderContext) =>
     (props: ContainerReflection) =>
         props.categories && props.categories.length > 0 ? (
-            <section className="tsd-panel-group tsd-index-group">
+            <section class="tsd-panel-group tsd-index-group">
                 <h2>Index</h2>
-                <section className="tsd-panel tsd-index-panel">
-                    <div className="tsd-index-content">
+                <section class="tsd-panel tsd-index-panel">
+                    <div class="tsd-index-content">
                         {props.categories.map((item) => (
-                            <section className="tsd-index-section">
+                            <section class="tsd-index-section">
                                 <h3>{item.title}</h3>
-                                <ul className="tsd-index-list">
+                                <ul class="tsd-index-list">
                                     {item.children.map((item) => (
-                                        <li className={item.cssClasses}>
-                                            <a href={relativeURL(item.url)} className="tsd-kind-icon">
+                                        <li class={item.cssClasses}>
+                                            <a href={relativeURL(item.url)} class="tsd-kind-icon">
                                                 {item.name ? wbr(item.name) : <em>{wbr(item.kindString!)}</em>}
                                             </a>
                                         </li>
@@ -29,12 +29,12 @@ export const index =
             </section>
         ) : (
             !!props.groups && (
-                <section className="tsd-panel-group tsd-index-group">
+                <section class="tsd-panel-group tsd-index-group">
                     <h2>Index</h2>
-                    <section className="tsd-panel tsd-index-panel">
-                        <div className="tsd-index-content">
+                    <section class="tsd-panel tsd-index-panel">
+                        <div class="tsd-index-content">
                             {props.groups.map((item) => (
-                                <section className={"tsd-index-section " + item.cssClasses}>
+                                <section class={"tsd-index-section " + item.cssClasses}>
                                     {item.categories ? (
                                         item.categories.map((item2) => (
                                             <>
@@ -42,10 +42,10 @@ export const index =
                                                     {!!item2.title && <>{item2.title} </>}
                                                     {item.title}
                                                 </h3>
-                                                <ul className="tsd-index-list">
+                                                <ul class="tsd-index-list">
                                                     {item2.children.map((item) => (
-                                                        <li className={item.cssClasses}>
-                                                            <a href={relativeURL(item.url)} className="tsd-kind-icon">
+                                                        <li class={item.cssClasses}>
+                                                            <a href={relativeURL(item.url)} class="tsd-kind-icon">
                                                                 {item.name ? (
                                                                     wbr(item.name)
                                                                 ) : (
@@ -60,10 +60,10 @@ export const index =
                                     ) : (
                                         <>
                                             <h3>{item.title}</h3>
-                                            <ul className="tsd-index-list">
+                                            <ul class="tsd-index-list">
                                                 {item.children.map((item) => (
-                                                    <li className={item.cssClasses}>
-                                                        <a href={relativeURL(item.url)} className="tsd-kind-icon">
+                                                    <li class={item.cssClasses}>
+                                                        <a href={relativeURL(item.url)} class="tsd-kind-icon">
                                                             {item.name ? (
                                                                 wbr(item.name)
                                                             ) : (

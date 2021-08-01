@@ -1,20 +1,20 @@
 import { wbr } from "../../lib";
-import * as React from "react";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 import { MinimalThemeRenderContext } from "../MinimalTheme";
+import { createElement } from "../../../../utils";
 
 export const member =
     ({ partials }: MinimalThemeRenderContext) =>
     (props: DeclarationReflection) =>
         (
             <>
-                <section className={"tsd-panel tsd-member " + props.cssClasses}>
-                    <a name={props.anchor} className="tsd-anchor"></a>
+                <section class={"tsd-panel tsd-member " + props.cssClasses}>
+                    <a name={props.anchor} class="tsd-anchor"></a>
                     {!!props.name && (
                         <h3>
                             {props.flags.map((item) => (
                                 <>
-                                    <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
+                                    <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                 </>
                             ))}
                             {wbr(props.name)}

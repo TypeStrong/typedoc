@@ -1,5 +1,5 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { ReferenceReflection } from "../../../../models";
 export const memberReference =
     ({ relativeURL }: DefaultThemeRenderContext) =>

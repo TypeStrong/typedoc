@@ -74,8 +74,8 @@
               "kindString": "Call signature",
               "flags": {},
               "type": {
-                "type": "reference",
-                "name": "Element"
+                "type": "intrinsic",
+                "name": "any"
               }
             }
           ]

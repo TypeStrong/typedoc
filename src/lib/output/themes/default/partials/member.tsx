@@ -1,19 +1,19 @@
 import { assertIsDeclarationReflection, wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 
 export const member =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: DeclarationReflection) =>
         (
-            <section className={"tsd-panel tsd-member " + props.cssClasses}>
-                <a name={props.anchor} className="tsd-anchor"></a>
+            <section class={"tsd-panel tsd-member " + props.cssClasses}>
+                <a name={props.anchor} class="tsd-anchor"></a>
                 {!!props.name && (
                     <h3>
                         {props.flags.map((item) => (
                             <>
-                                <span className={"tsd-flag ts-flag" + item}>{item}</span>{" "}
+                                <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                             </>
                         ))}
                         {wbr(props.name)}

@@ -1,6 +1,6 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
 import { ArrayType, ReferenceType, SignatureReflection, Type } from "../../../../models";
+import { JSX, createElement } from "../../../../utils";
 
 export const typeAndParent =
     ({ relativeURL, partials }: DefaultThemeRenderContext) =>

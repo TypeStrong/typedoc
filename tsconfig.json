@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "CommonJS",
-        "lib": ["ES2018", "dom"],
+        "lib": ["ES2018"],
         "target": "ES2018",
 
         "experimentalDecorators": true,
@@ -29,7 +29,9 @@
         "rootDir": "src/",
         "newLine": "LF",
 
-        "jsx": "react"
+        "jsx": "react",
+        "jsxFactory": "createElement",
+        "jsxFragmentFactory": "createElement.Fragment"
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": [

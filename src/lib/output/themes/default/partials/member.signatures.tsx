@@ -1,20 +1,20 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import * as React from "react";
+import { createElement } from "../../../../utils";
 import { DeclarationReflection } from "../../../../models";
 export const memberSignatures =
     ({ partials }: DefaultThemeRenderContext) =>
     (props: DeclarationReflection) =>
         (
             <>
-                <ul className={"tsd-signatures " + props.cssClasses}>
+                <ul class={"tsd-signatures " + props.cssClasses}>
                     {props.signatures?.map((item) => (
-                        <li className="tsd-signature tsd-kind-icon">{partials.memberSignatureTitle(item)}</li>
+                        <li class="tsd-signature tsd-kind-icon">{partials.memberSignatureTitle(item)}</li>
                     ))}
                 </ul>
 
-                <ul className="tsd-descriptions">
+                <ul class="tsd-descriptions">
                     {props.signatures?.map((item) => (
-                        <li className="tsd-description">{partials.memberSignatureBody(item)}</li>
+                        <li class="tsd-description">{partials.memberSignatureBody(item)}</li>
                     ))}
                 </ul>
             </>

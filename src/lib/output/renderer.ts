@@ -19,10 +19,9 @@ import { remove, writeFileSync } from "../utils/fs";
 import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
-import { BindOption } from "../utils";
+import { BindOption, renderElement } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import { Theme as ShikiTheme } from "shiki";
-import { renderToStaticMarkup } from "react-dom/server";
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
@@ -139,7 +138,7 @@ export class Renderer extends ChildableComponent<
         page.contents =
             typeof templateOutput === "string"
                 ? templateOutput
-                : renderToStaticMarkup(templateOutput);
+                : renderElement(templateOutput);
 
         this.trigger(PageEvent.END, page);
         if (page.isDefaultPrevented) {

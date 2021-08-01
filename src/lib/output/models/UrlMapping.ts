@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { JSX } from "../../utils";
 import { PageEvent } from "../events";
 
 /**
@@ -22,4 +22,4 @@ export class UrlMapping<Model = any> {
     }
 }
 
-export type RenderTemplate<T> = (data: T) => ReactElement | string;
+export type RenderTemplate<T> = (data: T) => JSX.Element | string;
