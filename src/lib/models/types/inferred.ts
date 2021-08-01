@@ -18,15 +18,6 @@ export class InferredType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    override clone(): Type {
-        return new InferredType(this.name);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

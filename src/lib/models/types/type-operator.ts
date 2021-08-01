@@ -22,15 +22,6 @@ export class TypeOperatorType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    clone(): Type {
-        return new TypeOperatorType(this.target.clone(), this.operator);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

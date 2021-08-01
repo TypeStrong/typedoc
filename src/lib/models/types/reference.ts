@@ -72,17 +72,6 @@ export class ReferenceType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    clone(): Type {
-        const clone = new ReferenceType(this.name, this._target, this._project);
-        clone.typeArguments = this.typeArguments;
-        return clone;
-    }
-
-    /**
      * Return a string representation of this type.
      * @example EventEmitter<any>
      */

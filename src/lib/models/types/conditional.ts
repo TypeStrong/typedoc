@@ -24,20 +24,6 @@ export class ConditionalType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    clone(): Type {
-        return new ConditionalType(
-            this.checkType,
-            this.extendsType,
-            this.trueType,
-            this.falseType
-        );
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

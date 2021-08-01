@@ -30,15 +30,6 @@ export class ReflectionType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    clone(): Type {
-        return new ReflectionType(this.declaration);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

@@ -22,15 +22,6 @@ export class LiteralType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    override clone(): Type {
-        return new LiteralType(this.value);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString(): string {

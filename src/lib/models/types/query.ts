@@ -18,10 +18,6 @@ export class QueryType extends Type {
         this.queryType = reference;
     }
 
-    override clone(): Type {
-        return new QueryType(this.queryType);
-    }
-
     override toString() {
         return `typeof ${this.queryType.toString()}`;
     }

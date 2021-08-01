@@ -43,15 +43,6 @@ export class PredicateType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    override clone(): Type {
-        return new PredicateType(this.name, this.asserts, this.targetType);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

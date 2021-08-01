@@ -18,13 +18,6 @@ export class TemplateLiteralType extends Type {
         this.tail = tail;
     }
 
-    clone(): Type {
-        return new TemplateLiteralType(
-            this.head,
-            this.tail.map(([type, text]) => [type.clone(), text])
-        );
-    }
-
     override toString() {
         return [
             "`",

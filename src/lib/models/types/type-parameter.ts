@@ -35,18 +35,6 @@ export class TypeParameterType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    clone(): Type {
-        const clone = new TypeParameterType(this.name);
-        clone.constraint = this.constraint;
-        clone.default = this.default;
-        return clone;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString(): string {

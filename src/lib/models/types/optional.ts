@@ -31,15 +31,6 @@ export class OptionalType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    clone(): Type {
-        return new OptionalType(this.elementType.clone());
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

@@ -29,15 +29,6 @@ export class IntrinsicType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    override clone(): Type {
-        return new IntrinsicType(this.name);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

@@ -29,15 +29,6 @@ export class TupleType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    clone(): Type {
-        return new TupleType(this.elements);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {
@@ -59,19 +50,6 @@ export class NamedTupleMember extends Type {
         public element: Type
     ) {
         super();
-    }
-
-    /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    clone(): Type {
-        return new NamedTupleMember(
-            this.name,
-            this.isOptional,
-            this.element.clone()
-        );
     }
 
     /**

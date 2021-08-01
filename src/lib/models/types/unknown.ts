@@ -25,15 +25,6 @@ export class UnknownType extends Type {
     }
 
     /**
-     * Clone this type.
-     *
-     * @return A clone of this type.
-     */
-    clone(): Type {
-        return new UnknownType(this.name);
-    }
-
-    /**
      * Return a string representation of this type.
      */
     override toString() {

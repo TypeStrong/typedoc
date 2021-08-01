@@ -21,17 +21,6 @@ export class MappedType extends Type {
         super();
     }
 
-    override clone(): Type {
-        return new MappedType(
-            this.parameter,
-            this.parameterType.clone(),
-            this.templateType.clone(),
-            this.readonlyModifier,
-            this.optionalModifier,
-            this.nameType?.clone()
-        );
-    }
-
     override toString(): string {
         const read = {
             "+": "readonly",
