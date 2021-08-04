@@ -117,6 +117,18 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         hint: ParameterHint.File,
     });
     options.addDeclaration({
+        name: "export",
+        help: "Specifies the location and filename a machine-readable export file describing the project is written to.",
+        type: ParameterType.Path,
+        hint: ParameterHint.File,
+    });
+    options.addDeclaration({
+        name: "import",
+        help: "Specifies the location and filename a machine-readable export file describing the project is read from.",
+        type: ParameterType.Path,
+        hint: ParameterHint.File,
+    });
+    options.addDeclaration({
         name: "pretty",
         help: "Specifies whether the output JSON should be formatted with tabs.",
         type: ParameterType.Boolean,

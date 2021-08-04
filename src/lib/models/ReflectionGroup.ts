@@ -37,7 +37,7 @@ export class ReflectionGroup {
      * that can be used within templates.
      */
     allChildrenHaveOwnDocument() {
-        this.getAllChildrenHaveOwnDocument();
+        return this.getAllChildrenHaveOwnDocument();
     }
 
     /**

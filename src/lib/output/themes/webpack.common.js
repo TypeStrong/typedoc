@@ -17,6 +17,9 @@ const config = {
             {
                 test: /\.ts$/,
                 loader: "ts-loader",
+                options: {
+                    transpileOnly: true
+                },
                 exclude: /node_modules/,
             },
             {

@@ -6,7 +6,7 @@ import { Converter, DocumentationEntryPoint } from "./converter/index";
 import { Renderer } from "./output/renderer";
 import { Serializer } from "./serialization";
 import { ProjectReflection } from "./models/index";
-import { getCommonDirectory } from "./utils/fs";
+import { getCommonDirectory, readFile } from "./utils/fs";
 import {
     Logger,
     ConsoleLogger,
@@ -549,6 +549,23 @@ export class Application extends ChildableComponent<
         const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
         this.logger.info(`JSON written to ${out}`);
+    }
+
+    public async exportProject(
+        project: ProjectReflection,
+        out: string
+    ): Promise<void> {
+        const exportText = this.serializer.exportProject(project);
+        await writeFile(out, exportText);
+        this.logger.info(`Exported to ${out}`);
+    }
+
+    public async importProject(
+        inputPath: string
+    ): Promise<ProjectReflection> {
+        const importText = await readFile(inputPath);
+        const project = this.serializer.importProject(importText);
+        return project;
     }
 
     /**

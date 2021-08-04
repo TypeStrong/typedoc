@@ -22,7 +22,7 @@
     "lunr": "^2.3.9",
     "marked": "^2.1.1",
     "minimatch": "^3.0.0",
-    "resurrect-ts": "portal:../../@cspotcode/resurrect-ts",
+    "resurrect-ts": "github:cspotcode/resurrect-ts",
     "shiki": "^0.9.3",
     "source-map-support": "^0.5.19"
   },

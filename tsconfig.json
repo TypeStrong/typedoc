@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+        "incremental": true,
+        
         "module": "CommonJS",
         "lib": ["ES2018"],
         "target": "ES2018",
@@ -31,7 +33,9 @@
 
         "jsx": "react",
         "jsxFactory": "createElement",
-        "jsxFragmentFactory": "createElement.Fragment"
+        "jsxFragmentFactory": "createElement.Fragment",
+
+        "types": ["mocha"]
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": [

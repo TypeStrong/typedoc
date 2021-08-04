@@ -138,8 +138,11 @@ const relevantFlags: ReflectionFlag[] = [
 /**
  * This must extend Array in order to work with Handlebar's each helper.
  */
-export class ReflectionFlags extends Array<string> {
+export class ReflectionFlags {
     private flags = ReflectionFlag.None;
+
+    private _flagNames: Array<string> = [];
+    get flagNames() { return this._flagNames as ReadonlyArray<string> }
 
     hasFlag(flag: ReflectionFlag) {
         return (flag & this.flags) !== 0;
@@ -259,12 +262,12 @@ export class ReflectionFlags extends Array<string> {
         );
         if (!set && this.hasFlag(flag)) {
             if (relevantFlags.includes(flag)) {
-                this.splice(this.indexOf(name), 1);
+                this._flagNames.splice(this._flagNames.indexOf(name), 1);
             }
             this.flags ^= flag;
         } else if (set && !this.hasFlag(flag)) {
             if (relevantFlags.includes(flag)) {
-                this.push(name);
+                this._flagNames.push(name);
             }
             this.flags |= flag;
         }

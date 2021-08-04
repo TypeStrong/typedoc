@@ -59,33 +59,41 @@ async function run(app) {
         return ExitCodes.OptionError;
     }
 
-    if (
-        app.options.getValue("entryPoints").length === 0 &&
-        app.options.getValue("packages").length === 0
-    ) {
-        app.logger.error("No entry points or packages provided");
-        return ExitCodes.NoEntryPoints;
+    /** @type {import('..').ProjectReflection | undefined} */
+    let project = undefined;
+
+    const importPath = app.options.getValue('import');
+    if(importPath) {
+        project = await app.importProject(importPath);
+    } else {
+
+        if (
+            app.options.getValue("entryPoints").length === 0 &&
+            app.options.getValue("packages").length === 0
+        ) {
+            app.logger.error("No entry points or packages provided");
+            return ExitCodes.NoEntryPoints;
+        }
+        if (app.options.getValue("watch")) {
+            app.convertAndWatch(async (project) => {
+                const out = app.options.getValue("out");
+                if (out) {
+                    await app.generateDocs(project, out);
+                }
+                const json = app.options.getValue("json");
+                if (json) {
+                    await app.generateJson(project, json);
+                }
+
+                if (!out && !json) {
+                    await app.generateDocs(project, "./docs");
+                }
+            });
+            return ExitCodes.Ok;
+        }
+        project = app.convert();
     }
 
-    if (app.options.getValue("watch")) {
-        app.convertAndWatch(async (project) => {
-            const out = app.options.getValue("out");
-            if (out) {
-                await app.generateDocs(project, out);
-            }
-            const json = app.options.getValue("json");
-            if (json) {
-                await app.generateJson(project, json);
-            }
-
-            if (!out && !json) {
-                await app.generateDocs(project, "./docs");
-            }
-        });
-        return ExitCodes.Ok;
-    }
-
-    const project = app.convert();
     if (!project) {
         return ExitCodes.CompileError;
     }
@@ -97,6 +105,10 @@ async function run(app) {
     const json = app.options.getValue("json");
     if (json) {
         await app.generateJson(project, json);
+    }
+    const exportPath = app.options.getValue("export");
+    if (exportPath) {
+        await app.exportProject(project, exportPath);
     }
 
     if (!out && !json) {

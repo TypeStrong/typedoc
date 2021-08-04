@@ -12,7 +12,7 @@ export const member =
                     <a name={props.anchor} class="tsd-anchor"></a>
                     {!!props.name && (
                         <h3>
-                            {props.flags.map((item) => (
+                            {props.flags.flagNames.map((item) => (
                                 <>
                                     <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                 </>

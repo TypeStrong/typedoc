@@ -69,7 +69,7 @@ export const parameter =
                                     {/* standard type */}
                                     <li class="tsd-parameter">
                                         <h5>
-                                            {item.flags.map((item) => (
+                                            {item.flags.flagNames.map((item) => (
                                                 <>
                                                     <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                 </>
@@ -96,7 +96,7 @@ export const parameter =
                                             {/* getter */}
                                             <li class="tsd-parameter">
                                                 <h5>
-                                                    {item.getSignature.flags.map((item) => (
+                                                    {item.getSignature.flags.flagNames.map((item) => (
                                                         <>
                                                             <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                         </>
@@ -116,7 +116,7 @@ export const parameter =
                                             {/* setter */}
                                             <li class="tsd-parameter">
                                                 <h5>
-                                                    {item.setSignature.flags.map((item) => (
+                                                    {item.setSignature.flags.flagNames.map((item) => (
                                                         <>
                                                             <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                                         </>

@@ -25,7 +25,7 @@ export class ReflectionCategory {
      * that can be used within templates.
      */
     allChildrenHaveOwnDocument() {
-        this.getAllChildrenHaveOwnDocument();
+        return this.getAllChildrenHaveOwnDocument();
     }
 
     /**

@@ -100,12 +100,15 @@ describe("Renderer", function () {
     it("renders basic example", async function () {
         this.timeout(0);
         mkdirSync(out + '-json', {recursive: true});
-        await app.generateJson(project!, out + '-json/out.json');
-        await app.generateDocs(project!, out);
+        await app.exportProject(project!, out + '-export.json');
+        const project2 = await app.importProject(out + '-export.json');
+        await app.generateDocs(project!, out + '-a');
+        await app.generateDocs(project2, out + '-b');
 
         if (!PRESERVE_OUTPUT_FOR_VISUAL_REGRESSION_TEST)
             await remove(Path.join(out, "assets"));
 
-        compareDirectories(Path.join(__dirname, "renderer", "specs"), out);
+        compareDirectories(Path.join(__dirname, "renderer", "specs"), out + '-a');
+        compareDirectories(Path.join(__dirname, "renderer", "specs"), out + '-b');
     });
 });

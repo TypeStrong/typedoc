@@ -22,7 +22,7 @@ export const memberSignatureBody =
                             {props.parameters.map((item) => (
                                 <li>
                                     <h5>
-                                        {item.flags.map((item) => (
+                                        {item.flags.flagNames.map((item) => (
                                             <>
                                                 <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                                             </>
