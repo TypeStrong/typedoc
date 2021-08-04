@@ -32,7 +32,7 @@ export abstract class SerializerComponent<T> {
 
     constructor(owner: Serializer) {
         this.owner = owner;
-        this.id = `${ nextSerializerId++ }`;
+        this.id = `${nextSerializerId++}`;
     }
 
     /**

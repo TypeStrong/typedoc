@@ -118,7 +118,7 @@ export function renderElement(element: jsx.Element | null | undefined): string {
             } else if (typeof child === "string") {
                 html.push(escapeHtml(child));
             } else if (typeof child === "number") {
-                html.push(escapeHtml(`${ child }`));
+                html.push(escapeHtml(`${child}`));
             } else {
                 html.push(renderElement(child));
             }

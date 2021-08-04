@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "incremental": true,
-        
+
         "module": "CommonJS",
         "lib": ["ES2018"],
         "target": "ES2018",

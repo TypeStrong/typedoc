@@ -2,19 +2,45 @@
 import * as util from "util";
 import { EventDispatcher } from "../utils";
 import {
-    ProjectReflection, Reflection, DeclarationReflection,
-    ReferenceReflection, ParameterReflection, SignatureReflection,
-    TypeParameterReflection, Comment, SourceFile,
-    IntrinsicType, ReflectionGroup, ReferenceType,
-    ArrayType, CommentTag, ConditionalType,
-    ContainerReflection, IndexedAccessType, InferredType,
-    IntersectionType, LiteralType, MappedType,
-    NamedTupleMember, OptionalType, PredicateType,
-    QueryType, ReflectionCategory, ReflectionFlag,
-    ReflectionFlags, ReflectionKind, ReflectionType,
-    RestType, SourceDirectory, TemplateLiteralType,
-    TraverseProperty, TupleType, Type,
-    TypeOperatorType, UnionType, UnknownType
+    ProjectReflection,
+    Reflection,
+    DeclarationReflection,
+    ReferenceReflection,
+    ParameterReflection,
+    SignatureReflection,
+    TypeParameterReflection,
+    Comment,
+    SourceFile,
+    IntrinsicType,
+    ReflectionGroup,
+    ReferenceType,
+    ArrayType,
+    CommentTag,
+    ConditionalType,
+    ContainerReflection,
+    IndexedAccessType,
+    InferredType,
+    IntersectionType,
+    LiteralType,
+    MappedType,
+    NamedTupleMember,
+    OptionalType,
+    PredicateType,
+    QueryType,
+    ReflectionCategory,
+    ReflectionFlag,
+    ReflectionFlags,
+    ReflectionKind,
+    ReflectionType,
+    RestType,
+    SourceDirectory,
+    TemplateLiteralType,
+    TraverseProperty,
+    TupleType,
+    Type,
+    TypeOperatorType,
+    UnionType,
+    UnknownType,
 } from "../models";
 
 import { SerializerComponent } from "./components";
@@ -79,14 +105,11 @@ export class Serializer extends EventDispatcher {
         // Note: This type *could* potentially lie, if a serializer declares a partial type but fails to provide
         // the defined property, but the benefit of being mostly typed is probably worth it.
         // TypeScript errors out if init is correctly typed as `Partial<ModelToObject<T>>`
-        return this.findSerializers(value).reduce<any>(
-            (result, curr) => {
-                // result.$serializers = result.$serializers || [];
-                // result.$serializers.push(curr.id);
-                return curr.toObject(value, result);
-            },
-            init
-        );
+        return this.findSerializers(value).reduce<any>((result, curr) => {
+            // result.$serializers = result.$serializers || [];
+            // result.$serializers.push(curr.id);
+            return curr.toObject(value, result);
+        }, init);
     }
 
     fromObject(obj: any): any {
@@ -102,19 +125,25 @@ export class Serializer extends EventDispatcher {
         }
 
         const $serializers = obj.$serializers as string[];
-        const serializers = $serializers.map(id => this.serializersById.get(id)!);
+        const serializers = $serializers.map(
+            (id) => this.serializersById.get(id)!
+        );
         let deserializedValue: any = undefined;
-        for(const serializer of serializers) {
+        for (const serializer of serializers) {
             const v = serializer.createFromObject(obj);
-            if(v) {
+            if (v) {
                 deserializedValue = v;
                 break;
             }
         }
-        if(deserializedValue === undefined) {
-            throw new Error(`no serializers are able to create an object for serialized object: ${util.inspect(obj)}`)
+        if (deserializedValue === undefined) {
+            throw new Error(
+                `no serializers are able to create an object for serialized object: ${util.inspect(
+                    obj
+                )}`
+            );
         }
-        for(const serializer of serializers) {
+        for (const serializer of serializers) {
             serializer.fromObject(deserializedValue, obj);
         }
         return deserializedValue;
@@ -145,47 +174,80 @@ export class Serializer extends EventDispatcher {
             IntrinsicType,
             ReflectionGroup,
             ReferenceType,
-            ArrayType, CommentTag, ConditionalType, ContainerReflection, IndexedAccessType, InferredType, IntersectionType, LiteralType, MappedType, NamedTupleMember, OptionalType, PredicateType, QueryType, ReflectionCategory, ReflectionFlag, ReflectionFlags, ReflectionKind, ReflectionType, RestType, SourceDirectory, TemplateLiteralType, TraverseProperty, TupleType, Type, TypeOperatorType, UnionType, UnknownType
+            ArrayType,
+            CommentTag,
+            ConditionalType,
+            ContainerReflection,
+            IndexedAccessType,
+            InferredType,
+            IntersectionType,
+            LiteralType,
+            MappedType,
+            NamedTupleMember,
+            OptionalType,
+            PredicateType,
+            QueryType,
+            ReflectionCategory,
+            ReflectionFlag,
+            ReflectionFlags,
+            ReflectionKind,
+            ReflectionType,
+            RestType,
+            SourceDirectory,
+            TemplateLiteralType,
+            TraverseProperty,
+            TupleType,
+            Type,
+            TypeOperatorType,
+            UnionType,
+            UnknownType,
         };
 
         const resurrector = new Resurrect({
-            resolver: new NamespaceResolver(ctx)
+            resolver: new NamespaceResolver(ctx),
         });
         return resurrector;
     }
 
-    exportProject(
-        value: ProjectReflection
-    ): string {
+    exportProject(value: ProjectReflection): string {
         const resurrector = this._createResurrector();
         //@ts-ignore
-        const exportText = resurrector.stringify(value, function(this: any, key: string, value: any) {
-            // If resolution above does not eliminate ts.Symbol reference, it means resolutions above return `undefined`
-            // It is safe to skip serialization of _target; will be equivalent.
-            if(key === '_target' && value?.constructor?.name === 'SymbolObject') {
-                if(this instanceof ReferenceType) {
-                    this.reflection; // trigger resolution
+        const exportText = resurrector.stringify(
+            value,
+            function (this: any, key: string, value: any) {
+                // If resolution above does not eliminate ts.Symbol reference, it means resolutions above return `undefined`
+                // It is safe to skip serialization of _target; will be equivalent.
+                if (
+                    key === "_target" &&
+                    value?.constructor?.name === "SymbolObject"
+                ) {
+                    if (this instanceof ReferenceType) {
+                        this.reflection; // trigger resolution
+                    }
+                    if (this instanceof ReferenceReflection) {
+                        this.tryGetTargetReflection(); // trigger resolution
+                    }
+                    value = this._target;
                 }
-                if(this instanceof ReferenceReflection) {
-                    this.tryGetTargetReflection(); // trigger resolution
-                }
-                value = this._target;
-            }
-            if(value?.constructor?.name === 'SymbolObject') return undefined;
-            if(value instanceof Map) return undefined;
-            return value;
-        }, '  ');
-        delete (value.reflections as any)['#id'];
+                if (value?.constructor?.name === "SymbolObject")
+                    return undefined;
+                if (value instanceof Map) return undefined;
+                return value;
+            },
+            "  "
+        );
+        delete (value.reflections as any)["#id"];
         return exportText;
     }
 
     importProject(exportText: string) {
-        const project: ProjectReflection = this._createResurrector().resurrect(exportText);
+        const project: ProjectReflection =
+            this._createResurrector().resurrect(exportText);
         (project as any).symbolToReflectionIdMap = new Map();
         (project as any).reflectionIdToSymbolMap = new Map();
         (project as any).referenceGraph = new Map();
 
-        delete (project as any).reflections['#id'];
+        delete (project as any).reflections["#id"];
         return project;
     }
 

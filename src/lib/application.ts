@@ -560,9 +560,7 @@ export class Application extends ChildableComponent<
         this.logger.info(`Exported to ${out}`);
     }
 
-    public async importProject(
-        inputPath: string
-    ): Promise<ProjectReflection> {
+    public async importProject(inputPath: string): Promise<ProjectReflection> {
         const importText = await readFile(inputPath);
         const project = this.serializer.importProject(importText);
         return project;

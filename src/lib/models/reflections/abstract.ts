@@ -142,7 +142,9 @@ export class ReflectionFlags {
     private flags = ReflectionFlag.None;
 
     private _flagNames: Array<string> = [];
-    get flagNames() { return this._flagNames as ReadonlyArray<string> }
+    get flagNames() {
+        return this._flagNames as ReadonlyArray<string>;
+    }
 
     hasFlag(flag: ReflectionFlag) {
         return (flag & this.flags) !== 0;
