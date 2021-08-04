@@ -5,9 +5,7 @@
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "bin": {
-    "typedoc": "bin/typedoc"
-  },
+  "bin": "bin/typedoc",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -24,7 +22,9 @@
     "lunr": "^2.3.9",
     "marked": "^2.1.1",
     "minimatch": "^3.0.0",
-    "shiki": "^0.9.3"
+    "resurrect-ts": "portal:../../@cspotcode/resurrect-ts",
+    "shiki": "^0.9.3",
+    "source-map-support": "^0.5.19"
   },
   "peerDependencies": {
     "typescript": "4.0.x || 4.1.x || 4.2.x || 4.3.x"
@@ -71,7 +71,8 @@
   ],
   "scripts": {
     "pretest": "node scripts/copy_test_files.js",
-    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 'dist/test/**/*.test.js' --exclude 'dist/test/packages/**'",
+    "test": "nyc --reporter=html --reporter=text-summary mocha --require source-map-support/register --timeout=10000 'dist/test/**/*.test.js' --exclude 'dist/test/packages/**'",
+    "test-local": "mocha --require source-map-support/register --timeout=10000 'dist/test/**/*.test.js' --exclude 'dist/test/packages/**'",
     "prerebuild_specs": "npm run pretest",
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "npm run build:tsc && npm run build:themes",
@@ -100,5 +101,6 @@
     "exclude": [
       "**/*.d.ts"
     ]
-  }
+  },
+  "packageManager": "yarn@3.0.1-rc.1"
 }

@@ -33,4 +33,12 @@ export class CommentSerializer extends SerializerComponent<Comment> {
 
         return obj;
     }
+
+    override createFromObject(obj: JSONComment) {
+        return new Comment(obj.shortText, obj.text);
+    }
+    override fromObject(comment: Comment, obj: JSONComment) {
+        comment.returns = this.owner.fromObject(obj.returns);
+        comment.tags = this.owner.fromObject(obj.tags);
+    }
 }

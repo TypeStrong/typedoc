@@ -22,4 +22,8 @@ export class ReferenceReflectionSerializer extends ReflectionSerializerComponent
             target: ref.tryGetTargetReflection()?.id ?? -1,
         };
     }
+
+    // override createFromObject(obj: JSONDeclarationReflection) {
+    //     return new ReferenceReflection(obj.name, obj., )
+    // }
 }

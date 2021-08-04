@@ -36,7 +36,9 @@ export class ReflectionGroup {
      * A bound representation of the ´ReflectionGroup.getAllChildrenHaveOwnDocument´
      * that can be used within templates.
      */
-    allChildrenHaveOwnDocument = () => this.getAllChildrenHaveOwnDocument();
+    allChildrenHaveOwnDocument() {
+        this.getAllChildrenHaveOwnDocument();
+    }
 
     /**
      * Are all children inherited members?

@@ -32,4 +32,10 @@ export class CommentTagSerializer extends SerializerComponent<CommentTag> {
 
         return { ...obj, ...result };
     }
+
+    override createFromObject(
+        obj: JSONCommentTag
+    ) {
+        return new CommentTag(obj.tag!, obj.param, obj.text)
+    }
 }

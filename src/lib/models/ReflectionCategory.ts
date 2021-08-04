@@ -24,7 +24,9 @@ export class ReflectionCategory {
      * A bound representation of the ´ReflectionCategory.getAllChildrenHaveOwnDocument´
      * that can be used within templates.
      */
-    allChildrenHaveOwnDocument: Function;
+    allChildrenHaveOwnDocument() {
+        this.getAllChildrenHaveOwnDocument();
+    }
 
     /**
      * Create a new ReflectionCategory instance.
@@ -33,9 +35,6 @@ export class ReflectionCategory {
      */
     constructor(title: string) {
         this.title = title;
-
-        this.allChildrenHaveOwnDocument = () =>
-            this.getAllChildrenHaveOwnDocument();
     }
 
     /**

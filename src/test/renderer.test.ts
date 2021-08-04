@@ -2,7 +2,7 @@ import { Application, ProjectReflection } from "..";
 import * as Path from "path";
 import Assert = require("assert");
 import { TSConfigReader } from "../lib/utils/options";
-import { readdirSync, readFileSync, statSync } from "fs";
+import { mkdirSync, readdirSync, readFileSync, statSync } from "fs";
 import { remove } from "../lib/utils/fs";
 
 // Set to true if you want to make a visual regression test report
@@ -99,6 +99,8 @@ describe("Renderer", function () {
 
     it("renders basic example", async function () {
         this.timeout(0);
+        mkdirSync(out + '-json', {recursive: true});
+        await app.generateJson(project!, out + '-json/out.json');
         await app.generateDocs(project!, out);
 
         if (!PRESERVE_OUTPUT_FOR_VISUAL_REGRESSION_TEST)

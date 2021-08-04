@@ -3,6 +3,8 @@ import { Reflection, Type } from "../models";
 import { Serializer } from "./serializer";
 import { ModelToObject } from "./schema";
 
+let nextSerializerId = 0;
+
 /**
  * Represents Serializer plugin component.
  *
@@ -23,8 +25,14 @@ export abstract class SerializerComponent<T> {
      */
     static PRIORITY = 0;
 
+    // When this serializer has a hand in serializing something, this ID is placed
+    // into the serialized output.  This helps us deserialize, because we know which
+    // serializers to call.
+    id: string;
+
     constructor(owner: Serializer) {
         this.owner = owner;
+        this.id = `${ nextSerializerId++ }`;
     }
 
     /**
@@ -66,6 +74,19 @@ export abstract class SerializerComponent<T> {
     abstract supports(item: unknown): boolean;
 
     abstract toObject(item: T, obj?: object): Partial<ModelToObject<T>>;
+
+    fromObject(_item: T, _obj: Partial<ModelToObject<T>>): void {
+        // no-op
+    }
+
+    /**
+     * For any given Reflection, at least one serializer should implement
+     * this method.
+     * Otherwise an error will be thrown.
+     */
+    createFromObject(_obj: ModelToObject<T>): T | undefined {
+        return undefined;
+    }
 }
 
 export abstract class ReflectionSerializerComponent<

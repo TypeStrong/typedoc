@@ -1,10 +1,16 @@
+import * as util from "util";
 import { EventDispatcher } from "../utils";
-import { ProjectReflection } from "../models";
+import {
+    ProjectReflection, Reflection, DeclarationReflection, ReferenceReflection, ParameterReflection, SignatureReflection, TypeParameterReflection, Comment, SourceFile, IntrinsicType,
+    ReflectionGroup,
+    ReferenceType, ArrayType, CommentTag, ConditionalType, ContainerReflection, IndexedAccessType, InferredType, IntersectionType, LiteralType, MappedType, NamedTupleMember, OptionalType, PredicateType, QueryType, ReflectionCategory, ReflectionFlag, ReflectionFlags, ReflectionKind, ReflectionType, RestType, SourceDirectory, TemplateLiteralType, TraverseProperty, TupleType, Type, TypeOperatorType, TypeParameterType, UnionType, UnknownType
+} from "../models";
 
 import { SerializerComponent } from "./components";
 import { SerializeEvent, SerializeEventData } from "./events";
 import { ModelToObject } from "./schema";
 import * as S from "./serializers";
+import { NamespaceResolver, Resurrect } from "resurrect-ts";
 
 export class Serializer extends EventDispatcher {
     /**
@@ -32,6 +38,8 @@ export class Serializer extends EventDispatcher {
         addSerializers(this);
     }
 
+    serializersById: Map<string, SerializerComponent<any>> = new Map();
+
     addSerializer(serializer: SerializerComponent<any>): void {
         let group = this.serializers.get(serializer.serializeGroup);
 
@@ -41,6 +49,7 @@ export class Serializer extends EventDispatcher {
 
         group.push(serializer);
         group.sort((a, b) => b.priority - a.priority);
+        this.serializersById.set(serializer.id, serializer);
     }
 
     toObject<T>(value: T, init?: object): ModelToObject<T>;
@@ -60,9 +69,54 @@ export class Serializer extends EventDispatcher {
         // the defined property, but the benefit of being mostly typed is probably worth it.
         // TypeScript errors out if init is correctly typed as `Partial<ModelToObject<T>>`
         return this.findSerializers(value).reduce<any>(
-            (result, curr) => curr.toObject(value, result),
+            (result, curr) => {
+                // result.$serializers = result.$serializers || [];
+                // result.$serializers.push(curr.id);
+                return curr.toObject(value, result);
+            },
             init
         );
+    }
+
+    fromObject(obj: any): any {
+        if (obj == null || typeof obj !== "object") {
+            return obj; // Deserializing some primitive
+        }
+
+        if (Array.isArray(obj)) {
+            if (obj.length === 0) {
+                return undefined;
+            }
+            return obj.map((obj) => this.fromObject(obj));
+        }
+
+        const $serializers = obj.$serializers as string[];
+        const serializers = $serializers.map(id => this.serializersById.get(id)!);
+        let deserializedValue: any = undefined;
+        for(const serializer of serializers) {
+            const v = serializer.createFromObject(obj);
+            if(v) {
+                deserializedValue = v;
+                break;
+            }
+        }
+        if(deserializedValue === undefined) {
+            throw new Error(`no serializers are able to create an object for serialized object: ${util.inspect(obj)}`)
+        }
+        for(const serializer of serializers) {
+            serializer.fromObject(deserializedValue, obj);
+        }
+        return deserializedValue;
+    }
+
+    idToReflection!: Map<number, Reflection>;
+    projectFromObject(obj: ModelToObject<ProjectReflection>): any {
+        this.idToReflection = new Map();
+        try {
+            this.fromObject(obj);
+        } finally {
+            this.idToReflection = undefined as any;
+        }
     }
 
     /**
@@ -85,7 +139,42 @@ export class Serializer extends EventDispatcher {
         }
         this.trigger(eventBegin);
 
-        const project = this.toObject(value, eventBegin.output);
+        // const project = this.toObject(value, eventBegin.output);
+        const ctx = {
+            __proto__: null,
+            ProjectReflection,
+            DeclarationReflection,
+            Reflection,
+            ReferenceReflection,
+            ParameterReflection,
+            SignatureReflection,
+            TypeParameterReflection,
+            Comment,
+            SourceFile,
+            IntrinsicType,
+            ReflectionGroup,
+            ReferenceType,
+            ArrayType, CommentTag, ConditionalType, ContainerReflection, IndexedAccessType, InferredType, IntersectionType, LiteralType, MappedType, NamedTupleMember, OptionalType, PredicateType, QueryType, ReflectionCategory, ReflectionFlag, ReflectionFlags, ReflectionKind, ReflectionType, RestType, SourceDirectory, TemplateLiteralType, TraverseProperty, TupleType, Type, TypeOperatorType, TypeParameterType, UnionType, UnknownType
+        };
+
+        const resurrector = new Resurrect({
+            resolver: new NamespaceResolver(ctx)
+        });
+        const project = JSON.parse(resurrector.stringify(value, function(this: any, key: string, value: any) {
+            if(value instanceof ReferenceType) {
+                value.reflection; // trigger resolution
+            }
+            if(value instanceof ReferenceReflection) {
+                value.tryGetTargetReflection(); // trigger resolution
+            }
+            // If resolution above does not eliminate ts.Symbol reference, it means resolutions above return `undefined`
+            // It is safe to skip serialization of _target; will be equivalent.
+            if((this instanceof ReferenceReflection || this instanceof ReferenceType) && key === '_target' && typeof value !== 'number') {
+                return -1;
+            }
+            if(value instanceof Map) return undefined;
+            return value;
+        }, '  '));
 
         const eventEnd = new SerializeEvent(
             Serializer.EVENT_END,
@@ -97,6 +186,18 @@ export class Serializer extends EventDispatcher {
             eventBegin.outputFile = eventData.end.outputFile;
         }
         this.trigger(eventEnd);
+
+        // HACK resurrect, then replace all project fields with the resurrected
+        // values.
+        const fromJson = resurrector.resurrect(JSON.stringify(project));
+        console.dir(fromJson);
+        for(const prop of Object.getOwnPropertyNames(value)) {
+            if(Object.prototype.hasOwnProperty.call(fromJson, prop)) {
+                (value as any)[prop] = fromJson[prop];
+            } else {
+                delete (value as any)[prop];
+            }
+        }
 
         return project;
     }
