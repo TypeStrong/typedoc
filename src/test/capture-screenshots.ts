@@ -1,17 +1,37 @@
+import { ok } from "assert";
 import * as fs from "fs";
 import { sync as glob } from "glob";
 import { platform } from "os";
 import PQueue from "p-queue";
 import * as Path from "path";
 import * as puppeteer from "puppeteer";
+import { Application, TSConfigReader } from "..";
 
 const concurrency = 10;
-const baseDirectory = Path.join(__dirname, "../../dist/tmp/test");
+const src = Path.join(__dirname, "../../examples/basic/src");
+const baseDirectory = Path.join(__dirname, "../../dist/tmp/capture");
 const outputDirectory = Path.join(__dirname, "../../dist/tmp/__screenshots__");
 const globPattern = "**/*.html";
 const viewport = { width: 1024, height: 768 };
 
 async function main() {
+    const app = new Application();
+    app.options.addReader(new TSConfigReader());
+    app.bootstrap({
+        logger: "console",
+        readme: Path.join(src, "..", "README.md"),
+        gaSite: "foo.com", // verify theme option without modifying output
+        name: "typedoc",
+        disableSources: true,
+        disableOutputCheck: true,
+        tsconfig: Path.join(src, "..", "tsconfig.json"),
+        plugin: [],
+        entryPoints: [src],
+    });
+    const project = app.convert();
+    ok(project);
+    await app.generateDocs(project, baseDirectory);
+
     const browser = await puppeteer.launch({
         args:
             platform() === "win32"
