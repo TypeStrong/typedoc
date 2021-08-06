@@ -85,7 +85,7 @@
     "postpublish": "node scripts/set_strict.js true",
     "clean": "rm -rf node_modules package-lock.json lib coverage",
     "test:visual-regression-report": "node ./dist/test/capture-screenshots.js && reg-suit compare",
-    "test:visual-regression-report:copy-actual-to-expected": "mkdir -p ./dist/tmp/.reg/expected/foo && rm -r ./dist/tmp/.reg/expected/* && cp -r ./dist/tmp/__screenshots__/* ./dist/tmp/.reg/expected/"
+    "test:visual-regression-report:accept": "node ./scripts/accept_visual_regression.js"
   },
   "keywords": [
     "typescript",

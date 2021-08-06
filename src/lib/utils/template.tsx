@@ -1,4 +1,3 @@
-import { ok } from "assert";
 export { Raw, Fragment } from "./jsx";
 export * as JSX from "./jsx";
 import * as jsx from "./jsx";
@@ -76,7 +75,7 @@ export function renderElement(element: jsx.Element | null | undefined): string {
         for (const [key, val] of Object.entries(props ?? {})) {
             if (typeof val == "boolean") {
                 if (val) {
-                    html.push(" ", key, '=""');
+                    html.push(" ", key);
                 }
             } else {
                 html.push(" ", key, "=", JSON.stringify(val));
@@ -85,11 +84,7 @@ export function renderElement(element: jsx.Element | null | undefined): string {
     }
 
     let hasChildren = false;
-    if ("innerHTML" in (props ?? {})) {
-        ok(children.length === 0, "Elements may not specify both children and innerHTML");
-        hasChildren = true;
-        html.push(">", String((props as any).innerHTML));
-    } else if (children.length) {
+    if (children.length) {
         hasChildren = true;
         if (tag !== jsx.Fragment) html.push(">");
         renderChildren(children);

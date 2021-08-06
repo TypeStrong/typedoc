@@ -1,4 +1,4 @@
-import { wbr } from "../../lib";
+import { renderFlags, wbr } from "../../lib";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 import { MinimalThemeRenderContext } from "../MinimalTheme";
 import { createElement } from "../../../../utils";
@@ -12,11 +12,7 @@ export const member =
                     <a name={props.anchor} class="tsd-anchor"></a>
                     {!!props.name && (
                         <h3>
-                            {props.flags.map((item) => (
-                                <>
-                                    <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
-                                </>
-                            ))}
+                            {renderFlags(props.flags)}
                             {wbr(props.name)}
                         </h3>
                     )}

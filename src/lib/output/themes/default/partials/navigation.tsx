@@ -14,11 +14,7 @@ export const navigation =
             <li class={classNames({ current: props.isInPath }) + " " + props.cssClasses}>
                 <a href={relativeURL(props.url)}>{wbr(props.title)}</a>
                 {!!props.isInPath && !!props.children && (
-                    <ul>
-                        {props.children.map((item) => (
-                            <> {partials.navigation(item)}</>
-                        ))}
-                    </ul>
+                    <ul>{props.children.map((item) => partials.navigation(item))}</ul>
                 )}
             </li>
         ));

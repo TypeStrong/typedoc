@@ -61,11 +61,11 @@ export const reflectionTemplate =
                                     <span class="tsd-signature-symbol">[</span>
                                     {props.model.indexSignature.parameters!.map((item) => (
                                         <>
-                                            {item.name}: {item.type && partials.type(item.type)}
+                                            {item.name}: {partials.type(item.type)}
                                         </>
                                     ))}
                                     <span class="tsd-signature-symbol">{"]: "}</span>
-                                    {props.model.indexSignature.type && partials.type(props.model.indexSignature.type)}
+                                    {partials.type(props.model.indexSignature.type)}
                                 </div>
                                 {partials.comment(props.model.indexSignature)}
                                 {props.model.indexSignature?.type instanceof ReflectionType &&

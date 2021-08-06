@@ -12,12 +12,9 @@ export const members =
                           <section class={"tsd-panel-group tsd-member-group " + props.cssClasses}>
                               <h2>{item.title}</h2>
                               {item.children.map(
-                                  (item) =>
-                                      !item.hasOwnDocument && (
-                                          <> {partials.member(assertIsDeclarationReflection(item))}</>
-                                      )
+                                  (item) => !item.hasOwnDocument && partials.member(assertIsDeclarationReflection(item))
                               )}
                           </section>
                       )
               )
-            : props.groups?.map((item) => !item.allChildrenHaveOwnDocument() && <> {partials.membersGroup(item)}</>);
+            : props.groups?.map((item) => !item.allChildrenHaveOwnDocument() && partials.membersGroup(item));

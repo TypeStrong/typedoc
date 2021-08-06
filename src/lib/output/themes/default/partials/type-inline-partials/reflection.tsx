@@ -19,22 +19,14 @@ export const reflection =
                                         <>
                                             {item.name}
                                             <span class="tsd-signature-symbol">: </span>
-                                            {item.getSignature.type ? (
-                                                partials.type(item.getSignature.type)
-                                            ) : (
-                                                <span class="tsd-signature-type">any</span>
-                                            )}
+                                            {partials.type(item.getSignature.type)}
                                         </>
                                     ) : (
                                         <>
                                             <span class="tsd-signature-symbol">{"get "}</span>
                                             {item.name}
                                             <span class="tsd-signature-symbol">(): </span>
-                                            {item.getSignature.type ? (
-                                                partials.type(item.getSignature.type)
-                                            ) : (
-                                                <span class="tsd-signature-type">any</span>
-                                            )}
+                                            {partials.type(item.getSignature.type)}
                                         </>
                                     )
                                 ) : item.setSignature ? (
@@ -46,11 +38,7 @@ export const reflection =
                                             <>
                                                 {item.name}
                                                 <span class="tsd-signature-symbol">: </span>
-                                                {item.type ? (
-                                                    partials.type(item.type)
-                                                ) : (
-                                                    <span class="tsd-signature-type">any</span>
-                                                )}
+                                                {partials.type(item.type)}
                                             </>
                                         ))}
                                         <span class="tsd-signature-symbol">)</span>
@@ -59,11 +47,7 @@ export const reflection =
                                     <>
                                         {item.name}
                                         <span class="tsd-signature-symbol">{item.flags.isOptional ? "?: " : ": "}</span>
-                                        {item.type ? (
-                                            <>{partials.type(item.type)}</>
-                                        ) : (
-                                            <span class="tsd-signature-type">any</span>
-                                        )}
+                                        {partials.type(item.type)}
                                     </>
                                 )}
                             </>

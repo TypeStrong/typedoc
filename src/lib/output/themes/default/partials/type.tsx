@@ -9,14 +9,14 @@ import { createElement, JSX } from "../../../../utils";
 // () => 1 | 2 !== (() => 1) | 2
 export const type =
     ({ partials }: DefaultThemeRenderContext) =>
-    (props: Type, options?: TypeInlinePartialsOptions): JSX.Element => {
-        if (props) {
-            const typeIdent = props.type as keyof typeof partials.typePartials;
-            const renderFn = partials.typePartials[typeIdent] as TypeRenderTemplate;
-            return renderFn(props, options);
-        } else {
-            return <span class="tsd-signature-type">void</span>;
+    (props: Type | undefined, options?: TypeInlinePartialsOptions): JSX.Element => {
+        if (!props) {
+            return <span class="tsd-signature-type">any</span>;
         }
+
+        const typeIdent = props.type as keyof typeof partials.typePartials;
+        const renderFn = partials.typePartials[typeIdent] as TypeRenderTemplate;
+        return renderFn(props, options);
     };
 
 type TypeRenderTemplate = (type: Type, options?: TypeInlinePartialsOptions) => JSX.Element;

@@ -1,4 +1,4 @@
-import { wbr } from "../../lib";
+import { join, wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { SignatureReflection } from "../../../../models";
@@ -25,19 +25,13 @@ export const memberSignatureTitle =
                 {!!props.typeParameters && (
                     <>
                         {"<"}
-                        {props.typeParameters.map((item, i) => (
-                            <>
-                                {i > 0 && ", "}
-                                {item.name}
-                            </>
-                        ))}
+                        {join(", ", props.typeParameters, (item) => item.name)}
                         {">"}
                     </>
                 )}
                 <span class="tsd-signature-symbol">(</span>
-                {props.parameters?.map((item, i) => (
+                {join(", ", props.parameters ?? [], (item) => (
                     <>
-                        {!!i && ", "}
                         {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                         {item.name}
                         <span class="tsd-signature-symbol">
@@ -45,18 +39,14 @@ export const memberSignatureTitle =
                             {!!item.defaultValue && "?"}
                             {": "}
                         </span>
-                        {item.type && partials.type(item.type)}
+                        {partials.type(item.type)}
                     </>
                 ))}
                 <span class="tsd-signature-symbol">)</span>
                 {!!props.type && (
                     <>
-                        {arrowStyle ? (
-                            <span class="tsd-signature-symbol"> ={">"} </span>
-                        ) : (
-                            <span class="tsd-signature-symbol">: </span>
-                        )}
-                        {!!props.type && partials.type(props.type)}
+                        <span class="tsd-signature-symbol">{arrowStyle ? " => " : ": "}</span>
+                        {partials.type(props.type)}
                     </>
                 )}
             </>

@@ -1,4 +1,4 @@
-import { wbr } from "../../lib";
+import { wbr, join } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
@@ -12,17 +12,12 @@ export const memberDeclaration =
                     {!!props.typeParameters && (
                         <>
                             {"<"}
-                            {props.typeParameters.map((item, i) => (
-                                <>
-                                    {i > 0 && ",\xA0"}
-                                    {item.name}
-                                </>
-                            ))}
+                            {join(", ", props.typeParameters, (item) => item.name)}
                             {">"}
                         </>
                     )}
                     <span class="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
-                    {props.type && partials.type(props.type)}
+                    {partials.type(props.type)}
                     {!!props.defaultValue && (
                         <>
                             <span class="tsd-signature-symbol">
@@ -44,12 +39,10 @@ export const memberDeclaration =
                     </>
                 )}
                 {props.type instanceof ReflectionType && (
-                    <>
-                        <div class="tsd-type-declaration">
-                            <h4>Type declaration</h4>
-                            {partials.parameter(props.type.declaration)}
-                        </div>
-                    </>
+                    <div class="tsd-type-declaration">
+                        <h4>Type declaration</h4>
+                        {partials.parameter(props.type.declaration)}
+                    </div>
                 )}
             </>
         );

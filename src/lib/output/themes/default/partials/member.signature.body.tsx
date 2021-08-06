@@ -1,12 +1,13 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement, Raw } from "../../../../utils";
 import { ReflectionType, SignatureReflection } from "../../../../models";
+import { renderFlags } from "../../lib";
 export const memberSignatureBody =
     ({ partials, markdown }: DefaultThemeRenderContext) =>
     (props: SignatureReflection, { hideSources = false }: { hideSources?: boolean } = {}) =>
         (
             <>
-                {!hideSources && <> {partials.memberSources(props)}</>}
+                {!hideSources && partials.memberSources(props)}
                 {partials.comment(props)}
 
                 {!!props.typeParameters && (
@@ -22,15 +23,11 @@ export const memberSignatureBody =
                             {props.parameters.map((item) => (
                                 <li>
                                     <h5>
-                                        {item.flags.map((item) => (
-                                            <>
-                                                <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
-                                            </>
-                                        ))}
+                                        {renderFlags(item.flags)}
                                         {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                         {item.name}
                                         {": "}
-                                        {item.type && partials.type(item.type)}
+                                        {partials.type(item.type)}
                                         {item.defaultValue != null && (
                                             <span class="tsd-signature-symbol">
                                                 {" = "}

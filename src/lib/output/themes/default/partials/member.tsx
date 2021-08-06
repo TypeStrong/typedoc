@@ -1,4 +1,4 @@
-import { assertIsDeclarationReflection, wbr } from "../../lib";
+import { assertIsDeclarationReflection, renderFlags, wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
@@ -11,23 +11,17 @@ export const member =
                 <a name={props.anchor} class="tsd-anchor"></a>
                 {!!props.name && (
                     <h3>
-                        {props.flags.map((item) => (
-                            <>
-                                <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
-                            </>
-                        ))}
+                        {renderFlags(props.flags)}
                         {wbr(props.name)}
                     </h3>
                 )}
-                {props.signatures ? (
-                    <> {partials.memberSignatures(props)}</>
-                ) : props.hasGetterOrSetter() ? (
-                    partials.memberGetterSetter(props)
-                ) : props instanceof ReferenceReflection ? (
-                    partials.memberReference(props)
-                ) : (
-                    <> {partials.memberDeclaration(props)}</>
-                )}
+                {props.signatures
+                    ? partials.memberSignatures(props)
+                    : props.hasGetterOrSetter()
+                    ? partials.memberGetterSetter(props)
+                    : props instanceof ReferenceReflection
+                    ? partials.memberReference(props)
+                    : partials.memberDeclaration(props)}
 
                 {props.groups?.map((item) =>
                     item.children.map(

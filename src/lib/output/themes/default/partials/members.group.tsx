@@ -14,17 +14,15 @@ export const membersGroup =
                         {group.title}
                     </h2>
                     {item.children.map(
-                        (item) => !item.hasOwnDocument && <> {partials.member(assertIsDeclarationReflection(item))}</>
+                        (item) => !item.hasOwnDocument && partials.member(assertIsDeclarationReflection(item))
                     )}
                 </section>
             ))
         ) : (
-            <>
-                <section class={"tsd-panel-group tsd-member-group " + group.cssClasses}>
-                    <h2>{group.title}</h2>
-                    {group.children.map(
-                        (item) => !item.hasOwnDocument && <> {partials.member(assertIsDeclarationReflection(item))}</>
-                    )}
-                </section>
-            </>
+            <section class={"tsd-panel-group tsd-member-group " + group.cssClasses}>
+                <h2>{group.title}</h2>
+                {group.children.map(
+                    (item) => !item.hasOwnDocument && partials.member(assertIsDeclarationReflection(item))
+                )}
+            </section>
         );

@@ -56,7 +56,6 @@ export const header =
                                         </label>
                                         {!props.settings.excludeExternals && (
                                             <>
-                                                {" "}
                                                 <input type="checkbox" id="tsd-filter-externals" checked={true} />
                                                 <label class="tsd-widget" for="tsd-filter-externals">
                                                     Externals
@@ -77,22 +76,20 @@ export const header =
                     <div class="container">
                         {!!props.model.parent && <ul class="tsd-breadcrumb">{partials.breadcrumb(props.model)}</ul>}
                         <h1>
-                            <>
-                                {props.model.kindString !== "Project" && `${props.model.kindString ?? ""} `}
-                                {props.model.name}
-                                {hasTypeParameters(props.model) && (
-                                    <>
-                                        {"<"}
-                                        {props.model.typeParameters.map((item, i) => (
-                                            <>
-                                                {i > 0 && ", "}
-                                                {item.name}
-                                            </>
-                                        ))}
-                                        {">"}
-                                    </>
-                                )}
-                            </>
+                            {props.model.kindString !== "Project" && `${props.model.kindString ?? ""} `}
+                            {props.model.name}
+                            {hasTypeParameters(props.model) && (
+                                <>
+                                    {"<"}
+                                    {props.model.typeParameters.map((item, i) => (
+                                        <>
+                                            {i > 0 && ", "}
+                                            {item.name}
+                                        </>
+                                    ))}
+                                    {">"}
+                                </>
+                            )}
                         </h1>
                     </div>
                 </div>

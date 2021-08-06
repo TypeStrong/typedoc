@@ -7,7 +7,6 @@ export const memberSources =
         (
             <>
                 <aside class="tsd-sources">
-                    {" "}
                     {!!props.implementationOf && (
                         <p>
                             {"Implementation of "}

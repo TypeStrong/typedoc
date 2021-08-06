@@ -1,5 +1,5 @@
 import { ok as assert } from "assert";
-import { DeclarationReflection, Reflection, TypeParameterContainer } from "../../models";
+import { DeclarationReflection, Reflection, ReflectionFlags, TypeParameterContainer } from "../../models";
 import { createElement, JSX } from "../../utils";
 
 export function stringify(data: unknown) {
@@ -31,6 +31,31 @@ export function wbr(str: string): (string | JSX.Element)[] {
     ret.push(str.slice(i));
 
     return ret;
+}
+
+export function join<T>(joiner: JSX.Children, list: readonly T[], cb: (x: T) => JSX.Children) {
+    const result: JSX.Children = [];
+
+    for (const item of list) {
+        if (result.length > 0) {
+            result.push(joiner);
+        }
+        result.push(cb(item));
+    }
+
+    return <>{result}</>;
+}
+
+export function renderFlags(flags: ReflectionFlags) {
+    return (
+        <>
+            {flags.map((item) => (
+                <>
+                    <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
+                </>
+            ))}
+        </>
+    );
 }
 
 export function classNames(names: Record<string, boolean | null | undefined>) {

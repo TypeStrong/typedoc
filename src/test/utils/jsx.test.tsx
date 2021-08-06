@@ -8,7 +8,7 @@ describe("JSX", () => {
                 Text
             </details>
         );
-        equal(renderElement(element), '<details data-a="foo" open="">Text</details>');
+        equal(renderElement(element), '<details data-a="foo" open>Text</details>');
     });
 
     it("Escapes string content", () => {

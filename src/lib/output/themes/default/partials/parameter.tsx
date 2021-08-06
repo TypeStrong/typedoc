@@ -1,4 +1,4 @@
-import { wbr } from "../../lib";
+import { renderFlags, wbr } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
@@ -20,11 +20,9 @@ export const parameter =
 
                             <ul class="tsd-descriptions">
                                 {props.signatures.map((item) => (
-                                    <>
-                                        <li class="tsd-description">
-                                            {partials.memberSignatureBody(item, { hideSources: true })}
-                                        </li>
-                                    </>
+                                    <li class="tsd-description">
+                                        {partials.memberSignatureBody(item, { hideSources: true })}
+                                    </li>
                                 ))}
                             </ul>
                         </li>
@@ -39,11 +37,11 @@ export const parameter =
                                             {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                             {item.name}
                                             {": "}
-                                            {item.type && partials.type(item.type)}
+                                            {partials.type(item.type)}
                                         </>
                                     ))}
                                     <span class="tsd-signature-symbol">{"]: "}</span>
-                                    {props.indexSignature.type && partials.type(props.indexSignature.type)}
+                                    {partials.type(props.indexSignature.type)}
                                 </h5>
                                 {partials.comment(props.indexSignature)}
                                 {props.indexSignature.type instanceof ReflectionType &&
@@ -69,11 +67,7 @@ export const parameter =
                                     {/* standard type */}
                                     <li class="tsd-parameter">
                                         <h5>
-                                            {item.flags.map((item) => (
-                                                <>
-                                                    <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
-                                                </>
-                                            ))}
+                                            {renderFlags(item.flags)}
                                             {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                             {wbr(item.name)}
                                             <span class="tsd-signature-symbol">
@@ -96,15 +90,11 @@ export const parameter =
                                             {/* getter */}
                                             <li class="tsd-parameter">
                                                 <h5>
-                                                    {item.getSignature.flags.map((item) => (
-                                                        <>
-                                                            <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
-                                                        </>
-                                                    ))}
+                                                    {renderFlags(item.getSignature.flags)}
                                                     <span class="tsd-signature-symbol">get </span>
                                                     {wbr(item.name)}
                                                     <span class="tsd-signature-symbol">(): </span>
-                                                    {item.getSignature.type && partials.type(item.getSignature.type)}
+                                                    {partials.type(item.getSignature.type)}
                                                 </h5>
 
                                                 {partials.comment(item.getSignature)}
@@ -116,11 +106,7 @@ export const parameter =
                                             {/* setter */}
                                             <li class="tsd-parameter">
                                                 <h5>
-                                                    {item.setSignature.flags.map((item) => (
-                                                        <>
-                                                            <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
-                                                        </>
-                                                    ))}
+                                                    {renderFlags(item.setSignature.flags)}
                                                     <span class="tsd-signature-symbol">set </span>
                                                     {wbr(item.name)}
                                                     <span class="tsd-signature-symbol">(</span>
@@ -128,15 +114,11 @@ export const parameter =
                                                         <>
                                                             {item.name}
                                                             <span class="tsd-signature-symbol">: </span>
-                                                            {item.type ? (
-                                                                partials.type(item.type)
-                                                            ) : (
-                                                                <span class="tsd-signature-type">any</span>
-                                                            )}
+                                                            {partials.type(item.type)}
                                                         </>
                                                     ))}
                                                     <span class="tsd-signature-symbol">): </span>
-                                                    {item.setSignature.type && partials.type(item.setSignature.type)}
+                                                    {partials.type(item.setSignature.type)}
                                                 </h5>
 
                                                 {partials.comment(item.setSignature)}

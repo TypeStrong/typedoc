@@ -1,2 +1,5 @@
 # Disable core.autocrlf's line ending conversion behavior to prevent test failures on Windows
 * text=auto eol=lf
+
+*.png binary
+*.psd binary
