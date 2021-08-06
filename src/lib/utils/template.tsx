@@ -110,8 +110,8 @@ export function renderElement(element: jsx.Element | null | undefined): string {
 
             if (Array.isArray(child)) {
                 renderChildren(child);
-            } else if (typeof child === "string") {
-                html.push(escapeHtml(child));
+            } else if (typeof child === "string" || typeof child === "number") {
+                html.push(escapeHtml(child.toString()));
             } else {
                 html.push(renderElement(child));
             }

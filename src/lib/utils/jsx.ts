@@ -14,7 +14,13 @@ export function Raw(_props: { html: string }) {
     return null;
 }
 
-export type Children = Element | string | null | undefined | Children[];
+export type Children =
+    | Element
+    | string
+    | number
+    | null
+    | undefined
+    | Children[];
 
 export type Component<P> = (props: P) => Element | null | undefined;
 
@@ -25,9 +31,8 @@ type BannedElementKeys =
     | "outerHTML"
     | "innerHTML"
     | "innerText"
-    | "textContent";
-// This should come back at some point.
-// | "style";
+    | "textContent"
+    | "style";
 
 interface RemapKeys {
     className: "class";
