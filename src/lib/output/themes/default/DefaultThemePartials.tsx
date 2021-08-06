@@ -25,26 +25,6 @@ import { typeParameters } from "./partials/typeParameters";
 import { reflectionTemplate } from "./templates/reflection";
 import { indexTemplate } from "./templates/index";
 import { defaultLayout } from "./layouts/default";
-import { array } from "./partials/type-inline-partials/array";
-import { conditional } from "./partials/type-inline-partials/conditional";
-import { indexedAccess } from "./partials/type-inline-partials/indexedAccess";
-import { inferred } from "./partials/type-inline-partials/inferred";
-import { intersection } from "./partials/type-inline-partials/intersection";
-import { intrinsic } from "./partials/type-inline-partials/intrinsic";
-import { literal } from "./partials/type-inline-partials/literal";
-import { mapped } from "./partials/type-inline-partials/mapped";
-import { namedTupleMember } from "./partials/type-inline-partials/named-tuple-member";
-import { optional } from "./partials/type-inline-partials/optional";
-import { predicate } from "./partials/type-inline-partials/predicate";
-import { query } from "./partials/type-inline-partials/query";
-import { reference } from "./partials/type-inline-partials/reference";
-import { reflection } from "./partials/type-inline-partials/reflection";
-import { rest } from "./partials/type-inline-partials/rest";
-import { templateLiteral } from "./partials/type-inline-partials/template-literal";
-import { tuple } from "./partials/type-inline-partials/tuple";
-import { typeOperator } from "./partials/type-inline-partials/typeOperator";
-import { union } from "./partials/type-inline-partials/union";
-import { unknown } from "./partials/type-inline-partials/unknown";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 
 export class DefaultThemePartials {
@@ -82,29 +62,4 @@ export class DefaultThemePartials {
     type = type(this.hack());
     typeAndParent = typeAndParent(this.hack());
     typeParameters = typeParameters(this.hack());
-    typePartials = new DefaultThemeTypePartials(this.hack());
-}
-
-export class DefaultThemeTypePartials {
-    constructor(private bindings: DefaultThemeRenderContext) {}
-    array = array(this.bindings);
-    conditional = conditional(this.bindings);
-    indexedAccess = indexedAccess(this.bindings);
-    inferred = inferred(this.bindings);
-    intersection = intersection(this.bindings);
-    intrinsic = intrinsic(this.bindings);
-    literal = literal(this.bindings);
-    mapped = mapped(this.bindings);
-    "named-tuple-member" = namedTupleMember(this.bindings);
-    optional = optional(this.bindings);
-    predicate = predicate(this.bindings);
-    query = query(this.bindings);
-    reference = reference(this.bindings);
-    reflection = reflection(this.bindings);
-    rest = rest(this.bindings);
-    "template-literal" = templateLiteral(this.bindings);
-    tuple = tuple(this.bindings);
-    typeOperator = typeOperator(this.bindings);
-    union = union(this.bindings);
-    unknown = unknown(this.bindings);
 }

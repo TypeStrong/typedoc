@@ -16,8 +16,12 @@ export const memberDeclaration =
                             {">"}
                         </>
                     )}
-                    <span class="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
-                    {partials.type(props.type)}
+                    {props.type && (
+                        <>
+                            <span class="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
+                            {partials.type(props.type)}
+                        </>
+                    )}
                     {!!props.defaultValue && (
                         <>
                             <span class="tsd-signature-symbol">
