@@ -13,7 +13,7 @@ import { NavigationItem } from "../models/NavigationItem";
  * A plugin that generates a table of contents for the current page.
  *
  * The table of contents will start at the nearest module or dynamic module. This plugin
- * sets the [[PageEvent.toc]] property.
+ * sets the {@link PageEvent.toc} property.
  */
 @Component({ name: "toc" })
 export class TocPlugin extends RendererComponent {

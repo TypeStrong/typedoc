@@ -71,7 +71,7 @@ export class SourcePlugin extends ConverterComponent {
     /**
      * Triggered when the converter has created a declaration reflection.
      *
-     * Attach the current source file to the [[DeclarationReflection.sources]] array.
+     * Attach the current source file to the {@link DeclarationReflection.sources} array.
      *
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently processed.

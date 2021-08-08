@@ -34,7 +34,7 @@ export abstract class SerializerComponent<T> {
 
     /**
      * A high-level predicate filtering which group this serializer belongs to.
-     * This is a high-level filter before the [[SerializerComponent.supports]] predicate filter.
+     * This is a high-level filter before the {@link SerializerComponent.supports} predicate filter.
      *
      * For example, use the {@link Reflection} class class to group all reflection based serializers:
      * ```typescript

@@ -1,7 +1,7 @@
 /**
  * A model that represents a single javadoc comment tag.
  *
- * Tags are stored in the [[Comment.tags]] property.
+ * Tags are stored in the {@link Comment.tags} property.
  */
 export class CommentTag {
     /**

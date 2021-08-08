@@ -10,8 +10,8 @@ import { LegendItem } from "./plugins/LegendPlugin";
  * An event emitted by the {@link Renderer} class at the very beginning and
  * ending of the entire rendering process.
  *
- * @see [[Renderer.EVENT_BEGIN]]
- * @see [[Renderer.EVENT_END]]
+ * @see {@link Renderer.EVENT_BEGIN}
+ * @see {@link Renderer.EVENT_END}
  */
 export class RendererEvent extends Event {
     /**
@@ -32,7 +32,7 @@ export class RendererEvent extends Event {
     /**
      * A list of all pages that should be generated.
      *
-     * This list can be altered during the [[Renderer.EVENT_BEGIN]] event.
+     * This list can be altered during the {@link Renderer.EVENT_BEGIN} event.
      */
     urls?: UrlMapping[];
 
@@ -85,8 +85,8 @@ export class RendererEvent extends Event {
  *
  * This object will be passed as the rendering context to handlebars templates.
  *
- * @see [[Renderer.EVENT_BEGIN_PAGE]]
- * @see [[Renderer.EVENT_END_PAGE]]
+ * @see {@link Renderer.EVENT_BEGIN_PAGE}
+ * @see {@link Renderer.EVENT_END_PAGE}
  */
 export class PageEvent<Model = unknown> extends Event {
     /**
@@ -158,7 +158,7 @@ export class PageEvent<Model = unknown> extends Event {
  * An event emitted by the {@link MarkedPlugin} on the {@link Renderer} after a chunk of
  * markdown has been processed. Allows other plugins to manipulate the result.
  *
- * @see [[MarkedPlugin.EVENT_PARSE_MARKDOWN]]
+ * @see {@link MarkedPlugin.EVENT_PARSE_MARKDOWN}
  */
 export class MarkdownEvent extends Event {
     /**

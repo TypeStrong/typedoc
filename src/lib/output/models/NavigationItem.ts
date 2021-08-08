@@ -5,7 +5,7 @@ import { Reflection } from "../../models/reflections/abstract";
  *
  * This structure is used by the {@link NavigationPlugin} and {@link TocPlugin} to expose the current
  * navigation state to the template engine. Themes should generate the primary navigation structure
- * through the [[BaseTheme.getNavigation]] method.
+ * through the {@link BaseTheme.getNavigation} method.
  */
 export class NavigationItem {
     /**

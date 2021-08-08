@@ -7,7 +7,7 @@ import { SourceDirectory } from "./directory";
 /**
  * Represents references of reflections to their defining source files.
  *
- * @see [[DeclarationReflection.sources]]
+ * @see {@link DeclarationReflection.sources}
  */
 export interface SourceReference {
     /**
@@ -36,12 +36,12 @@ export interface SourceReference {
 /**
  * Exposes information about a source file.
  *
- * One my access a list of all source files through the [[ProjectReflection.files]] property or as
- * a tree structure through the [[ProjectReflection.directory]] property.
+ * One my access a list of all source files through the {@link ProjectReflection.files} property or as
+ * a tree structure through the {@link ProjectReflection.directory} property.
  *
  * Furthermore each reflection carries references to the related SourceFile with their
- * [[DeclarationReflection.sources]] property. It is an array of of {@link IDeclarationSource} instances
- * containing the reference in their [[IDeclarationSource.file]] field.
+ * {@link DeclarationReflection.sources} property. It is an array of of {@link IDeclarationSource} instances
+ * containing the reference in their {@link IDeclarationSource.file} field.
  */
 export class SourceFile {
     /**

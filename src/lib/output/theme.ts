@@ -15,7 +15,7 @@ import { Reflection } from "../models";
  * series of subdirectories containing templates and assets. You can select a theme
  * through the ```--theme <path/to/theme>``` commandline argument.
  *
- * The theme class controls which files will be created through the [[BaseTheme.getUrls]]
+ * The theme class controls which files will be created through the {@link BaseTheme.getUrls}
  * function. It returns an array of {@link UrlMapping} instances defining the target files, models
  * and templates to use. Additionally themes can subscribe to the events emitted by
  * {@link Renderer} to control and manipulate the output process.
@@ -39,7 +39,7 @@ import { Reflection } from "../models";
  *
  * - ```/templates/```<br>
  *   Contains the main templates of the theme. The theme maps models to these templates through
- *   the [[BaseTheme.getUrls]] function. If the [[Renderer.getTemplate]] function cannot find a
+ *   the {@link BaseTheme.getUrls} function. If the {@link Renderer.getTemplate} function cannot find a
  *   given template within this directory, it will try to find it in the default theme
  *   ```/templates/``` directory. Templates receive the current {@link PageEvent} instance as
  *   their handlebars context. You can access the target model through the ```{{model}}``` variable.
@@ -76,7 +76,7 @@ export abstract class Theme extends RendererComponent {
      * @returns     TRUE if the given path seems to be a previous output directory,
      *              otherwise FALSE.
      *
-     * @see [[Renderer.prepareOutputDirectory]]
+     * @see {@link Renderer.prepareOutputDirectory}
      */
     abstract isOutputDirectory(path: string): boolean;
 

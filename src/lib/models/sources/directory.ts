@@ -5,9 +5,9 @@ import { SourceFile } from "./file";
 /**
  * Exposes information about a directory containing source files.
  *
- * One my access the root directory of a project through the [[ProjectReflection.directory]]
- * property. Traverse through directories by utilizing the [[SourceDirectory.parent]] or
- * [[SourceDirectory.directories]] properties.
+ * One my access the root directory of a project through the {@link ProjectReflection.directory}
+ * property. Traverse through directories by utilizing the {@link SourceDirectory.parent} or
+ * {@link SourceDirectory.directories} properties.
  */
 export class SourceDirectory {
     /**

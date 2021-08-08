@@ -20,13 +20,13 @@ import { renderElement } from "../../../utils";
 import { defaultThemePartials } from "./DefaultThemePartials";
 
 /**
- * Defines a mapping of a [[Models.Kind]] to a template file.
+ * Defines a mapping of a {@link Models.Kind} to a template file.
  *
  * Used by {@link DefaultTheme} to map reflections to output files.
  */
 export interface TemplateMapping {
     /**
-     * [[DeclarationReflection.kind]] this rule applies to.
+     * {@link DeclarationReflection.kind} this rule applies to.
      */
     kind: ReflectionKind[];
 
@@ -298,7 +298,7 @@ export class DefaultTheme extends Theme {
 
     /**
      * Generate the css classes for the given reflection and apply them to the
-     * [[DeclarationReflection.cssClasses]] property.
+     * {@link DeclarationReflection.cssClasses} property.
      *
      * @param reflection  The reflection whose cssClasses property should be generated.
      */
@@ -356,7 +356,7 @@ export class DefaultTheme extends Theme {
 
     /**
      * Generate the css classes for the given reflection group and apply them to the
-     * [[ReflectionGroup.cssClasses]] property.
+     * {@link ReflectionGroup.cssClasses} property.
      *
      * @param group  The reflection group whose cssClasses property should be generated.
      */

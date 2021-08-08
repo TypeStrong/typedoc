@@ -14,8 +14,8 @@ export interface SerializeEventData {
  * An event emitted by the {@link Serializer} class at the very beginning and
  * ending of the a project serialization process.
  *
- * @see [[Serializer.EVENT_BEGIN]]
- * @see [[Serializer.EVENT_END]]
+ * @see {@link Serializer.EVENT_BEGIN}
+ * @see {@link Serializer.EVENT_END}
  */
 export class SerializeEvent extends Event {
     /**

@@ -7,7 +7,7 @@ import { RendererEvent, PageEvent } from "../events";
  * to the rendered templates.
  *
  * The navigation structure is generated using the current themes
- * [[BaseTheme.getNavigation]] function. This plugins takes care that the navigation
+ * {@link BaseTheme.getNavigation} function. This plugins takes care that the navigation
  * is updated and passed to the render context.
  */
 @Component({ name: "navigation" })

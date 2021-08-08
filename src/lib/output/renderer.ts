@@ -29,29 +29,29 @@ import { Reflection } from "../models";
  * the emitted html documents to a output directory. You can specify which theme should be used
  * using the ```--theme <name>``` command line argument.
  *
- * Subclasses of {@link BasePlugin} that have registered themselves in the [[Renderer.PLUGIN_CLASSES]]
+ * Subclasses of {@link BasePlugin} that have registered themselves in the {@link Renderer.PLUGIN_CLASSES}
  * will be automatically initialized. Most of the core functionality is provided as separate plugins.
  *
  * {@link Renderer} is a subclass of {@link EventDispatcher} and triggers a series of events while
  * a project is being processed. You can listen to these events to control the flow or manipulate
  * the output.
  *
- *  * [[Renderer.EVENT_BEGIN]]<br>
+ *  * {@link Renderer.EVENT_BEGIN}<br>
  *    Triggered before the renderer starts rendering a project. The listener receives
- *    an instance of {@link RendererEvent}. By calling [[RendererEvent.preventDefault]] the entire
+ *    an instance of {@link RendererEvent}. By calling {@link RendererEvent.preventDefault} the entire
  *    render process can be canceled.
  *
- *    * [[Renderer.EVENT_BEGIN_PAGE]]<br>
+ *    * {@link Renderer.EVENT_BEGIN_PAGE}<br>
  *      Triggered before a document will be rendered. The listener receives an instance of
- *      {@link PageEvent}. By calling [[PageEvent.preventDefault]] the generation of the
+ *      {@link PageEvent}. By calling {@link PageEvent.preventDefault} the generation of the
  *      document can be canceled.
  *
- *    * [[Renderer.EVENT_END_PAGE]]<br>
+ *    * {@link Renderer.EVENT_END_PAGE}<br>
  *      Triggered after a document has been rendered, just before it is written to disc. The
  *      listener receives an instance of {@link PageEvent}. When calling
- *      [[PageEvent.preventDefault]] the the document will not be saved to disc.
+ *      {@link PageEvent.preventDefault} the the document will not be saved to disc.
  *
- *  * [[Renderer.EVENT_END]]<br>
+ *  * {@link Renderer.EVENT_END}<br>
  *    Triggered after the renderer has written all documents. The listener receives
  *    an instance of {@link RendererEvent}.
  */

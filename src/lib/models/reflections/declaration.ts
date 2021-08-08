@@ -14,7 +14,7 @@ import { TypeParameterReflection } from "./type-parameter";
 /**
  * Stores hierarchical type data.
  *
- * @see [[DeclarationReflection.typeHierarchy]]
+ * @see {@link DeclarationReflection.typeHierarchy}
  */
 export interface DeclarationHierarchy {
     /**

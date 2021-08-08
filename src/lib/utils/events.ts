@@ -340,12 +340,12 @@ export class Event {
     private _name: string;
 
     /**
-     * Has [[Event.stopPropagation]] been called?
+     * Has {@link Event.stopPropagation} been called?
      */
     private _isPropagationStopped = false;
 
     /**
-     * Has [[Event.preventDefault]] been called?
+     * Has {@link Event.preventDefault} been called?
      */
     private _isDefaultPrevented = false;
 
@@ -378,14 +378,14 @@ export class Event {
     }
 
     /**
-     * Has [[Event.stopPropagation]] been called?
+     * Has {@link Event.stopPropagation} been called?
      */
     get isPropagationStopped(): boolean {
         return this._isPropagationStopped;
     }
 
     /**
-     * Has [[Event.preventDefault]] been called?
+     * Has {@link Event.preventDefault} been called?
      */
     get isDefaultPrevented(): boolean {
         return this._isDefaultPrevented;

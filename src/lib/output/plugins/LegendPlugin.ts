@@ -262,7 +262,7 @@ export class LegendBuilder {
 /**
  * A plugin that generates the legend for the current page.
  *
- * This plugin sets the [[PageEvent.legend]] property.
+ * This plugin sets the {@link PageEvent.legend} property.
  */
 @Component({ name: "legend" })
 export class LegendPlugin extends RendererComponent {

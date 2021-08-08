@@ -429,7 +429,7 @@ export abstract class Reflection {
     /**
      * Url safe alias for this reflection.
      *
-     * @see [[BaseReflection.getAlias]]
+     * @see {@link BaseReflection.getAlias}
      */
     private _alias?: string;
 

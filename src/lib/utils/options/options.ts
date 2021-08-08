@@ -40,9 +40,9 @@ export interface OptionsReader {
     /**
      * Read options from the reader's source and place them in the options parameter.
      * Options without a declared name may be treated as if they were declared with type
-     * [[ParameterType.Mixed]]. Options which have been declared must be converted to the
+     * {@link ParameterType.Mixed}. Options which have been declared must be converted to the
      * correct type. As an alternative to doing this conversion in the reader,
-     * the reader may use [[Options.setValue]], which will correctly convert values.
+     * the reader may use {@link Options.setValue}, which will correctly convert values.
      * @param options
      * @param compilerOptions
      * @param container the options container that provides declarations

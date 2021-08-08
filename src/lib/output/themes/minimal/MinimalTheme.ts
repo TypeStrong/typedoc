@@ -101,7 +101,7 @@ export class MinimalTheme extends DefaultTheme {
      * Create a toc navigation item structure.
      *
      * @param model   The models whose children should be written to the toc.
-     * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
+     * @param parent  The parent {@link Models.NavigationItem} the toc should be appended to.
      */
     static buildToc(model: Reflection, parent: NavigationItem) {
         const children = (model as ContainerReflection).children || [];
