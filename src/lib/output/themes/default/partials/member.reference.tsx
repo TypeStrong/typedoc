@@ -5,7 +5,7 @@ export const memberReference = ({ relativeURL }: DefaultThemeRenderContext, prop
     const referenced = props.tryGetTargetReflectionDeep();
 
     if (!referenced) {
-        return <> Re-exports {props.name}</>;
+        return <>Re-exports {props.name}</>;
     }
 
     if (props.name === referenced.name) {

@@ -3,7 +3,7 @@ import { ArrayType, ReferenceType, SignatureReflection, Type } from "../../../..
 import { JSX, createElement } from "../../../../utils";
 
 export const typeAndParent = (context: DefaultThemeRenderContext, props: Type): JSX.Element => {
-    if (!props) return <>{"        void\n"}</>;
+    if (!props) return <>void</>;
 
     if (props instanceof ArrayType) {
         return (
@@ -15,42 +15,16 @@ export const typeAndParent = (context: DefaultThemeRenderContext, props: Type): 
     }
 
     if (props instanceof ReferenceType && props.reflection) {
-        if (props.reflection instanceof SignatureReflection) {
-            return (
-                <>
-                    {props.reflection.parent?.parent?.url ? (
-                        <a href={context.relativeURL(props.reflection.parent.parent.url)}>
-                            {props.reflection.parent.parent.name}
-                        </a>
-                    ) : (
-                        <> {props.reflection.parent?.parent?.name}</>
-                    )}
-                    .
-                    {props.reflection.parent?.url ? (
-                        <a href={context.relativeURL(props.reflection.parent.url)}>{props.reflection.parent.name}</a>
-                    ) : (
-                        <> {props.reflection.parent?.name}</>
-                    )}
-                </>
-            );
-        } else {
-            return (
-                <>
-                    {props.reflection.parent?.url ? (
-                        <a href={context.relativeURL(props.reflection.parent.url)}>{props.reflection.parent.name}</a>
-                    ) : (
-                        <> {props.reflection.parent?.name}</>
-                    )}
-                    .
-                    {props.reflection.url ? (
-                        <a href={context.relativeURL(props.reflection.url)}>{props.reflection.name}</a>
-                    ) : (
-                        <> {props.reflection.name}</>
-                    )}
-                </>
-            );
-        }
+        const refl = props.reflection instanceof SignatureReflection ? props.reflection.parent : props.reflection;
+        const parent = refl?.parent;
+
+        return (
+            <>
+                {parent?.url ? <a href={context.relativeURL(parent.url)}>{parent.name}</a> : parent?.name}.
+                {refl?.url ? <a href={context.relativeURL(refl.url)}>{refl.name}</a> : refl?.name}
+            </>
+        );
     }
 
-    return <> {props.toString()}</>;
+    return <>{props.toString()}</>;
 };

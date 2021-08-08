@@ -73,7 +73,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                     {context.type(item.type)}
                                 </h5>
                                 {context.comment(item)}
-                                {!!item.children && <> {context.parameter(item)}</>}
+                                {!!item.children && context.parameter(item)}
                                 {item.type instanceof ReflectionType && context.parameter(item.type.declaration)}
                             </li>
                         </>

@@ -8,12 +8,6 @@ export const toc = (context: DefaultThemeRenderContext, props: NavigationItem) =
         <a href={context.relativeURL(props.url)} class="tsd-kind-icon">
             {wbr(props.title)}
         </a>
-        {!!props.children && (
-            <ul>
-                {props.children.map((item) => (
-                    <> {context.toc(item)}</>
-                ))}
-            </ul>
-        )}
+        {!!props.children && <ul>{props.children.map((item) => context.toc(item))}</ul>}
     </li>
 );

@@ -8,12 +8,6 @@ export const tocRoot = (context: DefaultThemeRenderContext, item: NavigationItem
         <a href={context.relativeURL(item.url)} class="tsd-kind-icon">
             {wbr(item.title)}
         </a>
-        {!!item.children && (
-            <ul>
-                {item.children.map((item) => (
-                    <> {context.toc(item)}</>
-                ))}
-            </ul>
-        )}
+        {!!item.children && <ul>{item.children.map((item) => context.toc(item))}</ul>}
     </li>
 );

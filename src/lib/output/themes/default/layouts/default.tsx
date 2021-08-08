@@ -32,11 +32,7 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
                         <div class="col-8 col-content">{props.template(props)}</div>
                         <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
                             <nav class="tsd-navigation primary">
-                                <ul>
-                                    {props.navigation?.children?.map((item) => (
-                                        <> {context.navigation(item)}</>
-                                    ))}
-                                </ul>
+                                <ul>{props.navigation?.children?.map((item) => context.navigation(item))}</ul>
                             </nav>
 
                             <nav class="tsd-navigation secondary menu-sticky">

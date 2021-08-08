@@ -13,15 +13,13 @@ export const member = (context: DefaultThemeRenderContext, props: DeclarationRef
                     {wbr(props.name)}
                 </h3>
             )}
-            {props.signatures ? (
-                <> {context.memberSignatures(props)}</>
-            ) : props.hasGetterOrSetter() ? (
-                <>{context.memberGetterSetter(props)}</>
-            ) : props instanceof ReferenceReflection ? (
-                <>{context.memberReference(props)}</>
-            ) : (
-                <> {context.memberDeclaration(props)}</>
-            )}
+            {props.signatures
+                ? context.memberSignatures(props)
+                : props.hasGetterOrSetter()
+                ? context.memberGetterSetter(props)
+                : props instanceof ReferenceReflection
+                ? context.memberReference(props)
+                : context.memberDeclaration(props)}
         </section>
 
         {context.index(props)}
