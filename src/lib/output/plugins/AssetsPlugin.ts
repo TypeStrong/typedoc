@@ -1,5 +1,4 @@
 import * as Path from "path";
-import * as fs from "fs";
 
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
@@ -11,11 +10,6 @@ import { copySync } from "../../utils/fs";
  */
 @Component({ name: "assets" })
 export class AssetsPlugin extends RendererComponent {
-    /**
-     * Should the default assets always be copied to the output directory?
-     */
-    copyDefaultAssets = true;
-
     /**
      * Create a new AssetsPlugin instance.
      */
@@ -31,21 +25,16 @@ export class AssetsPlugin extends RendererComponent {
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event: RendererEvent) {
-        let fromDefault: string | undefined = Path.join(
-            this.owner.getDefaultTheme(),
+        const src = Path.join(
+            __dirname,
+            "..",
+            "themes",
+            "bin",
+            "default",
             "assets"
         );
-        const to = Path.join(event.outputDirectory, "assets");
-
-        if (this.copyDefaultAssets) {
-            copySync(fromDefault, to);
-        } else {
-            fromDefault = undefined;
-        }
-
-        const from = Path.join(this.owner.theme!.basePath, "assets");
-        if (from !== fromDefault && fs.existsSync(from)) {
-            copySync(from, to);
-        }
+        const dest = Path.join(event.outputDirectory, "assets");
+        copySync(src, dest);
+        // TODO: Copy from active theme directory?
     }
 }

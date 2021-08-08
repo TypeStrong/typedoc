@@ -109,8 +109,8 @@ export class DefaultTheme extends Theme {
      * @param renderer  The renderer this theme is attached to.
      * @param basePath  The base path of this theme.
      */
-    constructor(renderer: Renderer, basePath: string) {
-        super(renderer, basePath);
+    constructor(renderer: Renderer) {
+        super(renderer);
         this._markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
         this.listenTo(renderer, RendererEvent.BEGIN, this.onRendererBegin, 1024);
         this.listenTo(renderer, PageEvent.END, this.onRendererEndPage, 1024);

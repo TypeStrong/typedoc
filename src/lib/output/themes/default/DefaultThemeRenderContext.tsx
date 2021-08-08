@@ -13,14 +13,12 @@ export class DefaultThemeRenderContext {
     constructor(markedHelpers: MarkedPlugin, partials: DefaultThemePartials) {
         this.markedHelpers = markedHelpers;
 
-        // TODO: Proxying this is ugly.
-        this.partials = new Proxy(partials, {
-            get: (target: any, key) => {
-                if (key in target && typeof target[key] == "function") {
-                    return (...args: any) => target[key](this, ...args);
-                }
-            },
-        });
+        // TODO: Move partials into the context class?
+        // https://discord.com/channels/508357248330760243/508357707602853888/873993671777873950
+        this.partials = {} as ApplyContext<DefaultThemePartials>;
+        for (const [k, v] of Object.entries(partials)) {
+            this.partials[k as keyof DefaultThemePartials] = (...args: any) => v(this, ...args);
+        }
     }
 
     relativeURL = (url: string | undefined) => {

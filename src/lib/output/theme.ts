@@ -53,20 +53,12 @@ import { Reflection } from "../models";
 @Component({ name: "theme", internal: true })
 export abstract class Theme extends RendererComponent {
     /**
-     * The base path of this theme.
-     */
-    basePath: string;
-
-    /**
      * Create a new BaseTheme instance.
      *
      * @param renderer  The renderer this theme is attached to.
-     * @param basePath  The base path of this theme.
      */
-    constructor(renderer: Renderer, basePath: string) {
+    constructor(renderer: Renderer) {
         super(renderer);
-
-        this.basePath = basePath;
     }
 
     /**

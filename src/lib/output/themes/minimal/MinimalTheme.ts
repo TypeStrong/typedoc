@@ -18,19 +18,20 @@ import {
     DefaultThemePartials,
 } from "../default/DefaultThemePartials";
 import { DefaultThemeRenderContext } from "../default/DefaultThemeRenderContext";
+import { header } from "./partials/header";
+import { member } from "./partials/member";
 
 export class MinimalTheme extends DefaultTheme {
     /**
      * Create a new DefaultTheme instance.
      *
      * @param renderer  The renderer this theme is attached to.
-     * @param basePath  The base path of this theme.
      */
-    constructor(renderer: Renderer, basePath: string) {
-        super(renderer, basePath);
+    constructor(renderer: Renderer) {
+        super(renderer);
 
         renderer.removeComponent("assets");
-        renderer.removeComponent("javascriptIndex");
+        renderer.removeComponent("javascript-index");
         renderer.removeComponent("navigation");
         renderer.removeComponent("toc");
 
@@ -38,12 +39,10 @@ export class MinimalTheme extends DefaultTheme {
     }
 
     override getRenderContext(_pageEvent: PageEvent<any>) {
-        if (!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(
-                this._markedPlugin,
-                minimalThemePartials
-            );
-        }
+        this._renderContext ??= new DefaultThemeRenderContext(
+            this._markedPlugin,
+            minimalThemePartials
+        );
         return this._renderContext;
     }
 
@@ -117,4 +116,6 @@ export const minimalThemePartials: DefaultThemePartials = {
     ...defaultThemePartials,
     indexTemplate,
     defaultLayout,
+    header,
+    member,
 };

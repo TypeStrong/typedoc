@@ -7,7 +7,6 @@
  * alter the generated output.
  */
 
-import * as Path from "path";
 import * as fs from "fs";
 
 import { Application } from "../application";
@@ -22,6 +21,8 @@ import { Component, ChildableComponent } from "../utils/component";
 import { BindOption } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import { Theme as ShikiTheme } from "shiki";
+import { MinimalTheme } from "./themes/minimal/MinimalTheme";
+import { Reflection } from "../models";
 
 /**
  * The renderer processes a {@link ProjectReflection} using a {@link BaseTheme} instance and writes
@@ -59,6 +60,11 @@ export class Renderer extends ChildableComponent<
     Application,
     RendererComponent
 > {
+    private themes = new Map<string, new (renderer: Renderer) => Theme>([
+        ["default", DefaultTheme],
+        ["minimal", MinimalTheme],
+    ]);
+
     /**
      * The theme that is used to render the documentation.
      */
@@ -165,43 +171,14 @@ export class Renderer extends ChildableComponent<
      */
     private prepareTheme(): boolean {
         if (!this.theme) {
-            const themeName = this.themeName;
-            let path = Path.resolve(themeName);
-            if (!fs.existsSync(path)) {
-                path = Path.join(Renderer.getThemeDirectory(), themeName);
-                if (!fs.existsSync(path)) {
-                    this.application.logger.error(
-                        `The theme ${themeName} could not be found.`
-                    );
-                    return false;
-                }
-            }
-
-            const filename = Path.join(path, "theme.js");
-            if (!fs.existsSync(filename)) {
-                this.theme = this.addComponent(
-                    "theme",
-                    new DefaultTheme(this, path)
+            const ctor = this.themes.get(this.themeName);
+            if (!ctor) {
+                this.application.logger.error(
+                    `The theme '${this.themeName}' is not defined`
                 );
+                return false;
             } else {
-                try {
-                    /* eslint-disable */
-                    const themeClass =
-                        typeof require(filename) === "function"
-                            ? require(filename)
-                            : require(filename).default;
-                    /* eslint-enable */
-
-                    this.theme = this.addComponent(
-                        "theme",
-                        new themeClass(this, path)
-                    );
-                } catch (err) {
-                    throw new Error(
-                        `Exception while loading "${filename}". You must export a \`new Theme(renderer, basePath)\` compatible class.\n` +
-                            err
-                    );
-                }
+                this.theme = new ctor(this);
             }
         }
 
@@ -263,34 +240,8 @@ export class Renderer extends ChildableComponent<
 
         return true;
     }
-
-    // This exists so that the resources can get the directory
-    // without importing this file. Normally, I'd just directly
-    // get the path, but typedoc-plugin-markdown overrides the
-    // static version, and I don't need to break that yet...
-    getDefaultTheme() {
-        return Renderer.getDefaultTheme();
-    }
-
-    /**
-     * Return the path containing the themes shipped with TypeDoc.
-     *
-     * @returns The path to the theme directory.
-     */
-    static getThemeDirectory(): string {
-        return resolve(__dirname, "./themes/bin");
-    }
-
-    /**
-     * Return the path to the default theme.
-     *
-     * @returns The path to the default theme.
-     */
-    static getDefaultTheme(): string {
-        return Path.join(Renderer.getThemeDirectory(), "default");
-    }
 }
 
+// HACK: THIS HAS TO STAY DOWN HERE
+// if you try to move it up to the top of the file, then you'll run into stuff being used before it has been defined.
 import "./plugins";
-import { resolve } from "path";
-import { Reflection } from "../models";
