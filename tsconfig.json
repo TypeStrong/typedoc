@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "module": "CommonJS",
-        "lib": ["ES2018"],
-        "target": "ES2018",
+        "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
+        "target": "es2019",
 
         "experimentalDecorators": true,
 
@@ -15,6 +15,7 @@
         // Linting
         "noUnusedLocals": true,
         "noUnusedParameters": true,
+        "forceConsistentCasingInFileNames": true,
 
         // Library
         "preserveConstEnums": true,

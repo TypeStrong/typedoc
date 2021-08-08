@@ -17,6 +17,7 @@ import { PageEvent, RendererEvent } from "../../events";
 import { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 import { renderElement } from "../../../utils";
+import { defaultThemePartials } from "./DefaultThemePartials";
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
@@ -55,7 +56,7 @@ export class DefaultTheme extends Theme {
     protected _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin);
+            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin, defaultThemePartials);
         }
         return this._renderContext;
     }
@@ -268,8 +269,7 @@ export class DefaultTheme extends Theme {
     }
 
     render(page: PageEvent<Reflection>): string {
-        const layout = this.defaultLayoutTemplate;
-        const templateOutput = layout(page);
+        const templateOutput = this.defaultLayoutTemplate(page);
         return "<!DOCTYPE html>" + renderElement(templateOutput);
     }
 

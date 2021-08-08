@@ -344,6 +344,4 @@ function renderType(context: DefaultThemeRenderContext, type: Type | undefined, 
     return renderFn(context, type as never, options ?? {});
 }
 
-export const type =
-    (context: DefaultThemeRenderContext) => (props: Type | undefined, options?: TypeInlinePartialsOptions) =>
-        renderType(context, props, options);
+export { renderType as type };

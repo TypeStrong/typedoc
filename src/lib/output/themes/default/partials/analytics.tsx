@@ -2,8 +2,11 @@ import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
-export const analytics = (_ctx: DefaultThemeRenderContext) => (props: PageEvent<Reflection>) =>
-    !!props.settings.gaID && (
+
+export function analytics(_ctx: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+    if (!props.settings.gaID) return;
+
+    return (
         <script>
             (function(i,s,o,g,r,a,m){"{"}
             i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){"{"}
@@ -14,3 +17,4 @@ export const analytics = (_ctx: DefaultThemeRenderContext) => (props: PageEvent<
             {props.settings.gaID}', '{props.settings.gaSite}'); ga('send', 'pageview');
         </script>
     );
+}

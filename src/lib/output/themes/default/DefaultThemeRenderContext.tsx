@@ -1,25 +1,26 @@
 import { DefaultThemePartials } from "./DefaultThemePartials";
 import { MarkedPlugin } from "../MarkedPlugin";
+import { Element } from "../../../utils/jsx";
 
-/**
- * Themes can choose to create a single render context shared across all pages,
- * or create a new one per page, allowing the rendering logic to have access
- * to per-page information.
- */
+type ApplyContext<T extends Record<keyof T, (ctx: DefaultThemeRenderContext, ..._: any) => Element | undefined>> = {
+    [K in keyof T]: T[K] extends (ctx: DefaultThemeRenderContext, ..._: infer A) => infer R ? (..._: A) => R : T[K];
+};
+
 export class DefaultThemeRenderContext {
     markedHelpers: MarkedPlugin;
-    partials: DefaultThemePartials;
-    /** @deprecated TODO remove this */
-    get __partials__() {
-        return this.partials;
-    }
+    partials: ApplyContext<DefaultThemePartials>;
 
-    constructor(markedHelpers: MarkedPlugin) {
+    constructor(markedHelpers: MarkedPlugin, partials: DefaultThemePartials) {
         this.markedHelpers = markedHelpers;
-        // TODO chicken-and-egg problem:
-        // DefaultThemePartials destructures this.partials within constructor
-        this.partials = {} as DefaultThemePartials;
-        Object.setPrototypeOf(this.partials, new DefaultThemePartials(this));
+
+        // TODO: Proxying this is ugly.
+        this.partials = new Proxy(partials, {
+            get: (target: any, key) => {
+                if (key in target && typeof target[key] == "function") {
+                    return (...args: any) => target[key](this, ...args);
+                }
+            },
+        });
     }
 
     relativeURL = (url: string | undefined) => {

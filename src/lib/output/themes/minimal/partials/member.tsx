@@ -1,10 +1,10 @@
 import { renderFlags, wbr } from "../../lib";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
-import { MinimalThemeRenderContext } from "../MinimalTheme";
 import { createElement } from "../../../../utils";
+import { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
 
 export const member =
-    ({ partials }: MinimalThemeRenderContext) =>
+    ({ partials }: DefaultThemeRenderContext) =>
     (props: DeclarationReflection) =>
         (
             <>

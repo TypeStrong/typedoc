@@ -96,7 +96,6 @@ describe("Renderer", function () {
     it("renders basic example", async function () {
         this.timeout(0);
         await app.generateDocs(project!, out);
-        await remove(Path.join(out, "assets"));
 
         compareDirectories(Path.join(__dirname, "renderer", "specs"), out);
     });

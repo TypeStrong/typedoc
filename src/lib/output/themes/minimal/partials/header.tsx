@@ -1,10 +1,10 @@
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
-import { MinimalThemeRenderContext } from "../MinimalTheme";
 import { createElement } from "../../../../utils";
+import { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
 
 export const header =
-    ({ relativeURL }: MinimalThemeRenderContext) =>
+    ({ relativeURL }: DefaultThemeRenderContext) =>
     (props: PageEvent<Reflection>) =>
         (
             <header>

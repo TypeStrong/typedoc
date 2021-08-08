@@ -13,7 +13,10 @@ import { PageEvent } from "../../events";
 import { NavigationItem } from "../../models/NavigationItem";
 import { indexTemplate } from "./templates";
 import { defaultLayout } from "./layouts/default";
-import { DefaultThemePartials } from "../default/DefaultThemePartials";
+import {
+    defaultThemePartials,
+    DefaultThemePartials,
+} from "../default/DefaultThemePartials";
 import { DefaultThemeRenderContext } from "../default/DefaultThemeRenderContext";
 
 export class MinimalTheme extends DefaultTheme {
@@ -36,8 +39,9 @@ export class MinimalTheme extends DefaultTheme {
 
     override getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {
-            this._renderContext = new MinimalThemeRenderContext(
-                this._markedPlugin
+            this._renderContext = new DefaultThemeRenderContext(
+                this._markedPlugin,
+                minimalThemePartials
             );
         }
         return this._renderContext;
@@ -109,13 +113,8 @@ export class MinimalTheme extends DefaultTheme {
     }
 }
 
-export class MinimalThemeRenderContext extends DefaultThemeRenderContext {}
-
-export class MinimalThemePartials extends DefaultThemePartials {
-    protected override bindings!: MinimalThemeRenderContext;
-    constructor(bindings: MinimalThemeRenderContext) {
-        super(bindings);
-    }
-    override indexTemplate = indexTemplate(this.bindings);
-    override defaultLayout = defaultLayout(this.bindings);
-}
+export const minimalThemePartials: DefaultThemePartials = {
+    ...defaultThemePartials,
+    indexTemplate,
+    defaultLayout,
+};
