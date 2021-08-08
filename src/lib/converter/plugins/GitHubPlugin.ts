@@ -136,10 +136,10 @@ export class Repository {
      * Try to create a new repository instance.
      *
      * Checks whether the given path is the root of a valid repository and if so
-     * creates a new instance of [[Repository]].
+     * creates a new instance of {@link Repository}.
      *
      * @param path  The potential repository root.
-     * @returns A new instance of [[Repository]] or undefined.
+     * @returns A new instance of {@link Repository} or undefined.
      */
     static tryCreateRepository(
         path: string,

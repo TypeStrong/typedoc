@@ -39,7 +39,7 @@ export const defaultLayout =
                                         </div>
                                     </div>
                                 )}
-                                <Raw html={`<div>${props.contents!}</div>`} />
+                                <div>{props.template(props)}</div>
                                 {partials.footer(props)}
                             </div>
                         </div>

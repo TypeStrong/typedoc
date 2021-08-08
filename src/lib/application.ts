@@ -154,14 +154,14 @@ function getModuleName(fileName: string, baseDir: string) {
 /**
  * The default TypeDoc main application class.
  *
- * This class holds the two main components of TypeDoc, the [[Converter]] and
- * the [[Renderer]]. When running TypeDoc, first the [[Converter]] is invoked which
- * generates a [[ProjectReflection]] from the passed in source files. The
- * [[ProjectReflection]] is a hierarchical model representation of the TypeScript
- * project. Afterwards the model is passed to the [[Renderer]] which uses an instance
- * of [[BaseTheme]] to generate the final documentation.
+ * This class holds the two main components of TypeDoc, the {@link Converter} and
+ * the {@link Renderer}. When running TypeDoc, first the {@link Converter} is invoked which
+ * generates a {@link ProjectReflection} from the passed in source files. The
+ * {@link ProjectReflection} is a hierarchical model representation of the TypeScript
+ * project. Afterwards the model is passed to the {@link Renderer} which uses an instance
+ * of {@link BaseTheme} to generate the final documentation.
  *
- * Both the [[Converter]] and the [[Renderer]] are subclasses of the [[AbstractComponent]]
+ * Both the {@link Converter} and the {@link Renderer} are subclasses of the {@link AbstractComponent}
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */

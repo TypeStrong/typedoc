@@ -3,7 +3,7 @@ import * as Path from "path";
 /**
  * Helper class that determines the common base path of a set of files.
  *
- * In the first step all files must be passed to [[add]]. Afterwards [[trim]]
+ * In the first step all files must be passed to {@link add}. Afterwards {@link trim}
  * can be used to retrieve the shortest path relative to the determined base path.
  */
 export class BasePath {
@@ -69,7 +69,7 @@ export class BasePath {
     }
 
     /**
-     * Reset this instance, ignore all paths already passed to [[add]].
+     * Reset this instance, ignore all paths already passed to {@link add}.
      */
     reset() {
         this.basePaths = [];

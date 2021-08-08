@@ -151,7 +151,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
     }
 
     /**
-     * Triggered when [[MarkedPlugin]] parses a markdown string.
+     * Triggered when {@link MarkedPlugin} parses a markdown string.
      *
      * @param event
      */
@@ -162,7 +162,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
     }
 
     /**
-     * Triggered when [[Renderer]] is finished
+     * Triggered when {@link Renderer} is finished
      */
     onEndRenderer(_event: RendererEvent) {
         if (this.listInvalidSymbolLinks && this.warnings.length > 0) {

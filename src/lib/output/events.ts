@@ -7,7 +7,7 @@ import { NavigationItem } from "./models/NavigationItem";
 import { LegendItem } from "./plugins/LegendPlugin";
 
 /**
- * An event emitted by the [[Renderer]] class at the very beginning and
+ * An event emitted by the {@link Renderer} class at the very beginning and
  * ending of the entire rendering process.
  *
  * @see [[Renderer.EVENT_BEGIN]]
@@ -59,11 +59,11 @@ export class RendererEvent extends Event {
     }
 
     /**
-     * Create an [[PageEvent]] event based on this event and the given url mapping.
+     * Create an {@link PageEvent} event based on this event and the given url mapping.
      *
      * @internal
-     * @param mapping  The mapping that defines the generated [[PageEvent]] state.
-     * @returns A newly created [[PageEvent]] instance.
+     * @param mapping  The mapping that defines the generated {@link PageEvent} state.
+     * @returns A newly created {@link PageEvent} instance.
      */
     public createPageEvent<Model>(
         mapping: UrlMapping<Model>
@@ -80,7 +80,7 @@ export class RendererEvent extends Event {
 }
 
 /**
- * An event emitted by the [[Renderer]] class before and after the
+ * An event emitted by the {@link Renderer} class before and after the
  * markup of a page is rendered.
  *
  * This object will be passed as the rendering context to handlebars templates.
@@ -137,7 +137,7 @@ export class PageEvent<Model = unknown> extends Event {
     /**
      * The final html content of this page.
      *
-     * Should be rendered by layout templates and can be modifies by plugins.
+     * Should be rendered by layout templates and can be modified by plugins.
      */
     contents?: string;
 
@@ -155,7 +155,7 @@ export class PageEvent<Model = unknown> extends Event {
 }
 
 /**
- * An event emitted by the [[MarkedPlugin]] on the [[Renderer]] after a chunk of
+ * An event emitted by the {@link MarkedPlugin} on the {@link Renderer} after a chunk of
  * markdown has been processed. Allows other plugins to manipulate the result.
  *
  * @see [[MarkedPlugin.EVENT_PARSE_MARKDOWN]]

@@ -56,7 +56,7 @@ export class TocPlugin extends RendererComponent {
      *
      * @param model   The models whose children should be written to the toc.
      * @param trail   Defines the active trail of expanded toc entries.
-     * @param parent  The parent [[NavigationItem]] the toc should be appended to.
+     * @param parent  The parent {@link NavigationItem} the toc should be appended to.
      * @param restriction  The restricted table of contents.
      */
     static buildToc(

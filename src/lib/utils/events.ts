@@ -331,7 +331,7 @@ function triggerEvents(events: EventHandler[], args: any[]) {
 }
 
 /**
- * An event object that can be processed with [[Events]].
+ * An event object that can be processed with {@link Events}.
  */
 export class Event {
     /**

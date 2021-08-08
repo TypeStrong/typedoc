@@ -13,7 +13,7 @@ export class ContainerReflectionSerializer extends ReflectionSerializerComponent
     }
 
     /**
-     * Will be run after [[ReflectionSerializer]] so will be passed the result of that serialization.
+     * Will be run after {@link ReflectionSerializer} so will be passed the result of that serialization.
      * @param container
      * @param obj
      */

@@ -230,7 +230,7 @@ output file :
     }
 
     /**
-     * Triggered when [[MarkedPlugin]] parses a markdown string.
+     * Triggered when {@link MarkedPlugin} parses a markdown string.
      *
      * @param event
      */

@@ -39,7 +39,7 @@ export class ReferenceReflection extends DeclarationReflection {
 
     /**
      * Tries to get the reflection that is referenced. This may be another reference reflection.
-     * To fully resolve any references, use [[tryGetTargetReflectionDeep]].
+     * To fully resolve any references, use {@link tryGetTargetReflectionDeep}.
      */
     tryGetTargetReflection(): Reflection | undefined {
         this._ensureProject();
@@ -53,7 +53,7 @@ export class ReferenceReflection extends DeclarationReflection {
 
     /**
      * Tries to get the reflection that is referenced, this will fully resolve references.
-     * To only resolve one reference, use [[tryGetTargetReflection]].
+     * To only resolve one reference, use {@link tryGetTargetReflection}.
      */
     tryGetTargetReflectionDeep(): Reflection | undefined {
         let result = this.tryGetTargetReflection();
@@ -65,7 +65,7 @@ export class ReferenceReflection extends DeclarationReflection {
 
     /**
      * Gets the reflection that is referenced. This may be another reference reflection.
-     * To fully resolve any references, use [[getTargetReflectionDeep]].
+     * To fully resolve any references, use {@link getTargetReflectionDeep}.
      */
     getTargetReflection(): Reflection {
         this._ensureProject();
@@ -79,7 +79,7 @@ export class ReferenceReflection extends DeclarationReflection {
 
     /**
      * Gets the reflection that is referenced, this will fully resolve references.
-     * To only resolve one reference, use [[getTargetReflection]].
+     * To only resolve one reference, use {@link getTargetReflection}.
      */
     getTargetReflectionDeep(): Reflection {
         let result = this.getTargetReflection();

@@ -40,7 +40,7 @@ export interface SourceReference {
  * a tree structure through the [[ProjectReflection.directory]] property.
  *
  * Furthermore each reflection carries references to the related SourceFile with their
- * [[DeclarationReflection.sources]] property. It is an array of of [[IDeclarationSource]] instances
+ * [[DeclarationReflection.sources]] property. It is an array of of {@link IDeclarationSource} instances
  * containing the reference in their [[IDeclarationSource.file]] field.
  */
 export class SourceFile {

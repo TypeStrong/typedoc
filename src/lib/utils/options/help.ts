@@ -24,7 +24,7 @@ function hasHint(
 }
 
 /**
- * Prepare parameter information for the [[toString]] method.
+ * Prepare parameter information for the {@link toString} method.
  *
  * @param scope  The scope of the parameters whose help should be returned.
  * @returns The columns and lines for the help of the requested parameters.

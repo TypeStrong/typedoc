@@ -13,7 +13,7 @@ function isFile(file: string) {
 
 export class TSConfigReader implements OptionsReader {
     /**
-     * Note: Runs after the [[TypeDocReader]].
+     * Note: Runs after the {@link TypeDocReader}.
      */
     priority = 200;
 

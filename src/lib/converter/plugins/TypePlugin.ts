@@ -9,7 +9,7 @@ import { Converter } from "../converter";
 import { Context } from "../context";
 
 /**
- * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
+ * A handler that converts all instances of {@link LateResolvingType} to their renderable equivalents.
  */
 @Component({ name: "type" })
 export class TypePlugin extends ConverterComponent {

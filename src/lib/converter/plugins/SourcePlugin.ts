@@ -25,7 +25,7 @@ export class SourcePlugin extends ConverterComponent {
     readonly disableSources!: boolean;
 
     /**
-     * A map of all generated [[SourceFile]] instances.
+     * A map of all generated {@link SourceFile} instances.
      */
     private fileMappings: { [name: string]: SourceFile } = {};
 

@@ -1,9 +1,9 @@
 /**
  * Holds all logic used render and output the final documentation.
  *
- * The [[Renderer]] class is the central controller within this namespace. When invoked it creates
- * an instance of [[BaseTheme]] which defines the layout of the documentation and fires a
- * series of [[RendererEvent]] events. Instances of [[BasePlugin]] can listen to these events and
+ * The {@link Renderer} class is the central controller within this namespace. When invoked it creates
+ * an instance of {@link BaseTheme} which defines the layout of the documentation and fires a
+ * series of {@link RendererEvent} events. Instances of {@link BasePlugin} can listen to these events and
  * alter the generated output.
  */
 
@@ -19,40 +19,40 @@ import { remove, writeFileSync } from "../utils/fs";
 import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
-import { BindOption, renderElement } from "../utils";
+import { BindOption } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import { Theme as ShikiTheme } from "shiki";
 
 /**
- * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
+ * The renderer processes a {@link ProjectReflection} using a {@link BaseTheme} instance and writes
  * the emitted html documents to a output directory. You can specify which theme should be used
  * using the ```--theme <name>``` command line argument.
  *
- * Subclasses of [[BasePlugin]] that have registered themselves in the [[Renderer.PLUGIN_CLASSES]]
+ * Subclasses of {@link BasePlugin} that have registered themselves in the [[Renderer.PLUGIN_CLASSES]]
  * will be automatically initialized. Most of the core functionality is provided as separate plugins.
  *
- * [[Renderer]] is a subclass of [[EventDispatcher]] and triggers a series of events while
+ * {@link Renderer} is a subclass of {@link EventDispatcher} and triggers a series of events while
  * a project is being processed. You can listen to these events to control the flow or manipulate
  * the output.
  *
  *  * [[Renderer.EVENT_BEGIN]]<br>
  *    Triggered before the renderer starts rendering a project. The listener receives
- *    an instance of [[RendererEvent]]. By calling [[RendererEvent.preventDefault]] the entire
+ *    an instance of {@link RendererEvent}. By calling [[RendererEvent.preventDefault]] the entire
  *    render process can be canceled.
  *
  *    * [[Renderer.EVENT_BEGIN_PAGE]]<br>
  *      Triggered before a document will be rendered. The listener receives an instance of
- *      [[PageEvent]]. By calling [[PageEvent.preventDefault]] the generation of the
+ *      {@link PageEvent}. By calling [[PageEvent.preventDefault]] the generation of the
  *      document can be canceled.
  *
  *    * [[Renderer.EVENT_END_PAGE]]<br>
  *      Triggered after a document has been rendered, just before it is written to disc. The
- *      listener receives an instance of [[PageEvent]]. When calling
+ *      listener receives an instance of {@link PageEvent}. When calling
  *      [[PageEvent.preventDefault]] the the document will not be saved to disc.
  *
  *  * [[Renderer.EVENT_END]]<br>
  *    Triggered after the renderer has written all documents. The listener receives
- *    an instance of [[RendererEvent]].
+ *    an instance of {@link RendererEvent}.
  */
 @Component({ name: "renderer", internal: true, childClass: RendererComponent })
 export class Renderer extends ChildableComponent<
@@ -133,12 +133,11 @@ export class Renderer extends ChildableComponent<
             return false;
         }
 
-        // Theme must be set as this is only called in render, and render ensures theme is set.
-        const templateOutput = page.template(page);
-        page.contents =
-            typeof templateOutput === "string"
-                ? templateOutput
-                : renderElement(templateOutput);
+        if (page.model instanceof Reflection) {
+            page.contents = this.theme!.render(page as PageEvent<Reflection>);
+        } else {
+            throw new Error("Should be unreachable");
+        }
 
         this.trigger(PageEvent.END, page);
         if (page.isDefaultPrevented) {
@@ -294,3 +293,4 @@ export class Renderer extends ChildableComponent<
 
 import "./plugins";
 import { resolve } from "path";
+import { Reflection } from "../models";

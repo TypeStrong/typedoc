@@ -3,7 +3,7 @@ import { Reflection } from "../../models/reflections/abstract";
 /**
  * A hierarchical model holding the data of single node within the navigation.
  *
- * This structure is used by the [[NavigationPlugin]] and [[TocPlugin]] to expose the current
+ * This structure is used by the {@link NavigationPlugin} and {@link TocPlugin} to expose the current
  * navigation state to the template engine. Themes should generate the primary navigation structure
  * through the [[BaseTheme.getNavigation]] method.
  */

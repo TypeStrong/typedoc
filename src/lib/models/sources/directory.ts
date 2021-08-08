@@ -79,7 +79,7 @@ export class SourceDirectory {
     /**
      * Return a list of all reflections exposed by the files within this directory.
      *
-     * @returns An aggregated list of all [[DeclarationReflection]] defined in the
+     * @returns An aggregated list of all {@link DeclarationReflection} defined in the
      * files of this directory.
      */
     getAllReflections(): Reflection[] {

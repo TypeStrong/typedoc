@@ -33,7 +33,7 @@ export type TypeDocOptionValues = {
 
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
- * External consumers should likely use [[TypeDocOptions]] instead.
+ * External consumers should likely use {@link TypeDocOptions} instead.
  */
 export interface TypeDocOptionMap {
     options: string;

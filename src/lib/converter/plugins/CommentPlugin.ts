@@ -49,7 +49,7 @@ const TAG_BLACKLIST = [
 ];
 
 /**
- * A handler that parses TypeDoc comments and attaches [[Comment]] instances to
+ * A handler that parses TypeDoc comments and attaches {@link Comment} instances to
  * the generated reflections.
  */
 @Component({ name: "comment" })

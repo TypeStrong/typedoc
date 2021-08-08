@@ -8,13 +8,13 @@ import * as S from "./serializers";
 
 export class Serializer extends EventDispatcher {
     /**
-     * Triggered when the [[Serializer]] begins transforming a project.
+     * Triggered when the {@link Serializer} begins transforming a project.
      * @event EVENT_BEGIN
      */
     static EVENT_BEGIN = "begin";
 
     /**
-     * Triggered when the [[Serializer]] has finished transforming a project.
+     * Triggered when the {@link Serializer} has finished transforming a project.
      * @event EVENT_END
      */
     static EVENT_END = "end";

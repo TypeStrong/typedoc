@@ -61,7 +61,7 @@ export class MinimalTheme extends DefaultTheme {
      * Map the models of the given project to the desired output files.
      *
      * @param project  The project whose urls should be generated.
-     * @returns        A list of [[UrlMapping]] instances defining which models
+     * @returns        A list of {@link UrlMapping} instances defining which models
      *                 should be rendered to which files.
      */
     override getUrls(project: ProjectReflection): UrlMapping[] {

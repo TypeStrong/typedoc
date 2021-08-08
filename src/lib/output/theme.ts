@@ -4,48 +4,50 @@ import { UrlMapping } from "./models/UrlMapping";
 import { NavigationItem } from "./models/NavigationItem";
 import { RendererComponent } from "./components";
 import { Component } from "../utils/component";
+import { PageEvent } from "./events";
+import { Reflection } from "../models";
 
 /**
  * Base class of all themes.
  *
  * A theme defines the logical and graphical output of a documentation. Themes are
- * directories containing a ```theme.js``` file defining a [[BaseTheme]] subclass and a
+ * directories containing a ```theme.js``` file defining a {@link BaseTheme} subclass and a
  * series of subdirectories containing templates and assets. You can select a theme
  * through the ```--theme <path/to/theme>``` commandline argument.
  *
  * The theme class controls which files will be created through the [[BaseTheme.getUrls]]
- * function. It returns an array of [[UrlMapping]] instances defining the target files, models
+ * function. It returns an array of {@link UrlMapping} instances defining the target files, models
  * and templates to use. Additionally themes can subscribe to the events emitted by
- * [[Renderer]] to control and manipulate the output process.
+ * {@link Renderer} to control and manipulate the output process.
  *
  * The default file structure of a theme looks like this:
  *
  * - ```/assets/```<br>
  *   Contains static assets like stylesheets, images or javascript files used by the theme.
- *   The [[AssetsPlugin]] will deep copy this directory to the output directory.
+ *   The {@link AssetsPlugin} will deep copy this directory to the output directory.
  *
  * - ```/layouts/```<br>
- *   Contains layout templates that the [[LayoutPlugin]] wraps around the output of the
+ *   Contains layout templates that the {@link LayoutPlugin} wraps around the output of the
  *   page template. Currently only one ```default.hbs``` layout is supported. Layout templates
- *   receive the current [[PageEvent]] instance as their handlebars context. Place the
+ *   receive the current {@link PageEvent} instance as their handlebars context. Place the
  *   ```{{{contents}}}``` variable to render the actual body of the document within this template.
  *
  * - ```/partials/```<br>
  *   Contains partial templates that can be used by other templates using handlebars partial
- *   syntax ```{{> partial-name}}```. The [[PartialsPlugin]] loads all files in this directory
+ *   syntax ```{{> partial-name}}```. The {@link PartialsPlugin} loads all files in this directory
  *   and combines them with the partials of the default theme.
  *
  * - ```/templates/```<br>
  *   Contains the main templates of the theme. The theme maps models to these templates through
  *   the [[BaseTheme.getUrls]] function. If the [[Renderer.getTemplate]] function cannot find a
  *   given template within this directory, it will try to find it in the default theme
- *   ```/templates/``` directory. Templates receive the current [[PageEvent]] instance as
+ *   ```/templates/``` directory. Templates receive the current {@link PageEvent} instance as
  *   their handlebars context. You can access the target model through the ```{{model}}``` variable.
  *
  * - ```/theme.js```<br>
- *   A javascript file that returns the definition of a [[BaseTheme]] subclass. This file will
+ *   A javascript file that returns the definition of a {@link Theme} subclass. This file will
  *   be executed within the context of TypeDoc, one may directly access all classes and functions
- *   of TypeDoc. If this file is not present, an instance of [[DefaultTheme]] will be used to render
+ *   of TypeDoc. If this file is not present, an instance of {@link DefaultTheme} will be used to render
  *   this theme.
  */
 @Component({ name: "theme", internal: true })
@@ -93,7 +95,7 @@ export abstract class Theme extends RendererComponent {
      * implementation always returns an empty array.
      *
      * @param project  The project whose urls should be generated.
-     * @returns        A list of [[UrlMapping]] instances defining which models
+     * @returns        A list of {@link UrlMapping} instances defining which models
      *                 should be rendered to which files.
      */
     abstract getUrls(project: ProjectReflection): UrlMapping[];
@@ -101,10 +103,10 @@ export abstract class Theme extends RendererComponent {
     /**
      * Create a navigation structure for the given project.
      *
-     * A navigation is a tree structure consisting of [[NavigationItem]] nodes. This
+     * A navigation is a tree structure consisting of {@link NavigationItem} nodes. This
      * function should return the root node of the desired navigation tree.
      *
-     * The [[NavigationPlugin]] will call this hook before a project will be rendered.
+     * The {@link NavigationPlugin} will call this hook before a project will be rendered.
      * The plugin will update the state of the navigation tree and pass it to the
      * templates.
      *
@@ -112,4 +114,9 @@ export abstract class Theme extends RendererComponent {
      * @returns        The root navigation item.
      */
     abstract getNavigation(project: ProjectReflection): NavigationItem;
+
+    /**
+     * Renders the provided page to a string, which will be written to disk by the {@link Renderer}
+     */
+    abstract render(page: PageEvent<Reflection>): string;
 }

@@ -280,7 +280,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "listInvalidSymbolLinks",
-        help: "Emits a list of broken symbol [[navigation]] links after documentation generation",
+        help: "Emits a list of broken symbol {@link navigation} links after documentation generation",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({

@@ -6,7 +6,7 @@ export class DecoratorContainerSerializer extends SerializerComponent<DecoratorW
     static override PRIORITY = 1000;
 
     /**
-     * Filter for instances of [[DecoratorWrapper]]
+     * Filter for instances of {@link DecoratorWrapper}
      */
     serializeGroup(instance: unknown): boolean {
         return instance instanceof DecoratorWrapper;

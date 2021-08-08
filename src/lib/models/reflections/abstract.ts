@@ -10,12 +10,12 @@ import { NeverIfInternal } from "../../utils";
 /**
  * Holds all data models used by TypeDoc.
  *
- * The [[BaseReflection]] is base class of all reflection models. The subclass [[ProjectReflection]]
- * serves as the root container for the current project while [[DeclarationReflection]] instances
+ * The {@link BaseReflection} is base class of all reflection models. The subclass {@link ProjectReflection}
+ * serves as the root container for the current project while {@link DeclarationReflection} instances
  * form the structure of the project. Most of the other classes in this namespace are referenced by this
  * two base classes.
  *
- * The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
+ * The models {@link NavigationItem} and {@link UrlMapping} are special as they are only used by the {@link Renderer}
  * while creating the final output.
  */
 
@@ -328,12 +328,12 @@ export interface Decorator {
 /**
  * Base class for all reflection classes.
  *
- * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
+ * While generating a documentation, TypeDoc generates an instance of {@link ProjectReflection}
  * as the root for all reflections within the project. All other reflections are represented
- * by the [[DeclarationReflection]] class.
+ * by the {@link DeclarationReflection} class.
  *
  * This base class exposes the basic properties one may use to traverse the reflection tree.
- * You can use the [[children]] and [[parent]] properties to walk the tree. The [[groups]] property
+ * You can use the {@link children} and {@link parent} properties to walk the tree. The {@link groups} property
  * contains a list of all children grouped and sorted for being rendered.
  */
 export abstract class Reflection {

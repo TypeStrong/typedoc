@@ -1,7 +1,7 @@
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
-import { createElement, Raw } from "../../../../utils";
+import { createElement } from "../../../../utils";
 
 export const defaultLayout =
     ({ relativeURL, partials }: DefaultThemeRenderContext) =>
@@ -32,9 +32,7 @@ export const defaultLayout =
 
                         <div class="container container-main">
                             <div class="row">
-                                <div class="col-8 col-content">
-                                    <Raw html={props.contents!} />
-                                </div>
+                                <div class="col-8 col-content">{props.template(props)}</div>
                                 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
                                     <nav class="tsd-navigation primary">
                                         <ul>

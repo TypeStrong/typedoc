@@ -7,7 +7,7 @@ export class CommentTagSerializer extends SerializerComponent<CommentTag> {
     static override PRIORITY = 1000;
 
     /**
-     * Filter for instances of [[CommentTag]]
+     * Filter for instances of {@link CommentTag}
      */
     serializeGroup(instance: unknown): boolean {
         return instance instanceof CommentTag;

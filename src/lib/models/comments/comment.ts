@@ -6,7 +6,7 @@ const COPIED_TAGS = ["remarks"];
 /**
  * A model that represents a comment.
  *
- * Instances of this model are created by the [[CommentPlugin]]. You can retrieve comments
+ * Instances of this model are created by the {@link CommentPlugin}. You can retrieve comments
  * through the [[DeclarationReflection.comment]] property.
  */
 export class Comment {
@@ -17,7 +17,7 @@ export class Comment {
     shortText: string;
 
     /**
-     * The full body text of the comment. Excludes the [[shortText]].
+     * The full body text of the comment. Excludes the {@link shortText}.
      */
     text: string;
 

@@ -21,7 +21,7 @@ import { renderElement } from "../../../utils";
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
  *
- * Used by [[DefaultTheme]] to map reflections to output files.
+ * Used by {@link DefaultTheme} to map reflections to output files.
  */
 export interface TemplateMapping {
     /**
@@ -48,7 +48,7 @@ export interface TemplateMapping {
 
 /**
  * Default theme implementation of TypeDoc. If a theme does not provide a custom
- * [[BaseTheme]] implementation, this theme class will be used.
+ * {@link BaseTheme} implementation, this theme class will be used.
  */
 export class DefaultTheme extends Theme {
     protected _markedPlugin: MarkedPlugin;
@@ -143,7 +143,7 @@ export class DefaultTheme extends Theme {
      * Map the models of the given project to the desired output files.
      *
      * @param project  The project whose urls should be generated.
-     * @returns        A list of [[UrlMapping]] instances defining which models
+     * @returns        A list of {@link UrlMapping} instances defining which models
      *                 should be rendered to which files.
      */
     getUrls(project: ProjectReflection): UrlMapping[] {
@@ -265,6 +265,12 @@ export class DefaultTheme extends Theme {
         }
 
         return urls;
+    }
+
+    render(page: PageEvent<Reflection>): string {
+        const layout = this.defaultLayoutTemplate;
+        const templateOutput = layout(page);
+        return "<!DOCTYPE html>" + renderElement(templateOutput);
     }
 
     /**

@@ -7,7 +7,7 @@ export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGro
     static override PRIORITY = 1000;
 
     /**
-     * Filter for instances of [[ReflectionGroup]]
+     * Filter for instances of {@link ReflectionGroup}
      */
     serializeGroup(instance: unknown): boolean {
         return instance instanceof ReflectionGroup;
