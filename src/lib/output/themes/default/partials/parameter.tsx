@@ -3,7 +3,7 @@ import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
 
-export const parameter = ({ partials }: DefaultThemeRenderContext, props: DeclarationReflection) => (
+export const parameter = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
         <ul class="tsd-parameters">
             {!!props.signatures && (
@@ -11,14 +11,14 @@ export const parameter = ({ partials }: DefaultThemeRenderContext, props: Declar
                     <ul class={"tsd-signatures " + props.cssClasses}>
                         {props.signatures.map((item) => (
                             <li class="tsd-signature tsd-kind-icon">
-                                {partials.memberSignatureTitle(item, { hideName: true })}
+                                {context.memberSignatureTitle(item, { hideName: true })}
                             </li>
                         ))}
                     </ul>
 
                     <ul class="tsd-descriptions">
                         {props.signatures.map((item) => (
-                            <li class="tsd-description">{partials.memberSignatureBody(item, { hideSources: true })}</li>
+                            <li class="tsd-description">{context.memberSignatureBody(item, { hideSources: true })}</li>
                         ))}
                     </ul>
                 </li>
@@ -33,15 +33,15 @@ export const parameter = ({ partials }: DefaultThemeRenderContext, props: Declar
                                     {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                     {item.name}
                                     {": "}
-                                    {partials.type(item.type)}
+                                    {context.type(item.type)}
                                 </>
                             ))}
                             <span class="tsd-signature-symbol">{"]: "}</span>
-                            {partials.type(props.indexSignature.type)}
+                            {context.type(props.indexSignature.type)}
                         </h5>
-                        {partials.comment(props.indexSignature)}
+                        {context.comment(props.indexSignature)}
                         {props.indexSignature.type instanceof ReflectionType &&
-                            partials.parameter(props.indexSignature.type.declaration)}
+                            context.parameter(props.indexSignature.type.declaration)}
                     </li>
                 </>
             )}
@@ -56,7 +56,7 @@ export const parameter = ({ partials }: DefaultThemeRenderContext, props: Declar
                                 function
                             </h5>
 
-                            {partials.memberSignatures(item)}
+                            {context.memberSignatures(item)}
                         </li>
                     ) : item.type ? (
                         <>
@@ -70,11 +70,11 @@ export const parameter = ({ partials }: DefaultThemeRenderContext, props: Declar
                                         {!!item.flags.isOptional && "?"}
                                         {": "}
                                     </span>
-                                    {partials.type(item.type)}
+                                    {context.type(item.type)}
                                 </h5>
-                                {partials.comment(item)}
-                                {!!item.children && <> {partials.parameter(item)}</>}
-                                {item.type instanceof ReflectionType && partials.parameter(item.type.declaration)}
+                                {context.comment(item)}
+                                {!!item.children && <> {context.parameter(item)}</>}
+                                {item.type instanceof ReflectionType && context.parameter(item.type.declaration)}
                             </li>
                         </>
                     ) : (
@@ -89,10 +89,10 @@ export const parameter = ({ partials }: DefaultThemeRenderContext, props: Declar
                                             <span class="tsd-signature-symbol">get </span>
                                             {wbr(item.name)}
                                             <span class="tsd-signature-symbol">(): </span>
-                                            {partials.type(item.getSignature.type)}
+                                            {context.type(item.getSignature.type)}
                                         </h5>
 
-                                        {partials.comment(item.getSignature)}
+                                        {context.comment(item.getSignature)}
                                     </li>
                                 </>
                             )}
@@ -109,14 +109,14 @@ export const parameter = ({ partials }: DefaultThemeRenderContext, props: Declar
                                                 <>
                                                     {item.name}
                                                     <span class="tsd-signature-symbol">: </span>
-                                                    {partials.type(item.type)}
+                                                    {context.type(item.type)}
                                                 </>
                                             ))}
                                             <span class="tsd-signature-symbol">): </span>
-                                            {partials.type(item.setSignature.type)}
+                                            {context.type(item.setSignature.type)}
                                         </h5>
 
-                                        {partials.comment(item.setSignature)}
+                                        {context.comment(item.setSignature)}
                                     </li>
                                 </>
                             )}

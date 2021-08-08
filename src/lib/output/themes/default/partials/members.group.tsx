@@ -3,7 +3,7 @@ import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { ReflectionGroup } from "../../../../models";
 
-export function membersGroup({ partials }: DefaultThemeRenderContext, group: ReflectionGroup) {
+export function membersGroup(context: DefaultThemeRenderContext, group: ReflectionGroup) {
     if (group.categories) {
         return (
             <>
@@ -14,7 +14,7 @@ export function membersGroup({ partials }: DefaultThemeRenderContext, group: Ref
                             {group.title}
                         </h2>
                         {item.children.map(
-                            (item) => !item.hasOwnDocument && partials.member(assertIsDeclarationReflection(item))
+                            (item) => !item.hasOwnDocument && context.member(assertIsDeclarationReflection(item))
                         )}
                     </section>
                 ))}
@@ -25,7 +25,7 @@ export function membersGroup({ partials }: DefaultThemeRenderContext, group: Ref
     return (
         <section class={"tsd-panel-group tsd-member-group " + group.cssClasses}>
             <h2>{group.title}</h2>
-            {group.children.map((item) => !item.hasOwnDocument && partials.member(assertIsDeclarationReflection(item)))}
+            {group.children.map((item) => !item.hasOwnDocument && context.member(assertIsDeclarationReflection(item)))}
         </section>
     );
 }

@@ -3,7 +3,7 @@ import { createElement } from "../../../../utils";
 import { DeclarationReflection, SignatureReflection } from "../../../../models";
 
 export const memberSources = (
-    { partials }: DefaultThemeRenderContext,
+    context: DefaultThemeRenderContext,
     props: SignatureReflection | DeclarationReflection
 ) => (
     <>
@@ -11,19 +11,19 @@ export const memberSources = (
             {!!props.implementationOf && (
                 <p>
                     {"Implementation of "}
-                    {partials.typeAndParent(props.implementationOf)}
+                    {context.typeAndParent(props.implementationOf)}
                 </p>
             )}
             {!!props.inheritedFrom && (
                 <p>
                     {"Inherited from "}
-                    {partials.typeAndParent(props.inheritedFrom)}
+                    {context.typeAndParent(props.inheritedFrom)}
                 </p>
             )}
             {!!props.overwrites && (
                 <p>
                     {"Overrides "}
-                    {partials.typeAndParent(props.overwrites)}
+                    {context.typeAndParent(props.overwrites)}
                 </p>
             )}
             {!!props.sources && (

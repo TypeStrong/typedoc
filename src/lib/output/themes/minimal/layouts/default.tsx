@@ -7,7 +7,7 @@ import { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderConte
 const inlineCss = readFileSync(resolve(__dirname, "../../bin/minimal/assets/css/main.css"), "utf8");
 const inlineJs = readFileSync(resolve(__dirname, "../../bin/minimal/assets/js/main.js"), "utf8");
 
-export const defaultLayout = ({ partials, markdown }: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
+export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <>
         <html class="minimal no-js">
             <head>
@@ -21,10 +21,10 @@ export const defaultLayout = ({ partials, markdown }: DefaultThemeRenderContext,
                 <Raw html={`<style type="text/css">${inlineCss}</style>`} />
             </head>
             <body>
-                {partials.header(props)}
+                {context.header(props)}
 
                 <nav class="tsd-navigation secondary">
-                    <ul>{props.toc?.children?.map((item) => partials.toc(item))}</ul>
+                    <ul>{props.toc?.children?.map((item) => context.toc(item))}</ul>
                 </nav>
 
                 <div class="container container-main">
@@ -32,17 +32,17 @@ export const defaultLayout = ({ partials, markdown }: DefaultThemeRenderContext,
                         {props.model.isProject() && !!props.model.readme && (
                             <div class="tsd-panel tsd-typography">
                                 <div>
-                                    <Raw html={markdown(props.model.readme)} />
+                                    <Raw html={context.markdown(props.model.readme)} />
                                 </div>
                             </div>
                         )}
                         <div>{props.template(props)}</div>
-                        {partials.footer(props)}
+                        {context.footer(props)}
                     </div>
                 </div>
                 <Raw html={`<script type="text/javascript">${inlineJs}</script>`} />
 
-                {partials.analytics(props)}
+                {context.analytics(props)}
             </body>
         </html>
     </>

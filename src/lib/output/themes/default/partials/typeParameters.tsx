@@ -2,7 +2,7 @@ import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { TypeParameterContainer } from "../../../../models";
 import { createElement } from "../../../../utils";
 
-export const typeParameters = ({ partials }: DefaultThemeRenderContext, props: TypeParameterContainer) => (
+export const typeParameters = (context: DefaultThemeRenderContext, props: TypeParameterContainer) => (
     <ul class="tsd-type-parameters">
         {props.typeParameters?.map((item) => (
             <li>
@@ -11,17 +11,17 @@ export const typeParameters = ({ partials }: DefaultThemeRenderContext, props: T
                     {!!item.type && (
                         <>
                             <span class="tsd-signature-symbol">{": "}</span>
-                            {partials.type(item.type)}
+                            {context.type(item.type)}
                         </>
                     )}
                     {!!item.default && (
                         <>
                             {" = "}
-                            {partials.type(item.default)}
+                            {context.type(item.default)}
                         </>
                     )}
                 </h4>
-                {partials.comment(item)}
+                {context.comment(item)}
             </li>
         ))}
     </ul>

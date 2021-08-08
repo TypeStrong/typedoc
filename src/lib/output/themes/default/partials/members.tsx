@@ -3,7 +3,7 @@ import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { ContainerReflection } from "../../../../models";
 
-export function members({ partials }: DefaultThemeRenderContext, props: ContainerReflection) {
+export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {
     if (props.categories && props.categories.length) {
         return (
             <>
@@ -14,7 +14,7 @@ export function members({ partials }: DefaultThemeRenderContext, props: Containe
                                 <h2>{item.title}</h2>
                                 {item.children.map(
                                     (item) =>
-                                        !item.hasOwnDocument && partials.member(assertIsDeclarationReflection(item))
+                                        !item.hasOwnDocument && context.member(assertIsDeclarationReflection(item))
                                 )}
                             </section>
                         )
@@ -23,5 +23,5 @@ export function members({ partials }: DefaultThemeRenderContext, props: Containe
         );
     }
 
-    return <>{props.groups?.map((item) => !item.allChildrenHaveOwnDocument() && partials.membersGroup(item))}</>;
+    return <>{props.groups?.map((item) => !item.allChildrenHaveOwnDocument() && context.membersGroup(item))}</>;
 }

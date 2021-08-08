@@ -17,7 +17,6 @@ import { PageEvent, RendererEvent } from "../../events";
 import { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 import { renderElement } from "../../../utils";
-import { defaultThemePartials } from "./DefaultThemePartials";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.
@@ -56,19 +55,19 @@ export class DefaultTheme extends Theme {
     protected _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin, defaultThemePartials);
+            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin);
         }
         return this._renderContext;
     }
 
     reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
-        return this.getRenderContext(pageEvent).partials.reflectionTemplate(pageEvent);
+        return this.getRenderContext(pageEvent).reflectionTemplate(pageEvent);
     };
     indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return this.getRenderContext(pageEvent).partials.indexTemplate(pageEvent);
+        return this.getRenderContext(pageEvent).indexTemplate(pageEvent);
     };
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>) => {
-        return this.getRenderContext(pageEvent).partials.defaultLayout(pageEvent);
+        return this.getRenderContext(pageEvent).defaultLayout(pageEvent);
     };
 
     /**

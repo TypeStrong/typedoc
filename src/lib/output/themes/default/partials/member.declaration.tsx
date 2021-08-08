@@ -2,7 +2,7 @@ import { wbr, join } from "../../lib";
 import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
-export const memberDeclaration = ({ partials }: DefaultThemeRenderContext, props: DeclarationReflection) => (
+export const memberDeclaration = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
         <div class="tsd-signature tsd-kind-icon">
             {wbr(props.name)}
@@ -16,7 +16,7 @@ export const memberDeclaration = ({ partials }: DefaultThemeRenderContext, props
             {props.type && (
                 <>
                     <span class="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
-                    {partials.type(props.type)}
+                    {context.type(props.type)}
                 </>
             )}
             {!!props.defaultValue && (
@@ -29,20 +29,20 @@ export const memberDeclaration = ({ partials }: DefaultThemeRenderContext, props
             )}
         </div>
 
-        {partials.memberSources(props)}
+        {context.memberSources(props)}
 
-        {partials.comment(props)}
+        {context.comment(props)}
 
         {!!props.typeParameters && (
             <>
                 <h4 class="tsd-type-parameters-title">Type parameters</h4>
-                {partials.typeParameters(props)}
+                {context.typeParameters(props)}
             </>
         )}
         {props.type instanceof ReflectionType && (
             <div class="tsd-type-declaration">
                 <h4>Type declaration</h4>
-                {partials.parameter(props.type.declaration)}
+                {context.parameter(props.type.declaration)}
             </div>
         )}
     </>

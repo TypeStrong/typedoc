@@ -3,7 +3,7 @@ import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 
-export const member = ({ partials }: DefaultThemeRenderContext, props: DeclarationReflection) => (
+export const member = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <section class={"tsd-panel tsd-member " + props.cssClasses}>
         <a name={props.anchor} class="tsd-anchor"></a>
         {!!props.name && (
@@ -13,15 +13,15 @@ export const member = ({ partials }: DefaultThemeRenderContext, props: Declarati
             </h3>
         )}
         {props.signatures
-            ? partials.memberSignatures(props)
+            ? context.memberSignatures(props)
             : props.hasGetterOrSetter()
-            ? partials.memberGetterSetter(props)
+            ? context.memberGetterSetter(props)
             : props instanceof ReferenceReflection
-            ? partials.memberReference(props)
-            : partials.memberDeclaration(props)}
+            ? context.memberReference(props)
+            : context.memberDeclaration(props)}
 
         {props.groups?.map((item) =>
-            item.children.map((item) => !item.hasOwnDocument && partials.member(assertIsDeclarationReflection(item)))
+            item.children.map((item) => !item.hasOwnDocument && context.member(assertIsDeclarationReflection(item)))
         )}
     </section>
 );

@@ -4,7 +4,7 @@ import { createElement } from "../../../../utils";
 import { SignatureReflection } from "../../../../models";
 
 export const memberSignatureTitle = (
-    { partials }: DefaultThemeRenderContext,
+    context: DefaultThemeRenderContext,
     props: SignatureReflection,
     { hideName = false, arrowStyle = false }: { hideName?: boolean; arrowStyle?: boolean } = {}
 ) => (
@@ -38,14 +38,14 @@ export const memberSignatureTitle = (
                     {!!item.defaultValue && "?"}
                     {": "}
                 </span>
-                {partials.type(item.type)}
+                {context.type(item.type)}
             </>
         ))}
         <span class="tsd-signature-symbol">)</span>
         {!!props.type && (
             <>
                 <span class="tsd-signature-symbol">{arrowStyle ? " => " : ": "}</span>
-                {partials.type(props.type)}
+                {context.type(props.type)}
             </>
         )}
     </>

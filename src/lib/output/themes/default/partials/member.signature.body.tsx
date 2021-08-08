@@ -3,18 +3,18 @@ import { createElement, Raw } from "../../../../utils";
 import { ReflectionType, SignatureReflection } from "../../../../models";
 import { renderFlags } from "../../lib";
 export const memberSignatureBody = (
-    { partials, markdown }: DefaultThemeRenderContext,
+    context: DefaultThemeRenderContext,
     props: SignatureReflection,
     { hideSources = false }: { hideSources?: boolean } = {}
 ) => (
     <>
-        {!hideSources && partials.memberSources(props)}
-        {partials.comment(props)}
+        {!hideSources && context.memberSources(props)}
+        {context.comment(props)}
 
         {!!props.typeParameters && (
             <>
                 <h4 class="tsd-type-parameters-title">Type parameters</h4>
-                {partials.typeParameters(props)}
+                {context.typeParameters(props)}
             </>
         )}
         {props.parameters && props.parameters.length > 0 && (
@@ -28,7 +28,7 @@ export const memberSignatureBody = (
                                 {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                 {item.name}
                                 {": "}
-                                {partials.type(item.type)}
+                                {context.type(item.type)}
                                 {item.defaultValue != null && (
                                     <span class="tsd-signature-symbol">
                                         {" = "}
@@ -36,8 +36,8 @@ export const memberSignatureBody = (
                                     </span>
                                 )}
                             </h5>
-                            {partials.comment(item)}
-                            {item.type instanceof ReflectionType && partials.parameter(item.type.declaration)}
+                            {context.comment(item)}
+                            {item.type instanceof ReflectionType && context.parameter(item.type.declaration)}
                         </li>
                     ))}
                 </ul>
@@ -47,14 +47,14 @@ export const memberSignatureBody = (
             <>
                 <h4 class="tsd-returns-title">
                     {"Returns "}
-                    {partials.type(props.type)}
+                    {context.type(props.type)}
                 </h4>
                 {!!props.comment?.returns && (
                     <div>
-                        <Raw html={markdown(props.comment.returns)} />
+                        <Raw html={context.markdown(props.comment.returns)} />
                     </div>
                 )}
-                {props.type instanceof ReflectionType && partials.parameter(props.type.declaration)}
+                {props.type instanceof ReflectionType && context.parameter(props.type.declaration)}
             </>
         )}
     </>

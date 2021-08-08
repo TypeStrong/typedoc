@@ -254,7 +254,7 @@ const typeRenderers: {
             return (
                 <>
                     {needsParens && <span class="tsd-signature-symbol">(</span>}
-                    {context.partials.memberSignatureTitle(type.declaration.signatures[0], {
+                    {context.memberSignatureTitle(type.declaration.signatures[0], {
                         hideName: true,
                         arrowStyle: true,
                     })}
@@ -268,7 +268,7 @@ const typeRenderers: {
                 <>
                     <span class="tsd-signature-symbol">{"{"} </span>
                     {join(<span class="tsd-signature-symbol">; </span>, type.declaration.signatures, (item) =>
-                        context.partials.memberSignatureTitle(item, { hideName: true })
+                        context.memberSignatureTitle(item, { hideName: true })
                     )}
                     <span class="tsd-signature-symbol">{" }"}</span>
                 </>

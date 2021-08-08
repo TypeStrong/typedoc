@@ -13,10 +13,6 @@ import { PageEvent } from "../../events";
 import { NavigationItem } from "../../models/NavigationItem";
 import { indexTemplate } from "./templates";
 import { defaultLayout } from "./layouts/default";
-import {
-    defaultThemePartials,
-    DefaultThemePartials,
-} from "../default/DefaultThemePartials";
 import { DefaultThemeRenderContext } from "../default/DefaultThemeRenderContext";
 import { header } from "./partials/header";
 import { member } from "./partials/member";
@@ -39,9 +35,8 @@ export class MinimalTheme extends DefaultTheme {
     }
 
     override getRenderContext(_pageEvent: PageEvent<any>) {
-        this._renderContext ??= new DefaultThemeRenderContext(
-            this._markedPlugin,
-            minimalThemePartials
+        this._renderContext ??= new MinimalThemeRendererContext(
+            this._markedPlugin
         );
         return this._renderContext;
     }
@@ -112,10 +107,19 @@ export class MinimalTheme extends DefaultTheme {
     }
 }
 
-export const minimalThemePartials: DefaultThemePartials = {
-    ...defaultThemePartials,
-    indexTemplate,
-    defaultLayout,
-    header,
-    member,
-};
+function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
+    return (...r: L) => fn(first, ...r);
+}
+
+export class MinimalThemeRendererContext extends DefaultThemeRenderContext {
+    override indexTemplate: DefaultThemeRenderContext["indexTemplate"] = bind(
+        indexTemplate,
+        this
+    );
+    override defaultLayout: DefaultThemeRenderContext["defaultLayout"] = bind(
+        defaultLayout,
+        this
+    );
+    override header: DefaultThemeRenderContext["header"] = bind(header, this);
+    override member: DefaultThemeRenderContext["member"] = bind(member, this);
+}

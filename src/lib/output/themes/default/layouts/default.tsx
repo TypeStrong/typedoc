@@ -3,7 +3,7 @@ import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
 import { createElement } from "../../../../utils";
 
-export const defaultLayout = ({ relativeURL, partials }: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
+export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <>
         <html class="default no-js">
             <head>
@@ -21,11 +21,11 @@ export const defaultLayout = ({ relativeURL, partials }: DefaultThemeRenderConte
                 <meta name="description" content={"Documentation for " + props.project.name} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-                <link rel="stylesheet" href={relativeURL("assets/css/main.css")} />
-                <script async src={relativeURL("assets/js/search.js")} id="search-script"></script>
+                <link rel="stylesheet" href={context.relativeURL("assets/css/main.css")} />
+                <script async src={context.relativeURL("assets/js/search.js")} id="search-script"></script>
             </head>
             <body>
-                {partials.header(props)}
+                {context.header(props)}
 
                 <div class="container container-main">
                     <div class="row">
@@ -34,7 +34,7 @@ export const defaultLayout = ({ relativeURL, partials }: DefaultThemeRenderConte
                             <nav class="tsd-navigation primary">
                                 <ul>
                                     {props.navigation?.children?.map((item) => (
-                                        <> {partials.navigation(item)}</>
+                                        <> {context.navigation(item)}</>
                                     ))}
                                 </ul>
                             </nav>
@@ -51,13 +51,13 @@ export const defaultLayout = ({ relativeURL, partials }: DefaultThemeRenderConte
                                     return (
                                         <>
                                             <ul class="before-current">
-                                                {childrenBefore.map((item) => partials.tocRoot(item))}
+                                                {childrenBefore.map((item) => context.tocRoot(item))}
                                             </ul>
                                             {childInPath && (
                                                 <>
-                                                    <ul class="current">{partials.tocRoot(childInPath)}</ul>
+                                                    <ul class="current">{context.tocRoot(childInPath)}</ul>
                                                     <ul class="after-current">
-                                                        {childrenAfter.map((item) => partials.tocRoot(item))}
+                                                        {childrenAfter.map((item) => context.tocRoot(item))}
                                                     </ul>
                                                 </>
                                             )}
@@ -69,12 +69,12 @@ export const defaultLayout = ({ relativeURL, partials }: DefaultThemeRenderConte
                     </div>
                 </div>
 
-                {partials.footer(props)}
+                {context.footer(props)}
 
                 <div class="overlay"></div>
-                <script src={relativeURL("assets/js/main.js")}></script>
+                <script src={context.relativeURL("assets/js/main.js")}></script>
 
-                {partials.analytics(props)}
+                {context.analytics(props)}
             </body>
         </html>
     </>

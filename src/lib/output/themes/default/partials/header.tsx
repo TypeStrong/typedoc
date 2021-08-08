@@ -3,7 +3,7 @@ import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { PageEvent } from "../../../events";
 import { Reflection } from "../../../../models";
-export const header = ({ relativeURL, partials }: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
+export const header = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <header>
         <div class="tsd-page-toolbar">
             <div class="container">
@@ -11,8 +11,8 @@ export const header = ({ relativeURL, partials }: DefaultThemeRenderContext, pro
                     <div
                         class="table-cell"
                         id="tsd-search"
-                        data-index={relativeURL("assets/js/search.json")}
-                        data-base={relativeURL("./")}
+                        data-index={context.relativeURL("assets/js/search.json")}
+                        data-base={context.relativeURL("./")}
                     >
                         <div class="field">
                             <label for="tsd-search-field" class="tsd-widget search no-caption">
@@ -26,7 +26,7 @@ export const header = ({ relativeURL, partials }: DefaultThemeRenderContext, pro
                             <li class="state failure">The search index is not available</li>
                         </ul>
 
-                        <a href={relativeURL("index.html")} class="title">
+                        <a href={context.relativeURL("index.html")} class="title">
                             {props.project.name}
                         </a>
                     </div>
@@ -71,7 +71,7 @@ export const header = ({ relativeURL, partials }: DefaultThemeRenderContext, pro
         </div>
         <div class="tsd-page-title">
             <div class="container">
-                {!!props.model.parent && <ul class="tsd-breadcrumb">{partials.breadcrumb(props.model)}</ul>}
+                {!!props.model.parent && <ul class="tsd-breadcrumb">{context.breadcrumb(props.model)}</ul>}
                 <h1>
                     {props.model.kindString !== "Project" && `${props.model.kindString ?? ""} `}
                     {props.model.name}
