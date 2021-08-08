@@ -23,7 +23,7 @@ async function main() {
         gaSite: "foo.com", // verify theme option without modifying output
         name: "typedoc",
         disableSources: true,
-        disableOutputCheck: true,
+        cleanOutputDir: true,
         tsconfig: Path.join(src, "..", "tsconfig.json"),
         plugin: [],
         entryPoints: [src],
