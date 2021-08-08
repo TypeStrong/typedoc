@@ -97,11 +97,12 @@ You can automatically fix some style problems by running `npm run lint -- --fix`
 
 #### Building
 
-To compile the TypeDoc source, run `npm run build`. This will start the TypeScript compiler and output the compiled JavaScript to the `dist` folder. If you want to build and test in one step, run `npm run build_and_test`.
+To compile the TypeDoc source, run `npm run build`. This will start the TypeScript compiler and output the compiled JavaScript to the `dist` folder.
 
 #### Testing
 
-TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`. Alternatively, to rebuild with your changes and then immediately test, run `npm run build_and_test`.
+TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`.
+TypeDoc also contains visual regression tests for comparing changes made to the themes. To test this, run `npm run test:visual`. If there are changes that you expect, run `npm run test:visual:accept` to save the new baseline.
 
 If you have changed the TypeDoc output, it will cause tests to fail. Once you have validated that the introduced changes were intended, run `npm run rebuild_specs` to update the spec files for the new output.
 
