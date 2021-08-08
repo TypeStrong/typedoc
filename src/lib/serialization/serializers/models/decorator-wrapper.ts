@@ -1,4 +1,4 @@
-import { Decorator } from "../../../models";
+import type { Decorator } from "../../../models";
 
 /**
  * An internal concrete implementation for the {@link Decorator} interface

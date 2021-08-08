@@ -1,9 +1,9 @@
 import { EventDispatcher } from "../utils";
-import { ProjectReflection } from "../models";
+import type { ProjectReflection } from "../models";
 
-import { SerializerComponent } from "./components";
+import type { SerializerComponent } from "./components";
 import { SerializeEvent, SerializeEventData } from "./events";
-import { ModelToObject } from "./schema";
+import type { ModelToObject } from "./schema";
 import * as S from "./serializers";
 
 export class Serializer extends EventDispatcher {

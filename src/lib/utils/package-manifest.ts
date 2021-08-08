@@ -6,7 +6,7 @@ import { existsSync } from "fs";
 import { flatMap } from "./array";
 
 import { readFile } from "./fs";
-import { Logger } from "./loggers";
+import type { Logger } from "./loggers";
 
 /**
  * Helper for the TS type system to understand hasOwnProperty

@@ -1,7 +1,7 @@
 import { renderFlags, wbr } from "../../lib";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 import { createElement } from "../../../../utils";
-import { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
 
 export const member = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>

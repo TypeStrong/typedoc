@@ -1,7 +1,7 @@
 import { assertIsDeclarationReflection } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { ContainerReflection } from "../../../../models";
+import type { ContainerReflection } from "../../../../models";
 
 export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {
     if (props.categories && props.categories.length) {

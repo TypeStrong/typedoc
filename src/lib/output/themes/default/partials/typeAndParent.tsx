@@ -1,4 +1,4 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { ArrayType, ReferenceType, SignatureReflection, Type } from "../../../../models";
 import { JSX, createElement } from "../../../../utils";
 

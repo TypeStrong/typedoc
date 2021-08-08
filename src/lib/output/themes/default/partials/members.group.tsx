@@ -1,7 +1,7 @@
 import { assertIsDeclarationReflection } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { ReflectionGroup } from "../../../../models";
+import type { ReflectionGroup } from "../../../../models";
 
 export function membersGroup(context: DefaultThemeRenderContext, group: ReflectionGroup) {
     if (group.categories) {

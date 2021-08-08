@@ -1,4 +1,4 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement, Raw } from "../../../../utils";
 import { ReflectionType, SignatureReflection } from "../../../../models";
 import { renderFlags } from "../../lib";

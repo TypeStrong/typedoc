@@ -7,8 +7,8 @@ import {
     TraverseCallback,
     ReflectionKind,
 } from "./abstract";
-import { ParameterReflection } from "./parameter";
-import { TypeParameterReflection } from "./type-parameter";
+import type { ParameterReflection } from "./parameter";
+import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 
 export class SignatureReflection

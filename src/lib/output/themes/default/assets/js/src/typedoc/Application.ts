@@ -1,4 +1,4 @@
-import { IComponentOptions } from "./Component";
+import type { IComponentOptions } from "./Component";
 
 /**
  * Component definition.

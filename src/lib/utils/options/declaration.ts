@@ -1,6 +1,6 @@
-import { Theme as ShikiTheme } from "shiki";
-import { LogLevel } from "../loggers";
-import { SortStrategy } from "../sort";
+import type { Theme as ShikiTheme } from "shiki";
+import type { LogLevel } from "../loggers";
+import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
 
 /**

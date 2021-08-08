@@ -5,7 +5,7 @@ import * as ts from "typescript";
 import { Converter, DocumentationEntryPoint } from "./converter/index";
 import { Renderer } from "./output/renderer";
 import { Serializer } from "./serialization";
-import { ProjectReflection } from "./models/index";
+import type { ProjectReflection } from "./models/index";
 import { getCommonDirectory } from "./utils/fs";
 import {
     Logger,
@@ -26,7 +26,7 @@ import {
     DUMMY_APPLICATION_OWNER,
 } from "./utils/component";
 import { Options, BindOption } from "./utils";
-import { TypeDocOptions } from "./utils/options/declaration";
+import type { TypeDocOptions } from "./utils/options/declaration";
 import { flatMap } from "./utils/array";
 import { basename, resolve } from "path";
 import {

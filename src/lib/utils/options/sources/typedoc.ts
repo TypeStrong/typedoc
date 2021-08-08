@@ -1,4 +1,4 @@
-import { Options } from "..";
+import type { Options } from "..";
 import { LogLevel } from "../../loggers";
 import { ParameterType, ParameterHint } from "../declaration";
 import { BUNDLED_THEMES } from "shiki";

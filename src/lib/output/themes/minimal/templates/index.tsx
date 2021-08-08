@@ -1,7 +1,7 @@
-import { PageEvent } from "../../../events";
+import type { PageEvent } from "../../../events";
 import { DeclarationReflection, ProjectReflection } from "../../../../models";
 import { createElement } from "../../../../utils/template";
-import { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
 
 export const indexTemplate = (context: DefaultThemeRenderContext, props: PageEvent<ProjectReflection>) => (
     <>

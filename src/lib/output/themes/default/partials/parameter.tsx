@@ -1,5 +1,5 @@
 import { renderFlags, wbr } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
 

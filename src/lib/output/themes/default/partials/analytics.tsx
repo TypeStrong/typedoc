@@ -1,7 +1,7 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { PageEvent } from "../../../events";
-import { Reflection } from "../../../../models";
+import type { PageEvent } from "../../../events";
+import type { Reflection } from "../../../../models";
 
 export function analytics(_ctx: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     if (!props.settings.gaID) return;

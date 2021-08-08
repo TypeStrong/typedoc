@@ -1,6 +1,7 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { DeclarationReflection } from "../../../../models";
+import type { DeclarationReflection } from "../../../../models";
+
 export const memberGetterSetter = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
         <ul class={"tsd-signatures " + props.cssClasses}>

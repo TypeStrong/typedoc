@@ -28,7 +28,7 @@ import {
     TemplateLiteralType,
 } from "../models";
 import { zip } from "../utils/array";
-import { Context } from "./context";
+import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
 import { convertIndexSignature } from "./factories/index-signature";
 import {

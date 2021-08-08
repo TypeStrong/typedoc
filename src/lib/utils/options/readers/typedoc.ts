@@ -1,9 +1,9 @@
 import { join, dirname, resolve } from "path";
 import * as FS from "fs";
 
-import { OptionsReader } from "..";
-import { Logger } from "../../loggers";
-import { Options } from "../options";
+import type { OptionsReader } from "..";
+import type { Logger } from "../../loggers";
+import type { Options } from "../options";
 
 /**
  * Obtains option values from typedoc.json

@@ -1,6 +1,6 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { ProjectReflection } from "../../../../models";
-import { PageEvent } from "../../../events";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { ProjectReflection } from "../../../../models";
+import type { PageEvent } from "../../../events";
 import { createElement, Raw } from "../../../../utils";
 
 export const indexTemplate = ({ markdown }: DefaultThemeRenderContext, props: PageEvent<ProjectReflection>) => (

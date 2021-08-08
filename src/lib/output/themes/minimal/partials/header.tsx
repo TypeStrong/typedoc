@@ -1,7 +1,7 @@
-import { PageEvent } from "../../../events";
-import { Reflection } from "../../../../models";
+import type { PageEvent } from "../../../events";
+import type { Reflection } from "../../../../models";
 import { createElement } from "../../../../utils";
-import { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
 
 export const header = ({ relativeURL }: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <header>

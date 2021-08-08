@@ -6,7 +6,7 @@ import {
 } from "../../models";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
-import { Context } from "../context";
+import type { Context } from "../context";
 import { copyComment } from "../utils/reflections";
 import {
     Reflection,

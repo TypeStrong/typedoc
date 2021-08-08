@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
 
-import { KeysOfType, WritableKeys } from "./general";
+import type { KeysOfType, WritableKeys } from "./general";
 
 export const Fragment = Symbol();
 

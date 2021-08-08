@@ -1,6 +1,6 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { DeclarationReflection, SignatureReflection } from "../../../../models";
+import type { DeclarationReflection, SignatureReflection } from "../../../../models";
 
 export const memberSources = (
     context: DefaultThemeRenderContext,

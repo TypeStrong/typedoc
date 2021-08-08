@@ -1,5 +1,5 @@
-import { OptionsReader, Options } from "..";
-import { Logger } from "../../loggers";
+import type { OptionsReader, Options } from "..";
+import type { Logger } from "../../loggers";
 import { ParameterType } from "../declaration";
 
 const ARRAY_OPTION_TYPES = new Set<ParameterType | undefined>([

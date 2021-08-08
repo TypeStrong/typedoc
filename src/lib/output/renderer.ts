@@ -9,18 +9,18 @@
 
 import * as fs from "fs";
 
-import { Application } from "../application";
-import { Theme } from "./theme";
+import type { Application } from "../application";
+import type { Theme } from "./theme";
 import { RendererEvent, PageEvent } from "./events";
-import { ProjectReflection } from "../models/reflections/project";
-import { UrlMapping } from "./models/UrlMapping";
+import type { ProjectReflection } from "../models/reflections/project";
+import type { UrlMapping } from "./models/UrlMapping";
 import { remove, writeFileSync } from "../utils/fs";
 import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
 import { BindOption } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
-import { Theme as ShikiTheme } from "shiki";
+import type { Theme as ShikiTheme } from "shiki";
 import { MinimalTheme } from "./themes/minimal/MinimalTheme";
 import { Reflection } from "../models";
 

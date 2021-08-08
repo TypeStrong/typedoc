@@ -1,6 +1,6 @@
 import { SerializerComponent } from "../components";
 import { DecoratorWrapper } from "./models/decorator-wrapper";
-import { Decorator } from "../schema";
+import type { Decorator } from "../schema";
 
 export class DecoratorContainerSerializer extends SerializerComponent<DecoratorWrapper> {
     static override PRIORITY = 1000;

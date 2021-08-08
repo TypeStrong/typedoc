@@ -5,7 +5,7 @@ import {
     NumberDeclarationOption,
 } from "../../../lib/utils/options";
 import { deepStrictEqual as equal, throws } from "assert";
-import { DeclarationOption } from "../../../lib/utils/options";
+import type { DeclarationOption } from "../../../lib/utils/options";
 
 describe("Options", () => {
     const logger = new Logger();

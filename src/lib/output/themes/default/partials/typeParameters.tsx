@@ -1,5 +1,5 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { TypeParameterContainer } from "../../../../models";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { TypeParameterContainer } from "../../../../models";
 import { createElement } from "../../../../utils";
 
 export const typeParameters = (context: DefaultThemeRenderContext, props: TypeParameterContainer) => (

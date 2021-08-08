@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
 import { Comment, CommentTag } from "../../models/comments/index";
-import { Logger } from "../../utils";
+import type { Logger } from "../../utils";
 
 /**
  * Check whether the given module declaration is the topmost.

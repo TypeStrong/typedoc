@@ -1,6 +1,7 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { ReferenceReflection } from "../../../../models";
+import type { ReferenceReflection } from "../../../../models";
+
 export const memberReference = ({ relativeURL }: DefaultThemeRenderContext, props: ReferenceReflection) => {
     const referenced = props.tryGetTargetReflectionDeep();
 

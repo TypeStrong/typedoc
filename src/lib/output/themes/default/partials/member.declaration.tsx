@@ -1,7 +1,8 @@
-import { wbr, join } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
+import { createElement } from "../../../../utils";
+import { join, wbr } from "../../lib";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+
 export const memberDeclaration = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
         <div class="tsd-signature tsd-kind-icon">

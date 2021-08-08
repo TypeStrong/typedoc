@@ -1,6 +1,7 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { DeclarationHierarchy } from "../../../../models";
+import type { DeclarationHierarchy } from "../../../../models";
+
 export const hierarchy = (context: DefaultThemeRenderContext, props: DeclarationHierarchy) => (
     <ul class="tsd-hierarchy">
         {props.types.map((item, i, l) => (

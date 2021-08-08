@@ -1,7 +1,7 @@
 import { wbr, classNames } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { NavigationItem } from "../../../models/NavigationItem";
+import type { NavigationItem } from "../../../models/NavigationItem";
 
 export function navigation(context: DefaultThemeRenderContext, props: NavigationItem) {
     if (!props.isVisible) return;

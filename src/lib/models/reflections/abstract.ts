@@ -1,11 +1,11 @@
 import { ok } from "assert";
-import { SourceReference } from "../sources/file";
-import { Type } from "../types";
-import { Comment } from "../comments/comment";
-import { TypeParameterReflection } from "./type-parameter";
+import type { SourceReference } from "../sources/file";
+import type { Type } from "../types";
+import type { Comment } from "../comments/comment";
+import type { TypeParameterReflection } from "./type-parameter";
 import { splitUnquotedString } from "./utils";
-import { ProjectReflection } from "./project";
-import { NeverIfInternal } from "../../utils";
+import type { ProjectReflection } from "./project";
+import type { NeverIfInternal } from "../../utils";
 
 /**
  * Holds all data models used by TypeDoc.

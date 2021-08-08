@@ -1,9 +1,9 @@
-import { PageEvent } from "../../../events";
 import { readFileSync } from "fs";
 import { resolve } from "path";
-import { Reflection } from "../../../../models";
+import type { Reflection } from "../../../../models";
 import { createElement, Raw } from "../../../../utils";
-import { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
+import type { PageEvent } from "../../../events";
+import type { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
 const inlineCss = readFileSync(resolve(__dirname, "../../bin/minimal/assets/css/main.css"), "utf8");
 const inlineJs = readFileSync(resolve(__dirname, "../../bin/minimal/assets/js/main.js"), "utf8");
 

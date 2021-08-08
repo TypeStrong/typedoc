@@ -1,5 +1,5 @@
-import { JSX } from "../../utils";
-import { PageEvent } from "../events";
+import type { JSX } from "../../utils";
+import type { PageEvent } from "../events";
 
 /**
  *

@@ -1,7 +1,7 @@
 import { wbr, classNames } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { NavigationItem } from "../../../../..";
+import type { NavigationItem } from "../../../../..";
 
 export const tocRoot = (context: DefaultThemeRenderContext, item: NavigationItem) => (
     <li class={classNames({ current: item.isInPath }) + " " + item.cssClasses}>

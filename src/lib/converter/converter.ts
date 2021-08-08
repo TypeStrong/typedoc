@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 
-import { Application } from "../application";
+import type { Application } from "../application";
 import { Type, ProjectReflection, ReflectionKind } from "../models/index";
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
@@ -10,7 +10,7 @@ import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
 import { convertSymbol } from "./symbols";
 import { createMinimatch, matchesAny } from "../utils/paths";
-import { IMinimatch } from "minimatch";
+import type { IMinimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import { resolveAliasedSymbol } from "./utils/symbols";
 

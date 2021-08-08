@@ -8,7 +8,7 @@ import {
 import { ReferenceType, Type } from "../../models/types";
 import { filterMap, zip } from "../../utils/array";
 import { Component, ConverterComponent } from "../components";
-import { Context } from "../context";
+import type { Context } from "../context";
 import { Converter } from "../converter";
 import { copyComment } from "../utils/reflections";
 

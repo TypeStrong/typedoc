@@ -5,7 +5,7 @@ import * as ts from "typescript";
 import { deepStrictEqual as equal, ok } from "assert";
 import { issueTests } from "./issueTests";
 import { behaviorTests } from "./behaviorTests";
-import { ProjectReflection } from "../lib/models";
+import type { ProjectReflection } from "../lib/models";
 
 const base = join(__dirname, "converter2");
 

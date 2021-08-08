@@ -1,5 +1,5 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { Type, TypeKindMap } from "../../../../models";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { Type, TypeKindMap } from "../../../../models";
 import { createElement, JSX } from "../../../../utils";
 import { join, stringify } from "../../lib";
 

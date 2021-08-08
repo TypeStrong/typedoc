@@ -14,7 +14,7 @@ import {
     hasAnyFlag,
     removeFlag,
 } from "../utils/enum";
-import { Context } from "./context";
+import type { Context } from "./context";
 import { convertDefaultValue } from "./convert-expression";
 import { ConverterEvents } from "./converter-events";
 import { convertIndexSignature } from "./factories/index-signature";

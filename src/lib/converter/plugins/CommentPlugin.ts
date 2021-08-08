@@ -16,7 +16,7 @@ import {
     getJsDocCommentText,
 } from "../factories/comment";
 import { Converter } from "../converter";
-import { Context } from "../context";
+import type { Context } from "../context";
 import { ReflectionType, SourceReference } from "../../models";
 import {
     BindOption,

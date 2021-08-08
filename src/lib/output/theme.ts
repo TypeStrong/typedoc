@@ -1,11 +1,11 @@
-import { Renderer } from "./renderer";
-import { ProjectReflection } from "../models/reflections/project";
-import { UrlMapping } from "./models/UrlMapping";
-import { NavigationItem } from "./models/NavigationItem";
+import type { Renderer } from "./renderer";
+import type { ProjectReflection } from "../models/reflections/project";
+import type { UrlMapping } from "./models/UrlMapping";
+import type { NavigationItem } from "./models/NavigationItem";
 import { RendererComponent } from "./components";
 import { Component } from "../utils/component";
-import { PageEvent } from "./events";
-import { Reflection } from "../models";
+import type { PageEvent } from "./events";
+import type { Reflection } from "../models";
 
 /**
  * Base class of all themes.

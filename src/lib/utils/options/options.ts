@@ -1,8 +1,8 @@
-import * as ts from "typescript";
-import { NeverIfInternal } from "..";
-import { Application } from "../../..";
+import type * as ts from "typescript";
+import type { NeverIfInternal } from "..";
+import type { Application } from "../../..";
 import { insertPrioritySorted, unique } from "../array";
-import { Logger } from "../loggers";
+import type { Logger } from "../loggers";
 import {
     convert,
     DeclarationOption,

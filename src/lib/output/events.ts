@@ -1,10 +1,11 @@
 import * as Path from "path";
 
 import { Event } from "../utils/events";
-import { ProjectReflection } from "../models/reflections/project";
-import { RenderTemplate, UrlMapping } from "./models/UrlMapping";
-import { NavigationItem } from "./models/NavigationItem";
-import { LegendItem } from "./plugins/LegendPlugin";
+import type { ProjectReflection } from "../models/reflections/project";
+import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
+import type { NavigationItem } from "./models/NavigationItem";
+import type { LegendItem } from "./plugins/LegendPlugin";
+import type { TypeDocOptions } from "../utils";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -22,7 +23,7 @@ export class RendererEvent extends Event {
     /**
      * The settings that have been passed to TypeDoc.
      */
-    settings: any;
+    settings: Readonly<Partial<TypeDocOptions>> = {};
 
     /**
      * The path of the directory the documentation should be written to.
@@ -97,7 +98,7 @@ export class PageEvent<Model = unknown> extends Event {
     /**
      * The settings that have been passed to TypeDoc.
      */
-    settings: any;
+    settings!: Readonly<Partial<TypeDocOptions>>;
 
     /**
      * The filename the page will be written to.

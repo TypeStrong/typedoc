@@ -1,6 +1,6 @@
 import { hasTypeParameters } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { PageEvent } from "../../../events";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { PageEvent } from "../../../events";
 import { ContainerReflection, DeclarationReflection, ReflectionType } from "../../../../models";
 import { createElement } from "../../../../utils";
 

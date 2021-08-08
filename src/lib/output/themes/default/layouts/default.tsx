@@ -1,7 +1,7 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { PageEvent } from "../../../events";
-import { Reflection } from "../../../../models";
+import type { Reflection } from "../../../../models";
 import { createElement } from "../../../../utils";
+import type { PageEvent } from "../../../events";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <>

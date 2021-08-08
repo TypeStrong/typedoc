@@ -1,8 +1,9 @@
-import { hasTypeParameters } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { Reflection } from "../../../../models";
 import { createElement } from "../../../../utils";
-import { PageEvent } from "../../../events";
-import { Reflection } from "../../../../models";
+import type { PageEvent } from "../../../events";
+import { hasTypeParameters } from "../../lib";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+
 export const header = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <header>
         <div class="tsd-page-toolbar">

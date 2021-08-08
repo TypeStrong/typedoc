@@ -1,7 +1,7 @@
 import { wbr } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import { ContainerReflection, ReflectionCategory } from "../../../../models";
+import type { ContainerReflection, ReflectionCategory } from "../../../../models";
 
 function renderCategory({ relativeURL }: DefaultThemeRenderContext, item: ReflectionCategory, prependName = "") {
     return (

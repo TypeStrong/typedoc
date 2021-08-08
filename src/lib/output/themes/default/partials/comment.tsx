@@ -1,6 +1,6 @@
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement, Raw } from "../../../../utils";
-import { Reflection } from "../../../../models";
+import type { Reflection } from "../../../../models";
 
 export function comment({ markdown }: DefaultThemeRenderContext, props: Reflection) {
     if (!props.comment?.hasVisibleComponent()) return;

@@ -1,6 +1,6 @@
 import { Event } from "../utils/events";
-import { ProjectReflection } from "../models";
-import { ProjectReflection as JSONProjectReflection } from "./schema";
+import type { ProjectReflection } from "../models";
+import type { ProjectReflection as JSONProjectReflection } from "./schema";
 
 /**
  * Optional data associated with the {@link SerializeEvent}.

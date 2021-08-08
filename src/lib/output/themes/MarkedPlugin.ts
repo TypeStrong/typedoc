@@ -6,7 +6,7 @@ import { Component, ContextAwareRendererComponent } from "../components";
 import { RendererEvent, MarkdownEvent } from "../events";
 import { BindOption, readFile, copySync } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
-import { Theme } from "shiki";
+import type { Theme } from "shiki";
 
 const customMarkedRenderer = new Marked.Renderer();
 

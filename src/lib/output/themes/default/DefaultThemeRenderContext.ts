@@ -1,4 +1,4 @@
-import { MarkedPlugin } from "../MarkedPlugin";
+import type { MarkedPlugin } from "../MarkedPlugin";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
 import { analytics } from "./partials/analytics";

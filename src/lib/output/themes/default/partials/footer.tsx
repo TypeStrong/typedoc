@@ -1,8 +1,9 @@
-import { classNames } from "../../lib";
-import { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { Reflection } from "../../../../models";
 import { createElement } from "../../../../utils";
-import { PageEvent } from "../../../events";
-import { Reflection } from "../../../../models";
+import type { PageEvent } from "../../../events";
+import { classNames } from "../../lib";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+
 export const footer = (_ctx: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <>
         <footer
