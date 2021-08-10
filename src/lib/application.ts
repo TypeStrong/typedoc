@@ -222,6 +222,10 @@ export class Application extends ChildableComponent<
         super(DUMMY_APPLICATION_OWNER);
 
         this.logger = new ConsoleLogger();
+        if (this.logger instanceof ConsoleLogger && "NO_COLOR" in process.env) {
+            this.logger.usesColors = false;
+        }
+
         this.options = new Options(this.logger);
         this.options.addDefaultDeclarations();
         this.serializer = new Serializer();

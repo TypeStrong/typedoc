@@ -25,10 +25,25 @@ const Colors = {
 };
 
 const messagePrefixes = {
-    [LogLevel.Error]: `${Colors.red}Error: ${Colors.reset}`,
-    [LogLevel.Warn]: `${Colors.yellow}Warning: ${Colors.reset}`,
-    [LogLevel.Info]: `${Colors.cyan}Info: ${Colors.reset}`,
-    [LogLevel.Verbose]: `${Colors.gray}Debug: ${Colors.reset}`,
+    [LogLevel.Error]: "Error: ",
+    [LogLevel.Warn]: "Warning: ",
+    [LogLevel.Info]: "Info: ",
+    [LogLevel.Verbose]: "Debug: ",
+};
+
+const coloredMessagePrefixes = {
+    [LogLevel.Error]: `${Colors.red}${messagePrefixes[LogLevel.Error]}${
+        Colors.reset
+    }`,
+    [LogLevel.Warn]: `${Colors.yellow}${messagePrefixes[LogLevel.Warn]}${
+        Colors.reset
+    }`,
+    [LogLevel.Info]: `${Colors.cyan}${messagePrefixes[LogLevel.Info]}${
+        Colors.reset
+    }`,
+    [LogLevel.Verbose]: `${Colors.gray}${messagePrefixes[LogLevel.Verbose]}${
+        Colors.reset
+    }`,
 };
 
 /**
@@ -236,6 +251,11 @@ export class Logger {
  */
 export class ConsoleLogger extends Logger {
     /**
+     * Specifies if the logger is using color codes in its output.
+     */
+    usesColors = true;
+
+    /**
      * Print a log message.
      *
      * @param message  The message itself.
@@ -256,7 +276,11 @@ export class ConsoleLogger extends Logger {
             } as const
         )[level];
 
-        console[method](messagePrefixes[level] + message);
+        const prefix = this.usesColors
+            ? coloredMessagePrefixes[level]
+            : messagePrefixes[level];
+
+        console[method](prefix + message);
     }
 }
 
