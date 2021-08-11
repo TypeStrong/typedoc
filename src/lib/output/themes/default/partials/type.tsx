@@ -165,11 +165,7 @@ const typeRenderers: {
         const reflection = type.reflection;
 
         const name = reflection ? (
-            <a
-                href={context.relativeURL(reflection.url) || ""}
-                class="tsd-signature-type"
-                data-tsd-kind={reflection.kindString}
-            >
+            <a href={context.urlTo(reflection)} class="tsd-signature-type" data-tsd-kind={reflection.kindString}>
                 {reflection.name}
             </a>
         ) : (

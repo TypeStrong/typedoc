@@ -2,7 +2,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
 import type { ReferenceReflection } from "../../../../models";
 
-export const memberReference = ({ relativeURL }: DefaultThemeRenderContext, props: ReferenceReflection) => {
+export const memberReference = ({ urlTo }: DefaultThemeRenderContext, props: ReferenceReflection) => {
     const referenced = props.tryGetTargetReflectionDeep();
 
     if (!referenced) {
@@ -12,14 +12,14 @@ export const memberReference = ({ relativeURL }: DefaultThemeRenderContext, prop
     if (props.name === referenced.name) {
         return (
             <>
-                Re-exports <a href={relativeURL(referenced.url)}>{referenced.name}</a>
+                Re-exports <a href={urlTo(referenced)}>{referenced.name}</a>
             </>
         );
     }
 
     return (
         <>
-            Renames and re-exports <a href={relativeURL(referenced.url)}>{referenced.name}</a>
+            Renames and re-exports <a href={urlTo(referenced)}>{referenced.name}</a>
         </>
     );
 };

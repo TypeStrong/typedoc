@@ -63,13 +63,19 @@ export abstract class Theme extends RendererComponent {
 
     /**
      * Map the models of the given project to the desired output files.
+     * It is assumed that with the project structure:
+     * ```text
+     * A
+     * |- B
+     *    |- C
+     * ```
+     * If `B` has a UrlMapping, then `A` also has a UrlMapping, and `C` may or
+     * may not have a UrlMapping. If `B` does not have a UrlMapping, then `A`
+     * may or may not have a UrlMapping, but `C` must not have a UrlMapping.
      *
-     * Every theme must have an own implementation of this function, the default
-     * implementation always returns an empty array.
-     *
-     * @param project  The project whose urls should be generated.
-     * @returns        A list of {@link UrlMapping} instances defining which models
-     *                 should be rendered to which files.
+     * @param project The project whose urls should be generated.
+     * @returns A list of {@link UrlMapping} instances defining which models
+     * should be rendered to which files.
      */
     abstract getUrls(project: ProjectReflection): UrlMapping[];
 

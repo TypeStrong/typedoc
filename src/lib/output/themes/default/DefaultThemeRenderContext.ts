@@ -1,3 +1,4 @@
+import type { Reflection } from "../../../models";
 import type { MarkedPlugin } from "../MarkedPlugin";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
@@ -38,9 +39,12 @@ export class DefaultThemeRenderContext {
         this.markedHelpers = markedHelpers;
     }
 
+    /** Avoid this in favor of urlTo if possible */
     relativeURL = (url: string | undefined) => {
         return url ? this.markedHelpers.getRelativeUrl(url) : url;
     };
+
+    urlTo = (reflection: Reflection) => this.relativeURL(reflection.url);
 
     markdown = (md: string | undefined) => {
         return md ? this.markedHelpers.parseMarkdown(md) : "";

@@ -1,9 +1,6 @@
 import type { JSX } from "../../utils";
 import type { PageEvent } from "../events";
 
-/**
- *
- */
 export class UrlMapping<Model = any> {
     url: string;
 

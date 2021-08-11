@@ -20,8 +20,8 @@ export const typeAndParent = (context: DefaultThemeRenderContext, props: Type): 
 
         return (
             <>
-                {parent?.url ? <a href={context.relativeURL(parent.url)}>{parent.name}</a> : parent?.name}.
-                {refl?.url ? <a href={context.relativeURL(refl.url)}>{refl.name}</a> : refl?.name}
+                {parent?.url ? <a href={context.urlTo(parent)}>{parent.name}</a> : parent?.name}.
+                {refl?.url ? <a href={context.urlTo(refl)}>{refl.name}</a> : refl?.name}
             </>
         );
     }
