@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.22.0-beta.0",
+  "version": "0.22.0-beta.1",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -24,7 +24,7 @@
     "lunr": "^2.3.9",
     "marked": "^2.1.1",
     "minimatch": "^3.0.0",
-    "shiki": "^0.9.3"
+    "shiki": "0.9.3"
   },
   "peerDependencies": {
     "typescript": "4.0.x || 4.1.x || 4.2.x || 4.3.x"
