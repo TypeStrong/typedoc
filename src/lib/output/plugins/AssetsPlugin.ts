@@ -25,16 +25,8 @@ export class AssetsPlugin extends RendererComponent {
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event: RendererEvent) {
-        const src = Path.join(
-            __dirname,
-            "..",
-            "themes",
-            "bin",
-            "default",
-            "assets"
-        );
+        const src = Path.join(__dirname, "..", "..", "..", "..", "static");
         const dest = Path.join(event.outputDirectory, "assets");
         copySync(src, dest);
-        // TODO: Copy from active theme directory?
     }
 }

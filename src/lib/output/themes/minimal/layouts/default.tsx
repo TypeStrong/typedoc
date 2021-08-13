@@ -4,8 +4,8 @@ import type { Reflection } from "../../../../models";
 import { createElement, Raw } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import type { DefaultThemeRenderContext } from "../../default/DefaultThemeRenderContext";
-const inlineCss = readFileSync(resolve(__dirname, "../../bin/minimal/assets/css/main.css"), "utf8");
-const inlineJs = readFileSync(resolve(__dirname, "../../bin/minimal/assets/js/main.js"), "utf8");
+const inlineCss = readFileSync(resolve(__dirname, "../../../../../../static/style.css"), "utf8");
+const inlineJs = readFileSync(resolve(__dirname, "../../../../../../static/main.js"), "utf8");
 
 export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <>

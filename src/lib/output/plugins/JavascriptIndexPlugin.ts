@@ -90,7 +90,6 @@ export class JavascriptIndexPlugin extends RendererComponent {
         const jsonFileName = Path.join(
             event.outputDirectory,
             "assets",
-            "js",
             "search.js"
         );
         const jsonData = JSON.stringify({

@@ -1,4 +1,3 @@
-import { ok } from "assert";
 import * as fs from "fs";
 import { sync as glob } from "glob";
 import { platform } from "os";
@@ -29,7 +28,7 @@ async function main() {
         entryPoints: [src],
     });
     const project = app.convert();
-    ok(project);
+    if (!project) throw new Error("Failed to convert.");
     await app.generateDocs(project, baseDirectory);
 
     const browser = await puppeteer.launch({

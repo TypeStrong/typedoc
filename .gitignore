@@ -22,3 +22,6 @@ src/test/renderer/specs/specs.json
 # This is maintained in the typedoc-site repo, but might be created here
 # if someone is experimenting with the generate_changelog script.
 CHANGELOG.md
+
+# Built theme JS
+static/main.js

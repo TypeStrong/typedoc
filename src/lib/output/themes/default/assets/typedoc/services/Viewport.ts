@@ -1,5 +1,5 @@
 import { EventTarget } from "../EventTarget";
-import { throttle } from "../utils/trottle";
+import { throttle } from "../utils/throttle";
 
 /**
  * A global service that monitors the window size and scroll position.

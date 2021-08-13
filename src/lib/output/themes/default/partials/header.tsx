@@ -9,12 +9,7 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
         <div class="tsd-page-toolbar">
             <div class="container">
                 <div class="table-wrap">
-                    <div
-                        class="table-cell"
-                        id="tsd-search"
-                        data-index={context.relativeURL("assets/js/search.json")}
-                        data-base={context.relativeURL("./")}
-                    >
+                    <div class="table-cell" id="tsd-search" data-base={context.relativeURL("./")}>
                         <div class="field">
                             <label for="tsd-search-field" class="tsd-widget search no-caption">
                                 Search

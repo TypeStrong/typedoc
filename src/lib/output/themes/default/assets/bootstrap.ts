@@ -5,8 +5,6 @@ import { Signature } from "./typedoc/components/Signature";
 import { Toggle } from "./typedoc/components/Toggle";
 import { Filter } from "./typedoc/components/Filter";
 
-import "../../css/main.sass";
-
 initSearch();
 
 registerComponent(MenuHighlight, ".menu-highlight");

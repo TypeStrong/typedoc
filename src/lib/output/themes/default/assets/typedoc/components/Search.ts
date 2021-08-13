@@ -50,8 +50,8 @@ export function initSearch() {
         }
     }
 
-    const field = document.querySelector<HTMLInputElement>("#tsd-search-field");
-    const results = document.querySelector<HTMLElement>(".results");
+    const field = document.querySelector<HTMLInputElement>("#tsd-search input");
+    const results = document.querySelector<HTMLElement>("#tsd-search .results");
 
     if (!field || !results) {
         throw new Error(

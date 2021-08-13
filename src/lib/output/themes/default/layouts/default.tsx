@@ -21,8 +21,8 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
                 <meta name="description" content={"Documentation for " + props.project.name} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-                <link rel="stylesheet" href={context.relativeURL("assets/css/main.css")} />
-                <script async src={context.relativeURL("assets/js/search.js")} id="search-script"></script>
+                <link rel="stylesheet" href={context.relativeURL("assets/style.css")} />
+                <script async src={context.relativeURL("assets/search.js")} id="search-script"></script>
             </head>
             <body>
                 {context.header(props)}
@@ -68,7 +68,7 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
                 {context.footer(props)}
 
                 <div class="overlay"></div>
-                <script src={context.relativeURL("assets/js/main.js")}></script>
+                <script src={context.relativeURL("assets/main.js")}></script>
 
                 {context.analytics(props)}
             </body>

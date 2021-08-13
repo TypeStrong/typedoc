@@ -10,45 +10,10 @@ import type { Reflection } from "../models";
 /**
  * Base class of all themes.
  *
- * A theme defines the logical and graphical output of a documentation. Themes are
- * directories containing a ```theme.js``` file defining a {@link BaseTheme} subclass and a
- * series of subdirectories containing templates and assets. You can select a theme
- * through the ```--theme <path/to/theme>``` commandline argument.
- *
  * The theme class controls which files will be created through the {@link BaseTheme.getUrls}
  * function. It returns an array of {@link UrlMapping} instances defining the target files, models
  * and templates to use. Additionally themes can subscribe to the events emitted by
  * {@link Renderer} to control and manipulate the output process.
- *
- * The default file structure of a theme looks like this:
- *
- * - ```/assets/```<br>
- *   Contains static assets like stylesheets, images or javascript files used by the theme.
- *   The {@link AssetsPlugin} will deep copy this directory to the output directory.
- *
- * - ```/layouts/```<br>
- *   Contains layout templates that the {@link LayoutPlugin} wraps around the output of the
- *   page template. Currently only one ```default.hbs``` layout is supported. Layout templates
- *   receive the current {@link PageEvent} instance as their handlebars context. Place the
- *   ```{{{contents}}}``` variable to render the actual body of the document within this template.
- *
- * - ```/partials/```<br>
- *   Contains partial templates that can be used by other templates using handlebars partial
- *   syntax ```{{> partial-name}}```. The {@link PartialsPlugin} loads all files in this directory
- *   and combines them with the partials of the default theme.
- *
- * - ```/templates/```<br>
- *   Contains the main templates of the theme. The theme maps models to these templates through
- *   the {@link BaseTheme.getUrls} function. If the {@link Renderer.getTemplate} function cannot find a
- *   given template within this directory, it will try to find it in the default theme
- *   ```/templates/``` directory. Templates receive the current {@link PageEvent} instance as
- *   their handlebars context. You can access the target model through the ```{{model}}``` variable.
- *
- * - ```/theme.js```<br>
- *   A javascript file that returns the definition of a {@link Theme} subclass. This file will
- *   be executed within the context of TypeDoc, one may directly access all classes and functions
- *   of TypeDoc. If this file is not present, an instance of {@link DefaultTheme} will be used to render
- *   this theme.
  */
 @Component({ name: "theme", internal: true })
 export abstract class Theme extends RendererComponent {
