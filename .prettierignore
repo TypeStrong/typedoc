@@ -5,3 +5,4 @@ dist
 package-lock.json
 src/test/**/specs*.json
 src/test/renderer/specs
+static/main.js

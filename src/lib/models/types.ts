@@ -16,6 +16,13 @@ export abstract class Type {
      * Return a string representation of this type.
      */
     abstract toString(): string;
+
+    /**
+     * Visit this type, returning the value returned by the visitor.
+     */
+    visit<T>(visitor: TypeVisitor<T>): T {
+        return visitor[this.type](this as never);
+    }
 }
 
 export interface TypeKindMap {
@@ -40,6 +47,10 @@ export interface TypeKindMap {
     union: UnionType;
     unknown: UnknownType;
 }
+
+export type TypeVisitor<T = void> = {
+    [K in TypeKind]: (type: TypeKindMap[K]) => T;
+};
 
 export type TypeKind = keyof TypeKindMap;
 
