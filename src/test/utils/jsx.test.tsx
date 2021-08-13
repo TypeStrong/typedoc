@@ -30,6 +30,11 @@ describe("JSX", () => {
         equal(renderElement(<div id="main" />), '<div id="main"></div>');
     });
 
+    it("Does not render null or undefined attributes", () => {
+        equal(renderElement(<div data-foo={null} />), "<div></div>");
+        equal(renderElement(<div data-foo={void 0} />), "<div></div>");
+    });
+
     it("Handles false boolean attributes", () => {
         equal(renderElement(<details open={false} />), "<details></details>");
     });

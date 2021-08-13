@@ -73,6 +73,8 @@ export function renderElement(element: jsx.Element | null | undefined): string {
         html.push("<", tag);
 
         for (const [key, val] of Object.entries(props ?? {})) {
+            if (val == null) continue;
+
             if (typeof val == "boolean") {
                 if (val) {
                     html.push(" ", key);
