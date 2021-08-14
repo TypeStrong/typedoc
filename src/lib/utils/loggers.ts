@@ -253,7 +253,15 @@ export class ConsoleLogger extends Logger {
     /**
      * Specifies if the logger is using color codes in its output.
      */
-    usesColors = true;
+    private hasColoredOutput: boolean;
+
+    /**
+     * Create a new ConsoleLogger instance.
+     */
+    constructor() {
+        super();
+        this.hasColoredOutput = !("NO_COLOR" in process.env);
+    }
 
     /**
      * Print a log message.
@@ -276,7 +284,7 @@ export class ConsoleLogger extends Logger {
             } as const
         )[level];
 
-        const prefix = this.usesColors
+        const prefix = this.hasColoredOutput
             ? coloredMessagePrefixes[level]
             : messagePrefixes[level];
 
