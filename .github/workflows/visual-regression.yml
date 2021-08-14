@@ -1,0 +1,30 @@
+name: Visual Regression Testing
+on: [pull_request]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+            - uses: actions/checkout@v2
+            - name: Set up Node
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 16
+            - name: Upgrade npm
+              run: npm i -g npm@latest
+            - name: Get baseline screenshots
+              run: |
+                  git checkout beta
+                  npm ci
+                  npm run build
+                  node dist/test/capture-screenshots.js
+                  npm run test:visual:accept
+                  git checkout $GITHUB_SHA
+
+            - name: Get current screenshots
+              run: |
+                  npm ci
+                  npm run build
+                  node dist/test/capture-screenshots.js
+            - name: Test
+              run: npm run reg-suit run --test

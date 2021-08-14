@@ -8,5 +8,9 @@
             "invocationType": "client"
         }
     },
-    "plugins": {}
+    "plugins": {
+        "reg-notify-github-plugin": {
+            "clientId": "MzIwNDY0MzDWL6ksSE3JT9Y3tLAwNbKwNNQPAQoElxTl56UDAA=="
+        }
+    }
 }
