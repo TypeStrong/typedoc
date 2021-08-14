@@ -15,7 +15,7 @@ jobs:
             - name: Get baseline screenshots
               run: |
                   git fetch
-                  git checkout origin/beta
+                  git checkout origin/$GITHUB_BASE_REF
                   npm ci
                   npm run build
                   node dist/test/capture-screenshots.js

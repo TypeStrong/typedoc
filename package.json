@@ -72,7 +72,8 @@
     "build:prod:tsc": "tsc --project . --sourceMap false",
     "lint": "eslint . && prettier --check .",
     "prepublishOnly": "node scripts/set_strict.js false && npm run build:prod && npm test",
-    "postpublish": "node scripts/set_strict.js true"
+    "postpublish": "node scripts/set_strict.js true",
+    "reg-suit": "reg-suit"
   },
   "keywords": [
     "typescript",
