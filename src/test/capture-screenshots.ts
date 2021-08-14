@@ -5,6 +5,7 @@ import PQueue from "p-queue";
 import * as Path from "path";
 import * as puppeteer from "puppeteer";
 import { Application, TSConfigReader } from "..";
+import { remove } from "../lib/utils";
 
 const concurrency = 10;
 const src = Path.join(__dirname, "../../examples/basic/src");
@@ -27,9 +28,14 @@ async function main() {
         plugin: [],
         entryPoints: [src],
     });
-    const project = app.convert();
+    const entries = app.getEntryPointsForPaths([src]);
+    const project = app.converter.convert(entries);
     if (!project) throw new Error("Failed to convert.");
-    await app.generateDocs(project, baseDirectory);
+    await remove(outputDirectory);
+    await app.generateDocs(project, Path.join(baseDirectory, "default"));
+    delete app.renderer.theme;
+    app.options.setValue("theme", "minimal");
+    await app.generateDocs(project, Path.join(baseDirectory, "minimal"));
 
     const browser = await puppeteer.launch({
         args:
