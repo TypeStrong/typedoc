@@ -13,7 +13,7 @@ import { NavigationItem } from "../../models/NavigationItem";
 import { PageEvent, RendererEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
-import { renderElement } from "../../../utils";
+import { renderElement, JSX } from "../../../utils";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.
@@ -66,6 +66,13 @@ export class DefaultTheme extends Theme {
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>) => {
         return this.getRenderContext(pageEvent).defaultLayout(pageEvent);
     };
+
+    /**
+     * This is exposed so that the tests can swap it out for a stringify function.
+     * Don't touch. Should not be used in any other case.
+     * @internal
+     */
+    renderFunction = (element: JSX.Element | null | undefined) => "<!DOCTYPE html>" + renderElement(element);
 
     /**
      * Mappings of reflections kinds to templates used by this theme.
@@ -176,8 +183,7 @@ export class DefaultTheme extends Theme {
     private onRendererEndPage(page: PageEvent<Reflection>) {
         const layout = this.defaultLayoutTemplate;
         const templateOutput = layout(page);
-        page.contents =
-            typeof templateOutput === "string" ? templateOutput : "<!DOCTYPE html>" + renderElement(templateOutput);
+        page.contents = this.renderFunction(templateOutput);
     }
 
     /**

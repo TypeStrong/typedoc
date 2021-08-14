@@ -4,6 +4,8 @@ import Assert = require("assert");
 import { TSConfigReader } from "../lib/utils/options";
 import { readdirSync, readFileSync, statSync } from "fs";
 import { remove } from "../lib/utils/fs";
+import { RendererEvent } from "../lib/output/events";
+import type { DefaultTheme } from "../lib/output/themes/default/DefaultTheme";
 
 function getFileIndex(base: string, dir = "", results: string[] = []) {
     const files = readdirSync(Path.join(base, dir));
@@ -54,7 +56,25 @@ function compareDirectories(a: string, b: string) {
 describe("Renderer", function () {
     const src = Path.join(__dirname, "..", "..", "examples", "basic", "src");
     const out = Path.join(__dirname, "..", "tmp", "test");
-    let app: Application, project: ProjectReflection | undefined;
+    let project: ProjectReflection | undefined;
+
+    const app = new Application();
+    app.options.addReader(new TSConfigReader());
+    app.bootstrap({
+        logger: "console",
+        readme: Path.join(src, "..", "README.md"),
+        gaSite: "foo.com", // verify theme option without modifying output
+        name: "typedoc",
+        disableSources: true,
+        tsconfig: Path.join(src, "..", "tsconfig.json"),
+        plugin: [],
+        entryPoints: [src],
+    });
+
+    app.renderer.on(RendererEvent.BEGIN, () => {
+        (app.renderer.theme as DefaultTheme).renderFunction = (el) =>
+            JSON.stringify(el, null, 4);
+    });
 
     before(async function () {
         await remove(out);
@@ -62,21 +82,6 @@ describe("Renderer", function () {
 
     after(async function () {
         await remove(out);
-    });
-
-    it("constructs", function () {
-        app = new Application();
-        app.options.addReader(new TSConfigReader());
-        app.bootstrap({
-            logger: "console",
-            readme: Path.join(src, "..", "README.md"),
-            gaSite: "foo.com", // verify theme option without modifying output
-            name: "typedoc",
-            disableSources: true,
-            tsconfig: Path.join(src, "..", "tsconfig.json"),
-            plugin: [],
-        });
-        app.options.setValue("entryPoints", [src]);
     });
 
     it("converts basic example", function () {

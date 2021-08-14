@@ -6,6 +6,7 @@ const fs = require("fs");
 const { remove } = require("../dist/lib/utils/fs");
 const path = require("path");
 const TypeDoc = require("..");
+const { RendererEvent } = require("../dist/lib/output/events");
 
 const app = new TypeDoc.Application();
 app.options.addReader(new TypeDoc.TSConfigReader());
@@ -103,6 +104,12 @@ async function rebuildRendererTest() {
         gaSite: "foo.com",
         tsconfig: path.join(src, "..", "tsconfig.json"),
         externalPattern: ["**/node_modules/**"],
+    });
+
+    app.renderer.on(RendererEvent.BEGIN, () => {
+        /** @type {import("..").DefaultTheme} */ (
+            app.renderer.theme
+        ).renderFunction = (el) => JSON.stringify(el, null, 4);
     });
 
     app.options.setValue("entryPoints", [src]);
