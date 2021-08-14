@@ -14,7 +14,8 @@ jobs:
               run: npm i -g npm@latest
             - name: Get baseline screenshots
               run: |
-                  git checkout beta
+                  git pull
+                  git checkout origin/beta
                   npm ci
                   npm run build
                   node dist/test/capture-screenshots.js
