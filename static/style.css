@@ -1403,58 +1403,6 @@ blockquote {
     content: " / ";
 }
 
-html.minimal .container {
-    margin: 0;
-}
-html.minimal .container-main {
-    padding-top: 50px;
-    padding-bottom: 0;
-}
-html.minimal .content-wrap {
-    padding-left: 300px;
-}
-html.minimal .tsd-navigation {
-    position: fixed !important;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    box-sizing: border-box;
-    z-index: 1;
-    left: 0;
-    top: 40px;
-    bottom: 0;
-    width: 300px;
-    padding: 20px;
-    margin: 0;
-}
-html.minimal .tsd-member .tsd-member {
-    margin-left: 0;
-}
-html.minimal .tsd-page-toolbar {
-    position: fixed;
-    z-index: 2;
-}
-html.minimal #tsd-filter .tsd-filter-group {
-    right: 0;
-    transform: none;
-}
-html.minimal footer {
-    background-color: transparent;
-}
-html.minimal footer .container {
-    padding: 0;
-}
-html.minimal .tsd-generator {
-    padding: 0;
-}
-@media (max-width: 900px) {
-    html.minimal .tsd-navigation {
-        display: none;
-    }
-    html.minimal .content-wrap {
-        padding-left: 0;
-    }
-}
-
 dl.tsd-comment-tags {
     overflow: hidden;
 }

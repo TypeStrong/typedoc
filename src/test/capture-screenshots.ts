@@ -32,10 +32,7 @@ async function main() {
     const project = app.converter.convert(entries);
     if (!project) throw new Error("Failed to convert.");
     await remove(outputDirectory);
-    await app.generateDocs(project, Path.join(baseDirectory, "default"));
-    delete app.renderer.theme;
-    app.options.setValue("theme", "minimal");
-    await app.generateDocs(project, Path.join(baseDirectory, "minimal"));
+    await app.generateDocs(project, baseDirectory);
 
     const browser = await puppeteer.launch({
         args:

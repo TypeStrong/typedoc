@@ -21,7 +21,6 @@ import { Component, ChildableComponent } from "../utils/component";
 import { BindOption } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import type { Theme as ShikiTheme } from "shiki";
-import { MinimalTheme } from "./themes/minimal/MinimalTheme";
 import { Reflection } from "../models";
 
 /**
@@ -62,7 +61,6 @@ export class Renderer extends ChildableComponent<
 > {
     private themes = new Map<string, new (renderer: Renderer) => Theme>([
         ["default", DefaultTheme],
-        ["minimal", MinimalTheme],
     ]);
 
     /**
@@ -154,7 +152,6 @@ export class Renderer extends ChildableComponent<
             writeFileSync(page.filename, page.contents);
         } catch (error) {
             this.application.logger.error(`Could not write ${page.filename}`);
-            console.log(error);
             return false;
         }
 
