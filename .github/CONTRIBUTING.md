@@ -83,6 +83,15 @@ If you don't already have [Git] installed, install it first. You will need it to
     ```bash
     npm install
     ```
+1. Build:
+    ```bash
+    npm run build
+    ```
+1. Set up a baseline for visual theme testing:
+    ```bash
+    npm run test:visual
+    npm run test:visual:accept
+    ```
 1. Open the typedoc folder in your favorite editor. If you don't have one, try [Visual Studio Code][vscode] or [Atom]
 
 ## Linting, Building, and Testing
