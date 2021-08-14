@@ -1,8 +1,5 @@
 {
     "typescript.tsdk": "./node_modules/typescript/lib",
-    "files.associations": {
-        "**/src/test/renderer/**/*.html": "json"
-    },
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
