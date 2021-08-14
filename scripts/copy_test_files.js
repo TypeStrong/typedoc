@@ -6,7 +6,6 @@ const { join } = require("path");
 const toCopy = [
     "test/converter",
     "test/converter2",
-    "test/renderer",
     "test/module",
     "test/packages",
     "test/utils/options/readers/data",
