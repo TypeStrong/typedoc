@@ -1,8 +1,6 @@
 import * as ts from "typescript";
-import { format } from "util";
 import { url } from "inspector";
 import { resolve } from "path";
-import type { NeverIfInternal } from "./general";
 
 const isDebugging = () => !!url();
 
@@ -84,45 +82,13 @@ export class Logger {
     }
 
     /**
-     * @deprecated prefer Logger.info, will be removed in 0.22
-     */
-    write(text: NeverIfInternal<string>, ...args: string[]) {
-        this.deprecated("Logger.write is deprecated, prefer Logger.info");
-        this.log(format(text, ...args), LogLevel.Info);
-    }
-
-    /**
-     * @deprecated prefer Logger.info, will be removed in 0.22
-     */
-    writeln(text: NeverIfInternal<string>, ...args: string[]) {
-        this.deprecated("Logger.writeln is deprecated, prefer Logger.info");
-        this.log(format(text, ...args), LogLevel.Info);
-    }
-
-    /**
-     * @deprecated prefer Logger.info, will be removed in 0.22
-     */
-    success(text: NeverIfInternal<string>, ...args: string[]) {
-        this.deprecated("Logger.success is deprecated, prefer Logger.info");
-        this.log(format(text, ...args), LogLevel.Info);
-    }
-
-    /**
      * Log the given verbose message.
      *
      * @param text  The message that should be logged.
      * @param args  The arguments that should be printed into the given message.
      */
-    verbose(text: string): void;
-    /** @deprecated prefer signature without formatting, will be removed in 0.22 */
-    verbose(text: string, ...args: NeverIfInternal<string[]>): void;
-    verbose(text: string, ...args: string[]) {
-        if (args.length) {
-            this.deprecated(
-                "Logger.verbose: Providing formatting arguments is deprecated"
-            );
-        }
-        this.log(format(text, ...args), LogLevel.Verbose);
+    verbose(text: string) {
+        this.log(text, LogLevel.Verbose);
     }
 
     /** Log the given info message. */
@@ -136,16 +102,8 @@ export class Logger {
      * @param text  The warning that should be logged.
      * @param args  The arguments that should be printed into the given warning.
      */
-    warn(text: string): void;
-    /** @deprecated prefer signature without formatting, will be removed in 0.22 */
-    warn(text: string, ...args: NeverIfInternal<string[]>): void;
-    warn(text: string, ...args: string[]) {
-        if (args.length) {
-            this.deprecated(
-                "Logger.warn: Providing formatting arguments is deprecated"
-            );
-        }
-        this.log(format(text, ...args), LogLevel.Warn);
+    warn(text: string) {
+        this.log(text, LogLevel.Warn);
     }
 
     /**
@@ -154,16 +112,8 @@ export class Logger {
      * @param text  The error that should be logged.
      * @param args  The arguments that should be printed into the given error.
      */
-    error(text: string): void;
-    /** @deprecated prefer signature without formatting, will be removed in 0.22 */
-    error(text: string, ...args: NeverIfInternal<string[]>): void;
-    error(text: string, ...args: string[]) {
-        if (args.length) {
-            this.deprecated(
-                "Logger.error: Providing formatting arguments is deprecated"
-            );
-        }
-        this.log(format(text, ...args), LogLevel.Error);
+    error(text: string) {
+        this.log(text, LogLevel.Error);
     }
 
     /** @internal */

@@ -13,17 +13,7 @@ export function loadPlugins(app: Application, plugins: readonly string[]) {
         try {
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             const instance = require(plugin);
-            let initFunction = instance.load;
-
-            if (
-                typeof initFunction !== "function" &&
-                typeof instance === "function"
-            ) {
-                app.logger.deprecated(
-                    `${plugin} uses a deprecated structure. Plugins should export a "load" function to be called with the Application`
-                );
-                initFunction = instance;
-            }
+            const initFunction = instance.load;
 
             if (typeof initFunction === "function") {
                 initFunction(app);
