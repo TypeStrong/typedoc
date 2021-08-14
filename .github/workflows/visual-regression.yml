@@ -14,7 +14,7 @@ jobs:
               run: npm i -g npm@latest
             - name: Get baseline screenshots
               run: |
-                  git pull
+                  git fetch
                   git checkout origin/beta
                   npm ci
                   npm run build
