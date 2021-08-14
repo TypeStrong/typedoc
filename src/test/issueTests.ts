@@ -28,7 +28,7 @@ export const issueTests: Record<string, (project: ProjectReflection) => void> =
                 (r) => r.name === "Foo" && r.kind === ReflectionKind.Namespace
             );
             ok(nsFoo instanceof DeclarationReflection);
-            ok(nsFoo.children?.find((r) => r.name === "x"));
+            ok(nsFoo.children!.find((r) => r.name === "x"));
         },
 
         gh1124(project) {
