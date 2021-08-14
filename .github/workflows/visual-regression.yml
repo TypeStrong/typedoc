@@ -24,6 +24,7 @@ jobs:
 
             - name: Get current screenshots
               run: |
+                  git checkout ${GITHUB_REF#refs/heads/} || git checkout -b ${GITHUB_REF#refs/heads/} && git pull
                   npm ci
                   npm run build
                   node dist/test/capture-screenshots.js
