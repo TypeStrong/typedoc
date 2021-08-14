@@ -20,11 +20,10 @@ jobs:
                   npm run build
                   node dist/test/capture-screenshots.js
                   npm run test:visual:accept
-                  git checkout $GITHUB_SHA
 
             - name: Get current screenshots
               run: |
-                  git checkout ${GITHUB_REF#refs/heads/} || git checkout -b ${GITHUB_REF#refs/heads/} && git pull
+                  git checkout $GITHUB_HEAD_REF
                   npm ci
                   npm run build
                   node dist/test/capture-screenshots.js
