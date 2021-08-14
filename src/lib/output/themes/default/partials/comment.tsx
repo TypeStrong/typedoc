@@ -9,7 +9,7 @@ export function comment({ markdown }: DefaultThemeRenderContext, props: Reflecti
         <div class="tsd-comment tsd-typography">
             {!!props.comment.shortText && (
                 <div class="lead">
-					Break it
+                    Break it
                     <Raw html={"\n" + markdown(props.comment.shortText)} />
                 </div>
             )}
