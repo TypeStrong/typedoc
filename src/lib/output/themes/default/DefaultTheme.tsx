@@ -51,7 +51,7 @@ export class DefaultTheme extends Theme {
     protected _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin);
+            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin, this.application.options);
         }
         return this._renderContext;
     }

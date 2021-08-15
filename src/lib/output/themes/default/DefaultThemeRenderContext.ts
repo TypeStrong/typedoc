@@ -1,4 +1,5 @@
 import type { Reflection } from "../../../models";
+import type { Options } from "../../../utils";
 import type { MarkedPlugin } from "../MarkedPlugin";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
@@ -32,9 +33,11 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 
 export class DefaultThemeRenderContext {
     markedHelpers: MarkedPlugin;
+    options: Options;
 
-    constructor(markedHelpers: MarkedPlugin) {
+    constructor(markedHelpers: MarkedPlugin, options: Options) {
         this.markedHelpers = markedHelpers;
+        this.options = options;
     }
 
     /** Avoid this in favor of urlTo if possible */

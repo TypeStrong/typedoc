@@ -109,7 +109,6 @@ export class Renderer extends ChildableComponent<
             outputDirectory,
             project
         );
-        output.settings = this.application.options.getRawValues();
         output.urls = this.theme!.getUrls(project);
 
         this.trigger(output);

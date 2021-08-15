@@ -4,7 +4,6 @@ import { Event } from "../utils/events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
 import type { LegendItem } from "./plugins/LegendPlugin";
-import type { TypeDocOptions } from "../utils";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -18,11 +17,6 @@ export class RendererEvent extends Event {
      * The project the renderer is currently processing.
      */
     readonly project: ProjectReflection;
-
-    /**
-     * The settings that have been passed to TypeDoc.
-     */
-    settings: Readonly<Partial<TypeDocOptions>> = {};
 
     /**
      * The path of the directory the documentation should be written to.
@@ -70,7 +64,6 @@ export class RendererEvent extends Event {
     ): PageEvent<Model> {
         const event = new PageEvent<Model>(PageEvent.BEGIN);
         event.project = this.project;
-        event.settings = this.settings;
         event.url = mapping.url;
         event.model = mapping.model;
         event.template = mapping.template;
@@ -91,11 +84,6 @@ export class PageEvent<Model = unknown> extends Event {
      * The project the renderer is currently processing.
      */
     project!: ProjectReflection;
-
-    /**
-     * The settings that have been passed to TypeDoc.
-     */
-    settings!: Readonly<Partial<TypeDocOptions>>;
 
     /**
      * The filename the page will be written to.

@@ -1,10 +1,10 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { createElement } from "../../../../utils";
-import type { PageEvent } from "../../../events";
-import type { Reflection } from "../../../../models";
 
-export function analytics(_ctx: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
-    if (!props.settings.gaID) return;
+export function analytics(context: DefaultThemeRenderContext) {
+    const gaID = context.options.getValue("gaID");
+    const gaSite = context.options.getValue("gaSite");
+    if (!gaID) return;
 
     return (
         <script>
@@ -13,8 +13,8 @@ export function analytics(_ctx: DefaultThemeRenderContext, props: PageEvent<Refl
             (i[r].q=i[r].q||[]).push(arguments){"}"},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             {"}"}
-            )(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', '
-            {props.settings.gaID}', '{props.settings.gaSite}'); ga('send', 'pageview');
+            )(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', '{gaID}', '{gaSite}
+            '); ga('send', 'pageview');
         </script>
     );
 }

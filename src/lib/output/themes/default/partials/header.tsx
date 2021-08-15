@@ -47,7 +47,7 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
                                 <label class="tsd-widget" for="tsd-filter-inherited">
                                     Inherited
                                 </label>
-                                {!props.settings.excludeExternals && (
+                                {!context.options.getValue("excludeExternals") && (
                                     <>
                                         <input type="checkbox" id="tsd-filter-externals" checked={true} />
                                         <label class="tsd-widget" for="tsd-filter-externals">
