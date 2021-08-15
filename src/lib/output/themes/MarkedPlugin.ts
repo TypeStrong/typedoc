@@ -22,26 +22,7 @@ customMarkedRenderer.heading = (text, level, _, slugger) => {
 
 /**
  * Implements markdown and relativeURL helpers for templates.
- *
- * Templates should parse all comments with the markdown handler so authors can
- * easily format their documentation. TypeDoc uses the Marked (https://github.com/markedjs/marked)
- * markdown parser and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight
- * code blocks within markdown sections. Additionally this plugin allows to link to other symbols
- * using double angle brackets.
- *
- * You can use the markdown helper anywhere in the templates to convert content to html:
- *
- * ```typescriptreact
- * <div dangerouslySetInnerHTML={{__html: markdown(markdownText)}}></div>
- * ```
- *
- * The relativeURL helper simply transforms an absolute url into a relative url:
- *
- * ```handlebars
- * {{#relativeURL url}}
- * ```
  */
-
 @Component({ name: "marked" })
 export class MarkedPlugin extends ContextAwareRendererComponent {
     @BindOption("includes")
@@ -113,7 +94,6 @@ output file :
      * Parse the given markdown string and return the resulting html.
      *
      * @param text  The markdown string that should be parsed.
-     * @param context  The current handlebars context.
      * @returns The resulting html string.
      */
     public parseMarkdown(text: string) {

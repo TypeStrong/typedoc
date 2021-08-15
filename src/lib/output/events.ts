@@ -83,8 +83,6 @@ export class RendererEvent extends Event {
  * An event emitted by the {@link Renderer} class before and after the
  * markup of a page is rendered.
  *
- * This object will be passed as the rendering context to handlebars templates.
- *
  * @see {@link Renderer.EVENT_BEGIN_PAGE}
  * @see {@link Renderer.EVENT_END_PAGE}
  */
