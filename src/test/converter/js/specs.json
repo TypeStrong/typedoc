@@ -1,13 +1,13 @@
 {
   "id": 0,
   "name": "typedoc",
-  "kind": 0,
+  "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "export-eq-type",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "comment": {},
@@ -81,7 +81,7 @@
     {
       "id": 6,
       "name": "index",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "comment": {},
@@ -670,7 +670,7 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 1,
+      "kind": 2,
       "children": [
         1,
         6

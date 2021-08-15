@@ -103,7 +103,7 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
         </ul>
     );
 
-    if (props.model.kindOf(ReflectionKind.SomeModule) || props.model.kind === ReflectionKind.Project) {
+    if (props.model.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
         return <nav class="tsd-navigation secondary menu-sticky">{pageNavigation}</nav>;
     }
 

@@ -1,13 +1,13 @@
 {
   "id": 0,
   "name": "typedoc",
-  "kind": 0,
+  "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 14,
       "name": "export",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -84,7 +84,7 @@
         {
           "id": 23,
           "name": "GH1453",
-          "kind": 2,
+          "kind": 4,
           "kindString": "Namespace",
           "flags": {},
           "children": [
@@ -275,7 +275,7 @@
         },
         {
           "title": "Namespaces",
-          "kind": 2,
+          "kind": 4,
           "children": [
             23
           ]
@@ -293,7 +293,7 @@
     {
       "id": 1,
       "name": "export-assignment",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -355,7 +355,7 @@
     {
       "id": 6,
       "name": "export-default",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -387,7 +387,7 @@
     {
       "id": 8,
       "name": "export-with-local",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -470,7 +470,7 @@
     {
       "id": 29,
       "name": "mod",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "comment": {
@@ -596,7 +596,7 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 1,
+      "kind": 2,
       "children": [
         14,
         1,

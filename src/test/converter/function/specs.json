@@ -1,20 +1,20 @@
 {
   "id": 0,
   "name": "typedoc",
-  "kind": 0,
+  "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "function",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 58,
           "name": "merged",
-          "kind": 2,
+          "kind": 4,
           "kindString": "Namespace",
           "flags": {},
           "children": [
@@ -52,7 +52,7 @@
         {
           "id": 33,
           "name": "moduleFunction",
-          "kind": 2,
+          "kind": 4,
           "kindString": "Namespace",
           "flags": {},
           "comment": {
@@ -1274,7 +1274,7 @@
       "groups": [
         {
           "title": "Namespaces",
-          "kind": 2,
+          "kind": 4,
           "children": [
             58,
             33
@@ -1313,7 +1313,7 @@
     {
       "id": 94,
       "name": "generic-function",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -1507,7 +1507,7 @@
     {
       "id": 108,
       "name": "implicit-types",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -1675,7 +1675,7 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 1,
+      "kind": 2,
       "children": [
         1,
         94,

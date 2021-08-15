@@ -1,14 +1,14 @@
 {
   "id": 0,
   "name": "typedoc",
-  "kind": 0,
+  "kind": 1,
   "kindString": "Project",
   "flags": {},
   "children": [
     {
       "id": 9,
       "name": "ModuleEnum",
-      "kind": 2,
+      "kind": 4,
       "kindString": "Namespace",
       "flags": {},
       "comment": {
@@ -75,7 +75,7 @@
     {
       "id": 13,
       "name": "ConstEnum",
-      "kind": 4,
+      "kind": 8,
       "kindString": "Enumeration",
       "flags": {
         "isConst": true
@@ -115,7 +115,7 @@
     {
       "id": 5,
       "name": "ModuleEnum",
-      "kind": 4,
+      "kind": 8,
       "kindString": "Enumeration",
       "flags": {},
       "comment": {
@@ -171,7 +171,7 @@
     {
       "id": 1,
       "name": "SimpleEnum",
-      "kind": 4,
+      "kind": 8,
       "kindString": "Enumeration",
       "flags": {},
       "comment": {
@@ -228,14 +228,14 @@
   "groups": [
     {
       "title": "Namespaces",
-      "kind": 2,
+      "kind": 4,
       "children": [
         9
       ]
     },
     {
       "title": "Enumerations",
-      "kind": 4,
+      "kind": 8,
       "children": [
         13,
         5,

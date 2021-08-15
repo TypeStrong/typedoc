@@ -1,13 +1,13 @@
 {
   "id": 0,
   "name": "typedoc",
-  "kind": 0,
+  "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "access",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -302,14 +302,14 @@
     {
       "id": 21,
       "name": "class",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 59,
           "name": "TestSubClass",
-          "kind": 2,
+          "kind": 4,
           "kindString": "Namespace",
           "flags": {},
           "children": [
@@ -1482,7 +1482,7 @@
       "groups": [
         {
           "title": "Namespaces",
-          "kind": 2,
+          "kind": 4,
           "children": [
             59
           ]
@@ -1512,7 +1512,7 @@
     {
       "id": 93,
       "name": "constructor-properties",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -1870,7 +1870,7 @@
     {
       "id": 114,
       "name": "decorators",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -2206,7 +2206,7 @@
     {
       "id": 160,
       "name": "events",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -2287,7 +2287,7 @@
     {
       "id": 133,
       "name": "events-overloads",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -2645,7 +2645,7 @@
     {
       "id": 165,
       "name": "generic-class",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -3017,7 +3017,7 @@
     {
       "id": 184,
       "name": "getter-setter",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -3202,7 +3202,7 @@
     {
       "id": 198,
       "name": "this",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -3296,7 +3296,7 @@
     {
       "id": 204,
       "name": "type-operator",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
@@ -3494,7 +3494,7 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 1,
+      "kind": 2,
       "children": [
         1,
         21,

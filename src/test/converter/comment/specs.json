@@ -1,13 +1,13 @@
 {
   "id": 0,
   "name": "typedoc",
-  "kind": 0,
+  "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "comment",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "comment": {
@@ -156,7 +156,7 @@
     {
       "id": 26,
       "name": "comment2",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "comment": {
@@ -221,7 +221,7 @@
     {
       "id": 31,
       "name": "comment3",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "comment": {
@@ -286,7 +286,7 @@
     {
       "id": 36,
       "name": "comment4",
-      "kind": 1,
+      "kind": 2,
       "kindString": "Module",
       "flags": {},
       "comment": {
@@ -352,7 +352,7 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 1,
+      "kind": 2,
       "children": [
         1,
         26,
