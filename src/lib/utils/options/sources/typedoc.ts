@@ -230,6 +230,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "hideLegend",
+        help: "Do not print the Legend for icons at the end of the page.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "cleanOutputDir",
         help: "If set, TypeDoc will remove the output directory before writing output.",
         type: ParameterType.Boolean,
