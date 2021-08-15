@@ -192,10 +192,19 @@ function setCurrentResult(results: HTMLElement, dir: number) {
             current.classList.add("current");
         }
     } else {
-        const rel =
-            dir == 1
-                ? current.nextElementSibling
-                : current.previousElementSibling;
+        let rel: Element | undefined = current;
+        // Tricky: We have to check that rel has an offsetParent so that users can't mark a hidden result as
+        // current with the arrow keys.
+        if (dir === 1) {
+            do {
+                rel = rel.nextElementSibling;
+            } while (rel instanceof HTMLElement && rel.offsetParent == null);
+        } else {
+            do {
+                rel = rel.previousElementSibling;
+            } while (rel instanceof HTMLElement && rel.offsetParent == null);
+        }
+
         if (rel) {
             current.classList.remove("current");
             rel.classList.add("current");
