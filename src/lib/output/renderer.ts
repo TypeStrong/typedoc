@@ -83,9 +83,6 @@ export class Renderer extends ChildableComponent<
     @BindOption("hideGenerator")
     hideGenerator!: boolean;
 
-    @BindOption("toc")
-    toc!: string[];
-
     @BindOption("highlightTheme")
     highlightTheme!: ShikiTheme;
 

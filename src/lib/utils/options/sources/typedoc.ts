@@ -230,11 +230,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "toc",
-        help: "Define the contents of the top level table of contents as a comma-separated list of global symbols.",
-        type: ParameterType.Array,
-    });
-    options.addDeclaration({
         name: "cleanOutputDir",
         help: "If set, TypeDoc will remove the output directory before writing output.",
         type: ParameterType.Boolean,

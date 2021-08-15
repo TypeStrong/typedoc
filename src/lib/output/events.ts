@@ -3,7 +3,6 @@ import * as Path from "path";
 import { Event } from "../utils/events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
-import type { NavigationItem } from "./models/NavigationItem";
 import type { LegendItem } from "./plugins/LegendPlugin";
 import type { TypeDocOptions } from "../utils";
 
@@ -119,16 +118,6 @@ export class PageEvent<Model = unknown> extends Event {
      * The template that should be used to render this page.
      */
     template!: RenderTemplate<this>;
-
-    /**
-     * The primary navigation structure of this page.
-     */
-    navigation?: NavigationItem;
-
-    /**
-     * The table of contents structure of this page.
-     */
-    toc?: NavigationItem;
 
     /**
      * The legend items that are applicable for this page

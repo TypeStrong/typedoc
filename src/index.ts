@@ -6,11 +6,7 @@ export { normalizePath } from "./lib/utils/fs";
 export * from "./lib/models/reflections";
 export { Converter } from "./lib/converter";
 export { Renderer } from "./lib/output/renderer";
-export {
-    DefaultTheme,
-    NavigationBuilder,
-} from "./lib/output/themes/default/DefaultTheme";
-export { NavigationItem } from "./lib/output/models/NavigationItem";
+export { DefaultTheme } from "./lib/output/themes/default/DefaultTheme";
 export { UrlMapping } from "./lib/output/models/UrlMapping";
 
 export {

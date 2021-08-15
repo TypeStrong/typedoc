@@ -1,7 +1,6 @@
 import type { Renderer } from "./renderer";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { UrlMapping } from "./models/UrlMapping";
-import type { NavigationItem } from "./models/NavigationItem";
 import { RendererComponent } from "./components";
 import { Component } from "../utils/component";
 import type { PageEvent } from "./events";
@@ -43,21 +42,6 @@ export abstract class Theme extends RendererComponent {
      * should be rendered to which files.
      */
     abstract getUrls(project: ProjectReflection): UrlMapping[];
-
-    /**
-     * Create a navigation structure for the given project.
-     *
-     * A navigation is a tree structure consisting of {@link NavigationItem} nodes. This
-     * function should return the root node of the desired navigation tree.
-     *
-     * The {@link NavigationPlugin} will call this hook before a project will be rendered.
-     * The plugin will update the state of the navigation tree and pass it to the
-     * templates.
-     *
-     * @param project  The project whose navigation should be generated.
-     * @returns        The root navigation item.
-     */
-    abstract getNavigation(project: ProjectReflection): NavigationItem;
 
     /**
      * Renders the provided page to a string, which will be written to disk by the {@link Renderer}

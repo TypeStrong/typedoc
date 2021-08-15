@@ -74,7 +74,6 @@ export interface TypeDocOptionMap {
     gaID: string;
     gaSite: string;
     hideGenerator: boolean;
-    toc: string[];
     cleanOutputDir: boolean;
 
     help: boolean;

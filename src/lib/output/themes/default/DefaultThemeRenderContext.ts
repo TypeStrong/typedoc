@@ -20,8 +20,6 @@ import { members } from "./partials/members";
 import { membersGroup } from "./partials/members.group";
 import { navigation } from "./partials/navigation";
 import { parameter } from "./partials/parameter";
-import { toc } from "./partials/toc";
-import { tocRoot } from "./partials/toc.root";
 import { type } from "./partials/type";
 import { typeAndParent } from "./partials/typeAndParent";
 import { typeParameters } from "./partials/typeParameters";
@@ -73,8 +71,6 @@ export class DefaultThemeRenderContext {
     membersGroup = bind(membersGroup, this);
     navigation = bind(navigation, this);
     parameter = bind(parameter, this);
-    toc = bind(toc, this);
-    tocRoot = bind(tocRoot, this);
     type = bind(type, this);
     typeAndParent = bind(typeAndParent, this);
     typeParameters = bind(typeParameters, this);
