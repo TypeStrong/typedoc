@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import type { Type, TypeKindMap } from "../../../../models";
+import { ReflectionKind, Type, TypeKindMap } from "../../../../models";
 import { createElement, JSX } from "../../../../utils";
 import { join, stringify } from "../../lib";
 
@@ -164,13 +164,30 @@ const typeRenderers: {
     reference(context, type) {
         const reflection = type.reflection;
 
-        const name = reflection ? (
-            <a href={context.urlTo(reflection)} class="tsd-signature-type" data-tsd-kind={reflection.kindString}>
-                {reflection.name}
-            </a>
-        ) : (
-            <span class="tsd-signature-type">{type.name}</span>
-        );
+        let name: JSX.Element;
+
+        if (reflection) {
+            if (reflection.kindOf(ReflectionKind.TypeParameter)) {
+                // Don't generate a link will always point to this page, but do set the kind.
+                name = (
+                    <span class="tsd-signature-type" data-tsd-kind={reflection.kindString}>
+                        {reflection.name}
+                    </span>
+                );
+            } else {
+                name = (
+                    <a
+                        href={context.urlTo(reflection)}
+                        class="tsd-signature-type"
+                        data-tsd-kind={reflection.kindString}
+                    >
+                        {reflection.name}
+                    </a>
+                );
+            }
+        } else {
+            name = <span class="tsd-signature-type">{type.name}</span>;
+        }
 
         if (type.typeArguments?.length) {
             return (

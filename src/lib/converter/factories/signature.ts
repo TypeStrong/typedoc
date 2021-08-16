@@ -244,7 +244,7 @@ function convertTypeParameters(
             defaultType,
             parent
         );
-        context.registerReflection(paramRefl, undefined);
+        context.registerReflection(paramRefl, param.getSymbol());
         context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
 
         return paramRefl;
@@ -268,7 +268,7 @@ export function convertTypeParameterNodes(
             defaultType,
             context.scope
         );
-        context.registerReflection(paramRefl, undefined);
+        context.registerReflection(paramRefl, param.symbol);
         context.trigger(
             ConverterEvents.CREATE_TYPE_PARAMETER,
             paramRefl,

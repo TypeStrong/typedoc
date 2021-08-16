@@ -270,15 +270,15 @@ export class ReflectionFlags extends Array<string> {
     }
 }
 
-export interface DefaultValueContainer extends Reflection {
+export interface DefaultValueContainer {
     defaultValue?: string;
 }
 
-export interface TypeContainer extends Reflection {
+export interface TypeContainer {
     type?: Type;
 }
 
-export interface TypeParameterContainer extends Reflection {
+export interface TypeParameterContainer {
     typeParameters?: TypeParameterReflection[];
 }
 

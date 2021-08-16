@@ -90,6 +90,8 @@ async function run(app) {
         return ExitCodes.CompileError;
     }
 
+    app.validate(project);
+
     const out = app.options.getValue("out");
     if (out) {
         await app.generateDocs(project, out);

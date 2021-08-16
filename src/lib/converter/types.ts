@@ -364,12 +364,20 @@ const importType: TypeConverter<ts.ImportTypeNode> = {
         const name = node.qualifier?.getText() ?? "__module";
         const symbol = context.checker.getSymbolAtLocation(node);
         assert(symbol, "Missing symbol when converting import type node");
-        return new ReferenceType(name, symbol, context.project);
+        return new ReferenceType(
+            name,
+            context.resolveAliasedSymbol(symbol),
+            context.project
+        );
     },
     convertType(context, type) {
         const symbol = type.getSymbol();
         assert(symbol, "Missing symbol when converting import type"); // Should be a compiler error
-        return new ReferenceType("__module", symbol, context.project);
+        return new ReferenceType(
+            "__module",
+            context.resolveAliasedSymbol(symbol),
+            context.project
+        );
     },
 };
 

@@ -52,6 +52,98 @@ export type TypeVisitor<T = void> = {
     [K in TypeKind]: (type: TypeKindMap[K]) => T;
 };
 
+export function makeRecursiveVisitor(
+    visitor: Partial<TypeVisitor>
+): TypeVisitor {
+    const recursiveVisitor: TypeVisitor = {
+        "named-tuple-member"(type) {
+            visitor["named-tuple-member"]?.(type);
+            type.element.visit(recursiveVisitor);
+        },
+        "template-literal"(type) {
+            visitor["template-literal"]?.(type);
+            for (const [h] of type.tail) {
+                h.visit(recursiveVisitor);
+            }
+        },
+        array(type) {
+            visitor.array?.(type);
+            type.elementType.visit(recursiveVisitor);
+        },
+        conditional(type) {
+            visitor.conditional?.(type);
+            type.checkType.visit(recursiveVisitor);
+            type.extendsType.visit(recursiveVisitor);
+            type.trueType.visit(recursiveVisitor);
+            type.falseType.visit(recursiveVisitor);
+        },
+        indexedAccess(type) {
+            visitor.indexedAccess?.(type);
+            type.indexType.visit(recursiveVisitor);
+            type.objectType.visit(recursiveVisitor);
+        },
+        inferred(type) {
+            visitor.inferred?.(type);
+        },
+        intersection(type) {
+            type.types.forEach((t) => t.visit(recursiveVisitor));
+        },
+        intrinsic(type) {
+            visitor.intrinsic?.(type);
+        },
+        literal(type) {
+            visitor.literal?.(type);
+        },
+        mapped(type) {
+            visitor.mapped?.(type);
+            type.nameType?.visit(recursiveVisitor);
+            type.parameterType.visit(recursiveVisitor);
+            type.templateType.visit(recursiveVisitor);
+        },
+        optional(type) {
+            visitor.optional?.(type);
+            type.elementType.visit(recursiveVisitor);
+        },
+        predicate(type) {
+            visitor.predicate?.(type);
+            type.targetType?.visit(recursiveVisitor);
+        },
+        query(type) {
+            visitor.query?.(type);
+            type.queryType.visit(recursiveVisitor);
+        },
+        reference(type) {
+            visitor.reference?.(type);
+            type.typeArguments?.forEach((t) => t.visit(recursiveVisitor));
+        },
+        reflection(type) {
+            visitor.reflection?.(type);
+            // Future: This should maybe recurse too?
+            // See the validator in exports.ts for how to do it.
+        },
+        rest(type) {
+            visitor.rest?.(type);
+            type.elementType.visit(recursiveVisitor);
+        },
+        tuple(type) {
+            visitor.tuple?.(type);
+            type.elements.forEach((t) => t.visit(recursiveVisitor));
+        },
+        typeOperator(type) {
+            visitor.typeOperator?.(type);
+            type.target.visit(recursiveVisitor);
+        },
+        union(type) {
+            visitor.union?.(type);
+            type.types.forEach((t) => t.visit(recursiveVisitor));
+        },
+        unknown(type) {
+            visitor.unknown?.(type);
+        },
+    };
+    return recursiveVisitor;
+}
+
 export type TypeKind = keyof TypeKindMap;
 
 export type SomeType = TypeKindMap[keyof TypeKindMap];
@@ -418,6 +510,13 @@ export class ReferenceType extends Type {
         const resolved = this._project?.getReflectionFromSymbol(this._target);
         if (resolved) this._target = resolved.id;
         return resolved;
+    }
+
+    getSymbol(): ts.Symbol | undefined {
+        if (typeof this._target === "number") {
+            return;
+        }
+        return this._target;
     }
 
     private _target: ts.Symbol | number;

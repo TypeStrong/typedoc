@@ -35,6 +35,7 @@ import {
     ignorePackage,
     loadPackageManifest,
 } from "./utils/package-manifest";
+import { validateExports } from "./validation/exports";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -506,6 +507,10 @@ export class Application extends ChildableComponent<
         };
 
         ts.createWatchProgram(host);
+    }
+
+    validate(project: ProjectReflection) {
+        validateExports(project, this.logger);
     }
 
     /**

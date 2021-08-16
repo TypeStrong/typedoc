@@ -601,19 +601,19 @@ footer .tsd-legend {
     margin-bottom: 0;
     border-bottom: none;
 }
-.tsd-member a[data-tsd-kind] {
+.tsd-member [data-tsd-kind] {
     color: var(--color-ts);
 }
-.tsd-member a[data-tsd-kind="Interface"] {
+.tsd-member [data-tsd-kind="Interface"] {
     color: var(--color-ts-interface);
 }
-.tsd-member a[data-tsd-kind="Enum"] {
+.tsd-member [data-tsd-kind="Enum"] {
     color: var(--color-ts-enum);
 }
-.tsd-member a[data-tsd-kind="Class"] {
+.tsd-member [data-tsd-kind="Class"] {
     color: var(--color-ts-class);
 }
-.tsd-member a[data-tsd-kind="Private"] {
+.tsd-member [data-tsd-kind="Private"] {
     color: var(--color-ts-private);
 }
 
