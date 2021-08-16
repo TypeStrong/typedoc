@@ -198,6 +198,7 @@
                   "operator": "keyof",
                   "target": {
                     "type": "reference",
+                    "id": 23,
                     "name": "T"
                   }
                 },
@@ -215,6 +216,7 @@
               },
               "objectType": {
                 "type": "reference",
+                "id": 23,
                 "name": "T"
               }
             },
@@ -263,6 +265,7 @@
               "operator": "keyof",
               "target": {
                 "type": "reference",
+                "id": 21,
                 "name": "T"
               }
             },
@@ -274,6 +277,7 @@
               },
               "objectType": {
                 "type": "reference",
+                "id": 21,
                 "name": "T"
               }
             }
@@ -310,6 +314,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "id": 18,
                     "name": "T"
                   }
                 }
@@ -329,6 +334,7 @@
                   },
                   "objectType": {
                     "type": "reference",
+                    "id": 18,
                     "name": "T"
                   }
                 },
@@ -387,6 +393,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "id": 14,
                     "name": "T"
                   }
                 }

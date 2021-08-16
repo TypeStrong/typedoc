@@ -27,6 +27,7 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
+          "id": 9,
           "name": "T"
         },
         "extendsType": {
@@ -65,6 +66,7 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
+          "id": 11,
           "name": "T"
         },
         "extendsType": {
@@ -83,6 +85,7 @@
         },
         "falseType": {
           "type": "reference",
+          "id": 11,
           "name": "T"
         }
       }
@@ -132,6 +135,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "id": 6,
                     "name": "T"
                   }
                 },
@@ -143,6 +147,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "id": 6,
                     "name": "T"
                   }
                 }

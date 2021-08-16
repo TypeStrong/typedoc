@@ -882,6 +882,7 @@
               ],
               "type": {
                 "type": "reference",
+                "id": 10,
                 "name": "A"
               }
             }
@@ -949,6 +950,7 @@
               ],
               "type": {
                 "type": "reference",
+                "id": 5,
                 "name": "A"
               }
             }
@@ -987,6 +989,7 @@
             "typeArguments": [
               {
                 "type": "reference",
+                "id": 12,
                 "name": "T"
               }
             ],
@@ -1081,6 +1084,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
+                "id": 21,
                 "name": "T"
               }
             }
@@ -1118,6 +1122,7 @@
               },
               {
                 "type": "reference",
+                "id": 21,
                 "name": "T"
               }
             ]
@@ -1183,6 +1188,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
+                "id": 35,
                 "name": "T"
               }
             }
@@ -1220,6 +1226,7 @@
               },
               {
                 "type": "reference",
+                "id": 35,
                 "name": "T"
               }
             ]
@@ -1274,6 +1281,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
+                "id": 53,
                 "name": "T"
               }
             }
@@ -1311,6 +1319,7 @@
               },
               {
                 "type": "reference",
+                "id": 53,
                 "name": "T"
               }
             ]
