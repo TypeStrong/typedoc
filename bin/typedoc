@@ -8,8 +8,9 @@ const ExitCodes = {
     OptionError: 1,
     NoEntryPoints: 2,
     CompileError: 3,
-    OutputError: 4,
-    ExceptionThrown: 5,
+    ValidationError: 4,
+    OutputError: 5,
+    ExceptionThrown: 6,
 };
 
 const td = require("..");
@@ -89,8 +90,23 @@ async function run(app) {
     if (!project) {
         return ExitCodes.CompileError;
     }
+    if (
+        app.options.getValue("treatWarningsAsErrors") &&
+        app.logger.hasWarnings()
+    ) {
+        return ExitCodes.CompileError;
+    }
 
     app.validate(project);
+    if (app.logger.hasErrors()) {
+        return ExitCodes.ValidationError;
+    }
+    if (
+        app.options.getValue("treatWarningsAsErrors") &&
+        app.logger.hasWarnings()
+    ) {
+        return ExitCodes.ValidationError;
+    }
 
     const out = app.options.getValue("out");
     if (out) {

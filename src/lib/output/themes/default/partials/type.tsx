@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { ReflectionKind, Type, TypeKindMap } from "../../../../models";
-import { createElement, JSX } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import { join, stringify } from "../../lib";
 
 type TypeInlinePartialsOptions = { needsParens?: boolean };
@@ -357,4 +357,6 @@ function renderType(context: DefaultThemeRenderContext, type: Type | undefined, 
     return renderFn(context, type as never, options ?? {});
 }
 
-export { renderType as type };
+export function type(context: DefaultThemeRenderContext, type: Type | undefined) {
+    return renderType(context, type, {});
+}

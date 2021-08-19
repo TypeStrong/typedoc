@@ -1,6 +1,6 @@
 import { wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import type { ContainerReflection, ReflectionCategory } from "../../../../models";
 
 function renderCategory({ urlTo }: DefaultThemeRenderContext, item: ReflectionCategory, prependName = "") {

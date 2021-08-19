@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import type { DeclarationHierarchy } from "../../../../models";
 
 export const hierarchy = (context: DefaultThemeRenderContext, props: DeclarationHierarchy) => (

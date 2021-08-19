@@ -83,9 +83,12 @@ export interface TypeDocOptionMap {
     plugin: string[];
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
-    treatWarningsAsErrors: boolean;
-    listInvalidSymbolLinks: boolean;
     markedOptions: unknown;
+
+    // Validation
+    treatWarningsAsErrors: boolean;
+    intentionallyNotExported: string[];
+    listInvalidSymbolLinks: boolean;
 
     highlightTheme: ShikiTheme;
 }
@@ -278,7 +281,7 @@ export type DeclarationOption =
     | MapDeclarationOption<unknown>
     | ArrayDeclarationOption;
 
-interface ParameterTypeToOptionTypeMap {
+export interface ParameterTypeToOptionTypeMap {
     [ParameterType.String]: string;
     [ParameterType.Path]: string;
     [ParameterType.Number]: number;

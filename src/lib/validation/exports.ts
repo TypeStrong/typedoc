@@ -13,9 +13,17 @@ import type { Logger } from "../utils";
 import * as ts from "typescript";
 import { relative } from "path";
 
-export function validateExports(project: ProjectReflection, logger: Logger) {
+export function validateExports(
+    project: ProjectReflection,
+    logger: Logger,
+    intentionallyNotExported: readonly string[]
+) {
     const queue: Reflection[] = [];
-    const visitor = makeTypeVisitor(logger, queue);
+    const visitor = makeTypeVisitor(
+        logger,
+        queue,
+        new Set(intentionallyNotExported)
+    );
     const add = (item: Reflection | Reflection[] | undefined) => {
         if (!item) return;
 
@@ -68,7 +76,11 @@ export function validateExports(project: ProjectReflection, logger: Logger) {
     } while ((current = queue.shift()));
 }
 
-function makeTypeVisitor(logger: Logger, queue: Reflection[]): TypeVisitor {
+function makeTypeVisitor(
+    logger: Logger,
+    queue: Reflection[],
+    intentional: Set<string>
+): TypeVisitor {
     const warned = new Set<ts.Symbol>();
 
     return makeRecursiveVisitor({
@@ -78,8 +90,9 @@ function makeTypeVisitor(logger: Logger, queue: Reflection[]): TypeVisitor {
             if (!type.reflection && symbol) {
                 if (
                     (symbol.flags & ts.SymbolFlags.TypeParameter) === 0 &&
+                    !intentional.has(symbol.name) &&
                     !warned.has(symbol) &&
-                    !symbol.declarations?.every((d) =>
+                    !symbol.declarations?.some((d) =>
                         d.getSourceFile().fileName.includes("node_modules")
                     )
                 ) {
@@ -97,7 +110,7 @@ function makeTypeVisitor(logger: Logger, queue: Reflection[]): TypeVisitor {
                         );
 
                         logger.warn(
-                            `"${type.name}" defined at ${file}:${line} is referenced but not included in the documentation.`
+                            `${type.name}, defined at ${file}:${line}, is referenced but not included in the documentation.`
                         );
                     }
                 }

@@ -170,7 +170,7 @@ export const issueTests: Record<string, (project: ProjectReflection) => void> =
         gh1524(project) {
             const nullableParam = query(project, "nullable").signatures?.[0]
                 ?.parameters?.[0];
-            equal(nullableParam?.type?.toString(), "string | null");
+            equal(nullableParam?.type?.toString(), "null | string");
 
             const nonNullableParam = query(project, "nonNullable")
                 .signatures?.[0]?.parameters?.[0];

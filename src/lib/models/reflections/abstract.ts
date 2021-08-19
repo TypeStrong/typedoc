@@ -2,7 +2,6 @@ import { ok } from "assert";
 import type { SourceReference } from "../sources/file";
 import type { Type } from "../types";
 import type { Comment } from "../comments/comment";
-import type { TypeParameterReflection } from "./type-parameter";
 import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
 import type { NeverIfInternal } from "../../utils";
@@ -268,18 +267,6 @@ export class ReflectionFlags extends Array<string> {
             this.flags |= flag;
         }
     }
-}
-
-export interface DefaultValueContainer {
-    defaultValue?: string;
-}
-
-export interface TypeContainer {
-    type?: Type;
-}
-
-export interface TypeParameterContainer {
-    typeParameters?: TypeParameterReflection[];
 }
 
 export enum TraverseProperty {

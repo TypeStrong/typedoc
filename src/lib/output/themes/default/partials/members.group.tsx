@@ -1,6 +1,6 @@
 import { assertIsDeclarationReflection } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import type { ReflectionGroup } from "../../../../models";
 
 export function membersGroup(context: DefaultThemeRenderContext, group: ReflectionGroup) {

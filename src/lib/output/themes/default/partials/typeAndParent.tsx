@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { ArrayType, ReferenceType, SignatureReflection, Type } from "../../../../models";
-import { JSX, createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 
 export const typeAndParent = (context: DefaultThemeRenderContext, props: Type): JSX.Element => {
     if (!props) return <>void</>;

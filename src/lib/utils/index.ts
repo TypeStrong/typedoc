@@ -43,9 +43,11 @@ export type {
     StringDeclarationOption,
     TypeDocOptionMap,
     TypeDocOptions,
+    TypeDocOptionValues,
+    ParameterTypeToOptionTypeMap,
 } from "./options";
 export { discoverNpmPlugins, loadPlugins } from "./plugins";
 export { sortReflections } from "./sort";
 export type { SortStrategy } from "./sort";
 
-export * from "./template";
+export * from "./jsx";

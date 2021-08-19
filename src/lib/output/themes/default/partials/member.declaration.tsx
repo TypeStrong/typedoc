@@ -1,5 +1,5 @@
 import { DeclarationReflection, ReflectionType } from "../../../../models";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import { join, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
@@ -37,7 +37,7 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
         {!!props.typeParameters && (
             <>
                 <h4 class="tsd-type-parameters-title">Type parameters</h4>
-                {context.typeParameters(props)}
+                {context.typeParameters(props.typeParameters)}
             </>
         )}
         {props.type instanceof ReflectionType && (

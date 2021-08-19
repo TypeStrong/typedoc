@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement, Raw } from "../../../../utils";
+import { JSX, Raw } from "../../../../utils";
 import { ReflectionType, SignatureReflection } from "../../../../models";
 import { renderFlags } from "../../lib";
 export const memberSignatureBody = (
@@ -14,7 +14,7 @@ export const memberSignatureBody = (
         {!!props.typeParameters && (
             <>
                 <h4 class="tsd-type-parameters-title">Type parameters</h4>
-                {context.typeParameters(props)}
+                {context.typeParameters(props.typeParameters)}
             </>
         )}
         {props.parameters && props.parameters.length > 0 && (

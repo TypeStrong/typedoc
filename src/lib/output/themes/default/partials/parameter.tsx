@@ -1,6 +1,6 @@
 import { renderFlags, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
 
 export const parameter = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (

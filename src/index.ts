@@ -3,26 +3,40 @@ export { Application } from "./lib/application";
 export { EventDispatcher, Event } from "./lib/utils/events";
 export { resetReflectionID } from "./lib/models/reflections/abstract";
 export { normalizePath } from "./lib/utils/fs";
-export * from "./lib/models/reflections";
-export { Converter } from "./lib/converter";
-export { Renderer } from "./lib/output/renderer";
-export { DefaultTheme } from "./lib/output/themes/default/DefaultTheme";
-export { UrlMapping } from "./lib/output/models/UrlMapping";
+export * from "./lib/models";
+export { Converter, Context } from "./lib/converter";
+export type { DocumentationEntryPoint } from "./lib/converter";
 
 export {
+    Renderer,
+    DefaultTheme,
+    DefaultThemeRenderContext,
+    UrlMapping,
+    Theme,
+    PageEvent,
+} from "./lib/output";
+export type { RenderTemplate } from "./lib/output";
+
+export {
+    ArgumentsReader,
     BindOption,
+    createElement,
+    Fragment,
+    JSX,
+    LogLevel,
+    Logger,
     Options,
     ParameterHint,
     ParameterType,
     TSConfigReader,
     TypeDocReader,
-    ArgumentsReader,
 } from "./lib/utils";
 
 export type {
     OptionsReader,
     TypeDocOptions,
     TypeDocOptionMap,
+    TypeDocOptionValues,
     KeyToDeclaration,
     DeclarationOption,
     DeclarationOptionBase,
@@ -34,9 +48,17 @@ export type {
     MapDeclarationOption,
     DeclarationOptionToOptionType,
     SortStrategy,
+    ParameterTypeToOptionTypeMap,
 } from "./lib/utils";
 
-export { JSONOutput } from "./lib/serialization";
+export type { EventMap, EventCallback } from "./lib/utils/events";
+
+export {
+    JSONOutput,
+    Serializer,
+    SerializerComponent,
+} from "./lib/serialization";
+export type { SerializeEventData } from "./lib/serialization";
 
 import * as TypeScript from "typescript";
 export { TypeScript };

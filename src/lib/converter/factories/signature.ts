@@ -130,14 +130,7 @@ function convertParameters(
         );
 
         let type: ts.Type | ts.TypeNode;
-        if (
-            declaration &&
-            ts.isParameter(declaration) &&
-            ts.isFunctionDeclaration(declaration.parent) &&
-            declaration.type
-        ) {
-            type = declaration.type;
-        } else if (declaration) {
+        if (declaration) {
             type = context.checker.getTypeOfSymbolAtLocation(
                 param,
                 declaration

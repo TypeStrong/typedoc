@@ -1,5 +1,5 @@
 import type { Reflection } from "../../../../models";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { classNames } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";

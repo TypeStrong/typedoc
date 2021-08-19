@@ -1,6 +1,12 @@
 import { ok as assert } from "assert";
-import { DeclarationReflection, Reflection, ReflectionFlags, TypeParameterContainer } from "../../models";
-import { createElement, JSX } from "../../utils";
+import {
+    DeclarationReflection,
+    Reflection,
+    ReflectionFlags,
+    SignatureReflection,
+    TypeParameterReflection,
+} from "../../models";
+import { JSX } from "../../utils";
 
 export function stringify(data: unknown) {
     if (typeof data === "bigint") {
@@ -70,8 +76,11 @@ export function assertIsDeclarationReflection(reflection: Reflection): Declarati
     return reflection;
 }
 
-export function hasTypeParameters(reflection: Reflection): reflection is Reflection & {
-    typeParameters: Exclude<TypeParameterContainer["typeParameters"], undefined>;
-} {
-    return (reflection as TypeParameterContainer).typeParameters != null;
+export function hasTypeParameters(
+    reflection: Reflection
+): reflection is Reflection & { typeParameters: TypeParameterReflection[] } {
+    if (reflection instanceof DeclarationReflection || reflection instanceof SignatureReflection) {
+        return reflection.typeParameters != null;
+    }
+    return false;
 }

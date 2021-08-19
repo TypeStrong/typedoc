@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import type { ReferenceReflection } from "../../../../models";
 
 export const memberReference = ({ urlTo }: DefaultThemeRenderContext, props: ReferenceReflection) => {

@@ -1,5 +1,5 @@
 import { ContainerReflection, DeclarationReflection, Reflection, ReflectionKind } from "../../../../models";
-import { createElement, JSX, partition } from "../../../../utils";
+import { JSX, partition } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { classNames, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";

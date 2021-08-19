@@ -101,13 +101,6 @@ export class ComponentEvent extends Event {
 }
 
 /**
- * Dummy owner to be passed in to AbstractComponent / ChildableComponents if the class being constructed is
- * the application. The application does not have an owner and will return itself for component.application
- * and component.owner.
- */
-export const DUMMY_APPLICATION_OWNER = Symbol();
-
-/**
  * Component base class.  Has an owner (unless it's the application root component),
  * can dispatch events to its children, and has access to the root Application component.
  *
@@ -120,7 +113,7 @@ export abstract class AbstractComponent<O extends ComponentHost>
     /**
      * The owner of this component instance.
      */
-    private _componentOwner: O | typeof DUMMY_APPLICATION_OWNER;
+    private _componentOwner: O;
 
     /**
      * The name of this component as set by the @Component decorator.
@@ -130,7 +123,7 @@ export abstract class AbstractComponent<O extends ComponentHost>
     /**
      * Create new Component instance.
      */
-    constructor(owner: O | typeof DUMMY_APPLICATION_OWNER) {
+    constructor(owner: O) {
         super();
         this._componentOwner = owner;
         this.initialize();
@@ -148,7 +141,7 @@ export abstract class AbstractComponent<O extends ComponentHost>
 
         if (
             this.owner instanceof AbstractComponent &&
-            this._componentOwner !== DUMMY_APPLICATION_OWNER
+            this._componentOwner !== null
         ) {
             this.owner.bubble(name, ...args);
         }
@@ -160,13 +153,13 @@ export abstract class AbstractComponent<O extends ComponentHost>
      * Return the application / root component instance.
      */
     get application(): Application {
-        if (this._componentOwner === DUMMY_APPLICATION_OWNER) {
+        if (this._componentOwner === null) {
             return this as any as Application;
         }
         // Temporary hack, Application.application is going away.
         if (
             this._componentOwner instanceof AbstractComponent &&
-            this._componentOwner._componentOwner === DUMMY_APPLICATION_OWNER
+            this._componentOwner._componentOwner === null
         ) {
             return this._componentOwner as any as Application;
         }
@@ -177,7 +170,7 @@ export abstract class AbstractComponent<O extends ComponentHost>
      * Return the owner of this component.
      */
     get owner(): O {
-        return this._componentOwner === DUMMY_APPLICATION_OWNER
+        return this._componentOwner === null
             ? (this as any)
             : this._componentOwner;
     }
@@ -203,7 +196,7 @@ export abstract class ChildableComponent<
     /**
      * Create new Component instance.
      */
-    constructor(owner: O | typeof DUMMY_APPLICATION_OWNER) {
+    constructor(owner: O) {
         super(owner);
 
         Object.entries(this._defaultComponents || {}).forEach(

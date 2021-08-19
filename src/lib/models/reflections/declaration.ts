@@ -1,12 +1,6 @@
 import type * as ts from "typescript";
 import { ReferenceType, ReflectionType, Type } from "../types";
-import {
-    DefaultValueContainer,
-    TraverseCallback,
-    TraverseProperty,
-    TypeContainer,
-    TypeParameterContainer,
-} from "./abstract";
+import { TraverseCallback, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import type { SignatureReflection } from "./signature";
 import type { TypeParameterReflection } from "./type-parameter";
@@ -39,10 +33,7 @@ export interface DeclarationHierarchy {
  * All parts of a project are represented by DeclarationReflection instances. The actual
  * kind of a reflection is stored in its ´kind´ member.
  */
-export class DeclarationReflection
-    extends ContainerReflection
-    implements DefaultValueContainer, TypeContainer, TypeParameterContainer
-{
+export class DeclarationReflection extends ContainerReflection {
     /**
      * The escaped name of this declaration assigned by the TS compiler if there is an associated symbol.
      * This is used to retrieve properties for analyzing inherited members.

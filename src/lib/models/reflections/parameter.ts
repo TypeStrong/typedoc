@@ -1,17 +1,8 @@
 import { Type, ReflectionType } from "../types";
-import {
-    Reflection,
-    DefaultValueContainer,
-    TypeContainer,
-    TraverseCallback,
-    TraverseProperty,
-} from "./abstract";
+import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
 import type { SignatureReflection } from "./signature";
 
-export class ParameterReflection
-    extends Reflection
-    implements DefaultValueContainer, TypeContainer
-{
+export class ParameterReflection extends Reflection {
     override parent?: SignatureReflection;
 
     defaultValue?: string;

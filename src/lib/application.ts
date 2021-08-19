@@ -23,7 +23,6 @@ import {
     AbstractComponent,
     ChildableComponent,
     Component,
-    DUMMY_APPLICATION_OWNER,
 } from "./utils/component";
 import { Options, BindOption } from "./utils";
 import type { TypeDocOptions } from "./utils/options/declaration";
@@ -220,7 +219,7 @@ export class Application extends ChildableComponent<
      * @param options An object containing the options that should be used.
      */
     constructor() {
-        super(DUMMY_APPLICATION_OWNER);
+        super(null!); // We own ourselves
 
         this.logger = new ConsoleLogger();
         this.options = new Options(this.logger);
@@ -510,7 +509,11 @@ export class Application extends ChildableComponent<
     }
 
     validate(project: ProjectReflection) {
-        validateExports(project, this.logger);
+        validateExports(
+            project,
+            this.logger,
+            this.options.getValue("intentionallyNotExported")
+        );
     }
 
     /**

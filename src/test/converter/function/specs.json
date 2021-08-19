@@ -562,17 +562,17 @@
                     "type": "union",
                     "types": [
                       {
-                        "type": "reference",
-                        "id": 47,
-                        "name": "T"
+                        "type": "intrinsic",
+                        "name": "undefined"
                       },
                       {
                         "type": "literal",
                         "value": null
                       },
                       {
-                        "type": "intrinsic",
-                        "name": "undefined"
+                        "type": "reference",
+                        "id": 47,
+                        "name": "T"
                       }
                     ]
                   }
@@ -1048,17 +1048,17 @@
                     "type": "union",
                     "types": [
                       {
-                        "type": "reference",
-                        "id": 51,
-                        "name": "T"
+                        "type": "intrinsic",
+                        "name": "undefined"
                       },
                       {
                         "type": "literal",
                         "value": null
                       },
                       {
-                        "type": "intrinsic",
-                        "name": "undefined"
+                        "type": "reference",
+                        "id": 51,
+                        "name": "T"
                       }
                     ]
                   }

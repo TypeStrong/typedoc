@@ -2,7 +2,7 @@ import { hasTypeParameters } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import type { PageEvent } from "../../../events";
 import { ContainerReflection, DeclarationReflection, ReflectionType } from "../../../../models";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 
 export const reflectionTemplate = (context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) => (
     <>
@@ -11,7 +11,7 @@ export const reflectionTemplate = (context: DefaultThemeRenderContext, props: Pa
         {hasTypeParameters(props.model) && (
             <section class="tsd-panel tsd-type-parameters">
                 <h3>Type parameters</h3>
-                {context.typeParameters(props.model)}
+                {context.typeParameters(props.model.typeParameters)}
             </section>
         )}
         {props.model instanceof DeclarationReflection && (

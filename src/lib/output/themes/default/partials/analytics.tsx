@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 
 export function analytics(context: DefaultThemeRenderContext) {
     const gaID = context.options.getValue("gaID");

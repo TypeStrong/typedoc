@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import type { DeclarationReflection } from "../../../../models";
 
 export const memberSignatures = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (

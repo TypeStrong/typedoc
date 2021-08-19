@@ -19,7 +19,7 @@ import { renderElement } from "../../../utils";
  *
  * Used by {@link DefaultTheme} to map reflections to output files.
  */
-export interface TemplateMapping {
+interface TemplateMapping {
     /**
      * {@link DeclarationReflection.kind} this rule applies to.
      */
@@ -47,8 +47,8 @@ export interface TemplateMapping {
  * {@link BaseTheme} implementation, this theme class will be used.
  */
 export class DefaultTheme extends Theme {
-    protected _markedPlugin: MarkedPlugin;
-    protected _renderContext?: DefaultThemeRenderContext;
+    private _markedPlugin: MarkedPlugin;
+    private _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {
             this._renderContext = new DefaultThemeRenderContext(this._markedPlugin, this.application.options);
@@ -69,7 +69,7 @@ export class DefaultTheme extends Theme {
     /**
      * Mappings of reflections kinds to templates used by this theme.
      */
-    MAPPINGS: TemplateMapping[] = [
+    private mappings: TemplateMapping[] = [
         {
             kind: [ReflectionKind.Class],
             isLeaf: false,
@@ -190,8 +190,8 @@ export class DefaultTheme extends Theme {
      * @param reflection  The reflection whose mapping should be resolved.
      * @returns           The found mapping or undefined if no mapping could be found.
      */
-    getMapping(reflection: DeclarationReflection): TemplateMapping | undefined {
-        return this.MAPPINGS.find((mapping) => reflection.kindOf(mapping.kind));
+    private getMapping(reflection: DeclarationReflection): TemplateMapping | undefined {
+        return this.mappings.find((mapping) => reflection.kindOf(mapping.kind));
     }
 
     /**

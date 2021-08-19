@@ -2,6 +2,8 @@
 
 import type { KeysOfType, WritableKeys } from "./general";
 
+export * as JSX from "./jsx";
+
 export const Fragment = Symbol();
 
 /**
@@ -65,4 +67,117 @@ export interface Element {
     tag: typeof Fragment | keyof IntrinsicElements | Component<any>;
     props: object | null;
     children: Children[];
+}
+
+function escapeHtml(html: string) {
+    return html.replace(
+        /[&<>'"]/g,
+        (c) =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            }[c as never])
+    );
+}
+
+const voidElements = new Set([
+    "area",
+    "base",
+    "br",
+    "col",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr",
+]);
+
+/**
+ * JSX factory function to create an "element" that can later be rendered with {@link renderElement}
+ * @param tag
+ * @param props
+ * @param children
+ */
+export function createElement(
+    tag: typeof Fragment | keyof IntrinsicElements | Component<any>,
+    props: object | null,
+    ...children: Children[]
+): Element {
+    return { tag, props, children };
+}
+
+export function renderElement(element: Element | null | undefined): string {
+    if (!element) {
+        return "";
+    }
+
+    const { tag, props, children } = element;
+
+    if (typeof tag === "function") {
+        if (tag === Raw) {
+            return String((props as any).html);
+        }
+        return renderElement(tag(Object.assign({ children }, props)));
+    }
+
+    const html: string[] = [];
+
+    if (tag !== Fragment) {
+        html.push("<", tag);
+
+        for (const [key, val] of Object.entries(props ?? {})) {
+            if (val == null) continue;
+
+            if (typeof val == "boolean") {
+                if (val) {
+                    html.push(" ", key);
+                }
+            } else {
+                html.push(" ", key, "=", JSON.stringify(val));
+            }
+        }
+    }
+
+    let hasChildren = false;
+    if (children.length) {
+        hasChildren = true;
+        if (tag !== Fragment) html.push(">");
+        renderChildren(children);
+    }
+
+    if (tag !== Fragment) {
+        if (!hasChildren) {
+            if (voidElements.has(tag)) {
+                html.push("/>");
+            } else {
+                html.push("></", tag, ">");
+            }
+        } else {
+            html.push("</", tag, ">");
+        }
+    }
+
+    return html.join("");
+
+    function renderChildren(children: Children[]) {
+        for (const child of children) {
+            if (!child) continue;
+
+            if (Array.isArray(child)) {
+                renderChildren(child);
+            } else if (typeof child === "string" || typeof child === "number") {
+                html.push(escapeHtml(child.toString()));
+            } else {
+                html.push(renderElement(child));
+            }
+        }
+    }
 }

@@ -1,8 +1,6 @@
 import { Type, ReflectionType, ReferenceType } from "../types";
 import {
     Reflection,
-    TypeContainer,
-    TypeParameterContainer,
     TraverseProperty,
     TraverseCallback,
     ReflectionKind,
@@ -11,10 +9,7 @@ import type { ParameterReflection } from "./parameter";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 
-export class SignatureReflection
-    extends Reflection
-    implements TypeContainer, TypeParameterContainer
-{
+export class SignatureReflection extends Reflection {
     /**
      * Create a new SignatureReflection to contain a specific type of signature.
      */

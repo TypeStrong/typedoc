@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement, Raw } from "../../../../utils";
+import { JSX, Raw } from "../../../../utils";
 import type { Reflection } from "../../../../models";
 
 export function comment({ markdown }: DefaultThemeRenderContext, props: Reflection) {

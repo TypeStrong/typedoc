@@ -16,4 +16,6 @@ export type {
     MixedDeclarationOption,
     MapDeclarationOption,
     DeclarationOptionToOptionType,
+    TypeDocOptionValues,
+    ParameterTypeToOptionTypeMap,
 } from "./declaration";

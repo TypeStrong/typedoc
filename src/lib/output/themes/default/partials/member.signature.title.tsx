@@ -1,6 +1,6 @@
 import { join, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import type { SignatureReflection } from "../../../../models";
 
 export const memberSignatureTitle = (

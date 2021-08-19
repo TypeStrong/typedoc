@@ -1,6 +1,6 @@
 import { assertIsDeclarationReflection, renderFlags, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { createElement } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 
 export const member = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (

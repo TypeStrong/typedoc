@@ -275,6 +275,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: LogLevel.Info,
     });
     options.addDeclaration({
+        name: "markedOptions",
+        help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc",
+        type: ParameterType.Mixed,
+    });
+
+    options.addDeclaration({
         name: "treatWarningsAsErrors",
         help: "If set, warnings will be treated as errors.",
         type: ParameterType.Boolean,
@@ -285,8 +291,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "markedOptions",
-        help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc",
-        type: ParameterType.Mixed,
+        name: "intentionallyNotExported",
+        help: "A list of types which should not produce 'referenced but not documented' warnings.",
+        type: ParameterType.Array,
     });
 }

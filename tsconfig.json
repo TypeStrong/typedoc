@@ -32,10 +32,10 @@
         "newLine": "LF",
 
         "jsx": "react",
-        "jsxFactory": "createElement",
-        "jsxFragmentFactory": "createElement.Fragment"
+        "jsxFactory": "JSX.createElement",
+        "jsxFragmentFactory": "JSX.Fragment"
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    "include": ["src"],
     "exclude": [
         "src/lib/output/themes/default/assets",
         "src/test/converter/**/*.ts",
