@@ -19,11 +19,15 @@ export function validateExports(
     intentionallyNotExported: readonly string[]
 ) {
     const queue: Reflection[] = [];
+    const context: { reflection: Reflection } = { reflection: project };
+
     const visitor = makeTypeVisitor(
         logger,
         queue,
-        new Set(intentionallyNotExported)
+        new Set(intentionallyNotExported),
+        context
     );
+
     const add = (item: Reflection | Reflection[] | undefined) => {
         if (!item) return;
 
@@ -36,6 +40,8 @@ export function validateExports(
     let current: Reflection | undefined = project;
 
     do {
+        context.reflection = current;
+
         if (current instanceof ContainerReflection) {
             add(current.children);
         }
@@ -79,7 +85,8 @@ export function validateExports(
 function makeTypeVisitor(
     logger: Logger,
     queue: Reflection[],
-    intentional: Set<string>
+    intentional: Set<string>,
+    context: { reflection: Reflection }
 ): TypeVisitor {
     const warned = new Set<ts.Symbol>();
 
@@ -110,7 +117,9 @@ function makeTypeVisitor(
                         );
 
                         logger.warn(
-                            `${type.name}, defined at ${file}:${line}, is referenced but not included in the documentation.`
+                            `${
+                                type.name
+                            }, defined at ${file}:${line}, is referenced by ${context.reflection.getFullName()} but not included in the documentation.`
                         );
                     }
                 }

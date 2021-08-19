@@ -45,7 +45,9 @@ export class Logger {
      * How many warning messages have been logged?
      */
     warningCount = 0;
-    private deprecationWarnings = new Set<string>();
+
+    private seenErrors = new Set<string>();
+    private seenWarnings = new Set<string>();
 
     /**
      * The minimum logging level to print.
@@ -71,6 +73,7 @@ export class Logger {
      */
     resetErrors() {
         this.errorCount = 0;
+        this.seenErrors.clear();
     }
 
     /**
@@ -78,7 +81,7 @@ export class Logger {
      */
     resetWarnings() {
         this.warningCount = 0;
-        this.deprecationWarnings.clear();
+        this.seenWarnings.clear();
     }
 
     /**
@@ -103,6 +106,8 @@ export class Logger {
      * @param args  The arguments that should be printed into the given warning.
      */
     warn(text: string) {
+        if (this.seenWarnings.has(text)) return;
+        this.seenWarnings.add(text);
         this.log(text, LogLevel.Warn);
     }
 
@@ -113,6 +118,8 @@ export class Logger {
      * @param args  The arguments that should be printed into the given error.
      */
     error(text: string) {
+        if (this.seenErrors.has(text)) return;
+        this.seenErrors.add(text);
         this.log(text, LogLevel.Error);
     }
 
@@ -124,10 +131,7 @@ export class Logger {
                 text = text + "\n" + stack[3];
             }
         }
-        if (!this.deprecationWarnings.has(text)) {
-            this.deprecationWarnings.add(text);
-            this.warn(text);
-        }
+        this.warn(text);
     }
 
     /**
