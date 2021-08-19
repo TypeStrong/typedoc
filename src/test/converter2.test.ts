@@ -6,6 +6,7 @@ import { deepStrictEqual as equal, ok } from "assert";
 import {
     DeclarationReflection,
     ProjectReflection,
+    QueryType,
     ReflectionKind,
     SignatureReflection,
 } from "../lib/models";
@@ -229,6 +230,12 @@ const issueTests: Record<string, (project: ProjectReflection) => void> = {
         const ctor = query(project, "Foo.constructor");
         equal(ctor.sources?.[0]?.line, 2);
         equal(ctor.sources?.[0]?.character, 4);
+    },
+
+    gh1660(project) {
+        const alias = query(project, "SomeType");
+        ok(alias.type instanceof QueryType);
+        equal(alias.type.queryType.name, "m.SomeClass.someProp");
     },
 };
 
