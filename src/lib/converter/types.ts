@@ -570,7 +570,18 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
 const queryConverter: TypeConverter<ts.TypeQueryNode> = {
     kind: [ts.SyntaxKind.TypeQuery],
     convert(context, node) {
-        const querySymbol = context.expectSymbolAtLocation(node.exprName);
+        const querySymbol = context.getSymbolAtLocation(node.exprName);
+        if (!querySymbol) {
+            // This can happen if someone uses `typeof` on some property
+            // on a variable typed as `any` with a name that doesn't exist.
+            return new QueryType(
+                ReferenceType.createBrokenReference(
+                    node.exprName.getText(),
+                    context.project
+                )
+            );
+        }
+
         return new QueryType(
             new ReferenceType(
                 node.exprName.getText(),
