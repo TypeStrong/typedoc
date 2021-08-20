@@ -2,8 +2,6 @@
 
 import type { KeysOfType, WritableKeys } from "./general";
 
-export * as JSX from "./jsx";
-
 export const Fragment = Symbol();
 
 /**
@@ -61,12 +59,26 @@ type BasicHtmlElements = {
     } & (K extends "meta" ? { charSet?: string } : unknown);
 };
 
+/** @hidden */
 export interface IntrinsicElements extends BasicHtmlElements {}
 
 export interface Element {
-    tag: typeof Fragment | keyof IntrinsicElements | Component<any>;
+    tag: typeof Fragment | string | Component<any>;
     props: object | null;
     children: Children[];
+}
+
+/**
+ * TypeScript's rules for looking up the JSX.IntrinsicElements and JSX.Element
+ * interfaces are incredibly strange. It will find them if they are included as
+ * a namespace under the createElement function, or globally, or, apparently, if
+ * a JSX namespace is declared at the same scope as the factory function.
+ * Hide this in the docs, hopefully someday TypeScript improves this and allows
+ * looking adjacent to the factory function and we can get rid of this phantom namespace.
+ * @hidden
+ */
+export declare namespace JSX {
+    export { IntrinsicElements, Element };
 }
 
 function escapeHtml(html: string) {
@@ -107,7 +119,7 @@ const voidElements = new Set([
  * @param children
  */
 export function createElement(
-    tag: typeof Fragment | keyof IntrinsicElements | Component<any>,
+    tag: typeof Fragment | string | Component<any>,
     props: object | null,
     ...children: Children[]
 ): Element {

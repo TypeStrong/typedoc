@@ -50,4 +50,6 @@ export { discoverNpmPlugins, loadPlugins } from "./plugins";
 export { sortReflections } from "./sort";
 export type { SortStrategy } from "./sort";
 
-export * from "./jsx";
+import * as JSX from "./jsx";
+export { JSX };
+export { Fragment, Raw, renderElement } from "./jsx";

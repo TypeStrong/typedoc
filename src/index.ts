@@ -20,8 +20,6 @@ export type { RenderTemplate } from "./lib/output";
 export {
     ArgumentsReader,
     BindOption,
-    createElement,
-    Fragment,
     JSX,
     LogLevel,
     Logger,

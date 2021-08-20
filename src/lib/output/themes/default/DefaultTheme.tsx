@@ -12,7 +12,7 @@ import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import { PageEvent, RendererEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
-import { renderElement } from "../../../utils";
+import { JSX } from "../../../utils";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.
@@ -163,7 +163,7 @@ export class DefaultTheme extends Theme {
     private onRendererEndPage(page: PageEvent<Reflection>) {
         const layout = this.defaultLayoutTemplate;
         const templateOutput = layout(page);
-        page.contents = "<!DOCTYPE html>" + renderElement(templateOutput);
+        page.contents = "<!DOCTYPE html>" + JSX.renderElement(templateOutput);
     }
 
     /**
@@ -228,7 +228,7 @@ export class DefaultTheme extends Theme {
 
     render(page: PageEvent<Reflection>): string {
         const templateOutput = this.defaultLayoutTemplate(page);
-        return "<!DOCTYPE html>" + renderElement(templateOutput);
+        return "<!DOCTYPE html>" + JSX.renderElement(templateOutput);
     }
 
     /**

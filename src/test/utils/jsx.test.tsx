@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { Raw, JSX, renderElement } from "../../lib/utils/jsx";
+import { JSX, renderElement, Raw } from "../../lib/utils";
 
 describe("JSX", () => {
     it("Works with basic case", () => {

@@ -15,5 +15,7 @@
     "entryPoints": ["../src/index.ts"],
     "excludeExternals": true,
     "excludePrivate": true,
-    "treatWarningsAsErrors": true
+    "excludeInternal": true,
+    "treatWarningsAsErrors": false,
+    "logLevel": "Verbose"
 }

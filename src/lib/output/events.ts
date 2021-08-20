@@ -107,6 +107,7 @@ export class PageEvent<Model = unknown> extends Event {
 
     /**
      * The legend items that are applicable for this page
+     * @internal this is going away. The footer will do the logic itself.
      */
     legend?: LegendItem[][];
 
