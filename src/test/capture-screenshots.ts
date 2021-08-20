@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import { sync as glob } from "glob";
 import { platform } from "os";
-import PQueue from "p-queue";
 import * as Path from "path";
 import * as puppeteer from "puppeteer";
 import { Application, TSConfigReader } from "..";
@@ -13,6 +12,47 @@ const baseDirectory = Path.join(__dirname, "../../dist/tmp/capture");
 const outputDirectory = Path.join(__dirname, "../../dist/tmp/__screenshots__");
 const globPattern = "**/*.html";
 const viewport = { width: 1024, height: 768 };
+
+class PQueue {
+    private queued: (() => Promise<void>)[] = [];
+    constructor(private concurrency: number) {}
+
+    add(action: () => Promise<void>) {
+        this.queued.push(action);
+    }
+
+    run() {
+        return new Promise<void>((resolve, reject) => {
+            const queue: Promise<void>[] = [];
+            const doReject = (err: unknown) => {
+                this.queued.length = 0;
+                queue.length = 0;
+                reject(err);
+            };
+            const tick = () => {
+                while (queue.length < this.concurrency) {
+                    const next = this.queued.shift();
+                    if (next) {
+                        const nextPromise = Promise.resolve().then(next);
+                        queue.push(nextPromise);
+                        nextPromise.then(() => {
+                            queue.splice(queue.indexOf(nextPromise), 1);
+                            tick();
+                        }, doReject);
+                    } else {
+                        break;
+                    }
+                }
+
+                if (queue.length === 0) {
+                    resolve();
+                }
+            };
+
+            tick();
+        });
+    }
+}
 
 async function main() {
     const app = new Application();
@@ -41,9 +81,9 @@ async function main() {
                 : ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
-    const queue = new PQueue({ autoStart: true, concurrency });
+    const queue = new PQueue(concurrency);
     for (const file of glob(globPattern, { cwd: baseDirectory })) {
-        void queue.add(async () => {
+        queue.add(async () => {
             const absPath = Path.resolve(baseDirectory, file);
             const outputPath = Path.resolve(
                 outputDirectory,
@@ -66,7 +106,7 @@ async function main() {
             await page.close();
         });
     }
-    await queue.onIdle();
+    await queue.run();
 
     await browser.close();
 }
