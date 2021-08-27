@@ -26,7 +26,7 @@
     "marked": "^3.0.2",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
-    "shiki": "^0.9.3",
+    "shiki": "^0.9.7",
     "typedoc-default-themes": "^0.12.10"
   },
   "peerDependencies": {
