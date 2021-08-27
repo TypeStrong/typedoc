@@ -35,7 +35,9 @@ export function loadPlugins(app: Application, plugins: readonly string[]) {
             }
         } catch (error) {
             app.logger.error(`The plugin ${plugin} could not be loaded.`);
-            app.logger.error(error.stack);
+            if (error instanceof Error && error.stack) {
+                app.logger.error(error.stack);
+            }
         }
     }
 }

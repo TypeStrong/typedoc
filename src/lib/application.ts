@@ -35,6 +35,7 @@ import {
     ignorePackage,
     loadPackageManifest,
 } from "./utils/package-manifest";
+import { ok } from "assert";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -264,6 +265,7 @@ export class Application extends ChildableComponent<
             try {
                 this.options.setValue(key as keyof TypeDocOptions, val);
             } catch (error) {
+                ok(error instanceof Error);
                 this.logger.error(error.message);
             }
         }

@@ -6,6 +6,7 @@ import * as ts from "typescript";
 import { OptionsReader, Options } from "../options";
 import { Logger } from "../../loggers";
 import { normalizePath } from "../../fs";
+import { ok } from "assert";
 
 function isFile(file: string) {
     return existsSync(file) && statSync(file).isFile();
@@ -93,6 +94,7 @@ export class TSConfigReader implements OptionsReader {
                     join(fileToRead, "..")
                 );
             } catch (error) {
+                ok(error instanceof Error);
                 logger.error(error.message);
             }
         }
