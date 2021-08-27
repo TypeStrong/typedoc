@@ -31,6 +31,7 @@ describe("Default Options", () => {
                     "foo",
                 ] as never);
             } catch (e) {
+                ok(e instanceof Error);
                 ok(e.message.includes("random"));
                 ok(e.message.includes("foo"));
             }

@@ -1,3 +1,4 @@
+import { ok } from "assert";
 import type { OptionsReader, Options } from "..";
 import type { Logger } from "../../loggers";
 import { ParameterType } from "../declaration";
@@ -35,6 +36,7 @@ export class ArgumentsReader implements OptionsReader {
             try {
                 options.setValue(name, value);
             } catch (err) {
+                ok(err instanceof Error);
                 logger.error(err.message);
             }
         };

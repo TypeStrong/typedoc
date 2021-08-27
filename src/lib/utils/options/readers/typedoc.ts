@@ -4,6 +4,7 @@ import * as FS from "fs";
 import type { OptionsReader } from "..";
 import type { Logger } from "../../loggers";
 import type { Options } from "../options";
+import { ok } from "assert";
 
 /**
  * Obtains option values from typedoc.json
@@ -93,6 +94,7 @@ export class TypeDocReader implements OptionsReader {
                     resolve(dirname(file))
                 );
             } catch (error) {
+                ok(error instanceof Error);
                 logger.error(error.message);
             }
         }

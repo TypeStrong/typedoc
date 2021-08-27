@@ -232,7 +232,7 @@ export function getTsEntryPointForPackage(
         if (/\.tsx?$/.test(entryPointPath) && existsSync(entryPointPath)) {
             return entryPointPath;
         }
-    } catch (e) {
+    } catch (e: any) {
         if (e.code !== "MODULE_NOT_FOUND") {
             throw e;
         } else {

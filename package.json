@@ -22,12 +22,13 @@
   "dependencies": {
     "glob": "^7.1.7",
     "lunr": "^2.3.9",
-    "marked": "^3.0.0",
+    "shiki": "^0.9.7",
+    "marked": "^3.0.2",
     "minimatch": "^3.0.4",
-    "shiki": "^0.9.7"
+    "progress": "^2.0.3"
   },
   "peerDependencies": {
-    "typescript": "4.0.x || 4.1.x || 4.2.x || 4.3.x"
+    "typescript": "4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x"
   },
   "devDependencies": {
     "@types/glob": "^7.1.4",
