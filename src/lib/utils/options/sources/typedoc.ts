@@ -1,7 +1,7 @@
 import { Options } from "..";
 import { LogLevel } from "../../loggers";
 import { ParameterType, ParameterHint } from "../declaration";
-import { BUNDLED_THEMES } from "shiki";
+import { BUNDLED_THEMES, Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
@@ -137,7 +137,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.String,
         defaultValue: "light-plus",
         validate: (value: string): void => {
-            if (!BUNDLED_THEMES.includes(value)) {
+            if (!BUNDLED_THEMES.includes(value as Theme)) {
                 throw new Error(
                     `highlightTheme must be one of the following: ${BUNDLED_THEMES.join(
                         ", "

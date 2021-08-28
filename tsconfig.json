@@ -20,7 +20,6 @@
         "preserveConstEnums": true,
         "declaration": true,
         "sourceMap": true,
-        "isolatedModules": true,
         "noImplicitOverride": true,
         "noPropertyAccessFromIndexSignature": true,
 
