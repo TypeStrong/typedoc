@@ -136,8 +136,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Specifies the code highlighting theme.",
         type: ParameterType.String,
         defaultValue: "light-plus",
-        validate: (value: string): void => {
-            if (!BUNDLED_THEMES.includes(value)) {
+        validate(value) {
+            if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
                 throw new Error(
                     `highlightTheme must be one of the following: ${BUNDLED_THEMES.join(
                         ", "
