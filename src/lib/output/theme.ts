@@ -9,7 +9,7 @@ import type { Reflection } from "../models";
 /**
  * Base class of all themes.
  *
- * The theme class controls which files will be created through the {@link BaseTheme.getUrls}
+ * The theme class controls which files will be created through the {@link Theme.getUrls}
  * function. It returns an array of {@link UrlMapping} instances defining the target files, models
  * and templates to use. Additionally themes can subscribe to the events emitted by
  * {@link Renderer} to control and manipulate the output process.

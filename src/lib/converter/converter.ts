@@ -62,14 +62,14 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter begins converting a project.
-     * The listener should implement {@link IConverterCallback}.
+     * The listener will be given a {@link Context} object.
      * @event
      */
     static readonly EVENT_BEGIN = ConverterEvents.BEGIN;
 
     /**
      * Triggered when the converter has finished converting a project.
-     * The listener should implement {@link IConverterCallback}.
+     * The listener will be given a {@link Context} object.
      * @event
      */
     static readonly EVENT_END = ConverterEvents.END;
@@ -80,7 +80,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a declaration reflection.
-     * The listener should implement {@link IConverterNodeCallback}.
+     * The listener will be given {@link Context}, {@link Reflection} and a `ts.Node?`.
      * @event
      */
     static readonly EVENT_CREATE_DECLARATION =
@@ -88,21 +88,21 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a signature reflection.
-     * The listener should implement {@link IConverterNodeCallback}.
+     * The listener will be given {@link Context}, {@link SignatureReflection} and a `ts.Node?`
      * @event
      */
     static readonly EVENT_CREATE_SIGNATURE = ConverterEvents.CREATE_SIGNATURE;
 
     /**
      * Triggered when the converter has created a parameter reflection.
-     * The listener should implement {@link IConverterNodeCallback}.
+     * The listener will be given {@link Context}, {@link ParameterReflection} and a `ts.Node?`
      * @event
      */
     static readonly EVENT_CREATE_PARAMETER = ConverterEvents.CREATE_PARAMETER;
 
     /**
      * Triggered when the converter has created a type parameter reflection.
-     * The listener should implement {@link IConverterNodeCallback}.
+     * The listener will be given {@link Context}, {@link TypeParameterReflection} and a `ts.Node?`
      * @event
      */
     static readonly EVENT_CREATE_TYPE_PARAMETER =
@@ -114,21 +114,21 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter begins resolving a project.
-     * The listener should implement {@link IConverterCallback}.
+     * The listener will be given {@link Context}.
      * @event
      */
     static readonly EVENT_RESOLVE_BEGIN = ConverterEvents.RESOLVE_BEGIN;
 
     /**
      * Triggered when the converter resolves a reflection.
-     * The listener should implement {@link IConverterResolveCallback}.
+     * The listener will be given {@link Context} and a {@link Reflection}.
      * @event
      */
     static readonly EVENT_RESOLVE = ConverterEvents.RESOLVE;
 
     /**
      * Triggered when the converter has finished resolving a project.
-     * The listener should implement {@link IConverterCallback}.
+     * The listener will be given {@link Context}.
      * @event
      */
     static readonly EVENT_RESOLVE_END = ConverterEvents.RESOLVE_END;

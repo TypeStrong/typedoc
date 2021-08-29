@@ -17,5 +17,6 @@
     "excludePrivate": true,
     "excludeInternal": true,
     "treatWarningsAsErrors": false,
+    "listInvalidSymbolLinks": true,
     "logLevel": "Verbose"
 }

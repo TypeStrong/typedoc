@@ -44,7 +44,7 @@ interface TemplateMapping {
 
 /**
  * Default theme implementation of TypeDoc. If a theme does not provide a custom
- * {@link BaseTheme} implementation, this theme class will be used.
+ * {@link Theme} implementation, this theme class will be used.
  */
 export class DefaultTheme extends Theme {
     private _markedPlugin: MarkedPlugin;

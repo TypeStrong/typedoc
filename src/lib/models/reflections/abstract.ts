@@ -319,7 +319,7 @@ export interface Decorator {
  * by the {@link DeclarationReflection} class.
  *
  * This base class exposes the basic properties one may use to traverse the reflection tree.
- * You can use the {@link children} and {@link parent} properties to walk the tree. The {@link groups} property
+ * You can use the {@link ContainerReflection.children} and {@link parent} properties to walk the tree. The {@link groups} property
  * contains a list of all children grouped and sorted for being rendered.
  */
 export abstract class Reflection {

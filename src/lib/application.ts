@@ -160,11 +160,10 @@ function getModuleName(fileName: string, baseDir: string) {
  * generates a {@link ProjectReflection} from the passed in source files. The
  * {@link ProjectReflection} is a hierarchical model representation of the TypeScript
  * project. Afterwards the model is passed to the {@link Renderer} which uses an instance
- * of {@link BaseTheme} to generate the final documentation.
+ * of {@link Theme} to generate the final documentation.
  *
- * Both the {@link Converter} and the {@link Renderer} are subclasses of the {@link AbstractComponent}
- * and emit a series of events while processing the project. Subscribe to these Events
- * to control the application flow or alter the output.
+ * Both the {@link Converter} and the {@link Renderer} emit a series of events while processing the project.
+ * Subscribe to these Events to control the application flow or alter the output.
  */
 @Component({ name: "application", internal: true })
 export class Application extends ChildableComponent<
@@ -299,6 +298,7 @@ export class Application extends ChildableComponent<
      * @returns An instance of ProjectReflection on success, undefined otherwise.
      */
     public convert(): ProjectReflection | undefined {
+        const start = Date.now();
         // We seal here rather than in the Converter class since TypeDoc's tests reuse the Application
         // with a few different settings.
         this.options.freeze();
@@ -370,7 +370,9 @@ export class Application extends ChildableComponent<
             }
         }
 
-        return this.converter.convert(entryPoints);
+        const project = this.converter.convert(entryPoints);
+        this.logger.verbose(`Finished conversion in ${Date.now() - start}ms`);
+        return project;
     }
 
     public convertAndWatch(
@@ -525,6 +527,7 @@ export class Application extends ChildableComponent<
         project: ProjectReflection,
         out: string
     ): Promise<void> {
+        const start = Date.now();
         out = Path.resolve(out);
         await this.renderer.render(project, out);
         if (this.logger.hasErrors()) {
@@ -533,6 +536,7 @@ export class Application extends ChildableComponent<
             );
         } else {
             this.logger.info(`Documentation generated at ${out}`);
+            this.logger.verbose(`HTML rendering took ${Date.now() - start}ms`);
         }
     }
 
@@ -546,6 +550,7 @@ export class Application extends ChildableComponent<
         project: ProjectReflection,
         out: string
     ): Promise<void> {
+        const start = Date.now();
         out = Path.resolve(out);
         const eventData = {
             outputDirectory: Path.dirname(out),
@@ -559,6 +564,7 @@ export class Application extends ChildableComponent<
         const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
         this.logger.info(`JSON written to ${out}`);
+        this.logger.verbose(`JSON rendering took ${Date.now() - start}ms`);
     }
 
     /**

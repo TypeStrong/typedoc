@@ -17,7 +17,6 @@ import { resolveAliasedSymbol } from "./utils/symbols";
 
 /**
  * The context describes the current state the converter is in.
- * @internal
  */
 export class Context {
     /**

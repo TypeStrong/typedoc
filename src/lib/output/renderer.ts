@@ -2,7 +2,7 @@
  * Holds all logic used render and output the final documentation.
  *
  * The {@link Renderer} class is the central controller within this namespace. When invoked it creates
- * an instance of {@link BaseTheme} which defines the layout of the documentation and fires a
+ * an instance of {@link Theme} which defines the layout of the documentation and fires a
  * series of {@link RendererEvent} events. Instances of {@link BasePlugin} can listen to these events and
  * alter the generated output.
  */
@@ -24,12 +24,9 @@ import type { Theme as ShikiTheme } from "shiki";
 import { Reflection } from "../models";
 
 /**
- * The renderer processes a {@link ProjectReflection} using a {@link BaseTheme} instance and writes
+ * The renderer processes a {@link ProjectReflection} using a {@link Theme} instance and writes
  * the emitted html documents to a output directory. You can specify which theme should be used
- * using the ```--theme <name>``` command line argument.
- *
- * Subclasses of {@link BasePlugin} that have registered themselves in the {@link Renderer.PLUGIN_CLASSES}
- * will be automatically initialized. Most of the core functionality is provided as separate plugins.
+ * using the `--theme <name>` command line argument.
  *
  * {@link Renderer} is a subclass of {@link EventDispatcher} and triggers a series of events while
  * a project is being processed. You can listen to these events to control the flow or manipulate
