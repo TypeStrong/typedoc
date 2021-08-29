@@ -84,6 +84,22 @@ export class Renderer extends ChildableComponent<
     highlightTheme!: ShikiTheme;
 
     /**
+     * Define a new theme that can be used to render output.
+     * This API will likely be changing in TypeDoc 0.23.
+     * (sorry... changing as soon as it's introduced)
+     * As it is, it provides reasonable flexibility, but doesn't give users a sufficiently
+     * easy way to overwrite parts of a theme.
+     * @param name
+     * @param theme
+     */
+    defineTheme(name: string, theme: new (renderer: Renderer) => Theme) {
+        if (this.themes.has(name)) {
+            throw new Error(`The theme "${name}" has already been defined.`);
+        }
+        this.themes.set(name, theme);
+    }
+
+    /**
      * Render the given project reflection to the specified output directory.
      *
      * @param project  The project that should be rendered.
@@ -116,6 +132,8 @@ export class Renderer extends ChildableComponent<
 
             this.trigger(RendererEvent.END, output);
         }
+
+        this.theme = void 0;
     }
 
     /**
@@ -164,7 +182,11 @@ export class Renderer extends ChildableComponent<
             const ctor = this.themes.get(this.themeName);
             if (!ctor) {
                 this.application.logger.error(
-                    `The theme '${this.themeName}' is not defined`
+                    `The theme '${
+                        this.themeName
+                    }' is not defined. The available themes are: ${[
+                        ...this.themes.keys(),
+                    ].join(", ")}`
                 );
                 return false;
             } else {

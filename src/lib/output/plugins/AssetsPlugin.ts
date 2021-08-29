@@ -3,6 +3,7 @@ import * as Path from "path";
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { copySync } from "../../utils/fs";
+import { DefaultTheme } from "..";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
@@ -25,8 +26,10 @@ export class AssetsPlugin extends RendererComponent {
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event: RendererEvent) {
-        const src = Path.join(__dirname, "..", "..", "..", "..", "static");
-        const dest = Path.join(event.outputDirectory, "assets");
-        copySync(src, dest);
+        if (this.owner.theme instanceof DefaultTheme) {
+            const src = Path.join(__dirname, "..", "..", "..", "..", "static");
+            const dest = Path.join(event.outputDirectory, "assets");
+            copySync(src, dest);
+        }
     }
 }

@@ -63,6 +63,7 @@ export enum ReflectionKind {
     Reference = 0x1000000,
 }
 
+/** @hidden */
 export namespace ReflectionKind {
     export const All = ReflectionKind.Reference * 2 - 1;
 

@@ -1,3 +1,19 @@
+/**
+ * Custom JSX module designed specifically for TypeDoc's needs.
+ * When overriding a default TypeDoc theme output, your implementation must create valid {@link Element}
+ * instances, which can be most easily done by using TypeDoc's JSX implementation. To use it, set up
+ * your tsconfig with the following compiler options:
+ * ```json
+ * {
+ *     "jsx": "react",
+ *     "jsxFactory": "JSX.createElement",
+ *     "jsxFragmentFactory": "JSX.Fragment",
+ *     "jsxImportSource": "typedoc"
+ * }
+ * ```
+ * @module
+ */
+
 /// <reference lib="dom" />
 
 import type { KeysOfType, WritableKeys } from "./general";

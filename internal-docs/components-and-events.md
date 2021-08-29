@@ -17,6 +17,8 @@ Each child gets a name; a component cannot have 2x children with the same name.
 if not marked `internal` and if is a subclass of another component's childClass,
 then becomes registered as a `_defaultComponent`
 
+Components are slowly being removed from TypeDoc.
+
 ## `Event`
 
 `Event`s can be fired.

@@ -47,7 +47,7 @@ interface TemplateMapping {
  * {@link Theme} implementation, this theme class will be used.
  */
 export class DefaultTheme extends Theme {
-    private _markedPlugin: MarkedPlugin;
+    protected _markedPlugin: MarkedPlugin;
     private _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {

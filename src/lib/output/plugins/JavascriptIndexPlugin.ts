@@ -10,6 +10,7 @@ import { GroupPlugin } from "../../converter/plugins/GroupPlugin";
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { writeFileSync } from "../../utils";
+import { DefaultTheme } from "..";
 
 /**
  * A plugin that exports an index of the project to a javascript file.
@@ -31,6 +32,10 @@ export class JavascriptIndexPlugin extends RendererComponent {
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event: RendererEvent) {
+        if (!(this.owner.theme instanceof DefaultTheme)) {
+            return;
+        }
+
         const rows: any[] = [];
         const kinds: { [K in ReflectionKind]?: string } = {};
 
