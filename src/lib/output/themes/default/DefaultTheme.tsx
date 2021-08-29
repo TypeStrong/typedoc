@@ -108,7 +108,6 @@ export class DefaultTheme extends Theme {
         super(renderer);
         this._markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
         this.listenTo(renderer, RendererEvent.BEGIN, this.onRendererBegin, 1024);
-        this.listenTo(renderer, PageEvent.END, this.onRendererEndPage, 1024);
     }
 
     /**
@@ -159,11 +158,6 @@ export class DefaultTheme extends Theme {
                 reflection.groups.forEach(DefaultTheme.applyGroupClasses);
             }
         }
-    }
-    private onRendererEndPage(page: PageEvent<Reflection>) {
-        const layout = this.defaultLayoutTemplate;
-        const templateOutput = layout(page);
-        page.contents = "<!DOCTYPE html>" + JSX.renderElement(templateOutput);
     }
 
     /**
