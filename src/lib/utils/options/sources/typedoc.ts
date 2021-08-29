@@ -137,7 +137,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.String,
         defaultValue: "light-plus",
         validate(value) {
-            if (!(BUNDLED_THEMES as string[]).includes(value)) {
+            if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
                 throw new Error(
                     `highlightTheme must be one of the following: ${BUNDLED_THEMES.join(
                         ", "
