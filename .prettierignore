@@ -1,8 +1,0 @@
-.nyc_output
-CHANGELOG.md
-coverage
-dist
-package-lock.json
-src/test/**/specs*.json
-src/test/renderer/specs
-static/main.js

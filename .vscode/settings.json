@@ -6,5 +6,7 @@
     "[typescriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "prettier.enable": true
+    "prettier.enable": true,
+    "prettier.configPath": ".config/.prettierrc.json",
+    "prettier.ignorePath": ".config/.prettierignore"
 }
