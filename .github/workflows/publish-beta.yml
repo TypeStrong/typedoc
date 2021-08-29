@@ -20,6 +20,7 @@ jobs:
               with:
                   node-version: "14"
             - name: Upgrade npm
+              if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
               run: npm i -g npm@latest
             - name: Install
               if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
