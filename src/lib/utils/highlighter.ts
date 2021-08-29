@@ -2,11 +2,11 @@ import { ok as assert } from "assert";
 import * as shiki from "shiki";
 import { unique } from "./array";
 
-type MapKey  = [string, string[] | undefined];
+type MapKey = [string, string[] | undefined];
 type RMapKey = [string, string];
 
 function rM_zipIdWithAliases(bl: shiki.ILanguageRegistration): MapKey {
-    return [ bl.id, bl.aliases ];
+    return [bl.id, bl.aliases];
 }
 
 function rM_nonEmptyRow(row: MapKey): boolean {
@@ -14,24 +14,22 @@ function rM_nonEmptyRow(row: MapKey): boolean {
 }
 
 function rM_remapAliasToId([base, al]: MapKey): RMapKey[] {
-    return (al || []).map(a => [a, base]);
+    return (al || []).map((a) => [a, base]);
 }
 
-const reverseMapping: RMapKey[][] =
-    [
-        [ ['text', 'text'] ],
-        ... shiki.BUNDLED_LANGUAGES
-            .map(rM_zipIdWithAliases)
-            .filter(rM_nonEmptyRow)
-            .map(rM_remapAliasToId)
-  ]
+const reverseMapping: RMapKey[][] = [
+    [["text", "text"]],
+    ...shiki.BUNDLED_LANGUAGES.map(rM_zipIdWithAliases)
+        .filter(rM_nonEmptyRow)
+        .map(rM_remapAliasToId),
+];
 
-const aliases = new Map<string, string>( reverseMapping.flat() );
+const aliases = new Map<string, string>(reverseMapping.flat());
 
 const supportedLanguages = unique([
     "text",
     ...aliases.keys(),
-    ...shiki.BUNDLED_LANGUAGES.map((lang) => lang.id)
+    ...shiki.BUNDLED_LANGUAGES.map((lang) => lang.id),
 ]).sort();
 
 let highlighter: shiki.Highlighter | undefined;
