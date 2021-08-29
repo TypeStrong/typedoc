@@ -2,21 +2,36 @@ import { ok as assert } from "assert";
 import * as shiki from "shiki";
 import { unique } from "./array";
 
-// This is needed because Shiki includes some "fake" languages
-// ts / js are expected by users to be equivalent to typescript / javascript
+type MapKey  = [string, string[] | undefined];
+type RMapKey = [string, string];
 
-const aliases = new Map<string, string>([
-    ["ts", "typescript"],
-    ["js", "javascript"],
-    ["bash", "shellscript"],
-    ["sh", "shellscript"],
-    ["shell", "shellscript"],
-]);
+function rM_zipIdWithAliases(bl: shiki.ILanguageRegistration): MapKey {
+    return [ bl.id, bl.aliases ];
+}
+
+function rM_nonEmptyRow(row: MapKey): boolean {
+    return Boolean(row[1]); // row is empty if second element of a mapkey (aliases) is undefined
+}
+
+function rM_remapAliasToId([base, al]: MapKey): RMapKey[] {
+    return (al || []).map(a => [a, base]);
+}
+
+const reverseMapping: RMapKey[][] =
+    [
+        [ ['text', 'text'] ],
+        ... shiki.BUNDLED_LANGUAGES
+            .map(rM_zipIdWithAliases)
+            .filter(rM_nonEmptyRow)
+            .map(rM_remapAliasToId)
+  ]
+
+const aliases = new Map<string, string>( reverseMapping.flat() );
 
 const supportedLanguages = unique([
     "text",
     ...aliases.keys(),
-    ...shiki.BUNDLED_LANGUAGES.map((lang) => lang.id),
+    ...shiki.BUNDLED_LANGUAGES.map((lang) => lang.id)
 ]).sort();
 
 let highlighter: shiki.Highlighter | undefined;
