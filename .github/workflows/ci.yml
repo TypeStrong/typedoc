@@ -21,7 +21,7 @@ jobs:
             - name: Build
               run: npm run build
             - name: Test
-              run: npm test:full
+              run: npm run test:full
               env:
                   # For pull requests, this gets handled by the visual-regression workflow.
                   # For other test runs, skip so we don't have to go build the regression screenshots.
