@@ -299,8 +299,16 @@ export class Options {
     /**
      * Gets the set compiler options.
      */
-    getCompilerOptions(): Readonly<ts.CompilerOptions> {
-        return this._compilerOptions;
+    getCompilerOptions(): ts.CompilerOptions {
+        return this.fixCompilerOptions(this._compilerOptions);
+    }
+
+    /** @internal */
+    fixCompilerOptions(options: Readonly<ts.CompilerOptions>) {
+        return {
+            ...options,
+            noEmit: !this.getValue("emit"),
+        };
     }
 
     /**

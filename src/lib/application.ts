@@ -1,23 +1,19 @@
 import * as Path from "path";
-import * as FS from "fs";
 import * as ts from "typescript";
 
-import { Converter, DocumentationEntryPoint } from "./converter/index";
+import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
 import { Serializer } from "./serialization";
 import type { ProjectReflection } from "./models/index";
-import { getCommonDirectory } from "./utils/fs";
 import {
     Logger,
     ConsoleLogger,
     CallbackLogger,
     loadPlugins,
-    normalizePath,
     writeFile,
     discoverNpmPlugins,
     NeverIfInternal,
 } from "./utils/index";
-import { createMinimatch, matchesAny } from "./utils/paths";
 
 import {
     AbstractComponent,
@@ -26,16 +22,15 @@ import {
 } from "./utils/component";
 import { Options, BindOption } from "./utils";
 import type { TypeDocOptions } from "./utils/options/declaration";
-import { flatMap } from "./utils/array";
-import { basename, resolve } from "path";
-import {
-    expandPackages,
-    getTsEntryPointForPackage,
-    ignorePackage,
-    loadPackageManifest,
-} from "./utils/package-manifest";
+import { flatMap, unique } from "./utils/array";
+import { basename } from "path";
 import { validateExports } from "./validation/exports";
 import { ok } from "assert";
+import {
+    DocumentationEntryPoint,
+    EntryPointStrategy,
+    getEntryPoints,
+} from "./utils/entry-point";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -46,111 +41,6 @@ const packageInfo = require("../../package.json") as {
 const supportedVersionMajorMinor = packageInfo.peerDependencies.typescript
     .split("||")
     .map((version) => version.replace(/^\s*|\.x\s*$/g, ""));
-
-/**
- * Expand the provided packages configuration paths, determining the entry points
- * and creating the ts.Programs for any which are found.
- * @param logger
- * @param packageGlobPaths
- * @returns The information about the discovered programs, undefined if an error occurs.
- */
-function getEntryPointsForPackages(
-    logger: Logger,
-    packageGlobPaths: string[],
-    willEmit: boolean
-): DocumentationEntryPoint[] | undefined {
-    const results = new Array<DocumentationEntryPoint>();
-    // --packages arguments are workspace tree roots, or glob patterns
-    // This expands them to leave only leaf packages
-    const expandedPackages = expandPackages(logger, ".", packageGlobPaths);
-    for (const packagePath of expandedPackages) {
-        const packageJsonPath = resolve(packagePath, "package.json");
-        const packageJson = loadPackageManifest(logger, packageJsonPath);
-        if (packageJson === undefined) {
-            logger.error(`Could not load package manifest ${packageJsonPath}`);
-            return;
-        }
-        const packageEntryPoint = getTsEntryPointForPackage(
-            logger,
-            packageJsonPath,
-            packageJson
-        );
-        if (packageEntryPoint === undefined) {
-            logger.error(
-                `Could not determine TS entry point for package ${packageJsonPath}`
-            );
-            return;
-        }
-        if (packageEntryPoint === ignorePackage) {
-            continue;
-        }
-        const tsconfigFile = ts.findConfigFile(
-            packageEntryPoint,
-            ts.sys.fileExists
-        );
-        if (tsconfigFile === undefined) {
-            logger.error(
-                `Could not determine tsconfig.json for source file ${packageEntryPoint} (it must be on an ancestor path)`
-            );
-            return;
-        }
-        // Consider deduplicating this with similar code in src/lib/utils/options/readers/tsconfig.ts
-        let fatalError = false;
-        const parsedCommandLine = ts.getParsedCommandLineOfConfigFile(
-            tsconfigFile,
-            {},
-            {
-                ...ts.sys,
-                onUnRecoverableConfigFileDiagnostic: (error) => {
-                    logger.diagnostic(error);
-                    fatalError = true;
-                },
-            }
-        );
-        if (!parsedCommandLine) {
-            return;
-        }
-        logger.diagnostics(parsedCommandLine.errors);
-        if (fatalError) {
-            return;
-        }
-        const program = ts.createProgram({
-            rootNames: parsedCommandLine.fileNames,
-            options: fixCompilerOptions(parsedCommandLine.options, willEmit),
-        });
-        const sourceFile = program.getSourceFile(packageEntryPoint);
-        if (sourceFile === undefined) {
-            logger.error(
-                `Entry point "${packageEntryPoint}" does not appear to be built by the tsconfig found at "${tsconfigFile}"`
-            );
-            return;
-        }
-        results.push({
-            displayName: packageJson["name"] as string,
-            path: packageEntryPoint,
-            program,
-            sourceFile,
-        });
-    }
-    return results;
-}
-
-function fixCompilerOptions(
-    options: ts.CompilerOptions,
-    willEmit: boolean
-): ts.CompilerOptions {
-    return {
-        ...options,
-        noEmit: willEmit === false,
-    };
-}
-
-function getModuleName(fileName: string, baseDir: string) {
-    return normalizePath(Path.relative(baseDir, fileName)).replace(
-        /(\/index)?(\.d)?\.[tj]sx?$/,
-        ""
-    );
-}
 
 /**
  * The default TypeDoc main application class.
@@ -195,18 +85,6 @@ export class Application extends ChildableComponent<
     /** @internal */
     @BindOption("logger")
     loggerType!: string | Function;
-
-    /** @internal */
-    @BindOption("exclude")
-    exclude!: Array<string>;
-
-    /** @internal */
-    @BindOption("entryPoints")
-    entryPoints!: string[];
-
-    /** @internal */
-    @BindOption("emit")
-    emit!: boolean;
 
     /**
      * The version number of TypeDoc.
@@ -293,6 +171,14 @@ export class Application extends ChildableComponent<
     }
 
     /**
+     * Gets the entry points to be documented according to the current `entryPoints` and `entryPointStrategy` options.
+     * May return undefined if entry points fail to be expanded.
+     */
+    public getEntryPoints(): DocumentationEntryPoint[] | undefined {
+        return getEntryPoints(this.logger, this.options);
+    }
+
+    /**
      * Run the converter for the given set of files and return the generated reflections.
      *
      * @returns An instance of ProjectReflection on success, undefined otherwise.
@@ -318,44 +204,16 @@ export class Application extends ChildableComponent<
             );
         }
 
-        if (
-            Object.keys(this.options.getCompilerOptions()).length === 0 &&
-            this.options.getValue("packages").length === 0
-        ) {
-            this.logger.warn(
-                `No compiler options set. This likely means that TypeDoc did not find your tsconfig.json. Generated documentation will probably be empty.`
-            );
-        }
+        const entryPoints = this.getEntryPoints();
 
-        if (
-            this.options.getValue("packages").length &&
-            this.entryPoints.length
-        ) {
-            this.logger.error(
-                `Providing both 'packages' and 'entryPoints' is not supported.`
-            );
+        if (!entryPoints) {
+            // Fatal error already reported.
             return;
         }
 
-        const packages = this.options.getValue("packages").map(normalizePath);
-        const entryPoints = getEntryPointsForPackages(
-            this.logger,
-            packages,
-            this.emit
-        );
-        if (entryPoints === undefined) {
-            return;
-        }
-        if (entryPoints.length === 0) {
-            // No package entry points were specified. Try to process the file-oriented entry points.
-            // The reason this is skipped when using --packages is that this approach currently assumes a global
-            // tsconfig compilation setup which is not likely to exist when using --packages.
-            entryPoints.push(...this.getEntryPointsForPaths(this.entryPoints));
-        }
-
-        const programs = new Set(entryPoints.map((e) => e.program));
+        const programs = unique(entryPoints.map((e) => e.program));
         this.logger.verbose(
-            `Converting with ${programs.size} programs and ${entryPoints.length} entry points`
+            `Converting with ${programs.length} programs ${entryPoints.length} entry points`
         );
 
         const errors = flatMap([...programs], ts.getPreEmitDiagnostics);
@@ -418,9 +276,12 @@ export class Application extends ChildableComponent<
         }
 
         // Support for packages mode is currently unimplemented
-        if (this.options.getValue("packages").length !== 0) {
+        if (
+            this.options.getValue("entryPointStrategy") ===
+            EntryPointStrategy.Packages
+        ) {
             this.logger.error(
-                'Running with "--packages" is not supported in watch mode.'
+                "The packages option of entryPointStrategy is not supported in watch mode."
             );
             return;
         }
@@ -442,7 +303,7 @@ export class Application extends ChildableComponent<
 
         const host = ts.createWatchCompilerHost(
             tsconfigFile,
-            fixCompilerOptions({}, this.emit),
+            this.options.fixCompilerOptions({}),
             ts.sys,
             ts.createEmitAndSemanticDiagnosticsBuilderProgram,
             (diagnostic) => this.logger.diagnostic(diagnostic),
@@ -472,23 +333,9 @@ export class Application extends ChildableComponent<
 
             if (successFinished) {
                 this.logger.resetErrors();
-                const inputFiles = this.expandInputFiles(this.entryPoints);
-                const baseDir = getCommonDirectory(inputFiles);
-                const entryPoints = new Array<DocumentationEntryPoint>();
-                for (const file of inputFiles.map(normalizePath)) {
-                    const sourceFile = currentProgram.getSourceFile(file);
-                    if (sourceFile) {
-                        entryPoints.push({
-                            displayName: getModuleName(resolve(file), baseDir),
-                            path: file,
-                            sourceFile,
-                            program: currentProgram,
-                        });
-                    } else {
-                        this.logger.warn(
-                            `Unable to locate entry point: ${file} within the program defined by ${tsconfigFile}`
-                        );
-                    }
+                const entryPoints = this.getEntryPoints();
+                if (!entryPoints) {
+                    return;
                 }
                 const project = this.converter.convert(entryPoints);
                 currentProgram = undefined;
@@ -565,140 +412,6 @@ export class Application extends ChildableComponent<
         await writeFile(out, JSON.stringify(ser, null, space));
         this.logger.info(`JSON written to ${out}`);
         this.logger.verbose(`JSON rendering took ${Date.now() - start}ms`);
-    }
-
-    /**
-     * Expand a list of input files.
-     *
-     * Searches for directories in the input files list and replaces them with a
-     * listing of all TypeScript files within them. One may use the ```--exclude``` option
-     * to filter out files with a pattern.
-     *
-     * @param inputFiles  The list of files that should be expanded.
-     * @returns  The list of input files with expanded directories.
-     */
-    public expandInputFiles(inputFiles: readonly string[]): string[] {
-        const files: string[] = [];
-
-        const exclude = createMinimatch(this.exclude);
-
-        const supportedFileRegex =
-            this.options.getCompilerOptions().allowJs ||
-            this.options.getCompilerOptions().checkJs
-                ? /\.[tj]sx?$/
-                : /\.tsx?$/;
-        function add(file: string, entryPoint: boolean) {
-            let stats: FS.Stats;
-            try {
-                stats = FS.statSync(file);
-            } catch {
-                // No permission or a symbolic link, do not resolve.
-                return;
-            }
-            const fileIsDir = stats.isDirectory();
-            if (fileIsDir && !file.endsWith("/")) {
-                file = `${file}/`;
-            }
-
-            if (!entryPoint && matchesAny(exclude, file)) {
-                return;
-            }
-
-            if (fileIsDir) {
-                FS.readdirSync(file).forEach((next) => {
-                    add(Path.join(file, next), false);
-                });
-            } else if (supportedFileRegex.test(file)) {
-                files.push(normalizePath(file));
-            }
-        }
-
-        inputFiles.forEach((file) => {
-            const resolved = Path.resolve(file);
-            if (!FS.existsSync(resolved)) {
-                this.logger.warn(
-                    `Provided entry point ${file} does not exist and will not be included in the docs.`
-                );
-                return;
-            }
-
-            add(resolved, true);
-        });
-
-        return files;
-    }
-
-    private getEntryPrograms() {
-        const rootProgram = ts.createProgram({
-            rootNames: this.options.getFileNames(),
-            options: fixCompilerOptions(
-                this.options.getCompilerOptions(),
-                this.emit
-            ),
-            projectReferences: this.options.getProjectReferences(),
-        });
-
-        const programs = [rootProgram];
-        // This might be a solution style tsconfig, in which case we need to add a program for each
-        // reference so that the converter can look through each of these.
-        if (rootProgram.getRootFileNames().length === 0) {
-            this.logger.verbose(
-                "tsconfig appears to be a solution style tsconfig - creating programs for references"
-            );
-            const resolvedReferences =
-                rootProgram.getResolvedProjectReferences();
-            for (const ref of resolvedReferences ?? []) {
-                if (!ref) continue; // This indicates bad configuration... will be reported later.
-
-                programs.push(
-                    ts.createProgram({
-                        options: fixCompilerOptions(
-                            ref.commandLine.options,
-                            this.emit
-                        ),
-                        rootNames: ref.commandLine.fileNames,
-                        projectReferences: ref.commandLine.projectReferences,
-                    })
-                );
-            }
-        }
-
-        return programs;
-    }
-
-    /**
-     * Converts a list of file-oriented paths in to DocumentationEntryPoints for conversion.
-     * This is in contrast with the package-oriented `getEntryPointsForPackages`
-     *
-     * @param entryPointPaths  The list of filepaths that should be expanded.
-     * @returns  The DocumentationEntryPoints corresponding to all the found entry points
-     * @internal - if you want to use this, ask, it's likely okay to expose.
-     */
-    public getEntryPointsForPaths(
-        entryPointPaths: string[],
-        programs: ts.Program[] = this.getEntryPrograms()
-    ): DocumentationEntryPoint[] {
-        const inputFiles = this.expandInputFiles(entryPointPaths);
-        const baseDir = getCommonDirectory(inputFiles);
-        const entryPoints: DocumentationEntryPoint[] = [];
-
-        entryLoop: for (const file of inputFiles.map(normalizePath)) {
-            for (const program of programs) {
-                const sourceFile = program.getSourceFile(file);
-                if (sourceFile) {
-                    entryPoints.push({
-                        displayName: getModuleName(resolve(file), baseDir),
-                        path: file,
-                        sourceFile,
-                        program,
-                    });
-                    continue entryLoop;
-                }
-            }
-            this.logger.warn(`Unable to locate entry point: ${file}`);
-        }
-
-        return entryPoints;
     }
 
     /**

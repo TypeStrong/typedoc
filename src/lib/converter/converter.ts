@@ -13,13 +13,7 @@ import { createMinimatch, matchesAny } from "../utils/paths";
 import type { IMinimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import { resolveAliasedSymbol } from "./utils/symbols";
-
-export interface DocumentationEntryPoint {
-    displayName: string;
-    path: string;
-    program: ts.Program;
-    sourceFile: ts.SourceFile;
-}
+import type { DocumentationEntryPoint } from "../utils/entry-point";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -399,7 +393,9 @@ export class Converter extends ChildableComponent<
     }
 
     private isExcluded(symbol: ts.Symbol) {
-        this.excludeCache ??= createMinimatch(this.application.exclude);
+        this.excludeCache ??= createMinimatch(
+            this.application.options.getValue("exclude")
+        );
 
         for (const node of symbol.getDeclarations() ?? []) {
             if (matchesAny(this.excludeCache, node.getSourceFile().fileName)) {

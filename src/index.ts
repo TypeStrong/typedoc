@@ -5,7 +5,6 @@ export { resetReflectionID } from "./lib/models/reflections/abstract";
 export { normalizePath } from "./lib/utils/fs";
 export * from "./lib/models";
 export { Converter, Context } from "./lib/converter";
-export type { DocumentationEntryPoint } from "./lib/converter";
 
 export {
     Renderer,
@@ -28,6 +27,7 @@ export {
     ParameterType,
     TSConfigReader,
     TypeDocReader,
+    EntryPointStrategy,
 } from "./lib/utils";
 
 export type {
@@ -47,6 +47,7 @@ export type {
     DeclarationOptionToOptionType,
     SortStrategy,
     ParameterTypeToOptionTypeMap,
+    DocumentationEntryPoint,
 } from "./lib/utils";
 
 export type { EventMap, EventCallback } from "./lib/utils/events";

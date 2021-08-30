@@ -2,6 +2,7 @@ import type { Theme as ShikiTheme } from "shiki";
 import type { LogLevel } from "../loggers";
 import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
+import type { EntryPointStrategy } from "../entry-point";
 
 /**
  * An interface describing all TypeDoc specific options. Generated from a
@@ -9,12 +10,13 @@ import { isAbsolute, join, resolve } from "path";
  * defining said options.
  */
 export type TypeDocOptions = {
-    [K in keyof TypeDocOptionMap]: TypeDocOptionMap[K] extends Record<
-        string,
-        infer U
-    >
-        ? Exclude<U, string> | keyof TypeDocOptionMap[K]
-        : TypeDocOptionMap[K];
+    [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
+        ? unknown
+        : TypeDocOptionMap[K] extends string | string[] | number | boolean
+        ? TypeDocOptionMap[K]
+        :
+              | keyof TypeDocOptionMap[K]
+              | TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
 
 /**
@@ -23,12 +25,11 @@ export type TypeDocOptions = {
  * keys and values for mapped option types.
  */
 export type TypeDocOptionValues = {
-    [K in keyof TypeDocOptionMap]: TypeDocOptionMap[K] extends Record<
-        string,
-        infer U
-    >
-        ? Exclude<U, string>
-        : TypeDocOptionMap[K];
+    [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
+        ? unknown
+        : TypeDocOptionMap[K] extends string | string[] | number | boolean
+        ? TypeDocOptionMap[K]
+        : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
 
 /**
@@ -38,9 +39,10 @@ export type TypeDocOptionValues = {
 export interface TypeDocOptionMap {
     options: string;
     tsconfig: string;
-    packages: string[];
 
     entryPoints: string[];
+    entryPointStrategy: typeof EntryPointStrategy;
+
     exclude: string[];
     externalPattern: string[];
     excludeExternals: boolean;

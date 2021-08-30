@@ -95,7 +95,7 @@ describe("Options", () => {
     });
 
     it("Supports directly getting values", () => {
-        equal(options.getRawValues().packages, []);
+        equal(options.getRawValues().entryPoints, []);
     });
 
     it("Supports checking if an option is set", () => {

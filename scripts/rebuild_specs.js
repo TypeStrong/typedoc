@@ -5,6 +5,7 @@ const ts = require("typescript");
 const fs = require("fs");
 const path = require("path");
 const TypeDoc = require("..");
+const { getExpandedEntryPointsForPaths } = require("../dist/lib/utils");
 
 const app = new TypeDoc.Application();
 app.options.addReader(new TypeDoc.TSConfigReader());
@@ -21,6 +22,7 @@ app.bootstrap({
         "tsconfig.json"
     ),
     externalPattern: ["**/node_modules/**"],
+    entryPointStrategy: TypeDoc.EntryPointStrategy.expand,
 });
 
 // Note that this uses the test files in dist, not in src, this is important since
@@ -74,7 +76,12 @@ function rebuildConverterTests(dirs) {
                 TypeDoc.resetReflectionID();
                 before();
                 const result = app.converter.convert(
-                    app.getEntryPointsForPaths([fullPath], [program])
+                    getExpandedEntryPointsForPaths(
+                        app.logger,
+                        [fullPath],
+                        app.options,
+                        [program]
+                    )
                 );
                 const serialized = app.serializer.toObject(result);
 

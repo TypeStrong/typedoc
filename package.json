@@ -3,8 +3,9 @@
   "description": "Create api documentation for TypeScript projects.",
   "version": "0.22.0-beta.5",
   "homepage": "https://typedoc.org",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": {
     "typedoc": "bin/typedoc"
   },
@@ -22,9 +23,9 @@
   "dependencies": {
     "glob": "^7.1.7",
     "lunr": "^2.3.9",
-    "shiki": "^0.9.8",
     "marked": "^3.0.2",
-    "minimatch": "^3.0.4"
+    "minimatch": "^3.0.4",
+    "shiki": "^0.9.8"
   },
   "peerDependencies": {
     "typescript": "4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x"
@@ -47,6 +48,8 @@
     "puppeteer": "^10.1.0",
     "reg-notify-github-plugin": "^0.10.16",
     "reg-suit": "^0.10.16",
+    "reg-suit-core": "^0.10.16",
+    "reg-suit-interface": "^0.10.16",
     "typescript": "^4.3.5"
   },
   "files": [
@@ -60,7 +63,8 @@
   ],
   "scripts": {
     "pretest": "node scripts/copy_test_files.js",
-    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 'dist/test/**/*.test.js' --exclude 'dist/test/packages/**'",
+    "test": "mocha --config .config/mocha.fast.json",
+    "test:full": "nyc --reporter=html --reporter=text-summary mocha --config .config/mocha.full.json",
     "test:visual": "node ./dist/test/capture-screenshots.js && reg-suit -c .config/regconfig.json compare",
     "test:visual:accept": "node scripts/accept_visual_regression.js",
     "prerebuild_specs": "npm run pretest",

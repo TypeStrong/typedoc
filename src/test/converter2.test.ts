@@ -42,7 +42,6 @@ function runTest(
         const project = app.converter.convert([
             {
                 displayName: entry,
-                path: entryPoint,
                 program,
                 sourceFile,
             },

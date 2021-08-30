@@ -3,6 +3,7 @@ import { LogLevel } from "../../loggers";
 import { ParameterType, ParameterHint } from "../declaration";
 import { BUNDLED_THEMES } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
+import { EntryPointStrategy } from "../../entry-point";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
@@ -20,18 +21,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: process.cwd(),
     });
     options.addDeclaration({
-        name: "packages",
-        help:
-            "Specify one or more package folders from which a package.json file should be loaded to determine the entry points. Your JS files must have sourcemaps for this to work." +
-            "If the root of an npm or Yarn workspace is given, the packages specified in `workspaces` will be loaded.",
-        type: ParameterType.PathArray,
-        defaultValue: [],
-    });
-
-    options.addDeclaration({
         name: "entryPoints",
-        help: "The entry points of your library, which files should be documented as available to consumers.",
+        help: "The entry points of your documentation.",
         type: ParameterType.PathArray,
+    });
+    options.addDeclaration({
+        name: "entryPointStrategy",
+        help: "The strategy to be used to convert entry points into documentation modules.",
+        type: ParameterType.Map,
+        map: EntryPointStrategy,
+        defaultValue: EntryPointStrategy.Resolve,
     });
 
     options.addDeclaration({

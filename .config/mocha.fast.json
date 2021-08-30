@@ -1,0 +1,5 @@
+{
+    "timeout": 5000,
+    "spec": ["dist/test/**/*.test.js"],
+    "exclude": ["dist/test/packages/**", "dist/test/slow/**"]
+}

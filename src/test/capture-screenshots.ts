@@ -3,7 +3,7 @@ import { sync as glob } from "glob";
 import { platform } from "os";
 import * as Path from "path";
 import * as puppeteer from "puppeteer";
-import { Application, TSConfigReader } from "..";
+import { Application, TSConfigReader, EntryPointStrategy } from "..";
 import { remove } from "../lib/utils";
 
 const concurrency = 10;
@@ -54,7 +54,7 @@ class PQueue {
     }
 }
 
-async function main() {
+export async function captureRegressionScreenshots() {
     const app = new Application();
     app.options.addReader(new TSConfigReader());
     app.bootstrap({
@@ -67,13 +67,20 @@ async function main() {
         tsconfig: Path.join(src, "..", "tsconfig.json"),
         plugin: [],
         entryPoints: [src],
+        entryPointStrategy: EntryPointStrategy.Expand,
     });
-    const entries = app.getEntryPointsForPaths([src]);
-    const project = app.converter.convert(entries);
+    const project = app.convert();
     if (!project) throw new Error("Failed to convert.");
     await remove(outputDirectory);
     await app.generateDocs(project, baseDirectory);
 
+    await captureScreenshots(baseDirectory, outputDirectory);
+}
+
+export async function captureScreenshots(
+    baseDirectory: string,
+    outputDirectory: string
+) {
     const browser = await puppeteer.launch({
         args:
             platform() === "win32"
@@ -111,4 +118,9 @@ async function main() {
     await browser.close();
 }
 
-void main();
+if (require.main == module) {
+    captureRegressionScreenshots().catch((err) => {
+        console.error(err);
+        process.exit(1);
+    });
+}

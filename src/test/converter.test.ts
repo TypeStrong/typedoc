@@ -1,14 +1,16 @@
-import {
-    Application,
-    resetReflectionID,
-    normalizePath,
-    ProjectReflection,
-} from "..";
+import { deepStrictEqual as equal, ok } from "assert";
 import * as FS from "fs";
 import * as Path from "path";
-import { deepStrictEqual as equal, ok } from "assert";
 import * as ts from "typescript";
-import { TSConfigReader } from "../lib/utils/options";
+import {
+    Application,
+    EntryPointStrategy,
+    normalizePath,
+    ProjectReflection,
+    resetReflectionID,
+    TSConfigReader,
+} from "..";
+import { getExpandedEntryPointsForPaths } from "../lib/utils";
 
 describe("Converter", function () {
     const base = Path.join(__dirname, "converter");
@@ -22,14 +24,15 @@ describe("Converter", function () {
         tsconfig: Path.join(base, "tsconfig.json"),
         externalPattern: ["**/node_modules/**"],
         plugin: [],
+        entryPointStrategy: EntryPointStrategy.Expand,
     });
 
     let program: ts.Program;
     it("Compiles", () => {
-        program = ts.createProgram(app.options.getFileNames(), {
-            ...app.options.getCompilerOptions(),
-            noEmit: true,
-        });
+        program = ts.createProgram(
+            app.options.getFileNames(),
+            app.options.getCompilerOptions()
+        );
 
         const errors = ts.getPreEmitDiagnostics(program);
         equal(errors, []);
@@ -75,9 +78,14 @@ describe("Converter", function () {
                 it(`[${file}] converts fixtures`, function () {
                     before();
                     resetReflectionID();
-                    result = app.converter.convert(
-                        app.getEntryPointsForPaths([path], [program])
+                    const entryPoints = getExpandedEntryPointsForPaths(
+                        app.logger,
+                        [path],
+                        app.options,
+                        [program]
                     );
+                    ok(entryPoints, "Failed to get entry points");
+                    result = app.converter.convert(entryPoints);
                     after();
                     ok(
                         result instanceof ProjectReflection,

@@ -22,7 +22,7 @@ Google Analytics. This could be done with the following theme:
 import { Application, DefaultTheme, PageEvent, JSX } from "typedoc";
 
 class MyThemeContext extends DefaultThemeRenderContext {
-    // Important: If you use `this`, this function MUST be bound! Themes are free
+    // Important: If you use `this`, this function MUST be bound! Template functions are free
     // to destructure the context object to only grab what they care about.
     override analytics = () => {
         // Reusing existing option rather than declaring our own for brevity
