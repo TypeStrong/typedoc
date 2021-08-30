@@ -111,6 +111,9 @@ To compile the TypeDoc source, run `npm run build`. This will start the TypeScri
 #### Testing
 
 TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`.
+This will run a subset of TypeDoc's tests intended for quick development checks.
+Tests which take more than half a second are located in `src/test/slow`, and will only be run if you run `npm run test:full`.
+These tests will also run the visual regression tests, failing if there are any changes.
 TypeDoc also contains visual regression tests for comparing changes made to the themes. To test this, run `npm run test:visual`. If there are changes that you expect, run `npm run test:visual:accept` to save the new baseline.
 
 If you have changed the TypeDoc output, it will cause tests to fail. Once you have validated that the introduced changes were intended, run `npm run rebuild_specs` to update the spec files for the new output.
