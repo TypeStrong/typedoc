@@ -129,10 +129,6 @@ export class Converter extends ChildableComponent<
 
     /**
      * Compile the given source files and create a project reflection for them.
-     *
-     * @param entryPoints the entry points of this program.
-     * @param programs the programs to document, that have already been type checked.
-     * @param packages an array of packages (used in --packages mode)
      */
     convert(
         entryPoints: readonly DocumentationEntryPoint[]

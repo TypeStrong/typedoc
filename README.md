@@ -47,14 +47,14 @@ Supports wildcard paths in the same fashion as those found in npm or Yarn worksp
 
 #### Single npm module
 
-```text
-typedoc --packages .
+```bash
+typedoc --entryPointStrategy packages .
 ```
 
 #### Monorepo with npm/Yarn workspace at the root
 
-```text
-typedoc --packages .
+```bash
+typedoc --entryPointStrategy packages .
 ```
 
 #### Monorepo with manually specified sub-packages to document
@@ -62,9 +62,9 @@ typedoc --packages .
 This can be useful if you do not want all your workspaces to be processed.
 Accepts the same paths as would go in the `package.json`'s workspaces
 
-```text
+```bash
 # Note the single quotes prevent shell wildcard expansion, allowing typedoc to do the expansion
-typedoc --packages a-package --packages 'some-more-packages/*' --packages 'some-other-packages/*'
+typedoc --entryPointStrategy packages a-package 'some-more-packages/*' 'some-other-packages/*'
 ```
 
 ### Arguments
@@ -80,9 +80,6 @@ For a complete list of the command line arguments run `typedoc --help` or visit
 -   `--options`<br>
     Specify a json option file that should be loaded. If not specified TypeDoc
     will look for 'typedoc.json' in the current directory.
--   `--packages <path/to/package/>`<br>
-    Specify one or more sub packages, or the root of a monorepo with workspaces.
-    Supports wildcard paths in the same fashion as those found in npm or Yarn workspaces.
 -   `--tsconfig <path/to/tsconfig.json>`<br>
     Specify a typescript config file that should be loaded. If not
     specified TypeDoc will look for 'tsconfig.json' in the current directory.
