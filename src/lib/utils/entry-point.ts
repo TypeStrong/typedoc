@@ -1,7 +1,6 @@
 import { join, relative, resolve } from "path";
 import * as ts from "typescript";
 import * as FS from "fs";
-import { getCommonDirectory, Logger, normalizePath, Options } from ".";
 import {
     expandPackages,
     getTsEntryPointForPackage,
@@ -9,6 +8,9 @@ import {
     loadPackageManifest,
 } from "./package-manifest";
 import { createMinimatch, matchesAny } from "./paths";
+import type { Logger } from "./loggers";
+import type { Options } from "./options";
+import { getCommonDirectory, normalizePath } from "./fs";
 
 /**
  * Defines how entry points are interpreted.

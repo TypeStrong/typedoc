@@ -10,7 +10,7 @@ import { GroupPlugin } from "../../converter/plugins/GroupPlugin";
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { writeFileSync } from "../../utils";
-import { DefaultTheme } from "..";
+import { DefaultTheme } from "../themes/default/DefaultTheme";
 
 /**
  * A plugin that exports an index of the project to a javascript file.

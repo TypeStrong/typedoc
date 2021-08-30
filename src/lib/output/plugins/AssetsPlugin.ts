@@ -3,7 +3,7 @@ import * as Path from "path";
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { copySync } from "../../utils/fs";
-import { DefaultTheme } from "..";
+import { DefaultTheme } from "../themes/default/DefaultTheme";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
