@@ -64,6 +64,7 @@
   "scripts": {
     "pretest": "node scripts/copy_test_files.js",
     "test": "mocha --config .config/mocha.fast.json",
+    "pretest:full": "npm run pretest",
     "test:full": "nyc --reporter=html --reporter=text-summary mocha --config .config/mocha.full.json",
     "test:visual": "node ./dist/test/capture-screenshots.js && reg-suit -c .config/regconfig.json compare",
     "test:visual:accept": "node scripts/accept_visual_regression.js",

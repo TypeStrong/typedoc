@@ -9,6 +9,7 @@ const toCopy = [
     "test/module",
     "test/packages",
     "test/utils/options/readers/data",
+    "test/slow/entry-points",
 ];
 
 const copies = toCopy.map(async (dir) => {

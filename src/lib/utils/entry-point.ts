@@ -44,16 +44,33 @@ export function getEntryPoints(
 ): DocumentationEntryPoint[] | undefined {
     const entryPoints = options.getValue("entryPoints");
 
+    let result: DocumentationEntryPoint[] | undefined;
     switch (options.getValue("entryPointStrategy")) {
         case EntryPointStrategy.Resolve:
-            return getEntryPointsForPaths(logger, entryPoints, options);
+            result = getEntryPointsForPaths(logger, entryPoints, options);
+            break;
 
         case EntryPointStrategy.Expand:
-            return getExpandedEntryPointsForPaths(logger, entryPoints, options);
+            result = getExpandedEntryPointsForPaths(
+                logger,
+                entryPoints,
+                options
+            );
+            break;
 
         case EntryPointStrategy.Packages:
-            return getEntryPointsForPackages(logger, entryPoints, options);
+            result = getEntryPointsForPackages(logger, entryPoints, options);
+            break;
     }
+
+    if (result && result.length === 0) {
+        logger.error(
+            "Unable to find any entry points. Make sure TypeDoc can find your tsconfig"
+        );
+        return;
+    }
+
+    return result;
 }
 
 function getModuleName(fileName: string, baseDir: string) {
@@ -101,13 +118,6 @@ function getEntryPointsForPaths(
             }
         }
         logger.warn(`Unable to locate entry point: ${fileOrDir}`);
-    }
-
-    if (entryPoints.length === 0) {
-        logger.error(
-            "Unable to find any entry points. Make sure TypeDoc can find your tsconfig"
-        );
-        return;
     }
 
     return entryPoints;
@@ -197,15 +207,14 @@ function expandInputFiles(
             file = `${file}/`;
         }
 
-        if (!entryPoint && matchesAny(exclude, file)) {
-            return;
-        }
-
         if (fileIsDir) {
             FS.readdirSync(file).forEach((next) => {
                 add(join(file, next), false);
             });
         } else if (supportedFileRegex.test(file)) {
+            if (!entryPoint && matchesAny(exclude, file)) {
+                return;
+            }
             files.push(normalizePath(file));
         }
     }
@@ -312,5 +321,6 @@ function getEntryPointsForPackages(
             sourceFile,
         });
     }
+
     return results;
 }

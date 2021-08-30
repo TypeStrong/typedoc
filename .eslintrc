@@ -21,7 +21,6 @@
         "coverage",
         "static/main.js",
         "src/lib/output/themes/default/assets",
-        "src/lib/output/themes/minimal/assets",
         // Would be nice to lint these, but they shouldn't be included in the project,
         // so we need a second eslint config file.
         "src/test/converter",
@@ -29,6 +28,7 @@
         "src/test/module",
         "src/test/packages",
         "src/test/renderer",
+        "src/test/slow/entry-points",
         "scripts",
         "bin"
     ],

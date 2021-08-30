@@ -38,11 +38,12 @@
     "include": ["src"],
     "exclude": [
         "src/lib/output/themes/default/assets",
-        "src/test/converter/**/*.ts",
-        "src/test/converter2/**/*.ts",
+        "src/test/converter",
+        "src/test/converter2",
         "src/test/renderer/specs",
-        "src/test/.dot/**/*.ts",
-        "src/test/module/**/*.ts",
-        "src/test/packages/**/*.ts"
+        "src/test/.dot",
+        "src/test/module",
+        "src/test/packages",
+        "src/test/slow/entry-points"
     ]
 }
