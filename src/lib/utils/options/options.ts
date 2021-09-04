@@ -116,14 +116,29 @@ export class Options {
 
     /**
      * Resets the option bag to all default values.
+     * If a name is provided, will only reset that name.
      */
-    reset() {
-        for (const declaration of this.getDeclarations()) {
+    reset(name?: keyof TypeDocOptions): void;
+    reset(name?: NeverIfInternal<string>): void;
+    reset(name?: string): void {
+        if (name != null) {
+            const declaration = this.getDeclaration(name);
+            if (!declaration) {
+                throw new Error(
+                    "Cannot reset an option which has not been declared."
+                );
+            }
+
             this._values[declaration.name] = getDefaultValue(declaration);
+            this._setOptions.delete(declaration.name);
+        } else {
+            for (const declaration of this.getDeclarations()) {
+                this._values[declaration.name] = getDefaultValue(declaration);
+            }
+            this._setOptions.clear();
+            this._compilerOptions = {};
+            this._fileNames = [];
         }
-        this._setOptions.clear();
-        this._compilerOptions = {};
-        this._fileNames = [];
     }
 
     /**

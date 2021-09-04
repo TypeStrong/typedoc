@@ -118,6 +118,37 @@ describe("Options", () => {
         throws(() => options.setValue("emit", true));
         throws(() => options.setCompilerOptions([], {}, []));
     });
+
+    it("Supports resetting values", () => {
+        const options = new Options(new Logger());
+        options.addDefaultDeclarations();
+
+        options.setValue("entryPoints", ["x"]);
+        options.setValue("excludeTags", ["x"]);
+        options.reset();
+
+        equal(options.getValue("entryPoints"), []);
+        equal(options.getValue("excludeTags"), []);
+    });
+
+    it("Supports resetting a single value", () => {
+        const options = new Options(new Logger());
+        options.addDefaultDeclarations();
+
+        options.setValue("name", "test");
+        options.setValue("excludeTags", ["x"]);
+        options.reset("excludeTags");
+
+        equal(options.getValue("name"), "test");
+        equal(options.getValue("excludeTags"), []);
+    });
+
+    it("Throws if resetting a single value which does not exist", () => {
+        const options = new Options(new Logger());
+        options.addDefaultDeclarations();
+
+        throws(() => options.reset("thisOptionDoesNotExist" as never));
+    });
 });
 
 describe("BindOption", () => {
