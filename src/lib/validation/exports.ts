@@ -20,11 +20,13 @@ export function validateExports(
 ) {
     const queue: Reflection[] = [];
     const context: { reflection: Reflection } = { reflection: project };
+    const seenIntentional = new Set<string>();
 
     const visitor = makeTypeVisitor(
         logger,
         queue,
         new Set(intentionallyNotExported),
+        seenIntentional,
         context
     );
 
@@ -54,9 +56,9 @@ export function validateExports(
             add(current.getSignature);
             add(current.setSignature);
             current.overwrites?.visit(visitor);
-            current.inheritedFrom?.visit(visitor);
+            // Do not check inheritedFrom, it doesn't always make sense to export a base type.
             current.implementationOf?.visit(visitor);
-            current.extendedTypes?.forEach((type) => type.visit(visitor));
+            // Do not check extendedTypes, it doesn't always make sense to export a base type.
             // do not validate extendedBy, guaranteed to all be in the documentation.
             current.implementedTypes?.forEach((type) => type.visit(visitor));
             // do not validate implementedBy, guaranteed to all be in the documentation.
@@ -67,7 +69,7 @@ export function validateExports(
             add(current.typeParameters);
             current.type?.visit(visitor);
             current.overwrites?.visit(visitor);
-            current.inheritedFrom?.visit(visitor);
+            // Do not check inheritedFrom, it doesn't always make sense to export a base type.
             current.implementationOf?.visit(visitor);
         }
 
@@ -80,12 +82,25 @@ export function validateExports(
             current.default?.visit(visitor);
         }
     } while ((current = queue.shift()));
+
+    const intentional = new Set(intentionallyNotExported);
+    for (const x of seenIntentional) {
+        intentional.delete(x);
+    }
+
+    if (intentional.size) {
+        logger.warn(
+            "The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:\n\t" +
+                Array.from(intentional).join("\n\t")
+        );
+    }
 }
 
 function makeTypeVisitor(
     logger: Logger,
     queue: Reflection[],
     intentional: Set<string>,
+    seenIntentional: Set<string>,
     context: { reflection: Reflection }
 ): TypeVisitor {
     const warned = new Set<ts.Symbol>();
@@ -95,6 +110,10 @@ function makeTypeVisitor(
             // If we don't have a symbol, then this was an intentionally broken reference.
             const symbol = type.getSymbol();
             if (!type.reflection && symbol) {
+                if (intentional.has(symbol.name)) {
+                    seenIntentional.add(symbol.name);
+                }
+
                 if (
                     (symbol.flags & ts.SymbolFlags.TypeParameter) === 0 &&
                     !intentional.has(symbol.name) &&

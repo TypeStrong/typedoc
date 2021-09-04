@@ -2,15 +2,11 @@
     "$schema": "https://typedoc.org/schema.json",
     "intentionallyNotExported": [
         "ComponentClass",
-        "ChildableComponent",
         "AbstractComponent",
         "ConverterComponent",
         "RendererComponent",
         "SORT_STRATEGIES",
-        "S",
-        "BoolKeys",
-        "_ModelToObject",
-        "BasicHtmlElements"
+        "_ModelToObject"
     ],
     "entryPoints": ["../src/index.ts"],
     "excludeExternals": true,
