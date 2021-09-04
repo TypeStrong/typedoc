@@ -155,7 +155,7 @@ export class Logger {
      * @param _message  The message itself.
      * @param level  The urgency of the log message.
      */
-    log(_message: string, level: LogLevel = LogLevel.Info) {
+    log(_message: string, level: LogLevel) {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
@@ -223,7 +223,7 @@ export class ConsoleLogger extends Logger {
      * @param message  The message itself.
      * @param level  The urgency of the log message.
      */
-    override log(message: string, level: LogLevel = LogLevel.Info) {
+    override log(message: string, level: LogLevel) {
         super.log(message, level);
         if (level < this.level && !isDebugging()) {
             return;
@@ -271,7 +271,7 @@ export class CallbackLogger extends Logger {
      * @param message  The message itself.
      * @param level  The urgency of the log message.
      */
-    override log(message: string, level: LogLevel = LogLevel.Info) {
+    override log(message: string, level: LogLevel) {
         super.log(message, level);
         this.callback(message, level);
     }

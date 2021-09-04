@@ -1,41 +1,22 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import * as FS from "fs";
 import * as Path from "path";
-import * as ts from "typescript";
-import {
-    Application,
-    EntryPointStrategy,
-    normalizePath,
-    ProjectReflection,
-    resetReflectionID,
-    TSConfigReader,
-} from "..";
+import type * as ts from "typescript";
+import { normalizePath, ProjectReflection, resetReflectionID } from "..";
 import { getExpandedEntryPointsForPaths } from "../lib/utils";
+import {
+    getConverterApp,
+    getConverterBase,
+    getConverterProgram,
+} from "./programs";
 
 describe("Converter", function () {
-    const base = Path.join(__dirname, "converter");
-    const app = new Application();
-    app.options.addReader(new TSConfigReader());
-    app.bootstrap({
-        logger: "none",
-        name: "typedoc",
-        excludeExternals: true,
-        disableSources: true,
-        tsconfig: Path.join(base, "tsconfig.json"),
-        externalPattern: ["**/node_modules/**"],
-        plugin: [],
-        entryPointStrategy: EntryPointStrategy.Expand,
-    });
-
+    const base = getConverterBase();
+    const app = getConverterApp();
     let program: ts.Program;
-    it("Compiles", () => {
-        program = ts.createProgram(
-            app.options.getFileNames(),
-            app.options.getCompilerOptions()
-        );
 
-        const errors = ts.getPreEmitDiagnostics(program);
-        equal(errors, []);
+    it("Compiles", () => {
+        program = getConverterProgram();
     });
 
     const checks: [string, () => void, () => void][] = [
