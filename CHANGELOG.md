@@ -32,8 +32,9 @@
 
 ### Bug Fixes
 
--   Support inclusion patterns when expanding input files, closes #1399
--   Arrow keys can no longer select hidden search results
+-   Support inclusion patterns when expanding input files, closes #1399.
+-   Arrow keys can no longer select hidden search results.
+-   The Legend header will no longer be included if there is nothing in the legend.
 
 ### API Breaking Changes
 

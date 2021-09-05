@@ -15,11 +15,11 @@ export function footer(context: DefaultThemeRenderContext, props: PageEvent<Refl
                 })}
             >
                 <div class="container">
-                    {!hideLegend && (
+                    {!hideLegend && props.legend?.length && (
                         <>
                             <h2>Legend</h2>
                             <div class="tsd-legend-group">
-                                {props.legend?.map((item) => (
+                                {props.legend.map((item) => (
                                     <ul class="tsd-legend">
                                         {item.map((item) => (
                                             <li class={item.classes.join(" ")}>
