@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { ReflectionKind, Type, TypeKindMap } from "../../../../models";
+import { LiteralType, ReferenceType, ReflectionKind, Type, TypeKindMap } from "../../../../models";
 import { JSX } from "../../../../utils";
 import { join, stringify } from "../../lib";
 
@@ -40,11 +40,25 @@ const typeRenderers: {
         );
     },
     indexedAccess(context, type) {
+        let indexType: JSX.Element = renderType(context, type.indexType);
+
+        if (
+            type.objectType instanceof ReferenceType &&
+            type.objectType.reflection &&
+            type.indexType instanceof LiteralType &&
+            typeof type.indexType.value === "string"
+        ) {
+            const childReflection = type.objectType.reflection.getChildByName([type.indexType.value]);
+            if (childReflection) {
+                indexType = <a href={context.urlTo(childReflection)}>{indexType}</a>;
+            }
+        }
+
         return (
             <>
                 {renderType(context, type.objectType)}
                 <span class="tsd-signature-symbol">[</span>
-                {renderType(context, type.indexType)}
+                {indexType}
                 <span class="tsd-signature-symbol">]</span>
             </>
         );

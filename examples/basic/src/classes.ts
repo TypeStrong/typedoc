@@ -318,6 +318,16 @@ export class GenericClass<T extends BaseClass> {
 }
 
 /**
+ * Simple indexed-access type.
+ */
+export type Simple = BaseClass["kind"];
+
+/**
+ * More complex indexed access type.
+ */
+export type Complex = GenericClass<BaseClass>["setValue"];
+
+/**
  * This a non generic class derived from a [[GenericClass|generic class]].
  */
 export class NonGenericClass extends GenericClass<SubClassB> {}

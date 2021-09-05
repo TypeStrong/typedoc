@@ -17,8 +17,8 @@
 
 ### Features
 
--   Added support for light/dark mode to the default theme, closes #1641
--   Added support for custom CSS with the new `customCss` option, closes #1060
+-   Added support for light/dark mode to the default theme, closes #1641.
+-   Added support for custom CSS with the new `customCss` option, closes #1060.
 -   Added `entryPointStrategy` to reduce confusion from new TypeDoc users on handling of entry points.
     There are three possible options:
     | Option | Behavior |
@@ -29,6 +29,7 @@
 -   Produce warnings when documentation is missing exports, closes #1653. If using TypeDoc's API, this behavior is available through calling `application.validate(project)`.
 -   Added `hideLegend` option, closes #1108.
 -   Added performance measurements to debug logging (`--logLevel Verbose`)
+-   String literal indexed access types will create links to their referencing member if possible, closes #1226.
 
 ### Bug Fixes
 
