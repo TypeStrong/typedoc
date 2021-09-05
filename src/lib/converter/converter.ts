@@ -180,8 +180,14 @@ export class Converter extends ChildableComponent<
                 ts.SyntaxKind.ModuleDeclaration,
                 ts.SyntaxKind.SourceFile,
             ],
-            [ReflectionKind.Enum]: [ts.SyntaxKind.EnumDeclaration],
-            [ReflectionKind.EnumMember]: [ts.SyntaxKind.EnumMember],
+            [ReflectionKind.Enum]: [
+                ts.SyntaxKind.EnumDeclaration,
+                ts.SyntaxKind.VariableDeclaration,
+            ],
+            [ReflectionKind.EnumMember]: [
+                ts.SyntaxKind.EnumMember,
+                ts.SyntaxKind.PropertyAssignment,
+            ],
             [ReflectionKind.Variable]: [ts.SyntaxKind.VariableDeclaration],
             [ReflectionKind.Function]: [
                 ts.SyntaxKind.FunctionDeclaration,

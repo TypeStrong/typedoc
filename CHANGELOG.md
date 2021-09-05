@@ -30,6 +30,7 @@
     | expand | Expects all entry points to be contained within the root level tsconfig project. If a directory is given, files within it are recursively expanded. This was the default behavior in v0.21. |
     | packages| Corresponds to `--packages` in v0.21, behaves as documented in the Monorepo section in the readme. |
 -   Produce warnings when documentation is missing exports, closes #1653. If using TypeDoc's API, this behavior is available through calling `application.validate(project)`.
+-   Added support for detecting "`as const` enums", closes #1675.
 -   Added `hideLegend` option, closes #1108.
 -   Added performance measurements to debug logging (`--logLevel Verbose`)
 -   String literal indexed access types will create links to their referencing member if possible, closes #1226.

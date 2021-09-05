@@ -28,7 +28,7 @@ const symbolConverters: {
         context: Context,
         symbol: ts.Symbol,
         exportSymbol?: ts.Symbol
-    ) => void;
+    ) => void | ts.SymbolFlags;
 } = {
     [ts.SymbolFlags.RegularEnum]: convertEnum,
     [ts.SymbolFlags.ConstEnum]: convertEnum,
@@ -114,13 +114,19 @@ export function convertSymbol(
         flags = removeFlag(flags, ts.SymbolFlags.Property);
     }
 
+    // Note: This method does not allow skipping earlier converters, defined according to the order of
+    // the ts.SymbolFlags enum. For now, this is fine... might not be flexible enough in the future.
+    let skip = 0;
     for (const flag of getEnumFlags(flags)) {
+        if (skip & flag) continue;
+
         if (!(flag in symbolConverters)) {
             context.logger.verbose(
                 `Missing converter for symbol: ${symbol.name} with flag ${ts.SymbolFlags[flag]}`
             );
         }
-        symbolConverters[flag]?.(context, symbol, exportSymbol);
+
+        skip |= symbolConverters[flag]?.(context, symbol, exportSymbol) || 0;
     }
 }
 
@@ -756,6 +762,13 @@ function convertVariable(
 
     const type = context.checker.getTypeOfSymbolAtLocation(symbol, declaration);
 
+    if (
+        isEnumLiteral(declaration as ts.VariableDeclaration) &&
+        symbol.getJsDocTags().some((tag) => tag.name === "enum")
+    ) {
+        return convertVariableAsEnum(context, symbol, exportSymbol);
+    }
+
     if (type.getCallSignatures().length && !type.getProperties().length) {
         return convertVariableAsFunction(context, symbol, exportSymbol);
     }
@@ -779,20 +792,66 @@ function convertVariable(
 
     setModifiers(symbol, declaration, reflection);
 
-    // Does anyone care about this? I doubt it...
-    if (
-        ts.isVariableDeclaration(declaration) &&
-        hasAllFlags(symbol.flags, ts.SymbolFlags.BlockScopedVariable)
-    ) {
-        reflection.setFlag(
-            ReflectionFlag.Const,
-            hasAllFlags(declaration.parent.flags, ts.NodeFlags.Const)
-        );
-    }
-
     reflection.defaultValue = convertDefaultValue(declaration);
 
     context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+}
+
+function isEnumLiteral(declaration: ts.VariableDeclaration) {
+    if (
+        !hasAllFlags(declaration.parent.flags, ts.NodeFlags.Const) ||
+        !declaration.initializer ||
+        !ts.isAsExpression(declaration.initializer) ||
+        declaration.initializer.type.getText() !== "const"
+    ) {
+        // Not an as-const expression
+        return false;
+    }
+
+    const body = declaration.initializer.expression;
+    if (!ts.isObjectLiteralExpression(body)) {
+        return false;
+    }
+
+    return body.properties.every(
+        (prop) =>
+            ts.isPropertyAssignment(prop) &&
+            ts.isStringLiteral(prop.initializer)
+    );
+}
+
+function convertVariableAsEnum(
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol?: ts.Symbol
+) {
+    const reflection = context.createDeclarationReflection(
+        ReflectionKind.Enum,
+        symbol,
+        exportSymbol
+    );
+    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    const rc = context.withScope(reflection);
+
+    const declaration = symbol.declarations![0] as ts.VariableDeclaration;
+    const init = (declaration.initializer as ts.AsExpression)
+        .expression as ts.ObjectLiteralExpression;
+
+    for (const prop of init.properties as readonly ts.PropertyAssignment[]) {
+        const childSymbol = context.checker.getSymbolAtLocation(prop.name);
+        const reflection = rc.createDeclarationReflection(
+            ReflectionKind.EnumMember,
+            childSymbol,
+            void 0
+        );
+
+        reflection.defaultValue = (prop.initializer as ts.StringLiteral).text;
+
+        rc.finalizeDeclarationReflection(reflection, childSymbol, void 0);
+    }
+
+    // Skip converting the type alias, if there is one
+    return ts.SymbolFlags.TypeAlias;
 }
 
 function convertVariableAsFunction(

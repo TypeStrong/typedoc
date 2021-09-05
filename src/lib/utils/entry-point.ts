@@ -34,6 +34,9 @@ export const EntryPointStrategy = {
     Packages: "packages",
 } as const;
 
+export type EntryPointStrategy =
+    typeof EntryPointStrategy[keyof typeof EntryPointStrategy];
+
 export interface DocumentationEntryPoint {
     displayName: string;
     program: ts.Program;
