@@ -3,6 +3,7 @@ import * as Path from "path";
 
 import type { Application } from "../application";
 import type { Logger } from "./loggers";
+import { nicePath } from "./paths";
 
 export function loadPlugins(app: Application, plugins: readonly string[]) {
     if (plugins.includes("none")) {
@@ -10,6 +11,8 @@ export function loadPlugins(app: Application, plugins: readonly string[]) {
     }
 
     for (const plugin of plugins) {
+        const pluginDisplay = getPluginDisplayName(plugin);
+
         try {
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             const instance = require(plugin);
@@ -17,14 +20,16 @@ export function loadPlugins(app: Application, plugins: readonly string[]) {
 
             if (typeof initFunction === "function") {
                 initFunction(app);
-                app.logger.info(`Loaded plugin ${plugin}`);
+                app.logger.info(`Loaded plugin ${pluginDisplay}`);
             } else {
                 app.logger.error(
-                    `Invalid structure in plugin ${plugin}, no load function found.`
+                    `Invalid structure in plugin ${pluginDisplay}, no load function found.`
                 );
             }
         } catch (error) {
-            app.logger.error(`The plugin ${plugin} could not be loaded.`);
+            app.logger.error(
+                `The plugin ${pluginDisplay} could not be loaded.`
+            );
             if (error instanceof Error && error.stack) {
                 app.logger.error(error.stack);
             }
@@ -113,4 +118,12 @@ function isPlugin(info: any): boolean {
             typeof keyword === "string" &&
             keyword.toLocaleLowerCase() === "typedocplugin"
     );
+}
+
+function getPluginDisplayName(plugin: string) {
+    const path = nicePath(plugin);
+    if (path.startsWith("./node_modules/")) {
+        return path.substr("./node_modules/".length);
+    }
+    return plugin;
 }

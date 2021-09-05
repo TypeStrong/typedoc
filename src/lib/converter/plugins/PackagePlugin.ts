@@ -6,6 +6,7 @@ import { Converter } from "../converter";
 import type { Context } from "../context";
 import { BindOption, readFile } from "../../utils";
 import { getCommonDirectory } from "../../utils/fs";
+import { nicePath } from "../../utils/paths";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -62,7 +63,9 @@ export class PackagePlugin extends ConverterComponent {
         let dirName = Path.resolve(
             getCommonDirectory(this.application.options.getValue("entryPoints"))
         );
-        this.application.logger.verbose(`Begin readme search at ${dirName}`);
+        this.application.logger.verbose(
+            `Begin readme search at ${nicePath(dirName)}`
+        );
         while (!packageAndReadmeFound() && !reachedTopDirectory(dirName)) {
             FS.readdirSync(dirName).forEach((file) => {
                 const lowercaseFileName = file.toLowerCase();

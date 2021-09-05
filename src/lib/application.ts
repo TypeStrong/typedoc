@@ -31,6 +31,7 @@ import {
     EntryPointStrategy,
     getEntryPoints,
 } from "./utils/entry-point";
+import { nicePath } from "./utils/paths";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -163,7 +164,7 @@ export class Application extends ChildableComponent<
      * Return the path to the TypeScript compiler.
      */
     public getTypeScriptPath(): string {
-        return Path.dirname(require.resolve("typescript"));
+        return nicePath(Path.dirname(require.resolve("typescript")));
     }
 
     public getTypeScriptVersion(): string {
@@ -382,7 +383,7 @@ export class Application extends ChildableComponent<
                 "Documentation could not be generated due to the errors above."
             );
         } else {
-            this.logger.info(`Documentation generated at ${out}`);
+            this.logger.info(`Documentation generated at ${nicePath(out)}`);
             this.logger.verbose(`HTML rendering took ${Date.now() - start}ms`);
         }
     }
@@ -410,7 +411,7 @@ export class Application extends ChildableComponent<
 
         const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
-        this.logger.info(`JSON written to ${out}`);
+        this.logger.info(`JSON written to ${nicePath(out)}`);
         this.logger.verbose(`JSON rendering took ${Date.now() - start}ms`);
     }
 
