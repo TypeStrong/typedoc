@@ -25,7 +25,7 @@
     "lunr": "^2.3.9",
     "marked": "^3.0.2",
     "minimatch": "^3.0.4",
-    "shiki": "^0.9.8"
+    "shiki": "^0.9.10"
   },
   "peerDependencies": {
     "typescript": "4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x"
@@ -33,14 +33,14 @@
   "devDependencies": {
     "@types/glob": "^7.1.4",
     "@types/lunr": "^2.3.4",
-    "@types/marked": "^2.0.4",
+    "@types/marked": "^3.0.0",
     "@types/minimatch": "3.0.5",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.7.4",
+    "@types/node": "^16.7.10",
     "@types/puppeteer": "^5.4.4",
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
-    "@typescript-eslint/parser": "^4.29.3",
-    "esbuild": "^0.12.20",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "esbuild": "^0.12.25",
     "eslint": "^7.32.0",
     "mocha": "^9.1.1",
     "nyc": "^15.1.0",
