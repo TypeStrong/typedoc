@@ -1,4 +1,4 @@
-import { Logger, Options, ParameterType } from "../../../lib/utils";
+import { Logger, LogLevel, Options, ParameterType } from "../../../lib/utils";
 import {
     BindOption,
     MapDeclarationOption,
@@ -92,6 +92,17 @@ describe("Options", () => {
 
     it("Errors if converting a set value errors", () => {
         throws(() => options.setValue("mapped" as any, "nonsense" as any));
+    });
+
+    it("Handles mapped enums properly", () => {
+        const options = new Options(new Logger());
+        options.addDefaultDeclarations();
+
+        equal(options.getValue("logLevel"), LogLevel.Info);
+        options.setValue("logLevel", LogLevel.Error);
+        equal(options.getValue("logLevel"), LogLevel.Error);
+        options.setValue("logLevel", "Verbose");
+        equal(options.getValue("logLevel"), LogLevel.Verbose);
     });
 
     it("Supports directly getting values", () => {

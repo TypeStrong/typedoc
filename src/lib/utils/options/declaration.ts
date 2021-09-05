@@ -380,7 +380,7 @@ const converters: {
         return strArrValue;
     },
     [ParameterType.Map](value, option) {
-        const key = String(value).toLowerCase();
+        const key = String(value);
         if (option.map instanceof Map) {
             if (option.map.has(key)) {
                 return option.map.get(key);
@@ -388,6 +388,9 @@ const converters: {
                 return value;
             }
         } else if (key in option.map) {
+            if (isTsNumericEnum(option.map) && typeof value === "number") {
+                return value;
+            }
             return option.map[key];
         } else if (Object.values(option.map).includes(value)) {
             return value;
@@ -505,6 +508,10 @@ function resolveModulePaths(modules: readonly string[], configPath: string) {
     });
 }
 
+function isTsNumericEnum(map: Record<string, any>) {
+    return Object.values(map).every((key) => map[map[key]] === key);
+}
+
 /**
  * Returns an error message for a map option, indicating that a given value was not one of the values within the map.
  * @param map The values for the option.
@@ -516,15 +523,10 @@ function getMapError(
     name: string
 ): string {
     let keys = map instanceof Map ? [...map.keys()] : Object.keys(map);
-    const getString = (key: string) =>
-        String(map instanceof Map ? map.get(key) : map[key]);
 
     // If the map is a TS numeric enum we need to filter out the numeric keys.
     // TS numeric enums have the property that every key maps to a value, which maps back to that key.
-    if (
-        !(map instanceof Map) &&
-        keys.every((key) => getString(getString(key)) === key)
-    ) {
+    if (!(map instanceof Map) && isTsNumericEnum(map)) {
         // This works because TS enum keys may not be numeric.
         keys = keys.filter((key) => Number.isNaN(parseInt(key, 10)));
     }
