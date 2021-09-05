@@ -1,29 +1,143 @@
 @import url("./icons.css");
 
 :root {
-    --color-background: #fdfdfd;
-    --color-text: #222;
-    --color-text-aside: #707070;
-    --color-link: #4da6ff;
-    --color-menu-divider: #eee;
-    --color-menu-divider-focus: #000;
-    --color-menu-label: #707070;
-    --color-panel: #fff;
-    --color-panel-divider: #eee;
-    --color-comment-tag: #707070;
-    --color-comment-tag-text: #fff;
-    --color-code-background: rgba(0, 0, 0, 0.04);
-    --color-ts: #9600ff;
-    --color-ts-interface: #647f1b;
-    --color-ts-enum: #937210;
-    --color-ts-class: #0672de;
-    --color-ts-private: #707070;
-    --color-toolbar: #fff;
-    --color-toolbar-text: #333;
+    /* Light */
+    --light-color-background: #fdfdfd;
+    --light-color-text: #222;
+    --light-color-text-aside: #707070;
+    --light-color-link: #4da6ff;
+    --light-color-menu-divider: #eee;
+    --light-color-menu-divider-focus: #000;
+    --light-color-menu-label: #707070;
+    --light-color-panel: #fff;
+    --light-color-panel-divider: #eee;
+    --light-color-comment-tag: #707070;
+    --light-color-comment-tag-text: #fff;
+    --light-color-ts: #9600ff;
+    --light-color-ts-interface: #647f1b;
+    --light-color-ts-enum: #937210;
+    --light-color-ts-class: #0672de;
+    --light-color-ts-private: #707070;
+    --light-color-toolbar: #fff;
+    --light-color-toolbar-text: #333;
+    --light-icon-filter: invert(0);
+
+    /* Dark */
+    --dark-color-background: #36393f;
+    --dark-color-text: #ffffff;
+    --dark-color-text-aside: #e6e4e4;
+    --dark-color-link: #00aff4;
+    --dark-color-menu-divider: #eee;
+    --dark-color-menu-divider-focus: #000;
+    --dark-color-menu-label: #707070;
+    --dark-color-panel: #2f3136;
+    --dark-color-panel-divider: #818181;
+    --dark-color-comment-tag: #dcddde;
+    --dark-color-comment-tag-text: #2f3136;
+    --dark-color-ts: #c97dff;
+    --dark-color-ts-interface: #9cbe3c;
+    --dark-color-ts-enum: #d6ab29;
+    --dark-color-ts-class: #3695f3;
+    --dark-color-ts-private: #e2e2e2;
+    --dark-color-toolbar: #34373c;
+    --dark-color-toolbar-text: #ffffff;
+    --dark-icon-filter: invert(1);
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-background: var(--light-color-background);
+        --color-text: var(--light-color-text);
+        --color-text-aside: var(--light-color-text-aside);
+        --color-link: var(--light-color-link);
+        --color-menu-divider: var(--light-color-menu-divider);
+        --color-menu-divider-focus: var(--light-color-menu-divider-focus);
+        --color-menu-label: var(--light-color-menu-label);
+        --color-panel: var(--light-color-panel);
+        --color-panel-divider: var(--light-color-panel-divider);
+        --color-comment-tag: var(--light-color-comment-tag);
+        --color-comment-tag-text: var(--light-color-comment-tag-text);
+        --color-ts: var(--light-color-ts);
+        --color-ts-interface: var(--light-color-ts-interface);
+        --color-ts-enum: var(--light-color-ts-enum);
+        --color-ts-class: var(--light-color-ts-class);
+        --color-ts-private: var(--light-color-ts-private);
+        --color-toolbar: var(--light-color-toolbar);
+        --color-toolbar-text: var(--light-color-toolbar-text);
+        --icon-filter: var(--light-icon-filter);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: var(--dark-color-background);
+        --color-text: var(--dark-color-text);
+        --color-text-aside: var(--dark-color-text-aside);
+        --color-link: var(--dark-color-link);
+        --color-menu-divider: var(--dark-color-menu-divider);
+        --color-menu-divider-focus: var(--dark-color-menu-divider-focus);
+        --color-menu-label: var(--dark-color-menu-label);
+        --color-panel: var(--dark-color-panel);
+        --color-panel-divider: var(--dark-color-panel-divider);
+        --color-comment-tag: var(--dark-color-comment-tag);
+        --color-comment-tag-text: var(--dark-color-comment-tag-text);
+        --color-ts: var(--dark-color-ts);
+        --color-ts-interface: var(--dark-color-ts-interface);
+        --color-ts-enum: var(--dark-color-ts-enum);
+        --color-ts-class: var(--dark-color-ts-class);
+        --color-ts-private: var(--dark-color-ts-private);
+        --color-toolbar: var(--dark-color-toolbar);
+        --color-toolbar-text: var(--dark-color-toolbar-text);
+        --icon-filter: var(--dark-icon-filter);
+    }
 }
 
 body {
     margin: 0;
+}
+
+body.light {
+    --color-background: var(--light-color-background);
+    --color-text: var(--light-color-text);
+    --color-text-aside: var(--light-color-text-aside);
+    --color-link: var(--light-color-link);
+    --color-menu-divider: var(--light-color-menu-divider);
+    --color-menu-divider-focus: var(--light-color-menu-divider-focus);
+    --color-menu-label: var(--light-color-menu-label);
+    --color-panel: var(--light-color-panel);
+    --color-panel-divider: var(--light-color-panel-divider);
+    --color-comment-tag: var(--light-color-comment-tag);
+    --color-comment-tag-text: var(--light-color-comment-tag-text);
+    --color-ts: var(--light-color-ts);
+    --color-ts-interface: var(--light-color-ts-interface);
+    --color-ts-enum: var(--light-color-ts-enum);
+    --color-ts-class: var(--light-color-ts-class);
+    --color-ts-private: var(--light-color-ts-private);
+    --color-toolbar: var(--light-color-toolbar);
+    --color-toolbar-text: var(--light-color-toolbar-text);
+    --icon-filter: var(--light-icon-filter);
+}
+
+body.dark {
+    --color-background: var(--dark-color-background);
+    --color-text: var(--dark-color-text);
+    --color-text-aside: var(--dark-color-text-aside);
+    --color-link: var(--dark-color-link);
+    --color-menu-divider: var(--dark-color-menu-divider);
+    --color-menu-divider-focus: var(--dark-color-menu-divider-focus);
+    --color-menu-label: var(--dark-color-menu-label);
+    --color-panel: var(--dark-color-panel);
+    --color-panel-divider: var(--dark-color-panel-divider);
+    --color-comment-tag: var(--dark-color-comment-tag);
+    --color-comment-tag-text: var(--dark-color-comment-tag-text);
+    --color-ts: var(--dark-color-ts);
+    --color-ts-interface: var(--dark-color-ts-interface);
+    --color-ts-enum: var(--dark-color-ts-enum);
+    --color-ts-class: var(--dark-color-ts-class);
+    --color-ts-private: var(--dark-color-ts-private);
+    --color-toolbar: var(--dark-color-toolbar);
+    --color-toolbar-text: var(--dark-color-toolbar-text);
+    --icon-filter: var(--dark-icon-filter);
 }
 
 h1 {
@@ -239,7 +353,6 @@ pre {
     padding: 0.2em;
     margin: 0;
     font-size: 14px;
-    background-color: var(--color-code-background);
 }
 
 pre {
@@ -248,7 +361,6 @@ pre {
 pre code {
     padding: 0;
     font-size: 100%;
-    background-color: transparent;
 }
 
 blockquote {
@@ -1084,6 +1196,7 @@ ul.tsd-type-parameters .tsd-comment {
     background-repeat: no-repeat;
     text-indent: -1024px;
     vertical-align: bottom;
+    filter: var(--icon-filter);
 }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
     .tsd-select .tsd-select-list li:before,
@@ -1097,14 +1210,14 @@ ul.tsd-type-parameters .tsd-comment {
 .tsd-widget {
     display: inline-block;
     overflow: hidden;
-    opacity: 0.6;
+    opacity: 0.8;
     height: 40px;
     transition: opacity 0.1s, background-color 0.2s;
     vertical-align: bottom;
     cursor: pointer;
 }
 .tsd-widget:hover {
-    opacity: 0.8;
+    opacity: 0.9;
 }
 .tsd-widget.active {
     opacity: 1;

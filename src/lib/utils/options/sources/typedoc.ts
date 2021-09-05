@@ -1,7 +1,7 @@
 import type { Options } from "..";
 import { LogLevel } from "../../loggers";
 import { ParameterType, ParameterHint } from "../declaration";
-import { BUNDLED_THEMES } from "shiki";
+import { BUNDLED_THEMES, Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
 
@@ -130,15 +130,34 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.String,
         defaultValue: "default",
     });
+
+    const defaultLightTheme: Theme = "min-light";
+    const defaultDarkTheme: Theme = "min-dark";
+
     options.addDeclaration({
-        name: "highlightTheme",
-        help: "Specifies the code highlighting theme.",
+        name: "lightHighlightTheme",
+        help: "Specifies the code highlighting theme in light mode.",
         type: ParameterType.String,
-        defaultValue: "light-plus",
+        defaultValue: defaultLightTheme,
         validate(value) {
             if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
                 throw new Error(
-                    `highlightTheme must be one of the following: ${BUNDLED_THEMES.join(
+                    `lightHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
+                        ", "
+                    )}`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "darkHighlightTheme",
+        help: "Specifies the code highlighting theme in dark mode.",
+        type: ParameterType.String,
+        defaultValue: defaultDarkTheme,
+        validate(value) {
+            if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
+                throw new Error(
+                    `darkHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
                         ", "
                     )}`
                 );

@@ -1,18 +1,27 @@
 import { ok, throws, strictEqual } from "assert";
-import { BUNDLED_THEMES, Theme } from "shiki";
+import { BUNDLED_THEMES } from "shiki";
 import { Logger, Options } from "../../../lib/utils";
 
 describe("Default Options", () => {
     const opts = new Options(new Logger());
     opts.addDefaultDeclarations();
 
-    describe("highlightTheme", () => {
+    describe("Highlighting theme", () => {
         it("Errors if an invalid theme is provided", () => {
             throws(() =>
-                opts.setValue("highlightTheme", "randomTheme" as never)
+                opts.setValue("lightHighlightTheme", "randomTheme" as never)
             );
-            opts.setValue("highlightTheme", BUNDLED_THEMES[0] as Theme);
-            strictEqual(opts.getValue("highlightTheme"), BUNDLED_THEMES[0]);
+            opts.setValue("lightHighlightTheme", BUNDLED_THEMES[0]);
+            strictEqual(
+                opts.getValue("lightHighlightTheme"),
+                BUNDLED_THEMES[0]
+            );
+
+            throws(() =>
+                opts.setValue("darkHighlightTheme", "randomTheme" as never)
+            );
+            opts.setValue("darkHighlightTheme", BUNDLED_THEMES[0]);
+            strictEqual(opts.getValue("darkHighlightTheme"), BUNDLED_THEMES[0]);
         });
     });
 

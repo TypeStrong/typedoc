@@ -16,6 +16,7 @@
 
 ### Features
 
+-   Added support for light/dark mode to the default theme.
 -   Added `--entryPointStrategy` to reduce confusion from new TypeDoc users on handling of entry points.
     There are three possible options:
     | Option | Behavior |

@@ -31,8 +31,11 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     @BindOption("media")
     mediaSource!: string;
 
-    @BindOption("highlightTheme")
-    theme!: Theme;
+    @BindOption("lightHighlightTheme")
+    lightTheme!: Theme;
+
+    @BindOption("darkHighlightTheme")
+    darkTheme!: Theme;
 
     /**
      * The path referenced files are located in.
@@ -87,7 +90,7 @@ output file :
             return text;
         }
 
-        return highlight(text, lang, this.theme);
+        return highlight(text, lang);
     }
 
     /**

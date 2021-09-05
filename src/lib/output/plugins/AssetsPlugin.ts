@@ -2,8 +2,9 @@ import * as Path from "path";
 
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
-import { copySync } from "../../utils/fs";
+import { copySync, writeFileSync } from "../../utils/fs";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
+import { getStyles } from "../../utils/highlighter";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
@@ -16,7 +17,7 @@ export class AssetsPlugin extends RendererComponent {
      */
     override initialize() {
         this.listenTo(this.owner, {
-            [RendererEvent.BEGIN]: this.onRendererBegin,
+            [RendererEvent.END]: this.onRenderEnd,
         });
     }
 
@@ -25,11 +26,13 @@ export class AssetsPlugin extends RendererComponent {
      *
      * @param event  An event object describing the current render operation.
      */
-    private onRendererBegin(event: RendererEvent) {
+    private onRenderEnd(event: RendererEvent) {
         if (this.owner.theme instanceof DefaultTheme) {
             const src = Path.join(__dirname, "..", "..", "..", "..", "static");
             const dest = Path.join(event.outputDirectory, "assets");
             copySync(src, dest);
+
+            writeFileSync(Path.join(dest, "highlight.css"), getStyles());
         }
     }
 }

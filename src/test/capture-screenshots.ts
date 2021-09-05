@@ -1,15 +1,15 @@
 import * as fs from "fs";
 import { sync as glob } from "glob";
 import { platform } from "os";
-import * as Path from "path";
+import { resolve, join, dirname } from "path";
 import * as puppeteer from "puppeteer";
 import { Application, TSConfigReader, EntryPointStrategy } from "..";
 import { remove } from "../lib/utils";
 
 const concurrency = 10;
-const src = Path.join(__dirname, "../../examples/basic/src");
-const baseDirectory = Path.join(__dirname, "../../dist/tmp/capture");
-const outputDirectory = Path.join(__dirname, "../../dist/tmp/__screenshots__");
+const src = join(__dirname, "../../examples/basic/src");
+const baseDirectory = join(__dirname, "../../dist/tmp/capture");
+const outputDirectory = join(__dirname, "../../dist/tmp/__screenshots__");
 const globPattern = "**/*.html";
 const viewport = { width: 1024, height: 768 };
 
@@ -59,12 +59,12 @@ export async function captureRegressionScreenshots() {
     app.options.addReader(new TSConfigReader());
     app.bootstrap({
         logger: "console",
-        readme: Path.join(src, "..", "README.md"),
+        readme: join(src, "..", "README.md"),
         gaSite: "foo.com", // verify theme option without modifying output
         name: "typedoc",
         disableSources: true,
         cleanOutputDir: true,
-        tsconfig: Path.join(src, "..", "tsconfig.json"),
+        tsconfig: join(src, "..", "tsconfig.json"),
         plugin: [],
         entryPoints: [src],
         entryPointStrategy: EntryPointStrategy.Expand,
@@ -91,24 +91,33 @@ export async function captureScreenshots(
     const queue = new PQueue(concurrency);
     for (const file of glob(globPattern, { cwd: baseDirectory })) {
         queue.add(async () => {
-            const absPath = Path.resolve(baseDirectory, file);
-            const outputPath = Path.resolve(
+            const absPath = resolve(baseDirectory, file);
+            const outputPath = resolve(
                 outputDirectory,
-                Path.format({
-                    ...Path.parse(file),
-                    ext: ".png",
-                    base: undefined,
-                })
+                file.replace(".html", "")
             );
-            fs.mkdirSync(Path.dirname(outputPath), { recursive: true });
+            fs.mkdirSync(dirname(outputPath), { recursive: true });
 
             const page = await browser.newPage();
             await page.setViewport(viewport);
             await page.goto(`file://${absPath}`, {
                 waitUntil: "domcontentloaded", // 'load' 'networkidle0' 'networkidle2'
             });
-            await new Promise((res) => setTimeout(() => res(undefined), 300));
-            await page.screenshot({ path: outputPath, fullPage: true });
+            await new Promise<void>((res) => setTimeout(() => res(), 100));
+            await page.screenshot({
+                path: outputPath + "-light.png",
+                fullPage: true,
+            });
+
+            await page.evaluate(() => {
+                document.body.classList.add("dark");
+            });
+            await new Promise<void>((res) => setTimeout(() => res(), 100));
+
+            await page.screenshot({
+                path: outputPath + "-dark.png",
+                fullPage: true,
+            });
 
             await page.close();
         });

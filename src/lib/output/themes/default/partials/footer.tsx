@@ -9,28 +9,40 @@ export function footer(context: DefaultThemeRenderContext, props: PageEvent<Refl
     const hideGenerator = context.options.getValue("hideGenerator");
     return (
         <>
-            {!hideLegend && (
-                <footer
-                    class={classNames({
-                        "with-border-bottom": !hideGenerator,
-                    })}
-                >
-                    <div class="container">
-                        <h2>Legend</h2>
-                        <div class="tsd-legend-group">
-                            {props.legend?.map((item) => (
-                                <ul class="tsd-legend">
-                                    {item.map((item) => (
-                                        <li class={item.classes.join(" ")}>
-                                            <span class="tsd-kind-icon">{item.name}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ))}
-                        </div>
-                    </div>
-                </footer>
-            )}
+            <footer
+                class={classNames({
+                    "with-border-bottom": !hideGenerator,
+                })}
+            >
+                <div class="container">
+                    {!hideLegend && (
+                        <>
+                            <h2>Legend</h2>
+                            <div class="tsd-legend-group">
+                                {props.legend?.map((item) => (
+                                    <ul class="tsd-legend">
+                                        {item.map((item) => (
+                                            <li class={item.classes.join(" ")}>
+                                                <span class="tsd-kind-icon">{item.name}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ))}
+                            </div>
+                        </>
+                    )}
+
+                    <h2>Settings</h2>
+                    <p>
+                        Theme{" "}
+                        <select id="theme">
+                            <option value="os">OS</option>
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </p>
+                </div>
+            </footer>
 
             {!hideGenerator && (
                 <div class="container tsd-generator">

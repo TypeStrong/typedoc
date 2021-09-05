@@ -92,7 +92,8 @@ export interface TypeDocOptionMap {
     intentionallyNotExported: string[];
     listInvalidSymbolLinks: boolean;
 
-    highlightTheme: ShikiTheme;
+    lightHighlightTheme: ShikiTheme;
+    darkHighlightTheme: ShikiTheme;
 }
 
 /**

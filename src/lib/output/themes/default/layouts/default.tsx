@@ -21,6 +21,7 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             <meta name="viewport" content="width=device-width, initial-scale=1" />
 
             <link rel="stylesheet" href={context.relativeURL("assets/style.css")} />
+            <link rel="stylesheet" href={context.relativeURL("assets/highlight.css")} />
             <script async src={context.relativeURL("assets/search.js")} id="search-script"></script>
         </head>
         <body>

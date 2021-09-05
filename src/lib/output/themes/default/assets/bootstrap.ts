@@ -4,6 +4,7 @@ import { initSearch } from "./typedoc/components/Search";
 import { Signature } from "./typedoc/components/Signature";
 import { Toggle } from "./typedoc/components/Toggle";
 import { Filter } from "./typedoc/components/Filter";
+import { initTheme } from "./typedoc/Theme";
 
 initSearch();
 
@@ -15,6 +16,11 @@ if (Filter.isSupported()) {
     registerComponent(Filter, "#tsd-filter");
 } else {
     document.documentElement.classList.add("no-filter");
+}
+
+const themeChoice = document.getElementById("theme");
+if (themeChoice) {
+    initTheme(themeChoice as HTMLOptionElement);
 }
 
 const app: Application = new Application();

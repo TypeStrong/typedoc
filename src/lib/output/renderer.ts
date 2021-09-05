@@ -65,23 +65,33 @@ export class Renderer extends ChildableComponent<
      */
     theme?: Theme;
 
+    /** @internal */
     @BindOption("theme")
     themeName!: string;
 
+    /** @internal */
     @BindOption("cleanOutputDir")
     cleanOutputDir!: boolean;
 
+    /** @internal */
     @BindOption("gaID")
     gaID!: string;
 
+    /** @internal */
     @BindOption("gaSite")
     gaSite!: string;
 
+    /** @internal */
     @BindOption("hideGenerator")
     hideGenerator!: boolean;
 
-    @BindOption("highlightTheme")
-    highlightTheme!: ShikiTheme;
+    /** @internal */
+    @BindOption("lightHighlightTheme")
+    lightTheme!: ShikiTheme;
+
+    /** @internal */
+    @BindOption("darkHighlightTheme")
+    darkTheme!: ShikiTheme;
 
     /**
      * Define a new theme that can be used to render output.
@@ -109,7 +119,7 @@ export class Renderer extends ChildableComponent<
         project: ProjectReflection,
         outputDirectory: string
     ): Promise<void> {
-        await loadHighlighter(this.highlightTheme);
+        await loadHighlighter(this.lightTheme, this.darkTheme);
         if (
             !this.prepareTheme() ||
             !(await this.prepareOutputDirectory(outputDirectory))
