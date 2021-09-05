@@ -166,6 +166,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "customCss",
+        help: "Path to a custom CSS file to for the theme to import.",
+        type: ParameterType.Path,
+    });
+
+    options.addDeclaration({
         name: "name",
         help: "Set the name of the project that will be used in the header of the template.",
     });

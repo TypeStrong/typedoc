@@ -63,6 +63,10 @@ export interface TypeDocOptionMap {
     pretty: boolean;
 
     theme: string;
+    lightHighlightTheme: ShikiTheme;
+    darkHighlightTheme: ShikiTheme;
+    customCss: string;
+
     name: string;
     includeVersion: boolean;
     excludeTags: string[];
@@ -91,9 +95,6 @@ export interface TypeDocOptionMap {
     treatWarningsAsErrors: boolean;
     intentionallyNotExported: string[];
     listInvalidSymbolLinks: boolean;
-
-    lightHighlightTheme: ShikiTheme;
-    darkHighlightTheme: ShikiTheme;
 }
 
 /**

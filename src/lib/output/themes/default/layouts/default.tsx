@@ -22,6 +22,9 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
 
             <link rel="stylesheet" href={context.relativeURL("assets/style.css")} />
             <link rel="stylesheet" href={context.relativeURL("assets/highlight.css")} />
+            {context.options.getValue("customCss") && (
+                <link rel="stylesheet" href={context.relativeURL("assets/custom.css")} />
+            )}
             <script async src={context.relativeURL("assets/search.js")} id="search-script"></script>
         </head>
         <body>

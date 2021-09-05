@@ -35,6 +35,9 @@ export class JavascriptIndexPlugin extends RendererComponent {
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
+        if (event.isDefaultPrevented) {
+            return;
+        }
 
         const rows: any[] = [];
         const kinds: { [K in ReflectionKind]?: string } = {};

@@ -2,9 +2,10 @@
 
 ### Breaking Changes
 
--   The `--packages` and `--entryPoints` options have been combined.
-    To migrate configurations which used `--packages`, replace `packages` with `entryPoints` and set `entryPointStrategy` to `packages`.
+-   The `packages` and `entryPoints` options have been combined.
+    To migrate configurations which used `packages`, replace `packages` with `entryPoints` and set `entryPointStrategy` to `packages`.
 -   Renamed `disableOutputCheck` to `cleanOutputDir` to more clearly reflect its behavior.
+-   The `highlightTheme` option has been split into `lightHighlightTheme` and `darkHighlightTheme`.
 -   Removed poorly documented / poorly behaved `toc` option.
 -   HTML output is now rendered with JSX instead of Handlebars, closes #1631.
     This change provides major performance benefits, reducing rendering time by up to 10x for several benchmarked projects.
@@ -16,16 +17,17 @@
 
 ### Features
 
--   Added support for light/dark mode to the default theme.
--   Added `--entryPointStrategy` to reduce confusion from new TypeDoc users on handling of entry points.
+-   Added support for light/dark mode to the default theme, closes #1641
+-   Added support for custom CSS with the new `customCss` option, closes #1060
+-   Added `entryPointStrategy` to reduce confusion from new TypeDoc users on handling of entry points.
     There are three possible options:
     | Option | Behavior |
     | --- | --- |
     | resolve (default) | Expects all entry points to be contained within the root level tsconfig project. If a directory is given, includes `<directory>/index` as the entry point. |
     | expand | Expects all entry points to be contained within the root level tsconfig project. If a directory is given, files within it are recursively expanded. This was the default behavior in v0.21. |
     | packages| Corresponds to `--packages` in v0.21, behaves as documented in the Monorepo section in the readme. |
--   Produce warnings when documentation is missing exports, closes #1653
--   Added `--hideLegend` option, closes #1108
+-   Produce warnings when documentation is missing exports, closes #1653. If using TypeDoc's API, this behavior is available through calling `application.validate(project)`.
+-   Added `hideLegend` option, closes #1108.
 -   Added performance measurements to debug logging (`--logLevel Verbose`)
 
 ### Bug Fixes
