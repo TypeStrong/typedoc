@@ -6,7 +6,7 @@
  * series of {@link RendererEvent} events. Instances of {@link BasePlugin} can listen to these events and
  * alter the generated output.
  */
-
+import type * as ts from "typescript";
 import * as fs from "fs";
 
 import type { Application } from "../application";
@@ -60,6 +60,11 @@ export class Renderer extends ChildableComponent<
         ["default", DefaultTheme],
     ]);
 
+    private unknownSymbolResolvers = new Map<
+        string,
+        Array<(symbol: string) => string | undefined>
+    >();
+
     /**
      * The theme that is used to render the documentation.
      */
@@ -107,6 +112,63 @@ export class Renderer extends ChildableComponent<
             throw new Error(`The theme "${name}" has already been defined.`);
         }
         this.themes.set(name, theme);
+    }
+
+    /**
+     * Adds a new resolver that the theme can used to try to figure out how to link to a symbol
+     * declared by a third-party library which is not included in the documentation.
+     * @param packageName the npm package name that this resolver can handle to limit which files it will be tried on.
+     *   If the resolver will create links for Node builtin types, it should be set to `@types/node`.
+     *   Links for builtin types live in the default lib files under `typescript`.
+     * @param resolver a function that will be called to create links for a given symbol name in the registered path.
+     *  If the provided name is not contained within the docs, should return `undefined`.
+     * @since 0.22.0
+     */
+    addUnknownSymbolResolver(
+        packageName: string,
+        resolver: (name: string) => string | undefined
+    ) {
+        const existing = this.unknownSymbolResolvers.get(packageName);
+        if (existing) {
+            existing.push(resolver);
+        } else {
+            this.unknownSymbolResolvers.set(packageName, [resolver]);
+        }
+    }
+
+    /**
+     * Marked as internal for now. Using this requires the internal `getSymbol()` method on ReferenceType.
+     * Someday that needs to be fixed so that this can be made public. ReferenceTypes really shouldn't store
+     * symbols so that we don't need to keep the program around forever.
+     * @internal
+     */
+    attemptExternalResolution(
+        symbol: ts.Symbol | undefined
+    ): string | undefined {
+        const symbolPath = symbol?.declarations?.[0]
+            ?.getSourceFile()
+            .fileName.replace(/\\/g, "/");
+        if (!symbolPath) {
+            return;
+        }
+        let startIndex = symbolPath.indexOf("node_modules/");
+        if (startIndex === -1) {
+            return;
+        }
+        startIndex += "node_modules/".length;
+        let stopIndex = symbolPath.indexOf("/", startIndex);
+        // Scoped package, e.g. `@types/node`
+        if (symbolPath[startIndex] === "@") {
+            stopIndex = symbolPath.indexOf("/", stopIndex + 1);
+        }
+
+        const packageName = symbolPath.substring(startIndex, stopIndex);
+        const resolvers = this.unknownSymbolResolvers.get(packageName);
+
+        for (const resolver of resolvers || []) {
+            const resolved = resolver(symbol!.name);
+            if (resolved) return resolved;
+        }
     }
 
     /**

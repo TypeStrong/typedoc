@@ -1,6 +1,7 @@
+import type * as ts from "typescript";
 import type { Reflection } from "../../../models";
 import type { Options } from "../../../utils";
-import type { MarkedPlugin } from "../MarkedPlugin";
+import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
 import { analytics } from "./partials/analytics";
@@ -32,23 +33,25 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 }
 
 export class DefaultThemeRenderContext {
-    markedHelpers: MarkedPlugin;
     options: Options;
 
-    constructor(markedHelpers: MarkedPlugin, options: Options) {
-        this.markedHelpers = markedHelpers;
+    constructor(private theme: DefaultTheme, options: Options) {
         this.options = options;
     }
 
     /** Avoid this in favor of urlTo if possible */
     relativeURL = (url: string | undefined) => {
-        return url ? this.markedHelpers.getRelativeUrl(url) : url;
+        return url ? this.theme.markedPlugin.getRelativeUrl(url) : url;
     };
 
     urlTo = (reflection: Reflection) => this.relativeURL(reflection.url);
 
     markdown = (md: string | undefined) => {
-        return md ? this.markedHelpers.parseMarkdown(md) : "";
+        return md ? this.theme.markedPlugin.parseMarkdown(md) : "";
+    };
+
+    attemptExternalResolution = (symbol: ts.Symbol | undefined) => {
+        return this.theme.owner.attemptExternalResolution(symbol);
     };
 
     reflectionTemplate = bind(reflectionTemplate, this);

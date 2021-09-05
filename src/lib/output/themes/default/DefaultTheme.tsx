@@ -47,11 +47,12 @@ interface TemplateMapping {
  * {@link Theme} implementation, this theme class will be used.
  */
 export class DefaultTheme extends Theme {
-    protected _markedPlugin: MarkedPlugin;
+    /** @internal */
+    markedPlugin: MarkedPlugin;
     private _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(this._markedPlugin, this.application.options);
+            this._renderContext = new DefaultThemeRenderContext(this, this.application.options);
         }
         return this._renderContext;
     }
@@ -106,7 +107,7 @@ export class DefaultTheme extends Theme {
      */
     constructor(renderer: Renderer) {
         super(renderer);
-        this._markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
+        this.markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
         this.listenTo(renderer, RendererEvent.BEGIN, this.onRendererBegin, 1024);
     }
 

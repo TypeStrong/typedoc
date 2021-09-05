@@ -200,7 +200,16 @@ const typeRenderers: {
                 );
             }
         } else {
-            name = <span class="tsd-signature-type">{type.name}</span>;
+            const externalUrl = context.attemptExternalResolution(type.getSymbol());
+            if (externalUrl) {
+                name = (
+                    <a href={externalUrl} class="tsd-signature-type external" target="_blank">
+                        {type.name}
+                    </a>
+                );
+            } else {
+                name = <span class="tsd-signature-type">{type.name}</span>;
+            }
         }
 
         if (type.typeArguments?.length) {

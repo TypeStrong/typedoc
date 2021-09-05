@@ -19,6 +19,9 @@
 
 -   Added support for light/dark mode to the default theme, closes #1641.
 -   Added support for custom CSS with the new `customCss` option, closes #1060.
+-   Added support for linking to third party documentation sites, closes #131. See [internal-docs/third-party-symbols.md](https://github.com/TypeStrong/typedoc/blob/master/internal-docs/third-party-symbols.md)
+    for documentation on how to create a plugin which enables this.
+    Support for linking to MDN for global types is provided by [typedoc-plugin-mdn-links](https://github.com/Gerrit0/typedoc-plugin-mdn-links).
 -   Added `entryPointStrategy` to reduce confusion from new TypeDoc users on handling of entry points.
     There are three possible options:
     | Option | Behavior |
