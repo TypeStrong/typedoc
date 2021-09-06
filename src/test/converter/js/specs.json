@@ -534,9 +534,7 @@
           "name": "ColumnType",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "comment": {},
           "type": {
             "type": "reflection",

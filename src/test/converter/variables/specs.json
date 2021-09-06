@@ -198,9 +198,7 @@
           "name": "complex",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "A const of a complex type."
           },
@@ -255,9 +253,7 @@
           "name": "custom",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "An exported const of the custom array type."
           },
@@ -527,9 +523,7 @@
           "name": "callbackReturn",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "reflection",
             "declaration": {
@@ -749,9 +743,7 @@
           "name": "objectLiteral",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "An object literal."
           },
@@ -1037,9 +1029,7 @@
           "name": "typeLiteral",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "A typed literal without an initializer."
           },
@@ -1299,9 +1289,7 @@
           "name": "myConst",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "literal",
             "value": 15
@@ -1313,9 +1301,7 @@
           "name": "myLet",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -1339,9 +1325,7 @@
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "object"
@@ -1352,9 +1336,7 @@
           "name": "y",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "reference",
             "typeArguments": [
@@ -1371,9 +1353,7 @@
           "name": "z",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "type": {
             "type": "reference",
             "typeArguments": [

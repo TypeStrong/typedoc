@@ -73,9 +73,7 @@
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "intrinsic",
             "name": "number"

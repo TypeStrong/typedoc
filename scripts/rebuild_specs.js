@@ -22,7 +22,7 @@ app.bootstrap({
         "tsconfig.json"
     ),
     externalPattern: ["**/node_modules/**"],
-    entryPointStrategy: TypeDoc.EntryPointStrategy.expand,
+    entryPointStrategy: TypeDoc.EntryPointStrategy.Expand,
 });
 
 // Note that this uses the test files in dist, not in src, this is important since

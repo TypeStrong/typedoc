@@ -129,7 +129,6 @@ const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.DefaultValue,
     ReflectionFlag.Rest,
     ReflectionFlag.Abstract,
-    ReflectionFlag.Let,
     ReflectionFlag.Const,
     ReflectionFlag.Readonly,
 ];
@@ -207,10 +206,6 @@ export class ReflectionFlags extends Array<string> {
         return this.hasFlag(ReflectionFlag.Const);
     }
 
-    get isLet() {
-        return this.hasFlag(ReflectionFlag.Let);
-    }
-
     get isReadonly() {
         return this.hasFlag(ReflectionFlag.Readonly);
     }
@@ -237,14 +232,6 @@ export class ReflectionFlags extends Array<string> {
                     this.setFlag(ReflectionFlag.Private, false);
                     this.setFlag(ReflectionFlag.Protected, false);
                 }
-                break;
-            case ReflectionFlag.Const:
-            case ReflectionFlag.Let:
-                this.setSingleFlag(flag, set);
-                this.setSingleFlag(
-                    (ReflectionFlag.Let | ReflectionFlag.Const) ^ flag,
-                    !set
-                );
                 break;
             default:
                 this.setSingleFlag(flag, set);

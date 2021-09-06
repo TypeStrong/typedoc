@@ -20,9 +20,7 @@
           "name": "enumValue",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "This is a variable appended to an enumeration."
           },

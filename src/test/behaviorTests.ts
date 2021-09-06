@@ -1,5 +1,9 @@
 import { deepStrictEqual as equal, ok } from "assert";
-import { DeclarationReflection, ProjectReflection } from "../lib/models";
+import {
+    DeclarationReflection,
+    ProjectReflection,
+    ReflectionKind,
+} from "../lib/models";
 
 function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
@@ -11,6 +15,12 @@ export const behaviorTests: Record<
     string,
     (project: ProjectReflection) => void
 > = {
+    asConstEnum(project) {
+        const SomeEnumLike = query(project, "SomeEnumLike");
+        equal(SomeEnumLike.kind, ReflectionKind.Variable);
+        const SomeEnumLikeTagged = query(project, "SomeEnumLikeTagged");
+        equal(SomeEnumLikeTagged.kind, ReflectionKind.Enum);
+    },
     duplicateHeritageClauses(project) {
         const b = query(project, "B");
         equal(b.extendedTypes?.map(String), ["A"]);

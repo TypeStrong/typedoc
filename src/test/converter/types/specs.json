@@ -80,9 +80,7 @@
           "name": "BigIntLiteralType",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "literal",
             "value": {
@@ -97,9 +95,7 @@
           "name": "NegativeBigIntLiteralType",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "literal",
             "value": {
@@ -114,9 +110,7 @@
           "name": "negativeOne",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "literal",
             "value": -1
@@ -128,9 +122,7 @@
           "name": "numArray",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "array",
             "elementType": {
@@ -669,9 +661,7 @@
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "literal",
             "value": 1
@@ -853,9 +843,7 @@
           "name": "leadingRest",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "tuple",
             "elements": [
@@ -882,9 +870,7 @@
           "name": "namedTuple",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "tuple",
             "elements": [
@@ -915,9 +901,7 @@
           "name": "withOptionalElements",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "tuple",
             "elements": [
@@ -948,9 +932,7 @@
           "name": "withRestType",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "tuple",
             "elements": [
@@ -977,9 +959,7 @@
           "name": "withRestTypeNames",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "tuple",
             "elements": [
@@ -1134,9 +1114,7 @@
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "type": {
             "type": "typeOperator",
             "operator": "unique",

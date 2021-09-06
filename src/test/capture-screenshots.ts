@@ -109,9 +109,7 @@ export async function captureScreenshots(
                 fullPage: true,
             });
 
-            await page.evaluate(() => {
-                document.body.classList.add("dark");
-            });
+            await page.evaluate('document.body.classList.add("dark")');
             await new Promise<void>((res) => setTimeout(() => res(), 100));
 
             await page.screenshot({

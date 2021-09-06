@@ -64,9 +64,7 @@
               "name": "functionVariable",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {
-                "isLet": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This variable is appended to a function."
               },

@@ -44,7 +44,6 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
             "hasExportAssignment",
             "isAbstract",
             "isConst",
-            "isLet",
             "isReadonly",
         ] as const;
 

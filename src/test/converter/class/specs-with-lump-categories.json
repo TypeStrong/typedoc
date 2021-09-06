@@ -188,8 +188,7 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isPrivate": true,
-            "isConst": true
+            "isPrivate": true
           },
           "comment": {
             "shortText": "A variable that is made private via comment."
@@ -206,8 +205,7 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isProtected": true,
-            "isConst": true
+            "isProtected": true
           },
           "comment": {
             "shortText": "A variable that is made protected via comment."
