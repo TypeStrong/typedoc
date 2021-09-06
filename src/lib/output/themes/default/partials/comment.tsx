@@ -21,7 +21,10 @@ export function comment({ markdown }: DefaultThemeRenderContext, props: Reflecti
                 <dl class="tsd-comment-tags">
                     {props.comment.tags.map((item) => (
                         <>
-                            <dt>{item.tagName}</dt>
+                            <dt>
+                                {item.tagName}
+                                {item.paramName ? ` ${item.paramName}` : ""}
+                            </dt>
                             <dd>
                                 <Raw html={markdown(item.text)} />
                             </dd>

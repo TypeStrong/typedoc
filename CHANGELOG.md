@@ -40,6 +40,7 @@
 -   Support inclusion patterns when expanding input files, closes #1399.
 -   Arrow keys can no longer select hidden search results.
 -   The Legend header will no longer be included if there is nothing in the legend.
+-   If a non-function uses `@param`, the name will not be dropped when rendering, closes #1410.
 
 ### API Breaking Changes
 
