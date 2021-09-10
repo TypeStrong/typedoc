@@ -36,12 +36,12 @@ export interface SourceReference {
 /**
  * Exposes information about a source file.
  *
- * One my access a list of all source files through the {@link ProjectReflection.files} property or as
+ * One may access a list of all source files through the {@link ProjectReflection.files} property or as
  * a tree structure through the {@link ProjectReflection.directory} property.
  *
  * Furthermore each reflection carries references to the related SourceFile with their
- * {@link DeclarationReflection.sources} property. It is an array of of {@link IDeclarationSource} instances
- * containing the reference in their {@link IDeclarationSource.file} field.
+ * {@link DeclarationReflection.sources} property. It is an array of of {@link SourceReference} instances
+ * containing the reference in their {@link SourceReference.file} field.
  */
 export class SourceFile {
     /**

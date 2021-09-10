@@ -229,8 +229,15 @@ export class Application extends ChildableComponent<
             }
         }
 
+        const startConversion = Date.now();
+        this.logger.verbose(
+            `Finished getting entry points in ${Date.now() - start}ms`
+        );
+
         const project = this.converter.convert(entryPoints);
-        this.logger.verbose(`Finished conversion in ${Date.now() - start}ms`);
+        this.logger.verbose(
+            `Finished conversion in ${Date.now() - startConversion}ms`
+        );
         return project;
     }
 

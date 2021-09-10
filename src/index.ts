@@ -13,6 +13,7 @@ export {
     UrlMapping,
     Theme,
     PageEvent,
+    RendererEvent,
 } from "./lib/output";
 export type { RenderTemplate } from "./lib/output";
 
@@ -56,6 +57,7 @@ export {
     JSONOutput,
     Serializer,
     SerializerComponent,
+    SerializeEvent,
 } from "./lib/serialization";
 export type { SerializeEventData } from "./lib/serialization";
 

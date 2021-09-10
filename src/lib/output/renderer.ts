@@ -65,6 +65,15 @@ export class Renderer extends ChildableComponent<
         Array<(symbol: string) => string | undefined>
     >();
 
+    /** @event */
+    static readonly EVENT_BEGIN_PAGE = PageEvent.BEGIN;
+    /** @event */
+    static readonly EVENT_END_PAGE = PageEvent.END;
+    /** @event */
+    static readonly EVENT_BEGIN = RendererEvent.BEGIN;
+    /** @event */
+    static readonly EVENT_END = RendererEvent.END;
+
     /**
      * The theme that is used to render the documentation.
      */

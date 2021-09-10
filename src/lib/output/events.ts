@@ -34,13 +34,13 @@ export class RendererEvent extends Event {
      * Triggered before the renderer starts rendering a project.
      * @event
      */
-    static BEGIN = "beginRender";
+    static readonly BEGIN = "beginRender";
 
     /**
      * Triggered after the renderer has written all documents.
      * @event
      */
-    static END = "endRender";
+    static readonly END = "endRender";
 
     constructor(
         name: string,
@@ -122,13 +122,13 @@ export class PageEvent<Model = unknown> extends Event {
      * Triggered before a document will be rendered.
      * @event
      */
-    static BEGIN = "beginPage";
+    static readonly BEGIN = "beginPage";
 
     /**
      * Triggered after a document has been rendered, just before it is written to disc.
      * @event
      */
-    static END = "endPage";
+    static readonly END = "endPage";
 }
 
 /**
@@ -152,7 +152,7 @@ export class MarkdownEvent extends Event {
      * Triggered on the renderer when this plugin parses a markdown string.
      * @event
      */
-    static PARSE = "parseMarkdown";
+    static readonly PARSE = "parseMarkdown";
 
     constructor(name: string, originalText: string, parsedText: string) {
         super(name);
