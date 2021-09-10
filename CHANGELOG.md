@@ -1,5 +1,7 @@
 # Unreleased
 
+# v0.22.0 (2021-08-10)
+
 ### Breaking Changes
 
 -   The `packages` and `entryPoints` options have been combined.
