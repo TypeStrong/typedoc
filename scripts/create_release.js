@@ -104,7 +104,7 @@ async function main() {
         await writeFile(CHANGELOG_MD, fullChangelog);
         await exec(`git add "${CHANGELOG_MD}"`);
         await exec(`git commit -m "Update changelog for release"`);
-        await exec(`git push ${REMOTE}`);
+        await exec(`git push ${REMOTE}`).catch(() => {});
     }
 
     start = fullChangelog.indexOf("\n", start) + 1;
