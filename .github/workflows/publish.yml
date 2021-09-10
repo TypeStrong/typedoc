@@ -20,7 +20,7 @@ jobs:
               if: steps.check.outputs.changed == 'true'
               uses: actions/setup-node@v1
               with:
-                  node-version: "14"
+                  node-version: "16"
             - name: Install
               if: steps.check.outputs.changed == 'true'
               run: npm ci
