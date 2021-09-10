@@ -207,6 +207,11 @@ export function getTsEntryPointForPackage(
     let packageMain = "index.js"; // The default, per the npm docs.
     let packageTypes = null;
     if (
+        hasOwnProperty(packageJson, "typedocMain") &&
+        typeof packageJson.typedocMain == "string"
+    ) {
+        packageMain = packageJson.typedocMain
+    } else if (
         hasOwnProperty(packageJson, "main") &&
         typeof packageJson.main == "string"
     ) {
