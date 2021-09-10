@@ -217,7 +217,10 @@ export class ProjectReflection extends ContainerReflection {
         });
 
         const symbol = this.reflectionIdToSymbolMap.get(reflection.id);
-        if (symbol) {
+        if (
+            symbol &&
+            this.symbolToReflectionIdMap.get(symbol) === reflection.id
+        ) {
             this.symbolToReflectionIdMap.delete(symbol);
         }
 

@@ -21,7 +21,6 @@ export function validateExports(
     const queue: Reflection[] = [];
     const intentional = new Set(intentionallyNotExported);
     const seenIntentional = new Set<string>();
-    const warned = new Set<ts.Symbol>();
 
     const visitor = makeRecursiveVisitor({
         reference(type) {
@@ -35,13 +34,10 @@ export function validateExports(
                 if (
                     (symbol.flags & ts.SymbolFlags.TypeParameter) === 0 &&
                     !intentional.has(symbol.name) &&
-                    !warned.has(symbol) &&
                     !symbol.declarations?.some((d) =>
                         d.getSourceFile().fileName.includes("node_modules")
                     )
                 ) {
-                    warned.add(symbol);
-
                     const decl = symbol.declarations?.[0];
                     if (decl) {
                         const { line } = ts.getLineAndCharacterOfPosition(

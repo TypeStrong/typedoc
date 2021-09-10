@@ -49,6 +49,39 @@ const symbolConverters: {
     [ts.SymbolFlags.SetAccessor]: convertAccessor,
 };
 
+const allConverterFlags = Object.keys(symbolConverters).reduce(
+    (v, k) => v | +k,
+    0
+);
+
+// This is kind of a hack, born of resolving references by symbols instead
+// of by source location.
+const conversionOrder = [
+    // Do enums before namespaces so that @hidden on a namespace
+    // merged with an enum works properly.
+    ts.SymbolFlags.RegularEnum,
+    ts.SymbolFlags.ConstEnum,
+    ts.SymbolFlags.EnumMember,
+
+    // Before type alias
+    ts.SymbolFlags.BlockScopedVariable,
+    ts.SymbolFlags.FunctionScopedVariable,
+
+    ts.SymbolFlags.ValueModule,
+    ts.SymbolFlags.NamespaceModule,
+    ts.SymbolFlags.TypeAlias,
+    ts.SymbolFlags.Function,
+    ts.SymbolFlags.Method,
+    ts.SymbolFlags.Interface,
+    ts.SymbolFlags.Property,
+    ts.SymbolFlags.Class,
+    ts.SymbolFlags.Constructor,
+    ts.SymbolFlags.Alias,
+
+    ts.SymbolFlags.GetAccessor,
+    ts.SymbolFlags.SetAccessor,
+];
+
 // Sanity check, if this fails a dev messed up.
 for (const key of Object.keys(symbolConverters)) {
     if (!Number.isInteger(Math.log2(+key))) {
@@ -58,6 +91,20 @@ for (const key of Object.keys(symbolConverters)) {
             } does not specify a valid flag value.`
         );
     }
+
+    if (!conversionOrder.includes(+key)) {
+        throw new Error(
+            `Symbol converter for key ${
+                ts.SymbolFlags[+key]
+            } is not specified in conversionOrder`
+        );
+    }
+}
+
+if (conversionOrder.reduce((a, b) => a | b, 0) !== allConverterFlags) {
+    throw new Error(
+        "conversionOrder contains a symbol flag that converters do not."
+    );
 }
 
 export function convertSymbol(
@@ -114,17 +161,20 @@ export function convertSymbol(
         flags = removeFlag(flags, ts.SymbolFlags.Property);
     }
 
-    // Note: This method does not allow skipping earlier converters, defined according to the order of
-    // the ts.SymbolFlags enum. For now, this is fine... might not be flexible enough in the future.
-    let skip = 0;
-    for (const flag of getEnumFlags(flags)) {
-        if (skip & flag) continue;
-
-        if (!(flag in symbolConverters)) {
+    for (const flag of getEnumFlags(flags ^ allConverterFlags)) {
+        if (!(flag & allConverterFlags)) {
             context.logger.verbose(
                 `Missing converter for symbol: ${symbol.name} with flag ${ts.SymbolFlags[flag]}`
             );
         }
+    }
+
+    // Note: This method does not allow skipping earlier converters, defined according to the order of
+    // the ts.SymbolFlags enum. For now, this is fine... might not be flexible enough in the future.
+    let skip = 0;
+    for (const flag of conversionOrder) {
+        if (!(flag & flags)) continue;
+        if (skip & flag) continue;
 
         skip |= symbolConverters[flag]?.(context, symbol, exportSymbol) || 0;
     }
