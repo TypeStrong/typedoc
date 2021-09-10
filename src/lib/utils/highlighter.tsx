@@ -73,15 +73,50 @@ class DoubleHighlighter {
     }
 
     getStyles() {
-        let styles = Array.from(this.schemes.keys(), (key, i) => {
+        const style: string[] = [":root {"];
+        const lightRules: string[] = [];
+        const darkRules: string[] = [];
+
+        let i = 0;
+        for (const key of this.schemes.keys()) {
             const [light, dark] = key.split(" | ");
-            return [`.hl-${i} { color: ${light}; }`, `.dark .hl-${i} { color: ${dark}; }`].join("\n");
-        }).join("\n");
 
-        styles += `pre { background: ${this.light.getTheme().bg}; }`;
-        styles += `.dark pre { background: ${this.dark.getTheme().bg}; }`;
+            style.push(`    --light-hl-${i}: ${light};`);
+            style.push(`    --dark-hl-${i}: ${dark};`);
+            lightRules.push(`    --hl-${i}: var(--light-hl-${i});`);
+            darkRules.push(`    --hl-${i}: var(--dark-hl-${i});`);
+            i++;
+        }
 
-        return `<style>${styles}</style>`;
+        style.push(`    --light-code-background: ${this.light.getTheme().bg};`);
+        style.push(`    --dark-code-background: ${this.dark.getTheme().bg};`);
+        lightRules.push(`    --code-background: var(--light-code-background);`);
+        darkRules.push(`    --code-background: var(--dark-code-background);`);
+
+        style.push("}", "");
+
+        style.push("@media (prefers-color-scheme: light) { :root {");
+        style.push(...lightRules);
+        style.push("} }", "");
+
+        style.push("@media (prefers-color-scheme: dark) { :root {");
+        style.push(...darkRules);
+        style.push("} }", "");
+
+        style.push("body.light {");
+        style.push(...lightRules);
+        style.push("}", "");
+
+        style.push("body.dark {");
+        style.push(...darkRules);
+        style.push("}", "");
+
+        for (i = 0; i < this.schemes.size; i++) {
+            style.push(`.hl-${i} { color: var(--hl-${i}); }`);
+        }
+        style.push("pre, code { background: var(--code-background); }", "");
+
+        return style.join("\n");
     }
 
     private getClass(lightColor?: string, darkColor?: string): string {

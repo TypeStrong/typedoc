@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 -   Validation for non-exported symbols will now only produce one warning per symbol, instead of one warning per reference.
+-   Syntax highlighting when the preferred color scheme is dark but dark theme is not explicitly selected will now properly use the dark highlighting theme.
 
 # v0.22.0 (2021-08-10)
 
