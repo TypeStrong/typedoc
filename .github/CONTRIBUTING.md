@@ -60,7 +60,7 @@ Unsure of where to begin contributing to TypeDoc? You can start by looking throu
 For instructions on setting up your environment, see the [setup](#setup---git-github-and-node) instructions in this document.
 Once set up, you may find the [development](https://typedoc.org/guides/development/) page useful for an overview of TypeDoc's architecture.
 
-If you have started work on an issue and get stuck or want a second opinion on your implementation feel free to reach out through [Gitter].
+If you have started work on an issue and get stuck or want a second opinion on your implementation feel free to reach out through [Discord].
 
 ## Setup - Git, GitHub, and Node
 
@@ -125,7 +125,7 @@ builds and may be more appropriate for adding a test for a bugfix.
 
 Once you have finished working on an issue, you can submit a pull request to have your changes merged into the TypeDoc repository and included in the next release.
 
-Before submitting a pull request, make sure that there are no linting problems (`npm run lint`), all tests pass (`npm test`), and your branch is up to date. Its also a good idea to join the TypeDoc [Gitter] room to discuss how best to implement changes.
+Before submitting a pull request, make sure that there are no linting problems (`npm run lint`), all tests pass (`npm test`), and your branch is up to date. Its also a good idea to join the TypeScript [discord] and visit the `#typedoc` channel to discuss how best to implement changes.
 
 If your change is user facing, consider updating `CHANGELOG.md` to describe the change you have made. If you don't, the maintainer who merges your pull request will do it for you.
 
@@ -139,7 +139,7 @@ If the TypeDoc repository has changed since you originally forked it, you will n
 [suggestions]: https://github.com/TypeStrong/typedoc/labels/enhancement
 [good-first-issue]: https://github.com/TypeStrong/typedoc/labels/good%20first%20issue
 [help-wanted]: https://github.com/TypeStrong/typedoc/labels/help%20wanted
-[gitter]: https://gitter.im/TypeStrong/typedoc
+[discord]: https://discord.com/invite/typescript
 [github]: https://github.com
 [git]: https://git-scm.com
 [node]: https://nodejs.org/en/
