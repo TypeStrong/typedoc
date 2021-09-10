@@ -30,7 +30,7 @@ export const memberSources = (
                 {props.sources.map((item) =>
                     item.url ? (
                         <li>
-                            Defined in
+                            {"Defined in "}
                             <a href={item.url}>
                                 {item.fileName}:{item.line}
                             </a>

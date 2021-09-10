@@ -12,14 +12,14 @@
     It also allows themes to be easily type checked, preventing mistakes when creating custom themes.
     Removing Handlebars also fixed memory leaks when `--watch` was specified due to Handlebar's caching mechanism.
     This change breaks all existing custom themes, so a theme created for v0.21 or earlier will not work in v0.22.
-    See [internal-docs/custom-themes.md](https://github.com/TypeStrong/typedoc/blob/master/internal-docs/custom-themes.md) for documentation on how to create a custom theme in v0.22.
+    See [internal-docs/custom-themes.md](https://github.com/TypeStrong/typedoc/blob/v0.22.0/internal-docs/custom-themes.md) for documentation on how to create a custom theme in v0.22.
 -   Removed the minimal theme that has been mostly broken for a long time.
 
 ### Features
 
 -   Added support for light/dark mode to the default theme, closes #1641.
 -   Added support for custom CSS with the new `customCss` option, closes #1060.
--   Added support for linking to third party documentation sites, closes #131. See [internal-docs/third-party-symbols.md](https://github.com/TypeStrong/typedoc/blob/master/internal-docs/third-party-symbols.md)
+-   Added support for linking to third party documentation sites, closes #131. See [internal-docs/third-party-symbols.md](https://github.com/TypeStrong/typedoc/blob/v0.22.0/internal-docs/third-party-symbols.md)
     for documentation on how to create a plugin which enables this.
     Support for linking to MDN for global types is provided by [typedoc-plugin-mdn-links](https://github.com/Gerrit0/typedoc-plugin-mdn-links).
 -   Added `entryPointStrategy` to reduce confusion from new TypeDoc users on handling of entry points.
@@ -28,7 +28,8 @@
     | --- | --- |
     | resolve (default) | Expects all entry points to be contained within the root level tsconfig project. If a directory is given, includes `<directory>/index` as the entry point. |
     | expand | Expects all entry points to be contained within the root level tsconfig project. If a directory is given, files within it are recursively expanded. This was the default behavior in v0.21. |
-    | packages| Corresponds to `--packages` in v0.21, behaves as documented in the Monorepo section in the readme. |
+    | packages | Corresponds to `--packages` in v0.21, behaves as documented in the Monorepo section in the readme. |
+-   Added support for `typedocMain` in package.json when using the `packages` strategy for resolving entry points.
 -   Produce warnings when documentation is missing exports, closes #1653. If using TypeDoc's API, this behavior is available through calling `application.validate(project)`.
 -   Added support for detecting "`as const` enums", closes #1675.
 -   Added `hideLegend` option, closes #1108.
@@ -55,7 +56,8 @@
 
 ### Thanks!
 
--   Andrew Bradley
+-   Andrew Bradley (@cspotcode)
+-   Jamie Stackhouse (@itsjamie)
 
 ## v0.21.9 (2021-07-29)
 

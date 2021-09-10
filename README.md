@@ -27,12 +27,14 @@ just specify the entry point of your library:
 typedoc src/index.ts
 ```
 
-If you have multiple entry points, specify each of them. If you specify a directory, TypeDoc
-will treat each file contained within it as an entry point.
+If you have multiple entry points, specify each of them.
 
 ```text
 typedoc package1/index.ts package2/index.ts
 ```
+
+If you specify a directory, TypeDoc will use the `entryPointStrategy` option to determine how to resolve it.
+By default, TypeDoc will search for a file called `index` under the directory.
 
 ### Monorepos / Workspaces
 
@@ -41,8 +43,9 @@ packages and TypeDoc will attempt to determine entry points based on `package.js
 property (with default value `index.js`) and if it wasn't found, based on `types` property.
 If any of the packages given are the root of an [npm Workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 or a [Yarn Workspace](https://classic.yarnpkg.com/en/docs/workspaces/) TypeDoc will find all
-the `workspaces` defined in the `package.json`.
-This mode requires sourcemaps in your JS entry points, in order to find the TS entry points.
+the `workspaces` defined in the `package.json`. In order to find your entry points, TypeDoc requires
+either that you turn on sourcemaps so that it can discover the original TS file, or that you
+specify `"typedocMain": "src/index.ts"` to explicitly state where the package entry point is.
 Supports wildcard paths in the same fashion as those found in npm or Yarn workspaces.
 
 #### Single npm module
@@ -124,5 +127,5 @@ For more information, read the [contribution guide](https://github.com/TypeStron
 ## License
 
 Copyright (c) 2015 [Sebastian Lenz](https://typedoc.org).<br>
-Copyright (c) 2016-2020 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
+Copyright (c) 2016-2021 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
 Licensed under the Apache License 2.0.
