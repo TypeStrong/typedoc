@@ -210,7 +210,7 @@ export function getTsEntryPointForPackage(
         hasOwnProperty(packageJson, "typedocMain") &&
         typeof packageJson.typedocMain == "string"
     ) {
-        packageMain = packageJson.typedocMain
+        packageMain = packageJson.typedocMain;
     } else if (
         hasOwnProperty(packageJson, "main") &&
         typeof packageJson.main == "string"
