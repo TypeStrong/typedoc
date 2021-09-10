@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.1 (2021-08-10)
+
 ### Bug Fixes
 
 -   Validation for non-exported symbols will now only produce one warning per symbol, instead of one warning per reference.
