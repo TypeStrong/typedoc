@@ -376,8 +376,9 @@ export class Options {
 export function BindOption<K extends keyof TypeDocOptionMap>(
     name: K
 ): <IK extends PropertyKey>(
-    target: ({ application: Application } | { options: Options }) &
-        { [K2 in IK]: TypeDocOptionValues[K] },
+    target: ({ application: Application } | { options: Options }) & {
+        [K2 in IK]: TypeDocOptionValues[K];
+    },
     key: IK
 ) => void;
 
