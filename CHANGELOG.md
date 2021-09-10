@@ -56,8 +56,8 @@
 
 ### Thanks!
 
--   Andrew Bradley (@cspotcode)
--   Jamie Stackhouse (@itsjamie)
+-   @cspotcode
+-   @itsjamie
 
 ## v0.21.9 (2021-07-29)
 
@@ -67,7 +67,7 @@
 
 ### Thanks!
 
--   John Haugeland
+-   @StoneCypher
 
 ## v0.21.8 (2021-07-28)
 
@@ -77,7 +77,7 @@
 
 ### Thanks!
 
--   John Haugeland
+-   @StoneCypher
 
 ## v0.21.7 (2021-07-27)
 
@@ -97,7 +97,7 @@
 
 ### Thanks!
 
--   Krisztián Balla
+-   @krisztianb
 
 ## v0.21.5 (2021-06-31)
 
@@ -111,7 +111,7 @@
 
 ### Thanks!
 
--   Jacques Favreau
+-   @betaorbust
 
 ## v0.21.4 (2021-06-12)
 
@@ -133,7 +133,7 @@
 
 ### Thanks!
 
--   Andrew Bradley
+-   @cspotcode
 
 ## v0.21.2 (2021-05-27)
 
