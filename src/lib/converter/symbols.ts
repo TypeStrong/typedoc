@@ -67,8 +67,6 @@ const conversionOrder = [
     ts.SymbolFlags.BlockScopedVariable,
     ts.SymbolFlags.FunctionScopedVariable,
 
-    ts.SymbolFlags.ValueModule,
-    ts.SymbolFlags.NamespaceModule,
     ts.SymbolFlags.TypeAlias,
     ts.SymbolFlags.Function,
     ts.SymbolFlags.Method,
@@ -80,6 +78,9 @@ const conversionOrder = [
 
     ts.SymbolFlags.GetAccessor,
     ts.SymbolFlags.SetAccessor,
+
+    ts.SymbolFlags.ValueModule,
+    ts.SymbolFlags.NamespaceModule,
 ];
 
 // Sanity check, if this fails a dev messed up.

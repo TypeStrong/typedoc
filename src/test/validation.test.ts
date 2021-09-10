@@ -7,8 +7,12 @@ import { getConverter2App, getConverter2Program } from "./programs";
 function expectWarning(
     typeName: string,
     file: string,
-    referencingName: string
+    referencingNames: string[] | string
 ) {
+    const refs = Array.isArray(referencingNames)
+        ? referencingNames
+        : [referencingNames];
+
     const app = getConverter2App();
     const program = getConverter2Program();
     const sourceFile = program.getSourceFile(
@@ -43,10 +47,11 @@ function expectWarning(
                     ),
                     "Referencing file is different."
                 );
-                equal(
-                    match[3],
-                    referencingName,
-                    "Referencing name is different."
+                ok(
+                    refs.includes(match[3]),
+                    `Referencing name is different, expected ${
+                        match[3]
+                    } to be: ${refs.join(", ")}`
                 );
             }
         }
@@ -62,7 +67,10 @@ describe("validateExports", () => {
     });
 
     it("Should warn if a type parameter clause is missing", () => {
-        expectWarning("Foo", "typeParameter.ts", "Bar.T");
+        expectWarning("Foo", "typeParameter.ts", [
+            "Bar.T",
+            "Bar.constructor.new Bar.T",
+        ]);
     });
 
     it("Should warn if an index signature type is missing", () => {
