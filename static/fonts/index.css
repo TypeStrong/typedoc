@@ -1,0 +1,35 @@
+/* From Google Fonts: https://fonts.googleapis.com/css2?family=Lexend:wght@300;600&display=swap  */
+/* Created using https://google-webfonts-helper.herokuapp.com/fonts/lexend?subsets=latin,latin-ext */
+/* lexend-300 - latin-ext_latin */
+
+/* @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;600&display=swap"); */
+@font-face {
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: local(''),
+            url('./lexend-v7-latin-ext_latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+            url('./lexend-v7-latin-ext_latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* lexend-600 - latin-ext_latin */
+@font-face {
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: local(''),
+            url('./lexend-v7-latin-ext_latin-600.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+            url('./lexend-v7-latin-ext_latin-600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* Fluent System Icons - Regular */
+/* From the Fluent Systems Icon on Github: https://github.com/microsoft/fluentui-system-icons/blob/master/fonts/FluentSystemIcons-Regular.css */
+
+/* @import url("https://cdn.jsdelivr.net/gh/microsoft/fluentui-system-icons/fonts/FluentSystemIcons-Regular.css"); */
+@font-face {
+    font-family: "FluentSystemIcons-Regular";
+    src: url("/fonts/FluentSystemIcons-Regular.ttf") format("truetype");
+    font-display: block;
+}

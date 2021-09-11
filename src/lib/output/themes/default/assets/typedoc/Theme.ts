@@ -15,15 +15,15 @@ export function initTheme(choices: HTMLOptionElement) {
 function setTheme(theme: ThemeChoice) {
     switch (theme) {
         case "os":
-            document.body.classList.remove("light", "dark");
+            document.documentElement.classList.remove("light", "dark");
             break;
         case "light":
-            document.body.classList.remove("dark");
-            document.body.classList.add("light");
+            document.documentElement.classList.remove("dark");
+            document.documentElement.classList.add("light");
             break;
         case "dark":
-            document.body.classList.remove("light");
-            document.body.classList.add("dark");
+            document.documentElement.classList.remove("light");
+            document.documentElement.classList.add("dark");
             break;
     }
 }
