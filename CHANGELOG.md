@@ -29,6 +29,7 @@
     This change breaks all existing custom themes, so a theme created for v0.21 or earlier will not work in v0.22.
     See [internal-docs/custom-themes.md](https://github.com/TypeStrong/typedoc/blob/v0.22.0/internal-docs/custom-themes.md) for documentation on how to create a custom theme in v0.22.
 -   Removed the minimal theme that has been mostly broken for a long time.
+-   Changed the default `entryPointStrategy` from `expand` to `resolve`.
 
 ### Features
 
