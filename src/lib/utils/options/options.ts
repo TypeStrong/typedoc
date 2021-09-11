@@ -1,5 +1,5 @@
 import type * as ts from "typescript";
-import { ParameterType } from ".";
+import { ParameterType } from "./declaration";
 import type { NeverIfInternal } from "..";
 import type { Application } from "../../..";
 import { insertPrioritySorted, unique } from "../array";
