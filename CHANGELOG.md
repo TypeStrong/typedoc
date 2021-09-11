@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.2 (2021-08-11)
+
 ### Bug Fixes
 
 -   Fix background color of tables in dark mode, closes #1684.
