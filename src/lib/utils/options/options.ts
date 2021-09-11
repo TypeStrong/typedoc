@@ -1,4 +1,5 @@
 import type * as ts from "typescript";
+import { ParameterType } from ".";
 import type { NeverIfInternal } from "..";
 import type { Application } from "../../..";
 import { insertPrioritySorted, unique } from "../array";
@@ -153,6 +154,7 @@ export class Options {
     /**
      * Removes all readers of a given name.
      * @param name
+     * @deprecated should not be used, will be removed in 0.23
      */
     removeReaderByName(name: string): void {
         this._readers = this._readers.filter((reader) => reader.name !== name);
@@ -196,11 +198,7 @@ export class Options {
     /**
      * Adds the given declarations to the container
      * @param declarations
-     *
-     * @privateRemarks
-     * This function explicitly provides a way out of the strict typing enforced
-     * by {@link addDeclaration}. It should only be used with careful validation
-     * of the declaration map. Internally, it is only used for adding TS options
+     * @deprecated will be removed in 0.23.
      */
     addDeclarations(declarations: readonly DeclarationOption[]): void {
         for (const decl of declarations) {
@@ -213,6 +211,7 @@ export class Options {
      * WARNING: This is probably a bad idea. If you do this you will probably cause a crash
      * when code assumes that an option that it declared still exists.
      * @param name
+     * @deprecated will be removed in 0.23.
      */
     removeDeclarationByName(name: string): void {
         const declaration = this.getDeclaration(name);
@@ -307,7 +306,12 @@ export class Options {
             declaration,
             configPath ?? process.cwd()
         );
-        this._values[declaration.name] = converted;
+
+        if (declaration.type === ParameterType.Flags) {
+            Object.assign(this._values[declaration.name], converted);
+        } else {
+            this._values[declaration.name] = converted;
+        }
         this._setOptions.add(name);
     }
 

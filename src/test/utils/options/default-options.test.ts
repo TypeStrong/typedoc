@@ -46,4 +46,12 @@ describe("Default Options", () => {
             }
         });
     });
+
+    describe("markedOptions", () => {
+        it("Errors if given a non-object", () => {
+            throws(() => opts.setValue("markedOptions", null));
+            throws(() => opts.setValue("markedOptions", "bad"));
+            throws(() => opts.setValue("markedOptions", []));
+        });
+    });
 });

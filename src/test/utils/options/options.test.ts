@@ -94,6 +94,33 @@ describe("Options", () => {
         throws(() => options.setValue("mapped" as any, "nonsense" as any));
     });
 
+    it("Errors if setting flags to an invalid value", () => {
+        throws(() => options.setValue("validation", "bad" as never));
+        throws(() => options.setValue("validation", void 0 as never));
+        throws(() =>
+            options.setValue("validation", { notExported: "bad" } as never)
+        );
+    });
+
+    it("Errors if setting a flag which does not exist", () => {
+        throws(() =>
+            options.setValue("validation", { doesNotExist: true } as never)
+        );
+    });
+
+    it("Resets a flag to the default if set to null", () => {
+        const options = new Options(new Logger());
+        options.addDefaultDeclarations();
+
+        options.setValue("validation", { notExported: true });
+        options.setValue("validation", { notExported: null! });
+        equal(options.getValue("validation").notExported, true);
+
+        options.setValue("validation", { notExported: false });
+        options.setValue("validation", { notExported: null! });
+        equal(options.getValue("validation").notExported, true);
+    });
+
     it("Handles mapped enums properly", () => {
         const options = new Options(new Logger());
         options.addDefaultDeclarations();

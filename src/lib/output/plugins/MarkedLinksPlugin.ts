@@ -3,7 +3,7 @@ import * as Util from "util";
 import type { Reflection } from "../../models/reflections/abstract";
 import { Component, ContextAwareRendererComponent } from "../components";
 import { MarkdownEvent, RendererEvent } from "../events";
-import { BindOption } from "../../utils";
+import { BindOption, ValidationOptions } from "../../utils";
 
 /**
  * A plugin that builds links in markdown texts.
@@ -23,6 +23,9 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
 
     @BindOption("listInvalidSymbolLinks")
     listInvalidSymbolLinks!: boolean;
+
+    @BindOption("validation")
+    validation!: ValidationOptions;
 
     private warnings: string[] = [];
 
@@ -165,7 +168,15 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
      * Triggered when {@link Renderer} is finished
      */
     onEndRenderer(_event: RendererEvent) {
-        if (this.listInvalidSymbolLinks && this.warnings.length > 0) {
+        const enabled =
+            this.listInvalidSymbolLinks || this.validation.invalidLink;
+        if (this.listInvalidSymbolLinks) {
+            this.application.logger.warn(
+                "listInvalidSymbolLinks is deprecated and will be removed in 0.23, set validation.invalidLink instead."
+            );
+        }
+
+        if (enabled && this.warnings.length > 0) {
             this.application.logger.warn(
                 "\n[MarkedLinksPlugin]: Found invalid symbol reference(s) in JSDocs, " +
                     "they will not render as links in the generated documentation." +

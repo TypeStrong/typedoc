@@ -75,10 +75,32 @@ export class ArgumentsReader implements OptionsReader {
                     trySet(decl.name, this.args[index]);
                 }
                 seen.add(decl.name);
-            } else {
-                logger.error(`Unknown option: ${name}`);
+                index++;
+                continue;
             }
 
+            if (name.includes(".")) {
+                const actualName = name.split(".")[0].replace(/^--?/, "");
+                const decl = options.getDeclaration(actualName);
+
+                if (decl && decl.type === ParameterType.Flags) {
+                    const flagName = name.split(".", 2)[1];
+                    const value = String(this.args[index]).toLowerCase();
+
+                    if (value === "true" || value === "false") {
+                        trySet(decl.name, { [flagName]: value === "true" });
+                    } else {
+                        trySet(decl.name, { [flagName]: true });
+                        // Bool option didn't consume the next argument as expected.
+                        index--;
+                    }
+
+                    index++;
+                    continue;
+                }
+            }
+
+            logger.error(`Unknown option: ${name}`);
             index++;
         }
     }

@@ -12,8 +12,13 @@ import type { EntryPointStrategy } from "../entry-point";
 export type TypeDocOptions = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
         ? unknown
-        : TypeDocOptionMap[K] extends string | string[] | number | boolean
-        ? TypeDocOptionMap[K]
+        : TypeDocOptionMap[K] extends
+              | string
+              | string[]
+              | number
+              | boolean
+              | Record<string, boolean>
+        ? Partial<TypeDocOptionMap[K]>
         :
               | keyof TypeDocOptionMap[K]
               | TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
@@ -22,12 +27,17 @@ export type TypeDocOptions = {
 /**
  * Describes all TypeDoc specific options as returned by {@link Options.getValue}, this is
  * slightly more restrictive than the {@link TypeDocOptions} since it does not allow both
- * keys and values for mapped option types.
+ * keys and values for mapped option types, and does nto allow partials of flag values.
  */
 export type TypeDocOptionValues = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
         ? unknown
-        : TypeDocOptionMap[K] extends string | string[] | number | boolean
+        : TypeDocOptionMap[K] extends
+              | string
+              | string[]
+              | number
+              | boolean
+              | Record<string, boolean>
         ? TypeDocOptionMap[K]
         : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
@@ -94,8 +104,22 @@ export interface TypeDocOptionMap {
     // Validation
     treatWarningsAsErrors: boolean;
     intentionallyNotExported: string[];
+    /** @deprecated use validation.invalidLink */
     listInvalidSymbolLinks: boolean;
+    validation: ValidationOptions;
 }
+
+export type ValidationOptions = {
+    /**
+     * If set, TypeDoc will produce warnings when a symbol is referenced by the documentation,
+     * but is not included in the documentation.
+     */
+    notExported: boolean;
+    /**
+     * If set, TypeDoc will produce warnings about \{&amp;link\} tags which will produce broken links.
+     */
+    invalidLink: boolean;
+};
 
 /**
  * Converts a given TypeDoc option key to the type of the declaration expected.
@@ -111,6 +135,8 @@ export type KeyToDeclaration<K extends keyof TypeDocOptionMap> =
         ? ArrayDeclarationOption
         : unknown extends TypeDocOptionMap[K]
         ? MixedDeclarationOption
+        : TypeDocOptionMap[K] extends Record<string, boolean>
+        ? FlagsDeclarationOption<TypeDocOptionMap[K]>
         : TypeDocOptionMap[K] extends Record<string | number, infer U>
         ? MapDeclarationOption<U>
         : never;
@@ -143,6 +169,10 @@ export enum ParameterType {
      * Resolved according to the config directory unless it starts with `**`, after skipping any leading `!` and `#` characters.
      */
     GlobArray,
+    /**
+     * An object with true/false flags
+     */
+    Flags,
 }
 
 export interface DeclarationOptionBase {
@@ -277,13 +307,24 @@ export interface MapDeclarationOption<T> extends DeclarationOptionBase {
     mapError?: string;
 }
 
+export interface FlagsDeclarationOption<T extends Record<string, boolean>>
+    extends DeclarationOptionBase {
+    type: ParameterType.Flags;
+
+    /**
+     * All of the possible flags, with their default values set.
+     */
+    defaults: T;
+}
+
 export type DeclarationOption =
     | StringDeclarationOption
     | NumberDeclarationOption
     | BooleanDeclarationOption
     | MixedDeclarationOption
     | MapDeclarationOption<unknown>
-    | ArrayDeclarationOption;
+    | ArrayDeclarationOption
+    | FlagsDeclarationOption<Record<string, boolean>>;
 
 export interface ParameterTypeToOptionTypeMap {
     [ParameterType.String]: string;
@@ -295,6 +336,7 @@ export interface ParameterTypeToOptionTypeMap {
     [ParameterType.PathArray]: string[];
     [ParameterType.ModuleArray]: string[];
     [ParameterType.GlobArray]: string[];
+    [ParameterType.Flags]: Record<string, boolean>;
 
     // Special.. avoid this if possible.
     [ParameterType.Map]: unknown;
@@ -302,6 +344,8 @@ export interface ParameterTypeToOptionTypeMap {
 
 export type DeclarationOptionToOptionType<T extends DeclarationOption> =
     T extends MapDeclarationOption<infer U>
+        ? U
+        : T extends FlagsDeclarationOption<infer U>
         ? U
         : ParameterTypeToOptionTypeMap[Exclude<T["type"], undefined>];
 
@@ -403,6 +447,38 @@ const converters: {
         option.validate?.(value);
         return value;
     },
+    [ParameterType.Flags](value, option) {
+        if (typeof value !== "object" || value == null) {
+            throw new Error(
+                `Expected an object with flag values for ${option.name}`
+            );
+        }
+        const obj = { ...value } as Record<string, unknown>;
+
+        for (const key of Object.keys(obj)) {
+            if (!Object.prototype.hasOwnProperty.call(option.defaults, key)) {
+                throw new Error(
+                    `The flag '${key}' is not valid for ${
+                        option.name
+                    }, expected one of: ${Object.keys(option.defaults).join(
+                        ", "
+                    )}`
+                );
+            }
+
+            if (typeof obj[key] !== "boolean") {
+                // Explicit null/undefined, switch to default.
+                if (obj[key] == null) {
+                    obj[key] = option.defaults[key];
+                } else {
+                    throw new Error(
+                        `Flag values for ${option.name} must be a boolean.`
+                    );
+                }
+            }
+        }
+        return obj as Record<string, boolean>;
+    },
 };
 
 /**
@@ -477,6 +553,9 @@ const defaultGetters: {
     },
     [ParameterType.GlobArray](option) {
         return resolveGlobPaths(option.defaultValue ?? [], process.cwd());
+    },
+    [ParameterType.Flags](option) {
+        return { ...option.defaults };
     },
 };
 

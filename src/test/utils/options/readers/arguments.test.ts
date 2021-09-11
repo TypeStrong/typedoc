@@ -152,4 +152,41 @@ describe("Options - ArgumentsReader", () => {
         options.removeReaderByName(reader.name);
         equal(check, true, "Reader did not report an error.");
     });
+
+    it("Works with flag values without specifying a value", () => {
+        const reader = new ArgumentsReader(1, ["--validation.invalidLink"]);
+        options.reset();
+        options.addReader(reader);
+        const logger = new Logger();
+        options.read(logger);
+        options.removeReaderByName(reader.name);
+
+        equal(logger.hasErrors(), false);
+        equal(logger.hasWarnings(), false);
+        equal(options.getValue("validation"), {
+            notExported: true,
+            invalidLink: true,
+        });
+    });
+
+    it("Works with flag values with specifying a value", () => {
+        const reader = new ArgumentsReader(1, [
+            "--validation.invalidLink",
+            "true",
+            "--validation.notExported",
+            "false",
+        ]);
+        options.reset();
+        options.addReader(reader);
+        const logger = new Logger();
+        options.read(logger);
+        options.removeReaderByName(reader.name);
+
+        equal(logger.hasErrors(), false);
+        equal(logger.hasWarnings(), false);
+        equal(options.getValue("validation"), {
+            notExported: false,
+            invalidLink: true,
+        });
+    });
 });

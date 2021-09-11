@@ -368,11 +368,19 @@ export class Application extends ChildableComponent<
     }
 
     validate(project: ProjectReflection) {
-        validateExports(
-            project,
-            this.logger,
-            this.options.getValue("intentionallyNotExported")
-        );
+        const checks = this.options.getValue("validation");
+
+        if (checks.notExported) {
+            validateExports(
+                project,
+                this.logger,
+                this.options.getValue("intentionallyNotExported")
+            );
+        }
+
+        // checks.invalidLink is currently handled when rendering by the MarkedLinksPlugin.
+        // It should really move here, but I'm putting that off until done refactoring the comment
+        // parsing so that we don't have duplicate parse logic all over the place.
     }
 
     /**

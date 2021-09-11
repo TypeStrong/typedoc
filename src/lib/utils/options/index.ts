@@ -6,6 +6,7 @@ export { ParameterType, ParameterHint } from "./declaration";
 export type {
     TypeDocOptions,
     TypeDocOptionMap,
+    ValidationOptions,
     KeyToDeclaration,
     DeclarationOption,
     DeclarationOptionBase,
@@ -15,6 +16,7 @@ export type {
     ArrayDeclarationOption,
     MixedDeclarationOption,
     MapDeclarationOption,
+    FlagsDeclarationOption,
     DeclarationOptionToOptionType,
     TypeDocOptionValues,
     ParameterTypeToOptionTypeMap,

@@ -302,6 +302,17 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "markedOptions",
         help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc",
         type: ParameterType.Mixed,
+        validate(value) {
+            if (
+                typeof value !== "object" ||
+                Array.isArray(value) ||
+                value == null
+            ) {
+                throw new Error(
+                    "The 'markedOptions' option must be a non-array object."
+                );
+            }
+        },
     });
 
     options.addDeclaration({
@@ -311,12 +322,22 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "listInvalidSymbolLinks",
-        help: "Emits a list of broken symbol {@link navigation} links after documentation generation",
+        help: "Emits a list of broken symbol {@link navigation} links after documentation generation, DEPRECATED, prefer validation.invalidLink instead.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "intentionallyNotExported",
         help: "A list of types which should not produce 'referenced but not documented' warnings.",
         type: ParameterType.Array,
+    });
+
+    options.addDeclaration({
+        name: "validation",
+        help: "Specify which validation steps TypeDoc should perform on your generated documentation.",
+        type: ParameterType.Flags,
+        defaults: {
+            notExported: true,
+            invalidLink: false,
+        },
     });
 }

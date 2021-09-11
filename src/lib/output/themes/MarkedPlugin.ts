@@ -22,6 +22,7 @@ customMarkedRenderer.heading = (text, level, _, slugger) => {
 
 /**
  * Implements markdown and relativeURL helpers for templates.
+ * @internal
  */
 @Component({ name: "marked" })
 export class MarkedPlugin extends ContextAwareRendererComponent {
@@ -194,22 +195,13 @@ output file :
             "markedOptions"
         ) ?? {}) as Marked.MarkedOptions;
 
-        if (
-            typeof markedOptions === "object" &&
-            !Array.isArray(markedOptions)
-        ) {
-            // Set some default values if they are not specified via the TypeDoc option
-            markedOptions.highlight ??= (text: any, lang: any) =>
-                this.getHighlighted(text, lang);
-            markedOptions.renderer ??= customMarkedRenderer;
-            markedOptions.mangle ??= false; // See https://github.com/TypeStrong/typedoc/issues/1395
+        // Set some default values if they are not specified via the TypeDoc option
+        markedOptions.highlight ??= (text: any, lang: any) =>
+            this.getHighlighted(text, lang);
+        markedOptions.renderer ??= customMarkedRenderer;
+        markedOptions.mangle ??= false; // See https://github.com/TypeStrong/typedoc/issues/1395
 
-            return markedOptions;
-        }
-
-        throw new Error(
-            "The value provided via the 'markedOptions' option must be a non-array object."
-        );
+        return markedOptions;
     }
 
     /**

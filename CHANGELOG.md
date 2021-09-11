@@ -1,5 +1,18 @@
 # Unreleased
 
+### Features
+
+-   Added new `validation` option which can be used to disable checks for non-exported symbols.
+    On the command line, this can be specified with `--validation.notExported true`, or in an options file with:
+    ```json
+    {
+        "validation": {
+            "notExported": true
+        }
+    }
+    ```
+-   Added invalidLink to `validation` option, deprecated `listInvalidSymbolLinks`, which will be removed in 0.23.
+
 ## v0.22.2 (2021-08-11)
 
 ### Bug Fixes

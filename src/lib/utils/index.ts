@@ -39,10 +39,12 @@ export type {
     MapDeclarationOption,
     MixedDeclarationOption,
     NumberDeclarationOption,
+    FlagsDeclarationOption,
     OptionsReader,
     StringDeclarationOption,
     TypeDocOptionMap,
     TypeDocOptions,
+    ValidationOptions,
     TypeDocOptionValues,
     ParameterTypeToOptionTypeMap,
 } from "./options";

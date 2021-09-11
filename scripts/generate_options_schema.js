@@ -28,17 +28,26 @@ addTypeDocOptions({
             case ParameterType.Array:
                 data.type = "array";
                 data.items = { type: "string" };
-                data.default = option.defaultValue ?? [];
+                data.default =
+                    /** @type {import("../dist").ArrayDeclarationOption} */ (
+                        option
+                    ).defaultValue ?? [];
                 break;
             case ParameterType.String:
                 data.type = "string";
                 if (!IGNORED_DEFAULT_OPTIONS.has(option.name)) {
-                    data.default = option.defaultValue ?? "";
+                    data.default =
+                        /** @type {import("../dist").StringDeclarationOption} */ (
+                            option
+                        ).defaultValue ?? "";
                 }
                 break;
             case ParameterType.Boolean:
                 data.type = "boolean";
-                data.default = option.defaultValue ?? false;
+                data.default =
+                    /** @type {import("../dist").BooleanDeclarationOption} */ (
+                        option
+                    ).defaultValue ?? false;
                 break;
             case ParameterType.Number: {
                 const decl =
@@ -60,8 +69,26 @@ addTypeDocOptions({
                     map instanceof Map
                         ? [...map.keys()]
                         : Object.keys(map).filter((key) => isNaN(+key));
-                data.default = option.defaultValue;
+                data.default =
+                    /** @type {import("../dist").MapDeclarationOption} */ (
+                        option
+                    ).defaultValue;
                 break;
+            }
+            case ParameterType.Flags: {
+                data.properties = {};
+                const defaults =
+                    /** @type {import("../dist").FlagsDeclarationOption<Record<string, boolean>>} */ (
+                        option
+                    ).defaults;
+
+                for (const key of Object.keys(defaults)) {
+                    data[key] = {
+                        type: "boolean",
+                    };
+                }
+                data.additionalProperties = false;
+                data.default = defaults;
             }
             case ParameterType.Mixed:
                 break; // Nothing to do... TypeDoc really shouldn't have any of these.
