@@ -76,18 +76,22 @@ addTypeDocOptions({
                 break;
             }
             case ParameterType.Flags: {
-                data.properties = {};
+                const flagsObj = {
+                    type: "object",
+                    properties: {},
+                };
                 const defaults =
                     /** @type {import("../dist").FlagsDeclarationOption<Record<string, boolean>>} */ (
                         option
                     ).defaults;
 
                 for (const key of Object.keys(defaults)) {
-                    data[key] = {
+                    flagsObj[key] = {
                         type: "boolean",
                     };
                 }
-                data.additionalProperties = false;
+                flagsObj.additionalProperties = false;
+                data.anyOf = [{ type: "boolean" }, flagsObj];
                 data.default = defaults;
             }
             case ParameterType.Mixed:

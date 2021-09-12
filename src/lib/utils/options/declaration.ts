@@ -12,13 +12,10 @@ import type { EntryPointStrategy } from "../entry-point";
 export type TypeDocOptions = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
         ? unknown
-        : TypeDocOptionMap[K] extends
-              | string
-              | string[]
-              | number
-              | boolean
-              | Record<string, boolean>
-        ? Partial<TypeDocOptionMap[K]>
+        : TypeDocOptionMap[K] extends string | string[] | number | boolean
+        ? TypeDocOptionMap[K]
+        : TypeDocOptionMap[K] extends Record<string, boolean>
+        ? Partial<TypeDocOptionMap[K]> | boolean
         :
               | keyof TypeDocOptionMap[K]
               | TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
@@ -448,9 +445,15 @@ const converters: {
         return value;
     },
     [ParameterType.Flags](value, option) {
+        if (typeof value === "boolean") {
+            value = Object.fromEntries(
+                Object.keys(option.defaults).map((key) => [key, value])
+            );
+        }
+
         if (typeof value !== "object" || value == null) {
             throw new Error(
-                `Expected an object with flag values for ${option.name}`
+                `Expected an object with flag values for ${option.name} or true/false`
             );
         }
         const obj = { ...value } as Record<string, unknown>;
