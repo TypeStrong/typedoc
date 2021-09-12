@@ -157,11 +157,6 @@ html.dark {
     color-scheme: dark;
 }
 
-html,
-body {
-    font-family: "Lexend", "Manrope", "Century Gothic", sans-serif;
-}
-
 body {
     margin: 0;
 }
@@ -358,11 +353,12 @@ ul.tsd-descriptions > li > :last-child > :last-child > :last-child,
         transform: translate(100%, 0);
     }
 }
+
 body {
     background: var(--color-background);
-    font-family: "Segoe UI", sans-serif;
     font-size: 16px;
     color: var(--color-text);
+    font-family: "Lexend", "Manrope", "Century Gothic", "Segoe UI", sans-serif;
 }
 
 a {
@@ -404,25 +400,15 @@ blockquote {
     margin: 1em 0;
     margin-bottom: 2.5rem;
 
-    padding: .2em .8em .2em 1em;
+    padding: .02em .8em .02em 1em;
     border-left: 5px solid gray;
     background-color: var(--color-background);
-}
-
-html.light .tsd-panel {
-    box-shadow: 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    border-radius: 0.45em;
 }
 
 .tsd-panel > :is(h1, h2, h3) a {
     text-decoration: none;
 }
-
-@media (prefers-color-scheme: light) {
-    .tsd-panel {
-        box-shadow: 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-    }    
-}
-
 .tsd-panel:is(.tsd-typography, .tsd-index-panel, .tsd-member, .tsd-comment, .tsd-hierarchy, .tsd-type-parameters, .tsd-kind-interface) {
     border: 1px solid var(--color-panel-divider);
     border-radius: 0.65em;
@@ -475,11 +461,28 @@ html.light .tsd-panel {
         left: auto !important;
         right: 0 !important;
         width: 100%;
-        padding: 20px 20px 0 0;
+        padding: 60px 20px 0 0;
         max-width: 450px;
-        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
         background-color: var(--color-panel);
         transform: translate(100%, 0);
+        transition: opacity 0.25s ease, transform 0.35s ease;
+    }
+    html.has-menu .col-menu {
+        pointer-events: auto;
+        opacity: 1;
+        transform: translate(0%, 0);
+        display: block;
+        border-left: 1px solid var(--color-panel-divider);    
+    }
+    html.has-menu .col-menu > .tsd-navigation.secondary {
+        overflow: visible;
+        position: relative;
+        top: 0;
+    }
+    html.has-menu .tsd-navigation.secondary.tsd-navigation--toolbar-hide {
+        top: 0;
     }
     html.default .col-menu > *:last-child {
         padding-bottom: 20px;
@@ -494,8 +497,15 @@ html.light .tsd-panel {
         right: 0;
         bottom: 0;
         background-color: rgba(0, 0, 0, 0.75);
-        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        pointer-events: none;
     }
+    html.has-menu .overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
 }
 
 .tsd-page-title {
@@ -785,7 +795,7 @@ footer .tsd-legend {
 
 .menu-highlight {
     display: grid;
-    grid-auto-rows: minmax(260px, auto) 2fr;
+    grid-auto-rows: minmax(260px, auto) 10fr;
     padding-top: 50px;
 }
 
@@ -796,7 +806,7 @@ footer .tsd-legend {
     display: block;
     padding-top: 2px;
     padding-bottom: 2px;
-    border-left: 2px solid transparent;
+    border-left: 3px solid transparent;
     color: var(--color-text);
     text-decoration: none;
     transition: border-left-color 0.1s;
@@ -866,7 +876,7 @@ footer .tsd-legend {
 
 
 .tsd-navigation.secondary {
-    max-height: calc(100vh - 1rem - 40px);
+    max-height: calc(100vh - 1rem - 60px);
     overflow: auto;
     position: -webkit-sticky;
     position: sticky;
@@ -905,7 +915,7 @@ footer .tsd-legend {
 .tsd-navigation.secondary li.focus > a,
 .tsd-navigation.secondary ul.current li.focus > a {
     border-left-color: var(--color-menu-divider-focus);
-    background-color: var(--color-secondary-background);
+    background-color: var(--color-panel-divider);
 }
 .tsd-navigation.secondary li.current {
     margin-top: 20px;
@@ -1092,6 +1102,7 @@ footer .tsd-legend {
     display: block;
 }
 
+
 .tsd-signature {
     margin: 0 0 1em 0;
     padding: 10px;
@@ -1237,7 +1248,7 @@ ul.tsd-type-parameters .tsd-comment {
 
 .tsd-page-toolbar {
     position: fixed;
-    z-index: 1;
+    z-index: 1025;
     top: 0;
     left: 0;
     width: 100%;
@@ -1245,7 +1256,7 @@ ul.tsd-type-parameters .tsd-comment {
     color: var(--color-toolbar-text);
     background: var(--color-toolbar);
     border-bottom: 1px solid var(--color-panel-divider);
-    transition: transform 0.3s linear;
+    transition: transform 0.3s ease;
 }
 .tsd-page-toolbar a {
     color: var(--color-toolbar-text);
@@ -1351,6 +1362,10 @@ input[type="checkbox"]:checked + .tsd-widget:before {
     background-position: -160px 0;
 }
 
+.tsd-widget:is(.search, .options, .menu) {
+    position: relative;
+}
+
 .tsd-widget:is(.search, .options, .menu):after {
     font-family: FluentSystemIcons-Regular !important;
     font-style: normal;
@@ -1383,9 +1398,9 @@ input[type="checkbox"]:checked + .tsd-widget:before {
     content: "\f407";
 }
 
-.tsd-widget.menu {
+.tsd-widget.menu:after {
     content: "\f561";
-    display: none;
+    font-size: 22px;
 }
 
 .tsd-select {

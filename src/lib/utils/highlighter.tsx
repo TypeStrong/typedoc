@@ -90,6 +90,7 @@ class DoubleHighlighter {
 
         style.push(`    --light-code-background: ${this.light.getTheme().bg};`);
         style.push(`    --dark-code-background: ${this.dark.getTheme().bg};`);
+
         lightRules.push(`    --code-background: var(--light-code-background);`);
         darkRules.push(`    --code-background: var(--dark-code-background);`);
 
@@ -103,11 +104,11 @@ class DoubleHighlighter {
         style.push(...darkRules);
         style.push("} }", "");
 
-        style.push("body.light {");
+        style.push("html.light {");
         style.push(...lightRules);
         style.push("}", "");
 
-        style.push("body.dark {");
+        style.push("html.dark {");
         style.push(...darkRules);
         style.push("}", "");
 

@@ -30,6 +30,6 @@
 /* @import url("https://cdn.jsdelivr.net/gh/microsoft/fluentui-system-icons/fonts/FluentSystemIcons-Regular.css"); */
 @font-face {
     font-family: "FluentSystemIcons-Regular";
-    src: url("/fonts/FluentSystemIcons-Regular.ttf") format("truetype");
+    src: url("./FluentSystemIcons-Regular.ttf") format("truetype");
     font-display: block;
 }

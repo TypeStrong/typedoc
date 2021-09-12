@@ -41,7 +41,7 @@ export class Toggle extends Component {
 
     onPointerUp(event: Event) {
         if (hasPointerMoved) return;
-        this.setActive(true);
+        this.setActive(!this.active);
         event.preventDefault();
     }
 
@@ -50,7 +50,7 @@ export class Toggle extends Component {
             if (
                 (e.target as HTMLElement).closest(
                     ".col-menu, .tsd-filter-group"
-                )
+                ) || e.target == this.el
             ) {
                 return;
             }
