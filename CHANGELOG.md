@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Switched the default highlighting themes back to `light-plus` and `dark-plus`, they were accidentally set to `min-light` and `min-dark` in v0.22.0.
+
 ### Features
 
 -   Added new `validation` option which can be used to disable checks for non-exported symbols.

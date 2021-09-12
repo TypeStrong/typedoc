@@ -131,8 +131,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: "default",
     });
 
-    const defaultLightTheme: Theme = "min-light";
-    const defaultDarkTheme: Theme = "min-dark";
+    const defaultLightTheme: Theme = "light-plus";
+    const defaultDarkTheme: Theme = "dark-plus";
 
     options.addDeclaration({
         name: "lightHighlightTheme",
