@@ -58,7 +58,7 @@ describe("Repository", function () {
         });
     });
 
-    describe("getGitHubURL", () => {
+    describe("getURL", () => {
         const repositoryPath = "C:/Projects/foobar";
         const filePath = repositoryPath + "/src/index.ts";
 
