@@ -7,12 +7,11 @@ import { BasePath } from "../utils/base-path";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import { BindOption } from "../../utils";
+import { RepositoryType } from "../../models";
 
 function git(...args: string[]) {
     return spawnSync("git", args, { encoding: "utf-8", windowsHide: true });
 }
-
-type RepositoryType = "github" | "bitbucket";
 
 /**
  * Stores data of a repository.
@@ -56,7 +55,7 @@ export class Repository {
     /**
      * Whether this is a GitHub or Bitbucket repository.
      */
-    type: RepositoryType = "github";
+    type: RepositoryType = RepositoryType.GitHub;
 
     /**
      * Create a new Repository instance.
@@ -91,8 +90,9 @@ export class Repository {
             }
         }
 
-        if (this.hostname.includes("bitbucket.org")) this.type = "bitbucket";
-        else this.type = "github";
+        if (this.hostname.includes("bitbucket.org"))
+            this.type = RepositoryType.Bitbucket;
+        else this.type = RepositoryType.GitHub;
 
         let out = git("-C", path, "ls-files");
         if (out.status === 0) {
@@ -168,6 +168,19 @@ export class Repository {
             gitRevision,
             remotesOutput.stdout.split("\n")
         );
+    }
+
+    static getLineNumberAnchor(
+        lineNumber: number,
+        repositoryType: RepositoryType | undefined
+    ): string {
+        switch (repositoryType) {
+            default:
+            case RepositoryType.GitHub:
+                return "L" + lineNumber;
+            case RepositoryType.Bitbucket:
+                return "lines-" + lineNumber;
+        }
     }
 }
 
@@ -259,6 +272,7 @@ export class GitHubPlugin extends ConverterComponent {
             const repository = this.getRepository(sourceFile.fullFileName);
             if (repository) {
                 sourceFile.url = repository.getURL(sourceFile.fullFileName);
+                sourceFile.repositoryType = repository.type;
             }
         });
 
@@ -267,7 +281,13 @@ export class GitHubPlugin extends ConverterComponent {
             if (reflection.sources) {
                 reflection.sources.forEach((source: SourceReference) => {
                     if (source.file && source.file.url) {
-                        source.url = source.file.url + "#L" + source.line;
+                        source.url =
+                            source.file.url +
+                            "#" +
+                            Repository.getLineNumberAnchor(
+                                source.line,
+                                source.file.repositoryType
+                            );
                     }
                 });
             }

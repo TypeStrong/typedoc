@@ -1,4 +1,5 @@
 import * as github from "../../../lib/converter/plugins/GitHubPlugin";
+import { RepositoryType } from "../../../lib/models";
 import Assert = require("assert");
 
 describe("Repository", function () {
@@ -7,7 +8,7 @@ describe("Repository", function () {
             const repository = new github.Repository("", "", []);
 
             Assert.equal(repository.hostname, "github.com");
-            Assert.equal(repository.type, "github");
+            Assert.equal(repository.type, RepositoryType.GitHub);
         });
 
         it("handles a personal GitHub HTTPS URL", function () {
@@ -18,7 +19,7 @@ describe("Repository", function () {
             Assert.equal(repository.hostname, "github.com");
             Assert.equal(repository.user, "joebloggs");
             Assert.equal(repository.project, "foobar");
-            Assert.equal(repository.type, "github");
+            Assert.equal(repository.type, RepositoryType.GitHub);
         });
 
         it("handles an enterprise GitHub URL", function () {
@@ -29,7 +30,7 @@ describe("Repository", function () {
             Assert.equal(repository.hostname, "github.acme.com");
             Assert.equal(repository.user, "joebloggs");
             Assert.equal(repository.project, "foobar");
-            Assert.equal(repository.type, "github");
+            Assert.equal(repository.type, RepositoryType.GitHub);
         });
 
         it("handles a Bitbucket HTTPS URL", function () {
@@ -42,7 +43,7 @@ describe("Repository", function () {
             Assert.equal(repository.hostname, "bitbucket.org");
             Assert.equal(repository.user, "joebloggs");
             Assert.equal(repository.project, "foobar");
-            Assert.equal(repository.type, "bitbucket");
+            Assert.equal(repository.type, RepositoryType.Bitbucket);
         });
 
         it("handles a Bitbucket SSH URL", function () {
@@ -53,7 +54,7 @@ describe("Repository", function () {
             Assert.equal(repository.hostname, "bitbucket.org");
             Assert.equal(repository.user, "joebloggs");
             Assert.equal(repository.project, "foobar");
-            Assert.equal(repository.type, "bitbucket");
+            Assert.equal(repository.type, RepositoryType.Bitbucket);
         });
     });
 
