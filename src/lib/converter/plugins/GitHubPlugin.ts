@@ -12,6 +12,8 @@ function git(...args: string[]) {
     return spawnSync("git", args, { encoding: "utf-8", windowsHide: true });
 }
 
+type RepositoryType = "github" | "bitbucket";
+
 /**
  * Stores data of a repository.
  */
@@ -42,7 +44,7 @@ export class Repository {
     project?: string;
 
     /**
-     * The hostname for this github project.
+     * The hostname for this GitHub or Bitbucket project.
      *
      * Defaults to: `github.com` (for normal, public GitHub instance projects)
      *
@@ -50,6 +52,11 @@ export class Repository {
      * (if found as a match in the list of git remotes).
      */
     hostname = "github.com";
+
+    /**
+     * Whether this is a GitHub or Bitbucket repository.
+     */
+    type: RepositoryType = "github";
 
     /**
      * Create a new Repository instance.
@@ -84,6 +91,9 @@ export class Repository {
             }
         }
 
+        if (this.hostname.includes("bitbucket.org")) this.type = "bitbucket";
+        else this.type = "github";
+
         let out = git("-C", path, "ls-files");
         if (out.status === 0) {
             out.stdout.split("\n").forEach((file) => {
@@ -112,12 +122,12 @@ export class Repository {
     }
 
     /**
-     * Get the URL of the given file on GitHub.
+     * Get the URL of the given file on GitHub or Bitbucket.
      *
-     * @param fileName  The file whose GitHub URL should be determined.
-     * @returns An url pointing to the web preview of the given file or NULL.
+     * @param fileName  The file whose URL should be determined.
+     * @returns A URL pointing to the web preview of the given file or undefined.
      */
-    getGitHubURL(fileName: string): string | undefined {
+    getURL(fileName: string): string | undefined {
         if (!this.user || !this.project || !this.contains(fileName)) {
             return;
         }
@@ -126,7 +136,7 @@ export class Repository {
             `https://${this.hostname}`,
             this.user,
             this.project,
-            "blob",
+            this.type === "github" ? "blob" : "src",
             this.branch,
             fileName.substr(this.path.length + 1),
         ].join("/");
@@ -248,9 +258,7 @@ export class GitHubPlugin extends ConverterComponent {
         project.files.forEach((sourceFile) => {
             const repository = this.getRepository(sourceFile.fullFileName);
             if (repository) {
-                sourceFile.url = repository.getGitHubURL(
-                    sourceFile.fullFileName
-                );
+                sourceFile.url = repository.getURL(sourceFile.fullFileName);
             }
         });
 
