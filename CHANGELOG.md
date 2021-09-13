@@ -3,6 +3,7 @@
 ### Features
 
 -   Flag option types like `validation` can now be set to true/false to enable/disable all flags within them.
+-   Source code links now work with Bitbucket repositories.
 
 ## v0.22.3 (2021-08-12)
 

@@ -34,12 +34,12 @@ export class Repository {
     /**
      * The user/organization name of this repository on GitHub.
      */
-    gitHubUser?: string;
+    user?: string;
 
     /**
      * The project name of this repository on GitHub.
      */
-    gitHubProject?: string;
+    project?: string;
 
     /**
      * The hostname for this github project.
@@ -49,7 +49,7 @@ export class Repository {
      * Or the hostname for an enterprise version of GitHub, e.g. `github.acme.com`
      * (if found as a match in the list of git remotes).
      */
-    gitHubHostname = "github.com";
+    hostname = "github.com";
 
     /**
      * Create a new Repository instance.
@@ -61,19 +61,23 @@ export class Repository {
         this.branch = gitRevision || "master";
 
         for (let i = 0, c = repoLinks.length; i < c; i++) {
-            const url =
+            let match =
                 /(github(?:\.[a-z]+)*\.[a-z]{2,})[:/]([^/]+)\/(.*)/.exec(
                     repoLinks[i]
                 );
 
-            if (url) {
-                this.gitHubHostname = url[1];
-                this.gitHubUser = url[2];
-                this.gitHubProject = url[3];
-                if (this.gitHubProject.substr(-4) === ".git") {
-                    this.gitHubProject = this.gitHubProject.substr(
+            if (!match) {
+                match = /(bitbucket.org)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);
+            }
+
+            if (match) {
+                this.hostname = match[1];
+                this.user = match[2];
+                this.project = match[3];
+                if (this.project.substr(-4) === ".git") {
+                    this.project = this.project.substr(
                         0,
-                        this.gitHubProject.length - 4
+                        this.project.length - 4
                     );
                 }
                 break;
@@ -114,18 +118,14 @@ export class Repository {
      * @returns An url pointing to the web preview of the given file or NULL.
      */
     getGitHubURL(fileName: string): string | undefined {
-        if (
-            !this.gitHubUser ||
-            !this.gitHubProject ||
-            !this.contains(fileName)
-        ) {
+        if (!this.user || !this.project || !this.contains(fileName)) {
             return;
         }
 
         return [
-            `https://${this.gitHubHostname}`,
-            this.gitHubUser,
-            this.gitHubProject,
+            `https://${this.hostname}`,
+            this.user,
+            this.project,
             "blob",
             this.branch,
             fileName.substr(this.path.length + 1),
