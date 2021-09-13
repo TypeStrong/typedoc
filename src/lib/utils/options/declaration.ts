@@ -86,6 +86,7 @@ export interface TypeDocOptionMap {
     gitRemote: string;
     gaID: string;
     gaSite: string;
+    githubPages: boolean;
     hideGenerator: boolean;
     hideLegend: boolean;
     cleanOutputDir: boolean;

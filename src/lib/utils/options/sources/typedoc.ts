@@ -249,6 +249,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: "auto",
     });
     options.addDeclaration({
+        name: "githubPages",
+        help: "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+    options.addDeclaration({
         name: "hideGenerator",
         help: "Do not print the TypeDoc link at the end of the page.",
         type: ParameterType.Boolean,
