@@ -8,6 +8,7 @@
  */
 import type * as ts from "typescript";
 import * as fs from "fs";
+import * as path from "path";
 
 import type { Application } from "../application";
 import type { Theme } from "./theme";
@@ -94,6 +95,10 @@ export class Renderer extends ChildableComponent<
     /** @internal */
     @BindOption("gaSite")
     gaSite!: string;
+
+    /** @internal */
+    @BindOption("githubPages")
+    githubPages!: boolean;
 
     /** @internal */
     @BindOption("hideGenerator")
@@ -301,9 +306,25 @@ export class Renderer extends ChildableComponent<
             fs.mkdirSync(directory, { recursive: true });
         } catch (error) {
             this.application.logger.error(
-                `Could not create output directory ${directory}`
+                `Could not create output directory ${directory}.`
             );
             return false;
+        }
+
+        if (this.githubPages) {
+            try {
+                const text =
+                    "TypeDoc added this file to prevent GitHub Pages from " +
+                    "using Jekyll. You can turn off this behavior by setting " +
+                    "the `githubPages` option to false.";
+
+                fs.writeFileSync(path.join(directory, ".nojekyll"), text);
+            } catch (error) {
+                this.application.logger.warn(
+                    "Could not create .nojekyll file."
+                );
+                return false;
+            }
         }
 
         return true;
