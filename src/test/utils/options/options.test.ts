@@ -108,6 +108,20 @@ describe("Options", () => {
         );
     });
 
+    it("Allows setting flag objects to true/false", () => {
+        options.setValue("validation", true);
+        equal(options.getValue("validation"), {
+            notExported: true,
+            invalidLink: true,
+        });
+
+        options.setValue("validation", false);
+        equal(options.getValue("validation"), {
+            notExported: false,
+            invalidLink: false,
+        });
+    });
+
     it("Resets a flag to the default if set to null", () => {
         const options = new Options(new Logger());
         options.addDefaultDeclarations();

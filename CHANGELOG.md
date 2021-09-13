@@ -2,6 +2,21 @@
 
 ### Features
 
+-   Flag option types like `validation` can now be set to true/false to enable/disable all flags within them.
+-   Added `githubPages` option (default: true), which will create a `.nojekyll` page in the generated output.
+
+### Thanks!
+
+-   @srmagura
+
+## v0.22.3 (2021-08-12)
+
+### Bug Fixes
+
+-   Switched the default highlighting themes back to `light-plus` and `dark-plus`, they were accidentally set to `min-light` and `min-dark` in v0.22.0.
+
+### Features
+
 -   Added new `validation` option which can be used to disable checks for non-exported symbols.
     On the command line, this can be specified with `--validation.notExported true`, or in an options file with:
     ```json

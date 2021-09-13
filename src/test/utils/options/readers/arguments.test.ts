@@ -10,10 +10,11 @@ import {
 import { join, resolve } from "path";
 
 describe("Options - ArgumentsReader", () => {
+    const logger = new Logger();
     // Note: We lie about the type of Options here since we want the less strict
     // behavior for tests. If TypeDoc ever gets a numeric option, then we can
     // exclusively use the builtin options for tests and this cast can go away.
-    const options = new Options(new Logger()) as Options & {
+    const options = new Options(logger) as Options & {
         addDeclaration(
             declaration: Readonly<NumberDeclarationOption> & {
                 name: "numOption";
@@ -44,9 +45,11 @@ describe("Options - ArgumentsReader", () => {
     function test(name: string, args: string[], cb: () => void) {
         it(name, () => {
             const reader = new ArgumentsReader(1, args);
+            logger.resetErrors();
+            logger.resetWarnings();
             options.reset();
             options.addReader(reader);
-            options.read(new Logger());
+            options.read(logger);
             cb();
             options.removeReaderByName(reader.name);
         });
@@ -153,40 +156,73 @@ describe("Options - ArgumentsReader", () => {
         equal(check, true, "Reader did not report an error.");
     });
 
-    it("Works with flag values without specifying a value", () => {
-        const reader = new ArgumentsReader(1, ["--validation.invalidLink"]);
-        options.reset();
-        options.addReader(reader);
-        const logger = new Logger();
-        options.read(logger);
-        options.removeReaderByName(reader.name);
+    test(
+        "Works with flag values without specifying a value",
+        ["--validation.invalidLink"],
+        () => {
+            equal(logger.hasErrors(), false);
+            equal(logger.hasWarnings(), false);
+            equal(options.getValue("validation"), {
+                notExported: true,
+                invalidLink: true,
+            });
+        }
+    );
 
-        equal(logger.hasErrors(), false);
-        equal(logger.hasWarnings(), false);
-        equal(options.getValue("validation"), {
-            notExported: true,
-            invalidLink: true,
-        });
-    });
-
-    it("Works with flag values with specifying a value", () => {
-        const reader = new ArgumentsReader(1, [
+    test(
+        "Works with flag values with specifying a value",
+        [
             "--validation.invalidLink",
             "true",
             "--validation.notExported",
             "false",
-        ]);
-        options.reset();
-        options.addReader(reader);
-        const logger = new Logger();
-        options.read(logger);
-        options.removeReaderByName(reader.name);
+        ],
+        () => {
+            equal(logger.hasErrors(), false);
+            equal(logger.hasWarnings(), false);
+            equal(options.getValue("validation"), {
+                notExported: false,
+                invalidLink: true,
+            });
+        }
+    );
 
-        equal(logger.hasErrors(), false);
-        equal(logger.hasWarnings(), false);
-        equal(options.getValue("validation"), {
-            notExported: false,
-            invalidLink: true,
-        });
-    });
+    test(
+        "Works with flag values without specifying a specific flag",
+        ["--validation"],
+        () => {
+            equal(logger.hasErrors(), false);
+            equal(logger.hasWarnings(), false);
+            equal(options.getValue("validation"), {
+                notExported: true,
+                invalidLink: true,
+            });
+        }
+    );
+
+    test(
+        "Works with flag values without specifying a specific flag and setting true",
+        ["--validation", "true"],
+        () => {
+            equal(logger.hasErrors(), false);
+            equal(logger.hasWarnings(), false);
+            equal(options.getValue("validation"), {
+                notExported: true,
+                invalidLink: true,
+            });
+        }
+    );
+
+    test(
+        "Works with flag values without specifying a specific flag and setting false",
+        ["--validation", "false"],
+        () => {
+            equal(logger.hasErrors(), false);
+            equal(logger.hasWarnings(), false);
+            equal(options.getValue("validation"), {
+                notExported: false,
+                invalidLink: false,
+            });
+        }
+    );
 });

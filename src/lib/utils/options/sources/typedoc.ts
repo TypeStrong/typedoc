@@ -131,8 +131,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: "default",
     });
 
-    const defaultLightTheme: Theme = "min-light";
-    const defaultDarkTheme: Theme = "min-dark";
+    const defaultLightTheme: Theme = "light-plus";
+    const defaultDarkTheme: Theme = "dark-plus";
 
     options.addDeclaration({
         name: "lightHighlightTheme",
@@ -247,6 +247,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "gaSite",
         help: "Set the site name for Google Analytics. Defaults to `auto`.",
         defaultValue: "auto",
+    });
+    options.addDeclaration({
+        name: "githubPages",
+        help: "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
     });
     options.addDeclaration({
         name: "hideGenerator",

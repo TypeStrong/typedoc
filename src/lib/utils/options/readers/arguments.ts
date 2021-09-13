@@ -55,7 +55,10 @@ export class ArgumentsReader implements OptionsReader {
                             this.args[index]
                         )
                     );
-                } else if (decl.type === ParameterType.Boolean) {
+                } else if (
+                    decl.type === ParameterType.Boolean ||
+                    decl.type === ParameterType.Flags
+                ) {
                     const value = String(this.args[index]).toLowerCase();
 
                     if (value === "true" || value === "false") {

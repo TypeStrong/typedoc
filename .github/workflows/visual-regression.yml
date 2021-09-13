@@ -23,9 +23,9 @@ jobs:
 
             - name: Get current screenshots
               run: |
-                  git checkout $GITHUB_HEAD_REF
+                  git checkout $GITHUB_SHA
                   npm ci
                   npm run build
                   node dist/test/capture-screenshots.js
             - name: Test
-              run: npm run reg-suit run --test
+              run: npx reg-suit run --test
