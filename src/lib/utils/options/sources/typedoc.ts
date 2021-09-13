@@ -232,11 +232,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "gitRevision",
-        help: "Use specified revision instead of the last revision for linking to GitHub source files.",
+        help: "Use specified revision instead of the last revision for linking to GitHub/Bitbucket source files.",
     });
     options.addDeclaration({
         name: "gitRemote",
-        help: "Use the specified remote for linking to GitHub source files.",
+        help: "Use the specified remote for linking to GitHub/Bitbucket source files.",
         defaultValue: "origin",
     });
     options.addDeclaration({
