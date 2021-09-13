@@ -28,4 +28,4 @@ jobs:
                   npm run build
                   node dist/test/capture-screenshots.js
             - name: Test
-              run: npm run reg-suit run --test
+              run: npx reg-suit run --test
