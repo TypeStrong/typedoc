@@ -35,4 +35,20 @@ export const behaviorTests: Record<
             'Record<"b", 1>',
         ]);
     },
+    overloads(project) {
+        const foo = query(project, "foo");
+        equal(foo.signatures?.length, 2);
+
+        equal(foo.signatures[0].comment?.shortText, "Implementation comment");
+        equal(foo.signatures[0].comment?.tags, []);
+
+        equal(foo.signatures[1].comment?.shortText, "Overrides summary");
+        equal(foo.signatures[1].comment?.tags, []);
+        equal(
+            foo.signatures[1].parameters?.[0].comment?.shortText.trim(),
+            "docs for x"
+        );
+
+        equal(foo.comment, undefined);
+    },
 };

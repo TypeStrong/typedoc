@@ -554,7 +554,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "\n"
+                    "shortText": "\n"
                   },
                   "type": {
                     "type": "union",
@@ -613,7 +613,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "The condition that is asserted to be true when this function returns.\n"
+                    "shortText": "The condition that is asserted to be true when this function returns.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -695,7 +695,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "\n"
+                    "shortText": "\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -763,7 +763,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "A parameter with a default string value."
+                    "shortText": "A parameter with a default string value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -778,7 +778,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "A parameter with a default numeric value."
+                    "shortText": "A parameter with a default numeric value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -793,7 +793,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "A parameter with a default NaN value."
+                    "shortText": "A parameter with a default NaN value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -808,7 +808,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "A parameter with a default boolean value."
+                    "shortText": "A parameter with a default boolean value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -823,7 +823,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "A parameter with a default null value."
+                    "shortText": "A parameter with a default null value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -863,7 +863,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "A normal parameter."
+                    "shortText": "A normal parameter."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -879,7 +879,7 @@
                     "isOptional": true
                   },
                   "comment": {
-                    "text": "An optional parameter.\n"
+                    "shortText": "An optional parameter.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -919,7 +919,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "This is a string parameter."
+                    "shortText": "This is a string parameter."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -933,7 +933,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
+                    "shortText": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -947,7 +947,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
+                    "shortText": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
                   },
                   "type": {
                     "type": "reference",
@@ -989,7 +989,7 @@
                     "isRest": true
                   },
                   "comment": {
-                    "text": "The rest parameter."
+                    "shortText": "The rest parameter."
                   },
                   "type": {
                     "type": "array",
@@ -1040,7 +1040,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "\n"
+                    "shortText": "\n"
                   },
                   "type": {
                     "type": "union",
@@ -1119,7 +1119,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "An argument.\n"
+                    "shortText": "An argument.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1148,7 +1148,8 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is the first signature of a function with multiple signatures."
+                "shortText": "This is the first signature of a function with multiple signatures.",
+                "returns": "This is the return value of the function.\n"
               },
               "parameters": [
                 {
@@ -1158,7 +1159,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "The name value.\n"
+                    "shortText": "The name value.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1178,7 +1179,8 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is the second signature of a function with multiple signatures."
+                "shortText": "This is the second signature of a function with multiple signatures.",
+                "returns": "This is the return value of the function.\n"
               },
               "parameters": [
                 {
@@ -1188,7 +1190,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "An object containing the name value."
+                    "shortText": "An object containing the name value."
                   },
                   "type": {
                     "type": "reflection",
@@ -1206,7 +1208,7 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "text": "A value of the object.\n"
+                            "shortText": "A value of the object.\n"
                           },
                           "type": {
                             "type": "intrinsic",
@@ -1261,7 +1263,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "This is some numeric parameter."
+                    "shortText": "This is some numeric parameter."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1357,7 +1359,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "A generic parameter."
+                    "shortText": "A generic parameter."
                   },
                   "type": {
                     "type": "reference",
@@ -1372,7 +1374,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "A generic array parameter."
+                    "shortText": "A generic array parameter."
                   },
                   "type": {
                     "type": "array",
@@ -1417,7 +1419,7 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "text": "this describes T\n"
+                    "shortText": "this describes T\n"
                   }
                 }
               ],
@@ -1429,7 +1431,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "this describes param"
+                    "shortText": "this describes param"
                   },
                   "type": {
                     "type": "reference",
@@ -1471,7 +1473,7 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Generic function type parameter."
+                    "shortText": "Generic function type parameter."
                   },
                   "type": {
                     "type": "reference",
@@ -1487,7 +1489,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Generic function parameter."
+                    "shortText": "Generic function parameter."
                   },
                   "type": {
                     "type": "reference",

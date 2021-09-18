@@ -50,7 +50,7 @@ export const issueTests: {
     gh1164(project) {
         const refl = query(project, "gh1164");
         equal(
-            refl.signatures?.[0]?.parameters?.[0]?.comment?.text,
+            refl.signatures?.[0]?.parameters?.[0]?.comment?.shortText,
             "{@link CommentedClass} Test description."
         );
         equal(refl.signatures?.[0]?.comment?.returns, "Test description.\n");

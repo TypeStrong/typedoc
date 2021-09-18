@@ -67,7 +67,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "\n"
+                        "shortText": "\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -162,7 +162,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "\n"
+                        "shortText": "\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -244,7 +244,7 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Type of arguments"
+                    "shortText": "This will be inherited"
                   }
                 }
               ],
@@ -256,7 +256,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "First argument"
+                    "shortText": "This will be inherited"
                   },
                   "type": {
                     "type": "reference",
@@ -271,7 +271,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Second argument"
+                    "shortText": "This will be inherited"
                   },
                   "type": {
                     "type": "reference",
@@ -352,7 +352,7 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Type of arguments"
+                    "shortText": "This will be inherited"
                   }
                 }
               ],
@@ -364,7 +364,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "First argument"
+                    "shortText": "This will be inherited"
                   },
                   "type": {
                     "type": "reference",
@@ -379,7 +379,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Second argument"
+                    "shortText": "This will be inherited"
                   },
                   "type": {
                     "type": "reference",

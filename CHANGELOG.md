@@ -3,12 +3,13 @@
 ### Features
 
 -   Flag option types like `validation` can now be set to true/false to enable/disable all flags within them.
--   Source code links now work with Bitbucket repositories.
--   Added `githubPages` option (default: true), which will create a `.nojekyll` page in the generated output.
+-   Source code links now work with Bitbucket repositories, resolves #1615.
+-   Added `githubPages` option (default: true), which will create a `.nojekyll` page in the generated output, resolves #1680.
 
 ### Bug Fixes
 
 -   Fixed the hamburger menu not being visible on mobile devices, fixes #1699.
+-   Comments on function implementations with overloaded signatures will now be correctly handled, fixes #1697.
 
 ### Thanks!
 

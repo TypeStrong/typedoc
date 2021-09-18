@@ -8,6 +8,7 @@ import {
     TypeParameterReflection,
     DeclarationReflection,
     SignatureReflection,
+    ParameterReflection,
 } from "../../models/reflections/index";
 import { Component, ConverterComponent } from "../components";
 import {
@@ -175,7 +176,35 @@ export class CommentPlugin extends ConverterComponent {
         node?: ts.Node
     ) {
         if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
-            return;
+            // We only want a comment on functions/methods if this is a set of overloaded functions.
+            // In that case, TypeDoc lets you put a comment on the implementation, and will copy it over to
+            // the available signatures so that you can avoid documenting things multiple times.
+            // Once TypeDoc has proper support for TSDoc, this will go away since the same thing will be
+            // possible by using a @inheritDoc tag to specify that docs should be copied from a specific signature.
+            let specialOverloadCase = false;
+            if (
+                node &&
+                (ts.isFunctionDeclaration(node) || ts.isMethodDeclaration(node))
+            ) {
+                const symbol =
+                    node.name && context.checker.getSymbolAtLocation(node.name);
+                if (symbol && symbol.declarations) {
+                    const declarations = symbol.declarations.filter(
+                        (d) =>
+                            ts.isFunctionDeclaration(d) ||
+                            ts.isMethodDeclaration(d)
+                    );
+                    if (
+                        declarations.length > 1 &&
+                        "body" in declarations[declarations.length - 1]
+                    ) {
+                        node = declarations[declarations.length - 1];
+                        specialOverloadCase = true;
+                    }
+                }
+            }
+
+            if (!specialOverloadCase) return;
         }
 
         // Clean this up in 0.22. We should really accept a ts.Symbol so we don't need exportSymbol on Context
@@ -296,7 +325,6 @@ export class CommentPlugin extends ConverterComponent {
             return;
         }
 
-        let movedComment = false;
         const comment = reflection.comment;
         if (comment && comment.hasTag("returns")) {
             comment.returns = comment.getTag("returns")!.text;
@@ -312,37 +340,54 @@ export class CommentPlugin extends ConverterComponent {
 
             if (comment) {
                 if (!childComment) {
-                    movedComment = true;
                     childComment = signature.comment = new Comment();
                 }
 
-                childComment.shortText =
-                    childComment.shortText || comment.shortText;
-                childComment.text = childComment.text || comment.text;
-                childComment.returns = childComment.returns || comment.returns;
-                childComment.tags = childComment.tags || comment.tags;
+                childComment.shortText ||= comment.shortText;
+                childComment.text ||= comment.text;
+                childComment.returns ||= comment.returns;
+                childComment.tags ||= [...comment.tags];
             }
 
-            if (signature.parameters) {
-                signature.parameters.forEach((parameter) => {
-                    let tag: CommentTag | undefined;
-                    if (childComment) {
-                        tag = childComment.getTag("param", parameter.name);
-                    }
-                    if (comment && !tag) {
-                        tag = comment.getTag("param", parameter.name);
-                    }
-                    if (tag) {
-                        parameter.comment = new Comment(tag.text);
-                    }
-                });
-            }
+            signature.parameters?.forEach((parameter) => {
+                let tag: CommentTag | undefined;
+                if (childComment) {
+                    moveNestedParamTags(childComment, parameter);
+                    tag = childComment.getTag("param", parameter.name);
+                }
+                if (comment && !tag) {
+                    tag = comment.getTag("param", parameter.name);
+                }
+                if (tag) {
+                    parameter.comment = new Comment(tag.text);
+                }
+            });
+
+            signature.typeParameters?.forEach((parameter) => {
+                let tag: CommentTag | undefined;
+                if (childComment) {
+                    tag =
+                        childComment.getTag("typeparam", parameter.name) ||
+                        childComment.getTag("template", parameter.name) ||
+                        childComment.getTag("param", `<${parameter.name}>`);
+                }
+                if (comment && !tag) {
+                    tag =
+                        comment.getTag("typeparam", parameter.name) ||
+                        comment.getTag("template", parameter.name) ||
+                        comment.getTag("param", `<${parameter.name}>`);
+                }
+                if (tag) {
+                    parameter.comment = new Comment(tag.text);
+                }
+            });
 
             childComment?.removeTags("param");
+            childComment?.removeTags("typeparam");
+            childComment?.removeTags("template");
         });
 
-        comment?.removeTags("param");
-        if (movedComment) reflection.comment = void 0;
+        delete reflection.comment;
     }
 
     private removeExcludedTags(comment: Comment) {
@@ -390,5 +435,26 @@ export class CommentPlugin extends ConverterComponent {
             comment.hasTag("ignore") ||
             (comment.hasTag("internal") && excludeInternal)
         );
+    }
+}
+
+// Moves tags like `@param foo.bar docs for bar` into the `bar` property of the `foo` parameter.
+function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
+    if (parameter.type instanceof ReflectionType) {
+        const tags = comment.tags.filter(
+            (t) =>
+                t.tagName === "param" &&
+                t.paramName.startsWith(`${parameter.name}.`)
+        );
+
+        for (const tag of tags) {
+            const path = tag.paramName.split(".");
+            path.shift();
+            const child = parameter.type.declaration.getChildByName(path);
+
+            if (child && !child.comment) {
+                child.comment = new Comment(tag.text);
+            }
+        }
     }
 }

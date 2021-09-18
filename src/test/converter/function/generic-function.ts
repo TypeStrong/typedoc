@@ -1,6 +1,6 @@
 /**
  * Generic function short text.
- * @param T      Generic function type parameter.
+ * @param <T>      Generic function type parameter.
  * @param value  Generic function parameter.
  * @returns      Generic function return value.
  */

@@ -751,9 +751,6 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
-              "comment": {
-                "shortText": "Constructor short text."
-              },
               "signatures": [
                 {
                   "id": 27,
@@ -1026,9 +1023,6 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
-              "comment": {
-                "shortText": "Constructor short text."
-              },
               "signatures": [
                 {
                   "id": 43,
@@ -1534,7 +1528,6 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
-              "comment": {},
               "signatures": [
                 {
                   "id": 96,
@@ -1677,7 +1670,6 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
-              "comment": {},
               "signatures": [
                 {
                   "id": 105,
@@ -2093,7 +2085,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "The options object of this decorator."
+                    "shortText": "The options object of this decorator."
                   },
                   "type": {
                     "type": "reflection",
@@ -2111,7 +2103,7 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "text": "A property on the options object of this decorator.\n"
+                            "shortText": "A property on the options object of this decorator.\n"
                           },
                           "type": {
                             "type": "intrinsic",
@@ -2170,7 +2162,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "The parameter of this decorator.\n"
+                    "shortText": "The parameter of this decorator.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -2333,7 +2325,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "The name of the event to subscribe for."
+                        "shortText": "The name of the event to subscribe for."
                       },
                       "type": {
                         "type": "intrinsic",
@@ -2347,7 +2339,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "The handler called when the event occurs.\n"
+                        "shortText": "The handler called when the event occurs.\n"
                       },
                       "type": {
                         "type": "reflection",
@@ -2409,7 +2401,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "The name of the event to subscribe for."
+                        "shortText": "The name of the event to subscribe for."
                       },
                       "type": {
                         "type": "literal",
@@ -2423,7 +2415,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "A handler that will receive the error details\n"
+                        "shortText": "A handler that will receive the error details\n"
                       },
                       "type": {
                         "type": "reflection",
@@ -2485,7 +2477,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "The name of the event to subscribe for."
+                        "shortText": "The name of the event to subscribe for."
                       },
                       "type": {
                         "type": "literal",
@@ -2499,7 +2491,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "A handler that will receive a progress event with the current and expected total bytes\n"
+                        "shortText": "A handler that will receive a progress event with the current and expected total bytes\n"
                       },
                       "type": {
                         "type": "reflection",
@@ -2561,7 +2553,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "The name of the event to subscribe for."
+                        "shortText": "The name of the event to subscribe for."
                       },
                       "type": {
                         "type": "literal",
@@ -2575,7 +2567,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "A function that will be called with general event data upon successful completion\n"
+                        "shortText": "A function that will be called with general event data upon successful completion\n"
                       },
                       "type": {
                         "type": "reflection",
@@ -2667,9 +2659,6 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
-              "comment": {
-                "shortText": "Constructor short text."
-              },
               "signatures": [
                 {
                   "id": 168,
@@ -2844,9 +2833,6 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
-              "comment": {
-                "shortText": "Constructor short text."
-              },
               "signatures": [
                 {
                   "id": 178,
@@ -2865,7 +2851,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "Constructor parameter.\n"
+                        "shortText": "Constructor parameter.\n"
                       },
                       "type": {
                         "type": "intrinsic",

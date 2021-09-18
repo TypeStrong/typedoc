@@ -1352,9 +1352,6 @@
               "kind": 256,
               "kindString": "Interface",
               "flags": {},
-              "comment": {
-                "shortText": "Function signature of an event listener callback"
-              },
               "typeParameter": [
                 {
                   "id": 39,
@@ -1382,7 +1379,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "param text"
+                        "shortText": "param text"
                       },
                       "type": {
                         "type": "reference",

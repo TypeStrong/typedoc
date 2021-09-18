@@ -55,7 +55,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Parameter A."
+                    "shortText": "Parameter A."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -69,7 +69,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Parameter B.\n"
+                    "shortText": "Parameter B.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -169,7 +169,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Custom parameter A doc.\n"
+                    "shortText": "Custom parameter A doc.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -183,7 +183,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Parameter B.\n"
+                    "shortText": "Parameter B.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -283,7 +283,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Parameter A."
+                    "shortText": "Parameter A."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -297,7 +297,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Custom second parameter doc with name change.\n"
+                    "shortText": "Custom second parameter doc with name change.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -376,7 +376,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Parameter A."
+                    "shortText": "Parameter A."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -390,7 +390,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "Parameter B.\n"
+                    "shortText": "Parameter B.\n"
                   },
                   "type": {
                     "type": "intrinsic",
