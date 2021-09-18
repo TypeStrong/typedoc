@@ -7,6 +7,7 @@ import { BasePath } from "../utils/base-path";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import { BindOption } from "../../utils";
+import { RepositoryType } from "../../models";
 
 function git(...args: string[]) {
     return spawnSync("git", args, { encoding: "utf-8", windowsHide: true });
@@ -34,22 +35,27 @@ export class Repository {
     /**
      * The user/organization name of this repository on GitHub.
      */
-    gitHubUser?: string;
+    user?: string;
 
     /**
      * The project name of this repository on GitHub.
      */
-    gitHubProject?: string;
+    project?: string;
 
     /**
-     * The hostname for this github project.
+     * The hostname for this GitHub or Bitbucket project.
      *
      * Defaults to: `github.com` (for normal, public GitHub instance projects)
      *
      * Or the hostname for an enterprise version of GitHub, e.g. `github.acme.com`
      * (if found as a match in the list of git remotes).
      */
-    gitHubHostname = "github.com";
+    hostname = "github.com";
+
+    /**
+     * Whether this is a GitHub or Bitbucket repository.
+     */
+    type: RepositoryType = RepositoryType.GitHub;
 
     /**
      * Create a new Repository instance.
@@ -61,24 +67,32 @@ export class Repository {
         this.branch = gitRevision || "master";
 
         for (let i = 0, c = repoLinks.length; i < c; i++) {
-            const url =
+            let match =
                 /(github(?:\.[a-z]+)*\.[a-z]{2,})[:/]([^/]+)\/(.*)/.exec(
                     repoLinks[i]
                 );
 
-            if (url) {
-                this.gitHubHostname = url[1];
-                this.gitHubUser = url[2];
-                this.gitHubProject = url[3];
-                if (this.gitHubProject.substr(-4) === ".git") {
-                    this.gitHubProject = this.gitHubProject.substr(
+            if (!match) {
+                match = /(bitbucket.org)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);
+            }
+
+            if (match) {
+                this.hostname = match[1];
+                this.user = match[2];
+                this.project = match[3];
+                if (this.project.substr(-4) === ".git") {
+                    this.project = this.project.substr(
                         0,
-                        this.gitHubProject.length - 4
+                        this.project.length - 4
                     );
                 }
                 break;
             }
         }
+
+        if (this.hostname.includes("bitbucket.org"))
+            this.type = RepositoryType.Bitbucket;
+        else this.type = RepositoryType.GitHub;
 
         let out = git("-C", path, "ls-files");
         if (out.status === 0) {
@@ -108,25 +122,21 @@ export class Repository {
     }
 
     /**
-     * Get the URL of the given file on GitHub.
+     * Get the URL of the given file on GitHub or Bitbucket.
      *
-     * @param fileName  The file whose GitHub URL should be determined.
-     * @returns An url pointing to the web preview of the given file or NULL.
+     * @param fileName  The file whose URL should be determined.
+     * @returns A URL pointing to the web preview of the given file or undefined.
      */
-    getGitHubURL(fileName: string): string | undefined {
-        if (
-            !this.gitHubUser ||
-            !this.gitHubProject ||
-            !this.contains(fileName)
-        ) {
+    getURL(fileName: string): string | undefined {
+        if (!this.user || !this.project || !this.contains(fileName)) {
             return;
         }
 
         return [
-            `https://${this.gitHubHostname}`,
-            this.gitHubUser,
-            this.gitHubProject,
-            "blob",
+            `https://${this.hostname}`,
+            this.user,
+            this.project,
+            this.type === "github" ? "blob" : "src",
             this.branch,
             fileName.substr(this.path.length + 1),
         ].join("/");
@@ -158,6 +168,19 @@ export class Repository {
             gitRevision,
             remotesOutput.stdout.split("\n")
         );
+    }
+
+    static getLineNumberAnchor(
+        lineNumber: number,
+        repositoryType: RepositoryType | undefined
+    ): string {
+        switch (repositoryType) {
+            default:
+            case RepositoryType.GitHub:
+                return "L" + lineNumber;
+            case RepositoryType.Bitbucket:
+                return "lines-" + lineNumber;
+        }
     }
 }
 
@@ -248,9 +271,8 @@ export class GitHubPlugin extends ConverterComponent {
         project.files.forEach((sourceFile) => {
             const repository = this.getRepository(sourceFile.fullFileName);
             if (repository) {
-                sourceFile.url = repository.getGitHubURL(
-                    sourceFile.fullFileName
-                );
+                sourceFile.url = repository.getURL(sourceFile.fullFileName);
+                sourceFile.repositoryType = repository.type;
             }
         });
 
@@ -259,7 +281,13 @@ export class GitHubPlugin extends ConverterComponent {
             if (reflection.sources) {
                 reflection.sources.forEach((source: SourceReference) => {
                     if (source.file && source.file.url) {
-                        source.url = source.file.url + "#L" + source.line;
+                        source.url =
+                            source.file.url +
+                            "#" +
+                            Repository.getLineNumberAnchor(
+                                source.line,
+                                source.file.repositoryType
+                            );
                     }
                 });
             }

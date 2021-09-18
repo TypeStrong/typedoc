@@ -3,6 +3,7 @@ import * as Path from "path";
 import type { Reflection } from "../reflections/abstract";
 import type { ReflectionGroup } from "../ReflectionGroup";
 import type { SourceDirectory } from "./directory";
+import type { RepositoryType } from "./repository";
 
 /**
  * Represents references of reflections to their defining source files.
@@ -61,9 +62,14 @@ export class SourceFile {
     name: string;
 
     /**
-     * A url pointing to a page displaying the contents of this file.
+     * A URL pointing to a page displaying the contents of this file.
      */
     url?: string;
+
+    /**
+     * The type of repository where this file is hosted.
+     */
+    repositoryType?: RepositoryType;
 
     /**
      * The representation of the parent directory of this source file.

@@ -3,6 +3,7 @@
 ### Features
 
 -   Flag option types like `validation` can now be set to true/false to enable/disable all flags within them.
+-   Source code links now work with Bitbucket repositories.
 -   Added `githubPages` option (default: true), which will create a `.nojekyll` page in the generated output.
 
 ### Thanks!
