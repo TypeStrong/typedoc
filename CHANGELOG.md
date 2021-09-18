@@ -5,6 +5,7 @@
 -   Flag option types like `validation` can now be set to true/false to enable/disable all flags within them.
 -   Source code links now work with Bitbucket repositories, resolves #1615.
 -   Added `githubPages` option (default: true), which will create a `.nojekyll` page in the generated output, resolves #1680.
+-   `MarkdownEvent` is now exported, resolves #1696.
 
 ### Bug Fixes
 

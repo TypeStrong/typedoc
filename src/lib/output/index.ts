@@ -1,4 +1,4 @@
-export { PageEvent, RendererEvent } from "./events";
+export { PageEvent, RendererEvent, MarkdownEvent } from "./events";
 export { UrlMapping } from "./models/UrlMapping";
 export type { RenderTemplate } from "./models/UrlMapping";
 export { Renderer } from "./renderer";

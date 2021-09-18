@@ -14,6 +14,7 @@ export {
     Theme,
     PageEvent,
     RendererEvent,
+    MarkdownEvent,
 } from "./lib/output";
 export type { RenderTemplate } from "./lib/output";
 
