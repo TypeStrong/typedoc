@@ -86,7 +86,7 @@ addTypeDocOptions({
                     ).defaults;
 
                 for (const key of Object.keys(defaults)) {
-                    flagsObj[key] = {
+                    flagsObj.properties[key] = {
                         type: "boolean",
                     };
                 }
