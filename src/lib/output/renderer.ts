@@ -195,7 +195,11 @@ export class Renderer extends ChildableComponent<
         project: ProjectReflection,
         outputDirectory: string
     ): Promise<void> {
+        const start = Date.now();
         await loadHighlighter(this.lightTheme, this.darkTheme);
+        this.application.logger.verbose(
+            `Renderer: Loading highlighter took ${Date.now() - start}ms`
+        );
         if (
             !this.prepareTheme() ||
             !(await this.prepareOutputDirectory(outputDirectory))
@@ -211,6 +215,7 @@ export class Renderer extends ChildableComponent<
         output.urls = this.theme!.getUrls(project);
 
         this.trigger(output);
+
         if (!output.isDefaultPrevented) {
             output.urls.forEach((mapping: UrlMapping) => {
                 this.renderDocument(output.createPageEvent(mapping));

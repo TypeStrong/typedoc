@@ -15,11 +15,11 @@ const supportedLanguages = unique(["text", ...aliases.keys(), ...BUNDLED_LANGUAG
 class DoubleHighlighter {
     private schemes = new Map<string, string>();
 
-    constructor(private light: Highlighter, private dark: Highlighter) {}
+    constructor(private highlighter: Highlighter, private light: Theme, private dark: Theme) {}
 
     highlight(code: string, lang: string) {
-        const lightTokens = this.light.codeToThemedTokens(code, lang, void 0, { includeExplanation: false });
-        const darkTokens = this.dark.codeToThemedTokens(code, lang, void 0, { includeExplanation: false });
+        const lightTokens = this.highlighter.codeToThemedTokens(code, lang, this.light, { includeExplanation: false });
+        const darkTokens = this.highlighter.codeToThemedTokens(code, lang, this.dark, { includeExplanation: false });
 
         // If this fails... something went *very* wrong.
         assert(lightTokens.length === darkTokens.length);
@@ -88,8 +88,8 @@ class DoubleHighlighter {
             i++;
         }
 
-        style.push(`    --light-code-background: ${this.light.getTheme().bg};`);
-        style.push(`    --dark-code-background: ${this.dark.getTheme().bg};`);
+        style.push(`    --light-code-background: ${this.highlighter.getTheme(this.light).bg};`);
+        style.push(`    --dark-code-background: ${this.highlighter.getTheme(this.dark).bg};`);
         lightRules.push(`    --code-background: var(--light-code-background);`);
         darkRules.push(`    --code-background: var(--dark-code-background);`);
 
@@ -134,11 +134,8 @@ let highlighter: DoubleHighlighter | undefined;
 
 export async function loadHighlighter(lightTheme: Theme, darkTheme: Theme) {
     if (highlighter) return;
-    const [lightHl, darkHl] = await Promise.all([
-        getHighlighter({ theme: lightTheme }),
-        getHighlighter({ theme: darkTheme }),
-    ]);
-    highlighter = new DoubleHighlighter(lightHl, darkHl);
+    const hl = await getHighlighter({ themes: [lightTheme, darkTheme] });
+    highlighter = new DoubleHighlighter(hl, lightTheme, darkTheme);
 }
 
 export function isSupportedLanguage(lang: string) {
