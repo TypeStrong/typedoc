@@ -6,6 +6,10 @@
 -   Source code links now work with Bitbucket repositories.
 -   Added `githubPages` option (default: true), which will create a `.nojekyll` page in the generated output.
 
+### Bug Fixes
+
+-   Fixed the hamburger menu not being visible on mobile devices, fixes #1699.
+
 ### Thanks!
 
 -   @srmagura

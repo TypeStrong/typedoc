@@ -13,6 +13,6 @@
     "excludePrivate": true,
     "excludeInternal": true,
     "treatWarningsAsErrors": false,
-    "listInvalidSymbolLinks": true,
+    "validation": true,
     "logLevel": "Verbose"
 }
