@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.4 (2021-08-18)
+
 ### Features
 
 -   Flag option types like `validation` can now be set to true/false to enable/disable all flags within them.
