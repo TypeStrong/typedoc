@@ -71,6 +71,7 @@
         --color-toolbar-text: var(--light-color-toolbar-text);
         --icon-filter: var(--light-icon-filter);
         --external-icon: var(--light-external-icon);
+        --color-scheme: light;
     }
 }
 
@@ -97,14 +98,19 @@
         --color-toolbar-text: var(--dark-color-toolbar-text);
         --icon-filter: var(--dark-icon-filter);
         --external-icon: var(--dark-external-icon);
+        --color-scheme: dark;
     }
+}
+
+html {
+    color-scheme: var(--color-scheme);
 }
 
 body {
     margin: 0;
 }
 
-body.light {
+:root[data-theme="light"] {
     --color-background: var(--light-color-background);
     --color-secondary-background: var(--light-color-secondary-background);
     --color-text: var(--light-color-text);
@@ -128,7 +134,7 @@ body.light {
     --external-icon: var(--light-external-icon);
 }
 
-body.dark {
+:root[data-theme="dark"] {
     --color-background: var(--dark-color-background);
     --color-secondary-background: var(--dark-color-secondary-background);
     --color-text: var(--dark-color-text);
