@@ -103,11 +103,11 @@ class DoubleHighlighter {
         style.push(...darkRules);
         style.push("} }", "");
 
-        style.push("body.light {");
+        style.push(":root[data-theme='light'] {");
         style.push(...lightRules);
         style.push("}", "");
 
-        style.push("body.dark {");
+        style.push(":root[data-theme='dark'] {");
         style.push(...darkRules);
         style.push("}", "");
 

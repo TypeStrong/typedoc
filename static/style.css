@@ -132,6 +132,7 @@ body {
     --color-toolbar-text: var(--light-color-toolbar-text);
     --icon-filter: var(--light-icon-filter);
     --external-icon: var(--light-external-icon);
+    --color-scheme: light;
 }
 
 :root[data-theme="dark"] {
@@ -156,6 +157,7 @@ body {
     --color-toolbar-text: var(--dark-color-toolbar-text);
     --icon-filter: var(--dark-icon-filter);
     --external-icon: var(--dark-external-icon);
+    --color-scheme: dark;
 }
 
 h1 {
