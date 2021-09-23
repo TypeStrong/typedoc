@@ -1,5 +1,18 @@
 # Unreleased
 
+### Features
+
+-   TypeDoc will now recognize `@param` comments for destructured parameters and rename `__namedParameters` to the name specified
+    in the `@param` comment if the number of `@param` comments match the number of parameters, resolves #1703.
+
+### Bug Fixes
+
+-   TypeDoc will now only create one highlighter for rendering code, saving ~200-500ms for rendering time.
+
+### Thanks!
+
+-   @Gudahtt
+
 ## v0.22.4 (2021-08-18)
 
 ### Features
