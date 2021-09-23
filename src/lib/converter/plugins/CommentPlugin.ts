@@ -349,8 +349,21 @@ export class CommentPlugin extends ConverterComponent {
                 childComment.tags ||= [...comment.tags];
             }
 
-            signature.parameters?.forEach((parameter) => {
+            signature.parameters?.forEach((parameter, index) => {
                 let tag: CommentTag | undefined;
+                if (childComment && parameter.name === "__namedParameters") {
+                    const commentParams = childComment?.tags.filter(
+                        (tag) =>
+                            tag.tagName === "param" &&
+                            !tag.paramName.includes(".")
+                    );
+                    if (
+                        signature.parameters?.length === commentParams.length &&
+                        commentParams[index].paramName
+                    ) {
+                        parameter.name = commentParams[index].paramName;
+                    }
+                }
                 if (childComment) {
                     moveNestedParamTags(childComment, parameter);
                     tag = childComment.getTag("param", parameter.name);
