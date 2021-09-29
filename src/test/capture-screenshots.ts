@@ -7,7 +7,7 @@ import { Application, TSConfigReader, EntryPointStrategy } from "..";
 import { remove } from "../lib/utils";
 
 const concurrency = 10;
-const src = join(__dirname, "../../examples/basic/src");
+const src = join(__dirname, "../../src/test/renderer/testProject/src");
 const baseDirectory = join(__dirname, "../../dist/tmp/capture");
 const outputDirectory = join(__dirname, "../../dist/tmp/__screenshots__");
 const globPattern = "**/*.html";
@@ -67,7 +67,7 @@ export async function captureRegressionScreenshots() {
         tsconfig: join(src, "..", "tsconfig.json"),
         plugin: [],
         entryPoints: [src],
-        entryPointStrategy: EntryPointStrategy.Expand,
+        entryPointStrategy: EntryPointStrategy.Resolve,
     });
     const project = app.convert();
     if (!project) throw new Error("Failed to convert.");

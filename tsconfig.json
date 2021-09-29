@@ -44,6 +44,7 @@
         "src/test/.dot",
         "src/test/module",
         "src/test/packages",
-        "src/test/slow/entry-points"
+        "src/test/slow/entry-points",
+        "src/test/renderer/testProject"
     ]
 }
