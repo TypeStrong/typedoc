@@ -67,7 +67,7 @@ export async function captureRegressionScreenshots() {
         tsconfig: join(src, "..", "tsconfig.json"),
         plugin: [],
         entryPoints: [src],
-        entryPointStrategy: EntryPointStrategy.Resolve,
+        entryPointStrategy: EntryPointStrategy.Expand,
     });
     const project = app.convert();
     if (!project) throw new Error("Failed to convert.");
