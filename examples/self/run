@@ -1,3 +1,0 @@
-#!/bin/sh
-cd ${0%/*}
-node ../../bin/typedoc --name "TypeDoc Documentation" --tsconfig ../../tsconfig.json --readme ../../README.md --out doc/ --entryPointStrategy expand ../../src/lib/

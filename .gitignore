@@ -7,9 +7,8 @@ yarn.lock
 .nyc_output
 yarn-error.log
 
-/src/test/renderer/testProject/doc
+/src/test/renderer/*/doc
 /src/test/renderer/testProject/json.json
-/examples/*/doc
 /node_modules/
 /coverage/
 /dist/
