@@ -7,7 +7,7 @@ import { Application, TSConfigReader, EntryPointStrategy } from "..";
 import { remove } from "../lib/utils";
 
 const concurrency = 10;
-const src = join(__dirname, "../../examples/basic/src");
+const src = join(__dirname, "../../src/test/renderer/testProject/src");
 const baseDirectory = join(__dirname, "../../dist/tmp/capture");
 const outputDirectory = join(__dirname, "../../dist/tmp/__screenshots__");
 const globPattern = "**/*.html";
