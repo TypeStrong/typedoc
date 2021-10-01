@@ -9,7 +9,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         type: ParameterType.Path,
         name: "options",
-        help: "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory",
+        help: "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory.",
         hint: ParameterHint.File,
         defaultValue: process.cwd(),
     });
@@ -61,28 +61,28 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "excludePrivate",
-        help: "Ignores private variables and methods",
+        help: "Ignore private variables and methods.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "excludeProtected",
-        help: "Ignores protected variables and methods",
+        help: "Ignore protected variables and methods.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "disableSources",
-        help: "Disables setting the source of a reflection when documenting it.",
+        help: "Disable setting the source of a reflection when documenting it.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "includes",
-        help: "Specifies the location to look for included documents (use [[include:FILENAME]] in comments).",
+        help: "Specify the location to look for included documents (use [[include:FILENAME]] in comments).",
         type: ParameterType.Path,
         hint: ParameterHint.Directory,
     });
     options.addDeclaration({
         name: "media",
-        help: "Specifies the location with media files that should be copied to the output directory.",
+        help: "Specify the location with media files that should be copied to the output directory.",
         type: ParameterType.Path,
         hint: ParameterHint.Directory,
     });
@@ -105,19 +105,19 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "out",
-        help: "Specifies the location the documentation should be written to.",
+        help: "Specify the location the documentation should be written to.",
         type: ParameterType.Path,
         hint: ParameterHint.Directory,
     });
     options.addDeclaration({
         name: "json",
-        help: "Specifies the location and filename a JSON file describing the project is written to.",
+        help: "Specify the location and filename a JSON file describing the project is written to.",
         type: ParameterType.Path,
         hint: ParameterHint.File,
     });
     options.addDeclaration({
         name: "pretty",
-        help: "Specifies whether the output JSON should be formatted with tabs.",
+        help: "Specify whether the output JSON should be formatted with tabs.",
         type: ParameterType.Boolean,
         defaultValue: true,
     });
@@ -125,7 +125,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "theme",
         help:
-            "Specify the path to the theme that should be used, or 'default' or 'minimal' to use built-in themes." +
+            "Specify the path to the theme that should be used, or 'default' or 'minimal' to use built-in themes. " +
             "Note: Not resolved according to the config file location, always resolved according to cwd.",
         type: ParameterType.String,
         defaultValue: "default",
@@ -136,7 +136,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "lightHighlightTheme",
-        help: "Specifies the code highlighting theme in light mode.",
+        help: "Specify the code highlighting theme in light mode.",
         type: ParameterType.String,
         defaultValue: defaultLightTheme,
         validate(value) {
@@ -151,7 +151,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "darkHighlightTheme",
-        help: "Specifies the code highlighting theme in dark mode.",
+        help: "Specify the code highlighting theme in dark mode.",
         type: ParameterType.String,
         defaultValue: defaultDarkTheme,
         validate(value) {
@@ -192,23 +192,23 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "defaultCategory",
-        help: "Specifies the default category for reflections without a category.",
+        help: "Specify the default category for reflections without a category.",
         defaultValue: "Other",
     });
     options.addDeclaration({
         name: "categoryOrder",
-        help: "Specifies the order in which categories appear. * indicates the relative order for categories not in the list.",
+        help: "Specify the order in which categories appear. * indicates the relative order for categories not in the list.",
         type: ParameterType.Array,
     });
     options.addDeclaration({
         name: "categorizeByGroup",
-        help: "Specifies whether categorization will be done at the group level.",
+        help: "Specify whether categorization will be done at the group level.",
         type: ParameterType.Boolean,
         defaultValue: true,
     });
     options.addDeclaration({
         name: "sort",
-        help: "Specify the sort strategy for documented values",
+        help: "Specify the sort strategy for documented values.",
         type: ParameterType.Array,
         defaultValue: ["kind", "instance-first", "alphabetical"],
         validate(value) {
@@ -283,7 +283,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "showConfig",
-        help: "Print the resolved configuration and exit",
+        help: "Print the resolved configuration and exit.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
@@ -293,7 +293,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "logger",
-        help: "Specify the logger that should be used, 'none' or 'console'",
+        help: "Specify the logger that should be used, 'none' or 'console'.",
         defaultValue: "console",
         type: ParameterType.Mixed,
     });
@@ -306,7 +306,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "markedOptions",
-        help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc",
+        help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
         type: ParameterType.Mixed,
         validate(value) {
             if (
@@ -328,7 +328,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "listInvalidSymbolLinks",
-        help: "Emits a list of broken symbol {@link navigation} links after documentation generation, DEPRECATED, prefer validation.invalidLink instead.",
+        help: "Emit a list of broken symbol {@link navigation} links after documentation generation, DEPRECATED, prefer validation.invalidLink instead.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
