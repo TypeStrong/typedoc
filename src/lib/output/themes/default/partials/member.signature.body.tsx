@@ -12,15 +12,15 @@ export const memberSignatureBody = (
         {context.comment(props)}
 
         {!!props.typeParameters && (
-            <>
+            <div class="tsd-type-parameters">
                 <h4 class="tsd-type-parameters-title">Type parameters</h4>
                 {context.typeParameters(props.typeParameters)}
-            </>
+            </div>
         )}
         {props.parameters && props.parameters.length > 0 && (
-            <>
+            <div class="tsd-parameters">
                 <h4 class="tsd-parameters-title">Parameters</h4>
-                <ul class="tsd-parameters">
+                <ul class="tsd-parameter-list">
                     {props.parameters.map((item) => (
                         <li>
                             <h5>
@@ -41,7 +41,7 @@ export const memberSignatureBody = (
                         </li>
                     ))}
                 </ul>
-            </>
+            </div>
         )}
         {props.type && (
             <>

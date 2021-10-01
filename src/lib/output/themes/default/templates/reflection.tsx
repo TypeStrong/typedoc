@@ -10,7 +10,7 @@ export const reflectionTemplate = (context: DefaultThemeRenderContext, props: Pa
 
         {hasTypeParameters(props.model) && (
             <section class="tsd-panel tsd-type-parameters">
-                <h3>Type parameters</h3>
+                <h4>Type parameters</h4>
                 {context.typeParameters(props.model.typeParameters)}
             </section>
         )}
@@ -18,13 +18,13 @@ export const reflectionTemplate = (context: DefaultThemeRenderContext, props: Pa
             <>
                 {!!props.model.typeHierarchy && (
                     <section class="tsd-panel tsd-hierarchy">
-                        <h3>Hierarchy</h3>
+                        <h4>Hierarchy</h4>
                         {context.hierarchy(props.model.typeHierarchy)}
                     </section>
                 )}
                 {!!props.model.implementedTypes && (
                     <section class="tsd-panel">
-                        <h3>Implements</h3>
+                        <h4>Implements</h4>
                         <ul class="tsd-hierarchy">
                             {props.model.implementedTypes.map((item) => (
                                 <li>{context.type(item)}</li>
@@ -34,7 +34,7 @@ export const reflectionTemplate = (context: DefaultThemeRenderContext, props: Pa
                 )}
                 {!!props.model.implementedBy && (
                     <section class="tsd-panel">
-                        <h3>Implemented by</h3>
+                        <h4>Implemented by</h4>
                         <ul class="tsd-hierarchy">
                             {props.model.implementedBy.map((item) => (
                                 <li>{context.type(item)}</li>
@@ -44,13 +44,13 @@ export const reflectionTemplate = (context: DefaultThemeRenderContext, props: Pa
                 )}
                 {!!props.model.signatures && (
                     <section class="tsd-panel">
-                        <h3 class="tsd-before-signature">Callable</h3>
+                        <h4 class="tsd-before-signature">Callable</h4>
                         {context.memberSignatures(props.model)}
                     </section>
                 )}
                 {!!props.model.indexSignature && (
                     <section class={"tsd-panel " + props.model.cssClasses}>
-                        <h3 class="tsd-before-signature">Indexable</h3>
+                        <h4 class="tsd-before-signature">Indexable</h4>
                         <div class="tsd-signature tsd-kind-icon">
                             <span class="tsd-signature-symbol">[</span>
                             {props.model.indexSignature.parameters!.map((item) => (
