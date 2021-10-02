@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.5 (2021-09-02)
+
 ### Features
 
 -   TypeDoc will now recognize `@param` comments for destructured parameters and rename `__namedParameters` to the name specified
