@@ -1,4 +1,4 @@
-import { resolve, basename, join } from "path";
+import { resolve, join } from "path";
 import { existsSync, statSync } from "fs";
 
 import * as ts from "typescript";
@@ -10,6 +10,10 @@ import { ok } from "assert";
 
 function isFile(file: string) {
     return existsSync(file) && statSync(file).isFile();
+}
+
+function isDir(path: string) {
+    return existsSync(path) && statSync(path).isDirectory();
 }
 
 export class TSConfigReader implements OptionsReader {
@@ -24,14 +28,8 @@ export class TSConfigReader implements OptionsReader {
         const file = container.getValue("tsconfig");
 
         let fileToRead: string | undefined = file;
-        if (!isFile(fileToRead)) {
-            fileToRead = ts.findConfigFile(
-                file,
-                isFile,
-                file.toLowerCase().endsWith(".json")
-                    ? basename(file)
-                    : undefined
-            );
+        if (isDir(fileToRead)) {
+            fileToRead = ts.findConfigFile(file, isFile);
         }
 
         if (!fileToRead || !isFile(fileToRead)) {

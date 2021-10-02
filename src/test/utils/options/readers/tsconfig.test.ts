@@ -3,6 +3,7 @@ import { deepStrictEqual as equal } from "assert";
 
 import { TSConfigReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
+import { tmpdir } from "os";
 
 describe("Options - TSConfigReader", () => {
     const options = new Options(new Logger());
@@ -21,7 +22,7 @@ describe("Options - TSConfigReader", () => {
 
     testError(
         "Errors if the file cannot be found",
-        join(__dirname, "data/non-existent-file.json")
+        join(tmpdir(), "typedoc/non-existent-file.json")
     );
     testError(
         "Errors if the data is invalid",
@@ -86,5 +87,13 @@ describe("Options - TSConfigReader", () => {
         options.setValue("excludeInternal", false);
         options.read(new Logger());
         equal(options.getValue("excludeInternal"), false);
+    });
+
+    it("Correctly handles folder names ending with .json (#1712)", () => {
+        options.reset();
+        options.setValue("tsconfig", join(__dirname, "data/folder.json"));
+        options.setCompilerOptions([], { strict: false }, void 0);
+        options.read(new Logger());
+        equal(options.getCompilerOptions().strict, true);
     });
 });
