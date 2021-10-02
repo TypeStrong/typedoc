@@ -7,7 +7,7 @@
  * }
  * ```
  *
- * Notice how TypeDoc has substituted `string` for generic type argument in all
+ * Notice how TypeDoc has substituted `string` for the generic type argument in all
  * the methods inherited from `Array`. For example, the `values` method returns
  * `IterableIterator<string>`.
  */
