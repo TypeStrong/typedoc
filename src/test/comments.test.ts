@@ -172,6 +172,31 @@ describe("Block Comment Lexer", () => {
         equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "{}" }]);
     });
 
+    it("Should allow escaping slashes", () => {
+        const tokens = lex("/* Text *\\/ */");
+
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Text */" }]);
+    });
+
+    it("Should allow escaping slashes in code blocks", () => {
+        const tokens = lex(
+            dedent(`
+            /**
+             * \`\`\`ts
+             * /* inner block comment *\\/
+             * \`\`\`
+             */
+            `)
+        );
+
+        equal(tokens, [
+            {
+                kind: TokenSyntaxKind.Code,
+                text: "```ts\n/* inner block comment */\n```",
+            },
+        ]);
+    });
+
     it("Should pass through unknown escapes", () => {
         const tokens = lex("/* \\\\ \\n */");
 
@@ -387,6 +412,4 @@ describe("Block Comment Lexer", () => {
             { kind: TokenSyntaxKind.Code, text: "```\nText" },
         ]);
     });
-
-    it("Should allow escaping newlines");
 });

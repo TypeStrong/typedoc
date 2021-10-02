@@ -134,6 +134,16 @@ function* lexBlockComment2(
                     } else if (
                         file[lookahead] === "\\" &&
                         lookahead + 1 < end &&
+                        file[lookahead + 1] === "/"
+                    ) {
+                        codeText.push(
+                            file.substring(lookaheadStart, lookahead)
+                        );
+                        lookaheadStart = lookahead + 1;
+                        lookahead += 2;
+                    } else if (
+                        file[lookahead] === "\\" &&
+                        lookahead + 1 < end &&
                         file[lookahead + 1] !== "\n"
                     ) {
                         lookahead += 2;
@@ -216,7 +226,7 @@ function* lexBlockComment2(
                     if (
                         file[lookahead] === "\\" &&
                         lookahead + 1 < end &&
-                        "{}@`".includes(file[lookahead + 1])
+                        "{}@/`".includes(file[lookahead + 1])
                     ) {
                         textParts.push(
                             file.substring(lookaheadStart, lookahead),
