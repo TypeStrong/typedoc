@@ -97,3 +97,28 @@ export function makeHttpCall2(
 
     return fetch(url, { method, headers, body, mode });
 }
+
+/**
+ * Stringifies and concatenates two numbers into a single string.
+ *
+ * The documentation site allows you to toggle between the different overloads
+ * of a function. The implementation signature of the overloaded function is not
+ * included in the documentation.
+ */
+export function overloadedFunction(a: number, b: number): string;
+
+/**
+ * Concatenates two strings.
+ *
+ * The documentation site allows you to toggle between the different overloads
+ * of a function. The implementation signature of the overloaded function is not
+ * included in the documentation.
+ */
+export function overloadedFunction(a: string, b: string): string;
+
+export function overloadedFunction(a: unknown, b: unknown): string {
+    return (
+        (a as { toString(): string }).toString() +
+        (b as { toString(): string }).toString()
+    );
+}

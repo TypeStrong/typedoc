@@ -11,6 +11,10 @@
     "typedoc": "node ../bin/typedoc ./src"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.175",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }
