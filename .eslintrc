@@ -16,7 +16,6 @@
     ],
     "ignorePatterns": [
         "src/test/renderer/specs",
-        "examples",
         "dist",
         "coverage",
         "static/main.js",

@@ -1,0 +1,15 @@
+{
+  "name": "typedoc-example",
+  "version": "0.0.0",
+  "private": "true",
+  "description": "An example of using the TypeDoc documentation generator.",
+  "license": "Apache-2.0",
+  "author": "TypeDoc contributors",
+  "scripts": {
+    "tsc": "tsc",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  }
+}
