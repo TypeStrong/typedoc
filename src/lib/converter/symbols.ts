@@ -585,6 +585,7 @@ function convertProperty(
     // Special case: We pretend properties are methods if they look like methods.
     // This happens with mixins / weird inheritance.
     if (
+        declarations.length &&
         declarations.every(
             (decl) => ts.isMethodSignature(decl) || ts.isMethodDeclaration(decl)
         )
