@@ -4,6 +4,7 @@
 **/package-lock.json
 ../src/test/**/specs*.json
 ../src/test/packages/**/*.js
+../src/test/renderer/specs
 ../src/test/renderer/testProject
 ../static/main.js
 ../example/docs/
