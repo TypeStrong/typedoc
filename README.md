@@ -79,7 +79,8 @@ For a complete list of the command line arguments run `typedoc --help` or visit
     Specifies the location the documentation should be written to. Defaults to `./docs`
 -   `--json <path/to/output.json>`<br>
     Specifies the location and file name a json file describing the project is
-    written to. When specified no documentation will be generated.
+    written to. When specified no documentation will be generated unless `--out` is also
+    specified.
 -   `--options`<br>
     Specify a json option file that should be loaded. If not specified TypeDoc
     will look for 'typedoc.json' in the current directory.
@@ -123,9 +124,3 @@ You can find TypeDoc on GitHub; feel free to open an issue or create a pull requ
 https://github.com/TypeStrong/typedoc
 
 For more information, read the [contribution guide](https://github.com/TypeStrong/typedoc/blob/master/.github/CONTRIBUTING.md).
-
-## License
-
-Copyright (c) 2015 [Sebastian Lenz](https://typedoc.org).<br>
-Copyright (c) 2016-2021 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
-Licensed under the Apache License 2.0.
