@@ -12,6 +12,14 @@
         "intentionallyNotExported": ["src/foo.ts:Foo"]
     }
     ```
+-   The `--emit` option can now be used to more finely control what TypeDoc will emit.
+    | Value | Behavior |
+    | --- | --- |
+    | `both` | Emit both documentation and JS. |
+    | `docs` | Emit documentation, but not JS (default). |
+    | `none` | Emit nothing, just convert and run validation. |
+    | `true` | Alias for `both`, for backwards compatibility. Will be removed in 0.23. |
+    | `false` | Alias for `docs`, for backwards compatibility. Will be removed in 0.23. |
 
 ### Bug Fixes
 

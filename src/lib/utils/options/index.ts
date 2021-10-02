@@ -1,7 +1,7 @@
 export { Options, BindOption } from "./options";
 export type { OptionsReader } from "./options";
 export { ArgumentsReader, TypeDocReader, TSConfigReader } from "./readers";
-export { ParameterType, ParameterHint } from "./declaration";
+export { EmitStrategy, ParameterType, ParameterHint } from "./declaration";
 
 export type {
     TypeDocOptions,

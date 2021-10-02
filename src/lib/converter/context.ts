@@ -77,7 +77,7 @@ export class Context {
      * /** We should use this comment *&#47;
      * export * as Mod from "./mod"
      * ```
-     * Will be removed in 0.22.
+     * Will be removed in 0.23.
      * @internal
      */
     exportSymbol?: ts.Symbol;

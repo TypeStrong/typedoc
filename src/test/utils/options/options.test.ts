@@ -5,7 +5,10 @@ import {
     NumberDeclarationOption,
 } from "../../../lib/utils/options";
 import { deepStrictEqual as equal, throws } from "assert";
-import type { DeclarationOption } from "../../../lib/utils/options";
+import type {
+    DeclarationOption,
+    EmitStrategy,
+} from "../../../lib/utils/options";
 
 describe("Options", () => {
     const logger = new Logger();
@@ -208,7 +211,7 @@ describe("BindOption", () => {
         constructor(public options: Options) {}
 
         @BindOption("emit")
-        emit!: boolean;
+        emit!: EmitStrategy;
     }
 
     it("Supports fetching options", () => {
@@ -216,7 +219,7 @@ describe("BindOption", () => {
         options.addDefaultDeclarations();
 
         const container = new Container(options);
-        equal(container.emit, false);
+        equal(container.emit, "docs");
     });
 
     it("Updates as option values change", () => {
@@ -224,10 +227,10 @@ describe("BindOption", () => {
         options.addDefaultDeclarations();
 
         const container = new Container(options);
-        equal(container.emit, false);
+        equal(container.emit, "docs");
 
-        options.setValue("emit", true);
-        equal(container.emit, true);
+        options.setValue("emit", "both");
+        equal(container.emit, "both");
     });
 
     it("Caches set options when frozen", () => {
@@ -236,12 +239,12 @@ describe("BindOption", () => {
 
         const container = new Container(options);
 
-        options.setValue("emit", true);
+        options.setValue("emit", "both");
         options.freeze();
-        equal(container.emit, true);
+        equal(container.emit, "both");
 
         const prop = Object.getOwnPropertyDescriptor(container, "emit")!;
         equal(prop.get, void 0);
-        equal(prop.value, true);
+        equal(prop.value, "both");
     });
 });

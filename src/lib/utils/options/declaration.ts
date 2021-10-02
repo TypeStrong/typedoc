@@ -4,6 +4,16 @@ import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point";
 
+export const EmitStrategy = {
+    true: true, // Alias for both, for backwards compatibility until 0.23
+    false: false, // Alias for docs, for backwards compatibility until 0.23
+    both: "both", // Emit both documentation and JS
+    docs: "docs", // Emit documentation, but not JS (default)
+    none: "none", // Emit nothing, just convert and run validation
+} as const;
+/** @hidden */
+export type EmitStrategy = typeof EmitStrategy[keyof typeof EmitStrategy];
+
 /**
  * An interface describing all TypeDoc specific options. Generated from a
  * map which contains more information about each option for better types when
@@ -61,7 +71,7 @@ export interface TypeDocOptionMap {
     includes: string;
     media: string;
 
-    emit: boolean;
+    emit: typeof EmitStrategy;
     watch: boolean;
     preserveWatchOutput: boolean;
 

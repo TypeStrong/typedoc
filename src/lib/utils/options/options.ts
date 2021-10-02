@@ -328,7 +328,10 @@ export class Options {
     ): ts.CompilerOptions {
         const result = { ...options };
 
-        if (!this.getValue("emit")) {
+        if (
+            this.getValue("emit") !== "both" &&
+            this.getValue("emit") !== true
+        ) {
             result.noEmit = true;
             delete result.emitDeclarationOnly;
         }

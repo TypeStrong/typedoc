@@ -207,7 +207,7 @@ export class CommentPlugin extends ConverterComponent {
             if (!specialOverloadCase) return;
         }
 
-        // Clean this up in 0.22. We should really accept a ts.Symbol so we don't need exportSymbol on Context
+        // Clean this up in 0.23. We should really accept a ts.Symbol so we don't need exportSymbol on Context
         const exportNode = context.exportSymbol?.getDeclarations()?.[0];
         let rawComment =
             exportNode && getRawComment(exportNode, this.application.logger);

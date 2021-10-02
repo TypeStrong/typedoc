@@ -1,6 +1,6 @@
 import type { Options } from "..";
 import { LogLevel } from "../../loggers";
-import { ParameterType, ParameterHint } from "../declaration";
+import { ParameterType, ParameterHint, EmitStrategy } from "../declaration";
 import { BUNDLED_THEMES, Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
@@ -99,8 +99,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "emit",
-        help: "If set, TypeDoc will emit the TypeScript compilation result",
-        type: ParameterType.Boolean,
+        help: "Specify what TypeDoc should emit, 'docs', 'both', or 'none'.",
+        type: ParameterType.Map,
+        map: EmitStrategy,
+        defaultValue: "docs",
     });
 
     options.addDeclaration({

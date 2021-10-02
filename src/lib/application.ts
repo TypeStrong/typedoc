@@ -223,7 +223,10 @@ export class Application extends ChildableComponent<
             return;
         }
 
-        if (this.options.getValue("emit")) {
+        if (
+            this.options.getValue("emit") === "both" ||
+            this.options.getValue("emit") === true
+        ) {
             for (const program of programs) {
                 program.emit();
             }
