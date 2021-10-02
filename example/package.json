@@ -1,7 +1,7 @@
 {
   "name": "typedoc-example",
   "version": "0.0.0",
-  "private": "true",
+  "private": true,
   "description": "An example of using the TypeDoc documentation generator.",
   "license": "Apache-2.0",
   "author": "TypeDoc contributors",
