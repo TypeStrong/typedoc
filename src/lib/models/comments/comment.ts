@@ -11,15 +11,9 @@ const COPIED_TAGS = ["remarks"];
  */
 export class Comment {
     /**
-     * The abstract of the comment. TypeDoc interprets the first paragraph of a comment
-     * as the abstract.
+     * The content of the comment which is not associated with a block tag.
      */
-    shortText: string;
-
-    /**
-     * The full body text of the comment. Excludes the {@link shortText}.
-     */
-    text: string;
+    summary: string;
 
     /**
      * The text of the ```@returns``` tag if present.
@@ -34,9 +28,8 @@ export class Comment {
     /**
      * Creates a new Comment instance.
      */
-    constructor(shortText?: string, text?: string) {
-        this.shortText = shortText || "";
-        this.text = text || "";
+    constructor(summary?: string) {
+        this.summary = summary || "";
     }
 
     /**
@@ -45,7 +38,7 @@ export class Comment {
      * @returns TRUE when this comment has a visible component.
      */
     hasVisibleComponent(): boolean {
-        return !!this.shortText || !!this.text || this.tags.length > 0;
+        return !!this.summary || this.tags.length > 0;
     }
 
     /**
@@ -77,7 +70,7 @@ export class Comment {
     }
 
     /**
-     * Removes all tags with the given tag name from teh comment.
+     * Removes all tags with the given tag name from the comment.
      * @param tagName
      */
     removeTags(tagName: string) {
@@ -93,8 +86,7 @@ export class Comment {
      * @param comment - Source comment to copy from
      */
     copyFrom(comment: Comment) {
-        this.shortText = comment.shortText;
-        this.text = comment.text;
+        this.summary = comment.summary;
         this.returns = comment.returns;
         const overrideTags: CommentTag[] = comment.tags
             .filter((tag) => COPIED_TAGS.includes(tag.tagName))

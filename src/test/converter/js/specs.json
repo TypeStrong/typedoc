@@ -93,7 +93,7 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "docs for interface"
+            "summary": "docs for interface"
           },
           "children": [
             {
@@ -103,7 +103,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "can also use prop tag"
+                "summary": "can also use prop tag"
               },
               "type": {
                 "type": "intrinsic",
@@ -117,7 +117,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "docs for property"
+                "summary": "docs for property"
               },
               "type": {
                 "type": "intrinsic",
@@ -150,7 +150,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "docs for property\nmore docs for property"
+                "summary": "docs for property\nmore docs for property"
               },
               "type": {
                 "type": "intrinsic",
@@ -264,7 +264,7 @@
           "kindString": "Type alias",
           "flags": {},
           "comment": {
-            "shortText": "comment on alias"
+            "summary": "comment on alias"
           },
           "typeParameter": [
             {
@@ -274,7 +274,7 @@
               "kindString": "Type parameter",
               "flags": {},
               "comment": {
-                "shortText": "comment on template"
+                "summary": "comment on template"
               }
             }
           ],
@@ -345,7 +345,7 @@
           "kindString": "Type alias",
           "flags": {},
           "comment": {
-            "shortText": "docs for alias"
+            "summary": "docs for alias"
           },
           "type": {
             "type": "intersection",
@@ -454,7 +454,7 @@
           "kindString": "Type alias",
           "flags": {},
           "comment": {
-            "shortText": "type alias since it doesn't have a property tag"
+            "summary": "type alias since it doesn't have a property tag"
           },
           "type": {
             "type": "reference",
@@ -513,7 +513,7 @@
           "kindString": "Type alias",
           "flags": {},
           "comment": {
-            "shortText": "docs for alias"
+            "summary": "docs for alias"
           },
           "type": {
             "type": "union",

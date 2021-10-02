@@ -50,7 +50,7 @@ export const issueTests: {
     gh1164(project) {
         const refl = query(project, "gh1164");
         equal(
-            refl.signatures?.[0]?.parameters?.[0]?.comment?.shortText,
+            refl.signatures?.[0]?.parameters?.[0]?.comment?.summary,
             "{@link CommentedClass} Test description."
         );
         equal(refl.signatures?.[0]?.comment?.returns, "Test description.\n");
@@ -64,7 +64,7 @@ export const issueTests: {
 
     gh1255(project) {
         const foo = query(project, "C.foo");
-        equal(foo.comment?.shortText, "Docs!");
+        equal(foo.comment?.summary, "Docs!");
     },
 
     gh1330(project) {
@@ -117,15 +117,15 @@ export const issueTests: {
         equal(prop.type?.toString(), "number");
 
         // Would be nice to get this to work someday
-        equal(prop.comment?.shortText, void 0);
+        equal(prop.comment?.summary, void 0);
 
         const method = query(project, "METHOD");
-        equal(method.signatures?.[0].comment?.shortText, "method docs");
+        equal(method.signatures?.[0].comment?.summary, "method docs");
     },
 
     gh1481(project) {
         const signature = query(project, "GH1481.static").signatures?.[0];
-        equal(signature?.comment?.shortText, "static docs");
+        equal(signature?.comment?.summary, "static docs");
         equal(signature?.type?.toString(), "void");
     },
 
@@ -142,7 +142,7 @@ export const issueTests: {
 
     gh1490(project) {
         const refl = query(project, "GH1490.optionalMethod");
-        equal(refl.signatures?.[0]?.comment?.shortText, "With comment");
+        equal(refl.signatures?.[0]?.comment?.summary, "With comment");
     },
 
     gh1509(project) {

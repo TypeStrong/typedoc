@@ -1159,7 +1159,7 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "First type for union or intersection type tests."
+            "summary": "First type for union or intersection type tests."
           },
           "children": [
             {
@@ -1169,7 +1169,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "Property of first type."
+                "summary": "Property of first type."
               },
               "type": {
                 "type": "intrinsic",
@@ -1194,7 +1194,7 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "Second type for union or intersection type tests."
+            "summary": "Second type for union or intersection type tests."
           },
           "children": [
             {
@@ -1204,7 +1204,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "Property of second type."
+                "summary": "Property of second type."
               },
               "type": {
                 "type": "intrinsic",
@@ -1229,7 +1229,7 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "Third type for union or intersection type tests."
+            "summary": "Third type for union or intersection type tests."
           },
           "children": [
             {
@@ -1239,7 +1239,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "Complex Property of third type."
+                "summary": "Complex Property of third type."
               },
               "type": {
                 "type": "array",
@@ -1279,7 +1279,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "Intersection Property of third type."
+                "summary": "Intersection Property of third type."
               },
               "type": {
                 "type": "intersection",
@@ -1304,7 +1304,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "Union Property of third type."
+                "summary": "Union Property of third type."
               },
               "type": {
                 "type": "union",

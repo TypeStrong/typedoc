@@ -18,7 +18,7 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "Source interface summary"
+            "summary": "Source interface summary"
           },
           "children": [
             {
@@ -28,7 +28,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "Source interface property description",
+                "summary": "Source interface property description",
                 "tags": [
                   {
                     "tag": "typeparam",
@@ -57,7 +57,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Source interface method description"
+                    "summary": "Source interface method description"
                   },
                   "parameters": [
                     {
@@ -67,7 +67,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "\n"
+                        "summary": "\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -108,7 +108,7 @@
               "kindString": "Type parameter",
               "flags": {},
               "comment": {
-                "shortText": "Source interface type parameter\n"
+                "summary": "Source interface type parameter\n"
               }
             }
           ]
@@ -120,7 +120,7 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "Source interface summary"
+            "summary": "Source interface summary"
           },
           "children": [
             {
@@ -130,7 +130,7 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "Source interface property description"
+                "summary": "Source interface property description"
               },
               "type": {
                 "type": "reference",
@@ -152,7 +152,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Source interface method description"
+                    "summary": "Source interface method description"
                   },
                   "parameters": [
                     {
@@ -162,7 +162,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "\n"
+                        "summary": "\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -203,7 +203,7 @@
               "kindString": "Type parameter",
               "flags": {},
               "comment": {
-                "shortText": "Source interface type parameter\n"
+                "summary": "Source interface type parameter\n"
               }
             }
           ]
@@ -222,8 +222,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Function summary",
-                "text": "This part of the commentary will be inherited by other entities\n",
+                "summary": "Function summary\n\nThis part of the commentary will be inherited by other entities",
                 "returns": "Stringified sum or concatenation of numeric arguments\n",
                 "tags": [
                   {
@@ -244,7 +243,7 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": "This will be inherited"
                   }
                 }
               ],
@@ -256,7 +255,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": "This will be inherited"
                   },
                   "type": {
                     "type": "reference",
@@ -271,7 +270,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": "This will be inherited"
                   },
                   "type": {
                     "type": "reference",
@@ -330,8 +329,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Function summary",
-                "text": "This part of the commentary will be inherited by other entities\n",
+                "summary": "Function summary\n\nThis part of the commentary will be inherited by other entities",
                 "returns": "This will be inherited\n\n",
                 "tags": [
                   {
@@ -352,7 +350,7 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": "This will be inherited"
                   }
                 }
               ],
@@ -364,7 +362,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": "This will be inherited"
                   },
                   "type": {
                     "type": "reference",
@@ -379,7 +377,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": "This will be inherited"
                   },
                   "type": {
                     "type": "reference",

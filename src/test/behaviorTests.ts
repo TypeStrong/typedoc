@@ -39,13 +39,13 @@ export const behaviorTests: Record<
         const foo = query(project, "foo");
         equal(foo.signatures?.length, 2);
 
-        equal(foo.signatures[0].comment?.shortText, "Implementation comment");
+        equal(foo.signatures[0].comment?.summary, "Implementation comment");
         equal(foo.signatures[0].comment?.tags, []);
 
-        equal(foo.signatures[1].comment?.shortText, "Overrides summary");
+        equal(foo.signatures[1].comment?.summary, "Overrides summary");
         equal(foo.signatures[1].comment?.tags, []);
         equal(
-            foo.signatures[1].parameters?.[0].comment?.shortText.trim(),
+            foo.signatures[1].parameters?.[0].comment?.summary.trim(),
             "docs for x"
         );
 

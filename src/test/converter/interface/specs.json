@@ -335,7 +335,7 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "A class implementing an empty interface."
+            "summary": "A class implementing an empty interface."
           },
           "children": [
             {
@@ -433,7 +433,7 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "An empty interface"
+            "summary": "An empty interface"
           },
           "implementedBy": [
             {
@@ -482,7 +482,7 @@
               "kindString": "Class",
               "flags": {},
               "comment": {
-                "shortText": "Implementation of IEventDispatcher",
+                "summary": "Implementation of IEventDispatcher",
                 "tags": [
                   {
                     "tag": "see",
@@ -1045,7 +1045,7 @@
                       "kindString": "Call signature",
                       "flags": {},
                       "comment": {
-                        "shortText": "Remove this subscription from its dispatcher"
+                        "summary": "Remove this subscription from its dispatcher"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1122,7 +1122,7 @@
               "kindString": "Interface",
               "flags": {},
               "comment": {
-                "shortText": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."
+                "summary": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."
               },
               "children": [
                 {
@@ -1369,7 +1369,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Function signature of an event listener callback"
+                    "summary": "Function signature of an event listener callback"
                   },
                   "parameters": [
                     {
@@ -1379,7 +1379,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "param text"
+                        "summary": "param text"
                       },
                       "type": {
                         "type": "reference",
@@ -1402,7 +1402,7 @@
               "kindString": "Interface",
               "flags": {},
               "comment": {
-                "shortText": "Encapsulates a subscription to an event dispatcher, and allows for unsubscribing"
+                "summary": "Encapsulates a subscription to an event dispatcher, and allows for unsubscribing"
               },
               "children": [
                 {
@@ -1460,7 +1460,7 @@
                       "kindString": "Call signature",
                       "flags": {},
                       "comment": {
-                        "shortText": "Remove this subscription from its dispatcher"
+                        "summary": "Remove this subscription from its dispatcher"
                       },
                       "type": {
                         "type": "intrinsic",

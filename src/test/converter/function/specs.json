@@ -56,7 +56,7 @@
           "kindString": "Namespace",
           "flags": {},
           "comment": {
-            "shortText": "This is the module extending the function moduleFunction()."
+            "summary": "This is the module extending the function moduleFunction()."
           },
           "children": [
             {
@@ -66,7 +66,7 @@
               "kindString": "Variable",
               "flags": {},
               "comment": {
-                "shortText": "This variable is appended to a function."
+                "summary": "This variable is appended to a function."
               },
               "type": {
                 "type": "intrinsic",
@@ -87,7 +87,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "This function is appended to another function."
+                    "summary": "This function is appended to another function."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -110,7 +110,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "This function is appended to another function."
+                    "summary": "This function is appended to another function."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -329,8 +329,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Returns true if fn returns true for every item in the iterator",
-                "text": "Returns true if the iterator is empty\n"
+                "summary": "Returns true if fn returns true for every item in the iterator\n\nReturns true if the iterator is empty"
               },
               "typeParameter": [
                 {
@@ -417,8 +416,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Returns true if fn returns true for every item in the iterator",
-                "text": "Returns true if the iterator is empty\n"
+                "summary": "Returns true if fn returns true for every item in the iterator\n\nReturns true if the iterator is empty"
               },
               "typeParameter": [
                 {
@@ -535,7 +533,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Asserts that an argument is not null."
+                "summary": "Asserts that an argument is not null."
               },
               "typeParameter": [
                 {
@@ -554,7 +552,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "\n"
+                    "summary": "\n"
                   },
                   "type": {
                     "type": "union",
@@ -603,7 +601,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is an assertion function."
+                "summary": "This is an assertion function."
               },
               "parameters": [
                 {
@@ -613,7 +611,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "The condition that is asserted to be true when this function returns.\n"
+                    "summary": "The condition that is asserted to be true when this function returns.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -685,7 +683,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Assertion function with a type."
+                "summary": "Assertion function with a type."
               },
               "parameters": [
                 {
@@ -695,7 +693,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "\n"
+                    "summary": "\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -729,7 +727,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a simple exported function."
+                "summary": "This is a simple exported function."
               },
               "type": {
                 "type": "intrinsic",
@@ -752,7 +750,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a destructured parameter.",
+                "summary": "This is a function with a destructured parameter.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
@@ -763,7 +761,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This is the parameter that is destructured."
+                    "summary": "This is the parameter that is destructured."
                   },
                   "originalName": "__namedParameters",
                   "type": {
@@ -782,7 +780,7 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "shortText": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
+                            "summary": "\n  This is a **parameter** pointing to an interface.\n\n  ```\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ```\n"
                           },
                           "type": {
                             "type": "reference",
@@ -796,7 +794,7 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "shortText": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
+                            "summary": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
                           },
                           "type": {
                             "type": "intrinsic",
@@ -810,7 +808,7 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "shortText": "This is a string parameter."
+                            "summary": "This is a string parameter."
                           },
                           "type": {
                             "type": "intrinsic",
@@ -854,7 +852,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a destructured parameter and an extra `@param` directive with no corresponding parameter.\nThe `@param` directives are ignored because we cannot be certain which corresponds to the real parameter.",
+                "summary": "This is a function with a destructured parameter and an extra `@param` directive with no corresponding parameter.\nThe `@param` directives are ignored because we cannot be certain which corresponds to the real parameter.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
@@ -943,7 +941,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a destructured parameter and additional undocumented parameters.\nThe `@param` directives are ignored because we cannot be certain which parameter they refer to.",
+                "summary": "This is a function with a destructured parameter and additional undocumented parameters.\nThe `@param` directives are ignored because we cannot be certain which parameter they refer to.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
@@ -1043,7 +1041,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a parameter that has a default value.",
+                "summary": "This is a function with a parameter that has a default value.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
@@ -1054,7 +1052,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default string value."
+                    "summary": "A parameter with a default string value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1069,7 +1067,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default numeric value."
+                    "summary": "A parameter with a default numeric value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1084,7 +1082,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default NaN value."
+                    "summary": "A parameter with a default NaN value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1099,7 +1097,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default boolean value."
+                    "summary": "A parameter with a default boolean value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1114,7 +1112,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default null value."
+                    "summary": "A parameter with a default null value."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1144,7 +1142,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a parameter that is optional."
+                "summary": "This is a function with a parameter that is optional."
               },
               "parameters": [
                 {
@@ -1154,7 +1152,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A normal parameter."
+                    "summary": "A normal parameter."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1170,7 +1168,7 @@
                     "isOptional": true
                   },
                   "comment": {
-                    "shortText": "An optional parameter.\n"
+                    "summary": "An optional parameter.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1199,7 +1197,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with multiple arguments and a return value.",
+                "summary": "This is a function with multiple arguments and a return value.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
@@ -1210,7 +1208,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This is a string parameter."
+                    "summary": "This is a string parameter."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1224,7 +1222,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
+                    "summary": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1238,7 +1236,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
+                    "summary": "\n  This is a **parameter** pointing to an interface.\n\n  ```\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ```\n"
                   },
                   "type": {
                     "type": "reference",
@@ -1267,7 +1265,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with rest parameter.",
+                "summary": "This is a function with rest parameter.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
@@ -1280,7 +1278,7 @@
                     "isRest": true
                   },
                   "comment": {
-                    "shortText": "The rest parameter."
+                    "summary": "The rest parameter."
                   },
                   "type": {
                     "type": "array",
@@ -1312,7 +1310,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Checks that an argument is not null."
+                "summary": "Checks that an argument is not null."
               },
               "typeParameter": [
                 {
@@ -1331,7 +1329,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "\n"
+                    "summary": "\n"
                   },
                   "type": {
                     "type": "union",
@@ -1400,7 +1398,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function that is extended by a module."
+                "summary": "This is a function that is extended by a module."
               },
               "parameters": [
                 {
@@ -1410,7 +1408,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "An argument.\n"
+                    "summary": "An argument.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1439,7 +1437,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is the first signature of a function with multiple signatures.",
+                "summary": "This is the first signature of a function with multiple signatures.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
@@ -1450,7 +1448,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "The name value.\n"
+                    "summary": "The name value.\n"
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1470,7 +1468,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is the second signature of a function with multiple signatures.",
+                "summary": "This is the second signature of a function with multiple signatures.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
@@ -1481,7 +1479,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "An object containing the name value."
+                    "summary": "An object containing the name value."
                   },
                   "type": {
                     "type": "reflection",
@@ -1499,7 +1497,7 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "shortText": "A value of the object.\n"
+                            "summary": "A value of the object.\n"
                           },
                           "type": {
                             "type": "intrinsic",
@@ -1543,7 +1541,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function that is assigned to a variable.",
+                "summary": "This is a function that is assigned to a variable.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
@@ -1554,7 +1552,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This is some numeric parameter."
+                    "summary": "This is some numeric parameter."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1633,7 +1631,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "A function with a generic type array parameter.",
+                "summary": "A function with a generic type array parameter.",
                 "returns": "A generic array.\n"
               },
               "typeParameter": [
@@ -1653,7 +1651,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A generic parameter."
+                    "summary": "A generic parameter."
                   },
                   "type": {
                     "type": "reference",
@@ -1668,7 +1666,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A generic array parameter."
+                    "summary": "A generic array parameter."
                   },
                   "type": {
                     "type": "array",
@@ -1713,7 +1711,7 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "this describes T\n"
+                    "summary": "this describes T\n"
                   }
                 }
               ],
@@ -1725,7 +1723,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "this describes param"
+                    "summary": "this describes param"
                   },
                   "type": {
                     "type": "reference",
@@ -1756,7 +1754,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Generic function short text.",
+                "summary": "Generic function short text.",
                 "returns": "Generic function return value.\n"
               },
               "typeParameter": [
@@ -1767,7 +1765,7 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Generic function type parameter."
+                    "summary": "Generic function type parameter."
                   },
                   "type": {
                     "type": "reference",
@@ -1783,7 +1781,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Generic function parameter."
+                    "summary": "Generic function parameter."
                   },
                   "type": {
                     "type": "reference",

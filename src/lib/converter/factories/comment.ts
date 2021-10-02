@@ -190,7 +190,6 @@ export function parseComment(
     comment: Comment = new Comment()
 ): Comment {
     let currentTag: CommentTag;
-    let shortText = 0;
 
     function consumeTypeData(line: string): string {
         line = line.replace(/^\{(?!@)[^}]*\}+/, "");
@@ -201,18 +200,8 @@ export function parseComment(
     function readBareLine(line: string) {
         if (currentTag) {
             currentTag.text += "\n" + line;
-        } else if (line === "" && shortText === 0) {
-            // Ignore
-        } else if (line === "" && shortText === 1) {
-            shortText = 2;
         } else {
-            if (shortText === 2) {
-                comment.text += (comment.text === "" ? "" : "\n") + line;
-            } else {
-                comment.shortText +=
-                    (comment.shortText === "" ? "" : "\n") + line;
-                shortText = 1;
-            }
+            comment.summary += (comment.summary === "" ? "" : "\n") + line;
         }
     }
 
@@ -279,5 +268,6 @@ export function parseComment(
     text = text.replace(/\*+\/\s*$/, "");
     text.split(/\r\n?|\n/).forEach(readLine);
 
+    comment.summary = comment.summary.trim();
     return comment;
 }

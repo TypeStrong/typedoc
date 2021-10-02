@@ -34,7 +34,7 @@
           "kindString": "Reference",
           "flags": {},
           "comment": {
-            "shortText": "This is a comment for Mod that overwrites the one specified in \"mod\""
+            "summary": "This is a comment for Mod that overwrites the one specified in \"mod\""
           },
           "target": 29
         },
@@ -69,7 +69,7 @@
           "kindString": "Reference",
           "flags": {},
           "comment": {
-            "shortText": "An export of a local under a different name."
+            "summary": "An export of a local under a different name."
           },
           "target": 33
         },
@@ -462,7 +462,7 @@
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "shortText": "Doc comment for Mod"
+        "summary": "Doc comment for Mod"
       },
       "children": [
         {
@@ -480,7 +480,7 @@
           "kindString": "Reference",
           "flags": {},
           "comment": {
-            "shortText": "An export of a local under a different name."
+            "summary": "An export of a local under a different name."
           },
           "target": 32
         },
@@ -491,7 +491,7 @@
           "kindString": "Reference",
           "flags": {},
           "comment": {
-            "shortText": "An export with a module specifier that comes from this file."
+            "summary": "An export with a module specifier that comes from this file."
           },
           "target": 32
         },
@@ -513,7 +513,7 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "shortText": "A simple named export that will be exported from export.ts"
+            "summary": "A simple named export that will be exported from export.ts"
           },
           "type": {
             "type": "literal",
@@ -535,7 +535,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Will not be re-exported from export.ts using export * from..."
+                "summary": "Will not be re-exported from export.ts using export * from..."
               },
               "type": {
                 "type": "intrinsic",

@@ -18,7 +18,7 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "A custom array class."
+            "summary": "A custom array class."
           },
           "children": [
             {
@@ -92,7 +92,7 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "Class array class item"
+            "summary": "Class array class item"
           },
           "children": [
             {
@@ -134,7 +134,7 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "Custom list class"
+            "summary": "Custom list class"
           },
           "children": [
             {
@@ -200,7 +200,7 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "shortText": "A const of a complex type."
+            "summary": "A const of a complex type."
           },
           "type": {
             "type": "array",
@@ -255,7 +255,7 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "shortText": "An exported const of the custom array type."
+            "summary": "An exported const of the custom array type."
           },
           "type": {
             "type": "reference",
@@ -312,7 +312,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Destructuring function parameters."
+                "summary": "Destructuring function parameters."
               },
               "parameters": [
                 {
@@ -359,7 +359,7 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "shortText": "An object literal."
+            "summary": "An object literal."
           },
           "type": {
             "type": "reflection",
@@ -380,7 +380,7 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "shortText": "A typed literal without an initializer."
+            "summary": "A typed literal without an initializer."
           },
           "type": {
             "type": "reflection",

@@ -343,8 +343,7 @@ export class CommentPlugin extends ConverterComponent {
                     childComment = signature.comment = new Comment();
                 }
 
-                childComment.shortText ||= comment.shortText;
-                childComment.text ||= comment.text;
+                childComment.summary ||= comment.summary;
                 childComment.returns ||= comment.returns;
                 childComment.tags ||= [...comment.tags];
             }

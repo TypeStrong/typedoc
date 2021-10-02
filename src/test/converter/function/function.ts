@@ -13,10 +13,10 @@ export function exportedFunction(): void {}
  * @param paramA
  *   This is a **parameter** pointing to an interface.
  *
- *   ~~~
+ *   ```
  *   const value:BaseClass = new BaseClass('test');
  *   functionWithArguments('arg', 0, value);
- *   ~~~
+ *   ```
  *
  * @returns This is the return value of the function.
  */
@@ -90,10 +90,10 @@ export function functionWithRest(...rest: string[]): string {
  * @param destructuredParam.paramA
  *   This is a **parameter** pointing to an interface.
  *
- *   ~~~
+ *   ```
  *   const value:BaseClass = new BaseClass('test');
  *   functionWithArguments('arg', 0, value);
- *   ~~~
+ *   ```
  *
  * @returns This is the return value of the function.
  */
@@ -121,10 +121,10 @@ export function functionWithADestructuredParameter({
  * @param destructuredParam.paramA
  *   This is a **parameter** pointing to an interface.
  *
- *   ~~~
+ *   ```
  *   const value:BaseClass = new BaseClass('test');
  *   functionWithArguments('arg', 0, value);
- *   ~~~
+ *   ```
  *
  * @returns This is the return value of the function.
  */
@@ -156,10 +156,10 @@ export function functionWithADestructuredParameterAndExtraParameters(
  * @param destructuredParam.paramA
  *   This is a **parameter** pointing to an interface.
  *
- *   ~~~
+ *   ```
  *   const value:BaseClass = new BaseClass('test');
  *   functionWithArguments('arg', 0, value);
- *   ~~~
+ *   ```
  *
  * @returns This is the return value of the function.
  */

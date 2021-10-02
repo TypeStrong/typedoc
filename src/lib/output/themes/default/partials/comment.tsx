@@ -7,14 +7,9 @@ export function comment({ markdown }: DefaultThemeRenderContext, props: Reflecti
 
     return (
         <div class="tsd-comment tsd-typography">
-            {!!props.comment.shortText && (
-                <div class="lead">
-                    <Raw html={"\n" + markdown(props.comment.shortText)} />
-                </div>
-            )}
-            {!!props.comment.text && (
+            {!!props.comment.summary && (
                 <div>
-                    <Raw html={markdown(props.comment.text)} />
+                    <Raw html={markdown(props.comment.summary)} />
                 </div>
             )}
             {props.comment.tags?.length > 0 && (

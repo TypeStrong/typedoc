@@ -12,7 +12,7 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "Conditional types from TS2.8"
+        "summary": "Conditional types from TS2.8"
       },
       "typeParameter": [
         {
@@ -51,7 +51,7 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "Extracts the type of a promise."
+        "summary": "Extracts the type of a promise."
       },
       "typeParameter": [
         {
@@ -121,7 +121,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "A type that describes a compare function, e.g. for array.sort()."
+                "summary": "A type that describes a compare function, e.g. for array.sort()."
               },
               "parameters": [
                 {
@@ -165,7 +165,7 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "A type for IDs."
+        "summary": "A type for IDs."
       },
       "type": {
         "type": "union",

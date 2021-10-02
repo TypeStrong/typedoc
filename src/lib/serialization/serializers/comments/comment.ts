@@ -18,11 +18,8 @@ export class CommentSerializer extends SerializerComponent<Comment> {
     }
 
     toObject(comment: Comment, obj: Partial<JSONComment> = {}): JSONComment {
-        if (comment.shortText) {
-            obj.shortText = comment.shortText;
-        }
-        if (comment.text) {
-            obj.text = comment.text;
+        if (comment.summary) {
+            obj.summary = comment.summary;
         }
         if (comment.returns) {
             obj.returns = comment.returns;

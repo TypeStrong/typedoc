@@ -12,7 +12,7 @@
       "kindString": "Class",
       "flags": {},
       "comment": {
-        "shortText": "Base class"
+        "summary": "Base class"
       },
       "children": [
         {
@@ -100,7 +100,7 @@
       "kindString": "Class",
       "flags": {},
       "comment": {
-        "shortText": "Class that inherits from Base and consumes Mixin1 and Mixin2, in order."
+        "summary": "Class that inherits from Base and consumes Mixin1 and Mixin2, in order."
       },
       "children": [
         {
@@ -470,7 +470,7 @@
       "kindString": "Interface",
       "flags": {},
       "comment": {
-        "shortText": "The \"instance type\" of the Mixin1 using the interface notation (supports recursive type definition)"
+        "summary": "The \"instance type\" of the Mixin1 using the interface notation (supports recursive type definition)"
       },
       "children": [
         {
@@ -626,7 +626,7 @@
       "kindString": "Interface",
       "flags": {},
       "comment": {
-        "shortText": "The \"instance type\" of the Mixin2 using the interface notation (supports recursive type definition)"
+        "summary": "The \"instance type\" of the Mixin2 using the interface notation (supports recursive type definition)"
       },
       "children": [
         {
@@ -871,7 +871,7 @@
               "kindString": "Constructor signature",
               "flags": {},
               "comment": {
-                "shortText": "Any constructor function"
+                "summary": "Any constructor function"
               },
               "parameters": [
                 {
@@ -936,7 +936,7 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Any function"
+                "summary": "Any function"
               },
               "parameters": [
                 {
@@ -973,7 +973,7 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "Mixin type helper"
+        "summary": "Mixin type helper"
       },
       "typeParameter": [
         {
@@ -1026,7 +1026,7 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
+        "summary": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
       },
       "type": {
         "type": "reference",
@@ -1060,7 +1060,7 @@
           "kindString": "Call signature",
           "flags": {},
           "comment": {
-            "shortText": "The \"mixin function\" of the Mixin1"
+            "summary": "The \"mixin function\" of the Mixin1"
           },
           "typeParameter": [
             {
@@ -1165,7 +1165,7 @@
           "kindString": "Call signature",
           "flags": {},
           "comment": {
-            "shortText": "The \"mixin function\" of the Mixin2"
+            "summary": "The \"mixin function\" of the Mixin2"
           },
           "typeParameter": [
             {
@@ -1280,7 +1280,7 @@
           "kindString": "Call signature",
           "flags": {},
           "comment": {
-            "shortText": "The \"mixin function\" of the Mixin3"
+            "summary": "The \"mixin function\" of the Mixin3"
           },
           "typeParameter": [
             {
