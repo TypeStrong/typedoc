@@ -224,6 +224,9 @@ export function parseComment(
         if (tagName === "return") {
             tagName = "returns";
         }
+        if (tagName === "example") {
+            line = line.replace(/<\/?caption>/g, "");
+        }
         if (
             tagName === "param" ||
             tagName === "typeparam" ||
