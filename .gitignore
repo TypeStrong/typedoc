@@ -21,3 +21,5 @@ src/test/renderer/specs/specs.json
 
 # Built theme JS
 static/main.js
+
+/example/docs/

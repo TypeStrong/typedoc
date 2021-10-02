@@ -7,7 +7,8 @@
   "author": "TypeDoc contributors",
   "scripts": {
     "tsc": "tsc",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typedoc": "node ../bin/typedoc ./src"
   },
   "devDependencies": {
     "typescript": "^4.4.3"
