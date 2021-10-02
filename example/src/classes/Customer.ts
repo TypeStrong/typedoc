@@ -58,7 +58,7 @@ export abstract class Customer {
     /**
      * A public method that's defined using an arrow function.
      *
-     * TypeDoc knows this a method and not a property.
+     * TypeDoc knows to document this as a method rather than a property.
      */
     onOrderPlacedArrowFunction = (): void => {
         this._nextOrderNumber++;
@@ -86,7 +86,7 @@ export class DeliveryCustomer extends Customer {
     readonly subscriptionType: "basic" | "enterprise";
 
     /**
-     * The constructor of the `Customer` class.
+     * The constructor of the `DeliveryCustomer` class.
      *
      * @param id the customer's database ID
      * @param name the customer's name

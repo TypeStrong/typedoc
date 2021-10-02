@@ -8,7 +8,7 @@ export enum IntegerEnum {
     Complete,
 }
 
-/** An string enum. */
+/** A string enum. */
 export enum StringEnum {
     Pending = "pending",
 

@@ -10,6 +10,7 @@ documentation site by annotating your code with doc comments, e.g.
 ```
 /**
  * Calculates the square root of a number.
+ *
  * @param x the number to calculate the root of.
  * @returns the square root if `x` is non-negative or `NaN` if `x` is negative.
  */
@@ -24,8 +25,48 @@ This project shows off some of TypeDoc's features:
 -   Markdown in doc comments
 -   Syntax highligting in code blocks
 
-Click the **Exports** link in the sidebar to see an index of everything in the package.
+## Index of Examples
 
-## Highlighted Examples
+**Click the "Exports" link in the sidebar to see a complete list of everything in
+the package.**
 
-TODO
+Here are some examples we wanted to highlight:
+
+### Playgrounds
+
+-   Markdown playground: [[`markdownPlayground`]]
+-   Syntax highlighting playground: [[`syntaxHighlightingPlayground`]]
+
+### Functions
+
+-   Simple functions: [[`sqrt`]] and [[`sqrtArrowFunction`]]
+-   A generic function: [[`concat`]]
+-   Functions that take an options object: [[`makeHttpCallA`]] and [[`makeHttpCallB`]]
+-   An overloaded function: [[`overloadedFunction`]]
+-   An external function exported under a different name: [[`lodashSortBy`]]
+
+### Types
+
+-   Type aliases: [[`SimpleTypeAlias`]] and [[`ComplexGenericTypeAlias`]]
+-   Interfaces: [[`User`]] and [[`AdminUser`]]
+
+### Classes
+
+-   A basic class: [[`Customer`]]
+-   A subclass: [[`DeliveryCustomer`]]
+-   A complex class: [[`CancellablePromise`]]
+-   A class that extends a built-in generic type: [[`StringArray`]]
+
+### Enums
+
+-   Basic enums: [[`IntegerEnum`]] and [[`StringEnum`]]
+-   Using the `@enum` tag: [[`EnumLikeObject`]]
+
+### Variables
+
+-   [[`PI`]], [[`STRING_CONSTANT`]], and [[`ObjectConstant`]]
+
+### React Components
+
+-   Basic React components: [[`CardA`]] and [[`CardB`]]
+-   A complex React component: [[`EasyFormDialog`]] and [[`EasyFormDialogProps`]]

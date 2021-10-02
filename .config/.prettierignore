@@ -6,3 +6,4 @@
 ../src/test/packages/**/*.js
 ../src/test/renderer/testProject
 ../static/main.js
+../example/docs/

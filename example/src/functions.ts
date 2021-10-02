@@ -8,6 +8,7 @@
 
 /**
  * Calculates the square root of a number.
+ *
  * @param x the number to calculate the root of.
  * @returns the square root if `x` is non-negative or `NaN` if `x` is negative.
  */
@@ -49,29 +50,9 @@ export function concat<T>(array1: T[], array2: T[]): T[] {
 }
 
 /**
- * A function that takes in an options object and makes an HTTP call.
+ * The options type for [[`makeHttpCallA`]].
  */
-export function makeHttpCall(options: {
-    url: string;
-
-    /** e.g. GET, POST, PUT, DELETE */
-    method: string;
-
-    /** e.g. `{ 'Authorization': 'Bearer <access token>' }` */
-    headers: Record<string, string>;
-
-    body: string | Blob | FormData;
-    mode: "cors" | "no-cors" | "same-origin";
-}): Promise<Response> {
-    const { url, method, headers, body, mode } = options;
-
-    return fetch(url, { method, headers, body, mode });
-}
-
-/**
- * The options type for [[`makeHttpCall2`]].
- */
-export interface MakeHttpCall2Options {
+export interface MakeHttpCallAOptions {
     url: string;
 
     /** e.g. GET, POST, PUT, DELETE */
@@ -90,9 +71,31 @@ export interface MakeHttpCall2Options {
  * **Make sure to export the options type when using this pattern.** Otherwise,
  * TypeDoc will not document the options.
  */
-export function makeHttpCall2(
-    options: MakeHttpCall2Options
+export function makeHttpCallA(
+    options: MakeHttpCallAOptions
 ): Promise<Response> {
+    const { url, method, headers, body, mode } = options;
+
+    return fetch(url, { method, headers, body, mode });
+}
+
+/**
+ * A function that takes in an options object and makes an HTTP call.
+ *
+ * The options type is written directly in the function definition.
+ */
+export function makeHttpCallB(options: {
+    url: string;
+
+    /** e.g. GET, POST, PUT, DELETE */
+    method: string;
+
+    /** e.g. `{ 'Authorization': 'Bearer <access token>' }` */
+    headers: Record<string, string>;
+
+    body: string | Blob | FormData;
+    mode: "cors" | "no-cors" | "same-origin";
+}): Promise<Response> {
     const { url, method, headers, body, mode } = options;
 
     return fetch(url, { method, headers, body, mode });
