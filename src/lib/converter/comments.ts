@@ -272,13 +272,11 @@ function* lexBlockComment2(
     }
 
     function lookaheadExactlyNTicks(pos: number, n: number) {
-        for (let i = 0; i < n; i++) {
-            if (pos + i === n || file[pos + i] !== "`") {
-                return false;
-            }
+        if (pos + n >= end) {
+            return false;
         }
 
-        return pos + n === end || file[pos + n] !== "`";
+        return file.startsWith("`".repeat(n), pos) && file[pos + n] !== "`";
     }
 }
 
@@ -303,10 +301,6 @@ function discoverIndent(
             }
             pos++;
         }
-    }
-
-    while (pos < end && /\s/.test(file[pos])) {
-        pos++;
     }
 
     const commentHasStars = pos < end && file[pos] === "*";

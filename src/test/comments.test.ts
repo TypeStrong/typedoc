@@ -347,6 +347,8 @@ describe("Block Comment Lexer", () => {
              *
              * @remarks
              * Detailed text here with a {@link Inline | inline link}
+             *
+             * @alpha @beta
              */`)
         );
 
@@ -361,6 +363,30 @@ describe("Block Comment Lexer", () => {
             { kind: TokenSyntaxKind.Tag, text: "@link" },
             { kind: TokenSyntaxKind.Text, text: " Inline | inline link" },
             { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.Tag, text: "@alpha" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.Tag, text: "@beta" },
         ]);
     });
+
+    it("Should handle starred comments without in code", () => {
+        const tokens = lex(
+            dedent(`
+            /**
+             *Text
+             *\`\`\`
+             *Text
+             */`)
+        );
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "Text" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.Code, text: "```\nText" },
+        ]);
+    });
+
+    it("Should allow escaping newlines");
 });
