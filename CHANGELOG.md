@@ -8,10 +8,14 @@
 ### Bug Fixes
 
 -   TypeDoc will now only create one highlighter for rendering code, saving ~200-500ms for rendering time.
+-   For compatibility with JSDoc, TypeDoc will now strip `<caption>` elements from `@example` tags, resolves #1679.
 
 ### Thanks!
 
 -   @Gudahtt
+-   @mgred
+-   @schlusslicht
+-   @srmagura
 
 ## v0.22.4 (2021-08-18)
 
