@@ -9,6 +9,7 @@
 
 -   TypeDoc will now only create one highlighter for rendering code, saving ~200-500ms for rendering time.
 -   For compatibility with JSDoc, TypeDoc will now strip `<caption>` elements from `@example` tags, resolves #1679.
+-   TypeScript's `emitDeclarationOnly` compiler option is now supported, resolves #1716.
 -   Fixed a crash when converting the `globalThis` namespace, could only be caused by a plugin.
 
 ### Thanks!

@@ -323,11 +323,17 @@ export class Options {
     }
 
     /** @internal */
-    fixCompilerOptions(options: Readonly<ts.CompilerOptions>) {
-        return {
-            ...options,
-            noEmit: !this.getValue("emit"),
-        };
+    fixCompilerOptions(
+        options: Readonly<ts.CompilerOptions>
+    ): ts.CompilerOptions {
+        const result = { ...options };
+
+        if (!this.getValue("emit")) {
+            result.noEmit = true;
+            delete result.emitDeclarationOnly;
+        }
+
+        return result;
     }
 
     /**
