@@ -1,1 +1,1 @@
-export const a = "a";
+export * from "./functions";
