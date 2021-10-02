@@ -385,15 +385,26 @@
                           {
                             "id": 60,
                             "name": "prototype",
-                            "kind": 2048,
-                            "kindString": "Method",
-                            "flags": {}
+                            "kind": 1024,
+                            "kindString": "Property",
+                            "flags": {},
+                            "type": {
+                              "type": "reference",
+                              "id": 23,
+                              "typeArguments": [
+                                {
+                                  "type": "intrinsic",
+                                  "name": "any"
+                                }
+                              ],
+                              "name": "Mixin1Class"
+                            }
                           }
                         ],
                         "groups": [
                           {
-                            "title": "Methods",
-                            "kind": 2048,
+                            "title": "Properties",
+                            "kind": 1024,
                             "children": [
                               60
                             ]
@@ -1101,15 +1112,26 @@
                     {
                       "id": 24,
                       "name": "prototype",
-                      "kind": 2048,
-                      "kindString": "Method",
-                      "flags": {}
+                      "kind": 1024,
+                      "kindString": "Property",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "id": 23,
+                        "typeArguments": [
+                          {
+                            "type": "intrinsic",
+                            "name": "any"
+                          }
+                        ],
+                        "name": "Mixin1Class"
+                      }
                     }
                   ],
                   "groups": [
                     {
-                      "title": "Methods",
-                      "kind": 2048,
+                      "title": "Properties",
+                      "kind": 1024,
                       "children": [
                         24
                       ]
@@ -1205,15 +1227,26 @@
                     {
                       "id": 38,
                       "name": "prototype",
-                      "kind": 2048,
-                      "kindString": "Method",
-                      "flags": {}
+                      "kind": 1024,
+                      "kindString": "Property",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "id": 37,
+                        "typeArguments": [
+                          {
+                            "type": "intrinsic",
+                            "name": "any"
+                          }
+                        ],
+                        "name": "Mixin2"
+                      }
                     }
                   ],
                   "groups": [
                     {
-                      "title": "Methods",
-                      "kind": 2048,
+                      "title": "Properties",
+                      "kind": 1024,
                       "children": [
                         38
                       ]
@@ -1298,15 +1331,26 @@
                     {
                       "id": 56,
                       "name": "prototype",
-                      "kind": 2048,
-                      "kindString": "Method",
-                      "flags": {}
+                      "kind": 1024,
+                      "kindString": "Property",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "id": 55,
+                        "typeArguments": [
+                          {
+                            "type": "intrinsic",
+                            "name": "any"
+                          }
+                        ],
+                        "name": "Mixin3"
+                      }
                     }
                   ],
                   "groups": [
                     {
-                      "title": "Methods",
-                      "kind": 2048,
+                      "title": "Properties",
+                      "kind": 1024,
                       "children": [
                         56
                       ]
