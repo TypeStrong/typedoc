@@ -4,6 +4,14 @@
 
 -   TypeDoc will now recognize `@param` comments for destructured parameters and rename `__namedParameters` to the name specified
     in the `@param` comment if the number of `@param` comments match the number of parameters, resolves #1703.
+-   The `intentionallyNotExported` option may now include file names/paths to limit its scope, for example, the following
+    will suppress warnings from `Foo` in `src/foo.ts` not being exported, but will not suppress warnings if another `Foo`
+    declared in `src/utils/foo.ts` is not exported.
+    ```json
+    {
+        "intentionallyNotExported": ["src/foo.ts:Foo"]
+    }
+    ```
 
 ### Bug Fixes
 

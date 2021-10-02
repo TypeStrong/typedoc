@@ -1,4 +1,4 @@
-import { equal, ok } from "assert";
+import { equal, fail, ok } from "assert";
 import { join, relative } from "path";
 import { Logger, LogLevel } from "..";
 import { validateExports } from "../lib/validation/exports";
@@ -7,7 +7,8 @@ import { getConverter2App, getConverter2Program } from "./programs";
 function expectWarning(
     typeName: string,
     file: string,
-    referencingName: string
+    referencingName: string,
+    intentionallyNotExported: readonly string[] = []
 ) {
     const app = getConverter2App();
     const program = getConverter2Program();
@@ -52,8 +53,43 @@ function expectWarning(
         }
     }
 
-    validateExports(project, new LoggerCheck(), []);
+    validateExports(project, new LoggerCheck(), intentionallyNotExported);
     ok(sawWarning, `Expected warning message for ${typeName} to be reported.`);
+}
+
+function expectNoWarning(
+    file: string,
+    intentionallyNotExported: readonly string[] = []
+) {
+    const app = getConverter2App();
+    const program = getConverter2Program();
+    const sourceFile = program.getSourceFile(
+        join(__dirname, "converter2/validation", file)
+    );
+
+    ok(sourceFile, "Specified source file does not exist.");
+
+    const project = app.converter.convert([
+        {
+            displayName: "validation",
+            program,
+            sourceFile,
+        },
+    ]);
+
+    const regex =
+        /(.*?), defined at (.*?):\d+, is referenced by (.*?) but not included in the documentation\./;
+
+    class LoggerCheck extends Logger {
+        override log(message: string, level: LogLevel) {
+            const match = message.match(regex);
+            if (level === LogLevel.Warn && match) {
+                fail("Expected no warnings about missing exports");
+            }
+        }
+    }
+
+    validateExports(project, new LoggerCheck(), intentionallyNotExported);
 }
 
 describe("validateExports", () => {
@@ -91,6 +127,20 @@ describe("validateExports", () => {
 
     it("Should warn if a return type is missing", () => {
         expectWarning("Bar", "return.ts", "foo.foo");
+    });
+
+    it("Should allow filtering warnings by file name", () => {
+        expectNoWarning("variable.ts", ["variable.ts:Foo"]);
+        expectNoWarning("variable.ts", ["validation/variable.ts:Foo"]);
+        expectNoWarning("variable.ts", ["Foo"]);
+    });
+
+    it("Should not apply warnings filtered by file name to other files", () => {
+        expectWarning("Foo", "variable.ts", "foo", ["notVariable.ts:Foo"]);
+    });
+
+    it("Should not produce warnings for types originating in node_modules", () => {
+        expectNoWarning("externalType.ts");
     });
 
     it("Should warn if intentionallyNotExported contains unused values", () => {

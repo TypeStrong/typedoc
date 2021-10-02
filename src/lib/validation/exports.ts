@@ -12,6 +12,65 @@ import {
 } from "../models";
 import type { Logger } from "../utils";
 
+function makeIntentionallyExportedHelper(
+    intentional: readonly string[],
+    logger: Logger
+) {
+    const used = new Set<number>();
+    const processed: [string, string][] = intentional.map((v) => {
+        const index = v.lastIndexOf(":");
+        if (index === -1) {
+            return ["", v];
+        }
+        return [v.substring(0, index), v.substring(index + 1)];
+    });
+
+    return {
+        has(symbol: ts.Symbol) {
+            // If it isn't declared anywhere, we can't produce a good error message about where
+            // the non-exported symbol is, so even if it isn't ignored, pretend it is. In practice,
+            // this will happen incredibly rarely, since symbols without declarations are very rare.
+            // I know of only two instances:
+            // 1. `undefined` in `globalThis`
+            // 2. Properties on non-homomorphic mapped types, e.g. the symbol for "foo" on `Record<"foo", 1>`
+            // There might be others, so still check this here rather than asserting, but print a debug log
+            // so that we can possibly improve this in the future.
+            if (!symbol.declarations?.length) {
+                logger.verbose(
+                    `The symbol ${symbol.name} has no declarations, implicitly allowing missing export.`
+                );
+                return true;
+            }
+
+            // Don't produce warnings for third-party symbols.
+            if (
+                symbol.declarations.some((d) =>
+                    d.getSourceFile().fileName.includes("node_modules")
+                )
+            ) {
+                return true;
+            }
+
+            for (const [index, [file, name]] of processed.entries()) {
+                if (
+                    symbol.name === name &&
+                    symbol.declarations.some((d) =>
+                        d.getSourceFile().fileName.endsWith(file)
+                    )
+                ) {
+                    used.add(index);
+                    return true;
+                }
+            }
+
+            return false;
+        },
+        getUnused() {
+            return intentional.filter((_, i) => !used.has(i));
+        },
+    };
+}
+
 export function validateExports(
     project: ProjectReflection,
     logger: Logger,
@@ -19,8 +78,10 @@ export function validateExports(
 ) {
     let current: Reflection | undefined = project;
     const queue: Reflection[] = [];
-    const intentional = new Set(intentionallyNotExported);
-    const seenIntentional = new Set<string>();
+    const intentional = makeIntentionallyExportedHelper(
+        intentionallyNotExported,
+        logger
+    );
     const warned = new Set<ts.Symbol>();
 
     const visitor = makeRecursiveVisitor({
@@ -28,36 +89,27 @@ export function validateExports(
             // If we don't have a symbol, then this was an intentionally broken reference.
             const symbol = type.getSymbol();
             if (!type.reflection && symbol) {
-                if (intentional.has(symbol.name)) {
-                    seenIntentional.add(symbol.name);
-                }
-
                 if (
                     (symbol.flags & ts.SymbolFlags.TypeParameter) === 0 &&
-                    !intentional.has(symbol.name) &&
-                    !warned.has(symbol) &&
-                    !symbol.declarations?.some((d) =>
-                        d.getSourceFile().fileName.includes("node_modules")
-                    )
+                    !intentional.has(symbol) &&
+                    !warned.has(symbol)
                 ) {
                     warned.add(symbol);
-                    const decl = symbol.declarations?.[0];
-                    if (decl) {
-                        const { line } = ts.getLineAndCharacterOfPosition(
-                            decl.getSourceFile(),
-                            decl.getStart()
-                        );
-                        const file = relative(
-                            process.cwd(),
-                            decl.getSourceFile().fileName
-                        );
+                    const decl = symbol.declarations![0];
+                    const { line } = ts.getLineAndCharacterOfPosition(
+                        decl.getSourceFile(),
+                        decl.getStart()
+                    );
+                    const file = relative(
+                        process.cwd(),
+                        decl.getSourceFile().fileName
+                    );
 
-                        logger.warn(
-                            `${
-                                type.name
-                            }, defined at ${file}:${line}, is referenced by ${current!.getFullName()} but not included in the documentation.`
-                        );
-                    }
+                    logger.warn(
+                        `${
+                            type.name
+                        }, defined at ${file}:${line}, is referenced by ${current!.getFullName()} but not included in the documentation.`
+                    );
                 }
             }
         },
@@ -116,14 +168,11 @@ export function validateExports(
         }
     } while ((current = queue.shift()));
 
-    for (const x of seenIntentional) {
-        intentional.delete(x);
-    }
-
-    if (intentional.size) {
+    const unusedIntentional = intentional.getUnused();
+    if (unusedIntentional.length) {
         logger.warn(
             "The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:\n\t" +
-                Array.from(intentional).join("\n\t")
+                unusedIntentional.join("\n\t")
         );
     }
 }
