@@ -5,7 +5,6 @@
  * [Marked](https://github.com/markedjs/marked) markdown parser to _convert
  * comments to HTML_.
  *
- *
  * ## Symbol References
  *
  * You can link to other classes, members or functions using double square
@@ -36,24 +35,91 @@
  *
  * | Package | Version |
  * | ------- | ------- |
- * | typedoc | 0.22.4  |
- * | react   | 17.0.2  |
  * | lodash  | 4.17.21 |
+ * | react   | 17.0.2  |
+ * | typedoc | 0.22.4  |
  *
  * A Random Shakespeare Quote
  * --------------------------
  *
- * > Rebellious subjects, enemies to peace,
- * > Profaners of this neighbour-stained steel,--
- * > Will they not hear? What, ho! you men, you beasts,
- * > That quench the fire of your pernicious rage
- * > With purple fountains issuing from your veins
+ * > Rebellious subjects, enemies to peace, Profaners of this neighbour-stained
+ * > steel,-- Will they not hear? What, ho! you men, you beasts, That quench the
+ * > fire of your pernicious rage With purple fountains issuing from your veins
  *
+ * ## An Image
+ *
+ * <img src="media://typescript-logo.svg" width="120" />
+ *
+ * This requires the [media option](https://typedoc.org/guides/options/#media)
+ * to be set.
+ *
+ * ## An External Text Document
+ *
+ * [[include:file.txt]]
+ *
+ * This requires the [includes
+ * option](https://typedoc.org/guides/options/#includes) to be set.
  */
 export function markdownPlayground(): void {
     // does nothing
 }
 
+/**
+ * TypeDoc supports code blocks in Markdown and uses
+ * [Shiki](https://shiki.matsu.io/) to provide syntax highlighting.
+ *
+ * If no language is specified, the code block is assumed to be TypeScript:
+ *
+ * ```
+ * // A fabulous variable
+ * const x: number | string = 12
+ * ```
+ *
+ * You can specify the language at the start of your code block like this:
+ *
+ *  ```text
+ *  ```rust
+ *  ```
+ *
+ * Use the `tsx` language to get JSX support:
+ *
+ * ```tsx
+ * function BasicComponent(): ReactElement {
+ *     return <div>Test</div>
+ * }
+ * ```
+ *
+ * You might want to write code in the language your backend uses. Here's some
+ * Python:
+ *
+ * ```python
+ * for i in range(30):
+ *     print(i + 1)
+ * ```
+ *
+ * And some CSS:
+ *
+ * ```css
+ * .card {
+ *     background-color: white;
+ *     padding: 1rem;
+ *     border: 1px solid lightgray;
+ * }
+ * ```
+ *
+ * If you don't want syntax highlighting, use the `text` language:
+ *
+ * ```text
+ * package.json
+ * src/
+ *     index.ts
+ *     __tests__/
+ *         index.test.ts
+ * ```
+ *
+ * [**View the full list of supported
+ * languages.**](https://github.com/shikijs/shiki/blob/main/docs/languages.md#all-languages)
+ */
 export function syntaxHighlightingPlayground(): void {
     // does nothing
 }

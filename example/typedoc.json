@@ -1,3 +1,5 @@
 {
-    "sort": "source-order"
+    "sort": "source-order",
+    "media": "media",
+    "includes": "includes"
 }
