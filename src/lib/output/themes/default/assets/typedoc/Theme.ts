@@ -12,6 +12,9 @@ export function initTheme(choices: HTMLOptionElement) {
     });
 }
 
+// Also see:
+// - src/lib/output/themes/defaults/layouts/default.tsx
+// - src/lib/utils/highlighter.tsx
 function setTheme(theme: ThemeChoice) {
     switch (theme) {
         case "os":

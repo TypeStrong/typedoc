@@ -28,6 +28,7 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             <script async src={context.relativeURL("assets/search.js")} id="search-script"></script>
         </head>
         <body>
+            <script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script>
             {context.header(props)}
 
             <div class="container container-main">
