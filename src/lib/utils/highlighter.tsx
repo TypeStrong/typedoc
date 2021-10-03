@@ -1,6 +1,6 @@
 import { ok as assert } from "assert";
 import { BUNDLED_LANGUAGES, getHighlighter, Highlighter, Theme } from "shiki";
-import { unique } from "./array";
+import { unique, zip } from "./array";
 import * as JSX from "./jsx";
 
 const aliases = new Map<string, string>();
@@ -24,49 +24,16 @@ class DoubleHighlighter {
         // If this fails... something went *very* wrong.
         assert(lightTokens.length === darkTokens.length);
 
-        const docEls: JSX.Element[][] = [];
+        const docEls: JSX.Element[] = [];
 
-        for (let line = 0; line < lightTokens.length; line++) {
-            const lightLine = lightTokens[line];
-            const darkLine = darkTokens[line];
+        for (const [lightLine, darkLine] of zip(lightTokens, darkTokens)) {
+            // If this fails, something also went *very* wrong.
+            assert(lightLine.length === darkLine.length);
 
-            // Different themes can have different grammars... so unfortunately we have to deal with different
-            // sets of tokens.Example: light_plus and dark_plus tokenize " = " differently in the `schemes`
-            // declaration for this file.
-
-            const lineEls: JSX.Element[] = [];
-
-            while (lightLine.length && darkLine.length) {
-                // Simple case, same token.
-                if (lightLine[0].content === darkLine[0].content) {
-                    lineEls.push(
-                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{lightLine[0].content}</span>
-                    );
-                    lightLine.shift();
-                    darkLine.shift();
-                    continue;
-                }
-
-                if (lightLine[0].content.length < darkLine[0].content.length) {
-                    lineEls.push(
-                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{lightLine[0].content}</span>
-                    );
-                    darkLine[0].content = darkLine[0].content.substr(lightLine[0].content.length);
-                    lightLine.shift();
-                    continue;
-                }
-
-                lineEls.push(
-                    <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{darkLine[0].content}</span>
-                );
-                lightLine[0].content = lightLine[0].content.substr(darkLine[0].content.length);
-                darkLine.shift();
+            for (const [lightToken, darkToken] of zip(lightLine, darkLine)) {
+                docEls.push(<span class={this.getClass(lightToken.color, darkToken.color)}>{lightToken.content}</span>);
             }
-
-            if (line + 1 !== lightTokens.length) {
-                lineEls.push(<br />);
-            }
-            docEls.push(lineEls);
+            docEls.push(<br />);
         }
 
         return JSX.renderElement(<>{docEls}</>);
