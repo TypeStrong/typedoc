@@ -33,6 +33,9 @@ function isPromiseWithCancel<T>(value: unknown): value is PromiseWithCancel<T> {
  * - Complex method signatures
  * - Static methods
  * - A method with 10 overload signatures. Wow!
+ *     - Only the implementation signature has a doc comment. TypeDoc
+ *       automatically copies the comment from the implementation signature to
+ *       each of the visible signatures if they don't have one.
  *
  * A promise with a `cancel` method.  If canceled, the `CancellablePromise` will
  * reject with a `Cancellation` object. Originally from
@@ -193,14 +196,6 @@ export class CancellablePromise<T> {
         return new CancellablePromise(Promise.reject(reason), noop);
     }
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
         values: readonly [
             T1 | PromiseLike<T1>,
@@ -216,14 +211,6 @@ export class CancellablePromise<T> {
         ]
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10]>;
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
         values: readonly [
             T1 | PromiseLike<T1>,
@@ -238,14 +225,6 @@ export class CancellablePromise<T> {
         ]
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6, T7, T8, T9]>;
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T1, T2, T3, T4, T5, T6, T7, T8>(
         values: readonly [
             T1 | PromiseLike<T1>,
@@ -259,14 +238,6 @@ export class CancellablePromise<T> {
         ]
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6, T7, T8]>;
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T1, T2, T3, T4, T5, T6, T7>(
         values: readonly [
             T1 | PromiseLike<T1>,
@@ -279,14 +250,6 @@ export class CancellablePromise<T> {
         ]
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6, T7]>;
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T1, T2, T3, T4, T5, T6>(
         values: readonly [
             T1 | PromiseLike<T1>,
@@ -298,14 +261,6 @@ export class CancellablePromise<T> {
         ]
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6]>;
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T1, T2, T3, T4, T5>(
         values: readonly [
             T1 | PromiseLike<T1>,
@@ -316,14 +271,6 @@ export class CancellablePromise<T> {
         ]
     ): CancellablePromise<[T1, T2, T3, T4, T5]>;
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T1, T2, T3, T4>(
         values: readonly [
             T1 | PromiseLike<T1>,
@@ -333,14 +280,6 @@ export class CancellablePromise<T> {
         ]
     ): CancellablePromise<[T1, T2, T3, T4]>;
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T1, T2, T3>(
         values: readonly [
             T1 | PromiseLike<T1>,
@@ -349,26 +288,10 @@ export class CancellablePromise<T> {
         ]
     ): CancellablePromise<[T1, T2, T3]>;
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T1, T2>(
         values: readonly [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>]
     ): CancellablePromise<[T1, T2]>;
 
-    /**
-     * Analogous to `Promise.all`.
-     *
-     * @param values an array that may contain `CancellablePromise`s, promises,
-     * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
-     * of the promises passed in to `CancellablePromise.all`.
-     */
     static all<T>(
         values: readonly (T | PromiseLike<T>)[]
     ): CancellablePromise<T[]>;

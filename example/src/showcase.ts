@@ -1,5 +1,5 @@
 /**
- * # Markdown Playground
+ * # Markdown Showcase
  *
  * All comments are parsed as **Markdown**. TypeDoc uses the
  * [Marked](https://github.com/markedjs/marked) markdown parser to _convert
@@ -23,7 +23,7 @@
  * const x: number | string = 12
  * ```
  *
- * See [[`syntaxHighlightingPlayground`]] for more code blocks.
+ * See [[`syntaxHighlightingShowcase`]] for more code blocks.
  *
  * ## A List
  *
@@ -52,15 +52,8 @@
  *
  * This requires the [media option](https://typedoc.org/guides/options/#media)
  * to be set.
- *
- * ## An External Text Document
- *
- * [[include:file.txt]]
- *
- * This requires the [includes
- * option](https://typedoc.org/guides/options/#includes) to be set.
  */
-export function markdownPlayground(): void {
+export function markdownShowcase(): void {
     // does nothing
 }
 
@@ -119,7 +112,8 @@ export function markdownPlayground(): void {
  *
  * [**View the full list of supported
  * languages.**](https://github.com/shikijs/shiki/blob/main/docs/languages.md#all-languages)
+ * You can also get this list by running `typedoc --help`.
  */
-export function syntaxHighlightingPlayground(): void {
+export function syntaxHighlightingShowcase(): void {
     // does nothing
 }

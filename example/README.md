@@ -32,10 +32,10 @@ the package.**
 
 Here are some examples we wanted to highlight:
 
-### Playgrounds
+### Rendering
 
--   Markdown playground: [[`markdownPlayground`]]
--   Syntax highlighting playground: [[`syntaxHighlightingPlayground`]]
+-   Markdown showcase: [[`markdownShowcase`]]
+-   Syntax highlighting showcase: [[`syntaxHighlightingShowcase`]]
 
 ### Functions
 
@@ -59,7 +59,7 @@ Here are some examples we wanted to highlight:
 
 ### Enums
 
--   Basic enums: [[`IntegerEnum`]] and [[`StringEnum`]]
+-   A basic enum: [[`SimpleEnum`]]
 -   Using the `@enum` tag: [[`EnumLikeObject`]]
 
 ### Variables

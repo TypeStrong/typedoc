@@ -1,12 +1,4 @@
 /**
- * @module
- * This module demonstrates TypeDoc's support for functions.
- *
- * Use the [`@module`](https://typedoc.org/guides/doccomments/#%40module) tag to
- * tell TypeDoc that a comment block describes the entire module.
- */
-
-/**
  * Calculates the square root of a number.
  *
  * @param x the number to calculate the root of.
