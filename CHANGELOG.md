@@ -1,5 +1,13 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed flash when navigating to a second page when OS theme does not match selected theme.
+
+### Thanks!
+
+-   @srmagura
+
 ## v0.22.5 (2021-09-02)
 
 ### Features
