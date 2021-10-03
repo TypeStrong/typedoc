@@ -564,15 +564,6 @@ dl.tsd-comment-tags p {
     margin: 0;
 }
 
-.tsd-panel.tsd-comment .lead {
-    font-size: 1.1em;
-    line-height: 1.333em;
-    margin-bottom: 2em;
-}
-.tsd-panel.tsd-comment .lead:last-child {
-    margin-bottom: 0;
-}
-
 .toggle-protected .tsd-is-private {
     display: none;
 }
