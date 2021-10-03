@@ -8,5 +8,6 @@
     },
     "prettier.enable": true,
     "prettier.configPath": ".config/.prettierrc.json",
-    "prettier.ignorePath": ".config/.prettierignore"
+    "prettier.ignorePath": ".config/.prettierignore",
+    "eslint.workingDirectories": [".", "./example"]
 }

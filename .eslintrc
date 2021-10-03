@@ -16,13 +16,13 @@
     ],
     "ignorePatterns": [
         "src/test/renderer/specs",
-        "examples",
         "dist",
         "coverage",
         "static/main.js",
         "src/lib/output/themes/default/assets",
         // Would be nice to lint these, but they shouldn't be included in the project,
         // so we need a second eslint config file.
+        "example",
         "src/test/converter",
         "src/test/converter2",
         "src/test/module",

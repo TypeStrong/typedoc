@@ -9,7 +9,7 @@ yarn-error.log
 
 /src/test/renderer/*/doc
 /src/test/renderer/testProject/json.json
-/node_modules/
+**/node_modules/
 /coverage/
 /dist/
 
@@ -21,3 +21,5 @@ src/test/renderer/specs/specs.json
 
 # Built theme JS
 static/main.js
+
+/example/docs/
