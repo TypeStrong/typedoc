@@ -20,6 +20,8 @@ export const behaviorTests: Record<
         equal(SomeEnumLike.kind, ReflectionKind.Variable);
         const SomeEnumLikeTagged = query(project, "SomeEnumLikeTagged");
         equal(SomeEnumLikeTagged.kind, ReflectionKind.Enum);
+        const A = query(project, "SomeEnumLikeTagged.a");
+        equal(A.defaultValue, '"a"');
     },
     duplicateHeritageClauses(project) {
         const b = query(project, "B");

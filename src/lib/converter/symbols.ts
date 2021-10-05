@@ -897,7 +897,9 @@ function convertVariableAsEnum(
             void 0
         );
 
-        reflection.defaultValue = (prop.initializer as ts.StringLiteral).text;
+        reflection.defaultValue = JSON.stringify(
+            (prop.initializer as ts.StringLiteral).text
+        );
 
         rc.finalizeDeclarationReflection(reflection, childSymbol, void 0);
     }

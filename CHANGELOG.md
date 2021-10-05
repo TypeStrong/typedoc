@@ -2,7 +2,8 @@
 
 ### Bug Fixes
 
--   Fixed flash when navigating to a second page when OS theme does not match selected theme.
+-   Fixed flash when navigating to a second page when OS theme does not match selected theme, #1709.
+-   Fixed improper quoting of `as const` style enums, #1727.
 
 ### Thanks!
 
