@@ -1,7 +1,6 @@
 import { ok } from "assert";
 import { existsSync } from "fs";
 import { join } from "path";
-import type * as ts from "typescript";
 import type { ProjectReflection } from "../lib/models";
 import { behaviorTests } from "./behaviorTests";
 import { issueTests } from "./issueTests";
@@ -13,7 +12,6 @@ import {
 
 const base = getConverter2Base();
 const app = getConverter2App();
-let program: ts.Program;
 
 function runTest(
     title: string,
@@ -21,6 +19,8 @@ function runTest(
     check: (project: ProjectReflection) => void
 ) {
     it(title, () => {
+        const program = getConverter2Program();
+
         const entryPoint = [
             join(base, `${entry}.ts`),
             join(base, `${entry}.d.ts`),
@@ -46,7 +46,7 @@ function runTest(
 
 describe("Converter2", () => {
     it("Compiles", () => {
-        program = getConverter2Program();
+        getConverter2Program();
     });
 
     for (const [entry, check] of Object.entries(issueTests)) {

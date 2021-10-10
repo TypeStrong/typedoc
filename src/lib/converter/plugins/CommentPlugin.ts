@@ -346,7 +346,9 @@ export class CommentPlugin extends ConverterComponent {
                 childComment.shortText ||= comment.shortText;
                 childComment.text ||= comment.text;
                 childComment.returns ||= comment.returns;
-                childComment.tags ||= [...comment.tags];
+                childComment.tags = childComment.tags.length
+                    ? childComment.tags
+                    : [...comment.tags];
             }
 
             signature.parameters?.forEach((parameter, index) => {

@@ -5,6 +5,9 @@ import {
     QueryType,
     ReflectionKind,
     SignatureReflection,
+    ReflectionType,
+    Comment,
+    CommentTag,
 } from "../lib/models";
 
 function query(project: ProjectReflection, name: string) {
@@ -241,5 +244,18 @@ export const issueTests: {
         equal(alias.typeParameters?.[0].comment?.shortText.trim(), "T docs");
         const cls = query(project, "Bar");
         equal(cls.typeParameters?.[0].comment?.shortText.trim(), "T docs");
+    },
+
+    gh1734(project) {
+        const alias = query(project, "Foo");
+        const type = alias.type;
+        ok(type instanceof ReflectionType);
+
+        const expectedComment = new Comment();
+        expectedComment.returns = undefined;
+        expectedComment.tags = [
+            new CommentTag("asdf", void 0, "Some example text\n"),
+        ];
+        equal(type.declaration.signatures?.[0].comment, expectedComment);
     },
 };

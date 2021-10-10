@@ -1,7 +1,6 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import * as FS from "fs";
 import * as Path from "path";
-import type * as ts from "typescript";
 import { normalizePath, ProjectReflection, resetReflectionID } from "..";
 import { getExpandedEntryPointsForPaths } from "../lib/utils";
 import {
@@ -13,10 +12,9 @@ import {
 describe("Converter", function () {
     const base = getConverterBase();
     const app = getConverterApp();
-    let program: ts.Program;
 
     it("Compiles", () => {
-        program = getConverterProgram();
+        getConverterProgram();
     });
 
     const checks: [string, () => void, () => void][] = [
@@ -63,7 +61,7 @@ describe("Converter", function () {
                         app.logger,
                         [path],
                         app.options,
-                        [program]
+                        [getConverterProgram()]
                     );
                     ok(entryPoints, "Failed to get entry points");
                     result = app.converter.convert(entryPoints);
