@@ -17,7 +17,7 @@ export function convertDefaultValue(
     }
 }
 
-export function convertExpression(expression: ts.Expression) {
+export function convertExpression(expression: ts.Expression): string {
     switch (expression.kind) {
         case ts.SyntaxKind.StringLiteral:
         case ts.SyntaxKind.TrueKeyword:
@@ -25,6 +25,7 @@ export function convertExpression(expression: ts.Expression) {
         case ts.SyntaxKind.NullKeyword:
         case ts.SyntaxKind.NumericLiteral:
         case ts.SyntaxKind.PrefixUnaryExpression:
+        case ts.SyntaxKind.Identifier:
             return expression.getText();
     }
 
@@ -40,6 +41,21 @@ export function convertExpression(expression: ts.Expression) {
         expression.properties.length === 0
     ) {
         return "{}";
+    }
+
+    // a.b.c.d
+    if (ts.isPropertyAccessExpression(expression)) {
+        const parts = [expression.name.getText()];
+        let iter = expression.expression;
+        while (ts.isPropertyAccessExpression(iter)) {
+            parts.unshift(iter.name.getText());
+            iter = iter.expression;
+        }
+
+        if (ts.isIdentifier(iter)) {
+            parts.unshift(iter.text);
+            return parts.join(".");
+        }
     }
 
     // More complex expressions are generally not useful in the documentation.

@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added support for displaying identifiers & property access expressions in initializers, #1730.
+
 ### Bug Fixes
 
 -   Fixed flash when navigating to a second page when OS theme does not match selected theme, #1709.

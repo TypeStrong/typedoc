@@ -911,7 +911,7 @@
                                             "type": "intrinsic",
                                             "name": "string"
                                           },
-                                          "defaultValue": "..."
+                                          "defaultValue": "z"
                                         }
                                       ],
                                       "groups": [
