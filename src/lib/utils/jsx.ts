@@ -14,11 +14,20 @@
  * @module
  */
 
-/// <reference lib="dom" />
+import type {
+    IntrinsicElements,
+    JsxElement,
+    JsxChildren,
+    JsxComponent,
+} from "./jsx.generated";
+import { JsxFragment as Fragment } from "./jsx.generated";
 
-import type { KeysOfType, WritableKeys } from "./general";
-
-export const Fragment = Symbol();
+// Backwards compatibility until 0.24
+export type {
+    JsxElement as Element,
+    JsxChildren as Children,
+} from "./jsx.generated";
+export { JsxFragment as Fragment } from "./jsx.generated";
 
 /**
  * Used to inject HTML directly into the document.
@@ -28,60 +37,6 @@ export function Raw(_props: { html: string }) {
     // called, the tag is compared to this function and the `html` prop will be
     // returned directly.
     return null;
-}
-
-export type Children =
-    | Element
-    | string
-    | number
-    | null
-    | undefined
-    | Children[];
-
-export type Component<P> = (props: P) => Element | null | undefined;
-
-// Setting these doesn't make sense.
-type BannedElementKeys =
-    | "dataset"
-    | "innerHTML" // use Raw
-    | "outerHTML"
-    | "innerHTML"
-    | "innerText"
-    | "textContent"
-    | "style";
-
-interface RemapKeys {
-    className: "class";
-    htmlFor: "for";
-    httpEquiv: "http-equiv";
-}
-
-type ElementKeys<T> = Exclude<
-    WritableKeys<T>,
-    BannedElementKeys | KeysOfType<T, Function>
->;
-
-type BasicHtmlElements = {
-    [K in keyof HTMLElementTagNameMap]: {
-        [K2 in ElementKeys<
-            HTMLElementTagNameMap[K]
-        > as K2 extends keyof RemapKeys
-            ? RemapKeys[K2]
-            : K2]?: K2 extends "children"
-            ? Children
-            : HTMLElementTagNameMap[K][K2];
-    } & {
-        style?: string; // This should go away.
-    } & (K extends "meta" ? { charSet?: string } : unknown);
-};
-
-/** @hidden */
-export interface IntrinsicElements extends BasicHtmlElements {}
-
-export interface Element {
-    tag: typeof Fragment | string | Component<any>;
-    props: object | null;
-    children: Children[];
 }
 
 /**
@@ -94,7 +49,7 @@ export interface Element {
  * @hidden
  */
 export declare namespace JSX {
-    export { IntrinsicElements, Element };
+    export { IntrinsicElements, JsxElement as Element };
 }
 
 function escapeHtml(html: string) {
@@ -135,14 +90,14 @@ const voidElements = new Set([
  * @param children
  */
 export function createElement(
-    tag: typeof Fragment | string | Component<any>,
+    tag: typeof Fragment | string | JsxComponent<any>,
     props: object | null,
-    ...children: Children[]
-): Element {
+    ...children: JsxChildren[]
+): JsxElement {
     return { tag, props, children };
 }
 
-export function renderElement(element: Element | null | undefined): string {
+export function renderElement(element: JsxElement | null | undefined): string {
     if (!element) {
         return "";
     }
@@ -195,7 +150,7 @@ export function renderElement(element: Element | null | undefined): string {
 
     return html.join("");
 
-    function renderChildren(children: Children[]) {
+    function renderChildren(children: JsxChildren[]) {
         for (const child of children) {
             if (!child) continue;
 
