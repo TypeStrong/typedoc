@@ -235,4 +235,11 @@ export const issueTests: {
         ok(alias.type instanceof QueryType);
         equal(alias.type.queryType.name, "m.SomeClass.someProp");
     },
+
+    gh1733(project) {
+        const alias = query(project, "Foo");
+        equal(alias.typeParameters?.[0].comment?.shortText.trim(), "T docs");
+        const cls = query(project, "Bar");
+        equal(cls.typeParameters?.[0].comment?.shortText.trim(), "T docs");
+    },
 };

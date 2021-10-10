@@ -19,34 +19,18 @@ export class ReflectionCategory {
     children: Reflection[] = [];
 
     /**
-     * Do all children of this category have a separate document?
-     *
-     * A bound representation of the ´ReflectionCategory.getAllChildrenHaveOwnDocument´
-     * that can be used within templates.
-     */
-    allChildrenHaveOwnDocument: Function;
-
-    /**
      * Create a new ReflectionCategory instance.
      *
      * @param title The title of this category.
      */
     constructor(title: string) {
         this.title = title;
-
-        this.allChildrenHaveOwnDocument = () =>
-            this.getAllChildrenHaveOwnDocument();
     }
 
     /**
      * Do all children of this category have a separate document?
      */
-    private getAllChildrenHaveOwnDocument(): boolean {
-        let onlyOwnDocuments = true;
-        this.children.forEach((child) => {
-            onlyOwnDocuments = onlyOwnDocuments && !!child.hasOwnDocument;
-        });
-
-        return onlyOwnDocuments;
+    allChildrenHaveOwnDocument(): boolean {
+        return this.children.every((child) => child.hasOwnDocument);
     }
 }

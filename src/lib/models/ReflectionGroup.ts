@@ -31,14 +31,6 @@ export class ReflectionGroup {
     cssClasses?: string;
 
     /**
-     * Do all children of this group have a separate document?
-     *
-     * A bound representation of the ´ReflectionGroup.getAllChildrenHaveOwnDocument´
-     * that can be used within templates.
-     */
-    allChildrenHaveOwnDocument = () => this.getAllChildrenHaveOwnDocument();
-
-    /**
      * Are all children inherited members?
      */
     allChildrenAreInherited?: boolean;
@@ -77,7 +69,7 @@ export class ReflectionGroup {
     /**
      * Do all children of this group have a separate document?
      */
-    private getAllChildrenHaveOwnDocument(): boolean {
+    allChildrenHaveOwnDocument(): boolean {
         return this.children.every((child) => child.hasOwnDocument);
     }
 }

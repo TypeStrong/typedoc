@@ -302,11 +302,14 @@ function convertTypeAlias(
             declaration.type
         );
 
+        context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+
+        // Do this after finalization so that the CommentPlugin can get @typeParam tags
+        // from the parent comment. Ugly, but works for now. Should be cleaned up with TSDoc
+        // support.
         reflection.typeParameters = declaration.typeParameters?.map((param) =>
             createTypeParamReflection(param, context.withScope(reflection))
         );
-
-        context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
     } else if (
         ts.isJSDocTypedefTag(declaration) ||
         ts.isJSDocEnumTag(declaration)

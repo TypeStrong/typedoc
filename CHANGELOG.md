@@ -4,6 +4,7 @@
 
 -   Fixed flash when navigating to a second page when OS theme does not match selected theme, #1709.
 -   Fixed improper quoting of `as const` style enums, #1727.
+-   Fixed handling of `@typeParam` on type aliases, #1733.
 
 ### Thanks!
 
