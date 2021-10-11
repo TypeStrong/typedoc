@@ -242,7 +242,7 @@ const file = [
         (int) =>
             `    ${int.elementName}: ${
                 int.properties.length ? int.name : "JsxCommonHtmlProps"
-            }`
+            };`
     ),
     "",
     "    // SVG Elements",
@@ -250,7 +250,7 @@ const file = [
         (int) =>
             `    ${int.elementName}: ${
                 int.properties.length ? int.name : "JsxCommonSvgProps"
-            }`
+            };`
     ),
     "}",
     "",
@@ -273,11 +273,11 @@ const file = [
     "    | JsxChildren[];",
     "",
     "export interface JsxCommonHtmlProps {",
-    ...Array.from(htmlCommon, (x) => `    ${x}`),
+    ...Array.from(htmlCommon, (x) => `    ${x};`),
     "}",
     "",
     "export interface JsxCommonSvgProps {",
-    ...Array.from(svgCommon, (x) => `    ${x}`),
+    ...Array.from(svgCommon, (x) => `    ${x};`),
     "}",
     "",
 ];
@@ -285,14 +285,14 @@ const file = [
 for (const int of htmlInterfaces) {
     if (!int.properties.length) continue;
     file.push(`export interface ${int.name} extends JsxCommonHtmlProps {`);
-    file.push(...int.properties.map((p) => `    ${p}`));
+    file.push(...int.properties.map((p) => `    ${p};`));
     file.push("}", "");
 }
 
 for (const int of svgInterfaces) {
     if (!int.properties.length) continue;
     file.push(`export interface ${int.name} extends JsxCommonSvgProps {`);
-    file.push(...int.properties.map((p) => `    ${p}`));
+    file.push(...int.properties.map((p) => `    ${p};`));
     file.push("}", "");
 }
 
