@@ -3,6 +3,7 @@ import { JSX, partition } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { classNames, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import { icons } from "./icon";
 
 export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
@@ -94,7 +95,8 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
                 .map((child) => {
                     return (
                         <li class={child.cssClasses}>
-                            <a href={context.urlTo(child)} class="tsd-kind-icon">
+                            <a href={context.urlTo(child)} class="tsd-index-link">
+                                {icons[child.kind]()}
                                 {wbr(child.name)}
                             </a>
                         </li>
@@ -111,7 +113,8 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
         <nav class="tsd-navigation secondary menu-sticky">
             <ul>
                 <li class={"current " + props.model.cssClasses}>
-                    <a href={context.urlTo(props.model)} class="tsd-kind-icon">
+                    <a href={context.urlTo(props.model)} class="tsd-index-link">
+                        {icons[props.model.kind]()}
                         {wbr(props.model.name)}
                     </a>
                     {pageNavigation}

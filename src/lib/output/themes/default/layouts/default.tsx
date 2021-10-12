@@ -39,7 +39,7 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
                 </div>
             </div>
 
-            {context.footer(props)}
+            {context.footer()}
 
             <div class="overlay"></div>
             <script src={context.relativeURL("assets/main.js")}></script>

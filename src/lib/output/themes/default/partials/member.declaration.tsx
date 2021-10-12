@@ -5,7 +5,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const memberDeclaration = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
-        <div class="tsd-signature tsd-kind-icon">
+        <div class="tsd-signature">
             {wbr(props.name)}
             {renderTypeParametersSignature(props.typeParameters)}
             {props.type && (

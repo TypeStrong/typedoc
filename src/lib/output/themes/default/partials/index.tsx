@@ -2,6 +2,8 @@ import { wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import type { ContainerReflection, ReflectionCategory } from "../../../../models";
+import { icons } from "./icon";
+
 
 function renderCategory({ urlTo }: DefaultThemeRenderContext, item: ReflectionCategory, prependName = "") {
     return (
@@ -10,7 +12,8 @@ function renderCategory({ urlTo }: DefaultThemeRenderContext, item: ReflectionCa
             <ul class="tsd-index-list">
                 {item.children.map((item) => (
                     <li class={item.cssClasses}>
-                        <a href={urlTo(item)} class="tsd-kind-icon">
+                        <a href={urlTo(item)}>
+                            {icons[item.kind]()}
                             {item.name ? wbr(item.name) : <em>{wbr(item.kindString!)}</em>}
                         </a>
                     </li>
@@ -48,7 +51,8 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                                         <ul class="tsd-index-list">
                                             {item.children.map((item) => (
                                                 <li class={item.cssClasses}>
-                                                    <a href={context.urlTo(item)} class="tsd-kind-icon">
+                                                    <a href={context.urlTo(item)} class="tsd-index-link">
+                                                        {icons[item.kind]()}
                                                         {item.name ? wbr(item.name) : <em>{wbr(item.kindString!)}</em>}
                                                     </a>
                                                 </li>

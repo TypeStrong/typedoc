@@ -51,7 +51,7 @@ export const reflectionTemplate = (context: DefaultThemeRenderContext, props: Pa
                 {!!props.model.indexSignature && (
                     <section class={"tsd-panel " + props.model.cssClasses}>
                         <h4 class="tsd-before-signature">Indexable</h4>
-                        <div class="tsd-signature tsd-kind-icon">
+                        <div class="tsd-signature">
                             <span class="tsd-signature-symbol">[</span>
                             {props.model.indexSignature.parameters!.map((item) => (
                                 <>
