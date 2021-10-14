@@ -834,36 +834,35 @@ footer .tsd-legend {
     padding-bottom: 40px;
 }
 .tsd-navigation.primary a {
-    display: block;
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding: 0.5rem;
 }
 .tsd-navigation.primary ul li a {
-    padding-left: 5px;
+    margin-left: 0.5rem;
 }
 .tsd-navigation.primary ul li li a {
-    padding-left: 25px;
+    margin-left: 1.5rem;
 }
 .tsd-navigation.primary ul li li li a {
-    padding-left: 45px;
+    margin-left: 2.5rem;
 }
 .tsd-navigation.primary ul li li li li a {
-    padding-left: 65px;
+    margin-left: 3.5rem;
 }
 .tsd-navigation.primary ul li li li li li a {
-    padding-left: 85px;
+    margin-left: 4.5rem;
 }
 .tsd-navigation.primary ul li li li li li li a {
-    padding-left: 105px;
-}
-.tsd-navigation.primary > ul {
-    border-bottom: 1px solid var(--color-panel-divider);
-}
-.tsd-navigation.primary li {
-    border-top: 1px solid var(--color-panel-divider);
+    margin-left: 5.5rem;
 }
 .tsd-navigation.primary li.current > a {
+    border-left: 0.1rem var(--color-text) solid;
+}
+.tsd-navigation.primary li.selected > a {
     font-weight: bold;
+    border-left: 0.2rem var(--color-text) solid;
+}
+.tsd-navigation.primary ul li a:hover {
+    border-left: 0.2rem var(--color-text-aside) solid;
 }
 .tsd-navigation.primary li.label span {
     display: block;

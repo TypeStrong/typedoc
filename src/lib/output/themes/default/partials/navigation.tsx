@@ -19,35 +19,29 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
     // If there are modules marked as "external" then put them in their own group.
 
     const modules = props.model.project.getChildrenByKind(ReflectionKind.SomeModule);
-    const projectLinkName = modules.some((m) => m.kindOf(ReflectionKind.Module)) ? "Modules" : "Exports";
-
     const [ext, int] = partition(modules, (m) => m.flags.isExternal);
 
     if (ext.length === 0) {
         return (
             <nav class="tsd-navigation primary">
                 <ul>
-                    <li class={classNames({ current: props.model.isProject() })}>
-                        <a href={context.urlTo(props.model.project)}>{projectLinkName}</a>
-                    </li>
                     {int.map(link)}
                 </ul>
             </nav>
         );
     }
 
+    const selected = props.model.isProject();
+    const current = selected || int.some(mod => inPath(mod, props.model));
+
     return (
         <nav class="tsd-navigation primary">
             <ul>
-                <li class={classNames({ current: props.model.isProject() })}>
-                    <a href={context.urlTo(props.model.project)}>{projectLinkName}</a>
-                </li>
-                <li class="label tsd-is-external">
-                    <span>Internals</span>
-                </li>
-                {int.map(link)}
-                <li class="label tsd-is-external">
-                    <span>Externals</span>
+                <li class={classNames({ current, selected })}>
+                    <a href={context.urlTo(props.model.project)}>{wbr(props.project.name)}</a>
+                    <ul>
+                        {int.map(link)}
+                    </ul>
                 </li>
                 {ext.map(link)}
             </ul>
@@ -56,16 +50,15 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
 
     function link(mod: DeclarationReflection) {
         const current = inPath(mod, props.model);
+        const selected = mod.name === props.model.name;
         let childNav: JSX.Element | undefined;
-        if (current) {
-            const childModules = mod.children?.filter((m) => m.kindOf(ReflectionKind.SomeModule));
-            if (childModules?.length) {
-                childNav = <ul>{childModules.map(link)}</ul>;
-            }
+        const childModules = mod.children?.filter((m) => m.kindOf(ReflectionKind.SomeModule));
+        if (childModules?.length) {
+            childNav = <ul>{childModules.map(link)}</ul>;
         }
 
         return (
-            <li class={classNames({ current }) + " " + mod.cssClasses}>
+            <li class={classNames({ current, selected }) + " " + mod.cssClasses}>
                 <a href={context.urlTo(mod)}>{wbr(mod.name)}</a>
                 {childNav}
             </li>
