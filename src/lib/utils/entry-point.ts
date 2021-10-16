@@ -78,6 +78,45 @@ export function getEntryPoints(
     return result;
 }
 
+export function getWatchEntryPoints(
+    logger: Logger,
+    options: Options,
+    program: ts.Program
+): DocumentationEntryPoint[] | undefined {
+    let result: DocumentationEntryPoint[] | undefined;
+
+    const entryPoints = options.getValue("entryPoints");
+    switch (options.getValue("entryPointStrategy")) {
+        case EntryPointStrategy.Resolve:
+            result = getEntryPointsForPaths(logger, entryPoints, options, [
+                program,
+            ]);
+            break;
+
+        case EntryPointStrategy.Expand:
+            result = getExpandedEntryPointsForPaths(
+                logger,
+                entryPoints,
+                options,
+                [program]
+            );
+            break;
+
+        case EntryPointStrategy.Packages:
+            logger.error(
+                "Watch mode does not support 'packages' style entry points."
+            );
+            break;
+    }
+
+    if (result && result.length === 0) {
+        logger.error("Unable to find any entry points.");
+        return;
+    }
+
+    return result;
+}
+
 function getModuleName(fileName: string, baseDir: string) {
     return normalizePath(relative(baseDir, fileName)).replace(
         /(\/index)?(\.d)?\.[tj]sx?$/,
