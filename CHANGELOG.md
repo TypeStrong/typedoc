@@ -10,6 +10,7 @@
 -   Fixed improper quoting of `as const` style enums, #1727.
 -   Fixed handling of `@typeParam` on type aliases, #1733.
 -   Fixed handling of comment tags on function type aliases, #1734.
+-   Paths in warnings about non-exported symbols are now consistently displayed across platforms, #1738.
 
 ### Thanks!
 

@@ -10,7 +10,7 @@ import {
     SignatureReflection,
     TypeParameterReflection,
 } from "../models";
-import type { Logger } from "../utils";
+import { Logger, normalizePath } from "../utils";
 
 function makeIntentionallyExportedHelper(
     intentional: readonly string[],
@@ -100,9 +100,8 @@ export function validateExports(
                         decl.getSourceFile(),
                         decl.getStart()
                     );
-                    const file = relative(
-                        process.cwd(),
-                        decl.getSourceFile().fileName
+                    const file = normalizePath(
+                        relative(process.cwd(), decl.getSourceFile().fileName)
                     );
 
                     logger.warn(
