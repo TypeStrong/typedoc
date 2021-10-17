@@ -78,7 +78,7 @@ describe("JSX", () => {
                 </svg>
             ),
             `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 10,30"/>
+                <path d="M 10,30"></path>
             </svg>`.replace(/^\s*|\r?\n/gm, "")
         );
     });
