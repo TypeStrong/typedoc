@@ -7,8 +7,7 @@
  * {
  *     "jsx": "react",
  *     "jsxFactory": "JSX.createElement",
- *     "jsxFragmentFactory": "JSX.Fragment",
- *     "jsxImportSource": "typedoc"
+ *     "jsxFragmentFactory": "JSX.Fragment"
  * }
  * ```
  * @module
