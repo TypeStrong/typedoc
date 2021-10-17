@@ -3,6 +3,7 @@
 ### Features
 
 -   Added support for displaying identifiers & property access expressions in initializers, #1730.
+-   Expanded support for variables tagged with `@enum` to all variables whose property types are string literals, #1740.
 
 ### Bug Fixes
 
