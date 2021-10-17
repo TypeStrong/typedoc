@@ -1,9 +1,9 @@
 import * as Path from "path";
 
-import type { Reflection } from "../reflections/abstract";
 import type { ReflectionGroup } from "../ReflectionGroup";
 import type { SourceDirectory } from "./directory";
 import type { RepositoryType } from "./repository";
+import type { DeclarationReflection } from "..";
 
 /**
  * Represents references of reflections to their defining source files.
@@ -79,7 +79,7 @@ export class SourceFile {
     /**
      * A list of all reflections that are declared in this file.
      */
-    reflections: Reflection[] = [];
+    reflections: DeclarationReflection[] = [];
 
     /**
      * A grouped list of the reflections declared in this file.

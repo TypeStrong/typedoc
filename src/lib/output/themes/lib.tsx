@@ -1,4 +1,3 @@
-import { ok as assert } from "assert";
 import {
     DeclarationReflection,
     Reflection,
@@ -69,11 +68,6 @@ export function classNames(names: Record<string, boolean | null | undefined>) {
         .filter(([, include]) => include)
         .map(([key]) => key)
         .join(" ");
-}
-
-export function assertIsDeclarationReflection(reflection: Reflection): DeclarationReflection {
-    assert(reflection instanceof DeclarationReflection);
-    return reflection;
 }
 
 export function hasTypeParameters(

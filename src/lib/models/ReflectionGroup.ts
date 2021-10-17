@@ -1,5 +1,6 @@
-import type { Reflection, ReflectionKind } from "./reflections/abstract";
+import type { ReflectionKind } from "./reflections/abstract";
 import type { ReflectionCategory } from "./ReflectionCategory";
+import type { DeclarationReflection } from ".";
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -22,7 +23,7 @@ export class ReflectionGroup {
     /**
      * All reflections of this group.
      */
-    children: Reflection[] = [];
+    children: DeclarationReflection[] = [];
 
     /**
      * A list of generated css classes that should be applied to representations of this

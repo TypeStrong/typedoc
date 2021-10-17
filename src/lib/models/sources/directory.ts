@@ -1,6 +1,7 @@
-import type { Reflection } from "../reflections/abstract";
 import type { ReflectionGroup } from "../ReflectionGroup";
 import type { SourceFile } from "./file";
+import type { DeclarationReflection } from "..";
+import { flatMap } from "../../utils/array";
 
 /**
  * Exposes information about a directory containing source files.
@@ -82,13 +83,7 @@ export class SourceDirectory {
      * @returns An aggregated list of all {@link DeclarationReflection} defined in the
      * files of this directory.
      */
-    getAllReflections(): Reflection[] {
-        const reflections: Reflection[] = [];
-        this.files.forEach((file) => {
-            reflections.push(...file.reflections);
-        });
-
-        // reflections.sort(Factories.GroupHandler.sortCallback);
-        return reflections;
+    getAllReflections(): DeclarationReflection[] {
+        return flatMap(this.files, (file) => file.reflections);
     }
 }

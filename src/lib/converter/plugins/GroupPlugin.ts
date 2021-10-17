@@ -112,7 +112,9 @@ export class GroupPlugin extends ConverterComponent {
      * @param reflections  The reflections that should be grouped.
      * @returns An array containing all children of the given reflection grouped by their kind.
      */
-    static getReflectionGroups(reflections: Reflection[]): ReflectionGroup[] {
+    static getReflectionGroups(
+        reflections: DeclarationReflection[]
+    ): ReflectionGroup[] {
         const groups: ReflectionGroup[] = [];
         reflections.forEach((child) => {
             for (let i = 0; i < groups.length; i++) {

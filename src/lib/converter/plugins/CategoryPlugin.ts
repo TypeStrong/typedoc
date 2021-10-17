@@ -135,7 +135,7 @@ export class CategoryPlugin extends ConverterComponent {
      * @returns An array containing all children of the given reflection categorized
      */
     static getReflectionCategories(
-        reflections: Reflection[]
+        reflections: DeclarationReflection[]
     ): ReflectionCategory[] {
         const categories: ReflectionCategory[] = [];
         let defaultCat: ReflectionCategory | undefined;

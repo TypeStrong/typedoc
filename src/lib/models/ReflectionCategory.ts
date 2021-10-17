@@ -1,4 +1,4 @@
-import type { Reflection } from "./reflections/abstract";
+import type { DeclarationReflection } from ".";
 
 /**
  * A category of reflections.
@@ -16,7 +16,7 @@ export class ReflectionCategory {
     /**
      * All reflections of this category.
      */
-    children: Reflection[] = [];
+    children: DeclarationReflection[] = [];
 
     /**
      * Create a new ReflectionCategory instance.
