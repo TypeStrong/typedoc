@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.6 (2021-09-17)
+
 ### Features
 
 -   Added support for displaying identifiers & property access expressions in initializers, #1730.
