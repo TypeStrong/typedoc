@@ -14,6 +14,7 @@
 
 ### Thanks!
 
+-   @capraynor
 -   @srmagura
 
 ## v0.22.5 (2021-09-02)
