@@ -1,9 +1,47 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { LiteralType, ReferenceType, ReflectionKind, Type, TypeKindMap } from "../../../../models";
+import { LiteralType, ReferenceType, Reflection, ReflectionKind, Type, TypeKindMap } from "../../../../models";
 import { JSX } from "../../../../utils";
 import { join, stringify } from "../../lib";
 
 type TypeInlinePartialsOptions = { needsParens?: boolean };
+
+const EXPORTABLE: ReflectionKind =
+    ReflectionKind.Class |
+    ReflectionKind.Interface |
+    ReflectionKind.Enum |
+    ReflectionKind.TypeAlias |
+    ReflectionKind.Function |
+    ReflectionKind.Variable;
+
+/**
+ * Returns a (hopefully) globally unique name for the given reflection.
+ *
+ * This only works for exportable symbols, so e.g. methods are not affected by this.
+ *
+ * If the given reflection has a globally unique name already, then its simple name will be returned. If the name is
+ * ambiguous (i.e. there are two classes with the same name in different namespaces), then the namespaces name of the
+ * reflection will be returned.
+ */
+function getUniqueName(reflection: Reflection): string {
+    if (reflection.kindOf(EXPORTABLE) && reflection.parent?.kindOf(ReflectionKind.Namespace) === true) {
+        const sameNameCount = reflection.project
+            .getReflectionsByKind(EXPORTABLE)
+            .filter((r) => r.name === reflection.name).length;
+        if (sameNameCount >= 2) {
+            return getNamespacedName(reflection);
+        }
+    }
+    return reflection.name;
+}
+function getNamespacedName(reflection: Reflection): string {
+    const names = [reflection.name];
+    let parent = reflection.parent;
+    while (parent && parent.kindOf(ReflectionKind.Namespace)) {
+        names.unshift(parent.name);
+        parent = parent.parent;
+    }
+    return names.join(".");
+}
 
 // The type helper accepts an optional needsParens parameter that is checked
 // if an inner type may result in invalid output without them. For example:
@@ -195,7 +233,7 @@ const typeRenderers: {
                         class="tsd-signature-type"
                         data-tsd-kind={reflection.kindString}
                     >
-                        {reflection.name}
+                        {getUniqueName(reflection)}
                     </a>
                 );
             }
