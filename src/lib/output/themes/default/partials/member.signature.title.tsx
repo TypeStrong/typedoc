@@ -1,7 +1,23 @@
 import { join, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import type { SignatureReflection } from "../../../../models";
+import type { SignatureReflection, TypeParameterReflection } from "../../../../models";
+
+export const typeParameterSignatureList = (typeParameters: readonly TypeParameterReflection[] | undefined): JSX.Element => (
+    <>
+        {!!typeParameters && typeParameters.length > 0 && (
+            <>
+                <span class="tsd-signature-symbol">{"<"}</span>
+                {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
+                    <span class="tsd-signature-type" data-tsd-kind={item.kindString}>
+                        {item.name}
+                    </span>
+                ))}
+                <span class="tsd-signature-symbol">{">"}</span>
+            </>
+        )}
+    </>
+);
 
 export const memberSignatureTitle = (
     context: DefaultThemeRenderContext,
@@ -21,13 +37,7 @@ export const memberSignatureTitle = (
                 )}
             </>
         )}
-        {!!props.typeParameters && (
-            <>
-                {"<"}
-                {join(", ", props.typeParameters, (item) => item.name)}
-                {">"}
-            </>
-        )}
+        {typeParameterSignatureList(props.typeParameters)}
         <span class="tsd-signature-symbol">(</span>
         {join(", ", props.parameters ?? [], (item) => (
             <>

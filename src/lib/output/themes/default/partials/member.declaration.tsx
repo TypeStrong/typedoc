@@ -1,19 +1,14 @@
 import { DeclarationReflection, ReflectionType } from "../../../../models";
 import { JSX } from "../../../../utils";
-import { join, wbr } from "../../lib";
+import { wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import { typeParameterSignatureList } from "./member.signature.title";
 
 export const memberDeclaration = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
         <div class="tsd-signature tsd-kind-icon">
             {wbr(props.name)}
-            {!!props.typeParameters && (
-                <>
-                    {"<"}
-                    {join(", ", props.typeParameters, (item) => item.name)}
-                    {">"}
-                </>
-            )}
+            {typeParameterSignatureList(props.typeParameters)}
             {props.type && (
                 <>
                     <span class="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
