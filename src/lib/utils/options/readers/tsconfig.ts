@@ -24,15 +24,29 @@ export class TSConfigReader implements OptionsReader {
 
     name = "tsconfig-json";
 
-    read(container: Options, logger: Logger): void {
-        const file = container.getValue("tsconfig");
-
+    /**
+     * Not considered part of the public API. You can use it, but it might break.
+     * @internal
+     */
+    static findConfigFile(file: string): string | undefined {
         let fileToRead: string | undefined = file;
         if (isDir(fileToRead)) {
             fileToRead = ts.findConfigFile(file, isFile);
         }
 
         if (!fileToRead || !isFile(fileToRead)) {
+            return;
+        }
+
+        return fileToRead;
+    }
+
+    read(container: Options, logger: Logger): void {
+        const file = container.getValue("tsconfig");
+
+        let fileToRead = TSConfigReader.findConfigFile(file);
+
+        if (!fileToRead) {
             // If the user didn't give us this option, we shouldn't complain about not being able to find it.
             if (container.isSet("tsconfig")) {
                 logger.error(`The tsconfig file ${file} does not exist`);

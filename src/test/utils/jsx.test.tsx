@@ -69,4 +69,17 @@ describe("JSX", () => {
     it("Supports <Raw /> for injecting HTML", () => {
         equal(renderElement(<Raw html="<strong>foo</strong>" />), "<strong>foo</strong>");
     });
+
+    it("Supports SVG elements", () => {
+        equal(
+            renderElement(
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 10,30" />
+                </svg>
+            ),
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 10,30"></path>
+            </svg>`.replace(/^\s*|\r?\n/gm, "")
+        );
+    });
 });

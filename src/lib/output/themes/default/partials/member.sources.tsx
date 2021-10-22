@@ -5,27 +5,35 @@ import type { DeclarationReflection, SignatureReflection } from "../../../../mod
 export const memberSources = (
     context: DefaultThemeRenderContext,
     props: SignatureReflection | DeclarationReflection
-) => (
-    <aside class="tsd-sources">
-        {!!props.implementationOf && (
+) => {
+    const sources: JSX.Element[] = [];
+
+    if (props.implementationOf) {
+        sources.push(
             <p>
                 {"Implementation of "}
                 {context.typeAndParent(props.implementationOf)}
             </p>
-        )}
-        {!!props.inheritedFrom && (
+        );
+    }
+    if (props.inheritedFrom) {
+        sources.push(
             <p>
                 {"Inherited from "}
                 {context.typeAndParent(props.inheritedFrom)}
             </p>
-        )}
-        {!!props.overwrites && (
+        );
+    }
+    if (props.overwrites) {
+        sources.push(
             <p>
                 {"Overrides "}
                 {context.typeAndParent(props.overwrites)}
             </p>
-        )}
-        {!!props.sources && (
+        );
+    }
+    if (props.sources) {
+        sources.push(
             <ul>
                 {props.sources.map((item) =>
                     item.url ? (
@@ -42,6 +50,12 @@ export const memberSources = (
                     )
                 )}
             </ul>
-        )}
-    </aside>
-);
+        );
+    }
+
+    if (sources.length === 0) {
+        return <></>;
+    }
+
+    return <aside class="tsd-sources">{sources}</aside>;
+};

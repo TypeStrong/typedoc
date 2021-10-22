@@ -158,7 +158,7 @@ export class SourcePlugin extends ConverterComponent {
         const project = context.project;
         const home = project.directory;
         project.files.forEach((file) => {
-            const reflections: Reflection[] = [];
+            const reflections: DeclarationReflection[] = [];
             file.reflections.forEach((reflection) => {
                 reflections.push(reflection);
             });
@@ -183,7 +183,6 @@ export class SourcePlugin extends ConverterComponent {
             }
 
             directory.files.push(file);
-            // reflections.sort(GroupHandler.sortCallback);
             file.parent = directory;
             file.reflections = reflections;
         });

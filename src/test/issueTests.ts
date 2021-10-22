@@ -5,6 +5,9 @@ import {
     QueryType,
     ReflectionKind,
     SignatureReflection,
+    ReflectionType,
+    Comment,
+    CommentTag,
 } from "../lib/models";
 
 function query(project: ProjectReflection, name: string) {
@@ -234,5 +237,42 @@ export const issueTests: {
         const alias = query(project, "SomeType");
         ok(alias.type instanceof QueryType);
         equal(alias.type.queryType.name, "m.SomeClass.someProp");
+    },
+
+    gh1733(project) {
+        const alias = query(project, "Foo");
+        equal(alias.typeParameters?.[0].comment?.shortText.trim(), "T docs");
+        const cls = query(project, "Bar");
+        equal(cls.typeParameters?.[0].comment?.shortText.trim(), "T docs");
+    },
+
+    gh1734(project) {
+        const alias = query(project, "Foo");
+        const type = alias.type;
+        ok(type instanceof ReflectionType);
+
+        const expectedComment = new Comment();
+        expectedComment.returns = undefined;
+        expectedComment.tags = [
+            new CommentTag("asdf", void 0, "Some example text\n"),
+        ];
+        equal(type.declaration.signatures?.[0].comment, expectedComment);
+    },
+
+    gh1745(project) {
+        const Foo = query(project, "Foo");
+        ok(Foo.type instanceof ReflectionType);
+
+        const group = project.groups?.find(
+            (g) => g.kind === ReflectionKind.TypeAlias
+        );
+        ok(group);
+        const cat = group.categories?.find(
+            (cat) => cat.title === "My category"
+        );
+        ok(cat);
+
+        ok(cat.children.includes(Foo));
+        ok(!Foo.comment?.hasTag("category"));
     },
 };

@@ -302,11 +302,14 @@ function convertTypeAlias(
             declaration.type
         );
 
+        context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+
+        // Do this after finalization so that the CommentPlugin can get @typeParam tags
+        // from the parent comment. Ugly, but works for now. Should be cleaned up with TSDoc
+        // support.
         reflection.typeParameters = declaration.typeParameters?.map((param) =>
             createTypeParamReflection(param, context.withScope(reflection))
         );
-
-        context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
     } else if (
         ts.isJSDocTypedefTag(declaration) ||
         ts.isJSDocEnumTag(declaration)
@@ -815,7 +818,7 @@ function convertVariable(
     const type = context.checker.getTypeOfSymbolAtLocation(symbol, declaration);
 
     if (
-        isEnumLiteral(declaration as ts.VariableDeclaration) &&
+        isEnumLike(context.checker, type, declaration) &&
         symbol.getJsDocTags().some((tag) => tag.name === "enum")
     ) {
         return convertVariableAsEnum(context, symbol, exportSymbol);
@@ -849,27 +852,15 @@ function convertVariable(
     context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
 }
 
-function isEnumLiteral(declaration: ts.VariableDeclaration) {
-    if (
-        !hasAllFlags(declaration.parent.flags, ts.NodeFlags.Const) ||
-        !declaration.initializer ||
-        !ts.isAsExpression(declaration.initializer) ||
-        declaration.initializer.type.getText() !== "const"
-    ) {
-        // Not an as-const expression
+function isEnumLike(checker: ts.TypeChecker, type: ts.Type, location: ts.Node) {
+    if (!hasAllFlags(type.flags, ts.TypeFlags.Object)) {
         return false;
     }
 
-    const body = declaration.initializer.expression;
-    if (!ts.isObjectLiteralExpression(body)) {
-        return false;
-    }
-
-    return body.properties.every(
-        (prop) =>
-            ts.isPropertyAssignment(prop) &&
-            ts.isStringLiteral(prop.initializer)
-    );
+    return type.getProperties().every((prop) => {
+        const propType = checker.getTypeOfSymbolAtLocation(prop, location);
+        return propType.isStringLiteral();
+    });
 }
 
 function convertVariableAsEnum(
@@ -886,20 +877,24 @@ function convertVariableAsEnum(
     const rc = context.withScope(reflection);
 
     const declaration = symbol.declarations![0] as ts.VariableDeclaration;
-    const init = (declaration.initializer as ts.AsExpression)
-        .expression as ts.ObjectLiteralExpression;
+    const type = context.checker.getTypeAtLocation(declaration);
 
-    for (const prop of init.properties as readonly ts.PropertyAssignment[]) {
-        const childSymbol = context.checker.getSymbolAtLocation(prop.name);
+    for (const prop of type.getProperties()) {
         const reflection = rc.createDeclarationReflection(
             ReflectionKind.EnumMember,
-            childSymbol,
+            prop,
             void 0
         );
 
-        reflection.defaultValue = (prop.initializer as ts.StringLiteral).text;
+        const propType = context.checker.getTypeOfSymbolAtLocation(
+            prop,
+            declaration
+        );
+        assert(propType.isStringLiteral());
 
-        rc.finalizeDeclarationReflection(reflection, childSymbol, void 0);
+        reflection.defaultValue = JSON.stringify(propType.value);
+
+        rc.finalizeDeclarationReflection(reflection, prop, void 0);
     }
 
     // Skip converting the type alias, if there is one

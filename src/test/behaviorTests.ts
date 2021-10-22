@@ -17,9 +17,28 @@ export const behaviorTests: Record<
 > = {
     asConstEnum(project) {
         const SomeEnumLike = query(project, "SomeEnumLike");
-        equal(SomeEnumLike.kind, ReflectionKind.Variable);
+        equal(SomeEnumLike.kind, ReflectionKind.Variable, "SomeEnumLike");
         const SomeEnumLikeTagged = query(project, "SomeEnumLikeTagged");
-        equal(SomeEnumLikeTagged.kind, ReflectionKind.Enum);
+        equal(
+            SomeEnumLikeTagged.kind,
+            ReflectionKind.Enum,
+            "SomeEnumLikeTagged"
+        );
+        const A = query(project, "SomeEnumLikeTagged.a");
+        equal(A.defaultValue, '"a"');
+
+        const ManualEnum = query(project, "ManualEnum");
+        equal(ManualEnum.kind, ReflectionKind.Enum, "ManualEnum");
+
+        const ManualWithoutHelper = query(project, "ManualEnumHelper");
+        equal(
+            ManualWithoutHelper.kind,
+            ReflectionKind.Enum,
+            "ManualEnumHelper"
+        );
+
+        const WithoutReadonly = query(project, "WithoutReadonly");
+        equal(WithoutReadonly.kind, ReflectionKind.Enum, "WithoutReadonly");
     },
     duplicateHeritageClauses(project) {
         const b = query(project, "B");

@@ -13,6 +13,7 @@ import {
     writeFile,
     discoverNpmPlugins,
     NeverIfInternal,
+    TSConfigReader,
 } from "./utils/index";
 
 import {
@@ -23,13 +24,13 @@ import {
 import { Options, BindOption } from "./utils";
 import type { TypeDocOptions } from "./utils/options/declaration";
 import { flatMap, unique } from "./utils/array";
-import { basename } from "path";
 import { validateExports } from "./validation/exports";
 import { ok } from "assert";
 import {
     DocumentationEntryPoint,
     EntryPointStrategy,
     getEntryPoints,
+    getWatchEntryPoints,
 } from "./utils/entry-point";
 import { nicePath } from "./utils/paths";
 
@@ -297,16 +298,9 @@ export class Application extends ChildableComponent<
             return;
         }
 
-        // Matches the behavior of the tsconfig option reader.
-        let tsconfigFile = this.options.getValue("tsconfig");
-        tsconfigFile =
-            ts.findConfigFile(
-                tsconfigFile,
-                ts.sys.fileExists,
-                tsconfigFile.toLowerCase().endsWith(".json")
-                    ? basename(tsconfigFile)
-                    : undefined
-            ) ?? "tsconfig.json";
+        const tsconfigFile =
+            TSConfigReader.findConfigFile(this.options.getValue("tsconfig")) ??
+            "tsconfig.json";
 
         // We don't want to do it the first time to preserve initial debug status messages. They'll be lost
         // after the user saves a file, but better than nothing...
@@ -314,7 +308,7 @@ export class Application extends ChildableComponent<
 
         const host = ts.createWatchCompilerHost(
             tsconfigFile,
-            this.options.fixCompilerOptions({}),
+            {},
             ts.sys,
             ts.createEmitAndSemanticDiagnosticsBuilderProgram,
             (diagnostic) => this.logger.diagnostic(diagnostic),
@@ -343,8 +337,20 @@ export class Application extends ChildableComponent<
             }
 
             if (successFinished) {
+                if (
+                    this.options.getValue("emit") === "both" ||
+                    this.options.getValue("emit") === true
+                ) {
+                    currentProgram.emit();
+                }
+
                 this.logger.resetErrors();
-                const entryPoints = this.getEntryPoints();
+                this.logger.resetWarnings();
+                const entryPoints = getWatchEntryPoints(
+                    this.logger,
+                    this.options,
+                    currentProgram
+                );
                 if (!entryPoints) {
                     return;
                 }
@@ -356,6 +362,30 @@ export class Application extends ChildableComponent<
                     runSuccess();
                 });
             }
+        };
+
+        const origCreateProgram = host.createProgram;
+        host.createProgram = (
+            rootNames,
+            options,
+            host,
+            oldProgram,
+            configDiagnostics,
+            references
+        ) => {
+            // If we always do this, we'll get a crash the second time a program is created.
+            if (rootNames !== undefined) {
+                options = this.options.fixCompilerOptions(options || {});
+            }
+
+            return origCreateProgram(
+                rootNames,
+                options,
+                host,
+                oldProgram,
+                configDiagnostics,
+                references
+            );
         };
 
         const origAfterProgramCreate = host.afterProgramCreate;

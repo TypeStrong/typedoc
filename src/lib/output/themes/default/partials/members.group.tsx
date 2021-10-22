@@ -1,4 +1,3 @@
-import { assertIsDeclarationReflection } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import type { ReflectionGroup } from "../../../../models";
@@ -13,9 +12,7 @@ export function membersGroup(context: DefaultThemeRenderContext, group: Reflecti
                             {!!item.title && <>{item.title} </>}
                             {group.title}
                         </h2>
-                        {item.children.map(
-                            (item) => !item.hasOwnDocument && context.member(assertIsDeclarationReflection(item))
-                        )}
+                        {item.children.map((item) => !item.hasOwnDocument && context.member(item))}
                     </section>
                 ))}
             </>
@@ -25,7 +22,7 @@ export function membersGroup(context: DefaultThemeRenderContext, group: Reflecti
     return (
         <section class={"tsd-panel-group tsd-member-group " + group.cssClasses}>
             <h2>{group.title}</h2>
-            {group.children.map((item) => !item.hasOwnDocument && context.member(assertIsDeclarationReflection(item)))}
+            {group.children.map((item) => !item.hasOwnDocument && context.member(item))}
         </section>
     );
 }

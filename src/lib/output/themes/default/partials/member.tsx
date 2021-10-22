@@ -1,11 +1,11 @@
-import { assertIsDeclarationReflection, renderFlags, wbr } from "../../lib";
+import { renderFlags, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 
 export const member = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <section class={"tsd-panel tsd-member " + props.cssClasses}>
-        <a name={props.anchor} class="tsd-anchor"></a>
+        <a id={props.anchor} class="tsd-anchor"></a>
         {!!props.name && (
             <h3>
                 {renderFlags(props.flags)}
@@ -20,8 +20,6 @@ export const member = (context: DefaultThemeRenderContext, props: DeclarationRef
             ? context.memberReference(props)
             : context.memberDeclaration(props)}
 
-        {props.groups?.map((item) =>
-            item.children.map((item) => !item.hasOwnDocument && context.member(assertIsDeclarationReflection(item)))
-        )}
+        {props.groups?.map((item) => item.children.map((item) => !item.hasOwnDocument && context.member(item)))}
     </section>
 );

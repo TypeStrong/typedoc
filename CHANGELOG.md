@@ -1,11 +1,41 @@
 # Unreleased
 
+### Features
+
+-   Added support for GitHub enterprise projects with a `githubprivate.com` domain, #1743.
+
 ### Bug Fixes
 
--   Fixed flash when navigating to a second page when OS theme does not match selected theme.
+-   Replaced O(n^2) with O(1) implementation for determining unique IDs in a rendered page, #1755.
+-   Fixed crash with when running in very large repositories, #1744.
+-   Fixed visible gap after footer in dark mode if `hideGenerator` is set, #1749.
+-   Fixed `@category` tag incorrectly appearing on function types if used on a type alias, #1745.
+-   Fixed incorrect JS to apply themes on page load, #1709 (again).
+-   Accessors and index signatures are now properly marked as inherited on declaration creation, #1742.
 
 ### Thanks!
 
+-   @nlfurniss
+-   @RunDevelopment
+
+## v0.22.6 (2021-09-17)
+
+### Features
+
+-   Added support for displaying identifiers & property access expressions in initializers, #1730.
+-   Expanded support for variables tagged with `@enum` to all variables whose property types are string literals, #1740.
+
+### Bug Fixes
+
+-   Fixed flash when navigating to a second page when OS theme does not match selected theme, #1709.
+-   Fixed improper quoting of `as const` style enums, #1727.
+-   Fixed handling of `@typeParam` on type aliases, #1733.
+-   Fixed handling of comment tags on function type aliases, #1734.
+-   Paths in warnings about non-exported symbols are now consistently displayed across platforms, #1738.
+
+### Thanks!
+
+-   @capraynor
 -   @srmagura
 
 ## v0.22.5 (2021-09-02)

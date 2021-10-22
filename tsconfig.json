@@ -45,6 +45,7 @@
         "src/test/module",
         "src/test/packages",
         "src/test/slow/entry-points",
-        "src/test/renderer/testProject"
+        "src/test/renderer/testProject",
+        "src/codegen"
     ]
 }

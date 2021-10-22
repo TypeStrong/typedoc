@@ -1,4 +1,3 @@
-import { ok as assert } from "assert";
 import {
     DeclarationReflection,
     Reflection,
@@ -71,11 +70,6 @@ export function classNames(names: Record<string, boolean | null | undefined>) {
         .join(" ");
 }
 
-export function assertIsDeclarationReflection(reflection: Reflection): DeclarationReflection {
-    assert(reflection instanceof DeclarationReflection);
-    return reflection;
-}
-
 export function hasTypeParameters(
     reflection: Reflection
 ): reflection is Reflection & { typeParameters: TypeParameterReflection[] } {
@@ -83,4 +77,24 @@ export function hasTypeParameters(
         return reflection.typeParameters != null;
     }
     return false;
+}
+
+export function renderTypeParametersSignature(
+    typeParameters: readonly TypeParameterReflection[] | undefined
+): JSX.Element {
+    return (
+        <>
+            {!!typeParameters && typeParameters.length > 0 && (
+                <>
+                    <span class="tsd-signature-symbol">{"<"}</span>
+                    {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
+                        <span class="tsd-signature-type" data-tsd-kind={item.kindString}>
+                            {item.name}
+                        </span>
+                    ))}
+                    <span class="tsd-signature-symbol">{">"}</span>
+                </>
+            )}
+        </>
+    );
 }

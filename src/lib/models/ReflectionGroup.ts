@@ -1,5 +1,6 @@
-import type { Reflection, ReflectionKind } from "./reflections/abstract";
+import type { ReflectionKind } from "./reflections/abstract";
 import type { ReflectionCategory } from "./ReflectionCategory";
+import type { DeclarationReflection } from ".";
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -22,21 +23,13 @@ export class ReflectionGroup {
     /**
      * All reflections of this group.
      */
-    children: Reflection[] = [];
+    children: DeclarationReflection[] = [];
 
     /**
      * A list of generated css classes that should be applied to representations of this
      * group in the generated markup.
      */
     cssClasses?: string;
-
-    /**
-     * Do all children of this group have a separate document?
-     *
-     * A bound representation of the ´ReflectionGroup.getAllChildrenHaveOwnDocument´
-     * that can be used within templates.
-     */
-    allChildrenHaveOwnDocument = () => this.getAllChildrenHaveOwnDocument();
 
     /**
      * Are all children inherited members?
@@ -77,7 +70,7 @@ export class ReflectionGroup {
     /**
      * Do all children of this group have a separate document?
      */
-    private getAllChildrenHaveOwnDocument(): boolean {
+    allChildrenHaveOwnDocument(): boolean {
         return this.children.every((child) => child.hasOwnDocument);
     }
 }

@@ -110,7 +110,7 @@
                 "type": "literal",
                 "value": 1
               },
-              "defaultValue": "..."
+              "defaultValue": "Mod.a"
             },
             {
               "id": 24,
@@ -123,7 +123,7 @@
                 "id": 29,
                 "name": "__module"
               },
-              "defaultValue": "..."
+              "defaultValue": "Mod"
             },
             {
               "id": 27,
@@ -136,7 +136,7 @@
                 "id": 29,
                 "name": "a"
               },
-              "defaultValue": "..."
+              "defaultValue": "Mod.a"
             },
             {
               "id": 25,
@@ -149,7 +149,7 @@
                 "id": 29,
                 "name": "__module"
               },
-              "defaultValue": "..."
+              "defaultValue": "Mod"
             }
           ],
           "groups": [

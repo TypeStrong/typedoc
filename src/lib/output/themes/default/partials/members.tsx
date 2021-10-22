@@ -1,4 +1,3 @@
-import { assertIsDeclarationReflection } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import type { ContainerReflection } from "../../../../models";
@@ -12,10 +11,7 @@ export function members(context: DefaultThemeRenderContext, props: ContainerRefl
                         !item.allChildrenHaveOwnDocument() && (
                             <section class={"tsd-panel-group tsd-member-group " + props.cssClasses}>
                                 <h2>{item.title}</h2>
-                                {item.children.map(
-                                    (item) =>
-                                        !item.hasOwnDocument && context.member(assertIsDeclarationReflection(item))
-                                )}
+                                {item.children.map((item) => !item.hasOwnDocument && context.member(item))}
                             </section>
                         )
                 )}

@@ -1,4 +1,4 @@
-import type { Reflection } from "./reflections/abstract";
+import type { DeclarationReflection } from ".";
 
 /**
  * A category of reflections.
@@ -16,15 +16,7 @@ export class ReflectionCategory {
     /**
      * All reflections of this category.
      */
-    children: Reflection[] = [];
-
-    /**
-     * Do all children of this category have a separate document?
-     *
-     * A bound representation of the ´ReflectionCategory.getAllChildrenHaveOwnDocument´
-     * that can be used within templates.
-     */
-    allChildrenHaveOwnDocument: Function;
+    children: DeclarationReflection[] = [];
 
     /**
      * Create a new ReflectionCategory instance.
@@ -33,20 +25,12 @@ export class ReflectionCategory {
      */
     constructor(title: string) {
         this.title = title;
-
-        this.allChildrenHaveOwnDocument = () =>
-            this.getAllChildrenHaveOwnDocument();
     }
 
     /**
      * Do all children of this category have a separate document?
      */
-    private getAllChildrenHaveOwnDocument(): boolean {
-        let onlyOwnDocuments = true;
-        this.children.forEach((child) => {
-            onlyOwnDocuments = onlyOwnDocuments && !!child.hasOwnDocument;
-        });
-
-        return onlyOwnDocuments;
+    allChildrenHaveOwnDocument(): boolean {
+        return this.children.every((child) => child.hasOwnDocument);
     }
 }
