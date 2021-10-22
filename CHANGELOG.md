@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 
+-   Replaced O(n^2) with O(1) implementation for determining unique IDs in a rendered page, #1755.
 -   Fixed visible gap after footer in dark mode if `hideGenerator` is set, #1749.
 -   Fixed `@category` tag incorrectly appearing on function types if used on a type alias, #1745.
 -   Fixed incorrect JS to apply themes on page load, #1709 (again).

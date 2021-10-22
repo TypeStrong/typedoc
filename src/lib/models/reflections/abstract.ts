@@ -409,7 +409,7 @@ export abstract class Reflection {
      */
     private _alias?: string;
 
-    private _aliases?: string[];
+    private _aliases?: Map<string, number>;
 
     /**
      * Create a new BaseReflection instance.
@@ -478,16 +478,19 @@ export abstract class Reflection {
             }
 
             if (!target._aliases) {
-                target._aliases = [];
+                target._aliases = new Map();
             }
-            let suffix = "",
-                index = 0;
-            while (target._aliases.includes(alias + suffix)) {
-                suffix = "-" + (++index).toString();
+
+            let suffix = "";
+            if (!target._aliases.has(alias)) {
+                target._aliases.set(alias, 1);
+            } else {
+                const count = target._aliases.get(alias)!;
+                suffix = "-" + count.toString();
+                target._aliases.set(alias, count + 1);
             }
 
             alias += suffix;
-            target._aliases.push(alias);
             this._alias = alias;
         }
 
