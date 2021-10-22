@@ -33,6 +33,19 @@ describe("Repository", function () {
             equal(repository.type, RepositoryType.GitHub);
         });
 
+        it("handles a githubprivate.com URL", function () {
+            const mockRemotes = [
+                "ssh://org@bigcompany.githubprivate.com/joebloggs/foobar.git",
+            ];
+
+            const repository = new github.Repository("", "", mockRemotes);
+
+            equal(repository.hostname, "bigcompany.githubprivate.com");
+            equal(repository.user, "joebloggs");
+            equal(repository.project, "foobar");
+            equal(repository.type, RepositoryType.GitHub);
+        });
+
         it("handles a Bitbucket HTTPS URL", function () {
             const mockRemotes = [
                 "https://joebloggs@bitbucket.org/joebloggs/foobar.git",

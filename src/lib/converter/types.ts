@@ -26,6 +26,7 @@ import {
     OptionalType,
     RestType,
     TemplateLiteralType,
+    SomeType,
 } from "../models";
 import { zip } from "../utils/array";
 import type { Context } from "./context";
@@ -45,10 +46,10 @@ export interface TypeConverter<
 > {
     kind: TNode["kind"][];
     // getTypeAtLocation is expensive, so don't pass the type here.
-    convert(context: Context, node: TNode): Type;
+    convert(context: Context, node: TNode): SomeType;
     // We use typeToTypeNode to figure out what method to call in the first place,
     // so we have a non-type-checkable node here, necessary for some converters.
-    convertType(context: Context, type: TType, node: TNode): Type;
+    convertType(context: Context, type: TType, node: TNode): SomeType;
 }
 
 const converters = new Map<ts.SyntaxKind, TypeConverter>();
@@ -104,7 +105,7 @@ const seenTypeSymbols = new Set<ts.Symbol>();
 export function convertType(
     context: Context,
     typeOrNode: ts.Type | ts.TypeNode | undefined
-): Type {
+): SomeType {
     if (!typeOrNode) {
         return new IntrinsicType("any");
     }
