@@ -1,4 +1,5 @@
 import type * as ts from "typescript";
+import type { SomeType } from "..";
 import { ReferenceType, ReflectionType, Type } from "../types";
 import { TraverseCallback, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
@@ -47,7 +48,7 @@ export class DeclarationReflection extends ContainerReflection {
      * If the reflection represents a variable or a property, this is the value type.<br />
      * If the reflection represents a signature, this is the return type.
      */
-    type?: Type;
+    type?: SomeType;
 
     typeParameters?: TypeParameterReflection[];
 

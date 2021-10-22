@@ -3,6 +3,7 @@ import {
     ContainerReflection,
     DeclarationReflection,
     CommentTag,
+    ReflectionKind,
 } from "../../models";
 import { ReflectionCategory } from "../../models/ReflectionCategory";
 import { Component, ConverterComponent } from "../components";
@@ -177,7 +178,7 @@ export class CategoryPlugin extends ConverterComponent {
      * @param reflection The reflection.
      * @returns The category the reflection belongs to
      */
-    static getCategories(reflection: Reflection) {
+    static getCategories(reflection: DeclarationReflection) {
         function extractCategoryTag(comment: Comment) {
             const categories = new Set<string>();
             const tags = comment.tags;
@@ -213,6 +214,14 @@ export class CategoryPlugin extends ConverterComponent {
                 }
             }
         }
+
+        if (
+            reflection.kind === ReflectionKind.TypeAlias &&
+            reflection.type?.type === "reflection"
+        ) {
+            reflection.type.declaration.comment?.removeTags("category");
+        }
+
         return categories;
     }
 

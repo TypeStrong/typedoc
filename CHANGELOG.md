@@ -1,5 +1,15 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed visible gap after footer in dark mode if `hideGenerator` is set, #1749.
+-   Fixed `@category` tag incorrectly appearing on function types if used on a type alias, #1745.
+-   Fixed incorrect JS to apply themes on page load, #1709 (again).
+
+### Thanks!
+
+-   @RunDevelopment
+
 ## v0.22.6 (2021-09-17)
 
 ### Features
