@@ -1,5 +1,13 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { LiteralType, ReferenceType, Reflection, ReflectionKind, Type, TypeKindMap } from "../../../../models";
+import {
+    LiteralType,
+    ProjectReflection,
+    ReferenceType,
+    Reflection,
+    ReflectionKind,
+    Type,
+    TypeKindMap,
+} from "../../../../models";
 import { JSX } from "../../../../utils";
 import { join, stringify } from "../../lib";
 
@@ -13,34 +21,51 @@ const EXPORTABLE: ReflectionKind =
     ReflectionKind.Function |
     ReflectionKind.Variable;
 
+const nameCollisionCache = new WeakMap<ProjectReflection, Record<string, number | undefined>>();
+function getNameCollisionCount(project: ProjectReflection, name: string): number {
+    let collisions = nameCollisionCache.get(project);
+    if (collisions === undefined) {
+        collisions = {};
+        for (const reflection of project.getReflectionsByKind(EXPORTABLE)) {
+            collisions[reflection.name] = (collisions[reflection.name] ?? 0) + 1;
+        }
+        nameCollisionCache.set(project, collisions);
+    }
+    return collisions[name] ?? 0;
+}
+
 /**
- * Returns a (hopefully) globally unique name for the given reflection.
+ * Returns a (hopefully) globally unique path for the given reflection.
  *
  * This only works for exportable symbols, so e.g. methods are not affected by this.
  *
- * If the given reflection has a globally unique name already, then its simple name will be returned. If the name is
- * ambiguous (i.e. there are two classes with the same name in different namespaces), then the namespaces name of the
+ * If the given reflection has a globally unique name already, then it will be returned as is. If the name is
+ * ambiguous (i.e. there are two classes with the same name in different namespaces), then the namespaces path of the
  * reflection will be returned.
  */
-function getUniqueName(reflection: Reflection): string {
-    if (reflection.kindOf(EXPORTABLE) && reflection.parent?.kindOf(ReflectionKind.Namespace) === true) {
-        const sameNameCount = reflection.project
-            .getReflectionsByKind(EXPORTABLE)
-            .filter((r) => r.name === reflection.name).length;
-        if (sameNameCount >= 2) {
-            return getNamespacedName(reflection);
+function getUniquePath(reflection: Reflection): Reflection[] {
+    if (reflection.kindOf(EXPORTABLE)) {
+        if (getNameCollisionCount(reflection.project, reflection.name) >= 2) {
+            return getNamespacedPath(reflection);
         }
     }
-    return reflection.name;
+    return [reflection];
 }
-function getNamespacedName(reflection: Reflection): string {
-    const names = [reflection.name];
+function getNamespacedPath(reflection: Reflection): Reflection[] {
+    const path = [reflection];
     let parent = reflection.parent;
     while (parent && parent.kindOf(ReflectionKind.Namespace)) {
-        names.unshift(parent.name);
+        path.unshift(parent);
         parent = parent.parent;
     }
-    return names.join(".");
+    return path;
+}
+function renderUniquePath(context: DefaultThemeRenderContext, reflection: Reflection): JSX.Element {
+    return join(<span class="tsd-signature-symbol">.</span>, getUniquePath(reflection), (item) => (
+        <a href={context.urlTo(item)} class="tsd-signature-type" data-tsd-kind={item.kindString}>
+            {item.name}
+        </a>
+    ));
 }
 
 // The type helper accepts an optional needsParens parameter that is checked
@@ -227,15 +252,7 @@ const typeRenderers: {
                     </span>
                 );
             } else {
-                name = (
-                    <a
-                        href={context.urlTo(reflection)}
-                        class="tsd-signature-type"
-                        data-tsd-kind={reflection.kindString}
-                    >
-                        {getUniqueName(reflection)}
-                    </a>
-                );
+                name = renderUniquePath(context, reflection);
             }
         } else {
             const externalUrl = context.attemptExternalResolution(type.getSymbol());
