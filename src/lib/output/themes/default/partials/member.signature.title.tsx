@@ -1,4 +1,4 @@
-import { join, wbr } from "../../lib";
+import { join, renderTypeParametersSignature, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import type { SignatureReflection } from "../../../../models";
@@ -21,13 +21,7 @@ export const memberSignatureTitle = (
                 )}
             </>
         )}
-        {!!props.typeParameters && (
-            <>
-                {"<"}
-                {join(", ", props.typeParameters, (item) => item.name)}
-                {">"}
-            </>
-        )}
+        {renderTypeParametersSignature(props.typeParameters)}
         <span class="tsd-signature-symbol">(</span>
         {join(", ", props.parameters ?? [], (item) => (
             <>
