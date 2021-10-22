@@ -241,9 +241,9 @@ export const issueTests: {
 
     gh1733(project) {
         const alias = query(project, "Foo");
-        equal(alias.typeParameters?.[0].comment?.shortText.trim(), "T docs");
+        equal(alias.typeParameters?.[0].comment?.summary.trim(), "T docs");
         const cls = query(project, "Bar");
-        equal(cls.typeParameters?.[0].comment?.shortText.trim(), "T docs");
+        equal(cls.typeParameters?.[0].comment?.summary.trim(), "T docs");
     },
 
     gh1734(project) {
