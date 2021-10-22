@@ -1,5 +1,5 @@
 import type { Reflection } from "../../../../models";
-import { JSX } from "../../../../utils";
+import { JSX, Raw } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
@@ -28,7 +28,9 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             <script async src={context.relativeURL("assets/search.js")} id="search-script"></script>
         </head>
         <body>
-            <script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script>
+            <script>
+                <Raw html='document.body.classList.add(localStorage.getItem("tsd-theme") || "os")' />
+            </script>
             {context.header(props)}
 
             <div class="container container-main">

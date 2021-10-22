@@ -4,11 +4,11 @@ import {
     IntrinsicType,
     Reflection,
     SignatureReflection,
-    Type,
+    SomeType,
     UnionType,
 } from "../../models";
 
-export function removeUndefined(type: Type): Type {
+export function removeUndefined(type: SomeType): SomeType {
     if (type instanceof UnionType) {
         const types = type.types.filter((t) => {
             if (t instanceof IntrinsicType) {

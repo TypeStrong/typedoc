@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
 import type { Application } from "../application";
-import { Type, ProjectReflection, ReflectionKind } from "../models/index";
+import { ProjectReflection, ReflectionKind, SomeType } from "../models/index";
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
@@ -167,7 +167,7 @@ export class Converter extends ChildableComponent<
     convertType(
         context: Context,
         node: ts.TypeNode | ts.Type | undefined
-    ): Type {
+    ): SomeType {
         return convertType(context, node);
     }
 

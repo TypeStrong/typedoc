@@ -9,8 +9,14 @@ import type { Context } from "../context";
 import { BindOption } from "../../utils";
 import { RepositoryType } from "../../models";
 
+const TEN_MEGABYTES: number = 1024 * 10000;
+
 function git(...args: string[]) {
-    return spawnSync("git", args, { encoding: "utf-8", windowsHide: true });
+    return spawnSync("git", args, {
+        encoding: "utf-8",
+        windowsHide: true,
+        maxBuffer: TEN_MEGABYTES,
+    });
 }
 
 /**
@@ -71,6 +77,13 @@ export class Repository {
                 /(github(?:\.[a-z]+)*\.[a-z]{2,})[:/]([^/]+)\/(.*)/.exec(
                     repoLinks[i]
                 );
+
+            // Github Enterprise
+            if (!match) {
+                match = /(\w+\.githubprivate.com)[:/]([^/]+)\/(.*)/.exec(
+                    repoLinks[i]
+                );
+            }
 
             if (!match) {
                 match = /(bitbucket.org)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);

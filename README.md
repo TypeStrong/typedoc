@@ -99,8 +99,8 @@ For a complete list of the command line arguments run `typedoc --help` or visit
 
 #### Theming
 
--   `--theme <default|minimal|path/to/theme>`<br>
-    Specify the path to the theme that should be used.
+-   `--theme <default|plugin defined theme>`<br>
+    Specify the theme that should be used.
 -   `--name <Documentation title>`<br>
     Set the name of the project that will be used in the header of the template.
 -   `--readme <path/to/readme|none>`<br>

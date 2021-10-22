@@ -711,12 +711,12 @@ export class TypeOperatorType extends Type {
 export class UnionType extends Type {
     override readonly type = "union";
 
-    constructor(public types: Type[]) {
+    constructor(public types: SomeType[]) {
         super();
         this.normalize();
     }
 
-    override toString() {
+    override toString(): string {
         return this.types.map((t) => wrap(t, BINDING_POWERS.union)).join(" | ");
     }
 

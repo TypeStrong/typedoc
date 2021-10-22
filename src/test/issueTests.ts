@@ -258,4 +258,21 @@ export const issueTests: {
         ];
         equal(type.declaration.signatures?.[0].comment, expectedComment);
     },
+
+    gh1745(project) {
+        const Foo = query(project, "Foo");
+        ok(Foo.type instanceof ReflectionType);
+
+        const group = project.groups?.find(
+            (g) => g.kind === ReflectionKind.TypeAlias
+        );
+        ok(group);
+        const cat = group.categories?.find(
+            (cat) => cat.title === "My category"
+        );
+        ok(cat);
+
+        ok(cat.children.includes(Foo));
+        ok(!Foo.comment?.hasTag("category"));
+    },
 };

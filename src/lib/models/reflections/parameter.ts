@@ -1,4 +1,5 @@
-import { Type, ReflectionType } from "../types";
+import type { SomeType } from "..";
+import { ReflectionType } from "../types";
 import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
 import type { SignatureReflection } from "./signature";
 
@@ -7,7 +8,7 @@ export class ParameterReflection extends Reflection {
 
     defaultValue?: string;
 
-    type?: Type;
+    type?: SomeType;
 
     /**
      * Traverse all potential child reflections of this reflection.
