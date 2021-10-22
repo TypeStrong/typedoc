@@ -98,6 +98,8 @@ export namespace ReflectionKind {
 
     /** @internal */
     export const Inheritable =
+        ReflectionKind.Accessor |
+        ReflectionKind.IndexSignature |
         ReflectionKind.Property |
         ReflectionKind.Method |
         ReflectionKind.Constructor;
