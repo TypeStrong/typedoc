@@ -78,6 +78,13 @@ export class Repository {
                     repoLinks[i]
                 );
 
+            // Github Enterprise
+            if (!match) {
+                match = /(\w+\.githubprivate.com)[:/]([^/]+)\/(.*)/.exec(
+                    repoLinks[i]
+                );
+            }
+
             if (!match) {
                 match = /(bitbucket.org)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);
             }
