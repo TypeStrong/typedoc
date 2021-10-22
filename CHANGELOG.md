@@ -1,8 +1,13 @@
 # Unreleased
 
+### Features
+
+-   Added support for GitHub enterprise projects with a `githubprivate.com` domain, #1743.
+
 ### Bug Fixes
 
 -   Replaced O(n^2) with O(1) implementation for determining unique IDs in a rendered page, #1755.
+-   Fixed crash with when running in very large repositories, #1744.
 -   Fixed visible gap after footer in dark mode if `hideGenerator` is set, #1749.
 -   Fixed `@category` tag incorrectly appearing on function types if used on a type alias, #1745.
 -   Fixed incorrect JS to apply themes on page load, #1709 (again).
@@ -10,6 +15,7 @@
 
 ### Thanks!
 
+-   @nlfurniss
 -   @RunDevelopment
 
 ## v0.22.6 (2021-09-17)
