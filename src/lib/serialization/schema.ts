@@ -73,6 +73,8 @@ type _ModelToObject<T> =
         ? Comment
         : T extends M.CommentTag
         ? CommentTag
+        : T extends M.CommentDisplayPart
+        ? CommentDisplayPart
         : T extends DecoratorWrapper
         ? Decorator
         : T extends SourceReferenceWrapper
@@ -337,12 +339,15 @@ export interface ReflectionFlags
     extends Partial<S<M.ReflectionFlags, BoolKeys<M.ReflectionFlags>>> {}
 
 export interface Comment
-    extends Partial<S<M.Comment, "summary" | "returns" | "tags">> {}
-
-export interface CommentTag extends S<M.CommentTag, "text"> {
-    tag: M.CommentTag["tagName"];
-    param?: M.CommentTag["paramName"];
+    extends Partial<S<M.Comment, "summary" | "blockTags">> {
+    modifierTags?: string[];
 }
+
+export interface CommentTag extends S<M.CommentTag, "tag" | "content"> {
+    paramName?: string;
+}
+
+export type CommentDisplayPart = M.CommentDisplayPart;
 
 export interface SourceReference
     extends S<M.SourceReference, "fileName" | "line" | "character"> {}

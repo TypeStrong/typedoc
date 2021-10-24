@@ -1,28 +1,43 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX, Raw } from "../../../../utils";
-import type { Reflection } from "../../../../models";
+import { assertNever, JSX, Raw } from "../../../../utils";
+import type { CommentDisplayPart, Reflection } from "../../../../models";
+
+function humanize(text: string) {
+    return text.substr(1, 1).toUpperCase() + text.substr(2).replace(/[a-z][A-Z]/g, (x) => `${x[0]} ${x[1]}`);
+}
+
+function displayPartsToMarkdown(parts: CommentDisplayPart[]) {
+    const result: string[] = [];
+
+    for (const part of parts) {
+        switch (part.kind) {
+            case "text":
+            case "code":
+                result.push(part.text);
+                break;
+            case "inline-tag":
+                // TODO GERRIT
+                break;
+            default:
+                assertNever(part);
+        }
+    }
+
+    return result.join("");
+}
 
 export function comment({ markdown }: DefaultThemeRenderContext, props: Reflection) {
     if (!props.comment?.hasVisibleComponent()) return;
 
     return (
         <div class="tsd-comment tsd-typography">
-            {!!props.comment.summary && (
-                <div>
-                    <Raw html={markdown(props.comment.summary)} />
-                </div>
-            )}
-            {props.comment.tags?.length > 0 && (
+            <Raw html={markdown(displayPartsToMarkdown(props.comment.summary))} />
+            {props.comment.blockTags?.length > 0 && (
                 <dl class="tsd-comment-tags">
-                    {props.comment.tags.map((item) => (
+                    {props.comment.blockTags.map((item) => (
                         <>
-                            <dt>
-                                {item.tagName}
-                                {item.paramName ? ` ${item.paramName}` : ""}
-                            </dt>
-                            <dd>
-                                <Raw html={markdown(item.text)} />
-                            </dd>
+                            <h3>{humanize(item.tag)}</h3>
+                            <Raw html={markdown(displayPartsToMarkdown(item.content))} />
                         </>
                     ))}
                 </dl>

@@ -4,7 +4,7 @@ import {
     lexBlockComment,
     Token,
     TokenSyntaxKind,
-} from "../lib/converter/comments";
+} from "../lib/converter/comments/blockLexer";
 
 function dedent(text: string) {
     const lines = text.split(/\r?\n/);
@@ -396,7 +396,7 @@ describe("Block Comment Lexer", () => {
         ]);
     });
 
-    it("Should handle starred comments without in code", () => {
+    it("Should handle starred comments without an end tag in code", () => {
         const tokens = lex(
             dedent(`
             /**
@@ -410,6 +410,100 @@ describe("Block Comment Lexer", () => {
             { kind: TokenSyntaxKind.Text, text: "Text" },
             { kind: TokenSyntaxKind.NewLine, text: "\n" },
             { kind: TokenSyntaxKind.Code, text: "```\nText" },
+        ]);
+    });
+
+    it("Should handle type annotations after tags at the start of a line", () => {
+        const tokens = lex(
+            dedent(`
+            /**
+             * @param {string} foo
+             */`)
+        );
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Tag, text: "@param" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{string}" },
+            { kind: TokenSyntaxKind.Text, text: " foo" },
+        ]);
+    });
+
+    it("Should handle type annotations containing string literals", () => {
+        const tokens = lex(
+            dedent(`
+            /**
+             * @param {"{{}}"}
+             * @param {\`\${"{}"}\`}
+             * @param {"text\\"more {}"}
+             * @param {'{'}
+             * EOF
+             */`)
+        );
+
+        const expectedAnnotations = [
+            '{"{{}}"}',
+            '{`${"{}"}`}',
+            '{"text\\"more {}"}',
+            "{'{'}",
+        ];
+
+        const expectedTokens = expectedAnnotations.flatMap((text) => [
+            { kind: TokenSyntaxKind.Tag, text: "@param" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.TypeAnnotation, text },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+        ]);
+        expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
+
+        equal(tokens, expectedTokens);
+    });
+
+    it("Should handle type annotations with object literals", () => {
+        const tokens = lex(
+            dedent(`
+            /**
+             * @param {{ a: string }}
+             * @param {{ a: string; b: { c: { d: string }} }}
+             * EOF
+             */`)
+        );
+
+        const expectedAnnotations = [
+            "{{ a: string }}",
+            "{{ a: string; b: { c: { d: string }} }}",
+        ];
+
+        const expectedTokens = expectedAnnotations.flatMap((text) => [
+            { kind: TokenSyntaxKind.Tag, text: "@param" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.TypeAnnotation, text },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+        ]);
+        expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
+
+        equal(tokens, expectedTokens);
+    });
+
+    it("Should handle unclosed type annotations", () => {
+        const tokens = lex("/** @type {oops */");
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Tag, text: "@type" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{oops" },
+        ]);
+    });
+
+    it("Should not parse inline tags as types", () => {
+        const tokens = lex("/** @param {@link foo} */");
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Tag, text: "@param" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
+            { kind: TokenSyntaxKind.Tag, text: "@link" },
+            { kind: TokenSyntaxKind.Text, text: " foo" },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
         ]);
     });
 });

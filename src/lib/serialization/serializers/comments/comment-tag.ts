@@ -22,14 +22,14 @@ export class CommentTagSerializer extends SerializerComponent<CommentTag> {
         obj: Partial<JSONCommentTag> = {}
     ): JSONCommentTag {
         const result: JSONCommentTag = {
-            tag: tag.tagName,
-            text: tag.text,
+            tag: tag.tag,
+            content: tag.content,
         };
 
         if (tag.paramName) {
-            result.param = tag.paramName;
+            result.paramName = tag.paramName;
         }
 
-        return { ...obj, ...result };
+        return Object.assign(obj, result);
     }
 }

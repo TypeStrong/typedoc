@@ -1,7 +1,8 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX, Raw } from "../../../../utils";
+import { JSX } from "../../../../utils";
 import { ReflectionType, SignatureReflection } from "../../../../models";
 import { renderFlags } from "../../lib";
+
 export const memberSignatureBody = (
     context: DefaultThemeRenderContext,
     props: SignatureReflection,
@@ -49,11 +50,6 @@ export const memberSignatureBody = (
                     {"Returns "}
                     {context.type(props.type)}
                 </h4>
-                {!!props.comment?.returns && (
-                    <div>
-                        <Raw html={context.markdown(props.comment.returns)} />
-                    </div>
-                )}
                 {props.type instanceof ReflectionType && context.parameter(props.type.declaration)}
             </>
         )}

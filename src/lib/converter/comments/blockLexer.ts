@@ -1,10 +1,11 @@
 export enum TokenSyntaxKind {
-    Text,
-    NewLine,
-    OpenBrace,
-    CloseBrace,
-    Tag,
-    Code,
+    Text = "text",
+    NewLine = "new_line",
+    OpenBrace = "open_brace",
+    CloseBrace = "close_brace",
+    Tag = "tag",
+    Code = "code",
+    TypeAnnotation = "type",
 }
 
 export interface Token {
@@ -16,7 +17,7 @@ export function* lexBlockComment(
     file: string,
     pos = 0,
     end = file.length
-): Generator<Token> {
+): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
     for (const token of lexBlockComment2(file, pos, end)) {
@@ -38,13 +39,14 @@ export function* lexBlockComment(
     if (textToken) {
         yield textToken;
     }
+    return;
 }
 
 function* lexBlockComment2(
     file: string,
     pos: number,
     end: number
-): Generator<Token> {
+): Generator<Token, undefined, undefined> {
     pos += 2; // Leading '/*'
     end -= 2; // Trailing '*/'
 
@@ -67,6 +69,7 @@ function* lexBlockComment2(
     }
 
     let lineStart = true;
+    let braceStartsType = false;
 
     for (;;) {
         if (pos >= end) {
@@ -91,11 +94,20 @@ function* lexBlockComment2(
                 break;
 
             case "{":
-                yield makeToken(TokenSyntaxKind.OpenBrace, 1);
+                if (braceStartsType && nextNonWs(pos + 1) !== "@") {
+                    yield makeToken(
+                        TokenSyntaxKind.TypeAnnotation,
+                        findEndOfType(pos) - pos
+                    );
+                    braceStartsType = false;
+                } else {
+                    yield makeToken(TokenSyntaxKind.OpenBrace, 1);
+                }
                 break;
 
             case "}":
                 yield makeToken(TokenSyntaxKind.CloseBrace, 1);
+                braceStartsType = false;
                 break;
 
             case "`": {
@@ -104,6 +116,7 @@ function* lexBlockComment2(
                 // 2. Code block: <3 ticks><language, no ticks>\n<text>\n<3 ticks>\n
                 // 3. Unmatched tick(s), not code, but part of some text.
                 // We don't quite handle #2 correctly yet. PR welcome!
+                braceStartsType = false;
                 let tickCount = 1;
                 let lookahead = pos;
 
@@ -200,6 +213,7 @@ function* lexBlockComment2(
                 }
 
                 if (lookahead !== pos + 1) {
+                    braceStartsType = true;
                     yield makeToken(TokenSyntaxKind.Tag, lookahead - pos);
                     break;
                 }
@@ -239,18 +253,18 @@ function* lexBlockComment2(
                     lookahead++;
                 }
 
-                // If we didn't need to make a copy, don't make one now.
-                if (textParts.length === 0) {
-                    yield makeToken(TokenSyntaxKind.Text, lookahead - pos);
-                } else {
-                    textParts.push(file.substring(lookaheadStart, lookahead));
-                    pos = lookahead;
-                    // This piece of text had line continuations or escaped text, need our own string.
-                    yield {
-                        kind: TokenSyntaxKind.Text,
-                        text: textParts.join(""),
-                    };
+                textParts.push(file.substring(lookaheadStart, lookahead));
+
+                if (textParts.some((part) => /\S/.test(part))) {
+                    braceStartsType = false;
                 }
+
+                pos = lookahead;
+                // This piece of text had line continuations or escaped text
+                yield {
+                    kind: TokenSyntaxKind.Text,
+                    text: textParts.join(""),
+                };
                 break;
             }
         }
@@ -287,6 +301,66 @@ function* lexBlockComment2(
         }
 
         return file.startsWith("`".repeat(n), pos) && file[pos + n] !== "`";
+    }
+
+    function findEndOfType(pos: number): number {
+        let openBraces = 0;
+
+        while (pos < end) {
+            if (file[pos] === "{") {
+                openBraces++;
+            } else if (file[pos] === "}") {
+                if (--openBraces === 0) {
+                    break;
+                }
+            } else if ("`'\"".includes(file[pos])) {
+                pos = findEndOfString(pos);
+            }
+
+            pos++;
+        }
+
+        if (pos < end && file[pos] === "}") {
+            pos++;
+        }
+
+        return pos;
+    }
+
+    function findEndOfString(pos: number): number {
+        let endOfString = file[pos];
+        pos++;
+        while (pos < end) {
+            if (file[pos] === endOfString) {
+                break;
+            } else if (file[pos] === "\\") {
+                pos++; // Skip escaped character
+            } else if (
+                endOfString === "`" &&
+                file[pos] === "$" &&
+                file[pos + 1] === "{"
+            ) {
+                // Template literal with data inside a ${}
+                while (pos < end && file[pos] !== "}") {
+                    if ("`'\"".includes(file[pos])) {
+                        pos = findEndOfString(pos) + 1;
+                    } else {
+                        pos++;
+                    }
+                }
+            }
+
+            pos++;
+        }
+
+        return pos;
+    }
+
+    function nextNonWs(pos: number): string | undefined {
+        while (pos < end && /\s/.test(file[pos])) {
+            pos++;
+        }
+        return file[pos];
     }
 }
 

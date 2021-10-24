@@ -1,7 +1,50 @@
-import { removeIf } from "../../utils";
-import { CommentTag } from "./tag";
+import { assertNever, removeIf } from "../../utils";
 
-const COPIED_TAGS = ["remarks"];
+export type CommentDisplayPart =
+    | { kind: "text"; text: string }
+    | { kind: "code"; text: string }
+    | { kind: "inline-tag"; tag: string; text: string };
+
+/**
+ * A model that represents a single TypeDoc comment tag.
+ *
+ * Tags are stored in the {@link Comment.blockTags} property.
+ */
+export class CommentTag {
+    /**
+     * The name of this tag, e.g. `@returns`, `@example`
+     */
+    tag: string;
+
+    /**
+     * If this is a `@param` tag, the parameter name associated with it.
+     */
+    paramName?: string;
+
+    /**
+     * The actual body text of this tag.
+     */
+    content: CommentDisplayPart[];
+
+    /**
+     * Create a new CommentTag instance.
+     */
+    constructor(tag: string, text: CommentDisplayPart[]) {
+        this.tag = tag;
+        this.content = text;
+    }
+
+    clone(): CommentTag {
+        const tag = new CommentTag(
+            this.tag,
+            Comment.cloneDisplayParts(this.content)
+        );
+        if (this.paramName) {
+            tag.paramName = this.paramName;
+        }
+        return tag;
+    }
+}
 
 /**
  * A model that represents a comment.
@@ -11,25 +54,67 @@ const COPIED_TAGS = ["remarks"];
  */
 export class Comment {
     /**
+     * Debugging utility for combining parts into a simple string. Not suitable for
+     * rendering, but can be useful in tests.
+     */
+    static combineDisplayParts(
+        parts: readonly CommentDisplayPart[] | undefined
+    ): string {
+        const result: string[] = [];
+
+        for (const item of parts || []) {
+            switch (item.kind) {
+                case "text":
+                    result.push(item.text);
+                    break;
+                case "code":
+                    result.push(item.text);
+                    break;
+                case "inline-tag":
+                    result.push("{", item.tag, item.text, "}");
+                    break;
+                default:
+                    assertNever(item);
+            }
+        }
+
+        return result.join("");
+    }
+
+    /**
+     * Helper utility to clone {@link Comment.summary} or {@link CommentTag.content}
+     * @internal probably ok to expose, but waiting until someone asks.
+     */
+    static cloneDisplayParts(parts: CommentDisplayPart[]) {
+        return parts.map((p) => ({ ...p }));
+    }
+
+    /**
      * The content of the comment which is not associated with a block tag.
      */
-    summary: string;
+    summary: CommentDisplayPart[];
 
     /**
-     * The text of the ```@returns``` tag if present.
+     * All associated block level tags.
      */
-    returns?: string;
+    blockTags: CommentTag[] = [];
 
     /**
-     * All associated tags.
+     * All modifier tags present on the comment, e.g. `@alpha`, `@beta`.
      */
-    tags: CommentTag[] = [];
+    modifierTags: Set<string> = new Set<string>();
 
     /**
      * Creates a new Comment instance.
      */
-    constructor(summary?: string) {
-        this.summary = summary || "";
+    constructor(
+        summary: CommentDisplayPart[] = [],
+        blockTags: CommentTag[] = [],
+        modifierTags: Set<string> = new Set()
+    ) {
+        this.summary = summary;
+        this.blockTags = blockTags;
+        this.modifierTags = modifierTags;
     }
 
     /**
@@ -38,7 +123,10 @@ export class Comment {
      * @returns TRUE when this comment has a visible component.
      */
     hasVisibleComponent(): boolean {
-        return !!this.summary || this.tags.length > 0;
+        return (
+            this.summary.some((x) => x.kind != "text" || x.text !== "") ||
+            this.blockTags.length > 0
+        );
     }
 
     /**
@@ -47,26 +135,25 @@ export class Comment {
      * @param tagName  The name of the tag to look for.
      * @returns TRUE when this comment contains a tag with the given name, otherwise FALSE.
      */
-    hasTag(tagName: string): boolean {
-        return this.tags.some((tag) => tag.tagName === tagName);
+    hasModifier(tagName: string): boolean {
+        return this.modifierTags.has(tagName);
     }
 
     /**
      * Return the first tag with the given name.
      *
-     * You can optionally pass a parameter name that should be searched to.
-     *
      * @param tagName  The name of the tag to look for.
      * @param paramName  An optional parameter name to look for.
      * @returns The found tag or undefined.
      */
-    getTag(tagName: string, paramName?: string): CommentTag | undefined {
-        return this.tags.find((tag) => {
-            return (
-                tag.tagName === tagName &&
-                (paramName === void 0 || tag.paramName === paramName)
-            );
-        });
+    getTag(tagName: string): CommentTag | undefined {
+        return this.blockTags.find((tag) => tag.tag === tagName);
+    }
+
+    getParamTag(param: string, tagName = "@param") {
+        return this.blockTags.find(
+            (tag) => tag.tag === tagName && tag.paramName === param
+        );
     }
 
     /**
@@ -74,32 +161,6 @@ export class Comment {
      * @param tagName
      */
     removeTags(tagName: string) {
-        removeIf(this.tags, (tag) => tag.tagName === tagName);
-    }
-
-    /**
-     * Copy the data of the given comment into this comment.
-     *
-     * `shortText`, `text`, `returns` and tags from `COPIED_TAGS` are copied;
-     * other instance tags left unchanged.
-     *
-     * @param comment - Source comment to copy from
-     */
-    copyFrom(comment: Comment) {
-        this.summary = comment.summary;
-        this.returns = comment.returns;
-        const overrideTags: CommentTag[] = comment.tags
-            .filter((tag) => COPIED_TAGS.includes(tag.tagName))
-            .map((tag) => new CommentTag(tag.tagName, tag.paramName, tag.text));
-        this.tags.forEach((tag, index) => {
-            const matchingTag = overrideTags.find(
-                (matchingOverride) => matchingOverride?.tagName === tag.tagName
-            );
-            if (matchingTag) {
-                this.tags[index] = matchingTag;
-                overrideTags.splice(overrideTags.indexOf(matchingTag), 1);
-            }
-        });
-        this.tags = [...this.tags, ...overrideTags];
+        removeIf(this.blockTags, (tag) => tag.tag === tagName);
     }
 }

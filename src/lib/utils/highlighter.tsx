@@ -27,14 +27,41 @@ class DoubleHighlighter {
         const docEls: JSX.Element[] = [];
 
         for (const [lightLine, darkLine] of zip(lightTokens, darkTokens)) {
-            // If this fails, something also went *very* wrong.
-            assert(lightLine.length === darkLine.length);
+            // Different themes can have different rules for when colors change... so unfortunately we have to deal with different
+            // sets of tokens.Example: light_plus and dark_plus tokenize " = " differently in the `schemes`
+            // declaration for this file.
 
-            for (const [lightToken, darkToken] of zip(lightLine, darkLine)) {
-                docEls.push(<span class={this.getClass(lightToken.color, darkToken.color)}>{lightToken.content}</span>);
+            while (lightLine.length && darkLine.length) {
+                // Simple case, same token.
+                if (lightLine[0].content === darkLine[0].content) {
+                    docEls.push(
+                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{lightLine[0].content}</span>
+                    );
+                    lightLine.shift();
+                    darkLine.shift();
+                    continue;
+                }
+
+                if (lightLine[0].content.length < darkLine[0].content.length) {
+                    docEls.push(
+                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{lightLine[0].content}</span>
+                    );
+                    darkLine[0].content = darkLine[0].content.substr(lightLine[0].content.length);
+                    lightLine.shift();
+                    continue;
+                }
+
+                docEls.push(
+                    <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{darkLine[0].content}</span>
+                );
+                lightLine[0].content = lightLine[0].content.substr(darkLine[0].content.length);
+                darkLine.shift();
             }
+
             docEls.push(<br />);
         }
+
+        docEls.pop(); // Remove last <br>
 
         return JSX.renderElement(<>{docEls}</>);
     }

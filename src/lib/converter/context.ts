@@ -14,6 +14,7 @@ import type { Converter } from "./converter";
 import { isNamedNode } from "./utils/nodes";
 import { ConverterEvents } from "./converter-events";
 import { resolveAliasedSymbol } from "./utils/symbols";
+import { CommentParserConfig, getComment } from "./comments";
 
 /**
  * The context describes the current state the converter is in.
@@ -179,6 +180,18 @@ export class Context {
         return resolveAliasedSymbol(symbol, this.checker);
     }
 
+    config: CommentParserConfig = {
+        blockTags: new Set(["@param", "@remarks"]),
+        inlineTags: new Set(["@link"]),
+        modifierTags: new Set([
+            "@public",
+            "@private",
+            "@protected",
+            "@readonly",
+            "@enum",
+        ]),
+    };
+
     createDeclarationReflection(
         kind: ReflectionKind,
         symbol: ts.Symbol | undefined,
@@ -190,6 +203,14 @@ export class Context {
             nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
         );
         const reflection = new DeclarationReflection(name, kind, this.scope);
+        if (symbol) {
+            reflection.comment = getComment(
+                symbol,
+                reflection.kind,
+                this.config,
+                this.logger
+            );
+        }
         if (this.shouldBeStatic) {
             reflection.setFlag(ReflectionFlag.Static);
         }

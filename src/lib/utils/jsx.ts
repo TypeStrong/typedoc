@@ -18,15 +18,15 @@ import type {
     JsxElement,
     JsxChildren,
     JsxComponent,
-} from "./jsx.elements";
-import { JsxFragment as Fragment } from "./jsx.elements";
+} from "./jsx.elements.js";
+import { JsxFragment as Fragment } from "./jsx.elements.js";
 
 // Backwards compatibility until 0.24
 export type {
     JsxElement as Element,
     JsxChildren as Children,
-} from "./jsx.elements";
-export { JsxFragment as Fragment } from "./jsx.elements";
+} from "./jsx.elements.js";
+export { JsxFragment as Fragment } from "./jsx.elements.js";
 
 /**
  * Used to inject HTML directly into the document.

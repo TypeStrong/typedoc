@@ -1,2 +1,2 @@
-export { Comment } from "./comment";
-export { CommentTag } from "./tag";
+export { Comment, CommentTag } from "./comment";
+export type { CommentDisplayPart } from "./comment";

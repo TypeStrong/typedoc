@@ -18,16 +18,15 @@ export class CommentSerializer extends SerializerComponent<Comment> {
     }
 
     toObject(comment: Comment, obj: Partial<JSONComment> = {}): JSONComment {
-        if (comment.summary) {
-            obj.summary = comment.summary;
+        obj.summary = comment.summary;
+        if (comment.blockTags.length) {
+            obj.blockTags = comment.blockTags.map((tag) =>
+                this.owner.toObject(tag)
+            );
         }
-        if (comment.returns) {
-            obj.returns = comment.returns;
+        if (comment.modifierTags.size) {
+            obj.modifierTags = Array.from(comment.modifierTags);
         }
-        if (comment.tags.length) {
-            obj.tags = comment.tags.map((tag) => this.owner.toObject(tag));
-        }
-
         return obj;
     }
 }

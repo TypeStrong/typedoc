@@ -32,3 +32,13 @@ export type IfInternal<T, F> = InternalOnly extends true ? T : F;
  * See {@link IfInternal} for the rationale.
  */
 export type NeverIfInternal<T> = IfInternal<never, T>;
+
+import * as Util from "util";
+
+export function assertNever(x: never): never {
+    throw new Error(
+        `Expected handling to cover all possible cases, but it didn't cover: ${Util.inspect(
+            x
+        )}`
+    );
+}

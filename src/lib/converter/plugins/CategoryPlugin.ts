@@ -181,20 +181,20 @@ export class CategoryPlugin extends ConverterComponent {
     static getCategories(reflection: DeclarationReflection) {
         function extractCategoryTag(comment: Comment) {
             const categories = new Set<string>();
-            const tags = comment.tags;
+            const tags = comment.blockTags;
             const commentTags: CommentTag[] = [];
             tags.forEach((tag) => {
-                if (tag.tagName !== "category") {
+                if (tag.tag !== "category") {
                     commentTags.push(tag);
                     return;
                 }
-                const text = tag.text.trim();
-                if (!text) {
-                    return;
-                }
-                categories.add(text);
+                // const text = tag.text.trim();
+                // if (!text) {
+                //     return;
+                // }
+                // categories.add(text);
             });
-            comment.tags = commentTags;
+            comment.blockTags = commentTags;
             return categories;
         }
 

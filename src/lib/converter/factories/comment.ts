@@ -197,11 +197,11 @@ export function parseComment(
         return line.trim();
     }
 
-    function readBareLine(line: string) {
+    function readBareLine(_line: string) {
         if (currentTag) {
-            currentTag.text += "\n" + line;
+            // currentTag.text += "\n" + line;
         } else {
-            comment.summary += (comment.summary === "" ? "" : "\n") + line;
+            // comment.summary += (comment.summary === "" ? "" : "\n") + line;
         }
     }
 
@@ -234,8 +234,8 @@ export function parseComment(
             line = consumeTypeData(line);
         }
 
-        currentTag = new CommentTag(tagName, paramName, line);
-        comment.tags.push(currentTag);
+        // currentTag = new CommentTag(tagName, paramName, line);
+        // comment.blockTags.push(currentTag);
     }
 
     const CODE_FENCE = /^\s*```(?!.*```)/;
@@ -268,6 +268,6 @@ export function parseComment(
     text = text.replace(/\*+\/\s*$/, "");
     text.split(/\r\n?|\n/).forEach(readLine);
 
-    comment.summary = comment.summary.trim();
+    // comment.summary = comment.summary.trim();
     return comment;
 }

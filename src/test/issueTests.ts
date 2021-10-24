@@ -53,10 +53,16 @@ export const issueTests: {
     gh1164(project) {
         const refl = query(project, "gh1164");
         equal(
-            refl.signatures?.[0]?.parameters?.[0]?.comment?.summary,
+            Comment.combineDisplayParts(
+                refl.signatures?.[0]?.parameters?.[0]?.comment?.summary
+            ),
             "{@link CommentedClass} Test description."
         );
-        equal(refl.signatures?.[0]?.comment?.returns, "Test description.\n");
+        const tag = refl.signatures?.[0]?.comment?.blockTags.find(
+            (x) => x.tag === "@returns"
+        );
+        ok(tag);
+        equal(Comment.combineDisplayParts(tag.content), "Test description.\n");
     },
 
     gh1215(project) {
@@ -241,9 +247,13 @@ export const issueTests: {
 
     gh1733(project) {
         const alias = query(project, "Foo");
-        equal(alias.typeParameters?.[0].comment?.summary.trim(), "T docs");
+        equal(alias.typeParameters?.[0].comment?.summary, [
+            { kind: "text", text: "T docs\n" },
+        ]);
         const cls = query(project, "Bar");
-        equal(cls.typeParameters?.[0].comment?.summary.trim(), "T docs");
+        equal(cls.typeParameters?.[0].comment?.summary, [
+            { kind: "text", text: "T docs" },
+        ]);
     },
 
     gh1734(project) {
@@ -252,9 +262,10 @@ export const issueTests: {
         ok(type instanceof ReflectionType);
 
         const expectedComment = new Comment();
-        expectedComment.returns = undefined;
-        expectedComment.tags = [
-            new CommentTag("asdf", void 0, "Some example text\n"),
+        expectedComment.blockTags = [
+            new CommentTag("asdf", [
+                { kind: "text", text: "Some example text\n" },
+            ]),
         ];
         equal(type.declaration.signatures?.[0].comment, expectedComment);
     },
@@ -273,6 +284,6 @@ export const issueTests: {
         ok(cat);
 
         ok(cat.children.includes(Foo));
-        ok(!Foo.comment?.hasTag("category"));
+        ok(!Foo.comment?.hasModifier("category"));
     },
 };
