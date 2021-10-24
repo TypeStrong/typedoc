@@ -49,17 +49,17 @@ export class Repository {
     project?: string;
 
     /**
-     * The hostname for this GitHub or Bitbucket project.
+     * The hostname for this GitHub/Bitbucket/.etc project.
      *
      * Defaults to: `github.com` (for normal, public GitHub instance projects)
      *
-     * Or the hostname for an enterprise version of GitHub, e.g. `github.acme.com`
+     * Can be the hostname for an enterprise version of GitHub, e.g. `github.acme.com`
      * (if found as a match in the list of git remotes).
      */
     hostname = "github.com";
 
     /**
-     * Whether this is a GitHub or Bitbucket repository.
+     * Whether this is a GitHub, Bitbucket, or other type of repository.
      */
     type: RepositoryType = RepositoryType.GitHub;
 
@@ -201,8 +201,8 @@ export class Repository {
  * A handler that watches for repositories with GitHub origin and links
  * their source files to the related GitHub pages.
  */
-@Component({ name: "git-hub" })
-export class GitHubPlugin extends ConverterComponent {
+@Component({ name: "source-link" })
+export class SourceLinkPlugin extends ConverterComponent {
     /**
      * List of known repositories.
      */
