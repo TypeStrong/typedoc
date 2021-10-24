@@ -89,6 +89,10 @@ export class Repository {
                 match = /(bitbucket.org)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);
             }
 
+            if (!match) {
+                match = /(gitlab.com)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);
+            }
+
             if (match) {
                 this.hostname = match[1];
                 this.user = match[2];
@@ -103,9 +107,13 @@ export class Repository {
             }
         }
 
-        if (this.hostname.includes("bitbucket.org"))
+        if (this.hostname.includes("bitbucket.org")) {
             this.type = RepositoryType.Bitbucket;
-        else this.type = RepositoryType.GitHub;
+        } else if (this.hostname.includes("gitlab.com")) {
+            this.type = RepositoryType.GitLab;
+        } else {
+            this.type = RepositoryType.GitHub;
+        }
 
         let out = git("-C", path, "ls-files");
         if (out.status === 0) {
@@ -149,10 +157,13 @@ export class Repository {
             `https://${this.hostname}`,
             this.user,
             this.project,
-            this.type === "github" ? "blob" : "src",
+            this.type === RepositoryType.GitLab ? "-" : undefined,
+            this.type === RepositoryType.Bitbucket ? "src" : "blob",
             this.branch,
             fileName.substr(this.path.length + 1),
-        ].join("/");
+        ]
+            .filter((s) => !!s)
+            .join("/");
     }
 
     /**
@@ -190,6 +201,7 @@ export class Repository {
         switch (repositoryType) {
             default:
             case RepositoryType.GitHub:
+            case RepositoryType.GitLab:
                 return "L" + lineNumber;
             case RepositoryType.Bitbucket:
                 return "lines-" + lineNumber;

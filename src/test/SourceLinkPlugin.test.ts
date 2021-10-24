@@ -69,6 +69,28 @@ describe("Repository", function () {
             equal(repository.project, "foobar");
             equal(repository.type, RepositoryType.Bitbucket);
         });
+
+        it("handles a GitLab HTTPS URL", function () {
+            const mockRemotes = ["https://gitlab.com/joebloggs/foobar.git"];
+
+            const repository = new Repository("", "", mockRemotes);
+
+            equal(repository.hostname, "gitlab.com");
+            equal(repository.user, "joebloggs");
+            equal(repository.project, "foobar");
+            equal(repository.type, RepositoryType.GitLab);
+        });
+
+        it("handles a GitLab SSH URL", function () {
+            const mockRemotes = ["git@gitlab.com:joebloggs/foobar.git"];
+
+            const repository = new Repository("", "", mockRemotes);
+
+            equal(repository.hostname, "gitlab.com");
+            equal(repository.user, "joebloggs");
+            equal(repository.project, "foobar");
+            equal(repository.type, RepositoryType.GitLab);
+        });
     });
 
     describe("getURL", () => {
@@ -106,6 +128,22 @@ describe("Repository", function () {
             equal(
                 repository.getURL(filePath),
                 "https://bitbucket.org/joebloggs/foobar/src/main/src/index.ts"
+            );
+        });
+
+        it("returns a GitLab URL", function () {
+            const mockRemotes = ["https://gitlab.com/joebloggs/foobar.git"];
+
+            const repository = new Repository(
+                repositoryPath,
+                "main",
+                mockRemotes
+            );
+            repository.files = [filePath];
+
+            equal(
+                repository.getURL(filePath),
+                "https://gitlab.com/joebloggs/foobar/-/blob/main/src/index.ts"
             );
         });
     });
