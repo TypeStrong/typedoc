@@ -18,6 +18,7 @@
 
 -   @nlfurniss
 -   @RunDevelopment
+-   @srmagura
 
 ## v0.22.6 (2021-09-17)
 
