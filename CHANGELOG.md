@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.7 (2021-09-25)
+
 ### Features
 
 -   Added support for GitHub enterprise projects with a `githubprivate.com` domain, #1743.
