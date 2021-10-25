@@ -3,6 +3,7 @@
 ### Features
 
 -   Added support for GitHub enterprise projects with a `githubprivate.com` domain, #1743.
+-   Added support for GitLab repositories, #1728.
 
 ### Bug Fixes
 
