@@ -1,28 +1,23 @@
-@import url("./icons.css");
-
 :root {
-    --text-title: 2em;
-    --text-heading: 1.5em;
-    --text-subheading: 1.25em;
-    --text-body: 1em;
-    --text-caption: 0.875em;
 
     /* Light */
     --light-color-background: #f2f4f8;
+    --light-color-background-secondary: #eff0f1;
     --light-color-text: #222;
     --light-color-text-aside: #707070;
     --light-color-link: #4da6ff;
     --light-color-menu-divider: #eee;
     --light-color-menu-divider-focus: #000;
     --light-color-menu-label: #707070;
-    --light-color-panel: var(--light-color-secondary-background);
     --light-color-panel-divider: #eee;
     --light-color-comment-tag: #707070;
     --light-color-comment-tag-text: #fff;
-    --light-color-ts: #9600ff;
-    --light-color-ts-interface: #647f1b;
-    --light-color-ts-enum: #937210;
-    --light-color-ts-class: #0672de;
+    --light-color-ts: #db1373;
+    --light-color-ts-interface: #15af31;
+    --light-color-ts-enum: #b19700;
+    --light-color-ts-class: #2484e5;
+    --light-color-ts-function: #572be7;
+    --light-color-ts-namespace: #b111c9;
     --light-color-ts-private: #707070;
     --light-color-toolbar: #fff;
     --light-color-toolbar-text: #333;
@@ -31,20 +26,22 @@
 
     /* Dark */
     --dark-color-background: #171e21;
+    --dark-color-background-secondary: #151619;
     --dark-color-text: #ffffff;
     --dark-color-text-aside: #e6e4e4;
     --dark-color-link: #00aff4;
     --dark-color-menu-divider: #eee;
     --dark-color-menu-divider-focus: #000;
     --dark-color-menu-label: #707070;
-    --dark-color-panel: var(--dark-color-secondary-background);
     --dark-color-panel-divider: #818181;
     --dark-color-comment-tag: #dcddde;
     --dark-color-comment-tag-text: #2f3136;
-    --dark-color-ts: #c97dff;
-    --dark-color-ts-interface: #9cbe3c;
-    --dark-color-ts-enum: #d6ab29;
-    --dark-color-ts-class: #3695f3;
+    --dark-color-ts: #ff6492;
+    --dark-color-ts-interface: #6cff87;
+    --dark-color-ts-enum: #f4d93e;
+    --dark-color-ts-class: #61b0ff;
+    --dark-color-ts-function: #9772ff;
+    --dark-color-ts-namespace: #e14dff;
     --dark-color-ts-private: #e2e2e2;
     --dark-color-toolbar: #34373c;
     --dark-color-toolbar-text: #ffffff;
@@ -55,14 +52,13 @@
 @media (prefers-color-scheme: light) {
     :root {
         --color-background: var(--light-color-background);
-        --color-secondary-background: var(--light-color-secondary-background);
+        --color-background-secondary: var(--light-color-background-secondary);
         --color-text: var(--light-color-text);
         --color-text-aside: var(--light-color-text-aside);
         --color-link: var(--light-color-link);
         --color-menu-divider: var(--light-color-menu-divider);
         --color-menu-divider-focus: var(--light-color-menu-divider-focus);
         --color-menu-label: var(--light-color-menu-label);
-        --color-panel: var(--light-color-panel);
         --color-panel-divider: var(--light-color-panel-divider);
         --color-comment-tag: var(--light-color-comment-tag);
         --color-comment-tag-text: var(--light-color-comment-tag-text);
@@ -70,6 +66,8 @@
         --color-ts-interface: var(--light-color-ts-interface);
         --color-ts-enum: var(--light-color-ts-enum);
         --color-ts-class: var(--light-color-ts-class);
+        --color-ts-function: var(--light-color-ts-function);
+        --color-ts-namespace: var(--light-color-ts-namespace);
         --color-ts-private: var(--light-color-ts-private);
         --color-toolbar: var(--light-color-toolbar);
         --color-toolbar-text: var(--light-color-toolbar-text);
@@ -81,14 +79,13 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --color-background: var(--dark-color-background);
-        --color-secondary-background: var(--dark-color-secondary-background);
+        --color-background-secondary: var(--dark-color-background-secondary);
         --color-text: var(--dark-color-text);
         --color-text-aside: var(--dark-color-text-aside);
         --color-link: var(--dark-color-link);
         --color-menu-divider: var(--dark-color-menu-divider);
         --color-menu-divider-focus: var(--dark-color-menu-divider-focus);
         --color-menu-label: var(--dark-color-menu-label);
-        --color-panel: var(--dark-color-panel);
         --color-panel-divider: var(--dark-color-panel-divider);
         --color-comment-tag: var(--dark-color-comment-tag);
         --color-comment-tag-text: var(--dark-color-comment-tag-text);
@@ -96,6 +93,8 @@
         --color-ts-interface: var(--dark-color-ts-interface);
         --color-ts-enum: var(--dark-color-ts-enum);
         --color-ts-class: var(--dark-color-ts-class);
+        --color-ts-function: var(--dark-color-ts-function);
+        --color-ts-namespace: var(--dark-color-ts-namespace);
         --color-ts-private: var(--dark-color-ts-private);
         --color-toolbar: var(--dark-color-toolbar);
         --color-toolbar-text: var(--dark-color-toolbar-text);
@@ -110,14 +109,13 @@ body {
 
 body.light {
     --color-background: var(--light-color-background);
-    --color-secondary-background: var(--light-color-secondary-background);
+    --color-background-secondary: var(--light-color-background-secondary);
     --color-text: var(--light-color-text);
     --color-text-aside: var(--light-color-text-aside);
     --color-link: var(--light-color-link);
     --color-menu-divider: var(--light-color-menu-divider);
     --color-menu-divider-focus: var(--light-color-menu-divider-focus);
     --color-menu-label: var(--light-color-menu-label);
-    --color-panel: var(--light-color-panel);
     --color-panel-divider: var(--light-color-panel-divider);
     --color-comment-tag: var(--light-color-comment-tag);
     --color-comment-tag-text: var(--light-color-comment-tag-text);
@@ -125,6 +123,8 @@ body.light {
     --color-ts-interface: var(--light-color-ts-interface);
     --color-ts-enum: var(--light-color-ts-enum);
     --color-ts-class: var(--light-color-ts-class);
+    --color-ts-function: var(--light-color-ts-function);
+    --color-ts-namespace: var(--light-color-ts-namespace);
     --color-ts-private: var(--light-color-ts-private);
     --color-toolbar: var(--light-color-toolbar);
     --color-toolbar-text: var(--light-color-toolbar-text);
@@ -134,14 +134,13 @@ body.light {
 
 body.dark {
     --color-background: var(--dark-color-background);
-    --color-secondary-background: var(--dark-color-secondary-background);
+    --color-background-secondary: var(--dark-color-background-secondary);
     --color-text: var(--dark-color-text);
     --color-text-aside: var(--dark-color-text-aside);
     --color-link: var(--dark-color-link);
     --color-menu-divider: var(--dark-color-menu-divider);
     --color-menu-divider-focus: var(--dark-color-menu-divider-focus);
     --color-menu-label: var(--dark-color-menu-label);
-    --color-panel: var(--dark-color-panel);
     --color-panel-divider: var(--dark-color-panel-divider);
     --color-comment-tag: var(--dark-color-comment-tag);
     --color-comment-tag-text: var(--dark-color-comment-tag-text);
@@ -149,6 +148,8 @@ body.dark {
     --color-ts-interface: var(--dark-color-ts-interface);
     --color-ts-enum: var(--dark-color-ts-enum);
     --color-ts-class: var(--dark-color-ts-class);
+    --color-ts-function: var(--dark-color-ts-function);
+    --color-ts-namespace: var(--dark-color-ts-namespace);
     --color-ts-private: var(--dark-color-ts-private);
     --color-toolbar: var(--dark-color-toolbar);
     --color-toolbar-text: var(--dark-color-toolbar-text);
@@ -166,33 +167,32 @@ h6 {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 1.875rem;
     margin: 0.67em 0;
 }
 
 h2 {
-    font-size: 1.5em;
+    font-size: 1.5rem;
     margin: 0.83em 0;
 }
 
 h3 {
-    font-size: 1.17em;
+    font-size: 1.25rem;
     margin: 1em 0;
 }
 
-h4,
-.tsd-index-panel h3 {
-    font-size: 1em;
+h4 {
+    font-size: 1.125rem;
     margin: 1.33em 0;
 }
 
 h5 {
-    font-size: 0.83em;
+    font-size: 0.875em;
     margin: 1.67em 0;
 }
 
 h6 {
-    font-size: 0.67em;
+    font-size: 0.75em;
     margin: 2.33em 0;
 }
 
@@ -214,13 +214,12 @@ dd {
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 40px;
+    max-width: 1600px;
+    padding: 0 8rem;
 }
-@media (max-width: 640px) {
+@media (min-width: 1280px) {
     .container {
-        padding: 0 20px;
+        padding: 0 16rem;
     }
 }
 
@@ -383,7 +382,7 @@ pre {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     padding: 0.2em;
     margin: 0;
-    font-size: var(--text-caption);
+    font-size: 0.875rem;
     border-radius: 0.8em;
 }
 
@@ -427,18 +426,7 @@ blockquote {
     margin: 1em 0;
 }
 
-@media (min-width: 901px) and (max-width: 1024px) {
-    html .col-content {
-        width: 72%;
-    }
-    html .col-menu {
-        width: 28%;
-    }
-    html .tsd-navigation {
-        padding-left: 10px;
-    }
-}
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     html .col-content {
         float: none;
         width: 100%;
@@ -456,7 +444,7 @@ blockquote {
         padding: 20px 20px 0 0;
         max-width: 450px;
         visibility: hidden;
-        background-color: var(--color-panel);
+        background-color: var(--color-background-secondary);
         transform: translate(100%, 0);
     }
     html .col-menu > *:last-child {
@@ -628,7 +616,7 @@ dl.tsd-comment-tags p {
         top: 40px;
         right: 20px;
         height: auto;
-        background-color: var(--color-panel);
+        background-color: var(--color-background-secondary);
         visibility: hidden;
         transform: translate(50%, 0);
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
@@ -650,12 +638,7 @@ dl.tsd-comment-tags p {
 }
 
 footer {
-    border-top: 1px solid var(--color-panel-divider);
-    background-color: var(--color-panel);
-}
-footer:after {
-    content: "";
-    display: table;
+    background-color: var(--color-background-secondary);
 }
 footer.with-border-bottom {
     border-bottom: 1px solid var(--color-panel-divider);
@@ -712,22 +695,13 @@ footer .tsd-legend {
     list-style: none;
     line-height: 1.333em;
 }
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     .tsd-index-panel ul.tsd-index-list {
         -webkit-column-count: 1;
         -moz-column-count: 1;
         -ms-column-count: 1;
         -o-column-count: 1;
         column-count: 1;
-    }
-}
-@media (min-width: 901px) and (max-width: 1024px) {
-    .tsd-index-panel ul.tsd-index-list {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        -ms-column-count: 2;
-        -o-column-count: 2;
-        column-count: 2;
     }
 }
 .tsd-index-panel ul.tsd-index-list li {
@@ -834,7 +808,8 @@ footer .tsd-legend {
     padding-bottom: 40px;
 }
 .tsd-navigation.primary a {
-    padding: 0.5rem;
+    padding: 0.75rem 0.5rem;
+    margin: 0;
 }
 .tsd-navigation.primary ul li a {
     margin-left: 0.5rem;
@@ -922,7 +897,30 @@ footer .tsd-legend {
     font-weight: bold;
 }
 
-@media (min-width: 901px) {
+.tsd-index-list .tsd-index-link {
+    /* margin top and bottom */
+    margin: 0.5rem 0;
+    font-weight: 500;
+}
+li > a.tsd-index-link {
+    display: inline-flex;
+    align-items: center;
+}
+.tsd-kind-icon {
+    margin-right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+}
+.tsd-index-content .tsd-kind-icon {
+    height: 2rem;
+}
+.tsd-signature > .tsd-kind-icon {
+    margin-right: 0.8rem;
+}
+
+@media (min-width: 1024px) {
     .menu-sticky-wrap {
         position: static;
     }
@@ -968,7 +966,7 @@ footer .tsd-legend {
     background: var(--color-background);
 }
 .tsd-panel table tr:nth-child(even) {
-    background: var(--color-secondary-background);
+    background: var(--color-background-secondary);
 }
 
 .tsd-panel-group {
@@ -1026,7 +1024,7 @@ footer .tsd-legend {
     background-color: var(--color-background);
 }
 #tsd-search .results li:nth-child(even) {
-    background-color: var(--color-panel);
+    background-color: var(--color-background-secondary);
 }
 #tsd-search .results li.state {
     display: none;
@@ -1353,7 +1351,7 @@ input[type="checkbox"]:checked + .tsd-widget:before {
     background-position: 40px 0;
 }
 .tsd-select .tsd-select-list li:nth-child(even) {
-    background-color: var(--color-panel);
+    background-color: var(--color-background-secondary);
 }
 .tsd-select .tsd-select-list li:hover {
     background-color: var(--color-panel-divider);
