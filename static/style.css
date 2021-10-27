@@ -906,6 +906,29 @@ li > a.tsd-index-link {
     display: inline-flex;
     align-items: center;
 }
+.tsd-index-list {
+    margin-top: 0.5rem;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+.tsd-index-heading {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 0;
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+.tsd-index-heading > svg {
+    margin-right: 0.25rem;
+    transition: transform 0.3s ease;
+}
+.tsd-index-heading > svg.chevron-expanded {
+    transform: rotate(-90deg);
+}
+
 .tsd-kind-icon {
     margin-right: 0.5rem;
     width: 1.5rem;
