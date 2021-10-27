@@ -166,6 +166,8 @@ export interface JsxHtmlGlobalProps {
     lang?: string;
     nonce?: string;
     part?: string;
+
+    role?: string;
     slot?: string;
     spellcheck?: boolean;
     style?: string;
