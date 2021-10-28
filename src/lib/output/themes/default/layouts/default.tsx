@@ -29,7 +29,12 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
         </head>
         <body>
             <script>
-                <Raw html='document.body.classList.add(localStorage.getItem("tsd-theme") || "os")' />
+                <Raw
+                    html={
+                        'document.body.classList.add(localStorage.getItem("tsd-theme") || "os");' +
+                        'document.documentElement.classList.remove("no-js");'
+                    }
+                />
             </script>
             {context.header(props)}
 
