@@ -92,7 +92,7 @@ async function main() {
         const date = new Date();
         const dateStr = [
             date.getUTCFullYear(),
-            date.getUTCMonth().toString().padStart(2, "0"),
+            (date.getUTCMonth() + 1).toString().padStart(2, "0"), // +1 because getUTCMonth returns 0 for January
             date.getUTCDate().toString().padStart(2, "0"),
         ].join("-");
         fullChangelog =
