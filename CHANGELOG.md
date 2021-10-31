@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Actually fixed `@category` tag incorrectly appearing on function types if used on a type alias, #1745.
+
 ## v0.22.7 (2021-10-25)
 
 ### Features

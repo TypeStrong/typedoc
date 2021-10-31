@@ -3,7 +3,6 @@ import {
     ContainerReflection,
     DeclarationReflection,
     CommentTag,
-    ReflectionKind,
 } from "../../models";
 import { ReflectionCategory } from "../../models/ReflectionCategory";
 import { Component, ConverterComponent } from "../components";
@@ -179,8 +178,10 @@ export class CategoryPlugin extends ConverterComponent {
      * @returns The category the reflection belongs to
      */
     static getCategories(reflection: DeclarationReflection) {
-        function extractCategoryTag(comment: Comment) {
+        function extractCategoryTag(comment: Comment | undefined) {
             const categories = new Set<string>();
+            if (!comment) return categories;
+
             const tags = comment.tags;
             const commentTags: CommentTag[] = [];
             tags.forEach((tag) => {
@@ -198,28 +199,23 @@ export class CategoryPlugin extends ConverterComponent {
             return categories;
         }
 
-        const categories = new Set<string>();
+        let categories = new Set<string>();
 
         if (reflection.comment) {
-            return extractCategoryTag(reflection.comment);
-        } else if (
-            reflection instanceof DeclarationReflection &&
-            reflection.signatures
-        ) {
+            categories = extractCategoryTag(reflection.comment);
+        } else if (reflection.signatures) {
             for (const sig of reflection.signatures) {
-                for (const cat of sig.comment
-                    ? extractCategoryTag(sig.comment)
-                    : []) {
+                for (const cat of extractCategoryTag(sig.comment)) {
                     categories.add(cat);
                 }
             }
         }
 
-        if (
-            reflection.kind === ReflectionKind.TypeAlias &&
-            reflection.type?.type === "reflection"
-        ) {
+        if (reflection.type?.type === "reflection") {
             reflection.type.declaration.comment?.removeTags("category");
+            reflection.type.declaration.signatures?.forEach((s) =>
+                s.comment?.removeTags("category")
+            );
         }
 
         return categories;

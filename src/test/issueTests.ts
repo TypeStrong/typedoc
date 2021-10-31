@@ -274,5 +274,11 @@ export const issueTests: {
 
         ok(cat.children.includes(Foo));
         ok(!Foo.comment?.hasTag("category"));
+        ok(!Foo.type.declaration.comment?.hasTag("category"));
+        ok(
+            !Foo.type.declaration.signatures?.some((s) =>
+                s.comment?.hasTag("category")
+            )
+        );
     },
 };
