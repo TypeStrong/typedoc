@@ -4,7 +4,7 @@ import type { PageEvent } from "../../../events";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
-    <html class="default no-js">
+    <html class="default">
         <head>
             <meta charSet="utf-8" />
             <meta http-equiv="x-ua-compatible" content="IE=edge" />
