@@ -73,6 +73,16 @@ addTypeDocOptions({
                     /** @type {import("../dist").MapDeclarationOption} */ (
                         option
                     ).defaultValue;
+                if (!data.enum.includes(data.default)) {
+                    for (const [k, v] of map instanceof Map
+                        ? map
+                        : Object.entries(map)) {
+                        if (v === data.default) {
+                            data.default = k;
+                            break;
+                        }
+                    }
+                }
                 break;
             }
             case ParameterType.Flags: {

@@ -8,7 +8,8 @@
         "SORT_STRATEGIES",
         "_ModelToObject"
     ],
-    "entryPoints": ["../src/index.ts"],
+    "entryPoints": ["../src"],
+    "entryPointStrategy": "Resolve",
     "excludeExternals": true,
     "excludePrivate": true,
     "excludeInternal": true,
