@@ -1,5 +1,10 @@
 # Unreleased
 
+### Features
+
+-   Added hooks which can be used to inject HTML without completely replacing a template, #1773.
+    See the documentation in [custom-themes.md](https://github.com/TypeStrong/typedoc/blob/master/internal-docs/custom-themes.md) for details.
+
 ### Bug Fixes
 
 -   Actually fixed `@category` tag incorrectly appearing on function types if used on a type alias, #1745.

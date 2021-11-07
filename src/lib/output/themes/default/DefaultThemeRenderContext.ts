@@ -1,4 +1,5 @@
 import type * as ts from "typescript";
+import type { RendererHooks } from "../..";
 import type { Reflection } from "../../../models";
 import type { Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
@@ -38,6 +39,9 @@ export class DefaultThemeRenderContext {
     constructor(private theme: DefaultTheme, options: Options) {
         this.options = options;
     }
+
+    hook = (name: keyof RendererHooks) =>
+        this.theme.owner.hooks.emit(name, this);
 
     /** Avoid this in favor of urlTo if possible */
     relativeURL = (url: string | undefined) => {

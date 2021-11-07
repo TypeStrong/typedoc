@@ -28,6 +28,8 @@ export interface OptionsReader {
      * Note that to preserve expected behavior, the argv reader must have both the lowest
      * priority so that it may set the location of config files used by other readers and
      * the highest priority so that it can override settings from lower priority readers.
+     *
+     * Note: In 0.23. `priority` will be renamed to `order`, with the same meaning
      */
     priority: number;
 

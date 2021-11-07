@@ -52,6 +52,8 @@ export { discoverNpmPlugins, loadPlugins } from "./plugins";
 export { sortReflections } from "./sort";
 export type { SortStrategy } from "./sort";
 
+export { EventHooks } from "./hooks";
+
 export * from "./entry-point";
 
 import * as JSX from "./jsx";
