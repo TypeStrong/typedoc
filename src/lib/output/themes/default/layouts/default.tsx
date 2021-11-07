@@ -6,8 +6,8 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <html class="default">
         <head>
-            {context.hook("head.begin")}
             <meta charSet="utf-8" />
+            {context.hook("head.begin")}
             <meta http-equiv="x-ua-compatible" content="IE=edge" />
             <title>
                 {props.model.name === props.project.name
