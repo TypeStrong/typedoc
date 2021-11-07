@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.8 (2021-11-07)
+
 ### Features
 
 -   Added hooks which can be used to inject HTML without completely replacing a template, #1773.
