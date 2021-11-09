@@ -3,6 +3,7 @@ import { JSX } from "../../../../utils";
 
 interface UtilityIcons {
     chevronDown: () => JSX.Element;
+    checkbox: () => JSX.Element;
 }
 export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIcons = {
     [ReflectionKind.All]: () => null,
@@ -214,4 +215,11 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
             <path d="M5.46899 9.53118L12.53 16.5912L19.591 9.53118L17.469 7.40918L12.53 12.3492L7.591 7.40918L5.46899 9.53118Z" fill="var(--color-text)"/>
         </svg>
     ),
+    checkbox: () => (
+        <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+            <rect class="tsd-checkbox-background" width="32" height="32" fill="none"/>
+            <path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none"
+                  stroke-width="3.5" stroke-linejoin="round" fill="none"/>
+        </svg>
+    )
 }

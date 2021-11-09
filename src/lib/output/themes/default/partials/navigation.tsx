@@ -8,15 +8,51 @@ import { icons } from "./icon";
 export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
         <>
+            {settings()}
             {primaryNavigation(context, props)}
             {secondaryNavigation(context, props)}
         </>
     );
 }
 
+function settings() {
+    // Settings panel above navigation
+
+    const visibilityOptions = ["public", "protected", "private", "inherited"].map(name => {
+        const value = name.charAt(0).toUpperCase() + name.slice(1);
+        return (
+            <li class="tsd-filter-item">
+                <label class="tsd-filter-input">
+                    <input
+                        type="checkbox"
+                        id={`tsd-filter-${name}`}
+                        name={name}
+                        value={value}
+                        {...(name === "public" ? { checked: true, disabled: true } : {})}
+                    />
+                    {icons.checkbox()}
+                    <span>{value}</span>
+                </label>
+            </li>
+        )
+    })
+    return (
+        <div class="tsd-navigation settings">
+            <h3>Settings</h3>
+            <div class="tsd-filter-visibility">
+                <h4 class="uppercase">Member Visibility</h4>
+                <form>
+                    <ul id="tsd-filter-options">
+                        {...visibilityOptions}
+                    </ul>
+                </form>
+            </div>
+        </div>
+    )
+}
+
 function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
-    // Create the navigation for the current page:
-    // If there are modules marked as "external" then put them in their own group.
+    // Create the navigation for the current page
 
     const modules = props.model.project.getChildrenByKind(ReflectionKind.SomeModule);
     const [ext, int] = partition(modules, (m) => m.flags.isExternal);
@@ -36,6 +72,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
 
     return (
         <nav class="tsd-navigation primary">
+            <h3>Modules</h3>
             <ul>
                 <li class={classNames({ current, selected })}>
                     <a href={context.urlTo(props.model.project)}>{wbr(props.project.name)}</a>
@@ -125,6 +162,5 @@ function inPath(thisPage: Reflection, toCheck: Reflection | undefined): boolean 
 
         toCheck = toCheck.parent;
     }
-
     return false;
 }

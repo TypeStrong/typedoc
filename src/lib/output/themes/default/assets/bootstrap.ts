@@ -13,12 +13,8 @@ registerComponent(MenuHighlight, ".menu-highlight");
 registerComponent(Signature, ".tsd-signatures");
 registerComponent(Toggle, "a[data-toggle]");
 registerComponent(Accordion, ".tsd-index-accordion");
+registerComponent(Filter, ".tsd-filter-item input[type=checkbox]");
 
-if (Filter.isSupported()) {
-    registerComponent(Filter, "#tsd-filter");
-} else {
-    document.documentElement.classList.add("no-filter");
-}
 
 const themeChoice = document.getElementById("theme");
 if (themeChoice) {

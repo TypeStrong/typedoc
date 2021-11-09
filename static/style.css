@@ -3,6 +3,7 @@
     /* Light */
     --light-color-background: #f2f4f8;
     --light-color-background-secondary: #eff0f1;
+    --light-color-accent: #c5c7c9;
     --light-color-text: #222;
     --light-color-text-aside: #707070;
     --light-color-link: #4da6ff;
@@ -25,8 +26,9 @@
     --light-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23000' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
 
     /* Dark */
-    --dark-color-background: #171e21;
+    --dark-color-background: #1a1c1e;
     --dark-color-background-secondary: #151619;
+    --dark-color-accent: #454545;
     --dark-color-text: #ffffff;
     --dark-color-text-aside: #e6e4e4;
     --dark-color-link: #00aff4;
@@ -53,6 +55,7 @@
     :root {
         --color-background: var(--light-color-background);
         --color-background-secondary: var(--light-color-background-secondary);
+        --color-accent: var(--light-color-accent);
         --color-text: var(--light-color-text);
         --color-text-aside: var(--light-color-text-aside);
         --color-link: var(--light-color-link);
@@ -80,6 +83,7 @@
     :root {
         --color-background: var(--dark-color-background);
         --color-background-secondary: var(--dark-color-background-secondary);
+        --color-accent: var(--dark-color-accent);
         --color-text: var(--dark-color-text);
         --color-text-aside: var(--dark-color-text-aside);
         --color-link: var(--dark-color-link);
@@ -110,6 +114,7 @@ body {
 body.light {
     --color-background: var(--light-color-background);
     --color-background-secondary: var(--light-color-background-secondary);
+    --color-accent: var(--light-color-accent);
     --color-text: var(--light-color-text);
     --color-text-aside: var(--light-color-text-aside);
     --color-link: var(--light-color-link);
@@ -135,6 +140,7 @@ body.light {
 body.dark {
     --color-background: var(--dark-color-background);
     --color-background-secondary: var(--dark-color-background-secondary);
+    --color-accent: var(--dark-color-accent);
     --color-text: var(--dark-color-text);
     --color-text-aside: var(--dark-color-text-aside);
     --color-link: var(--dark-color-link);
@@ -168,32 +174,36 @@ h6 {
 
 h1 {
     font-size: 1.875rem;
-    margin: 0.67em 0;
+    margin: 0.67rem 0;
 }
 
 h2 {
     font-size: 1.5rem;
-    margin: 0.83em 0;
+    margin: 0.83rem 0;
 }
 
 h3 {
     font-size: 1.25rem;
-    margin: 1em 0;
+    margin: 1rem 0;
 }
 
 h4 {
     font-size: 1.125rem;
-    margin: 1.33em 0;
+    margin: 1.33rem 0;
 }
 
 h5 {
-    font-size: 0.875em;
-    margin: 1.67em 0;
+    font-size: 1rem;
+    margin: 1.5rem 0;
 }
 
 h6 {
-    font-size: 0.75em;
-    margin: 2.33em 0;
+    font-size: 0.875rem;
+    margin: 2.33rem 0;
+}
+
+.uppercase {
+    text-transform: uppercase;
 }
 
 pre {
@@ -444,7 +454,7 @@ blockquote {
         padding: 20px 20px 0 0;
         max-width: 450px;
         visibility: hidden;
-        background-color: var(--color-background-secondary);
+        background-color: var(--color-background);
         transform: translate(100%, 0);
     }
     html .col-menu > *:last-child {
@@ -573,21 +583,13 @@ dl.tsd-comment-tags p {
     margin-bottom: 0;
 }
 
-.toggle-protected .tsd-is-private {
+html:not(.filter-private) .tsd-is-private {
     display: none;
 }
-
-.toggle-public .tsd-is-private,
-.toggle-public .tsd-is-protected,
-.toggle-public .tsd-is-private-protected {
+html:not(.filter-protected) .tsd-is-protected {
     display: none;
 }
-
-.toggle-inherited .tsd-is-inherited {
-    display: none;
-}
-
-.toggle-externals .tsd-is-external {
+html:not(.filter-inherited) .tsd-is-inherited {
     display: none;
 }
 
@@ -609,7 +611,7 @@ dl.tsd-comment-tags p {
 #tsd-filter input {
     display: none;
 }
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     #tsd-filter .tsd-filter-group {
         display: block;
         position: absolute;
@@ -635,6 +637,53 @@ dl.tsd-comment-tags p {
         display: block;
         padding-right: 20px;
     }
+}
+
+.tsd-filter-visibility h4 {
+    font-size: 1rem;
+    margin: 1.25rem 0;
+}
+.tsd-filter-item:not(:last-child) {
+    margin-bottom: 0.5rem;
+}
+.tsd-filter-input {
+    display: flex;
+    width: fit-content;
+    width: -moz-fit-content;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+.tsd-filter-input input[type="checkbox"] {
+    position: absolute;
+    width: 1.5em;
+    height: 1.5em;
+    opacity: 0;
+}
+.tsd-filter-input svg {
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: 0.5em;
+    border-radius: 0.33em;
+}
+.tsd-filter-input svg * {
+    transition: all 0.2s linear;
+}
+.tsd-filter-input input[type=checkbox]:focus + svg {
+    transform: scale(0.95);
+}
+.tsd-filter-input input[type=checkbox]:focus:not(:focus-visible) + svg {
+    transform: scale(1);
+}
+
+input[type=checkbox]:checked + svg .tsd-checkbox-checkmark {
+    stroke: var(--color-text);
+}
+.tsd-checkbox-background {
+    fill: var(--color-accent);
 }
 
 footer {
@@ -1323,7 +1372,7 @@ ul.tsd-type-parameter-list h5 {
 .tsd-widget.menu {
     display: none;
 }
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     .tsd-widget.options,
     .tsd-widget.menu {
         display: inline-block;
@@ -1387,7 +1436,7 @@ input[type="checkbox"]:checked + .tsd-widget:before {
 .tsd-select .tsd-select-list li.selected:before {
     background-position: -200px 0;
 }
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     .tsd-select .tsd-select-list {
         top: 0;
         left: auto;
