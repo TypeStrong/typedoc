@@ -12,7 +12,7 @@ initSearch();
 registerComponent(MenuHighlight, ".menu-highlight");
 registerComponent(Signature, ".tsd-signatures");
 registerComponent(Toggle, "a[data-toggle]");
-registerComponent(Accordion, ".tsd-index-section");
+registerComponent(Accordion, ".tsd-index-accordion");
 
 if (Filter.isSupported()) {
     registerComponent(Filter, "#tsd-filter");

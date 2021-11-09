@@ -43,9 +43,11 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                                 {item.categories ? (
                                     item.categories.map((item2) => renderCategory(context, item2, item.title))
                                 ) : (
-                                    <>
-                                        <h3 class="tsd-index-heading" role="button" aria-expanded="false" tabIndex={0}>{icons.chevronDown()} {item.title}</h3>
-                                        <ul class="tsd-index-list" aria-hidden="true">
+                                    <details class="tsd-index-accordion">
+                                        <summary class="tsd-index-summary">
+                                            <h3 class="tsd-index-heading">{icons.chevronDown()} {item.title}</h3>
+                                        </summary>
+                                        <ul class="tsd-index-list">
                                             {item.children.map((item) => (
                                                 <li class={item.cssClasses}>
                                                     <a href={context.urlTo(item)} class="tsd-index-link">
@@ -55,7 +57,7 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                                                 </li>
                                             ))}
                                         </ul>
-                                    </>
+                                    </details>
                                 )}
                             </section>
                         ))}
