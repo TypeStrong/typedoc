@@ -3,11 +3,10 @@
         "module": "CommonJS",
         "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
         "target": "es2019",
-
         "experimentalDecorators": true,
-
         "strict": true,
         "alwaysStrict": true,
+        "skipLibCheck": true,
 
         // For tests
         "resolveJsonModule": true,
