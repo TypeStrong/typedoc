@@ -729,7 +729,6 @@ export interface JsxScriptElementProps extends JsxHtmlGlobalProps {
         | "strict-origin-when-cross-origin"
         | "unsafe-url";
     src?: string;
-    text?: string;
     type?: "module" | (string & {});
 }
 

@@ -1,5 +1,14 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Corrected HTML generation for projects using Google Analytics, #1786.
+-   Ensured that the `<meta charset="utf-8" />` appears within the first 1024 bytes of generated pages, #1783.
+
+### Thanks!
+
+-   @RunDevelopment
+
 ## v0.22.8 (2021-11-07)
 
 ### Features
