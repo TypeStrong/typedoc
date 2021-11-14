@@ -1295,13 +1295,12 @@ ul.tsd-type-parameter-list h5 {
 .tsd-page-toolbar a.title:hover {
     text-decoration: underline;
 }
-.tsd-page-toolbar .table-wrap {
-    display: table;
-    width: 100%;
-    height: 40px;
+.tsd-page-toolbar .tsd-toolbar-contents {
+    display: flex;
+    justify-content: space-between;
+    height: 2.5rem;
 }
 .tsd-page-toolbar .table-cell {
-    display: table-cell;
     position: relative;
     white-space: nowrap;
     line-height: 40px;
@@ -1351,7 +1350,7 @@ ul.tsd-type-parameter-list h5 {
 }
 .tsd-widget.active {
     opacity: 1;
-    background-color: var(--color-panel-divider);
+    background-color: var(--color-accent);
 }
 .tsd-widget.no-caption {
     width: 40px;
@@ -1359,15 +1358,7 @@ ul.tsd-type-parameter-list h5 {
 .tsd-widget.no-caption:before {
     margin: 0;
 }
-.tsd-widget.search:before {
-    background-position: 0 0;
-}
-.tsd-widget.menu:before {
-    background-position: -40px 0;
-}
-.tsd-widget.options:before {
-    background-position: -80px 0;
-}
+
 .tsd-widget.options,
 .tsd-widget.menu {
     display: none;
