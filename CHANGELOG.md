@@ -1,5 +1,10 @@
 # Unreleased
 
+### Features
+
+-   TypeDoc will now detect and warn if multiple instances of the package are loaded. This usually means that a plugin has its own version of TypeDoc installed, which will lead to things breaking in unexpected ways.
+    It will only work if both loaded TypeDocs are v0.22.9 or later.
+
 ### Bug Fixes
 
 -   Corrected HTML generation for projects using Google Analytics, #1786.

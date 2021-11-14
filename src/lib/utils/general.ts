@@ -32,3 +32,18 @@ export type IfInternal<T, F> = InternalOnly extends true ? T : F;
  * See {@link IfInternal} for the rationale.
  */
 export type NeverIfInternal<T> = IfInternal<never, T>;
+
+/**
+ * This is a hack to make it possible to detect and warn about installation setups
+ * which result in TypeDoc being installed multiple times. If TypeDoc has been loaded
+ * multiple times, then parts of it will not work as expected.
+ */
+const loadSymbol = Symbol.for("typedoc_loads");
+const getLoads = () => globalThis[loadSymbol as never] || 0;
+
+// @ts-expect-error
+globalThis[loadSymbol] = getLoads() + 1;
+
+export function hasBeenLoadedMultipleTimes() {
+    return getLoads() !== 1;
+}
