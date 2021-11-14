@@ -48,7 +48,7 @@ export type {
     TypeDocOptionValues,
     ParameterTypeToOptionTypeMap,
 } from "./options";
-export { discoverNpmPlugins, loadPlugins } from "./plugins";
+export { discoverPlugins, loadPlugins } from "./plugins";
 export { sortReflections } from "./sort";
 export type { SortStrategy } from "./sort";
 

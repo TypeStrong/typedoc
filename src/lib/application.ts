@@ -11,7 +11,7 @@ import {
     CallbackLogger,
     loadPlugins,
     writeFile,
-    discoverNpmPlugins,
+    discoverPlugins,
     NeverIfInternal,
     TSConfigReader,
 } from "./utils/index";
@@ -135,9 +135,7 @@ export class Application extends ChildableComponent<
         }
         this.logger.level = this.options.getValue("logLevel");
 
-        const plugins = this.options.isSet("plugin")
-            ? this.options.getValue("plugin")
-            : discoverNpmPlugins(this);
+        const plugins = discoverPlugins(this);
         loadPlugins(this, plugins);
 
         this.options.reset();

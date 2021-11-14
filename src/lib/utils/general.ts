@@ -41,7 +41,7 @@ export type NeverIfInternal<T> = IfInternal<never, T>;
 const loadSymbol = Symbol.for("typedoc_loads");
 const getLoads = () => globalThis[loadSymbol as never] || 0;
 
-// @ts-expect-error
+// @ts-expect-error there's no way to add symbols to globalThis, sadly.
 globalThis[loadSymbol] = getLoads() + 1;
 
 export function hasBeenLoadedMultipleTimes() {

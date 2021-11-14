@@ -4,6 +4,8 @@
 
 -   TypeDoc will now detect and warn if multiple instances of the package are loaded. This usually means that a plugin has its own version of TypeDoc installed, which will lead to things breaking in unexpected ways.
     It will only work if both loaded TypeDocs are v0.22.9 or later.
+-   TypeDoc will now automatically load packages with `typedoctheme` or `typedoc-theme` in their keywords.
+    Plugins which define a custom theme should include this keyword so that they can be automatically collected and displayed at https://typedoc.org/guides/themes/.
 
 ### Bug Fixes
 
