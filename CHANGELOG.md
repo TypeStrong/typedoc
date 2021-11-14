@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.9 (2021-11-14)
+
 ### Features
 
 -   TypeDoc will now detect and warn if multiple instances of the package are loaded. This usually means that a plugin has its own version of TypeDoc installed, which will lead to things breaking in unexpected ways.
