@@ -8,9 +8,7 @@ export const memberSignatureBody = (
     { hideSources = false }: { hideSources?: boolean } = {}
 ) => (
     <>
-        {!hideSources && context.memberSources(props)}
         {context.comment(props)}
-
         {!!props.typeParameters && (
             <div class="tsd-type-parameters">
                 <h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -57,5 +55,6 @@ export const memberSignatureBody = (
                 {props.type instanceof ReflectionType && context.parameter(props.type.declaration)}
             </>
         )}
+        {!hideSources && context.memberSources(props)}
     </>
 );

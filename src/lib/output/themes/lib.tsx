@@ -56,7 +56,7 @@ export function renderFlags(flags: ReflectionFlags) {
         <>
             {flags.map((item) => (
                 <>
-                    <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
+                    <code class={"tsd-tag ts-flag" + item}>{item}</code>{" "}
                 </>
             ))}
         </>

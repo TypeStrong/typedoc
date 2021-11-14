@@ -24,8 +24,6 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
             )}
         </div>
 
-        {context.memberSources(props)}
-
         {context.comment(props)}
 
         {!!props.typeParameters && (
@@ -40,5 +38,7 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
                 {context.parameter(props.type.declaration)}
             </div>
         )}
+
+        {context.memberSources(props)}
     </>
 );

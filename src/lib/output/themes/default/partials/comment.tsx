@@ -18,19 +18,21 @@ export function comment({ markdown }: DefaultThemeRenderContext, props: Reflecti
                 </div>
             )}
             {props.comment.tags?.length > 0 && (
-                <dl class="tsd-comment-tags">
+                <div class="tsd-comment-tags">
                     {props.comment.tags.map((item) => (
-                        <>
+                        <dl class="tsd-comment-tag-group">
                             <dt>
-                                {item.tagName}
-                                {item.paramName ? ` ${item.paramName}` : ""}
+                                <code class="tsd-tag">
+                                    {item.tagName}
+                                    {item.paramName ? ` ${item.paramName}` : ""}
+                                </code>
                             </dt>
                             <dd>
                                 <Raw html={markdown(item.text)} />
                             </dd>
-                        </>
+                        </dl>
                     ))}
-                </dl>
+                </div>
             )}
         </div>
     );
