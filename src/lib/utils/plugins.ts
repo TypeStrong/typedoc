@@ -106,12 +106,7 @@ function loadPackageInfo(logger: Logger, fileName: string): any {
     }
 }
 
-const PLUGIN_KEYWORDS = [
-    "typedocplugin",
-    "typedoc-plugin",
-    "typedoctheme",
-    "typedoc-theme",
-];
+const PLUGIN_KEYWORDS = ["typedocplugin", "typedoc-plugin", "typedoc-theme"];
 
 /**
  * Test whether the given package info describes a TypeDoc plugin.
