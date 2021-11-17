@@ -4,6 +4,28 @@ import { Comment, CommentTag } from "../../models/comments/index";
 import type { Logger } from "../../utils";
 
 /**
+ * List of block tags as defined by TSDoc standard.
+ *
+ * The TSDoc standard states that "All text following a block tag, up until the
+ * start of the next block tag or modifier tag, is considered to be the block
+ * tag’s tag content." Therefore we need to differentiate between block tags
+ * and other kinds of tags to know where to stop processing the tag content.
+ */
+const BLOCK_TAGS = [
+    "decorator",
+    "deprecated",
+    "defaultValue",
+    "example",
+    "param",
+    "privateRemarks",
+    "remarks",
+    "returns",
+    "see",
+    "throws",
+    "typeParam",
+];
+
+/**
  * Check whether the given module declaration is the topmost.
  *
  * This function returns TRUE if there is no trailing module defined, in
@@ -189,7 +211,7 @@ export function parseComment(
     text: string,
     comment: Comment = new Comment()
 ): Comment {
-    let currentTag: CommentTag;
+    let currentTag: CommentTag | undefined;
     let shortText = 0;
 
     function consumeTypeData(line: string): string {
@@ -200,7 +222,12 @@ export function parseComment(
 
     function readBareLine(line: string) {
         if (currentTag) {
-            currentTag.text += "\n" + line;
+            currentTag.text += "\n";
+            if (!BLOCK_TAGS.includes(currentTag.tagName) && line === "") {
+                currentTag = undefined;
+            } else {
+                currentTag.text += line;
+            }
         } else if (line === "" && shortText === 0) {
             // Ignore
         } else if (line === "" && shortText === 1) {

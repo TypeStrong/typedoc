@@ -290,4 +290,34 @@ export const issueTests: {
         ok(project.children![0].kind === ReflectionKind.Reference);
         ok(project.children![1].kind !== ReflectionKind.Reference);
     },
+
+    gh1807(project) {
+        const Class1 = query(project, "Class1");
+        ok(!Class1.comment?.hasTag("class"));
+        ok(Class1.comment?.shortText === "This is another class.");
+
+        const Class2 = query(project, "Class2");
+        ok(!Class2.comment?.hasTag("extends"));
+        ok(Class2.comment?.shortText === "This is yet another class.");
+
+        const Class3 = query(project, "Class3");
+        ok(!Class3.comment?.hasTag("class"));
+        ok(!Class3.comment?.hasTag("extends"));
+        ok(Class3.comment?.shortText === "Some docs.");
+
+        const Class4 = query(project, "Class4");
+        ok(!Class4.comment?.hasTag("class"));
+        ok(Class4.comment?.hasTag("alpha"));
+        ok(Class4.comment?.shortText === "This is a different class.");
+
+        const Class5 = query(project, "Class5");
+        ok(!Class5.comment?.hasTag("class"));
+        ok(Class5.comment?.hasTag("alpha"));
+        ok(Class5.comment?.hasTag("remarks"));
+        ok(
+            Class5.comment?.getTag("remarks")?.text ===
+                "\n\nThis class has insightful remarks.\n\nThey span multiple lines.\n"
+        );
+        ok(Class5.comment?.shortText === "This is a different class.");
+    },
 };
