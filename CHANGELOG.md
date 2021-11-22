@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added support for TypeScript 4.5, #1798.
+
 ### Bug Fixes
 
 -   If file exports a symbol both under it's real name and as `default`, the `default` export will now always be the renamed symbol, #1795.
