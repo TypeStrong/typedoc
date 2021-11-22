@@ -281,4 +281,13 @@ export const issueTests: {
             )
         );
     },
+
+    gh1795(project) {
+        equal(
+            project.children?.map((c) => c.name),
+            ["default", "foo"]
+        );
+        ok(project.children![0].kind === ReflectionKind.Reference);
+        ok(project.children![1].kind !== ReflectionKind.Reference);
+    },
 };

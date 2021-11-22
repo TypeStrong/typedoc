@@ -467,6 +467,8 @@ function getExports(
     node: ts.SourceFile | ts.ModuleBlock,
     symbol: ts.Symbol | undefined
 ): ts.Symbol[] {
+    let result: ts.Symbol[];
+
     // The generated docs aren't great, but you really ought not be using
     // this in the first place... so it's better than nothing.
     const exportEq = symbol?.exports?.get("export=" as ts.__String);
@@ -474,7 +476,7 @@ function getExports(
         // JS users might also have exported types here.
         // We need to filter for types because otherwise static methods can show up as both
         // members of the export= class and as functions if a class is directly exported.
-        return [exportEq].concat(
+        result = [exportEq].concat(
             context.checker
                 .getExportsOfModule(symbol!)
                 .filter(
@@ -485,23 +487,33 @@ function getExports(
                         )
                 )
         );
-    }
-
-    if (symbol) {
-        return context.checker
+    } else if (symbol) {
+        result = context.checker
             .getExportsOfModule(symbol)
             .filter((s) => !hasAllFlags(s.flags, ts.SymbolFlags.Prototype));
+    } else {
+        // Global file with no inferred top level symbol, get all symbols declared in this file.
+        const sourceFile = node.getSourceFile();
+        result = context.checker
+            .getSymbolsInScope(node, ts.SymbolFlags.ModuleMember)
+            .filter((s) =>
+                s
+                    .getDeclarations()
+                    ?.some((d) => d.getSourceFile() === sourceFile)
+            );
     }
 
-    // Global file with no inferred top level symbol, get all symbols declared in this file.
-    const sourceFile = node.getSourceFile();
-    const globalSymbols = context.checker
-        .getSymbolsInScope(node, ts.SymbolFlags.ModuleMember)
-        .filter((s) =>
-            s.getDeclarations()?.some((d) => d.getSourceFile() === sourceFile)
-        );
+    // Put symbols named "default" last, #1795
+    result.sort((a, b) => {
+        if (a.name === "default") {
+            return 1;
+        } else if (b.name === "default") {
+            return -1;
+        }
+        return 0;
+    });
 
-    return globalSymbols;
+    return result;
 }
 
 function isDirectExport(symbol: ts.Symbol, file: ts.SourceFile): boolean {

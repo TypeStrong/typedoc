@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   If file exports a symbol both under it's real name and as `default`, the `default` export will now always be the renamed symbol, #1795.
+
 ## v0.22.9 (2021-11-14)
 
 ### Features
