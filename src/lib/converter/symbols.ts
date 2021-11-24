@@ -156,7 +156,15 @@ export function convertSymbol(
         flags = removeFlag(flags, ts.SymbolFlags.ValueModule);
     }
 
-    if (hasAllFlags(symbol.flags, ts.SymbolFlags.Method)) {
+    if (
+        hasAnyFlag(
+            symbol.flags,
+            ts.SymbolFlags.Method |
+                ts.SymbolFlags.Interface |
+                ts.SymbolFlags.Class |
+                ts.SymbolFlags.Variable
+        )
+    ) {
         // This happens when someone declares an object with methods:
         // { methodProperty() {} }
         flags = removeFlag(flags, ts.SymbolFlags.Property);
@@ -1002,7 +1010,10 @@ function convertAccessor(
 
 function isInherited(context: Context, symbol: ts.Symbol) {
     const parentSymbol = context.project.getSymbolFromReflection(context.scope);
-    assert(parentSymbol);
+    assert(
+        parentSymbol,
+        `No parent symbol found for ${symbol.name} in ${context.scope.name}`
+    );
     return (
         parentSymbol
             .getDeclarations()
