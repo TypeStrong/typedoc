@@ -1,8 +1,57 @@
 # Unreleased
 
+## v0.22.10 (2021-11-25)
+
+### Features
+
+-   Added support for TypeScript 4.5, #1798.
+
+### Bug Fixes
+
+-   If file exports a symbol both under it's real name and as `default`, the `default` export will now always be the renamed symbol, #1795.
+-   TypeDoc will no longer crash if a symbol is defined both as a normal class (and optional interface) and as a property, as is used for global Node types in older `@types/node` versions, Gerrit0/typedoc-plugin-missing-exports#5.
+
+## v0.22.9 (2021-11-14)
+
+### Features
+
+-   TypeDoc will now detect and warn if multiple instances of the package are loaded. This usually means that a plugin has its own version of TypeDoc installed, which will lead to things breaking in unexpected ways.
+    It will only work if both loaded TypeDocs are v0.22.9 or later.
+-   TypeDoc will now automatically load packages with `typedoc-theme` in their keywords.
+    Plugins which define a custom theme should include this keyword so that they can be automatically collected and displayed at https://typedoc.org/guides/themes/.
+
+### Bug Fixes
+
+-   Corrected HTML generation for projects using Google Analytics, #1786.
+-   Ensured that the `<meta charset="utf-8" />` appears within the first 1024 bytes of generated pages, #1783.
+
+### Thanks!
+
+-   @RunDevelopment
+
+## v0.22.8 (2021-11-07)
+
+### Features
+
+-   Added hooks which can be used to inject HTML without completely replacing a template, #1773.
+    See the documentation in [custom-themes.md](https://github.com/TypeStrong/typedoc/blob/master/internal-docs/custom-themes.md) for details.
+
+### Bug Fixes
+
+-   Actually fixed `@category` tag incorrectly appearing on function types if used on a type alias, #1745.
+-   Fix error in console when a page contains no documentation items.
+
+### Thanks!
+
+-   @RunDevelopment
+-   @srmagura
+
+## v0.22.7 (2021-10-25)
+
 ### Features
 
 -   Added support for GitHub enterprise projects with a `githubprivate.com` domain, #1743.
+-   Added support for GitLab repositories, #1728.
 
 ### Bug Fixes
 
@@ -17,8 +66,9 @@
 
 -   @nlfurniss
 -   @RunDevelopment
+-   @srmagura
 
-## v0.22.6 (2021-09-17)
+## v0.22.6 (2021-10-17)
 
 ### Features
 
@@ -38,7 +88,7 @@
 -   @capraynor
 -   @srmagura
 
-## v0.22.5 (2021-09-02)
+## v0.22.5 (2021-10-02)
 
 ### Features
 
@@ -76,7 +126,7 @@
 -   @schlusslicht
 -   @srmagura
 
-## v0.22.4 (2021-08-18)
+## v0.22.4 (2021-09-18)
 
 ### Features
 
@@ -94,7 +144,7 @@
 
 -   @srmagura
 
-## v0.22.3 (2021-08-12)
+## v0.22.3 (2021-09-12)
 
 ### Bug Fixes
 
@@ -113,20 +163,20 @@
     ```
 -   Added invalidLink to `validation` option, deprecated `listInvalidSymbolLinks`, which will be removed in 0.23.
 
-## v0.22.2 (2021-08-11)
+## v0.22.2 (2021-09-11)
 
 ### Bug Fixes
 
 -   Fix background color of tables in dark mode, closes #1684.
 
-## v0.22.1 (2021-08-10)
+## v0.22.1 (2021-09-10)
 
 ### Bug Fixes
 
 -   Validation for non-exported symbols will now only produce one warning per symbol, instead of one warning per reference.
 -   Syntax highlighting when the preferred color scheme is dark but dark theme is not explicitly selected will now properly use the dark highlighting theme.
 
-# v0.22.0 (2021-08-10)
+# v0.22.0 (2021-09-10)
 
 ### Breaking Changes
 
@@ -188,7 +238,7 @@
 -   @cspotcode
 -   @itsjamie
 
-## v0.21.9 (2021-07-29)
+## v0.21.9 (2021-08-29)
 
 ### Bug Fixes
 
@@ -198,7 +248,7 @@
 
 -   @StoneCypher
 
-## v0.21.8 (2021-07-28)
+## v0.21.8 (2021-08-28)
 
 ### Features
 
@@ -208,13 +258,13 @@
 
 -   @StoneCypher
 
-## v0.21.7 (2021-07-27)
+## v0.21.7 (2021-08-27)
 
 ### Features
 
 -   Support for TypeScript 4.4, closes #1664
 
-## v0.21.6 (2021-07-19)
+## v0.21.6 (2021-08-19)
 
 ### Features
 
@@ -228,7 +278,7 @@
 
 -   @krisztianb
 
-## v0.21.5 (2021-06-31)
+## v0.21.5 (2021-07-31)
 
 ### Features
 
@@ -242,13 +292,13 @@
 
 -   @betaorbust
 
-## v0.21.4 (2021-06-12)
+## v0.21.4 (2021-07-12)
 
 ### Bug Fixes
 
 -   Constructors did not have source information set, closes #1626
 
-## v0.21.3 (2021-06-10)
+## v0.21.3 (2021-07-10)
 
 ### Breaking Changes
 
@@ -264,13 +314,13 @@
 
 -   @cspotcode
 
-## v0.21.2 (2021-05-27)
+## v0.21.2 (2021-06-27)
 
 ### Bug Fixes
 
 -   Postpone resolution of inherited classes until their parents have been resolved, closes #1580
 
-## v0.21.1 (2021-05-25)
+## v0.21.1 (2021-06-25)
 
 ### Bug Fixes
 
@@ -278,7 +328,7 @@
 -   `readme` could not be set to `none` in a config file, closes #1608
 -   Correctly handle minimatch excludes on Windows, closes #1610
 
-# v0.21.0 (2021-05-18)
+# v0.21.0 (2021-06-18)
 
 ### Breaking Changes
 
@@ -310,7 +360,7 @@
 -   efokschaner
 -   Martin
 
-## v0.20.37 (2021-05-16)
+## v0.20.37 (2021-06-16)
 
 ### Features
 
@@ -325,7 +375,7 @@
 -   Martin
 -   Nick
 
-## v0.20.36 (2021-03-23)
+## v0.20.36 (2021-04-23)
 
 ### Features
 
@@ -341,7 +391,7 @@
 
 -   cAttte
 
-## v0.20.35 (2021-03-03)
+## v0.20.35 (2021-04-03)
 
 ### Features
 
@@ -356,7 +406,7 @@
 
 -   Masato Makino
 
-## v0.20.34 (2021-02-25)
+## v0.20.34 (2021-03-25)
 
 ### Bug Fixes
 
@@ -364,19 +414,19 @@
 -   Discover module comments for global files, closes #1549
 -   Detect references when export \* is used, closes #1551
 
-## v0.20.33 (2021-02-22)
+## v0.20.33 (2021-03-22)
 
 ### Bug Fixes
 
 -   Static properties of Error class incorrectly converted, closes #1541, #572
 
-## v0.20.32 (2021-02-14)
+## v0.20.32 (2021-03-14)
 
 ### Bug Fixes
 
 -   Correct crash with reflection types, closes #1538
 
-## v0.20.31 (2021-02-14)
+## v0.20.31 (2021-03-14)
 
 ### Bug Fixes
 
@@ -387,7 +437,7 @@
 
 -   Vladimir Ivakin
 
-## v0.20.30 (2021-02-06)
+## v0.20.30 (2021-03-06)
 
 ### Bug Fixes
 
@@ -395,19 +445,19 @@
 -   Support JSDocNullableType, JSDocNonNullableType, closes #1524
 -   Remove undefined from optional property types, closes #1525
 
-## v0.20.29 (2021-02-04)
+## v0.20.29 (2021-03-04)
 
 ### Features
 
 -   Support for TypeScript 4.2, closes #1517
 
-## v0.20.28 (2021-01-23)
+## v0.20.28 (2021-02-23)
 
 ### Bug Fixes
 
 -   Detect visibility modifiers on accessors, closes #1516
 
-## v0.20.27 (2021-01-20)
+## v0.20.27 (2021-02-20)
 
 ### Features
 
@@ -421,19 +471,19 @@
 
 -   michaelf
 
-## v0.20.26 (2021-01-20)
+## v0.20.26 (2021-02-20)
 
 ### Bug Fixes
 
 -   Pick up optional/readonly from mapped types, closes #1509
 
-## v0.20.25 (2021-01-15)
+## v0.20.25 (2021-02-15)
 
 ### Features
 
 -   Support for specifying comments on export declarations, closes #1504
 
-## v0.20.24 (2021-01-11)
+## v0.20.24 (2021-02-11)
 
 ### Features
 
@@ -443,7 +493,7 @@
 
 -   TUNER88
 
-## v0.20.23 (2021-01-06)
+## v0.20.23 (2021-02-06)
 
 ### Bug Fixes
 
@@ -454,19 +504,19 @@
 
 -   Siddharth VP
 
-## v0.20.22 (2021-01-06)
+## v0.20.22 (2021-02-06)
 
 ### Bug Fixes
 
 -   Import from shiki rather than shiki-themes, closes #1496
 
-## v0.20.21 (2021-01-05)
+## v0.20.21 (2021-02-05)
 
 ### Bug Fixes
 
 -   Missing exported members in file-as-namespace reflection, closes #1493
 
-## v0.20.20 (2021-00-31)
+## v0.20.20 (2021-01-31)
 
 ### Features
 
@@ -483,19 +533,19 @@
 
 -   Matthias Law
 
-## v0.20.19 (2021-00-25)
+## v0.20.19 (2021-01-25)
 
 ### Features
 
 -   Support for --watch, --preserveWatchOutput, --emit
 
-## v0.20.18 (2021-00-24)
+## v0.20.18 (2021-01-24)
 
 ### Bug Fixes
 
 -   Static methods added to the class manually in JS, closes #1481
 
-## v0.20.17 (2021-00-23)
+## v0.20.17 (2021-01-23)
 
 ### Features
 
@@ -509,14 +559,14 @@
 
 -   dergash
 
-## v0.20.16 (2021-00-17)
+## v0.20.16 (2021-01-17)
 
 ### Bug Fixes
 
 -   Comments on projects were broken
 -   Constructors were a bit broken
 
-## v0.20.15 (2021-00-16)
+## v0.20.15 (2021-01-16)
 
 ### Features
 
@@ -534,7 +584,7 @@
 
 -   Bruno Zorić
 
-## v0.20.14 (2021-00-09)
+## v0.20.14 (2021-01-09)
 
 ### Bug Fixes
 
@@ -547,13 +597,13 @@
 
 -   Krisztián Balla
 
-## v0.20.13 (2021-00-06)
+## v0.20.13 (2021-01-06)
 
 ### Bug Fixes
 
 -   Use type nodes if converting a regular function, closes #1454
 
-## v0.20.12 (2021-00-05)
+## v0.20.12 (2021-01-05)
 
 ### Bug Fixes
 
@@ -565,38 +615,38 @@
 
 -   Krisztián Balla
 
-## v0.20.11 (2021-00-04)
+## v0.20.11 (2021-01-04)
 
 ### Bug Fixes
 
 -   Crash when converting a generic with a tuple constraint, closes #1449
 
-## v0.20.10 (2021-00-03)
+## v0.20.10 (2021-01-03)
 
 ### Bug Fixes
 
 -   Errors due to bad options in tsconfig file were dropped, closes #1444
 
-## v0.20.9 (2021-00-02)
+## v0.20.9 (2021-01-02)
 
 ### Bug Fixes
 
 -   Regression caused by 1886304f327da5642097834feac0387fd1b78b6e
 -   Parameter declarations might not exist, closes #1443
 
-## v0.20.8 (2021-00-01)
+## v0.20.8 (2021-01-01)
 
 ### Bug Fixes
 
 -   CLI should not exit cleanly on unexpected error
 
-## v0.20.7 (2020-00-01)
+## v0.20.7 (2020-01-01)
 
 ### Bug Fixes
 
 -   Tuples could cause a crash
 
-## v0.20.6 (2020-00-01)
+## v0.20.6 (2020-01-01)
 
 ### Features
 
@@ -606,25 +656,25 @@
 
 -   Properly resolve type parameters, closes #1438
 
-## v0.20.5 (2020-11-30)
+## v0.20.5 (2020-12-30)
 
 ### Bug Fixes
 
 -   Functions might not have a parent in global files, closes #1436
 
-## v0.20.4 (2020-11-30)
+## v0.20.4 (2020-12-30)
 
 ### Bug Fixes
 
 -   --excludeNotDocumented didn't remove reflections, closes #1435
 
-## v0.20.3 (2020-11-29)
+## v0.20.3 (2020-12-29)
 
 ### Features
 
 -   Improved support for global files, closes #1424
 
-## v0.20.2 (2020-11-29)
+## v0.20.2 (2020-12-29)
 
 ### Features
 
@@ -638,13 +688,13 @@
 -   Literal boolean converter in TS 3
 -   Map bash, sh, shell to shellscript when highlighting, closes #1432
 
-## v0.20.1 (2020-11-29)
+## v0.20.1 (2020-12-29)
 
 ### Bug Fixes
 
 -   Initializers should only be included if "simple", closes #1288, #1224, #764
 
-# v0.20.0 (2020-11-28)
+# v0.20.0 (2020-12-28)
 
 ### Breaking Changes
 
@@ -711,13 +761,13 @@
 -   Krisztián Balla
 -   Soc Sieng
 
-## v0.19.2 (2020-08-21)
+## v0.19.2 (2020-09-21)
 
 ### Bug Fixes
 
 -   Export declarations within namespaces weren't detected, closes #1366
 
-## v0.19.1 (2020-08-05)
+## v0.19.1 (2020-09-05)
 
 ### Features
 
@@ -727,7 +777,7 @@
 
 -   Constantine Dergachev
 
-# v0.19.0 (2020-07-28)
+# v0.19.0 (2020-08-28)
 
 ### Features
 
@@ -748,7 +798,7 @@
 -   Krisztián Balla
 -   MathBunny
 
-# v0.18.0 (2020-07-09)
+# v0.18.0 (2020-08-09)
 
 ### Breaking Changes
 
@@ -772,7 +822,7 @@
 -   Nickolay Platonov
 -   TheBrokenRail
 
-## v0.17.7 (2020-04-17)
+## v0.17.7 (2020-05-17)
 
 ### Breaking Changes
 
@@ -826,7 +876,7 @@
 -   Stephan Bijzitter
 -   William Johnes
 
-## v0.16.11 (2020-01-28)
+## v0.16.11 (2020-02-28)
 
 ### Features
 
@@ -850,7 +900,7 @@
 -   Richie Bendall
 -   Robin Stevens
 
-## v0.16.10 (2020-01-16)
+## v0.16.10 (2020-02-16)
 
 ### Features
 
@@ -869,7 +919,7 @@
 -   Robin Stevens
 -   Zack Slayton
 
-## v0.16.9 (2020-00-25)
+## v0.16.9 (2020-01-25)
 
 ### Bug Fixes
 
@@ -879,13 +929,13 @@
 
 -   Anton Golub
 
-## v0.16.8 (2020-00-21)
+## v0.16.8 (2020-01-21)
 
 ### Bug Fixes
 
 -   Correctly handle export \* from..., closes #1186
 
-## v0.16.7 (2020-00-17)
+## v0.16.7 (2020-01-17)
 
 ### Features
 
@@ -899,7 +949,7 @@
 
 -   Robin Stevens
 
-## v0.16.6 (2020-00-16)
+## v0.16.6 (2020-01-16)
 
 ### Bug Fixes
 

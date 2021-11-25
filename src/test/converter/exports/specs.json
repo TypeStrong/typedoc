@@ -17,7 +17,7 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 37
+          "target": 35
         },
         {
           "id": 39,
@@ -44,7 +44,7 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 30
+          "target": 36
         },
         {
           "id": 45,
@@ -52,7 +52,7 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 36
+          "target": 34
         },
         {
           "id": 42,
@@ -60,7 +60,7 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 32
+          "target": 30
         },
         {
           "id": 43,
@@ -71,7 +71,7 @@
           "comment": {
             "summary": "An export of a local under a different name."
           },
-          "target": 33
+          "target": 31
         },
         {
           "id": 38,
@@ -79,17 +79,17 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 32
+          "target": 30
         },
         {
-          "id": 23,
+          "id": 20,
           "name": "GH1453",
           "kind": 4,
           "kindString": "Namespace",
           "flags": {},
           "children": [
             {
-              "id": 28,
+              "id": 25,
               "name": "Foo",
               "kind": 4194304,
               "kindString": "Type alias",
@@ -101,7 +101,7 @@
               }
             },
             {
-              "id": 26,
+              "id": 23,
               "name": "Member",
               "kind": 32,
               "kindString": "Variable",
@@ -113,7 +113,7 @@
               "defaultValue": "Mod.a"
             },
             {
-              "id": 24,
+              "id": 21,
               "name": "Module",
               "kind": 32,
               "kindString": "Variable",
@@ -126,7 +126,7 @@
               "defaultValue": "Mod"
             },
             {
-              "id": 27,
+              "id": 24,
               "name": "TypedMember",
               "kind": 32,
               "kindString": "Variable",
@@ -139,7 +139,7 @@
               "defaultValue": "Mod.a"
             },
             {
-              "id": 25,
+              "id": 22,
               "name": "TypedModule",
               "kind": 32,
               "kindString": "Variable",
@@ -157,37 +157,37 @@
               "title": "Type aliases",
               "kind": 4194304,
               "children": [
-                28
+                25
               ]
             },
             {
               "title": "Variables",
               "kind": 32,
               "children": [
-                26,
+                23,
+                21,
                 24,
-                27,
-                25
+                22
               ]
             }
           ]
         },
         {
-          "id": 18,
+          "id": 15,
           "name": "add",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 19,
+              "id": 16,
               "name": "add",
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
-                  "id": 20,
+                  "id": 17,
                   "name": "x",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -198,7 +198,7 @@
                   }
                 },
                 {
-                  "id": 21,
+                  "id": 18,
                   "name": "y",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -217,21 +217,21 @@
           ]
         },
         {
-          "id": 15,
+          "id": 26,
           "name": "default",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 16,
+              "id": 27,
               "name": "default",
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
-                  "id": 17,
+                  "id": 28,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -269,15 +269,15 @@
           "title": "Namespaces",
           "kind": 4,
           "children": [
-            23
+            20
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            18,
-            15
+            15,
+            26
           ]
         }
       ]
@@ -466,7 +466,7 @@
       },
       "children": [
         {
-          "id": 36,
+          "id": 34,
           "name": "ThisModule",
           "kind": 16777216,
           "kindString": "Reference",
@@ -474,7 +474,7 @@
           "target": 29
         },
         {
-          "id": 33,
+          "id": 31,
           "name": "b",
           "kind": 16777216,
           "kindString": "Reference",
@@ -482,10 +482,10 @@
           "comment": {
             "summary": "An export of a local under a different name."
           },
-          "target": 32
+          "target": 30
         },
         {
-          "id": 34,
+          "id": 32,
           "name": "c",
           "kind": 16777216,
           "kindString": "Reference",
@@ -493,10 +493,10 @@
           "comment": {
             "summary": "An export with a module specifier that comes from this file."
           },
-          "target": 32
+          "target": 30
         },
         {
-          "id": 37,
+          "id": 35,
           "name": "GH1453Helper",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -507,7 +507,7 @@
           }
         },
         {
-          "id": 32,
+          "id": 30,
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
@@ -522,14 +522,14 @@
           "defaultValue": "1"
         },
         {
-          "id": 30,
+          "id": 36,
           "name": "default",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 31,
+              "id": 37,
               "name": "default",
               "kind": 4096,
               "kindString": "Call signature",
@@ -550,30 +550,30 @@
           "title": "References",
           "kind": 16777216,
           "children": [
-            36,
-            33,
-            34
+            34,
+            31,
+            32
           ]
         },
         {
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            37
+            35
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            32
+            30
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            30
+            36
           ]
         }
       ]

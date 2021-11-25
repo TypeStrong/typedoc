@@ -284,6 +284,21 @@ export const issueTests: {
         ok(cat);
 
         ok(cat.children.includes(Foo));
-        ok(!Foo.comment?.hasModifier("category"));
+        ok(!Foo.comment?.getTag("category"));
+        ok(!Foo.type.declaration.comment?.getTag("category"));
+        ok(
+            !Foo.type.declaration.signatures?.some((s) =>
+                s.comment?.getTag("category")
+            )
+        );
+    },
+
+    gh1795(project) {
+        equal(
+            project.children?.map((c) => c.name),
+            ["default", "foo"]
+        );
+        ok(project.children![0].kind === ReflectionKind.Reference);
+        ok(project.children![1].kind !== ReflectionKind.Reference);
     },
 };

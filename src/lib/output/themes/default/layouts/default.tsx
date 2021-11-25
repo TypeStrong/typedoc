@@ -4,18 +4,15 @@ import type { PageEvent } from "../../../events";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
-    <html class="default no-js">
+    <html class="default">
         <head>
             <meta charSet="utf-8" />
+            {context.hook("head.begin")}
             <meta http-equiv="x-ua-compatible" content="IE=edge" />
             <title>
-                {props.model.name === props.project.name ? (
-                    props.project.name
-                ) : (
-                    <>
-                        {props.model.name} | {props.project.name}
-                    </>
-                )}
+                {props.model.name === props.project.name
+                    ? props.project.name
+                    : `${props.model.name} | ${props.project.name}`}
             </title>
             <meta name="description" content={"Documentation for " + props.project.name} />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,8 +23,10 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
                 <link rel="stylesheet" href={context.relativeURL("assets/custom.css")} />
             )}
             <script async src={context.relativeURL("assets/search.js")} id="search-script"></script>
+            {context.hook("head.end")}
         </head>
         <body>
+            {context.hook("body.begin")}
             <script>
                 <Raw html='document.body.classList.add(localStorage.getItem("tsd-theme") || "os")' />
             </script>
@@ -46,6 +45,7 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             <script src={context.relativeURL("assets/main.js")}></script>
 
             {context.analytics()}
+            {context.hook("body.end")}
         </body>
     </html>
 );

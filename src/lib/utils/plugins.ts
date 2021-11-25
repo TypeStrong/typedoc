@@ -37,7 +37,13 @@ export function loadPlugins(app: Application, plugins: readonly string[]) {
     }
 }
 
-export function discoverNpmPlugins(app: Application): string[] {
+export function discoverPlugins(app: Application): string[] {
+    // If the plugin option is set, then automatic discovery is disabled, and we should just
+    // return the plugins that the user has asked for.
+    if (app.options.isSet("plugin")) {
+        return app.options.getValue("plugin");
+    }
+
     const result: string[] = [];
     discover();
     return result;
@@ -100,6 +106,8 @@ function loadPackageInfo(logger: Logger, fileName: string): any {
     }
 }
 
+const PLUGIN_KEYWORDS = ["typedocplugin", "typedoc-plugin", "typedoc-theme"];
+
 /**
  * Test whether the given package info describes a TypeDoc plugin.
  */
@@ -116,7 +124,7 @@ function isPlugin(info: any): boolean {
     return keywords.some(
         (keyword) =>
             typeof keyword === "string" &&
-            keyword.toLocaleLowerCase() === "typedocplugin"
+            PLUGIN_KEYWORDS.includes(keyword.toLocaleLowerCase())
     );
 }
 

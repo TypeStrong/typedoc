@@ -5,7 +5,9 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node: ["12.10", "12", "14", "16"]
+                # ESLint doesn't support Node 12.10 anymore. Test on the oldest available
+                # node that our tools support.
+                node: ["12.22", "12", "14", "16"]
         name: Node ${{ matrix.node }}
         steps:
             - name: Checkout repository

@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint .",
     "tsc": "tsc",
-    "typedoc": "node ../bin/typedoc ./src"
+    "typedoc": "node ../bin/typedoc"
   },
   "dependencies": {
     "@types/lodash": "^4.14.175",

@@ -55,7 +55,7 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * A list of call signatures attached to this declaration.
      *
-     * TypeDoc creates one declaration per function that may contain ore or more
+     * TypeDoc creates one declaration per function that may contain one or more
      * signature reflections.
      */
     signatures?: SignatureReflection[];

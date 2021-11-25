@@ -1,4 +1,6 @@
 {
-    "sort": "source-order",
+    "$schema": "https://typedoc.org/schema.json",
+    "entryPoints": ["./src"],
+    "sort": ["source-order"],
     "media": "media"
 }

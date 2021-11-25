@@ -16,7 +16,7 @@ export {
     RendererEvent,
     MarkdownEvent,
 } from "./lib/output";
-export type { RenderTemplate } from "./lib/output";
+export type { RenderTemplate, RendererHooks } from "./lib/output";
 
 export {
     ArgumentsReader,
@@ -30,6 +30,7 @@ export {
     TSConfigReader,
     TypeDocReader,
     EntryPointStrategy,
+    EventHooks,
 } from "./lib/utils";
 
 export type {

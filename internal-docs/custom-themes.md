@@ -30,14 +30,18 @@ class MyThemeContext extends DefaultThemeRenderContext {
 
         const site = this.options.getValue("gaSite");
 
+        const script = `
+(function() {
+    var _owa = document.createElement('script'); _owa.type = 'text/javascript';
+    _owa.async = true; _owa.src = '${site}' + '/modules/base/js/owa.tracker-combined-min.js';
+    var _owa_s = document.getElementsByTagName('script')[0]; _owa_s.parentNode.insertBefore(_owa,
+    _owa_s);
+}());
+`.trim();
+
         return (
             <script>
-                (function() {"{"}
-                var _owa = document.createElement('script'); _owa.type = 'text/javascript';
-                _owa.async = true; _owa.src = '{site}' + '/modules/base/js/owa.tracker-combined-min.js';
-                var _owa_s = document.getElementsByTagName('script')[0]; _owa_s.parentNode.insertBefore(_owa,
-                _owa_s);
-                {"}"}());
+                <JSX.Raw html={script} />
             </script>
         );
     };
@@ -59,10 +63,30 @@ export function load(app: Application) {
 }
 ```
 
+## Hooks (v0.22.8+)
+
+When rendering themes, TypeDoc's default theme will call several functions to allow plugins to inject HTML
+into a page without completely overwriting a theme. Hooks live on the parent `Renderer` and may be called
+by child themes which overwrite a helper with a custom implementation. As an example, the following plugin
+will cause a popup on every page when loaded.
+
+```tsx
+import { Application, JSX } from "typedoc";
+export function load(app: Application) {
+    app.renderer.hooks.on("head.end", () => (
+        <script>
+            <JSX.Raw html="alert('hi!');" />
+        </script>
+    ));
+}
+```
+
+For documentation on the available hooks, see the [RendererHooks](https://typedoc.org/api/interfaces/RendererHooks.html)
+documentation on the website.
+
 ## Future Work
 
 The following is not currently supported by TypeDoc, but is planned on being included in a future version.
 
--   Support for injecting HTML without completely overwriting a template.
 -   Support for pre-render and post-render async actions for copying files, preparing the output directory, etc.
     In the meantime, listen to `RendererEvent.BEGIN` or `RendererEvent.END` and perform processing there.

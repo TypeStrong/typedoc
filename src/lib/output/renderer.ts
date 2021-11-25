@@ -19,10 +19,38 @@ import { remove, writeFileSync } from "../utils/fs";
 import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
-import { BindOption } from "../utils";
+import { BindOption, EventHooks } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import type { Theme as ShikiTheme } from "shiki";
 import { Reflection } from "../models";
+import type { JsxElement } from "../utils/jsx.elements";
+import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
+
+/**
+ * Describes the hooks available to inject output in the default theme.
+ * If the available hooks don't let you put something where you'd like, please open an issue!
+ */
+export interface RendererHooks {
+    /**
+     * Applied immediately after the opening `<head>` tag.
+     */
+    "head.begin": [DefaultThemeRenderContext];
+
+    /**
+     * Applied immediately before the closing `</head>` tag.
+     */
+    "head.end": [DefaultThemeRenderContext];
+
+    /**
+     * Applied immediately after the opening `<body>` tag.
+     */
+    "body.begin": [DefaultThemeRenderContext];
+
+    /**
+     * Applied immediately before the closing `</body>` tag.
+     */
+    "body.end": [DefaultThemeRenderContext];
+}
 
 /**
  * The renderer processes a {@link ProjectReflection} using a {@link Theme} instance and writes
@@ -79,6 +107,16 @@ export class Renderer extends ChildableComponent<
      * The theme that is used to render the documentation.
      */
     theme?: Theme;
+
+    /**
+     * Hooks which will be called when rendering pages.
+     * Note:
+     * - Hooks added during output will be discarded at the end of rendering.
+     * - Hooks added during a page render will be discarded at the end of that page's render.
+     *
+     * See {@link RendererHooks} for a description of each available hook, and when it will be called.
+     */
+    hooks = new EventHooks<RendererHooks, JsxElement>();
 
     /** @internal */
     @BindOption("theme")
@@ -195,6 +233,7 @@ export class Renderer extends ChildableComponent<
         project: ProjectReflection,
         outputDirectory: string
     ): Promise<void> {
+        const momento = this.hooks.saveMomento();
         const start = Date.now();
         await loadHighlighter(this.lightTheme, this.darkTheme);
         this.application.logger.verbose(
@@ -225,6 +264,7 @@ export class Renderer extends ChildableComponent<
         }
 
         this.theme = void 0;
+        this.hooks.restoreMomento(momento);
     }
 
     /**
@@ -234,8 +274,10 @@ export class Renderer extends ChildableComponent<
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
     private renderDocument(page: PageEvent): boolean {
+        const momento = this.hooks.saveMomento();
         this.trigger(PageEvent.BEGIN, page);
         if (page.isDefaultPrevented) {
+            this.hooks.restoreMomento(momento);
             return false;
         }
 
@@ -246,6 +288,8 @@ export class Renderer extends ChildableComponent<
         }
 
         this.trigger(PageEvent.END, page);
+        this.hooks.restoreMomento(momento);
+
         if (page.isDefaultPrevented) {
             return false;
         }

@@ -49,17 +49,17 @@ export class Repository {
     project?: string;
 
     /**
-     * The hostname for this GitHub or Bitbucket project.
+     * The hostname for this GitHub/Bitbucket/.etc project.
      *
      * Defaults to: `github.com` (for normal, public GitHub instance projects)
      *
-     * Or the hostname for an enterprise version of GitHub, e.g. `github.acme.com`
+     * Can be the hostname for an enterprise version of GitHub, e.g. `github.acme.com`
      * (if found as a match in the list of git remotes).
      */
     hostname = "github.com";
 
     /**
-     * Whether this is a GitHub or Bitbucket repository.
+     * Whether this is a GitHub, Bitbucket, or other type of repository.
      */
     type: RepositoryType = RepositoryType.GitHub;
 
@@ -89,6 +89,10 @@ export class Repository {
                 match = /(bitbucket.org)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);
             }
 
+            if (!match) {
+                match = /(gitlab.com)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);
+            }
+
             if (match) {
                 this.hostname = match[1];
                 this.user = match[2];
@@ -103,9 +107,13 @@ export class Repository {
             }
         }
 
-        if (this.hostname.includes("bitbucket.org"))
+        if (this.hostname.includes("bitbucket.org")) {
             this.type = RepositoryType.Bitbucket;
-        else this.type = RepositoryType.GitHub;
+        } else if (this.hostname.includes("gitlab.com")) {
+            this.type = RepositoryType.GitLab;
+        } else {
+            this.type = RepositoryType.GitHub;
+        }
 
         let out = git("-C", path, "ls-files");
         if (out.status === 0) {
@@ -149,10 +157,13 @@ export class Repository {
             `https://${this.hostname}`,
             this.user,
             this.project,
-            this.type === "github" ? "blob" : "src",
+            this.type === RepositoryType.GitLab ? "-" : undefined,
+            this.type === RepositoryType.Bitbucket ? "src" : "blob",
             this.branch,
             fileName.substr(this.path.length + 1),
-        ].join("/");
+        ]
+            .filter((s) => !!s)
+            .join("/");
     }
 
     /**
@@ -190,6 +201,7 @@ export class Repository {
         switch (repositoryType) {
             default:
             case RepositoryType.GitHub:
+            case RepositoryType.GitLab:
                 return "L" + lineNumber;
             case RepositoryType.Bitbucket:
                 return "lines-" + lineNumber;
@@ -201,8 +213,8 @@ export class Repository {
  * A handler that watches for repositories with GitHub origin and links
  * their source files to the related GitHub pages.
  */
-@Component({ name: "git-hub" })
-export class GitHubPlugin extends ConverterComponent {
+@Component({ name: "source-link" })
+export class SourceLinkPlugin extends ConverterComponent {
     /**
      * List of known repositories.
      */

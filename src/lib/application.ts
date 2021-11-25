@@ -11,7 +11,7 @@ import {
     CallbackLogger,
     loadPlugins,
     writeFile,
-    discoverNpmPlugins,
+    discoverPlugins,
     NeverIfInternal,
     TSConfigReader,
 } from "./utils/index";
@@ -33,6 +33,7 @@ import {
     getWatchEntryPoints,
 } from "./utils/entry-point";
 import { nicePath } from "./utils/paths";
+import { hasBeenLoadedMultipleTimes } from "./utils/general";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -134,9 +135,7 @@ export class Application extends ChildableComponent<
         }
         this.logger.level = this.options.getValue("logLevel");
 
-        const plugins = this.options.isSet("plugin")
-            ? this.options.getValue("plugin")
-            : discoverNpmPlugins(this);
+        const plugins = discoverPlugins(this);
         loadPlugins(this, plugins);
 
         this.options.reset();
@@ -149,6 +148,12 @@ export class Application extends ChildableComponent<
             }
         }
         this.options.read(this.logger);
+
+        if (hasBeenLoadedMultipleTimes()) {
+            this.logger.warn(
+                `TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. This will likely break things.`
+            );
+        }
     }
 
     /**
