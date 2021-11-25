@@ -359,9 +359,7 @@ export class CancellablePromise<T> {
      * @returns A new `CancellablePromise`. Canceling it cancels all of the input
      * promises.
      */
-    static race<T>(
-        values: readonly T[]
-    ): CancellablePromise<T extends PromiseLike<infer U> ? U : T> {
+    static race<T>(values: readonly T[]): CancellablePromise<Awaited<T>> {
         const cancel = (): void => {
             for (const value of values) {
                 if (isPromiseWithCancel(value)) {
