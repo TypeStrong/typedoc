@@ -15,6 +15,7 @@ import type { Context } from "../context";
 import { ConverterEvents } from "../converter-events";
 import { convertDefaultValue } from "../convert-expression";
 import { removeUndefined } from "../utils/reflections";
+import { getSignatureComment } from "../comments";
 
 export function createSignature(
     context: Context,
@@ -24,25 +25,9 @@ export function createSignature(
         | ReflectionKind.GetSignature
         | ReflectionKind.SetSignature,
     signature: ts.Signature,
-    declaration?: ts.SignatureDeclaration,
-    commentDeclaration?: ts.Node
+    declaration?: ts.SignatureDeclaration | ts.JSDocSignature
 ) {
     assert(context.scope instanceof DeclarationReflection);
-    // signature.getDeclaration might return undefined.
-    // https://github.com/microsoft/TypeScript/issues/30014
-    declaration ??= signature.getDeclaration() as
-        | ts.SignatureDeclaration
-        | undefined;
-
-    if (
-        !commentDeclaration &&
-        declaration &&
-        (ts.isArrowFunction(declaration) ||
-            ts.isFunctionExpression(declaration))
-    ) {
-        commentDeclaration = declaration.parent;
-    }
-    commentDeclaration ??= declaration;
 
     const sigRef = new SignatureReflection(
         kind == ReflectionKind.ConstructorSignature
@@ -51,6 +36,13 @@ export function createSignature(
         kind,
         context.scope
     );
+    if (declaration) {
+        sigRef.comment = getSignatureComment(
+            declaration,
+            context.config,
+            context.logger
+        );
+    }
 
     sigRef.typeParameters = convertTypeParameters(
         context,
@@ -95,18 +87,17 @@ export function createSignature(
             break;
     }
 
-    context.trigger(
-        ConverterEvents.CREATE_SIGNATURE,
-        sigRef,
-        commentDeclaration
-    );
+    context.trigger(ConverterEvents.CREATE_SIGNATURE, sigRef);
 }
 
 function convertParameters(
     context: Context,
     sigRef: SignatureReflection,
     parameters: readonly (ts.Symbol & { type: ts.Type })[],
-    parameterNodes: readonly ts.ParameterDeclaration[] | undefined
+    parameterNodes:
+        | readonly ts.ParameterDeclaration[]
+        | readonly ts.JSDocParameterTag[]
+        | undefined
 ) {
     return parameters.map((param, i) => {
         const declaration = param.valueDeclaration as

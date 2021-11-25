@@ -70,19 +70,6 @@ export class Context {
         this.convertingTypeNode = true;
     }
 
-    /**
-     * This is a horrible hack to avoid breaking backwards compatibility for plugins
-     * that use EVENT_CREATE_DECLARATION. The comment plugin needs to be able to check
-     * this to properly get the comment for module re-exports:
-     * ```ts
-     * /** We should use this comment *&#47;
-     * export * as Mod from "./mod"
-     * ```
-     * Will be removed in 0.23.
-     * @internal
-     */
-    exportSymbol?: ts.Symbol;
-
     /** @internal */
     shouldBeStatic = false;
 
@@ -180,8 +167,9 @@ export class Context {
         return resolveAliasedSymbol(symbol, this.checker);
     }
 
+    // TODO: This needs to live on Application, and get constructed based on user input.
     config: CommentParserConfig = {
-        blockTags: new Set(["@param", "@remarks"]),
+        blockTags: new Set(["@param", "@remarks", "@module"]),
         inlineTags: new Set(["@link"]),
         modifierTags: new Set([
             "@public",
@@ -189,6 +177,8 @@ export class Context {
             "@protected",
             "@readonly",
             "@enum",
+            "@event",
+            "@packageDocumentation",
         ]),
     };
 
@@ -203,7 +193,16 @@ export class Context {
             nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
         );
         const reflection = new DeclarationReflection(name, kind, this.scope);
-        if (symbol) {
+
+        if (exportSymbol) {
+            reflection.comment = getComment(
+                exportSymbol,
+                reflection.kind,
+                this.config,
+                this.logger
+            );
+        }
+        if (symbol && !reflection.comment) {
             reflection.comment = getComment(
                 symbol,
                 reflection.kind,
@@ -211,9 +210,11 @@ export class Context {
                 this.logger
             );
         }
+
         if (this.shouldBeStatic) {
             reflection.setFlag(ReflectionFlag.Static);
         }
+
         reflection.escapedName = symbol?.escapedName;
 
         this.addChild(reflection);
@@ -228,22 +229,12 @@ export class Context {
         return reflection;
     }
 
-    finalizeDeclarationReflection(
-        reflection: DeclarationReflection,
-        symbol: ts.Symbol | undefined,
-        exportSymbol?: ts.Symbol,
-        commentNode?: ts.Node
-    ) {
-        this.exportSymbol = exportSymbol;
+    finalizeDeclarationReflection(reflection: DeclarationReflection) {
         this.converter.trigger(
             ConverterEvents.CREATE_DECLARATION,
             this,
-            reflection,
-            (symbol &&
-                this.converter.getNodesForSymbol(symbol, reflection.kind)[0]) ??
-                commentNode
+            reflection
         );
-        this.exportSymbol = undefined;
     }
 
     addChild(reflection: DeclarationReflection) {

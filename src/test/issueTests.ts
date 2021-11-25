@@ -263,8 +263,8 @@ export const issueTests: {
 
         const expectedComment = new Comment();
         expectedComment.blockTags = [
-            new CommentTag("asdf", [
-                { kind: "text", text: "Some example text\n" },
+            new CommentTag("@asdf", [
+                { kind: "text", text: "Some example text" },
             ]),
         ];
         equal(type.declaration.signatures?.[0].comment, expectedComment);
@@ -284,11 +284,11 @@ export const issueTests: {
         ok(cat);
 
         ok(cat.children.includes(Foo));
-        ok(!Foo.comment?.getTag("category"));
-        ok(!Foo.type.declaration.comment?.getTag("category"));
+        ok(!Foo.comment?.getTag("@category"));
+        ok(!Foo.type.declaration.comment?.getTag("@category"));
         ok(
             !Foo.type.declaration.signatures?.some((s) =>
-                s.comment?.getTag("category")
+                s.comment?.getTag("@category")
             )
         );
     },

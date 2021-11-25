@@ -10,9 +10,6 @@
       "kind": 2,
       "kindString": "Module",
       "flags": {},
-      "comment": {
-        "summary": "This is a module doc comment with legacy behavior."
-      },
       "children": [
         {
           "id": 2,
@@ -21,15 +18,29 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "A Comment for a class\n\n## Some Markup\n**with more markup**\n\nAn example with decorators that should not parse to tag\n```\n@myDecorator\n@FactoryDecorator('a', 'b', 'c')\nexport class CommentedClass {\n  myProp: string = 'myProp';\n\n  @PropDecorator() decoratedProp: string;\n\n  constructor(@ParamDecorator public param: string) { }\n\n  myMethod() { }\n}\n```",
-            "tags": [
+            "summary": [
               {
-                "tag": "deprecated",
-                "text": ""
+                "kind": "text",
+                "text": "A Comment for a class\n\n## Some Markup\n**with more markup**\n\nAn example with decorators that should not parse to tag"
               },
               {
-                "tag": "todo",
-                "text": "something\n"
+                "kind": "code",
+                "text": "```\n@myDecorator\n@FactoryDecorator('a', 'b', 'c')\nexport class CommentedClass {\n  myProp: string = 'myProp';\n\n  @PropDecorator() decoratedProp: string;\n\n  constructor(@ParamDecorator public param: string) { }\n\n  myMethod() { }\n}\n```"
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@deprecated",
+                "content": []
+              },
+              {
+                "tag": "@todo",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "something"
+                  }
+                ]
               }
             ]
           },
@@ -56,18 +67,162 @@
               ]
             },
             {
+              "id": 6,
+              "name": "hiddenprop",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "comment": {
+                "summary": [],
+                "blockTags": [
+                  {
+                    "tag": "@hidden",
+                    "content": []
+                  }
+                ]
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 25,
+              "name": "ignoredprop",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "comment": {
+                "summary": [],
+                "blockTags": [
+                  {
+                    "tag": "@ignore",
+                    "content": []
+                  }
+                ]
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
               "id": 5,
               "name": "prop",
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "summary": "The main prop"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "The main prop"
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
                 "name": "string"
               }
+            },
+            {
+              "id": 7,
+              "name": "hidden",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 8,
+                  "name": "hidden",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Hidden function"
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@hidden",
+                        "content": []
+                      }
+                    ]
+                  },
+                  "parameters": [
+                    {
+                      "id": 9,
+                      "name": "args",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isRest": true
+                      },
+                      "type": {
+                        "type": "array",
+                        "elementType": {
+                          "type": "intrinsic",
+                          "name": "any"
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 10,
+              "name": "hiddenWithImplementation",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 11,
+                  "name": "hiddenWithImplementation",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Single hidden signature"
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@hidden",
+                        "content": []
+                      }
+                    ]
+                  },
+                  "parameters": [
+                    {
+                      "id": 12,
+                      "name": "arg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ]
             },
             {
               "id": 19,
@@ -77,13 +232,56 @@
               "flags": {},
               "signatures": [
                 {
+                  "id": 20,
+                  "name": "mixedHidden",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Mixed hidden 1"
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@hidden",
+                        "content": []
+                      }
+                    ]
+                  },
+                  "parameters": [
+                    {
+                      "id": 21,
+                      "name": "arg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                },
+                {
                   "id": 22,
                   "name": "mixedHidden",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "Mixed hidden 2"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Mixed hidden 2"
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -115,6 +313,102 @@
                   }
                 }
               ]
+            },
+            {
+              "id": 13,
+              "name": "multipleHidden",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 14,
+                  "name": "multipleHidden",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Multiple hidden 1"
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@hidden",
+                        "content": []
+                      }
+                    ]
+                  },
+                  "parameters": [
+                    {
+                      "id": 15,
+                      "name": "arg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                },
+                {
+                  "id": 16,
+                  "name": "multipleHidden",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Multiple hidden 2"
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@hidden",
+                        "content": []
+                      }
+                    ]
+                  },
+                  "parameters": [
+                    {
+                      "id": 17,
+                      "name": "arg1",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    },
+                    {
+                      "id": 18,
+                      "name": "arg2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ]
             }
           ],
           "groups": [
@@ -129,6 +423,8 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
+                6,
+                25,
                 5
               ]
             },
@@ -136,7 +432,10 @@
               "title": "Methods",
               "kind": 2048,
               "children": [
-                19
+                7,
+                10,
+                19,
+                13
               ]
             }
           ]
@@ -159,7 +458,20 @@
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "summary": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the"
+          },
+          {
+            "kind": "code",
+            "text": "`multiply`"
+          },
+          {
+            "kind": "text",
+            "text": "function."
+          }
+        ]
       },
       "children": [
         {
@@ -175,6 +487,25 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the"
+                  },
+                  {
+                    "kind": "code",
+                    "text": "`multiply`"
+                  },
+                  {
+                    "kind": "text",
+                    "text": "function."
+                  }
+                ],
+                "modifierTags": [
+                  "@packageDocumentation"
+                ]
+              },
               "parameters": [
                 {
                   "id": 29,
@@ -224,7 +555,20 @@
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "summary": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the"
+          },
+          {
+            "kind": "code",
+            "text": "`multiply`"
+          },
+          {
+            "kind": "text",
+            "text": "function."
+          }
+        ]
       },
       "children": [
         {
@@ -240,6 +584,28 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the"
+                  },
+                  {
+                    "kind": "code",
+                    "text": "`multiply`"
+                  },
+                  {
+                    "kind": "text",
+                    "text": "function."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@module",
+                    "content": []
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 34,
@@ -289,7 +655,16 @@
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "summary": "This is a comment containing a multiline code block\n```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a comment containing a multiline code block"
+          },
+          {
+            "kind": "code",
+            "text": "```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+          }
+        ]
       },
       "children": [
         {
@@ -305,6 +680,24 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a comment containing a multiline code block"
+                  },
+                  {
+                    "kind": "code",
+                    "text": "```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@module",
+                    "content": []
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 39,

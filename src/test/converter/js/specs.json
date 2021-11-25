@@ -10,7 +10,6 @@
       "kind": 2,
       "kindString": "Module",
       "flags": {},
-      "comment": {},
       "children": [
         {
           "id": 5,
@@ -38,7 +37,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
               "parameters": [
                 {
                   "id": 4,
@@ -46,7 +44,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {},
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -84,7 +81,6 @@
       "kind": 2,
       "kindString": "Module",
       "flags": {},
-      "comment": {},
       "children": [
         {
           "id": 17,
@@ -92,9 +88,6 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
-          "comment": {
-            "summary": "docs for interface"
-          },
           "children": [
             {
               "id": 19,
@@ -102,9 +95,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
-              "comment": {
-                "summary": "can also use prop tag"
-              },
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -116,9 +106,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
-              "comment": {
-                "summary": "docs for property"
-              },
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -149,9 +136,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
-              "comment": {
-                "summary": "docs for property\nmore docs for property"
-              },
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -263,19 +247,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
-          "comment": {
-            "summary": "comment on alias"
-          },
           "typeParameter": [
             {
               "id": 43,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {},
-              "comment": {
-                "summary": "comment on template"
-              }
+              "flags": {}
             }
           ],
           "type": {
@@ -344,9 +322,6 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
-          "comment": {
-            "summary": "docs for alias"
-          },
           "type": {
             "type": "intersection",
             "types": [
@@ -453,9 +428,6 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
-          "comment": {
-            "summary": "type alias since it doesn't have a property tag"
-          },
           "type": {
             "type": "reference",
             "name": "Object"
@@ -512,9 +484,6 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
-          "comment": {
-            "summary": "docs for alias"
-          },
           "type": {
             "type": "union",
             "types": [
@@ -535,7 +504,9 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
-          "comment": {},
+          "comment": {
+            "summary": []
+          },
           "type": {
             "type": "reflection",
             "declaration": {
@@ -599,7 +570,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
               "parameters": [
                 {
                   "id": 9,

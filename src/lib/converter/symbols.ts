@@ -210,7 +210,7 @@ function convertEnum(
         reflection.setFlag(ReflectionFlag.Const);
     }
 
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 
     convertSymbols(
         context.withScope(reflection),
@@ -237,7 +237,7 @@ function convertEnumMember(
         )
     );
 
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 }
 
 function convertNamespace(
@@ -266,7 +266,7 @@ function convertNamespace(
         symbol,
         exportSymbol
     );
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 
     convertSymbols(
         context.withScope(reflection),
@@ -310,7 +310,7 @@ function convertTypeAlias(
             declaration.type
         );
 
-        context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+        context.finalizeDeclarationReflection(reflection);
 
         // Do this after finalization so that the CommentPlugin can get @typeParam tags
         // from the parent comment. Ugly, but works for now. Should be cleaned up with TSDoc
@@ -414,7 +414,7 @@ function convertFunctionOrMethod(
         // All method signatures must have the same modifier flags.
         setModifiers(symbol, symbol.declarations[0], reflection);
     }
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 
     const scope = context.withScope(reflection);
     reflection.signatures ??= [];
@@ -482,7 +482,7 @@ function convertClassOrInterface(
         reflection.implementedTypes = implementedTypes;
     }
 
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 
     if (classDeclaration) {
         // Classes can have static props
@@ -678,7 +678,7 @@ function convertProperty(
         reflection.type = removeUndefined(reflection.type);
     }
 
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 }
 
 function convertArrowAsMethod(
@@ -694,7 +694,7 @@ function convertArrowAsMethod(
         void 0
     );
     setModifiers(symbol, arrow.parent as ts.PropertyDeclaration, reflection);
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 
     const rc = context.withScope(reflection);
 
@@ -711,7 +711,7 @@ function convertConstructor(context: Context, symbol: ts.Symbol) {
         void 0,
         "constructor"
     );
-    context.finalizeDeclarationReflection(reflection, symbol);
+    context.finalizeDeclarationReflection(reflection);
 
     const reflectionContext = context.withScope(reflection);
 
@@ -857,7 +857,7 @@ function convertVariable(
 
     reflection.defaultValue = convertDefaultValue(declaration);
 
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 }
 
 function isEnumLike(checker: ts.TypeChecker, type: ts.Type, location: ts.Node) {
@@ -881,7 +881,7 @@ function convertVariableAsEnum(
         symbol,
         exportSymbol
     );
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
     const rc = context.withScope(reflection);
 
     const declaration = symbol.declarations![0] as ts.VariableDeclaration;
@@ -902,7 +902,7 @@ function convertVariableAsEnum(
 
         reflection.defaultValue = JSON.stringify(propType.value);
 
-        rc.finalizeDeclarationReflection(reflection, prop, void 0);
+        rc.finalizeDeclarationReflection(reflection);
     }
 
     // Skip converting the type alias, if there is one
@@ -944,7 +944,7 @@ function convertVariableAsFunction(
         );
     }
 
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 
     const reflectionContext = context.withScope(reflection);
 
@@ -953,9 +953,7 @@ function convertVariableAsFunction(
         createSignature(
             reflectionContext,
             ReflectionKind.CallSignature,
-            signature,
-            void 0,
-            declaration
+            signature
         );
     }
 }
@@ -977,7 +975,7 @@ function convertAccessor(
         setModifiers(symbol, declaration, reflection);
     }
 
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 
     const getDeclaration = symbol.getDeclarations()?.find(ts.isGetAccessor);
     if (getDeclaration) {

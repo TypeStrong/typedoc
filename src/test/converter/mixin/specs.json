@@ -12,7 +12,12 @@
       "kindString": "Class",
       "flags": {},
       "comment": {
-        "summary": "Base class"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Base class"
+          }
+        ]
       },
       "children": [
         {
@@ -100,7 +105,12 @@
       "kindString": "Class",
       "flags": {},
       "comment": {
-        "summary": "Class that inherits from Base and consumes Mixin1 and Mixin2, in order."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Class that inherits from Base and consumes Mixin1 and Mixin2, in order."
+          }
+        ]
       },
       "children": [
         {
@@ -470,7 +480,12 @@
       "kindString": "Interface",
       "flags": {},
       "comment": {
-        "summary": "The \"instance type\" of the Mixin1 using the interface notation (supports recursive type definition)"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "The \"instance type\" of the Mixin1 using the interface notation (supports recursive type definition)"
+          }
+        ]
       },
       "children": [
         {
@@ -626,7 +641,12 @@
       "kindString": "Interface",
       "flags": {},
       "comment": {
-        "summary": "The \"instance type\" of the Mixin2 using the interface notation (supports recursive type definition)"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "The \"instance type\" of the Mixin2 using the interface notation (supports recursive type definition)"
+          }
+        ]
       },
       "children": [
         {
@@ -842,6 +862,14 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
+      "comment": {
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Any constructor function"
+          }
+        ]
+      },
       "typeParameter": [
         {
           "id": 10,
@@ -870,9 +898,6 @@
               "kind": 16384,
               "kindString": "Constructor signature",
               "flags": {},
-              "comment": {
-                "summary": "Any constructor function"
-              },
               "parameters": [
                 {
                   "id": 9,
@@ -907,6 +932,14 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
+      "comment": {
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Any function"
+          }
+        ]
+      },
       "typeParameter": [
         {
           "id": 5,
@@ -935,9 +968,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "summary": "Any function"
-              },
               "parameters": [
                 {
                   "id": 4,
@@ -973,7 +1003,12 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "summary": "Mixin type helper"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Mixin type helper"
+          }
+        ]
       },
       "typeParameter": [
         {
@@ -1026,7 +1061,12 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "summary": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
+          }
+        ]
       },
       "type": {
         "type": "reference",
@@ -1059,9 +1099,6 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
-          "comment": {
-            "summary": "The \"mixin function\" of the Mixin1"
-          },
           "typeParameter": [
             {
               "id": 21,
@@ -1164,9 +1201,6 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
-          "comment": {
-            "summary": "The \"mixin function\" of the Mixin2"
-          },
           "typeParameter": [
             {
               "id": 35,
@@ -1279,9 +1313,6 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
-          "comment": {
-            "summary": "The \"mixin function\" of the Mixin3"
-          },
           "typeParameter": [
             {
               "id": 53,

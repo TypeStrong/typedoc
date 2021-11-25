@@ -24,6 +24,7 @@ export function removeUndefined(type: SomeType): SomeType {
  * @param source - Referenced reflection
  */
 export function copyComment(_target: Reflection, _source: Reflection) {
+    // GERRIT
     // if (
     //     target.comment &&
     //     source.comment &&

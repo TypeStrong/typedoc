@@ -20,9 +20,35 @@
             "isPrivate": true
           },
           "comment": {
-            "summary": "A class that is documented as being private."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A class that is documented as being private."
+              }
+            ]
           },
           "children": [
+            {
+              "id": 11,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 12,
+                  "name": "new PrivateClass",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "id": 8,
+                    "name": "PrivateClass"
+                  }
+                }
+              ]
+            },
             {
               "id": 13,
               "name": "fakePrivateProperty",
@@ -32,7 +58,12 @@
                 "isPrivate": true
               },
               "comment": {
-                "summary": "A variable that is made private via comment."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A variable that is made private via comment."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -48,7 +79,12 @@
                 "isProtected": true
               },
               "comment": {
-                "summary": "A variable that is made protected via comment."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A variable that is made protected via comment."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -96,7 +132,12 @@
                     "isPrivate": true
                   },
                   "comment": {
-                    "summary": "A function that is made private via comment."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A function that is made private via comment."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -123,7 +164,12 @@
                     "isProtected": true
                   },
                   "comment": {
-                    "summary": "A function that is made protected via comment."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A function that is made protected via comment."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -156,6 +202,13 @@
             }
           ],
           "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                11
+              ]
+            },
             {
               "title": "Properties",
               "kind": 1024,
@@ -191,7 +244,12 @@
             "isPrivate": true
           },
           "comment": {
-            "summary": "A variable that is made private via comment."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A variable that is made private via comment."
+              }
+            ]
           },
           "type": {
             "type": "literal",
@@ -208,7 +266,12 @@
             "isProtected": true
           },
           "comment": {
-            "summary": "A variable that is made protected via comment."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A variable that is made protected via comment."
+              }
+            ]
           },
           "type": {
             "type": "literal",
@@ -234,7 +297,12 @@
                 "isPrivate": true
               },
               "comment": {
-                "summary": "A function that is made private via comment."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A function that is made private via comment."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -261,7 +329,12 @@
                 "isProtected": true
               },
               "comment": {
-                "summary": "A function that is made protected via comment."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A function that is made protected via comment."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -325,7 +398,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "staticMergedMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "staticMergedMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -735,11 +813,21 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "TestClass comment short text.\n\nTestClass comment text.",
-            "tags": [
+            "summary": [
               {
-                "tag": "see",
-                "text": "[[TestClass]] @ fixtures\n"
+                "kind": "text",
+                "text": "TestClass comment short text.\n\nTestClass comment text."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@see",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "[[TestClass]] @ fixtures"
+                  }
+                ]
               }
             ]
           },
@@ -757,9 +845,6 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
-                  "comment": {
-                    "summary": "Constructor short text."
-                  },
                   "type": {
                     "type": "reference",
                     "id": 22,
@@ -777,7 +862,12 @@
                 "isPrivate": true
               },
               "comment": {
-                "summary": "privateProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "privateProperty short text."
+                  }
+                ]
               },
               "type": {
                 "type": "array",
@@ -796,7 +886,12 @@
                 "isPublic": true
               },
               "comment": {
-                "summary": "publicProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "publicProperty short text."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -812,7 +907,12 @@
                 "isStatic": true
               },
               "comment": {
-                "summary": "staticProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "staticProperty short text."
+                  }
+                ]
               },
               "type": {
                 "type": "reference",
@@ -834,7 +934,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "arrow method"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "arrow method"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -859,7 +964,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "privateMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "privateMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -884,7 +994,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "protectedMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "protectedMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -909,7 +1024,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "publicMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "publicMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -934,7 +1054,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "staticMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "staticMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1025,9 +1150,6 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
-                  "comment": {
-                    "summary": "Constructor short text."
-                  },
                   "parameters": [
                     {
                       "id": 44,
@@ -1035,9 +1157,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Constructor param"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "any"
@@ -1049,9 +1168,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Private string property"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -1063,9 +1179,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Public number property"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1077,9 +1190,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Public implicit any property\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "any"
@@ -1139,7 +1249,12 @@
                 "isPublic": true
               },
               "comment": {
-                "summary": "publicProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "publicProperty short text."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -1160,7 +1275,12 @@
                 "isStatic": true
               },
               "comment": {
-                "summary": "staticProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "staticProperty short text."
+                  }
+                ]
               },
               "type": {
                 "type": "reference",
@@ -1187,7 +1307,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "arrow method"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "arrow method"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1220,7 +1345,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "mergedMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "mergedMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1245,7 +1375,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "protectedMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "protectedMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1280,7 +1415,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "publicMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "publicMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1315,7 +1455,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "staticMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "staticMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1410,7 +1555,12 @@
                 "isPrivate": true
               },
               "comment": {
-                "summary": "Docs"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Docs"
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -1514,7 +1664,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "A class with constructor properties."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A class with constructor properties."
+              }
+            ]
           },
           "children": [
             {
@@ -1530,7 +1685,6 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
-                  "comment": {},
                   "parameters": [
                     {
                       "id": 97,
@@ -1538,9 +1692,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "X component of the Vector"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1552,9 +1703,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Y component of the Vector"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1566,9 +1714,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Vector name\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -1656,7 +1801,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "A class with inherited and overwritten constructor properties."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A class with inherited and overwritten constructor properties."
+              }
+            ]
           },
           "children": [
             {
@@ -1672,7 +1822,6 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
-                  "comment": {},
                   "parameters": [
                     {
                       "id": 106,
@@ -1680,9 +1829,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "X component of the Vector"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1694,9 +1840,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Y component of the Vector"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1708,9 +1851,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Z component of the Vector"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1722,9 +1862,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Vector name\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -1870,21 +2007,13 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "A decorated class."
-          },
-          "decorators": [
-            {
-              "name": "decoratorWithOptions",
-              "type": {
-                "type": "reference",
-                "id": 123,
-                "name": "decoratorWithOptions"
-              },
-              "arguments": {
-                "options": "{\n    name: \"Name of class\",\n}"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A decorated class."
               }
-            }
-          ],
+            ]
+          },
           "children": [
             {
               "id": 129,
@@ -1913,27 +2042,6 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
-              "decorators": [
-                {
-                  "name": "decoratorAtom",
-                  "type": {
-                    "type": "reference",
-                    "id": 115,
-                    "name": "decoratorAtom"
-                  }
-                },
-                {
-                  "name": "decoratorWithParam",
-                  "type": {
-                    "type": "reference",
-                    "id": 120,
-                    "name": "decoratorWithParam"
-                  },
-                  "arguments": {
-                    "value": "false"
-                  }
-                }
-              ],
               "signatures": [
                 {
                   "id": 132,
@@ -1942,7 +2050,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "A decorated method."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A decorated method."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1975,13 +2088,6 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
-          "decorates": [
-            {
-              "type": "reference",
-              "id": 131,
-              "name": "decoratedMethod"
-            }
-          ],
           "signatures": [
             {
               "id": 116,
@@ -1990,7 +2096,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "summary": "A decorator with no options."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A decorator with no options."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -2055,13 +2166,6 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
-          "decorates": [
-            {
-              "type": "reference",
-              "id": 128,
-              "name": "DecoratedClass"
-            }
-          ],
           "signatures": [
             {
               "id": 124,
@@ -2070,7 +2174,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "summary": "A decorator consuming an options object."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A decorator consuming an options object."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -2079,9 +2188,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "The options object of this decorator."
-                  },
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -2097,9 +2203,6 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
-                          "comment": {
-                            "summary": "A property on the options object of this decorator.\n"
-                          },
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -2132,13 +2235,6 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
-          "decorates": [
-            {
-              "type": "reference",
-              "id": 131,
-              "name": "decoratedMethod"
-            }
-          ],
           "signatures": [
             {
               "id": 121,
@@ -2147,7 +2243,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "summary": "A decorator with a parameter."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A decorator with a parameter."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -2156,9 +2257,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "The parameter of this decorator.\n"
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -2236,7 +2334,12 @@
                 "isStatic": true
               },
               "comment": {
-                "summary": "This is an event documentation."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is an event documentation."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -2287,11 +2390,21 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "summary": "Encapsulates some information for background http transfers.",
-            "tags": [
+            "summary": [
               {
-                "tag": "see",
-                "text": "https://github.com/TypeStrong/typedoc/issues/136\n"
+                "kind": "text",
+                "text": "Encapsulates some information for background http transfers."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@see",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "https://github.com/TypeStrong/typedoc/issues/136"
+                  }
+                ]
               }
             ]
           },
@@ -2310,7 +2423,12 @@
                   "kindString": "Event",
                   "flags": {},
                   "comment": {
-                    "summary": "Subscribe for a general event by name."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Subscribe for a general event by name."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -2319,9 +2437,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "The name of the event to subscribe for."
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -2333,9 +2448,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "The handler called when the event occurs.\n"
-                      },
                       "type": {
                         "type": "reflection",
                         "declaration": {
@@ -2386,7 +2498,12 @@
                   "kindString": "Event",
                   "flags": {},
                   "comment": {
-                    "summary": "Subscribe for error notifications."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Subscribe for error notifications."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -2395,9 +2512,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "The name of the event to subscribe for."
-                      },
                       "type": {
                         "type": "literal",
                         "value": "error"
@@ -2409,9 +2523,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "A handler that will receive the error details\n"
-                      },
                       "type": {
                         "type": "reflection",
                         "declaration": {
@@ -2462,7 +2573,12 @@
                   "kindString": "Event",
                   "flags": {},
                   "comment": {
-                    "summary": "Subscribe for progress notifications."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Subscribe for progress notifications."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -2471,9 +2587,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "The name of the event to subscribe for."
-                      },
                       "type": {
                         "type": "literal",
                         "value": "progress"
@@ -2485,9 +2598,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "A handler that will receive a progress event with the current and expected total bytes\n"
-                      },
                       "type": {
                         "type": "reflection",
                         "declaration": {
@@ -2538,7 +2648,12 @@
                   "kindString": "Event",
                   "flags": {},
                   "comment": {
-                    "summary": "Subscribe for success notification."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Subscribe for success notification."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -2547,9 +2662,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "The name of the event to subscribe for."
-                      },
                       "type": {
                         "type": "literal",
                         "value": "complete"
@@ -2561,9 +2673,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "A function that will be called with general event data upon successful completion\n"
-                      },
                       "type": {
                         "type": "reflection",
                         "declaration": {
@@ -2645,7 +2754,24 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "GenericClass short text."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "GenericClass short text."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@param",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "Generic parameter."
+                  }
+                ],
+                "paramName": "T"
+              }
+            ]
           },
           "children": [
             {
@@ -2661,9 +2787,6 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
-                  "comment": {
-                    "summary": "Constructor short text."
-                  },
                   "typeParameter": [
                     {
                       "id": 169,
@@ -2680,9 +2803,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Constructor parameter.\n"
-                      },
                       "type": {
                         "type": "reference",
                         "id": 169,
@@ -2714,7 +2834,12 @@
                 "isProtected": true
               },
               "comment": {
-                "summary": "Generic property."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic property."
+                  }
+                ]
               },
               "type": {
                 "type": "reference",
@@ -2731,7 +2856,12 @@
                 "isProtected": true
               },
               "comment": {
-                "summary": "Generic property array."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic property array."
+                  }
+                ]
               },
               "type": {
                 "type": "array",
@@ -2756,8 +2886,23 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "getValue short text.",
-                    "returns": "Return value comment.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "getValue short text."
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@returns",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Return value comment."
+                          }
+                        ]
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -2798,10 +2943,7 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {},
-              "comment": {
-                "summary": "Generic parameter.\n"
-              }
+              "flags": {}
             }
           ],
           "extendedBy": [
@@ -2819,7 +2961,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "NonGenericClass short text."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "NonGenericClass short text."
+              }
+            ]
           },
           "children": [
             {
@@ -2835,9 +2982,6 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
-                  "comment": {
-                    "summary": "Constructor short text."
-                  },
                   "parameters": [
                     {
                       "id": 179,
@@ -2845,9 +2989,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "Constructor parameter.\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -2881,7 +3022,12 @@
                 "isProtected": true
               },
               "comment": {
-                "summary": "Generic property."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic property."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -2902,7 +3048,12 @@
                 "isProtected": true
               },
               "comment": {
-                "summary": "Generic property array."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic property array."
+                  }
+                ]
               },
               "type": {
                 "type": "array",
@@ -2931,8 +3082,23 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "getValue short text.",
-                    "returns": "Return value comment.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "getValue short text."
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@returns",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Return value comment."
+                          }
+                        ]
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -3201,7 +3367,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "ChainClass comment short text.\n\nChainClass comment text."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "ChainClass comment short text.\n\nChainClass comment text."
+              }
+            ]
           },
           "children": [
             {
@@ -3241,7 +3412,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "Chain method that returns this."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Chain method that returns this."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -3395,11 +3571,21 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "TestClass comment short text.\n\nTestClass comment text.",
-            "tags": [
+            "summary": [
               {
-                "tag": "see",
-                "text": "[[TestClass]] @ fixtures\n"
+                "kind": "text",
+                "text": "TestClass comment short text.\n\nTestClass comment text."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@see",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "[[TestClass]] @ fixtures"
+                  }
+                ]
               }
             ]
           },

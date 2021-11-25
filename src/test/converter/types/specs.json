@@ -1159,7 +1159,12 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "summary": "First type for union or intersection type tests."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "First type for union or intersection type tests."
+              }
+            ]
           },
           "children": [
             {
@@ -1169,7 +1174,12 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "summary": "Property of first type."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Property of first type."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -1194,7 +1204,12 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "summary": "Second type for union or intersection type tests."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Second type for union or intersection type tests."
+              }
+            ]
           },
           "children": [
             {
@@ -1204,7 +1219,12 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "summary": "Property of second type."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Property of second type."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -1229,7 +1249,12 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "summary": "Third type for union or intersection type tests."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Third type for union or intersection type tests."
+              }
+            ]
           },
           "children": [
             {
@@ -1239,7 +1264,12 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "summary": "Complex Property of third type."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Complex Property of third type."
+                  }
+                ]
               },
               "type": {
                 "type": "array",
@@ -1279,7 +1309,12 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "summary": "Intersection Property of third type."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Intersection Property of third type."
+                  }
+                ]
               },
               "type": {
                 "type": "intersection",
@@ -1304,7 +1339,12 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "summary": "Union Property of third type."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Union Property of third type."
+                  }
+                ]
               },
               "type": {
                 "type": "union",

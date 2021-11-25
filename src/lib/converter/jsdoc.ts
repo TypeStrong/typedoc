@@ -49,7 +49,7 @@ export function convertJsDocAlias(
         declaration.parent
     );
 
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 }
 
 export function convertJsDocCallback(
@@ -63,7 +63,7 @@ export function convertJsDocCallback(
         symbol,
         exportSymbol
     );
-    context.finalizeDeclarationReflection(alias, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(alias);
 
     const ac = context.withScope(alias);
 
@@ -82,7 +82,7 @@ function convertJsDocInterface(
         symbol,
         exportSymbol
     );
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 
     const rc = context.withScope(reflection);
 

@@ -1,5 +1,12 @@
 # Unreleased
 
+### Currently Broken
+
+-   Getting comments properly from interfaces & type aliases declared with `@typedef`, `@callback`.
+-   Inheriting comments from implemented interfaces.
+-   `@inheritDoc`
+-   Comment rendering
+
 ## v0.22.10 (2021-11-25)
 
 ### Features

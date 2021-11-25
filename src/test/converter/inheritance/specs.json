@@ -18,7 +18,24 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "summary": "Source interface summary"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Source interface summary"
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@typeParam",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "Source interface type parameter"
+                  }
+                ],
+                "paramName": "T"
+              }
+            ]
           },
           "children": [
             {
@@ -28,12 +45,22 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "summary": "Source interface property description",
-                "tags": [
+                "summary": [
                   {
-                    "tag": "typeparam",
-                    "text": "Source interface type parameter\n",
-                    "param": "T"
+                    "kind": "text",
+                    "text": "Source interface property description"
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@typeParam",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Source interface type parameter"
+                      }
+                    ],
+                    "paramName": "T"
                   }
                 ]
               },
@@ -57,7 +84,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "Source interface method description"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Source interface method description"
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -66,9 +98,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -106,10 +135,7 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {},
-              "comment": {
-                "summary": "Source interface type parameter\n"
-              }
+              "flags": {}
             }
           ]
         },
@@ -120,7 +146,18 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "summary": "Source interface summary"
+            "summary": [],
+            "blockTags": [
+              {
+                "tag": "@inheritDoc",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "InterfaceSource"
+                  }
+                ]
+              }
+            ]
           },
           "children": [
             {
@@ -130,7 +167,18 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "summary": "Source interface property description"
+                "summary": [],
+                "blockTags": [
+                  {
+                    "tag": "@inheritDoc",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "InterfaceSource.property"
+                      }
+                    ]
+                  }
+                ]
               },
               "type": {
                 "type": "reference",
@@ -152,18 +200,26 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": "Source interface method description"
+                    "summary": [],
+                    "blockTags": [
+                      {
+                        "tag": "@inheritDoc",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "InterfaceSource.someMethod"
+                          }
+                        ]
+                      }
+                    ]
                   },
                   "parameters": [
                     {
-                      "id": 18,
+                      "id": 24,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "summary": "\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -197,14 +253,11 @@
           ],
           "typeParameter": [
             {
-              "id": 19,
+              "id": 25,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {},
-              "comment": {
-                "summary": "Source interface type parameter\n"
-              }
+              "flags": {}
             }
           ]
         },
@@ -222,16 +275,39 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "summary": "Function summary\n\nThis part of the commentary will be inherited by other entities",
-                "returns": "Stringified sum or concatenation of numeric arguments\n",
-                "tags": [
+                "summary": [
                   {
-                    "tag": "remarks",
-                    "text": "\n\nRemarks will be inherited\n"
+                    "kind": "text",
+                    "text": "Function summary\n\nThis part of the commentary will be inherited by other entities"
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@remarks",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Remarks will be inherited"
+                      }
+                    ]
                   },
                   {
-                    "tag": "example",
-                    "text": "\n\nThis part of the commentary will not be inherited\n"
+                    "tag": "@example",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This part of the commentary will not be inherited"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Stringified sum or concatenation of numeric arguments"
+                      }
+                    ]
                   }
                 ]
               },
@@ -243,7 +319,12 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "summary": "This will be inherited"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Type of arguments"
+                      }
+                    ]
                   }
                 }
               ],
@@ -254,9 +335,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "This will be inherited"
-                  },
                   "type": {
                     "type": "reference",
                     "id": 4,
@@ -269,9 +347,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "This will be inherited"
-                  },
                   "type": {
                     "type": "reference",
                     "id": 4,
@@ -300,11 +375,16 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "tags": [
+                "summary": [],
+                "blockTags": [
                   {
-                    "tag": "inheritdoc",
-                    "text": "\n",
-                    "param": "SubClassA.printName"
+                    "tag": "@inheritDoc",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "SubClassA.printName"
+                      }
+                    ]
                   }
                 ]
               },
@@ -329,59 +409,84 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "summary": "Function summary\n\nThis part of the commentary will be inherited by other entities",
-                "returns": "This will be inherited\n\n",
-                "tags": [
+                "summary": [],
+                "blockTags": [
                   {
-                    "tag": "example",
-                    "text": "\n\nThis function inherited commentary from the `functionSource` function\n"
+                    "tag": "@inheritDoc",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "functionSource"
+                      }
+                    ]
                   },
                   {
-                    "tag": "remarks",
-                    "text": "\n\nRemarks will be inherited\n"
+                    "tag": "@example",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This function inherited commentary from the"
+                      },
+                      {
+                        "kind": "code",
+                        "text": "`functionSource`"
+                      },
+                      {
+                        "kind": "text",
+                        "text": "function"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This will be inherited"
+                      }
+                    ]
                   }
                 ]
               },
               "typeParameter": [
                 {
-                  "id": 4,
+                  "id": 11,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "summary": "This will be inherited"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This will be inherited"
+                      }
+                    ]
                   }
                 }
               ],
               "parameters": [
                 {
-                  "id": 5,
+                  "id": 12,
                   "name": "arg1",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "This will be inherited"
-                  },
                   "type": {
                     "type": "reference",
-                    "id": 4,
+                    "id": 11,
                     "name": "T"
                   }
                 },
                 {
-                  "id": 6,
+                  "id": 13,
                   "name": "arg2",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "This will be inherited"
-                  },
                   "type": {
                     "type": "reference",
-                    "id": 4,
+                    "id": 11,
                     "name": "T"
                   }
                 }

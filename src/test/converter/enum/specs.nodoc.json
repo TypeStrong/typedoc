@@ -12,7 +12,12 @@
       "kindString": "Namespace",
       "flags": {},
       "comment": {
-        "summary": "This is a module extending an enumeration."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a module extending an enumeration."
+          }
+        ]
       },
       "children": [
         {
@@ -22,7 +27,12 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "summary": "This is a variable appended to an enumeration."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is a variable appended to an enumeration."
+              }
+            ]
           },
           "type": {
             "type": "intrinsic",
@@ -43,7 +53,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "summary": "This is a function appended to an enumeration."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function appended to an enumeration."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -79,7 +94,12 @@
         "isConst": true
       },
       "comment": {
-        "summary": "This is a const enum."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a const enum."
+          }
+        ]
       },
       "children": [
         {
@@ -117,7 +137,12 @@
       "kindString": "Enumeration",
       "flags": {},
       "comment": {
-        "summary": "This is an enumeration extended by a module."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is an enumeration extended by a module."
+          }
+        ]
       },
       "children": [
         {
@@ -127,7 +152,12 @@
           "kindString": "Enumeration member",
           "flags": {},
           "comment": {
-            "summary": "This is the first enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the first enum member."
+              }
+            ]
           },
           "defaultValue": "1"
         },
@@ -138,7 +168,12 @@
           "kindString": "Enumeration member",
           "flags": {},
           "comment": {
-            "summary": "This is the second enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the second enum member."
+              }
+            ]
           },
           "defaultValue": "2"
         },
@@ -149,7 +184,12 @@
           "kindString": "Enumeration member",
           "flags": {},
           "comment": {
-            "summary": "This is the third enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the third enum member."
+              }
+            ]
           },
           "defaultValue": "4"
         }
@@ -173,7 +213,12 @@
       "kindString": "Enumeration",
       "flags": {},
       "comment": {
-        "summary": "This is a simple enumeration."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a simple enumeration."
+          }
+        ]
       },
       "children": [
         {
@@ -183,7 +228,12 @@
           "kindString": "Enumeration member",
           "flags": {},
           "comment": {
-            "summary": "This is the first enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the first enum member."
+              }
+            ]
           },
           "defaultValue": "1"
         },
@@ -194,7 +244,12 @@
           "kindString": "Enumeration member",
           "flags": {},
           "comment": {
-            "summary": "This is the second enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the second enum member."
+              }
+            ]
           },
           "defaultValue": "2"
         },
@@ -205,7 +260,12 @@
           "kindString": "Enumeration member",
           "flags": {},
           "comment": {
-            "summary": "This is the third enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the third enum member."
+              }
+            ]
           },
           "defaultValue": "4"
         }

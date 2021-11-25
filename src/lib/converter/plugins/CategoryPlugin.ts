@@ -3,13 +3,13 @@ import {
     ContainerReflection,
     DeclarationReflection,
     CommentTag,
+    Comment,
 } from "../../models";
 import { ReflectionCategory } from "../../models/ReflectionCategory";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import { BindOption } from "../../utils";
-import type { Comment } from "../../models/comments/index";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -185,15 +185,15 @@ export class CategoryPlugin extends ConverterComponent {
             const tags = comment.blockTags;
             const commentTags: CommentTag[] = [];
             tags.forEach((tag) => {
-                if (tag.tag !== "category") {
+                if (tag.tag !== "@category") {
                     commentTags.push(tag);
                     return;
                 }
-                // const text = tag.text.trim();
-                // if (!text) {
-                //     return;
-                // }
-                // categories.add(text);
+                const text = Comment.combineDisplayParts(tag.content).trim();
+                if (!text) {
+                    return;
+                }
+                categories.add(text);
             });
             comment.blockTags = commentTags;
             return categories;
@@ -212,9 +212,9 @@ export class CategoryPlugin extends ConverterComponent {
         }
 
         if (reflection.type?.type === "reflection") {
-            reflection.type.declaration.comment?.removeTags("category");
+            reflection.type.declaration.comment?.removeTags("@category");
             reflection.type.declaration.signatures?.forEach((s) =>
-                s.comment?.removeTags("category")
+                s.comment?.removeTags("@category")
             );
         }
 

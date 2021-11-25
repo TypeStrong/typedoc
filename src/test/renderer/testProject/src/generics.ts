@@ -1,7 +1,7 @@
 /**
  * A generic function
  *
- * @typeparam T  The generic type parameter.
+ * @typeParam T  The generic type parameter.
  * @param value  A generic parameter.
  * @returns A generic return value.
  */
@@ -49,7 +49,7 @@ export interface B<T, C> {
  * A generic interface extending two other generic interfaces
  * and setting one of the type parameters.
  *
- * @typeparam T  The leftover generic type parameter.
+ * @typeParam T  The leftover generic type parameter.
  */
 export interface AB<T> extends A<T>, B<T, boolean> {}
 

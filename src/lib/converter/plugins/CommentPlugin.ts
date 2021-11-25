@@ -1,7 +1,4 @@
-import * as ts from "typescript";
-
 import { Component, ConverterComponent } from "../components";
-import { parseComment, getRawComment } from "../factories/comment";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import {
@@ -13,7 +10,6 @@ import {
     SignatureReflection,
     ParameterReflection,
     Comment,
-    CommentTag,
     ReflectionType,
     SourceReference,
 } from "../../models";
@@ -37,17 +33,17 @@ const DEBUG = true as boolean;
  * These tags will have their type information stripped when parsing, but still
  * provide useful information for documentation.
  */
-const TAG_BLACKLIST = [
-    "augments",
-    "callback",
-    "class",
-    "constructor",
-    "enum",
-    "extends",
-    "this",
-    "type",
-    "typedef",
-];
+const NEVER_RENDERED = [
+    "@augments",
+    "@callback",
+    "@class",
+    "@constructor",
+    "@enum",
+    "@extends",
+    "@this",
+    "@type",
+    "@typedef",
+] as const;
 
 /**
  * A handler that parses TypeDoc comments and attaches {@link Comment} instances to
@@ -56,7 +52,7 @@ const TAG_BLACKLIST = [
 @Component({ name: "comment" })
 export class CommentPlugin extends ConverterComponent {
     @BindOption("excludeTags")
-    excludeTags!: string[];
+    excludeTags!: `@${string}`[];
 
     /**
      * Create a new CommentPlugin instance.
@@ -78,38 +74,38 @@ export class CommentPlugin extends ConverterComponent {
      * @param comment  The comment that should be searched for modifiers.
      */
     private applyModifiers(reflection: Reflection, comment: Comment) {
-        if (comment.hasModifier("private")) {
+        if (comment.hasModifier("@private")) {
             reflection.setFlag(ReflectionFlag.Private);
             if (reflection.kindOf(ReflectionKind.CallSignature)) {
                 reflection.parent?.setFlag(ReflectionFlag.Private);
             }
-            comment.removeTags("private");
+            comment.removeModifier("@private");
         }
 
-        if (comment.hasModifier("protected")) {
+        if (comment.hasModifier("@protected")) {
             reflection.setFlag(ReflectionFlag.Protected);
             if (reflection.kindOf(ReflectionKind.CallSignature)) {
                 reflection.parent?.setFlag(ReflectionFlag.Protected);
             }
-            comment.removeTags("protected");
+            comment.removeModifier("@protected");
         }
 
-        if (comment.hasModifier("public")) {
+        if (comment.hasModifier("@public")) {
             reflection.setFlag(ReflectionFlag.Public);
             if (reflection.kindOf(ReflectionKind.CallSignature)) {
                 reflection.parent?.setFlag(ReflectionFlag.Public);
             }
-            comment.removeTags("public");
+            comment.removeModifier("@public");
         }
 
-        if (comment.hasModifier("event")) {
+        if (comment.hasModifier("@event")) {
             if (reflection.kindOf(ReflectionKind.CallSignature)) {
                 if (reflection.parent) {
                     reflection.parent.kind = ReflectionKind.Event;
                 }
             }
             reflection.kind = ReflectionKind.Event;
-            comment.removeTags("event");
+            comment.removeModifier("@event");
         }
 
         if (
@@ -118,8 +114,8 @@ export class CommentPlugin extends ConverterComponent {
             ) ||
             reflection.kind === ReflectionKind.Project
         ) {
-            comment.removeTags("module");
-            comment.removeTags("packagedocumentation");
+            comment.removeTags("@module");
+            comment.removeModifier("@packageDocumentation");
         }
     }
 
@@ -131,11 +127,11 @@ export class CommentPlugin extends ConverterComponent {
      */
     private onCreateTypeParameter(
         _context: Context,
-        _reflection: TypeParameterReflection,
-        _node?: ts.Node
+        reflection: TypeParameterReflection
     ) {
         if (DEBUG) return;
 
+        // GERRIT
         // if (node && ts.isJSDocTemplateTag(node.parent)) {
         //     const comment = getJsDocCommentText(node.parent.comment);
         //     if (comment) {
@@ -143,24 +139,24 @@ export class CommentPlugin extends ConverterComponent {
         //     }
         // }
 
-        // const comment = reflection.parent && reflection.parent.comment;
-        // if (comment) {
-        //     let tag = comment.getTag("typeparam", reflection.name);
-        //     if (!tag) {
-        //         tag = comment.getTag("template", reflection.name);
-        //     }
-        //     if (!tag) {
-        //         tag = comment.getTag("param", `<${reflection.name}>`);
-        //     }
-        //     if (!tag) {
-        //         tag = comment.getTag("param", reflection.name);
-        //     }
+        const comment = reflection.parent?.comment;
+        if (comment) {
+            let tag = comment.getParamTag(reflection.name, "@typeParam");
+            if (!tag) {
+                tag = comment.getParamTag(reflection.name, "@template");
+            }
+            if (!tag) {
+                tag = comment.getParamTag(`<${reflection.name}>`, "@param");
+            }
+            if (!tag) {
+                tag = comment.getParamTag(reflection.name, "@param");
+            }
 
-        //     if (tag) {
-        //         reflection.comment = new Comment(tag.text);
-        //         removeIfPresent(comment.blockTags, tag);
-        //     }
-        // }
+            if (tag) {
+                reflection.comment = new Comment(tag.content);
+                removeIfPresent(comment.blockTags, tag);
+            }
+        }
     }
 
     /**
@@ -172,72 +168,25 @@ export class CommentPlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(
-        context: Context,
-        reflection: Reflection,
-        node?: ts.Node
-    ) {
-        if (DEBUG) return;
-
-        if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
-            // We only want a comment on functions/methods if this is a set of overloaded functions.
-            // In that case, TypeDoc lets you put a comment on the implementation, and will copy it over to
-            // the available signatures so that you can avoid documenting things multiple times.
-            // Once TypeDoc has proper support for TSDoc, this will go away since the same thing will be
-            // possible by using a @inheritDoc tag to specify that docs should be copied from a specific signature.
-            let specialOverloadCase = false;
-            if (
-                node &&
-                (ts.isFunctionDeclaration(node) || ts.isMethodDeclaration(node))
-            ) {
-                const symbol =
-                    node.name && context.checker.getSymbolAtLocation(node.name);
-                if (symbol && symbol.declarations) {
-                    const declarations = symbol.declarations.filter(
-                        (d) =>
-                            ts.isFunctionDeclaration(d) ||
-                            ts.isMethodDeclaration(d)
-                    );
-                    if (
-                        declarations.length > 1 &&
-                        "body" in declarations[declarations.length - 1]
-                    ) {
-                        node = declarations[declarations.length - 1];
-                        specialOverloadCase = true;
-                    }
-                }
-            }
-
-            if (!specialOverloadCase) return;
-        }
-
-        // Clean this up in 0.23. We should really accept a ts.Symbol so we don't need exportSymbol on Context
-        const exportNode = context.exportSymbol?.getDeclarations()?.[0];
-        let rawComment =
-            exportNode && getRawComment(exportNode, this.application.logger);
-        rawComment ??= node && getRawComment(node, this.application.logger);
-        if (!rawComment) {
-            return;
-        }
-
-        const comment = parseComment(rawComment, reflection.comment);
+    private onDeclaration(_context: Context, reflection: Reflection) {
+        const comment = reflection.comment;
+        if (!comment) return;
 
         if (reflection.kindOf(ReflectionKind.Module)) {
-            const tag = comment.getTag("module");
+            const tag = comment.getTag("@module");
             if (tag) {
                 // If no name is specified, this is a flag to mark a comment as a module comment
                 // and should not result in a reflection rename.
-                // const newName = tag.text.trim();
-                // if (newName.length) {
-                //     reflection.name = newName;
-                // }
+                const newName = Comment.combineDisplayParts(tag.content).trim();
+                if (newName.length && !newName.includes("\n")) {
+                    reflection.name = newName;
+                }
                 removeIfPresent(comment.blockTags, tag);
             }
         }
 
         this.applyModifiers(reflection, comment);
         this.removeExcludedTags(comment);
-        reflection.comment = comment;
     }
 
     /**
@@ -309,53 +258,29 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         if (reflection.type instanceof ReflectionType) {
-            this.addCommentToSignatures(
-                reflection,
+            this.processSignatureComments(
                 reflection.type.declaration.getNonIndexSignatures()
             );
         } else {
-            this.addCommentToSignatures(
-                reflection,
-                reflection.getNonIndexSignatures()
-            );
+            this.processSignatureComments(reflection.getNonIndexSignatures());
         }
     }
 
-    private addCommentToSignatures(
-        reflection: DeclarationReflection,
-        signatures: SignatureReflection[]
-    ) {
+    private processSignatureComments(signatures: SignatureReflection[]) {
         if (!signatures.length) {
             return;
         }
 
-        const comment = reflection.comment;
-
         signatures.forEach((signature) => {
-            let childComment = signature.comment;
-
-            if (comment) {
-                if (!childComment) {
-                    childComment = signature.comment = new Comment();
-                }
-
-                childComment.summary = childComment.summary.length
-                    ? childComment.summary
-                    : Comment.cloneDisplayParts(comment.summary);
-                childComment.blockTags = childComment.blockTags.length
-                    ? childComment.blockTags
-                    : comment.blockTags.map((tag) => tag.clone());
-                childComment.modifierTags = childComment.modifierTags.size
-                    ? childComment.modifierTags
-                    : new Set(comment.modifierTags);
-            }
+            const childComment = signature.comment;
+            if (!childComment) return;
 
             signature.parameters?.forEach((parameter, index) => {
-                let tag: CommentTag | undefined;
-                if (childComment && parameter.name === "__namedParameters") {
-                    const commentParams = childComment?.blockTags.filter(
+                if (parameter.name === "__namedParameters") {
+                    const commentParams = childComment.blockTags.filter(
                         (tag) =>
-                            tag.tag === "param" && !tag.paramName?.includes(".")
+                            tag.tag === "@param" &&
+                            !tag.paramName?.includes(".")
                     );
                     if (
                         signature.parameters?.length === commentParams.length &&
@@ -364,13 +289,10 @@ export class CommentPlugin extends ConverterComponent {
                         parameter.name = commentParams[index].paramName!;
                     }
                 }
-                if (childComment) {
-                    moveNestedParamTags(childComment, parameter);
-                    tag = childComment.getParamTag(parameter.name);
-                }
-                if (comment && !tag) {
-                    tag = comment.getParamTag(parameter.name);
-                }
+
+                moveNestedParamTags(childComment, parameter);
+                const tag = childComment.getParamTag(parameter.name);
+
                 if (tag) {
                     parameter.comment = new Comment(
                         Comment.cloneDisplayParts(tag.content)
@@ -379,22 +301,10 @@ export class CommentPlugin extends ConverterComponent {
             });
 
             signature.typeParameters?.forEach((parameter) => {
-                let tag: CommentTag | undefined;
-                if (childComment) {
-                    tag =
-                        childComment.getParamTag(
-                            parameter.name,
-                            "@typeParam"
-                        ) ||
-                        childComment.getParamTag(parameter.name, "@template") ||
-                        childComment.getParamTag(`<${parameter.name}>`);
-                }
-                if (comment && !tag) {
-                    tag =
-                        comment.getParamTag(parameter.name, "@typeParam") ||
-                        comment.getParamTag(parameter.name, "@template") ||
-                        comment.getParamTag(`<${parameter.name}>`);
-                }
+                const tag =
+                    childComment.getParamTag(parameter.name, "@typeParam") ||
+                    childComment.getParamTag(parameter.name, "@template") ||
+                    childComment.getParamTag(`<${parameter.name}>`);
                 if (tag) {
                     parameter.comment = new Comment(
                         Comment.cloneDisplayParts(tag.content)
@@ -402,20 +312,20 @@ export class CommentPlugin extends ConverterComponent {
                 }
             });
 
-            childComment?.removeTags("param");
-            childComment?.removeTags("typeparam");
-            childComment?.removeTags("template");
+            childComment?.removeTags("@param");
+            childComment?.removeTags("@typeParam");
+            childComment?.removeTags("@template");
         });
-
-        delete reflection.comment;
     }
 
     private removeExcludedTags(comment: Comment) {
-        for (const tag of TAG_BLACKLIST) {
+        for (const tag of NEVER_RENDERED) {
             comment.removeTags(tag);
+            comment.removeModifier(tag);
         }
         for (const tag of this.excludeTags) {
             comment.removeTags(tag);
+            comment.removeModifier(tag);
         }
     }
 
@@ -451,9 +361,9 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         return (
-            comment.hasModifier("hidden") ||
-            comment.hasModifier("ignore") ||
-            (comment.hasModifier("internal") && excludeInternal)
+            comment.hasModifier("@hidden") ||
+            comment.hasModifier("@ignore") ||
+            (comment.hasModifier("@internal") && excludeInternal)
         );
     }
 }
@@ -463,7 +373,7 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
     if (parameter.type instanceof ReflectionType) {
         const tags = comment.blockTags.filter(
             (t) =>
-                t.tag === "param" &&
+                t.tag === "@param" &&
                 t.paramName?.startsWith(`${parameter.name}.`)
         );
         for (const tag of tags) {

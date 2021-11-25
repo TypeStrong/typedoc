@@ -14,10 +14,10 @@ export class CommentTag {
     /**
      * The name of this tag, e.g. `@returns`, `@example`
      */
-    tag: string;
+    tag: `@${string}`;
 
     /**
-     * If this is a `@param` tag, the parameter name associated with it.
+     * If this is a `@param`, `@typeParam`, or `@template` tag, the parameter name associated with it.
      */
     paramName?: string;
 
@@ -29,7 +29,7 @@ export class CommentTag {
     /**
      * Create a new CommentTag instance.
      */
-    constructor(tag: string, text: CommentDisplayPart[]) {
+    constructor(tag: `@${string}`, text: CommentDisplayPart[]) {
         this.tag = tag;
         this.content = text;
     }
@@ -124,7 +124,7 @@ export class Comment {
      */
     hasVisibleComponent(): boolean {
         return (
-            this.summary.some((x) => x.kind != "text" || x.text !== "") ||
+            this.summary.some((x) => x.kind !== "text" || x.text !== "") ||
             this.blockTags.length > 0
         );
     }
@@ -135,8 +135,12 @@ export class Comment {
      * @param tagName  The name of the tag to look for.
      * @returns TRUE when this comment contains a tag with the given name, otherwise FALSE.
      */
-    hasModifier(tagName: string): boolean {
+    hasModifier(tagName: `@${string}`): boolean {
         return this.modifierTags.has(tagName);
+    }
+
+    removeModifier(tagName: `@${string}`) {
+        this.modifierTags.delete(tagName);
     }
 
     /**
@@ -146,11 +150,11 @@ export class Comment {
      * @param paramName  An optional parameter name to look for.
      * @returns The found tag or undefined.
      */
-    getTag(tagName: string): CommentTag | undefined {
+    getTag(tagName: `@${string}`): CommentTag | undefined {
         return this.blockTags.find((tag) => tag.tag === tagName);
     }
 
-    getParamTag(param: string, tagName = "@param") {
+    getParamTag(param: string, tagName: `@${string}` = "@param") {
         return this.blockTags.find(
             (tag) => tag.tag === tagName && tag.paramName === param
         );
@@ -160,7 +164,7 @@ export class Comment {
      * Removes all tags with the given tag name from the comment.
      * @param tagName
      */
-    removeTags(tagName: string) {
+    removeTags(tagName: `@${string}`) {
         removeIf(this.blockTags, (tag) => tag.tag === tagName);
     }
 }

@@ -179,7 +179,7 @@ describe("Options", () => {
         options.addDefaultDeclarations();
 
         options.setValue("entryPoints", ["x"]);
-        options.setValue("excludeTags", ["x"]);
+        options.setValue("excludeTags", ["@x"]);
         options.reset();
 
         equal(options.getValue("entryPoints"), []);
@@ -191,7 +191,7 @@ describe("Options", () => {
         options.addDefaultDeclarations();
 
         options.setValue("name", "test");
-        options.setValue("excludeTags", ["x"]);
+        options.setValue("excludeTags", ["@x"]);
         options.reset("excludeTags");
 
         equal(options.getValue("name"), "test");

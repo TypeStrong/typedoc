@@ -18,7 +18,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "A custom array class."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A custom array class."
+              }
+            ]
           },
           "children": [
             {
@@ -92,7 +97,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "Class array class item"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Class array class item"
+              }
+            ]
           },
           "children": [
             {
@@ -134,7 +144,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "summary": "Custom list class"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Custom list class"
+              }
+            ]
           },
           "children": [
             {
@@ -200,7 +215,12 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "summary": "A const of a complex type."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A const of a complex type."
+              }
+            ]
           },
           "type": {
             "type": "array",
@@ -255,7 +275,12 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "summary": "An exported const of the custom array type."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An exported const of the custom array type."
+              }
+            ]
           },
           "type": {
             "type": "reference",
@@ -312,7 +337,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "summary": "Destructuring function parameters."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Destructuring function parameters."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -359,7 +389,12 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "summary": "An object literal."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An object literal."
+              }
+            ]
           },
           "type": {
             "type": "reflection",
@@ -380,7 +415,12 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "summary": "A typed literal without an initializer."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A typed literal without an initializer."
+              }
+            ]
           },
           "type": {
             "type": "reflection",

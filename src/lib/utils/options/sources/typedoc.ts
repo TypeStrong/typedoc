@@ -186,6 +186,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "excludeTags",
         help: "Remove the listed tags from doc comments.",
         type: ParameterType.Array,
+        validate(value) {
+            const missingAt = value.filter((tag) => !tag.startsWith("@"));
+            if (missingAt.length) {
+                throw new Error(
+                    `excludeTags must specify tags with a leading "@"`
+                );
+            }
+        },
     });
     options.addDeclaration({
         name: "readme",

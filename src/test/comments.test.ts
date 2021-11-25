@@ -1,10 +1,13 @@
-import { deepStrictEqual as equal } from "assert";
+import { deepStrictEqual as equal, fail } from "assert";
+import type { CommentParserConfig } from "../lib/converter/comments";
 
 import {
     lexBlockComment,
     Token,
     TokenSyntaxKind,
 } from "../lib/converter/comments/blockLexer";
+import { parseComment } from "../lib/converter/comments/parser";
+import { Comment, CommentTag } from "../lib/models";
 
 function dedent(text: string) {
     const lines = text.split(/\r?\n/);
@@ -506,4 +509,134 @@ describe("Block Comment Lexer", () => {
             { kind: TokenSyntaxKind.CloseBrace, text: "}" },
         ]);
     });
+});
+
+describe("Comment Parser", () => {
+    const config: CommentParserConfig = {
+        blockTags: new Set(["@param", "@remarks", "@module"]),
+        inlineTags: new Set(["@link"]),
+        modifierTags: new Set([
+            "@public",
+            "@private",
+            "@protected",
+            "@readonly",
+            "@enum",
+            "@event",
+            "@packageDocumentation",
+        ]),
+    };
+
+    function test(name: string, text: string, cb: (comment: Comment) => void) {
+        it(name, () => {
+            const content = lexBlockComment(text);
+            const comment = parseComment(content, config, fail);
+            cb(comment);
+        });
+    }
+
+    test("Simple summary", "/** Summary! */", (comment) => {
+        equal(comment.summary, [{ kind: "text", text: "Summary!" }]);
+        equal(comment.blockTags, []);
+        equal(comment.modifierTags, new Set());
+    });
+
+    test(
+        "Summary with remarks",
+        `/**
+          * Summary
+          * @remarks Remarks
+          */`,
+        (comment) => {
+            equal(comment.summary, [{ kind: "text", text: "Summary" }]);
+            equal(comment.blockTags, [
+                new CommentTag("@remarks", [{ kind: "text", text: "Remarks" }]),
+            ]);
+            equal(comment.modifierTags, new Set());
+        }
+    );
+
+    test(
+        "Parameter without content",
+        `/**
+          * Summary
+          * @param
+          */`,
+        (comment) => {
+            equal(comment.summary, [{ kind: "text", text: "Summary" }]);
+            const tag = new CommentTag("@param", []);
+
+            equal(comment.blockTags, [tag]);
+            equal(comment.modifierTags, new Set());
+        }
+    );
+
+    test(
+        "Parameter name",
+        `/**
+          * Summary
+          * @param T Param text
+          */`,
+        (comment) => {
+            equal(comment.summary, [{ kind: "text", text: "Summary" }]);
+            const tag = new CommentTag("@param", [
+                { kind: "text", text: "Param text" },
+            ]);
+            tag.paramName = "T";
+
+            equal(comment.blockTags, [tag]);
+            equal(comment.modifierTags, new Set());
+        }
+    );
+
+    test(
+        "Parameter name with no content",
+        `/**
+          * Summary
+          * @param T
+          */`,
+        (comment) => {
+            equal(comment.summary, [{ kind: "text", text: "Summary" }]);
+            const tag = new CommentTag("@param", []);
+            tag.paramName = "T";
+
+            equal(comment.blockTags, [tag]);
+            equal(comment.modifierTags, new Set());
+        }
+    );
+
+    test(
+        "Parameter name with dash",
+        `/**
+          * Summary
+          * @param T - Param text
+          */`,
+        (comment) => {
+            equal(comment.summary, [{ kind: "text", text: "Summary" }]);
+            const tag = new CommentTag("@param", [
+                { kind: "text", text: "Param text" },
+            ]);
+            tag.paramName = "T";
+
+            equal(comment.blockTags, [tag]);
+            equal(comment.modifierTags, new Set());
+        }
+    );
+
+    test(
+        "Parameter name with type annotation",
+        `/**
+          * Summary
+          * @param {string} T - Param text
+          */`,
+        (comment) => {
+            equal(comment.summary, [{ kind: "text", text: "Summary" }]);
+            const tag = new CommentTag("@param", [
+                { kind: "text", text: "Param text" },
+            ]);
+            tag.paramName = "T";
+
+            equal(comment.blockTags, [tag]);
+            equal(comment.modifierTags, new Set());
+        }
+    );
 });

@@ -46,7 +46,15 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
+              "comment": {
+                "summary": [],
+                "blockTags": [
+                  {
+                    "tag": "@inheritDoc",
+                    "content": []
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 11,
@@ -54,9 +62,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "Parameter A."
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -68,9 +73,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "Parameter B.\n"
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -160,7 +162,15 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
+              "comment": {
+                "summary": [],
+                "blockTags": [
+                  {
+                    "tag": "@inheritDoc",
+                    "content": []
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 18,
@@ -168,9 +178,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "Custom parameter A doc.\n"
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -182,9 +189,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "Parameter B.\n"
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -274,7 +278,15 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
+              "comment": {
+                "summary": [],
+                "blockTags": [
+                  {
+                    "tag": "@inheritDoc",
+                    "content": []
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 25,
@@ -282,9 +294,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "Parameter A."
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -296,9 +305,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "Custom second parameter doc with name change.\n"
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -367,7 +373,9 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
+              "comment": {
+                "summary": []
+              },
               "parameters": [
                 {
                   "id": 4,
@@ -375,9 +383,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "Parameter A."
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -389,9 +394,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "summary": "Parameter B.\n"
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"

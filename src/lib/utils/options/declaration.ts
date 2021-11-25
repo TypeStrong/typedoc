@@ -86,7 +86,7 @@ export interface TypeDocOptionMap {
 
     name: string;
     includeVersion: boolean;
-    excludeTags: string[];
+    excludeTags: `@${string}`[];
     readme: string;
     defaultCategory: string;
     categoryOrder: string[];
