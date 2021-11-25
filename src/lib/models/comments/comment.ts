@@ -3,7 +3,7 @@ import { assertNever, removeIf } from "../../utils";
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }
-    | { kind: "inline-tag"; tag: string; text: string };
+    | { kind: "inline-tag"; tag: `@${string}`; text: string };
 
 /**
  * A model that represents a single TypeDoc comment tag.

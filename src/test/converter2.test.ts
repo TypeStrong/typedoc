@@ -50,12 +50,12 @@ describe("Converter2", () => {
     });
 
     for (const [entry, check] of Object.entries(issueTests)) {
-        const link = `https://github.com/TypeStrong/typedoc/issues/${entry.substr(
+        const link = `https://github.com/TypeStrong/typedoc/issues/${entry.substring(
             2
         )}`;
 
         runTest(
-            `Issue ${entry.substr(2).padEnd(4)} (${link})`,
+            `Issue ${entry.substring(2).padEnd(4)} (${link})`,
             join("issues", entry),
             check
         );

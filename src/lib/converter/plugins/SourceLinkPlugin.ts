@@ -97,11 +97,8 @@ export class Repository {
                 this.hostname = match[1];
                 this.user = match[2];
                 this.project = match[3];
-                if (this.project.substr(-4) === ".git") {
-                    this.project = this.project.substr(
-                        0,
-                        this.project.length - 4
-                    );
+                if (this.project.endsWith(".git")) {
+                    this.project = this.project.slice(0, -4);
                 }
                 break;
             }
@@ -160,7 +157,7 @@ export class Repository {
             this.type === RepositoryType.GitLab ? "-" : undefined,
             this.type === RepositoryType.Bitbucket ? "src" : "blob",
             this.branch,
-            fileName.substr(this.path.length + 1),
+            fileName.substring(this.path.length + 1),
         ]
             .filter((s) => !!s)
             .join("/");
@@ -263,7 +260,7 @@ export class SourceLinkPlugin extends ConverterComponent {
 
         // Check for known repositories
         for (const path of Object.keys(this.repositories)) {
-            if (fileName.substr(0, path.length).toLowerCase() === path) {
+            if (fileName.substring(0, path.length).toLowerCase() === path) {
                 return this.repositories[path];
             }
         }

@@ -202,10 +202,10 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
         if (splitIndex !== -1) {
             return {
                 caption: text
-                    .substr(splitIndex + 1)
+                    .substring(splitIndex + 1)
                     .replace(/\n+/, " ")
                     .trim(),
-                target: text.substr(0, splitIndex).trim(),
+                target: text.substring(0, splitIndex).trim(),
             };
         } else {
             return {

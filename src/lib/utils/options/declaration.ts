@@ -584,7 +584,7 @@ export function getDefaultValue(option: DeclarationOption) {
 function resolveGlobPaths(globs: readonly string[], configPath: string) {
     return globs.map((path) => {
         const start = path.match(/^[!#]+/)?.[0] ?? "";
-        const remaining = path.substr(start.length);
+        const remaining = path.substring(start.length);
         if (!remaining.startsWith("**")) {
             return start + resolve(configPath, remaining);
         }

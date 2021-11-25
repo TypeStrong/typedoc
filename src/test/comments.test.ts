@@ -23,7 +23,7 @@ function dedent(text: string) {
         Infinity
     );
 
-    return lines.map((line) => line.substr(minIndent)).join("\n");
+    return lines.map((line) => line.substring(minIndent)).join("\n");
 }
 
 describe("Dedent test helper", () => {

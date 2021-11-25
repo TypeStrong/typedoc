@@ -60,8 +60,8 @@ export class BasePath {
         fileName = BasePath.normalize(fileName);
         for (let n = 0, c = this.basePaths.length; n < c; n++) {
             const basePath = this.basePaths[n];
-            if (fileName.substr(0, basePath.length) === basePath) {
-                return fileName.substr(basePath.length + 1);
+            if (fileName.substring(0, basePath.length) === basePath) {
+                return fileName.substring(basePath.length + 1);
             }
         }
 

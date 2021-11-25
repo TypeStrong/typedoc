@@ -3,7 +3,7 @@ import { assertNever, JSX, Raw } from "../../../../utils";
 import type { CommentDisplayPart, Reflection } from "../../../../models";
 
 function humanize(text: string) {
-    return text.substr(1, 1).toUpperCase() + text.substr(2).replace(/[a-z][A-Z]/g, (x) => `${x[0]} ${x[1]}`);
+    return text.substring(1, 2).toUpperCase() + text.substring(2).replace(/[a-z][A-Z]/g, (x) => `${x[0]} ${x[1]}`);
 }
 
 function displayPartsToMarkdown(parts: CommentDisplayPart[]) {
@@ -16,7 +16,16 @@ function displayPartsToMarkdown(parts: CommentDisplayPart[]) {
                 result.push(part.text);
                 break;
             case "inline-tag":
-                // TODO GERRIT
+                switch (part.tag) {
+                    case "@label":
+                        break; // Not rendered.
+                    case "@link":
+                        // TODO GERRIT RENDER ME PROPERLY
+                        return part.text;
+                    default:
+                    // Hmm... probably want to be able to render these somehow, so custom inline tags can be given
+                    // special rendering rules. Future capability. For now, do nothing.
+                }
                 break;
             default:
                 assertNever(part);

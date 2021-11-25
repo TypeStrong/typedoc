@@ -131,7 +131,7 @@ function isPlugin(info: any): boolean {
 function getPluginDisplayName(plugin: string) {
     const path = nicePath(plugin);
     if (path.startsWith("./node_modules/")) {
-        return path.substr("./node_modules/".length);
+        return path.substring("./node_modules/".length);
     }
     return plugin;
 }

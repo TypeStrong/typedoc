@@ -67,9 +67,9 @@ export class Toggle extends Component {
                 if (link) {
                     let href = window.location.href;
                     if (href.indexOf("#") != -1) {
-                        href = href.substr(0, href.indexOf("#"));
+                        href = href.substring(0, href.indexOf("#"));
                     }
-                    if (link.href.substr(0, href.length) == href) {
+                    if (link.href.substring(0, href.length) == href) {
                         setTimeout(() => this.setActive(false), 250);
                     }
                 }

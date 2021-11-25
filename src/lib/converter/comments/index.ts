@@ -23,6 +23,7 @@ export function getComment(
     if (comment) {
         const [file, range] = comment;
         const { line } = ts.getLineAndCharacterOfPosition(file, range.pos);
+        logger.verbose(`Parsing comment at ${file.fileName}:${line}`);
         const warning = (warning: string) =>
             logger.warn(`${warning} in comment at ${file.fileName}:${line}.`);
 
@@ -65,6 +66,7 @@ export function getSignatureComment(
     if (comment) {
         const [file, range] = comment;
         const { line } = ts.getLineAndCharacterOfPosition(file, range.pos);
+        logger.verbose(`Parsing signature comment at ${file.fileName}:${line}`);
         const warning = (warning: string) =>
             logger.warn(`${warning} in comment at ${file.fileName}:${line}.`);
 

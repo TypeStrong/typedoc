@@ -46,7 +46,7 @@ class DoubleHighlighter {
                     docEls.push(
                         <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{lightLine[0].content}</span>
                     );
-                    darkLine[0].content = darkLine[0].content.substr(lightLine[0].content.length);
+                    darkLine[0].content = darkLine[0].content.substring(lightLine[0].content.length);
                     lightLine.shift();
                     continue;
                 }
@@ -54,7 +54,7 @@ class DoubleHighlighter {
                 docEls.push(
                     <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{darkLine[0].content}</span>
                 );
-                lightLine[0].content = lightLine[0].content.substr(darkLine[0].content.length);
+                lightLine[0].content = lightLine[0].content.substring(darkLine[0].content.length);
                 darkLine.shift();
             }
 

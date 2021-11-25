@@ -243,7 +243,7 @@ export class CommentPlugin extends ConverterComponent {
     /**
      * Triggered when the converter resolves a reflection.
      *
-     * Cleans up comment tags related to signatures like @param or @return
+     * Cleans up comment tags related to signatures like `@param` or `@returns`
      * and moves their data to the corresponding parameter reflections.
      *
      * This hook also copies over the comment of function implementations to their

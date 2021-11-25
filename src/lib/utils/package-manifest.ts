@@ -142,7 +142,7 @@ function getTsSourceFromJsSource(
         resolvedSourceMapURL = jsPath;
         sourceMap = JSON.parse(
             Buffer.from(
-                sourceMapURL.substr(sourceMapURL.indexOf(",") + 1),
+                sourceMapURL.substring(sourceMapURL.indexOf(",") + 1),
                 "base64"
             ).toString()
         );

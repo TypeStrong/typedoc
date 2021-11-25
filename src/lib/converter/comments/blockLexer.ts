@@ -276,7 +276,7 @@ function* lexBlockComment2(
 
         return {
             kind,
-            text: file.substr(start, size),
+            text: file.substring(start, pos),
         };
     }
 

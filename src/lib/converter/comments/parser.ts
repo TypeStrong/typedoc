@@ -103,7 +103,7 @@ function blockTag(
         const match = firstPart.text.match(/^([a-z_$]+)\s*(-\s*)?/);
         if (match) {
             tag.paramName = match[1];
-            firstPart.text = firstPart.text.substr(match[0].length);
+            firstPart.text = firstPart.text.substring(match[0].length);
         }
     }
 
@@ -121,6 +121,7 @@ function blockContent(
 
     loop: while (!lexer.done()) {
         const next = lexer.peek();
+        let consume = true;
 
         switch (next.kind) {
             case TokenSyntaxKind.NewLine:
@@ -137,7 +138,7 @@ function blockContent(
                     comment.modifierTags.add(next.text);
                     break;
                 } else if (!atNewLine && !config.blockTags.has(next.text)) {
-                    // Treat unknown tag as a modifier, bug warn about it.
+                    // Treat unknown tag as a modifier, but warn about it.
                     comment.modifierTags.add(next.text);
                     warning(
                         `Treating unrecognized tag "${next.text}" as a modifier tag`
@@ -161,13 +162,14 @@ function blockContent(
 
             case TokenSyntaxKind.OpenBrace:
                 inlineTag(lexer, content, config, warning);
+                consume = false;
                 break;
 
             default:
                 assertNever(next.kind);
         }
 
-        if (lexer.take().kind === TokenSyntaxKind.NewLine) {
+        if (consume && lexer.take().kind === TokenSyntaxKind.NewLine) {
             atNewLine = true;
         }
     }
@@ -260,7 +262,7 @@ function inlineTag(
 
     block.push({
         kind: "inline-tag",
-        tag: tagName.text,
+        tag: tagName.text as `@${string}`,
         text: content.join(""),
     });
 }
