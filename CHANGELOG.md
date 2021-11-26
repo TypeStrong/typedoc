@@ -10,6 +10,7 @@
 
 -   If file exports a symbol both under it's real name and as `default`, the `default` export will now always be the renamed symbol, #1795.
 -   TypeDoc will no longer crash if a symbol is defined both as a normal class (and optional interface) and as a property, as is used for global Node types in older `@types/node` versions, Gerrit0/typedoc-plugin-missing-exports#5.
+-   Fixed line height of `h1` and `h2` elements being too low, #1796.
 
 ## v0.22.9 (2021-11-14)
 
