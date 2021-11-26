@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed line height of `h1` and `h2` elements being too low, #1796.
+
 ## v0.22.10 (2021-11-25)
 
 ### Features

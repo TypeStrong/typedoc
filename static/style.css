@@ -152,6 +152,15 @@ body.dark {
     --external-icon: var(--dark-external-icon);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1.2;
+}
+
 h1 {
     font-size: 2em;
     margin: 0.67em 0;
