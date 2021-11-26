@@ -61,6 +61,10 @@ const HAS_USER_IDENTIFIER: `@${string}`[] = [
     "@typeParam",
 ];
 
+/**
+ * Loop over comment, produce lint warnings, and set tag names for tags
+ * which have them.
+ */
 function postProcessComment(comment: Comment, warning: (msg: string) => void) {
     for (const tag of comment.blockTags) {
         if (HAS_USER_IDENTIFIER.includes(tag.tag) && tag.content.length) {
@@ -69,19 +73,17 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
                 let end = first.text.search(/\s/);
                 if (end === -1) end = first.text.length;
 
-                const startOfText =
-                    end +
-                    Math.max(0, first.text.substring(end).search(/[^\-\s]/));
-
                 tag.name = first.text.substring(0, end);
-
                 if (tag.name.startsWith("[") && tag.name.endsWith("]")) {
                     tag.name = tag.name.slice(1, -1);
                 }
 
-                first.text = first.text.substring(startOfText);
-
-                if (first.text === "") {
+                first.text = first.text.substring(end);
+                const endOfTrivia = first.text.search(/[^\-\s]/);
+                if (endOfTrivia !== -1) {
+                    first.text = first.text.substring(endOfTrivia);
+                } else {
+                    // Remove this token, no real text in it.
                     tag.content.shift();
                 }
             }
@@ -192,7 +194,13 @@ function blockContent(
 
     // Now get rid of extra whitespace, and any empty parts
     for (let i = 0; i < content.length /* inside loop */; ) {
-        content[i].text = content[i].text.trim();
+        if (i === 0 || content[i].kind === "inline-tag") {
+            content[i].text = content[i].text.trimStart();
+        }
+        if (i === content.length - 1 || content[i].kind === "inline-tag") {
+            content[i].text = content[i].text.trimEnd();
+        }
+
         if (!content[i].text && content[i].kind === "text") {
             content.splice(i, 1);
         } else {
@@ -232,8 +240,7 @@ function inlineTag(
                 lexer.peek().kind != TokenSyntaxKind.Tag))
     ) {
         warning("Encountered an unescaped open brace without an inline tag");
-        block.push({ kind: "text", text: openBrace.text });
-        block.push({ kind: "text", text: tagName.text });
+        block.push({ kind: "text", text: openBrace.text + tagName.text });
         return;
     }
 

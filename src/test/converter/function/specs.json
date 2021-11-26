@@ -836,7 +836,7 @@
                             "summary": [
                               {
                                 "kind": "text",
-                                "text": "This is a **parameter** pointing to an interface."
+                                "text": "This is a **parameter** pointing to an interface.\n\n  "
                               },
                               {
                                 "kind": "code",
@@ -927,7 +927,7 @@
                 "summary": [
                   {
                     "kind": "text",
-                    "text": "This is a function with a destructured parameter and an extra"
+                    "text": "This is a function with a destructured parameter and an extra "
                   },
                   {
                     "kind": "code",
@@ -935,7 +935,7 @@
                   },
                   {
                     "kind": "text",
-                    "text": "directive with no corresponding parameter.\nThe"
+                    "text": " directive with no corresponding parameter.\nThe "
                   },
                   {
                     "kind": "code",
@@ -943,7 +943,7 @@
                   },
                   {
                     "kind": "text",
-                    "text": "directives are ignored because we cannot be certain which corresponds to the real parameter."
+                    "text": " directives are ignored because we cannot be certain which corresponds to the real parameter."
                   }
                 ],
                 "blockTags": [
@@ -1047,7 +1047,7 @@
                 "summary": [
                   {
                     "kind": "text",
-                    "text": "This is a function with a destructured parameter and additional undocumented parameters.\nThe"
+                    "text": "This is a function with a destructured parameter and additional undocumented parameters.\nThe "
                   },
                   {
                     "kind": "code",
@@ -1055,7 +1055,7 @@
                   },
                   {
                     "kind": "text",
-                    "text": "directives are ignored because we cannot be certain which parameter they refer to."
+                    "text": " directives are ignored because we cannot be certain which parameter they refer to."
                   }
                 ],
                 "blockTags": [
@@ -1445,7 +1445,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "This is a **parameter** pointing to an interface."
+                        "text": "This is a **parameter** pointing to an interface.\n\n  "
                       },
                       {
                         "kind": "code",

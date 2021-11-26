@@ -21,7 +21,7 @@
             "summary": [
               {
                 "kind": "text",
-                "text": "A Comment for a class\n\n## Some Markup\n**with more markup**\n\nAn example with decorators that should not parse to tag"
+                "text": "A Comment for a class\n\n## Some Markup\n**with more markup**\n\nAn example with decorators that should not parse to tag\n"
               },
               {
                 "kind": "code",
@@ -461,7 +461,7 @@
         "summary": [
           {
             "kind": "text",
-            "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the"
+            "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
           },
           {
             "kind": "code",
@@ -469,7 +469,7 @@
           },
           {
             "kind": "text",
-            "text": "function."
+            "text": " function."
           }
         ]
       },
@@ -491,7 +491,7 @@
                 "summary": [
                   {
                     "kind": "text",
-                    "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the"
+                    "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
                   },
                   {
                     "kind": "code",
@@ -499,7 +499,7 @@
                   },
                   {
                     "kind": "text",
-                    "text": "function."
+                    "text": " function."
                   }
                 ],
                 "modifierTags": [
@@ -558,7 +558,7 @@
         "summary": [
           {
             "kind": "text",
-            "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the"
+            "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
           },
           {
             "kind": "code",
@@ -566,7 +566,7 @@
           },
           {
             "kind": "text",
-            "text": "function."
+            "text": " function."
           }
         ]
       },
@@ -588,7 +588,7 @@
                 "summary": [
                   {
                     "kind": "text",
-                    "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the"
+                    "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
                   },
                   {
                     "kind": "code",
@@ -596,7 +596,7 @@
                   },
                   {
                     "kind": "text",
-                    "text": "function."
+                    "text": " function."
                   }
                 ],
                 "blockTags": [
@@ -658,7 +658,7 @@
         "summary": [
           {
             "kind": "text",
-            "text": "This is a comment containing a multiline code block"
+            "text": "This is a comment containing a multiline code block\n"
           },
           {
             "kind": "code",
@@ -684,7 +684,7 @@
                 "summary": [
                   {
                     "kind": "text",
-                    "text": "This is a comment containing a multiline code block"
+                    "text": "This is a comment containing a multiline code block\n"
                   },
                   {
                     "kind": "code",

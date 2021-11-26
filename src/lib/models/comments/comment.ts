@@ -72,7 +72,7 @@ export class Comment {
                     result.push(item.text);
                     break;
                 case "inline-tag":
-                    result.push("{", item.tag, item.text, "}");
+                    result.push("{", item.tag, " ", item.text, "}");
                     break;
                 default:
                     assertNever(item);

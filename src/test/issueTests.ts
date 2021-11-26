@@ -19,6 +19,19 @@ function query(project: ProjectReflection, name: string) {
 export const issueTests: {
     [issue: string]: (project: ProjectReflection) => void;
 } = {
+    gh567(project) {
+        const foo = query(project, "foo");
+        const sig = foo.signatures?.[0];
+        ok(sig, "Missing signature");
+        ok(sig.comment, "No comment for signature");
+        const param = sig.parameters?.[0];
+        equal(param?.name, "x");
+        equal(
+            Comment.combineDisplayParts(param.comment?.summary),
+            "JSDoc style param name"
+        );
+    },
+
     gh869(project) {
         const classFoo = project.children?.find(
             (r) => r.name === "Foo" && r.kind === ReflectionKind.Class
@@ -62,7 +75,7 @@ export const issueTests: {
             (x) => x.tag === "@returns"
         );
         ok(tag);
-        equal(Comment.combineDisplayParts(tag.content), "Test description.\n");
+        equal(Comment.combineDisplayParts(tag.content), "Test description.");
     },
 
     gh1215(project) {
@@ -73,7 +86,7 @@ export const issueTests: {
 
     gh1255(project) {
         const foo = query(project, "C.foo");
-        equal(foo.comment?.summary, "Docs!");
+        equal(Comment.combineDisplayParts(foo.comment?.summary), "Docs!");
     },
 
     gh1330(project) {
@@ -134,7 +147,10 @@ export const issueTests: {
 
     gh1481(project) {
         const signature = query(project, "GH1481.static").signatures?.[0];
-        equal(signature?.comment?.summary, "static docs");
+        equal(
+            Comment.combineDisplayParts(signature?.comment?.summary),
+            "static docs"
+        );
         equal(signature?.type?.toString(), "void");
     },
 
@@ -151,7 +167,10 @@ export const issueTests: {
 
     gh1490(project) {
         const refl = query(project, "GH1490.optionalMethod");
-        equal(refl.signatures?.[0]?.comment?.summary, "With comment");
+        equal(
+            Comment.combineDisplayParts(refl.signatures?.[0]?.comment?.summary),
+            "With comment"
+        );
     },
 
     gh1509(project) {
@@ -248,7 +267,7 @@ export const issueTests: {
     gh1733(project) {
         const alias = query(project, "Foo");
         equal(alias.typeParameters?.[0].comment?.summary, [
-            { kind: "text", text: "T docs\n" },
+            { kind: "text", text: "T docs" },
         ]);
         const cls = query(project, "Bar");
         equal(cls.typeParameters?.[0].comment?.summary, [

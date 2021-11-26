@@ -437,7 +437,7 @@
                     "content": [
                       {
                         "kind": "text",
-                        "text": "This function inherited commentary from the"
+                        "text": "This function inherited commentary from the "
                       },
                       {
                         "kind": "code",
@@ -445,7 +445,7 @@
                       },
                       {
                         "kind": "text",
-                        "text": "function"
+                        "text": " function"
                       }
                     ]
                   },

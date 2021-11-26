@@ -9,7 +9,7 @@ import {
     getConverterProgram,
 } from "./programs";
 
-describe.skip("Converter", function () {
+describe("Converter", function () {
     const base = getConverterBase();
     const app = getConverterApp();
 
