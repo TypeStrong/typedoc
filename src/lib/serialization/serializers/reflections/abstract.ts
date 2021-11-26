@@ -1,7 +1,6 @@
 import { Reflection } from "../../../models";
 
 import { ReflectionSerializerComponent } from "../../components";
-import { DecoratorWrapper } from "../models";
 import type { Reflection as JSONReflection } from "../../schema";
 
 export class ReflectionSerializer extends ReflectionSerializerComponent<Reflection> {
@@ -22,12 +21,11 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
             kind: reflection.kind,
             kindString: reflection.kindString,
             flags: {},
-            comment: this.owner.toObject(reflection.comment),
-            decorates: this.owner.toObject(reflection.decorates),
-            decorators: this.owner.toObject(
-                reflection.decorators?.map((d) => new DecoratorWrapper(d))
-            ),
         };
+
+        if (reflection.comment && !reflection.comment.isEmpty()) {
+            result.comment = this.owner.toObject(reflection.comment);
+        }
 
         if (reflection.originalName !== reflection.name) {
             result.originalName = reflection.originalName;

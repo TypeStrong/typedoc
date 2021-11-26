@@ -178,6 +178,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Custom parameter A doc."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -305,6 +313,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Custom second parameter doc with name change."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -373,9 +389,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "summary": []
-              },
               "parameters": [
                 {
                   "id": 4,
@@ -383,6 +396,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter A."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -394,6 +415,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter B."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"

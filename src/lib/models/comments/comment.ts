@@ -17,9 +17,10 @@ export class CommentTag {
     tag: `@${string}`;
 
     /**
-     * If this is a `@param`, `@typeParam`, or `@template` tag, the parameter name associated with it.
+     * Some tags, (`@typedef`, `@param`, `@property`, etc.) may have a user defined identifier associated with them.
+     * If this tag is one of those, it will be parsed out and included here.
      */
-    paramName?: string;
+    name?: string;
 
     /**
      * The actual body text of this tag.
@@ -39,8 +40,8 @@ export class CommentTag {
             this.tag,
             Comment.cloneDisplayParts(this.content)
         );
-        if (this.paramName) {
-            tag.paramName = this.paramName;
+        if (this.name) {
+            tag.name = this.name;
         }
         return tag;
     }
@@ -118,6 +119,25 @@ export class Comment {
     }
 
     /**
+     * Create a deep clone of this comment.
+     */
+    clone() {
+        return new Comment(
+            Comment.cloneDisplayParts(this.summary),
+            this.blockTags.map((tag) => tag.clone()),
+            new Set(this.modifierTags)
+        );
+    }
+
+    /**
+     * Returns true if this comment is completely empty.
+     * @internal
+     */
+    isEmpty() {
+        return !this.hasVisibleComponent() && this.modifierTags.size === 0;
+    }
+
+    /**
      * Has this comment a visible component?
      *
      * @returns TRUE when this comment has a visible component.
@@ -154,9 +174,9 @@ export class Comment {
         return this.blockTags.find((tag) => tag.tag === tagName);
     }
 
-    getParamTag(param: string, tagName: `@${string}` = "@param") {
+    getIdentifiedTag(identifier: string, tagName: `@${string}`) {
         return this.blockTags.find(
-            (tag) => tag.tag === tagName && tag.paramName === param
+            (tag) => tag.tag === tagName && tag.name === identifier
         );
     }
 

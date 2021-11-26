@@ -26,8 +26,8 @@ export class CommentTagSerializer extends SerializerComponent<CommentTag> {
             content: tag.content,
         };
 
-        if (tag.paramName) {
-            result.paramName = tag.paramName;
+        if (tag.name) {
+            result.name = tag.name;
         }
 
         return Object.assign(obj, result);

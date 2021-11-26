@@ -29,7 +29,7 @@
  */
 
 import type * as M from "../models";
-import type { SourceReferenceWrapper, DecoratorWrapper } from "./serializers";
+import type { SourceReferenceWrapper } from "./serializers";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
@@ -75,8 +75,6 @@ type _ModelToObject<T> =
         ? CommentTag
         : T extends M.CommentDisplayPart
         ? CommentDisplayPart
-        : T extends DecoratorWrapper
-        ? Decorator
         : T extends SourceReferenceWrapper
         ? SourceReference
         : never;
@@ -179,14 +177,10 @@ export interface ContainerReflection
 }
 
 export interface Reflection
-    extends S<
-        M.Reflection,
-        "id" | "name" | "kind" | "kindString" | "comment" | "decorates"
-    > {
+    extends S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
     /** Will not be present if name === originalName */
     originalName?: M.Reflection["originalName"];
     flags: ReflectionFlags;
-    decorators?: ModelToObject<DecoratorWrapper[]>;
 }
 
 // Types
@@ -343,14 +337,10 @@ export interface Comment
     modifierTags?: string[];
 }
 
-export interface CommentTag extends S<M.CommentTag, "tag" | "content"> {
-    paramName?: string;
-}
+export interface CommentTag
+    extends S<M.CommentTag, "tag" | "content" | "name"> {}
 
 export type CommentDisplayPart = M.CommentDisplayPart;
 
 export interface SourceReference
     extends S<M.SourceReference, "fileName" | "line" | "character"> {}
-
-export interface Decorator
-    extends S<M.Decorator, "name" | "type" | "arguments"> {}

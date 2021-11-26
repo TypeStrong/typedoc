@@ -61,11 +61,6 @@ export class ProjectReflection extends ContainerReflection {
      */
     packageInfo: any;
 
-    /**
-     * Create a new ProjectReflection instance.
-     *
-     * @param name  The name of the project.
-     */
     constructor(name: string) {
         super(name, ReflectionKind.Project);
     }

@@ -463,6 +463,14 @@
                       "flags": {
                         "isOptional": true
                       },
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "an optional argument"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -504,9 +512,6 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
-          "comment": {
-            "summary": []
-          },
           "type": {
             "type": "reflection",
             "declaration": {

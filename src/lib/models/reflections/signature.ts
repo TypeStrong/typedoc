@@ -10,9 +10,6 @@ import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 
 export class SignatureReflection extends Reflection {
-    /**
-     * Create a new SignatureReflection to contain a specific type of signature.
-     */
     constructor(
         name: string,
         kind: SignatureReflection["kind"],

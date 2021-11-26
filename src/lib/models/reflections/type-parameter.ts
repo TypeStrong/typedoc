@@ -9,9 +9,6 @@ export class TypeParameterReflection extends Reflection {
 
     default?: Type;
 
-    /**
-     * Create a new TypeParameterReflection instance.
-     */
     constructor(
         name: string,
         constraint?: Type,

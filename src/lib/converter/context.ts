@@ -167,7 +167,7 @@ export class Context {
         return resolveAliasedSymbol(symbol, this.checker);
     }
 
-    // TODO: This needs to live on Application, and get constructed based on user input.
+    // GERRIT: This needs to live on Application, and get constructed based on user input.
     config: CommentParserConfig = {
         blockTags: new Set(["@param", "@remarks", "@module"]),
         inlineTags: new Set(["@link"]),

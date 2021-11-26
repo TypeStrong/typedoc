@@ -7,6 +7,20 @@
 -   `@inheritDoc`
 -   Comment rendering
 
+### Breaking Changes
+
+-   `reflection.decorates`, `reflection.decorators`, and their corresponding interfaces have been removed as no code in TypeDoc used them.
+-   The shape of the `Comment` class has changed significantly to support multiple tag kinds.
+-   Listeners to `Converter.EVENT_CREATE_TYPE_PARAMETER` will now never be passed a `ts.Node` as their third argument.
+
+### Features
+
+-   TypeDoc will now search for `typedoc.js(on)` in the `.config` folder in the current working directory.
+
+### Bug Fixes
+
+-   Fixed off by one error in warnings for types referenced but not included in the documentation.
+
 ## v0.22.10 (2021-11-25)
 
 ### Features

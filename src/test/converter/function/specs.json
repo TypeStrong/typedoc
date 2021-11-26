@@ -631,6 +631,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The condition that is asserted to be true when this function returns."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -796,7 +804,7 @@
               "parameters": [
                 {
                   "id": 25,
-                  "name": "Param",
+                  "name": "destructuredParam",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
@@ -1184,6 +1192,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default string value."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1196,6 +1212,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default numeric value."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1208,6 +1232,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default NaN value."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1220,6 +1252,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default boolean value."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -1232,6 +1272,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default null value."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -1274,6 +1322,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A normal parameter."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1286,6 +1342,14 @@
                   "kindString": "Parameter",
                   "flags": {
                     "isOptional": true
+                  },
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "An optional parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1339,6 +1403,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This is a string parameter."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1350,6 +1422,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This is a parameter flagged with any.\n    This sentence is placed in the next line."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -1361,6 +1441,18 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This is a **parameter** pointing to an interface."
+                      },
+                      {
+                        "kind": "code",
+                        "text": "```\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ```"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reference",
                     "name": "Object"
@@ -1414,6 +1506,14 @@
                   "kindString": "Parameter",
                   "flags": {
                     "isRest": true
+                  },
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The rest parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "array",
@@ -1549,6 +1649,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "An argument."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1590,6 +1698,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The name value."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1622,6 +1738,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "An object containing the name value."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -1637,6 +1761,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "comment": {
+                            "summary": [
+                              {
+                                "kind": "text",
+                                "text": "A value of the object."
+                              }
+                            ]
+                          },
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -1796,6 +1928,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A generic parameter."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reference",
                     "id": 123,
@@ -1808,6 +1948,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A generic array parameter."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "array",
                     "elementType": {
@@ -1842,9 +1990,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "summary": []
-              },
               "typeParameter": [
                 {
                   "id": 128,
@@ -1869,6 +2014,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "this describes param"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reference",
                     "id": 128,
@@ -1944,6 +2097,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Generic function parameter."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reference",
                     "id": 119,

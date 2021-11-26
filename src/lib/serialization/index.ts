@@ -12,8 +12,6 @@ export {
     CommentTagSerializer,
     ContainerReflectionSerializer,
     DeclarationReflectionSerializer,
-    DecoratorContainerSerializer,
-    DecoratorWrapper,
     IntersectionTypeSerializer,
     IntrinsicTypeSerializer,
     LiteralTypeSerializer,

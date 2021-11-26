@@ -581,7 +581,7 @@ describe("Comment Parser", () => {
             const tag = new CommentTag("@param", [
                 { kind: "text", text: "Param text" },
             ]);
-            tag.paramName = "T";
+            tag.name = "T";
 
             equal(comment.blockTags, [tag]);
             equal(comment.modifierTags, new Set());
@@ -597,7 +597,7 @@ describe("Comment Parser", () => {
         (comment) => {
             equal(comment.summary, [{ kind: "text", text: "Summary" }]);
             const tag = new CommentTag("@param", []);
-            tag.paramName = "T";
+            tag.name = "T";
 
             equal(comment.blockTags, [tag]);
             equal(comment.modifierTags, new Set());
@@ -615,7 +615,7 @@ describe("Comment Parser", () => {
             const tag = new CommentTag("@param", [
                 { kind: "text", text: "Param text" },
             ]);
-            tag.paramName = "T";
+            tag.name = "T";
 
             equal(comment.blockTags, [tag]);
             equal(comment.modifierTags, new Set());
@@ -633,7 +633,7 @@ describe("Comment Parser", () => {
             const tag = new CommentTag("@param", [
                 { kind: "text", text: "Param text" },
             ]);
-            tag.paramName = "T";
+            tag.name = "T";
 
             equal(comment.blockTags, [tag]);
             equal(comment.modifierTags, new Set());

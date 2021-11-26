@@ -1,6 +1,5 @@
 import { ok } from "assert";
 import type { SourceReference } from "../sources/file";
-import type { Type } from "../types";
 import type { Comment } from "../comments/comment";
 import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
@@ -281,27 +280,6 @@ export interface TraverseCallback {
 }
 
 /**
- * Defines the usage of a decorator.
- */
-export interface Decorator {
-    /**
-     * The name of the decorator being applied.
-     */
-    name: string;
-
-    /**
-     * The type declaring the decorator.
-     * Usually a ReferenceType instance pointing to the decorator function.
-     */
-    type?: Type;
-
-    /**
-     * A named map of arguments the decorator is applied with.
-     */
-    arguments?: any;
-}
-
-/**
  * Base class for all reflection classes.
  *
  * While generating a documentation, TypeDoc generates an instance of {@link ProjectReflection}
@@ -366,16 +344,6 @@ export abstract class Reflection {
     sources?: SourceReference[];
 
     /**
-     * A list of all decorators attached to this reflection.
-     */
-    decorators?: Decorator[];
-
-    /**
-     * A list of all types that are decorated by this reflection.
-     */
-    decorates?: Type[];
-
-    /**
      * The url of this reflection in the generated documentation.
      * TODO: Reflections shouldn't know urls exist. Move this to a serializer.
      */
@@ -411,9 +379,6 @@ export abstract class Reflection {
 
     private _aliases?: Map<string, number>;
 
-    /**
-     * Create a new BaseReflection instance.
-     */
     constructor(name: string, kind: ReflectionKind, parent?: Reflection) {
         this.id = REFLECTION_ID++;
         this.parent = parent;

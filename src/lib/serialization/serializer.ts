@@ -157,7 +157,6 @@ const serializerComponents: (new (
     S.UnionTypeSerializer,
     S.UnknownTypeSerializer,
 
-    S.DecoratorContainerSerializer,
     S.ReflectionCategorySerializer,
     S.ReflectionGroupSerializer,
 ];

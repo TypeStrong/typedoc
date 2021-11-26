@@ -21,8 +21,6 @@ import {
     partition,
 } from "../../utils";
 
-const DEBUG = true as boolean;
-
 /**
  * These tags are not useful to display in the generated documentation.
  * They should be ignored when parsing comments. Any relevant type information
@@ -129,27 +127,20 @@ export class CommentPlugin extends ConverterComponent {
         _context: Context,
         reflection: TypeParameterReflection
     ) {
-        if (DEBUG) return;
-
-        // GERRIT
-        // if (node && ts.isJSDocTemplateTag(node.parent)) {
-        //     const comment = getJsDocCommentText(node.parent.comment);
-        //     if (comment) {
-        //         reflection.comment = new Comment(comment);
-        //     }
-        // }
-
         const comment = reflection.parent?.comment;
         if (comment) {
-            let tag = comment.getParamTag(reflection.name, "@typeParam");
+            let tag = comment.getIdentifiedTag(reflection.name, "@typeParam");
             if (!tag) {
-                tag = comment.getParamTag(reflection.name, "@template");
+                tag = comment.getIdentifiedTag(reflection.name, "@template");
             }
             if (!tag) {
-                tag = comment.getParamTag(`<${reflection.name}>`, "@param");
+                tag = comment.getIdentifiedTag(
+                    `<${reflection.name}>`,
+                    "@param"
+                );
             }
             if (!tag) {
-                tag = comment.getParamTag(reflection.name, "@param");
+                tag = comment.getIdentifiedTag(reflection.name, "@param");
             }
 
             if (tag) {
@@ -279,19 +270,21 @@ export class CommentPlugin extends ConverterComponent {
                 if (parameter.name === "__namedParameters") {
                     const commentParams = childComment.blockTags.filter(
                         (tag) =>
-                            tag.tag === "@param" &&
-                            !tag.paramName?.includes(".")
+                            tag.tag === "@param" && !tag.name?.includes(".")
                     );
                     if (
                         signature.parameters?.length === commentParams.length &&
-                        commentParams[index].paramName
+                        commentParams[index].name
                     ) {
-                        parameter.name = commentParams[index].paramName!;
+                        parameter.name = commentParams[index].name!;
                     }
                 }
 
                 moveNestedParamTags(childComment, parameter);
-                const tag = childComment.getParamTag(parameter.name);
+                const tag = childComment.getIdentifiedTag(
+                    parameter.name,
+                    "@param"
+                );
 
                 if (tag) {
                     parameter.comment = new Comment(
@@ -302,9 +295,18 @@ export class CommentPlugin extends ConverterComponent {
 
             signature.typeParameters?.forEach((parameter) => {
                 const tag =
-                    childComment.getParamTag(parameter.name, "@typeParam") ||
-                    childComment.getParamTag(parameter.name, "@template") ||
-                    childComment.getParamTag(`<${parameter.name}>`);
+                    childComment.getIdentifiedTag(
+                        parameter.name,
+                        "@typeParam"
+                    ) ||
+                    childComment.getIdentifiedTag(
+                        parameter.name,
+                        "@template"
+                    ) ||
+                    childComment.getIdentifiedTag(
+                        `<${parameter.name}>`,
+                        "@param"
+                    );
                 if (tag) {
                     parameter.comment = new Comment(
                         Comment.cloneDisplayParts(tag.content)
@@ -373,11 +375,10 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
     if (parameter.type instanceof ReflectionType) {
         const tags = comment.blockTags.filter(
             (t) =>
-                t.tag === "@param" &&
-                t.paramName?.startsWith(`${parameter.name}.`)
+                t.tag === "@param" && t.name?.startsWith(`${parameter.name}.`)
         );
         for (const tag of tags) {
-            const path = tag.paramName!.split(".");
+            const path = tag.name!.split(".");
             path.shift();
             const child = parameter.type.declaration.getChildByName(path);
             if (child && !child.comment) {

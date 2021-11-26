@@ -23,18 +23,6 @@
                 "kind": "text",
                 "text": "Source interface summary"
               }
-            ],
-            "blockTags": [
-              {
-                "tag": "@typeParam",
-                "content": [
-                  {
-                    "kind": "text",
-                    "text": "Source interface type parameter"
-                  }
-                ],
-                "paramName": "T"
-              }
             ]
           },
           "children": [
@@ -60,7 +48,7 @@
                         "text": "Source interface type parameter"
                       }
                     ],
-                    "paramName": "T"
+                    "name": "T"
                   }
                 ]
               },
@@ -135,7 +123,15 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Source interface type parameter"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -335,6 +331,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "First argument"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reference",
                     "id": 4,
@@ -347,6 +351,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Second argument"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reference",
                     "id": 4,
@@ -472,6 +484,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This will be inherited"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reference",
                     "id": 11,
@@ -484,6 +504,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This will be inherited"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reference",
                     "id": 11,

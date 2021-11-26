@@ -51,11 +51,19 @@ export function parseComment(
     return comment;
 }
 
-const HAS_PARAM_NAME: `@${string}`[] = ["@param", "@template", "@typeParam"];
+const HAS_USER_IDENTIFIER: `@${string}`[] = [
+    "@callback",
+    "@param",
+    "@prop",
+    "@property",
+    "@template",
+    "@typedef",
+    "@typeParam",
+];
 
 function postProcessComment(comment: Comment) {
     for (const tag of comment.blockTags) {
-        if (HAS_PARAM_NAME.includes(tag.tag) && tag.content.length) {
+        if (HAS_USER_IDENTIFIER.includes(tag.tag) && tag.content.length) {
             const first = tag.content[0];
             if (first.kind === "text") {
                 let end = first.text.search(/\s/);
@@ -65,7 +73,12 @@ function postProcessComment(comment: Comment) {
                     end +
                     Math.max(0, first.text.substring(end).search(/[^\-\s]/));
 
-                tag.paramName = first.text.substring(0, end);
+                tag.name = first.text.substring(0, end);
+
+                if (tag.name.startsWith("[") && tag.name.endsWith("]")) {
+                    tag.name = tag.name.slice(1, -1);
+                }
+
                 first.text = first.text.substring(startOfText);
 
                 if (first.text === "") {
@@ -89,25 +102,10 @@ function blockTag(
 
     const tagName = aliasedTags.get(blockTag.text) || blockTag.text;
 
-    const tag = new CommentTag(
+    return new CommentTag(
         tagName as `@${string}`,
         blockContent(comment, lexer, config, warning)
     );
-
-    if (
-        tagName === "@param" &&
-        tag.content.length &&
-        tag.content[0].kind === "text"
-    ) {
-        const firstPart = tag.content[0];
-        const match = firstPart.text.match(/^([a-z_$]+)\s*(-\s*)?/);
-        if (match) {
-            tag.paramName = match[1];
-            firstPart.text = firstPart.text.substring(match[0].length);
-        }
-    }
-
-    return tag;
 }
 
 function blockContent(

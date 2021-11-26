@@ -2188,6 +2188,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The options object of this decorator."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -2203,6 +2211,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "comment": {
+                            "summary": [
+                              {
+                                "kind": "text",
+                                "text": "A property on the options object of this decorator."
+                              }
+                            ]
+                          },
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -2257,6 +2273,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The parameter of this decorator."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -2437,6 +2461,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The name of the event to subscribe for."
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -2448,6 +2480,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The handler called when the event occurs."
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "reflection",
                         "declaration": {
@@ -2512,6 +2552,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The name of the event to subscribe for."
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "literal",
                         "value": "error"
@@ -2523,6 +2571,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "A handler that will receive the error details"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "reflection",
                         "declaration": {
@@ -2587,6 +2643,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The name of the event to subscribe for."
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "literal",
                         "value": "progress"
@@ -2598,6 +2662,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "A handler that will receive a progress event with the current and expected total bytes"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "reflection",
                         "declaration": {
@@ -2662,6 +2734,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The name of the event to subscribe for."
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "literal",
                         "value": "complete"
@@ -2673,6 +2753,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "A function that will be called with general event data upon successful completion"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "reflection",
                         "declaration": {
@@ -2758,18 +2846,6 @@
               {
                 "kind": "text",
                 "text": "GenericClass short text."
-              }
-            ],
-            "blockTags": [
-              {
-                "tag": "@param",
-                "content": [
-                  {
-                    "kind": "text",
-                    "text": "Generic parameter."
-                  }
-                ],
-                "paramName": "T"
               }
             ]
           },
@@ -2943,7 +3019,15 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic parameter."
+                  }
+                ]
+              }
             }
           ],
           "extendedBy": [

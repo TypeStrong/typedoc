@@ -1,6 +1,5 @@
 export { CategoryPlugin } from "./CategoryPlugin";
 export { CommentPlugin } from "./CommentPlugin";
-export { DecoratorPlugin } from "./DecoratorPlugin";
 export { SourceLinkPlugin } from "./SourceLinkPlugin";
 export { GroupPlugin } from "./GroupPlugin";
 export { ImplementsPlugin } from "./ImplementsPlugin";

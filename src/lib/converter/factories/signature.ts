@@ -15,7 +15,7 @@ import type { Context } from "../context";
 import { ConverterEvents } from "../converter-events";
 import { convertDefaultValue } from "../convert-expression";
 import { removeUndefined } from "../utils/reflections";
-import { getSignatureComment } from "../comments";
+import { getJsDocTagComment, getSignatureComment } from "../comments";
 
 export function createSignature(
     context: Context,
@@ -113,12 +113,15 @@ function convertParameters(
             ReflectionKind.Parameter,
             sigRef
         );
+        if (declaration && ts.isJSDocParameterTag(declaration)) {
+            paramRefl.comment = getJsDocTagComment(
+                declaration,
+                context.config,
+                context.logger
+            );
+        }
         context.registerReflection(paramRefl, param);
-        context.trigger(
-            ConverterEvents.CREATE_PARAMETER,
-            paramRefl,
-            declaration
-        );
+        context.trigger(ConverterEvents.CREATE_PARAMETER, paramRefl);
 
         let type: ts.Type | ts.TypeNode;
         if (declaration) {
@@ -177,10 +180,18 @@ export function convertParameterNodes(
             ReflectionKind.Parameter,
             sigRef
         );
+        if (ts.isJSDocParameterTag(param)) {
+            paramRefl.comment = getJsDocTagComment(
+                param,
+                context.config,
+                context.logger
+            );
+        }
         context.registerReflection(
             paramRefl,
             context.getSymbolAtLocation(param)
         );
+        context.trigger(ConverterEvents.CREATE_PARAMETER, paramRefl);
 
         paramRefl.type = context.converter.convertType(
             context.withScope(paramRefl),
@@ -253,11 +264,7 @@ export function convertTypeParameterNodes(
             context.scope
         );
         context.registerReflection(paramRefl, param.symbol);
-        context.trigger(
-            ConverterEvents.CREATE_TYPE_PARAMETER,
-            paramRefl,
-            param
-        );
+        context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
 
         return paramRefl;
     });

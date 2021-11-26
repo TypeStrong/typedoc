@@ -20,7 +20,7 @@ function displayPartsToMarkdown(parts: CommentDisplayPart[]) {
                     case "@label":
                         break; // Not rendered.
                     case "@link":
-                        // TODO GERRIT RENDER ME PROPERLY
+                        // GERRIT RENDER ME PROPERLY
                         return part.text;
                     default:
                     // Hmm... probably want to be able to render these somehow, so custom inline tags can be given

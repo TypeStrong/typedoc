@@ -345,7 +345,7 @@ function createTypeParamReflection(
         context.scope
     );
     context.registerReflection(paramRefl, param.symbol);
-    context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl, param);
+    context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
     return paramRefl;
 }
 
