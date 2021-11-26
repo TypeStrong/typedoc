@@ -1,7 +1,7 @@
 import { ok } from "assert";
 import type { CommentParserConfig } from ".";
 import { Comment, CommentDisplayPart, CommentTag } from "../../models";
-import { assertNever } from "../../utils";
+import { assertNever, removeIf } from "../../utils";
 import { Token, TokenSyntaxKind } from "./blockLexer";
 
 interface LookaheadGenerator<T> {
@@ -46,7 +46,7 @@ export function parseComment(
         comment.blockTags.push(blockTag(comment, lexer, config, warning));
     }
 
-    postProcessComment(comment);
+    postProcessComment(comment, warning);
 
     return comment;
 }
@@ -61,7 +61,7 @@ const HAS_USER_IDENTIFIER: `@${string}`[] = [
     "@typeParam",
 ];
 
-function postProcessComment(comment: Comment) {
+function postProcessComment(comment: Comment, warning: (msg: string) => void) {
     for (const tag of comment.blockTags) {
         if (HAS_USER_IDENTIFIER.includes(tag.tag) && tag.content.length) {
             const first = tag.content[0];
@@ -86,6 +86,14 @@ function postProcessComment(comment: Comment) {
                 }
             }
         }
+    }
+
+    const remarks = comment.blockTags.filter((tag) => tag.tag === "@remarks");
+    if (remarks.length > 1) {
+        warning(
+            "At most one @remarks tag is expected in a comment, ignoring all but the first"
+        );
+        removeIf(comment.blockTags, (tag) => remarks.indexOf(tag) > 0);
     }
 }
 
