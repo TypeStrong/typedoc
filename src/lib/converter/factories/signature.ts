@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 import * as assert from "assert";
 import {
+    Comment,
     DeclarationReflection,
     IntrinsicType,
     ParameterReflection,
@@ -15,6 +16,7 @@ import type { Context } from "../context";
 import { ConverterEvents } from "../converter-events";
 import { convertDefaultValue } from "../convert-expression";
 import { removeUndefined } from "../utils/reflections";
+import { getJsDocCommentText } from "./comment";
 
 export function createSignature(
     context: Context,
@@ -146,9 +148,15 @@ function convertParameters(
 
         let isOptional = false;
         if (declaration) {
-            isOptional = ts.isParameter(declaration)
-                ? !!declaration.questionToken
-                : declaration.isBracketed;
+            if (ts.isParameter(declaration)) {
+                const paramTag = ts
+                    .getJSDocTags(declaration)
+                    .find(ts.isJSDocParameterTag);
+                isOptional =
+                    !!declaration.questionToken || !!paramTag?.isBracketed;
+            } else {
+                isOptional = declaration.isBracketed;
+            }
         }
 
         if (isOptional) {
@@ -212,6 +220,13 @@ export function convertParameterNodes(
                 : !!param.typeExpression &&
                       ts.isJSDocVariadicType(param.typeExpression.type)
         );
+
+        if (ts.isJSDocParameterTag(param)) {
+            const comment = getJsDocCommentText(param.comment);
+            if (comment) {
+                paramRefl.comment = new Comment(comment);
+            }
+        }
         return paramRefl;
     });
 }

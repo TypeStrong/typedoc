@@ -19,6 +19,22 @@ function query(project: ProjectReflection, name: string) {
 export const issueTests: {
     [issue: string]: (project: ProjectReflection) => void;
 } = {
+    gh567(project) {
+        const callback = query(project, "SomeCallback");
+        ok(callback.type instanceof ReflectionType);
+        equal(
+            callback.type.declaration.signatures?.[0].parameters?.[0].comment
+                ?.shortText,
+            "an optional argument"
+        );
+
+        const func = query(project, "someFunc");
+        equal(
+            func?.signatures?.[0].parameters?.[0].comment?.shortText,
+            "another optional argument\n"
+        );
+    },
+
     gh869(project) {
         const classFoo = project.children?.find(
             (r) => r.name === "Foo" && r.kind === ReflectionKind.Class
@@ -289,5 +305,11 @@ export const issueTests: {
         );
         ok(project.children![0].kind === ReflectionKind.Reference);
         ok(project.children![1].kind !== ReflectionKind.Reference);
+    },
+
+    gh1804(project) {
+        const foo = query(project, "foo");
+        ok(foo?.signatures?.[0].parameters?.[0].flags.isOptional);
+        equal(foo?.signatures?.[0].parameters?.[0].type?.toString(), "number");
     },
 };

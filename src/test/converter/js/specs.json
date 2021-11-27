@@ -491,6 +491,9 @@
                       "flags": {
                         "isOptional": true
                       },
+                      "comment": {
+                        "shortText": "an optional argument"
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"

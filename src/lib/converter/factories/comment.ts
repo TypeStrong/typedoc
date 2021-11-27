@@ -238,6 +238,10 @@ export function parseComment(
             if (param) {
                 paramName = param[0];
                 line = line.substr(paramName.length + 1).trim();
+                // "[optionalArg]" -> "optionalArg"
+                if (/^\[.*\]$/.test(paramName)) {
+                    paramName = paramName.slice(1, -1);
+                }
             }
             line = consumeTypeData(line);
             line = line.replace(/^-\s+/, "");
