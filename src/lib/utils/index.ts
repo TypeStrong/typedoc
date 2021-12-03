@@ -28,6 +28,7 @@ export {
     ParameterType,
     TSConfigReader,
     TypeDocReader,
+    VisibilityFilter,
 } from "./options";
 export type {
     ArrayDeclarationOption,

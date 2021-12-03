@@ -8,10 +8,10 @@ abstract class FilterItem<T> {
 
     protected defaultValue: T;
 
-    constructor(key: string, value: T) {
+    constructor(key: string) {
         this.key = key;
-        this.value = value;
-        this.defaultValue = value;
+        this.value;
+        this.defaultValue;
 
         this.initialize();
 
@@ -50,6 +50,8 @@ class FilterItemCheckbox extends FilterItem<boolean> {
         if (!checkbox) return;
 
         this.checkbox = checkbox;
+        this.value = !!checkbox.checked;
+        this.defaultValue = this.value;
         this.checkbox.addEventListener("change", () => {
             this.setValue(this.checkbox.checked);
         });
@@ -77,16 +79,18 @@ class FilterItemSelect extends FilterItem<string> {
     private select!: HTMLElement;
 
     protected override initialize() {
-        document.documentElement.classList.add(
-            "toggle-" + this.key + this.value
-        );
-
         const select = document.querySelector<HTMLElement>(
             "#tsd-filter-" + this.key
         );
         if (!select) return;
 
+        const selectedEl = select.querySelector("li.selected");
         this.select = select;
+        this.value = selectedEl.getAttribute("data-value");
+        this.defaultValue = this.value;
+        document.documentElement.classList.add(
+            "toggle-" + this.key + this.value
+        );
         const onActivate = () => {
             this.select.classList.add("active");
         };
@@ -151,9 +155,9 @@ export class Filter extends Component {
     constructor(options: IComponentOptions) {
         super(options);
 
-        this.optionVisibility = new FilterItemSelect("visibility", "private");
-        this.optionInherited = new FilterItemCheckbox("inherited", true);
-        this.optionExternals = new FilterItemCheckbox("externals", true);
+        this.optionVisibility = new FilterItemSelect("visibility");
+        this.optionInherited = new FilterItemCheckbox("inherited");
+        this.optionExternals = new FilterItemCheckbox("externals");
     }
 
     static isSupported(): boolean {

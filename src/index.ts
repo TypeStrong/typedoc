@@ -30,6 +30,7 @@ export {
     TSConfigReader,
     TypeDocReader,
     EntryPointStrategy,
+    VisibilityFilter,
     EventHooks,
 } from "./lib/utils";
 

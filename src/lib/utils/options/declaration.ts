@@ -49,6 +49,12 @@ export type TypeDocOptionValues = {
         : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
 
+export enum VisibilityFilter {
+    all = "private",
+    public = "public",
+    protected = "protected",
+}
+
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
  * External consumers should likely use {@link TypeDocOptions} instead.
@@ -59,6 +65,11 @@ export interface TypeDocOptionMap {
 
     entryPoints: string[];
     entryPointStrategy: typeof EntryPointStrategy;
+
+    // typedoc header filters
+    visibility: string;
+    showInherited: boolean;
+    showExternals: boolean;
 
     exclude: string[];
     externalPattern: string[];

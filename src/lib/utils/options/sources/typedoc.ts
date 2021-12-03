@@ -34,6 +34,25 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "visibility",
+        help: 'Specify the default visibility for methods, possible values: "private" | "public" | "protected"',
+        type: ParameterType.String,
+        defaultValue: "private",
+    });
+    options.addDeclaration({
+        name: "showInherited",
+        help: "Specify the default inherited checkbox value",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+    options.addDeclaration({
+        name: "showExternals",
+        help: "Specify the default externals checkbox value",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+
+    options.addDeclaration({
         name: "exclude",
         help: "Define patterns to be excluded when expanding a directory that was specified as an entry point.",
         type: ParameterType.GlobArray,
