@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+- Added `--validation.ensureDocumented` option to warn on items that are not documented
+
 ### Bug Fixes
 
 -   Fixed line height of `h1` and `h2` elements being too low, #1796.
