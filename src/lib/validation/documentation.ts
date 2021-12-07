@@ -26,7 +26,7 @@ export function validateDocumentation(
                 path.relative(process.cwd(), sourceFile.fileName)
             );
 
-            if (file.startsWith(`node_modules${path.delimiter}`)) {
+            if (file.startsWith(`node_modules${path.sep}`)) {
                 continue;
             }
 
