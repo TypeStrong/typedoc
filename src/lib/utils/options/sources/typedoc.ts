@@ -209,6 +209,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: true,
     });
     options.addDeclaration({
+        name: "cname",
+        help: "Set the CNAME file text, it's useful for custom domains on GitHub Pages.",
+    });
+    options.addDeclaration({
         name: "sort",
         help: "Specify the sort strategy for documented values.",
         type: ParameterType.Array,

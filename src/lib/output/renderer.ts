@@ -82,8 +82,8 @@ export interface RendererHooks {
  */
 @Component({ name: "renderer", internal: true, childClass: RendererComponent })
 export class Renderer extends ChildableComponent<
-    Application,
-    RendererComponent
+Application,
+RendererComponent
 > {
     private themes = new Map<string, new (renderer: Renderer) => Theme>([
         ["default", DefaultTheme],
@@ -125,6 +125,10 @@ export class Renderer extends ChildableComponent<
     /** @internal */
     @BindOption("cleanOutputDir")
     cleanOutputDir!: boolean;
+
+    /** @internal */
+    @BindOption("cname")
+    cname!: string;
 
     /** @internal */
     @BindOption("gaID")
@@ -317,8 +321,7 @@ export class Renderer extends ChildableComponent<
             const ctor = this.themes.get(this.themeName);
             if (!ctor) {
                 this.application.logger.error(
-                    `The theme '${
-                        this.themeName
+                    `The theme '${this.themeName
                     }' is not defined. The available themes are: ${[
                         ...this.themes.keys(),
                     ].join(", ")}`
@@ -374,6 +377,10 @@ export class Renderer extends ChildableComponent<
                 );
                 return false;
             }
+        }
+
+        if (this.cname) {
+            fs.writeFileSync(path.join(directory, "CNAME"), this.cname);
         }
 
         return true;
