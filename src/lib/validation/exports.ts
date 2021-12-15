@@ -107,7 +107,7 @@ export function validateExports(
                     logger.warn(
                         `${
                             type.name
-                        }, defined at ${file}:${line}, is referenced by ${current!.getFullName()} but not included in the documentation.`
+                        }, defined at ${file}:${line+1}, is referenced by ${current!.getFullName()} but not included in the documentation.`
                     );
                 }
             }
