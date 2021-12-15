@@ -31,7 +31,7 @@ export function validateDocumentation(
             }
 
             logger.warn(
-                `${ref.name}, defined at ${file}:${line}, does not have any documentation.`
+                `${ref.name}, defined at ${file}:${line+1}, does not have any documentation.`
             );
         }
     }
