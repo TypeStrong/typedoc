@@ -82,8 +82,8 @@ export interface RendererHooks {
  */
 @Component({ name: "renderer", internal: true, childClass: RendererComponent })
 export class Renderer extends ChildableComponent<
-Application,
-RendererComponent
+    Application,
+    RendererComponent
 > {
     private themes = new Map<string, new (renderer: Renderer) => Theme>([
         ["default", DefaultTheme],
@@ -321,7 +321,8 @@ RendererComponent
             const ctor = this.themes.get(this.themeName);
             if (!ctor) {
                 this.application.logger.error(
-                    `The theme '${this.themeName
+                    `The theme '${
+                        this.themeName
                     }' is not defined. The available themes are: ${[
                         ...this.themes.keys(),
                     ].join(", ")}`
