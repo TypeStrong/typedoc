@@ -1001,9 +1001,13 @@
                 "name": "T"
               }
             ],
+            "qualifiedName": "ReturnType",
+            "package": "typescript",
             "name": "ReturnType"
           }
         ],
+        "qualifiedName": "InstanceType",
+        "package": "typescript",
         "name": "InstanceType"
       },
       "extendedBy": [

@@ -281,10 +281,9 @@ const exprWithTypeArgsConverter: TypeConverter<
         }
         const parameters =
             node.typeArguments?.map((type) => convertType(context, type)) ?? [];
-        const ref = new ReferenceType(
-            targetSymbol.name,
+        const ref = ReferenceType.createSymbolReference(
             context.resolveAliasedSymbol(targetSymbol),
-            context.project
+            context
         );
         ref.typeArguments = parameters;
         return ref;
@@ -362,19 +361,19 @@ const importType: TypeConverter<ts.ImportTypeNode> = {
         const name = node.qualifier?.getText() ?? "__module";
         const symbol = context.checker.getSymbolAtLocation(node);
         assert(symbol, "Missing symbol when converting import type node");
-        return new ReferenceType(
-            name,
+        return ReferenceType.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
-            context.project
+            context,
+            name
         );
     },
     convertType(context, type) {
         const symbol = type.getSymbol();
         assert(symbol, "Missing symbol when converting import type"); // Should be a compiler error
-        return new ReferenceType(
-            "__module",
+        return ReferenceType.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
-            context.project
+            context,
+            "__module"
         );
     },
 };
@@ -584,10 +583,10 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
         }
 
         return new QueryType(
-            new ReferenceType(
-                node.exprName.getText(),
+            ReferenceType.createSymbolReference(
                 context.resolveAliasedSymbol(querySymbol),
-                context.project
+                context,
+                node.exprName.getText()
             )
         );
     },
@@ -600,10 +599,9 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
             )}. This is a bug.`
         );
         return new QueryType(
-            new ReferenceType(
-                symbol.name,
+            ReferenceType.createSymbolReference(
                 context.resolveAliasedSymbol(symbol),
-                context.project
+                context
             )
         );
     },
@@ -630,10 +628,10 @@ const referenceConverter: TypeConverter<
 
         const name = node.typeName.getText();
 
-        const type = new ReferenceType(
-            name,
+        const type = ReferenceType.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
-            context.project
+            context,
+            name
         );
         type.typeArguments = node.typeArguments?.map((type) =>
             convertType(context, type)
@@ -651,10 +649,9 @@ const referenceConverter: TypeConverter<
             );
         }
 
-        const ref = new ReferenceType(
-            symbol.name,
+        const ref = ReferenceType.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
-            context.project
+            context
         );
         ref.typeArguments = (
             type.aliasSymbol ? type.aliasTypeArguments : type.typeArguments

@@ -86,10 +86,10 @@ export class DecoratorPlugin extends ConverterComponent {
 
             const type = context.checker.getTypeAtLocation(identifier);
             if (type && type.symbol) {
-                info.type = new ReferenceType(
-                    info.name,
+                info.type = ReferenceType.createSymbolReference(
                     context.resolveAliasedSymbol(type.symbol),
-                    context.project
+                    context,
+                    info.name
                 );
 
                 if (callExpression && callExpression.arguments) {
@@ -105,7 +105,7 @@ export class DecoratorPlugin extends ConverterComponent {
 
                 const usages = this.usages.get(type.symbol) ?? [];
                 usages.push(
-                    new ReferenceType(
+                    ReferenceType.createResolvedReference(
                         reflection.name,
                         reflection,
                         context.project

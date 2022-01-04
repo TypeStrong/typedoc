@@ -77,6 +77,8 @@
               "name": "U"
             }
           ],
+          "qualifiedName": "PromiseLike",
+          "package": "typescript",
           "name": "PromiseLike"
         },
         "trueType": {
