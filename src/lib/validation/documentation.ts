@@ -26,12 +26,13 @@ export function validateDocumentation(
                 path.relative(process.cwd(), sourceFile.fileName)
             );
 
-            if (file.startsWith(`node_modules${path.sep}`)) {
+            if (file.includes("node_modules")) {
                 continue;
             }
 
+            const loc = `${file}:${line + 1}`;
             logger.warn(
-                `${ref.name}, defined at ${file}:${line+1}, does not have any documentation.`
+                `${ref.name}, defined at ${loc}, does not have any documentation.`
             );
         }
     }

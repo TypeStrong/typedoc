@@ -2,7 +2,7 @@
 
 ### Features
 
-- Added `--validation.ensureDocumented` option to warn on items that are not documented
+-   Added `--validation.notDocumented` option to warn on items that are not documented
 
 ### Bug Fixes
 
