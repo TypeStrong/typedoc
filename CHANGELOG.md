@@ -4,6 +4,10 @@
 
 -   Fixed line height of `h1` and `h2` elements being too low, #1796.
 
+### Features
+
+-   Added new `cname` option for GitHub Pages custom domain support, #1803
+
 ## v0.22.10 (2021-11-25)
 
 ### Features
