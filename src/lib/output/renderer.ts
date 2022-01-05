@@ -127,6 +127,10 @@ export class Renderer extends ChildableComponent<
     cleanOutputDir!: boolean;
 
     /** @internal */
+    @BindOption("cname")
+    cname!: string;
+
+    /** @internal */
     @BindOption("gaID")
     gaID!: string;
 
@@ -374,6 +378,10 @@ export class Renderer extends ChildableComponent<
                 );
                 return false;
             }
+        }
+
+        if (this.cname) {
+            fs.writeFileSync(path.join(directory, "CNAME"), this.cname);
         }
 
         return true;
