@@ -6,7 +6,6 @@
  * series of {@link RendererEvent} events. Instances of {@link BasePlugin} can listen to these events and
  * alter the generated output.
  */
-import type * as ts from "typescript";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -22,7 +21,7 @@ import { Component, ChildableComponent } from "../utils/component";
 import { BindOption, EventHooks } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import type { Theme as ShikiTheme } from "shiki";
-import { Reflection } from "../models";
+import { ReferenceType, Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
 
@@ -198,31 +197,15 @@ export class Renderer extends ChildableComponent<
      * symbols so that we don't need to keep the program around forever.
      * @internal
      */
-    attemptExternalResolution(
-        symbol: ts.Symbol | undefined
-    ): string | undefined {
-        const symbolPath = symbol?.declarations?.[0]
-            ?.getSourceFile()
-            .fileName.replace(/\\/g, "/");
-        if (!symbolPath) {
+    attemptExternalResolution(type: ReferenceType): string | undefined {
+        if (!type.qualifiedName || !type.package) {
             return;
-        }
-        let startIndex = symbolPath.indexOf("node_modules/");
-        if (startIndex === -1) {
-            return;
-        }
-        startIndex += "node_modules/".length;
-        let stopIndex = symbolPath.indexOf("/", startIndex);
-        // Scoped package, e.g. `@types/node`
-        if (symbolPath[startIndex] === "@") {
-            stopIndex = symbolPath.indexOf("/", stopIndex + 1);
         }
 
-        const packageName = symbolPath.substring(startIndex, stopIndex);
-        const resolvers = this.unknownSymbolResolvers.get(packageName);
+        const resolvers = this.unknownSymbolResolvers.get(type.package);
 
         for (const resolver of resolvers || []) {
-            const resolved = resolver(symbol!.name);
+            const resolved = resolver(type.qualifiedName);
             if (resolved) return resolved;
         }
     }

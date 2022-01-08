@@ -2006,6 +2006,8 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "qualifiedName": "Object",
+                    "package": "typescript",
                     "name": "Object"
                   }
                 },
@@ -2043,6 +2045,8 @@
                         "name": "any"
                       }
                     ],
+                    "qualifiedName": "TypedPropertyDescriptor",
+                    "package": "typescript",
                     "name": "TypedPropertyDescriptor"
                   }
                 }
@@ -2126,6 +2130,8 @@
               ],
               "type": {
                 "type": "reference",
+                "qualifiedName": "ClassDecorator",
+                "package": "typescript",
                 "name": "ClassDecorator"
               }
             }
@@ -2172,6 +2178,8 @@
               ],
               "type": {
                 "type": "reference",
+                "qualifiedName": "MethodDecorator",
+                "package": "typescript",
                 "name": "MethodDecorator"
               }
             }

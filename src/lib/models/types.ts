@@ -1,4 +1,5 @@
 import type * as ts from "typescript";
+import type { Context } from "../converter";
 import { Reflection } from "./reflections/abstract";
 import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
@@ -512,6 +513,12 @@ export class ReferenceType extends Type {
         return resolved;
     }
 
+    /**
+     * Don't use this if at all possible. It will eventually go away since models may not
+     * retain information from the original TS objects to enable documentation generation from
+     * previously generated JSON.
+     * @internal
+     */
     getSymbol(): ts.Symbol | undefined {
         if (typeof this._target === "number") {
             return;
@@ -519,10 +526,23 @@ export class ReferenceType extends Type {
         return this._target;
     }
 
+    /**
+     * The fully qualified name of the referenced type, relative to the file it is defined in.
+     * This will usually be the same as `name`, unless namespaces are used.
+     * Will only be set for `ReferenceType`s pointing to a symbol within `node_modules`.
+     */
+    qualifiedName?: string;
+
+    /**
+     * The package that this type is referencing.
+     * Will only be set for `ReferenceType`s pointing to a symbol within `node_modules`.
+     */
+    package?: string;
+
     private _target: ts.Symbol | number;
     private _project: ProjectReflection | null;
 
-    constructor(
+    private constructor(
         name: string,
         target: ts.Symbol | Reflection | number,
         project: ProjectReflection | null
@@ -531,6 +551,58 @@ export class ReferenceType extends Type {
         this.name = name;
         this._target = target instanceof Reflection ? target.id : target;
         this._project = project;
+    }
+
+    static createResolvedReference(
+        name: string,
+        target: Reflection | number,
+        project: ProjectReflection | null
+    ) {
+        return new ReferenceType(name, target, project);
+    }
+
+    static createSymbolReference(
+        symbol: ts.Symbol,
+        context: Context,
+        name?: string
+    ) {
+        const ref = new ReferenceType(
+            name ?? symbol.name,
+            symbol,
+            context.project
+        );
+
+        const symbolPath = symbol?.declarations?.[0]
+            ?.getSourceFile()
+            .fileName.replace(/\\/g, "/");
+        if (!symbolPath) return ref;
+
+        let startIndex = symbolPath.indexOf("node_modules/");
+        if (startIndex === -1) return ref;
+        startIndex += "node_modules/".length;
+        let stopIndex = symbolPath.indexOf("/", startIndex);
+        // Scoped package, e.g. `@types/node`
+        if (symbolPath[startIndex] === "@") {
+            stopIndex = symbolPath.indexOf("/", stopIndex + 1);
+        }
+
+        const packageName = symbolPath.substring(startIndex, stopIndex);
+        ref.package = packageName;
+
+        const qualifiedName = context.checker.getFullyQualifiedName(symbol);
+        // I think this is less bad than depending on symbol.parent...
+        // https://github.com/microsoft/TypeScript/issues/38344
+        // It will break if someone names a directory with a quote in it, but so will lots
+        // of other things including other parts of TypeDoc. Until it *actually* breaks someone...
+        if (qualifiedName.startsWith('"')) {
+            ref.qualifiedName = qualifiedName.substring(
+                qualifiedName.indexOf('".', 1) + 2
+            );
+        } else {
+            ref.qualifiedName = qualifiedName;
+        }
+
+        return ref;
     }
 
     /** @internal this is used for type parameters, which don't actually point to something */

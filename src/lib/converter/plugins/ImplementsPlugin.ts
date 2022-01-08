@@ -86,11 +86,12 @@ export class ImplementsPlugin extends ConverterComponent {
 
             const interfaceMemberName =
                 interfaceReflection.name + "." + interfaceMember.name;
-            classMember.implementationOf = new ReferenceType(
-                interfaceMemberName,
-                interfaceMember,
-                context.project
-            );
+            classMember.implementationOf =
+                ReferenceType.createResolvedReference(
+                    interfaceMemberName,
+                    interfaceMember,
+                    context.project
+                );
             copyComment(classMember, interfaceMember);
 
             if (
@@ -119,11 +120,12 @@ export class ImplementsPlugin extends ConverterComponent {
                     interfaceMember.signatures
                 )) {
                     if (clsSig.implementationOf) {
-                        clsSig.implementationOf = new ReferenceType(
-                            clsSig.implementationOf.name,
-                            intSig,
-                            context.project
-                        );
+                        clsSig.implementationOf =
+                            ReferenceType.createResolvedReference(
+                                clsSig.implementationOf.name,
+                                intSig,
+                                context.project
+                            );
                     }
                     copyComment(clsSig, intSig);
                 }
@@ -164,7 +166,7 @@ export class ImplementsPlugin extends ConverterComponent {
                         child.signatures ?? [],
                         parentMember.signatures ?? []
                     )) {
-                        childSig[key] = new ReferenceType(
+                        childSig[key] = ReferenceType.createResolvedReference(
                             `${parent.name}.${parentMember.name}`,
                             parentSig,
                             context.project
@@ -172,7 +174,7 @@ export class ImplementsPlugin extends ConverterComponent {
                         copyComment(childSig, parentSig);
                     }
 
-                    child[key] = new ReferenceType(
+                    child[key] = ReferenceType.createResolvedReference(
                         `${parent.name}.${parentMember.name}`,
                         parentMember,
                         context.project

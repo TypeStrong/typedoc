@@ -1,8 +1,13 @@
 # Unreleased
 
+### Features
+
+-   `ReferenceType`s which reference an external symbol will now include `qualifiedName` and `package` in their serialized JSON.
+
 ### Bug Fixes
 
 -   Fixed line height of `h1` and `h2` elements being too low, #1796.
+-   Symbol names passed to `addUnknownSymbolResolver` will now be correctly given the qualified name to the symbol being referenced.
 
 ### Features
 

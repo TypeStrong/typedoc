@@ -1345,6 +1345,8 @@
                 "name": "string"
               }
             ],
+            "qualifiedName": "Promise",
+            "package": "typescript",
             "name": "Promise"
           }
         },
@@ -1362,6 +1364,8 @@
                 "name": "object"
               }
             ],
+            "qualifiedName": "Promise",
+            "package": "typescript",
             "name": "Promise"
           }
         }
