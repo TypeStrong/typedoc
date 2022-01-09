@@ -4,6 +4,13 @@
         "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
         "target": "es2019",
 
+        // Add our `ts` internal types
+        "typeRoots": ["node_modules/@types", "src/lib/types"],
+
+        // Speed up dev compilation time
+        "incremental": true,
+        "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
+
         "experimentalDecorators": true,
 
         "strict": true,
@@ -47,5 +54,9 @@
         "src/test/slow/entry-points",
         "src/test/renderer/testProject",
         "src/codegen"
-    ]
+    ],
+    // We use ts-node to support mocha runner directly on files
+    "ts-node": {
+        "transpileOnly": true
+    }
 }

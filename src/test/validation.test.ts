@@ -1,6 +1,6 @@
 import { equal, fail, ok } from "assert";
-import { join } from "path";
-import { Logger, LogLevel } from "..";
+import { join, relative } from "path";
+import { Logger, LogLevel, normalizePath } from "..";
 import { validateExports } from "../lib/validation/exports";
 import { getConverter2App, getConverter2Program } from "./programs";
 
@@ -38,7 +38,12 @@ function expectWarning(
                 equal(match[1], typeName, "Missing type name is different.");
                 equal(
                     match[2],
-                    `dist/test/converter2/validation/${file}`,
+                    normalizePath(
+                        relative(
+                            process.cwd(),
+                            `${__dirname}/converter2/validation/${file}`
+                        )
+                    ),
                     "Referencing file is different."
                 );
                 equal(
