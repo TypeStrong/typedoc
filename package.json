@@ -23,7 +23,7 @@
   "dependencies": {
     "glob": "^7.2.0",
     "lunr": "^2.3.9",
-    "marked": "^3.0.8",
+    "marked": "^4.0.10",
     "minimatch": "^3.0.4",
     "shiki": "^0.9.12"
   },
@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/glob": "^7.2.0",
     "@types/lunr": "^2.3.4",
-    "@types/marked": "^3.0.3",
+    "@types/marked": "^4.0.1",
     "@types/minimatch": "3.0.5",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.11.9",
