@@ -1395,3 +1395,19 @@ input[type="checkbox"]:checked + .tsd-widget:before {
 img {
     max-width: 100%;
 }
+
+.tsd-anchor-icon {
+    margin-left: 10px;
+    vertical-align: middle;
+    color: var(--color-text);
+}
+
+.tsd-anchor-icon svg {
+    width: 1em;
+    height: 1em;
+    visibility: hidden;
+}
+
+.tsd-anchor-link:hover > .tsd-anchor-icon svg {
+    visibility: visible;
+}
