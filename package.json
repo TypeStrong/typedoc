@@ -23,7 +23,7 @@
   "dependencies": {
     "glob": "^7.2.0",
     "lunr": "^2.3.9",
-    "marked": "^3.0.8",
+    "marked": "^4.0.10",
     "minimatch": "^3.0.4",
     "shiki": "^0.9.12"
   },
