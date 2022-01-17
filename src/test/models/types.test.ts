@@ -257,7 +257,9 @@ describe("Type.toString", () => {
 
         it("Wraps type queries", () => {
             const type = new T.OptionalType(
-                new T.QueryType(new T.ReferenceType("X", -1, null))
+                new T.QueryType(
+                    T.ReferenceType.createResolvedReference("X", -1, null)
+                )
             );
             equal(type.toString(), "(typeof X)?");
         });
@@ -266,7 +268,9 @@ describe("Type.toString", () => {
     describe("Type operator", () => {
         it("Does not wrap type query", () => {
             const type = new T.TypeOperatorType(
-                new T.QueryType(new T.ReferenceType("X", -1, null)),
+                new T.QueryType(
+                    T.ReferenceType.createResolvedReference("X", -1, null)
+                ),
                 "keyof"
             );
             equal(type.toString(), "keyof typeof X");

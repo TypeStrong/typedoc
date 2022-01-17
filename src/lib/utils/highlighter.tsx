@@ -88,7 +88,15 @@ class DoubleHighlighter {
             i++;
         }
 
-        style.push(`    --light-code-background: ${this.highlighter.getTheme(this.light).bg};`);
+        // GH#1836, our page background is white, but it would be nice to be able to see
+        // a difference between the code blocks and the background of the page. There's
+        // probably a better solution to this... revisit once #1794 is merged.
+        let lightBackground = this.highlighter.getTheme(this.light).bg;
+        if (isWhite(lightBackground)) {
+            lightBackground = "#F5F5F5";
+        }
+
+        style.push(`    --light-code-background: ${lightBackground};`);
         style.push(`    --dark-code-background: ${this.highlighter.getTheme(this.dark).bg};`);
         lightRules.push(`    --code-background: var(--light-code-background);`);
         darkRules.push(`    --code-background: var(--dark-code-background);`);
@@ -162,4 +170,9 @@ export function highlight(code: string, lang: string): string {
 export function getStyles(): string {
     assert(highlighter, "Tried to highlight with an uninitialized highlighter");
     return highlighter.getStyles();
+}
+
+function isWhite(color: string) {
+    const colors = new Set(color.toLowerCase().replace(/[^a-f0-9]/g, ""));
+    return colors.size === 1 && colors.has("f");
 }

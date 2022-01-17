@@ -193,6 +193,37 @@
           ]
         }
       ]
+    },
+    {
+      "id": 14,
+      "name": "external",
+      "kind": 2,
+      "kindString": "Module",
+      "flags": {},
+      "children": [
+        {
+          "id": 15,
+          "name": "ActionSet",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "type": {
+            "type": "reference",
+            "qualifiedName": "ts.server.ActionSet",
+            "package": "typescript",
+            "name": "ts.server.ActionSet"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            15
+          ]
+        }
+      ]
     }
   ],
   "groups": [
@@ -201,7 +232,8 @@
       "kind": 2,
       "children": [
         1,
-        7
+        7,
+        14
       ]
     }
   ]

@@ -92,6 +92,7 @@ export interface TypeDocOptionMap {
     defaultCategory: string;
     categoryOrder: string[];
     categorizeByGroup: boolean;
+    cname: string;
     sort: SortStrategy[];
     gitRevision: string;
     gitRemote: string;

@@ -270,7 +270,10 @@ export interface QueryType extends Type, S<M.QueryType, "type" | "queryType"> {}
 
 export interface ReferenceType
     extends Type,
-        S<M.ReferenceType, "type" | "name" | "typeArguments"> {
+        S<
+            M.ReferenceType,
+            "type" | "name" | "typeArguments" | "qualifiedName" | "package"
+        > {
     id?: number;
 }
 

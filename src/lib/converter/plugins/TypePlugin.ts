@@ -42,7 +42,7 @@ export class TypePlugin extends ConverterComponent {
                     target.implementedBy = [];
                 }
                 target.implementedBy.push(
-                    new ReferenceType(
+                    ReferenceType.createResolvedReference(
                         reflection.name,
                         reflection,
                         context.project
@@ -56,7 +56,7 @@ export class TypePlugin extends ConverterComponent {
                     target.extendedBy = [];
                 }
                 target.extendedBy.push(
-                    new ReferenceType(
+                    ReferenceType.createResolvedReference(
                         reflection.name,
                         reflection,
                         context.project
@@ -122,7 +122,11 @@ export class TypePlugin extends ConverterComponent {
             }
 
             push([
-                new ReferenceType(reflection.name, reflection, context.project),
+                ReferenceType.createResolvedReference(
+                    reflection.name,
+                    reflection,
+                    context.project
+                ),
             ]);
             hierarchy.isTarget = true;
 

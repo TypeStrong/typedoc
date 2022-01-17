@@ -22,6 +22,11 @@ export class ReferenceTypeSerializer extends TypeSerializerComponent<ReferenceTy
             );
         }
 
+        if (type.qualifiedName && type.package) {
+            obj.qualifiedName = type.qualifiedName;
+            obj.package = type.package;
+        }
+
         return {
             ...obj,
             name: type.name,
