@@ -13,6 +13,14 @@
 -   Symbol names passed to `addUnknownSymbolResolver` will now be correctly given the qualified name to the symbol being referenced, #1832.
 -   The search index will now be written as JSON, reducing load times for large projects, #1825.
 
+### Thanks!
+
+-   @adeniszczyc
+-   @dragomirtitian
+-   @matteobruni
+-   @srmagura
+-   @stefanobaghino-da
+
 ## v0.22.10 (2021-11-25)
 
 ### Features
