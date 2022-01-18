@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.11 (2022-01-18)
+
 ### Features
 
 -   `ReferenceType`s which reference an external symbol will now include `qualifiedName` and `package` in their serialized JSON.
