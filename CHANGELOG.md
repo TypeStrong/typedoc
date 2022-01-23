@@ -4,9 +4,10 @@
 
 ### Features
 
+-   Added `--validation.notDocumented` option to warn on items that are not documented, #1817.
+-   Added new `cname` option for GitHub Pages custom domain support, #1803.
 -   `ReferenceType`s which reference an external symbol will now include `qualifiedName` and `package` in their serialized JSON.
 -   Added clickable anchor link for member titles, #1842.
--   Added new `cname` option for GitHub Pages custom domain support, #1803
 
 ### Bug Fixes
 

@@ -1,6 +1,7 @@
 import type * as ts from "typescript";
-import { Reflection, ReflectionKind } from "./abstract";
+import { Reflection } from "./abstract";
 import { DeclarationReflection } from "./declaration";
+import { ReflectionKind } from "./kind";
 import type { ProjectReflection } from "./project";
 
 /**

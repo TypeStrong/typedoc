@@ -115,12 +115,14 @@ describe("Options", () => {
         options.setValue("validation", true);
         equal(options.getValue("validation"), {
             notExported: true,
+            notDocumented: true,
             invalidLink: true,
         });
 
         options.setValue("validation", false);
         equal(options.getValue("validation"), {
             notExported: false,
+            notDocumented: false,
             invalidLink: false,
         });
     });
