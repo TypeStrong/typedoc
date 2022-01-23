@@ -196,7 +196,7 @@ output file :
     protected override onBeginRenderer(event: RendererEvent) {
         super.onBeginRenderer(event);
 
-        Marked.setOptions(this.createMarkedOptions());
+        Marked.marked.setOptions(this.createMarkedOptions());
 
         delete this.includes;
         if (this.includeSource) {
@@ -235,10 +235,10 @@ output file :
      *
      * @returns The options object for the markdown parser.
      */
-    private createMarkedOptions(): Marked.MarkedOptions {
+    private createMarkedOptions(): Marked.marked.MarkedOptions {
         const markedOptions = (this.application.options.getValue(
             "markedOptions"
-        ) ?? {}) as Marked.MarkedOptions;
+        ) ?? {}) as Marked.marked.MarkedOptions;
 
         if (
             typeof markedOptions === "object" &&
@@ -264,6 +264,6 @@ output file :
      * @param event
      */
     onParseMarkdown(event: MarkdownEvent) {
-        event.parsedText = Marked(event.parsedText);
+        event.parsedText = Marked.marked(event.parsedText);
     }
 }

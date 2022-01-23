@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.21.9",
+  "version": "0.21.10",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -23,7 +23,7 @@
     "glob": "^7.1.7",
     "handlebars": "^4.7.7",
     "lunr": "^2.3.9",
-    "marked": "^3.0.2",
+    "marked": "^4.0.10",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shiki": "^0.9.8",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@types/glob": "^7.1.4",
     "@types/lunr": "^2.3.4",
-    "@types/marked": "^3.0.0",
+    "@types/marked": "^4.0.1",
     "@types/minimatch": "3.0.5",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.7.4",
