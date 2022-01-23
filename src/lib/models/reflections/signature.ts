@@ -1,13 +1,9 @@
 import { Type, ReflectionType, ReferenceType } from "../types";
-import {
-    Reflection,
-    TraverseProperty,
-    TraverseCallback,
-    ReflectionKind,
-} from "./abstract";
+import { Reflection, TraverseProperty, TraverseCallback } from "./abstract";
 import type { ParameterReflection } from "./parameter";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
+import type { ReflectionKind } from "./kind";
 
 export class SignatureReflection extends Reflection {
     /**

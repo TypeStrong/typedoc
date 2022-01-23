@@ -3,7 +3,7 @@
  * @module
  */
 
-import { ReflectionKind } from "../models/reflections/abstract";
+import { ReflectionKind } from "../models/reflections/kind";
 import type { DeclarationReflection } from "../models/reflections/declaration";
 
 export const SORT_STRATEGIES = [
