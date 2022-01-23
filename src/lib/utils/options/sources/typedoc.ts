@@ -5,7 +5,6 @@ import { BUNDLED_THEMES, Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
 import { ReflectionKind } from "../../../models/reflections/kind";
-import { toOrdinal } from "../../ordinal-numbers";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
@@ -349,20 +348,17 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "A list of reflection kinds that must be documented",
         type: ParameterType.Array,
         validate(values) {
-            const validValues = Object.values(ReflectionKind)
-                // this is good enough because the values of the ReflectionKind enum are all numbers
-                .filter((v) => typeof v === "string")
-                .join(", ");
-            for (
-                let i = 0, kind = values[i];
-                i < values.length;
-                i += 1, kind = values[i]
-            ) {
-                if (!(kind in ReflectionKind)) {
+            // this is good enough because the values of the ReflectionKind enum are all numbers
+            const validValues = Object.values(ReflectionKind).filter(
+                (v) => typeof v === "string"
+            );
+
+            for (const kind of values) {
+                if (validValues.includes(kind)) {
                     throw new Error(
-                        `The ${toOrdinal(
-                            i + 1
-                        )} 'requiredToBeDocumented' value is invalid. Must be one of: ${validValues}`
+                        `'${kind}' is an invalid value for 'requiredToBeDocumented'. Must be one of: ${validValues.join(
+                            ", "
+                        )}`
                     );
                 }
             }
