@@ -100,7 +100,6 @@ export interface TypeDocOptionMap {
     gaSite: string;
     githubPages: boolean;
     hideGenerator: boolean;
-    hideLegend: boolean;
     cleanOutputDir: boolean;
 
     help: boolean;
