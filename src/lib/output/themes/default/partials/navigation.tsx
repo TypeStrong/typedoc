@@ -38,15 +38,21 @@ function settings() {
     })
     return (
         <div class="tsd-navigation settings">
-            <h3>Settings</h3>
-            <div class="tsd-filter-visibility">
-                <h4 class="uppercase">Member Visibility</h4>
-                <form>
-                    <ul id="tsd-filter-options">
-                        {...visibilityOptions}
-                    </ul>
-                </form>
-            </div>
+            <details class="tsd-index-accordion" open={true}>
+                <summary class="tsd-accordion-summary">
+                    <h3>{icons.chevronDown()} Settings</h3>
+                </summary>
+                <div class="tsd-accordion-details">
+                    <div class="tsd-filter-visibility">
+                        <h4 class="uppercase">Member Visibility</h4>
+                        <form>
+                            <ul id="tsd-filter-options">
+                                {...visibilityOptions}
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </details>
         </div>
     )
 }
@@ -57,22 +63,12 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
     const modules = props.model.project.getChildrenByKind(ReflectionKind.SomeModule);
     const [ext, int] = partition(modules, (m) => m.flags.isExternal);
 
-    if (ext.length === 0) {
-        return (
-            <nav class="tsd-navigation primary">
-                <ul>
-                    {int.map(link)}
-                </ul>
-            </nav>
-        );
-    }
-
     const selected = props.model.isProject();
     const current = selected || int.some(mod => inPath(mod, props.model));
 
     return (
         <nav class="tsd-navigation primary">
-            <h3>Modules</h3>
+            {ext.length && <h3>Modules</h3>}
             <ul>
                 <li class={classNames({ current, selected })}>
                     <a href={context.urlTo(props.model.project)}>{wbr(props.project.name)}</a>
@@ -127,7 +123,7 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
                         <li class={child.cssClasses}>
                             <a href={context.urlTo(child)} class="tsd-index-link">
                                 {icons[child.kind]()}
-                                {wbr(child.name)}
+                                <span>{wbr(child.name)}</span>
                             </a>
                         </li>
                     );
@@ -145,7 +141,7 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
                 <li class={"current " + props.model.cssClasses}>
                     <a href={context.urlTo(props.model)} class="tsd-index-link">
                         {icons[props.model.kind]()}
-                        {wbr(props.model.name)}
+                        <span>{wbr(props.model.name)}</span>
                     </a>
                     {pageNavigation}
                 </li>

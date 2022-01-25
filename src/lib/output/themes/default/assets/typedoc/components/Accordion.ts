@@ -1,7 +1,7 @@
 import { Component, IComponentOptions } from "../Component";
 
 /**
- * Handles index dropdown behaviour.
+ * Handles accordion dropdown behaviour.
  */
 export class Accordion extends Component {
 
@@ -23,8 +23,8 @@ export class Accordion extends Component {
 
     constructor(options: IComponentOptions) {
         super(options);
-        this.heading = this.el.querySelectorAll<HTMLElement>(".tsd-index-summary")[0];
-        this.body = this.el.querySelectorAll<HTMLElement>(".tsd-index-list")[0];
+        this.heading = this.el.querySelectorAll<HTMLElement>(".tsd-accordion-summary")[0];
+        this.body = this.el.querySelectorAll<HTMLElement>(".tsd-accordion-details")[0];
 
         this.heading.addEventListener("click", (e: MouseEvent) => this.toggleVisibility(e));
     }
@@ -52,6 +52,8 @@ export class Accordion extends Component {
         this.el.open = true;
         window.requestAnimationFrame(() => {
             const fullHeight = `${this.heading.offsetHeight + this.body.offsetHeight}px`;
+            console.log("heading", this.heading.offsetHeight, "body", this.body.offsetHeight)
+            console.log(fullHeight);
             this.animate(currentHeight, fullHeight, true);
         })
     }
@@ -79,18 +81,21 @@ export class Accordion extends Component {
             height: [startHeight, endHeight]
         }, { duration: 300, easing: "ease" });
 
-        this.animation.addEventListener("finish", () => this.animationEnd(isOpening));
+        this.animation.addEventListener("finish", () => this.animationEnd(isOpening, endHeight));
     }
 
     /**
      * Reset values upon animation end.
      *
      * @param isOpen  Whether the accordion is now open.
+     * @param height  The element's new height.
      */
-    private animationEnd(isOpen: boolean) {
+    private animationEnd(isOpen: boolean, height: string) {
         this.el.open = isOpen;
         this.animation = undefined;
-        this.el.style.height = "auto";
+        console.log("el style", this.el.style.height);
+        this.el.style.height = height;
+        console.log(height);
         this.el.style.overflow = "visible";
     }
 }

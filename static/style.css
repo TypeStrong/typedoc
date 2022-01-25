@@ -3,11 +3,11 @@
     /* Light */
     --light-color-background: #f2f4f8;
     --light-color-background-secondary: #eff0f1;
+    --light-color-icon-background: var(--light-color-background);
     --light-color-accent: #c5c7c9;
     --light-color-text: #222;
     --light-color-text-aside: #707070;
     --light-color-link: #4da6ff;
-    --light-color-panel-divider: #eee;
     --light-color-ts: #db1373;
     --light-color-ts-interface: #15af31;
     --light-color-ts-enum: #b19700;
@@ -15,16 +15,17 @@
     --light-color-ts-function: #572be7;
     --light-color-ts-namespace: #b111c9;
     --light-color-ts-private: #707070;
+    --light-color-ts-variable: #4d68ff;
     --light-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23000' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
 
     /* Dark */
     --dark-color-background: #1a1c1e;
     --dark-color-background-secondary: #151619;
+    --dark-color-icon-background: #263238;
     --dark-color-accent: #454545;
     --dark-color-text: #ffffff;
     --dark-color-text-aside: #e6e4e4;
     --dark-color-link: #00aff4;
-    --dark-color-panel-divider: #818181;
     --dark-color-ts: #ff6492;
     --dark-color-ts-interface: #6cff87;
     --dark-color-ts-enum: #f4d93e;
@@ -32,6 +33,7 @@
     --dark-color-ts-function: #9772ff;
     --dark-color-ts-namespace: #e14dff;
     --dark-color-ts-private: #e2e2e2;
+    --dark-color-ts-variable: #4d68ff;
     --dark-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23fff' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
 }
 
@@ -39,11 +41,11 @@
     :root {
         --color-background: var(--light-color-background);
         --color-background-secondary: var(--light-color-background-secondary);
+        --color-icon-background: var(--light-color-icon-background);
         --color-accent: var(--light-color-accent);
         --color-text: var(--light-color-text);
         --color-text-aside: var(--light-color-text-aside);
         --color-link: var(--light-color-link);
-        --color-panel-divider: var(--light-color-panel-divider);
         --color-ts: var(--light-color-ts);
         --color-ts-interface: var(--light-color-ts-interface);
         --color-ts-enum: var(--light-color-ts-enum);
@@ -51,6 +53,7 @@
         --color-ts-function: var(--light-color-ts-function);
         --color-ts-namespace: var(--light-color-ts-namespace);
         --color-ts-private: var(--light-color-ts-private);
+        --color-ts-variable: var(--light-color-ts-variable);
         --external-icon: var(--light-external-icon);
     }
 }
@@ -59,11 +62,11 @@
     :root {
         --color-background: var(--dark-color-background);
         --color-background-secondary: var(--dark-color-background-secondary);
+        --color-icon-background: var(--dark-color-icon-background);
         --color-accent: var(--dark-color-accent);
         --color-text: var(--dark-color-text);
         --color-text-aside: var(--dark-color-text-aside);
         --color-link: var(--dark-color-link);
-        --color-panel-divider: var(--dark-color-panel-divider);
         --color-ts: var(--dark-color-ts);
         --color-ts-interface: var(--dark-color-ts-interface);
         --color-ts-enum: var(--dark-color-ts-enum);
@@ -71,6 +74,7 @@
         --color-ts-function: var(--dark-color-ts-function);
         --color-ts-namespace: var(--dark-color-ts-namespace);
         --color-ts-private: var(--dark-color-ts-private);
+        --color-ts-variable: var(--dark-color-ts-variable);
         --external-icon: var(--dark-external-icon);
     }
 }
@@ -82,11 +86,11 @@ body {
 body.light {
     --color-background: var(--light-color-background);
     --color-background-secondary: var(--light-color-background-secondary);
+    --color-icon-background: var(--light-color-icon-background);
     --color-accent: var(--light-color-accent);
     --color-text: var(--light-color-text);
     --color-text-aside: var(--light-color-text-aside);
     --color-link: var(--light-color-link);
-    --color-panel-divider: var(--light-color-panel-divider);
     --color-ts: var(--light-color-ts);
     --color-ts-interface: var(--light-color-ts-interface);
     --color-ts-enum: var(--light-color-ts-enum);
@@ -94,17 +98,18 @@ body.light {
     --color-ts-function: var(--light-color-ts-function);
     --color-ts-namespace: var(--light-color-ts-namespace);
     --color-ts-private: var(--light-color-ts-private);
+    --color-ts-variable: var(--light-color-ts-variable);
     --external-icon: var(--light-external-icon);
 }
 
 body.dark {
     --color-background: var(--dark-color-background);
     --color-background-secondary: var(--dark-color-background-secondary);
+    --color-icon-background: var(--dark-color-icon-background);
     --color-accent: var(--dark-color-accent);
     --color-text: var(--dark-color-text);
     --color-text-aside: var(--dark-color-text-aside);
     --color-link: var(--dark-color-link);
-    --color-panel-divider: var(--dark-color-panel-divider);
     --color-ts: var(--dark-color-ts);
     --color-ts-interface: var(--dark-color-ts-interface);
     --color-ts-enum: var(--dark-color-ts-enum);
@@ -112,6 +117,7 @@ body.dark {
     --color-ts-function: var(--dark-color-ts-function);
     --color-ts-namespace: var(--dark-color-ts-namespace);
     --color-ts-private: var(--dark-color-ts-private);
+    --color-ts-variable: var(--dark-color-ts-variable);
     --external-icon: var(--dark-external-icon);
 }
 
@@ -565,7 +571,8 @@ html:not(.filter-inherited) .tsd-is-inherited {
 
 .tsd-filter-visibility h4 {
     font-size: 1rem;
-    margin: 1.25rem 0;
+    padding: 1.25rem 0;
+    margin: 0;
 }
 .tsd-filter-item:not(:last-child) {
     margin-bottom: 0.5rem;
@@ -575,23 +582,30 @@ html:not(.filter-inherited) .tsd-is-inherited {
     width: fit-content;
     width: -moz-fit-content;
     align-items: center;
-    cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
 }
 .tsd-filter-input input[type="checkbox"] {
+    cursor: pointer;
     position: absolute;
     width: 1.5em;
     height: 1.5em;
     opacity: 0;
 }
+.tsd-filter-input input[type="checkbox"]:disabled {
+    pointer-events: none;
+}
 .tsd-filter-input svg {
+    cursor: pointer;
     width: 1.5em;
     height: 1.5em;
     margin-right: 0.5em;
     border-radius: 0.33em;
+    /* Leaving this at full opacity breaks event listeners on Firefox.
+    Don't remove unless you know what you're doing. */
+    opacity: 0.99;
 }
 .tsd-filter-input svg * {
     transition: all 0.2s linear;
@@ -602,12 +616,21 @@ html:not(.filter-inherited) .tsd-is-inherited {
 .tsd-filter-input input[type=checkbox]:focus:not(:focus-visible) + svg {
     transform: scale(1);
 }
-
-input[type=checkbox]:checked + svg .tsd-checkbox-checkmark {
-    stroke: var(--color-text);
-}
 .tsd-checkbox-background {
     fill: var(--color-accent);
+}
+input[type=checkbox]:checked ~ svg .tsd-checkbox-checkmark {
+    stroke: var(--color-text);
+}
+.tsd-filter-input input:disabled ~ svg {
+    outline-offset: -2px;
+    outline: 3px var(--color-accent) solid;
+}
+.tsd-filter-input input:disabled ~ svg > .tsd-checkbox-background {
+    fill: var(--color-background);
+}
+.tsd-filter-input input:disabled ~ svg > .tsd-checkbox-checkmark {
+    stroke: var(--color-accent);
 }
 
 .tsd-hierarchy {
@@ -618,17 +641,6 @@ input[type=checkbox]:checked + svg .tsd-checkbox-checkmark {
     font-weight: bold;
 }
 
-.tsd-index-panel .tsd-index-content {
-    margin-bottom: -30px !important;
-}
-.tsd-index-panel .tsd-index-section {
-    margin-bottom: 30px !important;
-}
-.tsd-index-panel h3 {
-    margin: 0 -20px 10px -20px;
-    padding: 0 20px 10px 20px;
-    border-bottom: 1px solid var(--color-panel-divider);
-}
 .tsd-index-panel ul.tsd-index-list {
     -webkit-column-count: 3;
     -moz-column-count: 3;
@@ -661,34 +673,42 @@ input[type=checkbox]:checked + svg .tsd-checkbox-checkmark {
     page-break-inside: avoid;
 }
 .tsd-index-panel a,
-.tsd-index-panel .tsd-parent-kind-module a {
+.tsd-index-panel a.tsd-parent-kind-module {
     color: var(--color-ts);
 }
-.tsd-index-panel .tsd-parent-kind-interface a {
+.tsd-index-panel a.tsd-parent-kind-interface {
     color: var(--color-ts-interface);
 }
-.tsd-index-panel .tsd-parent-kind-enum a {
+.tsd-index-panel a.tsd-parent-kind-enum {
     color: var(--color-ts-enum);
 }
-.tsd-index-panel .tsd-parent-kind-class a {
+.tsd-index-panel a.tsd-parent-kind-class {
     color: var(--color-ts-class);
 }
-.tsd-index-panel .tsd-kind-module a {
-    color: var(--color-ts);
+.tsd-index-panel a.tsd-kind-module {
+    color: var(--color-ts-namespace);
 }
-.tsd-index-panel .tsd-kind-interface a {
+.tsd-index-panel a.tsd-kind-interface {
     color: var(--color-ts-interface);
 }
-.tsd-index-panel .tsd-kind-enum a {
+.tsd-index-panel a.tsd-kind-enum {
     color: var(--color-ts-enum);
 }
-.tsd-index-panel .tsd-kind-class a {
+.tsd-index-panel a.tsd-kind-class {
     color: var(--color-ts-class);
 }
-.tsd-index-panel .tsd-is-private a {
+.tsd-index-panel a.tsd-kind-function {
+    color: var(--color-ts-function);
+}
+.tsd-index-panel a.tsd-kind-namespace {
+    color: var(--color-ts-namespace);
+}
+.tsd-index-panel a.tsd-kind-variable {
+    color: var(--color-ts-variable);
+}
+.tsd-index-panel a.tsd-is-private {
     color: var(--color-ts-private);
 }
-
 
 .tsd-anchor {
     position: absolute;
@@ -725,8 +745,7 @@ input[type=checkbox]:checked + svg .tsd-checkbox-checkmark {
 }
 .tsd-navigation a {
     display: block;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    margin: 0.4rem 0;
     border-left: 2px solid transparent;
     color: var(--color-text);
     text-decoration: none;
@@ -790,65 +809,80 @@ input[type=checkbox]:checked + svg .tsd-checkbox-checkmark {
     top: 0.5rem;
 }
 .tsd-navigation.secondary ul {
+    padding-right: 0.5rem;
     transition: opacity 0.2s;
 }
 .tsd-navigation.secondary ul li a {
-    padding-left: 25px;
+    padding-left: 0;
 }
 .tsd-navigation.secondary ul li li a {
-    padding-left: 45px;
+    padding-left: 1rem;
 }
 .tsd-navigation.secondary ul li li li a {
-    padding-left: 65px;
+    padding-left: 2rem;
 }
 .tsd-navigation.secondary ul li li li li a {
-    padding-left: 85px;
+    padding-left: 3rem;
 }
 .tsd-navigation.secondary ul li li li li li a {
-    padding-left: 105px;
+    padding-left: 4rem;
 }
 .tsd-navigation.secondary ul li li li li li li a {
-    padding-left: 125px;
+    padding-left: 5rem;
 }
 .tsd-navigation.secondary li.current > a {
     font-weight: bold;
 }
 
-.tsd-index-list .tsd-index-link {
-    margin: 0.5rem 0;
+a.tsd-index-link {
+    margin: 0.1rem 0;
     font-weight: 500;
-}
-li > a.tsd-index-link {
     display: inline-flex;
     align-items: center;
 }
 .tsd-index-list {
-    margin-top: 0.5rem;
+    padding-top: 0.25rem;
     overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
 }
-.tsd-index-heading {
+.tsd-accordion-summary > h1,
+.tsd-accordion-summary > h2,
+.tsd-accordion-summary > h3,
+.tsd-accordion-summary > h4 {
     display: inline-flex;
     align-items: center;
+    vertical-align: middle;
     margin-bottom: 0;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
 }
-.tsd-index-summary {
+.tsd-accordion-summary {
     display: block;
     cursor: pointer;
 }
-.tsd-index-summary::-webkit-details-marker {
+.tsd-accordion-summary > * {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.tsd-accordion-summary::-webkit-details-marker {
     display: none;
 }
-.tsd-index-accordion .tsd-index-summary svg {
+.tsd-index-accordion .tsd-accordion-summary svg {
     margin-right: 0.25rem;
     transform: rotate(-90deg);
     transition: 0.3s transform ease;
 }
-.tsd-index-accordion[open] .tsd-index-summary svg {
+.tsd-index-accordion[open] .tsd-accordion-summary svg {
     transform: rotate(0deg);
+}
+.tsd-index-content > :not(:first-child) {
+    margin-top: 0.75rem;
 }
 
 .tsd-kind-icon {
@@ -960,7 +994,7 @@ li > a.tsd-index-link {
 }
 #tsd-search .results li.current,
 #tsd-search .results li:hover {
-    background-color: var(--color-panel-divider);
+    background-color: var(--color-accent);
 }
 #tsd-search .results a {
     display: block;
@@ -973,7 +1007,7 @@ li > a.tsd-index-link {
     font-weight: normal;
 }
 #tsd-search.has-focus {
-    background-color: var(--color-panel-divider);
+    background-color: var(--color-accent);
 }
 #tsd-search.has-focus .field input {
     top: 0;
@@ -994,30 +1028,15 @@ li > a.tsd-index-link {
 }
 
 .tsd-signature {
-    margin: 0 0 1em 0;
-    padding: 10px;
-    border: 1px solid var(--color-panel-divider);
+    margin: 0 0 1rem 0;
+    padding: 1rem 0.5rem;
+    border: 1px solid var(--color-accent);
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: 14px;
     overflow-x: auto;
 }
-.tsd-signature.tsd-kind-icon {
-    padding-left: 30px;
-}
-.tsd-signature.tsd-kind-icon:before {
-    top: 10px;
-    left: 10px;
-}
 .tsd-panel > .tsd-signature {
-    margin-left: -20px;
-    margin-right: -20px;
     border-width: 1px 0;
-}
-.tsd-panel > .tsd-signature.tsd-kind-icon {
-    padding-left: 40px;
-}
-.tsd-panel > .tsd-signature.tsd-kind-icon:before {
-    left: 20px;
 }
 
 .tsd-signature-symbol {
@@ -1033,7 +1052,7 @@ li > a.tsd-index-link {
 .tsd-signatures {
     padding: 0;
     margin: 0 0 1em 0;
-    border: 1px solid var(--color-panel-divider);
+    border: 1px solid var(--color-accent);
 }
 .tsd-signatures .tsd-signature {
     margin: 0;
@@ -1050,15 +1069,7 @@ li > a.tsd-index-link {
     cursor: pointer;
 }
 .tsd-panel > .tsd-signatures {
-    margin-left: -20px;
-    margin-right: -20px;
     border-width: 1px 0;
-}
-.tsd-panel > .tsd-signatures .tsd-signature.tsd-kind-icon {
-    padding-left: 40px;
-}
-.tsd-panel > .tsd-signatures .tsd-signature.tsd-kind-icon:before {
-    left: 20px;
 }
 .tsd-panel > a.anchor + .tsd-signatures {
     border-top-width: 0;

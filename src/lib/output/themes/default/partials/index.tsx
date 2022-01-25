@@ -7,17 +7,19 @@ import { icons } from "./icon";
 function renderCategory({ urlTo }: DefaultThemeRenderContext, item: ReflectionCategory, prependName = "") {
     return (
         <section class="tsd-index-section">
-            <h3 class="tsd-index-heading" role="button" aria-expanded="false" tabIndex={0}>{icons.chevronDown()} {prependName ? `${prependName} ${item.title}` : item.title}</h3>
-            <ul class="tsd-index-list" aria-hidden="true">
-                {item.children.map((item) => (
-                    <li class={item.cssClasses}>
-                        <a href={urlTo(item)}>
+            <details class="tsd-index-accordion" open={true}>
+                <summary class="tsd-accordion-summary tsd-index-summary">
+                    <h3 class="tsd-index-heading" role="button" aria-expanded="false" tabIndex={0}>{icons.chevronDown()} {prependName ? `${prependName} ${item.title}` : item.title}</h3>
+                </summary>
+                <div class="tsd-accordion-details tsd-index-list">
+                    {item.children.map((item) => (
+                        <a href={urlTo(item)} class={"tsd-index-link " + item.cssClasses}>
                             {icons[item.kind]()}
-                            {item.name ? wbr(item.name) : <em>{wbr(item.kindString!)}</em>}
+                            <span>{item.name ? wbr(item.name) : <em>{wbr(item.kindString!)}</em>}</span>
                         </a>
-                    </li>
-                ))}
-            </ul>
+                    ))}
+                </div>
+            </details>
         </section>
     );
 }
@@ -39,27 +41,11 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                 <section class="tsd-panel tsd-index-panel">
                     <div class="tsd-index-content">
                         {props.groups.map((item) => (
-                            <section class={"tsd-index-section " + item.cssClasses}>
-                                {item.categories ? (
-                                    item.categories.map((item2) => renderCategory(context, item2, item.title))
-                                ) : (
-                                    <details class="tsd-index-accordion">
-                                        <summary class="tsd-index-summary">
-                                            <h3 class="tsd-index-heading">{icons.chevronDown()} {item.title}</h3>
-                                        </summary>
-                                        <ul class="tsd-index-list">
-                                            {item.children.map((item) => (
-                                                <li class={item.cssClasses}>
-                                                    <a href={context.urlTo(item)} class="tsd-index-link">
-                                                        {icons[item.kind]()}
-                                                        {item.name ? wbr(item.name) : <em>{wbr(item.kindString!)}</em>}
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </details>
-                                )}
-                            </section>
+                            item.categories ? (
+                                <section class={"tsd-index-section " + item.cssClasses}>
+                                    {item.categories.map((item2) => renderCategory(context, item2, item.title))}
+                                </section>
+                            ) : renderCategory(context, item)
                         ))}
                     </div>
                 </section>
