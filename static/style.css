@@ -1,5 +1,4 @@
 :root {
-
     /* Light */
     --light-color-background: #f2f4f8;
     --light-color-background-secondary: #eff0f1;
@@ -183,16 +182,16 @@ dd {
 
 .container {
     max-width: 1600px;
-    padding: 0 1rem;
+    padding: 0 2rem;
 }
 @media (min-width: 640px) {
     .container {
-        padding: 0 8rem;
+        padding: 0 6rem;
     }
 }
 @media (min-width: 1280px) {
     .container {
-        padding: 0 16rem;
+        padding: 0 8rem;
     }
 }
 
@@ -529,7 +528,7 @@ dl.tsd-comment-tag-group dd {
     margin: 0;
 }
 code.tsd-tag {
-    padding: 0.33em;
+    padding: 0.33em 0.66em;
     border: 0.1em solid var(--color-accent);
     margin-right: 0.25em;
 }
@@ -610,16 +609,16 @@ html:not(.filter-inherited) .tsd-is-inherited {
 .tsd-filter-input svg * {
     transition: all 0.2s linear;
 }
-.tsd-filter-input input[type=checkbox]:focus + svg {
+.tsd-filter-input input[type="checkbox"]:focus + svg {
     transform: scale(0.95);
 }
-.tsd-filter-input input[type=checkbox]:focus:not(:focus-visible) + svg {
+.tsd-filter-input input[type="checkbox"]:focus:not(:focus-visible) + svg {
     transform: scale(1);
 }
 .tsd-checkbox-background {
     fill: var(--color-accent);
 }
-input[type=checkbox]:checked ~ svg .tsd-checkbox-checkmark {
+input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     stroke: var(--color-text);
 }
 .tsd-filter-input input:disabled ~ svg {
@@ -641,31 +640,28 @@ input[type=checkbox]:checked ~ svg .tsd-checkbox-checkmark {
     font-weight: bold;
 }
 
-.tsd-index-panel ul.tsd-index-list {
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    -ms-column-count: 3;
-    -o-column-count: 3;
-    column-count: 3;
-    -webkit-column-gap: 20px;
-    -moz-column-gap: 20px;
-    -ms-column-gap: 20px;
-    -o-column-gap: 20px;
-    column-gap: 20px;
-    padding: 0;
+.tsd-index-panel .tsd-index-list {
     list-style: none;
     line-height: 1.333em;
+    margin: 0;
+    padding: 0.25rem 0 0 0;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 1rem;
+    grid-template-rows: auto;
 }
 @media (max-width: 1024px) {
-    .tsd-index-panel ul.tsd-index-list {
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        -ms-column-count: 1;
-        -o-column-count: 1;
-        column-count: 1;
+    .tsd-index-panel .tsd-index-list {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
-.tsd-index-panel ul.tsd-index-list li {
+@media (max-width: 768px) {
+    .tsd-index-panel .tsd-index-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+.tsd-index-panel .tsd-index-list li {
     -webkit-page-break-inside: avoid;
     -moz-page-break-inside: avoid;
     -ms-page-break-inside: avoid;
@@ -840,19 +836,12 @@ a.tsd-index-link {
     display: inline-flex;
     align-items: center;
 }
-.tsd-index-list {
-    padding-top: 0.25rem;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-}
 .tsd-accordion-summary > h1,
 .tsd-accordion-summary > h2,
 .tsd-accordion-summary > h3,
-.tsd-accordion-summary > h4 {
+.tsd-accordion-summary > h4,
+.tsd-accordion-summary > h5 {
     display: inline-flex;
-    align-items: center;
     vertical-align: middle;
     margin-bottom: 0;
     user-select: none;
