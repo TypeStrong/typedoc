@@ -1057,5 +1057,4 @@ export interface JsxRectElementProps
     width?: string | number;
     x?: string | number;
     y?: string | number;
-
 }

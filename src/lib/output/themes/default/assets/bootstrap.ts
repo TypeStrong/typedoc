@@ -15,7 +15,6 @@ registerComponent(Toggle, "a[data-toggle]");
 registerComponent(Accordion, ".tsd-index-accordion");
 registerComponent(Filter, ".tsd-filter-item input[type=checkbox]");
 
-
 const themeChoice = document.getElementById("theme");
 if (themeChoice) {
     initTheme(themeChoice as HTMLOptionElement);

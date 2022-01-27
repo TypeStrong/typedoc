@@ -18,7 +18,7 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
 function settings() {
     // Settings panel above navigation
 
-    const visibilityOptions = ["public", "protected", "private", "inherited"].map(name => {
+    const visibilityOptions = ["public", "protected", "private", "inherited"].map((name) => {
         const value = name.charAt(0).toUpperCase() + name.slice(1);
         return (
             <li class="tsd-filter-item">
@@ -34,8 +34,8 @@ function settings() {
                     <span>{value}</span>
                 </label>
             </li>
-        )
-    })
+        );
+    });
     return (
         <div class="tsd-navigation settings">
             <details class="tsd-index-accordion" open={true}>
@@ -46,15 +46,13 @@ function settings() {
                     <div class="tsd-filter-visibility">
                         <h4 class="uppercase">Member Visibility</h4>
                         <form>
-                            <ul id="tsd-filter-options">
-                                {...visibilityOptions}
-                            </ul>
+                            <ul id="tsd-filter-options">{...visibilityOptions}</ul>
                         </form>
                     </div>
                 </div>
             </details>
         </div>
-    )
+    );
 }
 
 function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
@@ -64,7 +62,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
     const [ext, int] = partition(modules, (m) => m.flags.isExternal);
 
     const selected = props.model.isProject();
-    const current = selected || int.some(mod => inPath(mod, props.model));
+    const current = selected || int.some((mod) => inPath(mod, props.model));
 
     return (
         <nav class="tsd-navigation primary">
@@ -72,9 +70,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
             <ul>
                 <li class={classNames({ current, selected })}>
                     <a href={context.urlTo(props.model.project)}>{wbr(props.project.name)}</a>
-                    <ul>
-                        {int.map(link)}
-                    </ul>
+                    <ul>{int.map(link)}</ul>
                 </li>
                 {ext.map(link)}
             </ul>

@@ -6,9 +6,7 @@ export const memberSignatures = (context: DefaultThemeRenderContext, props: Decl
     <>
         <ul class={"tsd-signatures " + props.cssClasses}>
             {props.signatures?.map((item) => (
-                <li class="tsd-signature">
-                    {context.memberSignatureTitle(item)}
-                </li>
+                <li class="tsd-signature">{context.memberSignatureTitle(item)}</li>
             ))}
         </ul>
 

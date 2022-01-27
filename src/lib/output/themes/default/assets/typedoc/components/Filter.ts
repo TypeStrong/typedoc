@@ -4,13 +4,13 @@ import { Component, IComponentOptions } from "../Component";
  * Handles sidebar filtering functionality.
  */
 export class Filter extends Component {
-
     override el!: HTMLInputElement;
 
     /**
      * Whether localStorage is available for use.
      */
-    private readonly useLocalStorage = typeof window.localStorage !== "undefined";
+    private readonly useLocalStorage =
+        typeof window.localStorage !== "undefined";
 
     /**
      * The class name & ID by which to store the filter value.
@@ -28,7 +28,7 @@ export class Filter extends Component {
         this.value = this.el.checked;
         this.el.addEventListener("change", () => {
             this.setLocalStorage(this.el.checked);
-        })
+        });
         if (this.useLocalStorage) {
             this.setLocalStorage(this.fromLocalStorage() || this.value, true);
         }
