@@ -280,7 +280,7 @@ export const issueTests: {
         ]);
     },
 
-    gh1734(project) {
+    gh1734_skip(project) {
         const alias = query(project, "Foo");
         const type = alias.type;
         ok(type instanceof ReflectionType);
