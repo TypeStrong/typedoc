@@ -169,16 +169,28 @@ export class Context {
 
     // GERRIT: This needs to live on Application, and get constructed based on user input.
     config: CommentParserConfig = {
-        blockTags: new Set(["@param", "@remarks", "@module"]),
-        inlineTags: new Set(["@link"]),
+        blockTags: new Set([
+            // TSDoc standard
+            "@param",
+            "@remarks",
+            // TypeDoc specific
+            "@module",
+            "@inheritDoc",
+        ]),
+        inlineTags: new Set(["@link", "@inheritDoc"]),
         modifierTags: new Set([
+            // TSDoc standard
             "@public",
             "@private",
             "@protected",
+            "@internal",
             "@readonly",
+            "@packageDocumentation",
+            // TypeDoc specific tags
+            "@hidden",
+            "@ignore",
             "@enum",
             "@event",
-            "@packageDocumentation",
         ]),
     };
 

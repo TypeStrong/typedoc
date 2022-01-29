@@ -29,6 +29,10 @@ export function createSignature(
 ) {
     assert(context.scope instanceof DeclarationReflection);
 
+    declaration ||= signature.getDeclaration() as
+        | ts.SignatureDeclaration
+        | undefined;
+
     const sigRef = new SignatureReflection(
         kind == ReflectionKind.ConstructorSignature
             ? `new ${context.scope.parent!.name}`

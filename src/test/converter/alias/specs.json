@@ -131,6 +131,14 @@
           "kind": 65536,
           "kindString": "Type literal",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A type that describes a compare function, e.g. for array.sort()."
+              }
+            ]
+          },
           "signatures": [
             {
               "id": 3,

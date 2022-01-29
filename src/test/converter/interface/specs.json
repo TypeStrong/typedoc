@@ -1064,6 +1064,14 @@
                       "kind": 4096,
                       "kindString": "Call signature",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Remove this subscription from its dispatcher"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "void"
@@ -1405,6 +1413,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "param text"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "reference",
                         "id": 39,

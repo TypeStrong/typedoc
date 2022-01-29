@@ -67,46 +67,6 @@
               ]
             },
             {
-              "id": 6,
-              "name": "hiddenprop",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {},
-              "comment": {
-                "summary": [],
-                "blockTags": [
-                  {
-                    "tag": "@hidden",
-                    "content": []
-                  }
-                ]
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            },
-            {
-              "id": 25,
-              "name": "ignoredprop",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {},
-              "comment": {
-                "summary": [],
-                "blockTags": [
-                  {
-                    "tag": "@ignore",
-                    "content": []
-                  }
-                ]
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            },
-            {
               "id": 5,
               "name": "prop",
               "kind": 1024,
@@ -126,149 +86,12 @@
               }
             },
             {
-              "id": 7,
-              "name": "hidden",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 8,
-                  "name": "hidden",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Hidden function"
-                      }
-                    ],
-                    "blockTags": [
-                      {
-                        "tag": "@hidden",
-                        "content": []
-                      }
-                    ]
-                  },
-                  "parameters": [
-                    {
-                      "id": 9,
-                      "name": "args",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {
-                        "isRest": true
-                      },
-                      "type": {
-                        "type": "array",
-                        "elementType": {
-                          "type": "intrinsic",
-                          "name": "any"
-                        }
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
-                  }
-                }
-              ]
-            },
-            {
-              "id": 10,
-              "name": "hiddenWithImplementation",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 11,
-                  "name": "hiddenWithImplementation",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Single hidden signature"
-                      }
-                    ],
-                    "blockTags": [
-                      {
-                        "tag": "@hidden",
-                        "content": []
-                      }
-                    ]
-                  },
-                  "parameters": [
-                    {
-                      "id": 12,
-                      "name": "arg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "any"
-                  }
-                }
-              ]
-            },
-            {
               "id": 19,
               "name": "mixedHidden",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
-                {
-                  "id": 20,
-                  "name": "mixedHidden",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Mixed hidden 1"
-                      }
-                    ],
-                    "blockTags": [
-                      {
-                        "tag": "@hidden",
-                        "content": []
-                      }
-                    ]
-                  },
-                  "parameters": [
-                    {
-                      "id": 21,
-                      "name": "arg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "any"
-                  }
-                },
                 {
                   "id": 22,
                   "name": "mixedHidden",
@@ -313,102 +136,6 @@
                   }
                 }
               ]
-            },
-            {
-              "id": 13,
-              "name": "multipleHidden",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 14,
-                  "name": "multipleHidden",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Multiple hidden 1"
-                      }
-                    ],
-                    "blockTags": [
-                      {
-                        "tag": "@hidden",
-                        "content": []
-                      }
-                    ]
-                  },
-                  "parameters": [
-                    {
-                      "id": 15,
-                      "name": "arg",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "any"
-                  }
-                },
-                {
-                  "id": 16,
-                  "name": "multipleHidden",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Multiple hidden 2"
-                      }
-                    ],
-                    "blockTags": [
-                      {
-                        "tag": "@hidden",
-                        "content": []
-                      }
-                    ]
-                  },
-                  "parameters": [
-                    {
-                      "id": 17,
-                      "name": "arg1",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    },
-                    {
-                      "id": 18,
-                      "name": "arg2",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "any"
-                  }
-                }
-              ]
             }
           ],
           "groups": [
@@ -423,8 +150,6 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                6,
-                25,
                 5
               ]
             },
@@ -432,10 +157,7 @@
               "title": "Methods",
               "kind": 2048,
               "children": [
-                7,
-                10,
-                19,
-                13
+                19
               ]
             }
           ]

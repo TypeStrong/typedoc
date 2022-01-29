@@ -790,6 +790,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "An object literal."
+                  }
+                ]
+              },
               "children": [
                 {
                   "id": 89,
@@ -1081,6 +1089,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A typed literal without an initializer."
+                  }
+                ]
+              },
               "children": [
                 {
                   "id": 48,

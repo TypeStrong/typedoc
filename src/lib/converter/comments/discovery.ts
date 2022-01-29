@@ -182,16 +182,14 @@ function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
         }
     }
 
-    if (node.kind === ts.SyntaxKind.NamespaceExport) {
-        return node.parent;
-    }
-
     if (node.kind === ts.SyntaxKind.ExportSpecifier) {
         return node.parent.parent;
     }
 
     if (
         [
+            ts.SyntaxKind.NamespaceExport,
+            ts.SyntaxKind.FunctionExpression,
             ts.SyntaxKind.FunctionType,
             ts.SyntaxKind.FunctionType,
             ts.SyntaxKind.ArrowFunction,

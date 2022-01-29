@@ -54,19 +54,27 @@ describe("Converter2", () => {
             2
         )}`;
 
-        runTest(
-            `Issue ${entry.substring(2).padEnd(4)} (${link})`,
-            join("issues", entry),
-            check
-        );
+        const name = `Issue ${entry
+            .replace("_skip", "")
+            .substring(2)
+            .padEnd(4)} (${link})`;
+
+        if (entry.endsWith("_skip")) {
+            it.skip(name);
+        } else {
+            runTest(name, join("issues", entry), check);
+        }
     }
 
     for (const [entry, check] of Object.entries(behaviorTests)) {
-        const title = `Handles ${entry.replace(
-            /([a-z][A-Z])/g,
-            (x) => `${x[0]} ${x[1].toLowerCase()}`
-        )}`;
+        const title = `Handles ${entry
+            .replace(/([a-z][A-Z])/g, (x) => `${x[0]} ${x[1].toLowerCase()}`)
+            .replace("_skip", "")}`;
 
-        runTest(title, join("behavior", entry), check);
+        if (entry.endsWith("_skip")) {
+            it.skip(entry);
+        } else {
+            runTest(title, join("behavior", entry), check);
+        }
     }
 });

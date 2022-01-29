@@ -46,33 +46,40 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "summary": [],
-                "blockTags": [
-                  {
-                    "tag": "@inheritDoc",
-                    "content": []
-                  }
-                ]
-              },
               "parameters": [
                 {
-                  "id": 11,
+                  "id": 4,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Custom parameter A doc."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
                   }
                 },
                 {
-                  "id": 12,
+                  "id": 5,
                   "name": "b",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter B."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -162,18 +169,9 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "summary": [],
-                "blockTags": [
-                  {
-                    "tag": "@inheritDoc",
-                    "content": []
-                  }
-                ]
-              },
               "parameters": [
                 {
-                  "id": 18,
+                  "id": 4,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -192,11 +190,19 @@
                   }
                 },
                 {
-                  "id": 19,
+                  "id": 5,
                   "name": "b",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter B."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -286,30 +292,10 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "summary": [],
-                "blockTags": [
-                  {
-                    "tag": "@inheritDoc",
-                    "content": []
-                  }
-                ]
-              },
               "parameters": [
                 {
-                  "id": 25,
+                  "id": 4,
                   "name": "a",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                },
-                {
-                  "id": 26,
-                  "name": "c",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
@@ -317,7 +303,26 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "Custom second parameter doc with name change."
+                        "text": "Custom parameter A doc."
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 5,
+                  "name": "b",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter B."
                       }
                     ]
                   },
@@ -400,7 +405,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "Parameter A."
+                        "text": "Custom parameter A doc."
                       }
                     ]
                   },

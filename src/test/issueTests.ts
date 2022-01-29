@@ -142,7 +142,12 @@ export const issueTests: {
         equal(prop.comment?.summary, void 0);
 
         const method = query(project, "METHOD");
-        equal(method.signatures?.[0].comment?.summary, "method docs");
+        equal(
+            Comment.combineDisplayParts(
+                method.signatures?.[0].comment?.summary
+            ),
+            "method docs"
+        );
     },
 
     gh1481(project) {

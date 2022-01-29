@@ -142,16 +142,10 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "summary": [],
-            "blockTags": [
+            "summary": [
               {
-                "tag": "@inheritDoc",
-                "content": [
-                  {
-                    "kind": "text",
-                    "text": "InterfaceSource"
-                  }
-                ]
+                "kind": "text",
+                "text": "Source interface summary"
               }
             ]
           },
@@ -163,16 +157,10 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "summary": [],
-                "blockTags": [
+                "summary": [
                   {
-                    "tag": "@inheritDoc",
-                    "content": [
-                      {
-                        "kind": "text",
-                        "text": "InterfaceSource.property"
-                      }
-                    ]
+                    "kind": "text",
+                    "text": "Source interface property description"
                   }
                 ]
               },
@@ -196,22 +184,16 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "summary": [],
-                    "blockTags": [
+                    "summary": [
                       {
-                        "tag": "@inheritDoc",
-                        "content": [
-                          {
-                            "kind": "text",
-                            "text": "InterfaceSource.someMethod"
-                          }
-                        ]
+                        "kind": "text",
+                        "text": "Source interface method description"
                       }
                     ]
                   },
                   "parameters": [
                     {
-                      "id": 24,
+                      "id": 18,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -249,11 +231,19 @@
           ],
           "typeParameter": [
             {
-              "id": 25,
+              "id": 19,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Source interface type parameter"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -335,7 +325,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "First argument"
+                        "text": "This will be inherited"
                       }
                     ]
                   },
@@ -355,7 +345,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "Second argument"
+                        "text": "This will be inherited"
                       }
                     ]
                   },
@@ -391,12 +381,8 @@
                 "blockTags": [
                   {
                     "tag": "@inheritDoc",
-                    "content": [
-                      {
-                        "kind": "text",
-                        "text": "SubClassA.printName"
-                      }
-                    ]
+                    "content": [],
+                    "name": "SubClassA.printName"
                   }
                 ]
               },
@@ -421,17 +407,13 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "summary": [],
-                "blockTags": [
+                "summary": [
                   {
-                    "tag": "@inheritDoc",
-                    "content": [
-                      {
-                        "kind": "text",
-                        "text": "functionSource"
-                      }
-                    ]
-                  },
+                    "kind": "text",
+                    "text": "Function summary\n\nThis part of the commentary will be inherited by other entities"
+                  }
+                ],
+                "blockTags": [
                   {
                     "tag": "@example",
                     "content": [
@@ -457,12 +439,21 @@
                         "text": "This will be inherited"
                       }
                     ]
+                  },
+                  {
+                    "tag": "@remarks",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Remarks will be inherited"
+                      }
+                    ]
                   }
                 ]
               },
               "typeParameter": [
                 {
-                  "id": 11,
+                  "id": 4,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -471,7 +462,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "This will be inherited"
+                        "text": "Type of arguments"
                       }
                     ]
                   }
@@ -479,7 +470,7 @@
               ],
               "parameters": [
                 {
-                  "id": 12,
+                  "id": 5,
                   "name": "arg1",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -494,12 +485,12 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 11,
+                    "id": 4,
                     "name": "T"
                   }
                 },
                 {
-                  "id": 13,
+                  "id": 6,
                   "name": "arg2",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -514,7 +505,7 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 11,
+                    "id": 4,
                     "name": "T"
                   }
                 }

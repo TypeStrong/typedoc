@@ -29,27 +29,6 @@
           },
           "children": [
             {
-              "id": 11,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 12,
-                  "name": "new PrivateClass",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 8,
-                    "name": "PrivateClass"
-                  }
-                }
-              ]
-            },
-            {
               "id": 13,
               "name": "fakePrivateProperty",
               "kind": 1024,
@@ -202,13 +181,6 @@
             }
           ],
           "groups": [
-            {
-              "title": "Constructors",
-              "kind": 512,
-              "children": [
-                11
-              ]
-            },
             {
               "title": "Properties",
               "kind": 1024,
@@ -845,6 +817,14 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Constructor short text."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "reference",
                     "id": 22,
@@ -1154,6 +1134,14 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Constructor short text."
+                      }
+                    ]
+                  },
                   "parameters": [
                     {
                       "id": 44,
@@ -1161,6 +1149,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Constructor param"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "any"
@@ -1172,6 +1168,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Private string property"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -1183,6 +1187,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Public number property"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1194,6 +1206,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Public implicit any property"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "any"
@@ -1696,6 +1716,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "X component of the Vector"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1707,6 +1735,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Y component of the Vector"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1718,6 +1754,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Vector name"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -1833,6 +1877,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "X component of the Vector"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1844,6 +1896,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Y component of the Vector"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1855,6 +1915,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Z component of the Vector"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1866,6 +1934,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Vector name"
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -2867,6 +2943,14 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Constructor short text."
+                      }
+                    ]
+                  },
                   "typeParameter": [
                     {
                       "id": 169,
@@ -2883,6 +2967,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Constructor parameter."
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "reference",
                         "id": 169,
@@ -3070,6 +3162,14 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Constructor short text."
+                      }
+                    ]
+                  },
                   "parameters": [
                     {
                       "id": 179,
@@ -3077,6 +3177,14 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Constructor parameter."
+                          }
+                        ]
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"

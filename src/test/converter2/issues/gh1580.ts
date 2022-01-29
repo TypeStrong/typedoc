@@ -1,3 +1,5 @@
+// Export order matters here. We want TypeDoc to process `B` before `A` so that the
+// implements plugin has to defer handling of `B`
 export { B, A };
 
 class A {

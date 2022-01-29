@@ -891,6 +891,14 @@
           "kind": 512,
           "kindString": "Constructor",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Any constructor function"
+              }
+            ]
+          },
           "signatures": [
             {
               "id": 8,
@@ -961,6 +969,14 @@
           "kind": 65536,
           "kindString": "Type literal",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Any function"
+              }
+            ]
+          },
           "signatures": [
             {
               "id": 3,

@@ -11,7 +11,7 @@
                 "--config",
                 "${workspaceFolder}/.config/mocha.fast.json",
                 "-g",
-                "Lexer"
+                "1734"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "name": "Debug Tests",

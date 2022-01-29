@@ -249,6 +249,9 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         if (reflection.type instanceof ReflectionType) {
+            // GERRIT: This is problematic. Need to revisit and try to stop having nested reflections.
+            reflection.type.declaration.comment ||= reflection.comment?.clone();
+
             this.processSignatureComments(
                 reflection.type.declaration.getNonIndexSignatures()
             );
@@ -262,9 +265,9 @@ export class CommentPlugin extends ConverterComponent {
             return;
         }
 
-        signatures.forEach((signature) => {
+        for (const signature of signatures) {
             const childComment = signature.comment;
-            if (!childComment) return;
+            if (!childComment) continue;
 
             signature.parameters?.forEach((parameter, index) => {
                 if (parameter.name === "__namedParameters") {
@@ -293,7 +296,7 @@ export class CommentPlugin extends ConverterComponent {
                 }
             });
 
-            signature.typeParameters?.forEach((parameter) => {
+            for (const parameter of signature.typeParameters || []) {
                 const tag =
                     childComment.getIdentifiedTag(
                         parameter.name,
@@ -312,12 +315,12 @@ export class CommentPlugin extends ConverterComponent {
                         Comment.cloneDisplayParts(tag.content)
                     );
                 }
-            });
+            }
 
             childComment?.removeTags("@param");
             childComment?.removeTags("@typeParam");
             childComment?.removeTags("@template");
-        });
+        }
     }
 
     private removeExcludedTags(comment: Comment) {

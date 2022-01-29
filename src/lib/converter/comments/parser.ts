@@ -59,6 +59,8 @@ const HAS_USER_IDENTIFIER: `@${string}`[] = [
     "@template",
     "@typedef",
     "@typeParam",
+    // GERRIT Kind of hacky to have this one here.
+    "@inheritDoc",
 ];
 
 /**

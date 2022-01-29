@@ -1,4 +1,12 @@
-import { IntrinsicType, Reflection, SomeType, UnionType } from "../../models";
+import {
+    Comment,
+    DeclarationReflection,
+    IntrinsicType,
+    Reflection,
+    SignatureReflection,
+    SomeType,
+    UnionType,
+} from "../../models";
 
 export function removeUndefined(type: SomeType): SomeType {
     if (type instanceof UnionType) {
@@ -19,80 +27,47 @@ export function removeUndefined(type: SomeType): SomeType {
 
 /**
  * Copy the comment of the source reflection to the target reflection.
+ * Performs the copy according to the specification at https://tsdoc.org/pages/tags/inheritdoc/.
+ * Mostly.
  *
- * @param target - Reflection with comment containing `inheritdoc` tag
+ * @param target - Reflection with comment containing `@inheritDoc` tag
  * @param source - Referenced reflection
  */
-export function copyComment(_target: Reflection, _source: Reflection) {
-    // GERRIT
-    // if (
-    //     target.comment &&
-    //     source.comment &&
-    //     target.comment.hasTag("inheritdoc")
-    // ) {
-    //     if (
-    //         target instanceof DeclarationReflection &&
-    //         source instanceof DeclarationReflection
-    //     ) {
-    //         target.typeParameters = source.typeParameters;
-    //     }
-    //     if (
-    //         target instanceof SignatureReflection &&
-    //         source instanceof SignatureReflection
-    //     ) {
-    //         target.typeParameters = source.typeParameters;
-    //         /**
-    //          * TSDoc overrides existing parameters entirely with inherited ones, while
-    //          * existing implementation merges them.
-    //          * To avoid breaking things, `inheritDoc` tag is additionally checked for the parameter,
-    //          * so the previous behavior will continue to work.
-    //          *
-    //          * TODO: When breaking change becomes acceptable remove legacy implementation
-    //          */
-    //         if (target.comment.getTag("inheritdoc")?.paramName) {
-    //             target.parameters = source.parameters;
-    //         } else {
-    //             legacyCopyImplementation(target, source);
-    //         }
-    //     }
-    //     target.comment.removeTags("inheritdoc");
-    //     target.comment.copyFrom(source.comment);
-    // } else if (!target.comment && source.comment) {
-    //     if (
-    //         target instanceof DeclarationReflection &&
-    //         source instanceof DeclarationReflection
-    //     ) {
-    //         target.typeParameters = source.typeParameters;
-    //     }
-    //     target.comment = new Comment();
-    //     target.comment.copyFrom(source.comment);
-    // }
+export function copyComment(target: Reflection, source: Reflection) {
+    if (
+        target.comment &&
+        source.comment &&
+        target.comment.getTag("@inheritDoc")
+    ) {
+        // GERRIT This seems wrong. Shouldn't be overwriting parameters or type parameters...
+        if (
+            target instanceof DeclarationReflection &&
+            source instanceof DeclarationReflection
+        ) {
+            target.typeParameters = source.typeParameters;
+        } else if (
+            target instanceof SignatureReflection &&
+            source instanceof SignatureReflection
+        ) {
+            target.parameters = source.parameters;
+            target.typeParameters = source.typeParameters;
+        }
+        target.comment.summary = Comment.cloneDisplayParts(
+            source.comment.summary
+        );
+        target.comment.removeTags("@remarks");
+        target.comment.removeTags("@inheritDoc"); // Remove block level inheritDoc
+        const remarks = source.comment.getTag("@remarks");
+        if (remarks) {
+            target.comment.blockTags.push(remarks.clone());
+        }
+    } else if (!target.comment && source.comment) {
+        if (
+            target instanceof DeclarationReflection &&
+            source instanceof DeclarationReflection
+        ) {
+            target.typeParameters = source.typeParameters;
+        }
+        target.comment = source.comment.clone();
+    }
 }
-
-/**
- * Copy comments from source reflection to target reflection, parameters are merged.
- *
- * @param target - Reflection with comment containing `inheritdoc` tag
- * @param source - Parent reflection
- */
-// function legacyCopyImplementation(
-//     target: SignatureReflection,
-//     source: SignatureReflection
-// ) {
-//     if (target.parameters && source.parameters) {
-//         // for (
-//         //     let index = 0, count = target.parameters.length;
-//         //     index < count;
-//         //     index++
-//         // ) {
-//         //     const sourceParameter = source.parameters[index];
-//         //     if (sourceParameter && sourceParameter.comment) {
-//         //         const targetParameter = target.parameters[index];
-//         //         if (!targetParameter.comment) {
-//         //             targetParameter.comment = new Comment();
-//         //             targetParameter.comment.copyFrom(sourceParameter.comment);
-//         //         }
-//         //     }
-//         // }
-//     }
-// }

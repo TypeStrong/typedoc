@@ -76,14 +76,6 @@
           "target": 30
         },
         {
-          "id": 44,
-          "name": "hidden",
-          "kind": 16777216,
-          "kindString": "Reference",
-          "flags": {},
-          "target": 33
-        },
-        {
           "id": 20,
           "name": "GH1453",
           "kind": 4,
@@ -175,27 +167,6 @@
           ]
         },
         {
-          "id": 19,
-          "name": "x2",
-          "kind": 32,
-          "kindString": "Variable",
-          "flags": {},
-          "comment": {
-            "summary": [],
-            "blockTags": [
-              {
-                "tag": "@hidden",
-                "content": []
-              }
-            ]
-          },
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "x.issue"
-        },
-        {
           "id": 15,
           "name": "add",
           "kind": 64,
@@ -285,8 +256,7 @@
             45,
             42,
             43,
-            38,
-            44
+            38
           ]
         },
         {
@@ -294,13 +264,6 @@
           "kind": 4,
           "children": [
             20
-          ]
-        },
-        {
-          "title": "Variables",
-          "kind": 32,
-          "children": [
-            19
           ]
         },
         {
@@ -549,32 +512,6 @@
           "defaultValue": "1"
         },
         {
-          "id": 33,
-          "name": "hidden",
-          "kind": 32,
-          "kindString": "Variable",
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is annotated with the hidden tag and will therefore not be included in the generated documentation.\nThis *would* cause a broken link since it is also re-exported from export.ts, but the CommentPlugin removes\nbroken links caused by hidden/ignore/internal tags."
-              }
-            ],
-            "blockTags": [
-              {
-                "tag": "@hidden",
-                "content": []
-              }
-            ]
-          },
-          "type": {
-            "type": "literal",
-            "value": true
-          },
-          "defaultValue": "true"
-        },
-        {
           "id": 36,
           "name": "default",
           "kind": 64,
@@ -624,8 +561,7 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            30,
-            33
+            30
           ]
         },
         {

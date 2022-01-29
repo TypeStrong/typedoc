@@ -403,7 +403,15 @@
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {}
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "An object literal."
+                  }
+                ]
+              }
             }
           },
           "defaultValue": "..."
@@ -429,7 +437,15 @@
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {}
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A typed literal without an initializer."
+                  }
+                ]
+              }
             }
           }
         }

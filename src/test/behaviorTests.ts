@@ -55,7 +55,8 @@ export const behaviorTests: Record<
             'Record<"b", 1>',
         ]);
     },
-    overloads(project) {
+    // Disabled for now, pending https://github.com/TypeStrong/typedoc/issues/1809
+    overloads_skip(project) {
         const foo = query(project, "foo");
         equal(foo.signatures?.length, 2);
 
