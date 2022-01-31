@@ -2,12 +2,12 @@ import { Theme } from "../../theme";
 import type { Renderer } from "../../renderer";
 import {
     Reflection,
+    ReflectionGroup,
     ReflectionKind,
     ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
-} from "../../../models/reflections/index";
-import type { ReflectionGroup } from "../../../models/ReflectionGroup";
+} from "../../../models";
 import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import { PageEvent, RendererEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";

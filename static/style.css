@@ -145,7 +145,7 @@ h3 {
 }
 
 h4 {
-    font-size: 1.125rem;
+    font-size: 1.05rem;
     margin: 1.33rem 0;
 }
 
@@ -184,46 +184,47 @@ dd {
     max-width: 1600px;
     padding: 0 2rem;
 }
+
 @media (min-width: 640px) {
     .container {
-        padding: 0 6rem;
+        padding: 0 4rem;
     }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .container {
         padding: 0 8rem;
     }
 }
+@media (min-width: 1600px) {
+    .container {
+        padding: 0 12rem;
+    }
+}
+
+.tsd-generator > p {
+    padding: 0 1rem;
+}
 
 .container-main {
-    padding-bottom: 200px;
-}
-
-.row {
     display: flex;
+    justify-content: space-between;
     position: relative;
-    margin: 0 -10px;
-}
-.row:after {
-    visibility: hidden;
-    display: block;
-    content: "";
-    clear: both;
-    height: 0;
+    margin: 2rem auto;
 }
 
 .col-4,
 .col-8 {
     box-sizing: border-box;
     float: left;
-    padding: 0 10px;
+    padding: 2rem 1rem;
 }
 
 .col-4 {
-    width: 33.3333333333%;
+    flex: 0 0 25%;
 }
 .col-8 {
-    width: 66.6666666667%;
+    flex: 1 0;
+    flex-wrap: wrap;
 }
 
 ul.tsd-descriptions > li > :first-child,
@@ -360,6 +361,7 @@ pre {
 
 pre {
     padding: 10px;
+    border: 0.1em solid var(--color-accent);
 }
 pre code {
     padding: 0;
@@ -401,20 +403,20 @@ blockquote {
 @media (max-width: 1024px) {
     html .col-content {
         float: none;
+        max-width: 100%;
         width: 100%;
     }
     html .col-menu {
         position: fixed !important;
-        overflow: auto;
+        overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         z-index: 1024;
         top: 0 !important;
         bottom: 0 !important;
         left: auto !important;
         right: 0 !important;
-        width: 100%;
-        padding: 20px 20px 0 0;
-        max-width: 450px;
+        padding: 1.5rem 1.5rem 0 0;
+        max-width: 25rem;
         visibility: hidden;
         background-color: var(--color-background);
         transform: translate(100%, 0);
@@ -479,14 +481,6 @@ blockquote {
     .has-menu .tsd-navigation {
         max-height: 100%;
     }
-}
-
-.tsd-page-title {
-    padding: 70px 0 20px 0;
-    margin: 0 0 40px 0;
-}
-.tsd-page-title h1 {
-    margin: 0;
 }
 
 .tsd-breadcrumb {
@@ -570,7 +564,8 @@ html:not(.filter-inherited) .tsd-is-inherited {
 
 .tsd-filter-visibility h4 {
     font-size: 1rem;
-    padding: 1.25rem 0;
+    padding-top: 0.75rem;
+    padding-bottom: 0.5rem;
     margin: 0;
 }
 .tsd-filter-item:not(:last-child) {
@@ -585,6 +580,7 @@ html:not(.filter-inherited) .tsd-is-inherited {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    cursor: pointer;
 }
 .tsd-filter-input input[type="checkbox"] {
     cursor: pointer;
@@ -606,9 +602,6 @@ html:not(.filter-inherited) .tsd-is-inherited {
     Don't remove unless you know what you're doing. */
     opacity: 0.99;
 }
-.tsd-filter-input svg * {
-    transition: all 0.2s linear;
-}
 .tsd-filter-input input[type="checkbox"]:focus + svg {
     transform: scale(0.95);
 }
@@ -621,15 +614,22 @@ html:not(.filter-inherited) .tsd-is-inherited {
 input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     stroke: var(--color-text);
 }
-.tsd-filter-input input:disabled ~ svg {
-    outline-offset: -2px;
-    outline: 3px var(--color-accent) solid;
-}
 .tsd-filter-input input:disabled ~ svg > .tsd-checkbox-background {
     fill: var(--color-background);
+    stroke: var(--color-accent);
+    stroke-width: 0.25rem;
 }
 .tsd-filter-input input:disabled ~ svg > .tsd-checkbox-checkmark {
     stroke: var(--color-accent);
+}
+
+.tsd-theme-toggle {
+    padding-top: 0.75rem;
+}
+.tsd-theme-toggle > h4 {
+    display: inline;
+    vertical-align: middle;
+    margin-right: 0.75rem;
 }
 
 .tsd-hierarchy {
@@ -716,6 +716,7 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 .tsd-member .tsd-anchor + h3 {
     display: flex;
+    align-items: center;
     margin-top: 0;
     margin-bottom: 0;
     border-bottom: none;
@@ -759,6 +760,9 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     padding: 0;
 }
 
+.tsd-navigation.primary .tsd-accordion-details > ul {
+    margin-top: 0.75rem;
+}
 .tsd-navigation.primary a {
     padding: 0.75rem 0.5rem;
     margin: 0;
@@ -796,15 +800,11 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     padding-top: 20px;
 }
 
-.tsd-navigation.secondary {
-    top: calc(0.5rem + 40px);
-    transition: 0.3s;
-}
 .tsd-navigation.secondary.tsd-navigation--toolbar-hide {
     max-height: calc(100vh - 1rem);
     top: 0.5rem;
 }
-.tsd-navigation.secondary ul {
+.tsd-navigation.secondary > ul {
     padding-right: 0.5rem;
     transition: opacity 0.2s;
 }
@@ -864,11 +864,6 @@ a.tsd-index-link {
 }
 .tsd-index-accordion .tsd-accordion-summary svg {
     margin-right: 0.25rem;
-    transform: rotate(-90deg);
-    transition: 0.3s transform ease;
-}
-.tsd-index-accordion[open] .tsd-accordion-summary svg {
-    transform: rotate(0deg);
 }
 .tsd-index-content > :not(:first-child) {
     margin-top: 0.75rem;
@@ -890,15 +885,26 @@ a.tsd-index-link {
 
 @media (min-width: 1024px) {
     .menu-sticky-wrap {
-        position: static;
-    }
-    .tsd-navigation.secondary {
-        max-height: calc(100vh - 1rem);
         position: sticky;
-        overflow: auto;
+        height: 94vh;
+        right: 0;
+        padding-top: 1rem;
+        top: 3rem;
+        transition: 0.3s ease-in-out;
+        transition-property: top, padding-top, height;
+        overflow-y: auto;
     }
     .col-menu .tsd-navigation:not(:last-child) {
-        padding-bottom: 1.5rem;
+        padding-bottom: 1.75rem;
+    }
+    .col-menu.menu-sticky-wrap {
+        display: flex;
+        flex-direction: column;
+    }
+    .col-menu--hide {
+        top: 1rem;
+        height: calc(100vh - 2rem);
+        padding: 0 1rem;
     }
 }
 
@@ -1132,11 +1138,10 @@ ul.tsd-type-parameter-list h5 {
     top: 0;
     left: 0;
     width: 100%;
-    height: 40px;
     color: var(--color-text);
     background: var(--color-background-secondary);
     border-bottom: 1px var(--color-accent) solid;
-    transition: transform 0.3s linear;
+    transition: transform 0.3s ease-in-out;
 }
 .tsd-page-toolbar a {
     color: var(--color-text);
@@ -1211,7 +1216,9 @@ img {
 }
 
 .tsd-anchor-icon {
-    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.5rem;
     vertical-align: middle;
     color: var(--color-text);
 }
@@ -1224,4 +1231,24 @@ img {
 
 .tsd-anchor-link:hover > .tsd-anchor-icon svg {
     visibility: visible;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) var(--color-icon-background);
+}
+
+*::-webkit-scrollbar {
+    width: 0.75rem;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--color-icon-background);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--color-accent);
+    border-radius: 999rem;
+    border: 0.25rem solid var(--color-icon-background);
+}
 }

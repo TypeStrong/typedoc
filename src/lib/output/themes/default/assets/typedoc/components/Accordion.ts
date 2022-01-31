@@ -18,39 +18,73 @@ export class Accordion extends Component {
     private heading: HTMLElement;
 
     /**
+     * The chevron icon next to this accordion's heading.
+     */
+    private icon: SVGElement;
+
+    /**
      * The key by which to store this accordion's state in localStorage.
      */
     private readonly key: string;
-
-    /**
-     * The body to display when the accordion is expanded.
-     */
-    private body: HTMLElement;
 
     /**
      * The ongoing animation, if there is one.
      */
     private animation?: Animation;
 
+    /**
+     * The accordion's height when collapsed.
+     */
+    private collapsedHeight!: string;
+
+    /**
+     * The accordion's height when expanded.
+     */
+    private expandedHeight!: string;
+
     constructor(options: IComponentOptions) {
         super(options);
-        this.heading = this.el.querySelectorAll<HTMLElement>(
-            ".tsd-accordion-summary"
-        )[0];
-        this.body = this.el.querySelectorAll<HTMLElement>(
-            ".tsd-accordion-details"
-        )[0];
-        this.key = `tsd-accordion-${this.heading.textContent
-            .replace(/\s+/g, "-")
+
+        this.calculateHeights();
+        this.heading = this.el.querySelector(".tsd-accordion-summary")!;
+        this.icon = this.heading.querySelector("svg")!;
+        this.key = `tsd-accordion-${this.heading
+            .textContent!.replace(/\s+/g, "-")
             .toLowerCase()}`;
 
         if (this.useLocalStorage) {
             this.setLocalStorage(this.fromLocalStorage(), true);
         }
-
         this.heading.addEventListener("click", (e: MouseEvent) =>
             this.toggleVisibility(e)
         );
+        this.icon.style.transform = this.getIconRotation();
+    }
+
+    /**
+     * The transform that should be applied to the chevron based on the accordion's state.
+     */
+    private getIconRotation(open = this.el.open) {
+        return `rotate(${open ? 0 : -90}deg)`;
+    }
+
+    /**
+     * Calculates the accordion's expanded and collapsed heights.
+     *
+     * @returns The accordion's expanded and collapsed heights.
+     */
+    private calculateHeights() {
+        const isOpen = this.el.open;
+        this.el.style.marginLeft = "-9999px";
+        this.el.open = true;
+        this.expandedHeight = this.el.offsetHeight + "px";
+        this.el.open = false;
+        this.collapsedHeight = this.el.offsetHeight + "px";
+        this.el.open = isOpen;
+        this.el.style.height = isOpen
+            ? this.expandedHeight
+            : this.collapsedHeight;
+        this.el.style.marginLeft = "";
     }
 
     /**
@@ -68,27 +102,24 @@ export class Accordion extends Component {
     }
 
     /**
-     * Expand the accordion, calculating full height for a smooth animation.
+     * Expand the accordion.
      */
-    private expand() {
-        const currentHeight = `${this.el.offsetHeight}px`;
-        this.el.style.height = currentHeight;
+    private expand(animate = true) {
         this.el.open = true;
-        window.requestAnimationFrame(() => {
-            const fullHeight = `${
-                this.heading.offsetHeight + this.body.offsetHeight
-            }px`;
-            this.animate(currentHeight, fullHeight, true);
+        this.animate(this.collapsedHeight, this.expandedHeight, {
+            opening: true,
+            duration: animate ? 300 : 0,
         });
     }
 
     /**
      * Collapse the accordion.
      */
-    private collapse() {
-        const currentHeight = `${this.el.offsetHeight}px`;
-        const collapsedHeight = `${this.heading.offsetHeight}px`;
-        this.animate(currentHeight, collapsedHeight, false);
+    private collapse(animate = true) {
+        this.animate(this.expandedHeight, this.collapsedHeight, {
+            opening: false,
+            duration: animate ? 300 : 0,
+        });
     }
 
     /**
@@ -97,23 +128,37 @@ export class Accordion extends Component {
      * @param startHeight  Height to begin at.
      * @param endHeight    Height to end at.
      * @param isOpening    Whether the accordion is opening or closing.
+     * @param duration     The duration of the animation.
      */
     private animate(
         startHeight: string,
         endHeight: string,
-        isOpening: boolean
+        { opening, duration = 300 }: { opening: boolean; duration?: number }
     ) {
-        if (this.animation) this.animation.cancel();
-
+        if (this.animation) return;
+        const animationOptions = { duration, easing: "ease" };
         this.animation = this.el.animate(
             {
                 height: [startHeight, endHeight],
             },
-            { duration: 300, easing: "ease" }
+            animationOptions
         );
+        this.icon
+            .animate(
+                {
+                    transform: [
+                        this.icon.style.transform,
+                        this.getIconRotation(opening),
+                    ],
+                },
+                animationOptions
+            )
+            .addEventListener("finish", () => {
+                this.icon.style.transform = this.getIconRotation(opening);
+            });
 
         this.animation.addEventListener("finish", () =>
-            this.animationEnd(isOpening, endHeight)
+            this.animationEnd(opening)
         );
     }
 
@@ -121,12 +166,11 @@ export class Accordion extends Component {
      * Reset values upon animation end.
      *
      * @param isOpen  Whether the accordion is now open.
-     * @param height  The element's new height.
      */
-    private animationEnd(isOpen: boolean, height: string) {
+    private animationEnd(isOpen: boolean) {
         this.el.open = isOpen;
         this.animation = undefined;
-        this.el.style.height = height;
+        this.el.style.height = "auto";
         this.el.style.overflow = "visible";
 
         this.setLocalStorage(isOpen);
@@ -153,13 +197,16 @@ export class Accordion extends Component {
             window.localStorage[this.key] = value ? "true" : "false";
         }
         this.el.open = value;
-        this.handleValueChange();
+        this.handleValueChange(force);
     }
 
     /**
      * Synchronize DOM based on stored value.
+     *
+     * @param force  Whether to force an animation.
      */
-    private handleValueChange(): void {
-        this.fromLocalStorage() ? this.expand() : this.collapse();
+    private handleValueChange(force: boolean = false): void {
+        if (this.fromLocalStorage() === this.el.open && !force) return;
+        this.fromLocalStorage() ? this.expand(false) : this.collapse(false);
     }
 }

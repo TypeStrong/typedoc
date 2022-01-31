@@ -30,13 +30,14 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             <script>
                 <Raw html='document.body.classList.add(localStorage.getItem("tsd-theme") || "os")' />
             </script>
-            {context.header(props)}
+            {context.toolbar(props)}
 
             <div class="container container-main">
-                <div class="row">
-                    <div class="col-8 col-content">{props.template(props)}</div>
-                    <div class="col-4 col-menu menu-sticky-wrap menu-highlight">{context.navigation(props)}</div>
+                <div class="col-8 col-content">
+                    {context.header(props)}
+                    {props.template(props)}
                 </div>
+                <div class="col-4 col-menu menu-sticky-wrap menu-highlight">{context.navigation(props)}</div>
             </div>
 
             {context.footer()}
