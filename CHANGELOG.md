@@ -20,6 +20,30 @@
 -   Fixed off by one error in warnings for types referenced but not included in the documentation.
 -   TypeDoc will no longer render a `Type Parameters` heading if there are no type parameters in some cases.
 
+## v0.22.11 (2022-01-18)
+
+### Features
+
+-   Added `--validation.notDocumented` option to warn on items that are not documented, #1817.
+-   Added new `cname` option for GitHub Pages custom domain support, #1803.
+-   `ReferenceType`s which reference an external symbol will now include `qualifiedName` and `package` in their serialized JSON.
+-   Added clickable anchor link for member titles, #1842.
+
+### Bug Fixes
+
+-   Fixed line height of `h1` and `h2` elements being too low, #1796.
+-   Code blocks in the light theme will no longer have the same background as the rest of the page, #1836.
+-   Symbol names passed to `addUnknownSymbolResolver` will now be correctly given the qualified name to the symbol being referenced, #1832.
+-   The search index will now be written as JSON, reducing load times for large projects, #1825.
+
+### Thanks!
+
+-   @adeniszczyc
+-   @dragomirtitian
+-   @matteobruni
+-   @srmagura
+-   @stefanobaghino-da
+
 ## v0.22.10 (2021-11-25)
 
 ### Features

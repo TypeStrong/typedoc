@@ -106,6 +106,9 @@ export class JavascriptIndexPlugin extends RendererComponent {
             index,
         });
 
-        writeFileSync(jsonFileName, `window.searchData = ${jsonData}`);
+        writeFileSync(
+            jsonFileName,
+            `window.searchData = JSON.parse(${JSON.stringify(jsonData)});`
+        );
     }
 }

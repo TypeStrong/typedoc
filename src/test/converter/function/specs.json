@@ -417,6 +417,8 @@
                         "name": "T"
                       }
                     ],
+                    "qualifiedName": "Iterable",
+                    "package": "typescript",
                     "name": "Iterable"
                   }
                 }
@@ -518,6 +520,8 @@
                                 "name": "T"
                               }
                             ],
+                            "qualifiedName": "Iterable",
+                            "package": "typescript",
                             "name": "Iterable"
                           }
                         }
@@ -846,6 +850,8 @@
                           },
                           "type": {
                             "type": "reference",
+                            "qualifiedName": "Object",
+                            "package": "typescript",
                             "name": "Object"
                           }
                         },
@@ -982,6 +988,8 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
+                            "qualifiedName": "Object",
+                            "package": "typescript",
                             "name": "Object"
                           }
                         },
@@ -1094,6 +1102,8 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
+                            "qualifiedName": "Object",
+                            "package": "typescript",
                             "name": "Object"
                           }
                         },
@@ -1455,6 +1465,8 @@
                   },
                   "type": {
                     "type": "reference",
+                    "qualifiedName": "Object",
+                    "package": "typescript",
                     "name": "Object"
                   }
                 }
@@ -2086,6 +2098,8 @@
                   },
                   "type": {
                     "type": "reference",
+                    "qualifiedName": "Object",
+                    "package": "typescript",
                     "name": "Object"
                   }
                 }

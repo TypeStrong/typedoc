@@ -1,6 +1,7 @@
 import type { Type } from "../types";
-import { Reflection, ReflectionKind } from "./abstract";
+import { Reflection } from "./abstract";
 import type { DeclarationReflection } from "./declaration";
+import { ReflectionKind } from "./kind";
 
 export class TypeParameterReflection extends Reflection {
     override parent?: DeclarationReflection;

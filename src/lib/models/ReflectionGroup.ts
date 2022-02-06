@@ -1,4 +1,4 @@
-import type { ReflectionKind } from "./reflections/abstract";
+import type { ReflectionKind } from "./reflections/kind";
 import type { ReflectionCategory } from "./ReflectionCategory";
 import type { DeclarationReflection } from ".";
 

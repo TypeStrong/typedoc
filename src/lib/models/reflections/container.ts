@@ -1,12 +1,8 @@
-import {
-    Reflection,
-    ReflectionKind,
-    TraverseCallback,
-    TraverseProperty,
-} from "./abstract";
+import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
 import type { ReflectionCategory } from "../ReflectionCategory";
 import type { ReflectionGroup } from "../ReflectionGroup";
 import type { DeclarationReflection } from "./declaration";
+import type { ReflectionKind } from "./kind";
 
 export class ContainerReflection extends Reflection {
     /**

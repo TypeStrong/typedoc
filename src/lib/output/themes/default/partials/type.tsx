@@ -255,7 +255,7 @@ const typeRenderers: {
                 name = renderUniquePath(context, reflection);
             }
         } else {
-            const externalUrl = context.attemptExternalResolution(type.getSymbol());
+            const externalUrl = context.attemptExternalResolution(type);
             if (externalUrl) {
                 name = (
                     <a href={externalUrl} class="tsd-signature-type external" target="_blank">

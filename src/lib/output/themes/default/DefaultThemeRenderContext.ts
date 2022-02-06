@@ -1,6 +1,5 @@
-import type * as ts from "typescript";
 import type { RendererHooks } from "../..";
-import type { Reflection } from "../../../models";
+import type { ReferenceType, Reflection } from "../../../models";
 import type { Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
@@ -54,8 +53,8 @@ export class DefaultThemeRenderContext {
         return md ? this.theme.markedPlugin.parseMarkdown(md) : "";
     };
 
-    attemptExternalResolution = (symbol: ts.Symbol | undefined) => {
-        return this.theme.owner.attemptExternalResolution(symbol);
+    attemptExternalResolution = (type: ReferenceType) => {
+        return this.theme.owner.attemptExternalResolution(type);
     };
 
     reflectionTemplate = bind(reflectionTemplate, this);

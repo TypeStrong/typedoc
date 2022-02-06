@@ -486,6 +486,8 @@
           },
           "type": {
             "type": "reference",
+            "qualifiedName": "Object",
+            "package": "typescript",
             "name": "Object"
           }
         },

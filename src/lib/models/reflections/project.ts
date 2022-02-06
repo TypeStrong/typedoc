@@ -1,5 +1,5 @@
 import { SourceFile, SourceDirectory } from "../sources/index";
-import { Reflection, ReflectionKind, TraverseProperty } from "./abstract";
+import { Reflection, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import { splitUnquotedString } from "./utils";
 import { ReferenceReflection } from "./reference";
@@ -10,6 +10,7 @@ import { IntrinsicType } from "../types";
 import type { TypeParameterReflection } from "./type-parameter";
 import { removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
+import { ReflectionKind } from "./kind";
 
 /**
  * A reflection that represents the root of the project.

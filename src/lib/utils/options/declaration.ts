@@ -3,6 +3,7 @@ import type { LogLevel } from "../loggers";
 import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point";
+import type { ReflectionKind } from "../../models/reflections/kind";
 
 export const EmitStrategy = {
     true: true, // Alias for both, for backwards compatibility until 0.23
@@ -91,6 +92,7 @@ export interface TypeDocOptionMap {
     defaultCategory: string;
     categoryOrder: string[];
     categorizeByGroup: boolean;
+    cname: string;
     sort: SortStrategy[];
     gitRevision: string;
     gitRemote: string;
@@ -115,6 +117,7 @@ export interface TypeDocOptionMap {
     /** @deprecated use validation.invalidLink */
     listInvalidSymbolLinks: boolean;
     validation: ValidationOptions;
+    requiredToBeDocumented: (keyof typeof ReflectionKind)[];
 }
 
 export type ValidationOptions = {
@@ -127,6 +130,10 @@ export type ValidationOptions = {
      * If set, TypeDoc will produce warnings about \{&amp;link\} tags which will produce broken links.
      */
     invalidLink: boolean;
+    /**
+     * If set, TypeDoc will produce warnings about declarations that do not have doc comments
+     */
+    notDocumented: boolean;
 };
 
 /**
