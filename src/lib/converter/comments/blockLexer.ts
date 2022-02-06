@@ -328,7 +328,7 @@ function* lexBlockComment2(
     }
 
     function findEndOfString(pos: number): number {
-        let endOfString = file[pos];
+        const endOfString = file[pos];
         pos++;
         while (pos < end) {
             if (file[pos] === endOfString) {

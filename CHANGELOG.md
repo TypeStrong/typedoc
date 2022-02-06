@@ -752,7 +752,7 @@
 -   Missing comments on variable functions, closes #1421
 -   Resolve type parameters in concrete subclasses
 -   Use entryPoints to search for readme
--   Only create extra programs when dealing with solution style tsconfigs
+-   Only create extra programs when dealing with solution style tsconfig.json files
 -   A typo in description of DefaultTheme.getMapping (#1416)
 -   Correct handling of arrays in generic constraints, closes #1408
 -   Type converters threw on older TS versions
@@ -762,7 +762,7 @@
 -   isExternal flag wasn't set properly
 -   JSON schema had incorrect value types, closes #1389
 -   Hidden module-namespaces, closes #1396
--   Some issues with inheritence
+-   Some issues with inheritance
 -   We pick up all properties now
 -   Support for specify a directory as an entry point
 -   Lint
@@ -881,7 +881,7 @@
 -   Missed a test configuration update
 -   Rename external modules to modules, closes #109
 -   Check for compiler errors before converting
--   Moved @types/minimatch dependency to devDepencencies (#1206)
+-   Moved @types/minimatch dependency to devDependencies (#1206)
 -   Plugin resolution for relative paths (#1194), closes #1188
 
 ### Thanks!
