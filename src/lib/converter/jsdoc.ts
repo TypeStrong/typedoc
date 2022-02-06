@@ -12,6 +12,7 @@ import {
     SignatureReflection,
 } from "../models";
 import { flatMap } from "../utils/array";
+import { getJsDocComment } from "./comments";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
 import {
@@ -38,6 +39,11 @@ export function convertJsDocAlias(
         symbol,
         exportSymbol
     );
+    reflection.comment = getJsDocComment(
+        declaration,
+        context.config,
+        context.logger
+    );
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
@@ -63,6 +69,11 @@ export function convertJsDocCallback(
         symbol,
         exportSymbol
     );
+    alias.comment = getJsDocComment(
+        declaration,
+        context.config,
+        context.logger
+    );
     context.finalizeDeclarationReflection(alias);
 
     const ac = context.withScope(alias);
@@ -81,6 +92,14 @@ function convertJsDocInterface(
         ReflectionKind.Interface,
         symbol,
         exportSymbol
+    );
+    if (reflection.name === "ColumnType") {
+        console.log(declaration);
+    }
+    reflection.comment = getJsDocComment(
+        declaration,
+        context.config,
+        context.logger
     );
     context.finalizeDeclarationReflection(reflection);
 

@@ -90,8 +90,13 @@ export function getSignatureComment(
     );
 }
 
-export function getJsDocTagComment(
-    declaration: ts.JSDocPropertyLikeTag,
+export function getJsDocComment(
+    declaration:
+        | ts.JSDocPropertyLikeTag
+        | ts.JSDocCallbackTag
+        | ts.JSDocTypedefTag
+        | ts.JSDocTemplateTag
+        | ts.JSDocEnumTag,
     config: CommentParserConfig,
     logger: Logger
 ): Comment | undefined {
@@ -118,18 +123,45 @@ export function getJsDocTagComment(
     )!;
 
     // And pull out the tag we actually care about.
-    const tag = comment.getIdentifiedTag(
-        declaration.name.getText(),
-        `@${declaration.tagName.text}`
-    );
+    if (ts.isJSDocEnumTag(declaration)) {
+        return new Comment(comment.getTag("@enum")?.content);
+    }
+
+    if (
+        ts.isJSDocTemplateTag(declaration) &&
+        declaration.comment &&
+        declaration.typeParameters.length > 1
+    ) {
+        // We could just put the same comment on everything, but due to how comment parsing works,
+        // we'd have to search for any @template with a name starting with the first type parameter's name
+        // which feels horribly hacky.
+        logger.warn(
+            `TypeDoc does not support multiple type parameters defined in a single @template tag with a comment.`,
+            declaration
+        );
+        return;
+    }
+
+    let name: string | undefined;
+    if (ts.isJSDocTemplateTag(declaration)) {
+        // This isn't really ideal.
+        name = declaration.typeParameters[0].name.text;
+    } else {
+        name = declaration.name?.getText();
+    }
+
+    if (!name) {
+        return;
+    }
+
+    const tag = comment.getIdentifiedTag(name, `@${declaration.tagName.text}`);
 
     if (!tag) {
         logger.error(
-            `Failed to find JSDoc tag for ${declaration.name.getText()} after parsing comment, please file a bug report with the comment at ${
-                file.fileName
-            }:${ts.getLineAndCharacterOfPosition(file, parent.pos).line + 1}`
+            `Failed to find JSDoc tag for ${name} after parsing comment, please file a bug report.`,
+            declaration
         );
     } else {
-        return new Comment(Comment.cloneDisplayParts(tag.content));
+        return new Comment(tag.content);
     }
 }

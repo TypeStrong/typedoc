@@ -28,7 +28,7 @@ function expectWarning(
 
     let sawWarning = false;
     const regex =
-        /(.*?), defined at (.*?):\d+, is referenced by (.*?) but not included in the documentation\./;
+        /(.*?) is referenced by (.*?) but not included in the documentation\./;
 
     class LoggerCheck extends Logger {
         override log(message: string, level: LogLevel) {
@@ -38,11 +38,6 @@ function expectWarning(
                 equal(match[1], typeName, "Missing type name is different.");
                 equal(
                     match[2],
-                    `dist/test/converter2/validation/${file}`,
-                    "Referencing file is different."
-                );
-                equal(
-                    match[3],
                     referencingName,
                     "Referencing name is different"
                 );

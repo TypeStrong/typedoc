@@ -15,7 +15,7 @@ import type { Context } from "../context";
 import { ConverterEvents } from "../converter-events";
 import { convertDefaultValue } from "../convert-expression";
 import { removeUndefined } from "../utils/reflections";
-import { getJsDocTagComment, getSignatureComment } from "../comments";
+import { getJsDocComment, getSignatureComment } from "../comments";
 
 export function createSignature(
     context: Context,
@@ -118,7 +118,7 @@ function convertParameters(
             sigRef
         );
         if (declaration && ts.isJSDocParameterTag(declaration)) {
-            paramRefl.comment = getJsDocTagComment(
+            paramRefl.comment = getJsDocComment(
                 declaration,
                 context.config,
                 context.logger
@@ -185,7 +185,7 @@ export function convertParameterNodes(
             sigRef
         );
         if (ts.isJSDocParameterTag(param)) {
-            paramRefl.comment = getJsDocTagComment(
+            paramRefl.comment = getJsDocComment(
                 param,
                 context.config,
                 context.logger
@@ -268,6 +268,15 @@ export function convertTypeParameterNodes(
             context.scope
         );
         context.registerReflection(paramRefl, param.symbol);
+
+        if (ts.isJSDocTemplateTag(param.parent)) {
+            paramRefl.comment = getJsDocComment(
+                param.parent,
+                context.config,
+                context.logger
+            );
+        }
+
         context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
 
         return paramRefl;

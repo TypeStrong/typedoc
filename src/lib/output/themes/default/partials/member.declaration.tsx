@@ -1,6 +1,6 @@
 import { DeclarationReflection, ReflectionType } from "../../../../models";
 import { JSX } from "../../../../utils";
-import { renderTypeParametersSignature, wbr } from "../../lib";
+import { hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const memberDeclaration = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
@@ -28,7 +28,7 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
 
         {context.comment(props)}
 
-        {!!props.typeParameters && (
+        {hasTypeParameters(props) && (
             <>
                 <h4 class="tsd-type-parameters-title">Type parameters</h4>
                 {context.typeParameters(props.typeParameters)}

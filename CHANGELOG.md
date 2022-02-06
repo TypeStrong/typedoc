@@ -2,7 +2,6 @@
 
 ### Currently Broken
 
--   Getting comments properly from interfaces & type aliases declared with `@typedef`, `@callback`.
 -   Comment rendering
 
 ### Breaking Changes
@@ -19,6 +18,7 @@
 ### Bug Fixes
 
 -   Fixed off by one error in warnings for types referenced but not included in the documentation.
+-   TypeDoc will no longer render a `Type Parameters` heading if there are no type parameters in some cases.
 
 ## v0.22.10 (2021-11-25)
 

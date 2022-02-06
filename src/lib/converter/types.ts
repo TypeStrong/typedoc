@@ -990,15 +990,9 @@ const jsDocNonNullableTypeConverter: TypeConverter<ts.JSDocNonNullableType> = {
 function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
     if ("kind" in nodeOrType) {
         const kindName = ts.SyntaxKind[nodeOrType.kind];
-        const { line, character } = ts.getLineAndCharacterOfPosition(
-            nodeOrType.getSourceFile(),
-            nodeOrType.pos
-        );
         context.logger.warn(
-            `Failed to convert type node with kind: ${kindName} and text ${nodeOrType.getText()}. Please report a bug.\n\t` +
-                `${nodeOrType.getSourceFile().fileName}:${
-                    line + 1
-                }:${character}`
+            `Failed to convert type node with kind: ${kindName} and text ${nodeOrType.getText()}. Please report a bug.`,
+            nodeOrType
         );
         return new UnknownType(nodeOrType.getText());
     } else {

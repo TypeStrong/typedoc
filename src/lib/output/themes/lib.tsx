@@ -74,7 +74,7 @@ export function hasTypeParameters(
     reflection: Reflection
 ): reflection is Reflection & { typeParameters: TypeParameterReflection[] } {
     if (reflection instanceof DeclarationReflection || reflection instanceof SignatureReflection) {
-        return reflection.typeParameters != null;
+        return reflection.typeParameters != null && reflection.typeParameters.length > 0;
     }
     return false;
 }

@@ -1,6 +1,10 @@
 import * as ts from "typescript";
 import { ReflectionKind } from "../../models";
 
+// Note: This does NOT include JSDoc syntax kinds. This is important!
+// Comments from @typedef and @callback tags are handled specially by
+// the JSDoc converter because we only want part of the comment when
+// getting them.
 const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.Project]: [ts.SyntaxKind.SourceFile],
     [ReflectionKind.Module]: [ts.SyntaxKind.SourceFile],
@@ -21,16 +25,12 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     // Intentionally nothing here, comments will be placed on signatures.
     [ReflectionKind.Function]: [],
     [ReflectionKind.Class]: [ts.SyntaxKind.ClassDeclaration],
-    [ReflectionKind.Interface]: [
-        ts.SyntaxKind.InterfaceDeclaration,
-        ts.SyntaxKind.JSDocTypedefTag,
-    ],
+    [ReflectionKind.Interface]: [ts.SyntaxKind.InterfaceDeclaration],
     // Intentionally nothing here, comments will be placed on signatures.
     [ReflectionKind.Constructor]: [],
     [ReflectionKind.Property]: [
         ts.SyntaxKind.PropertyDeclaration,
         ts.SyntaxKind.PropertySignature,
-        ts.SyntaxKind.JSDocPropertyTag,
         ts.SyntaxKind.BinaryExpression,
     ],
     // Intentionally nothing here, comments will be placed on signatures.
@@ -56,10 +56,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.GetSignature]: [ts.SyntaxKind.GetAccessor],
     [ReflectionKind.SetSignature]: [ts.SyntaxKind.SetAccessor],
     [ReflectionKind.ObjectLiteral]: [ts.SyntaxKind.ObjectLiteralExpression],
-    [ReflectionKind.TypeAlias]: [
-        ts.SyntaxKind.TypeAliasDeclaration,
-        ts.SyntaxKind.JSDocTypedefTag,
-    ],
+    [ReflectionKind.TypeAlias]: [ts.SyntaxKind.TypeAliasDeclaration],
     [ReflectionKind.Event]: [], /// this needs to go away
     [ReflectionKind.Reference]: [
         ts.SyntaxKind.NamespaceExport,

@@ -88,6 +88,14 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "docs for interface"
+              }
+            ]
+          },
           "children": [
             {
               "id": 19,
@@ -247,13 +255,29 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "comment on alias"
+              }
+            ]
+          },
           "typeParameter": [
             {
               "id": 43,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "comment on template"
+                  }
+                ]
+              }
             }
           ],
           "type": {
@@ -322,6 +346,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "docs for alias"
+              }
+            ]
+          },
           "type": {
             "type": "intersection",
             "types": [
@@ -398,6 +430,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "even though in the same comment block"
+              }
+            ]
+          },
           "type": {
             "type": "reflection",
             "declaration": {
@@ -406,6 +446,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "even though in the same comment block"
+                  }
+                ]
+              },
               "signatures": [
                 {
                   "id": 29,
@@ -428,6 +476,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "type alias since it doesn't have a property tag"
+              }
+            ]
+          },
           "type": {
             "type": "reference",
             "name": "Object"
@@ -492,6 +548,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "docs for alias"
+              }
+            ]
+          },
           "type": {
             "type": "union",
             "types": [
@@ -512,6 +576,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "enum comment"
+              }
+            ]
+          },
           "type": {
             "type": "reflection",
             "declaration": {
@@ -520,6 +592,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "enum comment"
+                  }
+                ]
+              },
               "children": [
                 {
                   "id": 13,

@@ -1,7 +1,7 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import { ReflectionType, SignatureReflection } from "../../../../models";
-import { renderFlags } from "../../lib";
+import { hasTypeParameters, renderFlags } from "../../lib";
 
 export const memberSignatureBody = (
     context: DefaultThemeRenderContext,
@@ -12,7 +12,7 @@ export const memberSignatureBody = (
         {!hideSources && context.memberSources(props)}
         {context.comment(props)}
 
-        {!!props.typeParameters && (
+        {hasTypeParameters(props) && (
             <>
                 <h4 class="tsd-type-parameters-title">Type parameters</h4>
                 {context.typeParameters(props.typeParameters)}
