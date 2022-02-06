@@ -487,5 +487,12 @@
         1
       ]
     }
+  ],
+  "sources": [
+    {
+      "fileName": "inherit-param-doc.ts",
+      "line": 1,
+      "character": 0
+    }
   ]
 }

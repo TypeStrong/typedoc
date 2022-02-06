@@ -20,7 +20,7 @@ export function getConverterApp() {
             logger: "none",
             name: "typedoc",
             excludeExternals: true,
-            disableSources: true,
+            disableSources: false,
             tsconfig: join(getConverterBase(), "tsconfig.json"),
             externalPattern: ["**/node_modules/**"],
             plugin: [],

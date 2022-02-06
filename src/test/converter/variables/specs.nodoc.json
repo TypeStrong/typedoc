@@ -445,7 +445,14 @@
                     "text": "A typed literal without an initializer."
                   }
                 ]
-              }
+              },
+              "sources": [
+                {
+                  "fileName": "literal.ts",
+                  "line": 27,
+                  "character": 24
+                }
+              ]
             }
           }
         }

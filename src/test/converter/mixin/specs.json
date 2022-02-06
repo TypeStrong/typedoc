@@ -899,6 +899,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 9,
+              "character": 41
+            }
+          ],
           "signatures": [
             {
               "id": 8,
@@ -977,6 +984,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 4,
+              "character": 35
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -1455,6 +1469,13 @@
         33,
         51
       ]
+    }
+  ],
+  "sources": [
+    {
+      "fileName": "mixin.ts",
+      "line": 4,
+      "character": 0
     }
   ]
 }

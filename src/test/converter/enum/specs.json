@@ -300,5 +300,12 @@
         1
       ]
     }
+  ],
+  "sources": [
+    {
+      "fileName": "enum.ts",
+      "line": 4,
+      "character": 0
+    }
   ]
 }

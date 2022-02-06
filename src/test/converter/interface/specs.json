@@ -275,6 +275,13 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 15,
+                  "character": 24
+                }
+              ],
               "indexSignature": {
                 "id": 26,
                 "name": "__index",
@@ -875,6 +882,13 @@
                   "kind": 512,
                   "kindString": "Constructor",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 25,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 51,

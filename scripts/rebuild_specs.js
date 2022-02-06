@@ -12,7 +12,7 @@ app.options.addReader(new TypeDoc.TSConfigReader());
 app.bootstrap({
     name: "typedoc",
     excludeExternals: true,
-    disableSources: true,
+    disableSources: false,
     tsconfig: path.join(
         __dirname,
         "..",

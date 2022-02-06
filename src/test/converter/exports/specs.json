@@ -25,6 +25,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 5,
+              "character": 22
+            }
+          ],
           "target": 29
         },
         {
@@ -33,6 +40,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 14,
+              "character": 12
+            }
+          ],
           "target": 29
         },
         {
@@ -41,6 +55,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 5,
+              "character": 27
+            }
+          ],
           "target": 36
         },
         {
@@ -49,6 +70,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 42,
+              "character": 12
+            }
+          ],
           "target": 34
         },
         {
@@ -65,6 +93,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 13,
+              "character": 14
+            }
+          ],
           "target": 31
         },
         {
@@ -73,6 +108,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 5,
+              "character": 14
+            }
+          ],
           "target": 30
         },
         {
@@ -462,6 +504,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 42,
+              "character": 12
+            }
+          ],
           "target": 29
         },
         {
@@ -470,6 +519,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 13,
+              "character": 14
+            }
+          ],
           "target": 30
         },
         {
@@ -478,6 +534,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 18,
+              "character": 14
+            }
+          ],
           "target": 30
         },
         {

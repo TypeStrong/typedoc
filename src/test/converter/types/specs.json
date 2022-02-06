@@ -617,6 +617,13 @@
                         37
                       ]
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "parens.ts",
+                      "line": 3,
+                      "character": 22
+                    }
                   ]
                 }
               }
@@ -1088,6 +1095,13 @@
                     57,
                     58
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 3,
+                  "character": 16
                 }
               ]
             }

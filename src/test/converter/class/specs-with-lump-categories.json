@@ -810,6 +810,13 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 27,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 27,
@@ -1127,6 +1134,13 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 80,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 43,
@@ -1624,6 +1638,13 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 130,
+                  "character": 25
+                }
+              ],
               "signatures": [
                 {
                   "id": 92,
@@ -1702,6 +1723,13 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 96,
@@ -1863,6 +1891,13 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 23,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 105,
@@ -2944,6 +2979,13 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 20,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 168,

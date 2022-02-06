@@ -1167,6 +1167,13 @@
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "literal.ts",
+                                  "line": 32,
+                                  "character": 16
+                                }
+                              ],
                               "signatures": [
                                 {
                                   "id": 42,
@@ -1258,6 +1265,13 @@
                             39
                           ]
                         }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 30,
+                          "character": 12
+                        }
                       ]
                     }
                   }
@@ -1276,6 +1290,13 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 29,
+                          "character": 12
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 36,
@@ -1315,6 +1336,13 @@
                     34,
                     33
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal.ts",
+                  "line": 27,
+                  "character": 24
                 }
               ]
             }

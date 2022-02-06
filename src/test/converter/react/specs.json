@@ -18,6 +18,13 @@
           "kind": 512,
           "kindString": "Constructor",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 20,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 6,
@@ -161,6 +168,13 @@
       "children": [
         1
       ]
+    }
+  ],
+  "sources": [
+    {
+      "fileName": "react.tsx",
+      "line": 2,
+      "character": 0
     }
   ]
 }

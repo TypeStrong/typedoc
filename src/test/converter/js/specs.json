@@ -185,6 +185,13 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 49,
+                  "character": 3
+                }
+              ],
               "signatures": [
                 {
                   "id": 46,
@@ -233,6 +240,13 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 27,
+                  "character": 3
+                }
+              ],
               "signatures": [
                 {
                   "id": 32,
@@ -309,6 +323,13 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 33,
+                  "character": 3
+                }
+              ],
               "signatures": [
                 {
                   "id": 35,
@@ -386,6 +407,13 @@
                         24
                       ]
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "index.js",
+                      "line": 22,
+                      "character": 13
+                    }
                   ]
                 }
               },
@@ -417,6 +445,13 @@
                       "children": [
                         26
                       ]
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "index.js",
+                      "line": 22,
+                      "character": 29
                     }
                   ]
                 }
@@ -454,6 +489,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 26,
+                  "character": 3
+                }
+              ],
               "signatures": [
                 {
                   "id": 29,
@@ -505,6 +547,13 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 39,
+                  "character": 3
+                }
+              ],
               "signatures": [
                 {
                   "id": 40,

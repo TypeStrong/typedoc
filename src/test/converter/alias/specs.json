@@ -141,6 +141,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "alias.ts",
+              "line": 4,
+              "character": 34
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -222,6 +229,13 @@
         1,
         7
       ]
+    }
+  ],
+  "sources": [
+    {
+      "fileName": "alias.ts",
+      "line": 4,
+      "character": 0
     }
   ]
 }
