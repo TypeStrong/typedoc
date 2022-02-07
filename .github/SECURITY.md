@@ -17,9 +17,6 @@ previous minor version relies completely on community pull requests.
 If you depend on the prior minor version of TypeDoc and want to submit a fix, submit a pull request
 to the `lts` branch. When merged, a new version will be automatically published with your patch.
 
-Be sure to include:
-
--   A line in `CHANGELOG.md` that notes what changed.
--   An update to the version field in `package.json`.
+Be sure to include an update to the version field in `package.json`.
 
 Note: Only pull requests which fix security vulnerabilities will be accepted. Additional features and bug fixes are out of scope for old versions.
