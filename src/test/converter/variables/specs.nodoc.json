@@ -73,6 +73,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 4,
+              "character": 13
+            }
+          ],
           "typeParameter": [
             {
               "id": 6,
@@ -135,6 +142,13 @@
                 10
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 19,
+              "character": 13
+            }
           ]
         },
         {
@@ -193,6 +207,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 24,
+              "character": 13
+            }
+          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -222,6 +243,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 9,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "array",
             "elementType": {
@@ -282,6 +310,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 14,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "reference",
             "id": 2,
@@ -314,6 +349,13 @@
             8
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "array.ts",
+          "line": 4,
+          "character": 0
+        }
       ]
     },
     {
@@ -329,6 +371,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 38,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 17,
@@ -373,6 +422,13 @@
             16
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "destructuring.ts",
+          "line": 4,
+          "character": 0
+        }
       ]
     },
     {
@@ -396,6 +452,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "literal.ts",
+              "line": 5,
+              "character": 6
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -411,7 +474,14 @@
                     "text": "An object literal."
                   }
                 ]
-              }
+              },
+              "sources": [
+                {
+                  "fileName": "literal.ts",
+                  "line": 5,
+                  "character": 22
+                }
+              ]
             }
           },
           "defaultValue": "..."
@@ -430,6 +500,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "literal.ts",
+              "line": 27,
+              "character": 11
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -465,6 +542,13 @@
             22,
             20
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "literal.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     }

@@ -509,8 +509,7 @@ function convertClassOrInterface(
             reflection
         );
         reflectionContext.addChild(constructMember);
-        // The symbol is already taken by the class.
-        context.registerReflection(constructMember, undefined);
+        context.registerReflection(constructMember, symbol);
 
         const ctors = staticType.getConstructSignatures();
 
@@ -519,13 +518,7 @@ function convertClassOrInterface(
             setModifiers(symbol, ctors[0].declaration, constructMember);
         }
 
-        context.trigger(
-            ConverterEvents.CREATE_DECLARATION,
-            constructMember,
-            ts.isClassDeclaration(classDeclaration)
-                ? classDeclaration.members.find(ts.isConstructorDeclaration)
-                : void 0
-        );
+        context.trigger(ConverterEvents.CREATE_DECLARATION, constructMember);
 
         const constructContext = reflectionContext.withScope(constructMember);
 
@@ -748,17 +741,9 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
             context.scope
         );
         context.addChild(constructMember);
-        context.registerReflection(constructMember, undefined);
+        context.registerReflection(constructMember, symbol);
 
-        context.trigger(
-            ConverterEvents.CREATE_DECLARATION,
-            constructMember,
-            // FIXME this isn't good enough.
-            context.converter.getNodesForSymbol(
-                symbol,
-                ReflectionKind.Constructor
-            )[0]
-        );
+        context.trigger(ConverterEvents.CREATE_DECLARATION, constructMember);
 
         const constructContext = context.withScope(constructMember);
 
@@ -807,12 +792,7 @@ function createAlias(
     context.addChild(ref);
     context.registerReflection(ref, symbol);
 
-    context.trigger(
-        ConverterEvents.CREATE_DECLARATION,
-        ref,
-        // FIXME this isn't good enough.
-        context.converter.getNodesForSymbol(symbol, ReflectionKind.Reference)[0]
-    );
+    context.trigger(ConverterEvents.CREATE_DECLARATION, ref);
 }
 
 function convertVariable(

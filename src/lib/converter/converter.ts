@@ -74,7 +74,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a declaration reflection.
-     * The listener will be given {@link Context}, {@link Reflection} and a `ts.Node?`.
+     * The listener will be given {@link Context} and a {@link DeclarationReflection}.
      * @event
      */
     static readonly EVENT_CREATE_DECLARATION =
@@ -82,7 +82,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a signature reflection.
-     * The listener will be given {@link Context}, {@link SignatureReflection} and a `ts.Node?`
+     * The listener will be given {@link Context}, {@link SignatureReflection} | {@link ProjectReflection} and a `ts.Node?`
      * @event
      */
     static readonly EVENT_CREATE_SIGNATURE = ConverterEvents.CREATE_SIGNATURE;
@@ -311,8 +311,7 @@ export class Converter extends ChildableComponent<
             context.project.registerReflection(context.project, symbol);
             context.trigger(
                 Converter.EVENT_CREATE_DECLARATION,
-                context.project,
-                node
+                context.project
             );
             moduleContext = context;
         } else {

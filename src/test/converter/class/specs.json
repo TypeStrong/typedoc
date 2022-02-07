@@ -44,6 +44,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 34,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -65,6 +72,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 40,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -79,6 +93,13 @@
                 "isPrivate": true,
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 59,
+                  "character": 23
+                }
+              ],
               "getSignature": [
                 {
                   "id": 10,
@@ -101,6 +122,13 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 46,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 16,
@@ -133,6 +161,13 @@
               "flags": {
                 "isProtected": true
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 52,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 18,
@@ -165,6 +200,13 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 54,
+                  "character": 12
+                }
+              ],
               "signatures": [
                 {
                   "id": 20,
@@ -205,6 +247,13 @@
                 19
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 29,
+              "character": 13
+            }
           ]
         },
         {
@@ -223,6 +272,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 5,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "literal",
             "value": "test"
@@ -245,6 +301,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 11,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "literal",
             "value": "test"
@@ -259,6 +322,13 @@
           "flags": {
             "isPrivate": true
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 17,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -291,6 +361,13 @@
           "flags": {
             "isProtected": true
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 23,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 5,
@@ -340,6 +417,13 @@
             4
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "access.ts",
+          "line": 5,
+          "character": 0
+        }
       ]
     },
     {
@@ -362,6 +446,13 @@
               "kind": 64,
               "kindString": "Function",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 108,
+                  "character": 20
+                }
+              ],
               "signatures": [
                 {
                   "id": 61,
@@ -392,6 +483,23 @@
               "children": [
                 60
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 61,
+              "character": 13
+            },
+            {
+              "fileName": "class.ts",
+              "line": 97,
+              "character": 17
+            },
+            {
+              "fileName": "class.ts",
+              "line": 104,
+              "character": 14
             }
           ]
         },
@@ -433,6 +541,13 @@
               "flags": {
                 "isAbstract": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 126,
+                  "character": 13
+                }
+              ],
               "signatures": [
                 {
                   "id": 89,
@@ -462,6 +577,13 @@
               "children": [
                 88
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 125,
+              "character": 22
             }
           ]
         },
@@ -499,6 +621,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 114,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -511,6 +640,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 115,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "boolean"
@@ -523,6 +659,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 116,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "boolean"
@@ -535,6 +678,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 117,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "boolean"
@@ -559,6 +709,13 @@
                 77,
                 78
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 113,
+              "character": 13
             }
           ]
         },
@@ -600,6 +757,13 @@
               "flags": {
                 "isAbstract": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 86,
+                  "character": 13
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -614,6 +778,13 @@
                 "isProtected": true,
                 "isAbstract": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 88,
+                  "character": 23
+                }
+              ],
               "signatures": [
                 {
                   "id": 67,
@@ -650,6 +821,13 @@
               "children": [
                 66
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 85,
+              "character": 22
             }
           ],
           "extendedBy": [
@@ -704,6 +882,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 92,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -722,6 +907,13 @@
               "flags": {
                 "isProtected": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 94,
+                  "character": 14
+                }
+              ],
               "signatures": [
                 {
                   "id": 73,
@@ -768,6 +960,13 @@
               "children": [
                 72
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 91,
+              "character": 13
             }
           ],
           "extendedTypes": [
@@ -856,6 +1055,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 17,
+                  "character": 12
+                }
+              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -880,6 +1086,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 12,
+                  "character": 11
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -901,6 +1114,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 22,
+                  "character": 11
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 22,
@@ -913,6 +1133,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 58,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 37,
@@ -943,6 +1170,13 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 48,
+                  "character": 12
+                }
+              ],
               "signatures": [
                 {
                   "id": 35,
@@ -973,6 +1207,13 @@
               "flags": {
                 "isProtected": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 41,
+                  "character": 14
+                }
+              ],
               "signatures": [
                 {
                   "id": 33,
@@ -1003,6 +1244,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 34,
+                  "character": 11
+                }
+              ],
               "signatures": [
                 {
                   "id": 31,
@@ -1033,6 +1281,13 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 53,
+                  "character": 11
+                }
+              ],
               "signatures": [
                 {
                   "id": 25,
@@ -1107,6 +1362,13 @@
                   ]
                 }
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 8,
+              "character": 13
             }
           ],
           "extendedBy": [
@@ -1256,6 +1518,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 80,
+                  "character": 47
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1269,6 +1538,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 80,
+                  "character": 66
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "any"
@@ -1290,6 +1566,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 12,
+                  "character": 11
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -1316,6 +1599,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 22,
+                  "character": 11
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 22,
@@ -1333,6 +1623,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 58,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 58,
@@ -1371,6 +1668,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 101,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 55,
@@ -1401,6 +1705,13 @@
               "flags": {
                 "isProtected": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 70,
+                  "character": 14
+                }
+              ],
               "signatures": [
                 {
                   "id": 51,
@@ -1441,6 +1752,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 65,
+                  "character": 11
+                }
+              ],
               "signatures": [
                 {
                   "id": 49,
@@ -1481,6 +1799,13 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 53,
+                  "character": 11
+                }
+              ],
               "signatures": [
                 {
                   "id": 41,
@@ -1544,6 +1869,23 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 61,
+              "character": 13
+            },
+            {
+              "fileName": "class.ts",
+              "line": 97,
+              "character": 17
+            },
+            {
+              "fileName": "class.ts",
+              "line": 104,
+              "character": 14
+            }
+          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -1596,6 +1938,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 122,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1618,6 +1967,13 @@
                 84
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 120,
+              "character": 13
+            }
           ]
         },
         {
@@ -1626,6 +1982,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 130,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -1634,13 +1997,6 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 130,
-                  "character": 25
-                }
-              ],
               "signatures": [
                 {
                   "id": 92,
@@ -1688,6 +2044,13 @@
           "children": [
             90
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "class.ts",
+          "line": 8,
+          "character": 0
         }
       ]
     },
@@ -1808,6 +2171,13 @@
               "flags": {
                 "isReadonly": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 61
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -1821,6 +2191,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 23
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1834,6 +2211,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 41
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1856,6 +2240,13 @@
                 100,
                 101
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "constructor-properties.ts",
+              "line": 4,
+              "character": 13
             }
           ],
           "extendedBy": [
@@ -2005,6 +2396,13 @@
               "flags": {
                 "isReadonly": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 27,
+                  "character": 17
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -2023,6 +2421,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 23
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2041,6 +2446,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 25,
+                  "character": 15
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2059,6 +2471,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 26,
+                  "character": 15
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2084,6 +2503,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "constructor-properties.ts",
+              "line": 16,
+              "character": 13
+            }
+          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -2101,6 +2527,13 @@
             94,
             103
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "constructor-properties.ts",
+          "line": 4,
+          "character": 0
         }
       ]
     },
@@ -2153,6 +2586,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "decorators.ts",
+                  "line": 13,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 132,
@@ -2191,6 +2631,13 @@
                 131
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "decorators.ts",
+              "line": 7,
+              "character": 13
+            }
           ]
         },
         {
@@ -2199,6 +2646,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "decorators.ts",
+              "line": 19,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 116,
@@ -2281,6 +2735,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "decorators.ts",
+              "line": 48,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 124,
@@ -2334,6 +2795,13 @@
                               }
                             ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "decorators.ts",
+                              "line": 49,
+                              "character": 4
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -2347,6 +2815,13 @@
                           "children": [
                             127
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "decorators.ts",
+                          "line": 48,
+                          "character": 46
                         }
                       ]
                     }
@@ -2368,6 +2843,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "decorators.ts",
+              "line": 32,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 121,
@@ -2431,6 +2913,13 @@
             120
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "decorators.ts",
+          "line": 4,
+          "character": 0
+        }
       ]
     },
     {
@@ -2484,6 +2973,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "events.ts",
+                  "line": 6,
+                  "character": 11
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -2506,6 +3002,13 @@
                 162
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "events.ts",
+              "line": 1,
+              "character": 13
+            }
           ]
         }
       ],
@@ -2516,6 +3019,13 @@
           "children": [
             161
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "events.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     },
@@ -2558,6 +3068,28 @@
               "kind": 8388608,
               "kindString": "Event",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 14,
+                  "character": 4
+                },
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 23,
+                  "character": 4
+                },
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 32,
+                  "character": 4
+                },
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 41,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 136,
@@ -2615,6 +3147,13 @@
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 14,
+                              "character": 31
+                            }
+                          ],
                           "signatures": [
                             {
                               "id": 140,
@@ -2706,6 +3245,13 @@
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 23,
+                              "character": 32
+                            }
+                          ],
                           "signatures": [
                             {
                               "id": 146,
@@ -2797,6 +3343,13 @@
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 32,
+                              "character": 35
+                            }
+                          ],
                           "signatures": [
                             {
                               "id": 152,
@@ -2888,6 +3441,13 @@
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 41,
+                              "character": 35
+                            }
+                          ],
                           "signatures": [
                             {
                               "id": 158,
@@ -2934,6 +3494,13 @@
                 135
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "events-overloads.ts",
+              "line": 6,
+              "character": 17
+            }
           ]
         }
       ],
@@ -2944,6 +3511,13 @@
           "children": [
             134
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "events-overloads.ts",
+          "line": 6,
+          "character": 0
         }
       ]
     },
@@ -3059,6 +3633,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 9,
+                  "character": 14
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 169,
@@ -3081,6 +3662,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 14,
+                  "character": 14
+                }
+              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -3096,6 +3684,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 28,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 174,
@@ -3153,6 +3748,13 @@
               "children": [
                 173
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-class.ts",
+              "line": 5,
+              "character": 13
             }
           ],
           "typeParameter": [
@@ -3271,6 +3873,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 9,
+                  "character": 14
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -3297,6 +3906,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 14,
+                  "character": 14
+                }
+              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -3316,6 +3932,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 28,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 183,
@@ -3384,6 +4007,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "generic-class.ts",
+              "line": 36,
+              "character": 13
+            }
+          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -3407,6 +4037,13 @@
             166,
             176
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "generic-class.ts",
+          "line": 5,
+          "character": 0
         }
       ]
     },
@@ -3453,6 +4090,13 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 2,
+                  "character": 12
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -3464,6 +4108,18 @@
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 4,
+                  "character": 8
+                },
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 7,
+                  "character": 8
+                }
+              ],
               "getSignature": [
                 {
                   "id": 190,
@@ -3510,6 +4166,13 @@
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 11,
+                  "character": 8
+                }
+              ],
               "getSignature": [
                 {
                   "id": 194,
@@ -3530,6 +4193,13 @@
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 15,
+                  "character": 8
+                }
+              ],
               "setSignature": [
                 {
                   "id": 196,
@@ -3582,6 +4252,13 @@
                 195
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "getter-setter.ts",
+              "line": 1,
+              "character": 13
+            }
           ]
         }
       ],
@@ -3592,6 +4269,13 @@
           "children": [
             185
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "getter-setter.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     },
@@ -3646,6 +4330,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "this.ts",
+                  "line": 10,
+                  "character": 11
+                }
+              ],
               "signatures": [
                 {
                   "id": 203,
@@ -3685,6 +4376,13 @@
                 202
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "this.ts",
+              "line": 6,
+              "character": 13
+            }
           ]
         }
       ],
@@ -3695,6 +4393,13 @@
           "children": [
             199
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "this.ts",
+          "line": 6,
+          "character": 0
         }
       ]
     },
@@ -3764,6 +4469,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 14,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 213,
@@ -3785,6 +4497,13 @@
               "children": [
                 214
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 13,
+              "character": 13
             }
           ],
           "typeParameter": [
@@ -3859,6 +4578,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 9,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -3870,6 +4596,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 10,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -3892,6 +4625,13 @@
                 209
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 8,
+              "character": 13
+            }
           ]
         }
       ],
@@ -3903,6 +4643,13 @@
             210,
             205
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "type-operator.ts",
+          "line": 8,
+          "character": 0
         }
       ]
     }

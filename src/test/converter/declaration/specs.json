@@ -45,6 +45,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "declaration.d.ts",
+                  "line": 2,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -66,6 +73,13 @@
                 5
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "declaration.d.ts",
+              "line": 1,
+              "character": 21
+            }
           ]
         },
         {
@@ -74,6 +88,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "declaration.d.ts",
+              "line": 5,
+              "character": 21
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -94,6 +115,13 @@
           "children": [
             6
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "declaration.d.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     },
@@ -141,6 +169,13 @@
                 9
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "export-declaration.d.ts",
+              "line": 1,
+              "character": 21
+            }
           ]
         },
         {
@@ -180,6 +215,13 @@
                 12
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "export-declaration.d.ts",
+              "line": 3,
+              "character": 14
+            }
           ]
         }
       ],
@@ -191,6 +233,13 @@
             8,
             11
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-declaration.d.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     },
@@ -207,6 +256,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "external.d.ts",
+              "line": 3,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "reference",
             "qualifiedName": "ts.server.ActionSet",
@@ -222,6 +278,13 @@
           "children": [
             15
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "external.d.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     }

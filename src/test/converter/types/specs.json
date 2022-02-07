@@ -17,6 +17,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "general.ts",
+              "line": 12,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "bigint"
@@ -28,6 +35,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "general.ts",
+              "line": 3,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "literal",
             "value": {
@@ -42,6 +56,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "general.ts",
+              "line": 6,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "literal",
             "value": {
@@ -56,6 +77,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "general.ts",
+              "line": 14,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "literal",
             "value": -1
@@ -67,6 +95,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "general.ts",
+              "line": 9,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "array",
             "elementType": {
@@ -81,6 +116,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "general.ts",
+              "line": 4,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "literal",
             "value": {
@@ -96,6 +138,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "general.ts",
+              "line": 7,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "literal",
             "value": {
@@ -111,6 +160,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "general.ts",
+              "line": 15,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "literal",
             "value": -1
@@ -123,6 +179,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "general.ts",
+              "line": 10,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "array",
             "elementType": {
@@ -155,6 +218,13 @@
             7
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "general.ts",
+          "line": 1,
+          "character": 0
+        }
       ]
     },
     {
@@ -170,6 +240,13 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 5,
+              "character": 17
+            }
+          ],
           "indexSignature": {
             "id": 16,
             "name": "__index",
@@ -209,6 +286,13 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 1,
+              "character": 17
+            }
+          ],
           "indexSignature": {
             "id": 13,
             "name": "__index",
@@ -239,6 +323,13 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 9,
+              "character": 17
+            }
+          ],
           "indexSignature": {
             "id": 19,
             "name": "__index",
@@ -283,6 +374,13 @@
             18
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "index-signature.ts",
+          "line": 1,
+          "character": 0
+        }
       ]
     },
     {
@@ -298,6 +396,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mapped.ts",
+              "line": 7,
+              "character": 12
+            }
+          ],
           "typeParameter": [
             {
               "id": 33,
@@ -368,6 +473,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mapped.ts",
+              "line": 5,
+              "character": 12
+            }
+          ],
           "typeParameter": [
             {
               "id": 31,
@@ -409,6 +521,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mapped.ts",
+              "line": 9,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 27,
@@ -488,6 +607,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mapped.ts",
+              "line": 1,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 23,
@@ -566,6 +692,13 @@
             22
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "mapped.ts",
+          "line": 1,
+          "character": 0
+        }
       ]
     },
     {
@@ -581,6 +714,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "parens.ts",
+              "line": 3,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "intersection",
             "types": [
@@ -603,6 +743,13 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "parens.ts",
+                          "line": 3,
+                          "character": 24
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -639,6 +786,13 @@
             35
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "parens.ts",
+          "line": 3,
+          "character": 0
+        }
       ]
     },
     {
@@ -654,6 +808,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "query.ts",
+              "line": 3,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "query",
             "queryType": {
@@ -669,6 +830,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "query.ts",
+              "line": 1,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 1
@@ -691,6 +859,13 @@
             39
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "query.ts",
+          "line": 1,
+          "character": 0
+        }
       ]
     },
     {
@@ -706,6 +881,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 14,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -732,6 +914,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 1,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -762,6 +951,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 11,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -792,6 +988,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 5,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -818,6 +1021,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 8,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -851,6 +1061,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 16,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -878,6 +1095,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 3,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -909,6 +1133,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 12,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -940,6 +1171,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 6,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -967,6 +1205,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "tuple.ts",
+              "line": 9,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -1022,6 +1267,13 @@
             47
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "tuple.ts",
+          "line": 1,
+          "character": 0
+        }
       ]
     },
     {
@@ -1037,6 +1289,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 2,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "typeOperator",
             "operator": "readonly",
@@ -1055,6 +1314,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 3,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -1070,6 +1336,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "type-operator.ts",
+                      "line": 4,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1081,6 +1354,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "type-operator.ts",
+                      "line": 5,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1113,6 +1393,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 7,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "typeOperator",
             "operator": "keyof",
@@ -1129,6 +1416,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 1,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "typeOperator",
             "operator": "unique",
@@ -1156,6 +1450,13 @@
           "children": [
             53
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "type-operator.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     },
@@ -1195,6 +1496,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 8,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -1208,6 +1516,13 @@
               "children": [
                 62
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "union-or-intersection.ts",
+              "line": 4,
+              "character": 17
             }
           ]
         },
@@ -1240,6 +1555,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 18,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1253,6 +1575,13 @@
               "children": [
                 64
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "union-or-intersection.ts",
+              "line": 14,
+              "character": 17
             }
           ]
         },
@@ -1285,6 +1614,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 38,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -1330,6 +1666,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 33,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intersection",
                 "types": [
@@ -1360,6 +1703,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 28,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "union",
                 "types": [
@@ -1387,6 +1737,13 @@
                 66
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "union-or-intersection.ts",
+              "line": 24,
+              "character": 17
+            }
           ]
         }
       ],
@@ -1399,6 +1756,13 @@
             63,
             65
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "union-or-intersection.ts",
+          "line": 4,
+          "character": 0
         }
       ]
     }

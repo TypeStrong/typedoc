@@ -5,6 +5,7 @@ import {
     Reflection,
     ProjectReflection,
     DeclarationReflection,
+    ReflectionKind,
 } from "../../models/reflections/index";
 import { SourceDirectory, SourceFile } from "../../models/sources/index";
 import { Component, ConverterComponent } from "../components";
@@ -75,48 +76,67 @@ export class SourcePlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently processed.
-     * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(
-        context: Context,
-        reflection: Reflection,
-        node?: ts.Node
-    ) {
-        if (!node || this.disableSources) {
+    private onDeclaration(context: Context, reflection: Reflection) {
+        const symbol = reflection.project.getSymbolFromReflection(reflection);
+        if (!symbol || this.disableSources) {
             return;
         }
-        const sourceFile = node.getSourceFile();
-        const fileName = sourceFile.fileName;
-        this.fileNames.add(fileName);
-        const file: SourceFile = this.getSourceFile(fileName, context.project);
 
-        let position: ts.LineAndCharacter;
-        if (isNamedNode(node)) {
-            position = ts.getLineAndCharacterOfPosition(
-                sourceFile,
-                node.name.getStart()
-            );
+        if (reflection.name === "constructor") debugger;
+
+        let declarations: ts.Declaration[] = [];
+        if (reflection.kind === ReflectionKind.Constructor) {
+            for (const decl of symbol.declarations || []) {
+                if (
+                    ts.isClassDeclaration(decl) ||
+                    ts.isInterfaceDeclaration(decl)
+                ) {
+                    for (const child of decl.members) {
+                        if (
+                            ts.isConstructorDeclaration(child) ||
+                            ts.isConstructorTypeNode(child)
+                        ) {
+                            declarations.push(child);
+                        }
+                    }
+                }
+            }
         } else {
-            position = ts.getLineAndCharacterOfPosition(
-                sourceFile,
-                node.getStart()
-            );
+            declarations = symbol.declarations || [];
         }
 
-        if (reflection instanceof DeclarationReflection) {
-            file.reflections.push(reflection);
-        }
+        for (const node of declarations || []) {
+            const sourceFile = node.getSourceFile();
+            const fileName = sourceFile.fileName;
+            this.fileNames.add(fileName);
+            const file = this.getSourceFile(fileName, context.project);
 
-        if (!reflection.sources) {
-            reflection.sources = [];
-        }
+            let position: ts.LineAndCharacter;
+            if (isNamedNode(node)) {
+                position = ts.getLineAndCharacterOfPosition(
+                    sourceFile,
+                    node.name.getStart()
+                );
+            } else {
+                position = ts.getLineAndCharacterOfPosition(
+                    sourceFile,
+                    node.getStart()
+                );
+            }
 
-        reflection.sources.push({
-            file: file,
-            fileName: fileName,
-            line: position.line + 1,
-            character: position.character,
-        });
+            if (reflection instanceof DeclarationReflection) {
+                file.reflections.push(reflection);
+            }
+
+            reflection.sources ||= [];
+            reflection.sources.push({
+                file: file,
+                fileName: fileName,
+                line: position.line + 1,
+                character: position.character,
+            });
+        }
     }
 
     /**

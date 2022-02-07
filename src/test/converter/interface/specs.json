@@ -143,6 +143,13 @@
                 3
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "constructor-type.ts",
+              "line": 1,
+              "character": 17
+            }
           ]
         },
         {
@@ -150,7 +157,14 @@
           "name": "Instance",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {}
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "constructor-type.ts",
+              "line": 12,
+              "character": 17
+            }
+          ]
         }
       ],
       "groups": [
@@ -161,6 +175,13 @@
             2,
             13
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "constructor-type.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     },
@@ -177,6 +198,13 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 10,
+              "character": 17
+            }
+          ],
           "indexSignature": {
             "id": 22,
             "name": "__index",
@@ -207,6 +235,13 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 5,
+              "character": 17
+            }
+          ],
           "indexSignature": {
             "id": 19,
             "name": "__index",
@@ -237,6 +272,13 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 1,
+              "character": 17
+            }
+          ],
           "indexSignature": {
             "id": 16,
             "name": "__index",
@@ -267,6 +309,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 15,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -326,6 +375,13 @@
             24
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "index-signature.ts",
+          "line": 1,
+          "character": 0
+        }
       ]
     },
     {
@@ -379,6 +435,13 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "interface-empty.ts",
+                  "line": 10,
+                  "character": 12
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -392,6 +455,13 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "interface-empty.ts",
+                  "line": 11,
+                  "character": 11
+                }
+              ],
               "signatures": [
                 {
                   "id": 35,
@@ -430,6 +500,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "interface-empty.ts",
+              "line": 9,
+              "character": 13
+            }
+          ],
           "implementedTypes": [
             {
               "type": "reference",
@@ -452,6 +529,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "interface-empty.ts",
+              "line": 4,
+              "character": 17
+            }
+          ],
           "implementedBy": [
             {
               "type": "reference",
@@ -475,6 +559,13 @@
           "children": [
             29
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "interface-empty.ts",
+          "line": 4,
+          "character": 0
         }
       ]
     },
@@ -563,6 +654,13 @@
                   "flags": {
                     "isPrivate": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 57,
+                      "character": 16
+                    }
+                  ],
                   "type": {
                     "type": "array",
                     "elementType": {
@@ -585,6 +683,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 59,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 87,
@@ -668,6 +773,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 73,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 98,
@@ -698,6 +810,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 69,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 95,
@@ -742,6 +861,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 75,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 100,
@@ -772,6 +898,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 67,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 92,
@@ -843,6 +976,13 @@
                     99,
                     91
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 56,
+                  "character": 17
                 }
               ],
               "typeParameter": [
@@ -990,6 +1130,13 @@
                   "flags": {
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 29,
+                      "character": 19
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 81,
@@ -1011,6 +1158,13 @@
                   "flags": {
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 27,
+                      "character": 19
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -1029,6 +1183,13 @@
                   "flags": {
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 26,
+                      "character": 19
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 38,
@@ -1055,6 +1216,13 @@
                   "flags": {
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 28,
+                      "character": 19
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1071,6 +1239,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 32,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 62,
@@ -1130,6 +1305,13 @@
                   ]
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 24,
+                  "character": 17
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 63,
@@ -1175,6 +1357,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 41,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 66,
@@ -1250,6 +1439,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 48,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 77,
@@ -1270,6 +1466,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 47,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 74,
@@ -1304,6 +1507,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 49,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 79,
@@ -1324,6 +1534,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 46,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 71,
@@ -1373,6 +1590,13 @@
                   ]
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 40,
+                  "character": 21
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 80,
@@ -1404,6 +1628,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 5,
+                  "character": 21
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 39,
@@ -1470,6 +1701,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 16,
+                      "character": 8
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -1481,6 +1719,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 14,
+                      "character": 8
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 38,
@@ -1500,6 +1745,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 15,
+                      "character": 8
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1511,6 +1763,13 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 21,
+                      "character": 8
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 47,
@@ -1552,6 +1811,13 @@
                   ]
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 13,
+                  "character": 21
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 48,
@@ -1588,6 +1854,13 @@
                 42
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "interface-implementation.ts",
+              "line": 1,
+              "character": 14
+            }
           ]
         }
       ],
@@ -1598,6 +1871,13 @@
           "children": [
             37
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "interface-implementation.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     },
@@ -1621,6 +1901,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 2,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1634,6 +1921,13 @@
               "children": [
                 104
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "merging.ts",
+              "line": 1,
+              "character": 17
             }
           ],
           "extendedBy": [
@@ -1662,6 +1956,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 6,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1675,6 +1976,13 @@
               "children": [
                 106
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "merging.ts",
+              "line": 5,
+              "character": 17
             }
           ],
           "extendedBy": [
@@ -1698,6 +2006,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 2,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1714,6 +2029,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 6,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1730,6 +2052,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 10,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1741,6 +2070,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 15,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1757,6 +2093,18 @@
                 108,
                 109
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "merging.ts",
+              "line": 9,
+              "character": 17
+            },
+            {
+              "fileName": "merging.ts",
+              "line": 14,
+              "character": 17
             }
           ],
           "extendedTypes": [
@@ -1792,6 +2140,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 2,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1808,6 +2163,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 6,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1824,6 +2186,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 10,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1840,6 +2209,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 19,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1851,6 +2227,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 15,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1873,6 +2256,13 @@
                 113,
                 115
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "merging.ts",
+              "line": 18,
+              "character": 17
             }
           ],
           "extendedTypes": [
@@ -1899,6 +2289,13 @@
             107,
             112
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "merging.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     }

@@ -47,6 +47,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 20,
+              "character": 4
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -59,6 +66,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 22,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 18,
@@ -95,6 +109,13 @@
           "children": [
             17
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 19,
+          "character": 13
         }
       ]
     },
@@ -148,6 +169,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 20,
+              "character": 4
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -164,6 +192,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 86,
+              "character": 4
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -176,6 +211,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 35,
+              "character": 8
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -192,6 +234,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 55,
+              "character": 8
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -208,6 +257,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 22,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 76,
@@ -236,6 +292,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 88,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 65,
@@ -256,6 +319,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 37,
+              "character": 8
+            }
+          ],
           "signatures": [
             {
               "id": 72,
@@ -305,6 +375,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 57,
+              "character": 8
+            }
+          ],
           "signatures": [
             {
               "id": 68,
@@ -372,6 +449,13 @@
           ]
         }
       ],
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 85,
+          "character": 13
+        }
+      ],
       "extendedTypes": [
         {
           "type": "intersection",
@@ -418,6 +502,13 @@
                             "children": [
                               60
                             ]
+                          }
+                        ],
+                        "sources": [
+                          {
+                            "fileName": "mixin.ts",
+                            "line": 34,
+                            "character": 10
                           }
                         ]
                       }
@@ -494,6 +585,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 20,
+              "character": 4
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -510,6 +608,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 35,
+              "character": 8
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -526,6 +631,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 22,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 32,
@@ -554,6 +666,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 37,
+              "character": 8
+            }
+          ],
           "signatures": [
             {
               "id": 28,
@@ -616,6 +735,13 @@
           ]
         }
       ],
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 45,
+          "character": 17
+        }
+      ],
       "extendedTypes": [
         {
           "type": "reference",
@@ -655,6 +781,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 20,
+              "character": 4
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -671,6 +804,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 35,
+              "character": 8
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -687,6 +827,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 55,
+              "character": 8
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -703,6 +850,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 22,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 50,
@@ -731,6 +885,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 37,
+              "character": 8
+            }
+          ],
           "signatures": [
             {
               "id": 46,
@@ -780,6 +941,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 57,
+              "character": 8
+            }
+          ],
           "signatures": [
             {
               "id": 42,
@@ -838,6 +1006,13 @@
           ]
         }
       ],
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 65,
+          "character": 17
+        }
+      ],
       "extendedTypes": [
         {
           "type": "reference",
@@ -870,6 +1045,13 @@
           }
         ]
       },
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 9,
+          "character": 12
+        }
+      ],
       "typeParameter": [
         {
           "id": 10,
@@ -899,13 +1081,6 @@
               }
             ]
           },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 9,
-              "character": 41
-            }
-          ],
           "signatures": [
             {
               "id": 8,
@@ -955,6 +1130,13 @@
           }
         ]
       },
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 4,
+          "character": 12
+        }
+      ],
       "typeParameter": [
         {
           "id": 5,
@@ -1040,6 +1222,13 @@
           }
         ]
       },
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 14,
+          "character": 12
+        }
+      ],
       "typeParameter": [
         {
           "id": 12,
@@ -1102,6 +1291,18 @@
           }
         ]
       },
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 70,
+          "character": 13
+        },
+        {
+          "fileName": "mixin.ts",
+          "line": 80,
+          "character": 12
+        }
+      ],
       "type": {
         "type": "reference",
         "id": 11,
@@ -1126,6 +1327,13 @@
       "flags": {
         "isConst": true
       },
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 30,
+          "character": 13
+        }
+      ],
       "signatures": [
         {
           "id": 20,
@@ -1207,6 +1415,13 @@
                         24
                       ]
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 34,
+                      "character": 10
+                    }
                   ]
                 }
               },
@@ -1228,6 +1443,13 @@
       "flags": {
         "isConst": true
       },
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 50,
+          "character": 13
+        }
+      ],
       "signatures": [
         {
           "id": 34,
@@ -1319,6 +1541,13 @@
                         38
                       ]
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 54,
+                      "character": 10
+                    }
                   ]
                 }
               },
@@ -1340,6 +1569,18 @@
       "flags": {
         "isConst": true
       },
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 70,
+          "character": 13
+        },
+        {
+          "fileName": "mixin.ts",
+          "line": 80,
+          "character": 12
+        }
+      ],
       "signatures": [
         {
           "id": 52,
@@ -1419,6 +1660,13 @@
                       "children": [
                         56
                       ]
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 74,
+                      "character": 10
                     }
                   ]
                 }

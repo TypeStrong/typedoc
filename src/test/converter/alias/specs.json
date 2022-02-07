@@ -19,6 +19,13 @@
           }
         ]
       },
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 14,
+          "character": 12
+        }
+      ],
       "typeParameter": [
         {
           "id": 9,
@@ -63,6 +70,13 @@
           }
         ]
       },
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 19,
+          "character": 12
+        }
+      ],
       "typeParameter": [
         {
           "id": 11,
@@ -116,6 +130,13 @@
           }
         ]
       },
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 4,
+          "character": 12
+        }
+      ],
       "typeParameter": [
         {
           "id": 6,
@@ -204,6 +225,13 @@
           }
         ]
       },
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 9,
+          "character": 12
+        }
+      ],
       "type": {
         "type": "union",
         "types": [

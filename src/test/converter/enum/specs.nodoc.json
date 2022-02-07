@@ -34,6 +34,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 48,
+              "character": 15
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -45,6 +52,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 53,
+              "character": 20
+            }
+          ],
           "signatures": [
             {
               "id": 11,
@@ -83,6 +97,18 @@
             10
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 24,
+          "character": 12
+        },
+        {
+          "fileName": "enum.ts",
+          "line": 44,
+          "character": 14
+        }
       ]
     },
     {
@@ -108,6 +134,13 @@
           "kind": 16,
           "kindString": "Enumeration member",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 60,
+              "character": 4
+            }
+          ],
           "defaultValue": "1"
         },
         {
@@ -116,6 +149,13 @@
           "kind": 16,
           "kindString": "Enumeration member",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 61,
+              "character": 4
+            }
+          ],
           "defaultValue": "2"
         }
       ],
@@ -127,6 +167,13 @@
             14,
             15
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 59,
+          "character": 18
         }
       ]
     },
@@ -159,6 +206,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 28,
+              "character": 4
+            }
+          ],
           "defaultValue": "1"
         },
         {
@@ -175,6 +229,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 33,
+              "character": 4
+            }
+          ],
           "defaultValue": "2"
         },
         {
@@ -191,6 +252,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 38,
+              "character": 4
+            }
+          ],
           "defaultValue": "4"
         }
       ],
@@ -203,6 +271,18 @@
             7,
             8
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 24,
+          "character": 12
+        },
+        {
+          "fileName": "enum.ts",
+          "line": 44,
+          "character": 14
         }
       ]
     },
@@ -235,6 +315,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 8,
+              "character": 4
+            }
+          ],
           "defaultValue": "1"
         },
         {
@@ -251,6 +338,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 13,
+              "character": 4
+            }
+          ],
           "defaultValue": "2"
         },
         {
@@ -267,6 +361,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 18,
+              "character": 4
+            }
+          ],
           "defaultValue": "4"
         }
       ],
@@ -279,6 +380,13 @@
             3,
             4
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 4,
+          "character": 12
         }
       ]
     }

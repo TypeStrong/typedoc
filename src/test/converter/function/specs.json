@@ -24,6 +24,13 @@
               "kind": 64,
               "kindString": "Function",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 305,
+                  "character": 7
+                }
+              ],
               "signatures": [
                 {
                   "id": 82,
@@ -46,6 +53,18 @@
               "children": [
                 81
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 304,
+              "character": 16
+            },
+            {
+              "fileName": "function.ts",
+              "line": 305,
+              "character": 0
             }
           ]
         },
@@ -78,6 +97,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 264,
+                  "character": 15
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -89,6 +115,13 @@
               "kind": 64,
               "kindString": "Function",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 269,
+                  "character": 20
+                }
+              ],
               "signatures": [
                 {
                   "id": 57,
@@ -117,6 +150,13 @@
               "kind": 64,
               "kindString": "Function",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 274,
+                  "character": 20
+                }
+              ],
               "signatures": [
                 {
                   "id": 59,
@@ -156,6 +196,18 @@
                 58
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 218,
+              "character": 16
+            },
+            {
+              "fileName": "function.ts",
+              "line": 260,
+              "character": 14
+            }
           ]
         },
         {
@@ -192,6 +244,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 285,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 98,
@@ -217,6 +276,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 281,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 96,
@@ -244,6 +310,13 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 284,
+                  "character": 11
+                }
+              ],
               "signatures": [
                 {
                   "id": 91,
@@ -280,6 +353,13 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 278,
+                  "character": 11
+                }
+              ],
               "signatures": [
                 {
                   "id": 88,
@@ -331,6 +411,13 @@
                 87
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 277,
+              "character": 13
+            }
           ]
         },
         {
@@ -341,6 +428,13 @@
           "flags": {
             "isConst": true
           },
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 293,
+              "character": 13
+            }
+          ],
           "signatures": [
             {
               "id": 100,
@@ -372,6 +466,13 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 294,
+                          "character": 12
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 104,
@@ -458,6 +559,13 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 295,
+                          "character": 12
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 111,
@@ -497,6 +605,13 @@
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 295,
+                      "character": 35
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 114,
@@ -543,6 +658,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 241,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 68,
@@ -613,6 +735,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 227,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 62,
@@ -663,6 +792,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 298,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 76,
@@ -705,6 +841,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 233,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 65,
@@ -751,6 +894,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 4,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -779,6 +929,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 100,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 24,
@@ -848,6 +1005,13 @@
                               }
                             ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 107,
+                              "character": 4
+                            }
+                          ],
                           "type": {
                             "type": "reference",
                             "qualifiedName": "Object",
@@ -869,6 +1033,13 @@
                               }
                             ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 106,
+                              "character": 4
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "any"
@@ -888,6 +1059,13 @@
                               }
                             ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 105,
+                              "character": 4
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -903,6 +1081,13 @@
                             28,
                             27
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 104,
+                          "character": 3
                         }
                       ]
                     }
@@ -922,6 +1107,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 166,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 39,
@@ -986,6 +1178,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 173,
+                              "character": 4
+                            }
+                          ],
                           "type": {
                             "type": "reference",
                             "qualifiedName": "Object",
@@ -999,6 +1198,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 172,
+                              "character": 4
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "any"
@@ -1010,6 +1216,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 171,
+                              "character": 4
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -1025,6 +1238,13 @@
                             43,
                             42
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 170,
+                          "character": 3
                         }
                       ]
                     }
@@ -1044,6 +1264,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 131,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 31,
@@ -1100,6 +1327,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 139,
+                              "character": 8
+                            }
+                          ],
                           "type": {
                             "type": "reference",
                             "qualifiedName": "Object",
@@ -1113,6 +1347,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 138,
+                              "character": 8
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "any"
@@ -1124,6 +1365,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 137,
+                              "character": 8
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -1139,6 +1387,13 @@
                             35,
                             34
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 136,
+                          "character": 7
                         }
                       ]
                     }
@@ -1169,6 +1424,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 62,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 14,
@@ -1310,6 +1572,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 47,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 10,
@@ -1380,6 +1649,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 23,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 5,
@@ -1484,6 +1760,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 78,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 21,
@@ -1549,6 +1832,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 253,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 72,
@@ -1619,6 +1909,18 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 304,
+              "character": 16
+            },
+            {
+              "fileName": "function.ts",
+              "line": 305,
+              "character": 0
+            }
+          ],
           "signatures": [
             {
               "id": 79,
@@ -1639,6 +1941,18 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 218,
+              "character": 16
+            },
+            {
+              "fileName": "function.ts",
+              "line": 260,
+              "character": 14
+            }
+          ],
           "signatures": [
             {
               "id": 53,
@@ -1688,6 +2002,23 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 183,
+              "character": 16
+            },
+            {
+              "fileName": "function.ts",
+              "line": 191,
+              "character": 16
+            },
+            {
+              "fileName": "function.ts",
+              "line": 201,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 46,
@@ -1781,6 +2112,13 @@
                               }
                             ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 191,
+                              "character": 44
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -1794,6 +2132,13 @@
                           "children": [
                             51
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 191,
+                          "character": 42
                         }
                       ]
                     }
@@ -1815,6 +2160,13 @@
           "flags": {
             "isConst": true
           },
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 37,
+              "character": 13
+            }
+          ],
           "signatures": [
             {
               "id": 84,
@@ -1883,6 +2235,13 @@
             83
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "function.ts",
+          "line": 4,
+          "character": 0
+        }
       ]
     },
     {
@@ -1898,6 +2257,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 18,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 122,
@@ -1995,6 +2361,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 29,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 127,
@@ -2055,6 +2428,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 7,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 118,
@@ -2145,6 +2525,13 @@
             117
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "generic-function.ts",
+          "line": 7,
+          "character": 0
+        }
       ]
     },
     {
@@ -2167,6 +2554,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 3,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2178,6 +2572,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 2,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2193,6 +2594,13 @@
                 140
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 1,
+              "character": 17
+            }
           ]
         },
         {
@@ -2201,6 +2609,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 14,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 132,
@@ -2223,6 +2638,13 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 9,
+                          "character": 4
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -2235,6 +2657,13 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 8,
+                          "character": 4
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -2247,6 +2676,13 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 7,
+                          "character": 4
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -2259,6 +2695,13 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 10,
+                          "character": 4
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -2271,6 +2714,13 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 11,
+                          "character": 4
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -2289,6 +2739,13 @@
                         137,
                         138
                       ]
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 6,
+                      "character": 18
                     }
                   ]
                 }
@@ -2311,6 +2768,13 @@
           "children": [
             131
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "implicit-types.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     }

@@ -39,6 +39,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 11,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 10,
@@ -120,6 +127,13 @@
           ]
         }
       ],
+      "sources": [
+        {
+          "fileName": "inherit-param-doc.ts",
+          "line": 9,
+          "character": 13
+        }
+      ],
       "implementedTypes": [
         {
           "type": "reference",
@@ -162,6 +176,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 20,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 17,
@@ -243,6 +264,13 @@
           ]
         }
       ],
+      "sources": [
+        {
+          "fileName": "inherit-param-doc.ts",
+          "line": 14,
+          "character": 13
+        }
+      ],
       "implementedTypes": [
         {
           "type": "reference",
@@ -285,6 +313,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 29,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 24,
@@ -366,6 +401,13 @@
           ]
         }
       ],
+      "sources": [
+        {
+          "fileName": "inherit-param-doc.ts",
+          "line": 23,
+          "character": 13
+        }
+      ],
       "implementedTypes": [
         {
           "type": "reference",
@@ -387,6 +429,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 6,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -449,6 +498,13 @@
           "children": [
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "inherit-param-doc.ts",
+          "line": 1,
+          "character": 17
         }
       ],
       "implementedBy": [

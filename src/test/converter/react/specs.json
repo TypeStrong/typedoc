@@ -62,6 +62,13 @@
           "flags": {
             "isPrivate": true
           },
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 18,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -73,6 +80,13 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 25,
+              "character": 4
+            }
+          ],
           "signatures": [
             {
               "id": 10,
@@ -110,6 +124,13 @@
             9
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "react.tsx",
+          "line": 17,
+          "character": 13
+        }
       ]
     },
     {
@@ -125,6 +146,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 14,
+              "character": 4
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -136,6 +164,13 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 13,
+              "character": 4
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -150,6 +185,13 @@
             3,
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "react.tsx",
+          "line": 12,
+          "character": 17
         }
       ]
     }

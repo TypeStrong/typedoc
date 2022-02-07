@@ -126,7 +126,7 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
         context.scope
     );
     context.registerReflection(reflection, symbol);
-    context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
+    context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
     const signature = new SignatureReflection(
         "__type",

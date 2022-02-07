@@ -73,6 +73,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 4,
+              "character": 13
+            }
+          ],
           "typeParameter": [
             {
               "id": 6,
@@ -135,6 +142,13 @@
                 10
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 19,
+              "character": 13
+            }
           ]
         },
         {
@@ -193,6 +207,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 24,
+              "character": 13
+            }
+          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -222,6 +243,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 9,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "array",
             "elementType": {
@@ -282,6 +310,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 14,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "reference",
             "id": 2,
@@ -314,6 +349,13 @@
             8
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "array.ts",
+          "line": 4,
+          "character": 0
+        }
       ]
     },
     {
@@ -329,6 +371,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 13,
+              "character": 14
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -340,6 +389,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 13,
+              "character": 30
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -351,6 +407,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 13,
+              "character": 46
+            }
+          ],
           "type": {
             "type": "union",
             "types": [
@@ -372,6 +435,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 31,
+              "character": 14
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -383,6 +453,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 31,
+              "character": 46
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -403,6 +480,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 25,
+              "character": 7
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -423,6 +507,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 23,
+              "character": 4
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -434,6 +525,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 24,
+              "character": 4
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -445,6 +543,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 4,
+              "character": 15
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -456,6 +561,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 4,
+              "character": 32
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -467,6 +579,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 4,
+              "character": 49
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -478,6 +597,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 38,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 17,
@@ -539,6 +665,13 @@
             16
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "destructuring.ts",
+          "line": 4,
+          "character": 0
+        }
       ]
     },
     {
@@ -554,6 +687,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "literal.ts",
+              "line": 43,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -569,6 +709,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 48,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -577,6 +724,13 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 48,
+                          "character": 11
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 60,
@@ -599,6 +753,13 @@
                                   "kind": 65536,
                                   "kindString": "Type literal",
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 48,
+                                      "character": 27
+                                    }
+                                  ],
                                   "signatures": [
                                     {
                                       "id": 63,
@@ -632,6 +793,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 52,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -640,6 +808,13 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 52,
+                          "character": 13
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 66,
@@ -662,6 +837,13 @@
                                   "kind": 65536,
                                   "kindString": "Type literal",
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 52,
+                                      "character": 31
+                                    }
+                                  ],
                                   "signatures": [
                                     {
                                       "id": 69,
@@ -695,6 +877,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 44,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -703,6 +892,13 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 44,
+                          "character": 13
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 54,
@@ -725,6 +921,13 @@
                                   "kind": 65536,
                                   "kindString": "Type literal",
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 44,
+                                      "character": 31
+                                    }
+                                  ],
                                   "signatures": [
                                     {
                                       "id": 57,
@@ -763,6 +966,13 @@
                     52
                   ]
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal.ts",
+                  "line": 43,
+                  "character": 30
+                }
               ]
             }
           },
@@ -782,6 +992,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "literal.ts",
+              "line": 5,
+              "character": 6
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -805,6 +1022,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 19,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -817,6 +1041,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 20,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -829,6 +1060,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 21,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -841,6 +1079,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 17,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -853,6 +1098,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 18,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -865,6 +1117,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 10,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -880,6 +1139,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 15,
+                              "character": 8
+                            }
+                          ],
                           "type": {
                             "type": "array",
                             "elementType": {
@@ -895,6 +1161,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 12,
+                              "character": 8
+                            }
+                          ],
                           "type": {
                             "type": "reflection",
                             "declaration": {
@@ -903,6 +1176,13 @@
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "literal.ts",
+                                  "line": 12,
+                                  "character": 16
+                                }
+                              ],
                               "signatures": [
                                 {
                                   "id": 81,
@@ -938,6 +1218,13 @@
                                           "kind": 1024,
                                           "kindString": "Property",
                                           "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 13,
+                                              "character": 21
+                                            }
+                                          ],
                                           "type": {
                                             "type": "intrinsic",
                                             "name": "string"
@@ -950,6 +1237,13 @@
                                           "kind": 1024,
                                           "kindString": "Property",
                                           "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 13,
+                                              "character": 32
+                                            }
+                                          ],
                                           "type": {
                                             "type": "intrinsic",
                                             "name": "string"
@@ -966,6 +1260,13 @@
                                             85
                                           ]
                                         }
+                                      ],
+                                      "sources": [
+                                        {
+                                          "fileName": "literal.ts",
+                                          "line": 13,
+                                          "character": 19
+                                        }
                                       ]
                                     }
                                   }
@@ -981,6 +1282,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 11,
+                              "character": 8
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -998,6 +1306,13 @@
                             78
                           ]
                         }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 10,
+                          "character": 12
+                        }
                       ]
                     }
                   },
@@ -1009,6 +1324,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 7,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -1017,6 +1339,13 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 7,
+                          "character": 12
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 75,
@@ -1040,6 +1369,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 6,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1062,6 +1398,13 @@
                     72
                   ]
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal.ts",
+                  "line": 5,
+                  "character": 22
+                }
               ]
             }
           },
@@ -1081,6 +1424,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "literal.ts",
+              "line": 27,
+              "character": 11
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -1106,6 +1456,13 @@
                   "flags": {
                     "isOptional": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 35,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1119,6 +1476,13 @@
                   "flags": {
                     "isOptional": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 36,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -1130,6 +1494,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 30,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -1145,6 +1516,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 33,
+                              "character": 8
+                            }
+                          ],
                           "type": {
                             "type": "array",
                             "elementType": {
@@ -1159,6 +1537,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 32,
+                              "character": 8
+                            }
+                          ],
                           "type": {
                             "type": "reflection",
                             "declaration": {
@@ -1209,6 +1594,13 @@
                                           "kind": 1024,
                                           "kindString": "Property",
                                           "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 32,
+                                              "character": 33
+                                            }
+                                          ],
                                           "type": {
                                             "type": "intrinsic",
                                             "name": "string"
@@ -1220,6 +1612,13 @@
                                           "kind": 1024,
                                           "kindString": "Property",
                                           "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 32,
+                                              "character": 44
+                                            }
+                                          ],
                                           "type": {
                                             "type": "intrinsic",
                                             "name": "string"
@@ -1235,6 +1634,13 @@
                                             46
                                           ]
                                         }
+                                      ],
+                                      "sources": [
+                                        {
+                                          "fileName": "literal.ts",
+                                          "line": 32,
+                                          "character": 31
+                                        }
                                       ]
                                     }
                                   }
@@ -1249,6 +1655,13 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 31,
+                              "character": 8
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -1282,6 +1695,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 29,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -1319,6 +1739,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 28,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1359,6 +1786,13 @@
             31
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "literal.ts",
+          "line": 1,
+          "character": 0
+        }
       ]
     },
     {
@@ -1374,6 +1808,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 1,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 15
@@ -1386,6 +1827,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 2,
+              "character": 11
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -1398,6 +1846,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 3,
+              "character": 11
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -1410,6 +1865,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 5,
+              "character": 11
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "object"
@@ -1421,6 +1883,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 6,
+              "character": 11
+            }
+          ],
           "type": {
             "type": "reference",
             "typeArguments": [
@@ -1440,6 +1909,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 7,
+              "character": 11
+            }
+          ],
           "type": {
             "type": "reference",
             "typeArguments": [
@@ -1466,6 +1942,13 @@
             97,
             98
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "variable.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     }

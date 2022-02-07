@@ -52,6 +52,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 12,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 19,
@@ -64,6 +71,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 19,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 17,
@@ -117,6 +131,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "inherit-doc.ts",
+              "line": 6,
+              "character": 17
+            }
+          ],
           "typeParameter": [
             {
               "id": 19,
@@ -164,6 +185,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 30,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 25,
@@ -176,6 +204,13 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 37,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 23,
@@ -229,6 +264,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "inherit-doc.ts",
+              "line": 26,
+              "character": 17
+            }
+          ],
           "typeParameter": [
             {
               "id": 19,
@@ -253,6 +295,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-doc.ts",
+              "line": 58,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -369,6 +418,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-doc.ts",
+              "line": 68,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 8,
@@ -399,6 +455,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-doc.ts",
+              "line": 85,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 10,
@@ -536,6 +599,13 @@
             9
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "inherit-doc.ts",
+          "line": 6,
+          "character": 0
+        }
       ]
     },
     {
@@ -587,6 +657,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 7,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -604,6 +681,13 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 2,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -631,6 +715,13 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "mergable-class.ts",
+              "line": 12,
+              "character": 13
+            }
+          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -652,6 +743,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 7,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -665,6 +763,18 @@
               "children": [
                 33
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mergable-class.ts",
+              "line": 6,
+              "character": 17
+            },
+            {
+              "fileName": "mergable-class.ts",
+              "line": 10,
+              "character": 21
             }
           ]
         },
@@ -702,6 +812,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 2,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -723,6 +840,13 @@
                 28
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "mergable-class.ts",
+              "line": 1,
+              "character": 17
+            }
           ]
         },
         {
@@ -731,6 +855,18 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mergable-class.ts",
+              "line": 6,
+              "character": 17
+            },
+            {
+              "fileName": "mergable-class.ts",
+              "line": 10,
+              "character": 21
+            }
+          ],
           "type": {
             "type": "reference",
             "id": 27,
@@ -767,6 +903,13 @@
           "children": [
             31
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mergable-class.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     }

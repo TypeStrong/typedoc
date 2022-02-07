@@ -17,6 +17,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export-eq-type.js",
+              "line": 1,
+              "character": 22
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -30,6 +37,13 @@
           "flags": {
             "isConst": true
           },
+          "sources": [
+            {
+              "fileName": "export-eq-type.js",
+              "line": 4,
+              "character": 6
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -73,6 +87,13 @@
             2
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "export-eq-type.js",
+          "line": 4,
+          "character": 0
+        }
       ]
     },
     {
@@ -103,6 +124,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 13,
+                  "character": 18
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -114,6 +142,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 12,
+                  "character": 22
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -128,6 +163,13 @@
                 19,
                 18
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 11,
+              "character": 21
             }
           ]
         },
@@ -144,6 +186,13 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 6,
+                  "character": 22
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -158,6 +207,13 @@
                 16
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 5,
+              "character": 21
+            }
           ]
         },
         {
@@ -166,6 +222,18 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 60,
+              "character": 13
+            },
+            {
+              "fileName": "index.js",
+              "line": 58,
+              "character": 3
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -177,6 +245,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 49,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -232,6 +307,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 27,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -277,6 +359,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 45,
+              "character": 16
+            }
+          ],
           "typeParameter": [
             {
               "id": 43,
@@ -306,6 +395,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 33,
+              "character": 13
+            }
+          ],
           "typeParameter": [
             {
               "id": 37,
@@ -375,6 +471,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 22,
+              "character": 44
+            }
+          ],
           "type": {
             "type": "intersection",
             "types": [
@@ -393,6 +496,13 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "index.js",
+                          "line": 22,
+                          "character": 15
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -432,6 +542,13 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "index.js",
+                          "line": 22,
+                          "character": 31
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -473,6 +590,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 26,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -526,6 +650,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 17,
+              "character": 21
+            }
+          ],
           "type": {
             "type": "reference",
             "qualifiedName": "Object",
@@ -539,6 +670,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 39,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -607,6 +745,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 21,
+              "character": 30
+            }
+          ],
           "type": {
             "type": "union",
             "types": [
@@ -635,6 +780,18 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 60,
+              "character": 13
+            },
+            {
+              "fileName": "index.js",
+              "line": 58,
+              "character": 3
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -658,6 +815,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "index.js",
+                      "line": 62,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -670,6 +834,13 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "index.js",
+                      "line": 61,
+                      "character": 4
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -686,6 +857,13 @@
                     12
                   ]
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 60,
+                  "character": 26
+                }
               ]
             }
           },
@@ -699,6 +877,13 @@
           "flags": {
             "isConst": true
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 55,
+              "character": 13
+            }
+          ],
           "signatures": [
             {
               "id": 8,
@@ -770,6 +955,13 @@
           "children": [
             7
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "index.js",
+          "line": 55,
+          "character": 0
         }
       ]
     }

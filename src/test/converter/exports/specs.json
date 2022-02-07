@@ -17,6 +17,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 44,
+              "character": 12
+            }
+          ],
           "target": 35
         },
         {
@@ -85,6 +92,13 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 8,
+              "character": 13
+            }
+          ],
           "target": 30
         },
         {
@@ -130,6 +144,13 @@
               "kind": 4194304,
               "kindString": "Type alias",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export.ts",
+                  "line": 31,
+                  "character": 16
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 29,
@@ -142,6 +163,13 @@
               "kind": 32,
               "kindString": "Variable",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export.ts",
+                  "line": 28,
+                  "character": 17
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -154,6 +182,13 @@
               "kind": 32,
               "kindString": "Variable",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export.ts",
+                  "line": 26,
+                  "character": 17
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 29,
@@ -167,6 +202,13 @@
               "kind": 32,
               "kindString": "Variable",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export.ts",
+                  "line": 29,
+                  "character": 17
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 29,
@@ -180,6 +222,13 @@
               "kind": 32,
               "kindString": "Variable",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export.ts",
+                  "line": 27,
+                  "character": 17
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 29,
@@ -206,6 +255,13 @@
                 22
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 25,
+              "character": 17
+            }
           ]
         },
         {
@@ -214,6 +270,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 7,
+              "character": 9
+            }
+          ],
           "signatures": [
             {
               "id": 16,
@@ -258,6 +321,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 18,
+              "character": 0
+            }
+          ],
           "signatures": [
             {
               "id": 27,
@@ -316,6 +386,13 @@
             26
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "export.ts",
+          "line": 1,
+          "character": 0
+        }
       ]
     },
     {
@@ -331,6 +408,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export-assignment.ts",
+              "line": 1,
+              "character": 9
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -378,6 +462,13 @@
             2
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "export-assignment.ts",
+          "line": 1,
+          "character": 0
+        }
       ]
     },
     {
@@ -393,6 +484,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export-default.ts",
+              "line": 1,
+              "character": 6
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 5
@@ -407,6 +505,13 @@
           "children": [
             7
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-default.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     },
@@ -423,6 +528,13 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 1,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 5
@@ -435,6 +547,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 6,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 10,
@@ -488,6 +607,13 @@
           "children": [
             9
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-with-local.ts",
+          "line": 1,
+          "character": 0
         }
       ]
     },
@@ -549,6 +675,13 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 44,
+              "character": 12
+            }
+          ],
           "type": {
             "type": "literal",
             "value": "1"
@@ -568,6 +701,13 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 8,
+              "character": 13
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 1
@@ -580,6 +720,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 23,
+              "character": 0
+            }
+          ],
           "signatures": [
             {
               "id": 37,
@@ -633,6 +780,13 @@
           "children": [
             36
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mod.ts",
+          "line": 8,
+          "character": 0
         }
       ]
     }

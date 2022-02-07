@@ -80,6 +80,13 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "comment.ts",
+                  "line": 37,
+                  "character": 4
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -160,6 +167,13 @@
                 19
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "comment.ts",
+              "line": 33,
+              "character": 13
+            }
           ]
         }
       ],
@@ -170,6 +184,13 @@
           "children": [
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "comment.ts",
+          "line": 5,
+          "character": 0
         }
       ]
     },
@@ -202,6 +223,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "comment2.ts",
+              "line": 8,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 28,
@@ -268,6 +296,13 @@
             27
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "comment2.ts",
+          "line": 8,
+          "character": 0
+        }
       ]
     },
     {
@@ -299,6 +334,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "comment3.ts",
+              "line": 8,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 33,
@@ -368,6 +410,13 @@
             32
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "comment3.ts",
+          "line": 8,
+          "character": 0
+        }
       ]
     },
     {
@@ -395,6 +444,13 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "comment4.ts",
+              "line": 11,
+              "character": 16
+            }
+          ],
           "signatures": [
             {
               "id": 38,
@@ -459,6 +515,13 @@
           "children": [
             37
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "comment4.ts",
+          "line": 11,
+          "character": 0
         }
       ]
     }
