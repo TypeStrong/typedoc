@@ -1,10 +1,7 @@
 import { ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
 
-type UtilityIcons = Record<
-    "chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall",
-    () => JSX.Element
->;
+type UtilityIcons = Record<"chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall", () => JSX.Element>;
 
 const kindIcon = (letterPath: JSX.Element, color: string, circular = false) => (
     <svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24">
@@ -22,8 +19,7 @@ const kindIcon = (letterPath: JSX.Element, color: string, circular = false) => (
     </svg>
 );
 
-export const icons: Record<ReflectionKind, () => JSX.Element | null> &
-    UtilityIcons = {
+export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIcons = {
     [ReflectionKind.All]: () => null,
     [ReflectionKind.Accessor]: () =>
         kindIcon(
@@ -85,10 +81,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> &
         ),
     [ReflectionKind.Function]: () =>
         kindIcon(
-            <path
-                d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z"
-                fill="var(--color-text)"
-            />,
+            <path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)" />,
             "var(--color-ts-function)"
         ),
     [ReflectionKind.FunctionOrMethod]() {
@@ -158,10 +151,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> &
     [ReflectionKind.SomeValue]: () => null,
     [ReflectionKind.TypeAlias]: () =>
         kindIcon(
-            <path
-                d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z"
-                fill="var(--color-text)"
-            />,
+            <path d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z" fill="var(--color-text)" />,
             "var(--color-ts)"
         ),
     [ReflectionKind.TypeLiteral]() {
@@ -199,15 +189,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> &
     ),
     checkbox: () => (
         <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
-            <rect
-                class="tsd-checkbox-background"
-                width="30"
-                height="30"
-                x="1"
-                y="1"
-                rx="6"
-                fill="none"
-            />
+            <rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none" />
             <path
                 class="tsd-checkbox-checkmark"
                 d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25"
@@ -221,13 +203,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> &
     menu: () => (
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             {["3", "7", "11"].map((y) => (
-                <rect
-                    x="1"
-                    y={y}
-                    width="14"
-                    height="2"
-                    fill="var(--color-text)"
-                />
+                <rect x="1" y={y} width="14" height="2" fill="var(--color-text)" />
             ))}
         </svg>
     ),

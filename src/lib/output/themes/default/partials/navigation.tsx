@@ -1,19 +1,11 @@
-import {
-    ContainerReflection,
-    DeclarationReflection,
-    Reflection,
-    ReflectionKind,
-} from "../../../../models";
+import { ContainerReflection, DeclarationReflection, Reflection, ReflectionKind } from "../../../../models";
 import { JSX, partition } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { classNames, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { icons } from "./icon";
 
-export function navigation(
-    context: DefaultThemeRenderContext,
-    props: PageEvent<Reflection>
-) {
+export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
         <>
             {settings()}
@@ -26,12 +18,7 @@ export function navigation(
 function settings() {
     // Settings panel above navigation
 
-    const visibilityOptions = [
-        "public",
-        "protected",
-        "private",
-        "inherited",
-    ].map((name) => {
+    const visibilityOptions = ["public", "protected", "private", "inherited"].map((name) => {
         const value = name.charAt(0).toUpperCase() + name.slice(1);
         return (
             <li class="tsd-filter-item">
@@ -41,9 +28,7 @@ function settings() {
                         id={`tsd-filter-${name}`}
                         name={name}
                         value={value}
-                        {...(name === "public"
-                            ? { checked: true, disabled: true }
-                            : {})}
+                        {...(name === "public" ? { checked: true, disabled: true } : {})}
                     />
                     {icons.checkbox()}
                     <span>{value}</span>
@@ -61,9 +46,7 @@ function settings() {
                     <div class="tsd-filter-visibility">
                         <h4 class="uppercase">Member Visibility</h4>
                         <form>
-                            <ul id="tsd-filter-options">
-                                {...visibilityOptions}
-                            </ul>
+                            <ul id="tsd-filter-options">{...visibilityOptions}</ul>
                         </form>
                     </div>
                 </div>
@@ -80,21 +63,15 @@ function settings() {
     );
 }
 
-function primaryNavigation(
-    context: DefaultThemeRenderContext,
-    props: PageEvent<Reflection>
-) {
+function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     // Create the navigation for the current page
 
-    const modules = props.model.project.getChildrenByKind(
-        ReflectionKind.SomeModule
-    );
+    const modules = props.model.project.getChildrenByKind(ReflectionKind.SomeModule);
     const [ext, int] = partition(modules, (m) => m.flags.isExternal);
 
     const selected = props.model.isProject();
     const current = selected || int.some((mod) => inPath(mod, props.model));
 
-    //if (ext.length) {
     return (
         <nav class="tsd-navigation primary">
             <details class="tsd-index-accordion" open={true}>
@@ -104,9 +81,7 @@ function primaryNavigation(
                 <div class="tsd-accordion-details">
                     <ul>
                         <li class={classNames({ current, selected })}>
-                            <a href={context.urlTo(props.model.project)}>
-                                {wbr(props.project.name)}
-                            </a>
+                            <a href={context.urlTo(props.model.project)}>{wbr(props.project.name)}</a>
                             <ul>{int.map(link)}</ul>
                         </li>
                         {ext.map(link)}
@@ -115,38 +90,18 @@ function primaryNavigation(
             </details>
         </nav>
     );
-    //}
-
-    return (
-        <nav class="tsd-navigation primary">
-            <div class="tsd-accordion-details">
-                <ul>
-                    <li class={classNames({ current, selected })}>
-                        <a href={context.urlTo(props.model.project)}>
-                            {wbr(props.project.name)}
-                        </a>
-                        <ul>{int.map(link)}</ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    );
 
     function link(mod: DeclarationReflection) {
         const current = inPath(mod, props.model);
         const selected = mod.name === props.model.name;
         let childNav: JSX.Element | undefined;
-        const childModules = mod.children?.filter((m) =>
-            m.kindOf(ReflectionKind.SomeModule)
-        );
+        const childModules = mod.children?.filter((m) => m.kindOf(ReflectionKind.SomeModule));
         if (childModules?.length) {
             childNav = <ul>{childModules.map(link)}</ul>;
         }
 
         return (
-            <li
-                class={classNames({ current, selected }) + " " + mod.cssClasses}
-            >
+            <li class={classNames({ current, selected }) + " " + mod.cssClasses}>
                 <a href={context.urlTo(mod)}>{wbr(mod.name)}</a>
                 {childNav}
             </li>
@@ -154,20 +109,11 @@ function primaryNavigation(
     }
 }
 
-function secondaryNavigation(
-    context: DefaultThemeRenderContext,
-    props: PageEvent<Reflection>
-) {
-    const children =
-        props.model instanceof ContainerReflection
-            ? props.model.children || []
-            : [];
+function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+    const children = props.model instanceof ContainerReflection ? props.model.children || [] : [];
 
     // Multiple entry points, and on main project page.
-    if (
-        props.model.isProject() &&
-        props.model.getChildrenByKind(ReflectionKind.Module).length
-    ) {
+    if (props.model.isProject() && props.model.getChildrenByKind(ReflectionKind.Module).length) {
         return;
     }
 
@@ -185,10 +131,7 @@ function secondaryNavigation(
                 .map((child) => {
                     return (
                         <li class={child.cssClasses}>
-                            <a
-                                href={context.urlTo(child)}
-                                class="tsd-index-link"
-                            >
+                            <a href={context.urlTo(child)} class="tsd-index-link">
                                 {icons[child.kind]()}
                                 <span>{wbr(child.name)}</span>
                             </a>
@@ -198,14 +141,8 @@ function secondaryNavigation(
         </ul>
     );
 
-    if (
-        props.model.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)
-    ) {
-        return (
-            <nav class="tsd-navigation secondary menu-sticky">
-                {pageNavigation}
-            </nav>
-        );
+    if (props.model.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
+        return <nav class="tsd-navigation secondary menu-sticky">{pageNavigation}</nav>;
     }
 
     return (
@@ -223,10 +160,7 @@ function secondaryNavigation(
     );
 }
 
-function inPath(
-    thisPage: Reflection,
-    toCheck: Reflection | undefined
-): boolean {
+function inPath(thisPage: Reflection, toCheck: Reflection | undefined): boolean {
     while (toCheck) {
         if (toCheck.isProject()) return false;
 

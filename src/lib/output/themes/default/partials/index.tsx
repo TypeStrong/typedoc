@@ -7,7 +7,7 @@ import { icons } from "./icon";
 function renderCategory(
     { urlTo }: DefaultThemeRenderContext,
     item: ReflectionCategory,
-    cssClasses?: string,
+    cssClasses = "",
     prependName = ""
 ) {
     return (

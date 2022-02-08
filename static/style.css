@@ -22,7 +22,7 @@
     --dark-color-background-secondary: #151619;
     --dark-color-icon-background: #263238;
     --dark-color-accent: #454545;
-    --dark-color-text: #ffffff;
+    --dark-color-text: #f5f5f5;
     --dark-color-text-aside: #e6e4e4;
     --dark-color-link: #00aff4;
     --dark-color-ts: #ff6492;
@@ -201,7 +201,16 @@ dd {
     }
 }
 
+/* Footer */
+.tsd-generator {
+    border-top: 1px solid var(--color-accent);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
 .tsd-generator > p {
+    margin-top: 0;
+    margin-bottom: 0;
     padding: 0 1rem;
 }
 
@@ -209,7 +218,7 @@ dd {
     display: flex;
     justify-content: space-between;
     position: relative;
-    margin: 2rem auto;
+    margin: 0 auto;
 }
 
 .col-4,
@@ -640,6 +649,13 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     font-weight: bold;
 }
 
+.tsd-panel-group.tsd-index-group {
+    margin-bottom: 0;
+}
+.tsd-index-group details[open] {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
 .tsd-index-panel .tsd-index-list {
     list-style: none;
     line-height: 1.333em;
@@ -812,27 +828,25 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     padding-left: 0;
 }
 .tsd-navigation.secondary ul li li a {
-    padding-left: 1rem;
+    padding-left: 1.1rem;
 }
 .tsd-navigation.secondary ul li li li a {
-    padding-left: 2rem;
+    padding-left: 2.2rem;
 }
 .tsd-navigation.secondary ul li li li li a {
-    padding-left: 3rem;
+    padding-left: 3.3rem;
 }
 .tsd-navigation.secondary ul li li li li li a {
-    padding-left: 4rem;
+    padding-left: 4.4rem;
 }
 .tsd-navigation.secondary ul li li li li li li a {
-    padding-left: 5rem;
-}
-.tsd-navigation.secondary li.current > a {
-    font-weight: bold;
+    padding-left: 5.5rem;
 }
 
 a.tsd-index-link {
     margin: 0.1rem 0;
-    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.5rem;
     display: inline-flex;
     align-items: center;
 }
@@ -868,13 +882,21 @@ a.tsd-index-link {
 .tsd-index-content > :not(:first-child) {
     margin-top: 0.75rem;
 }
+.tsd-index-heading {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
 
 .tsd-kind-icon {
     margin-right: 0.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-    min-width: 1.5rem;
-    min-height: 1.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    min-width: 1.25rem;
+    min-height: 1.25rem;
+}
+.tsd-kind-icon path {
+    transform-origin: center;
+    transform: scale(1.1);
 }
 .tsd-index-content .tsd-kind-icon {
     height: 2rem;
@@ -884,6 +906,10 @@ a.tsd-index-link {
 }
 
 @media (min-width: 1024px) {
+    .col-content {
+        margin: 2rem auto;
+    }
+
     .menu-sticky-wrap {
         position: sticky;
         height: 94vh;
@@ -893,6 +919,9 @@ a.tsd-index-link {
         transition: 0.3s ease-in-out;
         transition-property: top, padding-top, height;
         overflow-y: auto;
+    }
+    .col-menu {
+        border-left: 1px solid var(--color-accent);
     }
     .col-menu .tsd-navigation:not(:last-child) {
         padding-bottom: 1.75rem;
@@ -909,6 +938,9 @@ a.tsd-index-link {
 }
 
 .tsd-panel {
+    margin-bottom: 2.5rem;
+}
+.tsd-panel.tsd-member {
     margin-bottom: 4rem;
 }
 .tsd-panel:empty {
@@ -1250,5 +1282,4 @@ img {
     background-color: var(--color-accent);
     border-radius: 999rem;
     border: 0.25rem solid var(--color-icon-background);
-}
 }
