@@ -18,18 +18,12 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
 function settings() {
     // Settings panel above navigation
 
-    const visibilityOptions = ["public", "protected", "private", "inherited"].map((name) => {
+    const visibilityOptions = ["protected", "private", "inherited"].map((name) => {
         const value = name.charAt(0).toUpperCase() + name.slice(1);
         return (
             <li class="tsd-filter-item">
                 <label class="tsd-filter-input">
-                    <input
-                        type="checkbox"
-                        id={`tsd-filter-${name}`}
-                        name={name}
-                        value={value}
-                        {...(name === "public" ? { checked: true, disabled: true } : {})}
-                    />
+                    <input type="checkbox" id={`tsd-filter-${name}`} name={name} value={value} />
                     {icons.checkbox()}
                     <span>{value}</span>
                 </label>
