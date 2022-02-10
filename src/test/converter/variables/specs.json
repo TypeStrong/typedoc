@@ -198,7 +198,9 @@
           "name": "complex",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "A const of a complex type."
           },
@@ -253,7 +255,9 @@
           "name": "custom",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "An exported const of the custom array type."
           },
@@ -523,7 +527,9 @@
           "name": "callbackReturn",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "type": {
             "type": "reflection",
             "declaration": {
@@ -743,7 +749,9 @@
           "name": "objectLiteral",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "An object literal."
           },
@@ -1289,7 +1297,9 @@
           "name": "myConst",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "type": {
             "type": "literal",
             "value": 15

@@ -28,9 +28,7 @@
           "name": "export=",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "signatures": [
             {
               "id": 3,
@@ -536,7 +534,9 @@
           "name": "ColumnType",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {},
           "type": {
             "type": "reflection",
@@ -591,9 +591,7 @@
           "name": "usedFoo",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "signatures": [
             {
               "id": 8,

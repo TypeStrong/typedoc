@@ -318,9 +318,7 @@
           "name": "all",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "signatures": [
             {
               "id": 100,
@@ -1544,9 +1542,7 @@
           "name": "variableFunction",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "signatures": [
             {
               "id": 84,

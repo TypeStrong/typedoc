@@ -105,7 +105,9 @@
               "name": "Member",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isConst": true
+              },
               "type": {
                 "type": "literal",
                 "value": 1
@@ -117,7 +119,9 @@
               "name": "Module",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isConst": true
+              },
               "type": {
                 "type": "reference",
                 "id": 29,
@@ -130,7 +134,9 @@
               "name": "TypedMember",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isConst": true
+              },
               "type": {
                 "type": "reference",
                 "id": 29,
@@ -143,7 +149,9 @@
               "name": "TypedModule",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isConst": true
+              },
               "type": {
                 "type": "reference",
                 "id": 29,
@@ -356,7 +364,9 @@
           "name": "default",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "type": {
             "type": "literal",
             "value": 5
@@ -386,7 +396,9 @@
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "type": {
             "type": "literal",
             "value": 5
@@ -511,7 +523,9 @@
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "A simple named export that will be exported from export.ts"
           },

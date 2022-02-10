@@ -198,7 +198,9 @@
           "name": "complex",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "A const of a complex type."
           },
@@ -253,7 +255,9 @@
           "name": "custom",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "An exported const of the custom array type."
           },
@@ -357,7 +361,9 @@
           "name": "objectLiteral",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "An object literal."
           },

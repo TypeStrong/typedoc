@@ -73,7 +73,9 @@
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -206,7 +208,9 @@
           "name": "ActionSet",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "type": {
             "type": "reference",
             "qualifiedName": "ts.server.ActionSet",

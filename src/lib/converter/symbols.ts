@@ -930,19 +930,6 @@ function convertVariableAsFunction(
         exportSymbol
     );
     setModifiers(symbol, accessDeclaration, reflection);
-    // Does anyone care about this? I doubt it...
-    if (
-        declaration &&
-        hasAllFlags(symbol.flags, ts.SymbolFlags.BlockScopedVariable)
-    ) {
-        reflection.setFlag(
-            ReflectionFlag.Const,
-            hasAllFlags(
-                (declaration || symbol.valueDeclaration).parent.flags,
-                ts.NodeFlags.Const
-            )
-        );
-    }
 
     context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
 
@@ -1065,6 +1052,16 @@ function setModifiers(
         ReflectionFlag.Abstract,
         hasAllFlags(modifiers, ts.ModifierFlags.Abstract)
     );
+
+    if (
+        reflection.kindOf(ReflectionKind.Variable) &&
+        hasAllFlags(symbol.flags, ts.SymbolFlags.BlockScopedVariable)
+    ) {
+        reflection.setFlag(
+            ReflectionFlag.Const,
+            hasAllFlags(declaration.parent.flags, ts.NodeFlags.Const)
+        );
+    }
 
     // ReflectionFlag.Static happens when constructing the reflection.
     // We don't have sufficient information here to determine if it ought to be static.
