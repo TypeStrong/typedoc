@@ -1,5 +1,5 @@
 {
     "timeout": 0,
-    "spec": "dist/test/**/*.test.js",
-    "exclude": ["dist/test/packages/**"]
+    "spec": "src/test/**/*.test.ts",
+    "exclude": ["src/test/packages/**"]
 }

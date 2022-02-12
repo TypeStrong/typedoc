@@ -4,6 +4,10 @@
 
 -   Fixed `const` variables not properly marked as `const`, #1866.
 
+### Thanks!
+
+-   @albyrock87
+
 ## v0.22.11 (2022-01-18)
 
 ### Features
