@@ -164,6 +164,7 @@ describe("Options - ArgumentsReader", () => {
             equal(logger.hasWarnings(), false);
             equal(options.getValue("validation"), {
                 notExported: true,
+                notDocumented: false,
                 invalidLink: true,
             });
         }
@@ -182,6 +183,7 @@ describe("Options - ArgumentsReader", () => {
             equal(logger.hasWarnings(), false);
             equal(options.getValue("validation"), {
                 notExported: false,
+                notDocumented: false,
                 invalidLink: true,
             });
         }
@@ -195,6 +197,7 @@ describe("Options - ArgumentsReader", () => {
             equal(logger.hasWarnings(), false);
             equal(options.getValue("validation"), {
                 notExported: true,
+                notDocumented: true,
                 invalidLink: true,
             });
         }
@@ -208,6 +211,7 @@ describe("Options - ArgumentsReader", () => {
             equal(logger.hasWarnings(), false);
             equal(options.getValue("validation"), {
                 notExported: true,
+                notDocumented: true,
                 invalidLink: true,
             });
         }
@@ -221,6 +225,7 @@ describe("Options - ArgumentsReader", () => {
             equal(logger.hasWarnings(), false);
             equal(options.getValue("validation"), {
                 notExported: false,
+                notDocumented: false,
                 invalidLink: false,
             });
         }

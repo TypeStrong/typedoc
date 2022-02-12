@@ -129,7 +129,7 @@ Before submitting a pull request, make sure that there are no linting problems (
 
 If your change is user facing, consider updating `CHANGELOG.md` to describe the change you have made. If you don't, the maintainer who merges your pull request will do it for you.
 
-Please do not change the project version number in a pull request.
+Please do not change the project version number in a pull request unless submitting a patch to the `lts` branch.
 
 ## Updating Your Branch
 

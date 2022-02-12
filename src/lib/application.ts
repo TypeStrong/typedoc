@@ -34,6 +34,7 @@ import {
 } from "./utils/entry-point";
 import { nicePath } from "./utils/paths";
 import { hasBeenLoadedMultipleTimes } from "./utils/general";
+import { validateDocumentation } from "./validation/documentation";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -413,6 +414,14 @@ export class Application extends ChildableComponent<
                 project,
                 this.logger,
                 this.options.getValue("intentionallyNotExported")
+            );
+        }
+
+        if (checks.notDocumented) {
+            validateDocumentation(
+                project,
+                this.logger,
+                this.options.getValue("requiredToBeDocumented")
             );
         }
 

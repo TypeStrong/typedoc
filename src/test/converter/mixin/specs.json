@@ -1053,9 +1053,7 @@
       "name": "Mixin1Func",
       "kind": 64,
       "kindString": "Function",
-      "flags": {
-        "isConst": true
-      },
+      "flags": {},
       "signatures": [
         {
           "id": 20,
@@ -1158,9 +1156,7 @@
       "name": "Mixin2",
       "kind": 64,
       "kindString": "Function",
-      "flags": {
-        "isConst": true
-      },
+      "flags": {},
       "signatures": [
         {
           "id": 34,
@@ -1273,9 +1269,7 @@
       "name": "Mixin3",
       "kind": 64,
       "kindString": "Function",
-      "flags": {
-        "isConst": true
-      },
+      "flags": {},
       "signatures": [
         {
           "id": 52,

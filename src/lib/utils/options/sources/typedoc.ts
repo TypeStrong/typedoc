@@ -4,6 +4,7 @@ import { ParameterType, ParameterHint, EmitStrategy } from "../declaration";
 import { BUNDLED_THEMES, Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
+import { ReflectionKind } from "../../../models/reflections/kind";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
@@ -342,6 +343,40 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "A list of types which should not produce 'referenced but not documented' warnings.",
         type: ParameterType.Array,
     });
+    options.addDeclaration({
+        name: "requiredToBeDocumented",
+        help: "A list of reflection kinds that must be documented",
+        type: ParameterType.Array,
+        validate(values) {
+            // this is good enough because the values of the ReflectionKind enum are all numbers
+            const validValues = Object.values(ReflectionKind).filter(
+                (v) => typeof v === "string"
+            );
+
+            for (const kind of values) {
+                if (validValues.includes(kind)) {
+                    throw new Error(
+                        `'${kind}' is an invalid value for 'requiredToBeDocumented'. Must be one of: ${validValues.join(
+                            ", "
+                        )}`
+                    );
+                }
+            }
+        },
+        defaultValue: [
+            "Enum",
+            "EnumMember",
+            "Variable",
+            "Function",
+            "Class",
+            "Interface",
+            "Property",
+            "Method",
+            "GetSignature",
+            "SetSignature",
+            "TypeAlias",
+        ],
+    });
 
     options.addDeclaration({
         name: "validation",
@@ -350,6 +385,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaults: {
             notExported: true,
             invalidLink: false,
+            notDocumented: false,
         },
     });
 }
