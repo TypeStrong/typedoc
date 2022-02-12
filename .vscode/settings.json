@@ -9,5 +9,6 @@
     "prettier.enable": true,
     "prettier.configPath": ".config/.prettierrc.json",
     "prettier.ignorePath": ".config/.prettierignore",
-    "eslint.workingDirectories": [".", "./example"]
+    "eslint.workingDirectories": [".", "./example"],
+    "mochaExplorer.configFile": ".config/mocha.test-explorer.json"
 }

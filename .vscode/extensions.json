@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "hbenl.vscode-test-explorer",
+        "hbenl.vscode-mocha-test-adapter"
+    ]
+}
