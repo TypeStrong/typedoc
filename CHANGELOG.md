@@ -221,6 +221,9 @@
     See [internal-docs/custom-themes.md](https://github.com/TypeStrong/typedoc/blob/v0.22.0/internal-docs/custom-themes.md) for documentation on how to create a custom theme in v0.22.
 -   Removed the minimal theme that has been mostly broken for a long time.
 -   Changed the default `entryPointStrategy` from `expand` to `resolve`.
+-   Paths in config files will now be resolved relative to the config file instead of relative to the current working directory.
+-   Exclude patterns are now checked against files instead of against each part of the path as traversed, #1399.
+    This means that an exclude of `**/someDir` will **not** exclude files in that directory. To exclude files in a directory, specify `**/someDir/**`.
 
 ### Features
 
