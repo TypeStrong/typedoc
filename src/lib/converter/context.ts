@@ -177,7 +177,7 @@ export class Context {
             "@module",
             "@inheritDoc",
         ]),
-        inlineTags: new Set(["@link", "@inheritDoc"]),
+        inlineTags: new Set(["@link", "@inheritDoc", "@label"]),
         modifierTags: new Set([
             // TSDoc standard
             "@public",

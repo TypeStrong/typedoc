@@ -2,14 +2,13 @@ import {
     Reflection,
     ContainerReflection,
     DeclarationReflection,
-    CommentTag,
     Comment,
 } from "../../models";
 import { ReflectionCategory } from "../../models/ReflectionCategory";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { BindOption } from "../../utils";
+import { BindOption, removeIf } from "../../utils";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -178,46 +177,34 @@ export class CategoryPlugin extends ConverterComponent {
      * @returns The category the reflection belongs to
      */
     static getCategories(reflection: DeclarationReflection) {
-        function extractCategoryTag(comment: Comment | undefined) {
-            const categories = new Set<string>();
-            if (!comment) return categories;
+        const categories = new Set<string>();
+        function extractCategoryTags(comment: Comment | undefined) {
+            if (!comment) return;
+            removeIf(comment.blockTags, (tag) => {
+                if (tag.tag === "@category") {
+                    categories.add(
+                        Comment.combineDisplayParts(tag.content).trim()
+                    );
 
-            const tags = comment.blockTags;
-            const commentTags: CommentTag[] = [];
-            tags.forEach((tag) => {
-                if (tag.tag !== "@category") {
-                    commentTags.push(tag);
-                    return;
+                    return true;
                 }
-                const text = Comment.combineDisplayParts(tag.content).trim();
-                if (!text) {
-                    return;
-                }
-                categories.add(text);
+                return false;
             });
-            comment.blockTags = commentTags;
-            return categories;
         }
 
-        let categories = new Set<string>();
-
-        if (reflection.comment) {
-            categories = extractCategoryTag(reflection.comment);
-        } else if (reflection.signatures) {
-            for (const sig of reflection.signatures) {
-                for (const cat of extractCategoryTag(sig.comment)) {
-                    categories.add(cat);
-                }
-            }
+        extractCategoryTags(reflection.comment);
+        for (const sig of reflection.getNonIndexSignatures()) {
+            extractCategoryTags(sig.comment);
         }
 
         if (reflection.type?.type === "reflection") {
-            reflection.type.declaration.comment?.removeTags("@category");
-            reflection.type.declaration.signatures?.forEach((s) =>
-                s.comment?.removeTags("@category")
-            );
+            extractCategoryTags(reflection.type.declaration.comment);
+            for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+                extractCategoryTags(sig.comment);
+            }
         }
 
+        categories.delete("");
         return categories;
     }
 

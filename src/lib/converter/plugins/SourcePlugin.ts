@@ -83,8 +83,6 @@ export class SourcePlugin extends ConverterComponent {
             return;
         }
 
-        if (reflection.name === "constructor") debugger;
-
         let declarations: ts.Declaration[] = [];
         if (reflection.kind === ReflectionKind.Constructor) {
             for (const decl of symbol.declarations || []) {

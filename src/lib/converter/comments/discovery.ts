@@ -22,19 +22,19 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.PropertyAssignment,
     ],
     [ReflectionKind.Variable]: [ts.SyntaxKind.VariableDeclaration],
-    // Intentionally nothing here, comments will be placed on signatures.
-    [ReflectionKind.Function]: [],
+    [ReflectionKind.Function]: [ts.SyntaxKind.FunctionDeclaration],
     [ReflectionKind.Class]: [ts.SyntaxKind.ClassDeclaration],
     [ReflectionKind.Interface]: [ts.SyntaxKind.InterfaceDeclaration],
-    // Intentionally nothing here, comments will be placed on signatures.
-    [ReflectionKind.Constructor]: [],
+    [ReflectionKind.Constructor]: [ts.SyntaxKind.Constructor],
     [ReflectionKind.Property]: [
         ts.SyntaxKind.PropertyDeclaration,
         ts.SyntaxKind.PropertySignature,
         ts.SyntaxKind.BinaryExpression,
     ],
-    // Intentionally nothing here, comments will be placed on signatures.
-    [ReflectionKind.Method]: [],
+    [ReflectionKind.Method]: [
+        ts.SyntaxKind.FunctionDeclaration,
+        ts.SyntaxKind.MethodDeclaration,
+    ],
     [ReflectionKind.CallSignature]: [
         ts.SyntaxKind.FunctionDeclaration,
         ts.SyntaxKind.VariableDeclaration,
@@ -77,6 +77,16 @@ export function discoverComment(
         if (wantedKinds[kind].includes(decl.kind)) {
             const node = declarationToCommentNode(decl);
             if (!node) {
+                continue;
+            }
+
+            // Special behavior here! We temporarily put the implementation comment
+            // on the reflection which contains all the signatures. This lets us pull
+            // the comment on the implementation if some signature does not have a comment.
+            if (
+                kind & ReflectionKind.ContainsCallSignatures &&
+                !(node as ts.FunctionDeclaration).body
+            ) {
                 continue;
             }
 

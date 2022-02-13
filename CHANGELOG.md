@@ -3,10 +3,11 @@
 ### Currently Broken
 
 -   Comment rendering
+-   Inline `@inheritDoc` tags
 
 ### Breaking Changes
 
--   TODO: The behavior of `@inheritDoc` has changed... describe how.
+-   TODO: The behavior of `@inheritDoc` has changed... describe how
 -   `reflection.decorates`, `reflection.decorators`, and their corresponding interfaces have been removed as no code in TypeDoc used them.
 -   The shape of the `Comment` class has changed significantly to support multiple tag kinds.
 -   Listeners to `Converter.EVENT_CREATE_TYPE_PARAMETER` and `Converter.EVENT_CREATE_DECLARATION` will now never be passed a `ts.Node` as their third argument.

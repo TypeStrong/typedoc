@@ -12,3 +12,15 @@ export function foo(x: string): number;
 export function foo(x?: string): string | number {
     return x == null ? "" : x.length;
 }
+
+export function bar(): string;
+/**
+ * Custom comment
+ */
+export function bar(x: string): string;
+/**
+ * Implementation comment
+ */
+export function bar(x?: string) {
+    return x || "";
+}

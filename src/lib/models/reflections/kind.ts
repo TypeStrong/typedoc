@@ -69,4 +69,10 @@ export namespace ReflectionKind {
         ReflectionKind.Property |
         ReflectionKind.Method |
         ReflectionKind.Constructor;
+
+    /** @internal */
+    export const ContainsCallSignatures =
+        ReflectionKind.Constructor |
+        ReflectionKind.Function |
+        ReflectionKind.Method;
 }

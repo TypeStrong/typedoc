@@ -56,28 +56,22 @@ export const behaviorTests: Record<
         ]);
     },
     // Disabled for now, pending https://github.com/TypeStrong/typedoc/issues/1809
-    overloads_skip(project) {
+    overloads(project) {
         const foo = query(project, "foo");
-        equal(foo.signatures?.length, 2);
-
-        equal(
-            Comment.combineDisplayParts(foo.signatures[0].comment?.summary),
-            "Implementation comment"
+        const fooComments = foo.signatures?.map((sig) =>
+            Comment.combineDisplayParts(sig.comment?.summary)
         );
-        equal(foo.signatures[0].comment?.blockTags, []);
-
-        equal(
-            Comment.combineDisplayParts(foo.signatures[1].comment?.summary),
-            "Overrides summary"
-        );
-        equal(foo.signatures[1].comment?.blockTags, []);
-        equal(
-            Comment.combineDisplayParts(
-                foo.signatures[1].parameters?.[0].comment?.summary
-            ),
-            "docs for x"
-        );
-
+        equal(fooComments, [
+            "No arg comment\n{@label NO_ARGS}",
+            "{@inheritDoc (foo:NO_ARGS)}\n{@label WITH_X}",
+        ]);
         equal(foo.comment, undefined);
+
+        const bar = query(project, "bar");
+        const barComments = bar.signatures?.map((sig) =>
+            Comment.combineDisplayParts(sig.comment?.summary)
+        );
+        equal(barComments, ["Implementation comment", "Custom comment"]);
+        equal(bar.comment, undefined);
     },
 };

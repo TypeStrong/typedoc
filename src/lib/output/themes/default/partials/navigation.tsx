@@ -80,13 +80,6 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
         return;
     }
 
-    // TODO: TypeDoc 0.21 did special things here. If there were more than 40
-    // children of this page's parent, it only displayed this page's children.
-    // Otherwise, it displayed *everything*. For now, only display page children.
-    // It seems weird to do this according to a random hardcoded number. At the very
-    // least this should be added as a configurable flag, but maybe even the whole
-    // behavior should be configurable globally...
-
     const pageNavigation = (
         <ul>
             {children
