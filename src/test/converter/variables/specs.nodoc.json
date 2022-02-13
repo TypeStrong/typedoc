@@ -467,14 +467,6 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "An object literal."
-                  }
-                ]
-              },
               "sources": [
                 {
                   "fileName": "literal.ts",
@@ -515,14 +507,6 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "A typed literal without an initializer."
-                  }
-                ]
-              },
               "sources": [
                 {
                   "fileName": "literal.ts",

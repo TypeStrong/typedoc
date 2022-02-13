@@ -425,9 +425,7 @@
           "name": "all",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "sources": [
             {
               "fileName": "function.ts",
@@ -2157,9 +2155,7 @@
           "name": "variableFunction",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "sources": [
             {
               "fileName": "function.ts",

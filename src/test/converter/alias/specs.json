@@ -122,14 +122,6 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "A type that describes a compare function, e.g. for array.sort()."
-          }
-        ]
-      },
       "sources": [
         {
           "fileName": "alias.ts",
@@ -154,14 +146,6 @@
           "kind": 65536,
           "kindString": "Type literal",
           "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "A type that describes a compare function, e.g. for array.sort()."
-              }
-            ]
-          },
           "sources": [
             {
               "fileName": "alias.ts",
@@ -176,6 +160,14 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A type that describes a compare function, e.g. for array.sort()."
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 4,

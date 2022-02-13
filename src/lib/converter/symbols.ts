@@ -910,19 +910,6 @@ function convertVariableAsFunction(
         exportSymbol
     );
     setModifiers(symbol, accessDeclaration, reflection);
-    // Does anyone care about this? I doubt it...
-    if (
-        declaration &&
-        hasAllFlags(symbol.flags, ts.SymbolFlags.BlockScopedVariable)
-    ) {
-        reflection.setFlag(
-            ReflectionFlag.Const,
-            hasAllFlags(
-                (declaration || symbol.valueDeclaration).parent.flags,
-                ts.NodeFlags.Const
-            )
-        );
-    }
 
     context.finalizeDeclarationReflection(reflection);
 

@@ -1037,14 +1037,6 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "Any constructor function"
-          }
-        ]
-      },
       "sources": [
         {
           "fileName": "mixin.ts",
@@ -1073,14 +1065,6 @@
           "kind": 512,
           "kindString": "Constructor",
           "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "Any constructor function"
-              }
-            ]
-          },
           "signatures": [
             {
               "id": 8,
@@ -1088,6 +1072,14 @@
               "kind": 16384,
               "kindString": "Constructor signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Any constructor function"
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 9,
@@ -1122,14 +1114,6 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "Any function"
-          }
-        ]
-      },
       "sources": [
         {
           "fileName": "mixin.ts",
@@ -1158,14 +1142,6 @@
           "kind": 65536,
           "kindString": "Type literal",
           "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "Any function"
-              }
-            ]
-          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -1180,6 +1156,14 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Any function"
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 4,
@@ -1324,9 +1308,7 @@
       "name": "Mixin1Func",
       "kind": 64,
       "kindString": "Function",
-      "flags": {
-        "isConst": true
-      },
+      "flags": {},
       "sources": [
         {
           "fileName": "mixin.ts",
@@ -1440,9 +1422,7 @@
       "name": "Mixin2",
       "kind": 64,
       "kindString": "Function",
-      "flags": {
-        "isConst": true
-      },
+      "flags": {},
       "sources": [
         {
           "fileName": "mixin.ts",
@@ -1566,9 +1546,7 @@
       "name": "Mixin3",
       "kind": 64,
       "kindString": "Function",
-      "flags": {
-        "isConst": true
-      },
+      "flags": {},
       "sources": [
         {
           "fileName": "mixin.ts",

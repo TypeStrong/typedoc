@@ -1620,14 +1620,6 @@
               "kind": 256,
               "kindString": "Interface",
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Function signature of an event listener callback"
-                  }
-                ]
-              },
               "sources": [
                 {
                   "fileName": "interface-implementation.ts",

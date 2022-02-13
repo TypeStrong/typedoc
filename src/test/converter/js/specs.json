@@ -34,9 +34,7 @@
           "name": "export=",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "sources": [
             {
               "fileName": "export-eq-type.js",
@@ -582,14 +580,6 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "even though in the same comment block"
-              }
-            ]
-          },
           "sources": [
             {
               "fileName": "index.js",
@@ -605,14 +595,6 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "even though in the same comment block"
-                  }
-                ]
-              },
               "sources": [
                 {
                   "fileName": "index.js",
@@ -627,6 +609,14 @@
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "even though in the same comment block"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -800,14 +790,6 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "enum comment"
-                  }
-                ]
-              },
               "children": [
                 {
                   "id": 13,
@@ -874,9 +856,7 @@
           "name": "usedFoo",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isConst": true
-          },
+          "flags": {},
           "sources": [
             {
               "fileName": "index.js",

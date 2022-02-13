@@ -249,24 +249,35 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         if (reflection.type instanceof ReflectionType) {
-            // GERRIT: This is problematic. Need to revisit and try to stop having nested reflections.
-            reflection.type.declaration.comment ||= reflection.comment?.clone();
-
-            this.processSignatureComments(
+            this.moveCommentToSignatures(
+                reflection,
                 reflection.type.declaration.getNonIndexSignatures()
             );
         } else {
-            this.processSignatureComments(reflection.getNonIndexSignatures());
+            this.moveCommentToSignatures(
+                reflection,
+                reflection.getNonIndexSignatures()
+            );
         }
     }
 
-    private processSignatureComments(signatures: SignatureReflection[]) {
+    private moveCommentToSignatures(
+        reflection: DeclarationReflection,
+        signatures: SignatureReflection[]
+    ) {
         if (!signatures.length) {
             return;
         }
 
+        const comment = reflection.comment;
+
+        // Since this reflection has signatures, remove the comment from the parent
+        // reflection. This is important so that in type aliases we don't end up with
+        // a comment rendered twice.
+        delete reflection.comment;
+
         for (const signature of signatures) {
-            const childComment = signature.comment;
+            const childComment = (signature.comment ||= comment?.clone());
             if (!childComment) continue;
 
             signature.parameters?.forEach((parameter, index) => {
