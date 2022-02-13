@@ -1,11 +1,19 @@
-import { ContainerReflection, DeclarationReflection, Reflection, ReflectionKind } from "../../../../models";
+import {
+    ContainerReflection,
+    DeclarationReflection,
+    Reflection,
+    ReflectionKind,
+} from "../../../../models";
 import { JSX, partition } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { classNames, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { icons } from "./icon";
 
-export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+export function navigation(
+    context: DefaultThemeRenderContext,
+    props: PageEvent<Reflection>
+) {
     return (
         <>
             {settings()}
@@ -18,18 +26,25 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
 function settings() {
     // Settings panel above navigation
 
-    const visibilityOptions = ["protected", "private", "inherited"].map((name) => {
-        const value = name.charAt(0).toUpperCase() + name.slice(1);
-        return (
-            <li class="tsd-filter-item">
-                <label class="tsd-filter-input">
-                    <input type="checkbox" id={`tsd-filter-${name}`} name={name} value={value} />
-                    {icons.checkbox()}
-                    <span>{value}</span>
-                </label>
-            </li>
-        );
-    });
+    const visibilityOptions = ["protected", "private", "inherited"].map(
+        (name) => {
+            const value = name.charAt(0).toUpperCase() + name.slice(1);
+            return (
+                <li class="tsd-filter-item">
+                    <label class="tsd-filter-input">
+                        <input
+                            type="checkbox"
+                            id={`tsd-filter-${name}`}
+                            name={name}
+                            value={value}
+                        />
+                        {icons.checkbox()}
+                        <span>{value}</span>
+                    </label>
+                </li>
+            );
+        }
+    );
     return (
         <div class="tsd-navigation settings">
             <details class="tsd-index-accordion" open={false}>
@@ -40,7 +55,9 @@ function settings() {
                     <div class="tsd-filter-visibility">
                         <h4 class="uppercase">Member Visibility</h4>
                         <form>
-                            <ul id="tsd-filter-options">{...visibilityOptions}</ul>
+                            <ul id="tsd-filter-options">
+                                {...visibilityOptions}
+                            </ul>
                         </form>
                     </div>
                 </div>
@@ -57,10 +74,15 @@ function settings() {
     );
 }
 
-function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+function primaryNavigation(
+    context: DefaultThemeRenderContext,
+    props: PageEvent<Reflection>
+) {
     // Create the navigation for the current page
 
-    const modules = props.model.project.getChildrenByKind(ReflectionKind.SomeModule);
+    const modules = props.model.project.getChildrenByKind(
+        ReflectionKind.SomeModule
+    );
     const [ext, int] = partition(modules, (m) => m.flags.isExternal);
 
     const selected = props.model.isProject();
@@ -75,7 +97,9 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
                 <div class="tsd-accordion-details">
                     <ul>
                         <li class={classNames({ current, selected })}>
-                            <a href={context.urlTo(props.model.project)}>{wbr(props.project.name)}</a>
+                            <a href={context.urlTo(props.model.project)}>
+                                {wbr(props.project.name)}
+                            </a>
                             <ul>{int.map(link)}</ul>
                         </li>
                         {ext.map(link)}
@@ -89,13 +113,17 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
         const current = inPath(mod, props.model);
         const selected = mod.name === props.model.name;
         let childNav: JSX.Element | undefined;
-        const childModules = mod.children?.filter((m) => m.kindOf(ReflectionKind.SomeModule));
+        const childModules = mod.children?.filter((m) =>
+            m.kindOf(ReflectionKind.SomeModule)
+        );
         if (childModules?.length) {
             childNav = <ul>{childModules.map(link)}</ul>;
         }
 
         return (
-            <li class={classNames({ current, selected }) + " " + mod.cssClasses}>
+            <li
+                class={classNames({ current, selected }) + " " + mod.cssClasses}
+            >
                 <a href={context.urlTo(mod)}>{wbr(mod.name)}</a>
                 {childNav}
             </li>
@@ -103,40 +131,44 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
     }
 }
 
-function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
-    const children = props.model instanceof ContainerReflection ? props.model.children || [] : [];
+function secondaryNavigation(
+    context: DefaultThemeRenderContext,
+    props: PageEvent<Reflection>
+) {
+    const children =
+        props.model instanceof ContainerReflection
+            ? props.model.children || []
+            : [];
 
     // Multiple entry points, and on main project page.
-    if (props.model.isProject() && props.model.getChildrenByKind(ReflectionKind.Module).length) {
+    if (
+        props.model.isProject() &&
+        props.model.getChildrenByKind(ReflectionKind.Module).length
+    ) {
         return;
     }
 
-    // TODO: TypeDoc 0.21 did special things here. If there were more than 40
-    // children of this page's parent, it only displayed this page's children.
-    // Otherwise, it displayed *everything*. For now, only display page children.
-    // It seems weird to do this according to a random hardcoded number. At the very
-    // least this should be added as a configurable flag, but maybe even the whole
-    // behavior should be configurable globally...
+    const pageNavigation = children
+        .filter((child) => !child.kindOf(ReflectionKind.SomeModule))
+        .map((child) => {
+            return (
+                <li class={child.cssClasses}>
+                    <a href={context.urlTo(child)} class="tsd-index-link">
+                        {icons[child.kind]()}
+                        <span>{wbr(child.name)}</span>
+                    </a>
+                </li>
+            );
+        });
 
-    const pageNavigation = (
-        <ul>
-            {children
-                .filter((child) => !child.kindOf(ReflectionKind.SomeModule))
-                .map((child) => {
-                    return (
-                        <li class={child.cssClasses}>
-                            <a href={context.urlTo(child)} class="tsd-index-link">
-                                {icons[child.kind]()}
-                                <span>{wbr(child.name)}</span>
-                            </a>
-                        </li>
-                    );
-                })}
-        </ul>
-    );
-
-    if (props.model.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
-        return <nav class="tsd-navigation secondary menu-sticky">{pageNavigation}</nav>;
+    if (
+        props.model.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)
+    ) {
+        return (
+            <nav class="tsd-navigation secondary menu-sticky">
+                {!!pageNavigation.length && <ul>{pageNavigation}</ul>}
+            </nav>
+        );
     }
 
     return (
@@ -147,14 +179,17 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
                         {icons[props.model.kind]()}
                         <span>{wbr(props.model.name)}</span>
                     </a>
-                    {pageNavigation}
+                    {!!pageNavigation.length && <ul>{pageNavigation}</ul>}
                 </li>
             </ul>
         </nav>
     );
 }
 
-function inPath(thisPage: Reflection, toCheck: Reflection | undefined): boolean {
+function inPath(
+    thisPage: Reflection,
+    toCheck: Reflection | undefined
+): boolean {
     while (toCheck) {
         if (toCheck.isProject()) return false;
 

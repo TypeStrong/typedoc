@@ -34,6 +34,8 @@
     --dark-color-ts-private: #e2e2e2;
     --dark-color-ts-variable: #4d68ff;
     --dark-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23fff' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
+
+    color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: light) {
@@ -99,6 +101,8 @@ body.light {
     --color-ts-private: var(--light-color-ts-private);
     --color-ts-variable: var(--light-color-ts-variable);
     --external-icon: var(--light-external-icon);
+
+    color-scheme: light;
 }
 
 body.dark {
@@ -118,6 +122,8 @@ body.dark {
     --color-ts-private: var(--dark-color-ts-private);
     --color-ts-variable: var(--dark-color-ts-variable);
     --external-icon: var(--dark-external-icon);
+
+    color-scheme: dark;
 }
 
 h1,
@@ -234,6 +240,7 @@ dd {
 .col-8 {
     flex: 1 0;
     flex-wrap: wrap;
+    padding-left: 0;
 }
 
 ul.tsd-descriptions > li > :first-child,
@@ -652,10 +659,6 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 .tsd-panel-group.tsd-index-group {
     margin-bottom: 0;
 }
-.tsd-index-group details[open] {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-}
 .tsd-index-panel .tsd-index-list {
     list-style: none;
     line-height: 1.333em;
@@ -753,9 +756,6 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     color: var(--color-ts-private);
 }
 
-.tsd-navigation {
-    margin: 0 0 0 40px;
-}
 .tsd-navigation a {
     display: block;
     margin: 0.4rem 0;
@@ -821,6 +821,7 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     top: 0.5rem;
 }
 .tsd-navigation.secondary > ul {
+    display: inline;
     padding-right: 0.5rem;
     transition: opacity 0.2s;
 }
@@ -844,9 +845,9 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 
 a.tsd-index-link {
-    margin: 0.1rem 0;
+    margin: 0.25rem 0;
     font-size: 1rem;
-    line-height: 1.5rem;
+    line-height: 1.25rem;
     display: inline-flex;
     align-items: center;
 }
@@ -856,6 +857,7 @@ a.tsd-index-link {
 .tsd-accordion-summary > h4,
 .tsd-accordion-summary > h5 {
     display: inline-flex;
+    align-items: center;
     vertical-align: middle;
     margin-bottom: 0;
     user-select: none;
@@ -898,9 +900,6 @@ a.tsd-index-link {
     transform-origin: center;
     transform: scale(1.1);
 }
-.tsd-index-content .tsd-kind-icon {
-    height: 2rem;
-}
 .tsd-signature > .tsd-kind-icon {
     margin-right: 0.8rem;
 }
@@ -927,13 +926,11 @@ a.tsd-index-link {
         padding-bottom: 1.75rem;
     }
     .col-menu.menu-sticky-wrap {
-        display: flex;
-        flex-direction: column;
+        padding: 0 1.5rem;
     }
     .col-menu--hide {
         top: 1rem;
         height: calc(100vh - 2rem);
-        padding: 0 1rem;
     }
 }
 
@@ -960,7 +957,13 @@ a.tsd-index-link {
 }
 
 .tsd-panel-group {
-    margin: 4.5rem 0;
+    margin: 4rem 0;
+}
+.tsd-panel-group.tsd-index-group {
+    margin: 2rem 0;
+}
+.tsd-panel-group.tsd-index-group details {
+    margin: 4rem 0;
 }
 
 #tsd-search {

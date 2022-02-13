@@ -10,16 +10,34 @@ for (const lang of BUNDLED_LANGUAGES) {
     }
 }
 
-const supportedLanguages = unique(["text", ...aliases.keys(), ...BUNDLED_LANGUAGES.map((lang) => lang.id)]).sort();
+const supportedLanguages = unique([
+    "text",
+    ...aliases.keys(),
+    ...BUNDLED_LANGUAGES.map((lang) => lang.id),
+]).sort();
 
 class DoubleHighlighter {
     private schemes = new Map<string, string>();
 
-    constructor(private highlighter: Highlighter, private light: Theme, private dark: Theme) {}
+    constructor(
+        private highlighter: Highlighter,
+        private light: Theme,
+        private dark: Theme
+    ) {}
 
     highlight(code: string, lang: string) {
-        const lightTokens = this.highlighter.codeToThemedTokens(code, lang, this.light, { includeExplanation: false });
-        const darkTokens = this.highlighter.codeToThemedTokens(code, lang, this.dark, { includeExplanation: false });
+        const lightTokens = this.highlighter.codeToThemedTokens(
+            code,
+            lang,
+            this.light,
+            { includeExplanation: false }
+        );
+        const darkTokens = this.highlighter.codeToThemedTokens(
+            code,
+            lang,
+            this.dark,
+            { includeExplanation: false }
+        );
 
         // If this fails... something went *very* wrong.
         assert(lightTokens.length === darkTokens.length);
@@ -40,7 +58,14 @@ class DoubleHighlighter {
                 // Simple case, same token.
                 if (lightLine[0].content === darkLine[0].content) {
                     lineEls.push(
-                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{lightLine[0].content}</span>
+                        <span
+                            class={this.getClass(
+                                lightLine[0].color,
+                                darkLine[0].color
+                            )}
+                        >
+                            {lightLine[0].content}
+                        </span>
                     );
                     lightLine.shift();
                     darkLine.shift();
@@ -49,17 +74,35 @@ class DoubleHighlighter {
 
                 if (lightLine[0].content.length < darkLine[0].content.length) {
                     lineEls.push(
-                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{lightLine[0].content}</span>
+                        <span
+                            class={this.getClass(
+                                lightLine[0].color,
+                                darkLine[0].color
+                            )}
+                        >
+                            {lightLine[0].content}
+                        </span>
                     );
-                    darkLine[0].content = darkLine[0].content.substr(lightLine[0].content.length);
+                    darkLine[0].content = darkLine[0].content.substr(
+                        lightLine[0].content.length
+                    );
                     lightLine.shift();
                     continue;
                 }
 
                 lineEls.push(
-                    <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{darkLine[0].content}</span>
+                    <span
+                        class={this.getClass(
+                            lightLine[0].color,
+                            darkLine[0].color
+                        )}
+                    >
+                        {darkLine[0].content}
+                    </span>
                 );
-                lightLine[0].content = lightLine[0].content.substr(darkLine[0].content.length);
+                lightLine[0].content = lightLine[0].content.substr(
+                    darkLine[0].content.length
+                );
                 darkLine.shift();
             }
 
@@ -88,8 +131,16 @@ class DoubleHighlighter {
             i++;
         }
 
-        style.push(`    --dark-code-background: ${this.highlighter.getTheme(this.light).bg};`);
-        style.push(`    --dark-code-background: ${this.highlighter.getTheme(this.dark).bg};`);
+        style.push(
+            `    --light-code-background: ${
+                this.highlighter.getTheme(this.light).bg
+            };`
+        );
+        style.push(
+            `    --dark-code-background: ${
+                this.highlighter.getTheme(this.dark).bg
+            };`
+        );
         lightRules.push(`    --code-background: var(--light-code-background);`);
         darkRules.push(`    --code-background: var(--dark-code-background);`);
 
