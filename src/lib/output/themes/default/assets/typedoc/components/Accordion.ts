@@ -13,9 +13,9 @@ export class Accordion extends Component {
         typeof window.localStorage !== "undefined";
 
     /**
-     * The heading for this accordion.
+     * The heading container for this accordion.
      */
-    private heading: HTMLElement;
+    private summary: HTMLElement;
 
     /**
      * The chevron icon next to this accordion's heading.
@@ -46,16 +46,16 @@ export class Accordion extends Component {
         super(options);
 
         this.calculateHeights();
-        this.heading = this.el.querySelector(".tsd-accordion-summary")!;
-        this.icon = this.heading.querySelector("svg")!;
-        this.key = `tsd-accordion-${this.heading
+        this.summary = this.el.querySelector(".tsd-accordion-summary")!;
+        this.icon = this.summary.querySelector("svg")!;
+        this.key = `tsd-accordion-${this.summary
             .textContent!.replace(/\s+/g, "-")
             .toLowerCase()}`;
 
         if (this.useLocalStorage) {
             this.setLocalStorage(this.fromLocalStorage(), true);
         }
-        this.heading.addEventListener("click", (e: MouseEvent) =>
+        this.summary.addEventListener("click", (e: MouseEvent) =>
             this.toggleVisibility(e)
         );
         this.icon.style.transform = this.getIconRotation();
@@ -74,17 +74,24 @@ export class Accordion extends Component {
      * @returns The accordion's expanded and collapsed heights.
      */
     private calculateHeights() {
-        const isOpen = this.el.open;
-        this.el.style.marginLeft = "-9999px";
+        const isOpen = this.el.open,
+            // Off-screen real quick for a flash of visibility.
+            { position, left } = this.el.style;
+        this.el.style.position = "fixed";
+        this.el.style.left = "-9999px";
+        // Height when open.
         this.el.open = true;
         this.expandedHeight = this.el.offsetHeight + "px";
+        // Height when closed.
         this.el.open = false;
         this.collapsedHeight = this.el.offsetHeight + "px";
+        // Back to normal.
         this.el.open = isOpen;
         this.el.style.height = isOpen
             ? this.expandedHeight
             : this.collapsedHeight;
-        this.el.style.marginLeft = "";
+        this.el.style.position = position;
+        this.el.style.left = left;
     }
 
     /**
@@ -180,9 +187,11 @@ export class Accordion extends Component {
      * Retrieve value from localStorage.
      */
     private fromLocalStorage(): boolean {
-        return this.useLocalStorage
-            ? window.localStorage[this.key] === "true"
-            : this.el.open;
+        if (this.useLocalStorage) {
+            const fromLocalStorage = window.localStorage.getItem(this.key);
+            if (!fromLocalStorage) return this.el.open;
+            return fromLocalStorage === "true";
+        } else return this.el.open;
     }
 
     /**

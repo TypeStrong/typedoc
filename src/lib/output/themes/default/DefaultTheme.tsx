@@ -52,7 +52,10 @@ export class DefaultTheme extends Theme {
     private _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(this, this.application.options);
+            this._renderContext = new DefaultThemeRenderContext(
+                this,
+                this.application.options
+            );
         }
         return this._renderContext;
     }
@@ -95,6 +98,24 @@ export class DefaultTheme extends Theme {
             directory: "modules",
             template: this.reflectionTemplate,
         },
+        {
+            kind: [ReflectionKind.TypeAlias],
+            isLeaf: false,
+            directory: "types",
+            template: this.reflectionTemplate,
+        },
+        {
+            kind: [ReflectionKind.Function],
+            isLeaf: false,
+            directory: "functions",
+            template: this.reflectionTemplate,
+        },
+        {
+            kind: [ReflectionKind.Variable],
+            isLeaf: false,
+            directory: "variables",
+            template: this.reflectionTemplate,
+        },
     ];
 
     static URL_PREFIX = /^(http|ftp)s?:\/\//;
@@ -108,7 +129,12 @@ export class DefaultTheme extends Theme {
     constructor(renderer: Renderer) {
         super(renderer);
         this.markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
-        this.listenTo(renderer, RendererEvent.BEGIN, this.onRendererBegin, 1024);
+        this.listenTo(
+            renderer,
+            RendererEvent.BEGIN,
+            this.onRendererBegin,
+            1024
+        );
     }
 
     /**
@@ -123,11 +149,25 @@ export class DefaultTheme extends Theme {
 
         if (false == hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
-            urls.push(new UrlMapping<ContainerReflection>("index.html", project, this.reflectionTemplate));
+            urls.push(
+                new UrlMapping<ContainerReflection>(
+                    "index.html",
+                    project,
+                    this.reflectionTemplate
+                )
+            );
         } else {
             project.url = "modules.html";
-            urls.push(new UrlMapping<ContainerReflection>("modules.html", project, this.reflectionTemplate));
-            urls.push(new UrlMapping("index.html", project, this.indexTemplate));
+            urls.push(
+                new UrlMapping<ContainerReflection>(
+                    "modules.html",
+                    project,
+                    this.reflectionTemplate
+                )
+            );
+            urls.push(
+                new UrlMapping("index.html", project, this.indexTemplate)
+            );
         }
 
         project.children?.forEach((child: Reflection) => {
@@ -155,7 +195,10 @@ export class DefaultTheme extends Theme {
                 DefaultTheme.applyReflectionClasses(reflection);
             }
 
-            if (reflection instanceof ContainerReflection && reflection.groups) {
+            if (
+                reflection instanceof ContainerReflection &&
+                reflection.groups
+            ) {
                 reflection.groups.forEach(DefaultTheme.applyGroupClasses);
             }
         }
@@ -169,11 +212,22 @@ export class DefaultTheme extends Theme {
      * @param separator   The separator used to generate the url.
      * @returns           The generated url.
      */
-    static getUrl(reflection: Reflection, relative?: Reflection, separator = "."): string {
+    static getUrl(
+        reflection: Reflection,
+        relative?: Reflection,
+        separator = "."
+    ): string {
         let url = reflection.getAlias();
 
-        if (reflection.parent && reflection.parent !== relative && !(reflection.parent instanceof ProjectReflection)) {
-            url = DefaultTheme.getUrl(reflection.parent, relative, separator) + separator + url;
+        if (
+            reflection.parent &&
+            reflection.parent !== relative &&
+            !(reflection.parent instanceof ProjectReflection)
+        ) {
+            url =
+                DefaultTheme.getUrl(reflection.parent, relative, separator) +
+                separator +
+                url;
         }
 
         return url;
@@ -185,7 +239,9 @@ export class DefaultTheme extends Theme {
      * @param reflection  The reflection whose mapping should be resolved.
      * @returns           The found mapping or undefined if no mapping could be found.
      */
-    private getMapping(reflection: DeclarationReflection): TemplateMapping | undefined {
+    private getMapping(
+        reflection: DeclarationReflection
+    ): TemplateMapping | undefined {
         return this.mappings.find((mapping) => reflection.kindOf(mapping.kind));
     }
 
@@ -196,11 +252,20 @@ export class DefaultTheme extends Theme {
      * @param urls        The array the url should be appended to.
      * @returns           The altered urls array.
      */
-    buildUrls(reflection: DeclarationReflection, urls: UrlMapping[]): UrlMapping[] {
+    buildUrls(
+        reflection: DeclarationReflection,
+        urls: UrlMapping[]
+    ): UrlMapping[] {
         const mapping = this.getMapping(reflection);
         if (mapping) {
-            if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
-                const url = [mapping.directory, DefaultTheme.getUrl(reflection) + ".html"].join("/");
+            if (
+                !reflection.url ||
+                !DefaultTheme.URL_PREFIX.test(reflection.url)
+            ) {
+                const url = [
+                    mapping.directory,
+                    DefaultTheme.getUrl(reflection) + ".html",
+                ].join("/");
                 urls.push(new UrlMapping(url, reflection, mapping.template));
 
                 reflection.url = url;
@@ -272,7 +337,10 @@ export class DefaultTheme extends Theme {
             classes.push(DefaultTheme.toStyleClass("tsd-kind-" + kind));
         }
 
-        if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
+        if (
+            reflection.parent &&
+            reflection.parent instanceof DeclarationReflection
+        ) {
             kind = ReflectionKind[reflection.parent.kind];
             classes.push(DefaultTheme.toStyleClass(`tsd-parent-kind-${kind}`));
         }
@@ -336,7 +404,9 @@ export class DefaultTheme extends Theme {
      * css class, e.g. "constructor method" > "Constructor-method".
      */
     static toStyleClass(str: string) {
-        return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();
+        return str
+            .replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2)
+            .toLowerCase();
     }
 }
 
