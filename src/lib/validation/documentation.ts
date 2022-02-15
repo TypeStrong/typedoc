@@ -9,7 +9,7 @@ export function validateDocumentation(
     requiredToBeDocumented: readonly (keyof typeof ReflectionKind)[]
 ): void {
     const kinds = requiredToBeDocumented.reduce(
-        (prev, cur) => (prev |= ReflectionKind[cur]),
+        (prev, cur) => prev | ReflectionKind[cur],
         0
     );
 

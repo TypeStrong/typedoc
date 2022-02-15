@@ -77,7 +77,7 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
 
                 tag.name = first.text.substring(0, end);
                 if (tag.name.startsWith("[") && tag.name.endsWith("]")) {
-                    tag.name = tag.name.slice(1, -1);
+                    tag.name = tag.name.slice(1, tag.name.indexOf("="));
                 }
 
                 first.text = first.text.substring(end);

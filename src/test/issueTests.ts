@@ -32,6 +32,20 @@ export const issueTests: {
         );
     },
 
+    gh671(project) {
+        const toNumber = query(project, "toNumber");
+        const sig = toNumber.signatures?.[0];
+        ok(sig, "Missing signatures");
+
+        const paramComments = sig.parameters?.map((param) =>
+            Comment.combineDisplayParts(param.comment?.summary)
+        );
+        equal(paramComments, [
+            "the string to parse as a number",
+            "whether to parse as an integer or float",
+        ]);
+    },
+
     gh869(project) {
         const classFoo = project.children?.find(
             (r) => r.name === "Foo" && r.kind === ReflectionKind.Class
