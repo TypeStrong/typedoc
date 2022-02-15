@@ -5,6 +5,7 @@ import {
     ReflectionKind,
     Comment,
 } from "../lib/models";
+import type { TestLogger } from "./TestLogger";
 
 function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
@@ -14,7 +15,7 @@ function query(project: ProjectReflection, name: string) {
 
 export const behaviorTests: Record<
     string,
-    (project: ProjectReflection) => void
+    (project: ProjectReflection, logger: TestLogger) => void
 > = {
     asConstEnum(project) {
         const SomeEnumLike = query(project, "SomeEnumLike");
@@ -55,7 +56,22 @@ export const behaviorTests: Record<
             'Record<"b", 1>',
         ]);
     },
-    // Disabled for now, pending https://github.com/TypeStrong/typedoc/issues/1809
+
+    mergedDeclarations(project, logger) {
+        const a = query(project, "SingleCommentMultiDeclaration");
+        equal(
+            Comment.combineDisplayParts(a.comment?.summary),
+            "Comment on second declaration"
+        );
+
+        const b = query(project, "MultiCommentMultiDeclaration");
+        equal(Comment.combineDisplayParts(b.comment?.summary), "Comment 1");
+
+        logger.expectMessage(
+            "warn: MultiCommentMultiDeclaration has multiple declarations with a comment. An arbitrary comment will be used."
+        );
+    },
+
     overloads(project) {
         const foo = query(project, "foo");
         const fooComments = foo.signatures?.map((sig) =>

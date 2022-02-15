@@ -9,6 +9,7 @@ import {
     getConverter2Base,
     getConverter2Program,
 } from "./programs";
+import { TestLogger } from "./TestLogger";
 
 const base = getConverter2Base();
 const app = getConverter2App();
@@ -16,7 +17,7 @@ const app = getConverter2App();
 function runTest(
     title: string,
     entry: string,
-    check: (project: ProjectReflection) => void
+    check: (project: ProjectReflection, logger: TestLogger) => void
 ) {
     it(title, () => {
         const program = getConverter2Program();
@@ -33,6 +34,8 @@ function runTest(
         const sourceFile = program.getSourceFile(entryPoint);
         ok(sourceFile, `No source file found for ${entryPoint}`);
 
+        const logger = new TestLogger();
+        app.logger = logger;
         const project = app.converter.convert([
             {
                 displayName: entry,
@@ -40,7 +43,7 @@ function runTest(
                 sourceFile,
             },
         ]);
-        check(project);
+        check(project, logger);
     });
 }
 

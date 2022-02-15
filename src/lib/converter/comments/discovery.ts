@@ -1,5 +1,7 @@
 import * as ts from "typescript";
 import { ReflectionKind } from "../../models";
+import type { Logger } from "../../utils";
+import { nicePath } from "../../utils/paths";
 
 // Note: This does NOT include JSDoc syntax kinds. This is important!
 // Comments from @typedef and @callback tags are handled specially by
@@ -66,11 +68,14 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
 
 export function discoverComment(
     symbol: ts.Symbol,
-    kind: ReflectionKind
+    kind: ReflectionKind,
+    logger: Logger
 ): [ts.SourceFile, ts.CommentRange] | undefined {
     // For a module comment, we want the first one defined in the file,
     // not the last one, since that will apply to the import or declaration.
     const reverse = symbol.declarations?.some(ts.isSourceFile);
+
+    const discovered: [ts.SourceFile, ts.CommentRange][] = [];
 
     for (const decl of symbol.declarations || []) {
         const text = decl.getSourceFile().text;
@@ -104,8 +109,31 @@ export function discoverComment(
             );
 
             if (lastDocComment) {
-                return [decl.getSourceFile(), lastDocComment];
+                discovered.push([decl.getSourceFile(), lastDocComment]);
             }
+        }
+    }
+
+    switch (discovered.length) {
+        case 0:
+            return undefined;
+        case 1:
+            return discovered[0];
+        default: {
+            logger.warn(
+                `${symbol.name} has multiple declarations with a comment. An arbitrary comment will be used.`
+            );
+            const locations = discovered.map(([sf, { pos }]) => {
+                const path = nicePath(sf.fileName);
+                const line = ts.getLineAndCharacterOfPosition(sf, pos).line + 1;
+                return `${path}:${line}`;
+            });
+            logger.info(
+                `The comments for ${
+                    symbol.name
+                } are declared at:\n\t${locations.join("\n\t")}`
+            );
+            return discovered[0];
         }
     }
 }

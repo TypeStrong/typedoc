@@ -59,7 +59,7 @@ export function getComment(
     logger: Logger
 ): Comment | undefined {
     const comment = getCommentWithCache(
-        discoverComment(symbol, kind),
+        discoverComment(symbol, kind, logger),
         config,
         logger
     );

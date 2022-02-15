@@ -16,6 +16,7 @@
 ### Features
 
 -   TypeDoc will now search for `typedoc.js(on)` in the `.config` folder in the current working directory.
+-   If an exported symbol has multiple declarations, TypeDoc will now check all appropriate declarations for comments, and warn if more than one declaration contains a comment, #1855.
 
 ### Bug Fixes
 
