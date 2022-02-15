@@ -18,6 +18,7 @@
 
 -   TypeDoc will now search for `typedoc.js(on)` in the `.config` folder in the current working directory.
 -   If an exported symbol has multiple declarations, TypeDoc will now check all appropriate declarations for comments, and warn if more than one declaration contains a comment, #1855.
+-   Improved support for JSDoc style `@example` tags. If the tag content does not include a code block, TypeDoc now follows VSCode's behavior of treating the entire block as a code block, #135.
 
 ### Bug Fixes
 

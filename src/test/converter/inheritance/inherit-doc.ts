@@ -46,7 +46,7 @@ export interface InterfaceTarget<T> {
  *
  * Remarks will be inherited
  *
- * @example
+ * @customBlock
  *
  * This part of the commentary will not be inherited
  *

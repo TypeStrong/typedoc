@@ -42,6 +42,7 @@ export const behaviorTests: Record<
         const WithoutReadonly = query(project, "WithoutReadonly");
         equal(WithoutReadonly.kind, ReflectionKind.Enum, "WithoutReadonly");
     },
+
     duplicateHeritageClauses(project) {
         const b = query(project, "B");
         equal(b.extendedTypes?.map(String), ["A"]);
@@ -54,6 +55,23 @@ export const behaviorTests: Record<
         equal(d.extendedTypes?.map(String), [
             'Record<"a", 1>',
             'Record<"b", 1>',
+        ]);
+    },
+
+    exampleTags(project) {
+        const foo = query(project, "foo");
+        const tags = foo.comment?.blockTags.map((tag) => tag.content);
+
+        equal(tags, [
+            [{ kind: "code", text: "```ts\n// JSDoc style\ncodeHere();\n```" }],
+            [
+                { kind: "text", text: "JSDoc specialness\n" },
+                {
+                    kind: "code",
+                    text: "```ts\n// JSDoc style\ncodeHere();\n```",
+                },
+            ],
+            [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
         ]);
     },
 

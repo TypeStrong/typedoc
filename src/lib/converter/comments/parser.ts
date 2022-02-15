@@ -63,6 +63,10 @@ const HAS_USER_IDENTIFIER: `@${string}`[] = [
     "@inheritDoc",
 ];
 
+function makeCodeBlock(text: string) {
+    return "```ts\n" + text + "\n```";
+}
+
 /**
  * Loop over comment, produce lint warnings, and set tag names for tags
  * which have them.
@@ -88,6 +92,43 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
                     // Remove this token, no real text in it.
                     tag.content.shift();
                 }
+            }
+        }
+
+        if (
+            tag.tag === "@example" &&
+            !tag.content.some((part) => part.kind === "code")
+        ) {
+            const caption = tag.content[0].text.match(
+                /^\s*<caption>(.*?)<\/caption>\s*(\n|$)/
+            );
+            if (caption) {
+                const code = Comment.combineDisplayParts([
+                    {
+                        kind: "text",
+                        text: tag.content[0].text.slice(caption[0].length),
+                    },
+                    ...tag.content.slice(1),
+                ]);
+                tag.content = [
+                    {
+                        kind: "text",
+                        text: caption[1] + "\n",
+                    },
+                    {
+                        kind: "code",
+                        text: makeCodeBlock(code),
+                    },
+                ];
+            } else {
+                tag.content = [
+                    {
+                        kind: "code",
+                        text: makeCodeBlock(
+                            Comment.combineDisplayParts(tag.content)
+                        ),
+                    },
+                ];
             }
         }
     }
