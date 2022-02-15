@@ -26,9 +26,9 @@ class MyThemeContext extends DefaultThemeRenderContext {
     // to destructure the context object to only grab what they care about.
     override analytics = () => {
         // Reusing existing option rather than declaring our own for brevity
-        if (!this.options.isSet("gaSite")) return;
+        if (!this.options.isSet("gaId")) return;
 
-        const site = this.options.getValue("gaSite");
+        const site = this.options.getValue("gaId");
 
         const script = `
 (function() {

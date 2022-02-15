@@ -134,10 +134,6 @@ export class Renderer extends ChildableComponent<
     gaID!: string;
 
     /** @internal */
-    @BindOption("gaSite")
-    gaSite!: string;
-
-    /** @internal */
     @BindOption("githubPages")
     githubPages!: boolean;
 

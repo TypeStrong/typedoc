@@ -60,7 +60,6 @@ export async function captureRegressionScreenshots() {
     app.bootstrap({
         logger: "console",
         readme: join(src, "..", "README.md"),
-        gaSite: "foo.com", // verify theme option without modifying output
         name: "typedoc",
         disableSources: true,
         cleanOutputDir: true,

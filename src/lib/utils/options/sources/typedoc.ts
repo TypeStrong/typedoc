@@ -259,11 +259,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Set the Google Analytics tracking ID and activate tracking code.",
     });
     options.addDeclaration({
-        name: "gaSite",
-        help: "Set the site name for Google Analytics. Defaults to `auto`.",
-        defaultValue: "auto",
-    });
-    options.addDeclaration({
         name: "githubPages",
         help: "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`.",
         type: ParameterType.Boolean,

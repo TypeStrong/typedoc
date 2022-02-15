@@ -97,7 +97,6 @@ export interface TypeDocOptionMap {
     gitRevision: string;
     gitRemote: string;
     gaID: string;
-    gaSite: string;
     githubPages: boolean;
     hideGenerator: boolean;
     hideLegend: boolean;
