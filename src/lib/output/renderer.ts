@@ -130,16 +130,8 @@ export class Renderer extends ChildableComponent<
     cname!: string;
 
     /** @internal */
-    @BindOption("gaID")
-    gaID!: string;
-
-    /** @internal */
     @BindOption("githubPages")
     githubPages!: boolean;
-
-    /** @internal */
-    @BindOption("hideGenerator")
-    hideGenerator!: boolean;
 
     /** @internal */
     @BindOption("lightHighlightTheme")
