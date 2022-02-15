@@ -1,5 +1,5 @@
 import { Logger, LogLevel } from "../lib/utils";
-import { fail } from "assert/strict";
+import { fail } from "assert";
 
 const levelMap: Record<LogLevel, string> = {
     [LogLevel.Error]: "error: ",
