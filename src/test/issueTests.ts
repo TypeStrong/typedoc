@@ -331,6 +331,20 @@ export const issueTests: {
         );
     },
 
+    gh1770(project) {
+        const sym1 = query(project, "sym1");
+        equal(
+            Comment.combineDisplayParts(sym1.signatures?.[0].comment?.summary),
+            "Docs for Sym1"
+        );
+
+        const sym2 = query(project, "sym2");
+        equal(
+            Comment.combineDisplayParts(sym2.comment?.summary),
+            "Docs for Sym2"
+        );
+    },
+
     gh1795(project) {
         equal(
             project.children?.map((c) => c.name),

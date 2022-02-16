@@ -13,6 +13,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.Namespace]: [
         ts.SyntaxKind.ModuleDeclaration,
         ts.SyntaxKind.SourceFile,
+        ts.SyntaxKind.BindingElement,
     ],
     [ReflectionKind.Enum]: [
         ts.SyntaxKind.EnumDeclaration,
@@ -23,9 +24,18 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         // This is here so that @enum gets it
         ts.SyntaxKind.PropertyAssignment,
     ],
-    [ReflectionKind.Variable]: [ts.SyntaxKind.VariableDeclaration],
-    [ReflectionKind.Function]: [ts.SyntaxKind.FunctionDeclaration],
-    [ReflectionKind.Class]: [ts.SyntaxKind.ClassDeclaration],
+    [ReflectionKind.Variable]: [
+        ts.SyntaxKind.VariableDeclaration,
+        ts.SyntaxKind.BindingElement,
+    ],
+    [ReflectionKind.Function]: [
+        ts.SyntaxKind.FunctionDeclaration,
+        ts.SyntaxKind.BindingElement,
+    ],
+    [ReflectionKind.Class]: [
+        ts.SyntaxKind.ClassDeclaration,
+        ts.SyntaxKind.BindingElement,
+    ],
     [ReflectionKind.Interface]: [ts.SyntaxKind.InterfaceDeclaration],
     [ReflectionKind.Constructor]: [ts.SyntaxKind.Constructor],
     [ReflectionKind.Property]: [
@@ -88,9 +98,12 @@ export function discoverComment(
             // Special behavior here! We temporarily put the implementation comment
             // on the reflection which contains all the signatures. This lets us pull
             // the comment on the implementation if some signature does not have a comment.
+            // However, we don't want to skip the node if it is a reference to something.
+            // See the gh1770 test for an example.
             if (
                 kind & ReflectionKind.ContainsCallSignatures &&
-                !(node as ts.FunctionDeclaration).body
+                !(node as ts.FunctionDeclaration).body &&
+                node.kind !== ts.SyntaxKind.BindingElement
             ) {
                 continue;
             }

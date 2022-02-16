@@ -25,6 +25,7 @@
 -   Fixed off by one error in warnings for types referenced but not included in the documentation.
 -   TypeDoc will no longer render a `Type Parameters` heading if there are no type parameters in some cases.
 -   Improved source location detection for constructors.
+-   Improved comment discovery on destructured exported functions, #1770.
 
 ## v0.22.11 (2022-01-18)
 
