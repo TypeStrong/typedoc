@@ -24,17 +24,17 @@ const Colors = {
     reset: "\u001b[0m",
 };
 
-function color(text: string | number, color: keyof typeof Colors) {
+function color(text: string, color: keyof typeof Colors) {
     if ("NO_COLOR" in process.env) return `${text}`;
 
     return `${Colors[color]}${text}${Colors.reset}`;
 }
 
 const messagePrefixes = {
-    [LogLevel.Error]: color("Error", "red"),
-    [LogLevel.Warn]: color("Warning", "yellow"),
-    [LogLevel.Info]: color("Info", "cyan"),
-    [LogLevel.Verbose]: color("Debug", "gray"),
+    [LogLevel.Error]: color("error", "red"),
+    [LogLevel.Warn]: color("warning", "yellow"),
+    [LogLevel.Info]: color("info", "cyan"),
+    [LogLevel.Verbose]: color("debug", "gray"),
 };
 
 function withContext(message: string, level: LogLevel, node?: ts.Node) {
@@ -44,27 +44,25 @@ function withContext(message: string, level: LogLevel, node?: ts.Node) {
 
     const file = node.getSourceFile();
     const path = nicePath(file.fileName);
-    const { line, character } = ts.getLineAndCharacterOfPosition(
-        file,
-        node.pos
-    );
+    const pos = node.getStart(file, false);
+    const { line, character } = ts.getLineAndCharacterOfPosition(file, pos);
 
     const location = `${color(path, "cyan")}:${color(
-        line + 1,
+        `${line + 1}`,
         "yellow"
-    )}:${color(character, "yellow")}`;
+    )}:${color(`${character}`, "yellow")}`;
 
-    const start = file.text.lastIndexOf("\n", node.pos) + 1;
+    const start = file.text.lastIndexOf("\n", pos) + 1;
     let end = file.text.indexOf("\n", start);
     if (end === -1) end = file.text.length;
 
     const prefix = `${location} - ${messagePrefixes[level]}`;
-    const context = `${color(line + 1, "black")}    ${file.text.substring(
+    const context = `${color(`${line + 1}`, "black")}    ${file.text.substring(
         start,
         end
     )}`;
 
-    return `${prefix} ${message}\n${context}`;
+    return `${prefix} ${message}\n\n${context}\n`;
 }
 
 /**
