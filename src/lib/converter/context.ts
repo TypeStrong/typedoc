@@ -173,6 +173,7 @@ export class Context {
             // TSDoc standard
             "@param",
             "@remarks",
+            "@throws",
             // TypeDoc specific
             "@module",
             "@inheritDoc",
