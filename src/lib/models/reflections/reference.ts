@@ -90,6 +90,10 @@ export class ReferenceReflection extends DeclarationReflection {
         return result;
     }
 
+    override getChildByName(arg: string | string[]): Reflection | undefined {
+        return this.getTargetReflection().getChildByName(arg);
+    }
+
     private _ensureProject() {
         if (this._project) {
             return;

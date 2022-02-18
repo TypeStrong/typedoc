@@ -1,19 +1,21 @@
 import { assertNever, removeIf } from "../../utils";
 import type { Reflection } from "../reflections";
 
-/**
- * For inline tags, `@link`, `@linkcode`, and `@linkplain` may have a `target`
- * property set indicating which reflection/url they link to.
- */
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }
-    | {
-          kind: "inline-tag";
-          tag: `@${string}`;
-          text: string;
-          target?: Reflection | string;
-      };
+    | InlineTagDisplayPart;
+
+/**
+ * The `@link`, `@linkcode`, and `@linkplain` tags may have a `target`
+ * property set indicating which reflection/url they link to.
+ */
+export interface InlineTagDisplayPart {
+    kind: "inline-tag";
+    tag: `@${string}`;
+    text: string;
+    target?: Reflection | string;
+}
 
 /**
  * A model that represents a single TypeDoc comment tag.

@@ -29,6 +29,7 @@
 -   TypeDoc will no longer render a `Type Parameters` heading if there are no type parameters in some cases.
 -   Improved source location detection for constructors.
 -   Improved comment discovery on destructured exported functions, #1770.
+-   Links which refer to members within a reference reflection will now correctly resolve to the referenced reflection's member, #1770.
 
 ## v0.22.11 (2022-01-18)
 

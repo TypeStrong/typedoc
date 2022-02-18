@@ -9,6 +9,7 @@ import {
     Comment,
     CommentTag,
 } from "../lib/models";
+import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
 
 function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
@@ -343,6 +344,16 @@ export const issueTests: {
             Comment.combineDisplayParts(sym2.comment?.summary),
             "Docs for Sym2"
         );
+    },
+
+    gh1771(project) {
+        const check = query(project, "check");
+        const tag = check.comment?.summary[0] as
+            | InlineTagDisplayPart
+            | undefined;
+        equal(tag?.kind, "inline-tag");
+        equal(tag.text, "Test2.method");
+        equal(tag.target, query(project, "Test.method"));
     },
 
     gh1795(project) {
