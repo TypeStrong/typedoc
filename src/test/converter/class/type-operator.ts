@@ -3,7 +3,7 @@
  *
  * TestClass comment text.
  *
- * @see [[TestClass]] @ fixtures
+ * @see {@link TestClass} @ fixtures
  */
 export class TestClass {
     a: string;

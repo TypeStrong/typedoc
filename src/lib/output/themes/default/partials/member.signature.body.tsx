@@ -25,7 +25,7 @@ export const memberSignatureBody = (
                     {props.parameters.map((item) => (
                         <li>
                             <h5>
-                                {renderFlags(item.flags)}
+                                {renderFlags(item.flags, item.comment)}
                                 {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                 {item.name}
                                 {": "}

@@ -1402,3 +1402,7 @@ img {
 .tsd-anchor-link:hover > .tsd-anchor-icon svg {
     visibility: visible;
 }
+
+.deprecated {
+    text-decoration: line-through;
+}

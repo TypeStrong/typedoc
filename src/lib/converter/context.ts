@@ -186,6 +186,9 @@ export class Context {
             "@internal",
             "@readonly",
             "@packageDocumentation",
+            "@deprecated",
+            "@alpha",
+            "@beta",
             // TypeDoc specific tags
             "@hidden",
             "@ignore",

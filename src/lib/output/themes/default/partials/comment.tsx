@@ -50,6 +50,8 @@ function displayPartsToMarkdown(parts: CommentDisplayPart[], urlTo: DefaultTheme
 export function comment({ markdown, urlTo }: DefaultThemeRenderContext, props: Reflection) {
     if (!props.comment?.hasVisibleComponent()) return;
 
+    // Note: Comment modifiers are handled in `renderFlags`
+
     return (
         <div class="tsd-comment tsd-typography">
             <Raw html={markdown(displayPartsToMarkdown(props.comment.summary, urlTo))} />

@@ -30,10 +30,6 @@
             ],
             "blockTags": [
               {
-                "tag": "@deprecated",
-                "content": []
-              },
-              {
                 "tag": "@todo",
                 "content": [
                   {
@@ -42,6 +38,9 @@
                   }
                 ]
               }
+            ],
+            "modifierTags": [
+              "@deprecated"
             ]
           },
           "children": [

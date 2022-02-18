@@ -1,4 +1,5 @@
 import {
+    Comment,
     DeclarationReflection,
     Reflection,
     ReflectionFlags,
@@ -51,10 +52,15 @@ export function join<T>(joiner: JSX.Children, list: readonly T[], cb: (x: T) => 
     return <>{result}</>;
 }
 
-export function renderFlags(flags: ReflectionFlags) {
+export function renderFlags(flags: ReflectionFlags, comment: Comment | undefined) {
+    const allFlags = [...flags];
+    if (comment) {
+        allFlags.push(...Array.from(comment.modifierTags, (tag) => tag.replace(/@([a-z])/, (x) => x[1].toUpperCase())));
+    }
+
     return (
         <>
-            {flags.map((item) => (
+            {allFlags.map((item) => (
                 <>
                     <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
                 </>
@@ -63,11 +69,15 @@ export function renderFlags(flags: ReflectionFlags) {
     );
 }
 
-export function classNames(names: Record<string, boolean | null | undefined>) {
-    return Object.entries(names)
+export function classNames(names: Record<string, boolean | null | undefined>, extraCss?: string) {
+    const css = Object.entries(names)
         .filter(([, include]) => include)
         .map(([key]) => key)
-        .join(" ");
+        .concat(extraCss || "")
+        .join(" ")
+        .trim()
+        .replace(/\s+/g, " ");
+    return css.length ? css : undefined;
 }
 
 export function hasTypeParameters(

@@ -64,7 +64,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
         }
 
         return (
-            <li class={classNames({ current }) + " " + mod.cssClasses}>
+            <li class={classNames({ current, deprecated: mod.comment?.hasModifier("@deprecated") }, mod.cssClasses)}>
                 <a href={context.urlTo(mod)}>{wbr(mod.name)}</a>
                 {childNav}
             </li>
@@ -86,7 +86,12 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
                 .filter((child) => !child.kindOf(ReflectionKind.SomeModule))
                 .map((child) => {
                     return (
-                        <li class={child.cssClasses}>
+                        <li
+                            class={classNames(
+                                { deprecated: child.comment?.hasModifier("@deprecated") },
+                                child.cssClasses
+                            )}
+                        >
                             <a href={context.urlTo(child)} class="tsd-kind-icon">
                                 {wbr(child.name)}
                             </a>
@@ -103,7 +108,15 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
     return (
         <nav class="tsd-navigation secondary menu-sticky">
             <ul>
-                <li class={"current " + props.model.cssClasses}>
+                <li
+                    class={classNames(
+                        {
+                            deprecated: props.model.comment?.hasModifier("@deprecated"),
+                            current: true,
+                        },
+                        props.model.cssClasses
+                    )}
+                >
                     <a href={context.urlTo(props.model)} class="tsd-kind-icon">
                         {wbr(props.model.name)}
                     </a>
