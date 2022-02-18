@@ -1,6 +1,6 @@
 export * from "./reflections";
 export * from "./types";
-export * from "./comments";
+export * from "./comment";
 export * from "./sources";
 export * from "./reflection-group";
 export * from "./reflection-category";

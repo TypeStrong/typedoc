@@ -995,8 +995,14 @@
                 "tag": "@see",
                 "content": [
                   {
+                    "kind": "inline-tag",
+                    "tag": "@link",
+                    "text": "TestClass",
+                    "target": 22
+                  },
+                  {
                     "kind": "text",
-                    "text": "[[TestClass]] @ fixtures"
+                    "text": " @ fixtures"
                   }
                 ]
               }
@@ -4547,8 +4553,14 @@
                 "tag": "@see",
                 "content": [
                   {
+                    "kind": "inline-tag",
+                    "tag": "@link",
+                    "text": "TestClass",
+                    "target": 205
+                  },
+                  {
                     "kind": "text",
-                    "text": "[[TestClass]] @ fixtures"
+                    "text": " @ fixtures"
                   }
                 ]
               }

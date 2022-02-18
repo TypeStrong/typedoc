@@ -335,15 +335,28 @@ type BoolKeys<T> = {
 export interface ReflectionFlags
     extends Partial<S<M.ReflectionFlags, BoolKeys<M.ReflectionFlags>>> {}
 
-export interface Comment
-    extends Partial<S<M.Comment, "summary" | "blockTags">> {
+export interface Comment extends Partial<S<M.Comment, "blockTags">> {
+    summary: CommentDisplayPart[];
     modifierTags?: string[];
 }
 
-export interface CommentTag
-    extends S<M.CommentTag, "tag" | "content" | "name"> {}
+export interface CommentTag extends S<M.CommentTag, "tag" | "name"> {
+    content: CommentDisplayPart[];
+}
 
-export type CommentDisplayPart = M.CommentDisplayPart;
+/**
+ * If `target` is a number, it is a reflection ID. If a string, it is a URL.
+ * `target` will only be set for `@link`, `@linkcode`, and `@linkplain` tags.
+ */
+export type CommentDisplayPart =
+    | { kind: "text"; text: string }
+    | { kind: "code"; text: string }
+    | {
+          kind: "inline-tag";
+          tag: `@${string}`;
+          text: string;
+          target?: string | number;
+      };
 
 export interface SourceReference
     extends S<M.SourceReference, "fileName" | "line" | "character"> {}

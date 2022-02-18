@@ -6,7 +6,8 @@
         "ConverterComponent",
         "RendererComponent",
         "SORT_STRATEGIES",
-        "_ModelToObject"
+        "_ModelToObject",
+        "EventHooksMomento"
     ],
     "entryPoints": ["../src"],
     "entryPointStrategy": "Resolve",

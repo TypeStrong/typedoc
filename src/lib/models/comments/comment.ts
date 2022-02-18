@@ -1,9 +1,19 @@
 import { assertNever, removeIf } from "../../utils";
+import type { Reflection } from "../reflections";
 
+/**
+ * For inline tags, `@link`, `@linkcode`, and `@linkplain` may have a `target`
+ * property set indicating which reflection/url they link to.
+ */
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }
-    | { kind: "inline-tag"; tag: `@${string}`; text: string };
+    | {
+          kind: "inline-tag";
+          tag: `@${string}`;
+          text: string;
+          target?: Reflection | string;
+      };
 
 /**
  * A model that represents a single TypeDoc comment tag.
@@ -84,7 +94,6 @@ export class Comment {
 
     /**
      * Helper utility to clone {@link Comment.summary} or {@link CommentTag.content}
-     * @internal probably ok to expose, but waiting until someone asks.
      */
     static cloneDisplayParts(parts: CommentDisplayPart[]) {
         return parts.map((p) => ({ ...p }));

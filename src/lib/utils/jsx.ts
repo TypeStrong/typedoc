@@ -25,6 +25,7 @@ import { JsxFragment as Fragment } from "./jsx.elements.js";
 export type {
     JsxElement as Element,
     JsxChildren as Children,
+    JsxComponent,
 } from "./jsx.elements.js";
 export { JsxFragment as Fragment } from "./jsx.elements.js";
 

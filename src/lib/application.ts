@@ -24,7 +24,6 @@ import {
 import { Options, BindOption } from "./utils";
 import type { TypeDocOptions } from "./utils/options/declaration";
 import { flatMap, unique } from "./utils/array";
-import { validateExports } from "./validation/exports";
 import { ok } from "assert";
 import {
     DocumentationEntryPoint,
@@ -34,7 +33,9 @@ import {
 } from "./utils/entry-point";
 import { nicePath } from "./utils/paths";
 import { hasBeenLoadedMultipleTimes } from "./utils/general";
+import { validateExports } from "./validation/exports";
 import { validateDocumentation } from "./validation/documentation";
+import { validateLinks } from "./validation/links";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -408,6 +409,7 @@ export class Application extends ChildableComponent<
 
     validate(project: ProjectReflection) {
         const checks = this.options.getValue("validation");
+        const start = Date.now();
 
         if (checks.notExported) {
             validateExports(
@@ -425,9 +427,11 @@ export class Application extends ChildableComponent<
             );
         }
 
-        // checks.invalidLink is currently handled when rendering by the MarkedLinksPlugin.
-        // It should really move here, but I'm putting that off until done refactoring the comment
-        // parsing so that we don't have duplicate parse logic all over the place.
+        if (checks.invalidLink) {
+            validateLinks(project, this.logger);
+        }
+
+        this.logger.verbose(`Validation took ${Date.now() - start}ms`);
     }
 
     /**

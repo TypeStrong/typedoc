@@ -1,7 +1,6 @@
 import { SourceFile, SourceDirectory } from "../sources/index";
 import { Reflection, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
-import { splitUnquotedString } from "./utils";
 import { ReferenceReflection } from "./reference";
 import type { DeclarationReflection } from "./declaration";
 import type { SignatureReflection } from "./signature";
@@ -83,41 +82,6 @@ export class ProjectReflection extends ContainerReflection {
         return Object.values(this.reflections).filter((reflection) =>
             reflection.kindOf(kind)
         );
-    }
-
-    /**
-     * Try to find a reflection by its name.
-     *
-     * @param names The name hierarchy to look for, if a string, the name will be split on "."
-     * @return The found reflection or undefined.
-     */
-    override findReflectionByName(
-        arg: string | string[]
-    ): Reflection | undefined {
-        const names: string[] = Array.isArray(arg)
-            ? arg
-            : splitUnquotedString(arg, ".");
-        const name = names.pop();
-
-        search: for (const key in this.reflections) {
-            const reflection = this.reflections[key];
-            if (reflection.name !== name) {
-                continue;
-            }
-
-            let depth = names.length - 1;
-            let target: Reflection | undefined = reflection;
-            while ((target = target.parent) && depth >= 0) {
-                if (target.name !== names[depth]) {
-                    continue search;
-                }
-                depth -= 1;
-            }
-
-            return reflection;
-        }
-
-        return undefined;
     }
 
     /**

@@ -337,11 +337,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "listInvalidSymbolLinks",
-        help: "Emit a list of broken symbol {@link navigation} links after documentation generation, DEPRECATED, prefer validation.invalidLink instead.",
-        type: ParameterType.Boolean,
-    });
-    options.addDeclaration({
         name: "intentionallyNotExported",
         help: "A list of types which should not produce 'referenced but not documented' warnings.",
         type: ParameterType.Array,
@@ -387,7 +382,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Flags,
         defaults: {
             notExported: true,
-            invalidLink: false,
+            invalidLink: true,
             notDocumented: false,
         },
     });

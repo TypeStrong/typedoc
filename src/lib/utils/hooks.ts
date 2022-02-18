@@ -15,12 +15,7 @@ type EventHooksMomento<T extends Record<keyof T, unknown[]>, _R> = {
  * This is beneficial for the themes since it allows plugins to modify the HTML output
  * without doing unsafe text replacement.
  *
- * This class is functionally nearly identical to the {@link EventEmitter} class with
- * two exceptions.
- * 1. The {@link EventEmitter} class only `await`s return values from its listeners, it
- *    does not return them to the emitter.
- * 2. This class requires listeners to by synchronous, unless `R` is specified as to be
- *    a promise or other deferred type.
+ * Very simple event emitter class which collects the return values of its listeners.
  *
  * @example
  * ```ts

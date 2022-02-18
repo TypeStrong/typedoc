@@ -1,9 +1,10 @@
 export { CategoryPlugin } from "./CategoryPlugin";
 export { CommentPlugin } from "./CommentPlugin";
-export { SourceLinkPlugin } from "./SourceLinkPlugin";
 export { GroupPlugin } from "./GroupPlugin";
 export { ImplementsPlugin } from "./ImplementsPlugin";
+export { InheritDocPlugin } from "./InheritDocPlugin";
+export { LinkResolverPlugin } from "./LinkResolverPlugin";
 export { PackagePlugin } from "./PackagePlugin";
+export { SourceLinkPlugin } from "./SourceLinkPlugin";
 export { SourcePlugin } from "./SourcePlugin";
 export { TypePlugin } from "./TypePlugin";
-export { InheritDocPlugin } from "./InheritDocPlugin";

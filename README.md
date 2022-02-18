@@ -87,16 +87,9 @@ For a complete list of the command line arguments run `typedoc --help` or visit
 -   `--tsconfig <path/to/tsconfig.json>`<br>
     Specify a typescript config file that should be loaded. If not
     specified TypeDoc will look for 'tsconfig.json' in the current directory.
-
-#### Source file handling
-
 -   `--exclude <pattern>`<br>
     Exclude files by the given pattern when a path is provided as source.
     Supports standard minimatch patterns.
--   `--excludeNotDocumented`<br>
-    Only document items which have a doc comment. This option is useful, if you
-    want to document only small part of your symbols and do not show the
-    remaining ones in the documentation.
 
 #### Theming
 
@@ -110,8 +103,6 @@ For a complete list of the command line arguments run `typedoc --help` or visit
 
 #### Miscellaneous
 
--   `--listInvalidSymbolLinks`<br>
-    Display the list of links that don't point to actual code symbols.
 -   `--version`<br>
     Display the version number of TypeDoc.
 -   `--help`<br>

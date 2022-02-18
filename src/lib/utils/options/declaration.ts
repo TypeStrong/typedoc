@@ -113,8 +113,6 @@ export interface TypeDocOptionMap {
     // Validation
     treatWarningsAsErrors: boolean;
     intentionallyNotExported: string[];
-    /** @deprecated use validation.invalidLink */
-    listInvalidSymbolLinks: boolean;
     validation: ValidationOptions;
     requiredToBeDocumented: (keyof typeof ReflectionKind)[];
 }

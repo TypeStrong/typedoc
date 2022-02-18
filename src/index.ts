@@ -4,7 +4,7 @@ export { EventDispatcher, Event } from "./lib/utils/events";
 export { resetReflectionID } from "./lib/models/reflections/abstract";
 export { normalizePath } from "./lib/utils/fs";
 export * from "./lib/models";
-export { Converter, Context } from "./lib/converter";
+export { Converter, Context, type CommentParserConfig } from "./lib/converter";
 
 export {
     Renderer,
