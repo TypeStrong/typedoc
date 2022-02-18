@@ -30,6 +30,7 @@
 -   Improved source location detection for constructors.
 -   Improved comment discovery on destructured exported functions, #1770.
 -   Links which refer to members within a reference reflection will now correctly resolve to the referenced reflection's member, #1770.
+-   Correctly detect optional parameters in JavaScript projects using JSDoc, #1804.
 
 ## v0.22.11 (2022-01-18)
 

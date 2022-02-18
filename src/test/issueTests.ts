@@ -364,4 +364,13 @@ export const issueTests: {
         ok(project.children![0].kind === ReflectionKind.Reference);
         ok(project.children![1].kind !== ReflectionKind.Reference);
     },
+
+    gh1804(project) {
+        const foo = query(project, "foo");
+        const sig = foo.signatures?.[0];
+        ok(sig);
+        const param = sig.parameters?.[0];
+        ok(param);
+        ok(param.flags.isOptional);
+    },
 };

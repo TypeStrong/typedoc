@@ -145,7 +145,10 @@ function convertParameters(
         let isOptional = false;
         if (declaration) {
             isOptional = ts.isParameter(declaration)
-                ? !!declaration.questionToken
+                ? !!declaration.questionToken ||
+                  ts
+                      .getJSDocParameterTags(declaration)
+                      .some((tag) => tag.isBracketed)
                 : declaration.isBracketed;
         }
 
