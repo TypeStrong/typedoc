@@ -8,8 +8,8 @@
     --light-color-text-aside: #707070;
     --light-color-link: #4da6ff;
     --light-color-ts: #db1373;
-    --light-color-ts-interface: #15af31;
-    --light-color-ts-enum: #b19700;
+    --light-color-ts-interface: #139d2c;
+    --light-color-ts-enum: #9c891a;
     --light-color-ts-class: #2484e5;
     --light-color-ts-function: #572be7;
     --light-color-ts-namespace: #b111c9;
@@ -490,9 +490,11 @@ blockquote {
         visibility: visible;
         transform: translate(0, 0);
         display: grid;
+        align-items: center;
         grid-template-rows: auto 1fr;
         grid-gap: 1.5rem;
         max-height: 100vh;
+        padding: 1rem 2rem;
     }
     .has-menu .tsd-navigation {
         max-height: 100%;
