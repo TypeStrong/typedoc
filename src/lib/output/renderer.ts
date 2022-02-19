@@ -143,10 +143,8 @@ export class Renderer extends ChildableComponent<
 
     /**
      * Define a new theme that can be used to render output.
-     * This API will likely be changing in TypeDoc 0.23.
-     * (sorry... changing as soon as it's introduced)
-     * As it is, it provides reasonable flexibility, but doesn't give users a sufficiently
-     * easy way to overwrite parts of a theme.
+     * This API will likely be changing at some point, to allow more easily overriding parts of the theme without
+     * requiring additional boilerplate.
      * @param name
      * @param theme
      */

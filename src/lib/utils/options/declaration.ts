@@ -6,8 +6,6 @@ import type { EntryPointStrategy } from "../entry-point";
 import type { ReflectionKind } from "../../models/reflections/kind";
 
 export const EmitStrategy = {
-    true: true, // Alias for both, for backwards compatibility until 0.23
-    false: false, // Alias for docs, for backwards compatibility until 0.23
     both: "both", // Emit both documentation and JS
     docs: "docs", // Emit documentation, but not JS (default)
     none: "none", // Emit nothing, just convert and run validation

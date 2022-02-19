@@ -231,10 +231,7 @@ export class Application extends ChildableComponent<
             return;
         }
 
-        if (
-            this.options.getValue("emit") === "both" ||
-            this.options.getValue("emit") === true
-        ) {
+        if (this.options.getValue("emit") === "both") {
             for (const program of programs) {
                 program.emit();
             }
@@ -344,10 +341,7 @@ export class Application extends ChildableComponent<
             }
 
             if (successFinished) {
-                if (
-                    this.options.getValue("emit") === "both" ||
-                    this.options.getValue("emit") === true
-                ) {
+                if (this.options.getValue("emit") === "both") {
                     currentProgram.emit();
                 }
 

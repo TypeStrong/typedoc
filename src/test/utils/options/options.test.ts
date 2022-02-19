@@ -12,17 +12,21 @@ import type {
 
 describe("Options", () => {
     const logger = new Logger();
-    const options = new Options(logger) as Options & {
+    let options: Options & {
         addDeclaration(declaration: Readonly<DeclarationOption>): void;
         getValue(name: string): unknown;
     };
-    options.addDefaultDeclarations();
-    options.addDeclaration({
-        name: "mapped",
-        type: ParameterType.Map,
-        map: { a: 1 },
-        defaultValue: 2,
-        help: "",
+
+    beforeEach(() => {
+        options = new Options(logger);
+        options.addDefaultDeclarations();
+        options.addDeclaration({
+            name: "mapped",
+            type: ParameterType.Map,
+            map: { a: 1 },
+            defaultValue: 2,
+            help: "",
+        });
     });
 
     it("Errors on duplicate declarations", () => {
@@ -43,7 +47,6 @@ describe("Options", () => {
             defaultValue: 1,
         };
         options.addDeclaration(declaration);
-        options.removeDeclarationByName(declaration.name);
     });
 
     it("Does not throw if default value is out of range for number declaration", () => {
@@ -56,7 +59,6 @@ describe("Options", () => {
             defaultValue: 0,
         };
         options.addDeclaration(declaration);
-        options.removeDeclarationByName(declaration.name);
     });
 
     it("Does not throw if a map declaration has a default value that is not part of the map of possible values", () => {
@@ -71,18 +73,6 @@ describe("Options", () => {
             defaultValue: 0,
         };
         options.addDeclaration(declaration);
-        options.removeDeclarationByName(declaration.name);
-    });
-
-    it("Supports removing a declaration by name", () => {
-        options.addDeclaration({ name: "not-an-option", help: "" });
-        options.removeDeclarationByName("not-an-option");
-        equal(options.getDeclaration("not-an-option"), undefined);
-    });
-
-    it("Ignores removal of non-existent declarations", () => {
-        options.removeDeclarationByName("not-an-option");
-        equal(options.getDeclaration("not-an-option"), undefined);
     });
 
     it("Throws on attempt to get an undeclared option", () => {
@@ -172,7 +162,7 @@ describe("Options", () => {
         options.addDefaultDeclarations();
         options.freeze();
 
-        throws(() => options.setValue("emit", true));
+        throws(() => options.setValue("categorizeByGroup", true));
         throws(() => options.setCompilerOptions([], {}, []));
     });
 

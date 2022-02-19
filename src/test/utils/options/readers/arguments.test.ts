@@ -14,7 +14,7 @@ describe("Options - ArgumentsReader", () => {
     // Note: We lie about the type of Options here since we want the less strict
     // behavior for tests. If TypeDoc ever gets a numeric option, then we can
     // exclusively use the builtin options for tests and this cast can go away.
-    const options = new Options(logger) as Options & {
+    let options: Options & {
         addDeclaration(
             declaration: Readonly<NumberDeclarationOption> & {
                 name: "numOption";
@@ -28,18 +28,22 @@ describe("Options - ArgumentsReader", () => {
         getValue(name: "numOption"): number;
         getValue(name: "mapped"): number;
     };
-    options.addDefaultDeclarations();
-    options.addDeclaration({
-        name: "numOption",
-        help: "",
-        type: ParameterType.Number,
-    });
-    options.addDeclaration({
-        name: "mapped",
-        type: ParameterType.Map,
-        help: "",
-        map: { a: 1, b: 2 },
-        defaultValue: 3,
+
+    beforeEach(() => {
+        options = new Options(logger);
+        options.addDefaultDeclarations();
+        options.addDeclaration({
+            name: "numOption",
+            help: "",
+            type: ParameterType.Number,
+        });
+        options.addDeclaration({
+            name: "mapped",
+            type: ParameterType.Map,
+            help: "",
+            map: { a: 1, b: 2 },
+            defaultValue: 3,
+        });
     });
 
     function test(name: string, args: string[], cb: () => void) {
@@ -51,7 +55,6 @@ describe("Options - ArgumentsReader", () => {
             options.addReader(reader);
             options.read(logger);
             cb();
-            options.removeReaderByName(reader.name);
         });
     }
 
@@ -135,7 +138,6 @@ describe("Options - ArgumentsReader", () => {
         options.reset();
         options.addReader(reader);
         options.read(new TestLogger());
-        options.removeReaderByName(reader.name);
         equal(check, true, "Reader did not report an error.");
     });
 
@@ -152,7 +154,6 @@ describe("Options - ArgumentsReader", () => {
         options.reset();
         options.addReader(reader);
         options.read(new TestLogger());
-        options.removeReaderByName(reader.name);
         equal(check, true, "Reader did not report an error.");
     });
 

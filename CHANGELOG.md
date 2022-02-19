@@ -9,6 +9,7 @@
 -   TODO: The behavior of `@inheritDoc` has changed... describe how
 -   The `gaSite` option has been removed since Google Analytics now infers the site automatically.
 -   The deprecated `listInvalidSymbolLinks` option has been removed. Use `validation.invalidLink` instead.
+-   The deprecated `true` and `false` values have been removed from `--emit`, to migrate replace `true` with `"both"` and `false` with `"docs"`.
 -   Links are no longer be resolved against a global list of all symbols. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on link resolution.
 -   TypeDoc will now produce warnings for bracketed links (`[[ target ]]`). Use `{@link target}` instead. The `{@link}` syntax will be recognized by [TypeScript 4.3](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#editor-support-for-link-tags) and later and used to provide better intellisense. TypeDoc version 0.24.0 will remove support for `[[ target ]]` style links.
 -   The `validation.invalidLink` option is now on by default.
@@ -16,6 +17,7 @@
 -   The shape of the `Comment` class has changed significantly to support multiple tag kinds.
 -   Listeners to `Converter.EVENT_CREATE_TYPE_PARAMETER` and `Converter.EVENT_CREATE_DECLARATION` will now never be passed a `ts.Node` as their third argument.
 -   Constant variables which are interpreted as functions will no longer have the `ReflectionFlag.Const` flag set.
+-   Removed deprecated `removeReaderByName`, `addDeclarations` and `removeDeclarationByName` methods on `Options`.
 
 ### Features
 

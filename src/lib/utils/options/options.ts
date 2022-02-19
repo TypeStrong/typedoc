@@ -153,15 +153,6 @@ export class Options {
         insertPrioritySorted(this._readers, reader);
     }
 
-    /**
-     * Removes all readers of a given name.
-     * @param name
-     * @deprecated should not be used, will be removed in 0.23
-     */
-    removeReaderByName(name: string): void {
-        this._readers = this._readers.filter((reader) => reader.name !== name);
-    }
-
     read(logger: Logger) {
         for (const reader of this._readers) {
             reader.read(this, logger);
@@ -195,32 +186,6 @@ export class Options {
         }
 
         this._values[declaration.name] = getDefaultValue(declaration);
-    }
-
-    /**
-     * Adds the given declarations to the container
-     * @param declarations
-     * @deprecated will be removed in 0.23.
-     */
-    addDeclarations(declarations: readonly DeclarationOption[]): void {
-        for (const decl of declarations) {
-            this.addDeclaration(decl as any);
-        }
-    }
-
-    /**
-     * Removes a declared option.
-     * WARNING: This is probably a bad idea. If you do this you will probably cause a crash
-     * when code assumes that an option that it declared still exists.
-     * @param name
-     * @deprecated will be removed in 0.23.
-     */
-    removeDeclarationByName(name: string): void {
-        const declaration = this.getDeclaration(name);
-        if (declaration) {
-            this._declarations.delete(declaration.name);
-            delete this._values[declaration.name];
-        }
     }
 
     /**
@@ -330,10 +295,7 @@ export class Options {
     ): ts.CompilerOptions {
         const result = { ...options };
 
-        if (
-            this.getValue("emit") !== "both" &&
-            this.getValue("emit") !== true
-        ) {
+        if (this.getValue("emit") !== "both") {
             result.noEmit = true;
             delete result.emitDeclarationOnly;
         }
