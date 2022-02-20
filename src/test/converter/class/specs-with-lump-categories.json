@@ -262,7 +262,8 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isPrivate": true
+            "isPrivate": true,
+            "isConst": true
           },
           "comment": {
             "summary": [
@@ -291,7 +292,8 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isProtected": true
+            "isProtected": true,
+            "isConst": true
           },
           "comment": {
             "summary": [

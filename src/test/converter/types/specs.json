@@ -115,7 +115,9 @@
           "name": "BigIntLiteralType",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "general.ts",
@@ -137,7 +139,9 @@
           "name": "NegativeBigIntLiteralType",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "general.ts",
@@ -159,7 +163,9 @@
           "name": "negativeOne",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "general.ts",
@@ -178,7 +184,9 @@
           "name": "numArray",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "general.ts",
@@ -829,7 +837,9 @@
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "query.ts",
@@ -1060,7 +1070,9 @@
           "name": "leadingRest",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "tuple.ts",
@@ -1094,7 +1106,9 @@
           "name": "namedTuple",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "tuple.ts",
@@ -1132,7 +1146,9 @@
           "name": "withOptionalElements",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "tuple.ts",
@@ -1170,7 +1186,9 @@
           "name": "withRestType",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "tuple.ts",
@@ -1204,7 +1222,9 @@
           "name": "withRestTypeNames",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "tuple.ts",
@@ -1415,7 +1435,9 @@
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "type-operator.ts",

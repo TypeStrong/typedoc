@@ -110,7 +110,7 @@ To compile the TypeDoc source, run `npm run build`. This will start the TypeScri
 
 #### Testing
 
-TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`.
+TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made run `npm test`.
 This will run a subset of TypeDoc's tests intended for quick development checks.
 Tests which take more than half a second are located in `src/test/slow`, and will only be run if you run `npm run test:full`.
 These tests will also run the visual regression tests, failing if there are any changes.
@@ -129,7 +129,7 @@ Before submitting a pull request, make sure that there are no linting problems (
 
 If your change is user facing, consider updating `CHANGELOG.md` to describe the change you have made. If you don't, the maintainer who merges your pull request will do it for you.
 
-Please do not change the project version number in a pull request.
+Please do not change the project version number in a pull request unless submitting a patch to the `lts` branch.
 
 ## Updating Your Branch
 

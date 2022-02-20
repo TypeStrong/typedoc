@@ -87,7 +87,9 @@
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "declaration.d.ts",
@@ -255,7 +257,9 @@
           "name": "ActionSet",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "external.d.ts",

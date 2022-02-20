@@ -162,7 +162,9 @@
               "name": "Member",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isConst": true
+              },
               "sources": [
                 {
                   "fileName": "export.ts",
@@ -181,7 +183,9 @@
               "name": "Module",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isConst": true
+              },
               "sources": [
                 {
                   "fileName": "export.ts",
@@ -201,7 +205,9 @@
               "name": "TypedMember",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isConst": true
+              },
               "sources": [
                 {
                   "fileName": "export.ts",
@@ -221,7 +227,9 @@
               "name": "TypedModule",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isConst": true
+              },
               "sources": [
                 {
                   "fileName": "export.ts",
@@ -483,7 +491,9 @@
           "name": "default",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "export-default.ts",
@@ -527,7 +537,9 @@
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "export-with-local.ts",
@@ -692,7 +704,9 @@
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "summary": [
               {

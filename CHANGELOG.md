@@ -35,11 +35,25 @@
 -   Links which refer to members within a reference reflection will now correctly resolve to the referenced reflection's member, #1770.
 -   Correctly detect optional parameters in JavaScript projects using JSDoc, #1804.
 
-## v0.22.11 (2022-01-18)
+## v0.22.12 (2022-02-20)
 
 ### Features
 
 -   Added `--validation.notDocumented` option to warn on items that are not documented, #1817.
+
+### Bug Fixes
+
+-   Fixed `const` variables not properly marked as `const`, #1866.
+
+### Thanks!
+
+-   @albyrock87
+-   @Nokel81
+
+## v0.22.11 (2022-01-18)
+
+### Features
+
 -   Added new `cname` option for GitHub Pages custom domain support, #1803.
 -   `ReferenceType`s which reference an external symbol will now include `qualifiedName` and `package` in their serialized JSON.
 -   Added clickable anchor link for member titles, #1842.
@@ -252,6 +266,9 @@
     See [internal-docs/custom-themes.md](https://github.com/TypeStrong/typedoc/blob/v0.22.0/internal-docs/custom-themes.md) for documentation on how to create a custom theme in v0.22.
 -   Removed the minimal theme that has been mostly broken for a long time.
 -   Changed the default `entryPointStrategy` from `expand` to `resolve`.
+-   Paths in config files will now be resolved relative to the config file instead of relative to the current working directory.
+-   Exclude patterns are now checked against files instead of against each part of the path as traversed, #1399.
+    This means that an exclude of `**/someDir` will **not** exclude files in that directory. To exclude files in a directory, specify `**/someDir/**`.
 
 ### Features
 

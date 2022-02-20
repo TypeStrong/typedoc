@@ -1031,6 +1031,16 @@ function setModifiers(
         hasAllFlags(modifiers, ts.ModifierFlags.Abstract)
     );
 
+    if (
+        reflection.kindOf(ReflectionKind.Variable) &&
+        hasAllFlags(symbol.flags, ts.SymbolFlags.BlockScopedVariable)
+    ) {
+        reflection.setFlag(
+            ReflectionFlag.Const,
+            hasAllFlags(declaration.parent.flags, ts.NodeFlags.Const)
+        );
+    }
+
     // ReflectionFlag.Static happens when constructing the reflection.
     // We don't have sufficient information here to determine if it ought to be static.
 }

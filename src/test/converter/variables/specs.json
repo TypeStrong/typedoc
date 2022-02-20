@@ -234,7 +234,9 @@
           "name": "complex",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "summary": [
               {
@@ -301,7 +303,9 @@
           "name": "custom",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "summary": [
               {
@@ -686,7 +690,9 @@
           "name": "callbackReturn",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "literal.ts",
@@ -983,7 +989,9 @@
           "name": "objectLiteral",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "summary": [
               {
@@ -1791,7 +1799,9 @@
           "name": "myConst",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "sources": [
             {
               "fileName": "variable.ts",

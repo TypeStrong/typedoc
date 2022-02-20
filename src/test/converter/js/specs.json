@@ -761,7 +761,9 @@
           "name": "ColumnType",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "summary": [
               {
