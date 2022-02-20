@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added `--validation.notDocumented` option to warn on items that are not documented, #1817.
+
 ### Bug Fixes
 
 -   Fixed `const` variables not properly marked as `const`, #1866.
@@ -7,12 +11,12 @@
 ### Thanks!
 
 -   @albyrock87
+-   @Nokel81
 
 ## v0.22.11 (2022-01-18)
 
 ### Features
 
--   Added `--validation.notDocumented` option to warn on items that are not documented, #1817.
 -   Added new `cname` option for GitHub Pages custom domain support, #1803.
 -   `ReferenceType`s which reference an external symbol will now include `qualifiedName` and `package` in their serialized JSON.
 -   Added clickable anchor link for member titles, #1842.
