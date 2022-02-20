@@ -174,6 +174,8 @@ export class Context {
             "@param",
             "@remarks",
             "@throws",
+            "@privateRemarks",
+            "@defaultValue",
             // TypeDoc specific
             "@module",
             "@inheritDoc",
@@ -190,6 +192,9 @@ export class Context {
             "@deprecated",
             "@alpha",
             "@beta",
+            "@sealed",
+            "@override",
+            "@virtual",
             // TypeDoc specific tags
             "@hidden",
             "@ignore",

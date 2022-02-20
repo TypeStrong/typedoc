@@ -54,17 +54,6 @@ export class InheritDocPlugin extends ConverterComponent {
         if (reflection instanceof ContainerReflection) {
             const descendantsCallback: TraverseCallback = (item) => {
                 const inheritDoc = item.comment?.getTag("@inheritDoc")?.name;
-                if (item.comment?.summary.length) {
-                    this.application.logger.warn(
-                        `The summary in the comment for ${item.getFullName()} will be ignored since @inheritDoc is used.`
-                    );
-                }
-
-                if (item.comment?.getTag("@remarks")) {
-                    this.application.logger.warn(
-                        `The @remarks block in the comment for ${item.getFullName()} will be ignored since @inheritDoc is used.`
-                    );
-                }
 
                 const source =
                     inheritDoc && reflection.findReflectionByName(inheritDoc);
@@ -86,6 +75,20 @@ export class InheritDocPlugin extends ConverterComponent {
                         const itemIndex =
                             item.parent.signatures?.indexOf(item) ?? 0;
                         referencedReflection = source.signatures?.[itemIndex];
+                    }
+                }
+
+                if (referencedReflection) {
+                    if (item.comment?.summary.length) {
+                        this.application.logger.warn(
+                            `The summary in the comment for ${item.getFullName()} will be ignored since @inheritDoc is used.`
+                        );
+                    }
+
+                    if (item.comment?.getTag("@remarks")) {
+                        this.application.logger.warn(
+                            `The @remarks block in the comment for ${item.getFullName()} will be ignored since @inheritDoc is used.`
+                        );
                     }
                 }
 

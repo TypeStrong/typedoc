@@ -183,11 +183,12 @@ describe("Options", () => {
         options.addDefaultDeclarations();
 
         options.setValue("name", "test");
+        const originalExclude = options.getValue("excludeTags");
         options.setValue("excludeTags", ["@x"]);
         options.reset("excludeTags");
 
         equal(options.getValue("name"), "test");
-        equal(options.getValue("excludeTags"), []);
+        equal(options.getValue("excludeTags"), originalExclude);
     });
 
     it("Throws if resetting a single value which does not exist", () => {
