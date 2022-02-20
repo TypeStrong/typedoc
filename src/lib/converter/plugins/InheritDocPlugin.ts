@@ -53,8 +53,19 @@ export class InheritDocPlugin extends ConverterComponent {
     private onResolve(_context: Context, reflection: DeclarationReflection) {
         if (reflection instanceof ContainerReflection) {
             const descendantsCallback: TraverseCallback = (item) => {
-                item.traverse(descendantsCallback);
                 const inheritDoc = item.comment?.getTag("@inheritDoc")?.name;
+                if (item.comment?.summary.length) {
+                    this.application.logger.warn(
+                        `The summary in the comment for ${item.getFullName()} will be ignored since @inheritDoc is used.`
+                    );
+                }
+
+                if (item.comment?.getTag("@remarks")) {
+                    this.application.logger.warn(
+                        `The @remarks block in the comment for ${item.getFullName()} will be ignored since @inheritDoc is used.`
+                    );
+                }
+
                 const source =
                     inheritDoc && reflection.findReflectionByName(inheritDoc);
                 let referencedReflection = source;

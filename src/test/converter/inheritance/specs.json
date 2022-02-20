@@ -374,7 +374,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "This will be inherited"
+                        "text": "First argument"
                       }
                     ]
                   },
@@ -394,7 +394,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "This will be inherited"
+                        "text": "Second argument"
                       }
                     ]
                   },
@@ -542,7 +542,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "This will be inherited"
+                        "text": "First argument"
                       }
                     ]
                   },
@@ -562,7 +562,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "This will be inherited"
+                        "text": "Second argument"
                       }
                     ]
                   },
