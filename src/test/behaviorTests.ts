@@ -5,6 +5,7 @@ import {
     ReflectionKind,
     Comment,
     CommentDisplayPart,
+    CommentTag,
 } from "../lib/models";
 import type { TestLogger } from "./TestLogger";
 
@@ -99,6 +100,66 @@ export const behaviorTests: Record<
             ],
             [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
         ]);
+    },
+
+    inheritDocBasic(project) {
+        const target = query(project, "InterfaceTarget");
+        const comment = new Comment(
+            [{ kind: "text", text: "Summary" }],
+            [new CommentTag("@remarks", [{ kind: "text", text: "Remarks" }])]
+        );
+        equal(target.comment, comment);
+
+        equal(
+            Comment.combineDisplayParts(
+                target.typeParameters?.[0].comment?.summary
+            ),
+            "Type parameter"
+        );
+
+        const prop = query(project, "InterfaceTarget.property");
+        equal(
+            Comment.combineDisplayParts(prop.comment?.summary),
+            "Property description"
+        );
+
+        const meth = query(project, "InterfaceTarget.someMethod");
+        const methodComment = new Comment(
+            [{ kind: "text", text: "Method description" }],
+            [
+                new CommentTag("@example", [
+                    { kind: "text", text: "This should still be present\n" },
+                    { kind: "code", text: "```ts\nsomeMethod(123)\n```" },
+                ]),
+            ]
+        );
+        equal(meth.signatures?.[0].comment, methodComment);
+    },
+
+    inheritDocWarnings(project, logger) {
+        const target1 = query(project, "target1");
+        equal(Comment.combineDisplayParts(target1.comment?.summary), "Source");
+        equal(
+            Comment.combineDisplayParts(
+                target1.comment?.getTag("@remarks")?.content
+            ),
+            "Remarks"
+        );
+        logger.expectMessage(
+            "warn: The summary in the comment for target1 will be ignored since @inheritDoc is used."
+        );
+
+        const target2 = query(project, "target2");
+        equal(Comment.combineDisplayParts(target2.comment?.summary), "Source");
+        equal(
+            Comment.combineDisplayParts(
+                target2.comment?.getTag("@remarks")?.content
+            ),
+            "Remarks"
+        );
+        logger.expectMessage(
+            "warn: The @remarks block in the comment for target2 will be ignored since @inheritDoc is used."
+        );
     },
 
     mergedDeclarations(project, logger) {
