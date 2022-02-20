@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.12 (2022-02-20)
+
 ### Features
 
 -   Added `--validation.notDocumented` option to warn on items that are not documented, #1817.
