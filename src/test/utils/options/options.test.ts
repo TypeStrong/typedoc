@@ -171,11 +171,12 @@ describe("Options", () => {
         options.addDefaultDeclarations();
 
         options.setValue("entryPoints", ["x"]);
+        const oldExcludeTags = options.getValue("excludeTags");
         options.setValue("excludeTags", ["@x"]);
         options.reset();
 
         equal(options.getValue("entryPoints"), []);
-        equal(options.getValue("excludeTags"), []);
+        equal(options.getValue("excludeTags"), oldExcludeTags);
     });
 
     it("Supports resetting a single value", () => {
