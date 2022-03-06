@@ -6,6 +6,7 @@
 
         // Add our `ts` internal types
         "typeRoots": ["node_modules/@types", "src/lib/types"],
+        "types": ["node", "glob", "lunr", "marked", "minimatch", "mocha"],
 
         // Speed up dev compilation time
         "incremental": true,
