@@ -8,6 +8,7 @@ import {
     ReflectionType,
     Comment,
     CommentTag,
+    UnionType,
 } from "../lib/models";
 
 function query(project: ProjectReflection, name: string) {
@@ -289,5 +290,35 @@ export const issueTests: {
         );
         ok(project.children![0].kind === ReflectionKind.Reference);
         ok(project.children![1].kind !== ReflectionKind.Reference);
+    },
+
+    gh1876(project) {
+        const foo = query(project, "foo");
+        const fooSig = foo.signatures?.[0].parameters?.[0];
+        ok(fooSig);
+        ok(fooSig.type instanceof UnionType);
+        ok(fooSig.type.types[1] instanceof ReflectionType);
+        equal(
+            fooSig.type.types[1].declaration.getChildByName("min")?.comment
+                ?.shortText,
+            "Nested\n"
+        );
+
+        const bar = query(project, "bar");
+        const barSig = bar.signatures?.[0].parameters?.[0];
+        ok(barSig);
+        ok(barSig.type instanceof UnionType);
+        ok(barSig.type.types[0] instanceof ReflectionType);
+        ok(barSig.type.types[1] instanceof ReflectionType);
+        equal(
+            barSig.type.types[0].declaration.getChildByName("min")?.comment
+                ?.shortText,
+            "Nested\n"
+        );
+        equal(
+            barSig.type.types[1].declaration.getChildByName("min")?.comment
+                ?.shortText,
+            "Nested\n"
+        );
     },
 };

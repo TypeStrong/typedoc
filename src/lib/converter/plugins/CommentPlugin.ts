@@ -18,7 +18,7 @@ import {
 } from "../factories/comment";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { ReflectionType, SourceReference } from "../../models";
+import { ReflectionType, SourceReference, TypeVisitor } from "../../models";
 import {
     BindOption,
     filterMap,
@@ -455,21 +455,32 @@ export class CommentPlugin extends ConverterComponent {
 
 // Moves tags like `@param foo.bar docs for bar` into the `bar` property of the `foo` parameter.
 function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
-    if (parameter.type instanceof ReflectionType) {
-        const tags = comment.tags.filter(
-            (t) =>
-                t.tagName === "param" &&
-                t.paramName.startsWith(`${parameter.name}.`)
-        );
+    const visitor: Partial<TypeVisitor> = {
+        reflection(target) {
+            const tags = comment.tags.filter(
+                (t) =>
+                    t.tagName === "param" &&
+                    t.paramName.startsWith(`${parameter.name}.`)
+            );
 
-        for (const tag of tags) {
-            const path = tag.paramName.split(".");
-            path.shift();
-            const child = parameter.type.declaration.getChildByName(path);
+            for (const tag of tags) {
+                const path = tag.paramName.split(".");
+                path.shift();
+                const child = target.declaration.getChildByName(path);
 
-            if (child && !child.comment) {
-                child.comment = new Comment(tag.text);
+                if (child && !child.comment) {
+                    child.comment = new Comment(tag.text);
+                }
             }
-        }
-    }
+        },
+        // #1876, also do this for unions/intersections.
+        union(u) {
+            u.types.forEach((t) => t.visit(visitor));
+        },
+        intersection(i) {
+            i.types.forEach((t) => t.visit(visitor));
+        },
+    };
+
+    parameter.type?.visit(visitor);
 }

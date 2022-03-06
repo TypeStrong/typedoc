@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Support copying `@param` comments for nested members that target union and intersection types, #1876.
+
 ## v0.22.12 (2022-02-20)
 
 ### Features
