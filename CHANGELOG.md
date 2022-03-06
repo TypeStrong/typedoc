@@ -5,6 +5,10 @@
 -   Add support for TypeScript 4.6, #1877.
 -   Support copying `@param` comments for nested members that target union and intersection types, #1876.
 
+### Bug Fixes
+
+-   Fixed validation for `--requiredToBeDocumented` option, #1872.
+
 ## v0.22.12 (2022-02-20)
 
 ### Features

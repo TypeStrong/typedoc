@@ -354,7 +354,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             );
 
             for (const kind of values) {
-                if (validValues.includes(kind)) {
+                if (!validValues.includes(kind)) {
                     throw new Error(
                         `'${kind}' is an invalid value for 'requiredToBeDocumented'. Must be one of: ${validValues.join(
                             ", "
