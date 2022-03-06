@@ -292,6 +292,20 @@ export const issueTests: {
         ok(project.children![1].kind !== ReflectionKind.Reference);
     },
 
+    gh1875(project) {
+        const test = query(project, "test");
+        equal(
+            test.signatures?.[0].parameters?.map((p) => p.type?.toString()),
+            ["typeof globalThis", "string"]
+        );
+
+        const test2 = query(project, "test2");
+        equal(
+            test2.signatures?.[0].parameters?.map((p) => p.type?.toString()),
+            ["any", "string"]
+        );
+    },
+
     gh1876(project) {
         const foo = query(project, "foo");
         const fooSig = foo.signatures?.[0].parameters?.[0];

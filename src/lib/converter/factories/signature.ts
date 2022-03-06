@@ -58,10 +58,15 @@ export function createSignature(
         signature.typeParameters
     );
 
+    const parameterSymbols: ReadonlyArray<ts.Symbol & { type?: ts.Type }> =
+        signature.thisParameter
+            ? [signature.thisParameter, ...signature.parameters]
+            : signature.parameters;
+
     sigRef.parameters = convertParameters(
         context,
         sigRef,
-        signature.parameters as readonly (ts.Symbol & { type: ts.Type })[],
+        parameterSymbols,
         declaration?.parameters
     );
 
@@ -105,7 +110,7 @@ export function createSignature(
 function convertParameters(
     context: Context,
     sigRef: SignatureReflection,
-    parameters: readonly (ts.Symbol & { type: ts.Type })[],
+    parameters: ReadonlyArray<ts.Symbol & { type?: ts.Type }>,
     parameterNodes: readonly ts.ParameterDeclaration[] | undefined
 ) {
     return parameters.map((param, i) => {
@@ -129,7 +134,7 @@ function convertParameters(
             declaration
         );
 
-        let type: ts.Type | ts.TypeNode;
+        let type: ts.Type | ts.TypeNode | undefined;
         if (declaration) {
             type = context.checker.getTypeOfSymbolAtLocation(
                 param,

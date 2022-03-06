@@ -8,6 +8,7 @@
 ### Bug Fixes
 
 -   Fixed validation for `--requiredToBeDocumented` option, #1872.
+-   Fixed missing `this` parameters in documentation for some functions, #1875.
 
 ## v0.22.12 (2022-02-20)
 
