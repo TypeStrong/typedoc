@@ -214,31 +214,23 @@ export class LegendBuilder {
 
     build(): LegendItem[][] {
         const filteredLegend = completeLegend
-            .map((list) => {
-                return list.filter((item) => {
-                    for (const classes of this._classesList) {
-                        if (this.isArrayEqualToSet(item.classes, classes)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                });
-            })
+            .map((list) =>
+                list.filter((item) =>
+                    this._classesList.some((classes) =>
+                        this.isArrayEqualToSet(item.classes, classes)
+                    )
+                )
+            )
             .filter((list) => list.length);
 
         return filteredLegend;
     }
 
     registerCssClasses(classArray: string[]) {
-        let exists = false;
         const items = classArray.filter((cls) => !ignoredClasses.has(cls));
-
-        for (const classes of this._classesList) {
-            if (this.isArrayEqualToSet(items, classes)) {
-                exists = true;
-                break;
-            }
-        }
+        const exists = this._classesList.some((classes) =>
+            this.isArrayEqualToSet(items, classes)
+        );
 
         if (!exists) {
             this._classesList.push(new Set(items));
@@ -250,12 +242,7 @@ export class LegendBuilder {
             return false;
         }
 
-        for (const value of a) {
-            if (!b.has(value)) {
-                return false;
-            }
-        }
-        return true;
+        return a.every((item) => b.has(item));
     }
 }
 
