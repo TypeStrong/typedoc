@@ -116,17 +116,6 @@ export function partition<T>(
     return [left, right];
 }
 
-/**
- * Ensures the given item is an array.
- * @param item
- */
-export function toArray<T>(item: T | readonly T[] | undefined): T[] {
-    if (item === void 0) {
-        return [];
-    }
-    return Array.isArray(item) ? [...item] : [item];
-}
-
 export function* zip<T extends Iterable<any>[]>(
     ...args: T
 ): Iterable<{ [K in keyof T]: T[K] extends Iterable<infer U> ? U : T[K] }> {
