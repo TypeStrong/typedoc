@@ -243,7 +243,11 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(_context: Context, reflection: DeclarationReflection) {
+    private onResolve(_context: Context, reflection: Reflection) {
+        if (reflection.comment) {
+            reflection.label = extractLabelTag(reflection.comment);
+        }
+
         if (!(reflection instanceof DeclarationReflection)) {
             return;
         }
@@ -401,5 +405,15 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
                 );
             }
         }
+    }
+}
+
+function extractLabelTag(comment: Comment): string | undefined {
+    const index = comment.summary.findIndex(
+        (part) => part.kind === "inline-tag" && part.tag === "@label"
+    );
+
+    if (index !== -1) {
+        return comment.summary.splice(index, 1)[0].text;
     }
 }

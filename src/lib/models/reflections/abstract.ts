@@ -235,6 +235,12 @@ export abstract class Reflection {
     originalName: string;
 
     /**
+     * Label associated with this reflection, if any (https://tsdoc.org/pages/tags/label/)
+     * Added by the CommentPlugin during resolution.
+     */
+    label?: string;
+
+    /**
      * The kind of this reflection.
      */
     kind: ReflectionKind;

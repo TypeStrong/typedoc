@@ -192,7 +192,7 @@ export class Comment {
     }
 
     /**
-     * Removes all tags with the given tag name from the comment.
+     * Removes all block tags with the given tag name from the comment.
      * @param tagName
      */
     removeTags(tagName: `@${string}`) {

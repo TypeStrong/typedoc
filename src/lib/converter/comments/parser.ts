@@ -59,7 +59,6 @@ const HAS_USER_IDENTIFIER: `@${string}`[] = [
     "@template",
     "@typedef",
     "@typeParam",
-    // GERRIT Kind of hacky to have this one here.
     "@inheritDoc",
 ];
 
@@ -93,6 +92,17 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
                     tag.content.shift();
                 }
             }
+        }
+
+        if (
+            tag.content.some(
+                (part) =>
+                    part.kind === "inline-tag" && part.tag === "@inheritDoc"
+            )
+        ) {
+            warning(
+                "An inline @inheritDoc tag should not appear within a block tag as it will not be processed"
+            );
         }
 
         if (
@@ -139,6 +149,39 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
             "At most one @remarks tag is expected in a comment, ignoring all but the first"
         );
         removeIf(comment.blockTags, (tag) => remarks.indexOf(tag) > 0);
+    }
+
+    const inheritDoc = comment.blockTags.filter(
+        (tag) => tag.tag === "@inheritDoc"
+    );
+    const inlineInheritDoc = comment.summary.filter(
+        (part) => part.kind === "inline-tag" && part.tag === "@inheritDoc"
+    );
+
+    if (inlineInheritDoc.length + inheritDoc.length > 1) {
+        warning(
+            "At most one @inheritDoc tag is expected in a comment, ignoring all but the first"
+        );
+        const allInheritTags = [...inlineInheritDoc, ...inheritDoc];
+        removeIf(comment.summary, (part) => allInheritTags.indexOf(part) > 0);
+        removeIf(comment.blockTags, (tag) => allInheritTags.indexOf(tag) > 0);
+    }
+
+    if (
+        (inlineInheritDoc.length || inheritDoc.length) &&
+        comment.summary.some(
+            (part) => part.kind !== "inline-tag" && /\S/.test(part.text)
+        )
+    ) {
+        warning(
+            "Content in the summary section will be overwritten by the @inheritDoc tag"
+        );
+    }
+
+    if ((inlineInheritDoc.length || inheritDoc.length) && remarks.length) {
+        warning(
+            "Content in the @remarks block will be overwritten by the @inheritDoc tag"
+        );
     }
 }
 

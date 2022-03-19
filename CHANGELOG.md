@@ -1,8 +1,8 @@
 # Unreleased
 
-### Currently Broken
+### Incomplete
 
--   Inline `@inheritDoc` tags
+-   Full support for declaration references.
 
 ### Breaking Changes
 

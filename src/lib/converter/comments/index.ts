@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 import { Comment, ReflectionKind } from "../../models";
 import { assertNever, Logger } from "../../utils";
+import { nicePath } from "../../utils/paths";
 import { lexBlockComment } from "./blockLexer";
 import { discoverComment, discoverSignatureComment } from "./discovery";
 import { parseComment } from "./parser";
@@ -28,7 +29,9 @@ function getCommentWithCache(
 
     const line = ts.getLineAndCharacterOfPosition(file, range.pos).line + 1;
     const warning = (warning: string) =>
-        logger.warn(`${warning} in comment at ${file.fileName}:${line}.`);
+        logger.warn(
+            `${warning} in comment at ${nicePath(file.fileName)}:${line}.`
+        );
 
     let comment: Comment;
     switch (range.kind) {

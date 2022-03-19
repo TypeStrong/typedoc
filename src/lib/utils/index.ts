@@ -21,6 +21,7 @@ export {
 export type { IfInternal, NeverIfInternal } from "./general";
 export { assertNever } from "./general";
 export { CallbackLogger, ConsoleLogger, Logger, LogLevel } from "./loggers";
+export { DefaultMap } from "./map";
 export {
     ArgumentsReader,
     BindOption,

@@ -1,16 +1,15 @@
 import * as fs from "fs";
-import { sync as glob } from "glob";
 import { platform } from "os";
 import { resolve, join, dirname } from "path";
 import * as puppeteer from "puppeteer";
 import { Application, TSConfigReader, EntryPointStrategy } from "..";
 import { remove } from "../lib/utils";
+import { glob } from "../lib/utils/fs";
 
 const concurrency = 10;
 const src = join(__dirname, "../../src/test/renderer/testProject/src");
 const baseDirectory = join(__dirname, "../../dist/tmp/capture");
 const outputDirectory = join(__dirname, "../../dist/tmp/__screenshots__");
-const globPattern = "**/*.html";
 const viewport = { width: 1024, height: 768 };
 
 class PQueue {
@@ -88,7 +87,7 @@ export async function captureScreenshots(
     });
 
     const queue = new PQueue(concurrency);
-    for (const file of glob(globPattern, { cwd: baseDirectory })) {
+    for (const file of glob("**/*.html", baseDirectory)) {
         queue.add(async () => {
             const absPath = resolve(baseDirectory, file);
             const outputPath = resolve(

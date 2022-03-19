@@ -228,7 +228,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 18,
+                      "id": 24,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -273,7 +273,7 @@
           ],
           "typeParameter": [
             {
-              "id": 19,
+              "id": 25,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -478,6 +478,15 @@
                 ],
                 "blockTags": [
                   {
+                    "tag": "@remarks",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Remarks will be inherited"
+                      }
+                    ]
+                  },
+                  {
                     "tag": "@example",
                     "content": [
                       {
@@ -504,11 +513,11 @@
                     ]
                   },
                   {
-                    "tag": "@remarks",
+                    "tag": "@returns",
                     "content": [
                       {
                         "kind": "text",
-                        "text": "Remarks will be inherited"
+                        "text": "Stringified sum or concatenation of numeric arguments"
                       }
                     ]
                   }
@@ -516,7 +525,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 4,
+                  "id": 11,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -533,7 +542,7 @@
               ],
               "parameters": [
                 {
-                  "id": 5,
+                  "id": 12,
                   "name": "arg1",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -548,12 +557,12 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 4,
+                    "id": 11,
                     "name": "T"
                   }
                 },
                 {
-                  "id": 6,
+                  "id": 13,
                   "name": "arg2",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -568,7 +577,7 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 4,
+                    "id": 11,
                     "name": "T"
                   }
                 }

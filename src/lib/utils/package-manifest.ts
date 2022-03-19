@@ -1,11 +1,10 @@
 // Utilities to support the inspection of node package "manifests"
 
-import glob = require("glob");
 import { dirname, join, resolve } from "path";
 import { existsSync } from "fs";
 import { flatMap } from "./array";
 
-import { readFile } from "./fs";
+import { readFile, glob } from "./fs";
 import type { Logger } from "./loggers";
 
 /**
@@ -67,16 +66,6 @@ function getPackagePaths(
 }
 
 /**
- * Should produce the same results as the equivalent code in Yarn
- * https://github.com/yarnpkg/yarn/blob/a4708b29ac74df97bac45365cba4f1d62537ceb7/src/config.js#L799
- */
-function globPackages(workspacePath: string, packageJsonDir: string): string[] {
-    return glob.sync(resolve(packageJsonDir, workspacePath, "package.json"), {
-        ignore: resolve(packageJsonDir, workspacePath, "node_modules"),
-    });
-}
-
-/**
  * Given a list of (potentially wildcarded) package paths,
  * return all the actual package folders found.
  */
@@ -91,7 +80,10 @@ export function expandPackages(
     // be dealing with either a root or a leaf. So let's do this recursively,
     // as it actually is simpler from an implementation perspective anyway.
     return flatMap(workspaces, (workspace) => {
-        const globbedPackageJsonPaths = globPackages(workspace, packageJsonDir);
+        const globbedPackageJsonPaths = glob(
+            resolve(packageJsonDir, workspace, "package.json"),
+            resolve(packageJsonDir)
+        );
         return flatMap(globbedPackageJsonPaths, (packageJsonPath) => {
             const packageJson = loadPackageManifest(logger, packageJsonPath);
             if (packageJson === undefined) {

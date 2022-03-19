@@ -136,6 +136,21 @@ export const behaviorTests: Record<
         equal(meth.signatures?.[0].comment, methodComment);
     },
 
+    inheritDocRecursive(project, logger) {
+        const a = query(project, "A");
+        equal(a.comment?.getTag("@inheritDoc")?.name, "B");
+
+        const b = query(project, "B");
+        equal(b.comment?.getTag("@inheritDoc")?.name, "C");
+
+        const c = query(project, "C");
+        equal(c.comment?.getTag("@inheritDoc")?.name, "A");
+
+        logger.expectMessage(
+            "warn: @inheritDoc specifies a circular inheritance chain: B -> C -> A -> B"
+        );
+    },
+
     inheritDocWarnings(project, logger) {
         const target1 = query(project, "target1");
         equal(Comment.combineDisplayParts(target1.comment?.summary), "Source");
@@ -146,7 +161,7 @@ export const behaviorTests: Record<
             "Remarks"
         );
         logger.expectMessage(
-            "warn: The summary in the comment for target1 will be ignored since @inheritDoc is used."
+            "warn: Content in the summary section will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:9."
         );
 
         const target2 = query(project, "target2");
@@ -158,7 +173,19 @@ export const behaviorTests: Record<
             "Remarks"
         );
         logger.expectMessage(
-            "warn: The @remarks block in the comment for target2 will be ignored since @inheritDoc is used."
+            "warn: Content in the @remarks block will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:15."
+        );
+
+        const target3 = query(project, "target3");
+        ok(target3.comment?.getTag("@inheritDoc"));
+        logger.expectMessage(
+            'warn: Failed to find "doesNotExist" to inherit the comment from in the comment for target3'
+        );
+
+        const target4 = query(project, "target4");
+        ok(target4.comment?.getTag("@inheritDoc"));
+        logger.expectMessage(
+            "warn: target4 tried to copy a comment from source2 with @inheritDoc, but the source has no associated comment."
         );
     },
 
@@ -183,10 +210,15 @@ export const behaviorTests: Record<
             Comment.combineDisplayParts(sig.comment?.summary)
         );
         equal(fooComments, [
-            "No arg comment\n{@label NO_ARGS}",
-            "{@inheritDoc (foo:NO_ARGS)}\n{@label WITH_X}",
+            "No arg comment\n",
+            "{@inheritDoc (foo:NO_ARGS)}\n",
         ]);
         equal(foo.comment, undefined);
+
+        equal(
+            foo.signatures?.map((s) => s.label),
+            ["NO_ARGS", "WITH_X"]
+        );
 
         const bar = query(project, "bar");
         const barComments = bar.signatures?.map((sig) =>
