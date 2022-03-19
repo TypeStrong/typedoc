@@ -156,21 +156,3 @@ export function filterMap<T, U>(
 
     return result;
 }
-
-export function flatMap<T, U>(
-    arr: readonly T[],
-    fn: (item: T) => U | readonly U[] | undefined
-): U[] {
-    const result: U[] = [];
-
-    for (const item of arr) {
-        const newItem = fn(item);
-        if (newItem instanceof Array) {
-            result.push(...newItem);
-        } else if (newItem != null) {
-            result.push(newItem);
-        }
-    }
-
-    return result;
-}

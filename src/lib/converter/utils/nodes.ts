@@ -1,5 +1,4 @@
 import * as ts from "typescript";
-import { flatMap } from "../../utils/array";
 
 export function isNamedNode(node: ts.Node): node is ts.Node & {
     name: ts.Identifier | ts.PrivateIdentifier | ts.ComputedPropertyName;
@@ -16,11 +15,12 @@ export function getHeritageTypes(
     declarations: readonly (ts.ClassDeclaration | ts.InterfaceDeclaration)[],
     kind: ts.SyntaxKind.ImplementsKeyword | ts.SyntaxKind.ExtendsKeyword
 ): ts.ExpressionWithTypeArguments[] {
-    const exprs = flatMap(declarations, (d) =>
-        flatMap(
-            d.heritageClauses?.filter((hc) => hc.token === kind) ?? [],
-            (hc) => hc.types as readonly ts.ExpressionWithTypeArguments[]
-        )
+    const exprs = declarations.flatMap((d) =>
+        (d.heritageClauses ?? [])
+            .filter((hc) => hc.token === kind)
+            .flatMap(
+                (hc) => hc.types as readonly ts.ExpressionWithTypeArguments[]
+            )
     );
 
     const seenTexts = new Set<string>();

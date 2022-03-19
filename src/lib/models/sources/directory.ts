@@ -1,7 +1,6 @@
 import type { ReflectionGroup } from "../ReflectionGroup";
 import type { SourceFile } from "./file";
 import type { DeclarationReflection } from "..";
-import { flatMap } from "../../utils/array";
 
 /**
  * Exposes information about a directory containing source files.
@@ -84,6 +83,6 @@ export class SourceDirectory {
      * files of this directory.
      */
     getAllReflections(): DeclarationReflection[] {
-        return flatMap(this.files, (file) => file.reflections);
+        return this.files.flatMap((file) => file.reflections);
     }
 }
