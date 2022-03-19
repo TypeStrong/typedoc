@@ -82,11 +82,11 @@ export function removeIfPresent<T>(arr: T[] | undefined, item: T) {
  * @param predicate
  */
 export function removeIf<T>(arr: T[], predicate: (item: T) => boolean) {
-    const indices = filterMap(arr, (item, index) =>
-        predicate(item) ? index : void 0
-    );
-    for (const index of indices.reverse()) {
-        arr.splice(index, 1);
+    for (let i = 0; i < arr.length; i++) {
+        if (predicate(arr[i])) {
+            arr.splice(i, 1);
+            i--;
+        }
     }
 }
 
