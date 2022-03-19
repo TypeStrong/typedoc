@@ -362,7 +362,7 @@ export abstract class Reflection {
      */
     getAlias(): string {
         if (!this._alias) {
-            let alias = this.name.replace(/[^a-z0-9]/gi, "_");
+            let alias = this.name.replace(/\W/g, "_");
             if (alias === "") {
                 alias = "reflection-" + this.id;
             }
