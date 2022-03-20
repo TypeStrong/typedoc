@@ -163,8 +163,8 @@ function convertTemplateParameters(context: Context, node: ts.JSDoc) {
 
 function convertTemplateParameterNodes(
     context: Context,
-    nodes: readonly ts.JSDocTemplateTag[] = []
+    nodes: readonly ts.JSDocTemplateTag[] | undefined
 ) {
-    const params = nodes.flatMap((tag) => tag.typeParameters);
+    const params = (nodes ?? []).flatMap((tag) => tag.typeParameters);
     return convertTypeParameterNodes(context, params);
 }

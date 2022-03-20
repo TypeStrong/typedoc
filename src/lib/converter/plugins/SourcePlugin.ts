@@ -176,9 +176,8 @@ export class SourcePlugin extends ConverterComponent {
         const project = context.project;
         const home = project.directory;
         project.files.forEach((file) => {
-            const reflections: DeclarationReflection[] = file.reflections.map(
-                (reflection) => reflection
-            );
+            const reflections: DeclarationReflection[] =
+                file.reflections.slice();
 
             let directory = home;
             const path = Path.dirname(file.fileName);
