@@ -139,7 +139,7 @@ function getEntryPointsForPaths(
 
     entryLoop: for (const fileOrDir of inputFiles.map(normalizePath)) {
         const toCheck = [fileOrDir];
-        if (!/\.[tj]sx?/.test(fileOrDir)) {
+        if (!/\.[tj]sx?$/.test(fileOrDir)) {
             toCheck.push(
                 `${fileOrDir}/index.ts`,
                 `${fileOrDir}/index.tsx`,

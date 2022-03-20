@@ -11,7 +11,6 @@ import {
     ReflectionType,
     SignatureReflection,
 } from "../models";
-import { flatMap } from "../utils/array";
 import { getJsDocComment } from "./comments";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
@@ -166,6 +165,6 @@ function convertTemplateParameterNodes(
     context: Context,
     nodes: readonly ts.JSDocTemplateTag[] | undefined
 ) {
-    const params = flatMap(nodes ?? [], (tag) => tag.typeParameters);
+    const params = (nodes ?? []).flatMap((tag) => tag.typeParameters);
     return convertTypeParameterNodes(context, params);
 }

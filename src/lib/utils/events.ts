@@ -142,7 +142,7 @@ function onApi(
     options: OnApiOptions
 ): EventHandlers {
     if (callback) {
-        const handlers = events[name] || (events[name] = []);
+        const handlers = (events[name] ||= []);
         const context = options.context,
             ctx = options.ctx,
             listening = options.listening,

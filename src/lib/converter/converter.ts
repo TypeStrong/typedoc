@@ -392,31 +392,21 @@ export class Converter extends ChildableComponent<
         this.excludeCache ??= createMinimatch(
             this.application.options.getValue("exclude")
         );
+        const cache = this.excludeCache;
 
-        for (const node of symbol.getDeclarations() ?? []) {
-            if (matchesAny(this.excludeCache, node.getSourceFile().fileName)) {
-                return true;
-            }
-        }
-
-        return false;
+        return (symbol.getDeclarations() ?? []).some((node) =>
+            matchesAny(cache, node.getSourceFile().fileName)
+        );
     }
 
     /** @internal */
     isExternal(symbol: ts.Symbol) {
         this.externalPatternCache ??= createMinimatch(this.externalPattern);
-        for (const node of symbol.getDeclarations() ?? []) {
-            if (
-                matchesAny(
-                    this.externalPatternCache,
-                    node.getSourceFile().fileName
-                )
-            ) {
-                return true;
-            }
-        }
+        const cache = this.externalPatternCache;
 
-        return false;
+        return (symbol.getDeclarations() ?? []).some((node) =>
+            matchesAny(cache, node.getSourceFile().fileName)
+        );
     }
 }
 

@@ -23,7 +23,7 @@ import {
 } from "./utils/component";
 import { Options, BindOption } from "./utils";
 import type { TypeDocOptions } from "./utils/options/declaration";
-import { flatMap, unique } from "./utils/array";
+import { unique } from "./utils/array";
 import { ok } from "assert";
 import {
     DocumentationEntryPoint,
@@ -225,7 +225,9 @@ export class Application extends ChildableComponent<
             `Converting with ${programs.length} programs ${entryPoints.length} entry points`
         );
 
-        const errors = flatMap([...programs], ts.getPreEmitDiagnostics);
+        const errors = programs.flatMap((program) =>
+            ts.getPreEmitDiagnostics(program)
+        );
         if (errors.length) {
             this.logger.diagnostics(errors);
             return;

@@ -92,9 +92,8 @@ export class SignatureReflection extends Reflection {
         let result = super.toString();
 
         if (this.typeParameters) {
-            const parameters: string[] = [];
-            this.typeParameters.forEach((parameter) =>
-                parameters.push(parameter.name)
+            const parameters: string[] = this.typeParameters.map(
+                (parameter) => parameter.name
             );
             result += "<" + parameters.join(", ") + ">";
         }

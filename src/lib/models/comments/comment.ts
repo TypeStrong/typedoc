@@ -73,25 +73,23 @@ export class Comment {
     static combineDisplayParts(
         parts: readonly CommentDisplayPart[] | undefined
     ): string {
-        const result: string[] = [];
+        let result = "";
 
         for (const item of parts || []) {
             switch (item.kind) {
                 case "text":
-                    result.push(item.text);
-                    break;
                 case "code":
-                    result.push(item.text);
+                    result += item.text;
                     break;
                 case "inline-tag":
-                    result.push("{", item.tag, " ", item.text, "}");
+                    result += `{${item.tag} ${item.text}}`;
                     break;
                 default:
                     assertNever(item);
             }
         }
 
-        return result.join("");
+        return result;
     }
 
     /**

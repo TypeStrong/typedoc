@@ -223,9 +223,8 @@ export class CommentPlugin extends ConverterComponent {
         );
         someRemoved.forEach((reflection) => {
             reflection.sources = unique(
-                reflection.signatures!.reduce<SourceReference[]>(
-                    (c, s) => c.concat(s.sources || []),
-                    []
+                reflection.signatures!.flatMap<SourceReference>(
+                    (s) => s.sources ?? []
                 )
             );
         });

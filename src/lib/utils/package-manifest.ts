@@ -2,7 +2,6 @@
 
 import { dirname, join, resolve } from "path";
 import { existsSync } from "fs";
-import { flatMap } from "./array";
 
 import { readFile, glob } from "./fs";
 import type { Logger } from "./loggers";
@@ -79,12 +78,12 @@ export function expandPackages(
     // to the root of a workspace tree in our params and so we could here
     // be dealing with either a root or a leaf. So let's do this recursively,
     // as it actually is simpler from an implementation perspective anyway.
-    return flatMap(workspaces, (workspace) => {
+    return workspaces.flatMap((workspace) => {
         const globbedPackageJsonPaths = glob(
             resolve(packageJsonDir, workspace, "package.json"),
             resolve(packageJsonDir)
         );
-        return flatMap(globbedPackageJsonPaths, (packageJsonPath) => {
+        return globbedPackageJsonPaths.flatMap((packageJsonPath) => {
             const packageJson = loadPackageManifest(logger, packageJsonPath);
             if (packageJson === undefined) {
                 logger.error(`Failed to load ${packageJsonPath}`);
