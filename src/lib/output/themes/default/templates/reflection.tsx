@@ -1,31 +1,19 @@
 import { hasTypeParameters } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import type { PageEvent } from "../../../events";
-import {
-    ContainerReflection,
-    DeclarationReflection,
-    ReflectionKind,
-    ReflectionType,
-} from "../../../../models";
+import { ContainerReflection, DeclarationReflection, ReflectionKind, ReflectionType } from "../../../../models";
 import { JSX } from "../../../../utils";
 
-export function reflectionTemplate(
-    context: DefaultThemeRenderContext,
-    props: PageEvent<ContainerReflection>
-) {
+export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {
     if (
-        [ReflectionKind.TypeAlias, ReflectionKind.Variable].includes(
-            props.model.kind
-        ) &&
+        [ReflectionKind.TypeAlias, ReflectionKind.Variable].includes(props.model.kind) &&
         props.model instanceof DeclarationReflection
     )
         return context.memberDeclaration(props.model);
     return (
         <>
             {props.model.hasComment() && (
-                <section class="tsd-panel tsd-comment">
-                    {context.comment(props.model)}
-                </section>
+                <section class="tsd-panel tsd-comment">{context.comment(props.model)}</section>
             )}
 
             {hasTypeParameters(props.model) && (
@@ -63,34 +51,24 @@ export function reflectionTemplate(
                         </section>
                     )}
                     {!!props.model.signatures && (
-                        <section class="tsd-panel">
-                            {context.memberSignatures(props.model)}
-                        </section>
+                        <section class="tsd-panel">{context.memberSignatures(props.model)}</section>
                     )}
                     {!!props.model.indexSignature && (
                         <section class={"tsd-panel " + props.model.cssClasses}>
                             <h4 class="tsd-before-signature">Indexable</h4>
                             <div class="tsd-signature">
                                 <span class="tsd-signature-symbol">[</span>
-                                {props.model.indexSignature.parameters!.map(
-                                    (item) => (
-                                        <>
-                                            {item.name}:{" "}
-                                            {context.type(item.type)}
-                                        </>
-                                    )
-                                )}
-                                <span class="tsd-signature-symbol">
-                                    {"]: "}
-                                </span>
+                                {props.model.indexSignature.parameters!.map((item) => (
+                                    <>
+                                        {item.name}: {context.type(item.type)}
+                                    </>
+                                ))}
+                                <span class="tsd-signature-symbol">{"]: "}</span>
                                 {context.type(props.model.indexSignature.type)}
                             </div>
                             {context.comment(props.model.indexSignature)}
-                            {props.model.indexSignature?.type instanceof
-                                ReflectionType &&
-                                context.parameter(
-                                    props.model.indexSignature.type.declaration
-                                )}
+                            {props.model.indexSignature?.type instanceof ReflectionType &&
+                                context.parameter(props.model.indexSignature.type.declaration)}
                         </section>
                     )}
                 </>
