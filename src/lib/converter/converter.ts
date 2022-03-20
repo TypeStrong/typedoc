@@ -389,9 +389,10 @@ export class Converter extends ChildableComponent<
     }
 
     private isExcluded(symbol: ts.Symbol) {
-        const cache = (this.excludeCache ??= createMinimatch(
+        this.excludeCache ??= createMinimatch(
             this.application.options.getValue("exclude")
-        ));
+        );
+        const cache = this.excludeCache;
 
         return (symbol.getDeclarations() ?? []).some((node) =>
             matchesAny(cache, node.getSourceFile().fileName)
@@ -400,9 +401,8 @@ export class Converter extends ChildableComponent<
 
     /** @internal */
     isExternal(symbol: ts.Symbol) {
-        const cache = (this.externalPatternCache ??= createMinimatch(
-            this.externalPattern
-        ));
+        this.externalPatternCache ??= createMinimatch(this.externalPattern);
+        const cache = this.externalPatternCache;
 
         return (symbol.getDeclarations() ?? []).some((node) =>
             matchesAny(cache, node.getSourceFile().fileName)
