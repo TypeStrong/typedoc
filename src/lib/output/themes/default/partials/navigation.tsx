@@ -51,7 +51,7 @@ function settings() {
                         <option value="light">Light</option>
                         <option value="dark">Dark</option>
                     </select>
-                </div>{" "}
+                </div>
             </details>
         </div>
     );

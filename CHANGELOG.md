@@ -4,7 +4,7 @@
 
 These TODOs will be resolved before a full release. ([GitHub project](https://github.com/TypeStrong/typedoc/projects/11))
 
--   Restore support for `{@link}` tags in markdown documents.
+-   Restore support for `{@link}` and `[[link]]` tags in markdown documents.
 -   Make comment parser options configurable (read tsdoc.json?).
 -   Full support for declaration references, #262, #488, #1326, #1845.
 -   Add support for additional comment styles, #1433.
@@ -50,6 +50,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 ### Thanks!
 
 -   @fb55
+-   @futurGH
 
 ## v0.22.12 (2022-02-20)
 
