@@ -26,18 +26,21 @@ const sorts: Record<
     (a: DeclarationReflection, b: DeclarationReflection) => boolean
 > = {
     "source-order"(a, b) {
+        const aSymbol = a.project.getSymbolFromReflection(a);
+        const bSymbol = b.project.getSymbolFromReflection(b);
+
         // This is going to be somewhat ambiguous. No way around that. Treat the first
         // declaration of a symbol as its ordering declaration.
-        const aSource = a.sources?.[0];
-        const bSource = b.sources?.[0];
+        const aDecl = aSymbol?.getDeclarations()?.[0];
+        const bDecl = bSymbol?.getDeclarations()?.[0];
 
-        if (aSource && bSource) {
-            const aFile = aSource.fileName;
-            const bFile = bSource.fileName;
+        if (aDecl && bDecl) {
+            const aFile = aDecl.getSourceFile().fileName;
+            const bFile = bDecl.getSourceFile().fileName;
             if (aFile < bFile) {
                 return true;
             }
-            if (aFile == bFile && aSource.character < bSource.character) {
+            if (aFile == bFile && aDecl.pos < bDecl.pos) {
                 return true;
             }
 
