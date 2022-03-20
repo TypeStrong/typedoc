@@ -266,10 +266,7 @@ export class ImplementsPlugin extends ConverterComponent {
         }
 
         // Need this because we re-use reflections for type literals.
-        if (
-            !reflection.parent ||
-            !reflection.parent.kindOf(ReflectionKind.ClassOrInterface)
-        ) {
+        if (!reflection.parent?.kindOf(ReflectionKind.ClassOrInterface)) {
             return;
         }
 
