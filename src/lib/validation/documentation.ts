@@ -1,7 +1,5 @@
-import * as path from "path";
-import * as ts from "typescript";
 import { ProjectReflection, ReflectionKind } from "../models";
-import { Logger, normalizePath } from "../utils";
+import type { Logger } from "../utils";
 
 export function validateDocumentation(
     project: ProjectReflection,
@@ -14,23 +12,15 @@ export function validateDocumentation(
     );
 
     for (const ref of project.getReflectionsByKind(kinds)) {
-        const symbol = project.getSymbolFromReflection(ref);
-        if (!ref.comment && symbol?.declarations) {
-            const decl = symbol.declarations[0];
-            const sourceFile = decl.getSourceFile();
-            const { line } = ts.getLineAndCharacterOfPosition(
-                sourceFile,
-                decl.getStart()
-            );
-            const file = normalizePath(
-                path.relative(process.cwd(), sourceFile.fileName)
-            );
+        const decl = ref.sources?.[0];
+        if (!ref.comment && decl) {
+            const { line, fileName } = decl;
 
-            if (file.includes("node_modules")) {
+            if (fileName.includes("node_modules")) {
                 continue;
             }
 
-            const loc = `${file}:${line + 1}`;
+            const loc = `${fileName}:${line + 1}`;
             logger.warn(
                 `${ref.name}, defined at ${loc}, does not have any documentation.`
             );
