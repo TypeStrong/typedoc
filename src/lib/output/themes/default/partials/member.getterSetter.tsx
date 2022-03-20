@@ -6,15 +6,19 @@ export const memberGetterSetter = (context: DefaultThemeRenderContext, props: De
     <>
         <ul class={"tsd-signatures " + props.cssClasses}>
             {!!props.getSignature && (
-                <li class="tsd-signature tsd-kind-icon">
+                <li class="tsd-signature">
                     <span class="tsd-signature-symbol">get</span> {props.name}
-                    {context.memberSignatureTitle(props.getSignature, { hideName: true })}
+                    {context.memberSignatureTitle(props.getSignature, {
+                        hideName: true,
+                    })}
                 </li>
             )}
             {!!props.setSignature && (
-                <li class="tsd-signature tsd-kind-icon">
+                <li class="tsd-signature">
                     <span class="tsd-signature-symbol">set</span> {props.name}
-                    {context.memberSignatureTitle(props.setSignature, { hideName: true })}
+                    {context.memberSignatureTitle(props.setSignature, {
+                        hideName: true,
+                    })}
                 </li>
             )}
         </ul>

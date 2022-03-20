@@ -359,7 +359,9 @@ const typeRenderers: {
                 <>
                     <span class="tsd-signature-symbol">{"{"} </span>
                     {join(<span class="tsd-signature-symbol">; </span>, type.declaration.signatures, (item) =>
-                        context.memberSignatureTitle(item, { hideName: true })
+                        context.memberSignatureTitle(item, {
+                            hideName: true,
+                        })
                     )}
                     <span class="tsd-signature-symbol">{" }"}</span>
                 </>

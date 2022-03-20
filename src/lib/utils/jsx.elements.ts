@@ -116,6 +116,7 @@ export interface IntrinsicElements {
     // SVG Elements
     svg: JsxSvgElementProps;
     path: JsxPathElementProps;
+    rect: JsxRectElementProps;
 }
 
 export const JsxFragment = Symbol();
@@ -166,6 +167,8 @@ export interface JsxHtmlGlobalProps {
     lang?: string;
     nonce?: string;
     part?: string;
+
+    role?: string;
     slot?: string;
     spellcheck?: boolean;
     style?: string;
@@ -1035,4 +1038,23 @@ export interface JsxPathElementProps
         JsxSvgPresentationProps {
     d: string;
     pathLength?: number;
+}
+
+/**
+ * Properties permitted on the `<rect>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/rect
+ */
+export interface JsxRectElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    height?: string | number;
+    pathLength?: number;
+    rx?: string | number;
+    ry?: string | number;
+    width?: string | number;
+    x?: string | number;
+    y?: string | number;
 }

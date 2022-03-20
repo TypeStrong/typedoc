@@ -38,10 +38,9 @@ export class Viewport extends EventTarget {
     showToolbar: boolean = true;
 
     /**
-     * The sticky side nav that contains members of the current page.
-     * Might not present on the home page if the project uses `entryPointStrategy` set to `Expand`.
+     * The side nav that contains members of the current page.
      */
-    secondaryNav?: HTMLElement;
+    navigation: HTMLElement;
 
     /**
      * Create new Viewport instance.
@@ -52,9 +51,7 @@ export class Viewport extends EventTarget {
         this.toolbar = <HTMLDivElement>(
             document.querySelector(".tsd-page-toolbar")
         );
-        this.secondaryNav = <HTMLElement | undefined>(
-            document.querySelector(".tsd-navigation.secondary")
-        );
+        this.navigation = <HTMLElement>document.querySelector(".col-menu");
 
         window.addEventListener(
             "scroll",
@@ -124,7 +121,7 @@ export class Viewport extends EventTarget {
         this.showToolbar = this.lastY >= this.scrollTop || this.scrollTop <= 0;
         if (isShown !== this.showToolbar) {
             this.toolbar.classList.toggle("tsd-page-toolbar--hide");
-            this.secondaryNav?.classList.toggle("tsd-navigation--toolbar-hide");
+            this.navigation?.classList.toggle("col-menu--hide");
         }
         this.lastY = this.scrollTop;
     }

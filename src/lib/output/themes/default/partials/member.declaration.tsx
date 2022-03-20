@@ -5,7 +5,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const memberDeclaration = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
-        <div class="tsd-signature tsd-kind-icon">
+        <div class="tsd-signature">
             {wbr(props.name)}
             {renderTypeParametersSignature(props.typeParameters)}
             {props.type && (
@@ -24,8 +24,6 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
             )}
         </div>
 
-        {context.memberSources(props)}
-
         {context.comment(props)}
 
         {hasTypeParameters(props) && (
@@ -40,5 +38,7 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
                 {context.parameter(props.type.declaration)}
             </div>
         )}
+
+        {context.memberSources(props)}
     </>
 );

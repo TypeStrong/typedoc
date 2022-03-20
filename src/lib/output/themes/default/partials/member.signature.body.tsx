@@ -9,19 +9,18 @@ export const memberSignatureBody = (
     { hideSources = false }: { hideSources?: boolean } = {}
 ) => (
     <>
-        {!hideSources && context.memberSources(props)}
         {context.comment(props)}
 
         {hasTypeParameters(props) && (
-            <>
+            <div class="tsd-type-parameters">
                 <h4 class="tsd-type-parameters-title">Type parameters</h4>
                 {context.typeParameters(props.typeParameters)}
-            </>
+            </div>
         )}
         {props.parameters && props.parameters.length > 0 && (
-            <>
+            <div class="tsd-parameters">
                 <h4 class="tsd-parameters-title">Parameters</h4>
-                <ul class="tsd-parameters">
+                <ul class="tsd-parameter-list">
                     {props.parameters.map((item) => (
                         <li>
                             <h5>
@@ -42,7 +41,7 @@ export const memberSignatureBody = (
                         </li>
                     ))}
                 </ul>
-            </>
+            </div>
         )}
         {props.type && (
             <>
@@ -53,5 +52,6 @@ export const memberSignatureBody = (
                 {props.type instanceof ReflectionType && context.parameter(props.type.declaration)}
             </>
         )}
+        {!hideSources && context.memberSources(props)}
     </>
 );

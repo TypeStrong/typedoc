@@ -171,7 +171,6 @@ function updateResults(
 
         const anchor = document.createElement("a");
         anchor.href = state.base + row.url;
-        anchor.classList.add("tsd-kind-icon");
         anchor.innerHTML = name;
         item.append(anchor);
 

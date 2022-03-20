@@ -38,7 +38,7 @@ export class Application {
     }
 
     /**
-     * Create all components beneath the given jQuery element.
+     * Create all components beneath the given element.
      */
     public createComponents(context: HTMLElement) {
         components.forEach((c) => {

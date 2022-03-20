@@ -97,7 +97,6 @@ export interface TypeDocOptionMap {
     gaID: string;
     githubPages: boolean;
     hideGenerator: boolean;
-    hideLegend: boolean;
     cleanOutputDir: boolean;
 
     help: boolean;
