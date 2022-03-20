@@ -52,8 +52,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             if (
                 !reflection.url ||
                 !reflection.name ||
-                reflection.flags.isExternal ||
-                reflection.name === ""
+                reflection.flags.isExternal
             ) {
                 continue;
             }
