@@ -36,6 +36,10 @@
 -   Links which refer to members within a reference reflection will now correctly resolve to the referenced reflection's member, #1770.
 -   Correctly detect optional parameters in JavaScript projects using JSDoc, #1804.
 
+### Thanks!
+
+-   @fb55
+
 ## v0.22.12 (2022-02-20)
 
 ### Features
