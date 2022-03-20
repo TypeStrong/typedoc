@@ -2,12 +2,22 @@
 
 ### Incomplete
 
--   Full support for declaration references.
+These TODOs will be resolved before a full release. ([GitHub project](https://github.com/TypeStrong/typedoc/projects/11))
+
+-   Restore support for `{@link}` tags in markdown documents.
+-   Make comment parser options configurable (read tsdoc.json?).
+-   Full support for declaration references, #262, #488, #1326, #1845.
+-   Add support for additional comment styles, #1433.
+-   Add support for `@group` tags, #1652.
+    -   Add support for `@eventProperty`, and rework `@event` to be equivalent, in defining an element to be part of the "Events" group.
+-   Theme: Custom rendering for `@see` tags.
+-   Theme: Show toggles for all modifier tags used in a project to allow users to filter by deprecated/alpha/beta, etc.
+    -   Add option to control default values (merge #1816. Same option? Different one since it's based on comments?)
 
 ### Breaking Changes
 
--   TODO: The behavior of `@inheritDoc` has changed... describe how
--   The `gaSite` option has been removed since Google Analytics now infers the site automatically.
+-   `@inheritDoc` now follows the behavior specified by TSDoc when copying comments with a reference.
+-   The `gaSite` option has been removed since Google Analytics now infers the site automatically, updated Google Analytics script to latest version, #1846.
 -   The deprecated `listInvalidSymbolLinks` option has been removed. Use `validation.invalidLink` instead.
 -   The deprecated `true` and `false` values have been removed from `--emit`, to migrate replace `true` with `"both"` and `false` with `"docs"`.
 -   Links are no longer be resolved against a global list of all symbols. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on link resolution.
@@ -25,7 +35,8 @@
 -   If an exported symbol has multiple declarations, TypeDoc will now check all appropriate declarations for comments, and warn if more than one declaration contains a comment, #1855.
 -   Improved support for JSDoc style `@example` tags. If the tag content does not include a code block, TypeDoc now follows VSCode's behavior of treating the entire block as a code block, #135.
 -   TypeDoc will now render members marked with `@deprecated` with a line through their name, #1381.
--   TypeDoc will now warn if part of a comment will be overwritten due to use of `@inheritDoc` instead of silently dropping part of the comment
+-   TypeDoc will now warn if part of a comment will be overwritten due to use of `@inheritDoc` instead of silently dropping part of the comment.
+-   Added support for inline `@inheritDoc` tags, #1480.
 
 ### Bug Fixes
 
