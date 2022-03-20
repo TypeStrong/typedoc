@@ -287,9 +287,10 @@ export class Context {
      *
      * @param name  The name of the event that should be triggered.
      * @param reflection  The triggering reflection.
+     * @param node  The triggering TypeScript node if available.
      */
-    trigger(name: string, reflection: Reflection) {
-        this.converter.trigger(name, this, reflection);
+    trigger(name: string, reflection: Reflection, node?: ts.Node) {
+        this.converter.trigger(name, this, reflection, node);
     }
 
     /** @internal */

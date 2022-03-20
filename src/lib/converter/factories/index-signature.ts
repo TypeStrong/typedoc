@@ -46,6 +46,10 @@ export function convertIndexSignature(context: Context, symbol: ts.Symbol) {
         context.registerReflection(index, indexSymbol);
         context.scope.indexSignature = index;
 
-        context.trigger(ConverterEvents.CREATE_SIGNATURE, index);
+        context.trigger(
+            ConverterEvents.CREATE_SIGNATURE,
+            index,
+            indexDeclaration
+        );
     }
 }
