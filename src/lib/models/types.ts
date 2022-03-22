@@ -4,7 +4,7 @@ import { Reflection } from "./reflections/abstract";
 import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
 import type {
-    Type as JSONTypeBase,
+    Type as JSONType,
     ArrayType as JSONArrayType,
     ConditionalType as JSONConditionalType,
     IndexedAccessType as JSONIndexedAccessType,
@@ -26,10 +26,6 @@ import type {
     UnionType as JSONUnionType,
     UnknownType as JSONUnknownType,
 } from "../serialization/schema";
-
-interface JSONType extends JSONTypeBase {
-    type: keyof TypeKindMap;
-}
 
 /**
  * Base class of all type definitions.
