@@ -28,7 +28,7 @@ export class SourceReference {
     line: number;
 
     /**
-     * The number of the character that emitted the declaration.
+     * The index of the character that emitted the declaration.
      */
     character: number;
 
