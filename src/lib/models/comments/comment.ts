@@ -31,15 +31,14 @@ function serializeDisplayPart(
         case "code":
             return part;
         case "inline-tag": {
-            let target: string | number | undefined = undefined;
-            if (typeof part.target === "string") {
-                target = part.target;
-            } else if (typeof part.target === "object") {
-                target = part.target.id;
-            }
             return {
                 ...part,
-                target,
+                target:
+                    typeof part.target === "string"
+                        ? part.target
+                        : typeof part.target === "object"
+                        ? part.target.id
+                        : undefined,
             };
         }
     }
