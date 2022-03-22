@@ -26,11 +26,7 @@ export class Serializer extends EventDispatcher {
         value: ProjectReflection,
         eventData: { begin?: SerializeEventData; end?: SerializeEventData } = {}
     ): ModelToObject<ProjectReflection> {
-        const eventBegin = new SerializeEvent(
-            Serializer.EVENT_BEGIN,
-            value,
-            {}
-        );
+        const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value);
         if (eventData.begin) {
             eventBegin.outputDirectory = eventData.begin.outputDirectory;
             eventBegin.outputFile = eventData.begin.outputFile;

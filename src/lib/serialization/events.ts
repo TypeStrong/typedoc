@@ -33,12 +33,12 @@ export class SerializeEvent extends Event {
      */
     outputFile?: string;
 
-    output: Partial<JSONProjectReflection>;
+    output: JSONProjectReflection | undefined;
 
     constructor(
         name: string,
         project: ProjectReflection,
-        output: Partial<JSONProjectReflection>
+        output?: JSONProjectReflection
     ) {
         super(name);
         this.project = project;
