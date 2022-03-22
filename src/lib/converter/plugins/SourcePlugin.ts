@@ -131,10 +131,10 @@ export class SourcePlugin extends ConverterComponent {
             reflection.sources ||= [];
             reflection.sources.push(
                 new SourceReference(
-                    file,
                     fileName,
                     position.line + 1,
-                    position.character
+                    position.character,
+                    file
                 )
             );
         }

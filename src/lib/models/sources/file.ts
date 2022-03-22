@@ -38,15 +38,15 @@ export class SourceReference {
     url?: string;
 
     constructor(
-        file: SourceFile | undefined,
         fileName: string,
         line: number,
-        character: number
+        character: number,
+        file?: SourceFile
     ) {
-        this.file = file;
         this.fileName = fileName;
         this.line = line;
         this.character = character;
+        this.file = file;
     }
 
     toObject(): JSONSourceReference {
