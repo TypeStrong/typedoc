@@ -4,6 +4,7 @@ import type { ParameterReflection } from "./parameter";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 import type { ReflectionKind } from "./kind";
+import type { SignatureReflection as JSONSignatureReflection } from "../../serialization/schema";
 
 export class SignatureReflection extends Reflection {
     constructor(
@@ -103,5 +104,23 @@ export class SignatureReflection extends Reflection {
         }
 
         return result;
+    }
+
+    override toObject(): JSONSignatureReflection {
+        return {
+            ...super.toObject(),
+            typeParameter:
+                this.typeParameters && this.typeParameters.length > 0
+                    ? this.typeParameters.map((type) => type.toObject())
+                    : undefined,
+            parameters:
+                this.parameters && this.parameters.length > 0
+                    ? this.parameters.map((type) => type.toObject())
+                    : undefined,
+            type: this.type?.toObject(),
+            overwrites: this.overwrites?.toObject(),
+            inheritedFrom: this.inheritedFrom?.toObject(),
+            implementationOf: this.implementationOf?.toObject(),
+        };
     }
 }

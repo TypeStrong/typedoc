@@ -4,13 +4,14 @@ import type { ReflectionGroup } from "../ReflectionGroup";
 import type { SourceDirectory } from "./directory";
 import type { RepositoryType } from "./repository";
 import type { DeclarationReflection } from "..";
+import type { SourceReference as JSONSourceReference } from "../../serialization/schema";
 
 /**
  * Represents references of reflections to their defining source files.
  *
  * @see {@link DeclarationReflection.sources}
  */
-export interface SourceReference {
+export class SourceReference {
     /**
      * A reference to the corresponding file instance.
      */
@@ -26,12 +27,35 @@ export interface SourceReference {
      */
     line: number;
 
+    /**
+     * The number of the character that emitted the declaration.
+     */
     character: number;
 
     /**
      * URL for displaying the source file.
      */
     url?: string;
+
+    constructor(
+        file: SourceFile | undefined,
+        fileName: string,
+        line: number,
+        character: number
+    ) {
+        this.file = file;
+        this.fileName = fileName;
+        this.line = line;
+        this.character = character;
+    }
+
+    toObject(): JSONSourceReference {
+        return {
+            fileName: this.fileName,
+            line: this.line,
+            character: this.character,
+        };
+    }
 }
 
 /**

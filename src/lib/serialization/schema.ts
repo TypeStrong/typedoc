@@ -29,7 +29,6 @@
  */
 
 import type * as M from "../models";
-import type { SourceReferenceWrapper } from "./serializers";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
@@ -75,7 +74,7 @@ type _ModelToObject<T> =
         ? CommentTag
         : T extends M.CommentDisplayPart
         ? CommentDisplayPart
-        : T extends SourceReferenceWrapper
+        : T extends M.SourceReference
         ? SourceReference
         : never;
 
@@ -172,9 +171,10 @@ export interface ProjectReflection extends ContainerReflection {}
 
 export interface ContainerReflection
     extends Reflection,
-        S<M.ContainerReflection, "children" | "groups" | "categories"> {
-    sources?: ModelToObject<SourceReferenceWrapper[]>;
-}
+        S<
+            M.ContainerReflection,
+            "children" | "groups" | "categories" | "sources"
+        > {}
 
 export interface Reflection
     extends S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
@@ -227,67 +227,57 @@ export type TypeKindMap = {
     unknown: UnknownType;
 };
 
-export interface ArrayType
-    extends Type,
-        S<M.ArrayType, "type" | "elementType"> {}
+export interface ArrayType extends Type, S<M.ArrayType, "elementType"> {}
 
 export interface ConditionalType
     extends Type,
         S<
             M.ConditionalType,
-            "type" | "checkType" | "extendsType" | "trueType" | "falseType"
+            "checkType" | "extendsType" | "trueType" | "falseType"
         > {}
 
 export interface IndexedAccessType
     extends Type,
-        S<M.IndexedAccessType, "type" | "indexType" | "objectType"> {}
+        S<M.IndexedAccessType, "indexType" | "objectType"> {}
 
-export interface InferredType
-    extends Type,
-        S<M.InferredType, "type" | "name"> {}
+export interface InferredType extends Type, S<M.InferredType, "name"> {}
 
 export interface IntersectionType
     extends Type,
-        S<M.IntersectionType, "type" | "types"> {}
+        S<M.IntersectionType, "types"> {}
 
-export interface IntrinsicType
-    extends Type,
-        S<M.IntrinsicType, "type" | "name"> {}
+export interface IntrinsicType extends Type, S<M.IntrinsicType, "name"> {}
 
-export interface OptionalType
-    extends Type,
-        S<M.OptionalType, "type" | "elementType"> {}
+export interface OptionalType extends Type, S<M.OptionalType, "elementType"> {}
 
 export interface PredicateType
     extends Type,
-        S<M.PredicateType, "type" | "name" | "asserts" | "targetType"> {}
+        S<M.PredicateType, "name" | "asserts" | "targetType"> {}
 
-export interface QueryType extends Type, S<M.QueryType, "type" | "queryType"> {}
+export interface QueryType extends Type, S<M.QueryType, "queryType"> {}
 
 export interface ReferenceType
     extends Type,
         S<
             M.ReferenceType,
-            "type" | "name" | "typeArguments" | "qualifiedName" | "package"
+            "name" | "typeArguments" | "qualifiedName" | "package"
         > {
     id?: number;
 }
 
-export interface ReflectionType extends Type, S<M.ReflectionType, "type"> {
+export interface ReflectionType extends Type {
     declaration?: ModelToObject<M.ReflectionType["declaration"]>;
 }
 
-export interface RestType extends Type, S<M.RestType, "type" | "elementType"> {}
+export interface RestType extends Type, S<M.RestType, "elementType"> {}
 
-export interface LiteralType extends Type, S<M.LiteralType, "type" | "value"> {}
+export interface LiteralType extends Type, S<M.LiteralType, "value"> {}
 
-export interface TupleType extends Type, S<M.TupleType, "type"> {
+export interface TupleType extends Type {
     elements?: ModelToObject<M.TupleType["elements"]>;
 }
 
-export interface NamedTupleMemberType
-    extends Type,
-        S<M.NamedTupleMember, "type"> {
+export interface NamedTupleMemberType extends Type {
     name: string;
     isOptional: boolean;
     element: ModelToObject<M.NamedTupleMember["element"]>;
@@ -295,7 +285,7 @@ export interface NamedTupleMemberType
 
 export interface TemplateLiteralType
     extends Type,
-        S<M.TemplateLiteralType, "type" | "head"> {
+        S<M.TemplateLiteralType, "head"> {
     tail: [SomeType, string][];
 }
 
@@ -303,7 +293,6 @@ export interface MappedType
     extends Type,
         S<
             M.MappedType,
-            | "type"
             | "parameter"
             | "parameterType"
             | "templateType"
@@ -314,17 +303,19 @@ export interface MappedType
 
 export interface TypeOperatorType
     extends Type,
-        S<M.TypeOperatorType, "type" | "operator" | "target"> {}
+        S<M.TypeOperatorType, "operator" | "target"> {}
 
-export interface UnionType extends Type, S<M.UnionType, "type" | "types"> {}
+export interface UnionType extends Type, S<M.UnionType, "types"> {}
 
-export interface UnknownType extends Type, S<M.UnknownType, "type" | "name"> {}
+export interface UnknownType extends Type, S<M.UnknownType, "name"> {}
 
 /**
  * Technically not correct, the `type` property will be set by the abstract serializer.
  * But to allow tagged literals, the `type` property is instead defined by each child type.
  */
-export interface Type {}
+export interface Type {
+    type: keyof TypeKindMap;
+}
 
 // Miscellaneous
 

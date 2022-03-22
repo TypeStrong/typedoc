@@ -3,6 +3,33 @@ import type { Context } from "../converter";
 import { Reflection } from "./reflections/abstract";
 import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
+import type {
+    Type as JSONTypeBase,
+    ArrayType as JSONArrayType,
+    ConditionalType as JSONConditionalType,
+    IndexedAccessType as JSONIndexedAccessType,
+    InferredType as JSONInferredType,
+    IntersectionType as JSONIntersectionType,
+    IntrinsicType as JSONIntrinsicType,
+    LiteralType as JSONLiteralType,
+    MappedType as JSONMappedType,
+    OptionalType as JSONOptionalType,
+    PredicateType as JSONPredicateType,
+    QueryType as JSONQueryType,
+    ReferenceType as JSONReferenceType,
+    ReflectionType as JSONReflectionType,
+    RestType as JSONRestType,
+    TemplateLiteralType as JSONTemplateLiteralType,
+    TupleType as JSONTupleType,
+    NamedTupleMemberType as JSONNamedTupleMemberType,
+    TypeOperatorType as JSONTypeOperatorType,
+    UnionType as JSONUnionType,
+    UnknownType as JSONUnknownType,
+} from "../serialization/schema";
+
+interface JSONType extends JSONTypeBase {
+    type: keyof TypeKindMap;
+}
 
 /**
  * Base class of all type definitions.
@@ -23,6 +50,12 @@ export abstract class Type {
      */
     visit<T>(visitor: TypeVisitor<T>): T {
         return visitor[this.type](this as never);
+    }
+
+    toObject(): JSONType {
+        return {
+            type: this.type,
+        };
     }
 }
 
@@ -208,6 +241,13 @@ export class ArrayType extends Type {
     override toString() {
         return wrap(this.elementType, BINDING_POWERS.array) + "[]";
     }
+
+    override toObject(): JSONArrayType {
+        return {
+            ...super.toObject(),
+            elementType: this.elementType.toObject(),
+        };
+    }
 }
 
 /**
@@ -240,6 +280,16 @@ export class ConditionalType extends Type {
             this.falseType, // no need to wrap
         ].join(" ");
     }
+
+    override toObject(): JSONConditionalType {
+        return {
+            ...super.toObject(),
+            checkType: this.checkType.toObject(),
+            extendsType: this.extendsType.toObject(),
+            trueType: this.trueType.toObject(),
+            falseType: this.falseType.toObject(),
+        };
+    }
 }
 
 /**
@@ -254,6 +304,14 @@ export class IndexedAccessType extends Type {
 
     override toString() {
         return `${this.objectType}[${this.indexType}]`;
+    }
+
+    override toObject(): JSONIndexedAccessType {
+        return {
+            ...super.toObject(),
+            indexType: this.indexType.toObject(),
+            objectType: this.objectType.toObject(),
+        };
     }
 }
 
@@ -273,6 +331,13 @@ export class InferredType extends Type {
 
     override toString() {
         return `infer ${this.name}`;
+    }
+
+    override toObject(): JSONInferredType {
+        return {
+            ...super.toObject(),
+            name: this.name,
+        };
     }
 }
 
@@ -295,6 +360,13 @@ export class IntersectionType extends Type {
             .map((t) => wrap(t, BINDING_POWERS.intersection))
             .join(" & ");
     }
+
+    override toObject(): JSONIntersectionType {
+        return {
+            ...super.toObject(),
+            types: this.types.map((t) => t.toObject()),
+        };
+    }
 }
 
 /**
@@ -313,6 +385,13 @@ export class IntrinsicType extends Type {
 
     override toString() {
         return this.name;
+    }
+
+    override toObject(): JSONIntrinsicType {
+        return {
+            ...super.toObject(),
+            name: this.name,
+        };
     }
 }
 
@@ -339,6 +418,23 @@ export class LiteralType extends Type {
             return this.value.toString() + "n";
         }
         return JSON.stringify(this.value);
+    }
+
+    override toObject(): JSONLiteralType {
+        if (typeof this.value === "bigint") {
+            return {
+                ...super.toObject(),
+                value: {
+                    value: this.value.toString().replace("-", ""),
+                    negative: this.value < BigInt("0"),
+                },
+            };
+        }
+
+        return {
+            ...super.toObject(),
+            value: this.value,
+        };
     }
 }
 
@@ -380,6 +476,18 @@ export class MappedType extends Type {
 
         return `{ ${read}[${this.parameter} in ${this.parameterType}${name}]${opt}: ${this.templateType} }`;
     }
+
+    override toObject(): JSONMappedType {
+        return {
+            ...super.toObject(),
+            parameter: this.parameter,
+            parameterType: this.parameterType.toObject(),
+            templateType: this.templateType.toObject(),
+            readonlyModifier: this.readonlyModifier,
+            optionalModifier: this.optionalModifier,
+            nameType: this.nameType?.toObject(),
+        };
+    }
 }
 
 /**
@@ -401,6 +509,13 @@ export class OptionalType extends Type {
 
     override toString() {
         return wrap(this.elementType, BINDING_POWERS.optional) + "?";
+    }
+
+    override toObject(): JSONOptionalType {
+        return {
+            ...super.toObject(),
+            elementType: this.elementType.toObject(),
+        };
     }
 }
 
@@ -454,6 +569,15 @@ export class PredicateType extends Type {
 
         return out.join(" ");
     }
+
+    override toObject(): JSONPredicateType {
+        return {
+            ...super.toObject(),
+            name: this.name,
+            asserts: this.asserts,
+            targetType: this.targetType?.toObject(),
+        };
+    }
 }
 
 /**
@@ -475,6 +599,13 @@ export class QueryType extends Type {
 
     override toString() {
         return `typeof ${this.queryType.toString()}`;
+    }
+
+    override toObject(): JSONQueryType {
+        return {
+            ...super.toObject(),
+            queryType: this.queryType.toObject(),
+        };
     }
 }
 
@@ -624,6 +755,25 @@ export class ReferenceType extends Type {
 
         return name + typeArgs;
     }
+
+    override toObject(): JSONReferenceType {
+        const result: JSONReferenceType = {
+            ...super.toObject(),
+            id: this.reflection?.id,
+            typeArguments:
+                this.typeArguments && this.typeArguments.length > 0
+                    ? this.typeArguments?.map((t) => t.toObject())
+                    : undefined,
+            name: this.name,
+        };
+
+        if (this.qualifiedName && this.package) {
+            result.qualifiedName = this.qualifiedName;
+            result.package = this.package;
+        }
+
+        return result;
+    }
 }
 
 /**
@@ -653,6 +803,13 @@ export class ReflectionType extends Type {
             return "Object";
         }
     }
+
+    override toObject(): JSONReflectionType {
+        return {
+            ...super.toObject(),
+            declaration: this.declaration.toObject(),
+        };
+    }
 }
 
 /**
@@ -671,6 +828,13 @@ export class RestType extends Type {
 
     override toString() {
         return `...${wrap(this.elementType, BINDING_POWERS.rest)}`;
+    }
+
+    override toObject(): JSONRestType {
+        return {
+            ...super.toObject(),
+            elementType: this.elementType.toObject(),
+        };
     }
 }
 
@@ -697,6 +861,16 @@ export class TemplateLiteralType extends Type {
             "`",
         ].join("");
     }
+
+    override toObject(): JSONTemplateLiteralType {
+        return {
+            ...super.toObject(),
+            head: this.head,
+            tail: this.tail.map(([type, text]) => {
+                return [type.toObject(), text];
+            }),
+        };
+    }
 }
 
 /**
@@ -721,6 +895,16 @@ export class TupleType extends Type {
 
     override toString() {
         return "[" + this.elements.join(", ") + "]";
+    }
+
+    override toObject(): JSONTupleType {
+        return {
+            ...super.toObject(),
+            elements:
+                this.elements.length > 0
+                    ? this.elements.map((t) => t.toObject())
+                    : undefined,
+        };
     }
 }
 
@@ -748,6 +932,15 @@ export class NamedTupleMember extends Type {
     override toString() {
         return `${this.name}${this.isOptional ? "?" : ""}: ${this.element}`;
     }
+
+    override toObject(): JSONNamedTupleMemberType {
+        return {
+            ...super.toObject(),
+            name: this.name,
+            isOptional: this.isOptional,
+            element: this.element.toObject(),
+        };
+    }
 }
 
 /**
@@ -770,6 +963,14 @@ export class TypeOperatorType extends Type {
 
     override toString() {
         return `${this.operator} ${this.target.toString()}`;
+    }
+
+    override toObject(): JSONTypeOperatorType {
+        return {
+            ...super.toObject(),
+            target: this.target.toObject(),
+            operator: this.operator,
+        };
     }
 }
 
@@ -809,6 +1010,13 @@ export class UnionType extends Type {
             );
         }
     }
+
+    override toObject(): JSONUnionType {
+        return {
+            ...super.toObject(),
+            types: this.types.map((t) => t.toObject()),
+        };
+    }
 }
 
 /**
@@ -829,5 +1037,12 @@ export class UnknownType extends Type {
 
     override toString() {
         return this.name;
+    }
+
+    override toObject(): JSONUnknownType {
+        return {
+            ...super.toObject(),
+            name: this.name,
+        };
     }
 }

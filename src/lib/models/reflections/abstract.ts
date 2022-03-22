@@ -5,6 +5,7 @@ import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
 import type { NeverIfInternal } from "../../utils";
 import { ReflectionKind } from "./kind";
+import type { Reflection as JSONReflection } from "../../serialization/schema";
 
 /**
  * Holds all data models used by TypeDoc.
@@ -183,6 +184,32 @@ export class ReflectionFlags extends Array<string> {
             }
             this.flags |= flag;
         }
+    }
+
+    toObject(): Record<string, true> {
+        const flags: Record<string, true> = {};
+
+        const flagNames = [
+            "isPrivate",
+            "isProtected",
+            "isPublic",
+            "isStatic",
+            "isExternal",
+            "isOptional",
+            "isRest",
+            "hasExportAssignment",
+            "isAbstract",
+            "isConst",
+            "isReadonly",
+        ] as const;
+
+        for (const key of flagNames) {
+            if (this[key] === true) {
+                flags[key] = true;
+            }
+        }
+
+        return flags;
     }
 }
 
@@ -496,5 +523,21 @@ export abstract class Reflection {
         });
 
         return lines.join("\n");
+    }
+
+    toObject(): JSONReflection {
+        return {
+            id: this.id,
+            name: this.name,
+            kind: this.kind,
+            kindString: this.kindString,
+            flags: this.flags.toObject(),
+            comment:
+                this.comment && !this.comment.isEmpty()
+                    ? this.comment.toObject()
+                    : undefined,
+            originalName:
+                this.originalName !== this.name ? this.originalName : undefined,
+        };
     }
 }

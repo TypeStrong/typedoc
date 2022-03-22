@@ -1,4 +1,5 @@
 import type { DeclarationReflection } from ".";
+import type { ReflectionCategory as JSONReflectionCategory } from "../serialization/schema";
 
 /**
  * A category of reflections.
@@ -32,5 +33,15 @@ export class ReflectionCategory {
      */
     allChildrenHaveOwnDocument(): boolean {
         return this.children.every((child) => child.hasOwnDocument);
+    }
+
+    toObject(): JSONReflectionCategory {
+        return {
+            title: this.title,
+            children:
+                this.children.length > 0
+                    ? this.children.map((child) => child.id)
+                    : undefined,
+        };
     }
 }

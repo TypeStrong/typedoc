@@ -1,5 +1,6 @@
 import type { SomeType } from "..";
 import { ReflectionType } from "../types";
+import type { ParameterReflection as JSONParameterReflection } from "../../serialization/schema";
 import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
 import type { SignatureReflection } from "./signature";
 
@@ -38,5 +39,15 @@ export class ParameterReflection extends Reflection {
      */
     override toString() {
         return super.toString() + (this.type ? ":" + this.type.toString() : "");
+    }
+
+    override toObject(): JSONParameterReflection {
+        const result: JSONParameterReflection = {
+            ...super.toObject(),
+            type: this.type?.toObject(),
+            defaultValue: this.defaultValue,
+        };
+
+        return result;
     }
 }

@@ -5,6 +5,7 @@ import { TraverseCallback, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import type { SignatureReflection } from "./signature";
 import type { TypeParameterReflection } from "./type-parameter";
+import type { DeclarationReflection as JSONDeclarationReflection } from "../../serialization/schema";
 
 /**
  * Stores hierarchical type data.
@@ -243,5 +244,38 @@ export class DeclarationReflection extends ContainerReflection {
         }
 
         return result;
+    }
+
+    override toObject(): JSONDeclarationReflection {
+        const result: JSONDeclarationReflection = {
+            ...super.toObject(),
+            typeParameter:
+                this.typeParameters && this.typeParameters.length > 0
+                    ? this.typeParameters.map((type) => type.toObject())
+                    : undefined,
+            type: this.type?.toObject(),
+            signatures: this.signatures?.map((sig) => sig.toObject()),
+            indexSignature: this.indexSignature?.toObject(),
+        };
+
+        if (this.getSignature) {
+            result.getSignature = [this.getSignature.toObject()];
+        }
+        if (this.setSignature) {
+            result.setSignature = [this.setSignature.toObject()];
+        }
+
+        return Object.assign(result, {
+            defaultValue: this.defaultValue,
+            overwrites: this.overwrites?.toObject(),
+            inheritedFrom: this.inheritedFrom?.toObject(),
+            implementationOf: this.implementationOf?.toObject(),
+            extendedTypes: this.extendedTypes?.map((type) => type.toObject()),
+            extendedBy: this.extendedBy?.map((type) => type.toObject()),
+            implementedTypes: this.implementedTypes?.map((type) =>
+                type.toObject()
+            ),
+            implementedBy: this.implementedBy?.map((type) => type.toObject()),
+        });
     }
 }

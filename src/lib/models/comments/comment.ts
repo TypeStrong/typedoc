@@ -1,6 +1,12 @@
 import { assertNever, removeIf } from "../../utils";
 import type { Reflection } from "../reflections";
 
+import type {
+    Comment as JSONComment,
+    CommentTag as JSONCommentTag,
+    CommentDisplayPart as JSONCommentDisplayPart,
+} from "../../serialization/schema";
+
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }
@@ -15,6 +21,28 @@ export interface InlineTagDisplayPart {
     tag: `@${string}`;
     text: string;
     target?: Reflection | string;
+}
+
+function serializeDisplayPart(
+    part: CommentDisplayPart
+): JSONCommentDisplayPart {
+    switch (part.kind) {
+        case "text":
+        case "code":
+            return part;
+        case "inline-tag": {
+            let target: string | number | undefined = undefined;
+            if (typeof part.target === "string") {
+                target = part.target;
+            } else if (typeof part.target === "object") {
+                target = part.target.id;
+            }
+            return {
+                ...part,
+                target,
+            };
+        }
+    }
 }
 
 /**
@@ -56,6 +84,14 @@ export class CommentTag {
             tag.name = this.name;
         }
         return tag;
+    }
+
+    toObject(): JSONCommentTag {
+        return {
+            name: this.name,
+            tag: this.tag,
+            content: this.content.map(serializeDisplayPart),
+        };
     }
 }
 
@@ -195,5 +231,20 @@ export class Comment {
      */
     removeTags(tagName: `@${string}`) {
         removeIf(this.blockTags, (tag) => tag.tag === tagName);
+    }
+
+    toObject(): JSONComment {
+        const result: JSONComment = {
+            summary: this.summary.map(serializeDisplayPart),
+        };
+
+        if (this.blockTags.length) {
+            result.blockTags = this.blockTags.map((tag) => tag.toObject());
+        }
+        if (this.modifierTags.size) {
+            result.modifierTags = Array.from(this.modifierTags);
+        }
+
+        return result;
     }
 }

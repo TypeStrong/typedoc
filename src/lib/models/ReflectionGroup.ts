@@ -1,6 +1,7 @@
 import type { ReflectionKind } from "./reflections/kind";
 import type { ReflectionCategory } from "./ReflectionCategory";
 import type { DeclarationReflection } from ".";
+import type { ReflectionGroup as JSONReflectionGroup } from "../serialization/schema";
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -72,5 +73,20 @@ export class ReflectionGroup {
      */
     allChildrenHaveOwnDocument(): boolean {
         return this.children.every((child) => child.hasOwnDocument);
+    }
+
+    toObject(): JSONReflectionGroup {
+        return {
+            title: this.title,
+            kind: this.kind,
+            children:
+                this.children.length > 0
+                    ? this.children.map((child) => child.id)
+                    : undefined,
+            categories:
+                this.categories && this.categories.length > 0
+                    ? this.categories.map((category) => category.toObject())
+                    : undefined,
+        };
     }
 }
