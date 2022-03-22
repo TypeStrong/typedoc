@@ -26,12 +26,11 @@ export function stringify(data: unknown) {
 export function wbr(str: string): (string | JSX.Element)[] {
     // TODO surely there is a better way to do this, but I'm tired.
     const ret: (string | JSX.Element)[] = [];
-    const re = /[\s\S]*?(?:([^_-][_-])(?=[^_-])|([^A-Z])(?=[A-Z][^A-Z]))/g;
+    const re = /[\s\S]*?(?:[^_-][_-](?=[^_-])|[^A-Z](?=[A-Z][^A-Z]))/g;
     let match: RegExpExecArray | null;
     let i = 0;
     while ((match = re.exec(str))) {
-        ret.push(match[0]);
-        ret.push(<wbr />);
+        ret.push(match[0], <wbr />);
         i += match[0].length;
     }
     ret.push(str.slice(i));
@@ -70,9 +69,8 @@ export function renderFlags(flags: ReflectionFlags, comment: Comment | undefined
 }
 
 export function classNames(names: Record<string, boolean | null | undefined>, extraCss?: string) {
-    const css = Object.entries(names)
-        .filter(([, include]) => include)
-        .map(([key]) => key)
+    const css = Object.keys(names)
+        .filter((key) => names[key])
         .concat(extraCss || "")
         .join(" ")
         .trim()
@@ -83,10 +81,11 @@ export function classNames(names: Record<string, boolean | null | undefined>, ex
 export function hasTypeParameters(
     reflection: Reflection
 ): reflection is Reflection & { typeParameters: TypeParameterReflection[] } {
-    if (reflection instanceof DeclarationReflection || reflection instanceof SignatureReflection) {
-        return reflection.typeParameters != null && reflection.typeParameters.length > 0;
-    }
-    return false;
+    return (
+        (reflection instanceof DeclarationReflection || reflection instanceof SignatureReflection) &&
+        reflection.typeParameters != null &&
+        reflection.typeParameters.length > 0
+    );
 }
 
 export function renderTypeParametersSignature(

@@ -122,15 +122,11 @@ export class Context {
         if (!nodeType) {
             if (node.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(node.symbol);
-            } else if (node.parent && node.parent.symbol) {
+            } else if (node.parent?.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(
                     node.parent.symbol
                 );
-            } else if (
-                node.parent &&
-                node.parent.parent &&
-                node.parent.parent.symbol
-            ) {
+            } else if (node.parent?.parent?.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(
                     node.parent.parent.symbol
                 );

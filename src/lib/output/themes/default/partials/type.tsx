@@ -54,7 +54,7 @@ function getUniquePath(reflection: Reflection): Reflection[] {
 function getNamespacedPath(reflection: Reflection): Reflection[] {
     const path = [reflection];
     let parent = reflection.parent;
-    while (parent && parent.kindOf(ReflectionKind.Namespace)) {
+    while (parent?.kindOf(ReflectionKind.Namespace)) {
         path.unshift(parent);
         parent = parent.parent;
     }
