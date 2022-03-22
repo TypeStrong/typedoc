@@ -186,27 +186,27 @@ export class ReflectionFlags extends Array<string> {
         }
     }
 
+    private static serializedFlags = [
+        "isPrivate",
+        "isProtected",
+        "isPublic",
+        "isStatic",
+        "isExternal",
+        "isOptional",
+        "isRest",
+        "hasExportAssignment",
+        "isAbstract",
+        "isConst",
+        "isReadonly",
+    ] as const;
+
     toObject(): Record<string, true> {
-        const flags: Record<string, true> = {};
-
-        const flagNames = [
-            "isPrivate",
-            "isProtected",
-            "isPublic",
-            "isStatic",
-            "isExternal",
-            "isOptional",
-            "isRest",
-            "hasExportAssignment",
-            "isAbstract",
-            "isConst",
-            "isReadonly",
-        ] as const;
-
-        for (const key of flagNames) {
-            if (this[key] === true) {
-                flags[key] = true;
-            }
+        return Object.fromEntries(
+            ReflectionFlags.serializedFlags
+                .filter((flag) => this[flag])
+                .map((flag) => [flag, true])
+        );
+    }
         }
 
         return flags;
