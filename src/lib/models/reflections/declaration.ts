@@ -247,7 +247,7 @@ export class DeclarationReflection extends ContainerReflection {
     }
 
     override toObject(): JSONDeclarationReflection {
-        const result: JSONDeclarationReflection = {
+        return {
             ...super.toObject(),
             typeParameter:
                 this.typeParameters && this.typeParameters.length > 0
@@ -256,16 +256,12 @@ export class DeclarationReflection extends ContainerReflection {
             type: this.type?.toObject(),
             signatures: this.signatures?.map((sig) => sig.toObject()),
             indexSignature: this.indexSignature?.toObject(),
-        };
-
-        if (this.getSignature) {
-            result.getSignature = [this.getSignature.toObject()];
-        }
-        if (this.setSignature) {
-            result.setSignature = [this.setSignature.toObject()];
-        }
-
-        return Object.assign(result, {
+            getSignature: this.getSignature
+                ? [this.getSignature.toObject()]
+                : undefined,
+            setSignature: this.setSignature
+                ? [this.setSignature.toObject()]
+                : undefined,
             defaultValue: this.defaultValue,
             overwrites: this.overwrites?.toObject(),
             inheritedFrom: this.inheritedFrom?.toObject(),
@@ -276,6 +272,6 @@ export class DeclarationReflection extends ContainerReflection {
                 type.toObject()
             ),
             implementedBy: this.implementedBy?.map((type) => type.toObject()),
-        });
+        };
     }
 }

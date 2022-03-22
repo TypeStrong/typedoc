@@ -234,17 +234,16 @@ export class Comment {
     }
 
     toObject(): JSONComment {
-        const result: JSONComment = {
+        return {
             summary: this.summary.map(serializeDisplayPart),
+            blockTags:
+                this.blockTags.length > 0
+                    ? this.blockTags.map((tag) => tag.toObject())
+                    : undefined,
+            modifierTags:
+                this.modifierTags.size > 0
+                    ? Array.from(this.modifierTags)
+                    : undefined,
         };
-
-        if (this.blockTags.length) {
-            result.blockTags = this.blockTags.map((tag) => tag.toObject());
-        }
-        if (this.modifierTags.size) {
-            result.modifierTags = Array.from(this.modifierTags);
-        }
-
-        return result;
     }
 }
