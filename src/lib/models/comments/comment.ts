@@ -34,9 +34,7 @@ function serializeDisplayPart(
             return {
                 ...part,
                 target:
-                    typeof part.target === "string"
-                        ? part.target
-                        : typeof part.target === "object"
+                    typeof part.target === "object"
                         ? part.target.id
                         : undefined,
             };

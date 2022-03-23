@@ -256,12 +256,8 @@ export class DeclarationReflection extends ContainerReflection {
             type: this.type?.toObject(),
             signatures: this.signatures?.map((sig) => sig.toObject()),
             indexSignature: this.indexSignature?.toObject(),
-            getSignature: this.getSignature
-                ? [this.getSignature.toObject()]
-                : undefined,
-            setSignature: this.setSignature
-                ? [this.setSignature.toObject()]
-                : undefined,
+            getSignature: this.getSignature && [this.getSignature.toObject()],
+            setSignature: this.setSignature && [this.setSignature.toObject()],
             defaultValue: this.defaultValue,
             overwrites: this.overwrites?.toObject(),
             inheritedFrom: this.inheritedFrom?.toObject(),
