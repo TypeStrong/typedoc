@@ -36,7 +36,7 @@ function serializeDisplayPart(
                 target:
                     typeof part.target === "object"
                         ? part.target.id
-                        : undefined,
+                        : part.target,
             };
         }
     }
