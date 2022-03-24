@@ -1,15 +1,10 @@
 import type * as ts from "typescript";
-import {
-    ReflectionType,
-    TraverseProperty,
-    type TraverseCallback,
-    type SomeType,
-    type TypeParameterReflection,
-    type ReferenceType,
-    type Type,
-    type SignatureReflection,
-} from "..";
+import type { SomeType } from "..";
+import { ReferenceType, ReflectionType, Type } from "../types";
+import { type TraverseCallback, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
+import type { SignatureReflection } from "./signature";
+import type { TypeParameterReflection } from "./type-parameter";
 import type { Serializer, JSONOutput } from "../../serialization";
 
 /**
