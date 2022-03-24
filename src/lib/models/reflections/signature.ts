@@ -4,7 +4,7 @@ import type { ParameterReflection } from "./parameter";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 import type { ReflectionKind } from "./kind";
-import type { SignatureReflection as JSONSignatureReflection } from "../../serialization/schema";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 export class SignatureReflection extends Reflection {
     constructor(
@@ -106,21 +106,26 @@ export class SignatureReflection extends Reflection {
         return result;
     }
 
-    override toObject(): JSONSignatureReflection {
+    override toObject(serializer: Serializer): JSONOutput.SignatureReflection {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             typeParameter:
                 this.typeParameters && this.typeParameters.length > 0
-                    ? this.typeParameters.map((type) => type.toObject())
+                    ? this.typeParameters.map((type) =>
+                          serializer.toObject(type)
+                      )
                     : undefined,
             parameters:
                 this.parameters && this.parameters.length > 0
-                    ? this.parameters.map((type) => type.toObject())
+                    ? this.parameters.map((type) => serializer.toObject(type))
                     : undefined,
-            type: this.type?.toObject(),
-            overwrites: this.overwrites?.toObject(),
-            inheritedFrom: this.inheritedFrom?.toObject(),
-            implementationOf: this.implementationOf?.toObject(),
+            type: this.type && serializer.toObject(this.type),
+            overwrites: this.overwrites && serializer.toObject(this.overwrites),
+            inheritedFrom:
+                this.inheritedFrom && serializer.toObject(this.inheritedFrom),
+            implementationOf:
+                this.implementationOf &&
+                serializer.toObject(this.implementationOf),
         };
     }
 }

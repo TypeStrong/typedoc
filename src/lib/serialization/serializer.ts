@@ -3,6 +3,7 @@ import type { ProjectReflection } from "../models";
 
 import { SerializeEvent, SerializeEventData } from "./events";
 import type { ModelToObject } from "./schema";
+import type { SerializerComponent } from "./components";
 
 export class Serializer extends EventDispatcher {
     /**
@@ -16,6 +17,24 @@ export class Serializer extends EventDispatcher {
      * @event EVENT_END
      */
     static EVENT_END = "end";
+
+    private serializers: SerializerComponent<any>[] = [];
+
+    addSerializer(serializer: SerializerComponent<any>): void {
+        this.serializers.push(serializer);
+        this.serializers.sort((a, b) => b.priority - a.priority);
+    }
+
+    toObject<T extends { toObject(serializer: Serializer): ModelToObject<T> }>(
+        value: T
+    ): ModelToObject<T> {
+        return this.serializers
+            .filter((s) => s.serializeGroup(value) && s.supports(value))
+            .reduce(
+                (val, s) => s.toObject(value, val, this) as ModelToObject<T>,
+                value.toObject(this)
+            );
+    }
 
     /**
      * Same as toObject but emits {@link Serializer.EVENT_BEGIN} and {@link Serializer.EVENT_END} events.
@@ -33,7 +52,7 @@ export class Serializer extends EventDispatcher {
         }
         this.trigger(eventBegin);
 
-        const project = value.toObject();
+        const project = this.toObject(value);
 
         const eventEnd = new SerializeEvent(
             Serializer.EVENT_END,

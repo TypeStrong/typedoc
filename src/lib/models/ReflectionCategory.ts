@@ -1,5 +1,5 @@
 import type { DeclarationReflection } from ".";
-import type { ReflectionCategory as JSONReflectionCategory } from "../serialization/schema";
+import type { Serializer, JSONOutput } from "../serialization";
 
 /**
  * A category of reflections.
@@ -35,7 +35,7 @@ export class ReflectionCategory {
         return this.children.every((child) => child.hasOwnDocument);
     }
 
-    toObject(): JSONReflectionCategory {
+    toObject(_serializer: Serializer): JSONOutput.ReflectionCategory {
         return {
             title: this.title,
             children:

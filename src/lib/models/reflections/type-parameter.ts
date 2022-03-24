@@ -2,7 +2,7 @@ import type { Type } from "../types";
 import { Reflection } from "./abstract";
 import type { DeclarationReflection } from "./declaration";
 import { ReflectionKind } from "./kind";
-import type { TypeParameterReflection as JSONTypeParameterReflection } from "../../serialization/schema";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 export class TypeParameterReflection extends Reflection {
     override parent?: DeclarationReflection;
@@ -22,11 +22,13 @@ export class TypeParameterReflection extends Reflection {
         this.default = defaultType;
     }
 
-    override toObject(): JSONTypeParameterReflection {
+    override toObject(
+        serializer: Serializer
+    ): JSONOutput.TypeParameterReflection {
         return {
-            ...super.toObject(),
-            type: this.type?.toObject(),
-            default: this.default?.toObject(),
+            ...super.toObject(serializer),
+            type: this.type && serializer.toObject(this.type),
+            default: this.default && serializer.toObject(this.default),
         };
     }
 }

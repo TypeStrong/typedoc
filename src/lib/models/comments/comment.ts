@@ -1,11 +1,7 @@
 import { assertNever, removeIf } from "../../utils";
 import type { Reflection } from "../reflections";
 
-import type {
-    Comment as JSONComment,
-    CommentTag as JSONCommentTag,
-    CommentDisplayPart as JSONCommentDisplayPart,
-} from "../../serialization/schema";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
@@ -25,7 +21,7 @@ export interface InlineTagDisplayPart {
 
 function serializeDisplayPart(
     part: CommentDisplayPart
-): JSONCommentDisplayPart {
+): JSONOutput.CommentDisplayPart {
     switch (part.kind) {
         case "text":
         case "code":
@@ -83,7 +79,7 @@ export class CommentTag {
         return tag;
     }
 
-    toObject(): JSONCommentTag {
+    toObject(): JSONOutput.CommentTag {
         return {
             name: this.name,
             tag: this.tag,
@@ -230,12 +226,12 @@ export class Comment {
         removeIf(this.blockTags, (tag) => tag.tag === tagName);
     }
 
-    toObject(): JSONComment {
+    toObject(serializer: Serializer): JSONOutput.Comment {
         return {
             summary: this.summary.map(serializeDisplayPart),
             blockTags:
                 this.blockTags.length > 0
-                    ? this.blockTags.map((tag) => tag.toObject())
+                    ? this.blockTags.map((tag) => serializer.toObject(tag))
                     : undefined,
             modifierTags:
                 this.modifierTags.size > 0

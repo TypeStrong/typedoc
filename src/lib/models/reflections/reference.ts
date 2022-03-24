@@ -3,7 +3,7 @@ import { Reflection } from "./abstract";
 import { DeclarationReflection } from "./declaration";
 import { ReflectionKind } from "./kind";
 import type { ProjectReflection } from "./project";
-import type { ReferenceReflection as JSONReferenceReflection } from "../../serialization/schema";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 /**
  * Describes a reflection which does not exist at this location, but is referenced. Used for imported reflections.
@@ -113,9 +113,9 @@ export class ReferenceReflection extends DeclarationReflection {
         }
     }
 
-    override toObject(): JSONReferenceReflection {
+    override toObject(serializer: Serializer): JSONOutput.ReferenceReflection {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             target: this.tryGetTargetReflection()?.id ?? -1,
         };
     }

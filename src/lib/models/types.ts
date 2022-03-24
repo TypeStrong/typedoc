@@ -3,29 +3,7 @@ import type { Context } from "../converter";
 import { Reflection } from "./reflections/abstract";
 import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
-import type {
-    Type as JSONType,
-    ArrayType as JSONArrayType,
-    ConditionalType as JSONConditionalType,
-    IndexedAccessType as JSONIndexedAccessType,
-    InferredType as JSONInferredType,
-    IntersectionType as JSONIntersectionType,
-    IntrinsicType as JSONIntrinsicType,
-    LiteralType as JSONLiteralType,
-    MappedType as JSONMappedType,
-    OptionalType as JSONOptionalType,
-    PredicateType as JSONPredicateType,
-    QueryType as JSONQueryType,
-    ReferenceType as JSONReferenceType,
-    ReflectionType as JSONReflectionType,
-    RestType as JSONRestType,
-    TemplateLiteralType as JSONTemplateLiteralType,
-    TupleType as JSONTupleType,
-    NamedTupleMemberType as JSONNamedTupleMemberType,
-    TypeOperatorType as JSONTypeOperatorType,
-    UnionType as JSONUnionType,
-    UnknownType as JSONUnknownType,
-} from "../serialization/schema";
+import type { Serializer, JSONOutput } from "../serialization";
 
 /**
  * Base class of all type definitions.
@@ -48,7 +26,7 @@ export abstract class Type {
         return visitor[this.type](this as never);
     }
 
-    toObject(): JSONType {
+    toObject(_serializer: Serializer): JSONOutput.Type {
         return {
             type: this.type,
         };
@@ -238,10 +216,10 @@ export class ArrayType extends Type {
         return wrap(this.elementType, BINDING_POWERS.array) + "[]";
     }
 
-    override toObject(): JSONArrayType {
+    override toObject(serializer: Serializer): JSONOutput.ArrayType {
         return {
-            ...super.toObject(),
-            elementType: this.elementType.toObject(),
+            ...super.toObject(serializer),
+            elementType: serializer.toObject(this.elementType),
         };
     }
 }
@@ -277,13 +255,13 @@ export class ConditionalType extends Type {
         ].join(" ");
     }
 
-    override toObject(): JSONConditionalType {
+    override toObject(serializer: Serializer): JSONOutput.ConditionalType {
         return {
-            ...super.toObject(),
-            checkType: this.checkType.toObject(),
-            extendsType: this.extendsType.toObject(),
-            trueType: this.trueType.toObject(),
-            falseType: this.falseType.toObject(),
+            ...super.toObject(serializer),
+            checkType: serializer.toObject(this.checkType),
+            extendsType: serializer.toObject(this.extendsType),
+            trueType: serializer.toObject(this.trueType),
+            falseType: serializer.toObject(this.falseType),
         };
     }
 }
@@ -302,11 +280,11 @@ export class IndexedAccessType extends Type {
         return `${this.objectType}[${this.indexType}]`;
     }
 
-    override toObject(): JSONIndexedAccessType {
+    override toObject(serializer: Serializer): JSONOutput.IndexedAccessType {
         return {
-            ...super.toObject(),
-            indexType: this.indexType.toObject(),
-            objectType: this.objectType.toObject(),
+            ...super.toObject(serializer),
+            indexType: serializer.toObject(this.indexType),
+            objectType: serializer.toObject(this.objectType),
         };
     }
 }
@@ -329,9 +307,9 @@ export class InferredType extends Type {
         return `infer ${this.name}`;
     }
 
-    override toObject(): JSONInferredType {
+    override toObject(serializer: Serializer): JSONOutput.InferredType {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             name: this.name,
         };
     }
@@ -357,10 +335,10 @@ export class IntersectionType extends Type {
             .join(" & ");
     }
 
-    override toObject(): JSONIntersectionType {
+    override toObject(serializer: Serializer): JSONOutput.IntersectionType {
         return {
-            ...super.toObject(),
-            types: this.types.map((t) => t.toObject()),
+            ...super.toObject(serializer),
+            types: this.types.map((t) => serializer.toObject(t)),
         };
     }
 }
@@ -383,9 +361,9 @@ export class IntrinsicType extends Type {
         return this.name;
     }
 
-    override toObject(): JSONIntrinsicType {
+    override toObject(serializer: Serializer): JSONOutput.IntrinsicType {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             name: this.name,
         };
     }
@@ -416,10 +394,10 @@ export class LiteralType extends Type {
         return JSON.stringify(this.value);
     }
 
-    override toObject(): JSONLiteralType {
+    override toObject(serializer: Serializer): JSONOutput.LiteralType {
         if (typeof this.value === "bigint") {
             return {
-                ...super.toObject(),
+                ...super.toObject(serializer),
                 value: {
                     value: this.value.toString().replace("-", ""),
                     negative: this.value < BigInt("0"),
@@ -428,7 +406,7 @@ export class LiteralType extends Type {
         }
 
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             value: this.value,
         };
     }
@@ -473,15 +451,15 @@ export class MappedType extends Type {
         return `{ ${read}[${this.parameter} in ${this.parameterType}${name}]${opt}: ${this.templateType} }`;
     }
 
-    override toObject(): JSONMappedType {
+    override toObject(serializer: Serializer): JSONOutput.MappedType {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             parameter: this.parameter,
-            parameterType: this.parameterType.toObject(),
-            templateType: this.templateType.toObject(),
+            parameterType: serializer.toObject(this.parameterType),
+            templateType: serializer.toObject(this.templateType),
             readonlyModifier: this.readonlyModifier,
             optionalModifier: this.optionalModifier,
-            nameType: this.nameType?.toObject(),
+            nameType: this.nameType && serializer.toObject(this.nameType),
         };
     }
 }
@@ -507,10 +485,10 @@ export class OptionalType extends Type {
         return wrap(this.elementType, BINDING_POWERS.optional) + "?";
     }
 
-    override toObject(): JSONOptionalType {
+    override toObject(serializer: Serializer): JSONOutput.OptionalType {
         return {
-            ...super.toObject(),
-            elementType: this.elementType.toObject(),
+            ...super.toObject(serializer),
+            elementType: serializer.toObject(this.elementType),
         };
     }
 }
@@ -566,12 +544,12 @@ export class PredicateType extends Type {
         return out.join(" ");
     }
 
-    override toObject(): JSONPredicateType {
+    override toObject(serializer: Serializer): JSONOutput.PredicateType {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             name: this.name,
             asserts: this.asserts,
-            targetType: this.targetType?.toObject(),
+            targetType: this.targetType && serializer.toObject(this.targetType),
         };
     }
 }
@@ -597,10 +575,10 @@ export class QueryType extends Type {
         return `typeof ${this.queryType.toString()}`;
     }
 
-    override toObject(): JSONQueryType {
+    override toObject(serializer: Serializer): JSONOutput.QueryType {
         return {
-            ...super.toObject(),
-            queryType: this.queryType.toObject(),
+            ...super.toObject(serializer),
+            queryType: serializer.toObject(this.queryType),
         };
     }
 }
@@ -752,13 +730,13 @@ export class ReferenceType extends Type {
         return name + typeArgs;
     }
 
-    override toObject(): JSONReferenceType {
-        const result: JSONReferenceType = {
-            ...super.toObject(),
+    override toObject(serializer: Serializer): JSONOutput.ReferenceType {
+        const result: JSONOutput.ReferenceType = {
+            ...super.toObject(serializer),
             id: this.reflection?.id,
             typeArguments:
                 this.typeArguments && this.typeArguments.length > 0
-                    ? this.typeArguments?.map((t) => t.toObject())
+                    ? this.typeArguments?.map((t) => serializer.toObject(t))
                     : undefined,
             name: this.name,
         };
@@ -800,10 +778,10 @@ export class ReflectionType extends Type {
         }
     }
 
-    override toObject(): JSONReflectionType {
+    override toObject(serializer: Serializer): JSONOutput.ReflectionType {
         return {
-            ...super.toObject(),
-            declaration: this.declaration.toObject(),
+            ...super.toObject(serializer),
+            declaration: serializer.toObject(this.declaration),
         };
     }
 }
@@ -826,10 +804,10 @@ export class RestType extends Type {
         return `...${wrap(this.elementType, BINDING_POWERS.rest)}`;
     }
 
-    override toObject(): JSONRestType {
+    override toObject(serializer: Serializer): JSONOutput.RestType {
         return {
-            ...super.toObject(),
-            elementType: this.elementType.toObject(),
+            ...super.toObject(serializer),
+            elementType: serializer.toObject(this.elementType),
         };
     }
 }
@@ -858,13 +836,14 @@ export class TemplateLiteralType extends Type {
         ].join("");
     }
 
-    override toObject(): JSONTemplateLiteralType {
+    override toObject(serializer: Serializer): JSONOutput.TemplateLiteralType {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             head: this.head,
-            tail: this.tail.map(([type, text]) => {
-                return [type.toObject(), text];
-            }),
+            tail: this.tail.map(([type, text]) => [
+                serializer.toObject(type),
+                text,
+            ]),
         };
     }
 }
@@ -893,12 +872,12 @@ export class TupleType extends Type {
         return "[" + this.elements.join(", ") + "]";
     }
 
-    override toObject(): JSONTupleType {
+    override toObject(serializer: Serializer): JSONOutput.TupleType {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             elements:
                 this.elements.length > 0
-                    ? this.elements.map((t) => t.toObject())
+                    ? this.elements.map((t) => serializer.toObject(t))
                     : undefined,
         };
     }
@@ -929,12 +908,12 @@ export class NamedTupleMember extends Type {
         return `${this.name}${this.isOptional ? "?" : ""}: ${this.element}`;
     }
 
-    override toObject(): JSONNamedTupleMemberType {
+    override toObject(serializer: Serializer): JSONOutput.NamedTupleMemberType {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             name: this.name,
             isOptional: this.isOptional,
-            element: this.element.toObject(),
+            element: serializer.toObject(this.element),
         };
     }
 }
@@ -961,10 +940,10 @@ export class TypeOperatorType extends Type {
         return `${this.operator} ${this.target.toString()}`;
     }
 
-    override toObject(): JSONTypeOperatorType {
+    override toObject(serializer: Serializer): JSONOutput.TypeOperatorType {
         return {
-            ...super.toObject(),
-            target: this.target.toObject(),
+            ...super.toObject(serializer),
+            target: serializer.toObject(this.target),
             operator: this.operator,
         };
     }
@@ -1007,10 +986,10 @@ export class UnionType extends Type {
         }
     }
 
-    override toObject(): JSONUnionType {
+    override toObject(serializer: Serializer): JSONOutput.UnionType {
         return {
-            ...super.toObject(),
-            types: this.types.map((t) => t.toObject()),
+            ...super.toObject(serializer),
+            types: this.types.map((t) => serializer.toObject(t)),
         };
     }
 }
@@ -1035,9 +1014,9 @@ export class UnknownType extends Type {
         return this.name;
     }
 
-    override toObject(): JSONUnknownType {
+    override toObject(serializer: Serializer): JSONOutput.UnknownType {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             name: this.name,
         };
     }

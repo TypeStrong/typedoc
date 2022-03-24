@@ -3,7 +3,7 @@ import type { ReflectionCategory } from "../ReflectionCategory";
 import type { ReflectionGroup } from "../ReflectionGroup";
 import type { DeclarationReflection } from "./declaration";
 import type { ReflectionKind } from "./kind";
-import type { ContainerReflection as JSONContainerReflection } from "../../serialization/schema";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 export class ContainerReflection extends Reflection {
     /**
@@ -47,15 +47,17 @@ export class ContainerReflection extends Reflection {
         }
     }
 
-    override toObject(): JSONContainerReflection {
+    override toObject(serializer: Serializer): JSONOutput.ContainerReflection {
         return {
-            ...super.toObject(),
-            children: this.children?.map((child) => child.toObject()),
-            groups: this.groups?.map((group) => group.toObject()),
-            categories: this.categories?.map((category) => category.toObject()),
+            ...super.toObject(serializer),
+            children: this.children?.map((child) => serializer.toObject(child)),
+            groups: this.groups?.map((group) => serializer.toObject(group)),
+            categories: this.categories?.map((category) =>
+                serializer.toObject(category)
+            ),
             sources:
                 this.sources && this.sources.length > 0
-                    ? this.sources.map((source) => source.toObject())
+                    ? this.sources.map((source) => serializer.toObject(source))
                     : undefined,
         };
     }

@@ -76,7 +76,11 @@ describe("Converter", function () {
                     const specs = JSON.parse(
                         FS.readFileSync(specsFile, "utf-8")
                     );
-                    let data = JSON.stringify(result?.toObject(), null, "  ");
+                    let data = JSON.stringify(
+                        result && app.serializer.toObject(result),
+                        null,
+                        "  "
+                    );
                     data = data.split(normalizePath(base)).join("%BASE%");
 
                     equal(JSON.parse(data), specs);

@@ -5,7 +5,7 @@ import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
 import type { NeverIfInternal } from "../../utils";
 import { ReflectionKind } from "./kind";
-import type { Reflection as JSONReflection } from "../../serialization/schema";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 /**
  * Holds all data models used by TypeDoc.
@@ -206,10 +206,6 @@ export class ReflectionFlags extends Array<string> {
                 .filter((flag) => this[flag])
                 .map((flag) => [flag, true])
         );
-    }
-        }
-
-        return flags;
     }
 }
 
@@ -525,7 +521,7 @@ export abstract class Reflection {
         return lines.join("\n");
     }
 
-    toObject(): JSONReflection {
+    toObject(serializer: Serializer): JSONOutput.Reflection {
         return {
             id: this.id,
             name: this.name,
@@ -534,7 +530,7 @@ export abstract class Reflection {
             flags: this.flags.toObject(),
             comment:
                 this.comment && !this.comment.isEmpty()
-                    ? this.comment.toObject()
+                    ? serializer.toObject(this.comment)
                     : undefined,
             originalName:
                 this.originalName !== this.name ? this.originalName : undefined,

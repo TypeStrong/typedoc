@@ -1,11 +1,16 @@
 import type * as ts from "typescript";
-import type { SomeType } from "..";
-import { ReferenceType, ReflectionType, Type } from "../types";
-import { TraverseCallback, TraverseProperty } from "./abstract";
+import {
+    ReflectionType,
+    TraverseProperty,
+    type TraverseCallback,
+    type SomeType,
+    type TypeParameterReflection,
+    type ReferenceType,
+    type Type,
+    type SignatureReflection,
+} from "..";
 import { ContainerReflection } from "./container";
-import type { SignatureReflection } from "./signature";
-import type { TypeParameterReflection } from "./type-parameter";
-import type { DeclarationReflection as JSONDeclarationReflection } from "../../serialization/schema";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 /**
  * Stores hierarchical type data.
@@ -246,28 +251,46 @@ export class DeclarationReflection extends ContainerReflection {
         return result;
     }
 
-    override toObject(): JSONDeclarationReflection {
+    override toObject(
+        serializer: Serializer
+    ): JSONOutput.DeclarationReflection {
         return {
-            ...super.toObject(),
+            ...super.toObject(serializer),
             typeParameter:
                 this.typeParameters && this.typeParameters.length > 0
-                    ? this.typeParameters.map((type) => type.toObject())
+                    ? this.typeParameters.map((type) =>
+                          serializer.toObject(type)
+                      )
                     : undefined,
-            type: this.type?.toObject(),
-            signatures: this.signatures?.map((sig) => sig.toObject()),
-            indexSignature: this.indexSignature?.toObject(),
-            getSignature: this.getSignature && [this.getSignature.toObject()],
-            setSignature: this.setSignature && [this.setSignature.toObject()],
+            type: this.type && serializer.toObject(this.type),
+            signatures: this.signatures?.map((sig) => serializer.toObject(sig)),
+            indexSignature:
+                this.indexSignature && serializer.toObject(this.indexSignature),
+            getSignature: this.getSignature && [
+                serializer.toObject(this.getSignature),
+            ],
+            setSignature: this.setSignature && [
+                serializer.toObject(this.setSignature),
+            ],
             defaultValue: this.defaultValue,
-            overwrites: this.overwrites?.toObject(),
-            inheritedFrom: this.inheritedFrom?.toObject(),
-            implementationOf: this.implementationOf?.toObject(),
-            extendedTypes: this.extendedTypes?.map((type) => type.toObject()),
-            extendedBy: this.extendedBy?.map((type) => type.toObject()),
-            implementedTypes: this.implementedTypes?.map((type) =>
-                type.toObject()
+            overwrites: this.overwrites && serializer.toObject(this.overwrites),
+            inheritedFrom:
+                this.inheritedFrom && serializer.toObject(this.inheritedFrom),
+            implementationOf:
+                this.implementationOf &&
+                serializer.toObject(this.implementationOf),
+            extendedTypes: this.extendedTypes?.map((type) =>
+                serializer.toObject(type)
             ),
-            implementedBy: this.implementedBy?.map((type) => type.toObject()),
+            extendedBy: this.extendedBy?.map((type) =>
+                serializer.toObject(type)
+            ),
+            implementedTypes: this.implementedTypes?.map((type) =>
+                serializer.toObject(type)
+            ),
+            implementedBy: this.implementedBy?.map((type) =>
+                serializer.toObject(type)
+            ),
         };
     }
 }
