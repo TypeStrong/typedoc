@@ -26,11 +26,7 @@ export abstract class Type {
         return visitor[this.type](this as never);
     }
 
-    toObject(_serializer: Serializer): JSONOutput.Type {
-        return {
-            type: this.type,
-        };
-    }
+    abstract toObject(serializer: Serializer): JSONOutput.Type;
 }
 
 export interface TypeKindMap {
@@ -202,23 +198,22 @@ function wrap(type: Type, bp: number) {
 export class ArrayType extends Type {
     override readonly type = "array";
 
-    /**
-     * The type of the array elements.
-     */
-    elementType: Type;
-
-    constructor(elementType: Type) {
+    constructor(
+        /**
+         * The type of the array elements.
+         */
+        public elementType: SomeType
+    ) {
         super();
-        this.elementType = elementType;
     }
 
-    override toString() {
+    override toString(): string {
         return wrap(this.elementType, BINDING_POWERS.array) + "[]";
     }
 
     override toObject(serializer: Serializer): JSONOutput.ArrayType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             elementType: serializer.toObject(this.elementType),
         };
     }
@@ -235,15 +230,15 @@ export class ConditionalType extends Type {
     override readonly type = "conditional";
 
     constructor(
-        public checkType: Type,
-        public extendsType: Type,
-        public trueType: Type,
-        public falseType: Type
+        public checkType: SomeType,
+        public extendsType: SomeType,
+        public trueType: SomeType,
+        public falseType: SomeType
     ) {
         super();
     }
 
-    override toString() {
+    override toString(): string {
         return [
             wrap(this.checkType, BINDING_POWERS.conditionalCheckType),
             "extends",
@@ -257,7 +252,7 @@ export class ConditionalType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.ConditionalType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             checkType: serializer.toObject(this.checkType),
             extendsType: serializer.toObject(this.extendsType),
             trueType: serializer.toObject(this.trueType),
@@ -272,7 +267,7 @@ export class ConditionalType extends Type {
 export class IndexedAccessType extends Type {
     override readonly type = "indexedAccess";
 
-    constructor(public objectType: Type, public indexType: Type) {
+    constructor(public objectType: SomeType, public indexType: SomeType) {
         super();
     }
 
@@ -282,7 +277,7 @@ export class IndexedAccessType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.IndexedAccessType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             indexType: serializer.toObject(this.indexType),
             objectType: serializer.toObject(this.objectType),
         };
@@ -307,9 +302,9 @@ export class InferredType extends Type {
         return `infer ${this.name}`;
     }
 
-    override toObject(serializer: Serializer): JSONOutput.InferredType {
+    override toObject(): JSONOutput.InferredType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             name: this.name,
         };
     }
@@ -325,11 +320,11 @@ export class InferredType extends Type {
 export class IntersectionType extends Type {
     override readonly type = "intersection";
 
-    constructor(public types: Type[]) {
+    constructor(public types: SomeType[]) {
         super();
     }
 
-    override toString() {
+    override toString(): string {
         return this.types
             .map((t) => wrap(t, BINDING_POWERS.intersection))
             .join(" & ");
@@ -337,7 +332,7 @@ export class IntersectionType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.IntersectionType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             types: this.types.map((t) => serializer.toObject(t)),
         };
     }
@@ -361,9 +356,9 @@ export class IntrinsicType extends Type {
         return this.name;
     }
 
-    override toObject(serializer: Serializer): JSONOutput.IntrinsicType {
+    override toObject(): JSONOutput.IntrinsicType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             name: this.name,
         };
     }
@@ -394,10 +389,10 @@ export class LiteralType extends Type {
         return JSON.stringify(this.value);
     }
 
-    override toObject(serializer: Serializer): JSONOutput.LiteralType {
+    override toObject(): JSONOutput.LiteralType {
         if (typeof this.value === "bigint") {
             return {
-                ...super.toObject(serializer),
+                type: this.type,
                 value: {
                     value: this.value.toString().replace("-", ""),
                     negative: this.value < BigInt("0"),
@@ -406,7 +401,7 @@ export class LiteralType extends Type {
         }
 
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             value: this.value,
         };
     }
@@ -424,11 +419,11 @@ export class MappedType extends Type {
 
     constructor(
         public parameter: string,
-        public parameterType: Type,
-        public templateType: Type,
+        public parameterType: SomeType,
+        public templateType: SomeType,
         public readonlyModifier?: "+" | "-",
         public optionalModifier?: "+" | "-",
-        public nameType?: Type
+        public nameType?: SomeType
     ) {
         super();
     }
@@ -453,7 +448,7 @@ export class MappedType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.MappedType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             parameter: this.parameter,
             parameterType: serializer.toObject(this.parameterType),
             templateType: serializer.toObject(this.templateType),
@@ -474,9 +469,9 @@ export class MappedType extends Type {
 export class OptionalType extends Type {
     override readonly type = "optional";
 
-    elementType: Type;
+    elementType: SomeType;
 
-    constructor(elementType: Type) {
+    constructor(elementType: SomeType) {
         super();
         this.elementType = elementType;
     }
@@ -487,7 +482,7 @@ export class OptionalType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.OptionalType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             elementType: serializer.toObject(this.elementType),
         };
     }
@@ -505,31 +500,27 @@ export class PredicateType extends Type {
     override readonly type = "predicate";
 
     /**
-     * The type that the identifier is tested to be.
-     * May be undefined if the type is of the form `asserts val`.
-     * Will be defined if the type is of the form `asserts val is string` or `val is string`.
-     */
-    targetType?: Type;
-
-    /**
-     * The identifier name which is tested by the predicate.
-     */
-    name: string;
-
-    /**
-     * True if the type is of the form `asserts val is string`, false if
-     * the type is of the form `val is string`
-     */
-    asserts: boolean;
-
-    /**
      * Create a new PredicateType instance.
      */
-    constructor(name: string, asserts: boolean, targetType?: Type) {
+    constructor(
+        /**
+         * The identifier name which is tested by the predicate.
+         */
+        public name: string,
+        /**
+         * True if the type is of the form `asserts val is string`, false if
+         * the type is of the form `val is string`
+         */
+        public asserts: boolean,
+
+        /**
+         * The type that the identifier is tested to be.
+         * May be undefined if the type is of the form `asserts val`.
+         * Will be defined if the type is of the form `asserts val is string` or `val is string`.
+         */
+        public targetType?: SomeType
+    ) {
         super();
-        this.name = name;
-        this.asserts = asserts;
-        this.targetType = targetType;
     }
 
     /**
@@ -546,7 +537,7 @@ export class PredicateType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.PredicateType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             name: this.name,
             asserts: this.asserts,
             targetType: this.targetType && serializer.toObject(this.targetType),
@@ -577,7 +568,7 @@ export class QueryType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.QueryType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             queryType: serializer.toObject(this.queryType),
         };
     }
@@ -604,7 +595,7 @@ export class ReferenceType extends Type {
     /**
      * The type arguments of this reference.
      */
-    typeArguments?: Type[];
+    typeArguments?: SomeType[];
 
     /**
      * The resolved reflection.
@@ -732,7 +723,7 @@ export class ReferenceType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.ReferenceType {
         const result: JSONOutput.ReferenceType = {
-            ...super.toObject(serializer),
+            type: this.type,
             id: this.reflection?.id,
             typeArguments:
                 this.typeArguments && this.typeArguments.length > 0
@@ -780,7 +771,7 @@ export class ReflectionType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.ReflectionType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             declaration: serializer.toObject(this.declaration),
         };
     }
@@ -796,7 +787,7 @@ export class ReflectionType extends Type {
 export class RestType extends Type {
     override readonly type = "rest";
 
-    constructor(public elementType: Type) {
+    constructor(public elementType: SomeType) {
         super();
     }
 
@@ -806,7 +797,7 @@ export class RestType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.RestType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             elementType: serializer.toObject(this.elementType),
         };
     }
@@ -821,7 +812,7 @@ export class RestType extends Type {
 export class TemplateLiteralType extends Type {
     override readonly type = "template-literal";
 
-    constructor(public head: string, public tail: [Type, string][]) {
+    constructor(public head: string, public tail: [SomeType, string][]) {
         super();
     }
 
@@ -838,7 +829,7 @@ export class TemplateLiteralType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.TemplateLiteralType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             head: this.head,
             tail: this.tail.map(([type, text]) => [
                 serializer.toObject(type),
@@ -858,14 +849,13 @@ export class TemplateLiteralType extends Type {
 export class TupleType extends Type {
     override readonly type = "tuple";
 
-    /**
-     * The ordered type elements of the tuple type.
-     */
-    elements: Type[];
-
-    constructor(elements: Type[]) {
+    constructor(
+        /**
+         * The ordered type elements of the tuple type.
+         */
+        public elements: SomeType[]
+    ) {
         super();
-        this.elements = elements;
     }
 
     override toString() {
@@ -874,7 +864,7 @@ export class TupleType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.TupleType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             elements:
                 this.elements.length > 0
                     ? this.elements.map((t) => serializer.toObject(t))
@@ -896,7 +886,7 @@ export class NamedTupleMember extends Type {
     constructor(
         public name: string,
         public isOptional: boolean,
-        public element: Type
+        public element: SomeType
     ) {
         super();
     }
@@ -910,7 +900,7 @@ export class NamedTupleMember extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.NamedTupleMemberType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             name: this.name,
             isOptional: this.isOptional,
             element: serializer.toObject(this.element),
@@ -930,19 +920,19 @@ export class TypeOperatorType extends Type {
     override readonly type = "typeOperator";
 
     constructor(
-        public target: Type,
+        public target: SomeType,
         public operator: "keyof" | "unique" | "readonly"
     ) {
         super();
     }
 
-    override toString() {
+    override toString(): string {
         return `${this.operator} ${this.target.toString()}`;
     }
 
     override toObject(serializer: Serializer): JSONOutput.TypeOperatorType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             target: serializer.toObject(this.target),
             operator: this.operator,
         };
@@ -988,7 +978,7 @@ export class UnionType extends Type {
 
     override toObject(serializer: Serializer): JSONOutput.UnionType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             types: this.types.map((t) => serializer.toObject(t)),
         };
     }
@@ -1014,9 +1004,9 @@ export class UnknownType extends Type {
         return this.name;
     }
 
-    override toObject(serializer: Serializer): JSONOutput.UnknownType {
+    override toObject(): JSONOutput.UnknownType {
         return {
-            ...super.toObject(serializer),
+            type: this.type,
             name: this.name,
         };
     }

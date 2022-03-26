@@ -1,6 +1,5 @@
 import type * as ts from "typescript";
-import type { SomeType } from "..";
-import { ReferenceType, ReflectionType, Type } from "../types";
+import { ReferenceType, ReflectionType, Type, type SomeType } from "../types";
 import { type TraverseCallback, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import type { SignatureReflection } from "./signature";
@@ -107,7 +106,7 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * A list of all types this reflection extends (e.g. the parent classes).
      */
-    extendedTypes?: Type[];
+    extendedTypes?: SomeType[];
 
     /**
      * A list of all types that extend this reflection (e.g. the subclasses).
@@ -117,7 +116,7 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * A list of all types this reflection implements.
      */
-    implementedTypes?: Type[];
+    implementedTypes?: SomeType[];
 
     /**
      * A list of all types that implement this reflection.

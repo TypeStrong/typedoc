@@ -1,4 +1,4 @@
-import { Type, ReflectionType, ReferenceType } from "../types";
+import { SomeType, ReflectionType, ReferenceType } from "../types";
 import { Reflection, TraverseProperty, TraverseCallback } from "./abstract";
 import type { ParameterReflection } from "./parameter";
 import type { TypeParameterReflection } from "./type-parameter";
@@ -28,7 +28,7 @@ export class SignatureReflection extends Reflection {
 
     typeParameters?: TypeParameterReflection[];
 
-    type?: Type;
+    type?: SomeType;
 
     /**
      * A type that points to the reflection that has been overwritten by this reflection.

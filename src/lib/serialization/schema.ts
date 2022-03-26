@@ -100,11 +100,14 @@ type S<T, K extends keyof T> = {
 // Reflections
 
 export interface ReflectionGroup
-    extends S<M.ReflectionGroup, "title" | "kind" | "categories"> {
+    extends Type,
+        S<M.ReflectionGroup, "title" | "kind" | "categories"> {
     children?: M.ReflectionGroup["children"][number]["id"][];
 }
 
-export interface ReflectionCategory extends S<M.ReflectionCategory, "title"> {
+export interface ReflectionCategory
+    extends Type,
+        S<M.ReflectionCategory, "title"> {
     children?: M.ReflectionCategory["children"][number]["id"][];
 }
 
@@ -177,7 +180,8 @@ export interface ContainerReflection
         > {}
 
 export interface Reflection
-    extends S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
+    extends Type,
+        S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
     /** Will not be present if name === originalName */
     originalName?: M.Reflection["originalName"];
     flags: ReflectionFlags;
@@ -185,24 +189,7 @@ export interface Reflection
 
 // Types
 
-export type SomeType =
-    | ArrayType
-    | ConditionalType
-    | IndexedAccessType
-    | InferredType
-    | IntersectionType
-    | IntrinsicType
-    | LiteralType
-    | OptionalType
-    | PredicateType
-    | QueryType
-    | ReferenceType
-    | ReflectionType
-    | RestType
-    | TupleType
-    | TypeOperatorType
-    | UnionType
-    | UnknownType;
+export type SomeType = ModelToObject<M.SomeType>;
 
 export type TypeKindMap = {
     array: ArrayType;
@@ -227,65 +214,71 @@ export type TypeKindMap = {
     unknown: UnknownType;
 };
 
-export interface ArrayType extends Type, S<M.ArrayType, "elementType"> {}
+export interface ArrayType
+    extends Type,
+        S<M.ArrayType, "type" | "elementType"> {}
 
 export interface ConditionalType
     extends Type,
         S<
             M.ConditionalType,
-            "checkType" | "extendsType" | "trueType" | "falseType"
+            "type" | "checkType" | "extendsType" | "trueType" | "falseType"
         > {}
 
 export interface IndexedAccessType
     extends Type,
-        S<M.IndexedAccessType, "indexType" | "objectType"> {}
+        S<M.IndexedAccessType, "type" | "indexType" | "objectType"> {}
 
-export interface InferredType extends Type, S<M.InferredType, "name"> {}
+export interface InferredType
+    extends Type,
+        S<M.InferredType, "type" | "name"> {}
 
 export interface IntersectionType
     extends Type,
-        S<M.IntersectionType, "types"> {}
+        S<M.IntersectionType, "type" | "types"> {}
 
-export interface IntrinsicType extends Type, S<M.IntrinsicType, "name"> {}
+export interface IntrinsicType
+    extends Type,
+        S<M.IntrinsicType, "type" | "name"> {}
 
-export interface OptionalType extends Type, S<M.OptionalType, "elementType"> {}
+export interface OptionalType
+    extends Type,
+        S<M.OptionalType, "type" | "elementType"> {}
 
 export interface PredicateType
     extends Type,
-        S<M.PredicateType, "name" | "asserts" | "targetType"> {}
+        S<M.PredicateType, "type" | "name" | "asserts" | "targetType"> {}
 
-export interface QueryType extends Type, S<M.QueryType, "queryType"> {}
+export interface QueryType extends Type, S<M.QueryType, "type" | "queryType"> {}
 
 export interface ReferenceType
     extends Type,
         S<
             M.ReferenceType,
-            "name" | "typeArguments" | "qualifiedName" | "package"
+            "type" | "name" | "typeArguments" | "qualifiedName" | "package"
         > {
     id?: number;
 }
 
-export interface ReflectionType extends Type {
+export interface ReflectionType extends Type, S<M.ReflectionType, "type"> {
     declaration?: ModelToObject<M.ReflectionType["declaration"]>;
 }
 
-export interface RestType extends Type, S<M.RestType, "elementType"> {}
+export interface RestType extends Type, S<M.RestType, "type" | "elementType"> {}
 
-export interface LiteralType extends Type, S<M.LiteralType, "value"> {}
+export interface LiteralType extends Type, S<M.LiteralType, "type" | "value"> {}
 
-export interface TupleType extends Type {
+export interface TupleType extends Type, S<M.TupleType, "type"> {
     elements?: ModelToObject<M.TupleType["elements"]>;
 }
 
-export interface NamedTupleMemberType extends Type {
-    name: string;
-    isOptional: boolean;
-    element: ModelToObject<M.NamedTupleMember["element"]>;
-}
+export interface NamedTupleMemberType
+    extends Type,
+        S<M.NamedTupleMember, "type" | "name" | "isOptional" | "element"> {}
 
 export interface TemplateLiteralType
     extends Type,
-        S<M.TemplateLiteralType, "head"> {
+        S<M.TemplateLiteralType, "type" | "head"> {
     tail: [SomeType, string][];
 }
 
@@ -293,6 +286,7 @@ export interface MappedType
     extends Type,
         S<
             M.MappedType,
+            | "type"
             | "parameter"
             | "parameterType"
             | "templateType"
@@ -303,19 +297,17 @@ export interface MappedType
 
 export interface TypeOperatorType
     extends Type,
-        S<M.TypeOperatorType, "operator" | "target"> {}
+        S<M.TypeOperatorType, "type" | "operator" | "target"> {}
 
-export interface UnionType extends Type, S<M.UnionType, "types"> {}
+export interface UnionType extends Type, S<M.UnionType, "type" | "types"> {}
 
-export interface UnknownType extends Type, S<M.UnknownType, "name"> {}
+export interface UnknownType extends Type, S<M.UnknownType, "type" | "name"> {}
 
 /**
  * Technically not correct, the `type` property will be set by the abstract serializer.
  * But to allow tagged literals, the `type` property is instead defined by each child type.
  */
-export interface Type {
-    type: keyof TypeKindMap;
-}
+export interface Type {}
 
 // Miscellaneous
 
@@ -331,7 +323,7 @@ export interface Comment extends Partial<S<M.Comment, "blockTags">> {
     modifierTags?: string[];
 }
 
-export interface CommentTag extends S<M.CommentTag, "tag" | "name"> {
+export interface CommentTag extends Type, S<M.CommentTag, "tag" | "name"> {
     content: CommentDisplayPart[];
 }
 
@@ -350,4 +342,5 @@ export type CommentDisplayPart =
       };
 
 export interface SourceReference
-    extends S<M.SourceReference, "fileName" | "line" | "character"> {}
+    extends Type,
+        S<M.SourceReference, "fileName" | "line" | "character"> {}
