@@ -100,14 +100,11 @@ type S<T, K extends keyof T> = {
 // Reflections
 
 export interface ReflectionGroup
-    extends Type,
-        S<M.ReflectionGroup, "title" | "kind" | "categories"> {
+    extends S<M.ReflectionGroup, "title" | "kind" | "categories"> {
     children?: M.ReflectionGroup["children"][number]["id"][];
 }
 
-export interface ReflectionCategory
-    extends Type,
-        S<M.ReflectionCategory, "title"> {
+export interface ReflectionCategory extends S<M.ReflectionCategory, "title"> {
     children?: M.ReflectionCategory["children"][number]["id"][];
 }
 
@@ -180,8 +177,7 @@ export interface ContainerReflection
         > {}
 
 export interface Reflection
-    extends Type,
-        S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
+    extends S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
     /** Will not be present if name === originalName */
     originalName?: M.Reflection["originalName"];
     flags: ReflectionFlags;
