@@ -252,8 +252,11 @@ export class SourceLinkPlugin extends ConverterComponent {
     private getRepository(fileName: string): Repository | undefined {
         // Check for known non-repositories
         const dirName = Path.dirname(fileName);
-        if (this.ignoredPaths.has(dirName)) {
-            return;
+        const segments = dirName.split("/");
+        for (let i = segments.length; i > 0; i--) {
+            if (this.ignoredPaths.has(segments.slice(0, i).join("/"))) {
+                return;
+            }
         }
 
         // Check for known repositories
@@ -275,10 +278,7 @@ export class SourceLinkPlugin extends ConverterComponent {
         }
 
         // No repository found, add path to ignored paths
-        const segments = dirName.split("/");
-        for (let i = segments.length; i > 0; i--) {
-            this.ignoredPaths.add(segments.slice(0, i).join("/"));
-        }
+        this.ignoredPaths.add(dirName);
     }
 
     /**
