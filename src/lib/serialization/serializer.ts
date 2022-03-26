@@ -21,6 +21,12 @@ export class Serializer extends EventDispatcher {
     private serializers: SerializerComponent<any>[] = [];
 
     addSerializer(serializer: SerializerComponent<any>): void {
+        if ("serializeGroup" in serializer) {
+            throw new Error(
+                "Support for `serializeGroup` was removed. Use supports instead."
+            );
+        }
+
         this.serializers.push(serializer);
         this.serializers.sort((a, b) => b.priority - a.priority);
     }
@@ -29,7 +35,7 @@ export class Serializer extends EventDispatcher {
         value: T
     ): ModelToObject<T> {
         return this.serializers
-            .filter((s) => s.serializeGroup(value) && s.supports(value))
+            .filter((s) => s.supports(value))
             .reduce(
                 (val, s) => s.toObject(value, val, this) as ModelToObject<T>,
                 value.toObject(this)

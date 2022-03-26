@@ -10,36 +10,16 @@ import type { ModelToObject } from "./schema";
  * Additionally, each {@link Serializer} plugin must define a predicate that instructs the group
  * it belongs to.
  */
-export abstract class SerializerComponent<T> {
+export interface SerializerComponent<T> {
     /**
      * The priority this serializer should be executed with.
      * A higher priority means the {@link Serializer} will be applied earlier.
      */
-    static PRIORITY = 0;
+    readonly priority: number;
 
-    /**
-     * The priority this serializer should be executed with.
-     * A higher priority means the {@link Serializer} will be applied earlier.
-     */
-    get priority(): number {
-        return (
-            (this.constructor as typeof SerializerComponent)["PRIORITY"] ||
-            SerializerComponent.PRIORITY
-        );
-    }
+    supports(item: unknown): item is T;
 
-    /**
-     * Legacy additional check for the `supports` method.
-     *
-     * @deprecated Use `supports` below instead.
-     */
-    serializeGroup(_instance: unknown): boolean {
-        return true;
-    }
-
-    abstract supports(item: unknown): boolean;
-
-    abstract toObject(
+    toObject(
         item: T,
         obj: Partial<ModelToObject<T>>,
         serializer: Serializer
