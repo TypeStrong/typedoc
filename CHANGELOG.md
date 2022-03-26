@@ -3,6 +3,11 @@
 ### Bug Fixes
 
 -   Fixed missing comments on `@enum` style enum members defined in declaration files, #1880.
+-   Search results will no longer include random items when the search bar is empty, #1881.
+
+### Thanks!
+
+-   @ychan167
 
 ## v0.22.13 (2022-03-06)
 
