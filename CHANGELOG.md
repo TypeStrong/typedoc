@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed missing comments on `@enum` style enum members defined in declaration files, #1880.
+
 ## v0.22.13 (2022-03-06)
 
 ### Features

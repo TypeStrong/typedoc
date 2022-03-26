@@ -335,4 +335,13 @@ export const issueTests: {
             "Nested\n"
         );
     },
+
+    gh1880(project) {
+        const SomeEnum = query(project, "SomeEnum");
+        equal(SomeEnum.kind, ReflectionKind.Enum);
+        ok(SomeEnum.hasComment(), "Missing @enum variable comment");
+
+        const auto = query(project, "SomeEnum.AUTO");
+        ok(auto.hasComment(), "Missing @enum member comment");
+    },
 };
