@@ -1,15 +1,12 @@
 import { equal, fail, ok } from "assert";
 import { join, relative } from "path";
 import { Logger, LogLevel, normalizePath } from "..";
+import { validateDocumentation } from "../lib/validation/documentation";
 import { validateExports } from "../lib/validation/exports";
 import { getConverter2App, getConverter2Program } from "./programs";
+import { TestLogger } from "./TestLogger";
 
-function expectWarning(
-    typeName: string,
-    file: string,
-    referencingName: string,
-    intentionallyNotExported: readonly string[] = []
-) {
+function convertValidationFile(file: string) {
     const app = getConverter2App();
     const program = getConverter2Program();
     const sourceFile = program.getSourceFile(
@@ -25,6 +22,17 @@ function expectWarning(
             sourceFile,
         },
     ]);
+
+    return project;
+}
+
+function expectWarning(
+    typeName: string,
+    file: string,
+    referencingName: string,
+    intentionallyNotExported: readonly string[] = []
+) {
+    const project = convertValidationFile(file);
 
     let sawWarning = false;
     const regex =
@@ -184,5 +192,40 @@ describe("validateExports", () => {
 
         validateExports(project, new LoggerCheck(), ["notDefined", "Foo"]);
         ok(sawWarning, "Never saw warning.");
+    });
+});
+
+describe("validateDocumentation", () => {
+    it("Should correctly handle functions", () => {
+        const project = convertValidationFile("function.ts");
+        const logger = new TestLogger();
+        validateDocumentation(project, logger, ["Function"]);
+
+        logger.expectMessage(
+            "warn: bar, defined at src/test/converter2/validation/function.ts:4, does not have any documentation."
+        );
+        logger.expectNoOtherMessages();
+    });
+
+    it("Should correctly handle accessors", () => {
+        const project = convertValidationFile("getSignature.ts");
+        const logger = new TestLogger();
+        validateDocumentation(project, logger, ["Accessor"]);
+
+        logger.expectMessage(
+            "warn: Foo.foo, defined at src/test/converter2/validation/getSignature.ts:2, does not have any documentation."
+        );
+        logger.expectNoOtherMessages();
+    });
+
+    it("Should correctly handle constructors", () => {
+        const project = convertValidationFile("class.ts");
+        const logger = new TestLogger();
+        validateDocumentation(project, logger, ["Constructor"]);
+
+        logger.expectMessage(
+            "warn: Foo.constructor, defined at src/test/converter2/validation/class.ts:4, does not have any documentation."
+        );
+        logger.expectNoOtherMessages();
     });
 });

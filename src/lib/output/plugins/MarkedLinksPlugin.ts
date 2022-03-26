@@ -135,7 +135,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
                 }
             } else {
                 const fullName = (this.reflection ||
-                    this.project)!.getFullName();
+                    this.project)!.getFriendlyFullName();
                 this.warnings.push(`In ${fullName}: ${original}`);
                 return original;
             }

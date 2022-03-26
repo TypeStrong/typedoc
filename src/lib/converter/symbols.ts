@@ -509,10 +509,12 @@ function convertClassOrInterface(
             reflection
         );
         reflectionContext.addChild(constructMember);
-        // The symbol is already taken by the class.
-        context.registerReflection(constructMember, undefined);
 
         const ctors = staticType.getConstructSignatures();
+        context.registerReflection(
+            constructMember,
+            ctors?.[0]?.declaration?.symbol
+        );
 
         // Modifiers are the same for all constructors
         if (ctors.length && ctors[0].declaration) {

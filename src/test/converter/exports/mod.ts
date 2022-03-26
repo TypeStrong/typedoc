@@ -20,9 +20,7 @@ export { a as c } from "./mod";
 /**
  * Will not be re-exported from export.ts using export * from...
  */
-export default function () {
-    console.log("Default");
-}
+export default function () {}
 
 /**
  * This is annotated with the hidden tag and will therefore not be included in the generated documentation.

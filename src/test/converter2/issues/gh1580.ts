@@ -5,9 +5,7 @@ class A {
     prop!: string;
 
     /** Run docs */
-    run(): void {
-        console.log("A");
-    }
+    run(): void {}
 }
 
 class B extends A {
@@ -15,6 +13,5 @@ class B extends A {
 
     run(): void {
         super.run();
-        console.log("B");
     }
 }

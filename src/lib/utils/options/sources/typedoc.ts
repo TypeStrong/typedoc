@@ -372,8 +372,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             "Interface",
             "Property",
             "Method",
-            "GetSignature",
-            "SetSignature",
+            "Accessor",
             "TypeAlias",
         ],
     });

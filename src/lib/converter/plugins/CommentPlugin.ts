@@ -175,7 +175,11 @@ export class CommentPlugin extends ConverterComponent {
         reflection: Reflection,
         node?: ts.Node
     ) {
-        if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
+        if (
+            reflection.kindOf(
+                ReflectionKind.FunctionOrMethod | ReflectionKind.Constructor
+            )
+        ) {
             // We only want a comment on functions/methods if this is a set of overloaded functions.
             // In that case, TypeDoc lets you put a comment on the implementation, and will copy it over to
             // the available signatures so that you can avoid documenting things multiple times.
@@ -184,7 +188,9 @@ export class CommentPlugin extends ConverterComponent {
             let specialOverloadCase = false;
             if (
                 node &&
-                (ts.isFunctionDeclaration(node) || ts.isMethodDeclaration(node))
+                (ts.isFunctionDeclaration(node) ||
+                    ts.isMethodDeclaration(node) ||
+                    ts.isConstructorDeclaration(node))
             ) {
                 const symbol =
                     node.name && context.checker.getSymbolAtLocation(node.name);
@@ -192,7 +198,8 @@ export class CommentPlugin extends ConverterComponent {
                     const declarations = symbol.declarations.filter(
                         (d) =>
                             ts.isFunctionDeclaration(d) ||
-                            ts.isMethodDeclaration(d)
+                            ts.isMethodDeclaration(d) ||
+                            ts.isConstructorDeclaration(d)
                     );
                     if (
                         declarations.length > 1 &&
