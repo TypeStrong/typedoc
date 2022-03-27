@@ -299,10 +299,6 @@ export interface UnionType extends Type, S<M.UnionType, "type" | "types"> {}
 
 export interface UnknownType extends Type, S<M.UnknownType, "type" | "name"> {}
 
-/**
- * Technically not correct, the `type` property will be set by the abstract serializer.
- * But to allow tagged literals, the `type` property is instead defined by each child type.
- */
 export interface Type {}
 
 // Miscellaneous
