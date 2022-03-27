@@ -220,7 +220,7 @@ export class SourceLinkPlugin extends ConverterComponent {
     /**
      * List of paths known to be not under git control.
      */
-    private ignoredPaths: string[] = [];
+    private ignoredPaths = new Set<string>();
 
     @BindOption("gitRevision")
     readonly gitRevision!: string;
@@ -252,15 +252,16 @@ export class SourceLinkPlugin extends ConverterComponent {
     private getRepository(fileName: string): Repository | undefined {
         // Check for known non-repositories
         const dirName = Path.dirname(fileName);
-        for (let i = 0, c = this.ignoredPaths.length; i < c; i++) {
-            if (this.ignoredPaths[i] === dirName) {
+        const segments = dirName.split("/");
+        for (let i = segments.length; i > 0; i--) {
+            if (this.ignoredPaths.has(segments.slice(0, i).join("/"))) {
                 return;
             }
         }
 
         // Check for known repositories
         for (const path of Object.keys(this.repositories)) {
-            if (fileName.substring(0, path.length).toLowerCase() === path) {
+            if (fileName.toLowerCase().startsWith(path)) {
                 return this.repositories[path];
             }
         }
@@ -277,10 +278,7 @@ export class SourceLinkPlugin extends ConverterComponent {
         }
 
         // No repository found, add path to ignored paths
-        const segments = dirName.split("/");
-        for (let i = segments.length; i > 0; i--) {
-            this.ignoredPaths.push(segments.slice(0, i).join("/"));
-        }
+        this.ignoredPaths.add(dirName);
     }
 
     /**
@@ -298,11 +296,10 @@ export class SourceLinkPlugin extends ConverterComponent {
             }
         });
 
-        for (const key in project.reflections) {
-            const reflection = project.reflections[key];
+        for (const reflection of Object.values(project.reflections)) {
             if (reflection.sources) {
                 reflection.sources.forEach((source: SourceReference) => {
-                    if (source.file && source.file.url) {
+                    if (source.file?.url) {
                         source.url =
                             source.file.url +
                             "#" +

@@ -167,8 +167,7 @@ export class DefaultTheme extends Theme {
             event.project.groups.forEach(DefaultTheme.applyGroupClasses);
         }
 
-        for (const id in event.project.reflections) {
-            const reflection = event.project.reflections[id];
+        for (const reflection of Object.values(event.project.reflections)) {
             if (reflection instanceof DeclarationReflection) {
                 DefaultTheme.applyReflectionClasses(reflection);
             }
