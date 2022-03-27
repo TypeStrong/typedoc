@@ -26,7 +26,7 @@ export abstract class Type {
         return visitor[this.type](this as never);
     }
 
-    abstract toObject(serializer: Serializer): JSONOutput.Type;
+    abstract toObject(serializer: Serializer): JSONOutput.SomeType;
 }
 
 export interface TypeKindMap {
