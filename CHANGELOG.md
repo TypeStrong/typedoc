@@ -6,6 +6,7 @@
 -   Fixed `--validation.notDocumented` warnings for functions/methods, #1895.
 -   Search results will no longer include random items when the search bar is empty, #1881.
 -   Comments on overloaded constructors will now be detected in the same way that overloaded functions/methods are.
+-   Fixed `removeReflection` not completely removing reflections from the project.
 
 ### Thanks!
 

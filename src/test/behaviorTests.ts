@@ -70,4 +70,13 @@ export const behaviorTests: Record<
 
         equal(foo.comment, undefined);
     },
+
+    removeReflection(project) {
+        const foo = query(project, "foo");
+        project.removeReflection(foo);
+        equal(
+            Object.values(project.reflections).map((r) => r.name),
+            ["typedoc"]
+        );
+    },
 };

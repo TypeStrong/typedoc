@@ -73,13 +73,13 @@ export class SignatureReflection extends Reflection {
             }
         }
 
-        for (const parameter of this.typeParameters ?? []) {
+        for (const parameter of this.typeParameters?.slice() || []) {
             if (callback(parameter, TraverseProperty.TypeParameter) === false) {
                 return;
             }
         }
 
-        for (const parameter of this.parameters ?? []) {
+        for (const parameter of this.parameters?.slice() || []) {
             if (callback(parameter, TraverseProperty.Parameters) === false) {
                 return;
             }

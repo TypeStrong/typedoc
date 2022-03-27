@@ -170,7 +170,7 @@ export class DeclarationReflection extends ContainerReflection {
      * @param callback  The callback function that should be applied for each child reflection.
      */
     override traverse(callback: TraverseCallback) {
-        for (const parameter of this.typeParameters ?? []) {
+        for (const parameter of this.typeParameters?.slice() || []) {
             if (callback(parameter, TraverseProperty.TypeParameter) === false) {
                 return;
             }
@@ -187,7 +187,7 @@ export class DeclarationReflection extends ContainerReflection {
             }
         }
 
-        for (const signature of this.signatures ?? []) {
+        for (const signature of this.signatures?.slice() || []) {
             if (callback(signature, TraverseProperty.Signatures) === false) {
                 return;
             }
