@@ -200,7 +200,7 @@ export class ReflectionFlags extends Array<string> {
         "isReadonly",
     ] as const;
 
-    toObject(): Record<string, true> {
+    toObject(): JSONOutput.ReflectionFlags {
         return Object.fromEntries(
             ReflectionFlags.serializedFlags
                 .filter((flag) => this[flag])
