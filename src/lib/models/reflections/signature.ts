@@ -1,9 +1,10 @@
-import { Type, ReflectionType, ReferenceType } from "../types";
+import { SomeType, ReflectionType, ReferenceType } from "../types";
 import { Reflection, TraverseProperty, TraverseCallback } from "./abstract";
 import type { ParameterReflection } from "./parameter";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 import type { ReflectionKind } from "./kind";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 export class SignatureReflection extends Reflection {
     constructor(
@@ -27,7 +28,7 @@ export class SignatureReflection extends Reflection {
 
     typeParameters?: TypeParameterReflection[];
 
-    type?: Type;
+    type?: SomeType;
 
     /**
      * A type that points to the reflection that has been overwritten by this reflection.
@@ -103,5 +104,28 @@ export class SignatureReflection extends Reflection {
         }
 
         return result;
+    }
+
+    override toObject(serializer: Serializer): JSONOutput.SignatureReflection {
+        return {
+            ...super.toObject(serializer),
+            typeParameter:
+                this.typeParameters && this.typeParameters.length > 0
+                    ? this.typeParameters.map((type) =>
+                          serializer.toObject(type)
+                      )
+                    : undefined,
+            parameters:
+                this.parameters && this.parameters.length > 0
+                    ? this.parameters.map((type) => serializer.toObject(type))
+                    : undefined,
+            type: this.type && serializer.toObject(this.type),
+            overwrites: this.overwrites && serializer.toObject(this.overwrites),
+            inheritedFrom:
+                this.inheritedFrom && serializer.toObject(this.inheritedFrom),
+            implementationOf:
+                this.implementationOf &&
+                serializer.toObject(this.implementationOf),
+        };
     }
 }

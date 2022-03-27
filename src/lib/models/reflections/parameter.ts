@@ -2,6 +2,7 @@ import type { SomeType } from "..";
 import { ReflectionType } from "../types";
 import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
 import type { SignatureReflection } from "./signature";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 export class ParameterReflection extends Reflection {
     override parent?: SignatureReflection;
@@ -38,5 +39,13 @@ export class ParameterReflection extends Reflection {
      */
     override toString() {
         return super.toString() + (this.type ? ":" + this.type.toString() : "");
+    }
+
+    override toObject(serializer: Serializer): JSONOutput.ParameterReflection {
+        return {
+            ...super.toObject(serializer),
+            type: this.type && serializer.toObject(this.type),
+            defaultValue: this.defaultValue,
+        };
     }
 }

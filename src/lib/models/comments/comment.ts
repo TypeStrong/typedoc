@@ -1,6 +1,8 @@
 import { assertNever, removeIf } from "../../utils";
 import type { Reflection } from "../reflections";
 
+import type { Serializer, JSONOutput } from "../../serialization";
+
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }
@@ -15,6 +17,25 @@ export interface InlineTagDisplayPart {
     tag: `@${string}`;
     text: string;
     target?: Reflection | string;
+}
+
+function serializeDisplayPart(
+    part: CommentDisplayPart
+): JSONOutput.CommentDisplayPart {
+    switch (part.kind) {
+        case "text":
+        case "code":
+            return part;
+        case "inline-tag": {
+            return {
+                ...part,
+                target:
+                    typeof part.target === "object"
+                        ? part.target.id
+                        : part.target,
+            };
+        }
+    }
 }
 
 /**
@@ -56,6 +77,14 @@ export class CommentTag {
             tag.name = this.name;
         }
         return tag;
+    }
+
+    toObject(): JSONOutput.CommentTag {
+        return {
+            name: this.name,
+            tag: this.tag,
+            content: this.content.map(serializeDisplayPart),
+        };
     }
 }
 
@@ -195,5 +224,19 @@ export class Comment {
      */
     removeTags(tagName: `@${string}`) {
         removeIf(this.blockTags, (tag) => tag.tag === tagName);
+    }
+
+    toObject(serializer: Serializer): JSONOutput.Comment {
+        return {
+            summary: this.summary.map(serializeDisplayPart),
+            blockTags:
+                this.blockTags.length > 0
+                    ? this.blockTags.map((tag) => serializer.toObject(tag))
+                    : undefined,
+            modifierTags:
+                this.modifierTags.size > 0
+                    ? Array.from(this.modifierTags)
+                    : undefined,
+        };
     }
 }

@@ -16,6 +16,7 @@ import { isNamedNode } from "../utils/nodes";
 import { getCommonDirectory, normalizePath } from "../../utils/fs";
 import { relative } from "path";
 import * as assert from "assert";
+import { SourceReference } from "../../models";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -128,12 +129,14 @@ export class SourcePlugin extends ConverterComponent {
             }
 
             reflection.sources ||= [];
-            reflection.sources.push({
-                file: file,
-                fileName: fileName,
-                line: position.line + 1,
-                character: position.character,
-            });
+            reflection.sources.push(
+                new SourceReference(
+                    fileName,
+                    position.line + 1,
+                    position.character,
+                    file
+                )
+            );
         }
     }
 

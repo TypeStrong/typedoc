@@ -29,7 +29,6 @@
  */
 
 import type * as M from "../models";
-import type { SourceReferenceWrapper } from "./serializers";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
@@ -75,7 +74,7 @@ type _ModelToObject<T> =
         ? CommentTag
         : T extends M.CommentDisplayPart
         ? CommentDisplayPart
-        : T extends SourceReferenceWrapper
+        : T extends M.SourceReference
         ? SourceReference
         : never;
 
@@ -172,9 +171,10 @@ export interface ProjectReflection extends ContainerReflection {}
 
 export interface ContainerReflection
     extends Reflection,
-        S<M.ContainerReflection, "children" | "groups" | "categories"> {
-    sources?: ModelToObject<SourceReferenceWrapper[]>;
-}
+        S<
+            M.ContainerReflection,
+            "children" | "groups" | "categories" | "sources"
+        > {}
 
 export interface Reflection
     extends S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
@@ -185,24 +185,7 @@ export interface Reflection
 
 // Types
 
-export type SomeType =
-    | ArrayType
-    | ConditionalType
-    | IndexedAccessType
-    | InferredType
-    | IntersectionType
-    | IntrinsicType
-    | LiteralType
-    | OptionalType
-    | PredicateType
-    | QueryType
-    | ReferenceType
-    | ReflectionType
-    | RestType
-    | TupleType
-    | TypeOperatorType
-    | UnionType
-    | UnknownType;
+export type SomeType = ModelToObject<M.SomeType>;
 
 export type TypeKindMap = {
     array: ArrayType;
@@ -287,11 +270,7 @@ export interface TupleType extends Type, S<M.TupleType, "type"> {
 
 export interface NamedTupleMemberType
     extends Type,
-        S<M.NamedTupleMember, "type"> {
-    name: string;
-    isOptional: boolean;
-    element: ModelToObject<M.NamedTupleMember["element"]>;
-}
+        S<M.NamedTupleMember, "type" | "name" | "isOptional" | "element"> {}
 
 export interface TemplateLiteralType
     extends Type,
@@ -320,10 +299,6 @@ export interface UnionType extends Type, S<M.UnionType, "type" | "types"> {}
 
 export interface UnknownType extends Type, S<M.UnknownType, "type" | "name"> {}
 
-/**
- * Technically not correct, the `type` property will be set by the abstract serializer.
- * But to allow tagged literals, the `type` property is instead defined by each child type.
- */
 export interface Type {}
 
 // Miscellaneous

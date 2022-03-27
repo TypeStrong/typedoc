@@ -77,7 +77,7 @@ describe("Converter", function () {
                         FS.readFileSync(specsFile, "utf-8")
                     );
                     let data = JSON.stringify(
-                        app.serializer.toObject(result),
+                        result && app.serializer.toObject(result),
                         null,
                         "  "
                     );

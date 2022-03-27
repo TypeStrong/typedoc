@@ -16,7 +16,6 @@ import {
     ReflectionType,
     LiteralType,
     TupleType,
-    Type,
     TypeOperatorType,
     UnionType,
     UnknownType,
@@ -819,7 +818,7 @@ const templateLiteralConverter: TypeConverter<
     },
     convertType(context, type) {
         assert(type.texts.length === type.types.length + 1);
-        const parts: [Type, string][] = [];
+        const parts: [SomeType, string][] = [];
         for (const [a, b] of zip(type.types, type.texts.slice(1))) {
             parts.push([convertType(context, a), b]);
         }

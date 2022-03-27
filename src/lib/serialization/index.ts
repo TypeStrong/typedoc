@@ -1,35 +1,7 @@
-export {
-    ReflectionSerializerComponent,
-    SerializerComponent,
-    TypeSerializerComponent,
-} from "./components";
+export type { SerializerComponent } from "./components";
 export { SerializeEvent } from "./events";
 export type { SerializeEventData } from "./events";
 export { Serializer } from "./serializer";
-export {
-    ArrayTypeSerializer,
-    CommentSerializer,
-    CommentTagSerializer,
-    ContainerReflectionSerializer,
-    DeclarationReflectionSerializer,
-    IntersectionTypeSerializer,
-    IntrinsicTypeSerializer,
-    LiteralTypeSerializer,
-    ParameterReflectionSerializer,
-    ReferenceTypeSerializer,
-    ReflectionCategorySerializer,
-    ReflectionGroupSerializer,
-    ReflectionSerializer,
-    ReflectionTypeSerializer,
-    SignatureReflectionSerializer,
-    SourceReferenceContainerSerializer,
-    SourceReferenceWrapper,
-    TupleTypeSerializer,
-    TypeOperatorTypeSerializer,
-    TypeParameterReflectionSerializer,
-    TypeSerializer,
-    UnknownTypeSerializer,
-} from "./serializers";
 export { JSONOutput };
 
 import * as JSONOutput from "./schema";

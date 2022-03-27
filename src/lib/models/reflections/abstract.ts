@@ -5,6 +5,7 @@ import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
 import type { NeverIfInternal } from "../../utils";
 import { ReflectionKind } from "./kind";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 /**
  * Holds all data models used by TypeDoc.
@@ -183,6 +184,28 @@ export class ReflectionFlags extends Array<string> {
             }
             this.flags |= flag;
         }
+    }
+
+    private static serializedFlags = [
+        "isPrivate",
+        "isProtected",
+        "isPublic",
+        "isStatic",
+        "isExternal",
+        "isOptional",
+        "isRest",
+        "hasExportAssignment",
+        "isAbstract",
+        "isConst",
+        "isReadonly",
+    ] as const;
+
+    toObject(): JSONOutput.ReflectionFlags {
+        return Object.fromEntries(
+            ReflectionFlags.serializedFlags
+                .filter((flag) => this[flag])
+                .map((flag) => [flag, true])
+        );
     }
 }
 
@@ -496,5 +519,21 @@ export abstract class Reflection {
         });
 
         return lines.join("\n");
+    }
+
+    toObject(serializer: Serializer): JSONOutput.Reflection {
+        return {
+            id: this.id,
+            name: this.name,
+            kind: this.kind,
+            kindString: this.kindString,
+            flags: this.flags.toObject(),
+            comment:
+                this.comment && !this.comment.isEmpty()
+                    ? serializer.toObject(this.comment)
+                    : undefined,
+            originalName:
+                this.originalName !== this.name ? this.originalName : undefined,
+        };
     }
 }
