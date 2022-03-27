@@ -198,12 +198,10 @@ function wrap(type: Type, bp: number) {
 export class ArrayType extends Type {
     override readonly type = "array";
 
-    constructor(
-        /**
-         * The type of the array elements.
-         */
-        public elementType: SomeType
-    ) {
+    /**
+     * @param elementType The type of the elements in the array.
+     */
+    constructor(public elementType: SomeType) {
         super();
     }
 
@@ -501,23 +499,17 @@ export class PredicateType extends Type {
 
     /**
      * Create a new PredicateType instance.
+     *
+     * @param name The identifier name which is tested by the predicate.
+     * @param asserts True if the type is of the form `asserts val is string`,
+     *                false if the type is of the form `val is string`
+     * @param targetType The type that the identifier is tested to be.
+     *                   May be undefined if the type is of the form `asserts val`.
+     *                   Will be defined if the type is of the form `asserts val is string` or `val is string`.
      */
     constructor(
-        /**
-         * The identifier name which is tested by the predicate.
-         */
         public name: string,
-        /**
-         * True if the type is of the form `asserts val is string`, false if
-         * the type is of the form `val is string`
-         */
         public asserts: boolean,
-
-        /**
-         * The type that the identifier is tested to be.
-         * May be undefined if the type is of the form `asserts val`.
-         * Will be defined if the type is of the form `asserts val is string` or `val is string`.
-         */
         public targetType?: SomeType
     ) {
         super();
@@ -849,12 +841,10 @@ export class TemplateLiteralType extends Type {
 export class TupleType extends Type {
     override readonly type = "tuple";
 
-    constructor(
-        /**
-         * The ordered type elements of the tuple type.
-         */
-        public elements: SomeType[]
-    ) {
+    /**
+     * @param elements The ordered type elements of the tuple type.
+     */
+    constructor(public elements: SomeType[]) {
         super();
     }
 
