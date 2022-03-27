@@ -319,7 +319,7 @@ export interface Comment extends Partial<S<M.Comment, "blockTags">> {
     modifierTags?: string[];
 }
 
-export interface CommentTag extends Type, S<M.CommentTag, "tag" | "name"> {
+export interface CommentTag extends S<M.CommentTag, "tag" | "name"> {
     content: CommentDisplayPart[];
 }
 
@@ -338,5 +338,4 @@ export type CommentDisplayPart =
       };
 
 export interface SourceReference
-    extends Type,
-        S<M.SourceReference, "fileName" | "line" | "character"> {}
+    extends S<M.SourceReference, "fileName" | "line" | "character"> {}
