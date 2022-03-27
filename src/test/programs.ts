@@ -58,6 +58,7 @@ export function getConverter2App() {
             excludeExternals: true,
             tsconfig: join(getConverter2Base(), "tsconfig.json"),
             plugin: [],
+            validation: true,
         });
         converter2App.options.freeze();
     }

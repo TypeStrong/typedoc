@@ -3,10 +3,10 @@
 ### Bug Fixes
 
 -   Fixed missing comments on `@enum` style enum members defined in declaration files, #1880.
--   Fixed `--validation.notDocumented` warnings for functions/methods, #1895.
+-   Fixed `--validation.notDocumented` warnings for functions/methods/type aliases, #1895, #1898.
 -   Search results will no longer include random items when the search bar is empty, #1881.
 -   Comments on overloaded constructors will now be detected in the same way that overloaded functions/methods are.
--   Fixed `removeReflection` not completely removing reflections from the project.
+-   Fixed `removeReflection` not completely removing reflections from the project, #1898.
 
 ### Thanks!
 

@@ -3,7 +3,9 @@ import * as ts from "typescript";
 import {
     DeclarationReflection,
     ProjectReflection,
+    Reflection,
     ReflectionKind,
+    ReflectionType,
     SignatureReflection,
 } from "../models";
 import { Logger, normalizePath } from "../utils";
@@ -35,7 +37,30 @@ export function validateDocumentation(
         kinds = removeFlag(kinds, ReflectionKind.Accessor);
     }
 
-    for (const ref of project.getReflectionsByKind(kinds)) {
+    const toProcess = project.getReflectionsByKind(kinds);
+    const seen = new Set<Reflection>();
+
+    while (toProcess.length) {
+        const ref = toProcess.shift()!;
+        if (seen.has(ref)) continue;
+        seen.add(ref);
+
+        if (ref instanceof DeclarationReflection) {
+            const signatures =
+                ref.type instanceof ReflectionType
+                    ? ref.type.declaration.getNonIndexSignatures()
+                    : ref.getNonIndexSignatures();
+
+            if (signatures.length) {
+                // We maybe used to have a comment, but the comment plugin has removed it.
+                // See CommentPlugin.onResolve. We've been asked to validate this reflection,
+                // (it's probably a type alias) so we should validate that signatures all have
+                // comments, but we shouldn't produce a warning here.
+                toProcess.push(...signatures);
+                continue;
+            }
+        }
+
         let symbol = project.getSymbolFromReflection(ref);
         let index = 0;
 

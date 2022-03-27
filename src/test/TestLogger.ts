@@ -1,4 +1,4 @@
-import { Logger, LogLevel } from "../lib/utils";
+import { Logger, LogLevel, removeIf } from "../lib/utils";
 import { deepStrictEqual as equal, fail } from "assert";
 
 const levelMap: Record<LogLevel, string> = {
@@ -10,6 +10,10 @@ const levelMap: Record<LogLevel, string> = {
 
 export class TestLogger extends Logger {
     messages: string[] = [];
+
+    discardDebugMessages() {
+        removeIf(this.messages, (msg) => msg.startsWith("debug"));
+    }
 
     expectMessage(message: string) {
         const index = this.messages.indexOf(message);
@@ -27,6 +31,7 @@ export class TestLogger extends Logger {
     }
 
     override log(message: string, level: LogLevel): void {
+        super.log(message, level);
         this.messages.push(levelMap[level] + message);
     }
 }

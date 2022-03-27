@@ -10,6 +10,8 @@ import {
     CommentTag,
     UnionType,
 } from "../lib/models";
+import { getConverter2App } from "./programs";
+import type { TestLogger } from "./TestLogger";
 
 function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
@@ -18,7 +20,7 @@ function query(project: ProjectReflection, name: string) {
 }
 
 export const issueTests: {
-    [issue: string]: (project: ProjectReflection) => void;
+    [issue: string]: (project: ProjectReflection, logger: TestLogger) => void;
 } = {
     gh869(project) {
         const classFoo = project.children?.find(
@@ -343,5 +345,15 @@ export const issueTests: {
 
         const auto = query(project, "SomeEnum.AUTO");
         ok(auto.hasComment(), "Missing @enum member comment");
+    },
+
+    gh1898(project, logger) {
+        const app = getConverter2App();
+        app.validate(project);
+        logger.discardDebugMessages();
+        logger.expectMessage(
+            "warn: UnDocFn.__type, defined at src/test/converter2/issues/gh1898.ts:4, does not have any documentation."
+        );
+        logger.expectNoOtherMessages();
     },
 };
