@@ -356,4 +356,11 @@ export const issueTests: {
         );
         logger.expectNoOtherMessages();
     },
+
+    gh1903(project) {
+        equal(
+            Object.values(project.reflections).map((r) => r.name),
+            ["typedoc"]
+        );
+    },
 };

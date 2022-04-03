@@ -7,6 +7,7 @@
 -   Search results will no longer include random items when the search bar is empty, #1881.
 -   Comments on overloaded constructors will now be detected in the same way that overloaded functions/methods are.
 -   Fixed `removeReflection` not completely removing reflections from the project, #1898.
+-   Fixed `@hidden` / `@ignore` / `@exclude` comments on default exports with no associated variable, #1903.
 
 ### Thanks!
 

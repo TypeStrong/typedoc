@@ -1,0 +1,4 @@
+/**
+ * @hidden
+ */
+export default () => {};

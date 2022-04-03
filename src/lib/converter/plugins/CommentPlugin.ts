@@ -281,9 +281,9 @@ export class CommentPlugin extends ConverterComponent {
             ) as DeclarationReflection[],
             (method) => method.signatures?.length === 0
         );
-        allRemoved.forEach((reflection) =>
-            project.removeReflection(reflection)
-        );
+        allRemoved.forEach((reflection) => {
+            project.removeReflection(reflection);
+        });
         someRemoved.forEach((reflection) => {
             reflection.sources = unique(
                 reflection.signatures!.reduce<SourceReference[]>(
