@@ -363,4 +363,11 @@ export const issueTests: {
             ["typedoc"]
         );
     },
+
+    gh1903b(project) {
+        equal(
+            Object.values(project.reflections).map((r) => r.name),
+            ["typedoc"]
+        );
+    },
 };

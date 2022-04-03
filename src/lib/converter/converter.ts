@@ -189,7 +189,10 @@ export class Converter extends ChildableComponent<
                 ts.SyntaxKind.PropertyAssignment,
                 ts.SyntaxKind.PropertySignature,
             ],
-            [ReflectionKind.Variable]: [ts.SyntaxKind.VariableDeclaration],
+            [ReflectionKind.Variable]: [
+                ts.SyntaxKind.VariableDeclaration,
+                ts.SyntaxKind.ExportAssignment,
+            ],
             [ReflectionKind.Function]: [
                 ts.SyntaxKind.FunctionDeclaration,
                 ts.SyntaxKind.VariableDeclaration,
