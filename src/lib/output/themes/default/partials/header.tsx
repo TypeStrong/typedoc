@@ -1,7 +1,7 @@
 import type { Reflection } from "../../../../models";
 import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
-import { hasTypeParameters, join } from "../../lib";
+import { hasTypeParameters, join, renderFlags } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const header = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
@@ -77,7 +77,8 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
                             {join(", ", props.model.typeParameters, (item) => item.name)}
                             {">"}
                         </>
-                    )}
+                    )}{" "}
+                    {renderFlags(props.model.flags)}
                 </h1>
             </div>
         </div>
