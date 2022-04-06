@@ -89,6 +89,7 @@ export function makeRecursiveVisitor(
             visitor.inferred?.(type);
         },
         intersection(type) {
+            visitor.intersection?.(type);
             type.types.forEach((t) => t.visit(recursiveVisitor));
         },
         intrinsic(type) {
