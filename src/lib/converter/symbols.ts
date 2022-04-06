@@ -881,7 +881,7 @@ function isEnumLike(checker: ts.TypeChecker, type: ts.Type, location: ts.Node) {
 
     return type.getProperties().every((prop) => {
         const propType = checker.getTypeOfSymbolAtLocation(prop, location);
-        return propType.isStringLiteral();
+        return propType.isStringLiteral() || propType.isNumberLiteral();
     });
 }
 
@@ -912,7 +912,7 @@ function convertVariableAsEnum(
             prop,
             declaration
         );
-        assert(propType.isStringLiteral());
+        assert(propType.isStringLiteral() || propType.isNumberLiteral());
 
         reflection.defaultValue = JSON.stringify(propType.value);
 
