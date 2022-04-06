@@ -212,6 +212,7 @@ dd {
     border-top: 1px solid var(--color-accent);
     padding-top: 1rem;
     padding-bottom: 1rem;
+    max-height: 3.5rem;
 }
 
 .tsd-generator > p {
@@ -913,26 +914,24 @@ a.tsd-index-link {
 
     .menu-sticky-wrap {
         position: sticky;
-        height: 94vh;
+        height: calc(100vh - 2rem);
+        top: 4rem;
         right: 0;
+        padding: 0 1.5rem;
         padding-top: 1rem;
-        top: 3rem;
+        margin-top: 3rem;
         transition: 0.3s ease-in-out;
-        transition-property: top, padding-top, height;
+        transition-property: top, padding-top, padding, height;
         overflow-y: auto;
     }
     .col-menu {
         border-left: 1px solid var(--color-accent);
     }
-    .col-menu .tsd-navigation:not(:last-child) {
-        padding-bottom: 1.75rem;
-    }
-    .col-menu.menu-sticky-wrap {
-        padding: 0 1.5rem;
-    }
     .col-menu--hide {
         top: 1rem;
-        height: calc(100vh - 2rem);
+    }
+    .col-menu .tsd-navigation:not(:last-child) {
+        padding-bottom: 1.75rem;
     }
 }
 
