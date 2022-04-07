@@ -328,7 +328,12 @@ export class Options {
     fixCompilerOptions(
         options: Readonly<ts.CompilerOptions>
     ): ts.CompilerOptions {
+        const overrides = this.getValue("compilerOptions");
         const result = { ...options };
+
+        if (overrides) {
+            Object.assign(result, overrides);
+        }
 
         if (
             this.getValue("emit") !== "both" &&
