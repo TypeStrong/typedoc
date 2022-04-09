@@ -1,8 +1,18 @@
 # Unreleased
 
+### Features
+
+-   Classes which are `abstract` and enums which are `const` will now be indicated in their rendered documentation, #1874.
+-   Added a new option `compilerOptions`, which can be used to override compiler options read from `tsconfig.json`, #1891.
+
 ### Bug Fixes
 
 -   TypeDoc will now warn if a project name/version cannot be inferred from a package.json file, #1907.
+
+### Thanks!
+
+-   @ejuda
+-   @schlusslicht
 
 ## v0.22.14 (2022-04-07)
 
