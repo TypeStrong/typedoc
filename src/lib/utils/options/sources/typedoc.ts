@@ -327,6 +327,22 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
+    options.addDeclaration({
+        name: "compilerOptions",
+        help: "Selectively override the TypeScript compiler options used by TypeDoc.",
+        type: ParameterType.Mixed,
+        validate(value) {
+            if (
+                typeof value !== "object" ||
+                Array.isArray(value) ||
+                value == null
+            ) {
+                throw new Error(
+                    "The 'compilerOptions' option must be a non-array object."
+                );
+            }
+        },
+    });
 
     options.addDeclaration({
         name: "treatWarningsAsErrors",

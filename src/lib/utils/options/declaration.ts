@@ -110,6 +110,7 @@ export interface TypeDocOptionMap {
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
     markedOptions: unknown;
+    compilerOptions: unknown;
 
     // Validation
     treatWarningsAsErrors: boolean;
