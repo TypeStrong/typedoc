@@ -292,7 +292,7 @@ export class Options {
     setValue(name: string, value: unknown, configPath?: string): void {
         if (this.isFrozen()) {
             throw new Error(
-                "Tried to modify an option value after options have been sealed."
+                "Tried to modify an option value after options have been frozen."
             );
         }
 

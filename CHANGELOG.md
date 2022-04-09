@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   TypeDoc will now warn if a project name/version cannot be inferred from a package.json file, #1907.
+
 ## v0.22.14 (2022-04-07)
 
 ### Bug Fixes

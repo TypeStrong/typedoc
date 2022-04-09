@@ -54,13 +54,11 @@ export function getConverter2App() {
         converter2App = new Application();
         converter2App.options.addReader(new TSConfigReader());
         converter2App.bootstrap({
-            name: "typedoc",
             excludeExternals: true,
             tsconfig: join(getConverter2Base(), "tsconfig.json"),
             plugin: [],
             validation: true,
         });
-        converter2App.options.freeze();
     }
     return converter2App;
 }

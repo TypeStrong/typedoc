@@ -35,6 +35,7 @@ function runTest(
         ok(sourceFile, `No source file found for ${entryPoint}`);
 
         app.logger = new TestLogger();
+        app.options.setValue("entryPoints", [entryPoint]);
         const project = app.converter.convert([
             {
                 displayName: entry,
