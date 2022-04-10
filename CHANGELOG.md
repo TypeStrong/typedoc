@@ -39,6 +39,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   TypeDoc will now render members marked with `@deprecated` with a line through their name, #1381.
 -   TypeDoc will now warn if part of a comment will be overwritten due to use of `@inheritDoc` instead of silently dropping part of the comment.
 -   Added support for inline `@inheritDoc` tags, #1480.
+-   It is now possible to link directly to a specific overload, #1326.
 
 ### Bug Fixes
 

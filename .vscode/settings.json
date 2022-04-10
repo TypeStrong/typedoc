@@ -10,5 +10,6 @@
     "prettier.configPath": ".config/.prettierrc.json",
     "prettier.ignorePath": ".config/.prettierignore",
     "eslint.workingDirectories": [".", "./example"],
-    "mochaExplorer.configFile": ".config/mocha.test-explorer.json"
+    "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
+    "cSpell.words": ["tsbuildinfo"]
 }

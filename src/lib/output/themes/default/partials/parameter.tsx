@@ -10,7 +10,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                 <li class="tsd-parameter-signature">
                     <ul class={"tsd-signatures " + props.cssClasses}>
                         {props.signatures.map((item) => (
-                            <li class="tsd-signature">
+                            <li class="tsd-signature" id={item.anchor}>
                                 {context.memberSignatureTitle(item, {
                                     hideName: true,
                                 })}

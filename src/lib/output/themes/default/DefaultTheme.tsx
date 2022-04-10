@@ -7,6 +7,7 @@ import {
     ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
+    SignatureReflection,
 } from "../../../models";
 import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import { PageEvent, RendererEvent } from "../../events";
@@ -211,9 +212,14 @@ export class DefaultTheme extends Theme {
                 reflection.hasOwnDocument = true;
             }
 
-            for (const child of reflection.children || []) {
-                this.buildUrls(child, urls);
-            }
+            reflection.traverse((child) => {
+                if (child instanceof DeclarationReflection) {
+                    this.buildUrls(child, urls);
+                } else {
+                    DefaultTheme.applyAnchorUrl(child, reflection);
+                }
+                return true;
+            });
         } else if (reflection.parent) {
             DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
         }
@@ -233,6 +239,10 @@ export class DefaultTheme extends Theme {
      * @param container   The nearest reflection having an own document.
      */
     static applyAnchorUrl(reflection: Reflection, container: Reflection) {
+        if (!(reflection instanceof DeclarationReflection) && !(reflection instanceof SignatureReflection)) {
+            return;
+        }
+
         if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
             const anchor = DefaultTheme.getUrl(reflection, container, ".");
 
@@ -242,9 +252,7 @@ export class DefaultTheme extends Theme {
         }
 
         reflection.traverse((child) => {
-            if (child instanceof DeclarationReflection) {
-                DefaultTheme.applyAnchorUrl(child, container);
-            }
+            DefaultTheme.applyAnchorUrl(child, container);
             return true;
         });
     }
