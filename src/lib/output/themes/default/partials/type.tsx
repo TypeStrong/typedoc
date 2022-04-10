@@ -283,65 +283,72 @@ const typeRenderers: {
         return name;
     },
     reflection(context, type, { needsParens }) {
-        if (type.declaration.children) {
-            // Object literal
-            return (
-                <>
-                    <span class="tsd-signature-symbol">{"{ "}</span>
-                    {join(<span class="tsd-signature-symbol">; </span>, type.declaration.children, (item) => {
-                        if (item.getSignature && item.setSignature) {
-                            return (
-                                <>
-                                    {item.name}
-                                    <span class="tsd-signature-symbol">: </span>
-                                    {renderType(context, item.getSignature.type)}
-                                </>
-                            );
-                        }
+        const members: JSX.Element[] = [];
 
-                        if (item.getSignature) {
-                            return (
-                                <>
-                                    <span class="tsd-signature-symbol">get </span>
-                                    {item.name}
-                                    <span class="tsd-signature-symbol">(): </span>
-                                    {renderType(context, item.getSignature.type)}
-                                </>
-                            );
-                        }
+        for (const item of type.declaration.children || []) {
+            if (item.getSignature && item.setSignature) {
+                members.push(
+                    <>
+                        {item.name}
+                        <span class="tsd-signature-symbol">: </span>
+                        {renderType(context, item.getSignature.type)}
+                    </>
+                );
+                continue;
+            }
 
-                        if (item.setSignature) {
-                            return (
-                                <>
-                                    <span class="tsd-signature-symbol">set </span>
-                                    {item.name}
-                                    <span class="tsd-signature-symbol">(</span>
-                                    {item.setSignature.parameters?.map((item) => (
-                                        <>
-                                            {item.name}
-                                            <span class="tsd-signature-symbol">: </span>
-                                            {renderType(context, item.type)}
-                                        </>
-                                    ))}
-                                    <span class="tsd-signature-symbol">)</span>
-                                </>
-                            );
-                        }
+            if (item.getSignature) {
+                members.push(
+                    <>
+                        <span class="tsd-signature-symbol">get </span>
+                        {item.name}
+                        <span class="tsd-signature-symbol">(): </span>
+                        {renderType(context, item.getSignature.type)}
+                    </>
+                );
+                continue;
+            }
 
-                        return (
+            if (item.setSignature) {
+                members.push(
+                    <>
+                        <span class="tsd-signature-symbol">set </span>
+                        {item.name}
+                        <span class="tsd-signature-symbol">(</span>
+                        {item.setSignature.parameters?.map((item) => (
                             <>
                                 {item.name}
-                                <span class="tsd-signature-symbol">{item.flags.isOptional ? "?: " : ": "}</span>
+                                <span class="tsd-signature-symbol">: </span>
                                 {renderType(context, item.type)}
                             </>
-                        );
-                    })}
-                    <span class="tsd-signature-symbol">{" }"}</span>
+                        ))}
+                        <span class="tsd-signature-symbol">)</span>
+                    </>
+                );
+                continue;
+            }
+
+            members.push(
+                <>
+                    {item.name}
+                    <span class="tsd-signature-symbol">{item.flags.isOptional ? "?: " : ": "}</span>
+                    {renderType(context, item.type)}
                 </>
             );
         }
 
-        if (type.declaration.signatures?.length === 1) {
+        if (type.declaration.indexSignature) {
+            const index = type.declaration.indexSignature;
+            members.push(
+                <>
+                    [{index.parameters![0].name}: {renderType(context, index.parameters![0].type)}]
+                    <span class="tsd-signature-symbol">: </span>
+                    {renderType(context, index.type)}
+                </>
+            );
+        }
+
+        if (!members.length && type.declaration.signatures?.length === 1) {
             return (
                 <>
                     {needsParens && <span class="tsd-signature-symbol">(</span>}
@@ -354,16 +361,19 @@ const typeRenderers: {
             );
         }
 
-        if (type.declaration.signatures) {
+        for (const item of type.declaration.signatures || []) {
+            members.push(context.memberSignatureTitle(item, { hideName: true }));
+        }
+
+        if (members.length) {
+            const membersWithSeparators = members.flatMap((m) => [m, <span class="tsd-signature-symbol">; </span>]);
+            membersWithSeparators.pop();
+
             return (
                 <>
                     <span class="tsd-signature-symbol">{"{"} </span>
-                    {join(<span class="tsd-signature-symbol">; </span>, type.declaration.signatures, (item) =>
-                        context.memberSignatureTitle(item, {
-                            hideName: true,
-                        })
-                    )}
-                    <span class="tsd-signature-symbol">{" }"}</span>
+                    {membersWithSeparators}
+                    <span class="tsd-signature-symbol"> {"}"}</span>
                 </>
             );
         }

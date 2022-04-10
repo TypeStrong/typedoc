@@ -81,6 +81,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Fixed `removeReflection` not completely removing reflections from the project, #1898.
 -   Fixed `@hidden` / `@ignore` / `@exclude` comments on default exports with no associated variable, #1903.
 -   `makeRecursiveVisitor` will now correctly call the `intersection` callback, #1910.
+-   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
 
 ### Thanks!
 

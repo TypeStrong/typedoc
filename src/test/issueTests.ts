@@ -467,4 +467,16 @@ export const issueTests: {
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
+
+    gh1913(project) {
+        const fn = query(project, "fn");
+
+        equal(
+            fn.signatures?.[0].comment,
+            new Comment(
+                [],
+                [new CommentTag("@returns", [{ kind: "text", text: "ret" }])]
+            )
+        );
+    },
 };

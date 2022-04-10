@@ -45,6 +45,7 @@ const symbolConverters: {
     [ts.SymbolFlags.Alias]: convertAlias,
     [ts.SymbolFlags.BlockScopedVariable]: convertVariable,
     [ts.SymbolFlags.FunctionScopedVariable]: convertVariable,
+    [ts.SymbolFlags.ExportValue]: convertVariable,
     [ts.SymbolFlags.GetAccessor]: convertAccessor,
     [ts.SymbolFlags.SetAccessor]: convertAccessor,
 };
@@ -66,6 +67,7 @@ const conversionOrder = [
     // Before type alias
     ts.SymbolFlags.BlockScopedVariable,
     ts.SymbolFlags.FunctionScopedVariable,
+    ts.SymbolFlags.ExportValue,
 
     ts.SymbolFlags.TypeAlias,
     ts.SymbolFlags.Function,
@@ -849,6 +851,8 @@ function convertVariable(
     reflection.defaultValue = convertDefaultValue(declaration);
 
     context.finalizeDeclarationReflection(reflection);
+
+    return ts.SymbolFlags.Property;
 }
 
 function isEnumLike(checker: ts.TypeChecker, type: ts.Type, location: ts.Node) {
@@ -934,6 +938,8 @@ function convertVariableAsFunction(
             signature
         );
     }
+
+    return ts.SymbolFlags.Property;
 }
 
 function convertAccessor(
