@@ -8,8 +8,11 @@ import {
     ReflectionType,
     Comment,
     CommentTag,
+    UnionType,
 } from "../lib/models";
 import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
+import { getConverter2App } from "./programs";
+import type { TestLogger } from "./TestLogger";
 
 function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
@@ -18,7 +21,7 @@ function query(project: ProjectReflection, name: string) {
 }
 
 export const issueTests: {
-    [issue: string]: (project: ProjectReflection) => void;
+    [issue: string]: (project: ProjectReflection, logger: TestLogger) => void;
 } = {
     gh567(project) {
         const foo = query(project, "foo");
@@ -372,5 +375,96 @@ export const issueTests: {
         const param = sig.parameters?.[0];
         ok(param);
         ok(param.flags.isOptional);
+    },
+
+    gh1875(project) {
+        const test = query(project, "test");
+        equal(
+            test.signatures?.[0].parameters?.map((p) => p.type?.toString()),
+            ["typeof globalThis", "string"]
+        );
+
+        const test2 = query(project, "test2");
+        equal(
+            test2.signatures?.[0].parameters?.map((p) => p.type?.toString()),
+            ["any", "string"]
+        );
+    },
+
+    gh1876(project) {
+        const foo = query(project, "foo");
+        const fooSig = foo.signatures?.[0].parameters?.[0];
+        ok(fooSig);
+        ok(fooSig.type instanceof UnionType);
+        ok(fooSig.type.types[1] instanceof ReflectionType);
+        equal(
+            Comment.combineDisplayParts(
+                fooSig.type.types[1].declaration.getChildByName("min")?.comment
+                    ?.summary
+            ),
+            "Nested\n"
+        );
+
+        const bar = query(project, "bar");
+        const barSig = bar.signatures?.[0].parameters?.[0];
+        ok(barSig);
+        ok(barSig.type instanceof UnionType);
+        ok(barSig.type.types[0] instanceof ReflectionType);
+        ok(barSig.type.types[1] instanceof ReflectionType);
+        equal(
+            Comment.combineDisplayParts(
+                barSig.type.types[0].declaration.getChildByName("min")?.comment
+                    ?.summary
+            ),
+            "Nested\n"
+        );
+        equal(
+            Comment.combineDisplayParts(
+                barSig.type.types[1].declaration.getChildByName("min")?.comment
+                    ?.summary
+            ),
+            "Nested\n"
+        );
+    },
+
+    gh1880(project) {
+        const SomeEnum = query(project, "SomeEnum");
+        equal(SomeEnum.kind, ReflectionKind.Enum);
+        ok(SomeEnum.hasComment(), "Missing @enum variable comment");
+
+        const auto = query(project, "SomeEnum.AUTO");
+        ok(auto.hasComment(), "Missing @enum member comment");
+    },
+
+    gh1898(project, logger) {
+        const app = getConverter2App();
+        app.validate(project);
+        logger.discardDebugMessages();
+        logger.expectMessage(
+            "warn: UnDocFn.__type, defined at src/test/converter2/issues/gh1898.ts:4, does not have any documentation."
+        );
+        logger.expectNoOtherMessages();
+    },
+
+    gh1903(project) {
+        equal(
+            Object.values(project.reflections).map((r) => r.name),
+            ["typedoc"]
+        );
+    },
+
+    gh1903b(project) {
+        equal(
+            Object.values(project.reflections).map((r) => r.name),
+            ["typedoc"]
+        );
+    },
+
+    gh1907(_project, logger) {
+        logger.expectMessage(
+            'warn: The --name option was not specified, and package.json does not have a name field. Defaulting project name to "Documentation".'
+        );
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
     },
 };

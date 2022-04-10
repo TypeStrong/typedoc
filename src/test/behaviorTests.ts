@@ -227,4 +227,13 @@ export const behaviorTests: Record<
         equal(barComments, ["Implementation comment", "Custom comment"]);
         equal(bar.comment, undefined);
     },
+
+    removeReflection(project) {
+        const foo = query(project, "foo");
+        project.removeReflection(foo);
+        equal(
+            Object.values(project.reflections).map((r) => r.name),
+            ["typedoc"]
+        );
+    },
 };

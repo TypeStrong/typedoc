@@ -1,4 +1,4 @@
-import { ok, throws, strictEqual } from "assert";
+import { ok, throws, strictEqual, doesNotThrow } from "assert";
 import { BUNDLED_THEMES } from "shiki";
 import { Logger, Options } from "../../../lib/utils";
 
@@ -52,6 +52,28 @@ describe("Default Options", () => {
             throws(() => opts.setValue("markedOptions", null));
             throws(() => opts.setValue("markedOptions", "bad"));
             throws(() => opts.setValue("markedOptions", []));
+        });
+    });
+
+    describe("compilerOptions", () => {
+        it("Errors if given a non-object", () => {
+            throws(() => opts.setValue("markedOptions", null));
+            throws(() => opts.setValue("markedOptions", "bad"));
+            throws(() => opts.setValue("markedOptions", []));
+        });
+    });
+
+    describe("requiredToBeDocumented", () => {
+        it("Works with valid values", () => {
+            doesNotThrow(() =>
+                opts.setValue("requiredToBeDocumented", ["Enum"])
+            );
+        });
+
+        it("Throws on invalid values", () => {
+            throws(() =>
+                opts.setValue("requiredToBeDocumented", ["Enum2" as never])
+            );
         });
     });
 });

@@ -152,7 +152,9 @@ function updateResults(
     const searchText = query.value.trim();
 
     // Perform a wildcard search
-    const res = state.index.search(`*${searchText}*`);
+    // Set empty `res` to prevent getting random results with wildcard search
+    // when the `searchText` is empty.
+    const res = searchText ? state.index.search(`*${searchText}*`) : [];
 
     for (let i = 0, c = Math.min(10, res.length); i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];

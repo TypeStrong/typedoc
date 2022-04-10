@@ -12,6 +12,7 @@ import {
     Comment,
     ReflectionType,
     SourceReference,
+    TypeVisitor,
 } from "../../models";
 import {
     BindOption,
@@ -218,9 +219,9 @@ export class CommentPlugin extends ConverterComponent {
             ) as DeclarationReflection[],
             (method) => method.signatures?.length === 0
         );
-        allRemoved.forEach((reflection) =>
-            project.removeReflection(reflection)
-        );
+        allRemoved.forEach((reflection) => {
+            project.removeReflection(reflection);
+        });
         someRemoved.forEach((reflection) => {
             reflection.sources = unique(
                 reflection.signatures!.flatMap<SourceReference>(
@@ -389,22 +390,36 @@ export class CommentPlugin extends ConverterComponent {
 
 // Moves tags like `@param foo.bar docs for bar` into the `bar` property of the `foo` parameter.
 function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
-    if (parameter.type instanceof ReflectionType) {
-        const tags = comment.blockTags.filter(
-            (t) =>
-                t.tag === "@param" && t.name?.startsWith(`${parameter.name}.`)
-        );
-        for (const tag of tags) {
-            const path = tag.name!.split(".");
-            path.shift();
-            const child = parameter.type.declaration.getChildByName(path);
-            if (child && !child.comment) {
-                child.comment = new Comment(
-                    Comment.cloneDisplayParts(tag.content)
-                );
+    const visitor: Partial<TypeVisitor> = {
+        reflection(target) {
+            const tags = comment.blockTags.filter(
+                (t) =>
+                    t.tag === "@param" &&
+                    t.name?.startsWith(`${parameter.name}.`)
+            );
+
+            for (const tag of tags) {
+                const path = tag.name!.split(".");
+                path.shift();
+                const child = target.declaration.getChildByName(path);
+
+                if (child && !child.comment) {
+                    child.comment = new Comment(
+                        Comment.cloneDisplayParts(tag.content)
+                    );
+                }
             }
-        }
-    }
+        },
+        // #1876, also do this for unions/intersections.
+        union(u) {
+            u.types.forEach((t) => t.visit(visitor));
+        },
+        intersection(i) {
+            i.types.forEach((t) => t.visit(visitor));
+        },
+    };
+
+    parameter.type?.visit(visitor);
 }
 
 function extractLabelTag(comment: Comment): string | undefined {

@@ -207,7 +207,7 @@ export class Application extends ChildableComponent<
             )
         ) {
             this.logger.warn(
-                `You are running with an unsupported TypeScript version! TypeDoc supports ${supportedVersionMajorMinor.join(
+                `You are running with an unsupported TypeScript version! This may work, or it might break. TypeDoc supports ${supportedVersionMajorMinor.join(
                     ", "
                 )}`
             );

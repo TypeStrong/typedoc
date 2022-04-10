@@ -36,6 +36,7 @@ function runTest(
 
         const logger = new TestLogger();
         app.logger = logger;
+        app.options.setValue("entryPoints", [entryPoint]);
         const project = app.converter.convert([
             {
                 displayName: entry,

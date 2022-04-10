@@ -19,7 +19,5 @@ export class Test {
      *
      * @param things - Array of things or a thing.
      */
-    log_thing(things: ValueOrArray<Things>): void {
-        console.log(things);
-    }
+    log_thing(things: ValueOrArray<Things>): void {}
 }

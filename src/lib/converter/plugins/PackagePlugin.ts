@@ -37,6 +37,10 @@ export class PackagePlugin extends ConverterComponent {
         this.listenTo(this.owner, {
             [Converter.EVENT_BEGIN]: this.onBegin,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
+            [Converter.EVENT_END]: () => {
+                delete this.readmeFile;
+                delete this.packageFile;
+            },
         });
     }
 
@@ -64,7 +68,7 @@ export class PackagePlugin extends ConverterComponent {
             getCommonDirectory(this.application.options.getValue("entryPoints"))
         );
         this.application.logger.verbose(
-            `Begin readme search at ${nicePath(dirName)}`
+            `Begin readme.md/package.json search at ${nicePath(dirName)}`
         );
         while (!packageAndReadmeFound() && !reachedTopDirectory(dirName)) {
             FS.readdirSync(dirName).forEach((file) => {
@@ -100,10 +104,35 @@ export class PackagePlugin extends ConverterComponent {
         if (this.packageFile) {
             project.packageInfo = JSON.parse(readFile(this.packageFile));
             if (!project.name) {
-                project.name = String(project.packageInfo.name);
+                if (!project.packageInfo.name) {
+                    context.logger.warn(
+                        'The --name option was not specified, and package.json does not have a name field. Defaulting project name to "Documentation".'
+                    );
+                    project.name = "Documentation";
+                } else {
+                    project.name = String(project.packageInfo.name);
+                }
             }
             if (this.includeVersion) {
-                project.name = `${project.name} - v${project.packageInfo.version}`;
+                if (project.packageInfo.version) {
+                    project.name = `${project.name} - v${project.packageInfo.version}`;
+                } else {
+                    context.logger.warn(
+                        "--includeVersion was specified, but package.json does not specify a version."
+                    );
+                }
+            }
+        } else {
+            if (!project.name) {
+                context.logger.warn(
+                    'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".'
+                );
+                project.name = "Documentation";
+            }
+            if (this.includeVersion) {
+                context.logger.warn(
+                    "--includeVersion was specified, but no package.json was found. Not adding package version to the documentation."
+                );
             }
         }
     }

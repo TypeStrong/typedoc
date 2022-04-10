@@ -1,10 +1,13 @@
 import * as fs from "fs";
 import { platform } from "os";
 import { resolve, join, dirname } from "path";
-import * as puppeteer from "puppeteer";
 import { Application, TSConfigReader, EntryPointStrategy } from "..";
 import { remove } from "../lib/utils";
 import { glob } from "../lib/utils/fs";
+
+// The @types package plays badly with non-dom packages.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const puppeteer = require("puppeteer");
 
 const concurrency = 10;
 const src = join(__dirname, "../../src/test/renderer/testProject/src");

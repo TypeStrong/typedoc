@@ -358,7 +358,8 @@ export abstract class Reflection {
     }
 
     /**
-     * Return the full name of this reflection.
+     * Return the full name of this reflection. Intended for use in debugging. For log messages
+     * intended to be displayed to the user for them to fix, prefer {@link getFriendlyFullName} instead.
      *
      * The full name contains the name of this reflection and the names of all parent reflections.
      *
@@ -368,6 +369,29 @@ export abstract class Reflection {
     getFullName(separator = "."): string {
         if (this.parent && !this.parent.isProject()) {
             return this.parent.getFullName(separator) + separator + this.name;
+        } else {
+            return this.name;
+        }
+    }
+
+    /**
+     * Return the full name of this reflection, with signature names dropped if possible without
+     * introducing ambiguity in the name.
+     */
+    getFriendlyFullName(): string {
+        if (this.parent && !this.parent.isProject()) {
+            if (
+                this.kindOf(
+                    ReflectionKind.ConstructorSignature |
+                        ReflectionKind.CallSignature |
+                        ReflectionKind.GetSignature |
+                        ReflectionKind.SetSignature
+                )
+            ) {
+                return this.parent.getFriendlyFullName();
+            }
+
+            return this.parent.getFriendlyFullName() + "." + this.name;
         } else {
             return this.name;
         }

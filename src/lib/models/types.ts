@@ -22,8 +22,10 @@ export abstract class Type {
     /**
      * Visit this type, returning the value returned by the visitor.
      */
-    visit<T>(visitor: TypeVisitor<T>): T {
-        return visitor[this.type](this as never);
+    visit<T>(visitor: TypeVisitor<T>): T;
+    visit<T>(visitor: Partial<TypeVisitor<T>>): T | undefined;
+    visit(visitor: Partial<TypeVisitor<unknown>>): unknown {
+        return visitor[this.type]?.(this as never);
     }
 
     abstract toObject(serializer: Serializer): JSONOutput.SomeType;
@@ -90,6 +92,7 @@ export function makeRecursiveVisitor(
             visitor.inferred?.(type);
         },
         intersection(type) {
+            visitor.intersection?.(type);
             type.types.forEach((t) => t.visit(recursiveVisitor));
         },
         intrinsic(type) {

@@ -728,6 +728,18 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     color: var(--color-ts-private);
 }
 
+.tsd-flag {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    border-radius: 4px;
+    color: var(--color-comment-tag-text);
+    background-color: var(--color-comment-tag);
+    text-indent: 0;
+    font-size: 75%;
+    line-height: 1;
+    font-weight: normal;
+}
+
 .tsd-anchor {
     position: absolute;
     top: -100px;

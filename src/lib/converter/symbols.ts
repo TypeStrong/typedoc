@@ -170,6 +170,18 @@ export function convertSymbol(
         flags = removeFlag(flags, ts.SymbolFlags.Property);
     }
 
+    // A default exported function with no associated variable is a property, but
+    // we should really convert it as a variable for documentation purposes
+    // export default () => {}
+    // export default 123
+    if (
+        flags === ts.SymbolFlags.Property &&
+        symbol.name === "default" &&
+        context.scope.kindOf(ReflectionKind.Module | ReflectionKind.Project)
+    ) {
+        flags = ts.SymbolFlags.BlockScopedVariable;
+    }
+
     for (const flag of getEnumFlags(flags ^ allConverterFlags)) {
         if (!(flag & allConverterFlags)) {
             context.logger.verbose(
@@ -178,8 +190,8 @@ export function convertSymbol(
         }
     }
 
-    // Note: This method does not allow skipping earlier converters, defined according to the order of
-    // the ts.SymbolFlags enum. For now, this is fine... might not be flexible enough in the future.
+    // Note: This method does not allow skipping earlier converters.
+    // For now, this is fine... might not be flexible enough in the future.
     let skip = 0;
     for (const flag of conversionOrder) {
         if (!(flag & flags)) continue;
@@ -512,6 +524,10 @@ function convertClassOrInterface(
         context.registerReflection(constructMember, symbol);
 
         const ctors = staticType.getConstructSignatures();
+        context.registerReflection(
+            constructMember,
+            ctors?.[0]?.declaration?.symbol
+        );
 
         // Modifiers are the same for all constructors
         if (ctors.length && ctors[0].declaration) {

@@ -52,6 +52,53 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   @fb55
 -   @futurGH
 
+## v0.22.15 (2022-04-10)
+
+### Features
+
+-   Classes which are `abstract` and enums which are `const` will now be indicated in their rendered documentation, #1874.
+-   Added a new option `compilerOptions`, which can be used to override compiler options read from `tsconfig.json`, #1891.
+-   Added new render hooks: `content.begin`, `content.end`, `navigation.begin`, `navigation.end`
+
+### Bug Fixes
+
+-   TypeDoc will now warn if a project name/version cannot be inferred from a package.json file rather than using `undefined`, #1907.
+
+### Thanks!
+
+-   @ejuda
+-   @matteobruni
+-   @schlusslicht
+
+## v0.22.14 (2022-04-07)
+
+### Bug Fixes
+
+-   Fixed missing comments on `@enum` style enum members defined in declaration files, #1880.
+-   Fixed `--validation.notDocumented` warnings for functions/methods/type aliases, #1895, #1898.
+-   Search results will no longer include random items when the search bar is empty, #1881.
+-   Comments on overloaded constructors will now be detected in the same way that overloaded functions/methods are.
+-   Fixed `removeReflection` not completely removing reflections from the project, #1898.
+-   Fixed `@hidden` / `@ignore` / `@exclude` comments on default exports with no associated variable, #1903.
+-   `makeRecursiveVisitor` will now correctly call the `intersection` callback, #1910.
+
+### Thanks!
+
+-   @nlepage
+-   @ychan167
+
+## v0.22.13 (2022-03-06)
+
+### Features
+
+-   Add support for TypeScript 4.6, #1877.
+-   Support copying `@param` comments for nested members that target union and intersection types, #1876.
+
+### Bug Fixes
+
+-   Fixed validation for `--requiredToBeDocumented` option, #1872.
+-   Fixed missing `this` parameters in documentation for some functions, #1875.
+
 ## v0.22.12 (2022-02-20)
 
 ### Features

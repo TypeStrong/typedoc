@@ -22,6 +22,10 @@ declare module "typescript" {
         ): ts.TypePredicate | undefined;
     }
 
+    export interface Signature {
+        thisParameter?: ts.Symbol;
+    }
+
     // https://github.com/microsoft/TypeScript/blob/e213b2af3430bdc9cf5fbc76a8634d832e7aaaaa/src/compiler/types.ts#L5298-L5299
     export interface UnionType {
         /* @internal */
