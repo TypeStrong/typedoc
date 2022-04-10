@@ -53,14 +53,14 @@ export interface RendererHooks {
     /**
      * Applied immediately before the main template.
      */
-     "content.begin": [DefaultThemeRenderContext];
+    "content.begin": [DefaultThemeRenderContext];
 
-     /**
-      * Applied immediately after the main template.
-      */
-     "content.end": [DefaultThemeRenderContext];
+    /**
+     * Applied immediately after the main template.
+     */
+    "content.end": [DefaultThemeRenderContext];
 
-     /**
+    /**
      * Applied immediately before calling `context.navigation`.
      */
     "navigation.begin": [DefaultThemeRenderContext];
