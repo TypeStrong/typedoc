@@ -8,13 +8,13 @@
 
 ### Bug Fixes
 
--   TypeDoc will now warn if a project name/version cannot be inferred from a package.json file, #1907.
+-   TypeDoc will now warn if a project name/version cannot be inferred from a package.json file rather than using `undefined`, #1907.
 
 ### Thanks!
 
 -   @ejuda
--   @schlusslicht
 -   @matteobruni
+-   @schlusslicht
 
 ## v0.22.14 (2022-04-07)
 

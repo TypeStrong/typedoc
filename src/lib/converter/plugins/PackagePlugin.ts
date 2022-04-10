@@ -106,7 +106,7 @@ export class PackagePlugin extends ConverterComponent {
             if (!project.name) {
                 if (!project.packageInfo.name) {
                     context.logger.warn(
-                        'The --name option was not specified, and package.json does not have a name field. Defaulting project name to "Documentation"'
+                        'The --name option was not specified, and package.json does not have a name field. Defaulting project name to "Documentation".'
                     );
                     project.name = "Documentation";
                 } else {
@@ -114,12 +114,18 @@ export class PackagePlugin extends ConverterComponent {
                 }
             }
             if (this.includeVersion) {
-                project.name = `${project.name} - v${project.packageInfo.version}`;
+                if (project.packageInfo.version) {
+                    project.name = `${project.name} - v${project.packageInfo.version}`;
+                } else {
+                    context.logger.warn(
+                        "--includeVersion was specified, but package.json does not specify a version."
+                    );
+                }
             }
         } else {
             if (!project.name) {
                 context.logger.warn(
-                    'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation"'
+                    'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".'
                 );
                 project.name = "Documentation";
             }
