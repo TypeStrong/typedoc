@@ -34,8 +34,16 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
 
             <div class="container container-main">
                 <div class="row">
-                    <div class="col-8 col-content">{props.template(props)}</div>
-                    <div class="col-4 col-menu menu-sticky-wrap menu-highlight">{context.navigation(props)}</div>
+                    <div class="col-8 col-content">
+                        {context.hook("content.begin")}
+                        {props.template(props)}
+                        {context.hook("content.end")}
+                    </div>
+                    <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+                        {context.hook("navigation.begin")}
+                        {context.navigation(props)}
+                        {context.hook("navigation.end")}
+                    </div>
                 </div>
             </div>
 
