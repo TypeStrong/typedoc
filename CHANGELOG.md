@@ -29,6 +29,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Listeners to `Converter.EVENT_CREATE_TYPE_PARAMETER` and `Converter.EVENT_CREATE_DECLARATION` will now never be passed a `ts.Node` as their third argument.
 -   Constant variables which are interpreted as functions will no longer have the `ReflectionFlag.Const` flag set.
 -   Removed deprecated `removeReaderByName`, `addDeclarations` and `removeDeclarationByName` methods on `Options`.
+-   Themes are now set on the document element rather than on body, #1706.
 
 ### Features
 
@@ -54,6 +55,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 
 -   @fb55
 -   @futurGH
+-   @Shane4368
 
 ## v0.22.15 (2022-04-10)
 
