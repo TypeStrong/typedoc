@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.15 (2022-04-10)
+
 ### Features
 
 -   Classes which are `abstract` and enums which are `const` will now be indicated in their rendered documentation, #1874.
