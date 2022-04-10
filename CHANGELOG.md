@@ -4,6 +4,7 @@
 
 -   Classes which are `abstract` and enums which are `const` will now be indicated in their rendered documentation, #1874.
 -   Added a new option `compilerOptions`, which can be used to override compiler options read from `tsconfig.json`, #1891.
+-   Added new render hooks: `content.begin`, `content.end`, `navigation.begin`, `navigation.end`
 
 ### Bug Fixes
 
@@ -13,6 +14,7 @@
 
 -   @ejuda
 -   @schlusslicht
+-   @matteobruni
 
 ## v0.22.14 (2022-04-07)
 
