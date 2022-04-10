@@ -47,6 +47,14 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is a comment for Mod that overwrites the one specified in \"mod\""
+              }
+            ]
+          },
           "sources": [
             {
               "fileName": "export.ts",
@@ -107,6 +115,14 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export of a local under a different name."
+              }
+            ]
+          },
           "sources": [
             {
               "fileName": "mod.ts",
@@ -657,6 +673,14 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export of a local under a different name."
+              }
+            ]
+          },
           "sources": [
             {
               "fileName": "mod.ts",
@@ -672,6 +696,14 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export with a module specifier that comes from this file."
+              }
+            ]
+          },
           "sources": [
             {
               "fileName": "mod.ts",

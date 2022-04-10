@@ -209,9 +209,23 @@ export class Context {
         const name = getHumanName(
             nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
         );
-        const reflection = new DeclarationReflection(name, kind, this.scope);
 
-        if (exportSymbol) {
+        const reflection = new DeclarationReflection(name, kind, this.scope);
+        this.postReflectionCreation(reflection, symbol, exportSymbol);
+
+        return reflection;
+    }
+
+    postReflectionCreation(
+        reflection: Reflection,
+        symbol: ts.Symbol | undefined,
+        exportSymbol: ts.Symbol | undefined
+    ) {
+        if (
+            exportSymbol &&
+            reflection.kind &
+                (ReflectionKind.SomeModule | ReflectionKind.Reference)
+        ) {
             reflection.comment = getComment(
                 exportSymbol,
                 reflection.kind,
@@ -232,9 +246,11 @@ export class Context {
             reflection.setFlag(ReflectionFlag.Static);
         }
 
-        reflection.escapedName = symbol?.escapedName;
+        if (reflection instanceof DeclarationReflection) {
+            reflection.escapedName = symbol?.escapedName;
+            this.addChild(reflection);
+        }
 
-        this.addChild(reflection);
         if (symbol && this.converter.isExternal(symbol)) {
             reflection.setFlag(ReflectionFlag.External);
         }
@@ -242,8 +258,6 @@ export class Context {
             this.registerReflection(reflection, exportSymbol);
         }
         this.registerReflection(reflection, symbol);
-
-        return reflection;
     }
 
     finalizeDeclarationReflection(reflection: DeclarationReflection) {

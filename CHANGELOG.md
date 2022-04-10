@@ -28,6 +28,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Listeners to `Converter.EVENT_CREATE_TYPE_PARAMETER` and `Converter.EVENT_CREATE_DECLARATION` will now never be passed a `ts.Node` as their third argument.
 -   Constant variables which are interpreted as functions will no longer have the `ReflectionFlag.Const` flag set.
 -   Removed deprecated `removeReaderByName`, `addDeclarations` and `removeDeclarationByName` methods on `Options`.
+-   Comments on export declarations will only overrides comments for references and namespaces, #1901.
 
 ### Features
 
@@ -46,6 +47,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Improved comment discovery on destructured exported functions, #1770.
 -   Links which refer to members within a reference reflection will now correctly resolve to the referenced reflection's member, #1770.
 -   Correctly detect optional parameters in JavaScript projects using JSDoc, #1804.
+-   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
 
 ### Thanks!
 
@@ -81,7 +83,6 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Fixed `removeReflection` not completely removing reflections from the project, #1898.
 -   Fixed `@hidden` / `@ignore` / `@exclude` comments on default exports with no associated variable, #1903.
 -   `makeRecursiveVisitor` will now correctly call the `intersection` callback, #1910.
--   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
 
 ### Thanks!
 

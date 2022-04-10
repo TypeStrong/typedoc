@@ -358,7 +358,7 @@ function createTypeParamReflection(
         defaultType,
         context.scope
     );
-    context.registerReflection(paramRefl, param.symbol);
+    context.postReflectionCreation(paramRefl, param.symbol, void 0);
     context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
     return paramRefl;
 }
@@ -753,10 +753,8 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
             ReflectionKind.Constructor,
             context.scope
         );
-        context.addChild(constructMember);
-        context.registerReflection(constructMember, symbol);
-
-        context.trigger(ConverterEvents.CREATE_DECLARATION, constructMember);
+        context.postReflectionCreation(constructMember, symbol, void 0);
+        context.finalizeDeclarationReflection(constructMember);
 
         const constructContext = context.withScope(constructMember);
 
@@ -802,10 +800,8 @@ function createAlias(
         target,
         context.scope
     );
-    context.addChild(ref);
-    context.registerReflection(ref, symbol);
-
-    context.trigger(ConverterEvents.CREATE_DECLARATION, ref);
+    context.postReflectionCreation(ref, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(ref);
 }
 
 function convertVariable(

@@ -102,6 +102,22 @@ export const behaviorTests: Record<
         ]);
     },
 
+    exportComments(project) {
+        const abc = query(project, "abc");
+        equal(abc.kind, ReflectionKind.Variable);
+        equal(Comment.combineDisplayParts(abc.comment?.summary), "abc");
+
+        const abcRef = query(project, "abcRef");
+        equal(abcRef.kind, ReflectionKind.Reference);
+        equal(
+            Comment.combineDisplayParts(abcRef.comment?.summary),
+            "export abc"
+        );
+
+        const foo = query(project, "foo");
+        equal(Comment.combineDisplayParts(foo.comment?.summary), "export foo");
+    },
+
     inheritDocBasic(project) {
         const target = query(project, "InterfaceTarget");
         const comment = new Comment(

@@ -14,6 +14,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.ModuleDeclaration,
         ts.SyntaxKind.SourceFile,
         ts.SyntaxKind.BindingElement,
+        ts.SyntaxKind.ExportSpecifier,
     ],
     [ReflectionKind.Enum]: [
         ts.SyntaxKind.EnumDeclaration,
