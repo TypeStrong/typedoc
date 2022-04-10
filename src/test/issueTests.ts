@@ -402,7 +402,7 @@ export const issueTests: {
                 fooSig.type.types[1].declaration.getChildByName("min")?.comment
                     ?.summary
             ),
-            "Nested\n"
+            "Nested"
         );
 
         const bar = query(project, "bar");
@@ -416,14 +416,14 @@ export const issueTests: {
                 barSig.type.types[0].declaration.getChildByName("min")?.comment
                     ?.summary
             ),
-            "Nested\n"
+            "Nested"
         );
         equal(
             Comment.combineDisplayParts(
                 barSig.type.types[1].declaration.getChildByName("min")?.comment
                     ?.summary
             ),
-            "Nested\n"
+            "Nested"
         );
     },
 

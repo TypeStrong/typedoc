@@ -81,8 +81,8 @@ export class CommentTag {
 
     toObject(): JSONOutput.CommentTag {
         return {
-            name: this.name,
             tag: this.tag,
+            name: this.name,
             content: this.content.map(serializeDisplayPart),
         };
     }

@@ -926,8 +926,8 @@ export class TypeOperatorType extends Type {
     override toObject(serializer: Serializer): JSONOutput.TypeOperatorType {
         return {
             type: this.type,
-            target: serializer.toObject(this.target),
             operator: this.operator,
+            target: serializer.toObject(this.target),
         };
     }
 }

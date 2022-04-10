@@ -24,6 +24,13 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "constructor-type.ts",
+                  "line": 1,
+                  "character": 17
+                }
+              ],
               "signatures": [
                 {
                   "id": 4,

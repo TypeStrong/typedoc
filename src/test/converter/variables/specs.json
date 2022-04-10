@@ -1892,9 +1892,9 @@
                 "name": "string"
               }
             ],
+            "name": "Promise",
             "qualifiedName": "Promise",
-            "package": "typescript",
-            "name": "Promise"
+            "package": "typescript"
           }
         },
         {
@@ -1918,9 +1918,9 @@
                 "name": "object"
               }
             ],
+            "name": "Promise",
             "qualifiedName": "Promise",
-            "package": "typescript",
-            "name": "Promise"
+            "package": "typescript"
           }
         }
       ],

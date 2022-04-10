@@ -42,13 +42,13 @@
                 "blockTags": [
                   {
                     "tag": "@typeParam",
+                    "name": "T",
                     "content": [
                       {
                         "kind": "text",
                         "text": "Source interface type parameter"
                       }
-                    ],
-                    "name": "T"
+                    ]
                   }
                 ]
               },
@@ -437,8 +437,8 @@
                 "blockTags": [
                   {
                     "tag": "@inheritDoc",
-                    "content": [],
-                    "name": "SubClassA.printName"
+                    "name": "SubClassA.printName",
+                    "content": []
                   }
                 ]
               },
@@ -637,6 +637,13 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 3,
+                  "character": 4
+                }
+              ],
               "signatures": [
                 {
                   "id": 37,
@@ -800,6 +807,13 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 1,
+                  "character": 17
+                }
+              ],
               "signatures": [
                 {
                   "id": 30,

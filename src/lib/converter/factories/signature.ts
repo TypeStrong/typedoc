@@ -102,7 +102,7 @@ export function createSignature(
 function convertParameters(
     context: Context,
     sigRef: SignatureReflection,
-    parameters: readonly (ts.Symbol & { type: ts.Type })[],
+    parameters: readonly (ts.Symbol & { type?: ts.Type })[],
     parameterNodes:
         | readonly ts.ParameterDeclaration[]
         | readonly ts.JSDocParameterTag[]

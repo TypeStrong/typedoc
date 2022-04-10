@@ -10,7 +10,7 @@
 
         // Speed up dev compilation time
         "incremental": true,
-        "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
+        "tsBuildInfoFile": "dist/.tsbuildinfo",
 
         "experimentalDecorators": true,
 

@@ -516,9 +516,9 @@
                         "name": "T"
                       }
                     ],
+                    "name": "Iterable",
                     "qualifiedName": "Iterable",
-                    "package": "typescript",
-                    "name": "Iterable"
+                    "package": "typescript"
                   }
                 }
               ],
@@ -633,9 +633,9 @@
                                 "name": "T"
                               }
                             ],
+                            "name": "Iterable",
                             "qualifiedName": "Iterable",
-                            "package": "typescript",
-                            "name": "Iterable"
+                            "package": "typescript"
                           }
                         }
                       ],
@@ -1012,9 +1012,9 @@
                           ],
                           "type": {
                             "type": "reference",
+                            "name": "Object",
                             "qualifiedName": "Object",
-                            "package": "typescript",
-                            "name": "Object"
+                            "package": "typescript"
                           }
                         },
                         {
@@ -1185,9 +1185,9 @@
                           ],
                           "type": {
                             "type": "reference",
+                            "name": "Object",
                             "qualifiedName": "Object",
-                            "package": "typescript",
-                            "name": "Object"
+                            "package": "typescript"
                           }
                         },
                         {
@@ -1334,9 +1334,9 @@
                           ],
                           "type": {
                             "type": "reference",
+                            "name": "Object",
                             "qualifiedName": "Object",
-                            "package": "typescript",
-                            "name": "Object"
+                            "package": "typescript"
                           }
                         },
                         {
@@ -1739,9 +1739,9 @@
                   },
                   "type": {
                     "type": "reference",
+                    "name": "Object",
                     "qualifiedName": "Object",
-                    "package": "typescript",
-                    "name": "Object"
+                    "package": "typescript"
                   }
                 }
               ],
@@ -2474,9 +2474,9 @@
                   },
                   "type": {
                     "type": "reference",
+                    "name": "Object",
                     "qualifiedName": "Object",
-                    "package": "typescript",
-                    "name": "Object"
+                    "package": "typescript"
                   }
                 }
               ],

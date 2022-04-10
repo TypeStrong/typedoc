@@ -1065,6 +1065,13 @@
           "kind": 512,
           "kindString": "Constructor",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 9,
+              "character": 41
+            }
+          ],
           "signatures": [
             {
               "id": 8,
@@ -1239,14 +1246,14 @@
                 "name": "T"
               }
             ],
+            "name": "ReturnType",
             "qualifiedName": "ReturnType",
-            "package": "typescript",
-            "name": "ReturnType"
+            "package": "typescript"
           }
         ],
+        "name": "InstanceType",
         "qualifiedName": "InstanceType",
-        "package": "typescript",
-        "name": "InstanceType"
+        "package": "typescript"
       },
       "extendedBy": [
         {

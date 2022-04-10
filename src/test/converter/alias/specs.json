@@ -101,9 +101,9 @@
               "name": "U"
             }
           ],
+          "name": "PromiseLike",
           "qualifiedName": "PromiseLike",
-          "package": "typescript",
-          "name": "PromiseLike"
+          "package": "typescript"
         },
         "trueType": {
           "type": "reference",

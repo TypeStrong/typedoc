@@ -21,8 +21,9 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     ],
     [ReflectionKind.EnumMember]: [
         ts.SyntaxKind.EnumMember,
-        // This is here so that @enum gets it
+        // These here so that @enum gets comments
         ts.SyntaxKind.PropertyAssignment,
+        ts.SyntaxKind.PropertySignature,
     ],
     [ReflectionKind.Variable]: [
         ts.SyntaxKind.VariableDeclaration,

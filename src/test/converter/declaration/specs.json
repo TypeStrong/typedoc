@@ -269,9 +269,9 @@
           ],
           "type": {
             "type": "reference",
+            "name": "ts.server.ActionSet",
             "qualifiedName": "ts.server.ActionSet",
-            "package": "typescript",
-            "name": "ts.server.ActionSet"
+            "package": "typescript"
           }
         }
       ],

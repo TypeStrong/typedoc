@@ -22,6 +22,7 @@ export class Serializer extends EventDispatcher {
 
     addSerializer(serializer: SerializerComponent<any>): void {
         if ("serializeGroup" in serializer) {
+            // Remove this check in 0.24
             throw new Error(
                 "Support for `serializeGroup` was removed. Use supports instead."
             );

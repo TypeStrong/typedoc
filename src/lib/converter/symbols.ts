@@ -515,18 +515,13 @@ function convertClassOrInterface(
         }
         reflectionContext.shouldBeStatic = false;
 
-        const constructMember = new DeclarationReflection(
-            "constructor",
-            ReflectionKind.Constructor,
-            reflection
-        );
-        reflectionContext.addChild(constructMember);
-        context.registerReflection(constructMember, symbol);
-
         const ctors = staticType.getConstructSignatures();
-        context.registerReflection(
-            constructMember,
-            ctors?.[0]?.declaration?.symbol
+
+        const constructMember = reflectionContext.createDeclarationReflection(
+            ReflectionKind.Constructor,
+            ctors?.[0]?.declaration?.symbol,
+            void 0,
+            "constructor"
         );
 
         // Modifiers are the same for all constructors
@@ -534,7 +529,7 @@ function convertClassOrInterface(
             setModifiers(symbol, ctors[0].declaration, constructMember);
         }
 
-        context.trigger(ConverterEvents.CREATE_DECLARATION, constructMember);
+        context.finalizeDeclarationReflection(constructMember);
 
         const constructContext = reflectionContext.withScope(constructMember);
 

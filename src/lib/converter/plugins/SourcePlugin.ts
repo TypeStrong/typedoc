@@ -5,7 +5,6 @@ import {
     Reflection,
     ProjectReflection,
     DeclarationReflection,
-    ReflectionKind,
 } from "../../models/reflections/index";
 import { SourceDirectory, SourceFile } from "../../models/sources/index";
 import { Component, ConverterComponent } from "../components";
@@ -84,28 +83,7 @@ export class SourcePlugin extends ConverterComponent {
             return;
         }
 
-        let declarations: ts.Declaration[] = [];
-        if (reflection.kind === ReflectionKind.Constructor) {
-            for (const decl of symbol.declarations || []) {
-                if (
-                    ts.isClassDeclaration(decl) ||
-                    ts.isInterfaceDeclaration(decl)
-                ) {
-                    for (const child of decl.members) {
-                        if (
-                            ts.isConstructorDeclaration(child) ||
-                            ts.isConstructorTypeNode(child)
-                        ) {
-                            declarations.push(child);
-                        }
-                    }
-                }
-            }
-        } else {
-            declarations = symbol.declarations || [];
-        }
-
-        for (const node of declarations || []) {
+        for (const node of symbol.declarations || []) {
             const sourceFile = node.getSourceFile();
             const fileName = sourceFile.fileName;
             this.fileNames.add(fileName);

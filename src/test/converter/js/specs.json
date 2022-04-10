@@ -649,9 +649,9 @@
           ],
           "type": {
             "type": "reference",
+            "name": "Object",
             "qualifiedName": "Object",
-            "package": "typescript",
-            "name": "Object"
+            "package": "typescript"
           }
         },
         {
