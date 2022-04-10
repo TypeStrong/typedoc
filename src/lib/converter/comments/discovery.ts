@@ -28,6 +28,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.Variable]: [
         ts.SyntaxKind.VariableDeclaration,
         ts.SyntaxKind.BindingElement,
+        ts.SyntaxKind.ExportAssignment,
     ],
     [ReflectionKind.Function]: [
         ts.SyntaxKind.FunctionDeclaration,
@@ -43,6 +44,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.PropertyDeclaration,
         ts.SyntaxKind.PropertySignature,
         ts.SyntaxKind.BinaryExpression,
+        ts.SyntaxKind.PropertyAssignment,
     ],
     [ReflectionKind.Method]: [
         ts.SyntaxKind.FunctionDeclaration,
