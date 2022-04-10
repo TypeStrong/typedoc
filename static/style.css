@@ -16,6 +16,7 @@
     --light-color-ts-private: #707070;
     --light-color-ts-variable: #4d68ff;
     --light-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23000' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
+    --light-color-scheme: light;
 
     /* Dark */
     --dark-color-background: #1a1c1e;
@@ -34,8 +35,7 @@
     --dark-color-ts-private: #e2e2e2;
     --dark-color-ts-variable: #4d68ff;
     --dark-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23fff' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
-
-    color-scheme: light dark;
+    --dark-color-scheme: dark;
 }
 
 @media (prefers-color-scheme: light) {
@@ -56,6 +56,7 @@
         --color-ts-private: var(--light-color-ts-private);
         --color-ts-variable: var(--light-color-ts-variable);
         --external-icon: var(--light-external-icon);
+        --color-scheme: var(--light-color-scheme);
     }
 }
 
@@ -77,14 +78,19 @@
         --color-ts-private: var(--dark-color-ts-private);
         --color-ts-variable: var(--dark-color-ts-variable);
         --external-icon: var(--dark-external-icon);
+        --color-scheme: var(--dark-color-scheme);
     }
+}
+
+html {
+    color-scheme: var(--color-scheme);
 }
 
 body {
     margin: 0;
 }
 
-body.light {
+:root[data-theme="light"] {
     --color-background: var(--light-color-background);
     --color-background-secondary: var(--light-color-background-secondary);
     --color-icon-background: var(--light-color-icon-background);
@@ -101,11 +107,10 @@ body.light {
     --color-ts-private: var(--light-color-ts-private);
     --color-ts-variable: var(--light-color-ts-variable);
     --external-icon: var(--light-external-icon);
-
-    color-scheme: light;
+    --color-scheme: var(--light-color-scheme);
 }
 
-body.dark {
+:root[data-theme="dark"] {
     --color-background: var(--dark-color-background);
     --color-background-secondary: var(--dark-color-background-secondary);
     --color-icon-background: var(--dark-color-icon-background);
@@ -122,8 +127,7 @@ body.dark {
     --color-ts-private: var(--dark-color-ts-private);
     --color-ts-variable: var(--dark-color-ts-variable);
     --external-icon: var(--dark-external-icon);
-
-    color-scheme: dark;
+    --color-scheme: var(--dark-color-scheme);
 }
 
 h1,
@@ -133,6 +137,7 @@ h4,
 h5,
 h6 {
     line-height: 1.2;
+
 }
 
 h1 {

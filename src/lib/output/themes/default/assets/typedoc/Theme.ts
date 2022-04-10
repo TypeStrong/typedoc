@@ -16,17 +16,5 @@ export function initTheme(choices: HTMLOptionElement) {
 // - src/lib/output/themes/defaults/layouts/default.tsx
 // - src/lib/utils/highlighter.tsx
 function setTheme(theme: ThemeChoice) {
-    switch (theme) {
-        case "os":
-            document.body.classList.remove("light", "dark");
-            break;
-        case "light":
-            document.body.classList.remove("dark");
-            document.body.classList.add("light");
-            break;
-        case "dark":
-            document.body.classList.remove("light");
-            document.body.classList.add("dark");
-            break;
-    }
+    document.documentElement.dataset.theme = theme;
 }

@@ -28,7 +28,7 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
         <body>
             {context.hook("body.begin")}
             <script>
-                <Raw html='document.body.classList.add(localStorage.getItem("tsd-theme") || "os")' />
+                <Raw html='document.documentElement.dataset.theme =localStorage.getItem("tsd-theme") || "os"' />
             </script>
             {context.toolbar(props)}
 
