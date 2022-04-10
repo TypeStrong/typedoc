@@ -26,12 +26,6 @@ interface TemplateMapping {
     kind: ReflectionKind[];
 
     /**
-     * Can this mapping have children or should all further reflections be rendered
-     * to the defined output page?
-     */
-    isLeaf: boolean;
-
-    /**
      * The name of the directory the output files should be written to.
      */
     directory: string;
@@ -73,43 +67,36 @@ export class DefaultTheme extends Theme {
     private mappings: TemplateMapping[] = [
         {
             kind: [ReflectionKind.Class],
-            isLeaf: false,
             directory: "classes",
             template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Interface],
-            isLeaf: false,
             directory: "interfaces",
             template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Enum],
-            isLeaf: false,
             directory: "enums",
             template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Namespace, ReflectionKind.Module],
-            isLeaf: false,
             directory: "modules",
             template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.TypeAlias],
-            isLeaf: false,
             directory: "types",
             template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Function],
-            isLeaf: false,
             directory: "functions",
             template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Variable],
-            isLeaf: false,
             directory: "variables",
             template: this.reflectionTemplate,
         },
@@ -225,11 +212,7 @@ export class DefaultTheme extends Theme {
             }
 
             for (const child of reflection.children || []) {
-                if (mapping.isLeaf) {
-                    DefaultTheme.applyAnchorUrl(child, reflection);
-                } else {
-                    this.buildUrls(child, urls);
-                }
+                this.buildUrls(child, urls);
             }
         } else if (reflection.parent) {
             DefaultTheme.applyAnchorUrl(reflection, reflection.parent);

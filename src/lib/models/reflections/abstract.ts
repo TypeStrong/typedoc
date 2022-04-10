@@ -414,18 +414,12 @@ export abstract class Reflection {
                 alias = "reflection-" + this.id;
             }
 
-            let target = <Reflection>this;
-            while (
-                target.parent &&
-                !target.parent.isProject() &&
-                !target.hasOwnDocument
-            ) {
+            let target = this as Reflection;
+            while (target.parent && !target.hasOwnDocument) {
                 target = target.parent;
             }
 
-            if (!target._aliases) {
-                target._aliases = new Map();
-            }
+            target._aliases ||= new Map();
 
             let suffix = "";
             if (!target._aliases.has(alias)) {

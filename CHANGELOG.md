@@ -18,6 +18,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 
 -   `@inheritDoc` now follows the behavior specified by TSDoc when copying comments with a reference.
 -   The `gaSite` option has been removed since Google Analytics now infers the site automatically, updated Google Analytics script to latest version, #1846.
+-   Comments on export declarations will only overrides comments for references and namespaces, #1901.
 -   The deprecated `listInvalidSymbolLinks` option has been removed. Use `validation.invalidLink` instead.
 -   The deprecated `true` and `false` values have been removed from `--emit`, to migrate replace `true` with `"both"` and `false` with `"docs"`.
 -   Links are no longer be resolved against a global list of all symbols. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on link resolution.
@@ -28,7 +29,6 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Listeners to `Converter.EVENT_CREATE_TYPE_PARAMETER` and `Converter.EVENT_CREATE_DECLARATION` will now never be passed a `ts.Node` as their third argument.
 -   Constant variables which are interpreted as functions will no longer have the `ReflectionFlag.Const` flag set.
 -   Removed deprecated `removeReaderByName`, `addDeclarations` and `removeDeclarationByName` methods on `Options`.
--   Comments on export declarations will only overrides comments for references and namespaces, #1901.
 
 ### Features
 
@@ -47,6 +47,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Improved comment discovery on destructured exported functions, #1770.
 -   Links which refer to members within a reference reflection will now correctly resolve to the referenced reflection's member, #1770.
 -   Correctly detect optional parameters in JavaScript projects using JSDoc, #1804.
+-   Fixed identical anchor links for reflections with the same name, #1845.
 -   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
 
 ### Thanks!
