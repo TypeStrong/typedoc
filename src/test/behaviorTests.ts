@@ -39,6 +39,44 @@ export const behaviorTests: Record<
 
         const WithoutReadonly = query(project, "WithoutReadonly");
         equal(WithoutReadonly.kind, ReflectionKind.Enum, "WithoutReadonly");
+
+        const SomeEnumLikeNumeric = query(project, "SomeEnumLikeNumeric");
+        equal(
+            SomeEnumLikeNumeric.kind,
+            ReflectionKind.Variable,
+            "SomeEnumLikeNumeric"
+        );
+        const SomeEnumLikeTaggedNumeric = query(
+            project,
+            "SomeEnumLikeTaggedNumeric"
+        );
+        equal(
+            SomeEnumLikeTaggedNumeric.kind,
+            ReflectionKind.Enum,
+            "SomeEnumLikeTaggedNumeric"
+        );
+        const B = query(project, "SomeEnumLikeTaggedNumeric.b");
+        equal(B.defaultValue, "1");
+
+        const ManualEnumNumeric = query(project, "ManualEnumNumeric");
+        equal(ManualEnumNumeric.kind, ReflectionKind.Enum, "ManualEnumNumeric");
+
+        const ManualWithoutHelperNumeric = query(
+            project,
+            "ManualEnumHelperNumeric"
+        );
+        equal(
+            ManualWithoutHelperNumeric.kind,
+            ReflectionKind.Enum,
+            "ManualEnumHelperNumeric"
+        );
+
+        const WithoutReadonlyNumeric = query(project, "WithoutReadonlyNumeric");
+        equal(
+            WithoutReadonlyNumeric.kind,
+            ReflectionKind.Enum,
+            "WithoutReadonlyNumeric"
+        );
     },
     duplicateHeritageClauses(project) {
         const b = query(project, "B");
