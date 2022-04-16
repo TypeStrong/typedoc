@@ -7,27 +7,20 @@ const path = require("path");
 const TypeDoc = require("..");
 const { getExpandedEntryPointsForPaths } = require("../dist/lib/utils");
 
+const base = path.join(__dirname, "../src/test/converter");
+
 const app = new TypeDoc.Application();
 app.options.addReader(new TypeDoc.TSConfigReader());
 app.bootstrap({
     name: "typedoc",
     excludeExternals: true,
     disableSources: false,
-    tsconfig: path.join(
-        __dirname,
-        "..",
-        "dist",
-        "test",
-        "converter",
-        "tsconfig.json"
-    ),
+    tsconfig: path.join(base, "tsconfig.json"),
     externalPattern: ["**/node_modules/**"],
     entryPointStrategy: TypeDoc.EntryPointStrategy.Expand,
+    logLevel: TypeDoc.LogLevel.Warn,
+    gitRevision: "fake",
 });
-
-// Note that this uses the test files in dist, not in src, this is important since
-// when running the tests we copy the tests to dist and then convert them.
-const base = path.join(__dirname, "../dist/test/converter");
 
 /** @type {[string, () => void, () => void][]} */
 const conversions = [
@@ -89,29 +82,23 @@ function rebuildConverterTests(dirs) {
                     .split(TypeDoc.normalizePath(base))
                     .join("%BASE%");
                 after();
-                fs.writeFileSync(out.replace("dist", "src"), data);
+                fs.writeFileSync(out, data);
             }
         }
     }
 }
 
 async function main(filter = "") {
-    const dirs = await Promise.all(
-        (
-            await fs.promises.readdir(base)
-        ).map((dir) => {
-            const dirPath = path.join(base, dir);
-            return Promise.all([dirPath, fs.promises.stat(dirPath)]);
-        })
-    );
+    console.log("Base directory is", base);
+    const dirs = await fs.promises.readdir(base, { withFileTypes: true });
 
     await rebuildConverterTests(
         dirs
-            .filter(([fullPath, stat]) => {
-                if (!stat.isDirectory()) return false;
-                return fullPath.endsWith(filter);
+            .filter((dir) => {
+                if (!dir.isDirectory()) return false;
+                return dir.name.endsWith(filter);
             })
-            .map(([path]) => path)
+            .map((dir) => path.join(base, dir.name))
     );
 }
 

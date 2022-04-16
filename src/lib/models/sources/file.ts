@@ -15,7 +15,7 @@ export class SourceReference {
     /**
      * A reference to the corresponding file instance.
      */
-    file?: SourceFile;
+    file: SourceFile;
 
     /**
      * The filename of the source file.
@@ -41,7 +41,7 @@ export class SourceReference {
         fileName: string,
         line: number,
         character: number,
-        file?: SourceFile
+        file: SourceFile
     ) {
         this.fileName = fileName;
         this.line = line;
@@ -54,6 +54,7 @@ export class SourceReference {
             fileName: this.fileName,
             line: this.line,
             character: this.character,
+            url: this.url,
         };
     }
 }

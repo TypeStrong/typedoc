@@ -38,7 +38,8 @@
             {
               "fileName": "enum.ts",
               "line": 48,
-              "character": 15
+              "character": 15,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L48"
             }
           ],
           "type": {
@@ -56,7 +57,8 @@
             {
               "fileName": "enum.ts",
               "line": 53,
-              "character": 20
+              "character": 20,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L53"
             }
           ],
           "signatures": [
@@ -102,12 +104,14 @@
         {
           "fileName": "enum.ts",
           "line": 24,
-          "character": 12
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L24"
         },
         {
           "fileName": "enum.ts",
           "line": 44,
-          "character": 14
+          "character": 14,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L44"
         }
       ]
     },
@@ -138,7 +142,8 @@
             {
               "fileName": "enum.ts",
               "line": 60,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L60"
             }
           ],
           "defaultValue": "1"
@@ -153,7 +158,8 @@
             {
               "fileName": "enum.ts",
               "line": 61,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L61"
             }
           ],
           "defaultValue": "2"
@@ -173,7 +179,8 @@
         {
           "fileName": "enum.ts",
           "line": 59,
-          "character": 18
+          "character": 18,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L59"
         }
       ]
     },
@@ -210,7 +217,8 @@
             {
               "fileName": "enum.ts",
               "line": 28,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L28"
             }
           ],
           "defaultValue": "1"
@@ -233,7 +241,8 @@
             {
               "fileName": "enum.ts",
               "line": 33,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L33"
             }
           ],
           "defaultValue": "2"
@@ -256,7 +265,8 @@
             {
               "fileName": "enum.ts",
               "line": 38,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L38"
             }
           ],
           "defaultValue": "4"
@@ -277,12 +287,14 @@
         {
           "fileName": "enum.ts",
           "line": 24,
-          "character": 12
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L24"
         },
         {
           "fileName": "enum.ts",
           "line": 44,
-          "character": 14
+          "character": 14,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L44"
         }
       ]
     },
@@ -319,7 +331,8 @@
             {
               "fileName": "enum.ts",
               "line": 8,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L8"
             }
           ],
           "defaultValue": "1"
@@ -342,7 +355,8 @@
             {
               "fileName": "enum.ts",
               "line": 13,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L13"
             }
           ],
           "defaultValue": "2"
@@ -365,7 +379,8 @@
             {
               "fileName": "enum.ts",
               "line": 18,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L18"
             }
           ],
           "defaultValue": "4"
@@ -386,7 +401,8 @@
         {
           "fileName": "enum.ts",
           "line": 4,
-          "character": 12
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L4"
         }
       ]
     }
@@ -413,7 +429,8 @@
     {
       "fileName": "enum.ts",
       "line": 4,
-      "character": 0
+      "character": 0,
+      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L4"
     }
   ]
 }

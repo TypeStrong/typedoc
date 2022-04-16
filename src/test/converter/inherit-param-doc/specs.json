@@ -43,7 +43,8 @@
             {
               "fileName": "inherit-param-doc.ts",
               "line": 11,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L11"
             }
           ],
           "signatures": [
@@ -131,7 +132,8 @@
         {
           "fileName": "inherit-param-doc.ts",
           "line": 9,
-          "character": 13
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L9"
         }
       ],
       "implementedTypes": [
@@ -180,7 +182,8 @@
             {
               "fileName": "inherit-param-doc.ts",
               "line": 20,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L20"
             }
           ],
           "signatures": [
@@ -268,7 +271,8 @@
         {
           "fileName": "inherit-param-doc.ts",
           "line": 14,
-          "character": 13
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L14"
         }
       ],
       "implementedTypes": [
@@ -317,7 +321,8 @@
             {
               "fileName": "inherit-param-doc.ts",
               "line": 29,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L29"
             }
           ],
           "signatures": [
@@ -405,7 +410,8 @@
         {
           "fileName": "inherit-param-doc.ts",
           "line": 23,
-          "character": 13
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L23"
         }
       ],
       "implementedTypes": [
@@ -433,7 +439,8 @@
             {
               "fileName": "inherit-param-doc.ts",
               "line": 6,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L6"
             }
           ],
           "signatures": [
@@ -504,7 +511,8 @@
         {
           "fileName": "inherit-param-doc.ts",
           "line": 1,
-          "character": 17
+          "character": 17,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L1"
         }
       ],
       "implementedBy": [
@@ -548,7 +556,8 @@
     {
       "fileName": "inherit-param-doc.ts",
       "line": 1,
-      "character": 0
+      "character": 0,
+      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L1"
     }
   ]
 }

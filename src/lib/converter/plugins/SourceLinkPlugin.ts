@@ -299,7 +299,7 @@ export class SourceLinkPlugin extends ConverterComponent {
         for (const reflection of Object.values(project.reflections)) {
             if (reflection.sources) {
                 reflection.sources.forEach((source: SourceReference) => {
-                    if (source.file?.url) {
+                    if (source.file.url) {
                         source.url =
                             source.file.url +
                             "#" +

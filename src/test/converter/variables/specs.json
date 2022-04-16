@@ -77,7 +77,8 @@
             {
               "fileName": "array.ts",
               "line": 4,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L4"
             }
           ],
           "typeParameter": [
@@ -147,7 +148,8 @@
             {
               "fileName": "array.ts",
               "line": 19,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L19"
             }
           ]
         },
@@ -211,7 +213,8 @@
             {
               "fileName": "array.ts",
               "line": 24,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L24"
             }
           ],
           "extendedTypes": [
@@ -249,7 +252,8 @@
             {
               "fileName": "array.ts",
               "line": 9,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L9"
             }
           ],
           "type": {
@@ -318,7 +322,8 @@
             {
               "fileName": "array.ts",
               "line": 14,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L14"
             }
           ],
           "type": {
@@ -358,7 +363,8 @@
         {
           "fileName": "array.ts",
           "line": 4,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L4"
         }
       ]
     },
@@ -379,7 +385,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 13,
-              "character": 14
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L13"
             }
           ],
           "type": {
@@ -397,7 +404,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 13,
-              "character": 30
+              "character": 30,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L13"
             }
           ],
           "type": {
@@ -415,7 +423,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 13,
-              "character": 46
+              "character": 46,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L13"
             }
           ],
           "type": {
@@ -443,7 +452,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 31,
-              "character": 14
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L31"
             }
           ],
           "type": {
@@ -461,7 +471,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 31,
-              "character": 46
+              "character": 46,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L31"
             }
           ],
           "type": {
@@ -488,7 +499,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 25,
-              "character": 7
+              "character": 7,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L25"
             }
           ],
           "type": {
@@ -515,7 +527,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 23,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L23"
             }
           ],
           "type": {
@@ -533,7 +546,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 24,
-              "character": 4
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L24"
             }
           ],
           "type": {
@@ -551,7 +565,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 4,
-              "character": 15
+              "character": 15,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L4"
             }
           ],
           "type": {
@@ -569,7 +584,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 4,
-              "character": 32
+              "character": 32,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L4"
             }
           ],
           "type": {
@@ -587,7 +603,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 4,
-              "character": 49
+              "character": 49,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L4"
             }
           ],
           "type": {
@@ -605,7 +622,8 @@
             {
               "fileName": "destructuring.ts",
               "line": 38,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L38"
             }
           ],
           "signatures": [
@@ -674,7 +692,8 @@
         {
           "fileName": "destructuring.ts",
           "line": 4,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L4"
         }
       ]
     },
@@ -697,7 +716,8 @@
             {
               "fileName": "literal.ts",
               "line": 43,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L43"
             }
           ],
           "type": {
@@ -719,7 +739,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 48,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L48"
                     }
                   ],
                   "type": {
@@ -734,7 +755,8 @@
                         {
                           "fileName": "literal.ts",
                           "line": 48,
-                          "character": 11
+                          "character": 11,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L48"
                         }
                       ],
                       "signatures": [
@@ -763,7 +785,8 @@
                                     {
                                       "fileName": "literal.ts",
                                       "line": 48,
-                                      "character": 27
+                                      "character": 27,
+                                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L48"
                                     }
                                   ],
                                   "signatures": [
@@ -803,7 +826,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 52,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L52"
                     }
                   ],
                   "type": {
@@ -818,7 +842,8 @@
                         {
                           "fileName": "literal.ts",
                           "line": 52,
-                          "character": 13
+                          "character": 13,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L52"
                         }
                       ],
                       "signatures": [
@@ -847,7 +872,8 @@
                                     {
                                       "fileName": "literal.ts",
                                       "line": 52,
-                                      "character": 31
+                                      "character": 31,
+                                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L52"
                                     }
                                   ],
                                   "signatures": [
@@ -887,7 +913,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 44,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L44"
                     }
                   ],
                   "type": {
@@ -902,7 +929,8 @@
                         {
                           "fileName": "literal.ts",
                           "line": 44,
-                          "character": 13
+                          "character": 13,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L44"
                         }
                       ],
                       "signatures": [
@@ -931,7 +959,8 @@
                                     {
                                       "fileName": "literal.ts",
                                       "line": 44,
-                                      "character": 31
+                                      "character": 31,
+                                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L44"
                                     }
                                   ],
                                   "signatures": [
@@ -977,7 +1006,8 @@
                 {
                   "fileName": "literal.ts",
                   "line": 43,
-                  "character": 30
+                  "character": 30,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L43"
                 }
               ]
             }
@@ -1004,7 +1034,8 @@
             {
               "fileName": "literal.ts",
               "line": 5,
-              "character": 6
+              "character": 6,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L5"
             }
           ],
           "type": {
@@ -1026,7 +1057,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 19,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L19"
                     }
                   ],
                   "type": {
@@ -1045,7 +1077,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 20,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L20"
                     }
                   ],
                   "type": {
@@ -1064,7 +1097,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 21,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L21"
                     }
                   ],
                   "type": {
@@ -1083,7 +1117,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 17,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L17"
                     }
                   ],
                   "type": {
@@ -1102,7 +1137,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 18,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L18"
                     }
                   ],
                   "type": {
@@ -1121,7 +1157,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 10,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L10"
                     }
                   ],
                   "type": {
@@ -1143,7 +1180,8 @@
                             {
                               "fileName": "literal.ts",
                               "line": 15,
-                              "character": 8
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L15"
                             }
                           ],
                           "type": {
@@ -1165,7 +1203,8 @@
                             {
                               "fileName": "literal.ts",
                               "line": 12,
-                              "character": 8
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L12"
                             }
                           ],
                           "type": {
@@ -1180,7 +1219,8 @@
                                 {
                                   "fileName": "literal.ts",
                                   "line": 12,
-                                  "character": 16
+                                  "character": 16,
+                                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L12"
                                 }
                               ],
                               "signatures": [
@@ -1222,7 +1262,8 @@
                                             {
                                               "fileName": "literal.ts",
                                               "line": 13,
-                                              "character": 21
+                                              "character": 21,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L13"
                                             }
                                           ],
                                           "type": {
@@ -1241,7 +1282,8 @@
                                             {
                                               "fileName": "literal.ts",
                                               "line": 13,
-                                              "character": 32
+                                              "character": 32,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L13"
                                             }
                                           ],
                                           "type": {
@@ -1265,7 +1307,8 @@
                                         {
                                           "fileName": "literal.ts",
                                           "line": 13,
-                                          "character": 19
+                                          "character": 19,
+                                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L13"
                                         }
                                       ]
                                     }
@@ -1286,7 +1329,8 @@
                             {
                               "fileName": "literal.ts",
                               "line": 11,
-                              "character": 8
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L11"
                             }
                           ],
                           "type": {
@@ -1311,7 +1355,8 @@
                         {
                           "fileName": "literal.ts",
                           "line": 10,
-                          "character": 12
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L10"
                         }
                       ]
                     }
@@ -1328,7 +1373,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 7,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L7"
                     }
                   ],
                   "type": {
@@ -1343,7 +1389,8 @@
                         {
                           "fileName": "literal.ts",
                           "line": 7,
-                          "character": 12
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L7"
                         }
                       ],
                       "signatures": [
@@ -1373,7 +1420,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 6,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L6"
                     }
                   ],
                   "type": {
@@ -1403,7 +1451,8 @@
                 {
                   "fileName": "literal.ts",
                   "line": 5,
-                  "character": 22
+                  "character": 22,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L5"
                 }
               ]
             }
@@ -1428,7 +1477,8 @@
             {
               "fileName": "literal.ts",
               "line": 27,
-              "character": 11
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L27"
             }
           ],
           "type": {
@@ -1452,7 +1502,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 35,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L35"
                     }
                   ],
                   "type": {
@@ -1472,7 +1523,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 36,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L36"
                     }
                   ],
                   "type": {
@@ -1490,7 +1542,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 30,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L30"
                     }
                   ],
                   "type": {
@@ -1512,7 +1565,8 @@
                             {
                               "fileName": "literal.ts",
                               "line": 33,
-                              "character": 8
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L33"
                             }
                           ],
                           "type": {
@@ -1533,7 +1587,8 @@
                             {
                               "fileName": "literal.ts",
                               "line": 32,
-                              "character": 8
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
                             }
                           ],
                           "type": {
@@ -1548,7 +1603,8 @@
                                 {
                                   "fileName": "literal.ts",
                                   "line": 32,
-                                  "character": 16
+                                  "character": 16,
+                                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
                                 }
                               ],
                               "signatures": [
@@ -1590,7 +1646,8 @@
                                             {
                                               "fileName": "literal.ts",
                                               "line": 32,
-                                              "character": 33
+                                              "character": 33,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
                                             }
                                           ],
                                           "type": {
@@ -1608,7 +1665,8 @@
                                             {
                                               "fileName": "literal.ts",
                                               "line": 32,
-                                              "character": 44
+                                              "character": 44,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
                                             }
                                           ],
                                           "type": {
@@ -1631,7 +1689,8 @@
                                         {
                                           "fileName": "literal.ts",
                                           "line": 32,
-                                          "character": 31
+                                          "character": 31,
+                                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
                                         }
                                       ]
                                     }
@@ -1651,7 +1710,8 @@
                             {
                               "fileName": "literal.ts",
                               "line": 31,
-                              "character": 8
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L31"
                             }
                           ],
                           "type": {
@@ -1675,7 +1735,8 @@
                         {
                           "fileName": "literal.ts",
                           "line": 30,
-                          "character": 12
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L30"
                         }
                       ]
                     }
@@ -1691,7 +1752,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 29,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L29"
                     }
                   ],
                   "type": {
@@ -1706,7 +1768,8 @@
                         {
                           "fileName": "literal.ts",
                           "line": 29,
-                          "character": 12
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L29"
                         }
                       ],
                       "signatures": [
@@ -1735,7 +1798,8 @@
                     {
                       "fileName": "literal.ts",
                       "line": 28,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L28"
                     }
                   ],
                   "type": {
@@ -1761,7 +1825,8 @@
                 {
                   "fileName": "literal.ts",
                   "line": 27,
-                  "character": 24
+                  "character": 24,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L27"
                 }
               ]
             }
@@ -1783,7 +1848,8 @@
         {
           "fileName": "literal.ts",
           "line": 1,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L1"
         }
       ]
     },
@@ -1806,7 +1872,8 @@
             {
               "fileName": "variable.ts",
               "line": 1,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L1"
             }
           ],
           "type": {
@@ -1825,7 +1892,8 @@
             {
               "fileName": "variable.ts",
               "line": 2,
-              "character": 11
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L2"
             }
           ],
           "type": {
@@ -1844,7 +1912,8 @@
             {
               "fileName": "variable.ts",
               "line": 3,
-              "character": 11
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L3"
             }
           ],
           "type": {
@@ -1863,7 +1932,8 @@
             {
               "fileName": "variable.ts",
               "line": 5,
-              "character": 11
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L5"
             }
           ],
           "type": {
@@ -1881,7 +1951,8 @@
             {
               "fileName": "variable.ts",
               "line": 6,
-              "character": 11
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L6"
             }
           ],
           "type": {
@@ -1907,7 +1978,8 @@
             {
               "fileName": "variable.ts",
               "line": 7,
-              "character": 11
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L7"
             }
           ],
           "type": {
@@ -1942,7 +2014,8 @@
         {
           "fileName": "variable.ts",
           "line": 1,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L1"
         }
       ]
     }

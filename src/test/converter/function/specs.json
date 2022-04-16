@@ -28,7 +28,8 @@
                 {
                   "fileName": "function.ts",
                   "line": 305,
-                  "character": 7
+                  "character": 7,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L305"
                 }
               ],
               "signatures": [
@@ -59,12 +60,14 @@
             {
               "fileName": "function.ts",
               "line": 304,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L304"
             },
             {
               "fileName": "function.ts",
               "line": 305,
-              "character": 0
+              "character": 0,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L305"
             }
           ]
         },
@@ -101,7 +104,8 @@
                 {
                   "fileName": "function.ts",
                   "line": 264,
-                  "character": 15
+                  "character": 15,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L264"
                 }
               ],
               "type": {
@@ -119,7 +123,8 @@
                 {
                   "fileName": "function.ts",
                   "line": 269,
-                  "character": 20
+                  "character": 20,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L269"
                 }
               ],
               "signatures": [
@@ -154,7 +159,8 @@
                 {
                   "fileName": "function.ts",
                   "line": 274,
-                  "character": 20
+                  "character": 20,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L274"
                 }
               ],
               "signatures": [
@@ -201,12 +207,14 @@
             {
               "fileName": "function.ts",
               "line": 218,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L218"
             },
             {
               "fileName": "function.ts",
               "line": 260,
-              "character": 14
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L260"
             }
           ]
         },
@@ -248,7 +256,8 @@
                 {
                   "fileName": "function.ts",
                   "line": 285,
-                  "character": 4
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L285"
                 }
               ],
               "signatures": [
@@ -280,7 +289,8 @@
                 {
                   "fileName": "function.ts",
                   "line": 281,
-                  "character": 4
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L281"
                 }
               ],
               "signatures": [
@@ -314,7 +324,8 @@
                 {
                   "fileName": "function.ts",
                   "line": 284,
-                  "character": 11
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L284"
                 }
               ],
               "signatures": [
@@ -357,7 +368,8 @@
                 {
                   "fileName": "function.ts",
                   "line": 278,
-                  "character": 11
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L278"
                 }
               ],
               "signatures": [
@@ -416,7 +428,8 @@
             {
               "fileName": "function.ts",
               "line": 277,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L277"
             }
           ]
         },
@@ -430,7 +443,8 @@
             {
               "fileName": "function.ts",
               "line": 293,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L293"
             }
           ],
           "signatures": [
@@ -468,7 +482,8 @@
                         {
                           "fileName": "function.ts",
                           "line": 294,
-                          "character": 12
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L294"
                         }
                       ],
                       "signatures": [
@@ -561,7 +576,8 @@
                         {
                           "fileName": "function.ts",
                           "line": 295,
-                          "character": 12
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L295"
                         }
                       ],
                       "signatures": [
@@ -607,7 +623,8 @@
                     {
                       "fileName": "function.ts",
                       "line": 295,
-                      "character": 35
+                      "character": 35,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L295"
                     }
                   ],
                   "signatures": [
@@ -660,7 +677,8 @@
             {
               "fileName": "function.ts",
               "line": 241,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L241"
             }
           ],
           "signatures": [
@@ -737,7 +755,8 @@
             {
               "fileName": "function.ts",
               "line": 227,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L227"
             }
           ],
           "signatures": [
@@ -794,7 +813,8 @@
             {
               "fileName": "function.ts",
               "line": 298,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L298"
             }
           ],
           "signatures": [
@@ -843,7 +863,8 @@
             {
               "fileName": "function.ts",
               "line": 233,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L233"
             }
           ],
           "signatures": [
@@ -896,7 +917,8 @@
             {
               "fileName": "function.ts",
               "line": 4,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L4"
             }
           ],
           "signatures": [
@@ -931,7 +953,8 @@
             {
               "fileName": "function.ts",
               "line": 100,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L100"
             }
           ],
           "signatures": [
@@ -1007,7 +1030,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 107,
-                              "character": 4
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L107"
                             }
                           ],
                           "type": {
@@ -1035,7 +1059,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 106,
-                              "character": 4
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L106"
                             }
                           ],
                           "type": {
@@ -1061,7 +1086,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 105,
-                              "character": 4
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L105"
                             }
                           ],
                           "type": {
@@ -1085,7 +1111,8 @@
                         {
                           "fileName": "function.ts",
                           "line": 104,
-                          "character": 3
+                          "character": 3,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L104"
                         }
                       ]
                     }
@@ -1109,7 +1136,8 @@
             {
               "fileName": "function.ts",
               "line": 166,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L166"
             }
           ],
           "signatures": [
@@ -1180,7 +1208,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 173,
-                              "character": 4
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L173"
                             }
                           ],
                           "type": {
@@ -1200,7 +1229,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 172,
-                              "character": 4
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L172"
                             }
                           ],
                           "type": {
@@ -1218,7 +1248,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 171,
-                              "character": 4
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L171"
                             }
                           ],
                           "type": {
@@ -1242,7 +1273,8 @@
                         {
                           "fileName": "function.ts",
                           "line": 170,
-                          "character": 3
+                          "character": 3,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L170"
                         }
                       ]
                     }
@@ -1266,7 +1298,8 @@
             {
               "fileName": "function.ts",
               "line": 131,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L131"
             }
           ],
           "signatures": [
@@ -1329,7 +1362,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 139,
-                              "character": 8
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L139"
                             }
                           ],
                           "type": {
@@ -1349,7 +1383,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 138,
-                              "character": 8
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L138"
                             }
                           ],
                           "type": {
@@ -1367,7 +1402,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 137,
-                              "character": 8
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L137"
                             }
                           ],
                           "type": {
@@ -1391,7 +1427,8 @@
                         {
                           "fileName": "function.ts",
                           "line": 136,
-                          "character": 7
+                          "character": 7,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L136"
                         }
                       ]
                     }
@@ -1426,7 +1463,8 @@
             {
               "fileName": "function.ts",
               "line": 62,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L62"
             }
           ],
           "signatures": [
@@ -1574,7 +1612,8 @@
             {
               "fileName": "function.ts",
               "line": 47,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L47"
             }
           ],
           "signatures": [
@@ -1651,7 +1690,8 @@
             {
               "fileName": "function.ts",
               "line": 23,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L23"
             }
           ],
           "signatures": [
@@ -1762,7 +1802,8 @@
             {
               "fileName": "function.ts",
               "line": 78,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L78"
             }
           ],
           "signatures": [
@@ -1834,7 +1875,8 @@
             {
               "fileName": "function.ts",
               "line": 253,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L253"
             }
           ],
           "signatures": [
@@ -1911,12 +1953,14 @@
             {
               "fileName": "function.ts",
               "line": 304,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L304"
             },
             {
               "fileName": "function.ts",
               "line": 305,
-              "character": 0
+              "character": 0,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L305"
             }
           ],
           "signatures": [
@@ -1943,12 +1987,14 @@
             {
               "fileName": "function.ts",
               "line": 218,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L218"
             },
             {
               "fileName": "function.ts",
               "line": 260,
-              "character": 14
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L260"
             }
           ],
           "signatures": [
@@ -2004,17 +2050,20 @@
             {
               "fileName": "function.ts",
               "line": 183,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L183"
             },
             {
               "fileName": "function.ts",
               "line": 191,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L191"
             },
             {
               "fileName": "function.ts",
               "line": 201,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L201"
             }
           ],
           "signatures": [
@@ -2114,7 +2163,8 @@
                             {
                               "fileName": "function.ts",
                               "line": 191,
-                              "character": 44
+                              "character": 44,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L191"
                             }
                           ],
                           "type": {
@@ -2136,7 +2186,8 @@
                         {
                           "fileName": "function.ts",
                           "line": 191,
-                          "character": 42
+                          "character": 42,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L191"
                         }
                       ]
                     }
@@ -2160,7 +2211,8 @@
             {
               "fileName": "function.ts",
               "line": 37,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L37"
             }
           ],
           "signatures": [
@@ -2236,7 +2288,8 @@
         {
           "fileName": "function.ts",
           "line": 4,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L4"
         }
       ]
     },
@@ -2257,7 +2310,8 @@
             {
               "fileName": "generic-function.ts",
               "line": 18,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/generic-function.ts#L18"
             }
           ],
           "signatures": [
@@ -2361,7 +2415,8 @@
             {
               "fileName": "generic-function.ts",
               "line": 29,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/generic-function.ts#L29"
             }
           ],
           "signatures": [
@@ -2428,7 +2483,8 @@
             {
               "fileName": "generic-function.ts",
               "line": 7,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/generic-function.ts#L7"
             }
           ],
           "signatures": [
@@ -2526,7 +2582,8 @@
         {
           "fileName": "generic-function.ts",
           "line": 7,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/generic-function.ts#L7"
         }
       ]
     },
@@ -2554,7 +2611,8 @@
                 {
                   "fileName": "implicit-types.ts",
                   "line": 3,
-                  "character": 4
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L3"
                 }
               ],
               "type": {
@@ -2572,7 +2630,8 @@
                 {
                   "fileName": "implicit-types.ts",
                   "line": 2,
-                  "character": 4
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L2"
                 }
               ],
               "type": {
@@ -2595,7 +2654,8 @@
             {
               "fileName": "implicit-types.ts",
               "line": 1,
-              "character": 17
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L1"
             }
           ]
         },
@@ -2609,7 +2669,8 @@
             {
               "fileName": "implicit-types.ts",
               "line": 14,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L14"
             }
           ],
           "signatures": [
@@ -2638,7 +2699,8 @@
                         {
                           "fileName": "implicit-types.ts",
                           "line": 9,
-                          "character": 4
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L9"
                         }
                       ],
                       "type": {
@@ -2657,7 +2719,8 @@
                         {
                           "fileName": "implicit-types.ts",
                           "line": 8,
-                          "character": 4
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L8"
                         }
                       ],
                       "type": {
@@ -2676,7 +2739,8 @@
                         {
                           "fileName": "implicit-types.ts",
                           "line": 7,
-                          "character": 4
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L7"
                         }
                       ],
                       "type": {
@@ -2695,7 +2759,8 @@
                         {
                           "fileName": "implicit-types.ts",
                           "line": 10,
-                          "character": 4
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L10"
                         }
                       ],
                       "type": {
@@ -2714,7 +2779,8 @@
                         {
                           "fileName": "implicit-types.ts",
                           "line": 11,
-                          "character": 4
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L11"
                         }
                       ],
                       "type": {
@@ -2741,7 +2807,8 @@
                     {
                       "fileName": "implicit-types.ts",
                       "line": 6,
-                      "character": 18
+                      "character": 18,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L6"
                     }
                   ]
                 }
@@ -2770,7 +2837,8 @@
         {
           "fileName": "implicit-types.ts",
           "line": 1,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L1"
         }
       ]
     }

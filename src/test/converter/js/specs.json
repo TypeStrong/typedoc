@@ -21,7 +21,8 @@
             {
               "fileName": "export-eq-type.js",
               "line": 1,
-              "character": 22
+              "character": 22,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/export-eq-type.js#L1"
             }
           ],
           "type": {
@@ -39,7 +40,8 @@
             {
               "fileName": "export-eq-type.js",
               "line": 4,
-              "character": 6
+              "character": 6,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/export-eq-type.js#L4"
             }
           ],
           "signatures": [
@@ -90,7 +92,8 @@
         {
           "fileName": "export-eq-type.js",
           "line": 4,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/export-eq-type.js#L4"
         }
       ]
     },
@@ -126,7 +129,8 @@
                 {
                   "fileName": "index.js",
                   "line": 13,
-                  "character": 18
+                  "character": 18,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L13"
                 }
               ],
               "type": {
@@ -144,7 +148,8 @@
                 {
                   "fileName": "index.js",
                   "line": 12,
-                  "character": 22
+                  "character": 22,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L12"
                 }
               ],
               "type": {
@@ -167,7 +172,8 @@
             {
               "fileName": "index.js",
               "line": 11,
-              "character": 21
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L11"
             }
           ]
         },
@@ -188,7 +194,8 @@
                 {
                   "fileName": "index.js",
                   "line": 6,
-                  "character": 22
+                  "character": 22,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L6"
                 }
               ],
               "type": {
@@ -210,7 +217,8 @@
             {
               "fileName": "index.js",
               "line": 5,
-              "character": 21
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L5"
             }
           ]
         },
@@ -224,12 +232,14 @@
             {
               "fileName": "index.js",
               "line": 60,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L60"
             },
             {
               "fileName": "index.js",
               "line": 58,
-              "character": 3
+              "character": 3,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L58"
             }
           ],
           "type": {
@@ -247,7 +257,8 @@
             {
               "fileName": "index.js",
               "line": 49,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L49"
             }
           ],
           "type": {
@@ -262,7 +273,8 @@
                 {
                   "fileName": "index.js",
                   "line": 49,
-                  "character": 3
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L49"
                 }
               ],
               "signatures": [
@@ -309,7 +321,8 @@
             {
               "fileName": "index.js",
               "line": 27,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L27"
             }
           ],
           "type": {
@@ -324,7 +337,8 @@
                 {
                   "fileName": "index.js",
                   "line": 27,
-                  "character": 3
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L27"
                 }
               ],
               "signatures": [
@@ -361,7 +375,8 @@
             {
               "fileName": "index.js",
               "line": 45,
-              "character": 16
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L45"
             }
           ],
           "typeParameter": [
@@ -397,7 +412,8 @@
             {
               "fileName": "index.js",
               "line": 33,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L33"
             }
           ],
           "typeParameter": [
@@ -421,7 +437,8 @@
                 {
                   "fileName": "index.js",
                   "line": 33,
-                  "character": 3
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L33"
                 }
               ],
               "signatures": [
@@ -473,7 +490,8 @@
             {
               "fileName": "index.js",
               "line": 22,
-              "character": 44
+              "character": 44,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
             }
           ],
           "type": {
@@ -498,7 +516,8 @@
                         {
                           "fileName": "index.js",
                           "line": 22,
-                          "character": 15
+                          "character": 15,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
                         }
                       ],
                       "type": {
@@ -520,7 +539,8 @@
                     {
                       "fileName": "index.js",
                       "line": 22,
-                      "character": 13
+                      "character": 13,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
                     }
                   ]
                 }
@@ -544,7 +564,8 @@
                         {
                           "fileName": "index.js",
                           "line": 22,
-                          "character": 31
+                          "character": 31,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
                         }
                       ],
                       "type": {
@@ -566,7 +587,8 @@
                     {
                       "fileName": "index.js",
                       "line": 22,
-                      "character": 29
+                      "character": 29,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
                     }
                   ]
                 }
@@ -584,7 +606,8 @@
             {
               "fileName": "index.js",
               "line": 26,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L26"
             }
           ],
           "type": {
@@ -599,7 +622,8 @@
                 {
                   "fileName": "index.js",
                   "line": 26,
-                  "character": 3
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L26"
                 }
               ],
               "signatures": [
@@ -644,7 +668,8 @@
             {
               "fileName": "index.js",
               "line": 17,
-              "character": 21
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L17"
             }
           ],
           "type": {
@@ -664,7 +689,8 @@
             {
               "fileName": "index.js",
               "line": 39,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L39"
             }
           ],
           "type": {
@@ -679,7 +705,8 @@
                 {
                   "fileName": "index.js",
                   "line": 39,
-                  "character": 3
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L39"
                 }
               ],
               "signatures": [
@@ -739,7 +766,8 @@
             {
               "fileName": "index.js",
               "line": 21,
-              "character": 30
+              "character": 30,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L21"
             }
           ],
           "type": {
@@ -776,12 +804,14 @@
             {
               "fileName": "index.js",
               "line": 60,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L60"
             },
             {
               "fileName": "index.js",
               "line": 58,
-              "character": 3
+              "character": 3,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L58"
             }
           ],
           "type": {
@@ -803,7 +833,8 @@
                     {
                       "fileName": "index.js",
                       "line": 62,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L62"
                     }
                   ],
                   "type": {
@@ -822,7 +853,8 @@
                     {
                       "fileName": "index.js",
                       "line": 61,
-                      "character": 4
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L61"
                     }
                   ],
                   "type": {
@@ -846,7 +878,8 @@
                 {
                   "fileName": "index.js",
                   "line": 60,
-                  "character": 26
+                  "character": 26,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L60"
                 }
               ]
             }
@@ -863,7 +896,8 @@
             {
               "fileName": "index.js",
               "line": 55,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L55"
             }
           ],
           "signatures": [
@@ -943,7 +977,8 @@
         {
           "fileName": "index.js",
           "line": 55,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L55"
         }
       ]
     }

@@ -49,7 +49,8 @@
                 {
                   "fileName": "declaration.d.ts",
                   "line": 2,
-                  "character": 4
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/declaration.d.ts#L2"
                 }
               ],
               "type": {
@@ -78,7 +79,8 @@
             {
               "fileName": "declaration.d.ts",
               "line": 1,
-              "character": 21
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/declaration.d.ts#L1"
             }
           ]
         },
@@ -94,7 +96,8 @@
             {
               "fileName": "declaration.d.ts",
               "line": 5,
-              "character": 21
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/declaration.d.ts#L5"
             }
           ],
           "type": {
@@ -123,7 +126,8 @@
         {
           "fileName": "declaration.d.ts",
           "line": 1,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/declaration.d.ts#L1"
         }
       ]
     },
@@ -176,7 +180,8 @@
             {
               "fileName": "export-declaration.d.ts",
               "line": 1,
-              "character": 21
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/export-declaration.d.ts#L1"
             }
           ]
         },
@@ -222,7 +227,8 @@
             {
               "fileName": "export-declaration.d.ts",
               "line": 3,
-              "character": 14
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/export-declaration.d.ts#L3"
             }
           ]
         }
@@ -241,7 +247,8 @@
         {
           "fileName": "export-declaration.d.ts",
           "line": 1,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/export-declaration.d.ts#L1"
         }
       ]
     },
@@ -264,7 +271,8 @@
             {
               "fileName": "external.d.ts",
               "line": 3,
-              "character": 13
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/external.d.ts#L3"
             }
           ],
           "type": {
@@ -288,7 +296,8 @@
         {
           "fileName": "external.d.ts",
           "line": 1,
-          "character": 0
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/external.d.ts#L1"
         }
       ]
     }

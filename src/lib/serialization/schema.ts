@@ -334,4 +334,4 @@ export type CommentDisplayPart =
       };
 
 export interface SourceReference
-    extends S<M.SourceReference, "fileName" | "line" | "character"> {}
+    extends S<M.SourceReference, "fileName" | "line" | "character" | "url"> {}
