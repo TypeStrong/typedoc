@@ -1,4 +1,3 @@
-import * as Path from "path";
 import * as ts from "typescript";
 
 import {
@@ -6,7 +5,7 @@ import {
     ProjectReflection,
     DeclarationReflection,
 } from "../../models/reflections/index";
-import { SourceDirectory, SourceFile } from "../../models/sources/index";
+import { SourceFile } from "../../models/sources/index";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
@@ -155,33 +154,8 @@ export class SourcePlugin extends ConverterComponent {
      */
     private onEndResolve(context: Context) {
         const project = context.project;
-        const home = project.directory;
         project.files.forEach((file) => {
-            const reflections: DeclarationReflection[] =
-                file.reflections.slice();
-
-            let directory = home;
-            const path = Path.dirname(file.fileName);
-            if (path !== ".") {
-                path.split("/").forEach((pathPiece) => {
-                    if (
-                        !Object.prototype.hasOwnProperty.call(
-                            directory.directories,
-                            pathPiece
-                        )
-                    ) {
-                        directory.directories[pathPiece] = new SourceDirectory(
-                            pathPiece,
-                            directory
-                        );
-                    }
-                    directory = directory.directories[pathPiece];
-                });
-            }
-
-            directory.files.push(file);
-            file.parent = directory;
-            file.reflections = reflections;
+            file.reflections = file.reflections.slice();
         });
     }
 }

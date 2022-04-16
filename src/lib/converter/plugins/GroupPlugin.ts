@@ -5,7 +5,6 @@ import {
     DeclarationReflection,
 } from "../../models/reflections/index";
 import { ReflectionGroup } from "../../models/ReflectionGroup";
-import type { SourceDirectory } from "../../models/sources/directory";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
@@ -72,20 +71,9 @@ export class GroupPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onEndResolve(context: Context) {
-        function walkDirectory(directory: SourceDirectory) {
-            directory.groups = GroupPlugin.getReflectionGroups(
-                directory.getAllReflections()
-            );
-
-            for (const dir of Object.values(directory.directories)) {
-                walkDirectory(dir);
-            }
-        }
-
         const project = context.project;
         this.group(project);
 
-        walkDirectory(project.directory);
         project.files.forEach((file) => {
             file.groups = GroupPlugin.getReflectionGroups(file.reflections);
         });

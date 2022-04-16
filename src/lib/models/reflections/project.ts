@@ -1,4 +1,4 @@
-import { SourceFile, SourceDirectory } from "../sources/index";
+import type { SourceFile } from "../sources/index";
 import { Reflection, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import { ReferenceReflection } from "./reference";
@@ -32,11 +32,6 @@ export class ProjectReflection extends ContainerReflection {
      *   To iterate over all reflections, prefer {@link getReflectionsByKind}.
      */
     reflections: { [id: number]: Reflection } = {};
-
-    /**
-     * The root directory of the project.
-     */
-    directory: SourceDirectory = new SourceDirectory();
 
     /**
      * A list of all source files within the project.

@@ -1,7 +1,6 @@
 import * as Path from "path";
 
 import type { ReflectionGroup } from "../ReflectionGroup";
-import type { SourceDirectory } from "./directory";
 import type { RepositoryType } from "./repository";
 import type { DeclarationReflection } from "..";
 import type { SourceReference as JSONSourceReference } from "../../serialization/schema";
@@ -95,11 +94,6 @@ export class SourceFile {
      * The type of repository where this file is hosted.
      */
     repositoryType?: RepositoryType;
-
-    /**
-     * The representation of the parent directory of this source file.
-     */
-    parent?: SourceDirectory;
 
     /**
      * A list of all reflections that are declared in this file.

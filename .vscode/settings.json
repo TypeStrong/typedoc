@@ -11,5 +11,5 @@
     "prettier.ignorePath": ".config/.prettierignore",
     "eslint.workingDirectories": [".", "./example"],
     "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
-    "cSpell.words": ["tsbuildinfo"]
+    "cSpell.words": ["cname", "tsbuildinfo", "tsdoc"]
 }
