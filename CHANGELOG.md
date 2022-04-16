@@ -30,6 +30,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Constant variables which are interpreted as functions will no longer have the `ReflectionFlag.Const` flag set.
 -   Removed deprecated `removeReaderByName`, `addDeclarations` and `removeDeclarationByName` methods on `Options`.
 -   Removed `ProjectReflection.directory`, it was unused by TypeDoc and not properly tested.
+-   Removed `ProjectReflection.files`, this was an internal cache that should not have been exposed.
 -   Themes are now set on the document element rather than on body, #1706.
 
 ### Features

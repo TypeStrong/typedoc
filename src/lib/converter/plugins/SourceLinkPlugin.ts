@@ -288,25 +288,17 @@ export class SourceLinkPlugin extends ConverterComponent {
      */
     private onEndResolve(context: Context) {
         const project = context.project;
-        project.files.forEach((sourceFile) => {
-            const repository = this.getRepository(sourceFile.fullFileName);
-            if (repository) {
-                sourceFile.url = repository.getURL(sourceFile.fullFileName);
-                sourceFile.repositoryType = repository.type;
-            }
-        });
 
         for (const reflection of Object.values(project.reflections)) {
             if (reflection.sources) {
                 reflection.sources.forEach((source: SourceReference) => {
-                    if (source.file.url) {
-                        source.url =
-                            source.file.url +
-                            "#" +
-                            Repository.getLineNumberAnchor(
-                                source.line,
-                                source.file.repositoryType
-                            );
+                    const repo = this.getRepository(source.fullFileName);
+                    const url = repo?.getURL(source.fullFileName);
+                    if (url) {
+                        source.url = `${url}#${Repository.getLineNumberAnchor(
+                            source.line,
+                            repo!.type
+                        )}`;
                     }
                 });
             }

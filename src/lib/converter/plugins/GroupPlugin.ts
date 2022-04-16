@@ -14,7 +14,7 @@ import { BindOption } from "../../utils";
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.
  *
- * The handler sets the ´groups´ property of all reflections.
+ * The handler sets the `groups` property of all container reflections.
  */
 @Component({ name: "group" })
 export class GroupPlugin extends ConverterComponent {
@@ -71,12 +71,7 @@ export class GroupPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onEndResolve(context: Context) {
-        const project = context.project;
-        this.group(project);
-
-        project.files.forEach((file) => {
-            file.groups = GroupPlugin.getReflectionGroups(file.reflections);
-        });
+        this.group(context.project);
     }
 
     private group(reflection: ContainerReflection) {
