@@ -436,6 +436,22 @@ export const issueTests: {
         ok(auto.hasComment(), "Missing @enum member comment");
     },
 
+    gh1896(project) {
+        const Type1 = query(project, "Type1");
+        const Type2 = query(project, "Type2");
+        equal(Type1.type?.type, "reflection" as const);
+        equal(Type2.type?.type, "reflection" as const);
+
+        equal(
+            Type1.type.declaration.signatures?.[0].comment,
+            new Comment([{ kind: "text", text: "On Tag" }])
+        );
+        equal(
+            Type2.type.declaration.signatures?.[0].comment,
+            new Comment([{ kind: "text", text: "Some type 2." }])
+        );
+    },
+
     gh1898(project, logger) {
         const app = getConverter2App();
         app.validate(project);

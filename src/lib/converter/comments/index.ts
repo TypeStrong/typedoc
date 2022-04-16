@@ -164,6 +164,6 @@ export function getJsDocComment(
             declaration
         );
     } else {
-        return new Comment(tag.content);
+        return new Comment(tag.content.slice());
     }
 }
