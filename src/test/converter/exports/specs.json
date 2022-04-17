@@ -14,7 +14,7 @@
         {
           "id": 46,
           "name": "GH1453Helper",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "sources": [
@@ -30,7 +30,7 @@
         {
           "id": 39,
           "name": "Mod",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "sources": [
@@ -46,7 +46,7 @@
         {
           "id": 41,
           "name": "Mod2",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "comment": {
@@ -70,7 +70,7 @@
         {
           "id": 40,
           "name": "ModDefault",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "sources": [
@@ -86,7 +86,7 @@
         {
           "id": 45,
           "name": "ThisModule",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "sources": [
@@ -102,7 +102,7 @@
         {
           "id": 42,
           "name": "a",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "sources": [
@@ -118,7 +118,7 @@
         {
           "id": 43,
           "name": "b",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "comment": {
@@ -142,7 +142,7 @@
         {
           "id": 38,
           "name": "c",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "sources": [
@@ -670,7 +670,7 @@
         {
           "id": 34,
           "name": "ThisModule",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "sources": [
@@ -686,7 +686,7 @@
         {
           "id": 31,
           "name": "b",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "comment": {
@@ -710,7 +710,7 @@
         {
           "id": 32,
           "name": "c",
-          "kind": 16777216,
+          "kind": 8388608,
           "kindString": "Reference",
           "flags": {},
           "comment": {

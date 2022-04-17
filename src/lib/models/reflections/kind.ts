@@ -25,7 +25,7 @@ export enum ReflectionKind {
     SetSignature = 0x100000,
     ObjectLiteral = 0x200000,
     TypeAlias = 0x400000,
-    Reference = 0x1000000,
+    Reference = 0x800000,
 }
 
 /** @hidden */
