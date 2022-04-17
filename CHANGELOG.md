@@ -30,6 +30,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Removed deprecated `removeReaderByName`, `addDeclarations` and `removeDeclarationByName` methods on `Options`.
 -   Removed `ProjectReflection.directory`, it was unused by TypeDoc and not properly tested.
 -   Removed `ProjectReflection.files`, this was an internal cache that should not have been exposed, and shouldn't have existed in the first place, since removing it made TypeDoc faster.
+-   Removed `ReflectionGroup.kind` since groups can now be created with the `@group` tag.
 -   Removed `ReflectionKind.Event`, the `@event` tag is now an alias for `@group Events`. Note: This changes the value of `ReflectionKind.Reference` from `16777216` to `8388608`.
 -   Themes are now set on the document element rather than on body, #1706.
 
