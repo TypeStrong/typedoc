@@ -29,7 +29,7 @@ jobs:
                   # For other test runs, skip so we don't have to go build the regression screenshots.
                   SKIP_VISUAL_TEST: true
             - name: Lint
-              run: npm run lint
+              run: npm run lint -- --max-warnings 0
             - name: Circular dependency check
               uses: gerrit0/circular-dependency-check@v1
               with:

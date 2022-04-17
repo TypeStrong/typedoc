@@ -7,8 +7,9 @@ import type { Context } from "../context";
 import { BindOption } from "../../utils";
 import { isNamedNode } from "../utils/nodes";
 import { getCommonDirectory, normalizePath } from "../../utils/fs";
-import { relative } from "path";
+import { dirname, relative } from "path";
 import { SourceReference } from "../../models";
+import { gitIsInstalled, Repository } from "../utils/repository";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -18,10 +19,26 @@ export class SourcePlugin extends ConverterComponent {
     @BindOption("disableSources")
     readonly disableSources!: boolean;
 
+    @BindOption("gitRevision")
+    readonly gitRevision!: string;
+
+    @BindOption("gitRemote")
+    readonly gitRemote!: string;
+
     /**
      * All file names to find the base path from.
      */
     private fileNames = new Set<string>();
+
+    /**
+     * List of known repositories.
+     */
+    private repositories: { [path: string]: Repository } = {};
+
+    /**
+     * List of paths known to be not under git control.
+     */
+    private ignoredPaths = new Set<string>();
 
     /**
      * Create a new SourceHandler instance.
@@ -36,6 +53,7 @@ export class SourcePlugin extends ConverterComponent {
     }
 
     private onEnd() {
+        // Should probably clear repositories/ignoredPaths here, but these aren't likely to change between runs...
         this.fileNames.clear();
     }
 
@@ -87,14 +105,63 @@ export class SourcePlugin extends ConverterComponent {
      */
     private onBeginResolve(context: Context) {
         if (this.disableSources) return;
+
         const basePath = getCommonDirectory([...this.fileNames]);
 
         for (const refl of Object.values(context.project.reflections)) {
             for (const source of refl.sources || []) {
+                if (gitIsInstalled) {
+                    const repo = this.getRepository(source.fullFileName);
+                    source.url = repo?.getURL(source.fullFileName);
+                    if (source.url) {
+                        source.url += `#${repo!.getLineNumberAnchor(
+                            source.line
+                        )}`;
+                    }
+                }
+
                 source.fileName = normalizePath(
                     relative(basePath, source.fullFileName)
                 );
             }
         }
+    }
+
+    /**
+     * Check whether the given file is placed inside a repository.
+     *
+     * @param fileName  The name of the file a repository should be looked for.
+     * @returns The found repository info or undefined.
+     */
+    private getRepository(fileName: string): Repository | undefined {
+        // Check for known non-repositories
+        const dirName = dirname(fileName);
+        const segments = dirName.split("/");
+        for (let i = segments.length; i > 0; i--) {
+            if (this.ignoredPaths.has(segments.slice(0, i).join("/"))) {
+                return;
+            }
+        }
+
+        // Check for known repositories
+        for (const path of Object.keys(this.repositories)) {
+            if (fileName.toLowerCase().startsWith(path)) {
+                return this.repositories[path];
+            }
+        }
+
+        // Try to create a new repository
+        const repository = Repository.tryCreateRepository(
+            dirName,
+            this.gitRevision,
+            this.gitRemote
+        );
+        if (repository) {
+            this.repositories[repository.path.toLowerCase()] = repository;
+            return repository;
+        }
+
+        // No repository found, add path to ignored paths
+        this.ignoredPaths.add(dirName);
     }
 }

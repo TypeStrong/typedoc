@@ -1,13 +1,6 @@
-import * as Path from "path";
 import { spawnSync } from "child_process";
-
-import type { SourceReference } from "../../models/sources/file";
-import { Component, ConverterComponent } from "../components";
-import { BasePath } from "../utils/base-path";
-import { Converter } from "../converter";
-import type { Context } from "../context";
-import { BindOption } from "../../utils";
 import { RepositoryType } from "../../models";
+import { BasePath } from "../utils/base-path";
 
 const TEN_MEGABYTES: number = 1024 * 10000;
 
@@ -18,6 +11,8 @@ function git(...args: string[]) {
         maxBuffer: TEN_MEGABYTES,
     });
 }
+
+export const gitIsInstalled = git("--version").status === 0;
 
 /**
  * Stores data of a repository.
@@ -62,6 +57,8 @@ export class Repository {
      * Whether this is a GitHub, Bitbucket, or other type of repository.
      */
     type: RepositoryType = RepositoryType.GitHub;
+
+    private urlCache = new Map<string, string>();
 
     /**
      * Create a new Repository instance.
@@ -146,11 +143,15 @@ export class Repository {
      * @returns A URL pointing to the web preview of the given file or undefined.
      */
     getURL(fileName: string): string | undefined {
+        if (this.urlCache.has(fileName)) {
+            return this.urlCache.get(fileName)!;
+        }
+
         if (!this.user || !this.project || !this.contains(fileName)) {
             return;
         }
 
-        return [
+        const url = [
             `https://${this.hostname}`,
             this.user,
             this.project,
@@ -161,6 +162,20 @@ export class Repository {
         ]
             .filter((s) => !!s)
             .join("/");
+
+        this.urlCache.set(fileName, url);
+        return url;
+    }
+
+    getLineNumberAnchor(lineNumber: number): string {
+        switch (this.type) {
+            default:
+            case RepositoryType.GitHub:
+            case RepositoryType.GitLab:
+                return "L" + lineNumber;
+            case RepositoryType.Bitbucket:
+                return "lines-" + lineNumber;
+        }
     }
 
     /**
@@ -189,119 +204,5 @@ export class Repository {
             gitRevision,
             remotesOutput.stdout.split("\n")
         );
-    }
-
-    static getLineNumberAnchor(
-        lineNumber: number,
-        repositoryType: RepositoryType | undefined
-    ): string {
-        switch (repositoryType) {
-            default:
-            case RepositoryType.GitHub:
-            case RepositoryType.GitLab:
-                return "L" + lineNumber;
-            case RepositoryType.Bitbucket:
-                return "lines-" + lineNumber;
-        }
-    }
-}
-
-/**
- * A handler that watches for repositories with GitHub origin and links
- * their source files to the related GitHub pages.
- */
-@Component({ name: "source-link" })
-export class SourceLinkPlugin extends ConverterComponent {
-    /**
-     * List of known repositories.
-     */
-    private repositories: { [path: string]: Repository } = {};
-
-    /**
-     * List of paths known to be not under git control.
-     */
-    private ignoredPaths = new Set<string>();
-
-    @BindOption("gitRevision")
-    readonly gitRevision!: string;
-
-    @BindOption("gitRemote")
-    readonly gitRemote!: string;
-
-    /**
-     * Create a new GitHubHandler instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
-     */
-    override initialize() {
-        if (git("--version").status === 0) {
-            this.listenTo(
-                this.owner,
-                Converter.EVENT_RESOLVE_END,
-                this.onEndResolve
-            );
-        }
-    }
-
-    /**
-     * Check whether the given file is placed inside a repository.
-     *
-     * @param fileName  The name of the file a repository should be looked for.
-     * @returns The found repository info or undefined.
-     */
-    private getRepository(fileName: string): Repository | undefined {
-        // Check for known non-repositories
-        const dirName = Path.dirname(fileName);
-        const segments = dirName.split("/");
-        for (let i = segments.length; i > 0; i--) {
-            if (this.ignoredPaths.has(segments.slice(0, i).join("/"))) {
-                return;
-            }
-        }
-
-        // Check for known repositories
-        for (const path of Object.keys(this.repositories)) {
-            if (fileName.toLowerCase().startsWith(path)) {
-                return this.repositories[path];
-            }
-        }
-
-        // Try to create a new repository
-        const repository = Repository.tryCreateRepository(
-            dirName,
-            this.gitRevision,
-            this.gitRemote
-        );
-        if (repository) {
-            this.repositories[repository.path.toLowerCase()] = repository;
-            return repository;
-        }
-
-        // No repository found, add path to ignored paths
-        this.ignoredPaths.add(dirName);
-    }
-
-    /**
-     * Triggered when the converter has finished resolving a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     */
-    private onEndResolve(context: Context) {
-        const project = context.project;
-
-        for (const reflection of Object.values(project.reflections)) {
-            if (reflection.sources) {
-                reflection.sources.forEach((source: SourceReference) => {
-                    const repo = this.getRepository(source.fullFileName);
-                    const url = repo?.getURL(source.fullFileName);
-                    if (url) {
-                        source.url = `${url}#${Repository.getLineNumberAnchor(
-                            source.line,
-                            repo!.type
-                        )}`;
-                    }
-                });
-            }
-        }
     }
 }

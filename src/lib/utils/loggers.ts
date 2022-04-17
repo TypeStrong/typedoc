@@ -254,6 +254,7 @@ export class ConsoleLogger extends Logger {
             } as const
         )[level];
 
+        // eslint-disable-next-line no-console
         console[method](withContext(message, level, node));
     }
 }

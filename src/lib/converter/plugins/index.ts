@@ -5,6 +5,5 @@ export { ImplementsPlugin } from "./ImplementsPlugin";
 export { InheritDocPlugin } from "./InheritDocPlugin";
 export { LinkResolverPlugin } from "./LinkResolverPlugin";
 export { PackagePlugin } from "./PackagePlugin";
-export { SourceLinkPlugin } from "./SourceLinkPlugin";
 export { SourcePlugin } from "./SourcePlugin";
 export { TypePlugin } from "./TypePlugin";

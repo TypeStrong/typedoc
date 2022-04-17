@@ -128,6 +128,7 @@ export async function captureScreenshots(
 
 if (require.main == module) {
     captureRegressionScreenshots().catch((err) => {
+        // eslint-disable-next-line no-console
         console.error(err);
         process.exit(1);
     });

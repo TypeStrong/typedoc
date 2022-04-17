@@ -92,9 +92,6 @@ function convertJsDocInterface(
         symbol,
         exportSymbol
     );
-    if (reflection.name === "ColumnType") {
-        console.log(declaration);
-    }
     reflection.comment = getJsDocComment(
         declaration,
         context.config,

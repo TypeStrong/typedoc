@@ -62,14 +62,11 @@
     "/static"
   ],
   "scripts": {
-    "pretest": "node scripts/copy_test_files.js",
     "test": "mocha -r ts-node/register --config .config/mocha.fast.json",
     "build:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
-    "pretest:full": "npm run pretest",
     "test:full": "nyc mocha -r ts-node/register --config .config/mocha.full.json",
     "test:visual": "node ./dist/test/capture-screenshots.js && reg-suit -c .config/regconfig.json compare",
     "test:visual:accept": "node scripts/accept_visual_regression.js",
-    "prerebuild_specs": "npm run pretest",
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "npm run build:tsc && npm run build:themes",
     "build:tsc": "tsc --project .",

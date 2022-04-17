@@ -1,4 +1,4 @@
-import { Repository } from "../lib/converter/plugins/SourceLinkPlugin";
+import { Repository } from "../lib/converter/utils/repository";
 import { RepositoryType } from "../lib/models";
 import { strictEqual as equal } from "assert";
 
