@@ -212,6 +212,13 @@ export class Comment {
         return this.blockTags.find((tag) => tag.tag === tagName);
     }
 
+    /**
+     * Get all tags with the given tag name.
+     */
+    getTags(tagName: `@${string}`): CommentTag[] {
+        return this.blockTags.filter((tag) => tag.tag === tagName);
+    }
+
     getIdentifiedTag(identifier: string, tagName: `@${string}`) {
         return this.blockTags.find(
             (tag) => tag.tag === tagName && tag.name === identifier

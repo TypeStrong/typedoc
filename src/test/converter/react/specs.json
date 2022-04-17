@@ -108,21 +108,18 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             5
           ]
         },
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             8
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             9
           ]
@@ -186,7 +183,6 @@
       "groups": [
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             3,
             2
@@ -206,14 +202,12 @@
   "groups": [
     {
       "title": "Classes",
-      "kind": 128,
       "children": [
         4
       ]
     },
     {
       "title": "Interfaces",
-      "kind": 256,
       "children": [
         1
       ]

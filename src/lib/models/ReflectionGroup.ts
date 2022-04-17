@@ -1,4 +1,3 @@
-import type { ReflectionKind } from "./reflections/kind";
 import type { ReflectionCategory } from "./ReflectionCategory";
 import type { DeclarationReflection } from ".";
 import type { Serializer, JSONOutput } from "../serialization";
@@ -15,11 +14,6 @@ export class ReflectionGroup {
      * The title, a string representation of the typescript kind, of this group.
      */
     title: string;
-
-    /**
-     * The original typescript kind of the children of this group.
-     */
-    kind: ReflectionKind;
 
     /**
      * All reflections of this group.
@@ -61,11 +55,9 @@ export class ReflectionGroup {
      * Create a new ReflectionGroup instance.
      *
      * @param title The title of this group.
-     * @param kind  The original typescript kind of the children of this group.
      */
-    constructor(title: string, kind: ReflectionKind) {
+    constructor(title: string) {
         this.title = title;
-        this.kind = kind;
     }
 
     /**
@@ -78,7 +70,6 @@ export class ReflectionGroup {
     toObject(serializer: Serializer): JSONOutput.ReflectionGroup {
         return {
             title: this.title,
-            kind: this.kind,
             children:
                 this.children.length > 0
                     ? this.children.map((child) => child.id)

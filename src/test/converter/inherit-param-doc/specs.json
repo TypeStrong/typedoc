@@ -115,14 +115,12 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             7
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             9
           ]
@@ -254,14 +252,12 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             14
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             16
           ]
@@ -393,14 +389,12 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             21
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             23
           ]
@@ -501,7 +495,6 @@
       "groups": [
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             2
           ]
@@ -537,7 +530,6 @@
   "groups": [
     {
       "title": "Classes",
-      "kind": 128,
       "children": [
         6,
         13,
@@ -546,7 +538,6 @@
     },
     {
       "title": "Interfaces",
-      "kind": 256,
       "children": [
         1
       ]

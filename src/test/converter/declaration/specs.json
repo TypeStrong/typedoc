@@ -62,14 +62,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 3
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 5
               ]
@@ -109,14 +107,12 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             2
           ]
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             6
           ]
@@ -170,7 +166,6 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 9
               ]
@@ -217,7 +212,6 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 12
               ]
@@ -236,7 +230,6 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             8,
             11
@@ -286,7 +279,6 @@
       "groups": [
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             15
           ]
@@ -305,7 +297,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         7,

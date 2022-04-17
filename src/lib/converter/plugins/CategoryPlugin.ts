@@ -175,6 +175,9 @@ export class CategoryPlugin extends ConverterComponent {
      *
      * @param reflection The reflection.
      * @returns The category the reflection belongs to
+     *
+     * @privateRemarks
+     * If you change this, also update getGroups in GroupPlugin accordingly.
      */
     static getCategories(reflection: DeclarationReflection) {
         const categories = new Set<string>();

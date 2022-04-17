@@ -50,7 +50,6 @@
           "groups": [
             {
               "title": "Functions",
-              "kind": 64,
               "children": [
                 81
               ]
@@ -189,14 +188,12 @@
           "groups": [
             {
               "title": "Variables",
-              "kind": 32,
               "children": [
                 60
               ]
             },
             {
               "title": "Functions",
-              "kind": 64,
               "children": [
                 56,
                 58
@@ -408,14 +405,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 93
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 97,
                 95,
@@ -1099,7 +1094,6 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             29,
                             28,
@@ -1261,7 +1255,6 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             44,
                             43,
@@ -1415,7 +1408,6 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             36,
                             35,
@@ -2176,7 +2168,6 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             51
                           ]
@@ -2246,7 +2237,6 @@
       "groups": [
         {
           "title": "Namespaces",
-          "kind": 4,
           "children": [
             80,
             55
@@ -2254,14 +2244,12 @@
         },
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             86
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             99,
             67,
@@ -2570,7 +2558,6 @@
       "groups": [
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             121,
             126,
@@ -2643,7 +2630,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 141,
                 140
@@ -2793,7 +2779,6 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         136,
                         135,
@@ -2820,14 +2805,12 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             139
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             131
           ]
@@ -2846,7 +2829,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         116,

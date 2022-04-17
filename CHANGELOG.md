@@ -8,8 +8,6 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Make comment parser options configurable (read tsdoc.json?).
 -   Full support for declaration references, #262, #488, #1326, #1845.
 -   Add support for additional comment styles, #1433.
--   Add support for `@group` tags, #1652.
-    -   Add support for `@eventProperty`, and rework `@event` to be equivalent, in defining an element to be part of the "Events" group.
 -   Theme: Custom rendering for `@see` tags.
 -   Theme: Show toggles for all modifier tags used in a project to allow users to filter by deprecated/alpha/beta, etc.
     -   Add option to control default values (merge #1816. Same option? Different one since it's based on comments?)
@@ -30,11 +28,13 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Constant variables which are interpreted as functions will no longer have the `ReflectionFlag.Const` flag set.
 -   Removed deprecated `removeReaderByName`, `addDeclarations` and `removeDeclarationByName` methods on `Options`.
 -   Removed `ProjectReflection.directory`, it was unused by TypeDoc and not properly tested.
--   Removed `ProjectReflection.files`, this was an internal cache that should not have been exposed.
+-   Removed `ProjectReflection.files`, this was an internal cache that should not have been exposed, and shouldn't have existed in the first place, since removing it made TypeDoc faster.
+-   Removed `ReflectionKind.Event`, the `@event` tag is now an alias for `@group Events`.
 -   Themes are now set on the document element rather than on body, #1706.
 
 ### Features
 
+-   TypeDoc now supports the `@group` tag to group reflections in a page. If no `@group` tag is specified, reflections will be grouped according to their kind, #1652.
 -   TypeDoc will now search for `typedoc.js(on)` in the `.config` folder in the current working directory.
 -   If an exported symbol has multiple declarations, TypeDoc will now check all appropriate declarations for comments, and warn if more than one declaration contains a comment, #1855.
 -   Improved support for JSDoc style `@example` tags. If the tag content does not include a code block, TypeDoc now follows VSCode's behavior of treating the entire block as a code block, #135.

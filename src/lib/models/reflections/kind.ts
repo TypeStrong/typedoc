@@ -25,7 +25,6 @@ export enum ReflectionKind {
     SetSignature = 0x100000,
     ObjectLiteral = 0x200000,
     TypeAlias = 0x400000,
-    Event = 0x800000,
     Reference = 0x1000000,
 }
 
@@ -43,8 +42,7 @@ export namespace ReflectionKind {
         ReflectionKind.Accessor |
         ReflectionKind.Constructor |
         ReflectionKind.Method |
-        ReflectionKind.Property |
-        ReflectionKind.Event;
+        ReflectionKind.Property;
     export const SomeSignature =
         ReflectionKind.CallSignature |
         ReflectionKind.IndexSignature |

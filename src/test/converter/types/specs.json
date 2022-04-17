@@ -216,7 +216,6 @@
       "groups": [
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             8,
             2,
@@ -227,7 +226,6 @@
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             3,
             5,
@@ -388,7 +386,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             15,
             12,
@@ -704,7 +701,6 @@
       "groups": [
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             32,
             30
@@ -712,7 +708,6 @@
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             26,
             22
@@ -788,7 +783,6 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         37
                       ]
@@ -811,7 +805,6 @@
       "groups": [
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             35
           ]
@@ -882,14 +875,12 @@
       "groups": [
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             40
           ]
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             39
           ]
@@ -1303,7 +1294,6 @@
       "groups": [
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             50,
             42,
@@ -1314,7 +1304,6 @@
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             51,
             43,
@@ -1431,7 +1420,6 @@
               "groups": [
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     57,
                     58
@@ -1503,7 +1491,6 @@
       "groups": [
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             54,
             55,
@@ -1512,7 +1499,6 @@
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             53
           ]
@@ -1580,7 +1566,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 62
               ]
@@ -1641,7 +1626,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 64
               ]
@@ -1804,7 +1788,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 68,
                 67,
@@ -1825,7 +1808,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             61,
             63,
@@ -1846,7 +1828,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         11,

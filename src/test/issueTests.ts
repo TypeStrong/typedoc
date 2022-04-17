@@ -316,9 +316,7 @@ export const issueTests: {
         const Foo = query(project, "Foo");
         ok(Foo.type instanceof ReflectionType);
 
-        const group = project.groups?.find(
-            (g) => g.kind === ReflectionKind.TypeAlias
-        );
+        const group = project.groups?.find((g) => g.title === "Type aliases");
         ok(group);
         const cat = group.categories?.find(
             (cat) => cat.title === "My category"

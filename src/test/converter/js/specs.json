@@ -75,14 +75,12 @@
       "groups": [
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             5
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             2
           ]
@@ -161,7 +159,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 19,
                 18
@@ -207,7 +204,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 16
               ]
@@ -529,7 +525,6 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         24
                       ]
@@ -577,7 +572,6 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         26
                       ]
@@ -867,7 +861,6 @@
               "groups": [
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     13,
                     12
@@ -936,7 +929,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             17,
             15
@@ -944,7 +936,6 @@
         },
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             14,
             44,
@@ -960,14 +951,12 @@
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             10
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             7
           ]
@@ -986,7 +975,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         6

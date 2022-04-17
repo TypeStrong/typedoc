@@ -148,21 +148,18 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 3
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 5
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 19
               ]
@@ -181,7 +178,6 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             2
           ]
@@ -294,7 +290,6 @@
       "groups": [
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             27
           ]
@@ -410,7 +405,6 @@
       "groups": [
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             32
           ]
@@ -518,7 +512,6 @@
       "groups": [
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             37
           ]
@@ -537,7 +530,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         26,

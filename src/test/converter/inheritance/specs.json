@@ -120,14 +120,12 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 15
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 16
               ]
@@ -256,14 +254,12 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 21
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 22
               ]
@@ -602,7 +598,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             14,
             20
@@ -610,7 +605,6 @@
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             2,
             7,
@@ -730,14 +724,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 36
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 38,
                 35
@@ -790,7 +782,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 33
               ]
@@ -870,14 +861,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 29
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 28
               ]
@@ -929,14 +918,12 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             34
           ]
         },
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             32,
             27
@@ -944,7 +931,6 @@
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             31
           ]
@@ -963,7 +949,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         26

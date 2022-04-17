@@ -231,7 +231,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 13,
                 14
@@ -239,14 +238,12 @@
             },
             {
               "title": "Accessors",
-              "kind": 262144,
               "children": [
                 9
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 15,
                 17,
@@ -409,14 +406,12 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             8
           ]
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             6,
             7
@@ -424,7 +419,6 @@
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             2,
             4
@@ -494,7 +488,6 @@
           "groups": [
             {
               "title": "Functions",
-              "kind": 64,
               "children": [
                 60
               ]
@@ -585,14 +578,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 86
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 88
               ]
@@ -719,14 +710,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 75
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 79,
                 80,
@@ -830,21 +819,18 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 63
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 65
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 66
               ]
@@ -972,21 +958,18 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 69
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 71
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 72
               ]
@@ -1360,14 +1343,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 26
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 29,
                 28,
@@ -1376,7 +1357,6 @@
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 36,
                 34,
@@ -1903,14 +1883,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 42
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 52,
                 53,
@@ -1920,7 +1898,6 @@
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 57,
                 54,
@@ -2020,14 +1997,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 82
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 84
               ]
@@ -2095,14 +2070,12 @@
       "groups": [
         {
           "title": "Namespaces",
-          "kind": 4,
           "children": [
             59
           ]
         },
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             85,
             74,
@@ -2115,7 +2088,6 @@
         },
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             90
           ]
@@ -2307,14 +2279,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 95
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 102,
                 100,
@@ -2573,14 +2543,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 104
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 112,
                 113,
@@ -2609,7 +2577,6 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             94,
             103
@@ -2708,14 +2675,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 129
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 131
               ]
@@ -2904,7 +2869,6 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             127
                           ]
@@ -2994,14 +2958,12 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             128
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             115,
             123,
@@ -3056,8 +3018,8 @@
             {
               "id": 162,
               "name": "EVENT_CLICK",
-              "kind": 8388608,
-              "kindString": "Event",
+              "kind": 1024,
+              "kindString": "Property",
               "flags": {
                 "isStatic": true
               },
@@ -3087,14 +3049,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 163
               ]
             },
             {
               "title": "Events",
-              "kind": 8388608,
               "children": [
                 162
               ]
@@ -3113,7 +3073,6 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             161
           ]
@@ -3164,8 +3123,8 @@
             {
               "id": 135,
               "name": "on",
-              "kind": 8388608,
-              "kindString": "Event",
+              "kind": 2048,
+              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -3197,8 +3156,8 @@
                 {
                   "id": 136,
                   "name": "on",
-                  "kind": 8388608,
-                  "kindString": "Event",
+                  "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3296,8 +3255,8 @@
                 {
                   "id": 142,
                   "name": "on",
-                  "kind": 8388608,
-                  "kindString": "Event",
+                  "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3395,8 +3354,8 @@
                 {
                   "id": 148,
                   "name": "on",
-                  "kind": 8388608,
-                  "kindString": "Event",
+                  "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3494,8 +3453,8 @@
                 {
                   "id": 154,
                   "name": "on",
-                  "kind": 8388608,
-                  "kindString": "Event",
+                  "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3596,7 +3555,6 @@
           "groups": [
             {
               "title": "Events",
-              "kind": 8388608,
               "children": [
                 135
               ]
@@ -3615,7 +3573,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             134
           ]
@@ -3842,14 +3799,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 167
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 171,
                 172
@@ -3857,7 +3812,6 @@
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 173
               ]
@@ -4111,14 +4065,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 177
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 180,
                 181
@@ -4126,7 +4078,6 @@
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 182
               ]
@@ -4158,7 +4109,6 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             166,
             176
@@ -4363,21 +4313,18 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 186
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 188
               ]
             },
             {
               "title": "Accessors",
-              "kind": 262144,
               "children": [
                 189,
                 193,
@@ -4398,7 +4345,6 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             185
           ]
@@ -4499,14 +4445,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 200
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 202
               ]
@@ -4525,7 +4469,6 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             199
           ]
@@ -4624,14 +4567,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 211
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 214
               ]
@@ -4759,14 +4700,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 206
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 208,
                 209
@@ -4786,7 +4725,6 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             210,
             205
@@ -4806,7 +4744,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         21,

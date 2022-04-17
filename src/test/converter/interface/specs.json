@@ -146,7 +146,6 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 3
               ]
@@ -180,7 +179,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             2,
             13
@@ -377,7 +375,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             21,
             18,
@@ -386,7 +383,6 @@
         },
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             24
           ]
@@ -499,21 +495,18 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 31
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 33
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 34
               ]
@@ -569,14 +562,12 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             30
           ]
         },
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             29
           ]
@@ -982,21 +973,18 @@
               "groups": [
                 {
                   "title": "Constructors",
-                  "kind": 512,
                   "children": [
                     82
                   ]
                 },
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     85
                   ]
                 },
                 {
                   "title": "Methods",
-                  "kind": 2048,
                   "children": [
                     86,
                     97,
@@ -1317,14 +1305,12 @@
               "groups": [
                 {
                   "title": "Constructors",
-                  "kind": 512,
                   "children": [
                     50
                   ]
                 },
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     60,
                     58,
@@ -1334,7 +1320,6 @@
                 },
                 {
                   "title": "Methods",
-                  "kind": 2048,
                   "children": [
                     61
                   ]
@@ -1621,7 +1606,6 @@
               "groups": [
                 {
                   "title": "Methods",
-                  "kind": 2048,
                   "children": [
                     65,
                     76,
@@ -1835,7 +1819,6 @@
               "groups": [
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     45,
                     43,
@@ -1844,7 +1827,6 @@
                 },
                 {
                   "title": "Methods",
-                  "kind": 2048,
                   "children": [
                     46
                   ]
@@ -1879,7 +1861,6 @@
           "groups": [
             {
               "title": "Classes",
-              "kind": 128,
               "children": [
                 81,
                 49
@@ -1887,7 +1868,6 @@
             },
             {
               "title": "Interfaces",
-              "kind": 256,
               "children": [
                 64,
                 38,
@@ -1908,7 +1888,6 @@
       "groups": [
         {
           "title": "Namespaces",
-          "kind": 4,
           "children": [
             37
           ]
@@ -1960,7 +1939,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 104
               ]
@@ -2017,7 +1995,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 106
               ]
@@ -2136,7 +2113,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 110,
                 111,
@@ -2305,7 +2281,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 116,
                 117,
@@ -2340,7 +2315,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             103,
             105,
@@ -2362,7 +2336,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         14,

@@ -277,14 +277,12 @@
           "groups": [
             {
               "title": "Type aliases",
-              "kind": 4194304,
               "children": [
                 25
               ]
             },
             {
               "title": "Variables",
-              "kind": 32,
               "children": [
                 23,
                 21,
@@ -399,7 +397,6 @@
       "groups": [
         {
           "title": "References",
-          "kind": 16777216,
           "children": [
             46,
             39,
@@ -413,14 +410,12 @@
         },
         {
           "title": "Namespaces",
-          "kind": 4,
           "children": [
             20
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             15,
             26
@@ -499,7 +494,6 @@
       "groups": [
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             2
           ]
@@ -547,7 +541,6 @@
       "groups": [
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             7
           ]
@@ -647,14 +640,12 @@
       "groups": [
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             13
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             9
           ]
@@ -829,7 +820,6 @@
       "groups": [
         {
           "title": "References",
-          "kind": 16777216,
           "children": [
             34,
             31,
@@ -838,21 +828,18 @@
         },
         {
           "title": "Type aliases",
-          "kind": 4194304,
           "children": [
             35
           ]
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             30
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             36
           ]
@@ -871,7 +858,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         14,
         1,

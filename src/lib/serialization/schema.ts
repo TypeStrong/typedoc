@@ -100,7 +100,7 @@ type S<T, K extends keyof T> = {
 // Reflections
 
 export interface ReflectionGroup
-    extends S<M.ReflectionGroup, "title" | "kind" | "categories"> {
+    extends S<M.ReflectionGroup, "title" | "categories"> {
     children?: M.ReflectionGroup["children"][number]["id"][];
 }
 

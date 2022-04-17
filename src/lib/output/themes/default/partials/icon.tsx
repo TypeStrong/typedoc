@@ -70,15 +70,6 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
     [ReflectionKind.EnumMember]() {
         return this[ReflectionKind.Property]();
     },
-    [ReflectionKind.Event]: () =>
-        kindIcon(
-            <path
-                d="M9.45 16V7.24H14.49V8.224H10.518V10.936H14.07V11.908H10.518V15.016H14.49V16H9.45Z"
-                fill="var(--color-text)"
-            />,
-            "#7FDE21",
-            true
-        ),
     [ReflectionKind.Function]: () =>
         kindIcon(
             <path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)" />,

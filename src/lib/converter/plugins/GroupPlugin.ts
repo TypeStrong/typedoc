@@ -9,7 +9,8 @@ import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import { sortReflections, SortStrategy } from "../../utils/sort";
-import { BindOption } from "../../utils";
+import { BindOption, removeIf } from "../../utils";
+import { Comment } from "../../models";
 
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.
@@ -88,6 +89,45 @@ export class GroupPlugin extends ConverterComponent {
     }
 
     /**
+     * Extracts the groups for a given reflection.
+     *
+     * @privateRemarks
+     * If you change this, also update getCategories in CategoryPlugin accordingly.
+     */
+    static getGroups(reflection: DeclarationReflection) {
+        const groups = new Set<string>();
+        function extractGroupTags(comment: Comment | undefined) {
+            if (!comment) return;
+            removeIf(comment.blockTags, (tag) => {
+                if (tag.tag === "@group") {
+                    groups.add(Comment.combineDisplayParts(tag.content).trim());
+
+                    return true;
+                }
+                return false;
+            });
+        }
+
+        extractGroupTags(reflection.comment);
+        for (const sig of reflection.getNonIndexSignatures()) {
+            extractGroupTags(sig.comment);
+        }
+
+        if (reflection.type?.type === "reflection") {
+            extractGroupTags(reflection.type.declaration.comment);
+            for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+                extractGroupTags(sig.comment);
+            }
+        }
+
+        groups.delete("");
+        if (groups.size === 0) {
+            groups.add(GroupPlugin.getKindPlural(reflection.kind));
+        }
+        return groups;
+    }
+
+    /**
      * Create a grouped representation of the given list of reflections.
      *
      * Reflections are grouped by kind and sorted by weight and name.
@@ -98,24 +138,17 @@ export class GroupPlugin extends ConverterComponent {
     static getReflectionGroups(
         reflections: DeclarationReflection[]
     ): ReflectionGroup[] {
-        const groups: ReflectionGroup[] = [];
+        const groups = new Map<string, ReflectionGroup>();
         reflections.forEach((child) => {
-            for (let i = 0; i < groups.length; i++) {
-                const group = groups[i];
-                if (group.kind !== child.kind) {
-                    continue;
+            for (const name of GroupPlugin.getGroups(child)) {
+                let group = groups.get(name);
+                if (!group) {
+                    group = new ReflectionGroup(name);
+                    groups.set(name, group);
                 }
 
                 group.children.push(child);
-                return;
             }
-
-            const group = new ReflectionGroup(
-                GroupPlugin.getKindPlural(child.kind),
-                child.kind
-            );
-            group.children.push(child);
-            groups.push(group);
         });
 
         groups.forEach((group) => {
@@ -125,14 +158,13 @@ export class GroupPlugin extends ConverterComponent {
             let allExternal = true;
 
             group.children.forEach((child) => {
-                allPrivate = child.flags.isPrivate && allPrivate;
-                allProtected =
-                    (child.flags.isPrivate || child.flags.isProtected) &&
-                    allProtected;
-                allExternal = child.flags.isExternal && allExternal;
+                allPrivate &&= child.flags.isPrivate;
+                allProtected &&=
+                    child.flags.isPrivate || child.flags.isProtected;
+                allExternal &&= child.flags.isExternal;
 
                 if (child instanceof DeclarationReflection) {
-                    allInherited = !!child.inheritedFrom && allInherited;
+                    allInherited &&= !!child.inheritedFrom;
                 } else {
                     allInherited = false;
                 }
@@ -144,7 +176,7 @@ export class GroupPlugin extends ConverterComponent {
             group.allChildrenAreExternal = allExternal;
         });
 
-        return groups;
+        return Array.from(groups.values());
     }
 
     /**

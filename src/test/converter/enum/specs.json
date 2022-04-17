@@ -87,14 +87,12 @@
       "groups": [
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             12
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             10
           ]
@@ -168,7 +166,6 @@
       "groups": [
         {
           "title": "Enumeration members",
-          "kind": 16,
           "children": [
             14,
             15
@@ -275,7 +272,6 @@
       "groups": [
         {
           "title": "Enumeration members",
-          "kind": 16,
           "children": [
             6,
             7,
@@ -389,7 +385,6 @@
       "groups": [
         {
           "title": "Enumeration members",
-          "kind": 16,
           "children": [
             2,
             3,
@@ -410,14 +405,12 @@
   "groups": [
     {
       "title": "Namespaces",
-      "kind": 4,
       "children": [
         9
       ]
     },
     {
       "title": "Enumerations",
-      "kind": 8,
       "children": [
         13,
         5,

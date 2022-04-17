@@ -93,21 +93,18 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             14
           ]
         },
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             16
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             17
           ]
@@ -434,14 +431,12 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             61
           ]
         },
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             74,
             63,
@@ -451,7 +446,6 @@
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             75,
             64,
@@ -510,7 +504,6 @@
                         "groups": [
                           {
                             "title": "Properties",
-                            "kind": 1024,
                             "children": [
                               60
                             ]
@@ -737,7 +730,6 @@
       "groups": [
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             30,
             26
@@ -745,7 +737,6 @@
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             31,
             27
@@ -1013,7 +1004,6 @@
       "groups": [
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             48,
             44,
@@ -1022,7 +1012,6 @@
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             49,
             45,
@@ -1432,7 +1421,6 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         24
                       ]
@@ -1558,7 +1546,6 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         38
                       ]
@@ -1679,7 +1666,6 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         56
                       ]
@@ -1709,7 +1695,6 @@
   "groups": [
     {
       "title": "Classes",
-      "kind": 128,
       "children": [
         13,
         58
@@ -1717,7 +1702,6 @@
     },
     {
       "title": "Interfaces",
-      "kind": 256,
       "children": [
         25,
         39
@@ -1725,7 +1709,6 @@
     },
     {
       "title": "Type aliases",
-      "kind": 4194304,
       "children": [
         6,
         1,
@@ -1735,7 +1718,6 @@
     },
     {
       "title": "Functions",
-      "kind": 64,
       "children": [
         19,
         33,

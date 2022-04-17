@@ -175,6 +175,7 @@ export class Context {
             // TypeDoc specific
             "@module",
             "@inheritDoc",
+            "@group",
         ]),
         inlineTags: new Set(["@link", "@inheritDoc", "@label"]),
         modifierTags: new Set([
@@ -185,6 +186,7 @@ export class Context {
             "@internal",
             "@readonly",
             "@packageDocumentation",
+            "@eventProperty",
             "@deprecated",
             "@alpha",
             "@beta",

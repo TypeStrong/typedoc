@@ -118,6 +118,22 @@ export const behaviorTests: Record<
         equal(Comment.combineDisplayParts(foo.comment?.summary), "export foo");
     },
 
+    groupTag(project) {
+        const A = query(project, "A");
+        const B = query(project, "B");
+        const C = query(project, "C");
+
+        equal(
+            project.groups?.map((g) => g.title),
+            ["A", "B", "With Spaces"]
+        );
+
+        equal(
+            project.groups.map((g) => g.children),
+            [[A, B], [B], [C]]
+        );
+    },
+
     inheritDocBasic(project) {
         const target = query(project, "InterfaceTarget");
         const comment = new Comment(

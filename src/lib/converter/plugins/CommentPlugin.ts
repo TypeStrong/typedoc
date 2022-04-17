@@ -13,6 +13,7 @@ import {
     ReflectionType,
     SourceReference,
     TypeVisitor,
+    CommentTag,
 } from "../../models";
 import {
     BindOption,
@@ -97,14 +98,15 @@ export class CommentPlugin extends ConverterComponent {
             comment.removeModifier("@public");
         }
 
-        if (comment.hasModifier("@event")) {
-            if (reflection.kindOf(ReflectionKind.CallSignature)) {
-                if (reflection.parent) {
-                    reflection.parent.kind = ReflectionKind.Event;
-                }
-            }
-            reflection.kind = ReflectionKind.Event;
+        if (
+            comment.hasModifier("@event") ||
+            comment.hasModifier("@eventProperty")
+        ) {
+            comment.blockTags.push(
+                new CommentTag("@group", [{ kind: "text", text: "Events" }])
+            );
             comment.removeModifier("@event");
+            comment.removeModifier("@eventProperty");
         }
 
         if (
