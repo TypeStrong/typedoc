@@ -18,7 +18,7 @@
     "url": "https://github.com/TypeStrong/TypeDoc/issues"
   },
   "engines": {
-    "node": ">= 12.10.0"
+    "node": ">= 14"
   },
   "dependencies": {
     "lunr": "^2.3.9",
