@@ -12,13 +12,19 @@
     "entryPoints": ["../src"],
     "entryPointStrategy": "Resolve",
     "excludeExternals": true,
-    "excludePrivate": false,
-    "excludeInternal": true,
+    "excludeInternal": false,
     "treatWarningsAsErrors": false,
     "validation": {
         "notExported": true,
         "invalidLink": true,
         "notDocumented": false
+    },
+    "visibilityFilters": {
+        "protected": false,
+        "private": false,
+        "inherited": true,
+        "external": false,
+        "@internal": false
     },
     "logLevel": "Verbose"
 }

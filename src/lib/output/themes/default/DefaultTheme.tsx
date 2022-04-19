@@ -150,9 +150,10 @@ export class DefaultTheme extends Theme {
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event: RendererEvent) {
+        const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
         for (const reflection of Object.values(event.project.reflections)) {
             if (reflection instanceof DeclarationReflection) {
-                DefaultTheme.applyReflectionClasses(reflection);
+                DefaultTheme.applyReflectionClasses(reflection, filters);
             }
         }
     }
@@ -254,7 +255,7 @@ export class DefaultTheme extends Theme {
      *
      * @param reflection  The reflection whose cssClasses property should be generated.
      */
-    static applyReflectionClasses(reflection: DeclarationReflection) {
+    static applyReflectionClasses(reflection: DeclarationReflection, filters: Record<string, boolean>) {
         const classes: string[] = [];
 
         classes.push(DefaultTheme.toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
@@ -265,17 +266,24 @@ export class DefaultTheme extends Theme {
 
         // Filter classes should match up with the settings function in
         // partials/navigation.tsx.
-        if (reflection.inheritedFrom) {
-            classes.push("tsd-is-inherited");
-        }
-        if (reflection.flags.isPrivate) {
-            classes.push("tsd-is-private");
-        }
-        if (reflection.flags.isProtected) {
-            classes.push("tsd-is-protected");
-        }
-        if (reflection.flags.isExternal) {
-            classes.push("tsd-is-external");
+        for (const key of Object.keys(filters)) {
+            if (key === "inherited") {
+                if (reflection.inheritedFrom) {
+                    classes.push("tsd-is-inherited");
+                }
+            } else if (key === "protected") {
+                if (reflection.flags.isProtected) {
+                    classes.push("tsd-is-protected");
+                }
+            } else if (key === "external") {
+                if (reflection.flags.isExternal) {
+                    classes.push("tsd-is-external");
+                }
+            } else if (key.startsWith("@")) {
+                if (reflection.comment?.hasModifier(key as `@${string}`)) {
+                    classes.push(DefaultTheme.toStyleClass(`tsd-is-${key.substring(1)}`));
+                }
+            }
         }
 
         reflection.cssClasses = classes.join(" ");
@@ -283,7 +291,7 @@ export class DefaultTheme extends Theme {
 
     /**
      * Transform a space separated string into a string suitable to be used as a
-     * css class, e.g. "constructor method" > "Constructor-method".
+     * css class, e.g. "constructor method" > "constructor-method".
      */
     static toStyleClass(str: string) {
         return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();

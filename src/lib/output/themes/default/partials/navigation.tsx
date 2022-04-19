@@ -1,7 +1,7 @@
 import { ContainerReflection, DeclarationReflection, Reflection, ReflectionKind } from "../../../../models";
 import { JSX, partition } from "../../../../utils";
 import type { PageEvent } from "../../../events";
-import { classNames, wbr } from "../../lib";
+import { classNames, camelToTitleCase, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { icons } from "./icon";
 
@@ -15,41 +15,44 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
     );
 }
 
-function settings(context: DefaultThemeRenderContext) {
-    const defaultFilters = context.options.getValue("visibilityFilters");
+function buildFilterItem(name: string, displayName: string, defaultValue: boolean) {
+    return (
+        <li class="tsd-filter-item">
+            <label class="tsd-filter-input">
+                <input type="checkbox" id={`tsd-filter-${name}`} name={name} checked={defaultValue} />
+                {icons.checkbox()}
+                <span>{displayName}</span>
+            </label>
+        </li>
+    );
+}
 
-    const filters: Array<keyof typeof defaultFilters> = [];
-    if (!context.options.getValue("excludeProtected")) {
-        filters.push("protected");
+function settings(context: DefaultThemeRenderContext) {
+    const defaultFilters = context.options.getValue("visibilityFilters") as Record<string, boolean>;
+
+    const visibilityOptions: JSX.Element[] = [];
+
+    for (const key of Object.keys(defaultFilters)) {
+        if (key.startsWith("@")) {
+            const filterName = key
+                .substring(1)
+                .replace(/([a-z])([A-Z])/g, "$1-$2")
+                .toLowerCase();
+
+            visibilityOptions.push(
+                buildFilterItem(filterName, camelToTitleCase(key.substring(1)), defaultFilters[key])
+            );
+        } else if (
+            (key === "protected" && !context.options.getValue("excludeProtected")) ||
+            (key === "private" && !context.options.getValue("excludePrivate")) ||
+            (key === "external" && !context.options.getValue("excludeExternals")) ||
+            key === "inherited"
+        ) {
+            visibilityOptions.push(buildFilterItem(key, camelToTitleCase(key), defaultFilters[key]));
+        }
     }
-    if (!context.options.getValue("excludePrivate")) {
-        filters.push("private");
-    }
-    if (!context.options.getValue("excludeExternals")) {
-        filters.push("external");
-    }
-    filters.push("inherited");
 
     // Settings panel above navigation
-
-    const visibilityOptions = filters.map((name) => {
-        const value = name.charAt(0).toUpperCase() + name.slice(1);
-        return (
-            <li class="tsd-filter-item">
-                <label class="tsd-filter-input">
-                    <input
-                        type="checkbox"
-                        id={`tsd-filter-${name}`}
-                        name={name}
-                        value={value}
-                        checked={defaultFilters[name]}
-                    />
-                    {icons.checkbox()}
-                    <span>{value}</span>
-                </label>
-            </li>
-        );
-    });
 
     return (
         <div class="tsd-navigation settings">
@@ -58,20 +61,22 @@ function settings(context: DefaultThemeRenderContext) {
                     <h3>{icons.chevronDown()} Settings</h3>
                 </summary>
                 <div class="tsd-accordion-details">
-                    <div class="tsd-filter-visibility">
-                        <h4 class="uppercase">Member Visibility</h4>
-                        <form>
-                            <ul id="tsd-filter-options">{...visibilityOptions}</ul>
-                        </form>
+                    {visibilityOptions.length && (
+                        <div class="tsd-filter-visibility">
+                            <h4 class="uppercase">Member Visibility</h4>
+                            <form>
+                                <ul id="tsd-filter-options">{...visibilityOptions}</ul>
+                            </form>
+                        </div>
+                    )}
+                    <div class="tsd-theme-toggle">
+                        <h4 class="uppercase">Theme</h4>
+                        <select id="theme">
+                            <option value="os">OS</option>
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
                     </div>
-                </div>
-                <div class="tsd-theme-toggle">
-                    <h4 class="uppercase">Theme</h4>
-                    <select id="theme">
-                        <option value="os">OS</option>
-                        <option value="light">Light</option>
-                        <option value="dark">Dark</option>
-                    </select>
                 </div>
             </details>
         </div>

@@ -37,12 +37,34 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "visibilityFilters",
         help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
-        type: ParameterType.Flags,
-        defaults: {
+        type: ParameterType.Mixed,
+        defaultValue: {
             protected: false,
             private: false,
             inherited: true,
             external: false,
+        },
+        validate(value) {
+            const knownKeys = ["protected", "private", "inherited", "external"];
+            if (!value || typeof value !== "object") {
+                throw new Error("visibilityFilters must be an object.");
+            }
+
+            for (const [key, val] of Object.entries(value)) {
+                if (!key.startsWith("@") && !knownKeys.includes(key)) {
+                    throw new Error(
+                        `visibilityFilters can only include the following non-@ keys: ${knownKeys.join(
+                            ", "
+                        )}`
+                    );
+                }
+
+                if (typeof val !== "boolean") {
+                    throw new Error(
+                        `All values of visibilityFilters must be booleans.`
+                    );
+                }
+            }
         },
     });
 

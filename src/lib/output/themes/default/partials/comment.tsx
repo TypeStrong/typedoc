@@ -1,10 +1,7 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { assertNever, JSX, Raw } from "../../../../utils";
 import type { CommentDisplayPart, Reflection } from "../../../../models";
-
-function humanize(text: string) {
-    return text.substring(1, 2).toUpperCase() + text.substring(2).replace(/[a-z][A-Z]/g, (x) => `${x[0]} ${x[1]}`);
-}
+import { camelToTitleCase } from "../../lib";
 
 function displayPartsToMarkdown(parts: CommentDisplayPart[], urlTo: DefaultThemeRenderContext["urlTo"]) {
     const result: string[] = [];
@@ -57,7 +54,7 @@ export function comment({ markdown, urlTo }: DefaultThemeRenderContext, props: R
             <Raw html={markdown(displayPartsToMarkdown(props.comment.summary, urlTo))} />
             {props.comment.blockTags.map((item) => (
                 <>
-                    <h3>{humanize(item.tag)}</h3>
+                    <h3>{camelToTitleCase(item.tag.substring(1))}</h3>
                     <Raw html={markdown(displayPartsToMarkdown(item.content, urlTo))} />
                 </>
             ))}

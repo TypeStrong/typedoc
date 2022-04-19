@@ -9,8 +9,6 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Full support for declaration references, #262, #488, #1326, #1845.
 -   Add support for additional comment styles, #1433.
 -   Theme: Custom rendering for `@see` tags.
--   Theme: Show toggles for all modifier tags used in a project to allow users to filter by deprecated/alpha/beta, etc.
-    -   Add option to control default values (merge #1816. Same option? Different one since it's based on comments?)
 
 ### Breaking Changes
 
@@ -57,6 +55,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Correctly detect optional parameters in JavaScript projects using JSDoc, #1804.
 -   Fixed identical anchor links for reflections with the same name, #1845.
 -   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
+-   Corrected schema generation for https://typedoc.org/schema.json
 
 ### Thanks!
 
