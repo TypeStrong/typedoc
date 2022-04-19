@@ -7,7 +7,7 @@ export function membersGroup(context: DefaultThemeRenderContext, group: Reflecti
         return (
             <>
                 {group.categories.map((item) => (
-                    <section class={"tsd-panel-group tsd-member-group " + group.cssClasses}>
+                    <section class="tsd-panel-group tsd-member-group">
                         <h2>
                             {!!item.title && <>{item.title} </>}
                             {group.title}
@@ -20,7 +20,7 @@ export function membersGroup(context: DefaultThemeRenderContext, group: Reflecti
     }
 
     return (
-        <section class={"tsd-panel-group tsd-member-group " + group.cssClasses}>
+        <section class="tsd-panel-group tsd-member-group">
             <h2>{group.title}</h2>
             {group.children.map((item) => !item.hasOwnDocument && context.member(item))}
         </section>

@@ -1,16 +1,11 @@
 import { Component, IComponentOptions } from "../Component";
+import { storage } from "../utils/storage";
 
 /**
  * Handles accordion dropdown behaviour.
  */
 export class Accordion extends Component {
     override el!: HTMLDetailsElement;
-
-    /**
-     * Whether localStorage is available for use.
-     */
-    private readonly useLocalStorage =
-        typeof window.localStorage !== "undefined";
 
     /**
      * The heading container for this accordion.
@@ -23,7 +18,7 @@ export class Accordion extends Component {
     private icon: SVGElement;
 
     /**
-     * The key by which to store this accordion's state in localStorage.
+     * The key by which to store this accordion's state in storage.
      */
     private readonly key: string;
 
@@ -52,9 +47,7 @@ export class Accordion extends Component {
             .textContent!.replace(/\s+/g, "-")
             .toLowerCase()}`;
 
-        if (this.useLocalStorage) {
-            this.setLocalStorage(this.fromLocalStorage(), true);
-        }
+        this.setLocalStorage(this.fromLocalStorage(), true);
         this.summary.addEventListener("click", (e: MouseEvent) =>
             this.toggleVisibility(e)
         );
@@ -154,7 +147,8 @@ export class Accordion extends Component {
             .animate(
                 {
                     transform: [
-                        this.icon.style.transform,
+                        this.icon.style.transform ||
+                            this.getIconRotation(!opening),
                         this.getIconRotation(opening),
                     ],
                 },
@@ -184,14 +178,11 @@ export class Accordion extends Component {
     }
 
     /**
-     * Retrieve value from localStorage.
+     * Retrieve value from storage.
      */
     private fromLocalStorage(): boolean {
-        if (this.useLocalStorage) {
-            const fromLocalStorage = window.localStorage.getItem(this.key);
-            if (!fromLocalStorage) return this.el.open;
-            return fromLocalStorage === "true";
-        } else return this.el.open;
+        const fromLocalStorage = storage.getItem(this.key);
+        return fromLocalStorage ? fromLocalStorage === "true" : this.el.open;
     }
 
     /**
@@ -202,9 +193,7 @@ export class Accordion extends Component {
      */
     private setLocalStorage(value: boolean, force: boolean = false): void {
         if (this.fromLocalStorage() === value && !force) return;
-        if (this.useLocalStorage) {
-            window.localStorage[this.key] = value ? "true" : "false";
-        }
+        storage.setItem(this.key, value.toString());
         this.el.open = value;
         this.handleValueChange(force);
     }

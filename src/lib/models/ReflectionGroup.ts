@@ -21,32 +21,6 @@ export class ReflectionGroup {
     children: DeclarationReflection[] = [];
 
     /**
-     * A list of generated css classes that should be applied to representations of this
-     * group in the generated markup.
-     */
-    cssClasses?: string;
-
-    /**
-     * Are all children inherited members?
-     */
-    allChildrenAreInherited?: boolean;
-
-    /**
-     * Are all children private members?
-     */
-    allChildrenArePrivate?: boolean;
-
-    /**
-     * Are all children private or protected members?
-     */
-    allChildrenAreProtectedOrPrivate?: boolean;
-
-    /**
-     * Are all children external members?
-     */
-    allChildrenAreExternal?: boolean;
-
-    /**
      * Categories contained within this group.
      */
     categories?: ReflectionCategory[];

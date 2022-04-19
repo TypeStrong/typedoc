@@ -8,28 +8,49 @@ import { icons } from "./icon";
 export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
         <>
-            {settings()}
+            {settings(context)}
             {primaryNavigation(context, props)}
             {secondaryNavigation(context, props)}
         </>
     );
 }
 
-function settings() {
+function settings(context: DefaultThemeRenderContext) {
+    const defaultFilters = context.options.getValue("visibilityFilters");
+
+    const filters: Array<keyof typeof defaultFilters> = [];
+    if (!context.options.getValue("excludeProtected")) {
+        filters.push("protected");
+    }
+    if (!context.options.getValue("excludePrivate")) {
+        filters.push("private");
+    }
+    if (!context.options.getValue("excludeExternals")) {
+        filters.push("external");
+    }
+    filters.push("inherited");
+
     // Settings panel above navigation
 
-    const visibilityOptions = ["protected", "private", "inherited"].map((name) => {
+    const visibilityOptions = filters.map((name) => {
         const value = name.charAt(0).toUpperCase() + name.slice(1);
         return (
             <li class="tsd-filter-item">
                 <label class="tsd-filter-input">
-                    <input type="checkbox" id={`tsd-filter-${name}`} name={name} value={value} />
+                    <input
+                        type="checkbox"
+                        id={`tsd-filter-${name}`}
+                        name={name}
+                        value={value}
+                        checked={defaultFilters[name]}
+                    />
                     {icons.checkbox()}
                     <span>{value}</span>
                 </label>
             </li>
         );
     });
+
     return (
         <div class="tsd-navigation settings">
             <details class="tsd-index-accordion" open={false}>

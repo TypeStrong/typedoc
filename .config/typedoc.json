@@ -12,7 +12,7 @@
     "entryPoints": ["../src"],
     "entryPointStrategy": "Resolve",
     "excludeExternals": true,
-    "excludePrivate": true,
+    "excludePrivate": false,
     "excludeInternal": true,
     "treatWarningsAsErrors": false,
     "validation": {

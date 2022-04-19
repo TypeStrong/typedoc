@@ -4,14 +4,9 @@ import { JSX } from "../../../../utils";
 import type { ContainerReflection, ReflectionCategory } from "../../../../models";
 import { icons } from "./icon";
 
-function renderCategory(
-    { urlTo }: DefaultThemeRenderContext,
-    item: ReflectionCategory,
-    cssClasses = "",
-    prependName = ""
-) {
+function renderCategory({ urlTo }: DefaultThemeRenderContext, item: ReflectionCategory, prependName = "") {
     return (
-        <section class={"tsd-index-section " + cssClasses}>
+        <section class="tsd-index-section">
             <h3 class="tsd-index-heading">{prependName ? `${prependName} - ${item.title}` : item.title}</h3>
             <div class="tsd-index-list">
                 {item.children.map((item) => (
@@ -39,7 +34,7 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
     } else if (props.groups?.length) {
         content = props.groups.flatMap((item) =>
             item.categories
-                ? item.categories.map((item2) => renderCategory(context, item2, item.cssClasses, item.title))
+                ? item.categories.map((item2) => renderCategory(context, item2, item.title))
                 : renderCategory(context, item)
         );
     }

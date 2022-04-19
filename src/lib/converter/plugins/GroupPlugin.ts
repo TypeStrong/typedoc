@@ -139,6 +139,7 @@ export class GroupPlugin extends ConverterComponent {
         reflections: DeclarationReflection[]
     ): ReflectionGroup[] {
         const groups = new Map<string, ReflectionGroup>();
+
         reflections.forEach((child) => {
             for (const name of GroupPlugin.getGroups(child)) {
                 let group = groups.get(name);
@@ -149,31 +150,6 @@ export class GroupPlugin extends ConverterComponent {
 
                 group.children.push(child);
             }
-        });
-
-        groups.forEach((group) => {
-            let allInherited = true;
-            let allPrivate = true;
-            let allProtected = true;
-            let allExternal = true;
-
-            group.children.forEach((child) => {
-                allPrivate &&= child.flags.isPrivate;
-                allProtected &&=
-                    child.flags.isPrivate || child.flags.isProtected;
-                allExternal &&= child.flags.isExternal;
-
-                if (child instanceof DeclarationReflection) {
-                    allInherited &&= !!child.inheritedFrom;
-                } else {
-                    allInherited = false;
-                }
-            });
-
-            group.allChildrenAreInherited = allInherited;
-            group.allChildrenArePrivate = allPrivate;
-            group.allChildrenAreProtectedOrPrivate = allProtected;
-            group.allChildrenAreExternal = allExternal;
         });
 
         return Array.from(groups.values());

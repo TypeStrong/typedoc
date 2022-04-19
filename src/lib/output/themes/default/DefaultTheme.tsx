@@ -2,7 +2,6 @@ import { Theme } from "../../theme";
 import type { Renderer } from "../../renderer";
 import {
     Reflection,
-    ReflectionGroup,
     ReflectionKind,
     ProjectReflection,
     ContainerReflection,
@@ -151,17 +150,9 @@ export class DefaultTheme extends Theme {
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event: RendererEvent) {
-        if (event.project.groups) {
-            event.project.groups.forEach(DefaultTheme.applyGroupClasses);
-        }
-
         for (const reflection of Object.values(event.project.reflections)) {
             if (reflection instanceof DeclarationReflection) {
                 DefaultTheme.applyReflectionClasses(reflection);
-            }
-
-            if (reflection instanceof ContainerReflection && reflection.groups) {
-                reflection.groups.forEach(DefaultTheme.applyGroupClasses);
             }
         }
     }
@@ -265,37 +256,15 @@ export class DefaultTheme extends Theme {
      */
     static applyReflectionClasses(reflection: DeclarationReflection) {
         const classes: string[] = [];
-        let kind: string;
 
-        if (reflection.kind === ReflectionKind.Accessor) {
-            if (!reflection.getSignature) {
-                classes.push("tsd-kind-set-signature");
-            } else if (!reflection.setSignature) {
-                classes.push("tsd-kind-get-signature");
-            } else {
-                classes.push("tsd-kind-accessor");
-            }
-        } else {
-            kind = ReflectionKind[reflection.kind];
-            classes.push(DefaultTheme.toStyleClass("tsd-kind-" + kind));
-        }
+        classes.push(DefaultTheme.toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
 
         if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
-            kind = ReflectionKind[reflection.parent.kind];
-            classes.push(DefaultTheme.toStyleClass(`tsd-parent-kind-${kind}`));
+            classes.push(DefaultTheme.toStyleClass(`tsd-parent-kind-${ReflectionKind[reflection.parent.kind]}`));
         }
 
-        let hasTypeParameters = !!reflection.typeParameters;
-        reflection.getAllSignatures().forEach((signature) => {
-            hasTypeParameters = hasTypeParameters || !!signature.typeParameters;
-        });
-
-        if (hasTypeParameters) {
-            classes.push("tsd-has-type-parameter");
-        }
-        if (reflection.overwrites) {
-            classes.push("tsd-is-overwrite");
-        }
+        // Filter classes should match up with the settings function in
+        // partials/navigation.tsx.
         if (reflection.inheritedFrom) {
             classes.push("tsd-is-inherited");
         }
@@ -305,38 +274,11 @@ export class DefaultTheme extends Theme {
         if (reflection.flags.isProtected) {
             classes.push("tsd-is-protected");
         }
-        if (reflection.flags.isStatic) {
-            classes.push("tsd-is-static");
-        }
         if (reflection.flags.isExternal) {
             classes.push("tsd-is-external");
         }
 
         reflection.cssClasses = classes.join(" ");
-    }
-
-    /**
-     * Generate the css classes for the given reflection group and apply them to the
-     * {@link ReflectionGroup.cssClasses} property.
-     *
-     * @param group  The reflection group whose cssClasses property should be generated.
-     */
-    static applyGroupClasses(group: ReflectionGroup) {
-        const classes: string[] = [];
-        if (group.allChildrenAreInherited) {
-            classes.push("tsd-is-inherited");
-        }
-        if (group.allChildrenArePrivate) {
-            classes.push("tsd-is-private");
-        }
-        if (group.allChildrenAreProtectedOrPrivate) {
-            classes.push("tsd-is-private-protected");
-        }
-        if (group.allChildrenAreExternal) {
-            classes.push("tsd-is-external");
-        }
-
-        group.cssClasses = classes.join(" ");
     }
 
     /**

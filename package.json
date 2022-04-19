@@ -70,7 +70,7 @@
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "npm run build:tsc && npm run build:themes",
     "build:tsc": "tsc --project .",
-    "build:themes": "esbuild src/lib/output/themes/default/assets/bootstrap.ts --bundle --minify --outfile=static/main.js",
+    "build:themes": "node scripts/build_themes.js",
     "build:prod": "npm run build:prod:tsc && npm run build:themes",
     "build:prod:tsc": "tsc --project . --sourceMap false",
     "lint": "eslint . && npm run prettier -- --check .",

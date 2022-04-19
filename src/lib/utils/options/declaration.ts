@@ -82,6 +82,12 @@ export interface TypeDocOptionMap {
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     customCss: string;
+    visibilityFilters: {
+        private: boolean;
+        protected: boolean;
+        inherited: boolean;
+        external: boolean;
+    };
 
     name: string;
     includeVersion: boolean;

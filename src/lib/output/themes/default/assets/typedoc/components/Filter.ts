@@ -1,16 +1,14 @@
 import { Component, IComponentOptions } from "../Component";
+import { storage } from "../utils/storage";
+
+const style = document.head.appendChild(document.createElement("style"));
+style.dataset.for = "filters";
 
 /**
  * Handles sidebar filtering functionality.
  */
 export class Filter extends Component {
     override el!: HTMLInputElement;
-
-    /**
-     * Whether localStorage is available for use.
-     */
-    private readonly useLocalStorage =
-        typeof window.localStorage !== "undefined";
 
     /**
      * The class name & ID by which to store the filter value.
@@ -29,29 +27,26 @@ export class Filter extends Component {
         this.el.addEventListener("change", () => {
             this.setLocalStorage(this.el.checked);
         });
-        if (this.useLocalStorage) {
-            this.setLocalStorage(this.fromLocalStorage() || this.value, true);
-        }
+        this.setLocalStorage(this.fromLocalStorage());
+
+        style.innerHTML += `html:not(.${this.key}) .tsd-is-${this.el.name} { display: none; }\n`;
     }
 
     /**
-     * Retrieve value from localStorage.
+     * Retrieve value from storage.
      */
     private fromLocalStorage(): boolean {
-        return window.localStorage[this.key] === "true";
+        const fromStorage = storage.getItem(this.key);
+        return fromStorage ? fromStorage === "true" : this.el.checked;
     }
 
     /**
      * Set value to local storage.
      *
      * @param value  Value to set.
-     * @param force  Whether to trigger value change even if the value is identical to the previous state.
      */
-    private setLocalStorage(value: boolean, force: boolean = false): void {
-        if (this.value === value && !force) return;
-        if (this.useLocalStorage) {
-            window.localStorage[this.key] = value ? "true" : "false";
-        }
+    private setLocalStorage(value: boolean): void {
+        storage.setItem(this.key, value.toString());
         this.value = value;
         this.handleValueChange();
     }
@@ -62,5 +57,18 @@ export class Filter extends Component {
     private handleValueChange(): void {
         this.el.checked = this.value;
         document.documentElement.classList.toggle(this.key, this.value);
+
+        // Hide index headings where all index items are hidden.
+        // offsetParent == null checks for display: none
+        document
+            .querySelectorAll<HTMLElement>(".tsd-index-section")
+            .forEach((el) => {
+                el.style.display = "block";
+                const allChildrenHidden = Array.from(
+                    el.querySelectorAll<HTMLElement>(".tsd-index-link")
+                ).every((child) => child.offsetParent == null);
+
+                el.style.display = allChildrenHidden ? "none" : "block";
+            });
     }
 }

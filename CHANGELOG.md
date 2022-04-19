@@ -45,6 +45,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Added support for inline `@inheritDoc` tags, #1480.
 -   It is now possible to link directly to a specific overload, #1326.
 -   The JSON output will now include URLs to the file on the remote repository if possible.
+-   Added a new `visibilityFilters` option which controls the available filters on a page.
 
 ### Bug Fixes
 
@@ -59,6 +60,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 
 ### Thanks!
 
+-   @aqumus
 -   @fb55
 -   @futurGH
 -   @Shane4368

@@ -35,6 +35,18 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "visibilityFilters",
+        help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
+        type: ParameterType.Flags,
+        defaults: {
+            protected: false,
+            private: false,
+            inherited: true,
+            external: false,
+        },
+    });
+
+    options.addDeclaration({
         name: "exclude",
         help: "Define patterns to be excluded when expanding a directory that was specified as an entry point.",
         type: ParameterType.GlobArray,

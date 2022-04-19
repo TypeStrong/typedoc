@@ -3,7 +3,6 @@ import * as Path from "path";
 import { Event } from "../utils/events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
-import type { LegendItem } from "./plugins/LegendPlugin";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -104,12 +103,6 @@ export class PageEvent<Model = unknown> extends Event {
      * The template that should be used to render this page.
      */
     template!: RenderTemplate<this>;
-
-    /**
-     * The legend items that are applicable for this page
-     * @internal this is going away. The footer will do the logic itself.
-     */
-    legend?: LegendItem[][];
 
     /**
      * The final html content of this page.

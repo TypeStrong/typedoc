@@ -575,16 +575,6 @@ dl.tsd-comment-tag-group p {
     margin-bottom: 0;
 }
 
-html:not(.filter-private) .tsd-is-private {
-    display: none;
-}
-html:not(.filter-protected) .tsd-is-protected {
-    display: none;
-}
-html:not(.filter-inherited) .tsd-is-inherited {
-    display: none;
-}
-
 .tsd-filter-visibility h4 {
     font-size: 1rem;
     padding-top: 0.75rem;
