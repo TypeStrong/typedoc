@@ -24,6 +24,7 @@ import type { Theme as ShikiTheme } from "shiki";
 import { ReferenceType, Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
+import { clearSeenIconCache } from "./themes/default/partials/icon";
 
 /**
  * Describes the hooks available to inject output in the default theme.
@@ -250,6 +251,7 @@ export class Renderer extends ChildableComponent<
 
         if (!output.isDefaultPrevented) {
             output.urls.forEach((mapping: UrlMapping) => {
+                clearSeenIconCache();
                 this.renderDocument(output.createPageEvent(mapping));
             });
 

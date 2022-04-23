@@ -3,26 +3,53 @@ import { JSX } from "../../../../utils";
 
 type UtilityIcons = Record<"chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall", () => JSX.Element>;
 
-const kindIcon = (letterPath: JSX.Element, color: string, circular = false) => (
-    <svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24">
-        <rect
-            fill="var(--color-icon-background)"
-            stroke={color}
-            stroke-width="1.5"
-            x="1"
-            y="1"
-            width="22"
-            height="22"
-            rx={circular ? "12" : "6"}
-        />
-        {letterPath}
-    </svg>
-);
+const seenIcons = new Set<ReflectionKind>();
+
+export function clearSeenIconCache() {
+    seenIcons.clear();
+}
+
+const kindIcon = (kind: ReflectionKind, letterPath: JSX.Element, color: string, circular = false) => {
+    const content: JSX.Element[] = [];
+
+    if (seenIcons.has(kind)) {
+        content.push(<use href={`#icon-path-${kind}`} />);
+        content.push(<use href={`#icon-text-${kind}`} />);
+    } else {
+        seenIcons.add(kind);
+        content.push(
+            <rect
+                id={`icon-path-${kind}`}
+                fill="var(--color-icon-background)"
+                stroke={color}
+                stroke-width="1.5"
+                x="1"
+                y="1"
+                width="22"
+                height="22"
+                rx={circular ? "12" : "6"}
+            />
+        );
+        content.push({
+            ...letterPath,
+            props: {
+                ...letterPath.props,
+                id: `icon-text-${kind}`,
+            },
+        });
+    }
+
+    return (
+        <svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24">
+            {content}
+        </svg>
+    );
+};
 
 export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIcons = {
-    [ReflectionKind.All]: () => null,
     [ReflectionKind.Accessor]: () =>
         kindIcon(
+            ReflectionKind.Accessor,
             <path
                 d="M8.85 16L11.13 7.24H12.582L14.85 16H13.758L13.182 13.672H10.53L9.954 16H8.85ZM10.746 12.76H12.954L12.282 10.06C12.154 9.548 12.054 9.12 11.982 8.776C11.91 8.432 11.866 8.208 11.85 8.104C11.834 8.208 11.79 8.432 11.718 8.776C11.646 9.12 11.546 9.544 11.418 10.048L10.746 12.76Z"
                 fill="var(--color-text)"
@@ -35,6 +62,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
     },
     [ReflectionKind.Class]: () =>
         kindIcon(
+            ReflectionKind.Class,
             <path
                 d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z"
                 fill="var(--color-text)"
@@ -49,6 +77,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
     },
     [ReflectionKind.Constructor]: () =>
         kindIcon(
+            ReflectionKind.Constructor,
             <path
                 d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z"
                 fill="var(--color-text)"
@@ -61,6 +90,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
     },
     [ReflectionKind.Enum]: () =>
         kindIcon(
+            ReflectionKind.Enum,
             <path
                 d="M9.45 16V7.24H14.49V8.224H10.518V10.936H14.07V11.908H10.518V15.016H14.49V16H9.45Z"
                 fill="var(--color-text)"
@@ -72,6 +102,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
     },
     [ReflectionKind.Function]: () =>
         kindIcon(
+            ReflectionKind.Function,
             <path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)" />,
             "var(--color-ts-function)"
         ),
@@ -84,9 +115,9 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
     [ReflectionKind.IndexSignature]() {
         return this[ReflectionKind.Property]();
     },
-    [ReflectionKind.Inheritable]: () => null,
     [ReflectionKind.Interface]: () =>
         kindIcon(
+            ReflectionKind.Interface,
             <path
                 d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z"
                 fill="var(--color-text)"
@@ -95,6 +126,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
         ),
     [ReflectionKind.Method]: () =>
         kindIcon(
+            ReflectionKind.Method,
             <path
                 d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z"
                 fill="var(--color-text)"
@@ -108,6 +140,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
 
     [ReflectionKind.Namespace]: () =>
         kindIcon(
+            ReflectionKind.Namespace,
             <path
                 d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z"
                 fill="var(--color-text)"
@@ -125,6 +158,7 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
     },
     [ReflectionKind.Property]: () =>
         kindIcon(
+            ReflectionKind.Property,
             <path
                 d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z"
                 fill="var(--color-text)"
@@ -136,12 +170,9 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
     [ReflectionKind.SetSignature]() {
         return this[ReflectionKind.Accessor]();
     },
-    [ReflectionKind.SomeSignature]: () => null,
-    [ReflectionKind.SomeModule]: () => null,
-    [ReflectionKind.SomeType]: () => null,
-    [ReflectionKind.SomeValue]: () => null,
     [ReflectionKind.TypeAlias]: () =>
         kindIcon(
+            ReflectionKind.TypeAlias,
             <path d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z" fill="var(--color-text)" />,
             "var(--color-ts)"
         ),
@@ -153,15 +184,13 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
     },
     [ReflectionKind.Variable]: () =>
         kindIcon(
+            ReflectionKind.Variable,
             <path
                 d="M11.106 16L8.85 7.24H9.966L11.454 13.192C11.558 13.608 11.646 13.996 11.718 14.356C11.79 14.708 11.842 14.976 11.874 15.16C11.906 14.976 11.954 14.708 12.018 14.356C12.09 13.996 12.178 13.608 12.282 13.192L13.758 7.24H14.85L12.582 16H11.106Z"
                 fill="var(--color-text)"
             />,
             "var(--color-ts-variable)"
         ),
-    [ReflectionKind.VariableOrProperty]() {
-        return this[ReflectionKind.Variable]();
-    },
     chevronDown: () => (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path

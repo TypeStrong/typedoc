@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { platform } from "os";
-import { resolve, join, dirname } from "path";
+import { resolve, join, dirname, relative } from "path";
 import { Application, TSConfigReader, EntryPointStrategy } from "..";
 import { remove } from "../lib/utils";
 import { glob } from "../lib/utils/fs";
@@ -63,7 +63,6 @@ export async function captureRegressionScreenshots() {
         logger: "console",
         readme: join(src, "..", "README.md"),
         name: "typedoc",
-        disableSources: true,
         cleanOutputDir: true,
         tsconfig: join(src, "..", "tsconfig.json"),
         plugin: [],
@@ -95,7 +94,7 @@ export async function captureScreenshots(
             const absPath = resolve(baseDirectory, file);
             const outputPath = resolve(
                 outputDirectory,
-                file.replace(".html", "")
+                relative(baseDirectory, file).replace(".html", "")
             );
             fs.mkdirSync(dirname(outputPath), { recursive: true });
 

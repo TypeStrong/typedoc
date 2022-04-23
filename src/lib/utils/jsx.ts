@@ -83,6 +83,23 @@ const voidElements = new Set([
     "wbr",
 ]);
 
+const blockElements = new Set([
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "div",
+    "section",
+    "nav",
+    "details",
+    "p",
+    "ul",
+    "ol",
+    "li",
+]);
+
 /**
  * JSX factory function to create an "element" that can later be rendered with {@link renderElement}
  * @param tag
@@ -114,6 +131,9 @@ export function renderElement(element: JsxElement | null | undefined): string {
     const html: string[] = [];
 
     if (tag !== Fragment) {
+        if (blockElements.has(tag)) {
+            html.push("\n");
+        }
         html.push("<", tag);
 
         for (const [key, val] of Object.entries(props ?? {})) {

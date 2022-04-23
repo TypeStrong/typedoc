@@ -117,6 +117,7 @@ export interface IntrinsicElements {
     svg: JsxSvgElementProps;
     path: JsxPathElementProps;
     rect: JsxRectElementProps;
+    use: JsxUseElementProps;
 }
 
 export const JsxFragment = Symbol();
@@ -1057,4 +1058,21 @@ export interface JsxRectElementProps
     width?: string | number;
     x?: string | number;
     y?: string | number;
+}
+
+/**
+ * Properties permitted on the `<use>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use
+ */
+export interface JsxUseElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    href: string;
+    x?: string | number;
+    y?: string | number;
+    width?: string | number;
+    height?: string | number;
 }

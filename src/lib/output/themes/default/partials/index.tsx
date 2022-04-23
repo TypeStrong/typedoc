@@ -10,16 +10,19 @@ function renderCategory({ urlTo }: DefaultThemeRenderContext, item: ReflectionCa
             <h3 class="tsd-index-heading">{prependName ? `${prependName} - ${item.title}` : item.title}</h3>
             <div class="tsd-index-list">
                 {item.children.map((item) => (
-                    <a
-                        href={urlTo(item)}
-                        class={classNames(
-                            { "tsd-index-link": true, deprecated: item.comment?.hasModifier("@deprecated") },
-                            item.cssClasses
-                        )}
-                    >
-                        {icons[item.kind]()}
-                        <span>{item.name ? wbr(item.name) : <em>{wbr(item.kindString!)}</em>}</span>
-                    </a>
+                    <>
+                        <a
+                            href={urlTo(item)}
+                            class={classNames(
+                                { "tsd-index-link": true, deprecated: item.comment?.hasModifier("@deprecated") },
+                                item.cssClasses
+                            )}
+                        >
+                            {icons[item.kind]()}
+                            <span>{item.name ? wbr(item.name) : <em>{wbr(item.kindString!)}</em>}</span>
+                        </a>
+                        {"\n"}
+                    </>
                 ))}
             </div>
         </section>

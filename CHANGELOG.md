@@ -44,6 +44,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   It is now possible to link directly to a specific overload, #1326.
 -   The JSON output will now include URLs to the file on the remote repository if possible.
 -   Added a new `visibilityFilters` option which controls the available filters on a page.
+-   TypeDoc will now try to place block elements on a new line in HTML output, resulting in less overwhelming diffs when rebuilding docs, #1923.
 
 ### Bug Fixes
 
