@@ -20,4 +20,5 @@ export type {
     DeclarationOptionToOptionType,
     TypeDocOptionValues,
     ParameterTypeToOptionTypeMap,
+    ManuallyValidatedOption,
 } from "./declaration";

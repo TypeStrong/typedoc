@@ -4,7 +4,7 @@
 
 These TODOs will be resolved before a full release. ([GitHub project](https://github.com/TypeStrong/typedoc/projects/11))
 
--   Make comment parser options configurable (read tsdoc.json?).
+-   Make comment parser options configurable from tsdoc.json.
 -   Full support for declaration references, #262, #488, #1326, #1845.
 -   Add support for additional comment styles, #1433.
 -   Theme: Custom rendering for `@see` tags.
@@ -44,6 +44,8 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   The JSON output will now include URLs to the file on the remote repository if possible.
 -   Added a new `visibilityFilters` option which controls the available filters on a page.
 -   TypeDoc will now try to place block elements on a new line in HTML output, resulting in less overwhelming diffs when rebuilding docs, #1923.
+-   Added `blockTags`, `inlineTags`, `modifierTags` to control which tags TypeDoc will allow when parsing comments.
+    If a tag not in in one of these options is encountered, TypeDoc will produce a warning and use context clues to determine how to parse the tag.
 
 ### Bug Fixes
 

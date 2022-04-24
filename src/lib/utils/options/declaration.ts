@@ -33,7 +33,7 @@ export type TypeDocOptions = {
 /**
  * Describes all TypeDoc specific options as returned by {@link Options.getValue}, this is
  * slightly more restrictive than the {@link TypeDocOptions} since it does not allow both
- * keys and values for mapped option types, and does nto allow partials of flag values.
+ * keys and values for mapped option types, and does not allow partials of flag values.
  */
 export type TypeDocOptionValues = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
@@ -82,11 +82,16 @@ export interface TypeDocOptionMap {
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     customCss: string;
-    visibilityFilters: unknown;
+    visibilityFilters: ManuallyValidatedOption<{
+        protected?: boolean;
+        private?: boolean;
+        inherited?: boolean;
+        external?: boolean;
+        [tag: `@${string}`]: boolean;
+    }>;
 
     name: string;
     includeVersion: boolean;
-    excludeTags: `@${string}`[];
     readme: string;
     defaultCategory: string;
     categoryOrder: string[];
@@ -99,6 +104,11 @@ export interface TypeDocOptionMap {
     githubPages: boolean;
     hideGenerator: boolean;
     cleanOutputDir: boolean;
+
+    excludeTags: `@${string}`[];
+    blockTags: `@${string}`[];
+    inlineTags: `@${string}`[];
+    modifierTags: `@${string}`[];
 
     help: boolean;
     version: boolean;
@@ -115,6 +125,12 @@ export interface TypeDocOptionMap {
     validation: ValidationOptions;
     requiredToBeDocumented: (keyof typeof ReflectionKind)[];
 }
+
+/**
+ * Wrapper type for values in TypeDocOptionMap which are represented with an unknown option type, but
+ * have a validation function that checks that they are the given type.
+ */
+export type ManuallyValidatedOption<T> = { __validated: T };
 
 export type ValidationOptions = {
     /**
@@ -146,6 +162,8 @@ export type KeyToDeclaration<K extends keyof TypeDocOptionMap> =
         ? ArrayDeclarationOption
         : unknown extends TypeDocOptionMap[K]
         ? MixedDeclarationOption
+        : TypeDocOptionMap[K] extends ManuallyValidatedOption<unknown>
+        ? MixedDeclarationOption & { validate(value: unknown): void }
         : TypeDocOptionMap[K] extends Record<string, boolean>
         ? FlagsDeclarationOption<TypeDocOptionMap[K]>
         : TypeDocOptionMap[K] extends Record<string | number, infer U>

@@ -43,6 +43,7 @@ interface TemplateMapping {
 export class DefaultTheme extends Theme {
     /** @internal */
     markedPlugin: MarkedPlugin;
+
     private _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {

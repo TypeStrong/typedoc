@@ -49,6 +49,7 @@ export type {
     ValidationOptions,
     TypeDocOptionValues,
     ParameterTypeToOptionTypeMap,
+    ManuallyValidatedOption,
 } from "./options";
 export { discoverPlugins, loadPlugins } from "./plugins";
 export { sortReflections } from "./sort";
@@ -61,3 +62,5 @@ export * from "./entry-point";
 import * as JSX from "./jsx";
 export { JSX };
 export { Fragment, Raw, renderElement } from "./jsx";
+
+export * as Validation from "./validation";

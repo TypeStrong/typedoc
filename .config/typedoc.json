@@ -7,12 +7,14 @@
         "RendererComponent",
         "SORT_STRATEGIES",
         "_ModelToObject",
-        "EventHooksMomento"
+        "EventHooksMomento",
+        "MarkedPlugin"
     ],
     "entryPoints": ["../src"],
     "entryPointStrategy": "Resolve",
     "excludeExternals": true,
     "excludeInternal": false,
+    "excludePrivate": true,
     "treatWarningsAsErrors": false,
     "validation": {
         "notExported": true,

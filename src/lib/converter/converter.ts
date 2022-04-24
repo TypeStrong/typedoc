@@ -14,6 +14,7 @@ import type { IMinimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import { resolveAliasedSymbol } from "./utils/symbols";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
+import type { CommentParserConfig } from "./comments";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -49,6 +50,12 @@ export class Converter extends ChildableComponent<
 
     @BindOption("excludeProtected")
     excludeProtected!: boolean;
+
+    private _config?: CommentParserConfig;
+
+    get config(): CommentParserConfig {
+        return this._config || this._buildCommentParserConfig();
+    }
 
     /**
      * General events
@@ -328,6 +335,19 @@ export class Converter extends ChildableComponent<
         return (symbol.getDeclarations() ?? []).some((node) =>
             matchesAny(cache, node.getSourceFile().fileName)
         );
+    }
+
+    private _buildCommentParserConfig() {
+        this._config = {
+            blockTags: new Set(this.application.options.getValue("blockTags")),
+            inlineTags: new Set(
+                this.application.options.getValue("inlineTags")
+            ),
+            modifierTags: new Set(
+                this.application.options.getValue("modifierTags")
+            ),
+        };
+        return this._config;
     }
 }
 

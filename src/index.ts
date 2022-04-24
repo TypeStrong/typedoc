@@ -53,6 +53,7 @@ export type {
     SortStrategy,
     ParameterTypeToOptionTypeMap,
     DocumentationEntryPoint,
+    ManuallyValidatedOption,
 } from "./lib/utils";
 
 export type { EventMap, EventCallback } from "./lib/utils/events";

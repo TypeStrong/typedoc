@@ -164,10 +164,6 @@ export class LinkResolverPlugin extends ConverterComponent {
                     if (targetRefl) {
                         part.text = caption;
                         part.target = targetRefl;
-                    } else {
-                        this.application.logger.warn(
-                            `Failed resolution for ${target} in ${reflection.getFullName()}`
-                        );
                     }
                 }
             }

@@ -40,7 +40,7 @@ export function convertJsDocAlias(
     );
     reflection.comment = getJsDocComment(
         declaration,
-        context.config,
+        context.converter.config,
         context.logger
     );
 
@@ -70,7 +70,7 @@ export function convertJsDocCallback(
     );
     alias.comment = getJsDocComment(
         declaration,
-        context.config,
+        context.converter.config,
         context.logger
     );
     context.finalizeDeclarationReflection(alias);
@@ -94,7 +94,7 @@ function convertJsDocInterface(
     );
     reflection.comment = getJsDocComment(
         declaration,
-        context.config,
+        context.converter.config,
         context.logger
     );
     context.finalizeDeclarationReflection(reflection);

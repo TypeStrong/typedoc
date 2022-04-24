@@ -43,7 +43,7 @@ export function createSignature(
     if (declaration) {
         sigRef.comment = getSignatureComment(
             declaration,
-            context.config,
+            context.converter.config,
             context.logger
         );
     }
@@ -125,7 +125,7 @@ function convertParameters(
         if (declaration && ts.isJSDocParameterTag(declaration)) {
             paramRefl.comment = getJsDocComment(
                 declaration,
-                context.config,
+                context.converter.config,
                 context.logger
             );
         }
@@ -195,7 +195,7 @@ export function convertParameterNodes(
         if (ts.isJSDocParameterTag(param)) {
             paramRefl.comment = getJsDocComment(
                 param,
-                context.config,
+                context.converter.config,
                 context.logger
             );
         }
@@ -280,7 +280,7 @@ export function convertTypeParameterNodes(
         if (ts.isJSDocTemplateTag(param.parent)) {
             paramRefl.comment = getJsDocComment(
                 param.parent,
-                context.config,
+                context.converter.config,
                 context.logger
             );
         }

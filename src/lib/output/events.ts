@@ -125,8 +125,7 @@ export class PageEvent<Model = unknown> extends Event {
 }
 
 /**
- * An event emitted by the {@link MarkedPlugin} on the {@link Renderer} after a chunk of
- * markdown has been processed. Allows other plugins to manipulate the result.
+ * An event emitted when markdown is being parsed. Allows other plugins to manipulate the result.
  *
  * @see {@link PARSE}
  */

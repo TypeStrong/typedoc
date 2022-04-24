@@ -108,7 +108,7 @@ export class PackagePlugin extends ConverterComponent {
                 const readme = readFile(this.readmeFile);
                 const comment = parseComment(
                     lexCommentString(readme),
-                    context.config,
+                    context.converter.config,
                     (msg) => {
                         this.application.logger.warn(
                             `${msg} in ${this.readmeFile}`

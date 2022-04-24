@@ -14,7 +14,7 @@ import type { Converter } from "./converter";
 import { isNamedNode } from "./utils/nodes";
 import { ConverterEvents } from "./converter-events";
 import { resolveAliasedSymbol } from "./utils/symbols";
-import { CommentParserConfig, getComment } from "./comments";
+import { getComment } from "./comments";
 
 /**
  * The context describes the current state the converter is in.
@@ -163,44 +163,6 @@ export class Context {
         return resolveAliasedSymbol(symbol, this.checker);
     }
 
-    // GERRIT: This needs to live on Application, and get constructed based on user input.
-    config: CommentParserConfig = {
-        blockTags: new Set([
-            // TSDoc standard
-            "@param",
-            "@remarks",
-            "@throws",
-            "@privateRemarks",
-            "@defaultValue",
-            // TypeDoc specific
-            "@module",
-            "@inheritDoc",
-            "@group",
-        ]),
-        inlineTags: new Set(["@link", "@inheritDoc", "@label"]),
-        modifierTags: new Set([
-            // TSDoc standard
-            "@public",
-            "@private",
-            "@protected",
-            "@internal",
-            "@readonly",
-            "@packageDocumentation",
-            "@eventProperty",
-            "@deprecated",
-            "@alpha",
-            "@beta",
-            "@sealed",
-            "@override",
-            "@virtual",
-            // TypeDoc specific tags
-            "@hidden",
-            "@ignore",
-            "@enum",
-            "@event",
-        ]),
-    };
-
     createDeclarationReflection(
         kind: ReflectionKind,
         symbol: ts.Symbol | undefined,
@@ -231,7 +193,7 @@ export class Context {
             reflection.comment = getComment(
                 exportSymbol,
                 reflection.kind,
-                this.config,
+                this.converter.config,
                 this.logger
             );
         }
@@ -239,7 +201,7 @@ export class Context {
             reflection.comment = getComment(
                 symbol,
                 reflection.kind,
-                this.config,
+                this.converter.config,
                 this.logger
             );
         }

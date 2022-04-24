@@ -5,6 +5,7 @@ import { BUNDLED_THEMES, Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
 import { ReflectionKind } from "../../../models/reflections/kind";
+import { Validation } from "../..";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
@@ -218,20 +219,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "excludeTags",
-        help: "Remove the listed tags from doc comments.",
-        type: ParameterType.Array,
-        defaultValue: ["@override", "@virtual", "@privateRemarks"],
-        validate(value) {
-            const missingAt = value.filter((tag) => !tag.startsWith("@"));
-            if (missingAt.length) {
-                throw new Error(
-                    `excludeTags must specify tags with a leading "@"`
-                );
-            }
-        },
-    });
-    options.addDeclaration({
         name: "readme",
         help: "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.",
         type: ParameterType.Path,
@@ -312,6 +299,90 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "excludeTags",
+        help: "Remove the listed block/modifier tags from doc comments.",
+        type: ParameterType.Array,
+        defaultValue: ["@override", "@virtual", "@privateRemarks"],
+        validate(value) {
+            if (!Validation.validate([Array, Validation.isTagString], value)) {
+                throw new Error(
+                    `excludeTags must be an array of valid tag names.`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "blockTags",
+        help: "Block tags which TypeDoc should recognize when parsing comments.",
+        type: ParameterType.Array,
+        defaultValue: [
+            // TSDoc standard
+            "@param",
+            "@remarks",
+            "@throws",
+            "@privateRemarks",
+            "@defaultValue",
+            // TypeDoc specific
+            "@module",
+            "@inheritDoc",
+            "@group",
+        ],
+        validate(value) {
+            if (!Validation.validate([Array, Validation.isTagString], value)) {
+                throw new Error(
+                    `blockTags must be an array of valid tag names.`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "inlineTags",
+        help: "Inline tags which TypeDoc should recognize when parsing comments.",
+        type: ParameterType.Array,
+        defaultValue: ["@link", "@inheritDoc", "@label"],
+        validate(value) {
+            if (!Validation.validate([Array, Validation.isTagString], value)) {
+                throw new Error(
+                    `inlineTags must be an array of valid tag names.`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "modifierTags",
+        help: "Modifier tags which TypeDoc should recognize when parsing comments.",
+        type: ParameterType.Array,
+        defaultValue: [
+            // TSDoc standard
+            "@public",
+            "@private",
+            "@protected",
+            "@internal",
+            "@readonly",
+            "@packageDocumentation",
+            "@eventProperty",
+            "@deprecated",
+            "@alpha",
+            "@beta",
+            "@sealed",
+            "@override",
+            "@virtual",
+            // TypeDoc specific tags
+            "@hidden",
+            "@ignore",
+            "@enum",
+            "@event",
+        ],
+        validate(value) {
+            if (!Validation.validate([Array, Validation.isTagString], value)) {
+                throw new Error(
+                    `modifierTags must be an array of valid tag names.`
+                );
+            }
+        },
+    });
+
+    options.addDeclaration({
         name: "help",
         help: "Print this message.",
         type: ParameterType.Boolean,
@@ -349,11 +420,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
         type: ParameterType.Mixed,
         validate(value) {
-            if (
-                typeof value !== "object" ||
-                Array.isArray(value) ||
-                value == null
-            ) {
+            if (!Validation.validate({}, value)) {
                 throw new Error(
                     "The 'markedOptions' option must be a non-array object."
                 );
@@ -365,11 +432,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Selectively override the TypeScript compiler options used by TypeDoc.",
         type: ParameterType.Mixed,
         validate(value) {
-            if (
-                typeof value !== "object" ||
-                Array.isArray(value) ||
-                value == null
-            ) {
+            if (!Validation.validate({}, value)) {
                 throw new Error(
                     "The 'compilerOptions' option must be a non-array object."
                 );
