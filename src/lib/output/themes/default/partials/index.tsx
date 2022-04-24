@@ -41,7 +41,6 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                 : renderCategory(context, item)
         );
     }
-    content = <div class="tsd-accordion-details">{content}</div>;
 
     // Accordion is only needed if any children don't have their own document.
     if (
@@ -56,10 +55,18 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                         {icons.chevronSmall()} Index
                     </h5>
                 </summary>
-                {content}
+                <div class="tsd-accordion-details">{content}</div>
             </details>
         );
+    } else {
+        content = (
+            <>
+                <h3 class="tsd-index-heading uppercase">Index</h3>
+                {content}
+            </>
+        );
     }
+
     return (
         <section class="tsd-panel-group tsd-index-group">
             <section class="tsd-panel tsd-index-panel">{content}</section>

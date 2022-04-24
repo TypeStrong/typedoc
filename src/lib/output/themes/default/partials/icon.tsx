@@ -1,25 +1,37 @@
 import { ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
 
-type UtilityIcons = Record<"chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall", () => JSX.Element>;
+type UtilityIcons = Record<
+    "chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall" | "anchor",
+    () => JSX.Element
+>;
 
-const seenIcons = new Set<ReflectionKind>();
+const seenIcons = new Set<unknown>();
 
 export function clearSeenIconCache() {
     seenIcons.clear();
 }
 
-const kindIcon = (kind: ReflectionKind, letterPath: JSX.Element, color: string, circular = false) => {
-    const content: JSX.Element[] = [];
+function cachedPart(key: string, svgPart: JSX.Element) {
+    if (seenIcons.has(key)) {
+        return <use href={`#icon-${key}`} />;
+    }
 
-    if (seenIcons.has(kind)) {
-        content.push(<use href={`#icon-path-${kind}`} />);
-        content.push(<use href={`#icon-text-${kind}`} />);
-    } else {
-        seenIcons.add(kind);
-        content.push(
+    seenIcons.add(key);
+    return {
+        ...svgPart,
+        props: {
+            ...svgPart.props,
+            id: `icon-${key}`,
+        },
+    };
+}
+
+const kindIcon = (kind: ReflectionKind, letterPath: JSX.Element, color: string, circular = false) => (
+    <svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24">
+        {cachedPart(
+            `${kind}-path`,
             <rect
-                id={`icon-path-${kind}`}
                 fill="var(--color-icon-background)"
                 stroke={color}
                 stroke-width="1.5"
@@ -29,24 +41,12 @@ const kindIcon = (kind: ReflectionKind, letterPath: JSX.Element, color: string, 
                 height="22"
                 rx={circular ? "12" : "6"}
             />
-        );
-        content.push({
-            ...letterPath,
-            props: {
-                ...letterPath.props,
-                id: `icon-text-${kind}`,
-            },
-        });
-    }
+        )}
+        {cachedPart(`${kind}-text`, letterPath)}
+    </svg>
+);
 
-    return (
-        <svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24">
-            {content}
-        </svg>
-    );
-};
-
-export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIcons = {
+export const icons: Record<ReflectionKind, () => JSX.Element> & UtilityIcons = {
     [ReflectionKind.Accessor]: () =>
         kindIcon(
             ReflectionKind.Accessor,
@@ -69,12 +69,6 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
             />,
             "var(--color-ts-class)"
         ),
-    [ReflectionKind.ClassMember]() {
-        return this[ReflectionKind.Property]();
-    },
-    [ReflectionKind.ClassOrInterface]() {
-        return this[ReflectionKind.Class]();
-    },
     [ReflectionKind.Constructor]: () =>
         kindIcon(
             ReflectionKind.Constructor,
@@ -106,9 +100,6 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
             <path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)" />,
             "var(--color-ts-function)"
         ),
-    [ReflectionKind.FunctionOrMethod]() {
-        return this[ReflectionKind.Function]();
-    },
     [ReflectionKind.GetSignature]() {
         return this[ReflectionKind.Accessor]();
     },
@@ -166,7 +157,16 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
             "#FF984D",
             true
         ),
-    [ReflectionKind.Reference]: () => null,
+    [ReflectionKind.Reference]: () =>
+        kindIcon(
+            ReflectionKind.Reference,
+            <path
+                d="M10.354 17V8.24H13.066C13.586 8.24 14.042 8.348 14.434 8.564C14.826 8.772 15.13 9.064 15.346 9.44C15.562 9.816 15.67 10.256 15.67 10.76C15.67 11.352 15.514 11.86 15.202 12.284C14.898 12.708 14.482 13 13.954 13.16L15.79 17H14.518L12.838 13.28H11.434V17H10.354ZM11.434 12.308H13.066C13.514 12.308 13.874 12.168 14.146 11.888C14.418 11.6 14.554 11.224 14.554 10.76C14.554 10.288 14.418 9.912 14.146 9.632C13.874 9.352 13.514 9.212 13.066 9.212H11.434V12.308Z"
+                fill="var(--color-text)"
+            />,
+            "#FF4D82", // extract into a CSS variable potentially?
+            true
+        ),
     [ReflectionKind.SetSignature]() {
         return this[ReflectionKind.Accessor]();
     },
@@ -233,6 +233,21 @@ export const icons: Record<ReflectionKind, () => JSX.Element | null> & UtilityIc
                 d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z"
                 fill="var(--color-text)"
             />
+        </svg>
+    ),
+    anchor: () => (
+        <svg
+            class="icon icon-tabler icon-tabler-link"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            {cachedPart("anchor-a", <path stroke="none" d="M0 0h24v24H0z" fill="none" />)}
+            {cachedPart("anchor-b", <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />)}
+            {cachedPart("anchor-c", <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />)}
         </svg>
     ),
 };

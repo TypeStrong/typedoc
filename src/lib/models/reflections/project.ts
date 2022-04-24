@@ -9,6 +9,7 @@ import type { TypeParameterReflection } from "./type-parameter";
 import { removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
+import type { CommentDisplayPart } from "../comments";
 
 /**
  * A reflection that represents the root of the project.
@@ -26,29 +27,18 @@ export class ProjectReflection extends ContainerReflection {
     private referenceGraph?: Map<number, number[]>;
 
     /**
-     * A list of all reflections within the project.
-     * @deprecated use {@link getReflectionById}, this will eventually be removed.
-     *   To iterate over all reflections, prefer {@link getReflectionsByKind}.
+     * A list of all reflections within the project. DO NOT MUTATE THIS OBJECT.
+     * All mutation should be done via {@link registerReflection} and {@link removeReflection}
+     * to ensure that links to reflections remain valid.
+     *
+     * This may be replaced with a `Map<number, Reflection>` someday.
      */
     reflections: { [id: number]: Reflection } = {};
 
     /**
-     * The name of the project.
-     *
-     * The name can be passed as a command line argument or it is read from the package info.
-     * this.name is assigned in the Reflection class.
-     */
-    override name!: string;
-
-    /**
      * The contents of the readme.md file of the project when found.
      */
-    readme?: string;
-
-    /**
-     * The parsed data of the package.json file of the project when found.
-     */
-    packageInfo: any;
+    readme?: CommentDisplayPart[];
 
     constructor(name: string) {
         super(name, ReflectionKind.Project);

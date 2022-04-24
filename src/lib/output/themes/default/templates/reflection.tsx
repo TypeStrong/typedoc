@@ -63,7 +63,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                                         {item.name}: {context.type(item.type)}
                                     </>
                                 ))}
-                                <span class="tsd-signature-symbol">{"]: "}</span>
+                                <span class="tsd-signature-symbol">]: </span>
                                 {context.type(props.model.indexSignature.type)}
                             </div>
                             {context.comment(props.model.indexSignature)}

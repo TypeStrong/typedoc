@@ -12,6 +12,7 @@ yarn-error.log
 **/node_modules/
 /coverage/
 /dist/
+/docs
 
 typedoc*.tgz
 tmp

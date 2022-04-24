@@ -1,12 +1,10 @@
 import { deepStrictEqual as equal, fail } from "assert";
 import type { CommentParserConfig } from "../lib/converter/comments";
 
-import {
-    lexBlockComment,
-    Token,
-    TokenSyntaxKind,
-} from "../lib/converter/comments/blockLexer";
+import { lexBlockComment } from "../lib/converter/comments/blockLexer";
+import { Token, TokenSyntaxKind } from "../lib/converter/comments/lexer";
 import { parseComment } from "../lib/converter/comments/parser";
+import { lexCommentString } from "../lib/converter/comments/rawLexer";
 import { Comment, CommentTag } from "../lib/models";
 
 function dedent(text: string) {
@@ -19,7 +17,8 @@ function dedent(text: string) {
     }
 
     const minIndent = lines.reduce(
-        (indent, line) => Math.min(indent, line.search(/\S/)),
+        (indent, line) =>
+            line.length ? Math.min(indent, line.search(/\S/)) : indent,
         Infinity
     );
 
@@ -504,6 +503,278 @@ describe("Block Comment Lexer", () => {
             { kind: TokenSyntaxKind.Tag, text: "@param" },
             { kind: TokenSyntaxKind.Text, text: " " },
             { kind: TokenSyntaxKind.OpenBrace, text: "{" },
+            { kind: TokenSyntaxKind.Tag, text: "@link" },
+            { kind: TokenSyntaxKind.Text, text: " foo" },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+        ]);
+    });
+});
+
+describe("Raw Lexer", () => {
+    function lex(text: string): Token[] {
+        return Array.from(lexCommentString(text));
+    }
+
+    it("Should handle an empty string", () => {
+        equal(lex(""), []);
+
+        equal(lex("   \n   "), []);
+    });
+
+    it("Should handle a trivial comment", () => {
+        const tokens = lex(" Comment ");
+
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Comment" }]);
+    });
+
+    it("Should handle a multiline comment", () => {
+        const tokens = lex(" Comment\nNext line ");
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "Comment" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.Text, text: "Next line" },
+        ]);
+    });
+
+    it("Should handle braces", () => {
+        const tokens = lex("{}");
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+        ]);
+    });
+
+    it("Should handle escaping braces", () => {
+        const tokens = lex("\\{\\}");
+
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "{}" }]);
+    });
+
+    it("Should pass through unknown escapes", () => {
+        const tokens = lex("\\\\ \\n");
+
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "\\\\ \\n" }]);
+        equal(lex("*\\/"), [{ kind: TokenSyntaxKind.Text, text: "*\\/" }]);
+    });
+
+    it("Should recognize tags", () => {
+        const tokens = lex("@tag @a @abc234");
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Tag, text: "@tag" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.Tag, text: "@a" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.Tag, text: "@abc234" },
+        ]);
+    });
+
+    it("Should not indiscriminately create tags", () => {
+        const tokens = lex("@123 @@ @");
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "@123 @@ @" }]);
+    });
+
+    it("Should allow escaping @ to prevent a tag creation", () => {
+        const tokens = lex("not a \\@tag");
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "not a @tag" }]);
+    });
+
+    it("Should not mistake an email for a modifier tag", () => {
+        const tokens = lex("test@example.com");
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "test@example.com" },
+        ]);
+    });
+
+    it("Should allow escaping @ in an email", () => {
+        const tokens = lex("test\\@example.com");
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "test@example.com" },
+        ]);
+    });
+
+    it("Should allow inline code", () => {
+        const tokens = lex("test `code` after");
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "test " },
+            { kind: TokenSyntaxKind.Code, text: "`code`" },
+            { kind: TokenSyntaxKind.Text, text: " after" },
+        ]);
+    });
+
+    it("Should allow inline code with multiple ticks", () => {
+        const tokens = lex("test ```not ```` closed``` after");
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "test " },
+            { kind: TokenSyntaxKind.Code, text: "```not ```` closed```" },
+            { kind: TokenSyntaxKind.Text, text: " after" },
+        ]);
+    });
+
+    it("Should allow escaping ticks", () => {
+        const tokens = lex("test `\\`` after");
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "test " },
+            { kind: TokenSyntaxKind.Code, text: "`\\``" },
+            { kind: TokenSyntaxKind.Text, text: " after" },
+        ]);
+    });
+
+    it("Should treat unclosed inline code as text", () => {
+        const tokens = lex("text ` still text");
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "text ` still text" },
+        ]);
+    });
+
+    it("Should handle tags after unclosed code", () => {
+        const tokens = lex(
+            dedent(`
+            Text
+            code? \`\` fake
+            @blockTag text
+        `)
+        );
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "Text" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.Text, text: "code? `` fake" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.Tag, text: "@blockTag" },
+            { kind: TokenSyntaxKind.Text, text: " text" },
+        ]);
+    });
+
+    it("Should handle a full comment", () => {
+        const tokens = lex(
+            dedent(`
+            This is a summary.
+
+            @remarks
+            Detailed text here with a {@link Inline | inline link}
+
+            @alpha @beta
+            `)
+        );
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "This is a summary." },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.Tag, text: "@remarks" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.Text, text: "Detailed text here with a " },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
+            { kind: TokenSyntaxKind.Tag, text: "@link" },
+            { kind: TokenSyntaxKind.Text, text: " Inline | inline link" },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.Tag, text: "@alpha" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.Tag, text: "@beta" },
+        ]);
+    });
+
+    it("Should handle unclosed code blocks", () => {
+        const tokens = lex(
+            dedent(`
+            Text
+            \`\`\`
+            Text`)
+        );
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "Text" },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+            { kind: TokenSyntaxKind.Code, text: "```\nText" },
+        ]);
+    });
+
+    it("Should handle type annotations after tags at the start of a line", () => {
+        const tokens = lex(`@param {string} foo`);
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Tag, text: "@param" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{string}" },
+            { kind: TokenSyntaxKind.Text, text: " foo" },
+        ]);
+    });
+
+    it("Should handle type annotations containing string literals", () => {
+        const tokens = lex(
+            dedent(`
+            @param {"{{}}"}
+            @param {\`\${"{}"}\`}
+            @param {"text\\"more {}"}
+            @param {'{'}
+            EOF
+            `)
+        );
+
+        const expectedAnnotations = [
+            '{"{{}}"}',
+            '{`${"{}"}`}',
+            '{"text\\"more {}"}',
+            "{'{'}",
+        ];
+
+        const expectedTokens = expectedAnnotations.flatMap((text) => [
+            { kind: TokenSyntaxKind.Tag, text: "@param" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.TypeAnnotation, text },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+        ]);
+        expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
+
+        equal(tokens, expectedTokens);
+    });
+
+    it("Should handle type annotations with object literals", () => {
+        const tokens = lex(
+            dedent(`
+            @param {{ a: string }}
+            @param {{ a: string; b: { c: { d: string }} }}
+            EOF
+            `)
+        );
+
+        const expectedAnnotations = [
+            "{{ a: string }}",
+            "{{ a: string; b: { c: { d: string }} }}",
+        ];
+
+        const expectedTokens = expectedAnnotations.flatMap((text) => [
+            { kind: TokenSyntaxKind.Tag, text: "@param" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.TypeAnnotation, text },
+            { kind: TokenSyntaxKind.NewLine, text: "\n" },
+        ]);
+        expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
+
+        equal(tokens, expectedTokens);
+    });
+
+    it("Should handle unclosed type annotations", () => {
+        const tokens = lex("@type {oops");
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Tag, text: "@type" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{oops" },
+        ]);
+    });
+
+    it("Should not parse inline tags as types", () => {
+        const tokens = lex("@param { @link foo}");
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Tag, text: "@param" },
+            { kind: TokenSyntaxKind.Text, text: " " },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
+            { kind: TokenSyntaxKind.Text, text: " " },
             { kind: TokenSyntaxKind.Tag, text: "@link" },
             { kind: TokenSyntaxKind.Text, text: " foo" },
             { kind: TokenSyntaxKind.CloseBrace, text: "}" },

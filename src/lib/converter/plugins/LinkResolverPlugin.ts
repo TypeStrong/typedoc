@@ -86,6 +86,24 @@ export class LinkResolverPlugin extends ConverterComponent {
         for (const reflection of Object.values(context.project.reflections)) {
             this.processReflection(reflection);
         }
+
+        let warned = false;
+        const warn = () => {
+            if (!warned) {
+                warned = true;
+                this.application.logger.warn(
+                    `README: Comment [[target]] style links are deprecated and will be removed in 0.24`
+                );
+            }
+        };
+
+        if (context.project.readme) {
+            context.project.readme = this.processParts(
+                context.project,
+                context.project.readme,
+                warn
+            );
+        }
     }
 
     processReflection(reflection: Reflection) {

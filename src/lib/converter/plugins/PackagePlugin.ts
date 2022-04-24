@@ -7,6 +7,8 @@ import type { Context } from "../context";
 import { BindOption, readFile } from "../../utils";
 import { getCommonDirectory } from "../../utils/fs";
 import { nicePath } from "../../utils/paths";
+import { lexCommentString } from "../comments/rawLexer";
+import { parseComment } from "../comments/parser";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -98,24 +100,47 @@ export class PackagePlugin extends ConverterComponent {
     private onBeginResolve(context: Context) {
         const project = context.project;
         if (this.readmeFile) {
-            project.readme = readFile(this.readmeFile);
+            if (project.comment) {
+                this.application.logger.verbose(
+                    `Not applying readme as project comment since it already has a comment.`
+                );
+            } else {
+                const readme = readFile(this.readmeFile);
+                const comment = parseComment(
+                    lexCommentString(readme),
+                    context.config,
+                    (msg) => {
+                        this.application.logger.warn(
+                            `${msg} in ${this.readmeFile}`
+                        );
+                    }
+                );
+
+                if (comment.blockTags.length || comment.modifierTags.size) {
+                    this.application.logger.warn(
+                        `Block and modifier tags will be ignored within the readme.`
+                    );
+                }
+
+                project.readme = comment.summary;
+            }
         }
 
         if (this.packageFile) {
-            project.packageInfo = JSON.parse(readFile(this.packageFile));
+            const packageInfo = JSON.parse(readFile(this.packageFile));
             if (!project.name) {
-                if (!project.packageInfo.name) {
+                if (!packageInfo.name) {
                     context.logger.warn(
                         'The --name option was not specified, and package.json does not have a name field. Defaulting project name to "Documentation".'
                     );
                     project.name = "Documentation";
                 } else {
-                    project.name = String(project.packageInfo.name);
+                    project.name = String(packageInfo.name);
                 }
             }
             if (this.includeVersion) {
-                if (project.packageInfo.version) {
-                    project.name = `${project.name} - v${project.packageInfo.version}`;
+                if (packageInfo.version) {
+                    project.name = `${project.name} - v${packageInfo.version}`;
                 } else {
                     context.logger.warn(
                         "--includeVersion was specified, but package.json does not specify a version."

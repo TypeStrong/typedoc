@@ -1,13 +1,11 @@
 import { Token, TokenSyntaxKind } from "./lexer";
 
-export function* lexBlockComment(
-    file: string,
-    pos = 0,
-    end = file.length
+export function* lexCommentString(
+    file: string
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
-    for (const token of lexBlockComment2(file, pos, end)) {
+    for (const token of lexCommentString2(file)) {
         if (token.kind === TokenSyntaxKind.Text) {
             if (textToken) {
                 textToken.text += token.text;
@@ -29,21 +27,11 @@ export function* lexBlockComment(
     return;
 }
 
-function* lexBlockComment2(
-    file: string,
-    pos: number,
-    end: number
+function* lexCommentString2(
+    file: string
 ): Generator<Token, undefined, undefined> {
-    pos += 2; // Leading '/*'
-    end -= 2; // Trailing '*/'
-
-    if (pos < end && file[pos] === "*") {
-        // Might start with '/**'
-        pos++;
-    }
-
-    // Before skipping whitespace, figure out the comment indent size
-    const [commentHasStars, indent] = discoverIndent(file, pos, end);
+    let pos = 0;
+    let end = file.length;
 
     // Skip leading whitespace
     while (pos < end && /\s/.test(file[pos])) {
@@ -64,13 +52,6 @@ function* lexBlockComment2(
         }
 
         if (lineStart) {
-            pos = skipIndent(pos);
-            if (commentHasStars && file[pos] === "*") {
-                pos++;
-                if (file[pos] === " ") {
-                    pos++;
-                }
-            }
             lineStart = false;
         }
 
@@ -134,16 +115,6 @@ function* lexBlockComment2(
                     } else if (
                         file[lookahead] === "\\" &&
                         lookahead + 1 < end &&
-                        file[lookahead + 1] === "/"
-                    ) {
-                        codeText.push(
-                            file.substring(lookaheadStart, lookahead)
-                        );
-                        lookaheadStart = lookahead + 1;
-                        lookahead += 2;
-                    } else if (
-                        file[lookahead] === "\\" &&
-                        lookahead + 1 < end &&
                         file[lookahead + 1] !== "\n"
                     ) {
                         lookahead += 2;
@@ -152,13 +123,6 @@ function* lexBlockComment2(
                         codeText.push(
                             file.substring(lookaheadStart, lookahead)
                         );
-                        lookahead = skipIndent(lookahead);
-                        if (commentHasStars && file[lookahead] === "*") {
-                            lookahead++;
-                            if (file[lookahead] === " ") {
-                                lookahead++;
-                            }
-                        }
                         lookaheadStart = lookahead;
                     } else {
                         lookahead++;
@@ -227,7 +191,7 @@ function* lexBlockComment2(
                     if (
                         file[lookahead] === "\\" &&
                         lookahead + 1 < end &&
-                        "{}@/`".includes(file[lookahead + 1])
+                        "{}@`".includes(file[lookahead + 1])
                     ) {
                         textParts.push(
                             file.substring(lookaheadStart, lookahead),
@@ -265,21 +229,6 @@ function* lexBlockComment2(
             kind,
             text: file.substring(start, pos),
         };
-    }
-
-    function skipIndent(pos: number) {
-        let taken = indent;
-        let lookahead = pos;
-        while (
-            taken > 0 &&
-            lookahead < end &&
-            file[lookahead] !== "\n" &&
-            /\s/.test(file[lookahead])
-        ) {
-            taken--;
-            lookahead++;
-        }
-        return lookahead;
     }
 
     function lookaheadExactlyNTicks(pos: number, n: number) {
@@ -349,32 +298,4 @@ function* lexBlockComment2(
         }
         return file[pos];
     }
-}
-
-function discoverIndent(
-    file: string,
-    pos: number,
-    end: number
-): [boolean, number] {
-    let indent = 0;
-
-    while (pos < end && file[pos] !== "\n") {
-        pos++;
-    }
-
-    outer: while (pos < end) {
-        pos++;
-        const lineStart = pos;
-        while (pos < end && file[pos] !== "\n") {
-            if (/\S/.test(file[pos])) {
-                indent = pos - lineStart;
-                break outer;
-            }
-            pos++;
-        }
-    }
-
-    const commentHasStars = pos < end && file[pos] === "*";
-
-    return [commentHasStars, indent];
 }

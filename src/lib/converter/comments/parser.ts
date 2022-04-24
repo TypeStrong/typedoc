@@ -2,7 +2,7 @@ import { ok } from "assert";
 import type { CommentParserConfig } from ".";
 import { Comment, CommentDisplayPart, CommentTag } from "../../models";
 import { assertNever, removeIf } from "../../utils";
-import { Token, TokenSyntaxKind } from "./blockLexer";
+import { Token, TokenSyntaxKind } from "./lexer";
 
 interface LookaheadGenerator<T> {
     done(): boolean;
