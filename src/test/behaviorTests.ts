@@ -260,6 +260,14 @@ export const behaviorTests: Record<
         equal(bar.comment, undefined);
     },
 
+    readonlyTag(project) {
+        const title = query(project, "Book.title");
+        const author = query(project, "Book.author");
+
+        ok(!title.setSignature);
+        ok(author.flags.isReadonly);
+    },
+
     removeReflection(project) {
         const foo = query(project, "foo");
         project.removeReflection(foo);

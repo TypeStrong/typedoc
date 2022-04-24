@@ -131,17 +131,17 @@ export function* zip<T extends Iterable<any>[]>(
 }
 
 export function filterMap<T, U>(
-    arr: readonly T[],
-    fn: (item: T, index: number) => U | undefined
+    iter: Iterable<T>,
+    fn: (item: T) => U | undefined
 ): U[] {
     const result: U[] = [];
 
-    arr.forEach((item, index) => {
-        const newItem = fn(item, index);
+    for (const item of iter) {
+        const newItem = fn(item);
         if (newItem !== void 0) {
             result.push(newItem);
         }
-    });
+    }
 
     return result;
 }

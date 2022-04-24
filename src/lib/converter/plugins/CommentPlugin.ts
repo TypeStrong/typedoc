@@ -54,6 +54,15 @@ export class CommentPlugin extends ConverterComponent {
     @BindOption("excludeTags")
     excludeTags!: `@${string}`[];
 
+    @BindOption("excludeInternal")
+    excludeInternal!: boolean;
+
+    @BindOption("excludePrivate")
+    excludePrivate!: boolean;
+
+    @BindOption("excludeProtected")
+    excludeProtected!: boolean;
+
     /**
      * Create a new CommentPlugin instance.
      */
@@ -96,6 +105,14 @@ export class CommentPlugin extends ConverterComponent {
                 reflection.parent?.setFlag(ReflectionFlag.Public);
             }
             comment.removeModifier("@public");
+        }
+
+        if (comment.hasModifier("@readonly")) {
+            const target = reflection.kindOf(ReflectionKind.GetSignature)
+                ? reflection.parent!
+                : reflection;
+            target.setFlag(ReflectionFlag.Readonly);
+            comment.removeModifier("@readonly");
         }
 
         if (
@@ -189,25 +206,25 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context: Context) {
-        const excludeInternal =
-            this.application.options.getValue("excludeInternal");
-        const excludePrivate =
-            this.application.options.getValue("excludePrivate");
-        const excludeProtected =
-            this.application.options.getValue("excludeProtected");
-
         const project = context.project;
         const reflections = Object.values(project.reflections);
 
         // Remove hidden reflections
-        const hidden = reflections.filter((reflection) =>
-            CommentPlugin.isHidden(
-                reflection,
-                excludeInternal,
-                excludePrivate,
-                excludeProtected
-            )
-        );
+        const hidden = new Set<Reflection>();
+        for (const ref of reflections) {
+            if (ref.kindOf(ReflectionKind.Accessor) && ref.flags.isReadonly) {
+                const decl = ref as DeclarationReflection;
+                if (decl.setSignature) {
+                    hidden.add(decl.setSignature);
+                }
+                // Clear flag set by @readonly since it shouldn't be rendered.
+                ref.setFlag(ReflectionFlag.Readonly, false);
+            }
+
+            if (this.isHidden(ref)) {
+                hidden.add(ref);
+            }
+        }
         hidden.forEach((reflection) => project.removeReflection(reflection));
 
         // remove functions with empty signatures after their signatures have been removed
@@ -356,24 +373,19 @@ export class CommentPlugin extends ConverterComponent {
      *
      * @param reflection Reflection to check if hidden
      */
-    private static isHidden(
-        reflection: Reflection,
-        excludeInternal: boolean,
-        excludePrivate: boolean,
-        excludeProtected: boolean
-    ) {
+    private isHidden(reflection: Reflection) {
         const comment = reflection.comment;
 
         if (
             reflection.flags.hasFlag(ReflectionFlag.Private) &&
-            excludePrivate
+            this.excludePrivate
         ) {
             return true;
         }
 
         if (
             reflection.flags.hasFlag(ReflectionFlag.Protected) &&
-            excludeProtected
+            this.excludeProtected
         ) {
             return true;
         }
@@ -385,7 +397,7 @@ export class CommentPlugin extends ConverterComponent {
         return (
             comment.hasModifier("@hidden") ||
             comment.hasModifier("@ignore") ||
-            (comment.hasModifier("@internal") && excludeInternal)
+            (comment.hasModifier("@internal") && this.excludeInternal)
         );
     }
 }
