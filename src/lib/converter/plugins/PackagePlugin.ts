@@ -100,30 +100,24 @@ export class PackagePlugin extends ConverterComponent {
     private onBeginResolve(context: Context) {
         const project = context.project;
         if (this.readmeFile) {
-            if (project.comment) {
-                this.application.logger.verbose(
-                    `Not applying readme as project comment since it already has a comment.`
-                );
-            } else {
-                const readme = readFile(this.readmeFile);
-                const comment = parseComment(
-                    lexCommentString(readme),
-                    context.converter.config,
-                    (msg) => {
-                        this.application.logger.warn(
-                            `${msg} in ${this.readmeFile}`
-                        );
-                    }
-                );
-
-                if (comment.blockTags.length || comment.modifierTags.size) {
+            const readme = readFile(this.readmeFile);
+            const comment = parseComment(
+                lexCommentString(readme),
+                context.converter.config,
+                (msg) => {
                     this.application.logger.warn(
-                        `Block and modifier tags will be ignored within the readme.`
+                        `${msg} in ${this.readmeFile}`
                     );
                 }
+            );
 
-                project.readme = comment.summary;
+            if (comment.blockTags.length || comment.modifierTags.size) {
+                this.application.logger.warn(
+                    `Block and modifier tags will be ignored within the readme.`
+                );
             }
+
+            project.readme = comment.summary;
         }
 
         if (this.packageFile) {
