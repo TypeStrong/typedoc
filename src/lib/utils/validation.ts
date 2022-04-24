@@ -95,6 +95,7 @@ export function validate(schema: Schema, obj: any): boolean {
     return (
         !!obj &&
         typeof obj === "object" &&
+        !Array.isArray(obj) &&
         Object.entries<Schema>(type).every(([key, prop]) =>
             validate(prop, obj[key])
         )
