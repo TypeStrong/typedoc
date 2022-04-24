@@ -276,4 +276,18 @@ export const behaviorTests: Record<
             ["typedoc"]
         );
     },
+
+    seeTags(project) {
+        const foo = query(project, "foo");
+        equal(
+            Comment.combineDisplayParts(foo.comment?.getTag("@see")?.content),
+            " - Double tag\n - Second tag\n"
+        );
+
+        const bar = query(project, "bar");
+        equal(
+            Comment.combineDisplayParts(bar.comment?.getTag("@see")?.content),
+            "Single tag"
+        );
+    },
 };

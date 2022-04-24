@@ -265,6 +265,8 @@ export class CommentPlugin extends ConverterComponent {
     private onResolve(_context: Context, reflection: Reflection) {
         if (reflection.comment) {
             reflection.label = extractLabelTag(reflection.comment);
+
+            mergeSeeTags(reflection.comment);
         }
 
         if (!(reflection instanceof DeclarationReflection)) {
@@ -444,4 +446,20 @@ function extractLabelTag(comment: Comment): string | undefined {
     if (index !== -1) {
         return comment.summary.splice(index, 1)[0].text;
     }
+}
+function mergeSeeTags(comment: Comment) {
+    const see = comment.getTags("@see");
+
+    if (see.length < 2) return;
+
+    const index = comment.blockTags.indexOf(see[0]);
+    comment.removeTags("@see");
+
+    see[0].content = see.flatMap((part) => [
+        { kind: "text", text: " - " },
+        ...part.content,
+        { kind: "text", text: "\n" },
+    ]);
+
+    comment.blockTags.splice(index, 0, see[0]);
 }
