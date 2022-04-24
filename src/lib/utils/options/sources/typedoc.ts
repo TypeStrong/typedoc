@@ -5,7 +5,7 @@ import { BUNDLED_THEMES, Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
 import { ReflectionKind } from "../../../models/reflections/kind";
-import { Validation } from "../..";
+import * as Validation from "../../validation";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
