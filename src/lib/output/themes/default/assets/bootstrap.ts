@@ -24,5 +24,6 @@ if (themeChoice) {
 }
 
 const app: Application = new Application();
+debugger;
 
 Object.defineProperty(window, "app", { value: app });

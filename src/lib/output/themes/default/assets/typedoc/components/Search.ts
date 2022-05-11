@@ -1,5 +1,6 @@
 import { debounce } from "../utils/debounce";
 import { Index } from "lunr";
+import type { SearchConfig } from "../../../../../../utils/options/declaration";
 
 interface IDocument {
     id: number;
@@ -14,6 +15,7 @@ interface IData {
     kinds: { [kind: number]: string };
     rows: IDocument[];
     index: object;
+    searchConfig: SearchConfig;
 }
 
 declare global {
@@ -78,14 +80,16 @@ export function initSearch() {
         base: searchEl.dataset["base"] + "/",
     };
 
-    bindEvents(searchEl, results, field, state);
+    bindEvents(searchEl, results, field, state, window.searchData.searchConfig);
 }
 
 function bindEvents(
     searchEl: HTMLElement,
     results: HTMLElement,
     field: HTMLInputElement,
-    state: SearchState
+    state: SearchState,
+    searchConfig: SearchConfig
+
 ) {
     field.addEventListener(
         "input",
@@ -156,6 +160,7 @@ function updateResults(
     // when the `searchText` is empty.
     const res = searchText ? state.index.search(`*${searchText}*`) : [];
 
+    debugger;
     for (let i = 0, c = Math.min(10, res.length); i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
 

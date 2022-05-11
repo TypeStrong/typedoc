@@ -50,6 +50,13 @@ export type TypeDocOptionValues = {
         : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
 
+export interface SearchConfig {
+    numResults?: number;
+    boosts?: {
+        byKind?: { [K in ReflectionKind]: number}
+    }
+}
+
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
  * External consumers should likely use {@link TypeDocOptions} instead.
@@ -107,6 +114,7 @@ export interface TypeDocOptionMap {
     version: boolean;
     showConfig: boolean;
     plugin: string[];
+    search: unknown;
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
     markedOptions: unknown;

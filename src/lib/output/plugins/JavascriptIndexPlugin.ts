@@ -100,7 +100,11 @@ export class JavascriptIndexPlugin extends RendererComponent {
             "assets",
             "search.js"
         );
+
+        const searchConfig = this.application.options.getValue("search");
+
         const jsonData = JSON.stringify({
+            searchConfig,
             kinds,
             rows,
             index,
