@@ -3,7 +3,7 @@ import type { LogLevel } from "../loggers";
 import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point";
-import type { ReflectionKind } from "../../models/reflections/kind";
+import { ReflectionKind } from "../../models/reflections/kind";
 
 export const EmitStrategy = {
     true: true, // Alias for both, for backwards compatibility until 0.23
@@ -50,10 +50,11 @@ export type TypeDocOptionValues = {
         : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
 
+const Kinds = Object.values(ReflectionKind);
 export interface SearchConfig {
     numResults?: number;
     boosts?: {
-        byKind?: { [K in ReflectionKind]: number}
+        byKind?: { [key: typeof Kinds[number]]: number}
     }
 }
 

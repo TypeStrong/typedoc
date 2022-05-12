@@ -3,7 +3,7 @@ import { Index } from "lunr";
 import type { SearchConfig } from "../../../../../../utils/options/declaration";
 import { ReflectionKind } from "../../../../../../models/reflections/kind";
 
-interface IDocument {
+export interface IDocument {
     id: number;
     kind: number;
     name: string;
@@ -81,7 +81,7 @@ export function initSearch() {
         base: searchEl.dataset["base"] + "/",
     };
 
-    bindEvents(searchEl, results, field, state, window.searchData.searchConfig);
+    bindEvents(searchEl, results, field, state, window?.searchData?.searchConfig ?? {});
 }
 
 function bindEvents(
@@ -168,10 +168,12 @@ function updateResults(
             const item = res[i];
             const row = state.data.rows[Number(item.ref)];
             let score = item.score;
-            for(let kindName in searchConfig.boosts.byKind) {
-                const kind: ReflectionKind = parseInt(Object.keys(ReflectionKind).find((key: any) => ReflectionKind[key].toLowerCase() === kindName.toLowerCase()), 10);
+
+            for(let kindName in searchConfig.boosts.byKind ?? {}) {
+                const kind: ReflectionKind = parseInt(Object.keys(ReflectionKind)
+                    .find((key: string) => (ReflectionKind[key as keyof typeof ReflectionKind]).toString().toLowerCase() === kindName.toLowerCase()) ?? '', 10);
                 if(row.kind == kind) {
-                    score *= searchConfig.boosts.byKind[kindName];
+                     score *= searchConfig?.boosts?.byKind?.[kindName] ?? 1;
                 }
             }
             item.score = score;
@@ -223,11 +225,11 @@ function setCurrentResult(results: HTMLElement, dir: number) {
         // current with the arrow keys.
         if (dir === 1) {
             do {
-                rel = rel.nextElementSibling;
+                rel = rel.nextElementSibling ?? undefined;
             } while (rel instanceof HTMLElement && rel.offsetParent == null);
         } else {
             do {
-                rel = rel.previousElementSibling;
+                rel = rel.previousElementSibling ?? undefined;
             } while (rel instanceof HTMLElement && rel.offsetParent == null);
         }
 

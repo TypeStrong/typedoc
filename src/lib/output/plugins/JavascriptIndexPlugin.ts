@@ -11,6 +11,7 @@ import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { writeFileSync } from "../../utils";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
+import type { IDocument } from "../themes/default/assets/typedoc/components/Search";
 
 /**
  * A plugin that exports an index of the project to a javascript file.
@@ -63,12 +64,12 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 parent = undefined;
             }
 
-            const row: any = {
+            const row: IDocument = {
                 id: rows.length,
                 kind: reflection.kind,
                 name: reflection.name,
                 url: reflection.url,
-                classes: reflection.cssClasses,
+                classes: reflection.cssClasses ?? '',
             };
 
             if (parent) {
