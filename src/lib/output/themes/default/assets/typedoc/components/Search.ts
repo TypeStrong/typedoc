@@ -171,7 +171,7 @@ function updateResults(
             let boost = 1;
 
             // boost by exact match on name
-            if(searchConfig.boosts.exactMatch && row.name === searchText) {
+            if(searchConfig.boosts.exactMatch && row.name.toLowerCase() === searchText.toLowerCase()) {
                 boost *= searchConfig.boosts.exactMatch;
             }
 
