@@ -71,6 +71,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "search",
+        help: "Configure search behavior",
+        type: ParameterType.Mixed
+    });
+    options.addDeclaration({
         name: "disableSources",
         help: "Disable setting the source of a reflection when documenting it.",
         type: ParameterType.Boolean,

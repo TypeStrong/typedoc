@@ -7,7 +7,7 @@
         "numResults": 12,
         "boosts": {
             "byKind": {
-                "class": 1.2
+                "class": 10
             }
         }
     }

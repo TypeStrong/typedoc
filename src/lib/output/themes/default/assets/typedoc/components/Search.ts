@@ -1,6 +1,7 @@
 import { debounce } from "../utils/debounce";
 import { Index } from "lunr";
 import type { SearchConfig } from "../../../../../../utils/options/declaration";
+import { ReflectionKind } from "../../../../../../models/reflections/kind";
 
 interface IDocument {
     id: number;
@@ -94,7 +95,7 @@ function bindEvents(
     field.addEventListener(
         "input",
         debounce(() => {
-            updateResults(searchEl, results, field, state);
+            updateResults(searchEl, results, field, state, searchConfig);
         }, 200)
     );
 
@@ -144,7 +145,8 @@ function updateResults(
     searchEl: HTMLElement,
     results: HTMLElement,
     query: HTMLInputElement,
-    state: SearchState
+    state: SearchState,
+    searchConfig:SearchConfig
 ) {
     checkIndex(state, searchEl);
     // Don't clear results if loading state is not ready,
@@ -158,10 +160,27 @@ function updateResults(
     // Perform a wildcard search
     // Set empty `res` to prevent getting random results with wildcard search
     // when the `searchText` is empty.
-    const res = searchText ? state.index.search(`*${searchText}*`) : [];
+    let res = searchText ? state.index.search(`*${searchText}*`) : [];
 
-    debugger;
-    for (let i = 0, c = Math.min(10, res.length); i < c; i++) {
+    if(searchConfig.boosts != undefined) {
+
+        for (let i = 0; i < res.length; i++) {
+            const item = res[i];
+            const row = state.data.rows[Number(item.ref)];
+            let score = item.score;
+            for(let kindName in searchConfig.boosts.byKind) {
+                const kind: ReflectionKind = parseInt(Object.keys(ReflectionKind).find((key: any) => ReflectionKind[key].toLowerCase() === kindName.toLowerCase()), 10);
+                if(row.kind == kind) {
+                    score *= searchConfig.boosts.byKind[kindName];
+                }
+            }
+            item.score = score;
+        }
+
+        res.sort((a,b) => b.score - a.score)
+    }
+
+    for (let i = 0, c = Math.min( searchConfig.numResults ?? 10, res.length); i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
 
         // Bold the matched part of the query in the search results
