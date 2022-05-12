@@ -189,7 +189,6 @@ function updateResults(
             // boost by category
             for(let categoryTitle in searchConfig.boosts?.byCategory ?? []) {
                 if(row.categories.indexOf(categoryTitle) > -1) {
-                    debugger;
                     boost *= searchConfig.boosts.byCategory?.[categoryTitle] ?? 1;
                 }
             }
