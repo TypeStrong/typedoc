@@ -5,8 +5,8 @@ import {
     DeclarationReflection,
     ProjectReflection,
     ReflectionKind,
-} from "../../models/reflections/index";
-import { GroupPlugin } from "../../converter/plugins/GroupPlugin";
+} from "../../models";
+import { GroupPlugin } from "../../converter/plugins";
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { writeFileSync } from "../../utils";
