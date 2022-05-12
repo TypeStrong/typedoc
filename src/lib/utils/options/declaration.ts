@@ -54,7 +54,9 @@ const Kinds = Object.values(ReflectionKind);
 export interface SearchConfig {
     numResults?: number;
     boosts?: {
-        byKind?: { [key: typeof Kinds[number]]: number}
+        exactMatch?: number,
+        byKind?: { [key: typeof Kinds[number]]: number},
+        byCategory?: { [key: string]: number }
     }
 }
 

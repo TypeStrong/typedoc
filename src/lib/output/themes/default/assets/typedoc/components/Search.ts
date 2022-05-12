@@ -10,6 +10,7 @@ export interface IDocument {
     url: string;
     classes: string;
     parent?: string;
+    categories: Array<string>
 }
 
 interface IData {
@@ -167,16 +168,33 @@ function updateResults(
         for (let i = 0; i < res.length; i++) {
             const item = res[i];
             const row = state.data.rows[Number(item.ref)];
-            let score = item.score;
+            let boost = 1;
 
+            // boost by exact match on name
+            if(searchConfig.boosts.exactMatch && row.name === searchText) {
+                boost *= searchConfig.boosts.exactMatch;
+            }
+
+            // boost by kind
             for(let kindName in searchConfig.boosts.byKind ?? {}) {
                 const kind: ReflectionKind = parseInt(Object.keys(ReflectionKind)
-                    .find((key: string) => (ReflectionKind[key as keyof typeof ReflectionKind]).toString().toLowerCase() === kindName.toLowerCase()) ?? '', 10);
+                    .find((key: string) => (ReflectionKind[key as keyof typeof ReflectionKind])
+                        .toString()
+                        .toLowerCase() === kindName.toLowerCase()) ?? '', 10);
                 if(row.kind == kind) {
-                     score *= searchConfig?.boosts?.byKind?.[kindName] ?? 1;
+                     boost *= searchConfig?.boosts?.byKind?.[kindName] ?? 1;
                 }
             }
-            item.score = score;
+
+            // boost by category
+            for(let categoryTitle in searchConfig.boosts?.byCategory ?? []) {
+                if(row.categories.indexOf(categoryTitle) > -1) {
+                    debugger;
+                    boost *= searchConfig.boosts.byCategory?.[categoryTitle] ?? 1;
+                }
+            }
+
+            item.score *= boost;
         }
 
         res.sort((a,b) => b.score - a.score)

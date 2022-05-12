@@ -70,6 +70,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 name: reflection.name,
                 url: reflection.url,
                 classes: reflection.cssClasses ?? '',
+                categories: (reflection.categories ?? []).map((category) => category.title)
             };
 
             if (parent) {
