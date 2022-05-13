@@ -73,7 +73,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "search",
         help: "Configure search behavior",
-        type: ParameterType.Mixed
+        type: ParameterType.Mixed,
     });
     options.addDeclaration({
         name: "disableSources",
