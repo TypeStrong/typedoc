@@ -10,18 +10,8 @@
         ],
         "target": "es2019",
         // Add our `ts` internal types
-        "typeRoots": [
-            "node_modules/@types",
-            "src/lib/types"
-        ],
-        "types": [
-            "node",
-            "glob",
-            "lunr",
-            "marked",
-            "minimatch",
-            "mocha"
-        ],
+        "typeRoots": ["node_modules/@types", "src/lib/types"],
+        "types": ["node", "glob", "lunr", "marked", "minimatch", "mocha"],
         // Speed up dev compilation time
         "incremental": true,
         "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
@@ -50,9 +40,7 @@
         "jsxFactory": "JSX.createElement",
         "jsxFragmentFactory": "JSX.Fragment"
     },
-    "include": [
-        "src"
-    ],
+    "include": ["src"],
     "exclude": [
         "src/lib/output/themes/default/assets",
         "src/test/converter",
