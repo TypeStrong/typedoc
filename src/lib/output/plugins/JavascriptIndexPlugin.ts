@@ -69,7 +69,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 kind: reflection.kind,
                 name: reflection.name,
                 url: reflection.url,
-                classes: reflection.cssClasses ?? "",
+                classes: reflection.cssClasses,
                 categories: (reflection.categories ?? []).map(
                     (category) => category.title
                 ),

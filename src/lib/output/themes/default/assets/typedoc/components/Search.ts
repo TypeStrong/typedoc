@@ -8,7 +8,7 @@ export interface IDocument {
     kind: number;
     name: string;
     url: string;
-    classes: string;
+    classes?: string;
     parent?: string;
     categories: Array<string>;
 }
@@ -229,7 +229,7 @@ function updateResults(
         }
 
         const item = document.createElement("li");
-        item.classList.value = row.classes;
+         item.classList.value = row.classes ?? '';
 
         const anchor = document.createElement("a");
         anchor.href = state.base + row.url;
