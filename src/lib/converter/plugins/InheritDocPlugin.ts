@@ -11,7 +11,9 @@ import { DefaultMap } from "../../utils";
 import { zip } from "../../utils/array";
 
 /**
- * A plugin that handles `inheritDoc` by copying documentation from another API item.
+ * A plugin that handles `@inheritDoc` tags by copying documentation from another API item.
+ * It is NOT responsible for handling bare JSDoc style `@inheritDoc` tags which do not specify
+ * a target to inherit from. Those are handled by the ImplementsPlugin class.
  *
  * What gets copied:
  * - short text
@@ -32,13 +34,12 @@ export class InheritDocPlugin extends ConverterComponent {
     override initialize() {
         this.owner.on(
             Converter.EVENT_RESOLVE_END,
-            this.processInheritDoc.bind(this)
+            this.processInheritDoc,
+            this
         );
     }
 
     /**
-     * Triggered when the converter resolves a reflection.
-     *
      * Traverse through reflection descendant to check for `inheritDoc` tag.
      * If encountered, the parameter of the tag is used to determine a source reflection
      * that will provide actual comment.

@@ -493,4 +493,13 @@ export const issueTests: {
             )
         );
     },
+
+    gh1927(project) {
+        const ref = query(project, "Derived.getter");
+
+        equal(
+            ref.getSignature?.comment,
+            new Comment([{ kind: "text", text: "Base" }])
+        );
+    },
 };

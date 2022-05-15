@@ -228,6 +228,12 @@ function blockContent(
                 break;
 
             case TokenSyntaxKind.Tag:
+                if (next.text === "@inheritdoc") {
+                    warning(
+                        "The @inheritDoc tag should be properly capitalized."
+                    );
+                    next.text = "@inheritDoc";
+                }
                 if (config.modifierTags.has(next.text)) {
                     comment.modifierTags.add(next.text);
                     break;

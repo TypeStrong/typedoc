@@ -1412,6 +1412,31 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "TestClass comment short text.\n\nTestClass comment text."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@see",
+                "content": [
+                  {
+                    "kind": "inline-tag",
+                    "tag": "@link",
+                    "text": "TestClass",
+                    "target": 22
+                  },
+                  {
+                    "kind": "text",
+                    "text": " @ fixtures"
+                  }
+                ]
+              }
+            ]
+          },
           "children": [
             {
               "id": 42,

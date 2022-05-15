@@ -45,6 +45,9 @@
         "@typescript-eslint/ban-types": 0,
         "@typescript-eslint/no-explicit-any": 0,
 
+        // Really annoying, doesn't provide any value.
+        "@typescript-eslint/no-empty-function": 0,
+
         // Declaration merging with a namespace is a necessary tool when working with enums.
         "@typescript-eslint/no-namespace": 0,
 

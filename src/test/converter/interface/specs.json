@@ -1032,6 +1032,14 @@
               "kind": 128,
               "kindString": "Class",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Encapsulates a subscription to an event dispatcher, and allows for unsubscribing"
+                  }
+                ]
+              },
               "children": [
                 {
                   "id": 50,

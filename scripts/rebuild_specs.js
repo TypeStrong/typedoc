@@ -78,9 +78,11 @@ function rebuildConverterTests(dirs) {
                 );
                 const serialized = app.serializer.toObject(result);
 
-                const data = JSON.stringify(serialized, null, "  ")
-                    .split(TypeDoc.normalizePath(base))
-                    .join("%BASE%");
+                const data =
+                    JSON.stringify(serialized, null, "  ")
+                        .split(TypeDoc.normalizePath(base))
+                        .join("%BASE%")
+                        .trim() + "\n";
                 after();
                 fs.writeFileSync(out, data);
             }

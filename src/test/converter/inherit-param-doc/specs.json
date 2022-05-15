@@ -56,7 +56,7 @@
               "flags": {},
               "parameters": [
                 {
-                  "id": 4,
+                  "id": 11,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -65,7 +65,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "Custom parameter A doc."
+                        "text": "Parameter A."
                       }
                     ]
                   },
@@ -75,7 +75,7 @@
                   }
                 },
                 {
-                  "id": 5,
+                  "id": 12,
                   "name": "b",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -193,7 +193,7 @@
               "flags": {},
               "parameters": [
                 {
-                  "id": 4,
+                  "id": 18,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -212,7 +212,7 @@
                   }
                 },
                 {
-                  "id": 5,
+                  "id": 19,
                   "name": "b",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -330,7 +330,7 @@
               "flags": {},
               "parameters": [
                 {
-                  "id": 4,
+                  "id": 25,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -339,7 +339,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "Custom parameter A doc."
+                        "text": "Parameter A."
                       }
                     ]
                   },
@@ -349,8 +349,8 @@
                   }
                 },
                 {
-                  "id": 5,
-                  "name": "b",
+                  "id": 26,
+                  "name": "c",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
@@ -358,7 +358,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "Parameter B."
+                        "text": "Custom second parameter doc with name change."
                       }
                     ]
                   },
@@ -455,7 +455,7 @@
                     "summary": [
                       {
                         "kind": "text",
-                        "text": "Custom parameter A doc."
+                        "text": "Parameter A."
                       }
                     ]
                   },

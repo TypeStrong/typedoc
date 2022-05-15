@@ -54,8 +54,9 @@ describe("Converter2", () => {
     });
 
     for (const [entry, check] of Object.entries(issueTests)) {
-        const link = `https://github.com/TypeStrong/typedoc/issues/${entry.substring(
-            2
+        const link = `https://github.com/TypeStrong/typedoc/issues/${entry.replace(
+            /[^\d]/g,
+            ""
         )}`;
 
         const name = `Issue ${entry

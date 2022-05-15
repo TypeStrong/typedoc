@@ -56,6 +56,8 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   Links which refer to members within a reference reflection will now correctly resolve to the referenced reflection's member, #1770.
 -   Correctly detect optional parameters in JavaScript projects using JSDoc, #1804.
 -   Fixed identical anchor links for reflections with the same name, #1845.
+-   TypeDoc will now automatically inherit documentation from classes `implements` by other interfaces/classes.
+-   Fixed `@inheritDoc` on accessors, #1927.
 -   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
 -   Corrected schema generation for https://typedoc.org/schema.json
 

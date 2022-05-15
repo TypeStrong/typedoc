@@ -168,6 +168,38 @@ export const behaviorTests: Record<
         equal(meth.signatures?.[0].comment, methodComment);
     },
 
+    inheritDocJsdoc(project) {
+        const fooComment = query(project, "Foo").comment;
+        const fooMemberComment = query(project, "Foo.member").signatures?.[0]
+            .comment;
+        const xComment = query(project, "Foo.member").signatures?.[0]
+            .parameters?.[0].comment;
+
+        ok(fooComment, "Foo");
+        ok(fooMemberComment, "Foo.member");
+        ok(xComment, "Foo.member.x");
+
+        for (const name of ["Bar", "Baz"]) {
+            equal(query(project, name).comment, fooComment, name);
+        }
+
+        for (const name of ["Bar.member", "Baz.member"]) {
+            const refl = query(project, name);
+            equal(refl.signatures?.length, 1, name);
+
+            equal(
+                refl.signatures[0].comment,
+                fooMemberComment,
+                `${name} signature`
+            );
+            equal(
+                refl.signatures[0].parameters?.[0].comment,
+                xComment,
+                `${name} parameter`
+            );
+        }
+    },
+
     inheritDocRecursive(project, logger) {
         const a = query(project, "A");
         equal(a.comment?.getTag("@inheritDoc")?.name, "B");
