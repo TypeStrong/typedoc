@@ -6,7 +6,6 @@
     "search": {
         "numResults": 12,
         "boosts": {
-            "exactMatch": 2,
             "byKind": {
                 "class": 1.2
             },

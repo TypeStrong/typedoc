@@ -168,49 +168,46 @@ function updateResults(
     // when the `searchText` is empty.
     let res = searchText ? state.index.search(`*${searchText}*`) : [];
 
-    if (searchConfig.boosts != undefined) {
-        for (let i = 0; i < res.length; i++) {
-            const item = res[i];
-            const row = state.data.rows[Number(item.ref)];
-            let boost = 1;
+    for (let i = 0; i < res.length; i++) {
+        const item = res[i];
+        const row = state.data.rows[Number(item.ref)];
+        let boost = 1;
 
-            // boost by exact match on name
-            if (
-                searchConfig.boosts.exactMatch &&
-                row.name.toLowerCase() === searchText.toLowerCase()
-            ) {
-                boost *= searchConfig.boosts.exactMatch;
-            }
-
-            // boost by kind
-            for (let kindName in searchConfig.boosts.byKind ?? {}) {
-                const kind: ReflectionKind = parseInt(
-                    Object.keys(ReflectionKind).find(
-                        (key: string) =>
-                            ReflectionKind[key as keyof typeof ReflectionKind]
-                                .toString()
-                                .toLowerCase() === kindName.toLowerCase()
-                    ) ?? "",
-                    10
-                );
-                if (row.kind == kind) {
-                    boost *= searchConfig?.boosts?.byKind?.[kindName] ?? 1;
-                }
-            }
-
-            // boost by category
-            for (let categoryTitle in searchConfig.boosts?.byCategory ?? []) {
-                if (row.categories.indexOf(categoryTitle) > -1) {
-                    boost *=
-                        searchConfig.boosts.byCategory?.[categoryTitle] ?? 1;
-                }
-            }
-
-            item.score *= boost;
+        // boost by exact match on name
+        if(row.name
+            .toLowerCase()
+            .startsWith(searchText.toLowerCase())) {
+            boost *= (1 / Math.abs(row.name.length - searchText.length) * 10)
         }
 
-        res.sort((a, b) => b.score - a.score);
+        // boost by kind
+        for (let kindName in searchConfig.boosts?.byKind ?? {}) {
+            const kind: ReflectionKind = parseInt(
+                Object.keys(ReflectionKind).find(
+                    (key: string) =>
+                        ReflectionKind[key as keyof typeof ReflectionKind]
+                            .toString()
+                            .toLowerCase() === kindName.toLowerCase()
+                ) ?? "",
+                10
+            );
+            if (row.kind == kind) {
+                boost *= searchConfig?.boosts?.byKind?.[kindName] ?? 1;
+            }
+        }
+
+        // boost by category
+        for (let categoryTitle in searchConfig.boosts?.byCategory ?? []) {
+            if (row.categories.indexOf(categoryTitle) > -1) {
+                boost *=
+                    searchConfig.boosts?.byCategory?.[categoryTitle] ?? 1;
+            }
+        }
+
+        item.score *= boost;
     }
+
+    res.sort((a, b) => b.score - a.score);
 
     for (
         let i = 0, c = Math.min(searchConfig.numResults ?? 10, res.length);
