@@ -179,7 +179,7 @@ function updateResults(
         }
 
         // boost by kind
-        for (let kindName in searchConfig.boosts?.byKind ?? {}) {
+        for (let kindName in searchConfig.searchGroupBoosts ?? {}) {
             const kinds = window.searchData?.kinds ?? {};
             const kind = parseInt(
                 Object.keys(kinds).find(
@@ -190,7 +190,7 @@ function updateResults(
                 10
             );
             if (row.kind == kind) {
-                boost *= searchConfig?.boosts?.byKind?.[kindName] ?? 1;
+                boost *= searchConfig?.searchGroupBoosts?.[kindName] ?? 1;
             }
         }
 
