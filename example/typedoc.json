@@ -5,7 +5,6 @@
     "media": "media",
     "categorizeByGroup": false,
     "search": {
-        "numResults": 12,
         "boosts": {
             "byKind": {
                 "class": 1.5

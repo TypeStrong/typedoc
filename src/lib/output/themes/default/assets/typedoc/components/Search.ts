@@ -202,11 +202,7 @@ function updateResults(
 
     res.sort((a, b) => b.score - a.score);
 
-    for (
-        let i = 0, c = Math.min(searchConfig.numResults ?? 10, res.length);
-        i < c;
-        i++
-    ) {
+    for (let i = 0, c = Math.min(10, res.length); i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
 
         // Bold the matched part of the query in the search results
