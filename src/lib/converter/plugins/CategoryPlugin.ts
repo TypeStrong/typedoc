@@ -4,12 +4,12 @@ import {
     DeclarationReflection,
     CommentTag,
 } from "../../models";
-import { ReflectionCategory } from "../../models/ReflectionCategory";
+import { ReflectionCategory } from "../../models";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import { BindOption } from "../../utils";
-import type { Comment } from "../../models/comments/index";
+import type { Comment } from "../../models";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -66,9 +66,12 @@ export class CategoryPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(_context: Context, reflection: Reflection) {
+    private onResolve(context: Context, reflection: Reflection) {
         if (reflection instanceof ContainerReflection) {
-            this.categorize(reflection);
+            this.categorize(
+                reflection,
+                context.getSearchOptions().boosts?.byCategory ?? {}
+            );
         }
     }
 
@@ -79,18 +82,27 @@ export class CategoryPlugin extends ConverterComponent {
      */
     private onEndResolve(context: Context) {
         const project = context.project;
-        this.categorize(project);
+        this.categorize(
+            project,
+            context.getSearchOptions().boosts?.byCategory ?? {}
+        );
     }
 
-    private categorize(obj: ContainerReflection) {
+    private categorize(
+        obj: ContainerReflection,
+        categorySearchBoosts: { [key: string]: number }
+    ) {
         if (this.categorizeByGroup) {
-            this.groupCategorize(obj);
+            this.groupCategorize(obj, categorySearchBoosts);
         } else {
-            this.lumpCategorize(obj);
+            CategoryPlugin.lumpCategorize(obj, categorySearchBoosts);
         }
     }
 
-    private groupCategorize(obj: ContainerReflection) {
+    private groupCategorize(
+        obj: ContainerReflection,
+        categorySearchBoosts: { [key: string]: number }
+    ) {
         if (!obj.groups || obj.groups.length === 0) {
             return;
         }
@@ -98,7 +110,8 @@ export class CategoryPlugin extends ConverterComponent {
             if (group.categories) return;
 
             group.categories = CategoryPlugin.getReflectionCategories(
-                group.children
+                group.children,
+                categorySearchBoosts
             );
             if (group.categories && group.categories.length > 1) {
                 group.categories.sort(CategoryPlugin.sortCatCallback);
@@ -112,11 +125,17 @@ export class CategoryPlugin extends ConverterComponent {
         });
     }
 
-    private lumpCategorize(obj: ContainerReflection) {
+    static lumpCategorize(
+        obj: ContainerReflection,
+        categorySearchBoosts: { [key: string]: number }
+    ) {
         if (!obj.children || obj.children.length === 0 || obj.categories) {
             return;
         }
-        obj.categories = CategoryPlugin.getReflectionCategories(obj.children);
+        obj.categories = CategoryPlugin.getReflectionCategories(
+            obj.children,
+            categorySearchBoosts
+        );
         if (obj.categories && obj.categories.length > 1) {
             obj.categories.sort(CategoryPlugin.sortCatCallback);
         } else if (
@@ -132,10 +151,13 @@ export class CategoryPlugin extends ConverterComponent {
      * Create a categorized representation of the given list of reflections.
      *
      * @param reflections  The reflections that should be categorized.
+     * @param categorySearchBoosts A user-supplied map of category titles, for computing a
+     *   relevance boost to be used when searching
      * @returns An array containing all children of the given reflection categorized
      */
     static getReflectionCategories(
-        reflections: DeclarationReflection[]
+        reflections: DeclarationReflection[],
+        categorySearchBoosts: { [key: string]: number }
     ): ReflectionCategory[] {
         const categories: ReflectionCategory[] = [];
         let defaultCat: ReflectionCategory | undefined;
@@ -154,11 +176,17 @@ export class CategoryPlugin extends ConverterComponent {
                         categories.push(defaultCat);
                     }
                 }
+
                 defaultCat.children.push(child);
                 return;
             }
             for (const childCat of childCategories) {
                 let category = categories.find((cat) => cat.title === childCat);
+
+                const catBoost = categorySearchBoosts[category?.title ?? -1];
+                if (catBoost != undefined) {
+                    child.categoryBoost = catBoost;
+                }
                 if (category) {
                     category.children.push(child);
                     continue;

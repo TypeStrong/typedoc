@@ -1,7 +1,7 @@
 import { debounce } from "../utils/debounce";
 import { Index } from "lunr";
 import type { SearchConfig } from "../../../../../../utils/options/declaration";
-import { ReflectionKind } from "../../../../../../models/reflections/kind";
+import { ReflectionKind } from "../../../../../../models";
 
 export interface IDocument {
     id: number;
@@ -10,7 +10,7 @@ export interface IDocument {
     url: string;
     classes?: string;
     parent?: string;
-    categories: Array<string>;
+    categoryBoost?: number;
 }
 
 interface IData {
@@ -174,10 +174,8 @@ function updateResults(
         let boost = 1;
 
         // boost by exact match on name
-        if(row.name
-            .toLowerCase()
-            .startsWith(searchText.toLowerCase())) {
-            boost *= (1 / Math.abs(row.name.length - searchText.length) * 10)
+        if (row.name.toLowerCase().startsWith(searchText.toLowerCase())) {
+            boost *= 1 / (Math.abs(row.name.length - searchText.length) * 10);
         }
 
         // boost by kind
@@ -197,12 +195,7 @@ function updateResults(
         }
 
         // boost by category
-        for (let categoryTitle in searchConfig.boosts?.byCategory ?? []) {
-            if (row.categories.indexOf(categoryTitle) > -1) {
-                boost *=
-                    searchConfig.boosts?.byCategory?.[categoryTitle] ?? 1;
-            }
-        }
+        boost *= row.categoryBoost ?? 1;
 
         item.score *= boost;
     }
@@ -226,7 +219,7 @@ function updateResults(
         }
 
         const item = document.createElement("li");
-         item.classList.value = row.classes ?? '';
+        item.classList.value = row.classes ?? "";
 
         const anchor = document.createElement("a");
         anchor.href = state.base + row.url;

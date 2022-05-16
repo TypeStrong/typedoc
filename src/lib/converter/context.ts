@@ -14,6 +14,7 @@ import type { Converter } from "./converter";
 import { isNamedNode } from "./utils/nodes";
 import { ConverterEvents } from "./converter-events";
 import { resolveAliasedSymbol } from "./utils/symbols";
+import type { SearchConfig } from "../utils/options/declaration";
 
 /**
  * The context describes the current state the converter is in.
@@ -116,6 +117,12 @@ export class Context {
      */
     getCompilerOptions(): ts.CompilerOptions {
         return this.converter.application.options.getCompilerOptions();
+    }
+
+    getSearchOptions(): SearchConfig {
+        return this.converter.application.options.getValue(
+            "search"
+        ) as SearchConfig;
     }
 
     /**

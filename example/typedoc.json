@@ -3,6 +3,7 @@
     "entryPoints": ["./src"],
     "sort": ["source-order"],
     "media": "media",
+    "categorizeByGroup": false,
     "search": {
         "numResults": 12,
         "boosts": {
@@ -10,7 +11,8 @@
                 "class": 1.2
             },
             "byCategory": {
-                "Lang": 10
+                "Component": 2,
+                "Model": 1.2
             }
         }
     }
