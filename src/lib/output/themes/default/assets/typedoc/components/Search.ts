@@ -2,7 +2,7 @@ import { debounce } from "../utils/debounce";
 import { Index } from "lunr";
 import type { SearchConfig } from "../../../../../../utils/options/declaration";
 
-export interface IDocument {
+interface IDocument {
     id: number;
     kind: number;
     name: string;
