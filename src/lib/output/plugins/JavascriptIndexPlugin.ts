@@ -12,6 +12,7 @@ import { RendererEvent } from "../events";
 import { writeFileSync } from "../../utils";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
 import type { IDocument } from "../themes/default/assets/typedoc/components/Search";
+import type { SearchConfig } from "../../utils/options/declaration";
 
 /**
  * A plugin that exports an index of the project to a javascript file.
@@ -103,7 +104,9 @@ export class JavascriptIndexPlugin extends RendererComponent {
             "search.js"
         );
 
-        const searchConfig = this.application.options.getValue("search");
+        const searchConfig = this.application.options.getValue(
+            "search"
+        ) as SearchConfig;
 
         const jsonData = JSON.stringify({
             searchConfig,

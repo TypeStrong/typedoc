@@ -1,7 +1,6 @@
 import { debounce } from "../utils/debounce";
 import { Index } from "lunr";
 import type { SearchConfig } from "../../../../../../utils/options/declaration";
-import { ReflectionKind } from "../../../../../../models";
 
 export interface IDocument {
     id: number;
@@ -175,17 +174,18 @@ function updateResults(
 
         // boost by exact match on name
         if (row.name.toLowerCase().startsWith(searchText.toLowerCase())) {
-            boost *= 1 / (Math.abs(row.name.length - searchText.length) * 10);
+            boost *=
+                1 + 1 / (Math.abs(row.name.length - searchText.length) * 10);
         }
 
         // boost by kind
         for (let kindName in searchConfig.boosts?.byKind ?? {}) {
-            const kind: ReflectionKind = parseInt(
-                Object.keys(ReflectionKind).find(
-                    (key: string) =>
-                        ReflectionKind[key as keyof typeof ReflectionKind]
-                            .toString()
-                            .toLowerCase() === kindName.toLowerCase()
+            const kinds = window.searchData?.kinds ?? {};
+            const kind = parseInt(
+                Object.keys(kinds).find(
+                    (key: any) =>
+                        kinds[key].toString().toLowerCase() ===
+                        kindName.toLowerCase()
                 ) ?? "",
                 10
             );
