@@ -70,7 +70,7 @@ export class CategoryPlugin extends ConverterComponent {
         if (reflection instanceof ContainerReflection) {
             this.categorize(
                 reflection,
-                context.getSearchOptions().boosts?.byCategory ?? {}
+                context.getSearchOptions()?.boosts?.byCategory ?? {}
             );
         }
     }
@@ -84,7 +84,7 @@ export class CategoryPlugin extends ConverterComponent {
         const project = context.project;
         this.categorize(
             project,
-            context.getSearchOptions().boosts?.byCategory ?? {}
+            context.getSearchOptions()?.boosts?.byCategory ?? {}
         );
     }
 
