@@ -120,9 +120,14 @@ export class Context {
     }
 
     getSearchOptions(): SearchConfig {
-        return this.converter.application.options.getValue(
-            "search"
-        ) as SearchConfig;
+        return {
+            searchCategoryBoosts: this.converter.application.options.getValue(
+                "searchCategoryBoosts"
+            ) as SearchConfig["searchCategoryBoosts"],
+            searchGroupBoosts: this.converter.application.options.getValue(
+                "searchGroupBoosts"
+            ) as SearchConfig["searchGroupBoosts"],
+        };
     }
 
     /**

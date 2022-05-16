@@ -103,9 +103,13 @@ export class JavascriptIndexPlugin extends RendererComponent {
             "search.js"
         );
 
-        const searchConfig = this.application.options.getValue(
-            "search"
-        ) as SearchConfig;
+        const searchConfig = {
+            searchCategoryBoosts: this.application.options.getValue(
+                "searchCategoryBoosts"
+            ),
+            searchGroupBoosts:
+                this.application.options.getValue("searchGroupBoosts"),
+        } as SearchConfig;
 
         const jsonData = JSON.stringify({
             searchConfig,

@@ -52,10 +52,8 @@ export type TypeDocOptionValues = {
 
 const Kinds = Object.values(ReflectionKind);
 export interface SearchConfig {
-    boosts?: {
-        byKind?: { [key: typeof Kinds[number]]: number };
-        byCategory?: { [key: string]: number };
-    };
+    searchGroupBoosts?: { [key: typeof Kinds[number]]: number };
+    searchCategoryBoosts?: { [key: string]: number };
 }
 
 /**
@@ -115,7 +113,8 @@ export interface TypeDocOptionMap {
     version: boolean;
     showConfig: boolean;
     plugin: string[];
-    search: unknown;
+    searchCategoryBoosts: unknown;
+    searchGroupBoosts: unknown;
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
     markedOptions: unknown;

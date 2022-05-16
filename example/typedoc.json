@@ -4,15 +4,11 @@
     "sort": ["source-order"],
     "media": "media",
     "categorizeByGroup": false,
-    "search": {
-        "boosts": {
-            "byKind": {
-                "class": 1.5
-            },
-            "byCategory": {
-                "Component": 2,
-                "Model": 1.2
-            }
-        }
+    "searchCategoryBoosts": {
+        "Component": 2,
+        "Model": 1.2
+    },
+    "searchGroupBoosts": {
+        "class": 1.5
     }
 }

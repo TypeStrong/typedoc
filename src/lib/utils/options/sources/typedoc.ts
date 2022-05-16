@@ -71,8 +71,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "search",
-        help: "Configure search behavior",
+        name: "searchCategoryBoosts",
+        help: "Configure search to give a relevance boost to selected categories",
+        type: ParameterType.Mixed,
+    });
+    options.addDeclaration({
+        name: "searchGroupBoosts",
+        help: 'Configure search to give a relevance boost to selected kinds (eg "class")',
         type: ParameterType.Mixed,
     });
     options.addDeclaration({
