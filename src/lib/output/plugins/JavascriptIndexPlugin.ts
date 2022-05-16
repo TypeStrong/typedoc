@@ -11,7 +11,6 @@ import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { writeFileSync } from "../../utils";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
-// import type { IDocument } from "../themes/default/assets/typedoc/components/Search";
 import type { SearchConfig } from "../../utils/options/declaration";
 
 /**
