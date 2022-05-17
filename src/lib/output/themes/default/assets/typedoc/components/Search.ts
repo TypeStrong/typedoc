@@ -169,10 +169,6 @@ function updateResults(
         }
 
         // boost by relevanceBoost
-        if ((row.relevanceBoost ?? 1) > 1) {
-            debugger;
-        }
-
         boost *= row.relevanceBoost ?? 1;
 
         item.score *= boost;

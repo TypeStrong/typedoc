@@ -82,7 +82,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value: unknown) {
             const validValues = Object.values(ReflectionKind)
                 .filter((v) => typeof v === "string")
-                .map((v) => v.toString().toLowerCase());
+                .map((v) => v.toString());
 
             for (const kindName in value as { [key: string]: number }) {
                 if (validValues.indexOf(kindName) < 0) {

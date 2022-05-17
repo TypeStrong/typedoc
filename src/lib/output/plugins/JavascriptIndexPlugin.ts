@@ -73,8 +73,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
                     reflection.kind
                 );
 
-                const boost =
-                    kindBoosts[(kinds[reflection.kind] ?? "").toLowerCase()];
+                const boost = kindBoosts[kinds[reflection.kind] ?? ""];
                 if (boost != undefined) {
                     reflection.relevanceBoost =
                         (reflection.relevanceBoost ?? 1) * boost;
