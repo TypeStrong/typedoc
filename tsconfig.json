@@ -6,7 +6,6 @@
             "es2020.promise",
             "es2020.bigint",
             "es2020.string",
-            "dom"
         ],
         "target": "es2019",
         // Add our `ts` internal types
