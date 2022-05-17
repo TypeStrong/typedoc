@@ -79,6 +79,21 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "searchGroupBoosts",
         help: 'Configure search to give a relevance boost to selected kinds (eg "class")',
         type: ParameterType.Mixed,
+        validate(value: unknown) {
+            const validValues = Object.values(ReflectionKind)
+                .filter((v) => typeof v === "string")
+                .map((v) => v.toString().toLowerCase());
+
+            for (const kindName in value as { [key: string]: number }) {
+                if (validValues.indexOf(kindName) < 0) {
+                    throw new Error(
+                        `'${kindName}' is an invalid value for 'searchGroupBoosts'. Must be one of: ${validValues.join(
+                            ", "
+                        )}`
+                    );
+                }
+            }
+        },
     });
     options.addDeclaration({
         name: "disableSources",
