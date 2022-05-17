@@ -185,7 +185,8 @@ export class CategoryPlugin extends ConverterComponent {
 
                 const catBoost = categorySearchBoosts[category?.title ?? -1];
                 if (catBoost != undefined) {
-                    child.categoryBoost = catBoost;
+                    child.relevanceBoost =
+                        (child.relevanceBoost ?? 1) * catBoost;
                 }
                 if (category) {
                     category.children.push(child);

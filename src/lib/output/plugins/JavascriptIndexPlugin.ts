@@ -11,7 +11,6 @@ import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { writeFileSync } from "../../utils";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
-import type { SearchConfig } from "../../utils/options/declaration";
 
 /**
  * A plugin that exports an index of the project to a javascript file.
@@ -43,6 +42,10 @@ export class JavascriptIndexPlugin extends RendererComponent {
         const rows: any[] = [];
         const kinds: { [K in ReflectionKind]?: string } = {};
 
+        const kindBoosts = this.application.options.getValue(
+            "searchGroupBoosts"
+        ) as { [key: string]: number };
+
         for (const reflection of event.project.getReflectionsByKind(
             ReflectionKind.All
         )) {
@@ -64,23 +67,30 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 parent = undefined;
             }
 
+            if (!kinds[reflection.kind]) {
+                kinds[reflection.kind] = GroupPlugin.getKindSingular(
+                    reflection.kind
+                );
+
+                const boost =
+                    kindBoosts[(kinds[reflection.kind] ?? "").toLowerCase()];
+                if (boost != undefined) {
+                    reflection.relevanceBoost =
+                        (reflection.relevanceBoost ?? 1) * boost;
+                }
+            }
+
             const row: any = {
                 id: rows.length,
                 kind: reflection.kind,
                 name: reflection.name,
                 url: reflection.url,
                 classes: reflection.cssClasses,
-                categoryBoost: reflection.categoryBoost,
+                relevanceBoost: reflection.relevanceBoost,
             };
 
             if (parent) {
                 row.parent = parent.getFullName();
-            }
-
-            if (!kinds[reflection.kind]) {
-                kinds[reflection.kind] = GroupPlugin.getKindSingular(
-                    reflection.kind
-                );
             }
 
             rows.push(row);
@@ -103,16 +113,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             "search.js"
         );
 
-        const searchConfig = {
-            searchCategoryBoosts: this.application.options.getValue(
-                "searchCategoryBoosts"
-            ),
-            searchGroupBoosts:
-                this.application.options.getValue("searchGroupBoosts"),
-        } as SearchConfig;
-
         const jsonData = JSON.stringify({
-            searchConfig,
             kinds,
             rows,
             index,

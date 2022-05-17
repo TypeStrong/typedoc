@@ -1,6 +1,5 @@
 import { debounce } from "../utils/debounce";
 import { Index } from "lunr";
-import type { SearchConfig } from "../../../../../../utils/options/declaration";
 
 interface IDocument {
     id: number;
@@ -9,14 +8,13 @@ interface IDocument {
     url: string;
     classes?: string;
     parent?: string;
-    categoryBoost?: number;
+    relevanceBoost?: number;
 }
 
 interface IData {
     kinds: { [kind: number]: string };
     rows: IDocument[];
     index: object;
-    searchConfig: SearchConfig;
 }
 
 declare global {
@@ -81,26 +79,19 @@ export function initSearch() {
         base: searchEl.dataset["base"] + "/",
     };
 
-    bindEvents(
-        searchEl,
-        results,
-        field,
-        state,
-        window?.searchData?.searchConfig ?? {}
-    );
+    bindEvents(searchEl, results, field, state);
 }
 
 function bindEvents(
     searchEl: HTMLElement,
     results: HTMLElement,
     field: HTMLInputElement,
-    state: SearchState,
-    searchConfig: SearchConfig
+    state: SearchState
 ) {
     field.addEventListener(
         "input",
         debounce(() => {
-            updateResults(searchEl, results, field, state, searchConfig);
+            updateResults(searchEl, results, field, state);
         }, 200)
     );
 
@@ -150,8 +141,7 @@ function updateResults(
     searchEl: HTMLElement,
     results: HTMLElement,
     query: HTMLInputElement,
-    state: SearchState,
-    searchConfig: SearchConfig
+    state: SearchState
 ) {
     checkIndex(state, searchEl);
     // Don't clear results if loading state is not ready,
@@ -178,24 +168,12 @@ function updateResults(
                 1 + 1 / (Math.abs(row.name.length - searchText.length) * 10);
         }
 
-        // boost by kind
-        for (let kindName in searchConfig.searchGroupBoosts ?? {}) {
-            const kinds = window.searchData?.kinds ?? {};
-            const kind = parseInt(
-                Object.keys(kinds).find(
-                    (key: any) =>
-                        kinds[key].toString().toLowerCase() ===
-                        kindName.toLowerCase()
-                ) ?? "",
-                10
-            );
-            if (row.kind == kind) {
-                boost *= searchConfig?.searchGroupBoosts?.[kindName] ?? 1;
-            }
+        // boost by relevanceBoost
+        if ((row.relevanceBoost ?? 1) > 1) {
+            debugger;
         }
 
-        // boost by category
-        boost *= row.categoryBoost ?? 1;
+        boost *= row.relevanceBoost ?? 1;
 
         item.score *= boost;
     }
