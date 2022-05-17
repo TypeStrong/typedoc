@@ -42,9 +42,10 @@ export class JavascriptIndexPlugin extends RendererComponent {
         const rows: any[] = [];
         const kinds: { [K in ReflectionKind]?: string } = {};
 
-        const kindBoosts = this.application.options.getValue(
-            "searchGroupBoosts"
-        ) as { [key: string]: number };
+        const kindBoosts =
+            (this.application.options.getValue("searchGroupBoosts") as {
+                [key: string]: number;
+            }) ?? {};
 
         for (const reflection of event.project.getReflectionsByKind(
             ReflectionKind.All
