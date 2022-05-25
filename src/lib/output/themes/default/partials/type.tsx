@@ -126,10 +126,16 @@ const typeRenderers: {
             </>
         );
     },
-    inferred(_context, type) {
+    inferred(context, type) {
         return (
             <>
                 <span class="tsd-signature-symbol">infer </span> {type.name}
+                {type.constraint && (
+                    <>
+                        <span class="tsd-signature-symbol"> extends </span>
+                        {renderType(context, type.constraint)}
+                    </>
+                )}
             </>
         );
     },

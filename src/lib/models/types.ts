@@ -270,11 +270,14 @@ export class IndexedAccessType extends Type {
 export class InferredType extends Type {
     override readonly type = "inferred";
 
-    constructor(public name: string) {
+    constructor(public name: string, public constraint?: SomeType) {
         super();
     }
 
     override toString() {
+        if (this.constraint) {
+            return `infer ${this.name} extends ${this.constraint}`;
+        }
         return `infer ${this.name}`;
     }
 }
