@@ -21,7 +21,7 @@
     "node": ">= 12.10.0"
   },
   "dependencies": {
-    "glob": "^7.2.0",
+    "glob": "^8.0.3",
     "lunr": "^2.3.9",
     "marked": "^4.0.16",
     "minimatch": "^5.1.0",
