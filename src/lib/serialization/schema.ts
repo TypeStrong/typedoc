@@ -151,16 +151,10 @@ export interface DeclarationReflection
             | "extendedBy"
             | "implementedTypes"
             | "implementedBy"
-        > {
-    // Weird not to call this typeParameters... preserving backwards compatibility for now.
-    typeParameter?: ModelToObject<M.DeclarationReflection["typeParameters"]>;
-
-    // Yep... backwards compatibility. This is an optional one-tuple.
-    getSignature?: [ModelToObject<M.DeclarationReflection["getSignature"]>];
-
-    // Yep... backwards compatibility. This is an optional one-tuple.
-    setSignature?: [ModelToObject<M.DeclarationReflection["setSignature"]>];
-}
+            | "getSignature"
+            | "setSignature"
+            | "typeParameters"
+        > {}
 
 export interface TypeParameterReflection
     extends Reflection,

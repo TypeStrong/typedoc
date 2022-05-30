@@ -48,12 +48,7 @@ export class ReflectionGroup {
                 this.children.length > 0
                     ? this.children.map((child) => child.id)
                     : undefined,
-            categories:
-                this.categories && this.categories.length > 0
-                    ? this.categories.map((category) =>
-                          serializer.toObject(category)
-                      )
-                    : undefined,
+            categories: serializer.toObjectsOptional(this.categories),
         };
     }
 }

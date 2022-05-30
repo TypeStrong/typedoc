@@ -109,23 +109,12 @@ export class SignatureReflection extends Reflection {
     override toObject(serializer: Serializer): JSONOutput.SignatureReflection {
         return {
             ...super.toObject(serializer),
-            typeParameter:
-                this.typeParameters && this.typeParameters.length > 0
-                    ? this.typeParameters.map((type) =>
-                          serializer.toObject(type)
-                      )
-                    : undefined,
-            parameters:
-                this.parameters && this.parameters.length > 0
-                    ? this.parameters.map((type) => serializer.toObject(type))
-                    : undefined,
-            type: this.type && serializer.toObject(this.type),
-            overwrites: this.overwrites && serializer.toObject(this.overwrites),
-            inheritedFrom:
-                this.inheritedFrom && serializer.toObject(this.inheritedFrom),
-            implementationOf:
-                this.implementationOf &&
-                serializer.toObject(this.implementationOf),
+            typeParameter: serializer.toObjectsOptional(this.typeParameters),
+            parameters: serializer.toObjectsOptional(this.parameters),
+            type: serializer.toObject(this.type),
+            overwrites: serializer.toObject(this.overwrites),
+            inheritedFrom: serializer.toObject(this.inheritedFrom),
+            implementationOf: serializer.toObject(this.implementationOf),
         };
     }
 }

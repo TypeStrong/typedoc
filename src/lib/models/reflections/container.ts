@@ -56,15 +56,10 @@ export class ContainerReflection extends Reflection {
     override toObject(serializer: Serializer): JSONOutput.ContainerReflection {
         return {
             ...super.toObject(serializer),
-            children: this.children?.map((child) => serializer.toObject(child)),
-            groups: this.groups?.map((group) => serializer.toObject(group)),
-            categories: this.categories?.map((category) =>
-                serializer.toObject(category)
-            ),
-            sources:
-                this.sources && this.sources.length > 0
-                    ? this.sources.map((source) => serializer.toObject(source))
-                    : undefined,
+            children: serializer.toObjectsOptional(this.children),
+            groups: serializer.toObjectsOptional(this.groups),
+            categories: serializer.toObjectsOptional(this.categories),
+            sources: serializer.toObjectsOptional(this.sources),
         };
     }
 }

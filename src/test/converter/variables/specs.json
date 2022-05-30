@@ -80,7 +80,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L4"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 6,
               "name": "T",

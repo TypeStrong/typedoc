@@ -399,7 +399,7 @@ export class InferredType extends Type {
         return {
             type: this.type,
             name: this.name,
-            constraint: this.constraint ? serializer.toObject(this.constraint) : undefined
+            constraint: serializer.toObject(this.constraint),
         };
     }
 }
@@ -608,7 +608,7 @@ export class MappedType extends Type {
             templateType: serializer.toObject(this.templateType),
             readonlyModifier: this.readonlyModifier,
             optionalModifier: this.optionalModifier,
-            nameType: this.nameType && serializer.toObject(this.nameType),
+            nameType: serializer.toObject(this.nameType),
         };
     }
 }
@@ -699,7 +699,7 @@ export class PredicateType extends Type {
             type: this.type,
             name: this.name,
             asserts: this.asserts,
-            targetType: this.targetType && serializer.toObject(this.targetType),
+            targetType: serializer.toObject(this.targetType),
         };
     }
 }
@@ -900,10 +900,7 @@ export class ReferenceType extends Type {
         const result: JSONOutput.ReferenceType = {
             type: this.type,
             id: this.reflection?.id,
-            typeArguments:
-                this.typeArguments && this.typeArguments.length > 0
-                    ? this.typeArguments?.map((t) => serializer.toObject(t))
-                    : undefined,
+            typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
         };
 
@@ -1068,10 +1065,7 @@ export class TupleType extends Type {
     override toObject(serializer: Serializer): JSONOutput.TupleType {
         return {
             type: this.type,
-            elements:
-                this.elements.length > 0
-                    ? this.elements.map((t) => serializer.toObject(t))
-                    : undefined,
+            elements: serializer.toObjectsOptional(this.elements),
         };
     }
 }

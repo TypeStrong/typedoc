@@ -11,7 +11,10 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 
 ### Breaking Changes
 
--   Node 12 is no longer officially supported as it is has gone end of life as of 2022-04-30. It might still work, but may stop working at any time.
+-   Node 12 is no longer officially supported as it has gone end of life as of 2022-04-30. It might still work, but may stop working at any time.
+-   In the JSON output for `DeclarationReflection`s, `getSignature` is no longer a one-tuple.
+-   In the JSON output for `DeclarationReflection`s, `setSignature` is no longer a one-tuple.
+-   In the JSON output for `DeclarationReflection`s, `typeParameter` has been renamed to `typeParameters`
 -   `@inheritDoc` now follows the behavior specified by TSDoc when copying comments with a reference.
 -   The `gaSite` option has been removed since Google Analytics now infers the site automatically, updated Google Analytics script to latest version, #1846.
 -   Comments on export declarations will only overrides comments for references and namespaces, #1901.

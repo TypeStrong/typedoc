@@ -139,7 +139,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L6"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 19,
               "name": "T",
@@ -273,7 +273,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L26"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 25,
               "name": "T",

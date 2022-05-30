@@ -252,41 +252,22 @@ export class DeclarationReflection extends ContainerReflection {
     ): JSONOutput.DeclarationReflection {
         return {
             ...super.toObject(serializer),
-            typeParameter:
-                this.typeParameters && this.typeParameters.length > 0
-                    ? this.typeParameters.map((type) =>
-                          serializer.toObject(type)
-                      )
-                    : undefined,
-            type: this.type && serializer.toObject(this.type),
-            signatures: this.signatures?.map((sig) => serializer.toObject(sig)),
-            indexSignature:
-                this.indexSignature && serializer.toObject(this.indexSignature),
-            getSignature: this.getSignature && [
-                serializer.toObject(this.getSignature),
-            ],
-            setSignature: this.setSignature && [
-                serializer.toObject(this.setSignature),
-            ],
+            typeParameters: serializer.toObjectsOptional(this.typeParameters),
+            type: serializer.toObject(this.type),
+            signatures: serializer.toObjectsOptional(this.signatures),
+            indexSignature: serializer.toObject(this.indexSignature),
+            getSignature: serializer.toObject(this.getSignature),
+            setSignature: serializer.toObject(this.setSignature),
             defaultValue: this.defaultValue,
-            overwrites: this.overwrites && serializer.toObject(this.overwrites),
-            inheritedFrom:
-                this.inheritedFrom && serializer.toObject(this.inheritedFrom),
-            implementationOf:
-                this.implementationOf &&
-                serializer.toObject(this.implementationOf),
-            extendedTypes: this.extendedTypes?.map((type) =>
-                serializer.toObject(type)
+            overwrites: serializer.toObject(this.overwrites),
+            inheritedFrom: serializer.toObject(this.inheritedFrom),
+            implementationOf: serializer.toObject(this.implementationOf),
+            extendedTypes: serializer.toObjectsOptional(this.extendedTypes),
+            extendedBy: serializer.toObjectsOptional(this.extendedBy),
+            implementedTypes: serializer.toObjectsOptional(
+                this.implementedTypes
             ),
-            extendedBy: this.extendedBy?.map((type) =>
-                serializer.toObject(type)
-            ),
-            implementedTypes: this.implementedTypes?.map((type) =>
-                serializer.toObject(type)
-            ),
-            implementedBy: this.implementedBy?.map((type) =>
-                serializer.toObject(type)
-            ),
+            implementedBy: serializer.toObjectsOptional(this.implementedBy),
         };
     }
 }

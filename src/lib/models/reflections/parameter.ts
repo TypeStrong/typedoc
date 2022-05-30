@@ -44,7 +44,7 @@ export class ParameterReflection extends Reflection {
     override toObject(serializer: Serializer): JSONOutput.ParameterReflection {
         return {
             ...super.toObject(serializer),
-            type: this.type && serializer.toObject(this.type),
+            type: serializer.toObject(this.type),
             defaultValue: this.defaultValue,
         };
     }

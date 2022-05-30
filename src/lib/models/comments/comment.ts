@@ -236,10 +236,7 @@ export class Comment {
     toObject(serializer: Serializer): JSONOutput.Comment {
         return {
             summary: this.summary.map(serializeDisplayPart),
-            blockTags:
-                this.blockTags.length > 0
-                    ? this.blockTags.map((tag) => serializer.toObject(tag))
-                    : undefined,
+            blockTags: serializer.toObjectsOptional(this.blockTags),
             modifierTags:
                 this.modifierTags.size > 0
                     ? Array.from(this.modifierTags)

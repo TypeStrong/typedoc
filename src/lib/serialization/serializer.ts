@@ -34,13 +34,33 @@ export class Serializer extends EventDispatcher {
 
     toObject<T extends { toObject(serializer: Serializer): ModelToObject<T> }>(
         value: T
-    ): ModelToObject<T> {
+    ): ModelToObject<T>;
+    toObject<T extends { toObject(serializer: Serializer): ModelToObject<T> }>(
+        value: T | undefined
+    ): ModelToObject<T> | undefined;
+    toObject(
+        value: { toObject(serializer: Serializer): any } | undefined
+    ): unknown {
+        if (value === undefined) {
+            return undefined;
+        }
+
         return this.serializers
             .filter((s) => s.supports(value))
             .reduce(
-                (val, s) => s.toObject(value, val, this) as ModelToObject<T>,
+                (val, s) => s.toObject(value, val, this),
                 value.toObject(this)
             );
+    }
+
+    toObjectsOptional<
+        T extends { toObject(serializer: Serializer): ModelToObject<T> }
+    >(value: T[] | undefined): ModelToObject<T>[] | undefined {
+        if (!value || value.length === 0) {
+            return undefined;
+        }
+
+        return value.map((val) => this.toObject(val));
     }
 
     /**

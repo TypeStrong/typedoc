@@ -1002,7 +1002,7 @@
                   "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L56"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 101,
                   "name": "T",
@@ -1341,7 +1341,7 @@
                   "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L24"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 63,
                   "name": "V",
@@ -1631,7 +1631,7 @@
                   "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L40"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 80,
                   "name": "U",
@@ -1662,7 +1662,7 @@
                   "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L5"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 39,
                   "name": "T",
@@ -1848,7 +1848,7 @@
                   "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L13"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 48,
                   "name": "T",

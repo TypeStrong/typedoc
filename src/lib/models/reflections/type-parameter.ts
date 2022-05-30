@@ -43,8 +43,8 @@ export class TypeParameterReflection extends Reflection {
     ): JSONOutput.TypeParameterReflection {
         return {
             ...super.toObject(serializer),
-            type: this.type && serializer.toObject(this.type),
-            default: this.default && serializer.toObject(this.default),
+            type: serializer.toObject(this.type),
+            default: serializer.toObject(this.default),
             varianceModifier: this.varianceModifier,
         };
     }

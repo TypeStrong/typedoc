@@ -27,7 +27,7 @@
           "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L14"
         }
       ],
-      "typeParameter": [
+      "typeParameters": [
         {
           "id": 9,
           "name": "T",
@@ -79,7 +79,7 @@
           "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L19"
         }
       ],
-      "typeParameter": [
+      "typeParameters": [
         {
           "id": 11,
           "name": "T",
@@ -132,7 +132,7 @@
           "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L4"
         }
       ],
-      "typeParameter": [
+      "typeParameters": [
         {
           "id": 6,
           "name": "T",

@@ -375,7 +375,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L45"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 43,
               "name": "T",
@@ -412,7 +412,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L33"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 37,
               "name": "T",

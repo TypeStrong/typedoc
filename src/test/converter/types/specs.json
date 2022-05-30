@@ -66,7 +66,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/types/general.ts#L17"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 12,
               "name": "T",
@@ -494,7 +494,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/types/mapped.ts#L7"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 35,
               "name": "T",
@@ -572,7 +572,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/types/mapped.ts#L5"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 33,
               "name": "T",

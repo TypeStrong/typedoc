@@ -103,19 +103,17 @@
                   "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L59"
                 }
               ],
-              "getSignature": [
-                {
-                  "id": 10,
-                  "name": "privateStaticGetter",
-                  "kind": 524288,
-                  "kindString": "Get signature",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
+              "getSignature": {
+                "id": 10,
+                "name": "privateStaticGetter",
+                "kind": 524288,
+                "kindString": "Get signature",
+                "flags": {},
+                "type": {
+                  "type": "intrinsic",
+                  "name": "number"
                 }
-              ]
+              }
             },
             {
               "id": 15,
@@ -3846,7 +3844,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L5"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 175,
               "name": "T",
@@ -4221,45 +4219,41 @@
                   "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L7"
                 }
               ],
-              "getSignature": [
-                {
-                  "id": 190,
-                  "name": "name",
-                  "kind": 524288,
-                  "kindString": "Get signature",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
+              "getSignature": {
+                "id": 190,
+                "name": "name",
+                "kind": 524288,
+                "kindString": "Get signature",
+                "flags": {},
+                "type": {
+                  "type": "intrinsic",
+                  "name": "string"
                 }
-              ],
-              "setSignature": [
-                {
-                  "id": 191,
-                  "name": "name",
-                  "kind": 1048576,
-                  "kindString": "Set signature",
-                  "flags": {},
-                  "parameters": [
-                    {
-                      "id": 192,
-                      "name": "value",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
+              },
+              "setSignature": {
+                "id": 191,
+                "name": "name",
+                "kind": 1048576,
+                "kindString": "Set signature",
+                "flags": {},
+                "parameters": [
+                  {
+                    "id": 192,
+                    "name": "value",
+                    "kind": 32768,
+                    "kindString": "Parameter",
+                    "flags": {},
+                    "type": {
+                      "type": "intrinsic",
+                      "name": "string"
                     }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
                   }
+                ],
+                "type": {
+                  "type": "intrinsic",
+                  "name": "void"
                 }
-              ]
+              }
             },
             {
               "id": 193,
@@ -4275,19 +4269,17 @@
                   "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L11"
                 }
               ],
-              "getSignature": [
-                {
-                  "id": 194,
-                  "name": "readOnlyName",
-                  "kind": 524288,
-                  "kindString": "Get signature",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
+              "getSignature": {
+                "id": 194,
+                "name": "readOnlyName",
+                "kind": 524288,
+                "kindString": "Get signature",
+                "flags": {},
+                "type": {
+                  "type": "intrinsic",
+                  "name": "string"
                 }
-              ]
+              }
             },
             {
               "id": 195,
@@ -4303,32 +4295,30 @@
                   "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L15"
                 }
               ],
-              "setSignature": [
-                {
-                  "id": 196,
-                  "name": "writeOnlyName",
-                  "kind": 1048576,
-                  "kindString": "Set signature",
-                  "flags": {},
-                  "parameters": [
-                    {
-                      "id": 197,
-                      "name": "value",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
+              "setSignature": {
+                "id": 196,
+                "name": "writeOnlyName",
+                "kind": 1048576,
+                "kindString": "Set signature",
+                "flags": {},
+                "parameters": [
+                  {
+                    "id": 197,
+                    "name": "value",
+                    "kind": 32768,
+                    "kindString": "Parameter",
+                    "flags": {},
+                    "type": {
+                      "type": "intrinsic",
+                      "name": "string"
                     }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
                   }
+                ],
+                "type": {
+                  "type": "intrinsic",
+                  "name": "void"
                 }
-              ]
+              }
             }
           ],
           "groups": [
@@ -4607,7 +4597,7 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/type-operator.ts#L13"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 215,
               "name": "T",

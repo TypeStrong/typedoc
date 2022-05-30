@@ -1059,7 +1059,7 @@
           "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L9"
         }
       ],
-      "typeParameter": [
+      "typeParameters": [
         {
           "id": 10,
           "name": "A",
@@ -1145,7 +1145,7 @@
           "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L4"
         }
       ],
-      "typeParameter": [
+      "typeParameters": [
         {
           "id": 5,
           "name": "A",
@@ -1239,7 +1239,7 @@
           "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L14"
         }
       ],
-      "typeParameter": [
+      "typeParameters": [
         {
           "id": 12,
           "name": "T",
