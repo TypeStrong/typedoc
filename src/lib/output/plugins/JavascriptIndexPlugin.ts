@@ -64,6 +64,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             }
 
             let parent = reflection.parent;
+            let boost = reflection.relevanceBoost ?? 1;
             if (parent instanceof ProjectReflection) {
                 parent = undefined;
             }
@@ -73,10 +74,9 @@ export class JavascriptIndexPlugin extends RendererComponent {
                     reflection.kind
                 );
 
-                const boost = kindBoosts[kinds[reflection.kind] ?? ""];
-                if (boost != undefined) {
-                    reflection.relevanceBoost =
-                        (reflection.relevanceBoost ?? 1) * boost;
+                const kindBoost = kindBoosts[kinds[reflection.kind] ?? ""];
+                if (kindBoost != undefined) {
+                    boost *= kindBoost;
                 }
             }
 
@@ -86,8 +86,11 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 name: reflection.name,
                 url: reflection.url,
                 classes: reflection.cssClasses,
-                relevanceBoost: reflection.relevanceBoost,
             };
+
+            if (boost !== 1) {
+                row.boost = boost;
+            }
 
             if (parent) {
                 row.parent = parent.getFullName();

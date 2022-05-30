@@ -76,4 +76,36 @@ describe("Default Options", () => {
             );
         });
     });
+
+    describe("searchCategoryBoosts", () => {
+        it("Should disallow non-objects", () => {
+            throws(() => opts.setValue("searchCategoryBoosts", null as never));
+        });
+
+        it("Should disallow non-numbers", () => {
+            throws(() =>
+                opts.setValue("searchCategoryBoosts", {
+                    cat: true,
+                })
+            );
+        });
+    });
+
+    describe("searchGroupBoosts", () => {
+        it("Should disallow non-objects", () => {
+            throws(() => opts.setValue("searchGroupBoosts", null as never));
+        });
+
+        it("Should disallow invalid kind names", () => {
+            throws(() => opts.setValue("searchGroupBoosts", { Enum2: 123 }));
+        });
+
+        it("Should disallow non-numbers", () => {
+            throws(() => opts.setValue("searchGroupBoosts", { Enum: true }));
+        });
+
+        it("Should allow groups", () => {
+            doesNotThrow(() => opts.setValue("searchGroupBoosts", { Enum: 5 }));
+        });
+    });
 });

@@ -8,7 +8,7 @@ interface IDocument {
     url: string;
     classes?: string;
     parent?: string;
-    relevanceBoost?: number;
+    boost?: number;
 }
 
 interface IData {
@@ -169,7 +169,7 @@ function updateResults(
         }
 
         // boost by relevanceBoost
-        boost *= row.relevanceBoost ?? 1;
+        boost *= row.boost ?? 1;
 
         item.score *= boost;
     }
