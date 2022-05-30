@@ -18,6 +18,9 @@ export class InferredTypeSerializer extends TypeSerializerComponent<InferredType
         return {
             ...obj,
             name: inferred.name,
+            constraint: inferred.constraint
+                ? this.owner.toObject(inferred.constraint)
+                : undefined,
         };
     }
 }

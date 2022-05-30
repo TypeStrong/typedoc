@@ -9,6 +9,8 @@ import {
     Comment,
     CommentTag,
     UnionType,
+    LiteralType,
+    IntrinsicType,
 } from "../lib/models";
 import { getConverter2App } from "./programs";
 import type { TestLogger } from "./TestLogger";
@@ -377,5 +379,11 @@ export const issueTests: {
         );
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
+    },
+
+    gh1942(project) {
+        equal(query(project, "Foo.A").type, new LiteralType(0));
+        equal(query(project, "Foo.B").type, new IntrinsicType("number"));
+        equal(query(project, "Bar.C").type, new LiteralType("C"));
     },
 };

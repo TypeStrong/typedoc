@@ -334,3 +334,9 @@ export class NonGenericClass extends GenericClass<SubClassB> {}
 
 // TS 4.2
 export type AbstractMe = abstract new () => NonGenericClass;
+
+// TS 4.7
+export interface State<in out T> {
+    get: () => T;
+    set: (value: T) => void;
+}

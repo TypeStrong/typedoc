@@ -5,7 +5,7 @@ import { dirname, join, resolve } from "path";
 import { existsSync } from "fs";
 import { flatMap } from "./array";
 
-import { readFile } from "./fs";
+import { normalizePath, readFile } from "./fs";
 import type { Logger } from "./loggers";
 
 /**
@@ -71,9 +71,12 @@ function getPackagePaths(
  * https://github.com/yarnpkg/yarn/blob/a4708b29ac74df97bac45365cba4f1d62537ceb7/src/config.js#L799
  */
 function globPackages(workspacePath: string, packageJsonDir: string): string[] {
-    return glob.sync(resolve(packageJsonDir, workspacePath, "package.json"), {
-        ignore: resolve(packageJsonDir, workspacePath, "node_modules"),
-    });
+    return glob.sync(
+        normalizePath(resolve(packageJsonDir, workspacePath, "package.json")),
+        {
+            ignore: resolve(packageJsonDir, workspacePath, "node_modules"),
+        }
+    );
 }
 
 /**

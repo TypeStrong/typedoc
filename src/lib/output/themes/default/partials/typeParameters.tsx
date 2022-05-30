@@ -8,10 +8,11 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
             {typeParameters?.map((item) => (
                 <li>
                     <h4>
+                        {item.varianceModifier ? `${item.varianceModifier} ` : ""}
                         {item.name}
                         {!!item.type && (
                             <>
-                                <span class="tsd-signature-symbol">{": "}</span>
+                                <span class="tsd-signature-symbol"> extends </span>
                                 {context.type(item.type)}
                             </>
                         )}

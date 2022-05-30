@@ -165,7 +165,7 @@ export interface DeclarationReflection
 
 export interface TypeParameterReflection
     extends Reflection,
-        S<M.TypeParameterReflection, "type" | "default"> {}
+        S<M.TypeParameterReflection, "type" | "default" | "varianceModifier"> {}
 
 // Nothing extra yet.
 export interface ProjectReflection extends ContainerReflection {}
@@ -248,7 +248,7 @@ export interface IndexedAccessType
 
 export interface InferredType
     extends Type,
-        S<M.InferredType, "type" | "name"> {}
+        S<M.InferredType, "type" | "name" | "constraint"> {}
 
 export interface IntersectionType
     extends Type,

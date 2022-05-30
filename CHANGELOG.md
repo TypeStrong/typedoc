@@ -1,5 +1,22 @@
 # Unreleased
 
+### Features
+
+-   Added support for TypeScript 4.7, #1935.
+-   Support enum-like objects with numeric literal values tagged with `@enum`, #1918.
+-   Enum member reflections will now have their `type` set to either a `LiteralType` with a string or numeric value or an `IntrinsicType` with type `number`, #1942.
+    Using `defaultValue` on `EnumMember` reflections is now deprecated, and will be broken in 0.23.
+
+### Bug Fixes
+
+-   Fixed invalid type output in some uncommon edge cases, TypeDoc also now renders fewer superfluous parenthesis when creating types.
+-   TypeDoc is now more consistent about ordering with `enum-value-ascending` or `enum-value-descending` sort strategies in mixed string/number enums.
+
+### Thanks!
+
+-   @ejuda
+-   @Zamiell
+
 ## v0.22.15 (2022-04-10)
 
 ### Features
@@ -830,7 +847,7 @@
 -   isExternal flag wasn't set properly
 -   JSON schema had incorrect value types, closes #1389
 -   Hidden module-namespaces, closes #1396
--   Some issues with inheritence
+-   Some issues with inheritance
 -   We pick up all properties now
 -   Support for specify a directory as an entry point
 -   Lint
@@ -949,7 +966,7 @@
 -   Missed a test configuration update
 -   Rename external modules to modules, closes #109
 -   Check for compiler errors before converting
--   Moved @types/minimatch dependency to devDepencencies (#1206)
+-   Moved @types/minimatch dependency to devDependencies (#1206)
 -   Plugin resolution for relative paths (#1194), closes #1188
 
 ### Thanks!

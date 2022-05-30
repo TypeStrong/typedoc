@@ -86,22 +86,30 @@
           "id": 14,
           "name": "a",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
+          "type": {
+            "type": "literal",
+            "value": 1
+          },
           "defaultValue": "1"
         },
         {
           "id": 15,
           "name": "b",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
+          "type": {
+            "type": "literal",
+            "value": 2
+          },
           "defaultValue": "2"
         }
       ],
       "groups": [
         {
-          "title": "Enumeration members",
+          "title": "Enumeration Members",
           "kind": 16,
           "children": [
             14,
@@ -124,10 +132,14 @@
           "id": 6,
           "name": "EnumValue1",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "shortText": "This is the first enum member."
+          },
+          "type": {
+            "type": "literal",
+            "value": 1
           },
           "defaultValue": "1"
         },
@@ -135,10 +147,14 @@
           "id": 7,
           "name": "EnumValue2",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "shortText": "This is the second enum member."
+          },
+          "type": {
+            "type": "literal",
+            "value": 2
           },
           "defaultValue": "2"
         },
@@ -146,17 +162,21 @@
           "id": 8,
           "name": "EnumValue3",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "shortText": "This is the third enum member."
+          },
+          "type": {
+            "type": "literal",
+            "value": 4
           },
           "defaultValue": "4"
         }
       ],
       "groups": [
         {
-          "title": "Enumeration members",
+          "title": "Enumeration Members",
           "kind": 16,
           "children": [
             6,
@@ -180,10 +200,14 @@
           "id": 2,
           "name": "EnumValue1",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "shortText": "This is the first enum member."
+          },
+          "type": {
+            "type": "literal",
+            "value": 1
           },
           "defaultValue": "1"
         },
@@ -191,10 +215,14 @@
           "id": 3,
           "name": "EnumValue2",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "shortText": "This is the second enum member."
+          },
+          "type": {
+            "type": "literal",
+            "value": 2
           },
           "defaultValue": "2"
         },
@@ -202,17 +230,21 @@
           "id": 4,
           "name": "EnumValue3",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "shortText": "This is the third enum member."
+          },
+          "type": {
+            "type": "literal",
+            "value": 4
           },
           "defaultValue": "4"
         }
       ],
       "groups": [
         {
-          "title": "Enumeration members",
+          "title": "Enumeration Members",
           "kind": 16,
           "children": [
             2,
