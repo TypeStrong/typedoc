@@ -24,7 +24,7 @@ export class GroupPlugin extends ConverterComponent {
      */
     static SINGULARS = {
         [ReflectionKind.Enum]: "Enumeration",
-        [ReflectionKind.EnumMember]: "Enumeration member",
+        [ReflectionKind.EnumMember]: "Enumeration Member",
     };
 
     /**
@@ -34,8 +34,8 @@ export class GroupPlugin extends ConverterComponent {
         [ReflectionKind.Class]: "Classes",
         [ReflectionKind.Property]: "Properties",
         [ReflectionKind.Enum]: "Enumerations",
-        [ReflectionKind.EnumMember]: "Enumeration members",
-        [ReflectionKind.TypeAlias]: "Type aliases",
+        [ReflectionKind.EnumMember]: "Enumeration Members",
+        [ReflectionKind.TypeAlias]: "Type Aliases",
     };
 
     /** @internal */

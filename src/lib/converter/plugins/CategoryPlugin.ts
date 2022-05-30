@@ -4,7 +4,7 @@ import {
     DeclarationReflection,
     Comment,
 } from "../../models";
-import { ReflectionCategory } from "../../models/ReflectionCategory";
+import { ReflectionCategory } from "../../models";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
@@ -25,6 +25,9 @@ export class CategoryPlugin extends ConverterComponent {
 
     @BindOption("categorizeByGroup")
     categorizeByGroup!: boolean;
+
+    @BindOption("searchCategoryBoosts")
+    searchCategoryBoosts!: Record<string, number> | undefined;
 
     // For use in static methods
     static defaultCategory = "Other";
@@ -97,7 +100,8 @@ export class CategoryPlugin extends ConverterComponent {
             if (group.categories) return;
 
             group.categories = CategoryPlugin.getReflectionCategories(
-                group.children
+                group.children,
+                this.searchCategoryBoosts
             );
             if (group.categories && group.categories.length > 1) {
                 group.categories.sort(CategoryPlugin.sortCatCallback);
@@ -115,7 +119,10 @@ export class CategoryPlugin extends ConverterComponent {
         if (!obj.children || obj.children.length === 0 || obj.categories) {
             return;
         }
-        obj.categories = CategoryPlugin.getReflectionCategories(obj.children);
+        obj.categories = CategoryPlugin.getReflectionCategories(
+            obj.children,
+            this.searchCategoryBoosts
+        );
         if (obj.categories && obj.categories.length > 1) {
             obj.categories.sort(CategoryPlugin.sortCatCallback);
         } else if (
@@ -131,10 +138,13 @@ export class CategoryPlugin extends ConverterComponent {
      * Create a categorized representation of the given list of reflections.
      *
      * @param reflections  The reflections that should be categorized.
+     * @param categorySearchBoosts A user-supplied map of category titles, for computing a
+     *   relevance boost to be used when searching
      * @returns An array containing all children of the given reflection categorized
      */
     static getReflectionCategories(
-        reflections: DeclarationReflection[]
+        reflections: DeclarationReflection[],
+        categorySearchBoosts: { [key: string]: number } | undefined
     ): ReflectionCategory[] {
         const categories: ReflectionCategory[] = [];
         let defaultCat: ReflectionCategory | undefined;
@@ -153,11 +163,18 @@ export class CategoryPlugin extends ConverterComponent {
                         categories.push(defaultCat);
                     }
                 }
+
                 defaultCat.children.push(child);
                 return;
             }
             for (const childCat of childCategories) {
                 let category = categories.find((cat) => cat.title === childCat);
+
+                const catBoost = categorySearchBoosts?.[category?.title ?? -1];
+                if (catBoost != undefined) {
+                    child.relevanceBoost =
+                        (child.relevanceBoost ?? 1) * catBoost;
+                }
                 if (category) {
                     category.children.push(child);
                     continue;

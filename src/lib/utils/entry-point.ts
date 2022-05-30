@@ -19,7 +19,7 @@ import { getCommonDirectory, normalizePath } from "./fs";
 export const EntryPointStrategy = {
     /**
      * The default behavior in v0.22+, expects all provided entry points as being part of a single program.
-     * Any directories included in the entry point list will result in `dir/index.[tj]sx?` being used.
+     * Any directories included in the entry point list will result in `dir/index.([cm][tj]s|[tj]sx?)` being used.
      */
     Resolve: "resolve",
     /**
@@ -119,7 +119,7 @@ export function getWatchEntryPoints(
 
 function getModuleName(fileName: string, baseDir: string) {
     return normalizePath(relative(baseDir, fileName)).replace(
-        /(\/index)?(\.d)?\.[tj]sx?$/,
+        /(\/index)?(\.d)?\.([cm][tj]s|[tj]sx?)$/,
         ""
     );
 }
@@ -139,11 +139,15 @@ function getEntryPointsForPaths(
 
     entryLoop: for (const fileOrDir of inputFiles.map(normalizePath)) {
         const toCheck = [fileOrDir];
-        if (!/\.[tj]sx?$/.test(fileOrDir)) {
+        if (!/\.([cm][tj]s|[tj]sx?)$/.test(fileOrDir)) {
             toCheck.push(
                 `${fileOrDir}/index.ts`,
+                `${fileOrDir}/index.cts`,
+                `${fileOrDir}/index.mts`,
                 `${fileOrDir}/index.tsx`,
                 `${fileOrDir}/index.js`,
+                `${fileOrDir}/index.cjs`,
+                `${fileOrDir}/index.mjs`,
                 `${fileOrDir}/index.jsx`
             );
         }
@@ -236,8 +240,8 @@ function expandInputFiles(
 
     const supportedFileRegex =
         compilerOptions.allowJs || compilerOptions.checkJs
-            ? /\.[tj]sx?$/
-            : /\.tsx?$/;
+            ? /\.([cm][tj]s|[tj]sx?)$/
+            : /\.([cm]ts|tsx?)$/;
     function add(file: string, entryPoint: boolean) {
         let stats: FS.Stats;
         try {

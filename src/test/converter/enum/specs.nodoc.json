@@ -134,7 +134,7 @@
           "id": 14,
           "name": "a",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "sources": [
             {
@@ -144,13 +144,17 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L60"
             }
           ],
+          "type": {
+            "type": "literal",
+            "value": 1
+          },
           "defaultValue": "1"
         },
         {
           "id": 15,
           "name": "b",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "sources": [
             {
@@ -160,12 +164,16 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L61"
             }
           ],
+          "type": {
+            "type": "literal",
+            "value": 2
+          },
           "defaultValue": "2"
         }
       ],
       "groups": [
         {
-          "title": "Enumeration members",
+          "title": "Enumeration Members",
           "children": [
             14,
             15
@@ -200,7 +208,7 @@
           "id": 6,
           "name": "EnumValue1",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -218,13 +226,17 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L28"
             }
           ],
+          "type": {
+            "type": "literal",
+            "value": 1
+          },
           "defaultValue": "1"
         },
         {
           "id": 7,
           "name": "EnumValue2",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -242,13 +254,17 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L33"
             }
           ],
+          "type": {
+            "type": "literal",
+            "value": 2
+          },
           "defaultValue": "2"
         },
         {
           "id": 8,
           "name": "EnumValue3",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -266,12 +282,16 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L38"
             }
           ],
+          "type": {
+            "type": "literal",
+            "value": 4
+          },
           "defaultValue": "4"
         }
       ],
       "groups": [
         {
-          "title": "Enumeration members",
+          "title": "Enumeration Members",
           "children": [
             6,
             7,
@@ -313,7 +333,7 @@
           "id": 2,
           "name": "EnumValue1",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -331,13 +351,17 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L8"
             }
           ],
+          "type": {
+            "type": "literal",
+            "value": 1
+          },
           "defaultValue": "1"
         },
         {
           "id": 3,
           "name": "EnumValue2",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -355,13 +379,17 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L13"
             }
           ],
+          "type": {
+            "type": "literal",
+            "value": 2
+          },
           "defaultValue": "2"
         },
         {
           "id": 4,
           "name": "EnumValue3",
           "kind": 16,
-          "kindString": "Enumeration member",
+          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -379,12 +407,16 @@
               "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L18"
             }
           ],
+          "type": {
+            "type": "literal",
+            "value": 4
+          },
           "defaultValue": "4"
         }
       ],
       "groups": [
         {
-          "title": "Enumeration members",
+          "title": "Enumeration Members",
           "children": [
             2,
             3,

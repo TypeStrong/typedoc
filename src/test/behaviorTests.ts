@@ -1,6 +1,7 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import {
     DeclarationReflection,
+    LiteralType,
     ProjectReflection,
     ReflectionKind,
     Comment,
@@ -29,6 +30,7 @@ export const behaviorTests: Record<
             "SomeEnumLikeTagged"
         );
         const A = query(project, "SomeEnumLikeTagged.a");
+        equal(A.type, new LiteralType("a"));
         equal(A.defaultValue, '"a"');
 
         const ManualEnum = query(project, "ManualEnum");
@@ -43,6 +45,45 @@ export const behaviorTests: Record<
 
         const WithoutReadonly = query(project, "WithoutReadonly");
         equal(WithoutReadonly.kind, ReflectionKind.Enum, "WithoutReadonly");
+
+        const SomeEnumLikeNumeric = query(project, "SomeEnumLikeNumeric");
+        equal(
+            SomeEnumLikeNumeric.kind,
+            ReflectionKind.Variable,
+            "SomeEnumLikeNumeric"
+        );
+        const SomeEnumLikeTaggedNumeric = query(
+            project,
+            "SomeEnumLikeTaggedNumeric"
+        );
+        equal(
+            SomeEnumLikeTaggedNumeric.kind,
+            ReflectionKind.Enum,
+            "SomeEnumLikeTaggedNumeric"
+        );
+        const B = query(project, "SomeEnumLikeTaggedNumeric.b");
+        equal(B.type, new LiteralType(1));
+        equal(B.defaultValue, "1");
+
+        const ManualEnumNumeric = query(project, "ManualEnumNumeric");
+        equal(ManualEnumNumeric.kind, ReflectionKind.Enum, "ManualEnumNumeric");
+
+        const ManualWithoutHelperNumeric = query(
+            project,
+            "ManualEnumHelperNumeric"
+        );
+        equal(
+            ManualWithoutHelperNumeric.kind,
+            ReflectionKind.Enum,
+            "ManualEnumHelperNumeric"
+        );
+
+        const WithoutReadonlyNumeric = query(project, "WithoutReadonlyNumeric");
+        equal(
+            WithoutReadonlyNumeric.kind,
+            ReflectionKind.Enum,
+            "WithoutReadonlyNumeric"
+        );
     },
 
     deprecatedBracketLinks(project, logger) {

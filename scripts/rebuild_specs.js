@@ -81,8 +81,7 @@ function rebuildConverterTests(dirs) {
                 const data =
                     JSON.stringify(serialized, null, "  ")
                         .split(TypeDoc.normalizePath(base))
-                        .join("%BASE%")
-                        .trim() + "\n";
+                        .join("%BASE%") + "\n";
                 after();
                 fs.writeFileSync(out, data);
             }

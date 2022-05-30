@@ -18,7 +18,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
 
             {hasTypeParameters(props.model) && (
                 <section class="tsd-panel tsd-type-parameters">
-                    <h4>Type parameters</h4>
+                    <h4>Type Parameters</h4>
                     {context.typeParameters(props.model.typeParameters)}
                 </section>
             )}

@@ -9,6 +9,8 @@ import {
     Comment,
     CommentTag,
     UnionType,
+    LiteralType,
+    IntrinsicType,
 } from "../lib/models";
 import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
 import { getConverter2App } from "./programs";
@@ -314,22 +316,23 @@ export const issueTests: {
 
     gh1745(project) {
         const Foo = query(project, "Foo");
-        ok(Foo.type instanceof ReflectionType);
+        ok(Foo.type instanceof ReflectionType, "invalid type");
 
-        const group = project.groups?.find((g) => g.title === "Type aliases");
-        ok(group);
+        const group = project.groups?.find((g) => g.title === "Type Aliases");
+        ok(group, "missing group");
         const cat = group.categories?.find(
             (cat) => cat.title === "My category"
         );
-        ok(cat);
+        ok(cat, "missing cat");
 
-        ok(cat.children.includes(Foo));
-        ok(!Foo.comment?.getTag("@category"));
-        ok(!Foo.type.declaration.comment?.getTag("@category"));
+        ok(cat.children.includes(Foo), "not included in cat");
+        ok(!Foo.comment?.getTag("@category"), "has cat tag");
+        ok(!Foo.type.declaration.comment?.getTag("@category"), "has cat tag 2");
         ok(
             !Foo.type.declaration.signatures?.some((s) =>
                 s.comment?.getTag("@category")
-            )
+            ),
+            "has cat tag 3"
         );
     },
 
@@ -501,5 +504,11 @@ export const issueTests: {
             ref.getSignature?.comment,
             new Comment([{ kind: "text", text: "Base" }])
         );
+    },
+
+    gh1942(project) {
+        equal(query(project, "Foo.A").type, new LiteralType(0));
+        equal(query(project, "Foo.B").type, new IntrinsicType("number"));
+        equal(query(project, "Bar.C").type, new LiteralType("C"));
     },
 };

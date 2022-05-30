@@ -10,6 +10,7 @@ import {
     ReflectionKind,
     SignatureReflection,
     TypeParameterReflection,
+    VarianceModifier,
 } from "../../models";
 import type { Context } from "../context";
 import { ConverterEvents } from "../converter-events";
@@ -245,11 +246,20 @@ function convertTypeParameters(
         const defaultType = defaultT
             ? context.converter.convertType(context, defaultT)
             : void 0;
+
+        // There's no way to determine directly from a ts.TypeParameter what it's variance modifiers are
+        // so unfortunately we have to go back to the node for this...
+        const variance = getVariance(
+            param.getSymbol()?.declarations?.find(ts.isTypeParameterDeclaration)
+                ?.modifiers
+        );
+
         const paramRefl = new TypeParameterReflection(
             param.symbol.name,
             constraint,
             defaultType,
-            parent
+            parent,
+            variance
         );
         context.registerReflection(paramRefl, param.getSymbol());
         context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
@@ -262,33 +272,63 @@ export function convertTypeParameterNodes(
     context: Context,
     parameters: readonly ts.TypeParameterDeclaration[] | undefined
 ) {
-    return parameters?.map((param) => {
-        const constraint = param.constraint
-            ? context.converter.convertType(context, param.constraint)
-            : void 0;
-        const defaultType = param.default
-            ? context.converter.convertType(context, param.default)
-            : void 0;
-        const paramRefl = new TypeParameterReflection(
-            param.name.text,
-            constraint,
-            defaultType,
-            context.scope
+    return parameters?.map((param) =>
+        createTypeParamReflection(param, context)
+    );
+}
+
+export function createTypeParamReflection(
+    param: ts.TypeParameterDeclaration,
+    context: Context
+) {
+    const constraint = param.constraint
+        ? context.converter.convertType(context, param.constraint)
+        : void 0;
+    const defaultType = param.default
+        ? context.converter.convertType(context, param.default)
+        : void 0;
+    const paramRefl = new TypeParameterReflection(
+        param.name.text,
+        constraint,
+        defaultType,
+        context.scope,
+        getVariance(param.modifiers)
+    );
+    context.registerReflection(paramRefl, param.symbol);
+
+    if (ts.isJSDocTemplateTag(param.parent)) {
+        paramRefl.comment = getJsDocComment(
+            param.parent,
+            context.converter.config,
+            context.logger
         );
-        context.registerReflection(paramRefl, param.symbol);
+    }
 
-        if (ts.isJSDocTemplateTag(param.parent)) {
-            paramRefl.comment = getJsDocComment(
-                param.parent,
-                context.converter.config,
-                context.logger
-            );
-        }
+    context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl, param);
+    return paramRefl;
+}
 
-        context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
+function getVariance(
+    modifiers: ts.ModifiersArray | undefined
+): VarianceModifier | undefined {
+    const hasIn = modifiers?.some(
+        (mod) => mod.kind === ts.SyntaxKind.InKeyword
+    );
+    const hasOut = modifiers?.some(
+        (mod) => mod.kind === ts.SyntaxKind.OutKeyword
+    );
 
-        return paramRefl;
-    });
+    if (hasIn && hasOut) {
+        return VarianceModifier.inOut;
+    }
+
+    if (hasIn) {
+        return VarianceModifier.in;
+    }
+
+    if (hasOut) {
+        return VarianceModifier.out;
+    }
 }
 
 function convertPredicate(

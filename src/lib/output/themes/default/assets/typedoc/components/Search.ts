@@ -6,8 +6,9 @@ interface IDocument {
     kind: number;
     name: string;
     url: string;
-    classes: string;
+    classes?: string;
     parent?: string;
+    boost?: number;
 }
 
 interface IData {
@@ -154,7 +155,26 @@ function updateResults(
     // Perform a wildcard search
     // Set empty `res` to prevent getting random results with wildcard search
     // when the `searchText` is empty.
-    const res = searchText ? state.index.search(`*${searchText}*`) : [];
+    let res = searchText ? state.index.search(`*${searchText}*`) : [];
+
+    for (let i = 0; i < res.length; i++) {
+        const item = res[i];
+        const row = state.data.rows[Number(item.ref)];
+        let boost = 1;
+
+        // boost by exact match on name
+        if (row.name.toLowerCase().startsWith(searchText.toLowerCase())) {
+            boost *=
+                1 + 1 / (Math.abs(row.name.length - searchText.length) * 10);
+        }
+
+        // boost by relevanceBoost
+        boost *= row.boost ?? 1;
+
+        item.score *= boost;
+    }
+
+    res.sort((a, b) => b.score - a.score);
 
     for (let i = 0, c = Math.min(10, res.length); i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
@@ -169,7 +189,7 @@ function updateResults(
         }
 
         const item = document.createElement("li");
-        item.classList.value = row.classes;
+        item.classList.value = row.classes ?? "";
 
         const anchor = document.createElement("a");
         anchor.href = state.base + row.url;
@@ -198,11 +218,11 @@ function setCurrentResult(results: HTMLElement, dir: number) {
         // current with the arrow keys.
         if (dir === 1) {
             do {
-                rel = rel.nextElementSibling;
+                rel = rel.nextElementSibling ?? undefined;
             } while (rel instanceof HTMLElement && rel.offsetParent == null);
         } else {
             do {
-                rel = rel.previousElementSibling;
+                rel = rel.previousElementSibling ?? undefined;
             } while (rel instanceof HTMLElement && rel.offsetParent == null);
         }
 

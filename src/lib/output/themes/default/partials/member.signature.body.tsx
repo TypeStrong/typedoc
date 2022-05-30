@@ -13,7 +13,7 @@ export const memberSignatureBody = (
 
         {hasTypeParameters(props) && (
             <div class="tsd-type-parameters">
-                <h4 class="tsd-type-parameters-title">Type parameters</h4>
+                <h4 class="tsd-type-parameters-title">Type Parameters</h4>
                 {context.typeParameters(props.typeParameters)}
             </div>
         )}

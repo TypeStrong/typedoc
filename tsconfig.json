@@ -7,25 +7,20 @@
         // Add our `ts` internal types
         "typeRoots": ["node_modules/@types", "src/lib/types"],
         "types": ["node", "glob", "lunr", "marked", "minimatch", "mocha"],
-
         // Speed up dev compilation time
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
 
         "experimentalDecorators": true,
-
         "strict": true,
         "alwaysStrict": true,
-
         // For tests
         "resolveJsonModule": true,
-
         // Linting
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "forceConsistentCasingInFileNames": true,
         "importsNotUsedAsValues": "error",
-
         // Library
         "preserveConstEnums": true,
         "declaration": true,
@@ -33,12 +28,10 @@
         "isolatedModules": true,
         "noImplicitOverride": true,
         "noPropertyAccessFromIndexSignature": true,
-
         // Output
         "outDir": "dist/",
         "rootDir": "src/",
         "newLine": "LF",
-
         "jsx": "react",
         "jsxFactory": "JSX.createElement",
         "jsxFragmentFactory": "JSX.Fragment"

@@ -5,8 +5,8 @@ import {
     DeclarationReflection,
     ProjectReflection,
     ReflectionKind,
-} from "../../models/reflections/index";
-import { GroupPlugin } from "../../converter/plugins/GroupPlugin";
+} from "../../models";
+import { GroupPlugin } from "../../converter/plugins";
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { writeFileSync } from "../../utils";
@@ -42,6 +42,11 @@ export class JavascriptIndexPlugin extends RendererComponent {
         const rows: any[] = [];
         const kinds: { [K in ReflectionKind]?: string } = {};
 
+        const kindBoosts =
+            (this.application.options.getValue("searchGroupBoosts") as {
+                [key: string]: number;
+            }) ?? {};
+
         for (const reflection of event.project.getReflectionsByKind(
             ReflectionKind.All
         )) {
@@ -58,8 +63,20 @@ export class JavascriptIndexPlugin extends RendererComponent {
             }
 
             let parent = reflection.parent;
+            let boost = reflection.relevanceBoost ?? 1;
             if (parent instanceof ProjectReflection) {
                 parent = undefined;
+            }
+
+            if (!kinds[reflection.kind]) {
+                kinds[reflection.kind] = GroupPlugin.getKindSingular(
+                    reflection.kind
+                );
+
+                const kindBoost = kindBoosts[kinds[reflection.kind] ?? ""];
+                if (kindBoost != undefined) {
+                    boost *= kindBoost;
+                }
             }
 
             const row: any = {
@@ -70,14 +87,12 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 classes: reflection.cssClasses,
             };
 
-            if (parent) {
-                row.parent = parent.getFullName();
+            if (boost !== 1) {
+                row.boost = boost;
             }
 
-            if (!kinds[reflection.kind]) {
-                kinds[reflection.kind] = GroupPlugin.getKindSingular(
-                    reflection.kind
-                );
+            if (parent) {
+                row.parent = parent.getFullName();
             }
 
             rows.push(row);
@@ -99,6 +114,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             "assets",
             "search.js"
         );
+
         const jsonData = JSON.stringify({
             kinds,
             rows,

@@ -2,6 +2,8 @@
  * An abstract base class for the customer entity in our application.
  *
  * Notice how TypeDoc shows the inheritance hierarchy for our class.
+ *
+ * @category Model
  */
 export abstract class Customer {
     /** A public readonly property. */

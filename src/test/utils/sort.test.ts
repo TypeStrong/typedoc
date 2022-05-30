@@ -1,6 +1,7 @@
 import { deepStrictEqual as equal } from "assert";
 import {
     DeclarationReflection,
+    LiteralType,
     ProjectReflection,
     ReflectionFlag,
     ReflectionKind,
@@ -29,9 +30,9 @@ describe("Sort", () => {
             new DeclarationReflection("b", ReflectionKind.EnumMember),
             new DeclarationReflection("c", ReflectionKind.EnumMember),
         ];
-        arr[0].defaultValue = "123";
-        arr[1].defaultValue = "12";
-        arr[2].defaultValue = "3";
+        arr[0].type = new LiteralType(123);
+        arr[1].type = new LiteralType(12);
+        arr[2].type = new LiteralType(3);
 
         sortReflections(arr, ["enum-value-ascending"]);
         equal(
@@ -46,9 +47,9 @@ describe("Sort", () => {
             new DeclarationReflection("b", ReflectionKind.EnumMember),
             new DeclarationReflection("c", ReflectionKind.EnumMember),
         ];
-        arr[0].defaultValue = "123";
-        arr[1].defaultValue = "12";
-        arr[2].defaultValue = "3";
+        arr[0].type = new LiteralType(123);
+        arr[1].type = new LiteralType(12);
+        arr[2].type = new LiteralType(3);
 
         sortReflections(arr, ["enum-value-ascending"]);
         equal(
@@ -63,9 +64,9 @@ describe("Sort", () => {
             new DeclarationReflection("b", ReflectionKind.EnumMember),
             new DeclarationReflection("c", ReflectionKind.EnumMember),
         ];
-        arr[0].defaultValue = "123";
-        arr[1].defaultValue = "12";
-        arr[2].defaultValue = "3";
+        arr[0].type = new LiteralType(123);
+        arr[1].type = new LiteralType(12);
+        arr[2].type = new LiteralType(3);
 
         sortReflections(arr, ["enum-value-descending"]);
         equal(
@@ -80,9 +81,9 @@ describe("Sort", () => {
             new DeclarationReflection("a", ReflectionKind.EnumMember),
             new DeclarationReflection("b", ReflectionKind.EnumMember),
         ];
-        arr[0].defaultValue = "123";
-        arr[1].defaultValue = "-1";
-        arr[2].defaultValue = "3";
+        arr[0].type = new LiteralType(123);
+        arr[1].type = new LiteralType(-1);
+        arr[2].type = new LiteralType(3);
 
         sortReflections(arr, ["enum-value-descending"]);
         equal(

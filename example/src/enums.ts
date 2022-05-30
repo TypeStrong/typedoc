@@ -51,3 +51,27 @@ export const EnumLikeObject = {
 
     Completed: "completed",
 } as const;
+
+/**
+ * Since TypeScript's `enum` can be inconvenient to work with, some packages define their own enum-like objects:
+ *
+ * ```
+ * export const EnumLikeObjectNumValues = {
+ *     Pending: 1,
+ *     InProgress: 2,
+ *     Completed: 3
+ * } as const
+ * ```
+ *
+ * Use the `@enum` tag to make TypeDoc document this object as an enum.
+ *
+ * @enum
+ */
+export const EnumLikeObjectNumValues = {
+    Pending: 1,
+
+    /** Indicates that a courier is en route delivering this order. */
+    InProgress: 2,
+
+    Completed: 3,
+} as const;

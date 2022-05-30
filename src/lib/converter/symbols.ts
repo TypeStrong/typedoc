@@ -2,11 +2,12 @@ import * as assert from "assert";
 import * as ts from "typescript";
 import {
     DeclarationReflection,
+    IntrinsicType,
+    LiteralType,
     ReferenceReflection,
     Reflection,
     ReflectionFlag,
     ReflectionKind,
-    TypeParameterReflection,
 } from "../models";
 import {
     getEnumFlags,
@@ -16,9 +17,11 @@ import {
 } from "../utils/enum";
 import type { Context } from "./context";
 import { convertDefaultValue } from "./convert-expression";
-import { ConverterEvents } from "./converter-events";
 import { convertIndexSignature } from "./factories/index-signature";
-import { createSignature } from "./factories/signature";
+import {
+    createSignature,
+    createTypeParamReflection,
+} from "./factories/signature";
 import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc";
 import { getHeritageTypes } from "./utils/nodes";
 import { removeUndefined } from "./utils/reflections";
@@ -245,11 +248,18 @@ function convertEnumMember(
         exportSymbol
     );
 
-    reflection.defaultValue = JSON.stringify(
-        context.checker.getConstantValue(
-            symbol.getDeclarations()![0] as ts.EnumMember
-        )
+    const defaultValue = context.checker.getConstantValue(
+        symbol.getDeclarations()![0] as ts.EnumMember
     );
+    reflection.defaultValue = JSON.stringify(defaultValue);
+
+    if (defaultValue !== undefined) {
+        reflection.type = new LiteralType(defaultValue);
+    } else {
+        // We know this has to be a number, because computed values aren't allowed
+        // in string enums, so otherwise we would have to have the constant value
+        reflection.type = new IntrinsicType("number");
+    }
 
     context.finalizeDeclarationReflection(reflection);
 }
@@ -340,27 +350,6 @@ function convertTypeAlias(
     } else {
         convertJsDocCallback(context, symbol, declaration, exportSymbol);
     }
-}
-
-function createTypeParamReflection(
-    param: ts.TypeParameterDeclaration,
-    context: Context
-) {
-    const constraint = param.constraint
-        ? context.converter.convertType(context, param.constraint)
-        : void 0;
-    const defaultType = param.default
-        ? context.converter.convertType(context, param.default)
-        : void 0;
-    const paramRefl = new TypeParameterReflection(
-        param.name.text,
-        constraint,
-        defaultType,
-        context.scope
-    );
-    context.postReflectionCreation(paramRefl, param.symbol, void 0);
-    context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
-    return paramRefl;
 }
 
 function convertFunctionOrMethod(
@@ -668,16 +657,10 @@ function convertProperty(
     }
     reflection.defaultValue = declaration && convertDefaultValue(declaration);
 
-    // FIXME: This is a horrible hack because getTypeOfSymbol is not exposed.
-    // The right solution here is probably to keep track of parent nodes...
-    // but that's tricky because not every reflection is guaranteed to have a
-    // parent node. This will probably break in a future TS version.
     reflection.type = context.converter.convertType(
         context,
         (context.isConvertingTypeNode() ? parameterType : void 0) ??
-            context.checker.getTypeOfSymbolAtLocation(symbol, {
-                kind: ts.SyntaxKind.SourceFile,
-            } as any)
+            context.checker.getTypeOfSymbol(symbol)
     );
 
     if (reflection.flags.isOptional) {
@@ -858,7 +841,7 @@ function isEnumLike(checker: ts.TypeChecker, type: ts.Type, location: ts.Node) {
 
     return type.getProperties().every((prop) => {
         const propType = checker.getTypeOfSymbolAtLocation(prop, location);
-        return propType.isStringLiteral();
+        return propType.isStringLiteral() || propType.isNumberLiteral();
     });
 }
 
@@ -889,9 +872,10 @@ function convertVariableAsEnum(
             prop,
             declaration
         );
-        assert(propType.isStringLiteral());
+        assert(propType.isStringLiteral() || propType.isNumberLiteral());
 
         reflection.defaultValue = JSON.stringify(propType.value);
+        reflection.type = new LiteralType(propType.value);
 
         rc.finalizeDeclarationReflection(reflection);
     }

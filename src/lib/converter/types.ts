@@ -101,6 +101,17 @@ export function loadConverters() {
 // typed symbols which do not have type nodes. See the `recursive` symbol in the variables test.
 const seenTypeSymbols = new Set<ts.Symbol>();
 
+function maybeConvertType(
+    context: Context,
+    typeOrNode: ts.Type | ts.TypeNode | undefined
+): SomeType | undefined {
+    if (!typeOrNode) {
+        return;
+    }
+
+    return convertType(context, typeOrNode);
+}
+
 export function convertType(
     context: Context,
     typeOrNode: ts.Type | ts.TypeNode | undefined
@@ -398,11 +409,17 @@ const indexedAccessConverter: TypeConverter<
 
 const inferredConverter: TypeConverter<ts.InferTypeNode> = {
     kind: [ts.SyntaxKind.InferType],
-    convert(_context, node) {
-        return new InferredType(node.typeParameter.getText());
+    convert(context, node) {
+        return new InferredType(
+            node.typeParameter.name.text,
+            maybeConvertType(context, node.typeParameter.constraint)
+        );
     },
-    convertType(_context, type) {
-        return new InferredType(type.symbol.name);
+    convertType(context, type) {
+        return new InferredType(
+            type.symbol.name,
+            maybeConvertType(context, type.getConstraint())
+        );
     },
 };
 
