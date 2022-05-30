@@ -20,6 +20,9 @@ declare module "typescript" {
         getTypePredicateOfSignature(
             signature: ts.Signature
         ): ts.TypePredicate | undefined;
+
+        //https://github.com/microsoft/TypeScript/blob/v4.7.2/src/compiler/types.ts#L4188
+        getTypeOfSymbol(symbol: Symbol): Type;
     }
 
     export interface Signature {

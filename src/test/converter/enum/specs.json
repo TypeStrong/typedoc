@@ -88,6 +88,10 @@
           "kind": 16,
           "kindString": "Enumeration Member",
           "flags": {},
+          "type": {
+            "type": "literal",
+            "value": 1
+          },
           "defaultValue": "1"
         },
         {
@@ -96,6 +100,10 @@
           "kind": 16,
           "kindString": "Enumeration Member",
           "flags": {},
+          "type": {
+            "type": "literal",
+            "value": 2
+          },
           "defaultValue": "2"
         }
       ],
@@ -129,6 +137,10 @@
           "comment": {
             "shortText": "This is the first enum member."
           },
+          "type": {
+            "type": "literal",
+            "value": 1
+          },
           "defaultValue": "1"
         },
         {
@@ -140,6 +152,10 @@
           "comment": {
             "shortText": "This is the second enum member."
           },
+          "type": {
+            "type": "literal",
+            "value": 2
+          },
           "defaultValue": "2"
         },
         {
@@ -150,6 +166,10 @@
           "flags": {},
           "comment": {
             "shortText": "This is the third enum member."
+          },
+          "type": {
+            "type": "literal",
+            "value": 4
           },
           "defaultValue": "4"
         }
@@ -185,6 +205,10 @@
           "comment": {
             "shortText": "This is the first enum member."
           },
+          "type": {
+            "type": "literal",
+            "value": 1
+          },
           "defaultValue": "1"
         },
         {
@@ -196,6 +220,10 @@
           "comment": {
             "shortText": "This is the second enum member."
           },
+          "type": {
+            "type": "literal",
+            "value": 2
+          },
           "defaultValue": "2"
         },
         {
@@ -206,6 +234,10 @@
           "flags": {},
           "comment": {
             "shortText": "This is the third enum member."
+          },
+          "type": {
+            "type": "literal",
+            "value": 4
           },
           "defaultValue": "4"
         }

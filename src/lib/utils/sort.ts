@@ -5,6 +5,7 @@
 
 import { ReflectionKind } from "../models/reflections/kind";
 import type { DeclarationReflection } from "../models/reflections/declaration";
+import { LiteralType } from "../models";
 
 export const SORT_STRATEGIES = [
     "source-order",
@@ -59,10 +60,12 @@ const sorts: Record<
             a.kind == ReflectionKind.EnumMember &&
             b.kind == ReflectionKind.EnumMember
         ) {
-            return (
-                parseFloat(a.defaultValue ?? "0") <
-                parseFloat(b.defaultValue ?? "0")
-            );
+            const aValue =
+                a.type instanceof LiteralType ? a.type.value : -Infinity;
+            const bValue =
+                b.type instanceof LiteralType ? b.type.value : -Infinity;
+
+            return aValue! < bValue!;
         }
         return false;
     },
@@ -71,10 +74,12 @@ const sorts: Record<
             a.kind == ReflectionKind.EnumMember &&
             b.kind == ReflectionKind.EnumMember
         ) {
-            return (
-                parseFloat(b.defaultValue ?? "0") <
-                parseFloat(a.defaultValue ?? "0")
-            );
+            const aValue =
+                a.type instanceof LiteralType ? a.type.value : -Infinity;
+            const bValue =
+                b.type instanceof LiteralType ? b.type.value : -Infinity;
+
+            return bValue! < aValue!;
         }
         return false;
     },
@@ -138,11 +143,11 @@ const sorts: Record<
 };
 
 export function sortReflections(
-    strategies: DeclarationReflection[],
-    strats: readonly SortStrategy[]
+    reflections: DeclarationReflection[],
+    strategies: readonly SortStrategy[]
 ) {
-    strategies.sort((a, b) => {
-        for (const s of strats) {
+    reflections.sort((a, b) => {
+        for (const s of strategies) {
             if (sorts[s](a, b)) {
                 return -1;
             }

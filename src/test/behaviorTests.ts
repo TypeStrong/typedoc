@@ -1,6 +1,7 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import {
     DeclarationReflection,
+    LiteralType,
     ProjectReflection,
     ReflectionKind,
 } from "../lib/models";
@@ -25,6 +26,7 @@ export const behaviorTests: Record<
             "SomeEnumLikeTagged"
         );
         const A = query(project, "SomeEnumLikeTagged.a");
+        equal(A.type, new LiteralType("a"));
         equal(A.defaultValue, '"a"');
 
         const ManualEnum = query(project, "ManualEnum");
@@ -56,6 +58,7 @@ export const behaviorTests: Record<
             "SomeEnumLikeTaggedNumeric"
         );
         const B = query(project, "SomeEnumLikeTaggedNumeric.b");
+        equal(B.type, new LiteralType(1));
         equal(B.defaultValue, "1");
 
         const ManualEnumNumeric = query(project, "ManualEnumNumeric");

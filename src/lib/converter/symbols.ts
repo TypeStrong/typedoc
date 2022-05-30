@@ -2,6 +2,8 @@ import * as assert from "assert";
 import * as ts from "typescript";
 import {
     DeclarationReflection,
+    IntrinsicType,
+    LiteralType,
     ReferenceReflection,
     Reflection,
     ReflectionFlag,
@@ -245,11 +247,18 @@ function convertEnumMember(
         exportSymbol
     );
 
-    reflection.defaultValue = JSON.stringify(
-        context.checker.getConstantValue(
-            symbol.getDeclarations()![0] as ts.EnumMember
-        )
+    const defaultValue = context.checker.getConstantValue(
+        symbol.getDeclarations()![0] as ts.EnumMember
     );
+    reflection.defaultValue = JSON.stringify(defaultValue);
+
+    if (defaultValue !== undefined) {
+        reflection.type = new LiteralType(defaultValue);
+    } else {
+        // We know this has to be a number, because computed values aren't allowed
+        // in string enums, so otherwise we would have to have the constant value
+        reflection.type = new IntrinsicType("number");
+    }
 
     context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
 }
@@ -657,16 +666,10 @@ function convertProperty(
     }
     reflection.defaultValue = declaration && convertDefaultValue(declaration);
 
-    // FIXME: This is a horrible hack because getTypeOfSymbol is not exposed.
-    // The right solution here is probably to keep track of parent nodes...
-    // but that's tricky because not every reflection is guaranteed to have a
-    // parent node. This will probably break in a future TS version.
     reflection.type = context.converter.convertType(
         context,
         (context.isConvertingTypeNode() ? parameterType : void 0) ??
-            context.checker.getTypeOfSymbolAtLocation(symbol, {
-                kind: ts.SyntaxKind.SourceFile,
-            } as any)
+            context.checker.getTypeOfSymbol(symbol)
     );
 
     if (reflection.flags.isOptional) {
@@ -896,6 +899,7 @@ function convertVariableAsEnum(
         assert(propType.isStringLiteral() || propType.isNumberLiteral());
 
         reflection.defaultValue = JSON.stringify(propType.value);
+        reflection.type = new LiteralType(propType.value);
 
         rc.finalizeDeclarationReflection(reflection, prop, void 0);
     }
