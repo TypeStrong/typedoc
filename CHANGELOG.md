@@ -1,5 +1,13 @@
 # Unreleased
 
+### Features
+
+-   Added support for TypeScript 4.7, #1935.
+
+### Bug Fixes
+
+-   Fixed invalid type output in some uncommon edge cases, TypeDoc also now renders fewer superfluous parenthesis when creating types.
+
 ## v0.22.15 (2022-04-10)
 
 ### Features

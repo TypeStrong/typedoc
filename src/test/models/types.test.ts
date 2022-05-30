@@ -160,6 +160,11 @@ describe("Type.toString", () => {
             const type = new T.InferredType("TFoo");
             equal(type.toString(), "infer TFoo");
         });
+
+        it("Renders with a constraint", () => {
+            const type = new T.InferredType("TFoo", new T.LiteralType(123));
+            equal(type.toString(), "infer TFoo extends 123");
+        });
     });
 
     describe("Mapped types", () => {
@@ -255,13 +260,22 @@ describe("Type.toString", () => {
             equal(type.toString(), "(keyof 1)?");
         });
 
-        it("Wraps type queries", () => {
+        it("Does not wrap type query", () => {
             const type = new T.OptionalType(
                 new T.QueryType(
                     T.ReferenceType.createResolvedReference("X", -1, null)
                 )
             );
-            equal(type.toString(), "(typeof X)?");
+            equal(type.toString(), "typeof X?");
+        });
+    });
+
+    describe("Tuple", () => {
+        it("Works with members", () => {
+            const type = new T.TupleType([
+                new T.OptionalType(new T.LiteralType(123)),
+            ]);
+            equal(type.toString(), "[123?]");
         });
     });
 
@@ -299,12 +313,6 @@ describe("Type.toString", () => {
             const type = new T.RestType(new T.ArrayType(new T.LiteralType(1)));
             equal(type.toString(), "...1[]");
         });
-        it("Wraps complex types", () => {
-            const type = new T.RestType(
-                new T.UnionType([new T.LiteralType(1), new T.LiteralType(2)])
-            );
-            equal(type.toString(), "...(1 | 2)");
-        });
     });
 
     describe("Template literal type", () => {
@@ -314,5 +322,16 @@ describe("Type.toString", () => {
             ]);
             equal(type.toString(), "`a${string}b`");
         });
+    });
+});
+
+describe("Union Types", () => {
+    it("Normalizes true | false to boolean", () => {
+        const type = new T.UnionType([
+            new T.LiteralType(true),
+            new T.LiteralType(123),
+            new T.LiteralType(false),
+        ]);
+        equal(type.toString(), "boolean | 123");
     });
 });
