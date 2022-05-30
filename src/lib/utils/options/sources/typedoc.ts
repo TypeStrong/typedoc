@@ -71,6 +71,56 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "searchCategoryBoosts",
+        help: "Configure search to give a relevance boost to selected categories",
+        type: ParameterType.Mixed,
+        validate(value) {
+            if (!isObject(value)) {
+                throw new Error(
+                    "The 'searchCategoryBoosts' option must be a non-array object."
+                );
+            }
+
+            if (Object.values(value).some((x) => typeof x !== "number")) {
+                throw new Error(
+                    "All values of 'searchCategoryBoosts' must be numbers."
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "searchGroupBoosts",
+        help: 'Configure search to give a relevance boost to selected kinds (eg "class")',
+        type: ParameterType.Mixed,
+        validate(value: unknown) {
+            if (!isObject(value)) {
+                throw new Error(
+                    "The 'searchGroupBoosts' option must be a non-array object."
+                );
+            }
+
+            const validValues = Object.values(ReflectionKind)
+                .filter((v) => typeof v === "string")
+                .map((v) => v.toString());
+
+            for (const kindName in value) {
+                if (validValues.indexOf(kindName) < 0) {
+                    throw new Error(
+                        `'${kindName}' is an invalid value for 'searchGroupBoosts'. Must be one of: ${validValues.join(
+                            ", "
+                        )}`
+                    );
+                }
+            }
+
+            if (Object.values(value).some((x) => typeof x !== "number")) {
+                throw new Error(
+                    "All values of 'searchGroupBoosts' must be numbers."
+                );
+            }
+        },
+    });
+    options.addDeclaration({
         name: "disableSources",
         help: "Disable setting the source of a reflection when documenting it.",
         type: ParameterType.Boolean,
@@ -316,11 +366,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
         type: ParameterType.Mixed,
         validate(value) {
-            if (
-                typeof value !== "object" ||
-                Array.isArray(value) ||
-                value == null
-            ) {
+            if (!isObject(value)) {
                 throw new Error(
                     "The 'markedOptions' option must be a non-array object."
                 );
@@ -332,11 +378,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Selectively override the TypeScript compiler options used by TypeDoc.",
         type: ParameterType.Mixed,
         validate(value) {
-            if (
-                typeof value !== "object" ||
-                Array.isArray(value) ||
-                value == null
-            ) {
+            if (!isObject(value)) {
                 throw new Error(
                     "The 'compilerOptions' option must be a non-array object."
                 );
@@ -403,4 +445,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             notDocumented: false,
         },
     });
+}
+
+function isObject(x: unknown): x is Record<string, unknown> {
+    return !!x && typeof x === "object" && !Array.isArray(x);
 }

@@ -5,7 +5,7 @@
 
 import { ReflectionKind } from "../models/reflections/kind";
 import type { DeclarationReflection } from "../models/reflections/declaration";
-import { LiteralType } from "../models";
+import { LiteralType } from "../models/types";
 
 export const SORT_STRATEGIES = [
     "source-order",

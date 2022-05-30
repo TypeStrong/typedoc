@@ -36,6 +36,8 @@ export interface CardAProps {
  * This is our recommended way to define React components as it makes your code
  * more readable. The minor drawback is you must click the `CardAProps` link to
  * see the component's props.
+ *
+ * @category Component
  */
 export function CardA({ children, variant = "primary" }: PropsWithChildren<CardAProps>): ReactElement {
     return <div className={`card card-${variant}`}>{children}</div>;
@@ -66,6 +68,8 @@ export function CardA({ children, variant = "primary" }: PropsWithChildren<CardA
  *
  * This can make the TypeDoc documentation a bit cleaner for very simple components,
  * but it makes your code less readable.
+ *
+ * @category Component
  */
 export function CardB({
     children,
@@ -245,6 +249,7 @@ export interface EasyFormDialogProps {
  *     )
  * }
  * ```
+ * @category Component
  */
 export function EasyFormDialog(props: PropsWithChildren<EasyFormDialogProps>): ReactElement {
     return <div />;

@@ -2,5 +2,13 @@
     "$schema": "https://typedoc.org/schema.json",
     "entryPoints": ["./src"],
     "sort": ["source-order"],
-    "media": "media"
+    "media": "media",
+    "categorizeByGroup": false,
+    "searchCategoryBoosts": {
+        "Component": 2,
+        "Model": 1.2
+    },
+    "searchGroupBoosts": {
+        "Class": 1.5
+    }
 }

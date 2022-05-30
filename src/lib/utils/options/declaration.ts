@@ -3,7 +3,7 @@ import type { LogLevel } from "../loggers";
 import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point";
-import type { ReflectionKind } from "../../models/reflections/kind";
+import { ReflectionKind } from "../../models/reflections/kind";
 
 export const EmitStrategy = {
     true: true, // Alias for both, for backwards compatibility until 0.23
@@ -49,6 +49,12 @@ export type TypeDocOptionValues = {
         ? TypeDocOptionMap[K]
         : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
+
+const Kinds = Object.values(ReflectionKind);
+export interface SearchConfig {
+    searchGroupBoosts?: { [key: typeof Kinds[number]]: number };
+    searchCategoryBoosts?: { [key: string]: number };
+}
 
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
@@ -107,6 +113,8 @@ export interface TypeDocOptionMap {
     version: boolean;
     showConfig: boolean;
     plugin: string[];
+    searchCategoryBoosts: unknown;
+    searchGroupBoosts: unknown;
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
     markedOptions: unknown;
