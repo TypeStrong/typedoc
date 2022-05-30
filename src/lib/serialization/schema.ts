@@ -165,7 +165,7 @@ export interface DeclarationReflection
 
 export interface TypeParameterReflection
     extends Reflection,
-        S<M.TypeParameterReflection, "type" | "default"> {}
+        S<M.TypeParameterReflection, "type" | "default" | "varianceModifier"> {}
 
 // Nothing extra yet.
 export interface ProjectReflection extends ContainerReflection {}

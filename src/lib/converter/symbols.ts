@@ -6,7 +6,6 @@ import {
     Reflection,
     ReflectionFlag,
     ReflectionKind,
-    TypeParameterReflection,
 } from "../models";
 import {
     getEnumFlags,
@@ -18,7 +17,10 @@ import type { Context } from "./context";
 import { convertDefaultValue } from "./convert-expression";
 import { ConverterEvents } from "./converter-events";
 import { convertIndexSignature } from "./factories/index-signature";
-import { createSignature } from "./factories/signature";
+import {
+    createSignature,
+    createTypeParamReflection,
+} from "./factories/signature";
 import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc";
 import { getHeritageTypes } from "./utils/nodes";
 import { removeUndefined } from "./utils/reflections";
@@ -338,27 +340,6 @@ function convertTypeAlias(
     } else {
         convertJsDocCallback(context, symbol, declaration, exportSymbol);
     }
-}
-
-function createTypeParamReflection(
-    param: ts.TypeParameterDeclaration,
-    context: Context
-) {
-    const constraint = param.constraint
-        ? context.converter.convertType(context, param.constraint)
-        : void 0;
-    const defaultType = param.default
-        ? context.converter.convertType(context, param.default)
-        : void 0;
-    const paramRefl = new TypeParameterReflection(
-        param.name.text,
-        constraint,
-        defaultType,
-        context.scope
-    );
-    context.registerReflection(paramRefl, param.symbol);
-    context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl, param);
-    return paramRefl;
 }
 
 function convertFunctionOrMethod(

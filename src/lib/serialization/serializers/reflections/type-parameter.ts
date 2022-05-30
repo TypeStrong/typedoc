@@ -19,6 +19,7 @@ export class TypeParameterReflectionSerializer extends ReflectionSerializerCompo
             ...obj,
             type: this.owner.toObject(typeParameter.type),
             default: this.owner.toObject(typeParameter.default),
+            varianceModifier: typeParameter.varianceModifier,
         };
     }
 }
