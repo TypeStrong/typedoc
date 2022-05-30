@@ -39,7 +39,7 @@ const completeLegend: LegendItem[][] = [
     ],
     [
         { name: "Enumeration", classes: ["tsd-kind-enum"] },
-        { name: "Enumeration member", classes: ["tsd-kind-enum-member"] },
+        { name: "Enumeration Member", classes: ["tsd-kind-enum-member"] },
         {
             name: "Property",
             classes: ["tsd-kind-property", "tsd-parent-kind-enum"],
