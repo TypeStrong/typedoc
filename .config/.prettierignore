@@ -8,3 +8,7 @@
 ../src/test/renderer/testProject
 ../static/main.js
 ../example/docs/
+
+# Turn this back on once supported by Prettier
+../src/test/converter2/behavior/instantiationExpressions.ts
+../src/test/converter/types/general.ts

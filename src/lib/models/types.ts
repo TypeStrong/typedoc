@@ -16,7 +16,9 @@ export abstract class Type {
     /**
      * Return a string representation of this type.
      */
-    abstract toString(): string;
+    toString(): string {
+        return this.stringify(TypeContext.none);
+    }
 
     /**
      * Visit this type, returning the value returned by the visitor.
@@ -26,6 +28,21 @@ export abstract class Type {
     visit(visitor: Partial<TypeVisitor<unknown>>): unknown {
         return visitor[this.type]?.(this as never);
     }
+
+    stringify(context: TypeContext) {
+        if (this.needsParenthesis(context)) {
+            return `(${this.getTypeString()})`;
+        }
+        return this.getTypeString();
+    }
+
+    abstract needsParenthesis(context: TypeContext): boolean;
+
+    /**
+     * Implementation method for `toString`. `needsParenthesis` will be used to determine if
+     * the returned string should be wrapped in parenthesis.
+     */
+    protected abstract getTypeString(): string;
 }
 
 export interface TypeKindMap {
@@ -87,6 +104,7 @@ export function makeRecursiveVisitor(
         },
         inferred(type) {
             visitor.inferred?.(type);
+            type.constraint?.visit(recursiveVisitor);
         },
         intersection(type) {
             visitor.intersection?.(type);
@@ -152,41 +170,37 @@ export type TypeKind = keyof TypeKindMap;
 
 export type SomeType = TypeKindMap[keyof TypeKindMap];
 
-// A lower binding power means that if contained within a type
-// with a higher binding power the type must be parenthesized.
-// 999 = never have parenthesis
-// -1 = always have parenthesis
-const BINDING_POWERS = {
-    array: 999,
-    conditional: 70,
-    conditionalCheckType: 150,
-    indexedAccess: 999,
-    inferred: 999,
-    intersection: 120,
-    intrinsic: 999,
-    literal: 999,
-    mapped: 999,
-    optional: 999,
-    predicate: 999,
-    query: 900,
-    reference: 999,
-    reflection: 999,
-    rest: 999,
-    "template-literal": 999,
-    tuple: 999,
-    "named-tuple-member": 999,
-    typeOperator: 900,
-    union: 100,
-    // We should always wrap these in parenthesis since we don't know what they contain.
-    unknown: -1,
-};
-
-function wrap(type: Type, bp: number) {
-    if (BINDING_POWERS[type.type] < bp) {
-        return `(${type})`;
-    }
-    return type.toString();
-}
+/**
+ * Enumeration that can be used when traversing types to track the location of recursion.
+ * Used by TypeDoc internally to track when to output parenthesis when rendering.
+ * @enum
+ */
+export const TypeContext = {
+    none: "none",
+    templateLiteralElement: "templateLiteralElement", // `${here}`
+    arrayElement: "arrayElement", // here[]
+    indexedAccessElement: "indexedAccessElement", // {}[here]
+    conditionalCheck: "conditionalCheck", // here extends 1 ? 2 : 3
+    conditionalExtends: "conditionalExtends", // 1 extends here ? 2 : 3
+    conditionalTrue: "conditionalTrue", // 1 extends 2 ? here : 3
+    conditionalFalse: "conditionalFalse", // 1 extends 2 ? 3 : here
+    indexedIndex: "indexedIndex", // {}[here]
+    indexedObject: "indexedObject", // here[1]
+    inferredConstraint: "inferredConstraint", // 1 extends infer X extends here ? 1 : 2
+    intersectionElement: "intersectionElement", // here & 1
+    mappedName: "mappedName", // { [k in string as here]: 1 }
+    mappedParameter: "mappedParameter", // { [k in here]: 1 }
+    mappedTemplate: "mappedTemplate", // { [k in string]: here }
+    optionalElement: "optionalElement", // [here?]
+    predicateTarget: "predicateTarget", // (): X is here
+    queryTypeTarget: "queryTypeTarget", // typeof here, can only ever be a ReferenceType
+    typeOperatorTarget: "typeOperatorTarget", // keyof here
+    referenceTypeArgument: "referenceTypeArgument", // X<here>
+    restElement: "restElement", // [...here]
+    tupleElement: "tupleElement", // [here]
+    unionElement: "unionElement", // here | 1
+} as const;
+export type TypeContext = typeof TypeContext[keyof typeof TypeContext];
 
 /**
  * Represents an array type.
@@ -208,8 +222,12 @@ export class ArrayType extends Type {
         this.elementType = elementType;
     }
 
-    override toString() {
-        return wrap(this.elementType, BINDING_POWERS.array) + "[]";
+    protected override getTypeString() {
+        return this.elementType.stringify(TypeContext.arrayElement) + "[]";
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -232,16 +250,46 @@ export class ConditionalType extends Type {
         super();
     }
 
-    override toString() {
+    protected override getTypeString() {
         return [
-            wrap(this.checkType, BINDING_POWERS.conditionalCheckType),
+            this.checkType.stringify(TypeContext.conditionalCheck),
             "extends",
-            this.extendsType, // no need to wrap
+            this.extendsType.stringify(TypeContext.conditionalExtends),
             "?",
-            this.trueType, // no need to wrap
+            this.trueType.stringify(TypeContext.conditionalTrue),
             ":",
-            this.falseType, // no need to wrap
+            this.falseType.stringify(TypeContext.conditionalFalse),
         ].join(" ");
+    }
+
+    override needsParenthesis(context: TypeContext): boolean {
+        const map: Record<TypeContext, boolean> = {
+            none: false,
+            templateLiteralElement: false,
+            arrayElement: true,
+            indexedAccessElement: false,
+            conditionalCheck: true,
+            conditionalExtends: true,
+            conditionalTrue: false,
+            conditionalFalse: false,
+            indexedIndex: false,
+            indexedObject: true,
+            inferredConstraint: true,
+            intersectionElement: true,
+            mappedName: false,
+            mappedParameter: false,
+            mappedTemplate: false,
+            optionalElement: true,
+            predicateTarget: false,
+            queryTypeTarget: false,
+            typeOperatorTarget: true,
+            referenceTypeArgument: false,
+            restElement: true,
+            tupleElement: false,
+            unionElement: true,
+        };
+
+        return map[context];
     }
 }
 
@@ -255,8 +303,17 @@ export class IndexedAccessType extends Type {
         super();
     }
 
-    override toString() {
-        return `${this.objectType}[${this.indexType}]`;
+    protected override getTypeString() {
+        return [
+            this.objectType.stringify(TypeContext.indexedObject),
+            "[",
+            this.indexType.stringify(TypeContext.indexedIndex),
+            "]",
+        ].join("");
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -270,12 +327,47 @@ export class IndexedAccessType extends Type {
 export class InferredType extends Type {
     override readonly type = "inferred";
 
-    constructor(public name: string) {
+    constructor(public name: string, public constraint?: SomeType) {
         super();
     }
 
-    override toString() {
+    protected override getTypeString() {
+        if (this.constraint) {
+            return `infer ${this.name} extends ${this.constraint.stringify(
+                TypeContext.inferredConstraint
+            )}`;
+        }
         return `infer ${this.name}`;
+    }
+
+    override needsParenthesis(context: TypeContext): boolean {
+        const map: Record<TypeContext, boolean> = {
+            none: false,
+            templateLiteralElement: false,
+            arrayElement: true,
+            indexedAccessElement: false,
+            conditionalCheck: false,
+            conditionalExtends: false,
+            conditionalTrue: false,
+            conditionalFalse: false,
+            indexedIndex: false,
+            indexedObject: true,
+            inferredConstraint: false,
+            intersectionElement: false,
+            mappedName: false,
+            mappedParameter: false,
+            mappedTemplate: false,
+            optionalElement: true,
+            predicateTarget: false,
+            queryTypeTarget: false,
+            typeOperatorTarget: false,
+            referenceTypeArgument: false,
+            restElement: true,
+            tupleElement: false,
+            unionElement: false,
+        };
+
+        return map[context];
     }
 }
 
@@ -293,10 +385,40 @@ export class IntersectionType extends Type {
         super();
     }
 
-    override toString() {
+    protected override getTypeString() {
         return this.types
-            .map((t) => wrap(t, BINDING_POWERS.intersection))
+            .map((t) => t.stringify(TypeContext.intersectionElement))
             .join(" & ");
+    }
+
+    override needsParenthesis(context: TypeContext): boolean {
+        const map: Record<TypeContext, boolean> = {
+            none: false,
+            templateLiteralElement: false,
+            arrayElement: true,
+            indexedAccessElement: false,
+            conditionalCheck: true,
+            conditionalExtends: false,
+            conditionalTrue: false,
+            conditionalFalse: false,
+            indexedIndex: false,
+            indexedObject: true,
+            inferredConstraint: false,
+            intersectionElement: false,
+            mappedName: false,
+            mappedParameter: false,
+            mappedTemplate: false,
+            optionalElement: true,
+            predicateTarget: false,
+            queryTypeTarget: false,
+            typeOperatorTarget: true,
+            referenceTypeArgument: false,
+            restElement: true,
+            tupleElement: false,
+            unionElement: false,
+        };
+
+        return map[context];
     }
 }
 
@@ -314,8 +436,12 @@ export class IntrinsicType extends Type {
         super();
     }
 
-    override toString() {
+    protected override getTypeString() {
         return this.name;
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -337,11 +463,15 @@ export class LiteralType extends Type {
     /**
      * Return a string representation of this type.
      */
-    override toString(): string {
+    protected override getTypeString(): string {
         if (typeof this.value === "bigint") {
             return this.value.toString() + "n";
         }
         return JSON.stringify(this.value);
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -349,7 +479,7 @@ export class LiteralType extends Type {
  * Represents a mapped type.
  *
  * ```ts
- * { -readonly [K in keyof U & string as `a${K}`]?: Foo }
+ * { -readonly [K in Parameter as Name]?: Template }
  * ```
  */
 export class MappedType extends Type {
@@ -366,7 +496,7 @@ export class MappedType extends Type {
         super();
     }
 
-    override toString(): string {
+    protected override getTypeString(): string {
         const read = {
             "+": "readonly ",
             "-": "-readonly ",
@@ -379,9 +509,31 @@ export class MappedType extends Type {
             "": "",
         }[this.optionalModifier ?? ""];
 
-        const name = this.nameType ? ` as ${this.nameType}` : "";
+        const parts = [
+            "{ ",
+            read,
+            "[",
+            this.parameter,
+            " in ",
+            this.parameterType.stringify(TypeContext.mappedParameter),
+        ];
 
-        return `{ ${read}[${this.parameter} in ${this.parameterType}${name}]${opt}: ${this.templateType} }`;
+        if (this.nameType) {
+            parts.push(" as ", this.nameType.stringify(TypeContext.mappedName));
+        }
+
+        parts.push(
+            "]",
+            opt,
+            ": ",
+            this.templateType.stringify(TypeContext.mappedTemplate),
+            " }"
+        );
+        return parts.join("");
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -402,8 +554,12 @@ export class OptionalType extends Type {
         this.elementType = elementType;
     }
 
-    override toString() {
-        return wrap(this.elementType, BINDING_POWERS.optional) + "?";
+    protected override getTypeString() {
+        return this.elementType.stringify(TypeContext.optionalElement) + "?";
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -449,13 +605,20 @@ export class PredicateType extends Type {
     /**
      * Return a string representation of this type.
      */
-    override toString() {
+    protected override getTypeString() {
         const out = this.asserts ? ["asserts", this.name] : [this.name];
         if (this.targetType) {
-            out.push("is", this.targetType.toString());
+            out.push(
+                "is",
+                this.targetType.stringify(TypeContext.predicateTarget)
+            );
         }
 
         return out.join(" ");
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -476,8 +639,20 @@ export class QueryType extends Type {
         this.queryType = reference;
     }
 
-    override toString() {
-        return `typeof ${this.queryType.toString()}`;
+    protected override getTypeString() {
+        return `typeof ${this.queryType.stringify(
+            TypeContext.queryTypeTarget
+        )}`;
+    }
+
+    /**
+     * @privateRemarks
+     * An argument could be made that this ought to return true for indexedObject
+     * since precedence is different than on the value side... if someone really cares
+     * they can easily use a custom theme to change this.
+     */
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -613,19 +788,23 @@ export class ReferenceType extends Type {
         return new ReferenceType(name, -1, project);
     }
 
-    override toString() {
+    protected override getTypeString() {
         const name = this.reflection ? this.reflection.name : this.name;
         let typeArgs = "";
 
         if (this.typeArguments && this.typeArguments.length > 0) {
             typeArgs += "<";
             typeArgs += this.typeArguments
-                .map((arg) => arg.toString())
+                .map((arg) => arg.stringify(TypeContext.referenceTypeArgument))
                 .join(", ");
             typeArgs += ">";
         }
 
         return name + typeArgs;
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -649,12 +828,19 @@ export class ReflectionType extends Type {
         this.declaration = declaration;
     }
 
-    override toString() {
+    // This really ought to do better, but I'm putting off investing effort here until
+    // I'm fully convinced that keeping this is a good idea. Currently, I'd much rather
+    // change object types to not create reflections.
+    protected override getTypeString() {
         if (!this.declaration.children && this.declaration.signatures) {
             return "Function";
         } else {
             return "Object";
         }
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -672,8 +858,12 @@ export class RestType extends Type {
         super();
     }
 
-    override toString() {
-        return `...${wrap(this.elementType, BINDING_POWERS.rest)}`;
+    protected override getTypeString() {
+        return `...${this.elementType.stringify(TypeContext.restElement)}`;
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -690,15 +880,24 @@ export class TemplateLiteralType extends Type {
         super();
     }
 
-    override toString() {
+    protected override getTypeString() {
         return [
             "`",
             this.head,
             ...this.tail.map(([type, text]) => {
-                return "${" + type + "}" + text;
+                return (
+                    "${" +
+                    type.stringify(TypeContext.templateLiteralElement) +
+                    "}" +
+                    text
+                );
             }),
             "`",
         ].join("");
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -722,8 +921,18 @@ export class TupleType extends Type {
         this.elements = elements;
     }
 
-    override toString() {
-        return "[" + this.elements.join(", ") + "]";
+    protected override getTypeString() {
+        return (
+            "[" +
+            this.elements
+                .map((t) => t.stringify(TypeContext.tupleElement))
+                .join(", ") +
+            "]"
+        );
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -748,8 +957,14 @@ export class NamedTupleMember extends Type {
     /**
      * Return a string representation of this type.
      */
-    override toString() {
-        return `${this.name}${this.isOptional ? "?" : ""}: ${this.element}`;
+    protected override getTypeString() {
+        return `${this.name}${
+            this.isOptional ? "?" : ""
+        }: ${this.element.stringify(TypeContext.tupleElement)}`;
+    }
+
+    override needsParenthesis(): boolean {
+        return false;
     }
 }
 
@@ -771,8 +986,40 @@ export class TypeOperatorType extends Type {
         super();
     }
 
-    override toString() {
-        return `${this.operator} ${this.target.toString()}`;
+    protected override getTypeString() {
+        return `${this.operator} ${this.target.stringify(
+            TypeContext.typeOperatorTarget
+        )}`;
+    }
+
+    override needsParenthesis(context: TypeContext): boolean {
+        const map: Record<TypeContext, boolean> = {
+            none: false,
+            templateLiteralElement: false,
+            arrayElement: true,
+            indexedAccessElement: false,
+            conditionalCheck: false,
+            conditionalExtends: false,
+            conditionalTrue: false,
+            conditionalFalse: false,
+            indexedIndex: false,
+            indexedObject: true,
+            inferredConstraint: false,
+            intersectionElement: false,
+            mappedName: false,
+            mappedParameter: false,
+            mappedTemplate: false,
+            optionalElement: true,
+            predicateTarget: false,
+            queryTypeTarget: false,
+            typeOperatorTarget: false,
+            referenceTypeArgument: false,
+            restElement: false,
+            tupleElement: false,
+            unionElement: false,
+        };
+
+        return map[context];
     }
 }
 
@@ -791,17 +1038,60 @@ export class UnionType extends Type {
         this.normalize();
     }
 
-    override toString(): string {
-        return this.types.map((t) => wrap(t, BINDING_POWERS.union)).join(" | ");
+    protected override getTypeString(): string {
+        return this.types
+            .map((t) => t.stringify(TypeContext.unionElement))
+            .join(" | ");
+    }
+
+    override needsParenthesis(context: TypeContext): boolean {
+        const map: Record<TypeContext, boolean> = {
+            none: false,
+            templateLiteralElement: false,
+            arrayElement: true,
+            indexedAccessElement: false,
+            conditionalCheck: true,
+            conditionalExtends: false,
+            conditionalTrue: false,
+            conditionalFalse: false,
+            indexedIndex: false,
+            indexedObject: true,
+            inferredConstraint: false,
+            intersectionElement: true,
+            mappedName: false,
+            mappedParameter: false,
+            mappedTemplate: false,
+            optionalElement: true,
+            predicateTarget: false,
+            queryTypeTarget: false,
+            typeOperatorTarget: true,
+            referenceTypeArgument: false,
+            restElement: false,
+            tupleElement: false,
+            unionElement: false,
+        };
+
+        return map[context];
     }
 
     private normalize() {
-        const trueIndex = this.types.findIndex(
-            (t) => t instanceof LiteralType && t.value === true
-        );
-        const falseIndex = this.types.findIndex(
-            (t) => t instanceof LiteralType && t.value === false
-        );
+        let trueIndex = -1;
+        let falseIndex = -1;
+        for (
+            let i = 0;
+            i < this.types.length && (trueIndex === -1 || falseIndex === -1);
+            i++
+        ) {
+            const t = this.types[i];
+            if (t instanceof LiteralType) {
+                if (t.value === true) {
+                    trueIndex = i;
+                }
+                if (t.value === false) {
+                    falseIndex = i;
+                }
+            }
+        }
 
         if (trueIndex !== -1 && falseIndex !== -1) {
             this.types.splice(Math.max(trueIndex, falseIndex), 1);
@@ -830,7 +1120,15 @@ export class UnknownType extends Type {
         this.name = name;
     }
 
-    override toString() {
+    protected override getTypeString() {
         return this.name;
+    }
+
+    /**
+     * Always returns true if not at the root level, we have no idea what's in here, so wrap it in parenthesis
+     * to be extra safe.
+     */
+    override needsParenthesis(context: TypeContext): boolean {
+        return context !== TypeContext.none;
     }
 }

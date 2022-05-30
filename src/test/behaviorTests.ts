@@ -92,6 +92,12 @@ export const behaviorTests: Record<
             'Record<"b", 1>',
         ]);
     },
+
+    instantiationExpressions(project) {
+        const ss = query(project, "StringSet");
+        equal(ss.kind, ReflectionKind.Variable);
+    },
+
     overloads(project) {
         const foo = query(project, "foo");
         equal(foo.signatures?.length, 2);
