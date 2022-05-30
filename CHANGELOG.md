@@ -3,10 +3,16 @@
 ### Features
 
 -   Added support for TypeScript 4.7, #1935.
+-   Support enum-like objects with numeric literal values tagged with `@enum`, #1918.
 
 ### Bug Fixes
 
 -   Fixed invalid type output in some uncommon edge cases, TypeDoc also now renders fewer superfluous parenthesis when creating types.
+
+### Thanks!
+
+-   @ejuda
+-   @Zamiell
 
 ## v0.22.15 (2022-04-10)
 
