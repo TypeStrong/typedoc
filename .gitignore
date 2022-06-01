@@ -1,5 +1,6 @@
 .DS_Store
 .idea
+.vs
 .tscache
 .baseDir.js
 .baseDir.ts

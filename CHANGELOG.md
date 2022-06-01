@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Restore support for TS 4.0 through 4.5, #1945.
+
 ## v0.22.16 (2022-05-30)
 
 ### Features
