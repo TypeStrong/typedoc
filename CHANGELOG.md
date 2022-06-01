@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.17 (2022-06-01)
+
 ### Features
 
 -   Added support for documenting a module's global declarations as its exports if it contains no real exports.
