@@ -81,6 +81,14 @@ export const behaviorTests: Record<
             "WithoutReadonlyNumeric"
         );
     },
+
+    declareGlobal(project) {
+        equal(
+            project.children?.map((c) => c.name),
+            ["DeclareGlobal"]
+        );
+    },
+
     duplicateHeritageClauses(project) {
         const b = query(project, "B");
         equal(b.extendedTypes?.map(String), ["A"]);

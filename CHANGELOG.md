@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added support for documenting a module's global declarations as its exports if it contains no real exports.
+
 ### Bug Fixes
 
 -   Restore support for TS 4.0 through 4.5, #1945.
