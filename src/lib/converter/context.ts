@@ -288,17 +288,10 @@ export class Context {
     }
 }
 
-const builtInSymbolRegExp = /^__@(\w+)$/;
 const uniqueSymbolRegExp = /^__@(.*)@\d+$/;
 
 function getHumanName(name: string) {
-    // TS 4.0, 4.1, 4.2 - well known symbols are treated specially.
-    let match = builtInSymbolRegExp.exec(name);
-    if (match) {
-        return `[Symbol.${match[1]}]`;
-    }
-
-    match = uniqueSymbolRegExp.exec(name);
+    const match = uniqueSymbolRegExp.exec(name);
     if (match) {
         return `[${match[1]}]`;
     }

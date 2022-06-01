@@ -12,6 +12,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 ### Breaking Changes
 
 -   Node 12 is no longer officially supported as it has gone end of life as of 2022-04-30. It might still work, but may stop working at any time.
+-   Dropped support for TypeScript before 4.6.
 -   In the JSON output for `DeclarationReflection`s, `getSignature` is no longer a one-tuple.
 -   In the JSON output for `DeclarationReflection`s, `setSignature` is no longer a one-tuple.
 -   In the JSON output for `DeclarationReflection`s, `typeParameter` has been renamed to `typeParameters`
