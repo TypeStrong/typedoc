@@ -389,7 +389,7 @@ function getSymbolForModuleLike(
 
 function getExports(
     context: Context,
-    node: ts.SourceFile | ts.ModuleBlock,
+    node: ts.SourceFile,
     symbol: ts.Symbol | undefined
 ): ts.Symbol[] {
     let result: ts.Symbol[];
@@ -416,6 +416,27 @@ function getExports(
         result = context.checker
             .getExportsOfModule(symbol)
             .filter((s) => !hasAllFlags(s.flags, ts.SymbolFlags.Prototype));
+
+        if (result.length === 0) {
+            const globalDecl = node.statements.find(
+                (s) =>
+                    ts.isModuleDeclaration(s) &&
+                    s.flags & ts.NodeFlags.GlobalAugmentation
+            );
+
+            if (globalDecl) {
+                const globalSymbol = context.getSymbolAtLocation(globalDecl);
+                if (globalSymbol) {
+                    result = context.checker
+                        .getExportsOfModule(globalSymbol)
+                        .filter((exp) =>
+                            exp.declarations?.some(
+                                (d) => d.getSourceFile() === node
+                            )
+                        );
+                }
+            }
+        }
     } else {
         // Global file with no inferred top level symbol, get all symbols declared in this file.
         const sourceFile = node.getSourceFile();

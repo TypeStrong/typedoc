@@ -72,6 +72,16 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   @futurGH
 -   @Shane4368
 
+## v0.22.17 (2022-06-01)
+
+### Features
+
+-   Added support for documenting a module's global declarations as its exports if it contains no real exports.
+
+### Bug Fixes
+
+-   Restore support for TS 4.0 through 4.5, #1945.
+
 ## v0.22.16 (2022-05-30)
 
 ### Features

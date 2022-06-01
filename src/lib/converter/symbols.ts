@@ -656,10 +656,13 @@ function convertProperty(
     }
     reflection.defaultValue = declaration && convertDefaultValue(declaration);
 
+    // FIXME: Once we drop support for TS 4.5, we can use context.checker.getTypeOfSymbol(symbol) here.
     reflection.type = context.converter.convertType(
         context,
         (context.isConvertingTypeNode() ? parameterType : void 0) ??
-            context.checker.getTypeOfSymbol(symbol)
+            context.checker.getTypeOfSymbolAtLocation(symbol, {
+                kind: ts.SyntaxKind.SourceFile,
+            } as any)
     );
 
     if (reflection.flags.isOptional) {

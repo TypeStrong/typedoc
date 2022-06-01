@@ -86,6 +86,13 @@ export const behaviorTests: Record<
         );
     },
 
+    declareGlobal(project) {
+        equal(
+            project.children?.map((c) => c.name),
+            ["DeclareGlobal"]
+        );
+    },
+
     deprecatedBracketLinks(project, logger) {
         const a = query(project, "alpha");
         const b = query(project, "beta");

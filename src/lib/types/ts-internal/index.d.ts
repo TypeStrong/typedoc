@@ -21,8 +21,9 @@ declare module "typescript" {
             signature: ts.Signature
         ): ts.TypePredicate | undefined;
 
-        //https://github.com/microsoft/TypeScript/blob/v4.7.2/src/compiler/types.ts#L4188
-        getTypeOfSymbol(symbol: Symbol): Type;
+        // Since TS 4.6, not available earlier.
+        // https://github.com/microsoft/TypeScript/blob/v4.7.2/src/compiler/types.ts#L4188
+        // getTypeOfSymbol(symbol: Symbol): Type;
     }
 
     export interface Signature {
