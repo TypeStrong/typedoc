@@ -12,7 +12,6 @@ import {
     loadPlugins,
     writeFile,
     discoverPlugins,
-    NeverIfInternal,
     TSConfigReader,
 } from "./utils/index";
 
@@ -156,16 +155,6 @@ export class Application extends ChildableComponent<
                 `TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. This will likely break things.`
             );
         }
-    }
-
-    /**
-     * Return the application / root component instance.
-     */
-    override get application(): NeverIfInternal<Application> {
-        this.logger.deprecated(
-            "Application.application is deprecated. Plugins are now passed the application instance when loaded."
-        );
-        return this as never;
     }
 
     /**

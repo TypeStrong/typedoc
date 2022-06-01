@@ -1,4 +1,4 @@
-import { DeclarationReflection, ReflectionKind, ReflectionType } from "../../../../models";
+import { DeclarationReflection, ReflectionType } from "../../../../models";
 import { JSX } from "../../../../utils";
 import { hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
@@ -14,7 +14,7 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
                     {context.type(props.type)}
                 </>
             )}
-            {!!props.defaultValue && props.kind !== ReflectionKind.EnumMember && (
+            {!!props.defaultValue && (
                 <>
                     <span class="tsd-signature-symbol">
                         {" = "}

@@ -31,7 +31,7 @@ export const behaviorTests: Record<
         );
         const A = query(project, "SomeEnumLikeTagged.a");
         equal(A.type, new LiteralType("a"));
-        equal(A.defaultValue, '"a"');
+        equal(A.defaultValue, undefined);
 
         const ManualEnum = query(project, "ManualEnum");
         equal(ManualEnum.kind, ReflectionKind.Enum, "ManualEnum");
@@ -63,7 +63,7 @@ export const behaviorTests: Record<
         );
         const B = query(project, "SomeEnumLikeTaggedNumeric.b");
         equal(B.type, new LiteralType(1));
-        equal(B.defaultValue, "1");
+        equal(B.defaultValue, undefined);
 
         const ManualEnumNumeric = query(project, "ManualEnumNumeric");
         equal(ManualEnumNumeric.kind, ReflectionKind.Enum, "ManualEnumNumeric");

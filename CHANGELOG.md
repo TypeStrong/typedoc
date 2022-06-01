@@ -27,6 +27,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   The shape of the `Comment` class has changed significantly to support multiple tag kinds.
 -   Listeners to `Converter.EVENT_CREATE_TYPE_PARAMETER` and `Converter.EVENT_CREATE_DECLARATION` will now never be passed a `ts.Node` as their third argument.
 -   Constant variables which are interpreted as functions will no longer have the `ReflectionFlag.Const` flag set.
+-   `reflection.defaultValue` is no longer set for enum members. The same information is available on `reflection.type` with more precision.
 -   Removed deprecated `removeReaderByName`, `addDeclarations` and `removeDeclarationByName` methods on `Options`.
 -   Removed `ProjectReflection.directory`, it was unused by TypeDoc and not properly tested.
 -   Removed `ProjectReflection.files`, this was an internal cache that should not have been exposed, and shouldn't have existed in the first place, since removing it made TypeDoc faster.

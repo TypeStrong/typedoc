@@ -78,9 +78,7 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * The default value of this reflection.
      *
-     * Applies to function parameters.
-     *
-     * Note: Using this for enum members is DEPRECATED and will be removed in 0.23.
+     * Applies to function parameters, variables, and properties.
      */
     defaultValue?: string;
 

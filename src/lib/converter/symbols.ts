@@ -251,7 +251,6 @@ function convertEnumMember(
     const defaultValue = context.checker.getConstantValue(
         symbol.getDeclarations()![0] as ts.EnumMember
     );
-    reflection.defaultValue = JSON.stringify(defaultValue);
 
     if (defaultValue !== undefined) {
         reflection.type = new LiteralType(defaultValue);
@@ -874,7 +873,6 @@ function convertVariableAsEnum(
         );
         assert(propType.isStringLiteral() || propType.isNumberLiteral());
 
-        reflection.defaultValue = JSON.stringify(propType.value);
         reflection.type = new LiteralType(propType.value);
 
         rc.finalizeDeclarationReflection(reflection);

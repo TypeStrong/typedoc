@@ -367,6 +367,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Array,
         defaultValue: [
             // TSDoc standard
+            "@deprecated",
             "@param",
             "@remarks",
             "@throws",
@@ -411,7 +412,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             "@readonly",
             "@packageDocumentation",
             "@eventProperty",
-            "@deprecated",
             "@alpha",
             "@beta",
             "@sealed",

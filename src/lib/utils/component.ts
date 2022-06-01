@@ -156,13 +156,6 @@ export abstract class AbstractComponent<O extends ComponentHost>
         if (this._componentOwner === null) {
             return this as any as Application;
         }
-        // Temporary hack, Application.application is going away.
-        if (
-            this._componentOwner instanceof AbstractComponent &&
-            this._componentOwner._componentOwner === null
-        ) {
-            return this._componentOwner as any as Application;
-        }
         return this._componentOwner.application;
     }
 

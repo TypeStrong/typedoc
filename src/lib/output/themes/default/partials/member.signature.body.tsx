@@ -9,6 +9,7 @@ export const memberSignatureBody = (
     { hideSources = false }: { hideSources?: boolean } = {}
 ) => (
     <>
+        {renderFlags(props.flags, props.comment)}
         {context.comment(props)}
 
         {hasTypeParameters(props) && (
