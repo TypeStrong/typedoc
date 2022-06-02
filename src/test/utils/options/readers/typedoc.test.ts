@@ -1,8 +1,9 @@
-import { join } from "path";
+import { join, relative } from "path";
 import { deepStrictEqual as equal } from "assert";
 
 import { TypeDocReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options, ConsoleLogger } from "../../../../lib/utils";
+import { TestLogger } from "../../../TestLogger";
 
 describe("Options - TypeDocReader", () => {
     const options = new Options(new Logger());
@@ -12,44 +13,52 @@ describe("Options - TypeDocReader", () => {
     function test(name: string, input: string, cb: () => void) {
         it(name, () => {
             options.reset();
-            options.setValue("options", input);
+            options.setValue("options", input, __dirname);
             options.read(new ConsoleLogger());
             cb();
         });
     }
 
-    test("Supports extends", join(__dirname, "data/extends.json"), () => {
+    test("Supports extends", "data/extends.json", () => {
         equal(options.getValue("name"), "extends");
         equal(options.getValue("gitRevision"), "master");
     });
 
-    function testError(name: string, file: string) {
+    test("Supports js files", "data/td.js", () => {
+        equal(options.getValue("gitRevision"), "a");
+    });
+
+    function testError(name: string, file: string, message: string) {
         it(name, () => {
             options.reset();
-            options.setValue("options", file);
-            const logger = new Logger();
+            options.setValue("options", file, __dirname);
+            const logger = new TestLogger();
             options.read(logger);
-            equal(logger.hasErrors(), true, "No error was logged");
+            logger.expectMessage(message);
         });
     }
 
     testError(
         "Errors if the file cannot be found",
-        join(__dirname, "data/non-existent-file.json")
+        "data/non-existent-file.json",
+        "error: The options file could not be found with the given path " +
+            join(__dirname, "data/non-existent-file.json")
     );
     testError(
         "Errors if the data is invalid",
-        join(__dirname, "data/invalid.json")
+        "data/invalid.json",
+        "error: Failed to parse ./src/test/utils/options/readers/data/invalid.json, ensure it exists and contains an object."
     );
     testError(
         "Errors if any set option errors",
-        join(__dirname, "data/unknown.json")
+        "data/unknown.json",
+        "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared."
     );
     testError(
         "Errors if extends results in a loop",
-        join(__dirname, "data/circular-extends.json")
+        "data/circular-extends.json",
+        "error: Tried to load the options file ./src/test/utils/options/readers/data/circular-extends.json multiple times."
     );
-
     it("Does not error if the option file cannot be found but was not set.", () => {
         const options = new (class LyingOptions extends Options {
             override isSet() {

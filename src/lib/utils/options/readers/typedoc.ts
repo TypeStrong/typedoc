@@ -1,10 +1,13 @@
 import { join, dirname, resolve } from "path";
 import * as FS from "fs";
+import * as ts from "typescript";
 
 import type { OptionsReader } from "..";
 import type { Logger } from "../../loggers";
 import type { Options } from "../options";
 import { ok } from "assert";
+import { nicePath } from "../../paths";
+import { normalizePath } from "../../fs";
 
 /**
  * Obtains option values from typedoc.json
@@ -54,22 +57,44 @@ export class TypeDocReader implements OptionsReader {
     ) {
         if (seen.has(file)) {
             logger.error(
-                `Tried to load the options file ${file} multiple times.`
+                `Tried to load the options file ${nicePath(
+                    file
+                )} multiple times.`
             );
             return;
         }
         seen.add(file);
 
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const fileContent: unknown = require(file);
+        let fileContent: any;
+        if (file.endsWith(".json")) {
+            const readResult = ts.readConfigFile(normalizePath(file), (path) =>
+                FS.readFileSync(path, "utf-8")
+            );
+
+            if (readResult.error) {
+                logger.error(
+                    `Failed to parse ${nicePath(
+                        file
+                    )}, ensure it exists and contains an object.`
+                );
+                return;
+            } else {
+                fileContent = readResult.config;
+            }
+        } else {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            fileContent = require(file);
+        }
 
         if (typeof fileContent !== "object" || !fileContent) {
-            logger.error(`The file ${file} is not an object.`);
+            logger.error(
+                `The root value of ${nicePath(file)} is not an object.`
+            );
             return;
         }
 
         // clone option object to avoid of property changes in re-calling this file
-        const data: any = { ...fileContent };
+        const data = { ...fileContent };
         delete data["$schema"]; // Useful for better autocompletion, should not be read as a key.
 
         if ("extends" in data) {

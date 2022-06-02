@@ -1,4 +1,5 @@
 {
+    // With comments!
     "$schema": "https://typedoc.org/schema.json",
     "gitRevision": "master"
 }
