@@ -16,7 +16,8 @@ export class TestLogger extends Logger {
     }
 
     expectMessage(message: string) {
-        const index = this.messages.indexOf(message);
+        const regex = createRegex(message);
+        const index = this.messages.findIndex((m) => regex.test(m));
         if (index === -1) {
             const messages = this.messages.join("\n\t") || "(none logged)";
             fail(
@@ -34,4 +35,10 @@ export class TestLogger extends Logger {
         super.log(message, level);
         this.messages.push(levelMap[level] + message);
     }
+}
+
+function createRegex(s: string) {
+    return new RegExp(
+        "^" + s.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*") + "$"
+    );
 }

@@ -298,7 +298,7 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
     /**
      * If not specified defaults to an empty array.
      */
-    defaultValue?: string[];
+    defaultValue?: readonly string[];
 
     /**
      * An optional validation function that validates a potential value of this option.
@@ -578,7 +578,7 @@ const defaultGetters: {
         return option.defaultValue;
     },
     [ParameterType.Array](option) {
-        return option.defaultValue ?? [];
+        return option.defaultValue?.slice() ?? [];
     },
     [ParameterType.PathArray](option) {
         return (

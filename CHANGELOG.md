@@ -41,6 +41,8 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   TypeDoc now supports the `@group` tag to group reflections in a page. If no `@group` tag is specified, reflections will be grouped according to their kind, #1652.
 -   TypeDoc will now search for `typedoc.js(on)` in the `.config` folder in the current working directory.
 -   `typedoc.json` now supports comments like `tsconfig.json`.
+-   TypeDoc will now read the `blockTags`, `inlineTags`, and `modifierTags` out of `tsdoc.json` in the same directory as `tsconfig.json` if it exists.
+    It is recommended to add `"extends": ["typedoc/tsdoc.json"]`, which defines TypeDoc specific tags to your `tsdoc.json` if you create one.
 -   If an exported symbol has multiple declarations, TypeDoc will now check all appropriate declarations for comments, and warn if more than one declaration contains a comment, #1855.
 -   Improved support for JSDoc style `@example` tags. If the tag content does not include a code block, TypeDoc now follows VSCode's behavior of treating the entire block as a code block, #135.
 -   TypeDoc will now render members marked with `@deprecated` with a line through their name, #1381.

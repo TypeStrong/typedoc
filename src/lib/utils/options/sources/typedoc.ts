@@ -6,6 +6,7 @@ import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
 import { ReflectionKind } from "../../../models/reflections/kind";
 import * as Validation from "../../validation";
+import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults";
 
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
@@ -365,19 +366,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "blockTags",
         help: "Block tags which TypeDoc should recognize when parsing comments.",
         type: ParameterType.Array,
-        defaultValue: [
-            // TSDoc standard
-            "@deprecated",
-            "@param",
-            "@remarks",
-            "@throws",
-            "@privateRemarks",
-            "@defaultValue",
-            // TypeDoc specific
-            "@module",
-            "@inheritDoc",
-            "@group",
-        ],
+        defaultValue: blockTags,
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
@@ -390,7 +379,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "inlineTags",
         help: "Inline tags which TypeDoc should recognize when parsing comments.",
         type: ParameterType.Array,
-        defaultValue: ["@link", "@inheritDoc", "@label"],
+        defaultValue: inlineTags,
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
@@ -403,26 +392,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "modifierTags",
         help: "Modifier tags which TypeDoc should recognize when parsing comments.",
         type: ParameterType.Array,
-        defaultValue: [
-            // TSDoc standard
-            "@public",
-            "@private",
-            "@protected",
-            "@internal",
-            "@readonly",
-            "@packageDocumentation",
-            "@eventProperty",
-            "@alpha",
-            "@beta",
-            "@sealed",
-            "@override",
-            "@virtual",
-            // TypeDoc specific tags
-            "@hidden",
-            "@ignore",
-            "@enum",
-            "@event",
-        ],
+        defaultValue: modifierTags,
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(

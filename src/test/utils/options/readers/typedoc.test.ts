@@ -1,4 +1,3 @@
-import { join, relative } from "path";
 import { deepStrictEqual as equal } from "assert";
 
 import { TypeDocReader } from "../../../../lib/utils/options/readers";
@@ -41,13 +40,12 @@ describe("Options - TypeDocReader", () => {
     testError(
         "Errors if the file cannot be found",
         "data/non-existent-file.json",
-        "error: The options file could not be found with the given path " +
-            join(__dirname, "data/non-existent-file.json")
+        "error: The options file */non-existent-file.json does not exist."
     );
     testError(
         "Errors if the data is invalid",
         "data/invalid.json",
-        "error: Failed to parse ./src/test/utils/options/readers/data/invalid.json, ensure it exists and contains an object."
+        "error: Failed to parse */invalid.json, ensure it exists and contains an object."
     );
     testError(
         "Errors if any set option errors",
@@ -57,7 +55,7 @@ describe("Options - TypeDocReader", () => {
     testError(
         "Errors if extends results in a loop",
         "data/circular-extends.json",
-        "error: Tried to load the options file ./src/test/utils/options/readers/data/circular-extends.json multiple times."
+        "error: Tried to load the options file */circular-extends.json multiple times."
     );
     it("Does not error if the option file cannot be found but was not set.", () => {
         const options = new (class LyingOptions extends Options {

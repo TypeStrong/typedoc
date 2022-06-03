@@ -1,0 +1,18 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/tsdoc/v0/tsdoc.schema.json",
+    "noStandardTags": true,
+    "tagDefinitions": [
+        {
+            "tagName": "@tag",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@tag2",
+            "syntaxKind": "inline"
+        },
+        {
+            "tagName": "@tag3",
+            "syntaxKind": "modifier"
+        }
+    ]
+}

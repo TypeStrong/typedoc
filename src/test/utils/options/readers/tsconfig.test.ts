@@ -4,6 +4,7 @@ import { deepStrictEqual as equal } from "assert";
 import { TSConfigReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
 import { tmpdir } from "os";
+import { TestLogger } from "../../../TestLogger";
 
 describe("Options - TSConfigReader", () => {
     const options = new Options(new Logger());
@@ -95,5 +96,73 @@ describe("Options - TSConfigReader", () => {
         options.setCompilerOptions([], { strict: false }, void 0);
         options.read(new Logger());
         equal(options.getCompilerOptions().strict, true);
+    });
+
+    function testTsdoc(path: string, cb?: (logger: TestLogger) => void) {
+        options.reset();
+        options.setValue("tsconfig", join(__dirname, path));
+        const logger = new TestLogger();
+        options.read(logger);
+        cb?.(logger);
+        logger.expectNoOtherMessages();
+    }
+
+    it("Handles failed tsdoc reads", () => {
+        testTsdoc("data/tsdoc1", (logger) => {
+            logger.expectMessage(
+                "error: Failed to read tsdoc.json file at */tsdoc1/tsdoc.json."
+            );
+        });
+    });
+
+    it("Handles invalid tsdoc files", () => {
+        testTsdoc("data/tsdoc2", (logger) => {
+            logger.expectMessage(
+                `error: The file */tsdoc2/tsdoc.json is not a valid tsdoc.json file.`
+            );
+        });
+    });
+
+    it("Warns if an option will be overwritten", () => {
+        options.reset();
+        options.setValue("blockTags", []);
+        options.setValue("modifierTags", []);
+        options.setValue("tsconfig", join(__dirname, "data/tsdoc3"));
+        const logger = new TestLogger();
+        options.read(logger);
+        logger.expectMessage(
+            "warn: The blockTags, modifierTags defined in typedoc.json " +
+                "will be overwritten by configuration in tsdoc.json."
+        );
+        logger.expectNoOtherMessages();
+    });
+
+    it("Reads tsdoc.json", () => {
+        testTsdoc("data/tsdoc4");
+
+        equal(options.getValue("blockTags"), ["@tag"]);
+        equal(options.getValue("inlineTags"), ["@tag2"]);
+        equal(options.getValue("modifierTags"), ["@tag3"]);
+    });
+
+    it("Handles extends in tsdoc.json", () => {
+        testTsdoc("data/tsdoc5");
+        equal(options.getValue("blockTags"), ["@tag"]);
+    });
+
+    it("Handles supportForTags in tsdoc.json", () => {
+        testTsdoc("data/tsdoc6");
+
+        equal(options.getValue("blockTags"), ["@tag"]);
+        equal(options.getValue("inlineTags"), []);
+        equal(options.getValue("modifierTags"), []);
+    });
+
+    it("Handles circular extends", () => {
+        testTsdoc("data/tsdoc7", (logger) => {
+            logger.expectMessage(
+                'error: Circular reference encountered for "extends" field of */tsdoc7/tsdoc.json'
+            );
+        });
     });
 });

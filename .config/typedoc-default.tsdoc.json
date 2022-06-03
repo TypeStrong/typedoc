@@ -1,0 +1,33 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/tsdoc/v0/tsdoc.schema.json",
+    "noStandardTags": false,
+    "tagDefinitions": [
+        {
+            "tagName": "@module",
+            "syntaxKind": "block"
+        },
+        // Don't include @inheritDoc, because the @microsoft/tsdoc-config parser blows up
+        // if the standard @inheritDoc inline tag is also defined here.
+        {
+            "tagName": "@group",
+            "syntaxKind": "block",
+            "allowMultiple": true
+        },
+        {
+            "tagName": "@hidden",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@ignore",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@enum",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@event",
+            "syntaxKind": "modifier"
+        }
+    ]
+}

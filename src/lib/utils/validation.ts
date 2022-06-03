@@ -17,9 +17,10 @@ export type Infer<T extends Schema> = T extends Optional<infer U>
               Extract<T[K & keyof T], Schema>
           >;
       } & {
-          -readonly [K in Exclude<keyof T, OptionalKeys<T>>]: Infer<
-              Extract<T[K], Schema>
-          >;
+          -readonly [K in Exclude<
+              keyof T,
+              OptionalKeys<T> | typeof additionalProperties
+          >]: Infer<Extract<T[K], Schema>>;
       };
 
 export type Optional<T extends Schema> = Record<typeof opt, T>;
@@ -31,20 +32,29 @@ type OptionalKeys<T> = keyof {
 
 const opt = Symbol();
 
+/**
+ * Symbol that may be placed on a schema object to define how additional properties are handled.
+ * By default, additional properties are not checked.
+ */
+export const additionalProperties = Symbol();
+
 export type Schema =
     | typeof String
     | typeof Number
     | typeof Boolean
     | readonly string[]
     | readonly [typeof Array, Schema]
-    | { readonly [k: string]: Schema }
+    | { readonly [k: string]: Schema; [additionalProperties]?: boolean }
     | Guard<unknown>
     | Optional<typeof String>
     | Optional<typeof Number>
     | Optional<typeof Boolean>
     | Optional<readonly string[]>
     | Optional<readonly [typeof Array, Schema]>
-    | Optional<{ readonly [k: string]: Schema }>
+    | Optional<{
+          readonly [k: string]: Schema;
+          [additionalProperties]?: boolean;
+      }>
     | Optional<Guard<unknown>>;
 
 /**
@@ -90,6 +100,15 @@ export function validate(schema: Schema, obj: any): boolean {
         }
 
         return type.includes(obj);
+    }
+
+    if (
+        additionalProperties in schema &&
+        !(schema as any)[additionalProperties]
+    ) {
+        if (Object.keys(obj).some((key) => !(key in schema))) {
+            return false;
+        }
     }
 
     return (
