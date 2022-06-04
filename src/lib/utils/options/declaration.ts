@@ -22,7 +22,7 @@ export const CommentStyle = {
     JSDoc: "JSDoc",
     Block: "Block",
     Line: "Line",
-    All: "all",
+    All: "All",
 } as const;
 export type CommentStyle = typeof CommentStyle[keyof typeof CommentStyle];
 

@@ -5,7 +5,6 @@
 These TODOs will be resolved before a full release. ([GitHub project](https://github.com/TypeStrong/typedoc/projects/11))
 
 -   Full support for declaration references, #262, #488, #1326, #1845.
--   Add support for additional comment styles, #1433.
 -   (Maybe) `@copyDoc` tag to copy parts of documentation from other entries.
 -   (Maybe) `--commentDiscovery` option to delegate discovery to TypeScript.
 
@@ -48,6 +47,15 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   If an exported symbol has multiple declarations, TypeDoc will now check all appropriate declarations for comments, and warn if more than one declaration contains a comment, #1855.
 -   Improved support for JSDoc style `@example` tags. If the tag content does not include a code block, TypeDoc now follows VSCode's behavior of treating the entire block as a code block, #135.
 -   TypeDoc will now render members marked with `@deprecated` with a line through their name, #1381.
+-   Added new `commentStyle` option which can be used to control what comments TypeDoc will parse.
+
+    | Value | Behavior                               |
+    | ----- | -------------------------------------- |
+    | JSDoc | Use block comments starting with `/**` |
+    | Block | Use all block comments                 |
+    | Line  | Use `//` comments                      |
+    | All   | Use both block and line comments       |
+
 -   TypeDoc will now warn if part of a comment will be overwritten due to use of `@inheritDoc` instead of silently dropping part of the comment.
 -   Added support for inline `@inheritDoc` tags, #1480.
 -   It is now possible to link directly to a specific overload, #1326.
