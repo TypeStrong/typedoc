@@ -4,10 +4,10 @@
 
 These TODOs will be resolved before a full release. ([GitHub project](https://github.com/TypeStrong/typedoc/projects/11))
 
--   Make comment parser options configurable from tsdoc.json.
 -   Full support for declaration references, #262, #488, #1326, #1845.
 -   Add support for additional comment styles, #1433.
--   Theme: Custom rendering for `@see` tags.
+-   (Maybe) `@copyDoc` tag to copy parts of documentation from other entries.
+-   (Maybe) `--commentDiscovery` option to delegate discovery to TypeScript.
 
 ### Breaking Changes
 
