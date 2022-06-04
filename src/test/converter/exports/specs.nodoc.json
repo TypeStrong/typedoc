@@ -255,61 +255,6 @@
           }
         ]
       },
-      "children": [
-        {
-          "id": 39,
-          "name": "abc",
-          "kind": 32,
-          "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This module has documentation, but no exported members do."
-              }
-            ],
-            "blockTags": [
-              {
-                "tag": "@see",
-                "content": [
-                  {
-                    "kind": "text",
-                    "text": "https://github.com/TypeStrong/typedoc/issues/1948"
-                  }
-                ]
-              },
-              {
-                "tag": "@module",
-                "content": []
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "no-doc-members.ts",
-              "line": 6,
-              "character": 13,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/no-doc-members.ts#L6"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 123
-          },
-          "defaultValue": "123"
-        }
-      ],
-      "groups": [
-        {
-          "title": "Variables",
-          "children": [
-            39
-          ]
-        }
-      ],
       "sources": [
         {
           "fileName": "no-doc-members.ts",

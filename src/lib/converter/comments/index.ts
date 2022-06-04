@@ -77,6 +77,16 @@ export function getComment(
         }
     }
 
+    if (!symbol.declarations?.some(ts.isSourceFile) && comment) {
+        // Ensure module comments are not attached to non-module reflections.
+        if (
+            comment.hasModifier("@packageDocumentation") ||
+            comment.getTag("@module")
+        ) {
+            return;
+        }
+    }
+
     return comment;
 }
 

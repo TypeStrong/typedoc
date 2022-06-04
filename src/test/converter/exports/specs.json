@@ -888,29 +888,6 @@
           "flags": {
             "isConst": true
           },
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This module has documentation, but no exported members do."
-              }
-            ],
-            "blockTags": [
-              {
-                "tag": "@see",
-                "content": [
-                  {
-                    "kind": "text",
-                    "text": "https://github.com/TypeStrong/typedoc/issues/1948"
-                  }
-                ]
-              },
-              {
-                "tag": "@module",
-                "content": []
-              }
-            ]
-          },
           "sources": [
             {
               "fileName": "no-doc-members.ts",
