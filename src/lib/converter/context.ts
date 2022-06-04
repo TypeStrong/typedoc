@@ -240,7 +240,7 @@ export class Context {
     }
 
     shouldIgnore(symbol: ts.Symbol) {
-        return this.converter.shouldIgnore(symbol, this.checker);
+        return this.converter.shouldIgnore(symbol);
     }
 
     /**

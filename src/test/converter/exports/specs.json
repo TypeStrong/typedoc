@@ -12,7 +12,7 @@
       "flags": {},
       "children": [
         {
-          "id": 46,
+          "id": 48,
           "name": "GH1453Helper",
           "kind": 8388608,
           "kindString": "Reference",
@@ -28,7 +28,7 @@
           "target": 35
         },
         {
-          "id": 39,
+          "id": 41,
           "name": "Mod",
           "kind": 8388608,
           "kindString": "Reference",
@@ -44,7 +44,7 @@
           "target": 29
         },
         {
-          "id": 41,
+          "id": 43,
           "name": "Mod2",
           "kind": 8388608,
           "kindString": "Reference",
@@ -68,7 +68,7 @@
           "target": 29
         },
         {
-          "id": 40,
+          "id": 42,
           "name": "ModDefault",
           "kind": 8388608,
           "kindString": "Reference",
@@ -84,7 +84,7 @@
           "target": 36
         },
         {
-          "id": 45,
+          "id": 47,
           "name": "ThisModule",
           "kind": 8388608,
           "kindString": "Reference",
@@ -100,7 +100,7 @@
           "target": 34
         },
         {
-          "id": 42,
+          "id": 44,
           "name": "a",
           "kind": 8388608,
           "kindString": "Reference",
@@ -116,7 +116,7 @@
           "target": 30
         },
         {
-          "id": 43,
+          "id": 45,
           "name": "b",
           "kind": 8388608,
           "kindString": "Reference",
@@ -140,7 +140,7 @@
           "target": 31
         },
         {
-          "id": 38,
+          "id": 40,
           "name": "c",
           "kind": 8388608,
           "kindString": "Reference",
@@ -398,14 +398,14 @@
         {
           "title": "References",
           "children": [
-            46,
-            39,
+            48,
             41,
-            40,
-            45,
-            42,
             43,
-            38
+            42,
+            47,
+            44,
+            45,
+            40
           ]
         },
         {
@@ -853,6 +853,95 @@
           "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/mod.ts#L8"
         }
       ]
+    },
+    {
+      "id": 38,
+      "name": "no-doc-members",
+      "kind": 2,
+      "kindString": "Module",
+      "flags": {},
+      "comment": {
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This module has documentation, but no exported members do."
+          }
+        ],
+        "blockTags": [
+          {
+            "tag": "@see",
+            "content": [
+              {
+                "kind": "text",
+                "text": "https://github.com/TypeStrong/typedoc/issues/1948"
+              }
+            ]
+          }
+        ]
+      },
+      "children": [
+        {
+          "id": 39,
+          "name": "abc",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This module has documentation, but no exported members do."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@see",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "https://github.com/TypeStrong/typedoc/issues/1948"
+                  }
+                ]
+              },
+              {
+                "tag": "@module",
+                "content": []
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "no-doc-members.ts",
+              "line": 6,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/no-doc-members.ts#L6"
+            }
+          ],
+          "type": {
+            "type": "literal",
+            "value": 123
+          },
+          "defaultValue": "123"
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "children": [
+            39
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "no-doc-members.ts",
+          "line": 6,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/no-doc-members.ts#L6"
+        }
+      ]
     }
   ],
   "groups": [
@@ -863,7 +952,8 @@
         1,
         6,
         8,
-        29
+        29,
+        38
       ]
     }
   ]

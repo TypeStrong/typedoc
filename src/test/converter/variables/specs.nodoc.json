@@ -25,53 +25,6 @@
               }
             ]
           },
-          "children": [
-            {
-              "id": 3,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 4,
-                  "name": "new Array",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {},
-                  "typeParameter": [
-                    {
-                      "id": 5,
-                      "name": "T",
-                      "kind": 131072,
-                      "kindString": "Type parameter",
-                      "flags": {}
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "id": 2,
-                    "typeArguments": [
-                      {
-                        "type": "reference",
-                        "id": 5,
-                        "name": "T"
-                      }
-                    ],
-                    "name": "Array"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "children": [
-                3
-              ]
-            }
-          ],
           "sources": [
             {
               "fileName": "array.ts",
@@ -111,37 +64,6 @@
               }
             ]
           },
-          "children": [
-            {
-              "id": 10,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 11,
-                  "name": "new Foo",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 9,
-                    "name": "Foo"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "children": [
-                10
-              ]
-            }
-          ],
           "sources": [
             {
               "fileName": "array.ts",
@@ -165,47 +87,6 @@
               }
             ]
           },
-          "children": [
-            {
-              "id": 13,
-              "name": "constructor",
-              "kind": 512,
-              "kindString": "Constructor",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 14,
-                  "name": "new FooList",
-                  "kind": 16384,
-                  "kindString": "Constructor signature",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 12,
-                    "name": "FooList"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "id": 4,
-                    "name": "Array.constructor"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "id": 3,
-                "name": "Array.constructor"
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "children": [
-                13
-              ]
-            }
-          ],
           "sources": [
             {
               "fileName": "array.ts",
@@ -438,14 +319,14 @@
       ]
     },
     {
-      "id": 19,
+      "id": 30,
       "name": "literal",
       "kind": 2,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 22,
+          "id": 70,
           "name": "objectLiteral",
           "kind": 32,
           "kindString": "Variable",
@@ -471,11 +352,409 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 23,
+              "id": 71,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "children": [
+                {
+                  "id": 89,
+                  "name": "[toStringTag]",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 19,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L19"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "defaultValue": "\"computed\""
+                },
+                {
+                  "id": 90,
+                  "name": "literal",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 20,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L20"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  "defaultValue": "true"
+                },
+                {
+                  "id": 91,
+                  "name": "literal2",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 21,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L21"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  "defaultValue": "true"
+                },
+                {
+                  "id": 87,
+                  "name": "valueA",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 17,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L17"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "defaultValue": "100"
+                },
+                {
+                  "id": 88,
+                  "name": "valueB",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 18,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L18"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  "defaultValue": "true"
+                },
+                {
+                  "id": 76,
+                  "name": "valueX",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 10,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L10"
+                    }
+                  ],
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 77,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "children": [
+                        {
+                          "id": 86,
+                          "name": "valueA",
+                          "kind": 1024,
+                          "kindString": "Property",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 15,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L15"
+                            }
+                          ],
+                          "type": {
+                            "type": "array",
+                            "elementType": {
+                              "type": "intrinsic",
+                              "name": "number"
+                            }
+                          },
+                          "defaultValue": "..."
+                        },
+                        {
+                          "id": 79,
+                          "name": "valueY",
+                          "kind": 1024,
+                          "kindString": "Property",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 12,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L12"
+                            }
+                          ],
+                          "type": {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 80,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "literal.ts",
+                                  "line": 12,
+                                  "character": 16,
+                                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L12"
+                                }
+                              ],
+                              "signatures": [
+                                {
+                                  "id": 81,
+                                  "name": "__type",
+                                  "kind": 4096,
+                                  "kindString": "Call signature",
+                                  "flags": {},
+                                  "parameters": [
+                                    {
+                                      "id": 82,
+                                      "name": "z",
+                                      "kind": 32768,
+                                      "kindString": "Parameter",
+                                      "flags": {},
+                                      "type": {
+                                        "type": "intrinsic",
+                                        "name": "string"
+                                      }
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "reflection",
+                                    "declaration": {
+                                      "id": 83,
+                                      "name": "__type",
+                                      "kind": 65536,
+                                      "kindString": "Type literal",
+                                      "flags": {},
+                                      "children": [
+                                        {
+                                          "id": 84,
+                                          "name": "a",
+                                          "kind": 1024,
+                                          "kindString": "Property",
+                                          "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 13,
+                                              "character": 21,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L13"
+                                            }
+                                          ],
+                                          "type": {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                          },
+                                          "defaultValue": "\"test\""
+                                        },
+                                        {
+                                          "id": 85,
+                                          "name": "b",
+                                          "kind": 1024,
+                                          "kindString": "Property",
+                                          "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 13,
+                                              "character": 32,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L13"
+                                            }
+                                          ],
+                                          "type": {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                          },
+                                          "defaultValue": "z"
+                                        }
+                                      ],
+                                      "groups": [
+                                        {
+                                          "title": "Properties",
+                                          "children": [
+                                            84,
+                                            85
+                                          ]
+                                        }
+                                      ],
+                                      "sources": [
+                                        {
+                                          "fileName": "literal.ts",
+                                          "line": 13,
+                                          "character": 19,
+                                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L13"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "defaultValue": "..."
+                        },
+                        {
+                          "id": 78,
+                          "name": "valueZ",
+                          "kind": 1024,
+                          "kindString": "Property",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 11,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L11"
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          },
+                          "defaultValue": "\"foo\""
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Properties",
+                          "children": [
+                            86,
+                            79,
+                            78
+                          ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 10,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L10"
+                        }
+                      ]
+                    }
+                  },
+                  "defaultValue": "..."
+                },
+                {
+                  "id": 73,
+                  "name": "valueY",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 7,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L7"
+                    }
+                  ],
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 74,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 7,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L7"
+                        }
+                      ],
+                      "signatures": [
+                        {
+                          "id": 75,
+                          "name": "__type",
+                          "kind": 4096,
+                          "kindString": "Call signature",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "defaultValue": "..."
+                },
+                {
+                  "id": 72,
+                  "name": "valueZ",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 6,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L6"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "defaultValue": "\"foo\""
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "children": [
+                    89,
+                    90,
+                    91,
+                    87,
+                    88,
+                    76,
+                    73,
+                    72
+                  ]
+                }
+              ],
               "sources": [
                 {
                   "fileName": "literal.ts",
@@ -489,7 +768,7 @@
           "defaultValue": "..."
         },
         {
-          "id": 20,
+          "id": 31,
           "name": "typeLiteral",
           "kind": 32,
           "kindString": "Variable",
@@ -513,11 +792,340 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 21,
+              "id": 32,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "children": [
+                {
+                  "id": 48,
+                  "name": "valueA",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isOptional": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 35,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L35"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 49,
+                  "name": "valueB",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isOptional": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 36,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L36"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  }
+                },
+                {
+                  "id": 37,
+                  "name": "valueX",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 30,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L30"
+                    }
+                  ],
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 38,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "children": [
+                        {
+                          "id": 47,
+                          "name": "valueA",
+                          "kind": 1024,
+                          "kindString": "Property",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 33,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L33"
+                            }
+                          ],
+                          "type": {
+                            "type": "array",
+                            "elementType": {
+                              "type": "intrinsic",
+                              "name": "number"
+                            }
+                          }
+                        },
+                        {
+                          "id": 40,
+                          "name": "valueY",
+                          "kind": 1024,
+                          "kindString": "Property",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 32,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
+                            }
+                          ],
+                          "type": {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 41,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "literal.ts",
+                                  "line": 32,
+                                  "character": 16,
+                                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
+                                }
+                              ],
+                              "signatures": [
+                                {
+                                  "id": 42,
+                                  "name": "__type",
+                                  "kind": 4096,
+                                  "kindString": "Call signature",
+                                  "flags": {},
+                                  "parameters": [
+                                    {
+                                      "id": 43,
+                                      "name": "z",
+                                      "kind": 32768,
+                                      "kindString": "Parameter",
+                                      "flags": {},
+                                      "type": {
+                                        "type": "intrinsic",
+                                        "name": "string"
+                                      }
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "reflection",
+                                    "declaration": {
+                                      "id": 44,
+                                      "name": "__type",
+                                      "kind": 65536,
+                                      "kindString": "Type literal",
+                                      "flags": {},
+                                      "children": [
+                                        {
+                                          "id": 45,
+                                          "name": "a",
+                                          "kind": 1024,
+                                          "kindString": "Property",
+                                          "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 32,
+                                              "character": 33,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
+                                            }
+                                          ],
+                                          "type": {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                          }
+                                        },
+                                        {
+                                          "id": 46,
+                                          "name": "b",
+                                          "kind": 1024,
+                                          "kindString": "Property",
+                                          "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 32,
+                                              "character": 44,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
+                                            }
+                                          ],
+                                          "type": {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                          }
+                                        }
+                                      ],
+                                      "groups": [
+                                        {
+                                          "title": "Properties",
+                                          "children": [
+                                            45,
+                                            46
+                                          ]
+                                        }
+                                      ],
+                                      "sources": [
+                                        {
+                                          "fileName": "literal.ts",
+                                          "line": 32,
+                                          "character": 31,
+                                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "id": 39,
+                          "name": "valueZ",
+                          "kind": 1024,
+                          "kindString": "Property",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 31,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L31"
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Properties",
+                          "children": [
+                            47,
+                            40,
+                            39
+                          ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 30,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L30"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 34,
+                  "name": "valueY",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 29,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L29"
+                    }
+                  ],
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 35,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 29,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L29"
+                        }
+                      ],
+                      "signatures": [
+                        {
+                          "id": 36,
+                          "name": "__type",
+                          "kind": 4096,
+                          "kindString": "Call signature",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 33,
+                  "name": "valueZ",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 28,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L28"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "children": [
+                    48,
+                    49,
+                    37,
+                    34,
+                    33
+                  ]
+                }
+              ],
               "sources": [
                 {
                   "fileName": "literal.ts",
@@ -534,8 +1142,8 @@
         {
           "title": "Variables",
           "children": [
-            22,
-            20
+            70,
+            31
           ]
         }
       ],
@@ -555,7 +1163,7 @@
       "children": [
         1,
         15,
-        19
+        30
       ]
     }
   ]

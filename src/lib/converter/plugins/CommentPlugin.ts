@@ -63,6 +63,9 @@ export class CommentPlugin extends ConverterComponent {
     @BindOption("excludeProtected")
     excludeProtected!: boolean;
 
+    @BindOption("excludeNotDocumented")
+    excludeNotDocumented!: boolean;
+
     /**
      * Create a new CommentPlugin instance.
      */
@@ -375,7 +378,7 @@ export class CommentPlugin extends ConverterComponent {
      *
      * @param reflection Reflection to check if hidden
      */
-    private isHidden(reflection: Reflection) {
+    private isHidden(reflection: Reflection): boolean {
         const comment = reflection.comment;
 
         if (
@@ -393,6 +396,30 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         if (!comment) {
+            if (this.excludeNotDocumented) {
+                // Only allow excludeNotDocumented to exclude root level reflections
+                if (!(reflection instanceof DeclarationReflection)) {
+                    return false;
+                }
+
+                // excludeNotDocumented should hide a module only if it has no visible children
+                if (reflection.kindOf(ReflectionKind.SomeModule)) {
+                    if (!reflection.children) {
+                        return true;
+                    }
+                    return reflection.children.every((child) =>
+                        this.isHidden(child)
+                    );
+                }
+
+                // enum members should all be included if the parent enum is documented
+                if (reflection.kind === ReflectionKind.EnumMember) {
+                    return false;
+                }
+
+                // excludeNotDocumented should never hide parts of "type" reflections
+                return inTypeLiteral(reflection) === false;
+            }
             return false;
         }
 
@@ -402,6 +429,16 @@ export class CommentPlugin extends ConverterComponent {
             (comment.hasModifier("@internal") && this.excludeInternal)
         );
     }
+}
+
+function inTypeLiteral(refl: Reflection | undefined) {
+    while (refl) {
+        if (refl.kind === ReflectionKind.TypeLiteral) {
+            return true;
+        }
+        refl = refl.parent;
+    }
+    return false;
 }
 
 // Moves tags like `@param foo.bar docs for bar` into the `bar` property of the `foo` parameter.

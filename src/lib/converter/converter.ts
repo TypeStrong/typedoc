@@ -12,7 +12,6 @@ import { convertSymbol } from "./symbols";
 import { createMinimatch, matchesAny } from "../utils/paths";
 import type { IMinimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
-import { resolveAliasedSymbol } from "./utils/symbols";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
 import type { CommentParserConfig } from "./comments";
 
@@ -224,11 +223,9 @@ export class Converter extends ChildableComponent<
 
         const allExports = getExports(context, node, symbol);
 
-        if (
-            allExports.every((exp) => this.shouldIgnore(exp, context.checker))
-        ) {
+        if (allExports.every((exp) => this.shouldIgnore(exp))) {
             this.owner.logger.verbose(
-                `Ignoring entry point ${entryName} since all members will be ignored.`
+                `All members of ${entryName} are excluded, ignoring entry point.`
             );
             return;
         }
@@ -292,28 +289,18 @@ export class Converter extends ChildableComponent<
         this.trigger(Converter.EVENT_RESOLVE_END, context);
     }
 
-    /** @internal */
-    shouldIgnore(symbol: ts.Symbol, checker: ts.TypeChecker) {
-        if (
-            this.excludeNotDocumented &&
-            // If the enum is included, we should include members even if not documented.
-            !hasAllFlags(symbol.flags, ts.SymbolFlags.EnumMember) &&
-            resolveAliasedSymbol(symbol, checker).getDocumentationComment(
-                checker
-            ).length === 0
-        ) {
-            return true;
-        }
-
+    /**
+     * Used to determine if we should immediately bail when creating a reflection.
+     * Note: This should not be used for excludeNotDocumented because we don't have enough
+     * information at this point since comment discovery hasn't happened.
+     * @internal
+     */
+    shouldIgnore(symbol: ts.Symbol) {
         if (this.isExcluded(symbol)) {
             return true;
         }
 
-        if (!this.excludeExternals) {
-            return false;
-        }
-
-        return this.isExternal(symbol);
+        return this.excludeExternals && this.isExternal(symbol);
     }
 
     private isExcluded(symbol: ts.Symbol) {

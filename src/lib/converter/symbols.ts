@@ -336,8 +336,7 @@ function convertTypeAlias(
         context.finalizeDeclarationReflection(reflection);
 
         // Do this after finalization so that the CommentPlugin can get @typeParam tags
-        // from the parent comment. Ugly, but works for now. Should be cleaned up with TSDoc
-        // support.
+        // from the parent comment. Ugly, but works for now. Should be cleaned up eventually.
         reflection.typeParameters = declaration.typeParameters?.map((param) =>
             createTypeParamReflection(param, context.withScope(reflection))
         );

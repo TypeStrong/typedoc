@@ -13,6 +13,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 
 -   Node 12 is no longer officially supported as it has gone end of life as of 2022-04-30. It might still work, but may stop working at any time.
 -   Dropped support for TypeScript before 4.6.
+-   TypeDoc will now produce warnings for bracketed links (`[[ target ]]`). Use `{@link target}` instead. The `{@link}` syntax will be recognized by [TypeScript 4.3](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#editor-support-for-link-tags) and later and used to provide better intellisense. TypeDoc version 0.24.0 will remove support for `[[ target ]]` style links.
 -   `extends` in typedoc.json is now resolved using NodeJS module resolution, so a local path must begin with `./`.
 -   In the JSON output for `DeclarationReflection`s, `getSignature` is no longer a one-tuple.
 -   In the JSON output for `DeclarationReflection`s, `setSignature` is no longer a one-tuple.
@@ -23,7 +24,6 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   The deprecated `listInvalidSymbolLinks` option has been removed. Use `validation.invalidLink` instead.
 -   The deprecated `true` and `false` values have been removed from `--emit`, to migrate replace `true` with `"both"` and `false` with `"docs"`.
 -   Links are no longer be resolved against a global list of all symbols. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on link resolution.
--   TypeDoc will now produce warnings for bracketed links (`[[ target ]]`). Use `{@link target}` instead. The `{@link}` syntax will be recognized by [TypeScript 4.3](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#editor-support-for-link-tags) and later and used to provide better intellisense. TypeDoc version 0.24.0 will remove support for `[[ target ]]` style links.
 -   The `validation.invalidLink` option is now on by default.
 -   `reflection.decorates`, `reflection.decorators`, and their corresponding interfaces have been removed as no code in TypeDoc used them.
 -   The shape of the `Comment` class has changed significantly to support multiple tag kinds.
@@ -68,6 +68,8 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 -   TypeDoc will now automatically inherit documentation from classes `implements` by other interfaces/classes.
 -   Fixed `@inheritDoc` on accessors, #1927.
 -   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
+-   The `excludeNotDocumented` option will no longer hide a module if it has a documentation comment, #1948.
+-   Prevent `--excludeNotDocumented` from hiding properties of type literals (`a` in `function fn(p: { a: string })`), #1752.
 -   Corrected schema generation for https://typedoc.org/schema.json
 
 ### Thanks!
