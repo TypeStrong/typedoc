@@ -2,7 +2,6 @@ import * as fs from "fs";
 import { platform } from "os";
 import { resolve, join, dirname, relative } from "path";
 import { Application, TSConfigReader, EntryPointStrategy } from "..";
-import { remove } from "../lib/utils";
 import { glob } from "../lib/utils/fs";
 
 // The @types package plays badly with non-dom packages.
@@ -71,7 +70,7 @@ export async function captureRegressionScreenshots() {
     });
     const project = app.convert();
     if (!project) throw new Error("Failed to convert.");
-    await remove(outputDirectory);
+    await fs.promises.rm(outputDirectory, { recursive: true, force: true });
     await app.generateDocs(project, baseDirectory);
 
     await captureScreenshots(baseDirectory, outputDirectory);

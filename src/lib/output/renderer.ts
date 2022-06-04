@@ -14,7 +14,7 @@ import type { Theme } from "./theme";
 import { RendererEvent, PageEvent } from "./events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { UrlMapping } from "./models/UrlMapping";
-import { remove, writeFileSync } from "../utils/fs";
+import { writeFileSync } from "../utils/fs";
 import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
@@ -337,7 +337,10 @@ export class Renderer extends ChildableComponent<
     private async prepareOutputDirectory(directory: string): Promise<boolean> {
         if (this.cleanOutputDir) {
             try {
-                await remove(directory);
+                await fs.promises.rm(directory, {
+                    recursive: true,
+                    force: true,
+                });
             } catch (error) {
                 this.application.logger.warn(
                     "Could not empty the output directory."

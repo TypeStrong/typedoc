@@ -14,7 +14,6 @@ export {
     getCommonDirectory,
     normalizePath,
     readFile,
-    remove,
     writeFile,
     writeFileSync,
 } from "./fs";

@@ -134,20 +134,6 @@ export function copySync(src: string, dest: string): void {
 }
 
 /**
- * Equivalent to rm -rf
- * @param target
- */
-export async function remove(target: string) {
-    // Since v14.14
-    if (fsp.rm) {
-        await fsp.rm(target, { recursive: true, force: true });
-    } else if (fs.existsSync(target)) {
-        // Ew. We shouldn't need the exists check... Can't wait for Node 14.
-        await fsp.rmdir(target, { recursive: true });
-    }
-}
-
-/**
  * Simpler version of `glob.sync` that only covers our use cases, only ever matching files, and ignoring node_modules.
  */
 export function glob(pattern: string, root: string): string[] {
