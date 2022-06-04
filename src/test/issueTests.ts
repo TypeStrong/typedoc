@@ -1,4 +1,5 @@
 import { deepStrictEqual as equal, ok } from "assert";
+import type { Application } from "../lib/application";
 import {
     DeclarationReflection,
     ProjectReflection,
@@ -23,7 +24,11 @@ function query(project: ProjectReflection, name: string) {
 }
 
 export const issueTests: {
-    [issue: string]: (project: ProjectReflection, logger: TestLogger) => void;
+    [issue: `pre${string}`]: (app: Application) => void;
+    [issue: `gh${string}`]: (
+        project: ProjectReflection,
+        logger: TestLogger
+    ) => void;
 } = {
     gh567(project) {
         const foo = query(project, "foo");

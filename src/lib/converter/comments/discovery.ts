@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 import { ReflectionKind } from "../../models";
-import type { Logger } from "../../utils";
+import { assertNever, Logger } from "../../utils";
+import { CommentStyle } from "../../utils/options/declaration";
 import { nicePath } from "../../utils/paths";
 
 // Note: This does NOT include JSDoc syntax kinds. This is important!
@@ -82,13 +83,14 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
 export function discoverComment(
     symbol: ts.Symbol,
     kind: ReflectionKind,
-    logger: Logger
-): [ts.SourceFile, ts.CommentRange] | undefined {
+    logger: Logger,
+    commentStyle: CommentStyle
+): [ts.SourceFile, ts.CommentRange[]] | undefined {
     // For a module comment, we want the first one defined in the file,
     // not the last one, since that will apply to the import or declaration.
     const reverse = symbol.declarations?.some(ts.isSourceFile);
 
-    const discovered: [ts.SourceFile, ts.CommentRange][] = [];
+    const discovered: [ts.SourceFile, ts.CommentRange[]][] = [];
 
     for (const decl of symbol.declarations || []) {
         const text = decl.getSourceFile().text;
@@ -111,21 +113,20 @@ export function discoverComment(
                 continue;
             }
 
-            const comments = ts.getLeadingCommentRanges(text, node.pos);
+            const comments = collectCommentRanges(
+                ts.getLeadingCommentRanges(text, node.pos)
+            );
 
             if (reverse) {
                 comments?.reverse();
             }
 
-            const lastDocComment = comments?.find(
-                (c) =>
-                    text[c.pos] === "/" &&
-                    text[c.pos + 1] === "*" &&
-                    text[c.pos + 2] === "*"
+            const selectedDocComment = comments.find((ranges) =>
+                permittedRange(text, ranges, commentStyle)
             );
 
-            if (lastDocComment) {
-                discovered.push([decl.getSourceFile(), lastDocComment]);
+            if (selectedDocComment) {
+                discovered.push([decl.getSourceFile(), selectedDocComment]);
             }
         }
     }
@@ -139,7 +140,7 @@ export function discoverComment(
             logger.warn(
                 `${symbol.name} has multiple declarations with a comment. An arbitrary comment will be used.`
             );
-            const locations = discovered.map(([sf, { pos }]) => {
+            const locations = discovered.map(([sf, [{ pos }]]) => {
                 const path = nicePath(sf.fileName);
                 const line = ts.getLineAndCharacterOfPosition(sf, pos).line + 1;
                 return `${path}:${line}`;
@@ -155,23 +156,23 @@ export function discoverComment(
 }
 
 export function discoverSignatureComment(
-    declaration: ts.SignatureDeclaration | ts.JSDocSignature
-): [ts.SourceFile, ts.CommentRange] | undefined {
+    declaration: ts.SignatureDeclaration | ts.JSDocSignature,
+    commentStyle: CommentStyle
+): [ts.SourceFile, ts.CommentRange[]] | undefined {
     const node = declarationToCommentNode(declaration);
     if (!node) {
         return;
     }
 
     const text = node.getSourceFile().text;
-    const comments = ts.getLeadingCommentRanges(text, node.pos);
 
-    const comment = comments?.find(
-        (c) =>
-            text[c.pos] === "/" &&
-            text[c.pos + 1] === "*" &&
-            text[c.pos + 2] === "*"
+    const comments = collectCommentRanges(
+        ts.getLeadingCommentRanges(text, node.pos)
     );
 
+    const comment = comments.find((ranges) =>
+        permittedRange(text, ranges, commentStyle)
+    );
     if (comment) {
         return [node.getSourceFile(), comment];
     }
@@ -181,7 +182,7 @@ export function discoverSignatureComment(
  * Check whether the given module declaration is the topmost.
  *
  * This function returns TRUE if there is no trailing module defined, in
- * the following example this would be the case only for module <code>C</code>.
+ * the following example this would be the case only for module `C`.
  *
  * ```
  * module A.B.C { }
@@ -198,7 +199,7 @@ function isTopmostModuleDeclaration(node: ts.ModuleDeclaration): boolean {
  * Return the root module declaration of the given module declaration.
  *
  * In the following example this function would always return module
- * <code>A</code> no matter which of the modules was passed in.
+ * `A` no matter which of the modules was passed in.
  *
  * ```
  * module A.B.C { }
@@ -250,4 +251,63 @@ function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
     }
 
     return node;
+}
+
+/**
+ * Separate comment ranges into arrays so that multiple line comments are kept together
+ * and each block comment is left on its own.
+ */
+function collectCommentRanges(
+    ranges: ts.CommentRange[] | undefined
+): ts.CommentRange[][] {
+    const result: ts.CommentRange[][] = [];
+
+    let collect: ts.CommentRange[] = [];
+    for (const range of ranges || []) {
+        collect.push(range);
+
+        switch (range.kind) {
+            case ts.SyntaxKind.MultiLineCommentTrivia:
+                if (collect.length) {
+                    result.push(collect);
+                    collect = [];
+                }
+                result.push([range]);
+                break;
+            case ts.SyntaxKind.SingleLineCommentTrivia:
+                collect.push(range);
+                break;
+            /* istanbul ignore next */
+            default:
+                assertNever(range.kind);
+        }
+    }
+
+    if (collect.length) {
+        result.push(collect);
+    }
+
+    return result;
+}
+
+function permittedRange(
+    text: string,
+    ranges: ts.CommentRange[],
+    commentStyle: CommentStyle
+): boolean {
+    switch (commentStyle) {
+        case CommentStyle.All:
+            return true;
+        case CommentStyle.Block:
+            return ranges[0].kind === ts.SyntaxKind.MultiLineCommentTrivia;
+        case CommentStyle.Line:
+            return ranges[0].kind === ts.SyntaxKind.SingleLineCommentTrivia;
+        case CommentStyle.JSDoc:
+            return (
+                ranges[0].kind === ts.SyntaxKind.MultiLineCommentTrivia &&
+                text[ranges[0].pos] === "/" &&
+                text[ranges[0].pos + 1] === "*" &&
+                text[ranges[0].pos + 2] === "*"
+            );
+    }
 }

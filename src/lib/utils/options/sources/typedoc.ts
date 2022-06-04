@@ -1,6 +1,11 @@
 import type { Options } from "..";
 import { LogLevel } from "../../loggers";
-import { ParameterType, ParameterHint, EmitStrategy } from "../declaration";
+import {
+    ParameterType,
+    ParameterHint,
+    EmitStrategy,
+    CommentStyle,
+} from "../declaration";
 import { BUNDLED_THEMES, Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
@@ -347,6 +352,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "If set, TypeDoc will remove the output directory before writing output.",
         type: ParameterType.Boolean,
         defaultValue: true,
+    });
+
+    options.addDeclaration({
+        name: "commentStyle",
+        help: "Determines how TypeDoc searches for comments.",
+        type: ParameterType.Map,
+        map: CommentStyle,
+        defaultValue: CommentStyle.JSDoc,
     });
 
     options.addDeclaration({

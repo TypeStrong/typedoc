@@ -14,6 +14,7 @@ import type { IMinimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
 import type { CommentParserConfig } from "./comments";
+import type { CommentStyle } from "../utils/options/declaration";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -49,6 +50,9 @@ export class Converter extends ChildableComponent<
 
     @BindOption("excludeProtected")
     excludeProtected!: boolean;
+
+    @BindOption("commentStyle")
+    commentStyle!: CommentStyle;
 
     private _config?: CommentParserConfig;
 

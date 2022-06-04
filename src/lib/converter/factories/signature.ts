@@ -45,7 +45,8 @@ export function createSignature(
         sigRef.comment = getSignatureComment(
             declaration,
             context.converter.config,
-            context.logger
+            context.logger,
+            context.converter.commentStyle
         );
     }
 

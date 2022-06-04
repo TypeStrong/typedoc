@@ -1,6 +1,7 @@
 import { ok } from "assert";
 import { existsSync } from "fs";
 import { join } from "path";
+import type { Application } from "../lib/application";
 import type { ProjectReflection } from "../lib/models";
 import { behaviorTests } from "./behaviorTests";
 import { issueTests } from "./issueTests";
@@ -16,6 +17,7 @@ const app = getConverter2App();
 
 function runTest(
     title: string,
+    pre: ((app: Application) => void) | undefined,
     entry: string,
     check: (project: ProjectReflection, logger: TestLogger) => void
 ) {
@@ -34,8 +36,11 @@ function runTest(
         const sourceFile = program.getSourceFile(entryPoint);
         ok(sourceFile, `No source file found for ${entryPoint}`);
 
+        const snap = app.options.snapshot();
+
         const logger = new TestLogger();
         app.logger = logger;
+        pre?.(app);
         app.options.setValue("entryPoints", [entryPoint]);
         const project = app.converter.convert([
             {
@@ -44,6 +49,8 @@ function runTest(
                 sourceFile,
             },
         ]);
+
+        app.options.restore(snap);
         check(project, logger);
     });
 }
@@ -54,6 +61,8 @@ describe("Converter2", () => {
     });
 
     for (const [entry, check] of Object.entries(issueTests)) {
+        if (entry.startsWith("pre")) continue;
+
         const link = `https://github.com/TypeStrong/typedoc/issues/${entry.replace(
             /[^\d]/g,
             ""
@@ -67,7 +76,15 @@ describe("Converter2", () => {
         if (entry.endsWith("_skip")) {
             it.skip(name);
         } else {
-            runTest(name, join("issues", entry), check);
+            runTest(
+                name,
+                issueTests[`pre${entry}`],
+                join("issues", entry),
+                check as (
+                    project: ProjectReflection,
+                    logger: TestLogger
+                ) => void
+            );
         }
     }
 
@@ -76,10 +93,20 @@ describe("Converter2", () => {
             .replace(/([a-z][A-Z])/g, (x) => `${x[0]} ${x[1].toLowerCase()}`)
             .replace("_skip", "")}`;
 
+        if (entry.startsWith("_")) continue;
+
         if (entry.endsWith("_skip")) {
             it.skip(entry);
         } else {
-            runTest(title, join("behavior", entry), check);
+            runTest(
+                title,
+                behaviorTests[`_${entry}`],
+                join("behavior", entry),
+                check as (
+                    project: ProjectReflection,
+                    logger: TestLogger
+                ) => void
+            );
         }
     }
 });

@@ -1,9 +1,11 @@
 import * as ts from "typescript";
 import { Comment, ReflectionKind } from "../../models";
 import { assertNever, Logger } from "../../utils";
+import type { CommentStyle } from "../../utils/options/declaration";
 import { nicePath } from "../../utils/paths";
 import { lexBlockComment } from "./blockLexer";
 import { discoverComment, discoverSignatureComment } from "./discovery";
+import { lexLineComments } from "./lineLexer";
 import { parseComment } from "./parser";
 
 export interface CommentParserConfig {
@@ -15,40 +17,45 @@ export interface CommentParserConfig {
 const commentCache = new WeakMap<ts.SourceFile, Map<number, Comment>>();
 
 function getCommentWithCache(
-    discovered: [ts.SourceFile, ts.CommentRange] | undefined,
+    discovered: [ts.SourceFile, ts.CommentRange[]] | undefined,
     config: CommentParserConfig,
     logger: Logger
 ) {
     if (!discovered) return;
 
-    const [file, range] = discovered;
+    const [file, ranges] = discovered;
     const cache = commentCache.get(file) || new Map<number, Comment>();
-    if (cache?.has(range.pos)) {
-        return cache.get(range.pos)!.clone();
+    if (cache?.has(ranges[0].pos)) {
+        return cache.get(ranges[0].pos)!.clone();
     }
 
-    const line = ts.getLineAndCharacterOfPosition(file, range.pos).line + 1;
+    const line = ts.getLineAndCharacterOfPosition(file, ranges[0].pos).line + 1;
     const warning = (warning: string) =>
         logger.warn(
             `${warning} in comment at ${nicePath(file.fileName)}:${line}.`
         );
 
     let comment: Comment;
-    switch (range.kind) {
+    switch (ranges[0].kind) {
         case ts.SyntaxKind.MultiLineCommentTrivia:
             comment = parseComment(
-                lexBlockComment(file.text, range.pos, range.end),
+                lexBlockComment(file.text, ranges[0].pos, ranges[0].end),
                 config,
                 warning
             );
             break;
         case ts.SyntaxKind.SingleLineCommentTrivia:
-            throw "GERRIT FIX ME"; // GERRIT
+            comment = parseComment(
+                lexLineComments(file.text, ranges),
+                config,
+                warning
+            );
+            break;
         default:
-            assertNever(range.kind);
+            assertNever(ranges[0].kind);
     }
 
-    cache.set(range.pos, comment);
+    cache.set(ranges[0].pos, comment);
     commentCache.set(file, cache);
 
     return comment.clone();
@@ -58,10 +65,11 @@ export function getComment(
     symbol: ts.Symbol,
     kind: ReflectionKind,
     config: CommentParserConfig,
-    logger: Logger
+    logger: Logger,
+    commentStyle: CommentStyle
 ): Comment | undefined {
     const comment = getCommentWithCache(
-        discoverComment(symbol, kind, logger),
+        discoverComment(symbol, kind, logger, commentStyle),
         config,
         logger
     );
@@ -93,10 +101,11 @@ export function getComment(
 export function getSignatureComment(
     declaration: ts.SignatureDeclaration | ts.JSDocSignature,
     config: CommentParserConfig,
-    logger: Logger
+    logger: Logger,
+    commentStyle: CommentStyle
 ): Comment | undefined {
     return getCommentWithCache(
-        discoverSignatureComment(declaration),
+        discoverSignatureComment(declaration, commentStyle),
         config,
         logger
     );
@@ -124,11 +133,13 @@ export function getJsDocComment(
     const comment = getCommentWithCache(
         [
             file,
-            {
-                kind: ts.SyntaxKind.MultiLineCommentTrivia,
-                pos: parent.pos,
-                end: parent.end,
-            },
+            [
+                {
+                    kind: ts.SyntaxKind.MultiLineCommentTrivia,
+                    pos: parent.pos,
+                    end: parent.end,
+                },
+            ],
         ],
         config,
         logger

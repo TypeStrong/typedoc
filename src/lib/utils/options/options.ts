@@ -54,6 +54,14 @@ export interface OptionsReader {
     read(container: Options, logger: Logger): void;
 }
 
+const optionSnapshots = new WeakMap<
+    { __optionSnapshot: never },
+    {
+        values: Record<string, unknown>;
+        set: Set<string>;
+    }
+>();
+
 /**
  * Maintains a collection of option declarations split into TypeDoc options
  * and TypeScript options. Ensures options are of the correct type for calling
@@ -100,6 +108,31 @@ export class Options {
      */
     isFrozen() {
         return Object.isFrozen(this._values);
+    }
+
+    /**
+     * Take a snapshot of option values now, used in tests only.
+     * @internal
+     */
+    snapshot() {
+        const key = {} as { __optionSnapshot: never };
+
+        optionSnapshots.set(key, {
+            values: { ...this._values },
+            set: new Set(this._setOptions),
+        });
+
+        return key;
+    }
+
+    /**
+     * Take a snapshot of option values now, used in tests only.
+     * @internal
+     */
+    restore(snapshot: { __optionSnapshot: never }) {
+        const data = optionSnapshots.get(snapshot)!;
+        this._values = { ...data.values };
+        this._setOptions = new Set(data.set);
     }
 
     /**

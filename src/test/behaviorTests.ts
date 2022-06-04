@@ -1,4 +1,5 @@
 import { deepStrictEqual as equal, ok } from "assert";
+import type { Application } from "../lib/application";
 import {
     DeclarationReflection,
     LiteralType,
@@ -8,6 +9,7 @@ import {
     CommentDisplayPart,
     CommentTag,
 } from "../lib/models";
+import { CommentStyle } from "../lib/utils/options/declaration";
 import type { TestLogger } from "./TestLogger";
 
 function query(project: ProjectReflection, name: string) {
@@ -16,10 +18,41 @@ function query(project: ProjectReflection, name: string) {
     return reflection;
 }
 
-export const behaviorTests: Record<
-    string,
-    (project: ProjectReflection, logger: TestLogger) => void
-> = {
+type Letters =
+    | "a"
+    | "b"
+    | "c"
+    | "d"
+    | "e"
+    | "f"
+    | "g"
+    | "h"
+    | "i"
+    | "j"
+    | "k"
+    | "l"
+    | "m"
+    | "n"
+    | "o"
+    | "p"
+    | "q"
+    | "r"
+    | "s"
+    | "t"
+    | "u"
+    | "v"
+    | "w"
+    | "x"
+    | "y"
+    | "z";
+
+export const behaviorTests: {
+    [issue: `_${string}`]: (app: Application) => void;
+    [issue: `${Letters}${string}`]: (
+        project: ProjectReflection,
+        logger: TestLogger
+    ) => void;
+} = {
     asConstEnum(project) {
         const SomeEnumLike = query(project, "SomeEnumLike");
         equal(SomeEnumLike.kind, ReflectionKind.Variable, "SomeEnumLike");
@@ -83,6 +116,20 @@ export const behaviorTests: Record<
             WithoutReadonlyNumeric.kind,
             ReflectionKind.Enum,
             "WithoutReadonlyNumeric"
+        );
+    },
+
+    _blockComment(app) {
+        app.options.setValue("commentStyle", CommentStyle.Block);
+    },
+    blockComment(project) {
+        const a = query(project, "a");
+        const b = query(project, "b");
+
+        equal(Comment.combineDisplayParts(a.comment?.summary), "jsdoc block");
+        equal(
+            Comment.combineDisplayParts(b.comment?.summary),
+            "block, but not jsdoc"
         );
     },
 
@@ -299,6 +346,22 @@ export const behaviorTests: Record<
         logger.expectMessage(
             "warn: target4 tried to copy a comment from source2 with @inheritDoc, but the source has no associated comment."
         );
+    },
+
+    _lineComment(app) {
+        app.options.setValue("commentStyle", CommentStyle.Line);
+    },
+    lineComment(project) {
+        const a = query(project, "a");
+        const b = query(project, "b");
+        const c = query(project, "c");
+
+        equal(Comment.combineDisplayParts(a.comment?.summary), "docs");
+        equal(
+            Comment.combineDisplayParts(b.comment?.summary),
+            "docs\nwith multiple lines"
+        );
+        equal(Comment.combineDisplayParts(c.comment?.summary), "");
     },
 
     mergedDeclarations(project, logger) {

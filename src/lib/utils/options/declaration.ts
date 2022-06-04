@@ -5,6 +5,7 @@ import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point";
 import { ReflectionKind } from "../../models/reflections/kind";
 
+/** @enum */
 export const EmitStrategy = {
     both: "both", // Emit both documentation and JS
     docs: "docs", // Emit documentation, but not JS (default)
@@ -12,6 +13,18 @@ export const EmitStrategy = {
 } as const;
 /** @hidden */
 export type EmitStrategy = typeof EmitStrategy[keyof typeof EmitStrategy];
+
+/**
+ * Determines how TypeDoc searches for comments.
+ * @enum
+ */
+export const CommentStyle = {
+    JSDoc: "JSDoc",
+    Block: "Block",
+    Line: "Line",
+    All: "all",
+} as const;
+export type CommentStyle = typeof CommentStyle[keyof typeof CommentStyle];
 
 /**
  * An interface describing all TypeDoc specific options. Generated from a
@@ -111,6 +124,7 @@ export interface TypeDocOptionMap {
     hideGenerator: boolean;
     cleanOutputDir: boolean;
 
+    commentStyle: typeof CommentStyle;
     excludeTags: `@${string}`[];
     blockTags: `@${string}`[];
     inlineTags: `@${string}`[];
