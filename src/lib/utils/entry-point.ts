@@ -10,7 +10,7 @@ import {
 import { createMinimatch, matchesAny } from "./paths";
 import type { Logger } from "./loggers";
 import type { Options } from "./options";
-import { getCommonDirectory, normalizePath } from "./fs";
+import { getCommonDirectory, glob, normalizePath } from "./fs";
 
 /**
  * Defines how entry points are interpreted.
@@ -52,13 +52,17 @@ export function getEntryPoints(
     let result: DocumentationEntryPoint[] | undefined;
     switch (options.getValue("entryPointStrategy")) {
         case EntryPointStrategy.Resolve:
-            result = getEntryPointsForPaths(logger, entryPoints, options);
+            result = getEntryPointsForPaths(
+                logger,
+                expandGlobs(entryPoints),
+                options
+            );
             break;
 
         case EntryPointStrategy.Expand:
             result = getExpandedEntryPointsForPaths(
                 logger,
-                entryPoints,
+                expandGlobs(entryPoints),
                 options
             );
             break;
@@ -183,6 +187,14 @@ export function getExpandedEntryPointsForPaths(
         options,
         programs
     );
+}
+
+function expandGlobs(inputFiles: string[]) {
+    const base = getCommonDirectory(inputFiles);
+    const result = inputFiles.flatMap((entry) =>
+        glob(entry, base, { includeDirectories: true })
+    );
+    return result;
 }
 
 function getEntryPrograms(logger: Logger, options: Options) {

@@ -26,7 +26,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "entryPoints",
         help: "The entry points of your documentation.",
-        type: ParameterType.PathArray,
+        type: ParameterType.GlobArray,
     });
     options.addDeclaration({
         name: "entryPointStrategy",

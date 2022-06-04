@@ -41,6 +41,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 
 -   TypeDoc now supports the `@group` tag to group reflections in a page. If no `@group` tag is specified, reflections will be grouped according to their kind, #1652.
 -   TypeDoc will now search for `typedoc.js(on)` in the `.config` folder in the current working directory.
+-   Entry point strategies `Resolve` and `Expand` may now specify globs, #1926.
 -   `typedoc.json` now supports comments like `tsconfig.json`.
 -   TypeDoc will now read the `blockTags`, `inlineTags`, and `modifierTags` out of `tsdoc.json` in the same directory as `tsconfig.json` if it exists.
     It is recommended to add `"extends": ["typedoc/tsdoc.json"]`, which defines TypeDoc specific tags to your `tsdoc.json` if you create one.
