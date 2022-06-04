@@ -4,7 +4,7 @@ import { deepStrictEqual as equal } from "assert";
 import { TSConfigReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
 import { TestLogger } from "../../../TestLogger";
-import { tempdirProject, Project } from "../../../fs-helpers";
+import { tempdirProject, Project } from "@typestrong/fs-fixture-builder";
 import { tmpdir } from "os";
 
 describe("Options - TSConfigReader", () => {

@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { project as fsProject } from "../../../fs-helpers";
+import { project as fsProject } from "@typestrong/fs-fixture-builder";
 
 import { TypeDocReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
