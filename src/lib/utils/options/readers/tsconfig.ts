@@ -111,20 +111,17 @@ export class TSConfigReader implements OptionsReader {
         fileToRead = normalizePath(resolve(fileToRead));
         this.addTagsFromTsdocJson(container, logger, resolve(fileToRead));
 
-        let fatalError = false as boolean;
         const parsed = ts.getParsedCommandLineOfConfigFile(
             fileToRead,
             {},
             {
                 ...ts.sys,
-                onUnRecoverableConfigFileDiagnostic(error) {
-                    logger.diagnostic(error);
-                    fatalError = true;
-                },
+                onUnRecoverableConfigFileDiagnostic:
+                    logger.diagnostic.bind(logger),
             }
         );
 
-        if (!parsed || fatalError) {
+        if (!parsed) {
             return;
         }
 

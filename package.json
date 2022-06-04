@@ -98,7 +98,8 @@
     ],
     "exclude": [
       "**/*.d.ts",
-      "src/test"
+      "src/test",
+      "tmp"
     ]
   }
 }

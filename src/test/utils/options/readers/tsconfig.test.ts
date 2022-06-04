@@ -1,144 +1,213 @@
-import { join, resolve } from "path";
+import { basename, join } from "path";
 import { deepStrictEqual as equal } from "assert";
 
 import { TSConfigReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
-import { tmpdir } from "os";
 import { TestLogger } from "../../../TestLogger";
+import { tempdirProject, Project } from "../../../fs-helpers";
+import { tmpdir } from "os";
 
 describe("Options - TSConfigReader", () => {
     const options = new Options(new Logger());
     options.addDefaultDeclarations();
     options.addReader(new TSConfigReader());
+    const logger = new TestLogger();
 
-    function testError(name: string, file: string) {
-        it(name, () => {
+    function readWithProject(project: Project, reset = true) {
+        if (reset) {
             options.reset();
-            options.setValue("tsconfig", file);
-            const logger = new Logger();
-            options.read(logger);
+        }
+        logger.reset();
+        options.setValue("tsconfig", project.cwd);
+        project.write();
+        options.read(logger);
+        project.rm();
+    }
+
+    it("Errors if the file cannot be found", () => {
+        options.reset();
+        logger.reset();
+
+        options.setValue(
+            "tsconfig",
+            join(tmpdir(), "typedoc/does-not-exist.json")
+        );
+        options.read(logger);
+        logger.expectMessage("error: *");
+    });
+
+    function testError(name: string, file: object) {
+        it(name, () => {
+            const project = tempdirProject();
+            project.addJsonFile("tsconfig.json", file);
+            readWithProject(project);
             equal(logger.hasErrors(), true, "No error was logged");
         });
     }
 
-    testError(
-        "Errors if the file cannot be found",
-        join(tmpdir(), "typedoc/non-existent-file.json")
-    );
-    testError(
-        "Errors if the data is invalid",
-        join(__dirname, "data/invalid.tsconfig.json")
-    );
-    testError(
-        "Errors if any set option errors",
-        join(__dirname, "data/unknown.tsconfig.json")
-    );
-    testError(
-        "Errors if tsconfig tries to set options file",
-        join(__dirname, "data/options-file.tsconfig.json")
-    );
+    testError("Errors if the data is invalid", {
+        typedocOptions: "Will cause an error",
+    });
+
+    testError("Errors if any set option errors", {
+        typedocOptions: {
+            someOptionThatDoesNotExist: true,
+        },
+    });
+
+    testError("Errors if tsconfig tries to set options file", {
+        typedocOptions: {
+            options: "any",
+        },
+    });
+
+    testError("Errors if tsconfig tries to set tsconfig file", {
+        typedocOptions: {
+            tsconfig: "any",
+        },
+    });
+
+    it("Errors if a tsconfig file cannot be parsed", () => {
+        const project = tempdirProject();
+        project.addFile("tsconfig.json", '{"test}');
+        readWithProject(project);
+        logger.expectMessage("error: *");
+    });
 
     it("Does not error if the option file cannot be found but was not set.", () => {
+        const logger = new Logger();
+
         const options = new (class LyingOptions extends Options {
             override isSet() {
                 return false;
             }
-        })(new Logger());
+        })(logger);
         options.addDefaultDeclarations();
 
         options.setValue(
             "tsconfig",
             join(__dirname, "data/does_not_exist.json")
         );
-        const logger = new Logger();
         options.addReader(new TSConfigReader());
         options.read(logger);
         equal(logger.hasErrors(), false);
     });
 
+    function readTsconfig(tsconfig: object) {
+        const project = tempdirProject();
+        project.addFile("file.ts", "export const abc = 123");
+        project.addJsonFile("tsconfig.json", tsconfig);
+
+        readWithProject(project);
+        logger.expectNoOtherMessages();
+    }
+
     it("Sets files for the program", () => {
-        options.reset();
-        options.setValue(
-            "tsconfig",
-            join(__dirname, "data/valid.tsconfig.json")
-        );
-        options.read(new Logger());
+        readTsconfig({
+            files: ["./file.ts"],
+        });
         equal(
-            options.getFileNames().map((f) => resolve(f)),
-            [resolve(__dirname, "./data/file.ts")]
+            options.getFileNames().map((f) => basename(f)),
+            ["file.ts"]
         );
     });
 
     it("Allows stripInternal to set excludeInternal", () => {
-        options.reset();
-        options.setValue(
-            "tsconfig",
-            join(__dirname, "data/stripInternal.tsconfig.json")
-        );
-        options.read(new Logger());
+        readTsconfig({
+            compilerOptions: {
+                stripInternal: true,
+            },
+        });
         equal(options.getValue("excludeInternal"), true);
     });
 
     it("Does not set excludeInternal by stripInternal if already set", () => {
+        const project = tempdirProject();
+        project.addJsonFile("tsconfig.json", {
+            compilerOptions: { stripInternal: true },
+        });
+
         options.reset();
-        options.setValue(
-            "tsconfig",
-            join(__dirname, "data/stripInternal.tsconfig.json")
-        );
         options.setValue("excludeInternal", false);
-        options.read(new Logger());
+        readWithProject(project, false);
         equal(options.getValue("excludeInternal"), false);
     });
 
     it("Correctly handles folder names ending with .json (#1712)", () => {
-        options.reset();
-        options.setValue("tsconfig", join(__dirname, "data/folder.json"));
-        options.setCompilerOptions([], { strict: false }, void 0);
-        options.read(new Logger());
+        const project = tempdirProject();
+        project.addJsonFile("tsconfig.json", {
+            compilerOptions: { strict: true },
+        });
+        readWithProject(project);
         equal(options.getCompilerOptions().strict, true);
     });
 
-    function testTsdoc(path: string, cb?: (logger: TestLogger) => void) {
-        options.reset();
-        options.setValue("tsconfig", join(__dirname, path));
-        const logger = new TestLogger();
-        options.read(logger);
-        cb?.(logger);
+    function testTsdoc(tsdoc: object, cb?: () => void, reset = true) {
+        const project = tempdirProject();
+        project.addFile("file.ts", "export const abc = 123");
+        project.addJsonFile("tsconfig.json", {});
+        project.addJsonFile("tsdoc.json", tsdoc);
+
+        readWithProject(project, reset);
+        cb?.();
         logger.expectNoOtherMessages();
     }
 
     it("Handles failed tsdoc reads", () => {
-        testTsdoc("data/tsdoc1", (logger) => {
+        testTsdoc([], () => {
             logger.expectMessage(
-                "error: Failed to read tsdoc.json file at */tsdoc1/tsdoc.json."
+                "error: Failed to read tsdoc.json file at */tsdoc.json."
             );
         });
     });
 
     it("Handles invalid tsdoc files", () => {
-        testTsdoc("data/tsdoc2", (logger) => {
-            logger.expectMessage(
-                `error: The file */tsdoc2/tsdoc.json is not a valid tsdoc.json file.`
-            );
-        });
+        testTsdoc(
+            {
+                doesNotMatchSchema: true,
+            },
+            () => {
+                logger.expectMessage(
+                    `error: The file */tsdoc.json is not a valid tsdoc.json file.`
+                );
+            }
+        );
     });
 
     it("Warns if an option will be overwritten", () => {
         options.reset();
         options.setValue("blockTags", []);
         options.setValue("modifierTags", []);
-        options.setValue("tsconfig", join(__dirname, "data/tsdoc3"));
-        const logger = new TestLogger();
-        options.read(logger);
-        logger.expectMessage(
-            "warn: The blockTags, modifierTags defined in typedoc.json " +
-                "will be overwritten by configuration in tsdoc.json."
+        testTsdoc(
+            {},
+            () => {
+                logger.expectMessage(
+                    "warn: The blockTags, modifierTags defined in typedoc.json " +
+                        "will be overwritten by configuration in tsdoc.json."
+                );
+            },
+            false
         );
-        logger.expectNoOtherMessages();
     });
 
     it("Reads tsdoc.json", () => {
-        testTsdoc("data/tsdoc4");
+        testTsdoc({
+            noStandardTags: true,
+            tagDefinitions: [
+                {
+                    tagName: "@tag",
+                    syntaxKind: "block",
+                },
+                {
+                    tagName: "@tag2",
+                    syntaxKind: "inline",
+                },
+                {
+                    tagName: "@tag3",
+                    syntaxKind: "modifier",
+                },
+            ],
+        });
 
         equal(options.getValue("blockTags"), ["@tag"]);
         equal(options.getValue("inlineTags"), ["@tag2"]);
@@ -146,12 +215,46 @@ describe("Options - TSConfigReader", () => {
     });
 
     it("Handles extends in tsdoc.json", () => {
-        testTsdoc("data/tsdoc5");
+        const project = tempdirProject();
+        project.addFile("file.ts", "export const abc = 123");
+        project.addJsonFile("tsconfig.json", {});
+        project.addJsonFile("tsdoc.json", { extends: ["./tsdoc2.json"] });
+        project.addJsonFile("tsdoc2.json", {
+            noStandardTags: true,
+            tagDefinitions: [
+                {
+                    tagName: "@tag",
+                    syntaxKind: "block",
+                },
+            ],
+        });
+
+        readWithProject(project);
         equal(options.getValue("blockTags"), ["@tag"]);
+        logger.expectNoOtherMessages();
     });
 
     it("Handles supportForTags in tsdoc.json", () => {
-        testTsdoc("data/tsdoc6");
+        testTsdoc({
+            noStandardTags: true,
+            tagDefinitions: [
+                {
+                    tagName: "@tag",
+                    syntaxKind: "block",
+                },
+                {
+                    tagName: "@tag2",
+                    syntaxKind: "inline",
+                },
+                {
+                    tagName: "@tag3",
+                    syntaxKind: "modifier",
+                },
+            ],
+            supportForTags: {
+                "@tag": true,
+            },
+        });
 
         equal(options.getValue("blockTags"), ["@tag"]);
         equal(options.getValue("inlineTags"), []);
@@ -159,18 +262,28 @@ describe("Options - TSConfigReader", () => {
     });
 
     it("Handles circular extends", () => {
-        testTsdoc("data/tsdoc7", (logger) => {
-            logger.expectMessage(
-                'error: Circular reference encountered for "extends" field of */tsdoc7/tsdoc.json'
-            );
-        });
+        testTsdoc(
+            {
+                extends: ["./tsdoc.json"],
+            },
+            () => {
+                logger.expectMessage(
+                    'error: Circular reference encountered for "extends" field of */tsdoc.json'
+                );
+            }
+        );
     });
 
     it("Handles extends which reference invalid files", () => {
-        testTsdoc("data/tsdoc8", (logger) => {
-            logger.expectMessage(
-                "error: Failed to resolve typedoc/nope to a file in */tsdoc8/tsdoc.json"
-            );
-        });
+        testTsdoc(
+            {
+                extends: ["typedoc/nope"],
+            },
+            () => {
+                logger.expectMessage(
+                    "error: Failed to resolve typedoc/nope to a file in */tsdoc.json"
+                );
+            }
+        );
     });
 });
