@@ -165,4 +165,12 @@ describe("Options - TSConfigReader", () => {
             );
         });
     });
+
+    it("Handles extends which reference invalid files", () => {
+        testTsdoc("data/tsdoc8", (logger) => {
+            logger.expectMessage(
+                "error: Failed to resolve typedoc/nope to a file in */tsdoc8/tsdoc.json"
+            );
+        });
+    });
 });

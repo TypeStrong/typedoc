@@ -143,6 +143,11 @@ schema.properties.visibilityFilters.additionalProperties = false;
 schema.properties.compilerOptions.type = "object";
 schema.properties.compilerOptions.markedOptions = "object";
 
+schema.properties.extends = {
+    type: "array",
+    items: { type: "string" },
+};
+
 const output = JSON.stringify(schema, null, "\t");
 
 if (process.argv.length > 2) {

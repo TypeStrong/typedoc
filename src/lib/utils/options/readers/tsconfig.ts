@@ -257,11 +257,19 @@ export class TSConfigReader implements OptionsReader {
 
         if (config.extends) {
             const resolver = createRequire(path);
-            for (const path of config.extends) {
-                const parentConfig = this.readTsDoc(
-                    logger,
-                    resolver.resolve(path)
-                );
+            for (const extendedPath of config.extends) {
+                let resolvedPath: string;
+                try {
+                    resolvedPath = resolver.resolve(extendedPath);
+                } catch {
+                    logger.error(
+                        `Failed to resolve ${extendedPath} to a file in ${nicePath(
+                            path
+                        )}`
+                    );
+                    return;
+                }
+                const parentConfig = this.readTsDoc(logger, resolvedPath);
 
                 if (!parentConfig) return;
                 mergeConfigs(parentConfig, workingConfig);

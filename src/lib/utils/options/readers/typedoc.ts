@@ -8,6 +8,7 @@ import type { Options } from "../options";
 import { ok } from "assert";
 import { nicePath } from "../../paths";
 import { normalizePath } from "../../fs";
+import { createRequire } from "module";
 
 /**
  * Obtains option values from typedoc.json
@@ -98,15 +99,21 @@ export class TypeDocReader implements OptionsReader {
         delete data["$schema"]; // Useful for better autocompletion, should not be read as a key.
 
         if ("extends" in data) {
+            const resolver = createRequire(file);
             const extended: string[] = getStringArray(data["extends"]);
             for (const extendedFile of extended) {
-                // Extends is relative to the file it appears in.
-                this.readFile(
-                    resolve(dirname(file), extendedFile),
-                    container,
-                    logger,
-                    seen
-                );
+                let resolvedParent: string;
+                try {
+                    resolvedParent = resolver.resolve(extendedFile);
+                } catch {
+                    logger.error(
+                        `Failed to resolve ${extendedFile} to a file in ${nicePath(
+                            file
+                        )}`
+                    );
+                    continue;
+                }
+                this.readFile(resolvedParent, container, logger, seen);
             }
             delete data["extends"];
         }

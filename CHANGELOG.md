@@ -13,6 +13,7 @@ These TODOs will be resolved before a full release. ([GitHub project](https://gi
 
 -   Node 12 is no longer officially supported as it has gone end of life as of 2022-04-30. It might still work, but may stop working at any time.
 -   Dropped support for TypeScript before 4.6.
+-   `extends` in typedoc.json is now resolved using NodeJS module resolution, so a local path must begin with `./`.
 -   In the JSON output for `DeclarationReflection`s, `getSignature` is no longer a one-tuple.
 -   In the JSON output for `DeclarationReflection`s, `setSignature` is no longer a one-tuple.
 -   In the JSON output for `DeclarationReflection`s, `typeParameter` has been renamed to `typeParameters`
