@@ -7,22 +7,45 @@
  */
 
 export const MeaningKeywords = [
-    `class`, // SymbolFlags.Class
-    `interface`, // SymbolFlags.Interface
-    `type`, // SymbolFlags.TypeAlias
-    `enum`, // SymbolFlags.Enum
-    `namespace`, // SymbolFlags.Module
-    `function`, // SymbolFlags.Function
-    `var`, // SymbolFlags.Variable
-    `constructor`, // SymbolFlags.Constructor
-    `member`, // SymbolFlags.ClassMember | SymbolFlags.EnumMember
-    `event`, //
-    `call`, // SymbolFlags.Signature (for __call)
-    `new`, // SymbolFlags.Signature (for __new)
-    `index`, // SymbolFlags.Signature (for __index)
-    `complex`, // Any complex type
-];
+    "class", // SymbolFlags.Class
+    "interface", // SymbolFlags.Interface
+    "type", // SymbolFlags.TypeAlias
+    "enum", // SymbolFlags.Enum
+    "namespace", // SymbolFlags.Module
+    "function", // SymbolFlags.Function
+    "var", // SymbolFlags.Variable
+    "constructor", // SymbolFlags.Constructor
+    "member", // SymbolFlags.ClassMember | SymbolFlags.EnumMember
+    "event", //
+    "call", // SymbolFlags.Signature (for __call)
+    "new", // SymbolFlags.Signature (for __new)
+    "index", // SymbolFlags.Signature (for __index)
+    "complex", // Any complex type
+] as const;
+export type MeaningKeyword = typeof MeaningKeywords[number];
 
+export interface DeclarationReference {
+    resolutionStart: "global" | "local";
+    moduleSource?: string;
+    symbolReference?: SymbolReference;
+}
+
+export interface SymbolReference {
+    path?: ComponentPath[];
+    meaning?: { keyword?: MeaningKeyword; index?: number };
+}
+
+export interface ComponentPath {
+    navigation: "." | "#" | "~";
+    path: string;
+}
+
+type Chars<T extends string> = T extends `${infer C}${infer R}`
+    ? C | Chars<R>
+    : never;
+
+// <TAB> <VT> <FF> <SP> <NBSP> <ZWNBSP> <USP>
+const WhiteSpace = /[\t\u2B7F\u240C \u00A0\uFEFF\p{White_Space}]/u;
 const LineTerminator = "\r\n\u2028\u2029";
 const Punctuators = "{}()[]!.#~:,";
 const FutureReservedPunctuator = "{}@";
@@ -32,12 +55,17 @@ const HexDigit = DecimalDigit + "abcdefABCDEF";
 const SingleEscapeCharacter = `'"\\bfnrtv`;
 const EscapeCharacter = SingleEscapeCharacter + DecimalDigit + "xu";
 
-function skipWs(source: string, pos: number, end: number) {
-    while (pos < end && /\s/.test(source[pos])) {
-        pos++;
-    }
-    return pos;
-}
+const SingleEscapeChars: Record<Chars<typeof SingleEscapeCharacter>, string> = {
+    "'": "'",
+    '"': '"',
+    "\\": "\\",
+    b: "\b",
+    f: "\f",
+    n: "\n",
+    r: "\r",
+    t: "\t",
+    v: "\v",
+};
 
 // EscapeSequence::
 //     SingleEscapeCharacter
@@ -52,7 +80,7 @@ function parseEscapeSequence(
 ): [string, number] | undefined {
     // SingleEscapeCharacter
     if (SingleEscapeCharacter.includes(source[pos])) {
-        return [source[pos], pos + 1];
+        return [SingleEscapeChars[source[pos] as "b"], pos + 1];
     }
 
     // NonEscapeCharacter:: SourceCharacter but not one of EscapeCharacter or LineTerminator
@@ -97,7 +125,6 @@ function parseUnicodeEscapeSequence(
     end: number
 ): [string, number] | undefined {
     if (source[pos] !== "u" || pos + 1 >= end) {
-        console.log("nope u");
         return;
     }
 
@@ -144,7 +171,7 @@ function parseUnicodeEscapeSequence(
 // StringCharacter::
 //   SourceCharacter but not one of `"` or `\` or LineTerminator
 //   `\` EscapeSequence
-function parseString(
+export function parseString(
     source: string,
     pos: number,
     end: number
@@ -174,12 +201,11 @@ function parseString(
 }
 
 // ModuleSource:: String | ModuleSourceCharacters
-function parseModuleSource(
+export function parseModuleSource(
     source: string,
     pos: number,
     end: number
 ): [string, number] | undefined {
-    pos = skipWs(source, pos, end);
     if (pos >= end) return;
 
     if (source[pos] === '"') {
@@ -202,18 +228,142 @@ function parseModuleSource(
 // SymbolReference:
 //     ComponentPath Meaning?
 //     Meaning
+export function parseSymbolReference(
+    source: string,
+    pos: number,
+    end: number
+): [SymbolReference, number] | undefined {
+    const path = parseComponentPath(source, pos, end);
+    pos = path?.[1] ?? pos;
+
+    const meaning = parseMeaning(source, pos, end);
+    pos = meaning?.[1] ?? pos;
+
+    if (path || meaning) {
+        return [{ path: path?.[0], meaning: meaning?.[0] }, pos];
+    }
+}
+
+// Component::
+//     String
+//     ComponentCharacters
+//     `[` DeclarationReference `]` <--- THIS ONE IS NOT IMPLEMENTED.
+export function parseComponent(
+    source: string,
+    pos: number,
+    end: number
+): [string, number] | undefined {
+    if (pos < end && source[pos] === '"') {
+        return parseString(source, pos, end);
+    }
+
+    let lookahead = pos;
+    while (
+        lookahead < end &&
+        !(
+            '"' +
+            Punctuators +
+            FutureReservedPunctuator +
+            LineTerminator
+        ).includes(source[lookahead]) &&
+        !WhiteSpace.test(source[lookahead])
+    ) {
+        lookahead++;
+    }
+
+    if (lookahead === pos) return;
+
+    return [source.substring(pos, lookahead), lookahead];
+}
+
 // ComponentPath:
 //     Component
 //     ComponentPath `.` Component                      // Navigate via 'exports' of |ComponentPath|
 //     ComponentPath `#` Component                      // Navigate via 'members' of |ComponentPath|
 //     ComponentPath `~` Component                      // Navigate via 'locals' of |ComponentPath|
+export function parseComponentPath(source: string, pos: number, end: number) {
+    const components: ComponentPath[] = [];
+    let component = parseComponent(source, pos, end);
+
+    if (!component) return;
+    pos = component[1];
+    components.push({ navigation: ".", path: component[0] });
+
+    while (pos < end && NavigationPunctuator.includes(source[pos])) {
+        const navigation = source[pos] as "." | "#" | "~";
+        pos++;
+        component = parseComponent(source, pos, end);
+        if (!component) {
+            return;
+        }
+
+        pos = component[1];
+        components.push({ navigation, path: component[0] });
+    }
+
+    return [components, pos] as const;
+}
+
 // Meaning:
 //     `:` MeaningKeyword                            // Indicates the meaning of a symbol (i.e. ':class')
 //     `:` MeaningKeyword `(` DecimalDigits `)`      // Indicates an overloaded meaning (i.e. ':function(1)')
 //     `:` `(` DecimalDigits `)`                     // Shorthand for an overloaded meaning (i.e. `:(1)`)
 //     `:` DecimalDigits                             // Shorthand for an overloaded meaning (i.e. ':1')
-function parseSymbolReference(source: string, pos: number, end: number) {
-    //
+export function parseMeaning(
+    source: string,
+    pos: number,
+    end: number
+): [{ keyword?: MeaningKeyword; index?: number }, number] | undefined {
+    if (source[pos++] !== ":") return;
+
+    const keyword = MeaningKeywords.find(
+        (kw) => pos + kw.length <= end && source.startsWith(kw, pos)
+    );
+
+    if (keyword) {
+        pos += keyword.length;
+    }
+
+    if (
+        pos + 1 < end &&
+        source[pos] === "(" &&
+        DecimalDigit.includes(source[pos + 1])
+    ) {
+        let lookahead = pos + 1;
+
+        while (lookahead < end && DecimalDigit.includes(source[lookahead])) {
+            lookahead++;
+        }
+
+        if (lookahead < end && source[lookahead] === ")") {
+            return [
+                {
+                    keyword,
+                    index: parseInt(source.substring(pos + 1, lookahead)),
+                },
+                pos,
+            ];
+        }
+    }
+
+    if (!keyword && pos < end && DecimalDigit.includes(source[pos])) {
+        let lookahead = pos;
+
+        while (lookahead < end && DecimalDigit.includes(source[lookahead])) {
+            lookahead++;
+        }
+
+        return [
+            {
+                index: parseInt(source.substring(pos, lookahead)),
+            },
+            pos,
+        ];
+    }
+
+    if (keyword) {
+        return [{ keyword }, pos];
+    }
 }
 
 // // NOTE: The following grammar is incorrect as |SymbolReference| and |ModuleSource| have an
@@ -230,9 +380,10 @@ export function parseDeclarationReference(
     source: string
 ): [DeclarationReference, number] | undefined {
     const end = source.length;
-    let pos = skipWs(source, 0, end);
+    let pos = 0;
 
     let moduleSource: string | undefined;
+    let symbolReference: SymbolReference | undefined;
     let resolutionStart: "global" | "local" = "local";
 
     const moduleSourceOrSymbolRef = parseModuleSource(source, pos, end);
@@ -246,35 +397,23 @@ export function parseDeclarationReference(
             resolutionStart = "global";
             moduleSource = moduleSourceOrSymbolRef[0];
         }
+    } else if (source[pos] === "!") {
+        pos++;
+        resolutionStart = "global";
     }
 
-    const symbolReference = parseSymbolReference(source, pos, end);
+    const ref = parseSymbolReference(source, pos, end);
+    if (ref) {
+        symbolReference = ref[0];
+        pos = ref[1];
+    }
 
     return [
         {
             moduleSource,
             resolutionStart,
+            symbolReference,
         },
         pos,
     ];
-}
-
-export interface DeclarationReference {
-    resolutionStart: "global" | "local";
-    moduleSource?: string;
-}
-
-if (require.main === module) {
-    const strings = [
-        '"abc\\x41\\u0041\\u{42}z"!',
-        "!a",
-        "abc.def",
-        "ab:var",
-        "abcdefghi | hi",
-    ];
-
-    for (const str of strings) {
-        console.log(str);
-        console.log(parseDeclarationReference(str));
-    }
 }
