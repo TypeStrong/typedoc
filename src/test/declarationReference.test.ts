@@ -2,6 +2,7 @@ import { deepStrictEqual as equal } from "assert";
 import {
     parseComponent,
     parseComponentPath,
+    parseDeclarationReference,
     parseMeaning,
     parseModuleSource,
     parseString,
@@ -151,6 +152,54 @@ describe("Declaration References", () => {
 
         it("Parses module source characters", () => {
             equal(parse("abc.def"), "abc.def");
+        });
+    });
+
+    describe("Full reference parsing", () => {
+        const parse = (s: string) => parseDeclarationReference(s)?.[0];
+
+        it("Parses module if there is one", () => {
+            equal(parse("abc!"), {
+                moduleSource: "abc",
+                resolutionStart: "global",
+                symbolReference: undefined,
+            });
+        });
+
+        it("Does not parse module if there is not one", () => {
+            equal(parse("abc#def"), {
+                moduleSource: undefined,
+                resolutionStart: "local",
+                symbolReference: {
+                    path: [
+                        { navigation: ".", path: "abc" },
+                        { navigation: "#", path: "def" },
+                    ],
+                    meaning: undefined,
+                },
+            });
+        });
+
+        it("Supports referencing global symbols", () => {
+            equal(parse("!abc#def"), {
+                moduleSource: undefined,
+                resolutionStart: "global",
+                symbolReference: {
+                    path: [
+                        { navigation: ".", path: "abc" },
+                        { navigation: "#", path: "def" },
+                    ],
+                    meaning: undefined,
+                },
+            });
+        });
+
+        it("Doesn't crash with an empty reference", () => {
+            equal(parse(""), {
+                moduleSource: undefined,
+                resolutionStart: "local",
+                symbolReference: undefined,
+            });
         });
     });
 });
