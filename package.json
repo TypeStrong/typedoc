@@ -42,10 +42,10 @@
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
     "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#b88cd06fe814614a0d924af9d10d04ff95a551de",
+    "c8": "^7.11.3",
     "esbuild": "^0.14.39",
     "eslint": "^8.16.0",
     "mocha": "^9.2.1",
-    "nyc": "^15.1.0",
     "prettier": "2.6.2",
     "puppeteer": "^13.5.2",
     "reg-notify-github-plugin": "^0.11.1",
@@ -67,9 +67,9 @@
     "/.config/typedoc-default.tsdoc.json"
   ],
   "scripts": {
-    "test": "nyc mocha -r ts-node/register --config .config/mocha.fast.json",
+    "test": "c8 mocha -r ts-node/register --config .config/mocha.fast.json",
     "build:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
-    "test:full": "nyc mocha -r ts-node/register --config .config/mocha.full.json",
+    "test:full": "c8 mocha -r ts-node/register --config .config/mocha.full.json",
     "test:visual": "node ./dist/test/capture-screenshots.js && reg-suit -c .config/regconfig.json compare",
     "test:visual:accept": "node scripts/accept_visual_regression.js",
     "rebuild_specs": "node scripts/rebuild_specs.js",
@@ -88,7 +88,7 @@
     "documentation",
     "generator"
   ],
-  "nyc": {
+  "c8": {
     "extension": [
       ".ts",
       ".tsx"
