@@ -2,7 +2,18 @@ import type { Reflection } from "../../models/reflections/abstract";
 import { Component, ConverterComponent } from "../components";
 import type { Context } from "../../converter";
 import { ConverterEvents } from "../converter-events";
-import type { CommentDisplayPart } from "../../models";
+import {
+    CommentDisplayPart,
+    ContainerReflection,
+    InlineTagDisplayPart,
+    ReflectionKind,
+} from "../../models";
+import {
+    ComponentPath,
+    DeclarationReference,
+    parseDeclarationReference,
+} from "../comments/declarationReference";
+import ts = require("typescript");
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 const brackets = /\[\[([^\]]+)\]\]/g;
@@ -115,7 +126,7 @@ export class LinkResolverPlugin extends ConverterComponent {
             if (!warned) {
                 warned = true;
                 this.application.logger.warn(
-                    `${reflection.getFullName()}: Comment [[target]] style links are deprecated and will be removed in 0.24`
+                    `${reflection.getFriendlyFullName()}: Comment [[target]] style links are deprecated and will be removed in 0.24`
                 );
             }
         };
@@ -152,20 +163,7 @@ export class LinkResolverPlugin extends ConverterComponent {
                 part.tag === "@linkcode" ||
                 part.tag === "@linkplain"
             ) {
-                const { caption, target } = LinkResolverPlugin.splitLinkText(
-                    part.text
-                );
-
-                if (urlPrefix.test(target)) {
-                    part.text = caption;
-                    part.target = target;
-                } else {
-                    const targetRefl = reflection.findReflectionByName(target);
-                    if (targetRefl) {
-                        part.text = caption;
-                        part.target = targetRefl;
-                    }
-                }
+                return resolveLinkTag(reflection, part);
             }
         }
 
@@ -198,5 +196,123 @@ export class LinkResolverPlugin extends ConverterComponent {
                 target: text,
             };
         }
+    }
+}
+
+function resolveLinkTag(reflection: Reflection, part: InlineTagDisplayPart) {
+    let pos = 0;
+    const end = part.text.length;
+
+    // Skip any leading white space, which isn't allowed in a declaration reference.
+    while (pos < end && ts.isWhiteSpaceLike(part.text.charCodeAt(pos))) {
+        pos++;
+    }
+
+    // Try to parse one
+    const declRef = parseDeclarationReference(part.text, pos, end);
+
+    let target: Reflection | undefined;
+    if (declRef) {
+        // Got one, great! Try to resolve the link
+        target = resolveDeclarationReference(reflection, declRef[0]);
+        pos = declRef[1];
+    }
+
+    // If resolution via a declaration reference failed, revert to the legacy "split and check"
+    // method... should probably warn here.
+    if (!target) return legacyResolveLinkTag(reflection, part);
+
+    // Remaining text after an optional pipe is the link text, so advance
+    // until that's consumed.
+    while (pos < end && ts.isWhiteSpaceLike(part.text.charCodeAt(pos))) {
+        pos++;
+    }
+    if (pos < end && part.text[pos] === "|") {
+        pos++;
+    }
+
+    part.target = target;
+    part.text = part.text.substring(pos).trim() || target.name;
+
+    return part;
+}
+
+function legacyResolveLinkTag(
+    reflection: Reflection,
+    part: InlineTagDisplayPart
+) {
+    const { caption, target } = LinkResolverPlugin.splitLinkText(part.text);
+
+    if (urlPrefix.test(target)) {
+        part.text = caption;
+        part.target = target;
+    } else {
+        const targetRefl = reflection.findReflectionByName(target);
+        if (targetRefl) {
+            part.text = caption;
+            part.target = targetRefl;
+        }
+    }
+
+    return part;
+}
+
+function resolveDeclarationReference(
+    reflection: Reflection,
+    ref: DeclarationReference
+): Reflection | undefined {
+    let refl: Reflection | undefined = reflection;
+
+    if (ref.moduleSource) {
+        refl = refl.project.children?.find((c) => c.name === ref.moduleSource);
+    } else if (ref.resolutionStart === "global") {
+        refl = refl.project;
+    }
+
+    if (!refl) return;
+
+    if (ref.symbolReference) {
+        let targets = [refl];
+        for (const part of ref.symbolReference.path || []) {
+            targets = targets.flatMap((refl) =>
+                resolveSymbolReferencePart(refl, part)
+            );
+        }
+
+        // TODO: meaning
+        return targets[0];
+    }
+
+    return refl;
+}
+
+function resolveSymbolReferencePart(
+    refl: Reflection,
+    path: ComponentPath
+): Reflection[] {
+    if (!(refl instanceof ContainerReflection) || !refl.children) return [];
+
+    switch (path.navigation) {
+        // Grammar says resolve via "exports"... as always, reality is more complicated.
+        // Check exports first, but also allow this as a general purpose "some child" operator
+        // so that resolution doesn't behave very poorly with projects using JSDoc style resolution.
+        // Also is more consistent with how TypeScript resolves link tags.
+        case ".":
+            return []; // TODO: Finish me
+
+        // Resolve via "members", interface children, class instance properties/accessors/methods,
+        // enum members, type literal properties
+        case "#":
+            return refl.children.filter((r) => {
+                return r.kindOf(ReflectionKind.SomeMember) && !r.flags.isStatic;
+            });
+
+        // Resolve via "locals"... treat this as a stricter `.` which only supports traversing
+        // module/namespace exports since TypeDoc doesn't support documenting locals.
+        case "~":
+            if (refl.kindOf(ReflectionKind.SomeModule)) {
+                return refl.children.filter((r) => r.name === path.path) || [];
+            }
+            return [];
     }
 }

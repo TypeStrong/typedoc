@@ -36,6 +36,12 @@ export interface SymbolReference {
 }
 
 export interface ComponentPath {
+    /**
+     * How to resolve the `path`
+     * - `.` - Navigate via `exports` of symbol
+     * - `#` - Navigate via `members` of symbol
+     * - `~` - Navigate via `locals` of symbol
+     */
     navigation: "." | "#" | "~";
     path: string;
 }
@@ -377,11 +383,10 @@ export function parseMeaning(
 //   ModuleSource `!` `~` SymbolReference          // Reference to a local of a module
 //   `!` SymbolReference                           // Reference to global symbol
 export function parseDeclarationReference(
-    source: string
+    source: string,
+    pos: number,
+    end: number
 ): [DeclarationReference, number] | undefined {
-    const end = source.length;
-    let pos = 0;
-
     let moduleSource: string | undefined;
     let symbolReference: SymbolReference | undefined;
     let resolutionStart: "global" | "local" = "local";

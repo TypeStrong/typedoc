@@ -60,6 +60,12 @@ export namespace ReflectionKind {
         ReflectionKind.Function |
         ReflectionKind.ObjectLiteral;
 
+    export const SomeMember =
+        ReflectionKind.EnumMember |
+        ReflectionKind.Property |
+        ReflectionKind.Method |
+        ReflectionKind.Accessor;
+
     /** @internal */
     export const Inheritable =
         ReflectionKind.Accessor |
