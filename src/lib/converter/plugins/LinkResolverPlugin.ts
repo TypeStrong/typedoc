@@ -65,7 +65,14 @@ export class LinkResolverPlugin extends ConverterComponent {
             const { target, caption } =
                 LinkResolverPlugin.splitLinkText(content);
 
-            if (!urlPrefix.test(target)) {
+            if (urlPrefix.test(target)) {
+                parts.push({
+                    kind: "inline-tag",
+                    tag: "@link",
+                    text: caption,
+                    target,
+                });
+            } else {
                 const targetRefl = reflection.findReflectionByName(target);
                 if (targetRefl) {
                     parts.push({
@@ -75,22 +82,17 @@ export class LinkResolverPlugin extends ConverterComponent {
                         target: targetRefl,
                     });
                 } else {
-                    this.application.logger.warn(
-                        "Failed to find target: " + content
-                    );
+                    if (this.validation.invalidLink) {
+                        this.application.logger.warn(
+                            "Failed to find target: " + content
+                        );
+                    }
                     parts.push({
                         kind: "inline-tag",
                         tag: "@link",
                         text: content,
                     });
                 }
-            } else {
-                parts.push({
-                    kind: "inline-tag",
-                    tag: "@link",
-                    text: caption,
-                    target,
-                });
             }
         }
         parts.push({
@@ -219,11 +221,6 @@ function resolveLinkTag(
     let pos = 0;
     const end = part.text.length;
 
-    // Skip any leading white space, which isn't allowed in a declaration reference.
-    while (pos < end && ts.isWhiteSpaceLike(part.text.charCodeAt(pos))) {
-        pos++;
-    }
-
     // Try to parse one
     const declRef = parseDeclarationReference(part.text, pos, end);
 
@@ -237,12 +234,15 @@ function resolveLinkTag(
     // If resolution via a declaration reference failed, revert to the legacy "split and check"
     // method... this should go away in 0.24, once people have had a chance to migrate any failing links.
     if (!target) {
-        warn(
-            `Failed to resolve {@link ${
-                part.text
-            }} in ${reflection.getFriendlyFullName()} with declaration references. This link will break in v0.24.`
-        );
-        return legacyResolveLinkTag(reflection, part);
+        const resolved = legacyResolveLinkTag(reflection, part);
+        if (resolved) {
+            warn(
+                `Failed to resolve {@link ${
+                    part.text
+                }} in ${reflection.getFriendlyFullName()} with declaration references. This link will break in v0.24.`
+            );
+        }
+        return resolved;
     }
 
     // Remaining text after an optional pipe is the link text, so advance
@@ -369,7 +369,9 @@ function resolveKeyword(
 ): Reflection[] | undefined {
     switch (kw) {
         case undefined:
-            return [refl];
+            return refl instanceof DeclarationReflection && refl.signatures
+                ? refl.signatures
+                : [refl];
         case "class":
             if (refl.kindOf(ReflectionKind.Class)) return [refl];
             break;
@@ -396,14 +398,15 @@ function resolveKeyword(
 
         case "new":
         case "constructor":
-            if (refl.kindOf(ReflectionKind.Class)) {
+            if (
+                refl.kindOf(
+                    ReflectionKind.ClassOrInterface | ReflectionKind.TypeLiteral
+                )
+            ) {
                 const ctor = (refl as ContainerReflection).children?.find((c) =>
                     c.kindOf(ReflectionKind.Constructor)
                 );
                 return (ctor as DeclarationReflection)?.signatures;
-            }
-            if (refl.kindOf(ReflectionKind.Constructor)) {
-                return (refl as DeclarationReflection).signatures;
             }
             break;
 
@@ -411,7 +414,9 @@ function resolveKeyword(
             if (refl.kindOf(ReflectionKind.SomeMember)) return [refl];
             break;
         case "event":
-            if (refl.comment?.hasModifier("@event")) return [refl];
+            // Never resolve. Nobody should use this.
+            // It's required by the grammar, but is not documented by TypeDoc
+            // nor by the comments in the grammar.
             break;
         case "call":
             return (refl as DeclarationReflection).signatures;

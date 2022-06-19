@@ -8,7 +8,10 @@ import {
     Comment,
     CommentDisplayPart,
     CommentTag,
+    Reflection,
+    SignatureReflection,
 } from "../lib/models";
+import { Chars, filterMap } from "../lib/utils";
 import { CommentStyle } from "../lib/utils/options/declaration";
 import type { TestLogger } from "./TestLogger";
 
@@ -18,33 +21,7 @@ function query(project: ProjectReflection, name: string) {
     return reflection;
 }
 
-type Letters =
-    | "a"
-    | "b"
-    | "c"
-    | "d"
-    | "e"
-    | "f"
-    | "g"
-    | "h"
-    | "i"
-    | "j"
-    | "k"
-    | "l"
-    | "m"
-    | "n"
-    | "o"
-    | "p"
-    | "q"
-    | "r"
-    | "s"
-    | "t"
-    | "u"
-    | "v"
-    | "w"
-    | "x"
-    | "y"
-    | "z";
+type Letters = Chars<"abcdefghijklmnopqrstuvwxyz">;
 
 export const behaviorTests: {
     [issue: `_${string}`]: (app: Application) => void;
@@ -362,6 +339,95 @@ export const behaviorTests: {
             "docs\nwith multiple lines"
         );
         equal(Comment.combineDisplayParts(c.comment?.summary), "");
+    },
+
+    _linkResolution(app) {
+        app.options.setValue("sort", ["source-order"]);
+    },
+    linkResolution(project) {
+        function getLinks(refl: Reflection) {
+            ok(refl.comment);
+            return filterMap(refl.comment.summary, (p) => {
+                if (p.kind === "inline-tag" && p.tag === "@link") {
+                    if (typeof p.target === "string") {
+                        return p.target;
+                    }
+                    if (p.target instanceof SignatureReflection) {
+                        return [
+                            p.target.getFullName(),
+                            p.target.parent.signatures?.indexOf(p.target),
+                        ];
+                    }
+                    return [p.target?.kind, p.target?.getFullName()];
+                }
+            });
+        }
+
+        for (const [refl, target] of [
+            ["Scoping.abc", "Scoping.abc"],
+            ["Scoping.Foo", "Scoping.Foo.abc"],
+            ["Scoping.Foo.abc", "Scoping.Foo.abc"],
+            ["Scoping.Bar", "Scoping.abc"],
+            ["Scoping.Bar.abc", "Scoping.abc"],
+        ] as const) {
+            equal(
+                getLinks(query(project, refl)).map((x) => x[1]),
+                [query(project, target).getFullName()]
+            );
+        }
+
+        const links = getLinks(query(project, "Meanings"));
+        equal(links, [
+            [ReflectionKind.Enum, "Meanings.A"],
+            [ReflectionKind.Namespace, "Meanings.A"],
+            [ReflectionKind.Enum, "Meanings.A"],
+
+            [undefined, undefined],
+            [ReflectionKind.Class, "Meanings.B"],
+
+            [ReflectionKind.Interface, "Meanings.C"],
+            [ReflectionKind.TypeAlias, "Meanings.D"],
+            ["Meanings.E.E", 0],
+            [ReflectionKind.Variable, "Meanings.F"],
+
+            ["Meanings.B.constructor.new B", 0],
+            ["Meanings.B.constructor.new B", 0],
+            ["Meanings.B.constructor.new B", 1],
+
+            [ReflectionKind.EnumMember, "Meanings.A.A"],
+            [undefined, undefined],
+
+            ["Meanings.E.E", 0],
+            ["Meanings.E.E", 1],
+
+            ["Meanings.B.constructor.new B", 0],
+            ["Meanings.B.constructor.new B", 1],
+
+            ["Meanings.B.__index", undefined],
+            [ReflectionKind.Interface, "Meanings.G"],
+
+            ["Meanings.E.E", 1],
+            [ReflectionKind.Class, "Meanings.B"],
+        ]);
+
+        equal(getLinks(query(project, "URLS")), [
+            "https://example.com",
+            "ftp://example.com",
+        ]);
+
+        equal(
+            getLinks(query(project, "Globals.A")).map((x) => x[1]),
+            ["URLS", "A", "Globals.A"]
+        );
+
+        equal(getLinks(query(project, "Navigation")), [
+            [ReflectionKind.Method, "Navigation.Child.foo"],
+            [ReflectionKind.Property, "Navigation.Child.foo"],
+            [undefined, undefined],
+        ]);
+
+        const foo = query(project, "Navigation.Child.foo").signatures![0];
+        equal(getLinks(foo), [[ReflectionKind.Method, "Navigation.Child.foo"]]);
     },
 
     mergedDeclarations(project, logger) {

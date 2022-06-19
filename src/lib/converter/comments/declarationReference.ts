@@ -6,6 +6,8 @@
  * @module
  */
 
+import type { Chars } from "../../utils";
+
 export const MeaningKeywords = [
     "class", // SymbolFlags.Class
     "interface", // SymbolFlags.Interface
@@ -50,10 +52,6 @@ export interface ComponentPath {
     navigation: "." | "#" | "~";
     path: string;
 }
-
-type Chars<T extends string> = T extends `${infer C}${infer R}`
-    ? C | Chars<R>
-    : never;
 
 // <TAB> <VT> <FF> <SP> <NBSP> <ZWNBSP> <USP>
 const WhiteSpace = /[\t\u2B7F\u240C \u00A0\uFEFF\p{White_Space}]/u;

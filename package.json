@@ -94,7 +94,7 @@
       ".tsx"
     ],
     "reporter": [
-      "html",
+      "html-spa",
       "text-summary"
     ],
     "exclude": [

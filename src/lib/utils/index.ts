@@ -17,7 +17,7 @@ export {
     writeFile,
     writeFileSync,
 } from "./fs";
-export type { IfInternal, NeverIfInternal } from "./general";
+export type { IfInternal, NeverIfInternal, Chars } from "./general";
 export { assertNever } from "./general";
 export { CallbackLogger, ConsoleLogger, Logger, LogLevel } from "./loggers";
 export { DefaultMap } from "./map";
