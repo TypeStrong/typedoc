@@ -37,6 +37,9 @@
     "rules": {
         "@typescript-eslint/no-floating-promises": 1,
 
+        // This one is just annoying since it complains at incomplete code
+        "no-empty": 0,
+
         // This rule is factually incorrect. Interfaces which extend some type alias can be used to introduce
         // new type names. This is useful particularly when dealing with mixins.
         "@typescript-eslint/no-empty-interface": 0,

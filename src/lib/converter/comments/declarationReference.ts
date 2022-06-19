@@ -30,9 +30,14 @@ export interface DeclarationReference {
     symbolReference?: SymbolReference;
 }
 
+export interface Meaning {
+    keyword?: MeaningKeyword;
+    index?: number;
+}
+
 export interface SymbolReference {
     path?: ComponentPath[];
-    meaning?: { keyword?: MeaningKeyword; index?: number };
+    meaning?: Meaning;
 }
 
 export interface ComponentPath {

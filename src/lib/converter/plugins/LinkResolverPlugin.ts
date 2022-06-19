@@ -5,15 +5,20 @@ import { ConverterEvents } from "../converter-events";
 import {
     CommentDisplayPart,
     ContainerReflection,
+    DeclarationReflection,
     InlineTagDisplayPart,
     ReflectionKind,
 } from "../../models";
 import {
     ComponentPath,
     DeclarationReference,
+    Meaning,
+    MeaningKeyword,
     parseDeclarationReference,
 } from "../comments/declarationReference";
 import ts = require("typescript");
+import { ok } from "assert";
+import { BindOption, filterMap, ValidationOptions } from "../../utils";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 const brackets = /\[\[([^\]]+)\]\]/g;
@@ -22,6 +27,9 @@ const brackets = /\[\[([^\]]+)\]\]/g;
  */
 @Component({ name: "link-resolver" })
 export class LinkResolverPlugin extends ConverterComponent {
+    @BindOption("validation")
+    validation!: ValidationOptions;
+
     /**
      * Create a new LinkResolverPlugin instance.
      */
@@ -163,7 +171,11 @@ export class LinkResolverPlugin extends ConverterComponent {
                 part.tag === "@linkcode" ||
                 part.tag === "@linkplain"
             ) {
-                return resolveLinkTag(reflection, part);
+                return resolveLinkTag(reflection, part, (msg: string) => {
+                    if (this.validation.invalidLink) {
+                        this.application.logger.warn(msg);
+                    }
+                });
             }
         }
 
@@ -199,7 +211,11 @@ export class LinkResolverPlugin extends ConverterComponent {
     }
 }
 
-function resolveLinkTag(reflection: Reflection, part: InlineTagDisplayPart) {
+function resolveLinkTag(
+    reflection: Reflection,
+    part: InlineTagDisplayPart,
+    warn: (message: string) => void
+) {
     let pos = 0;
     const end = part.text.length;
 
@@ -219,8 +235,15 @@ function resolveLinkTag(reflection: Reflection, part: InlineTagDisplayPart) {
     }
 
     // If resolution via a declaration reference failed, revert to the legacy "split and check"
-    // method... should probably warn here.
-    if (!target) return legacyResolveLinkTag(reflection, part);
+    // method... this should go away in 0.24, once people have had a chance to migrate any failing links.
+    if (!target) {
+        warn(
+            `Failed to resolve {@link ${
+                part.text
+            }} in ${reflection.getFriendlyFullName()} with declaration references. This link will break in v0.24.`
+        );
+        return legacyResolveLinkTag(reflection, part);
+    }
 
     // Remaining text after an optional pipe is the link text, so advance
     // until that's consumed.
@@ -261,36 +284,160 @@ function resolveDeclarationReference(
     reflection: Reflection,
     ref: DeclarationReference
 ): Reflection | undefined {
-    let refl: Reflection | undefined = reflection;
+    let high: Reflection[] = [];
+    let low: Reflection[] = [];
 
     if (ref.moduleSource) {
-        refl = refl.project.children?.find((c) => c.name === ref.moduleSource);
+        high =
+            reflection.project.children?.filter(
+                (c) =>
+                    c.kindOf(ReflectionKind.SomeModule) &&
+                    c.name === ref.moduleSource
+            ) || [];
     } else if (ref.resolutionStart === "global") {
-        refl = refl.project;
-    }
-
-    if (!refl) return;
-
-    if (ref.symbolReference) {
-        let targets = [refl];
-        for (const part of ref.symbolReference.path || []) {
-            targets = targets.flatMap((refl) =>
-                resolveSymbolReferencePart(refl, part)
-            );
+        high.push(reflection.project);
+    } else {
+        ok(ref.resolutionStart === "local");
+        // TypeScript's behavior is to first try to resolve links via variable scope, and then
+        // if the link still hasn't been found, check either siblings (if comment belongs to a member)
+        // or otherwise children.
+        let refl: Reflection | undefined = reflection;
+        if (refl.kindOf(ReflectionKind.ExportContainer)) {
+            high.push(refl);
+        }
+        while (refl.parent) {
+            refl = refl.parent;
+            if (refl.kindOf(ReflectionKind.ExportContainer)) {
+                high.push(refl);
+            }
         }
 
-        // TODO: meaning
-        return targets[0];
+        if (reflection.kindOf(ReflectionKind.SomeMember)) {
+            high.push(reflection.parent!);
+        } else if (
+            reflection.kindOf(ReflectionKind.SomeSignature) &&
+            reflection.parent!.kindOf(ReflectionKind.SomeMember)
+        ) {
+            high.push(reflection.parent!.parent!);
+        } else if (high[0] !== reflection) {
+            high.push(reflection);
+        }
     }
 
-    return refl;
+    if (ref.symbolReference) {
+        for (const part of ref.symbolReference.path || []) {
+            const high2 = high;
+            high = [];
+            const low2 = low;
+            low = [];
+
+            for (const refl of high2) {
+                const resolved = resolveSymbolReferencePart(refl, part);
+                high.push(...resolved.high);
+                low.push(...resolved.low);
+            }
+
+            for (const refl of low2) {
+                const resolved = resolveSymbolReferencePart(refl, part);
+                low.push(...resolved.high);
+                low.push(...resolved.low);
+            }
+        }
+
+        if (ref.symbolReference.meaning) {
+            high = filterMapByMeaning(high, ref.symbolReference.meaning);
+            low = filterMapByMeaning(low, ref.symbolReference.meaning);
+        }
+    }
+
+    return high[0] || low[0];
+}
+
+function filterMapByMeaning(
+    reflections: Reflection[],
+    meaning: Meaning
+): Reflection[] {
+    return filterMap(reflections, (refl): Reflection | undefined => {
+        const kwResolved = resolveKeyword(refl, meaning.keyword) || [];
+        return kwResolved[meaning.index || 0];
+    });
+}
+
+function resolveKeyword(
+    refl: Reflection,
+    kw: MeaningKeyword | undefined
+): Reflection[] | undefined {
+    switch (kw) {
+        case undefined:
+            return [refl];
+        case "class":
+            if (refl.kindOf(ReflectionKind.Class)) return [refl];
+            break;
+        case "interface":
+            if (refl.kindOf(ReflectionKind.Interface)) return [refl];
+            break;
+        case "type":
+            if (refl.kindOf(ReflectionKind.SomeType)) return [refl];
+            break;
+        case "enum":
+            if (refl.kindOf(ReflectionKind.Enum)) return [refl];
+            break;
+        case "namespace":
+            if (refl.kindOf(ReflectionKind.SomeModule)) return [refl];
+            break;
+        case "function":
+            if (refl.kindOf(ReflectionKind.FunctionOrMethod)) {
+                return (refl as DeclarationReflection).signatures;
+            }
+            break;
+        case "var":
+            if (refl.kindOf(ReflectionKind.Variable)) return [refl];
+            break;
+
+        case "new":
+        case "constructor":
+            if (refl.kindOf(ReflectionKind.Class)) {
+                const ctor = (refl as ContainerReflection).children?.find((c) =>
+                    c.kindOf(ReflectionKind.Constructor)
+                );
+                return (ctor as DeclarationReflection)?.signatures;
+            }
+            if (refl.kindOf(ReflectionKind.Constructor)) {
+                return (refl as DeclarationReflection).signatures;
+            }
+            break;
+
+        case "member":
+            if (refl.kindOf(ReflectionKind.SomeMember)) return [refl];
+            break;
+        case "event":
+            if (refl.comment?.hasModifier("@event")) return [refl];
+            break;
+        case "call":
+            return (refl as DeclarationReflection).signatures;
+
+        case "index":
+            if ((refl as DeclarationReflection).indexSignature) {
+                return [(refl as DeclarationReflection).indexSignature!];
+            }
+            break;
+
+        case "complex":
+            if (refl.kindOf(ReflectionKind.SomeType)) return [refl];
+            break;
+    }
 }
 
 function resolveSymbolReferencePart(
     refl: Reflection,
     path: ComponentPath
-): Reflection[] {
-    if (!(refl instanceof ContainerReflection) || !refl.children) return [];
+): { high: Reflection[]; low: Reflection[] } {
+    let high: Reflection[] = [];
+    let low: Reflection[] = [];
+
+    if (!(refl instanceof ContainerReflection) || !refl.children) {
+        return { high, low };
+    }
 
     switch (path.navigation) {
         // Grammar says resolve via "exports"... as always, reality is more complicated.
@@ -298,21 +445,40 @@ function resolveSymbolReferencePart(
         // so that resolution doesn't behave very poorly with projects using JSDoc style resolution.
         // Also is more consistent with how TypeScript resolves link tags.
         case ".":
-            return []; // TODO: Finish me
+            high = refl.children.filter(
+                (r) =>
+                    r.name === path.path &&
+                    (r.kindOf(ReflectionKind.SomeExport) || r.flags.isStatic)
+            );
+            low = refl.children.filter(
+                (r) =>
+                    r.name === path.path &&
+                    (!r.kindOf(ReflectionKind.SomeExport) || !r.flags.isStatic)
+            );
+            break;
 
         // Resolve via "members", interface children, class instance properties/accessors/methods,
         // enum members, type literal properties
         case "#":
-            return refl.children.filter((r) => {
-                return r.kindOf(ReflectionKind.SomeMember) && !r.flags.isStatic;
+            high = refl.children.filter((r) => {
+                return (
+                    r.name === path.path &&
+                    r.kindOf(ReflectionKind.SomeMember) &&
+                    !r.flags.isStatic
+                );
             });
+            break;
 
         // Resolve via "locals"... treat this as a stricter `.` which only supports traversing
         // module/namespace exports since TypeDoc doesn't support documenting locals.
         case "~":
-            if (refl.kindOf(ReflectionKind.SomeModule)) {
-                return refl.children.filter((r) => r.name === path.path) || [];
+            if (
+                refl.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)
+            ) {
+                high = refl.children.filter((r) => r.name === path.path);
             }
-            return [];
+            break;
     }
+
+    return { high, low };
 }

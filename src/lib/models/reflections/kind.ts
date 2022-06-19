@@ -66,6 +66,20 @@ export namespace ReflectionKind {
         ReflectionKind.Method |
         ReflectionKind.Accessor;
 
+    export const SomeExport =
+        ReflectionKind.Module |
+        ReflectionKind.Namespace |
+        ReflectionKind.Enum |
+        ReflectionKind.Variable |
+        ReflectionKind.Function |
+        ReflectionKind.Class |
+        ReflectionKind.Interface |
+        ReflectionKind.TypeAlias |
+        ReflectionKind.Reference;
+
+    export const ExportContainer =
+        ReflectionKind.SomeModule | ReflectionKind.Project;
+
     /** @internal */
     export const Inheritable =
         ReflectionKind.Accessor |

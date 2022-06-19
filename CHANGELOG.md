@@ -1,17 +1,11 @@
 # Unreleased
 
-### Incomplete
-
-These TODOs will be resolved before a full release. ([GitHub project](https://github.com/TypeStrong/typedoc/projects/11))
-
--   Full support for declaration references, #262, #488, #1326, #1845.
--   (Maybe) `@copyDoc` tag to copy parts of documentation from other entries.
--   (Maybe) `--commentDiscovery` option to delegate discovery to TypeScript.
-
 ### Breaking Changes
 
 -   Node 12 is no longer officially supported as it has gone end of life as of 2022-04-30. It might still work, but may stop working at any time.
 -   Dropped support for TypeScript before 4.6.
+-   `{@link}` tags in comments will now be resolved as declaration references similar to TSDoc's declaration references.
+    For most cases, this will just work. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on how link resolution works.
 -   TypeDoc will now produce warnings for bracketed links (`[[ target ]]`). Use `{@link target}` instead. The `{@link}` syntax will be recognized by [TypeScript 4.3](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#editor-support-for-link-tags) and later and used to provide better intellisense. TypeDoc version 0.24.0 will remove support for `[[ target ]]` style links.
 -   `extends` in typedoc.json is now resolved using NodeJS module resolution, so a local path must begin with `./`.
 -   In the JSON output for `DeclarationReflection`s, `getSignature` is no longer a one-tuple.
