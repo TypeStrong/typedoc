@@ -1,8 +1,0 @@
-{
-    "compilerOptions": {
-        "outDir": "dist",
-        "sourceMap": true,
-        "strict": true
-    },
-    "include": ["src"]
-}

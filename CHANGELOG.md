@@ -73,6 +73,7 @@
 -   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
 -   The `excludeNotDocumented` option will no longer hide a module if it has a documentation comment, #1948.
 -   Prevent `--excludeNotDocumented` from hiding properties of type literals (`a` in `function fn(p: { a: string })`), #1752.
+-   Allow `cts` and `mts` extensions in packages resolution mode, #1952.
 -   Corrected schema generation for https://typedoc.org/schema.json
 
 ### Thanks!

@@ -225,7 +225,10 @@ export function getTsEntryPointForPackage(
     // Pass an empty `paths` as node_modules locations do not need to be examined
     try {
         entryPointPath = require.resolve(entryPointPath, { paths: [] });
-        if (/\.tsx?$/.test(entryPointPath) && existsSync(entryPointPath)) {
+        if (
+            /\.([cm]ts|tsx?)$/.test(entryPointPath) &&
+            existsSync(entryPointPath)
+        ) {
             return entryPointPath;
         }
     } catch (e: any) {
@@ -237,7 +240,10 @@ export function getTsEntryPointForPackage(
                 "..",
                 packageTypes ?? packageMain
             );
-            if (/\.tsx?$/.test(entryPointPath) && existsSync(entryPointPath)) {
+            if (
+                /\.([cm][tj]s|tsx?)$/.test(entryPointPath) &&
+                existsSync(entryPointPath)
+            ) {
                 return entryPointPath;
             } else {
                 logger.warn(
