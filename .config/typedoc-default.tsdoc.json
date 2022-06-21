@@ -33,6 +33,11 @@
         {
             "tagName": "@event",
             "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@template",
+            "syntaxKind": "block",
+            "allowMultiple": true
         }
     ]
 }

@@ -1,7 +1,7 @@
-import { deepStrictEqual as equal, ok } from "assert";
+import { deepStrictEqual as equal } from "assert";
 import { readFileSync } from "fs";
 import { join } from "path";
-import { Logger, normalizePath } from "../lib/utils";
+import { normalizePath } from "../lib/utils";
 import {
     expandPackages,
     getTsEntryPointForPackage,

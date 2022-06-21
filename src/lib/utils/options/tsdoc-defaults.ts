@@ -7,6 +7,7 @@ export const tsdocBlockTags = [
     "@throws",
     "@privateRemarks",
     "@defaultValue",
+    "@typeParam",
 ] as const;
 
 export const blockTags = [
@@ -15,6 +16,8 @@ export const blockTags = [
     "@inheritDoc",
     "@group",
     "@category",
+    // Alias for @typeParam
+    "@template",
 ] as const;
 
 export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;
