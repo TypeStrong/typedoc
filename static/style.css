@@ -426,6 +426,7 @@ blockquote {
         float: none;
         max-width: 100%;
         width: 100%;
+        padding-top: 3rem;
     }
     html .col-menu {
         position: fixed !important;

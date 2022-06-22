@@ -42,6 +42,8 @@ export class Viewport extends EventTarget {
      */
     navigation: HTMLElement;
 
+    searchInput: HTMLInputElement | null;
+
     /**
      * Create new Viewport instance.
      */
@@ -61,6 +63,15 @@ export class Viewport extends EventTarget {
             "resize",
             throttle(() => this.onResize(), 10)
         );
+
+        this.searchInput =
+            document.querySelector<HTMLInputElement>("#tsd-search input");
+
+        if (this.searchInput) {
+            this.searchInput.addEventListener("focus", () => {
+                this.hideShowToolbar();
+            });
+        }
 
         this.onResize();
         this.onScroll();
@@ -118,7 +129,10 @@ export class Viewport extends EventTarget {
      */
     hideShowToolbar() {
         const isShown = this.showToolbar;
-        this.showToolbar = this.lastY >= this.scrollTop || this.scrollTop <= 0;
+        this.showToolbar =
+            this.lastY >= this.scrollTop ||
+            this.scrollTop <= 0 ||
+            (!!this.searchInput && this.searchInput === document.activeElement);
         if (isShown !== this.showToolbar) {
             this.toolbar.classList.toggle("tsd-page-toolbar--hide");
             this.navigation?.classList.toggle("col-menu--hide");

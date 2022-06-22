@@ -123,7 +123,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
         return (
             <li
                 class={classNames(
-                    { current, selected, deprecated: mod.comment?.hasModifier("@deprecated") },
+                    { current, selected, deprecated: !!mod.comment?.getTag("@deprecated") },
                     mod.cssClasses
                 )}
             >
@@ -135,18 +135,28 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
 }
 
 function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
-    const children = props.model instanceof ContainerReflection ? props.model.children || [] : [];
-
     // Multiple entry points, and on main project page.
     if (props.model.isProject() && props.model.getChildrenByKind(ReflectionKind.Module).length) {
         return;
     }
 
+    const effectivePageParent =
+        (props.model instanceof ContainerReflection && props.model.children?.length) || props.model.isProject()
+            ? props.model
+            : props.model.parent!;
+
+    const children = (effectivePageParent as ContainerReflection).children || [];
+
     const pageNavigation = children
         .filter((child) => !child.kindOf(ReflectionKind.SomeModule))
         .map((child) => {
             return (
-                <li class={classNames({ deprecated: child.comment?.hasModifier("@deprecated") }, child.cssClasses)}>
+                <li
+                    class={classNames(
+                        { deprecated: !!child.comment?.getTag("@deprecated"), current: props.model === child },
+                        child.cssClasses
+                    )}
+                >
                     <a href={context.urlTo(child)} class="tsd-index-link">
                         {icons[child.kind]()}
                         {wbr(child.name)}
@@ -155,7 +165,7 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
             );
         });
 
-    if (props.model.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
+    if (effectivePageParent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
         return (
             <nav class="tsd-navigation secondary menu-sticky">
                 {!!pageNavigation.length && <ul>{pageNavigation}</ul>}
@@ -169,15 +179,15 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
                 <li
                     class={classNames(
                         {
-                            deprecated: props.model.comment?.hasModifier("@deprecated"),
-                            current: true,
+                            deprecated: !!effectivePageParent.comment?.getTag("@deprecated"),
+                            current: effectivePageParent === props.model,
                         },
-                        props.model.cssClasses
+                        effectivePageParent.cssClasses
                     )}
                 >
-                    <a href={context.urlTo(props.model)} class="tsd-index-link">
-                        {icons[props.model.kind]()}
-                        <span>{wbr(props.model.name)}</span>
+                    <a href={context.urlTo(effectivePageParent)} class="tsd-index-link">
+                        {icons[effectivePageParent.kind]()}
+                        <span>{wbr(effectivePageParent.name)}</span>
                     </a>
                     {!!pageNavigation.length && <ul>{pageNavigation}</ul>}
                 </li>

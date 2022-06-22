@@ -14,7 +14,7 @@ function renderCategory({ urlTo }: DefaultThemeRenderContext, item: ReflectionCa
                         <a
                             href={urlTo(item)}
                             class={classNames(
-                                { "tsd-index-link": true, deprecated: item.comment?.hasModifier("@deprecated") },
+                                { "tsd-index-link": true, deprecated: !!item.comment?.getTag("@deprecated") },
                                 item.cssClasses
                             )}
                         >

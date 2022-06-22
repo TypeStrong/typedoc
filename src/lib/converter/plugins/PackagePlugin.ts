@@ -112,8 +112,14 @@ export class PackagePlugin extends ConverterComponent {
             );
 
             if (comment.blockTags.length || comment.modifierTags.size) {
+                const ignored = [
+                    ...comment.blockTags.map((tag) => tag.tag),
+                    ...comment.modifierTags,
+                ];
                 this.application.logger.warn(
-                    `Block and modifier tags will be ignored within the readme.`
+                    `Block and modifier tags will be ignored within the readme:\n\t${ignored.join(
+                        "\n\t"
+                    )}`
                 );
             }
 
