@@ -6,6 +6,24 @@
             "tagName": "@module",
             "syntaxKind": "block"
         },
+        {
+            "tagName": "@typedef",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@callback",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@prop",
+            "syntaxKind": "block",
+            "allowMultiple": true
+        },
+        {
+            "tagName": "@property",
+            "syntaxKind": "block",
+            "allowMultiple": true
+        },
         // Don't include @inheritDoc, because the @microsoft/tsdoc-config parser blows up
         // if the standard @inheritDoc inline tag is also defined here.
         {

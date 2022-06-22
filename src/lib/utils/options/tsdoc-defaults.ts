@@ -4,6 +4,7 @@ export const tsdocBlockTags = [
     "@deprecated",
     "@param",
     "@remarks",
+    "@returns",
     "@throws",
     "@privateRemarks",
     "@defaultValue",
@@ -18,6 +19,12 @@ export const blockTags = [
     "@category",
     // Alias for @typeParam
     "@template",
+    // Because TypeScript is important!
+    "@type",
+    "@typedef",
+    "@callback",
+    "@prop",
+    "@property",
 ] as const;
 
 export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;
@@ -33,6 +40,7 @@ export const tsdocModifierTags = [
     "@eventProperty",
     "@alpha",
     "@beta",
+    "@experimental",
     "@sealed",
     "@override",
     "@virtual",

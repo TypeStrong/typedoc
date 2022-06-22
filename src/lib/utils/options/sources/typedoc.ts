@@ -13,7 +13,12 @@ import { ReflectionKind } from "../../../models/reflections/kind";
 import * as Validation from "../../validation";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults";
 
+// For convenience, added in the same order as they are documented on the website.
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
+    ///////////////////////////
+    // Configuration Options //
+    ///////////////////////////
+
     options.addDeclaration({
         type: ParameterType.Path,
         name: "options",
@@ -29,6 +34,23 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: process.cwd(),
     });
     options.addDeclaration({
+        name: "compilerOptions",
+        help: "Selectively override the TypeScript compiler options used by TypeDoc.",
+        type: ParameterType.Mixed,
+        validate(value) {
+            if (!Validation.validate({}, value)) {
+                throw new Error(
+                    "The 'compilerOptions' option must be a non-array object."
+                );
+            }
+        },
+    });
+
+    ///////////////////////////
+    ////// Input Options //////
+    ///////////////////////////
+
+    options.addDeclaration({
         name: "entryPoints",
         help: "The entry points of your documentation.",
         type: ParameterType.GlobArray,
@@ -39,40 +61,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Map,
         map: EntryPointStrategy,
         defaultValue: EntryPointStrategy.Resolve,
-    });
-
-    options.addDeclaration({
-        name: "visibilityFilters",
-        help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
-        type: ParameterType.Mixed,
-        defaultValue: {
-            protected: false,
-            private: false,
-            inherited: true,
-            external: false,
-        },
-        validate(value) {
-            const knownKeys = ["protected", "private", "inherited", "external"];
-            if (!value || typeof value !== "object") {
-                throw new Error("visibilityFilters must be an object.");
-            }
-
-            for (const [key, val] of Object.entries(value)) {
-                if (!key.startsWith("@") && !knownKeys.includes(key)) {
-                    throw new Error(
-                        `visibilityFilters can only include the following non-@ keys: ${knownKeys.join(
-                            ", "
-                        )}`
-                    );
-                }
-
-                if (typeof val !== "boolean") {
-                    throw new Error(
-                        `All values of visibilityFilters must be booleans.`
-                    );
-                }
-            }
-        },
     });
 
     options.addDeclaration({
@@ -111,6 +99,303 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Ignore protected variables and methods.",
         type: ParameterType.Boolean,
     });
+    options.addDeclaration({
+        name: "media",
+        help: "Specify the location with media files that should be copied to the output directory.",
+        type: ParameterType.Path,
+        hint: ParameterHint.Directory,
+    });
+    options.addDeclaration({
+        name: "includes",
+        help: "Specify the location to look for included documents (use [[include:FILENAME]] in comments).",
+        type: ParameterType.Path,
+        hint: ParameterHint.Directory,
+    });
+
+    ///////////////////////////
+    ///// Output Options //////
+    ///////////////////////////
+
+    options.addDeclaration({
+        name: "out",
+        help: "Specify the location the documentation should be written to.",
+        type: ParameterType.Path,
+        hint: ParameterHint.Directory,
+    });
+    options.addDeclaration({
+        name: "json",
+        help: "Specify the location and filename a JSON file describing the project is written to.",
+        type: ParameterType.Path,
+        hint: ParameterHint.File,
+    });
+    options.addDeclaration({
+        name: "pretty",
+        help: "Specify whether the output JSON should be formatted with tabs.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+    options.addDeclaration({
+        name: "emit",
+        help: "Specify what TypeDoc should emit, 'docs', 'both', or 'none'.",
+        type: ParameterType.Map,
+        map: EmitStrategy,
+        defaultValue: "docs",
+    });
+    options.addDeclaration({
+        name: "theme",
+        help: "Specify the theme name to render the documentation with",
+        type: ParameterType.String,
+        defaultValue: "default",
+    });
+
+    const defaultLightTheme: Theme = "light-plus";
+    const defaultDarkTheme: Theme = "dark-plus";
+
+    options.addDeclaration({
+        name: "lightHighlightTheme",
+        help: "Specify the code highlighting theme in light mode.",
+        type: ParameterType.String,
+        defaultValue: defaultLightTheme,
+        validate(value) {
+            if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
+                throw new Error(
+                    `lightHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
+                        ", "
+                    )}`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "darkHighlightTheme",
+        help: "Specify the code highlighting theme in dark mode.",
+        type: ParameterType.String,
+        defaultValue: defaultDarkTheme,
+        validate(value) {
+            if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
+                throw new Error(
+                    `darkHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
+                        ", "
+                    )}`
+                );
+            }
+        },
+    });
+
+    options.addDeclaration({
+        name: "customCss",
+        help: "Path to a custom CSS file to for the theme to import.",
+        type: ParameterType.Path,
+    });
+    options.addDeclaration({
+        name: "markedOptions",
+        help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
+        type: ParameterType.Mixed,
+        validate(value) {
+            if (!Validation.validate({}, value)) {
+                throw new Error(
+                    "The 'markedOptions' option must be a non-array object."
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "name",
+        help: "Set the name of the project that will be used in the header of the template.",
+    });
+    options.addDeclaration({
+        name: "includeVersion",
+        help: "Add the package version to the project name.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
+        name: "disableSources",
+        help: "Disable setting the source of a reflection when documenting it.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
+        name: "excludeTags",
+        help: "Remove the listed block/modifier tags from doc comments.",
+        type: ParameterType.Array,
+        defaultValue: ["@override", "@virtual", "@privateRemarks"],
+        validate(value) {
+            if (!Validation.validate([Array, Validation.isTagString], value)) {
+                throw new Error(
+                    `excludeTags must be an array of valid tag names.`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "readme",
+        help: "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.",
+        type: ParameterType.Path,
+    });
+    options.addDeclaration({
+        name: "cname",
+        help: "Set the CNAME file text, it's useful for custom domains on GitHub Pages.",
+    });
+    options.addDeclaration({
+        name: "gitRevision",
+        help: "Use specified revision instead of the last revision for linking to GitHub/Bitbucket source files.",
+    });
+    options.addDeclaration({
+        name: "gitRemote",
+        help: "Use the specified remote for linking to GitHub/Bitbucket source files.",
+        defaultValue: "origin",
+    });
+    options.addDeclaration({
+        name: "githubPages",
+        help: "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+    options.addDeclaration({
+        name: "gaID",
+        help: "Set the Google Analytics tracking ID and activate tracking code.",
+    });
+    options.addDeclaration({
+        name: "hideGenerator",
+        help: "Do not print the TypeDoc link at the end of the page.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
+        name: "cleanOutputDir",
+        help: "If set, TypeDoc will remove the output directory before writing output.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+
+    ///////////////////////////
+    ///// Comment Options /////
+    ///////////////////////////
+
+    options.addDeclaration({
+        name: "commentStyle",
+        help: "Determines how TypeDoc searches for comments.",
+        type: ParameterType.Map,
+        map: CommentStyle,
+        defaultValue: CommentStyle.JSDoc,
+    });
+
+    options.addDeclaration({
+        name: "blockTags",
+        help: "Block tags which TypeDoc should recognize when parsing comments.",
+        type: ParameterType.Array,
+        defaultValue: blockTags,
+        validate(value) {
+            if (!Validation.validate([Array, Validation.isTagString], value)) {
+                throw new Error(
+                    `blockTags must be an array of valid tag names.`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "inlineTags",
+        help: "Inline tags which TypeDoc should recognize when parsing comments.",
+        type: ParameterType.Array,
+        defaultValue: inlineTags,
+        validate(value) {
+            if (!Validation.validate([Array, Validation.isTagString], value)) {
+                throw new Error(
+                    `inlineTags must be an array of valid tag names.`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "modifierTags",
+        help: "Modifier tags which TypeDoc should recognize when parsing comments.",
+        type: ParameterType.Array,
+        defaultValue: modifierTags,
+        validate(value) {
+            if (!Validation.validate([Array, Validation.isTagString], value)) {
+                throw new Error(
+                    `modifierTags must be an array of valid tag names.`
+                );
+            }
+        },
+    });
+
+    ///////////////////////////
+    // Organization Options ///
+    ///////////////////////////
+
+    options.addDeclaration({
+        name: "categorizeByGroup",
+        help: "Specify whether categorization will be done at the group level.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+    options.addDeclaration({
+        name: "defaultCategory",
+        help: "Specify the default category for reflections without a category.",
+        defaultValue: "Other",
+    });
+    options.addDeclaration({
+        name: "categoryOrder",
+        help: "Specify the order in which categories appear. * indicates the relative order for categories not in the list.",
+        type: ParameterType.Array,
+    });
+    options.addDeclaration({
+        name: "sort",
+        help: "Specify the sort strategy for documented values.",
+        type: ParameterType.Array,
+        defaultValue: ["kind", "instance-first", "alphabetical"],
+        validate(value) {
+            const invalid = new Set(value);
+            for (const v of SORT_STRATEGIES) {
+                invalid.delete(v);
+            }
+
+            if (invalid.size !== 0) {
+                throw new Error(
+                    `sort may only specify known values, and invalid values were provided (${Array.from(
+                        invalid
+                    ).join(
+                        ", "
+                    )}). The valid sort strategies are:\n${SORT_STRATEGIES.join(
+                        ", "
+                    )}`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "visibilityFilters",
+        help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
+        type: ParameterType.Mixed,
+        defaultValue: {
+            protected: false,
+            private: false,
+            inherited: true,
+            external: false,
+        },
+        validate(value) {
+            const knownKeys = ["protected", "private", "inherited", "external"];
+            if (!value || typeof value !== "object") {
+                throw new Error("visibilityFilters must be an object.");
+            }
+
+            for (const [key, val] of Object.entries(value)) {
+                if (!key.startsWith("@") && !knownKeys.includes(key)) {
+                    throw new Error(
+                        `visibilityFilters can only include the following non-@ keys: ${knownKeys.join(
+                            ", "
+                        )}`
+                    );
+                }
+
+                if (typeof val !== "boolean") {
+                    throw new Error(
+                        `All values of visibilityFilters must be booleans.`
+                    );
+                }
+            }
+        },
+    });
+
     options.addDeclaration({
         name: "searchCategoryBoosts",
         help: "Configure search to give a relevance boost to selected categories",
@@ -161,23 +446,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
-    options.addDeclaration({
-        name: "disableSources",
-        help: "Disable setting the source of a reflection when documenting it.",
-        type: ParameterType.Boolean,
-    });
-    options.addDeclaration({
-        name: "includes",
-        help: "Specify the location to look for included documents (use [[include:FILENAME]] in comments).",
-        type: ParameterType.Path,
-        hint: ParameterHint.Directory,
-    });
-    options.addDeclaration({
-        name: "media",
-        help: "Specify the location with media files that should be copied to the output directory.",
-        type: ParameterType.Path,
-        hint: ParameterHint.Directory,
-    });
+
+    ///////////////////////////
+    ///// General Options /////
+    ///////////////////////////
 
     options.addDeclaration({
         name: "watch",
@@ -188,231 +460,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "preserveWatchOutput",
         help: "If set, TypeDoc will not clear the screen between compilation runs.",
         type: ParameterType.Boolean,
-    });
-    options.addDeclaration({
-        name: "emit",
-        help: "Specify what TypeDoc should emit, 'docs', 'both', or 'none'.",
-        type: ParameterType.Map,
-        map: EmitStrategy,
-        defaultValue: "docs",
-    });
-
-    options.addDeclaration({
-        name: "out",
-        help: "Specify the location the documentation should be written to.",
-        type: ParameterType.Path,
-        hint: ParameterHint.Directory,
-    });
-    options.addDeclaration({
-        name: "json",
-        help: "Specify the location and filename a JSON file describing the project is written to.",
-        type: ParameterType.Path,
-        hint: ParameterHint.File,
-    });
-    options.addDeclaration({
-        name: "pretty",
-        help: "Specify whether the output JSON should be formatted with tabs.",
-        type: ParameterType.Boolean,
-        defaultValue: true,
-    });
-
-    options.addDeclaration({
-        name: "theme",
-        help:
-            "Specify the path to the theme that should be used, or 'default' or 'minimal' to use built-in themes. " +
-            "Note: Not resolved according to the config file location, always resolved according to cwd.",
-        type: ParameterType.String,
-        defaultValue: "default",
-    });
-
-    const defaultLightTheme: Theme = "light-plus";
-    const defaultDarkTheme: Theme = "dark-plus";
-
-    options.addDeclaration({
-        name: "lightHighlightTheme",
-        help: "Specify the code highlighting theme in light mode.",
-        type: ParameterType.String,
-        defaultValue: defaultLightTheme,
-        validate(value) {
-            if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
-                throw new Error(
-                    `lightHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
-                        ", "
-                    )}`
-                );
-            }
-        },
-    });
-    options.addDeclaration({
-        name: "darkHighlightTheme",
-        help: "Specify the code highlighting theme in dark mode.",
-        type: ParameterType.String,
-        defaultValue: defaultDarkTheme,
-        validate(value) {
-            if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
-                throw new Error(
-                    `darkHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
-                        ", "
-                    )}`
-                );
-            }
-        },
-    });
-
-    options.addDeclaration({
-        name: "customCss",
-        help: "Path to a custom CSS file to for the theme to import.",
-        type: ParameterType.Path,
-    });
-
-    options.addDeclaration({
-        name: "name",
-        help: "Set the name of the project that will be used in the header of the template.",
-    });
-    options.addDeclaration({
-        name: "includeVersion",
-        help: "Add the package version to the project name.",
-        type: ParameterType.Boolean,
-    });
-    options.addDeclaration({
-        name: "readme",
-        help: "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.",
-        type: ParameterType.Path,
-    });
-    options.addDeclaration({
-        name: "defaultCategory",
-        help: "Specify the default category for reflections without a category.",
-        defaultValue: "Other",
-    });
-    options.addDeclaration({
-        name: "categoryOrder",
-        help: "Specify the order in which categories appear. * indicates the relative order for categories not in the list.",
-        type: ParameterType.Array,
-    });
-    options.addDeclaration({
-        name: "categorizeByGroup",
-        help: "Specify whether categorization will be done at the group level.",
-        type: ParameterType.Boolean,
-        defaultValue: true,
-    });
-    options.addDeclaration({
-        name: "cname",
-        help: "Set the CNAME file text, it's useful for custom domains on GitHub Pages.",
-    });
-    options.addDeclaration({
-        name: "sort",
-        help: "Specify the sort strategy for documented values.",
-        type: ParameterType.Array,
-        defaultValue: ["kind", "instance-first", "alphabetical"],
-        validate(value) {
-            const invalid = new Set(value);
-            for (const v of SORT_STRATEGIES) {
-                invalid.delete(v);
-            }
-
-            if (invalid.size !== 0) {
-                throw new Error(
-                    `sort may only specify known values, and invalid values were provided (${Array.from(
-                        invalid
-                    ).join(
-                        ", "
-                    )}). The valid sort strategies are:\n${SORT_STRATEGIES.join(
-                        ", "
-                    )}`
-                );
-            }
-        },
-    });
-    options.addDeclaration({
-        name: "gitRevision",
-        help: "Use specified revision instead of the last revision for linking to GitHub/Bitbucket source files.",
-    });
-    options.addDeclaration({
-        name: "gitRemote",
-        help: "Use the specified remote for linking to GitHub/Bitbucket source files.",
-        defaultValue: "origin",
-    });
-    options.addDeclaration({
-        name: "gaID",
-        help: "Set the Google Analytics tracking ID and activate tracking code.",
-    });
-    options.addDeclaration({
-        name: "githubPages",
-        help: "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`.",
-        type: ParameterType.Boolean,
-        defaultValue: true,
-    });
-    options.addDeclaration({
-        name: "hideGenerator",
-        help: "Do not print the TypeDoc link at the end of the page.",
-        type: ParameterType.Boolean,
-    });
-    options.addDeclaration({
-        name: "cleanOutputDir",
-        help: "If set, TypeDoc will remove the output directory before writing output.",
-        type: ParameterType.Boolean,
-        defaultValue: true,
-    });
-
-    options.addDeclaration({
-        name: "commentStyle",
-        help: "Determines how TypeDoc searches for comments.",
-        type: ParameterType.Map,
-        map: CommentStyle,
-        defaultValue: CommentStyle.JSDoc,
-    });
-
-    options.addDeclaration({
-        name: "excludeTags",
-        help: "Remove the listed block/modifier tags from doc comments.",
-        type: ParameterType.Array,
-        defaultValue: ["@override", "@virtual", "@privateRemarks"],
-        validate(value) {
-            if (!Validation.validate([Array, Validation.isTagString], value)) {
-                throw new Error(
-                    `excludeTags must be an array of valid tag names.`
-                );
-            }
-        },
-    });
-    options.addDeclaration({
-        name: "blockTags",
-        help: "Block tags which TypeDoc should recognize when parsing comments.",
-        type: ParameterType.Array,
-        defaultValue: blockTags,
-        validate(value) {
-            if (!Validation.validate([Array, Validation.isTagString], value)) {
-                throw new Error(
-                    `blockTags must be an array of valid tag names.`
-                );
-            }
-        },
-    });
-    options.addDeclaration({
-        name: "inlineTags",
-        help: "Inline tags which TypeDoc should recognize when parsing comments.",
-        type: ParameterType.Array,
-        defaultValue: inlineTags,
-        validate(value) {
-            if (!Validation.validate([Array, Validation.isTagString], value)) {
-                throw new Error(
-                    `inlineTags must be an array of valid tag names.`
-                );
-            }
-        },
-    });
-    options.addDeclaration({
-        name: "modifierTags",
-        help: "Modifier tags which TypeDoc should recognize when parsing comments.",
-        type: ParameterType.Array,
-        defaultValue: modifierTags,
-        validate(value) {
-            if (!Validation.validate([Array, Validation.isTagString], value)) {
-                throw new Error(
-                    `modifierTags must be an array of valid tag names.`
-                );
-            }
-        },
     });
 
     options.addDeclaration({
@@ -447,30 +494,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Map,
         map: LogLevel,
         defaultValue: LogLevel.Info,
-    });
-    options.addDeclaration({
-        name: "markedOptions",
-        help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
-        type: ParameterType.Mixed,
-        validate(value) {
-            if (!Validation.validate({}, value)) {
-                throw new Error(
-                    "The 'markedOptions' option must be a non-array object."
-                );
-            }
-        },
-    });
-    options.addDeclaration({
-        name: "compilerOptions",
-        help: "Selectively override the TypeScript compiler options used by TypeDoc.",
-        type: ParameterType.Mixed,
-        validate(value) {
-            if (!Validation.validate({}, value)) {
-                throw new Error(
-                    "The 'compilerOptions' option must be a non-array object."
-                );
-            }
-        },
     });
 
     options.addDeclaration({

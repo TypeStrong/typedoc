@@ -19,10 +19,10 @@ export type EmitStrategy = typeof EmitStrategy[keyof typeof EmitStrategy];
  * @enum
  */
 export const CommentStyle = {
-    JSDoc: "JSDoc",
-    Block: "Block",
-    Line: "Line",
-    All: "All",
+    JSDoc: "jsdoc",
+    Block: "block",
+    Line: "line",
+    All: "all",
 } as const;
 export type CommentStyle = typeof CommentStyle[keyof typeof CommentStyle];
 
