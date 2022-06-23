@@ -868,8 +868,15 @@ function isEnumLike(checker: ts.TypeChecker, type: ts.Type, location: ts.Node) {
 
     return type.getProperties().every((prop) => {
         const propType = checker.getTypeOfSymbolAtLocation(prop, location);
-        return propType.isStringLiteral() || propType.isNumberLiteral();
+        return isValidEnumProperty(propType);
     });
+}
+
+function isValidEnumProperty(type: ts.Type) {
+    return hasAnyFlag(
+        type.flags,
+        ts.TypeFlags.NumberLike | ts.TypeFlags.StringLike
+    );
 }
 
 function convertVariableAsEnum(
@@ -895,20 +902,50 @@ function convertVariableAsEnum(
             void 0
         );
 
-        const propType = context.checker.getTypeOfSymbolAtLocation(
-            prop,
-            declaration
-        );
-        assert(propType.isStringLiteral() || propType.isNumberLiteral());
-
-        reflection.defaultValue = JSON.stringify(propType.value);
-        reflection.type = new LiteralType(propType.value);
+        const enumMemberValue = getEnumMemberValue(context, declaration, prop);
+        if (typeof enumMemberValue === "string" || typeof enumMemberValue === "number") {
+            reflection.defaultValue = JSON.stringify(enumMemberValue);
+            reflection.type = new LiteralType(enumMemberValue);
+        }
 
         rc.finalizeDeclarationReflection(reflection, prop, void 0);
     }
 
     // Skip converting the type alias, if there is one
     return ts.SymbolFlags.TypeAlias;
+}
+
+function getEnumMemberValue(
+    context: Context,
+    declaration: ts.VariableDeclaration,
+    prop: ts.Symbol
+): unknown | undefined {
+    const propType = context.checker.getTypeOfSymbolAtLocation(
+        prop,
+        declaration
+    );
+
+    // The trivial case is a string or number literal.
+    if (propType.isStringLiteral() || propType.isNumberLiteral()) {
+        return propType.value;
+    }
+
+    // Handle expressions that resolve to a string or number value.
+    const propDeclarations = prop.getDeclarations();
+    if (propDeclarations === undefined) {
+        return undefined;
+    }
+
+    const firstPropDeclaration = propDeclarations[0];
+    if (
+        firstPropDeclaration === undefined ||
+        !ts.isPropertyAssignment(firstPropDeclaration)
+    ) {
+        return undefined;
+    }
+
+    const propCode = firstPropDeclaration.initializer.getText();
+    return eval(propCode);
 }
 
 function convertVariableAsFunction(
