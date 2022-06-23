@@ -903,7 +903,10 @@ function convertVariableAsEnum(
         );
 
         const enumMemberValue = getEnumMemberValue(context, declaration, prop);
-        if (typeof enumMemberValue === "string" || typeof enumMemberValue === "number") {
+        if (
+            typeof enumMemberValue === "string" ||
+            typeof enumMemberValue === "number"
+        ) {
             reflection.defaultValue = JSON.stringify(enumMemberValue);
             reflection.type = new LiteralType(enumMemberValue);
         }
