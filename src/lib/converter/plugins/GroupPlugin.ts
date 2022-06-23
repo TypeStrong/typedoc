@@ -42,6 +42,11 @@ export class GroupPlugin extends ConverterComponent {
     @BindOption("sort")
     sortStrategies!: SortStrategy[];
 
+    @BindOption("searchGroupBoosts")
+    boosts!: Record<string, number>;
+
+    usedBoosts = new Set<string>();
+
     /**
      * Create a new GroupPlugin instance.
      */
@@ -73,6 +78,24 @@ export class GroupPlugin extends ConverterComponent {
      */
     private onEndResolve(context: Context) {
         this.group(context.project);
+
+        const unusedBoosts = new Set(Object.keys(this.boosts));
+        for (const boost of this.usedBoosts) {
+            unusedBoosts.delete(boost);
+        }
+        this.usedBoosts.clear();
+
+        if (
+            unusedBoosts.size &&
+            this.application.options.isSet("searchGroupBoosts")
+        ) {
+            context.logger.warn(
+                `Not all groups specified in searchGroupBoosts were used in the documentation.` +
+                    ` The unused groups were:\n\t${Array.from(
+                        unusedBoosts
+                    ).join("\n\t")}`
+            );
+        }
     }
 
     private group(reflection: ContainerReflection) {
@@ -82,9 +105,7 @@ export class GroupPlugin extends ConverterComponent {
             !reflection.groups
         ) {
             sortReflections(reflection.children, this.sortStrategies);
-            reflection.groups = GroupPlugin.getReflectionGroups(
-                reflection.children
-            );
+            reflection.groups = this.getReflectionGroups(reflection.children);
         }
     }
 
@@ -94,7 +115,7 @@ export class GroupPlugin extends ConverterComponent {
      * @privateRemarks
      * If you change this, also update getCategories in CategoryPlugin accordingly.
      */
-    static getGroups(reflection: DeclarationReflection) {
+    getGroups(reflection: DeclarationReflection) {
         const groups = new Set<string>();
         function extractGroupTags(comment: Comment | undefined) {
             if (!comment) return;
@@ -124,6 +145,15 @@ export class GroupPlugin extends ConverterComponent {
         if (groups.size === 0) {
             groups.add(GroupPlugin.getKindPlural(reflection.kind));
         }
+
+        for (const group of groups) {
+            if (group in this.boosts) {
+                this.usedBoosts.add(group);
+                reflection.relevanceBoost =
+                    (reflection.relevanceBoost ?? 1) * this.boosts[group];
+            }
+        }
+
         return groups;
     }
 
@@ -135,13 +165,13 @@ export class GroupPlugin extends ConverterComponent {
      * @param reflections  The reflections that should be grouped.
      * @returns An array containing all children of the given reflection grouped by their kind.
      */
-    static getReflectionGroups(
+    getReflectionGroups(
         reflections: DeclarationReflection[]
     ): ReflectionGroup[] {
         const groups = new Map<string, ReflectionGroup>();
 
         reflections.forEach((child) => {
-            for (const name of GroupPlugin.getGroups(child)) {
+            for (const name of this.getGroups(child)) {
                 let group = groups.get(name);
                 if (!group) {
                     group = new ReflectionGroup(name);

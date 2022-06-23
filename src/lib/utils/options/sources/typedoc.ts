@@ -400,6 +400,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "searchCategoryBoosts",
         help: "Configure search to give a relevance boost to selected categories",
         type: ParameterType.Mixed,
+        defaultValue: {},
         validate(value) {
             if (!isObject(value)) {
                 throw new Error(
@@ -418,25 +419,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "searchGroupBoosts",
         help: 'Configure search to give a relevance boost to selected kinds (eg "class")',
         type: ParameterType.Mixed,
+        defaultValue: {},
         validate(value: unknown) {
             if (!isObject(value)) {
                 throw new Error(
                     "The 'searchGroupBoosts' option must be a non-array object."
                 );
-            }
-
-            const validValues = Object.values(ReflectionKind)
-                .filter((v) => typeof v === "string")
-                .map((v) => v.toString());
-
-            for (const kindName in value) {
-                if (validValues.indexOf(kindName) < 0) {
-                    throw new Error(
-                        `'${kindName}' is an invalid value for 'searchGroupBoosts'. Must be one of: ${validValues.join(
-                            ", "
-                        )}`
-                    );
-                }
             }
 
             if (Object.values(value).some((x) => typeof x !== "number")) {

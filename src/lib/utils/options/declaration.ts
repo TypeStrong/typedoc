@@ -3,7 +3,7 @@ import type { LogLevel } from "../loggers";
 import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point";
-import { ReflectionKind } from "../../models/reflections/kind";
+import type { ReflectionKind } from "../../models/reflections/kind";
 
 /** @enum */
 export const EmitStrategy = {
@@ -34,6 +34,10 @@ export type CommentStyle = typeof CommentStyle[keyof typeof CommentStyle];
 export type TypeDocOptions = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
         ? unknown
+        : TypeDocOptionMap[K] extends ManuallyValidatedOption<
+              infer ManuallyValidated
+          >
+        ? ManuallyValidated
         : TypeDocOptionMap[K] extends string | string[] | number | boolean
         ? TypeDocOptionMap[K]
         : TypeDocOptionMap[K] extends Record<string, boolean>
@@ -51,6 +55,10 @@ export type TypeDocOptions = {
 export type TypeDocOptionValues = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
         ? unknown
+        : TypeDocOptionMap[K] extends ManuallyValidatedOption<
+              infer ManuallyValidated
+          >
+        ? ManuallyValidated
         : TypeDocOptionMap[K] extends
               | string
               | string[]
@@ -60,12 +68,6 @@ export type TypeDocOptionValues = {
         ? TypeDocOptionMap[K]
         : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
-
-const Kinds = Object.values(ReflectionKind);
-export interface SearchConfig {
-    searchGroupBoosts?: { [key: typeof Kinds[number]]: number };
-    searchCategoryBoosts?: { [key: string]: number };
-}
 
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
@@ -134,8 +136,8 @@ export interface TypeDocOptionMap {
     version: boolean;
     showConfig: boolean;
     plugin: string[];
-    searchCategoryBoosts: unknown;
-    searchGroupBoosts: unknown;
+    searchCategoryBoosts: ManuallyValidatedOption<Record<string, number>>;
+    searchGroupBoosts: ManuallyValidatedOption<Record<string, number>>;
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
     markedOptions: unknown;

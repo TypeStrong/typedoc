@@ -27,7 +27,9 @@ export class CategoryPlugin extends ConverterComponent {
     categorizeByGroup!: boolean;
 
     @BindOption("searchCategoryBoosts")
-    searchCategoryBoosts!: Record<string, number> | undefined;
+    boosts!: Record<string, number>;
+
+    usedBoosts = new Set<string>();
 
     // For use in static methods
     static defaultCategory = "Other";
@@ -82,6 +84,21 @@ export class CategoryPlugin extends ConverterComponent {
     private onEndResolve(context: Context) {
         const project = context.project;
         this.categorize(project);
+
+        const unusedBoosts = new Set(Object.keys(this.boosts));
+        for (const boost of this.usedBoosts) {
+            unusedBoosts.delete(boost);
+        }
+        this.usedBoosts.clear();
+
+        if (unusedBoosts.size) {
+            context.logger.warn(
+                `Not all categories specified in searchCategoryBoosts were used in the documentation.` +
+                    ` The unused categories were:\n\t${Array.from(
+                        unusedBoosts
+                    ).join("\n\t")}`
+            );
+        }
     }
 
     private categorize(obj: ContainerReflection) {
@@ -99,10 +116,7 @@ export class CategoryPlugin extends ConverterComponent {
         obj.groups.forEach((group) => {
             if (group.categories) return;
 
-            group.categories = CategoryPlugin.getReflectionCategories(
-                group.children,
-                this.searchCategoryBoosts
-            );
+            group.categories = this.getReflectionCategories(group.children);
             if (group.categories && group.categories.length > 1) {
                 group.categories.sort(CategoryPlugin.sortCatCallback);
             } else if (
@@ -119,10 +133,7 @@ export class CategoryPlugin extends ConverterComponent {
         if (!obj.children || obj.children.length === 0 || obj.categories) {
             return;
         }
-        obj.categories = CategoryPlugin.getReflectionCategories(
-            obj.children,
-            this.searchCategoryBoosts
-        );
+        obj.categories = this.getReflectionCategories(obj.children);
         if (obj.categories && obj.categories.length > 1) {
             obj.categories.sort(CategoryPlugin.sortCatCallback);
         } else if (
@@ -142,14 +153,13 @@ export class CategoryPlugin extends ConverterComponent {
      *   relevance boost to be used when searching
      * @returns An array containing all children of the given reflection categorized
      */
-    static getReflectionCategories(
-        reflections: DeclarationReflection[],
-        categorySearchBoosts: { [key: string]: number } | undefined
+    getReflectionCategories(
+        reflections: DeclarationReflection[]
     ): ReflectionCategory[] {
         const categories: ReflectionCategory[] = [];
         let defaultCat: ReflectionCategory | undefined;
         reflections.forEach((child) => {
-            const childCategories = CategoryPlugin.getCategories(child);
+            const childCategories = this.getCategories(child);
             if (childCategories.size === 0) {
                 if (!defaultCat) {
                     defaultCat = categories.find(
@@ -170,11 +180,6 @@ export class CategoryPlugin extends ConverterComponent {
             for (const childCat of childCategories) {
                 let category = categories.find((cat) => cat.title === childCat);
 
-                const catBoost = categorySearchBoosts?.[category?.title ?? -1];
-                if (catBoost != undefined) {
-                    child.relevanceBoost =
-                        (child.relevanceBoost ?? 1) * catBoost;
-                }
                 if (category) {
                     category.children.push(child);
                     continue;
@@ -196,7 +201,7 @@ export class CategoryPlugin extends ConverterComponent {
      * @privateRemarks
      * If you change this, also update getGroups in GroupPlugin accordingly.
      */
-    static getCategories(reflection: DeclarationReflection) {
+    getCategories(reflection: DeclarationReflection) {
         const categories = new Set<string>();
         function extractCategoryTags(comment: Comment | undefined) {
             if (!comment) return;
@@ -225,6 +230,15 @@ export class CategoryPlugin extends ConverterComponent {
         }
 
         categories.delete("");
+
+        for (const cat of categories) {
+            if (cat in this.boosts) {
+                this.usedBoosts.add(cat);
+                reflection.relevanceBoost =
+                    (reflection.relevanceBoost ?? 1) * this.boosts[cat];
+            }
+        }
+
         return categories;
     }
 

@@ -11,6 +11,7 @@
 -   In the JSON output for `DeclarationReflection`s, `getSignature` is no longer a one-tuple.
 -   In the JSON output for `DeclarationReflection`s, `setSignature` is no longer a one-tuple.
 -   In the JSON output for `DeclarationReflection`s, `typeParameter` has been renamed to `typeParameters`
+-   The `searchGroupBoosts` option must now be given the rendered group name rather than reflection kind names, and can be given custom group names.
 -   `@inheritDoc` now follows the behavior specified by TSDoc when copying comments with a reference.
 -   The `gaSite` option has been removed since Google Analytics now infers the site automatically, updated Google Analytics script to latest version, #1846.
 -   Comments on export declarations will only overrides comments for references and namespaces, #1901.

@@ -2,7 +2,7 @@ import { Component, IComponentOptions } from "../Component";
 import { storage } from "../utils/storage";
 
 /**
- * Handles accordion dropdown behaviour.
+ * Handles accordion dropdown behavior.
  */
 export class Accordion extends Component {
     override el!: HTMLDetailsElement;

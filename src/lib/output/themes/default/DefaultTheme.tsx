@@ -281,7 +281,10 @@ export class DefaultTheme extends Theme {
                     classes.push("tsd-is-external");
                 }
             } else if (key.startsWith("@")) {
-                if (reflection.comment?.hasModifier(key as `@${string}`)) {
+                if (
+                    reflection.comment?.hasModifier(key as `@${string}`) ||
+                    reflection.comment?.getTag(key as `@${string}`)
+                ) {
                     classes.push(DefaultTheme.toStyleClass(`tsd-is-${key.substring(1)}`));
                 }
             }

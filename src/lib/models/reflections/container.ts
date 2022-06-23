@@ -22,8 +22,8 @@ export class ContainerReflection extends Reflection {
     categories?: ReflectionCategory[];
 
     /**
-     * A precomputed boost derived from the searchCategoryBoosts typedoc.json setting, to be used when
-     * boosting search relevance scores at runtime.
+     * A precomputed boost derived from the searchCategoryBoosts and searchGroupBoosts options, used when
+     * boosting search relevance scores at runtime. May be modified by plugins.
      */
     relevanceBoost?: number;
 
