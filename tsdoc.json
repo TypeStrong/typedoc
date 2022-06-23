@@ -56,6 +56,16 @@
             "tagName": "@template",
             "syntaxKind": "block",
             "allowMultiple": true
+        },
+        {
+            "tagName": "@linkcode",
+            "syntaxKind": "inline",
+            "allowMultiple": true
+        },
+        {
+            "tagName": "@linkplain",
+            "syntaxKind": "block",
+            "allowMultiple": true
         }
     ]
 }

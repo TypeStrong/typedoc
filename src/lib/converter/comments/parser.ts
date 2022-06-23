@@ -230,7 +230,7 @@ function blockContent(
             case TokenSyntaxKind.Tag:
                 if (next.text === "@inheritdoc") {
                     warning(
-                        "The @inheritDoc tag should be properly capitalized."
+                        "The @inheritDoc tag should be properly capitalized"
                     );
                     next.text = "@inheritDoc";
                 }

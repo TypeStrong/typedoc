@@ -1,12 +1,4 @@
 /**
- * This comment has a code block that is only marked by indentation.
- *
- *     @thisIsADecorator
- *     class Foo {}
- * @module
- */
-
-/**
  * This is a module.
  */
 export module MyModule {

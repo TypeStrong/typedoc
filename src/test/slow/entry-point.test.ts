@@ -7,6 +7,9 @@ const fixture = tempdirProject();
 fixture.addJsonFile("tsconfig.json", {
     include: ["."],
 });
+fixture.addJsonFile("package.json", {
+    main: "index.ts",
+});
 fixture.addFile("index.ts", "export function fromIndex() {}");
 fixture.addFile("extra.ts", "export function extra() {}");
 
@@ -72,15 +75,14 @@ describe("Entry Points", () => {
     });
 
     it("Supports resolving packages", () => {
-        const root = join(__dirname, "../packages/multi-package");
         app.bootstrap({
-            tsconfig: root,
-            entryPoints: [root],
+            tsconfig: tsconfig,
+            entryPoints: [fixture.cwd],
             entryPointStrategy: EntryPointStrategy.Packages,
         });
 
         const entryPoints = app.getEntryPoints();
         ok(entryPoints);
-        equal(entryPoints.length, 3);
+        equal(entryPoints.length, 1);
     });
 });

@@ -17,6 +17,7 @@
     "ignorePatterns": [
         "src/test/renderer/specs",
         "dist",
+        "docs",
         "coverage",
         "static/main.js",
         "src/lib/output/themes/default/assets",

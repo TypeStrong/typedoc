@@ -1082,7 +1082,7 @@ describe("Comment Parser", () => {
     it("Should rewrite @inheritdoc to @inheritDoc", () => {
         let calls = 0;
         function warning(msg: string) {
-            equal(msg, "The @inheritDoc tag should be properly capitalized.");
+            equal(msg, "The @inheritDoc tag should be properly capitalized");
             calls++;
         }
         const content = lexBlockComment("/** @inheritdoc */");
