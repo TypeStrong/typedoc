@@ -915,22 +915,10 @@ function convertVariableAsEnum(
             declaration
         );
 
+        reflection.type = context.converter.convertType(context, propType);
+
         if (propType.isStringLiteral() || propType.isNumberLiteral()) {
-            // The trivial case is a string or number literal.
-            const enumMemberValue = propType.value;
-            reflection.defaultValue = JSON.stringify(enumMemberValue);
-            reflection.type = new LiteralType(enumMemberValue);
-        } else {
-            // If this is not a string or number literal, this it is probably an expression, like
-            // "1 << 1". We cannot safely evaluate the code to find out the value, so revert to
-            // printing "number" or "string", similar to what TypeScript itself does.
-            if (isNumberLike(propType)) {
-                reflection.type = new IntrinsicType("number");
-            } else if (isStringLike(propType)) {
-                reflection.type = new IntrinsicType("string");
-            } else {
-                reflection.type = new IntrinsicType("unknown");
-            }
+            reflection.defaultValue = JSON.stringify(propType.value);
         }
 
         rc.finalizeDeclarationReflection(reflection, prop, void 0);
