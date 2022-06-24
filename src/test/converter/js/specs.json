@@ -99,10 +99,9 @@
               "kindString": "Enumeration Member",
               "flags": {},
               "type": {
-                "type": "literal",
-                "value": "number"
-              },
-              "defaultValue": "\"number\""
+                "type": "intrinsic",
+                "name": "string"
+              }
             },
             {
               "id": 11,
@@ -111,10 +110,9 @@
               "kindString": "Enumeration Member",
               "flags": {},
               "type": {
-                "type": "literal",
-                "value": "string"
-              },
-              "defaultValue": "\"string\""
+                "type": "intrinsic",
+                "name": "string"
+              }
             }
           ],
           "groups": [
