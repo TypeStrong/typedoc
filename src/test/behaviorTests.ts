@@ -81,6 +81,13 @@ export const behaviorTests: Record<
             "WithoutReadonlyNumeric"
         );
 
+        const WithInvalidTypeUnionMember = query(project, "WithInvalidTypeUnionMember");
+        equal(
+            WithInvalidTypeUnionMember.kind,
+            ReflectionKind.Variable,
+            "WithInvalidTypeUnionMember"
+        );
+
         const WithNumericExpression = query(project, "WithNumericExpression");
         equal(
             WithNumericExpression.kind,
