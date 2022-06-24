@@ -879,14 +879,6 @@ function isValidEnumProperty(type: ts.Type) {
     );
 }
 
-function isNumberLike(type: ts.Type) {
-    return hasAnyFlag(type.flags, ts.TypeFlags.NumberLike);
-}
-
-function isStringLike(type: ts.Type) {
-    return hasAnyFlag(type.flags, ts.TypeFlags.StringLike);
-}
-
 function convertVariableAsEnum(
     context: Context,
     symbol: ts.Symbol,
