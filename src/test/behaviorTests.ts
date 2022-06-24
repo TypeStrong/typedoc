@@ -81,7 +81,10 @@ export const behaviorTests: Record<
             "WithoutReadonlyNumeric"
         );
 
-        const WithInvalidTypeUnionMember = query(project, "WithInvalidTypeUnionMember");
+        const WithInvalidTypeUnionMember = query(
+            project,
+            "WithInvalidTypeUnionMember"
+        );
         equal(
             WithInvalidTypeUnionMember.kind,
             ReflectionKind.Variable,
