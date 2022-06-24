@@ -879,6 +879,20 @@ function isValidEnumProperty(type: ts.Type) {
     );
 }
 
+function isNumberLike(type: ts.Type) {
+    return hasAnyFlag(
+        type.flags,
+        ts.TypeFlags.NumberLike
+    );
+}
+
+function isStringLike(type: ts.Type) {
+    return hasAnyFlag(
+        type.flags,
+        ts.TypeFlags.StringLike
+    );
+}
+
 function convertVariableAsEnum(
     context: Context,
     symbol: ts.Symbol,
@@ -902,13 +916,27 @@ function convertVariableAsEnum(
             void 0
         );
 
-        const enumMemberValue = getEnumMemberValue(context, declaration, prop);
-        if (
-            typeof enumMemberValue === "string" ||
-            typeof enumMemberValue === "number"
-        ) {
+        const propType = context.checker.getTypeOfSymbolAtLocation(
+            prop,
+            declaration
+        );
+
+        if (propType.isStringLiteral() || propType.isNumberLiteral()) {
+            // The trivial case is a string or number literal.
+            const enumMemberValue = propType.value;
             reflection.defaultValue = JSON.stringify(enumMemberValue);
             reflection.type = new LiteralType(enumMemberValue);
+        } else {
+            // If this is not a string or number literal, this it is probably an expression, like
+            // "1 << 1". We cannot safely evaluate the code to find out the value, so revert to
+            // printing "number" or "string", similar to what TypeScript itself does.
+            if (isNumberLike(propType)) {
+                reflection.type = new IntrinsicType("number");
+            } else if (isStringLike(propType)) {
+                reflection.type = new IntrinsicType ("string");
+            } else {
+                reflection.type = new IntrinsicType ("unknown");
+            }
         }
 
         rc.finalizeDeclarationReflection(reflection, prop, void 0);
@@ -916,39 +944,6 @@ function convertVariableAsEnum(
 
     // Skip converting the type alias, if there is one
     return ts.SymbolFlags.TypeAlias;
-}
-
-function getEnumMemberValue(
-    context: Context,
-    declaration: ts.VariableDeclaration,
-    prop: ts.Symbol
-): unknown | undefined {
-    const propType = context.checker.getTypeOfSymbolAtLocation(
-        prop,
-        declaration
-    );
-
-    // The trivial case is a string or number literal.
-    if (propType.isStringLiteral() || propType.isNumberLiteral()) {
-        return propType.value;
-    }
-
-    // Handle expressions that resolve to a string or number value.
-    const propDeclarations = prop.getDeclarations();
-    if (propDeclarations === undefined) {
-        return undefined;
-    }
-
-    const firstPropDeclaration = propDeclarations[0];
-    if (
-        firstPropDeclaration === undefined ||
-        !ts.isPropertyAssignment(firstPropDeclaration)
-    ) {
-        return undefined;
-    }
-
-    const propCode = firstPropDeclaration.initializer.getText();
-    return eval(propCode);
 }
 
 function convertVariableAsFunction(
