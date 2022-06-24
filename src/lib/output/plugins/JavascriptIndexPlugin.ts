@@ -73,11 +73,11 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 kinds[reflection.kind] = GroupPlugin.getKindSingular(
                     reflection.kind
                 );
+            }
 
-                const kindBoost = kindBoosts[kinds[reflection.kind] ?? ""];
-                if (kindBoost != undefined) {
-                    boost *= kindBoost;
-                }
+            const kindBoost = kindBoosts[kinds[reflection.kind] ?? ""];
+            if (kindBoost != undefined) {
+                boost *= kindBoost;
             }
 
             const row: any = {
