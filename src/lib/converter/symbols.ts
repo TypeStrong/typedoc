@@ -880,17 +880,11 @@ function isValidEnumProperty(type: ts.Type) {
 }
 
 function isNumberLike(type: ts.Type) {
-    return hasAnyFlag(
-        type.flags,
-        ts.TypeFlags.NumberLike
-    );
+    return hasAnyFlag(type.flags, ts.TypeFlags.NumberLike);
 }
 
 function isStringLike(type: ts.Type) {
-    return hasAnyFlag(
-        type.flags,
-        ts.TypeFlags.StringLike
-    );
+    return hasAnyFlag(type.flags, ts.TypeFlags.StringLike);
 }
 
 function convertVariableAsEnum(
@@ -933,9 +927,9 @@ function convertVariableAsEnum(
             if (isNumberLike(propType)) {
                 reflection.type = new IntrinsicType("number");
             } else if (isStringLike(propType)) {
-                reflection.type = new IntrinsicType ("string");
+                reflection.type = new IntrinsicType("string");
             } else {
-                reflection.type = new IntrinsicType ("unknown");
+                reflection.type = new IntrinsicType("unknown");
             }
         }
 
