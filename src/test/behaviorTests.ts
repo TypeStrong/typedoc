@@ -80,6 +80,13 @@ export const behaviorTests: Record<
             ReflectionKind.Enum,
             "WithoutReadonlyNumeric"
         );
+
+        const WithNumericExpression = query(project, "WithNumericExpression");
+        equal(
+            WithNumericExpression.kind,
+            ReflectionKind.Enum,
+            "WithNumericExpression"
+        );
     },
 
     declareGlobal(project) {
