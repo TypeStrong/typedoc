@@ -183,7 +183,7 @@ export class CategoryPlugin extends ConverterComponent {
             for (const childCat of childCategories) {
                 let category = categories.find((cat) => cat.title === childCat);
 
-                const catBoost = categorySearchBoosts[category?.title ?? -1];
+                const catBoost = categorySearchBoosts[childCat ?? -1];
                 if (catBoost != undefined) {
                     child.relevanceBoost =
                         (child.relevanceBoost ?? 1) * catBoost;
