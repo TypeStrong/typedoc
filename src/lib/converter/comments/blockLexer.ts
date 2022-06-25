@@ -283,7 +283,7 @@ function* lexBlockComment2(
     }
 
     function lookaheadExactlyNTicks(pos: number, n: number) {
-        if (pos + n >= end) {
+        if (pos + n > end) {
             return false;
         }
 

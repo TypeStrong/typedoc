@@ -886,6 +886,18 @@ describe("Raw Lexer", () => {
         ]);
     });
 
+    // https://github.com/TypeStrong/typedoc/issues/1922#issuecomment-1166278275
+    it("Should handle code blocks ending a string", () => {
+        const tokens = lex("`code`");
+
+        equal(tokens, [
+            {
+                kind: "code",
+                text: "`code`",
+            },
+        ]);
+    });
+
     it("Should allow inline code with multiple ticks", () => {
         const tokens = lex("test ```not ```` closed``` after");
         equal(tokens, [
