@@ -9,6 +9,8 @@ import type { Context } from "../context";
 import type { Reflection } from "../../models/reflections/abstract";
 import { DefaultMap } from "../../utils";
 import { zip } from "../../utils/array";
+import { parseDeclarationReference } from "../comments/declarationReference";
+import { resolveDeclarationReference } from "../comments/declarationReferenceResolver";
 
 /**
  * A plugin that handles `@inheritDoc` tags by copying documentation from another API item.
@@ -51,7 +53,10 @@ export class InheritDocPlugin extends ConverterComponent {
         for (const reflection of Object.values(context.project.reflections)) {
             const source = extractInheritDocTagReference(reflection);
             if (!source) continue;
-            let sourceRefl = source && reflection.findReflectionByName(source);
+
+            const declRef = parseDeclarationReference(source, 0, source.length);
+            let sourceRefl =
+                declRef && resolveDeclarationReference(reflection, declRef[0]);
 
             if (reflection instanceof SignatureReflection) {
                 // Assumes that if there are overloads, they are declared in the same order as the parent.

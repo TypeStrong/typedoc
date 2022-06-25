@@ -489,6 +489,9 @@ export abstract class Reflection {
      * Try to find a reflection by its name.
      *
      * @return The found reflection or null.
+     * @deprecated This method not be used, it naively splits the name by a `.` and searches recursively up
+     * the parent tree, which is not how any other name resolver works. If you are currently using this and
+     * need another method, please open an issue. For tests {@link getChildByName} should generally be sufficient.
      */
     findReflectionByName(arg: string | string[]): Reflection | undefined {
         const names: string[] = Array.isArray(arg)

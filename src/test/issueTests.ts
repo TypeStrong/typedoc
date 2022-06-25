@@ -259,7 +259,7 @@ export const issueTests: {
     gh1578(project) {
         ok(query(project, "notIgnored"));
         ok(
-            !project.findReflectionByName("ignored"),
+            !project.getChildByName("ignored"),
             "Symbol re-exported from ignored file is ignored."
         );
     },
