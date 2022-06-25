@@ -34,6 +34,7 @@ export interface DeclarationReference {
 
 export interface Meaning {
     keyword?: MeaningKeyword;
+    label?: string;
     index?: number;
 }
 
@@ -63,6 +64,8 @@ const DecimalDigit = "0123456789";
 const HexDigit = DecimalDigit + "abcdefABCDEF";
 const SingleEscapeCharacter = `'"\\bfnrtv`;
 const EscapeCharacter = SingleEscapeCharacter + DecimalDigit + "xu";
+const UserLabelStart = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+const UserLabelCharacter = UserLabelStart + DecimalDigit;
 
 const SingleEscapeChars: Record<Chars<typeof SingleEscapeCharacter>, string> = {
     "'": "'",
@@ -313,16 +316,22 @@ export function parseComponentPath(source: string, pos: number, end: number) {
     return [components, pos] as const;
 }
 
+// The TSDoc specification permits the first four branches of Meaning. TypeDoc adds the UserLabel
+// branch so that the @label tag can be used with this form of declaration references.
 // Meaning:
 //     `:` MeaningKeyword                            // Indicates the meaning of a symbol (i.e. ':class')
 //     `:` MeaningKeyword `(` DecimalDigits `)`      // Indicates an overloaded meaning (i.e. ':function(1)')
 //     `:` `(` DecimalDigits `)`                     // Shorthand for an overloaded meaning (i.e. `:(1)`)
 //     `:` DecimalDigits                             // Shorthand for an overloaded meaning (i.e. ':1')
+//     `:` UserLabel                                 // Indicates a user defined label via {@label CUSTOM_LABEL}
+//
+// UserLabel:
+//     UserLabelStart UserLabelCharacter*
 export function parseMeaning(
     source: string,
     pos: number,
     end: number
-): [{ keyword?: MeaningKeyword; index?: number }, number] | undefined {
+): [Meaning, number] | undefined {
     if (source[pos++] !== ":") return;
 
     const keyword = MeaningKeywords.find(
@@ -331,6 +340,19 @@ export function parseMeaning(
 
     if (keyword) {
         pos += keyword.length;
+    }
+
+    if (!keyword && UserLabelStart.includes(source[pos])) {
+        let lookahead = pos + 1;
+
+        while (
+            lookahead < end &&
+            UserLabelCharacter.includes(source[lookahead])
+        ) {
+            lookahead++;
+        }
+
+        return [{ label: source.substring(pos, lookahead) }, lookahead];
     }
 
     if (
@@ -350,7 +372,7 @@ export function parseMeaning(
                     keyword,
                     index: parseInt(source.substring(pos + 1, lookahead)),
                 },
-                pos,
+                lookahead + 1,
             ];
         }
     }
@@ -366,7 +388,7 @@ export function parseMeaning(
             {
                 index: parseInt(source.substring(pos, lookahead)),
             },
-            pos,
+            lookahead,
         ];
     }
 

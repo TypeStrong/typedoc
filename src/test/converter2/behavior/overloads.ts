@@ -4,7 +4,7 @@
  */
 export function foo(): string;
 /**
- * {@inheritDoc (foo:NO_ARGS)}
+ * {@inheritDoc foo:NO_ARGS}
  * {@label WITH_X}
  * @param x docs for x
  */
@@ -24,3 +24,8 @@ export function bar(x: string): string;
 export function bar(x?: string) {
     return x || "";
 }
+
+/**
+ * {@label bad}
+ */
+export function badLabel() {}

@@ -82,7 +82,17 @@ describe("Declaration References", () => {
     });
 
     describe("Meaning parsing", () => {
-        const parse = (s: string) => parseMeaning(s, 0, s.length)?.[0];
+        const parse = (s: string) => {
+            const meaning = parseMeaning(s, 0, s.length);
+            if (meaning) {
+                equal(
+                    meaning[1],
+                    s.length,
+                    "Parse did not consume full string"
+                );
+            }
+            return meaning?.[0];
+        };
 
         it("Fails if string does not start with :", () => {
             equal(parse("class"), undefined);
@@ -97,7 +107,9 @@ describe("Declaration References", () => {
         });
 
         it("Does not parse index if invalid", () => {
-            equal(parse(":class(123"), { keyword: "class" });
+            const input = ":class(123";
+            const meaning = parseMeaning(input, 0, input.length);
+            equal(meaning, [{ keyword: "class" }, ":class".length]);
         });
 
         it("Parses an index", () => {
@@ -106,6 +118,10 @@ describe("Declaration References", () => {
 
         it("Parses a bare index", () => {
             equal(parse(":123"), { index: 123 });
+        });
+
+        it("Parses a user identifier", () => {
+            equal(parse(":USER_IDENT"), { label: "USER_IDENT" });
         });
     });
 

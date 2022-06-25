@@ -265,9 +265,17 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(_context: Context, reflection: Reflection) {
+    private onResolve(context: Context, reflection: Reflection) {
         if (reflection.comment) {
             reflection.label = extractLabelTag(reflection.comment);
+            if (reflection.label && !/[A-Z_][A-Z0-9_]/.test(reflection.label)) {
+                context.logger.warn(
+                    `The label "${
+                        reflection.label
+                    }" for ${reflection.getFriendlyFullName()} cannot be referenced with a declaration reference. ` +
+                        `Labels may only contain A-Z, 0-9, and _, and may not start with a number.`
+                );
+            }
 
             mergeSeeTags(reflection.comment);
         }

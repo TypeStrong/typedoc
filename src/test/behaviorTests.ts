@@ -462,15 +462,12 @@ export const behaviorTests: {
         );
     },
 
-    overloads(project) {
+    overloads(project, logger) {
         const foo = query(project, "foo");
         const fooComments = foo.signatures?.map((sig) =>
             Comment.combineDisplayParts(sig.comment?.summary)
         );
-        equal(fooComments, [
-            "No arg comment\n",
-            "{@inheritDoc (foo:NO_ARGS)}\n",
-        ]);
+        equal(fooComments, ["No arg comment\n", "No arg comment\n"]);
         equal(foo.comment, undefined);
 
         equal(
@@ -484,6 +481,12 @@ export const behaviorTests: {
         );
         equal(barComments, ["Implementation comment", "Custom comment"]);
         equal(bar.comment, undefined);
+
+        logger.expectMessage(
+            'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.'
+        );
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
     },
 
     readonlyTag(project) {
