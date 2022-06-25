@@ -94,6 +94,23 @@ export const behaviorTests: {
             ReflectionKind.Enum,
             "WithoutReadonlyNumeric"
         );
+
+        const WithInvalidTypeUnionMember = query(
+            project,
+            "WithInvalidTypeUnionMember"
+        );
+        equal(
+            WithInvalidTypeUnionMember.kind,
+            ReflectionKind.Variable,
+            "WithInvalidTypeUnionMember"
+        );
+
+        const WithNumericExpression = query(project, "WithNumericExpression");
+        equal(
+            WithNumericExpression.kind,
+            ReflectionKind.Enum,
+            "WithNumericExpression"
+        );
     },
 
     _blockComment(app) {

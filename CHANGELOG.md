@@ -84,6 +84,21 @@
 -   @futurGH
 -   @Shane4368
 
+## v0.22.18 (2022-06-25)
+
+### Features
+
+-   Relaxed restrictions on `@enum` style enums to also permit non-literal strings and numbers, #1956.
+
+### Bug Fixes
+
+-   `searchGroupBoosts` was only computing the boost for the first reflection in a group, #1958.
+
+### Thanks!
+
+-   @shmax
+-   @Zamiell
+
 ## v0.22.17 (2022-06-01)
 
 ### Features

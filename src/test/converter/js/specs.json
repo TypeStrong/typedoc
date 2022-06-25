@@ -103,7 +103,85 @@
       "flags": {},
       "children": [
         {
-          "id": 17,
+          "id": 10,
+          "name": "ColumnType",
+          "kind": 8,
+          "kindString": "Enumeration",
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "enum comment"
+              }
+            ]
+          },
+          "children": [
+            {
+              "id": 12,
+              "name": "NUMBER",
+              "kind": 16,
+              "kindString": "Enumeration Member",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 62,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L62"
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 11,
+              "name": "STRING",
+              "kind": 16,
+              "kindString": "Enumeration Member",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 61,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L61"
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Enumeration Members",
+              "children": [
+                12,
+                11
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 60,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L60"
+            },
+            {
+              "fileName": "index.js",
+              "line": 58,
+              "character": 3,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L58"
+            }
+          ]
+        },
+        {
+          "id": 15,
           "name": "AlsoInterfaceIsh",
           "kind": 256,
           "kindString": "Interface",
@@ -118,7 +196,7 @@
           },
           "children": [
             {
-              "id": 19,
+              "id": 17,
               "name": "bar",
               "kind": 1024,
               "kindString": "Property",
@@ -137,7 +215,7 @@
               }
             },
             {
-              "id": 18,
+              "id": 16,
               "name": "foo",
               "kind": 1024,
               "kindString": "Property",
@@ -160,8 +238,8 @@
             {
               "title": "Properties",
               "children": [
-                19,
-                18
+                17,
+                16
               ]
             }
           ],
@@ -175,14 +253,14 @@
           ]
         },
         {
-          "id": 15,
+          "id": 13,
           "name": "InterfaceIsh",
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
           "children": [
             {
-              "id": 16,
+              "id": 14,
               "name": "foo",
               "kind": 1024,
               "kindString": "Property",
@@ -205,7 +283,7 @@
             {
               "title": "Properties",
               "children": [
-                16
+                14
               ]
             }
           ],
@@ -219,32 +297,7 @@
           ]
         },
         {
-          "id": 14,
-          "name": "ColumnType",
-          "kind": 4194304,
-          "kindString": "Type alias",
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "index.js",
-              "line": 60,
-              "character": 13,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L60"
-            },
-            {
-              "fileName": "index.js",
-              "line": 58,
-              "character": 3,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L58"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          }
-        },
-        {
-          "id": 44,
+          "id": 42,
           "name": "Foo",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -260,7 +313,7 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 45,
+              "id": 43,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
@@ -275,14 +328,14 @@
               ],
               "signatures": [
                 {
-                  "id": 46,
+                  "id": 44,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 47,
+                      "id": 45,
                       "name": "args",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -308,7 +361,7 @@
           }
         },
         {
-          "id": 30,
+          "id": 28,
           "name": "HasReturnTag",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -324,7 +377,7 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 31,
+              "id": 29,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
@@ -339,7 +392,7 @@
               ],
               "signatures": [
                 {
-                  "id": 32,
+                  "id": 30,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -354,7 +407,7 @@
           }
         },
         {
-          "id": 42,
+          "id": 40,
           "name": "Identity",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -377,7 +430,7 @@
           ],
           "typeParameters": [
             {
-              "id": 43,
+              "id": 41,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -394,12 +447,12 @@
           ],
           "type": {
             "type": "reference",
-            "id": 43,
+            "id": 41,
             "name": "T"
           }
         },
         {
-          "id": 33,
+          "id": 31,
           "name": "IdentityFn",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -414,7 +467,7 @@
           ],
           "typeParameters": [
             {
-              "id": 37,
+              "id": 35,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -424,7 +477,7 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 34,
+              "id": 32,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
@@ -439,28 +492,28 @@
               ],
               "signatures": [
                 {
-                  "id": 35,
+                  "id": 33,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 36,
+                      "id": 34,
                       "name": "data",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 37,
+                        "id": 35,
                         "name": "T"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 37,
+                    "id": 35,
                     "name": "T"
                   }
                 }
@@ -469,7 +522,7 @@
           }
         },
         {
-          "id": 22,
+          "id": 20,
           "name": "IntersectionType",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -496,14 +549,14 @@
               {
                 "type": "reflection",
                 "declaration": {
-                  "id": 23,
+                  "id": 21,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 24,
+                      "id": 22,
                       "name": "x",
                       "kind": 1024,
                       "kindString": "Property",
@@ -526,7 +579,7 @@
                     {
                       "title": "Properties",
                       "children": [
-                        24
+                        22
                       ]
                     }
                   ],
@@ -543,14 +596,14 @@
               {
                 "type": "reflection",
                 "declaration": {
-                  "id": 25,
+                  "id": 23,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 26,
+                      "id": 24,
                       "name": "y",
                       "kind": 1024,
                       "kindString": "Property",
@@ -573,7 +626,7 @@
                     {
                       "title": "Properties",
                       "children": [
-                        26
+                        24
                       ]
                     }
                   ],
@@ -591,7 +644,7 @@
           }
         },
         {
-          "id": 27,
+          "id": 25,
           "name": "NoReturnTag",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -607,7 +660,7 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 28,
+              "id": 26,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
@@ -622,7 +675,7 @@
               ],
               "signatures": [
                 {
-                  "id": 29,
+                  "id": 27,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -645,7 +698,7 @@
           }
         },
         {
-          "id": 20,
+          "id": 18,
           "name": "ObjectAlias",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -674,7 +727,7 @@
           }
         },
         {
-          "id": 38,
+          "id": 36,
           "name": "OptionalArg",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -690,7 +743,7 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 39,
+              "id": 37,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
@@ -705,14 +758,14 @@
               ],
               "signatures": [
                 {
-                  "id": 40,
+                  "id": 38,
                   "name": "__type",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 41,
+                      "id": 39,
                       "name": "data",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -743,7 +796,7 @@
           }
         },
         {
-          "id": 21,
+          "id": 19,
           "name": "UnionType",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -777,107 +830,6 @@
               }
             ]
           }
-        },
-        {
-          "id": 10,
-          "name": "ColumnType",
-          "kind": 32,
-          "kindString": "Variable",
-          "flags": {
-            "isConst": true
-          },
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "enum comment"
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "index.js",
-              "line": 60,
-              "character": 13,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L60"
-            },
-            {
-              "fileName": "index.js",
-              "line": 58,
-              "character": 3,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L58"
-            }
-          ],
-          "type": {
-            "type": "reflection",
-            "declaration": {
-              "id": 11,
-              "name": "__type",
-              "kind": 65536,
-              "kindString": "Type literal",
-              "flags": {},
-              "children": [
-                {
-                  "id": 13,
-                  "name": "NUMBER",
-                  "kind": 1024,
-                  "kindString": "Property",
-                  "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "index.js",
-                      "line": 62,
-                      "character": 4,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L62"
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  },
-                  "defaultValue": "\"number\""
-                },
-                {
-                  "id": 12,
-                  "name": "STRING",
-                  "kind": 1024,
-                  "kindString": "Property",
-                  "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "index.js",
-                      "line": 61,
-                      "character": 4,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L61"
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  },
-                  "defaultValue": "\"string\""
-                }
-              ],
-              "groups": [
-                {
-                  "title": "Properties",
-                  "children": [
-                    13,
-                    12
-                  ]
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "index.js",
-                  "line": 60,
-                  "character": 26,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L60"
-                }
-              ]
-            }
-          },
-          "defaultValue": "..."
         },
         {
           "id": 7,
@@ -928,31 +880,30 @@
       ],
       "groups": [
         {
+          "title": "Enumerations",
+          "children": [
+            10
+          ]
+        },
+        {
           "title": "Interfaces",
           "children": [
-            17,
-            15
+            15,
+            13
           ]
         },
         {
           "title": "Type Aliases",
           "children": [
-            14,
-            44,
-            30,
             42,
-            33,
-            22,
-            27,
+            28,
+            40,
+            31,
             20,
-            38,
-            21
-          ]
-        },
-        {
-          "title": "Variables",
-          "children": [
-            10
+            25,
+            18,
+            36,
+            19
           ]
         },
         {

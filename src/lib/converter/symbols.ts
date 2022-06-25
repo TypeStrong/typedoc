@@ -839,8 +839,15 @@ function isEnumLike(checker: ts.TypeChecker, type: ts.Type, location: ts.Node) {
 
     return type.getProperties().every((prop) => {
         const propType = checker.getTypeOfSymbolAtLocation(prop, location);
-        return propType.isStringLiteral() || propType.isNumberLiteral();
+        return isValidEnumProperty(propType);
     });
+}
+
+function isValidEnumProperty(type: ts.Type) {
+    return hasAnyFlag(
+        type.flags,
+        ts.TypeFlags.NumberLike | ts.TypeFlags.StringLike
+    );
 }
 
 function convertVariableAsEnum(
@@ -870,9 +877,8 @@ function convertVariableAsEnum(
             prop,
             declaration
         );
-        assert(propType.isStringLiteral() || propType.isNumberLiteral());
 
-        reflection.type = new LiteralType(propType.value);
+        reflection.type = context.converter.convertType(context, propType);
 
         rc.finalizeDeclarationReflection(reflection);
     }
