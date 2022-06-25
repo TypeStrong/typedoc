@@ -24,6 +24,7 @@ export { DefaultMap } from "./map";
 export {
     ArgumentsReader,
     BindOption,
+    CommentStyle,
     Options,
     ParameterHint,
     ParameterType,

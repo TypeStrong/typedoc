@@ -340,6 +340,13 @@ export const behaviorTests: {
         logger.expectMessage(
             "warn: target4 tried to copy a comment from source2 with @inheritDoc, but the source has no associated comment."
         );
+
+        logger.expectMessage(
+            "warn: Declaration reference in @inheritDoc for badParse was not fully parsed and may resolve incorrectly."
+        );
+
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
     },
 
     _lineComment(app) {

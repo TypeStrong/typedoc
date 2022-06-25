@@ -27,3 +27,8 @@ export const target3 = 123;
  * @inheritDoc source2
  */
 export const target4 = 123;
+
+/**
+ * {@inheritDoc source:bad_label}
+ */
+export const badParse = 456;

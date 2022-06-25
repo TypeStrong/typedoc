@@ -55,6 +55,11 @@ export class InheritDocPlugin extends ConverterComponent {
             if (!source) continue;
 
             const declRef = parseDeclarationReference(source, 0, source.length);
+            if (!declRef || /\S/.test(source.substring(declRef[1]))) {
+                context.logger.warn(
+                    `Declaration reference in @inheritDoc for ${reflection.getFriendlyFullName()} was not fully parsed and may resolve incorrectly.`
+                );
+            }
             let sourceRefl =
                 declRef && resolveDeclarationReference(reflection, declRef[0]);
 

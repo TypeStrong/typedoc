@@ -21,6 +21,7 @@ export type { RenderTemplate, RendererHooks } from "./lib/output";
 export {
     ArgumentsReader,
     BindOption,
+    CommentStyle,
     JSX,
     LogLevel,
     Logger,
