@@ -53,3 +53,17 @@ export const ManualEnumHelperNumeric: Readonly<{ a: 0 }> = {
 export const WithoutReadonlyNumeric = {
     a: 0,
 } as { a: 0 };
+
+/** @enum */
+export const WithInvalidTypeUnionMember = {
+    // Since this is an invalid type union, this should fail to convert to an enum,
+    // and be represented in the generated docs as a variable instead.
+    a: 0 as 0 | string,
+};
+
+/* Enum-like objects with numeric expression values */
+
+/** @enum */
+export const WithNumericExpression = {
+    a: 1 << 0,
+};
