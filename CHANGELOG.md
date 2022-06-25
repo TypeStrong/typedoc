@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.22.18 (2022-06-25)
+
 ### Features
 
 -   Relaxed restrictions on `@enum` style enums to also permit non-literal strings and numbers, #1956.
