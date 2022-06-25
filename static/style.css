@@ -19,12 +19,12 @@
     --light-color-scheme: light;
 
     /* Dark */
-    --dark-color-background: #1a1c1e;
-    --dark-color-background-secondary: #151619;
-    --dark-color-icon-background: #263238;
-    --dark-color-accent: #454545;
+    --dark-color-background: #2b2e33;
+    --dark-color-background-secondary: #1e2024;
+    --dark-color-icon-background: var(--dark-color-background-secondary);
+    --dark-color-accent: #9096a2;
     --dark-color-text: #f5f5f5;
-    --dark-color-text-aside: #e6e4e4;
+    --dark-color-text-aside: #dddddd;
     --dark-color-link: #00aff4;
     --dark-color-ts: #ff6492;
     --dark-color-ts-interface: #6cff87;

@@ -32,7 +32,6 @@
     "typescript": "4.6.x || 4.7.x"
   },
   "devDependencies": {
-    "@types/glob": "^7.2.0",
     "@types/lunr": "^2.3.4",
     "@types/marked": "^4.0.3",
     "@types/minimatch": "3.0.5",
