@@ -10,9 +10,7 @@ export const member = (context: DefaultThemeRenderContext, props: DeclarationRef
         {!!props.name && (
             <h3 class="tsd-anchor-link">
                 {renderFlags(props.flags, props.comment)}
-                <span class={classNames({ deprecated: !!props.comment?.getTag("@deprecated") })}>
-                    {wbr(props.name)}
-                </span>
+                <span class={classNames({ deprecated: props.isDeprecated() })}>{wbr(props.name)}</span>
                 {anchorIcon(props.anchor)}
             </h3>
         )}

@@ -121,12 +121,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
         }
 
         return (
-            <li
-                class={classNames(
-                    { current, selected, deprecated: !!mod.comment?.getTag("@deprecated") },
-                    mod.cssClasses
-                )}
-            >
+            <li class={classNames({ current, selected, deprecated: mod.isDeprecated() }, mod.cssClasses)}>
                 <a href={context.urlTo(mod)}>{wbr(mod.name)}</a>
                 {childNav}
             </li>
@@ -153,7 +148,7 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
             return (
                 <li
                     class={classNames(
-                        { deprecated: !!child.comment?.getTag("@deprecated"), current: props.model === child },
+                        { deprecated: child.isDeprecated(), current: props.model === child },
                         child.cssClasses
                     )}
                 >
@@ -179,7 +174,7 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
                 <li
                     class={classNames(
                         {
-                            deprecated: !!effectivePageParent.comment?.getTag("@deprecated"),
+                            deprecated: effectivePageParent.isDeprecated(),
                             current: effectivePageParent === props.model,
                         },
                         effectivePageParent.cssClasses

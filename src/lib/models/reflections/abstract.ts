@@ -486,6 +486,17 @@ export abstract class Reflection {
     }
 
     /**
+     * Check if this reflection has been marked with the `@deprecated` tag.
+     */
+    isDeprecated(): boolean {
+        if (this.comment?.getTag("@deprecated")) {
+            return true;
+        }
+
+        return this.parent?.isDeprecated() ?? false;
+    }
+
+    /**
      * Try to find a reflection by its name.
      *
      * @return The found reflection or null.
