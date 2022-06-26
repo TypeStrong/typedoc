@@ -1,3 +1,5 @@
+import * as Util from "util";
+
 /**
  * This type provides a flag that can be used to turn off more lax overloads intended for
  * plugin use only to catch type errors in the TypeDoc codebase. The prepublishOnly npm
@@ -32,6 +34,24 @@ export type IfInternal<T, F> = InternalOnly extends true ? T : F;
  * See {@link IfInternal} for the rationale.
  */
 export type NeverIfInternal<T> = IfInternal<never, T>;
+
+/**
+ * Resolves a string type into a union of characters, `"ab"` turns into `"a" | "b"`.
+ */
+export type Chars<T extends string> = T extends `${infer C}${infer R}`
+    ? C | Chars<R>
+    : never;
+
+/**
+ * Utility to help type checking ensure that there is no uncovered case.
+ */
+export function assertNever(x: never): never {
+    throw new Error(
+        `Expected handling to cover all possible cases, but it didn't cover: ${Util.inspect(
+            x
+        )}`
+    );
+}
 
 /**
  * This is a hack to make it possible to detect and warn about installation setups

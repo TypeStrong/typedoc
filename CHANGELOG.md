@@ -1,5 +1,91 @@
 # Unreleased
 
+### Breaking Changes
+
+-   Node 12 is no longer officially supported as it has gone end of life as of 2022-04-30. It might still work, but may stop working at any time.
+-   Dropped support for TypeScript before 4.6.
+-   `{@link}` tags in comments will now be resolved as declaration references similar to TSDoc's declaration references.
+    For most cases, this will just work. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on how link resolution works.
+-   TypeDoc will now produce warnings for bracketed links (`[[ target ]]`). Use `{@link target}` instead. The `{@link}` syntax will be recognized by [TypeScript 4.3](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#editor-support-for-link-tags) and later and used to provide better intellisense. TypeDoc version 0.24.0 will remove support for `[[ target ]]` style links.
+-   `extends` in typedoc.json is now resolved using NodeJS module resolution, so a local path must begin with `./`.
+-   In the JSON output for `DeclarationReflection`s, `getSignature` is no longer a one-tuple.
+-   In the JSON output for `DeclarationReflection`s, `setSignature` is no longer a one-tuple.
+-   In the JSON output for `DeclarationReflection`s, `typeParameter` has been renamed to `typeParameters`
+-   The `searchGroupBoosts` option must now be given the rendered group name rather than reflection kind names, and can be given custom group names.
+-   `@inheritDoc` now follows the behavior specified by TSDoc when copying comments with a reference.
+-   The `gaSite` option has been removed since Google Analytics now infers the site automatically, updated Google Analytics script to latest version, #1846.
+-   Comments on export declarations will only overrides comments for references and namespaces, #1901.
+-   The deprecated `listInvalidSymbolLinks` option has been removed. Use `validation.invalidLink` instead.
+-   The deprecated `true` and `false` values have been removed from `--emit`, to migrate replace `true` with `"both"` and `false` with `"docs"` (the default).
+-   Links are no longer be resolved against a global list of all symbols. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on link resolution.
+-   The `validation.invalidLink` option is now on by default.
+-   `reflection.decorates`, `reflection.decorators`, and their corresponding interfaces have been removed as no code in TypeDoc used them.
+-   The shape of the `Comment` class has changed significantly to support multiple tag kinds.
+-   Listeners to `Converter.EVENT_CREATE_TYPE_PARAMETER` and `Converter.EVENT_CREATE_DECLARATION` will now never be passed a `ts.Node` as their third argument.
+-   Constant variables which are interpreted as functions will no longer have the `ReflectionFlag.Const` flag set.
+-   `reflection.defaultValue` is no longer set for enum members. The same information is available on `reflection.type` with more precision.
+-   Removed deprecated `removeReaderByName`, `addDeclarations` and `removeDeclarationByName` methods on `Options`.
+-   Removed `ProjectReflection.directory`, it was unused by TypeDoc and not properly tested.
+-   Removed `ProjectReflection.files`, this was an internal cache that should not have been exposed, and shouldn't have existed in the first place, since removing it made TypeDoc faster.
+-   Removed `ReflectionGroup.kind` since groups can now be created with the `@group` tag.
+-   Removed `ReflectionKind.Event`, the `@event` tag is now an alias for `@group Events`. Note: This changes the value of `ReflectionKind.Reference` from `16777216` to `8388608`.
+-   Themes are now set on the document element rather than on body, #1706.
+
+### Features
+
+-   TypeDoc now supports the `@group` tag to group reflections in a page. If no `@group` tag is specified, reflections will be grouped according to their kind, #1652.
+-   TypeDoc will now search for `typedoc.js(on)` in the `.config` folder in the current working directory.
+-   Entry point strategies `Resolve` and `Expand` may now specify globs, #1926.
+-   `typedoc.json` now supports comments like `tsconfig.json`.
+-   TypeDoc will now read the `blockTags`, `inlineTags`, and `modifierTags` out of `tsdoc.json` in the same directory as `tsconfig.json` if it exists.
+    It is recommended to add `"extends": ["typedoc/tsdoc.json"]`, which defines TypeDoc specific tags to your `tsdoc.json` if you create one.
+-   If an exported symbol has multiple declarations, TypeDoc will now check all appropriate declarations for comments, and warn if more than one declaration contains a comment, #1855.
+-   Improved support for JSDoc style `@example` tags. If the tag content does not include a code block, TypeDoc now follows VSCode's behavior of treating the entire block as a code block, #135.
+-   TypeDoc will now render members marked with `@deprecated` with a line through their name, #1381.
+-   Added new `commentStyle` option which can be used to control what comments TypeDoc will parse.
+
+    | Value | Behavior                               |
+    | ----- | -------------------------------------- |
+    | JSDoc | Use block comments starting with `/**` |
+    | Block | Use all block comments                 |
+    | Line  | Use `//` comments                      |
+    | All   | Use both block and line comments       |
+
+-   TypeDoc will now warn if part of a comment will be overwritten due to use of `@inheritDoc` instead of silently dropping part of the comment.
+-   Added support for inline `@inheritDoc` tags, #1480.
+-   It is now possible to link directly to a specific overload, #1326.
+-   The JSON output will now include URLs to the file on the remote repository if possible.
+-   Added a new `visibilityFilters` option which controls the available filters on a page.
+-   TypeDoc will now try to place block elements on a new line in HTML output, resulting in less overwhelming diffs when rebuilding docs, #1923.
+-   Added `blockTags`, `inlineTags`, `modifierTags` to control which tags TypeDoc will allow when parsing comments.
+    If a tag not in in one of these options is encountered, TypeDoc will produce a warning and use context clues to determine how to parse the tag.
+
+### Bug Fixes
+
+-   Fixed off by one error in warnings for types referenced but not included in the documentation.
+-   TypeDoc will no longer render a `Type Parameters` heading if there are no type parameters in some cases.
+-   Improved source location detection for constructors.
+-   Improved comment discovery on destructured exported functions, #1770.
+-   Links which refer to members within a reference reflection will now correctly resolve to the referenced reflection's member, #1770.
+-   Correctly detect optional parameters in JavaScript projects using JSDoc, #1804.
+-   Fixed identical anchor links for reflections with the same name, #1845.
+-   TypeDoc will now automatically inherit documentation from classes `implements` by other interfaces/classes.
+-   Fixed `@inheritDoc` on accessors, #1927.
+-   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
+-   `searchCategoryBoosts` are now correctly computed for all categories, #1960.
+-   The `excludeNotDocumented` option will no longer hide a module if it has a documentation comment, #1948.
+-   Prevent `--excludeNotDocumented` from hiding properties of type literals (`a` in `function fn(p: { a: string })`), #1752.
+-   Allow `cts` and `mts` extensions in packages resolution mode, #1952.
+-   Corrected schema generation for https://typedoc.org/schema.json
+
+### Thanks!
+
+-   @aqumus
+-   @fb55
+-   @futurGH
+-   @Shane4368
+-   @shmax
+
 ## v0.22.18 (2022-06-25)
 
 ### Features
@@ -864,7 +950,7 @@
 -   Missing comments on variable functions, closes #1421
 -   Resolve type parameters in concrete subclasses
 -   Use entryPoints to search for readme
--   Only create extra programs when dealing with solution style tsconfigs
+-   Only create extra programs when dealing with solution style tsconfig.json files
 -   A typo in description of DefaultTheme.getMapping (#1416)
 -   Correct handling of arrays in generic constraints, closes #1408
 -   Type converters threw on older TS versions

@@ -12,7 +12,6 @@ import {
     loadPlugins,
     writeFile,
     discoverPlugins,
-    NeverIfInternal,
     TSConfigReader,
 } from "./utils/index";
 
@@ -23,8 +22,7 @@ import {
 } from "./utils/component";
 import { Options, BindOption } from "./utils";
 import type { TypeDocOptions } from "./utils/options/declaration";
-import { flatMap, unique } from "./utils/array";
-import { validateExports } from "./validation/exports";
+import { unique } from "./utils/array";
 import { ok } from "assert";
 import {
     DocumentationEntryPoint,
@@ -34,7 +32,9 @@ import {
 } from "./utils/entry-point";
 import { nicePath } from "./utils/paths";
 import { hasBeenLoadedMultipleTimes } from "./utils/general";
+import { validateExports } from "./validation/exports";
 import { validateDocumentation } from "./validation/documentation";
+import { validateLinks } from "./validation/links";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -158,16 +158,6 @@ export class Application extends ChildableComponent<
     }
 
     /**
-     * Return the application / root component instance.
-     */
-    override get application(): NeverIfInternal<Application> {
-        this.logger.deprecated(
-            "Application.application is deprecated. Plugins are now passed the application instance when loaded."
-        );
-        return this as never;
-    }
-
-    /**
      * Return the path to the TypeScript compiler.
      */
     public getTypeScriptPath(): string {
@@ -224,16 +214,15 @@ export class Application extends ChildableComponent<
             `Converting with ${programs.length} programs ${entryPoints.length} entry points`
         );
 
-        const errors = flatMap([...programs], ts.getPreEmitDiagnostics);
+        const errors = programs.flatMap((program) =>
+            ts.getPreEmitDiagnostics(program)
+        );
         if (errors.length) {
             this.logger.diagnostics(errors);
             return;
         }
 
-        if (
-            this.options.getValue("emit") === "both" ||
-            this.options.getValue("emit") === true
-        ) {
+        if (this.options.getValue("emit") === "both") {
             for (const program of programs) {
                 program.emit();
             }
@@ -343,10 +332,7 @@ export class Application extends ChildableComponent<
             }
 
             if (successFinished) {
-                if (
-                    this.options.getValue("emit") === "both" ||
-                    this.options.getValue("emit") === true
-                ) {
+                if (this.options.getValue("emit") === "both") {
                     currentProgram.emit();
                 }
 
@@ -408,6 +394,7 @@ export class Application extends ChildableComponent<
 
     validate(project: ProjectReflection) {
         const checks = this.options.getValue("validation");
+        const start = Date.now();
 
         if (checks.notExported) {
             validateExports(
@@ -425,9 +412,11 @@ export class Application extends ChildableComponent<
             );
         }
 
-        // checks.invalidLink is currently handled when rendering by the MarkedLinksPlugin.
-        // It should really move here, but I'm putting that off until done refactoring the comment
-        // parsing so that we don't have duplicate parse logic all over the place.
+        if (checks.invalidLink) {
+            validateLinks(project, this.logger);
+        }
+
+        this.logger.verbose(`Validation took ${Date.now() - start}ms`);
     }
 
     /**

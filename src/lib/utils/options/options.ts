@@ -54,6 +54,14 @@ export interface OptionsReader {
     read(container: Options, logger: Logger): void;
 }
 
+const optionSnapshots = new WeakMap<
+    { __optionSnapshot: never },
+    {
+        values: Record<string, unknown>;
+        set: Set<string>;
+    }
+>();
+
 /**
  * Maintains a collection of option declarations split into TypeDoc options
  * and TypeScript options. Ensures options are of the correct type for calling
@@ -100,6 +108,31 @@ export class Options {
      */
     isFrozen() {
         return Object.isFrozen(this._values);
+    }
+
+    /**
+     * Take a snapshot of option values now, used in tests only.
+     * @internal
+     */
+    snapshot() {
+        const key = {} as { __optionSnapshot: never };
+
+        optionSnapshots.set(key, {
+            values: { ...this._values },
+            set: new Set(this._setOptions),
+        });
+
+        return key;
+    }
+
+    /**
+     * Take a snapshot of option values now, used in tests only.
+     * @internal
+     */
+    restore(snapshot: { __optionSnapshot: never }) {
+        const data = optionSnapshots.get(snapshot)!;
+        this._values = { ...data.values };
+        this._setOptions = new Set(data.set);
     }
 
     /**
@@ -153,15 +186,6 @@ export class Options {
         insertPrioritySorted(this._readers, reader);
     }
 
-    /**
-     * Removes all readers of a given name.
-     * @param name
-     * @deprecated should not be used, will be removed in 0.23
-     */
-    removeReaderByName(name: string): void {
-        this._readers = this._readers.filter((reader) => reader.name !== name);
-    }
-
     read(logger: Logger) {
         for (const reader of this._readers) {
             reader.read(this, logger);
@@ -195,32 +219,6 @@ export class Options {
         }
 
         this._values[declaration.name] = getDefaultValue(declaration);
-    }
-
-    /**
-     * Adds the given declarations to the container
-     * @param declarations
-     * @deprecated will be removed in 0.23.
-     */
-    addDeclarations(declarations: readonly DeclarationOption[]): void {
-        for (const decl of declarations) {
-            this.addDeclaration(decl as any);
-        }
-    }
-
-    /**
-     * Removes a declared option.
-     * WARNING: This is probably a bad idea. If you do this you will probably cause a crash
-     * when code assumes that an option that it declared still exists.
-     * @param name
-     * @deprecated will be removed in 0.23.
-     */
-    removeDeclarationByName(name: string): void {
-        const declaration = this.getDeclaration(name);
-        if (declaration) {
-            this._declarations.delete(declaration.name);
-            delete this._values[declaration.name];
-        }
     }
 
     /**
@@ -335,10 +333,7 @@ export class Options {
             Object.assign(result, overrides);
         }
 
-        if (
-            this.getValue("emit") !== "both" &&
-            this.getValue("emit") !== true
-        ) {
+        if (this.getValue("emit") !== "both") {
             result.noEmit = true;
             delete result.emitDeclarationOnly;
         }

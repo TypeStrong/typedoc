@@ -1,14 +1,12 @@
-import { Type, ReflectionType, ReferenceType } from "../types";
+import { SomeType, ReflectionType, ReferenceType } from "../types";
 import { Reflection, TraverseProperty, TraverseCallback } from "./abstract";
 import type { ParameterReflection } from "./parameter";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 import type { ReflectionKind } from "./kind";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 export class SignatureReflection extends Reflection {
-    /**
-     * Create a new SignatureReflection to contain a specific type of signature.
-     */
     constructor(
         name: string,
         kind: SignatureReflection["kind"],
@@ -30,7 +28,7 @@ export class SignatureReflection extends Reflection {
 
     typeParameters?: TypeParameterReflection[];
 
-    type?: Type;
+    type?: SomeType;
 
     /**
      * A type that points to the reflection that has been overwritten by this reflection.
@@ -95,9 +93,8 @@ export class SignatureReflection extends Reflection {
         let result = super.toString();
 
         if (this.typeParameters) {
-            const parameters: string[] = [];
-            this.typeParameters.forEach((parameter) =>
-                parameters.push(parameter.name)
+            const parameters: string[] = this.typeParameters.map(
+                (parameter) => parameter.name
             );
             result += "<" + parameters.join(", ") + ">";
         }
@@ -107,5 +104,17 @@ export class SignatureReflection extends Reflection {
         }
 
         return result;
+    }
+
+    override toObject(serializer: Serializer): JSONOutput.SignatureReflection {
+        return {
+            ...super.toObject(serializer),
+            typeParameter: serializer.toObjectsOptional(this.typeParameters),
+            parameters: serializer.toObjectsOptional(this.parameters),
+            type: serializer.toObject(this.type),
+            overwrites: serializer.toObject(this.overwrites),
+            inheritedFrom: serializer.toObject(this.inheritedFrom),
+            implementationOf: serializer.toObject(this.implementationOf),
+        };
     }
 }

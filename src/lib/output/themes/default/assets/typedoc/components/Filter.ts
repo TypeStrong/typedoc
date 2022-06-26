@@ -1,166 +1,74 @@
 import { Component, IComponentOptions } from "../Component";
-import { pointerDown, pointerUp } from "../utils/pointer";
+import { storage } from "../utils/storage";
 
-abstract class FilterItem<T> {
-    protected key: string;
+const style = document.head.appendChild(document.createElement("style"));
+style.dataset.for = "filters";
 
-    protected value: T;
-
-    protected defaultValue: T;
-
-    constructor(key: string, value: T) {
-        this.key = key;
-        this.value = value;
-        this.defaultValue = value;
-
-        this.initialize();
-
-        if (window.localStorage[this.key]) {
-            this.setValue(this.fromLocalStorage(window.localStorage[this.key]));
-        }
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected initialize() {}
-
-    protected abstract handleValueChange(oldValue: T, newValue: T): void;
-
-    protected abstract fromLocalStorage(value: string): T;
-
-    protected abstract toLocalStorage(value: T): string;
-
-    protected setValue(value: T) {
-        if (this.value == value) return;
-
-        const oldValue = this.value;
-        this.value = value;
-        window.localStorage[this.key] = this.toLocalStorage(value);
-
-        this.handleValueChange(oldValue, value);
-    }
-}
-
-class FilterItemCheckbox extends FilterItem<boolean> {
-    private checkbox!: HTMLInputElement;
-
-    protected override initialize() {
-        const checkbox = document.querySelector<HTMLInputElement>(
-            "#tsd-filter-" + this.key
-        );
-        if (!checkbox) return;
-
-        this.checkbox = checkbox;
-        this.checkbox.addEventListener("change", () => {
-            this.setValue(this.checkbox.checked);
-        });
-    }
-
-    protected handleValueChange(_oldValue: boolean, _newValue: boolean) {
-        if (!this.checkbox) return;
-        this.checkbox.checked = this.value;
-        document.documentElement.classList.toggle(
-            "toggle-" + this.key,
-            this.value != this.defaultValue
-        );
-    }
-
-    protected fromLocalStorage(value: string): boolean {
-        return value == "true";
-    }
-
-    protected toLocalStorage(value: boolean): string {
-        return value ? "true" : "false";
-    }
-}
-
-class FilterItemSelect extends FilterItem<string> {
-    private select!: HTMLElement;
-
-    protected override initialize() {
-        document.documentElement.classList.add(
-            "toggle-" + this.key + this.value
-        );
-
-        const select = document.querySelector<HTMLElement>(
-            "#tsd-filter-" + this.key
-        );
-        if (!select) return;
-
-        this.select = select;
-        const onActivate = () => {
-            this.select.classList.add("active");
-        };
-        const onDeactivate = () => {
-            this.select.classList.remove("active");
-        };
-
-        this.select.addEventListener(pointerDown, onActivate);
-        this.select.addEventListener("mouseover", onActivate);
-        this.select.addEventListener("mouseleave", onDeactivate);
-
-        this.select.querySelectorAll("li").forEach((el) => {
-            el.addEventListener(pointerUp, (e) => {
-                select.classList.remove("active");
-                this.setValue((e.target as HTMLElement).dataset["value"] || "");
-            });
-        });
-
-        document.addEventListener(pointerDown, (e) => {
-            if (this.select.contains(e.target as HTMLElement)) return;
-
-            this.select.classList.remove("active");
-        });
-    }
-
-    protected handleValueChange(oldValue: string, newValue: string) {
-        this.select.querySelectorAll("li.selected").forEach((el) => {
-            el.classList.remove("selected");
-        });
-
-        const selected = this.select.querySelector<HTMLElement>(
-            'li[data-value="' + newValue + '"]'
-        );
-        const label =
-            this.select.querySelector<HTMLElement>(".tsd-select-label");
-
-        if (selected && label) {
-            selected.classList.add("selected");
-            label.textContent = selected.textContent;
-        }
-
-        document.documentElement.classList.remove("toggle-" + oldValue);
-        document.documentElement.classList.add("toggle-" + newValue);
-    }
-
-    protected fromLocalStorage(value: string): string {
-        return value;
-    }
-
-    protected toLocalStorage(value: string): string {
-        return value;
-    }
-}
-
+/**
+ * Handles sidebar filtering functionality.
+ */
 export class Filter extends Component {
-    public readonly optionVisibility: FilterItemSelect;
+    override el!: HTMLInputElement;
 
-    public readonly optionInherited: FilterItemCheckbox;
+    /**
+     * The class name & ID by which to store the filter value.
+     */
+    private readonly key: string;
 
-    public readonly optionExternals: FilterItemCheckbox;
+    /**
+     * Current filter value, to keep in sync with checkbox state.
+     */
+    private value: boolean;
 
     constructor(options: IComponentOptions) {
         super(options);
+        this.key = `filter-${this.el.name}`;
+        this.value = this.el.checked;
+        this.el.addEventListener("change", () => {
+            this.setLocalStorage(this.el.checked);
+        });
+        this.setLocalStorage(this.fromLocalStorage());
 
-        this.optionVisibility = new FilterItemSelect("visibility", "private");
-        this.optionInherited = new FilterItemCheckbox("inherited", true);
-        this.optionExternals = new FilterItemCheckbox("externals", true);
+        style.innerHTML += `html:not(.${this.key}) .tsd-is-${this.el.name} { display: none; }\n`;
     }
 
-    static isSupported(): boolean {
-        try {
-            return typeof window.localStorage != "undefined";
-        } catch (e) {
-            return false;
-        }
+    /**
+     * Retrieve value from storage.
+     */
+    private fromLocalStorage(): boolean {
+        const fromStorage = storage.getItem(this.key);
+        return fromStorage ? fromStorage === "true" : this.el.checked;
+    }
+
+    /**
+     * Set value to local storage.
+     *
+     * @param value  Value to set.
+     */
+    private setLocalStorage(value: boolean): void {
+        storage.setItem(this.key, value.toString());
+        this.value = value;
+        this.handleValueChange();
+    }
+
+    /**
+     * Synchronize DOM based on value change.
+     */
+    private handleValueChange(): void {
+        this.el.checked = this.value;
+        document.documentElement.classList.toggle(this.key, this.value);
+
+        // Hide index headings where all index items are hidden.
+        // offsetParent == null checks for display: none
+        document
+            .querySelectorAll<HTMLElement>(".tsd-index-section")
+            .forEach((el) => {
+                el.style.display = "block";
+                const allChildrenHidden = Array.from(
+                    el.querySelectorAll<HTMLElement>(".tsd-index-link")
+                ).every((child) => child.offsetParent == null);
+
+                el.style.display = allChildrenHidden ? "none" : "block";
+            });
     }
 }

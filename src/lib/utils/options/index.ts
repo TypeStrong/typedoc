@@ -1,7 +1,12 @@
 export { Options, BindOption } from "./options";
 export type { OptionsReader } from "./options";
 export { ArgumentsReader, TypeDocReader, TSConfigReader } from "./readers";
-export { EmitStrategy, ParameterType, ParameterHint } from "./declaration";
+export {
+    CommentStyle,
+    EmitStrategy,
+    ParameterType,
+    ParameterHint,
+} from "./declaration";
 
 export type {
     TypeDocOptions,
@@ -20,4 +25,5 @@ export type {
     DeclarationOptionToOptionType,
     TypeDocOptionValues,
     ParameterTypeToOptionTypeMap,
+    ManuallyValidatedOption,
 } from "./declaration";

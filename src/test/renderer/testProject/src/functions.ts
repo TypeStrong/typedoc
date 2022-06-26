@@ -19,10 +19,10 @@ export function exportedFunction(): void {}
  * @param paramA
  * This is a **parameter** pointing to an interface.
  *
- * ~~~
+ * ```
  * var value:BaseClass = new BaseClass('test');
  * functionWithArguments('arg', 0, value);
- * ~~~
+ * ```
  *
  */
 export let variableFunction = function (
@@ -42,10 +42,10 @@ export let variableFunction = function (
  * @param paramA
  * This is a **parameter** pointing to an interface.
  *
- * ~~~
+ * ```
  * var value:BaseClass = new BaseClass('test');
  * functionWithArguments('arg', 0, value);
- * ~~~
+ * ```
  *
  */
 export function functionWithArguments(

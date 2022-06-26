@@ -3,7 +3,6 @@ import * as Path from "path";
 import { Event } from "../utils/events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
-import type { LegendItem } from "./plugins/LegendPlugin";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -106,12 +105,6 @@ export class PageEvent<Model = unknown> extends Event {
     template!: RenderTemplate<this>;
 
     /**
-     * The legend items that are applicable for this page
-     * @internal this is going away. The footer will do the logic itself.
-     */
-    legend?: LegendItem[][];
-
-    /**
      * The final html content of this page.
      *
      * Should be rendered by layout templates and can be modified by plugins.
@@ -132,10 +125,9 @@ export class PageEvent<Model = unknown> extends Event {
 }
 
 /**
- * An event emitted by the {@link MarkedPlugin} on the {@link Renderer} after a chunk of
- * markdown has been processed. Allows other plugins to manipulate the result.
+ * An event emitted when markdown is being parsed. Allows other plugins to manipulate the result.
  *
- * @see {@link MarkedPlugin.EVENT_PARSE_MARKDOWN}
+ * @see {@link PARSE}
  */
 export class MarkdownEvent extends Event {
     /**

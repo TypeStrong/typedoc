@@ -1,13 +1,17 @@
 ../.nyc_output
 ../coverage
 ../dist
+../docs
 **/package-lock.json
 ../src/test/**/specs*.json
 ../src/test/packages/**/*.js
 ../src/test/renderer/specs
 ../src/test/renderer/testProject
+../src/test/utils/options/readers/data/invalid2.json
 ../static/main.js
 ../example/docs/
+**/tmp
+**/.vs
 
 # Turn this back on once supported by Prettier
 ../src/test/converter2/behavior/instantiationExpressions.ts

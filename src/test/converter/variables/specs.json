@@ -18,7 +18,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "A custom array class."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A custom array class."
+              }
+            ]
           },
           "children": [
             {
@@ -62,13 +67,20 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 3
               ]
             }
           ],
-          "typeParameter": [
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 4,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L4"
+            }
+          ],
+          "typeParameters": [
             {
               "id": 6,
               "name": "T",
@@ -92,7 +104,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "Class array class item"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Class array class item"
+              }
+            ]
           },
           "children": [
             {
@@ -120,10 +137,17 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 10
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 19,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L19"
             }
           ]
         },
@@ -134,7 +158,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "Custom list class"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Custom list class"
+              }
+            ]
           },
           "children": [
             {
@@ -172,10 +201,17 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 13
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 24,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L24"
             }
           ],
           "extendedTypes": [
@@ -202,8 +238,21 @@
             "isConst": true
           },
           "comment": {
-            "shortText": "A const of a complex type."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A const of a complex type."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 9,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L9"
+            }
+          ],
           "type": {
             "type": "array",
             "elementType": {
@@ -259,8 +308,21 @@
             "isConst": true
           },
           "comment": {
-            "shortText": "An exported const of the custom array type."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An exported const of the custom array type."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 14,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L14"
+            }
+          ],
           "type": {
             "type": "reference",
             "id": 2,
@@ -278,7 +340,6 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             2,
             9,
@@ -287,11 +348,18 @@
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             7,
             8
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "array.ts",
+          "line": 4,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/array.ts#L4"
         }
       ]
     },
@@ -308,6 +376,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 13,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L13"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -319,6 +395,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 13,
+              "character": 30,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L13"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -330,6 +414,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 13,
+              "character": 46,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L13"
+            }
+          ],
           "type": {
             "type": "union",
             "types": [
@@ -351,6 +443,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 31,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L31"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -362,6 +462,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 31,
+              "character": 46,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L31"
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -382,6 +490,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 25,
+              "character": 7,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L25"
+            }
+          ],
           "type": {
             "type": "tuple",
             "elements": [
@@ -402,6 +518,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 23,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L23"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -413,6 +537,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 24,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L24"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -424,6 +556,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 4,
+              "character": 15,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L4"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -435,6 +575,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 4,
+              "character": 32,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L4"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -446,6 +594,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 4,
+              "character": 49,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L4"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -457,6 +613,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 38,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L38"
+            }
+          ],
           "signatures": [
             {
               "id": 17,
@@ -465,7 +629,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Destructuring function parameters."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Destructuring function parameters."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -491,7 +660,6 @@
       "groups": [
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             22,
             23,
@@ -508,10 +676,17 @@
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             16
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "destructuring.ts",
+          "line": 4,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/destructuring.ts#L4"
         }
       ]
     },
@@ -530,6 +705,14 @@
           "flags": {
             "isConst": true
           },
+          "sources": [
+            {
+              "fileName": "literal.ts",
+              "line": 43,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L43"
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -545,6 +728,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 48,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L48"
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -553,6 +744,14 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 48,
+                          "character": 11,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L48"
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 60,
@@ -575,6 +774,14 @@
                                   "kind": 65536,
                                   "kindString": "Type literal",
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 48,
+                                      "character": 27,
+                                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L48"
+                                    }
+                                  ],
                                   "signatures": [
                                     {
                                       "id": 63,
@@ -608,6 +815,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 52,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L52"
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -616,6 +831,14 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 52,
+                          "character": 13,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L52"
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 66,
@@ -638,6 +861,14 @@
                                   "kind": 65536,
                                   "kindString": "Type literal",
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 52,
+                                      "character": 31,
+                                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L52"
+                                    }
+                                  ],
                                   "signatures": [
                                     {
                                       "id": 69,
@@ -671,6 +902,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 44,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L44"
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -679,6 +918,14 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 44,
+                          "character": 13,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L44"
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 54,
@@ -701,6 +948,14 @@
                                   "kind": 65536,
                                   "kindString": "Type literal",
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 44,
+                                      "character": 31,
+                                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L44"
+                                    }
+                                  ],
                                   "signatures": [
                                     {
                                       "id": 57,
@@ -732,12 +987,19 @@
               "groups": [
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     58,
                     64,
                     52
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal.ts",
+                  "line": 43,
+                  "character": 30,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L43"
                 }
               ]
             }
@@ -753,8 +1015,21 @@
             "isConst": true
           },
           "comment": {
-            "shortText": "An object literal."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An object literal."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "literal.ts",
+              "line": 5,
+              "character": 6,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L5"
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -770,6 +1045,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 19,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L19"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -782,6 +1065,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 20,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L20"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -794,6 +1085,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 21,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L21"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -806,6 +1105,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 17,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L17"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -818,6 +1125,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 18,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L18"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -830,6 +1145,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 10,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L10"
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -845,6 +1168,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 15,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L15"
+                            }
+                          ],
                           "type": {
                             "type": "array",
                             "elementType": {
@@ -860,6 +1191,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 12,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L12"
+                            }
+                          ],
                           "type": {
                             "type": "reflection",
                             "declaration": {
@@ -868,6 +1207,14 @@
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "literal.ts",
+                                  "line": 12,
+                                  "character": 16,
+                                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L12"
+                                }
+                              ],
                               "signatures": [
                                 {
                                   "id": 81,
@@ -903,6 +1250,14 @@
                                           "kind": 1024,
                                           "kindString": "Property",
                                           "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 13,
+                                              "character": 21,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L13"
+                                            }
+                                          ],
                                           "type": {
                                             "type": "intrinsic",
                                             "name": "string"
@@ -915,6 +1270,14 @@
                                           "kind": 1024,
                                           "kindString": "Property",
                                           "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 13,
+                                              "character": 32,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L13"
+                                            }
+                                          ],
                                           "type": {
                                             "type": "intrinsic",
                                             "name": "string"
@@ -925,11 +1288,18 @@
                                       "groups": [
                                         {
                                           "title": "Properties",
-                                          "kind": 1024,
                                           "children": [
                                             84,
                                             85
                                           ]
+                                        }
+                                      ],
+                                      "sources": [
+                                        {
+                                          "fileName": "literal.ts",
+                                          "line": 13,
+                                          "character": 19,
+                                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L13"
                                         }
                                       ]
                                     }
@@ -946,6 +1316,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 11,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L11"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -956,12 +1334,19 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             86,
                             79,
                             78
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 10,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L10"
                         }
                       ]
                     }
@@ -974,6 +1359,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 7,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L7"
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -982,6 +1375,14 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 7,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L7"
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 75,
@@ -1005,6 +1406,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 6,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L6"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1015,7 +1424,6 @@
               "groups": [
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     89,
                     90,
@@ -1026,6 +1434,14 @@
                     73,
                     72
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal.ts",
+                  "line": 5,
+                  "character": 22,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L5"
                 }
               ]
             }
@@ -1039,8 +1455,21 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "shortText": "A typed literal without an initializer."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A typed literal without an initializer."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "literal.ts",
+              "line": 27,
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L27"
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -1058,6 +1487,14 @@
                   "flags": {
                     "isOptional": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 35,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L35"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1071,6 +1508,14 @@
                   "flags": {
                     "isOptional": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 36,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L36"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "boolean"
@@ -1082,6 +1527,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 30,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L30"
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -1097,6 +1550,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 33,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L33"
+                            }
+                          ],
                           "type": {
                             "type": "array",
                             "elementType": {
@@ -1111,6 +1572,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 32,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
+                            }
+                          ],
                           "type": {
                             "type": "reflection",
                             "declaration": {
@@ -1119,6 +1588,14 @@
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "literal.ts",
+                                  "line": 32,
+                                  "character": 16,
+                                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
+                                }
+                              ],
                               "signatures": [
                                 {
                                   "id": 42,
@@ -1154,6 +1631,14 @@
                                           "kind": 1024,
                                           "kindString": "Property",
                                           "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 32,
+                                              "character": 33,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
+                                            }
+                                          ],
                                           "type": {
                                             "type": "intrinsic",
                                             "name": "string"
@@ -1165,6 +1650,14 @@
                                           "kind": 1024,
                                           "kindString": "Property",
                                           "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal.ts",
+                                              "line": 32,
+                                              "character": 44,
+                                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
+                                            }
+                                          ],
                                           "type": {
                                             "type": "intrinsic",
                                             "name": "string"
@@ -1174,11 +1667,18 @@
                                       "groups": [
                                         {
                                           "title": "Properties",
-                                          "kind": 1024,
                                           "children": [
                                             45,
                                             46
                                           ]
+                                        }
+                                      ],
+                                      "sources": [
+                                        {
+                                          "fileName": "literal.ts",
+                                          "line": 32,
+                                          "character": 31,
+                                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L32"
                                         }
                                       ]
                                     }
@@ -1194,6 +1694,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 31,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L31"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -1203,12 +1711,19 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             47,
                             40,
                             39
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 30,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L30"
                         }
                       ]
                     }
@@ -1220,6 +1735,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 29,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L29"
+                    }
+                  ],
                   "type": {
                     "type": "reflection",
                     "declaration": {
@@ -1228,6 +1751,14 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "literal.ts",
+                          "line": 29,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L29"
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 36,
@@ -1250,6 +1781,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal.ts",
+                      "line": 28,
+                      "character": 4,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L28"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -1259,7 +1798,6 @@
               "groups": [
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     48,
                     49,
@@ -1267,6 +1805,14 @@
                     34,
                     33
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal.ts",
+                  "line": 27,
+                  "character": 24,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L27"
                 }
               ]
             }
@@ -1276,12 +1822,19 @@
       "groups": [
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             50,
             70,
             31
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "literal.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/literal.ts#L1"
         }
       ]
     },
@@ -1300,6 +1853,14 @@
           "flags": {
             "isConst": true
           },
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 1,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L1"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 15
@@ -1312,6 +1873,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 2,
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L2"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -1324,6 +1893,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 3,
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L3"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -1336,6 +1913,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 5,
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L5"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "object"
@@ -1347,6 +1932,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 6,
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L6"
+            }
+          ],
           "type": {
             "type": "reference",
             "typeArguments": [
@@ -1355,9 +1948,9 @@
                 "name": "string"
               }
             ],
+            "name": "Promise",
             "qualifiedName": "Promise",
-            "package": "typescript",
-            "name": "Promise"
+            "package": "typescript"
           }
         },
         {
@@ -1366,6 +1959,14 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 7,
+              "character": 11,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L7"
+            }
+          ],
           "type": {
             "type": "reference",
             "typeArguments": [
@@ -1374,16 +1975,15 @@
                 "name": "object"
               }
             ],
+            "name": "Promise",
             "qualifiedName": "Promise",
-            "package": "typescript",
-            "name": "Promise"
+            "package": "typescript"
           }
         }
       ],
       "groups": [
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             93,
             94,
@@ -1393,13 +1993,20 @@
             98
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "variable.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/variables/variable.ts#L1"
+        }
       ]
     }
   ],
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         15,

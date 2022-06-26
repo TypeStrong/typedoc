@@ -20,7 +20,12 @@
             "isPrivate": true
           },
           "comment": {
-            "shortText": "A class that is documented as being private."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A class that is documented as being private."
+              }
+            ]
           },
           "children": [
             {
@@ -32,8 +37,21 @@
                 "isPrivate": true
               },
               "comment": {
-                "shortText": "A variable that is made private via comment."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A variable that is made private via comment."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 34,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L34"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -48,8 +66,21 @@
                 "isProtected": true
               },
               "comment": {
-                "shortText": "A variable that is made protected via comment."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A variable that is made protected via comment."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 40,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L40"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -64,19 +95,25 @@
                 "isPrivate": true,
                 "isStatic": true
               },
-              "getSignature": [
+              "sources": [
                 {
-                  "id": 10,
-                  "name": "privateStaticGetter",
-                  "kind": 524288,
-                  "kindString": "Get signature",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
+                  "fileName": "access.ts",
+                  "line": 59,
+                  "character": 23,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L59"
                 }
-              ]
+              ],
+              "getSignature": {
+                "id": 10,
+                "name": "privateStaticGetter",
+                "kind": 524288,
+                "kindString": "Get signature",
+                "flags": {},
+                "type": {
+                  "type": "intrinsic",
+                  "name": "number"
+                }
+              }
             },
             {
               "id": 15,
@@ -86,6 +123,14 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 46,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L46"
+                }
+              ],
               "signatures": [
                 {
                   "id": 16,
@@ -96,7 +141,12 @@
                     "isPrivate": true
                   },
                   "comment": {
-                    "shortText": "A function that is made private via comment."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A function that is made private via comment."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -113,6 +163,14 @@
               "flags": {
                 "isProtected": true
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 52,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L52"
+                }
+              ],
               "signatures": [
                 {
                   "id": 18,
@@ -123,7 +181,12 @@
                     "isProtected": true
                   },
                   "comment": {
-                    "shortText": "A function that is made protected via comment."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A function that is made protected via comment."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -140,6 +203,14 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 54,
+                  "character": 12,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L54"
+                }
+              ],
               "signatures": [
                 {
                   "id": 20,
@@ -158,7 +229,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 13,
                 14
@@ -166,19 +236,25 @@
             },
             {
               "title": "Accessors",
-              "kind": 262144,
               "children": [
                 9
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 15,
                 17,
                 19
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 29,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L29"
             }
           ]
         },
@@ -192,8 +268,21 @@
             "isConst": true
           },
           "comment": {
-            "shortText": "A variable that is made private via comment."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A variable that is made private via comment."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 5,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L5"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": "test"
@@ -210,8 +299,21 @@
             "isConst": true
           },
           "comment": {
-            "shortText": "A variable that is made protected via comment."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A variable that is made protected via comment."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 11,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L11"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": "test"
@@ -226,6 +328,14 @@
           "flags": {
             "isPrivate": true
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 17,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L17"
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -236,7 +346,12 @@
                 "isPrivate": true
               },
               "comment": {
-                "shortText": "A function that is made private via comment."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A function that is made private via comment."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -253,6 +368,14 @@
           "flags": {
             "isProtected": true
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 23,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L23"
+            }
+          ],
           "signatures": [
             {
               "id": 5,
@@ -263,7 +386,12 @@
                 "isProtected": true
               },
               "comment": {
-                "shortText": "A function that is made protected via comment."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A function that is made protected via comment."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -276,14 +404,12 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             8
           ]
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             6,
             7
@@ -291,11 +417,18 @@
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             2,
             4
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "access.ts",
+          "line": 5,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/access.ts#L5"
         }
       ]
     },
@@ -319,6 +452,14 @@
               "kind": 64,
               "kindString": "Function",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 108,
+                  "character": 20,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L108"
+                }
+              ],
               "signatures": [
                 {
                   "id": 61,
@@ -327,7 +468,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "staticMergedMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "staticMergedMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -340,10 +486,29 @@
           "groups": [
             {
               "title": "Functions",
-              "kind": 64,
               "children": [
                 60
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 61,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L61"
+            },
+            {
+              "fileName": "class.ts",
+              "line": 97,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L97"
+            },
+            {
+              "fileName": "class.ts",
+              "line": 104,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L104"
             }
           ]
         },
@@ -385,6 +550,14 @@
               "flags": {
                 "isAbstract": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 126,
+                  "character": 13,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L126"
+                }
+              ],
               "signatures": [
                 {
                   "id": 89,
@@ -403,17 +576,23 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 86
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 88
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 125,
+              "character": 22,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L125"
             }
           ]
         },
@@ -451,6 +630,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 114,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L114"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -463,6 +650,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 115,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L115"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "boolean"
@@ -475,6 +670,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 116,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L116"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "boolean"
@@ -487,6 +690,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 117,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L117"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "boolean"
@@ -497,20 +708,26 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 75
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 79,
                 80,
                 77,
                 78
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 113,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L113"
             }
           ]
         },
@@ -552,6 +769,14 @@
               "flags": {
                 "isAbstract": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 86,
+                  "character": 13,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L86"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -566,6 +791,14 @@
                 "isProtected": true,
                 "isAbstract": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 88,
+                  "character": 23,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L88"
+                }
+              ],
               "signatures": [
                 {
                   "id": 67,
@@ -584,24 +817,29 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 63
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 65
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 66
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 85,
+              "character": 22,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L85"
             }
           ],
           "extendedBy": [
@@ -656,6 +894,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 92,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L92"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -674,6 +920,14 @@
               "flags": {
                 "isProtected": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 94,
+                  "character": 14,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L94"
+                }
+              ],
               "signatures": [
                 {
                   "id": 73,
@@ -702,24 +956,29 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 69
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 71
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 72
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 91,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L91"
             }
           ],
           "extendedTypes": [
@@ -737,12 +996,27 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "TestClass comment short text.",
-            "text": "TestClass comment text.\n",
-            "tags": [
+            "summary": [
               {
-                "tag": "see",
-                "text": "[[TestClass]] @ fixtures\n"
+                "kind": "text",
+                "text": "TestClass comment short text.\n\nTestClass comment text."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@see",
+                "content": [
+                  {
+                    "kind": "inline-tag",
+                    "tag": "@link",
+                    "text": "TestClass",
+                    "target": 22
+                  },
+                  {
+                    "kind": "text",
+                    "text": " @ fixtures"
+                  }
+                ]
               }
             ]
           },
@@ -753,6 +1027,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 27,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L27"
+                }
+              ],
               "signatures": [
                 {
                   "id": 27,
@@ -761,7 +1043,12 @@
                   "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Constructor short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Constructor short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -780,8 +1067,21 @@
                 "isPrivate": true
               },
               "comment": {
-                "shortText": "privateProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "privateProperty short text."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 17,
+                  "character": 12,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L17"
+                }
+              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -799,8 +1099,21 @@
                 "isPublic": true
               },
               "comment": {
-                "shortText": "publicProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "publicProperty short text."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 12,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L12"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -815,8 +1128,21 @@
                 "isStatic": true
               },
               "comment": {
-                "shortText": "staticProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "staticProperty short text."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 22,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L22"
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 22,
@@ -829,6 +1155,14 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 58,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L58"
+                }
+              ],
               "signatures": [
                 {
                   "id": 37,
@@ -837,7 +1171,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "arrow method"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "arrow method"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -854,6 +1193,14 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 48,
+                  "character": 12,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L48"
+                }
+              ],
               "signatures": [
                 {
                   "id": 35,
@@ -862,7 +1209,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "privateMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "privateMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -879,6 +1231,14 @@
               "flags": {
                 "isProtected": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 41,
+                  "character": 14,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L41"
+                }
+              ],
               "signatures": [
                 {
                   "id": 33,
@@ -887,7 +1247,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "protectedMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "protectedMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -904,6 +1269,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 34,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L34"
+                }
+              ],
               "signatures": [
                 {
                   "id": 31,
@@ -912,7 +1285,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "publicMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "publicMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -929,6 +1307,14 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 53,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L53"
+                }
+              ],
               "signatures": [
                 {
                   "id": 25,
@@ -937,7 +1323,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "staticMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "staticMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -950,14 +1341,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 26
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 29,
                 28,
@@ -966,7 +1355,6 @@
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 36,
                 34,
@@ -1000,6 +1388,14 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 8,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L8"
+            }
+          ],
           "extendedBy": [
             {
               "type": "reference",
@@ -1014,6 +1410,31 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "TestClass comment short text.\n\nTestClass comment text."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@see",
+                "content": [
+                  {
+                    "kind": "inline-tag",
+                    "tag": "@link",
+                    "text": "TestClass",
+                    "target": 22
+                  },
+                  {
+                    "kind": "text",
+                    "text": " @ fixtures"
+                  }
+                ]
+              }
+            ]
+          },
           "children": [
             {
               "id": 42,
@@ -1021,6 +1442,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 80,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L80"
+                }
+              ],
               "signatures": [
                 {
                   "id": 43,
@@ -1029,7 +1458,12 @@
                   "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Constructor short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Constructor short text."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -1039,7 +1473,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Constructor param"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Constructor param"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1053,7 +1492,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Private string property"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Private string property"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1067,7 +1511,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Public number property"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Public number property"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1081,7 +1530,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Public implicit any property\n"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Public implicit any property"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1115,6 +1569,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 80,
+                  "character": 47,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L80"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1128,6 +1590,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 80,
+                  "character": 66,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L80"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "any"
@@ -1142,8 +1612,21 @@
                 "isPublic": true
               },
               "comment": {
-                "shortText": "publicProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "publicProperty short text."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 12,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L12"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -1163,8 +1646,21 @@
                 "isStatic": true
               },
               "comment": {
-                "shortText": "staticProperty short text."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "staticProperty short text."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 22,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L22"
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 22,
@@ -1182,6 +1678,14 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 58,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L58"
+                }
+              ],
               "signatures": [
                 {
                   "id": 58,
@@ -1190,7 +1694,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "arrow method"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "arrow method"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1215,6 +1724,14 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 101,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L101"
+                }
+              ],
               "signatures": [
                 {
                   "id": 55,
@@ -1223,7 +1740,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "mergedMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "mergedMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1240,6 +1762,14 @@
               "flags": {
                 "isProtected": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 70,
+                  "character": 14,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L70"
+                }
+              ],
               "signatures": [
                 {
                   "id": 51,
@@ -1248,7 +1778,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "protectedMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "protectedMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1275,6 +1810,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 65,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L65"
+                }
+              ],
               "signatures": [
                 {
                   "id": 49,
@@ -1283,7 +1826,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "publicMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "publicMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1310,6 +1858,14 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 53,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L53"
+                }
+              ],
               "signatures": [
                 {
                   "id": 41,
@@ -1318,7 +1874,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "staticMethod short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "staticMethod short text."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1341,14 +1902,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 42
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 52,
                 53,
@@ -1358,7 +1917,6 @@
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 57,
                 54,
@@ -1366,6 +1924,26 @@
                 48,
                 40
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 61,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L61"
+            },
+            {
+              "fileName": "class.ts",
+              "line": 97,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L97"
+            },
+            {
+              "fileName": "class.ts",
+              "line": 104,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L104"
             }
           ],
           "extendedTypes": [
@@ -1413,8 +1991,21 @@
                 "isPrivate": true
               },
               "comment": {
-                "shortText": "Docs"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Docs"
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 122,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L122"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1425,17 +2016,23 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 82
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 84
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 120,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L120"
             }
           ]
         },
@@ -1445,6 +2042,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 130,
+              "character": 12,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L130"
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -1453,6 +2058,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 130,
+                  "character": 25,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L130"
+                }
+              ],
               "signatures": [
                 {
                   "id": 92,
@@ -1476,14 +2089,12 @@
       "groups": [
         {
           "title": "Namespaces",
-          "kind": 4,
           "children": [
             59
           ]
         },
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             85,
             74,
@@ -1496,10 +2107,17 @@
         },
         {
           "title": "Type Aliases",
-          "kind": 4194304,
           "children": [
             90
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "class.ts",
+          "line": 8,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/class.ts#L8"
         }
       ]
     },
@@ -1517,7 +2135,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "A class with constructor properties."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A class with constructor properties."
+              }
+            ]
           },
           "children": [
             {
@@ -1526,6 +2149,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L10"
+                }
+              ],
               "signatures": [
                 {
                   "id": 96,
@@ -1533,7 +2164,6 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
-                  "comment": {},
                   "parameters": [
                     {
                       "id": 97,
@@ -1542,7 +2172,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "X component of the Vector"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "X component of the Vector"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1556,7 +2191,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Y component of the Vector"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Y component of the Vector"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1570,7 +2210,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Vector name\n"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Vector name"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1594,6 +2239,14 @@
               "flags": {
                 "isReadonly": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 61,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L10"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -1607,6 +2260,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 23,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L10"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1620,6 +2281,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 41,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L10"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1629,19 +2298,25 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 95
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 102,
                 100,
                 101
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "constructor-properties.ts",
+              "line": 4,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L4"
             }
           ],
           "extendedBy": [
@@ -1659,7 +2334,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "A class with inherited and overwritten constructor properties."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A class with inherited and overwritten constructor properties."
+              }
+            ]
           },
           "children": [
             {
@@ -1668,6 +2348,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 23,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L23"
+                }
+              ],
               "signatures": [
                 {
                   "id": 105,
@@ -1675,7 +2363,6 @@
                   "kind": 16384,
                   "kindString": "Constructor signature",
                   "flags": {},
-                  "comment": {},
                   "parameters": [
                     {
                       "id": 106,
@@ -1684,7 +2371,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "X component of the Vector"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "X component of the Vector"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1698,7 +2390,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Y component of the Vector"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Y component of the Vector"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1712,7 +2409,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Z component of the Vector"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Z component of the Vector"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1726,7 +2428,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Vector name\n"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Vector name"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1760,6 +2467,14 @@
               "flags": {
                 "isReadonly": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 27,
+                  "character": 17,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L27"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -1778,6 +2493,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 10,
+                  "character": 23,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L10"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1796,6 +2519,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 25,
+                  "character": 15,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L25"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1814,6 +2545,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 26,
+                  "character": 15,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L26"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1823,20 +2562,26 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 104
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 112,
                 113,
                 110,
                 111
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "constructor-properties.ts",
+              "line": 16,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L16"
             }
           ],
           "extendedTypes": [
@@ -1851,11 +2596,18 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             94,
             103
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "constructor-properties.ts",
+          "line": 4,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/constructor-properties.ts#L4"
         }
       ]
     },
@@ -1873,21 +2625,13 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "A decorated class."
-          },
-          "decorators": [
-            {
-              "name": "decoratorWithOptions",
-              "type": {
-                "type": "reference",
-                "id": 123,
-                "name": "decoratorWithOptions"
-              },
-              "arguments": {
-                "options": "{\n    name: \"Name of class\",\n}"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A decorated class."
               }
-            }
-          ],
+            ]
+          },
           "children": [
             {
               "id": 129,
@@ -1916,25 +2660,12 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
-              "decorators": [
+              "sources": [
                 {
-                  "name": "decoratorAtom",
-                  "type": {
-                    "type": "reference",
-                    "id": 115,
-                    "name": "decoratorAtom"
-                  }
-                },
-                {
-                  "name": "decoratorWithParam",
-                  "type": {
-                    "type": "reference",
-                    "id": 120,
-                    "name": "decoratorWithParam"
-                  },
-                  "arguments": {
-                    "value": "false"
-                  }
+                  "fileName": "decorators.ts",
+                  "line": 13,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/decorators.ts#L13"
                 }
               ],
               "signatures": [
@@ -1945,7 +2676,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "A decorated method."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A decorated method."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1958,17 +2694,23 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 129
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 131
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "decorators.ts",
+              "line": 7,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/decorators.ts#L7"
             }
           ]
         },
@@ -1978,11 +2720,12 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
-          "decorates": [
+          "sources": [
             {
-              "type": "reference",
-              "id": 131,
-              "name": "decoratedMethod"
+              "fileName": "decorators.ts",
+              "line": 19,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/decorators.ts#L19"
             }
           ],
           "signatures": [
@@ -1993,7 +2736,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "A decorator with no options."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A decorator with no options."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -2004,9 +2752,9 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "name": "Object",
                     "qualifiedName": "Object",
-                    "package": "typescript",
-                    "name": "Object"
+                    "package": "typescript"
                   }
                 },
                 {
@@ -2043,9 +2791,9 @@
                         "name": "any"
                       }
                     ],
+                    "name": "TypedPropertyDescriptor",
                     "qualifiedName": "TypedPropertyDescriptor",
-                    "package": "typescript",
-                    "name": "TypedPropertyDescriptor"
+                    "package": "typescript"
                   }
                 }
               ],
@@ -2062,11 +2810,12 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
-          "decorates": [
+          "sources": [
             {
-              "type": "reference",
-              "id": 128,
-              "name": "DecoratedClass"
+              "fileName": "decorators.ts",
+              "line": 48,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/decorators.ts#L48"
             }
           ],
           "signatures": [
@@ -2077,7 +2826,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "A decorator consuming an options object."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A decorator consuming an options object."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -2087,7 +2841,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "The options object of this decorator."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The options object of this decorator."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reflection",
@@ -2105,8 +2864,21 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "shortText": "A property on the options object of this decorator.\n"
+                            "summary": [
+                              {
+                                "kind": "text",
+                                "text": "A property on the options object of this decorator."
+                              }
+                            ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "decorators.ts",
+                              "line": 49,
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/decorators.ts#L49"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -2116,10 +2888,17 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             127
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "decorators.ts",
+                          "line": 48,
+                          "character": 46,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/decorators.ts#L48"
                         }
                       ]
                     }
@@ -2128,9 +2907,9 @@
               ],
               "type": {
                 "type": "reference",
+                "name": "ClassDecorator",
                 "qualifiedName": "ClassDecorator",
-                "package": "typescript",
-                "name": "ClassDecorator"
+                "package": "typescript"
               }
             }
           ]
@@ -2141,11 +2920,12 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
-          "decorates": [
+          "sources": [
             {
-              "type": "reference",
-              "id": 131,
-              "name": "decoratedMethod"
+              "fileName": "decorators.ts",
+              "line": 32,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/decorators.ts#L32"
             }
           ],
           "signatures": [
@@ -2156,7 +2936,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "A decorator with a parameter."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A decorator with a parameter."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -2166,7 +2951,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "The parameter of this decorator.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The parameter of this decorator."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -2176,9 +2966,9 @@
               ],
               "type": {
                 "type": "reference",
+                "name": "MethodDecorator",
                 "qualifiedName": "MethodDecorator",
-                "package": "typescript",
-                "name": "MethodDecorator"
+                "package": "typescript"
               }
             }
           ]
@@ -2187,19 +2977,25 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             128
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             115,
             123,
             120
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "decorators.ts",
+          "line": 4,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/decorators.ts#L4"
         }
       ]
     },
@@ -2241,14 +3037,27 @@
             {
               "id": 162,
               "name": "EVENT_CLICK",
-              "kind": 8388608,
-              "kindString": "Event",
+              "kind": 1024,
+              "kindString": "Property",
               "flags": {
                 "isStatic": true
               },
               "comment": {
-                "shortText": "This is an event documentation."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is an event documentation."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "events.ts",
+                  "line": 6,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events.ts#L6"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -2259,17 +3068,23 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 163
               ]
             },
             {
               "title": "Events",
-              "kind": 8388608,
               "children": [
                 162
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "events.ts",
+              "line": 1,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events.ts#L1"
             }
           ]
         }
@@ -2277,10 +3092,17 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             161
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "events.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events.ts#L1"
         }
       ]
     },
@@ -2298,11 +3120,21 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "Encapsulates some information for background http transfers.",
-            "tags": [
+            "summary": [
               {
-                "tag": "see",
-                "text": "https://github.com/TypeStrong/typedoc/issues/136\n"
+                "kind": "text",
+                "text": "Encapsulates some information for background http transfers."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@see",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "https://github.com/TypeStrong/typedoc/issues/136"
+                  }
+                ]
               }
             ]
           },
@@ -2310,18 +3142,49 @@
             {
               "id": 135,
               "name": "on",
-              "kind": 8388608,
-              "kindString": "Event",
+              "kind": 2048,
+              "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 14,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L14"
+                },
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 23,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L23"
+                },
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 32,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L32"
+                },
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 41,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L41"
+                }
+              ],
               "signatures": [
                 {
                   "id": 136,
                   "name": "on",
-                  "kind": 8388608,
-                  "kindString": "Event",
+                  "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Subscribe for a general event by name."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Subscribe for a general event by name."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -2331,7 +3194,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "The name of the event to subscribe for."
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The name of the event to subscribe for."
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -2345,7 +3213,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "The handler called when the event occurs.\n"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The handler called when the event occurs."
+                          }
+                        ]
                       },
                       "type": {
                         "type": "reflection",
@@ -2355,6 +3228,14 @@
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 14,
+                              "character": 31,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L14"
+                            }
+                          ],
                           "signatures": [
                             {
                               "id": 140,
@@ -2393,11 +3274,16 @@
                 {
                   "id": 142,
                   "name": "on",
-                  "kind": 8388608,
-                  "kindString": "Event",
+                  "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Subscribe for error notifications."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Subscribe for error notifications."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -2407,7 +3293,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "The name of the event to subscribe for."
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The name of the event to subscribe for."
+                          }
+                        ]
                       },
                       "type": {
                         "type": "literal",
@@ -2421,7 +3312,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "A handler that will receive the error details\n"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "A handler that will receive the error details"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "reflection",
@@ -2431,6 +3327,14 @@
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 23,
+                              "character": 32,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L23"
+                            }
+                          ],
                           "signatures": [
                             {
                               "id": 146,
@@ -2469,11 +3373,16 @@
                 {
                   "id": 148,
                   "name": "on",
-                  "kind": 8388608,
-                  "kindString": "Event",
+                  "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Subscribe for progress notifications."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Subscribe for progress notifications."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -2483,7 +3392,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "The name of the event to subscribe for."
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The name of the event to subscribe for."
+                          }
+                        ]
                       },
                       "type": {
                         "type": "literal",
@@ -2497,7 +3411,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "A handler that will receive a progress event with the current and expected total bytes\n"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "A handler that will receive a progress event with the current and expected total bytes"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "reflection",
@@ -2507,6 +3426,14 @@
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 32,
+                              "character": 35,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L32"
+                            }
+                          ],
                           "signatures": [
                             {
                               "id": 152,
@@ -2545,11 +3472,16 @@
                 {
                   "id": 154,
                   "name": "on",
-                  "kind": 8388608,
-                  "kindString": "Event",
+                  "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Subscribe for success notification."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Subscribe for success notification."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -2559,7 +3491,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "The name of the event to subscribe for."
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "The name of the event to subscribe for."
+                          }
+                        ]
                       },
                       "type": {
                         "type": "literal",
@@ -2573,7 +3510,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "A function that will be called with general event data upon successful completion\n"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "A function that will be called with general event data upon successful completion"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "reflection",
@@ -2583,6 +3525,14 @@
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 41,
+                              "character": 35,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L41"
+                            }
+                          ],
                           "signatures": [
                             {
                               "id": 158,
@@ -2624,10 +3574,17 @@
           "groups": [
             {
               "title": "Events",
-              "kind": 8388608,
               "children": [
                 135
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "events-overloads.ts",
+              "line": 6,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L6"
             }
           ]
         }
@@ -2635,10 +3592,17 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             134
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "events-overloads.ts",
+          "line": 6,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/events-overloads.ts#L6"
         }
       ]
     },
@@ -2656,7 +3620,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "GenericClass short text."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "GenericClass short text."
+              }
+            ]
           },
           "children": [
             {
@@ -2665,6 +3634,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 20,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L20"
+                }
+              ],
               "signatures": [
                 {
                   "id": 168,
@@ -2673,7 +3650,12 @@
                   "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Constructor short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Constructor short text."
+                      }
+                    ]
                   },
                   "typeParameter": [
                     {
@@ -2692,7 +3674,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Constructor parameter.\n"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Constructor parameter."
+                          }
+                        ]
                       },
                       "type": {
                         "type": "reference",
@@ -2725,8 +3712,21 @@
                 "isProtected": true
               },
               "comment": {
-                "shortText": "Generic property."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic property."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 9,
+                  "character": 14,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L9"
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 169,
@@ -2742,8 +3742,21 @@
                 "isProtected": true
               },
               "comment": {
-                "shortText": "Generic property array."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic property array."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 14,
+                  "character": 14,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L14"
+                }
+              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -2759,6 +3772,14 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 28,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L28"
+                }
+              ],
               "signatures": [
                 {
                   "id": 174,
@@ -2767,8 +3788,23 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "getValue short text.",
-                    "returns": "Return value comment.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "getValue short text."
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@returns",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Return value comment."
+                          }
+                        ]
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -2782,14 +3818,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 167
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 171,
                 172
@@ -2797,13 +3831,20 @@
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 173
               ]
             }
           ],
-          "typeParameter": [
+          "sources": [
+            {
+              "fileName": "generic-class.ts",
+              "line": 5,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L5"
+            }
+          ],
+          "typeParameters": [
             {
               "id": 175,
               "name": "T",
@@ -2811,7 +3852,12 @@
               "kindString": "Type parameter",
               "flags": {},
               "comment": {
-                "shortText": "Generic parameter.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic parameter."
+                  }
+                ]
               }
             }
           ],
@@ -2830,7 +3876,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "NonGenericClass short text."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "NonGenericClass short text."
+              }
+            ]
           },
           "children": [
             {
@@ -2839,6 +3890,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 20,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L20"
+                }
+              ],
               "signatures": [
                 {
                   "id": 178,
@@ -2847,7 +3906,12 @@
                   "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Constructor short text."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Constructor short text."
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -2857,7 +3921,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Constructor parameter.\n"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Constructor parameter."
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -2892,8 +3961,21 @@
                 "isProtected": true
               },
               "comment": {
-                "shortText": "Generic property."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic property."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 9,
+                  "character": 14,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L9"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -2913,8 +3995,21 @@
                 "isProtected": true
               },
               "comment": {
-                "shortText": "Generic property array."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic property array."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 14,
+                  "character": 14,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L14"
+                }
+              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -2934,6 +4029,14 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 28,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L28"
+                }
+              ],
               "signatures": [
                 {
                   "id": 183,
@@ -2942,8 +4045,23 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "getValue short text.",
-                    "returns": "Return value comment.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "getValue short text."
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@returns",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Return value comment."
+                          }
+                        ]
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -2966,14 +4084,12 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 177
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 180,
                 181
@@ -2981,10 +4097,17 @@
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 182
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-class.ts",
+              "line": 36,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L36"
             }
           ],
           "extendedTypes": [
@@ -3005,11 +4128,18 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             166,
             176
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "generic-class.ts",
+          "line": 5,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/generic-class.ts#L5"
         }
       ]
     },
@@ -3056,6 +4186,14 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 2,
+                  "character": 12,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L2"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -3067,45 +4205,55 @@
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
-              "getSignature": [
+              "sources": [
                 {
-                  "id": 190,
-                  "name": "name",
-                  "kind": 524288,
-                  "kindString": "Get signature",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
+                  "fileName": "getter-setter.ts",
+                  "line": 4,
+                  "character": 8,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L4"
+                },
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 7,
+                  "character": 8,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L7"
                 }
               ],
-              "setSignature": [
-                {
-                  "id": 191,
-                  "name": "name",
-                  "kind": 1048576,
-                  "kindString": "Set signature",
-                  "flags": {},
-                  "parameters": [
-                    {
-                      "id": 192,
-                      "name": "value",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
-                  }
+              "getSignature": {
+                "id": 190,
+                "name": "name",
+                "kind": 524288,
+                "kindString": "Get signature",
+                "flags": {},
+                "type": {
+                  "type": "intrinsic",
+                  "name": "string"
                 }
-              ]
+              },
+              "setSignature": {
+                "id": 191,
+                "name": "name",
+                "kind": 1048576,
+                "kindString": "Set signature",
+                "flags": {},
+                "parameters": [
+                  {
+                    "id": 192,
+                    "name": "value",
+                    "kind": 32768,
+                    "kindString": "Parameter",
+                    "flags": {},
+                    "type": {
+                      "type": "intrinsic",
+                      "name": "string"
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "intrinsic",
+                  "name": "void"
+                }
+              }
             },
             {
               "id": 193,
@@ -3113,19 +4261,25 @@
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
-              "getSignature": [
+              "sources": [
                 {
-                  "id": 194,
-                  "name": "readOnlyName",
-                  "kind": 524288,
-                  "kindString": "Get signature",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
+                  "fileName": "getter-setter.ts",
+                  "line": 11,
+                  "character": 8,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L11"
                 }
-              ]
+              ],
+              "getSignature": {
+                "id": 194,
+                "name": "readOnlyName",
+                "kind": 524288,
+                "kindString": "Get signature",
+                "flags": {},
+                "type": {
+                  "type": "intrinsic",
+                  "name": "string"
+                }
+              }
             },
             {
               "id": 195,
@@ -3133,57 +4287,68 @@
               "kind": 262144,
               "kindString": "Accessor",
               "flags": {},
-              "setSignature": [
+              "sources": [
                 {
-                  "id": 196,
-                  "name": "writeOnlyName",
-                  "kind": 1048576,
-                  "kindString": "Set signature",
-                  "flags": {},
-                  "parameters": [
-                    {
-                      "id": 197,
-                      "name": "value",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
-                  }
+                  "fileName": "getter-setter.ts",
+                  "line": 15,
+                  "character": 8,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L15"
                 }
-              ]
+              ],
+              "setSignature": {
+                "id": 196,
+                "name": "writeOnlyName",
+                "kind": 1048576,
+                "kindString": "Set signature",
+                "flags": {},
+                "parameters": [
+                  {
+                    "id": 197,
+                    "name": "value",
+                    "kind": 32768,
+                    "kindString": "Parameter",
+                    "flags": {},
+                    "type": {
+                      "type": "intrinsic",
+                      "name": "string"
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "intrinsic",
+                  "name": "void"
+                }
+              }
             }
           ],
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 186
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 188
               ]
             },
             {
               "title": "Accessors",
-              "kind": 262144,
               "children": [
                 189,
                 193,
                 195
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "getter-setter.ts",
+              "line": 1,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L1"
             }
           ]
         }
@@ -3191,10 +4356,17 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             185
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "getter-setter.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/getter-setter.ts#L1"
         }
       ]
     },
@@ -3212,8 +4384,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "ChainClass comment short text.",
-            "text": "ChainClass comment text.\n"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "ChainClass comment short text.\n\nChainClass comment text."
+              }
+            ]
           },
           "children": [
             {
@@ -3245,6 +4421,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "this.ts",
+                  "line": 10,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/this.ts#L10"
+                }
+              ],
               "signatures": [
                 {
                   "id": 203,
@@ -3253,7 +4437,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Chain method that returns this."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Chain method that returns this."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -3267,17 +4456,23 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 200
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 202
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "this.ts",
+              "line": 6,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/this.ts#L6"
             }
           ]
         }
@@ -3285,10 +4480,17 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             199
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "this.ts",
+          "line": 6,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/this.ts#L6"
         }
       ]
     },
@@ -3358,6 +4560,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 14,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/type-operator.ts#L14"
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 213,
@@ -3368,20 +4578,26 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 211
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 214
               ]
             }
           ],
-          "typeParameter": [
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 13,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/type-operator.ts#L13"
+            }
+          ],
+          "typeParameters": [
             {
               "id": 215,
               "name": "T",
@@ -3407,12 +4623,27 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "TestClass comment short text.",
-            "text": "TestClass comment text.\n",
-            "tags": [
+            "summary": [
               {
-                "tag": "see",
-                "text": "[[TestClass]] @ fixtures\n"
+                "kind": "text",
+                "text": "TestClass comment short text.\n\nTestClass comment text."
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@see",
+                "content": [
+                  {
+                    "kind": "inline-tag",
+                    "tag": "@link",
+                    "text": "TestClass",
+                    "target": 205
+                  },
+                  {
+                    "kind": "text",
+                    "text": " @ fixtures"
+                  }
+                ]
               }
             ]
           },
@@ -3444,6 +4675,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 9,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/type-operator.ts#L9"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -3455,6 +4694,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 10,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/type-operator.ts#L10"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -3464,18 +4711,24 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 206
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 208,
                 209
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 8,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/type-operator.ts#L8"
             }
           ]
         }
@@ -3483,11 +4736,18 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             210,
             205
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "type-operator.ts",
+          "line": 8,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/class/type-operator.ts#L8"
         }
       ]
     }
@@ -3495,7 +4755,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         21,

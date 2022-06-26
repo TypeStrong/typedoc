@@ -12,8 +12,9 @@ import { convertSymbol } from "./symbols";
 import { createMinimatch, matchesAny } from "../utils/paths";
 import type { IMinimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
-import { resolveAliasedSymbol } from "./utils/symbols";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
+import type { CommentParserConfig } from "./comments";
+import type { CommentStyle } from "../utils/options/declaration";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -50,6 +51,15 @@ export class Converter extends ChildableComponent<
     @BindOption("excludeProtected")
     excludeProtected!: boolean;
 
+    @BindOption("commentStyle")
+    commentStyle!: CommentStyle;
+
+    private _config?: CommentParserConfig;
+
+    get config(): CommentParserConfig {
+        return this._config || this._buildCommentParserConfig();
+    }
+
     /**
      * General events
      */
@@ -74,7 +84,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a declaration reflection.
-     * The listener will be given {@link Context}, {@link Reflection} and a `ts.Node?`.
+     * The listener will be given {@link Context} and a {@link DeclarationReflection}.
      * @event
      */
     static readonly EVENT_CREATE_DECLARATION =
@@ -82,7 +92,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a signature reflection.
-     * The listener will be given {@link Context}, {@link SignatureReflection} and a `ts.Node?`
+     * The listener will be given {@link Context}, {@link SignatureReflection} | {@link ProjectReflection} and a `ts.Node?`
      * @event
      */
     static readonly EVENT_CREATE_SIGNATURE = ConverterEvents.CREATE_SIGNATURE;
@@ -96,7 +106,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a type parameter reflection.
-     * The listener will be given {@link Context}, {@link TypeParameterReflection} and a `ts.Node?`
+     * The listener will be given {@link Context} and a {@link TypeParameterReflection}
      * @event
      */
     static readonly EVENT_CREATE_TYPE_PARAMETER =
@@ -171,90 +181,6 @@ export class Converter extends ChildableComponent<
         return convertType(context, node);
     }
 
-    /** @internal */
-    getNodesForSymbol(symbol: ts.Symbol, kind: ReflectionKind) {
-        const wantedKinds: ts.SyntaxKind[] = {
-            [ReflectionKind.Project]: [ts.SyntaxKind.SourceFile],
-            [ReflectionKind.Module]: [ts.SyntaxKind.SourceFile],
-            [ReflectionKind.Namespace]: [
-                ts.SyntaxKind.ModuleDeclaration,
-                ts.SyntaxKind.SourceFile,
-            ],
-            [ReflectionKind.Enum]: [
-                ts.SyntaxKind.EnumDeclaration,
-                ts.SyntaxKind.VariableDeclaration,
-            ],
-            [ReflectionKind.EnumMember]: [
-                ts.SyntaxKind.EnumMember,
-                ts.SyntaxKind.PropertyAssignment,
-                ts.SyntaxKind.PropertySignature,
-            ],
-            [ReflectionKind.Variable]: [
-                ts.SyntaxKind.VariableDeclaration,
-                ts.SyntaxKind.ExportAssignment,
-            ],
-            [ReflectionKind.Function]: [
-                ts.SyntaxKind.FunctionDeclaration,
-                ts.SyntaxKind.VariableDeclaration,
-            ],
-            [ReflectionKind.Class]: [ts.SyntaxKind.ClassDeclaration],
-            [ReflectionKind.Interface]: [
-                ts.SyntaxKind.InterfaceDeclaration,
-                ts.SyntaxKind.JSDocTypedefTag,
-            ],
-            [ReflectionKind.Constructor]: [ts.SyntaxKind.Constructor],
-            [ReflectionKind.Property]: [
-                ts.SyntaxKind.PropertyDeclaration,
-                ts.SyntaxKind.PropertyAssignment,
-                ts.SyntaxKind.PropertySignature,
-                ts.SyntaxKind.JSDocPropertyTag,
-                ts.SyntaxKind.BinaryExpression,
-            ],
-            [ReflectionKind.Method]: [
-                ts.SyntaxKind.MethodDeclaration,
-                ts.SyntaxKind.PropertyDeclaration,
-                ts.SyntaxKind.PropertySignature,
-            ],
-            [ReflectionKind.CallSignature]: [
-                ts.SyntaxKind.FunctionDeclaration,
-                ts.SyntaxKind.VariableDeclaration,
-                ts.SyntaxKind.MethodDeclaration,
-                ts.SyntaxKind.MethodDeclaration,
-                ts.SyntaxKind.PropertyDeclaration,
-                ts.SyntaxKind.PropertySignature,
-                ts.SyntaxKind.CallSignature,
-            ],
-            [ReflectionKind.IndexSignature]: [ts.SyntaxKind.IndexSignature],
-            [ReflectionKind.ConstructorSignature]: [
-                ts.SyntaxKind.ConstructSignature,
-            ],
-            [ReflectionKind.Parameter]: [ts.SyntaxKind.Parameter],
-            [ReflectionKind.TypeLiteral]: [ts.SyntaxKind.TypeLiteral],
-            [ReflectionKind.TypeParameter]: [ts.SyntaxKind.TypeParameter],
-            [ReflectionKind.Accessor]: [
-                ts.SyntaxKind.GetAccessor,
-                ts.SyntaxKind.SetAccessor,
-            ],
-            [ReflectionKind.GetSignature]: [ts.SyntaxKind.GetAccessor],
-            [ReflectionKind.SetSignature]: [ts.SyntaxKind.SetAccessor],
-            [ReflectionKind.ObjectLiteral]: [
-                ts.SyntaxKind.ObjectLiteralExpression,
-            ],
-            [ReflectionKind.TypeAlias]: [
-                ts.SyntaxKind.TypeAliasDeclaration,
-                ts.SyntaxKind.JSDocTypedefTag,
-            ],
-            [ReflectionKind.Event]: [], /// this needs to go away
-            [ReflectionKind.Reference]: [
-                ts.SyntaxKind.NamespaceExport,
-                ts.SyntaxKind.ExportSpecifier,
-            ],
-        }[kind];
-
-        const declarations = symbol.getDeclarations() ?? [];
-        return declarations.filter((d) => wantedKinds.includes(d.kind));
-    }
-
     /**
      * Compile the files within the given context and convert the compiler symbols to reflections.
      *
@@ -301,11 +227,9 @@ export class Converter extends ChildableComponent<
 
         const allExports = getExports(context, node, symbol);
 
-        if (
-            allExports.every((exp) => this.shouldIgnore(exp, context.checker))
-        ) {
+        if (allExports.every((exp) => this.shouldIgnore(exp))) {
             this.owner.logger.verbose(
-                `Ignoring entry point ${entryName} since all members will be ignored.`
+                `All members of ${entryName} are excluded, ignoring entry point.`
             );
             return;
         }
@@ -316,8 +240,7 @@ export class Converter extends ChildableComponent<
             context.project.registerReflection(context.project, symbol);
             context.trigger(
                 Converter.EVENT_CREATE_DECLARATION,
-                context.project,
-                node
+                context.project
             );
             moduleContext = context;
         } else {
@@ -327,12 +250,7 @@ export class Converter extends ChildableComponent<
                 void 0,
                 entryName
             );
-            context.finalizeDeclarationReflection(
-                reflection,
-                symbol,
-                void 0,
-                node
-            );
+            context.finalizeDeclarationReflection(reflection);
             moduleContext = context.withScope(reflection);
         }
 
@@ -375,59 +293,52 @@ export class Converter extends ChildableComponent<
         this.trigger(Converter.EVENT_RESOLVE_END, context);
     }
 
-    /** @internal */
-    shouldIgnore(symbol: ts.Symbol, checker: ts.TypeChecker) {
-        if (
-            this.excludeNotDocumented &&
-            // If the enum is included, we should include members even if not documented.
-            !hasAllFlags(symbol.flags, ts.SymbolFlags.EnumMember) &&
-            resolveAliasedSymbol(symbol, checker).getDocumentationComment(
-                checker
-            ).length === 0
-        ) {
-            return true;
-        }
-
+    /**
+     * Used to determine if we should immediately bail when creating a reflection.
+     * Note: This should not be used for excludeNotDocumented because we don't have enough
+     * information at this point since comment discovery hasn't happened.
+     * @internal
+     */
+    shouldIgnore(symbol: ts.Symbol) {
         if (this.isExcluded(symbol)) {
             return true;
         }
 
-        if (!this.excludeExternals) {
-            return false;
-        }
-
-        return this.isExternal(symbol);
+        return this.excludeExternals && this.isExternal(symbol);
     }
 
     private isExcluded(symbol: ts.Symbol) {
         this.excludeCache ??= createMinimatch(
             this.application.options.getValue("exclude")
         );
+        const cache = this.excludeCache;
 
-        for (const node of symbol.getDeclarations() ?? []) {
-            if (matchesAny(this.excludeCache, node.getSourceFile().fileName)) {
-                return true;
-            }
-        }
-
-        return false;
+        return (symbol.getDeclarations() ?? []).some((node) =>
+            matchesAny(cache, node.getSourceFile().fileName)
+        );
     }
 
     /** @internal */
     isExternal(symbol: ts.Symbol) {
         this.externalPatternCache ??= createMinimatch(this.externalPattern);
-        for (const node of symbol.getDeclarations() ?? []) {
-            if (
-                matchesAny(
-                    this.externalPatternCache,
-                    node.getSourceFile().fileName
-                )
-            ) {
-                return true;
-            }
-        }
+        const cache = this.externalPatternCache;
 
-        return false;
+        return (symbol.getDeclarations() ?? []).some((node) =>
+            matchesAny(cache, node.getSourceFile().fileName)
+        );
+    }
+
+    private _buildCommentParserConfig() {
+        this._config = {
+            blockTags: new Set(this.application.options.getValue("blockTags")),
+            inlineTags: new Set(
+                this.application.options.getValue("inlineTags")
+            ),
+            modifierTags: new Set(
+                this.application.options.getValue("modifierTags")
+            ),
+        };
+        return this._config;
     }
 }
 

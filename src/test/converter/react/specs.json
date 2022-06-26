@@ -18,6 +18,14 @@
           "kind": 512,
           "kindString": "Constructor",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 20,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L20"
+            }
+          ],
           "signatures": [
             {
               "id": 6,
@@ -55,6 +63,14 @@
           "flags": {
             "isPrivate": true
           },
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 18,
+              "character": 12,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L18"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -66,6 +82,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 25,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L25"
+            }
+          ],
           "signatures": [
             {
               "id": 10,
@@ -84,24 +108,29 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             5
           ]
         },
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             8
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             9
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "react.tsx",
+          "line": 17,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L17"
         }
       ]
     },
@@ -118,6 +147,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 14,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L14"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -129,6 +166,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 13,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L13"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -138,11 +183,18 @@
       "groups": [
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             3,
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "react.tsx",
+          "line": 12,
+          "character": 17,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L12"
         }
       ]
     }
@@ -150,17 +202,23 @@
   "groups": [
     {
       "title": "Classes",
-      "kind": 128,
       "children": [
         4
       ]
     },
     {
       "title": "Interfaces",
-      "kind": 256,
       "children": [
         1
       ]
+    }
+  ],
+  "sources": [
+    {
+      "fileName": "react.tsx",
+      "line": 2,
+      "character": 0,
+      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L2"
     }
   ]
 }

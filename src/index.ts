@@ -4,7 +4,7 @@ export { EventDispatcher, Event } from "./lib/utils/events";
 export { resetReflectionID } from "./lib/models/reflections/abstract";
 export { normalizePath } from "./lib/utils/fs";
 export * from "./lib/models";
-export { Converter, Context } from "./lib/converter";
+export { Converter, Context, type CommentParserConfig } from "./lib/converter";
 
 export {
     Renderer,
@@ -21,6 +21,7 @@ export type { RenderTemplate, RendererHooks } from "./lib/output";
 export {
     ArgumentsReader,
     BindOption,
+    CommentStyle,
     JSX,
     LogLevel,
     Logger,
@@ -53,6 +54,7 @@ export type {
     SortStrategy,
     ParameterTypeToOptionTypeMap,
     DocumentationEntryPoint,
+    ManuallyValidatedOption,
 } from "./lib/utils";
 
 export type { EventMap, EventCallback } from "./lib/utils/events";
@@ -60,7 +62,7 @@ export type { EventMap, EventCallback } from "./lib/utils/events";
 export {
     JSONOutput,
     Serializer,
-    SerializerComponent,
+    type SerializerComponent,
     SerializeEvent,
 } from "./lib/serialization";
 export type { SerializeEventData } from "./lib/serialization";

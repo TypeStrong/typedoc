@@ -1,14 +1,16 @@
 {
     "compilerOptions": {
         "module": "CommonJS",
-        "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
-        "target": "es2019",
+        "lib": ["es2020"],
+        "target": "es2020",
+
         // Add our `ts` internal types
         "typeRoots": ["node_modules/@types", "src/lib/types"],
         "types": ["node", "glob", "lunr", "marked", "minimatch", "mocha"],
         // Speed up dev compilation time
         "incremental": true,
-        "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
+        "tsBuildInfoFile": "dist/.tsbuildinfo",
+
         "experimentalDecorators": true,
         "strict": true,
         "alwaysStrict": true,
@@ -44,8 +46,7 @@
         "src/test/module",
         "src/test/packages",
         "src/test/slow/entry-points",
-        "src/test/renderer/testProject",
-        "src/codegen"
+        "src/test/renderer/testProject"
     ],
     // We use ts-node to support mocha runner directly on files
     "ts-node": {

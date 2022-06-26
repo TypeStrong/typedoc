@@ -14,7 +14,7 @@ import type { Converter } from "./converter";
 import { isNamedNode } from "./utils/nodes";
 import { ConverterEvents } from "./converter-events";
 import { resolveAliasedSymbol } from "./utils/symbols";
-import type { SearchConfig } from "../utils/options/declaration";
+import { getComment } from "./comments";
 
 /**
  * The context describes the current state the converter is in.
@@ -70,19 +70,6 @@ export class Context {
         this.convertingTypeNode = true;
     }
 
-    /**
-     * This is a horrible hack to avoid breaking backwards compatibility for plugins
-     * that use EVENT_CREATE_DECLARATION. The comment plugin needs to be able to check
-     * this to properly get the comment for module re-exports:
-     * ```ts
-     * /** We should use this comment *&#47;
-     * export * as Mod from "./mod"
-     * ```
-     * Will be removed in 0.23.
-     * @internal
-     */
-    exportSymbol?: ts.Symbol;
-
     /** @internal */
     shouldBeStatic = false;
 
@@ -119,17 +106,6 @@ export class Context {
         return this.converter.application.options.getCompilerOptions();
     }
 
-    getSearchOptions(): SearchConfig {
-        return {
-            searchCategoryBoosts: this.converter.application.options.getValue(
-                "searchCategoryBoosts"
-            ) as SearchConfig["searchCategoryBoosts"],
-            searchGroupBoosts: this.converter.application.options.getValue(
-                "searchGroupBoosts"
-            ) as SearchConfig["searchGroupBoosts"],
-        };
-    }
-
     /**
      * Return the type declaration of the given node.
      *
@@ -146,15 +122,11 @@ export class Context {
         if (!nodeType) {
             if (node.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(node.symbol);
-            } else if (node.parent && node.parent.symbol) {
+            } else if (node.parent?.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(
                     node.parent.symbol
                 );
-            } else if (
-                node.parent &&
-                node.parent.parent &&
-                node.parent.parent.symbol
-            ) {
+            } else if (node.parent?.parent?.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(
                     node.parent.parent.symbol
                 );
@@ -201,13 +173,50 @@ export class Context {
         const name = getHumanName(
             nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
         );
+
         const reflection = new DeclarationReflection(name, kind, this.scope);
+        this.postReflectionCreation(reflection, symbol, exportSymbol);
+
+        return reflection;
+    }
+
+    postReflectionCreation(
+        reflection: Reflection,
+        symbol: ts.Symbol | undefined,
+        exportSymbol: ts.Symbol | undefined
+    ) {
+        if (
+            exportSymbol &&
+            reflection.kind &
+                (ReflectionKind.SomeModule | ReflectionKind.Reference)
+        ) {
+            reflection.comment = getComment(
+                exportSymbol,
+                reflection.kind,
+                this.converter.config,
+                this.logger,
+                this.converter.commentStyle
+            );
+        }
+        if (symbol && !reflection.comment) {
+            reflection.comment = getComment(
+                symbol,
+                reflection.kind,
+                this.converter.config,
+                this.logger,
+                this.converter.commentStyle
+            );
+        }
+
         if (this.shouldBeStatic) {
             reflection.setFlag(ReflectionFlag.Static);
         }
-        reflection.escapedName = symbol?.escapedName;
 
-        this.addChild(reflection);
+        if (reflection instanceof DeclarationReflection) {
+            reflection.escapedName = symbol?.escapedName;
+            this.addChild(reflection);
+        }
+
         if (symbol && this.converter.isExternal(symbol)) {
             reflection.setFlag(ReflectionFlag.External);
         }
@@ -215,26 +224,14 @@ export class Context {
             this.registerReflection(reflection, exportSymbol);
         }
         this.registerReflection(reflection, symbol);
-
-        return reflection;
     }
 
-    finalizeDeclarationReflection(
-        reflection: DeclarationReflection,
-        symbol: ts.Symbol | undefined,
-        exportSymbol?: ts.Symbol,
-        commentNode?: ts.Node
-    ) {
-        this.exportSymbol = exportSymbol;
+    finalizeDeclarationReflection(reflection: DeclarationReflection) {
         this.converter.trigger(
             ConverterEvents.CREATE_DECLARATION,
             this,
-            reflection,
-            (symbol &&
-                this.converter.getNodesForSymbol(symbol, reflection.kind)[0]) ??
-                commentNode
+            reflection
         );
-        this.exportSymbol = undefined;
     }
 
     addChild(reflection: DeclarationReflection) {
@@ -245,7 +242,7 @@ export class Context {
     }
 
     shouldIgnore(symbol: ts.Symbol) {
-        return this.converter.shouldIgnore(symbol, this.checker);
+        return this.converter.shouldIgnore(symbol);
     }
 
     /**
@@ -293,17 +290,10 @@ export class Context {
     }
 }
 
-const builtInSymbolRegExp = /^__@(\w+)$/;
 const uniqueSymbolRegExp = /^__@(.*)@\d+$/;
 
 function getHumanName(name: string) {
-    // TS 4.0, 4.1, 4.2 - well known symbols are treated specially.
-    let match = builtInSymbolRegExp.exec(name);
-    if (match) {
-        return `[Symbol.${match[1]}]`;
-    }
-
-    match = uniqueSymbolRegExp.exec(name);
+    const match = uniqueSymbolRegExp.exec(name);
     if (match) {
         return `[${match[1]}]`;
     }

@@ -1,4 +1,4 @@
-import { renderFlags, wbr } from "../../lib";
+import { classNames, renderFlags, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import { DeclarationReflection, ReferenceReflection } from "../../../../models";
@@ -9,8 +9,8 @@ export const member = (context: DefaultThemeRenderContext, props: DeclarationRef
         <a id={props.anchor} class="tsd-anchor"></a>
         {!!props.name && (
             <h3 class="tsd-anchor-link">
-                {renderFlags(props.flags)}
-                {wbr(props.name)}
+                {renderFlags(props.flags, props.comment)}
+                <span class={classNames({ deprecated: props.isDeprecated() })}>{wbr(props.name)}</span>
                 {anchorIcon(props.anchor)}
             </h3>
         )}

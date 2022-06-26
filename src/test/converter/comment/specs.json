@@ -10,9 +10,6 @@
       "kind": 2,
       "kindString": "Module",
       "flags": {},
-      "comment": {
-        "shortText": "This is a module doc comment with legacy behavior."
-      },
       "children": [
         {
           "id": 2,
@@ -21,16 +18,29 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "A Comment for a class",
-            "text": "## Some Markup\n**with more markup**\n\nAn example with decorators that should not parse to tag\n```\n@myDecorator\n@FactoryDecorator('a', 'b', 'c')\nexport class CommentedClass {\n  myProp: string = 'myProp';\n\n  @PropDecorator() decoratedProp: string;\n\n  constructor(@ParamDecorator public param: string) { }\n\n  myMethod() { }\n}\n```",
-            "tags": [
+            "summary": [
               {
-                "tag": "deprecated",
-                "text": ""
+                "kind": "text",
+                "text": "A Comment for a class\n\n## Some Markup\n**with more markup**\n\nAn example with decorators that should not parse to tag\n"
               },
               {
-                "tag": "todo",
-                "text": "something\n"
+                "kind": "code",
+                "text": "```\n@myDecorator\n@FactoryDecorator('a', 'b', 'c')\nexport class CommentedClass {\n  myProp: string = 'myProp';\n\n  @PropDecorator() decoratedProp: string;\n\n  constructor(@ParamDecorator public param: string) { }\n\n  myMethod() { }\n}\n```"
+              }
+            ],
+            "blockTags": [
+              {
+                "tag": "@deprecated",
+                "content": []
+              },
+              {
+                "tag": "@todo",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "something"
+                  }
+                ]
               }
             ]
           },
@@ -63,8 +73,21 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "The main prop"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "The main prop"
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "comment.ts",
+                  "line": 37,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment.ts#L37"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -84,7 +107,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Mixed hidden 2"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Mixed hidden 2"
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -121,24 +149,29 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 3
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 5
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 19
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "comment.ts",
+              "line": 33,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment.ts#L33"
             }
           ]
         }
@@ -146,10 +179,17 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "comment.ts",
+          "line": 5,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment.ts#L5"
         }
       ]
     },
@@ -160,7 +200,20 @@
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
+          },
+          {
+            "kind": "code",
+            "text": "`multiply`"
+          },
+          {
+            "kind": "text",
+            "text": " function."
+          }
+        ]
       },
       "children": [
         {
@@ -169,6 +222,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "comment2.ts",
+              "line": 8,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment2.ts#L8"
+            }
+          ],
           "signatures": [
             {
               "id": 28,
@@ -176,6 +237,25 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
+                  },
+                  {
+                    "kind": "code",
+                    "text": "`multiply`"
+                  },
+                  {
+                    "kind": "text",
+                    "text": " function."
+                  }
+                ],
+                "modifierTags": [
+                  "@packageDocumentation"
+                ]
+              },
               "parameters": [
                 {
                   "id": 29,
@@ -211,10 +291,17 @@
       "groups": [
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             27
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "comment2.ts",
+          "line": 8,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment2.ts#L8"
         }
       ]
     },
@@ -225,7 +312,20 @@
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "shortText": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
+          },
+          {
+            "kind": "code",
+            "text": "`multiply`"
+          },
+          {
+            "kind": "text",
+            "text": " function."
+          }
+        ]
       },
       "children": [
         {
@@ -234,6 +334,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "comment3.ts",
+              "line": 8,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment3.ts#L8"
+            }
+          ],
           "signatures": [
             {
               "id": 33,
@@ -241,6 +349,28 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
+                  },
+                  {
+                    "kind": "code",
+                    "text": "`multiply`"
+                  },
+                  {
+                    "kind": "text",
+                    "text": " function."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@module",
+                    "content": []
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 34,
@@ -276,10 +406,17 @@
       "groups": [
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             32
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "comment3.ts",
+          "line": 8,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment3.ts#L8"
         }
       ]
     },
@@ -290,7 +427,16 @@
       "kindString": "Module",
       "flags": {},
       "comment": {
-        "shortText": "This is a comment containing a multiline code block\n```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a comment containing a multiline code block\n"
+          },
+          {
+            "kind": "code",
+            "text": "```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+          }
+        ]
       },
       "children": [
         {
@@ -299,6 +445,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "comment4.ts",
+              "line": 11,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment4.ts#L11"
+            }
+          ],
           "signatures": [
             {
               "id": 38,
@@ -306,6 +460,24 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a comment containing a multiline code block\n"
+                  },
+                  {
+                    "kind": "code",
+                    "text": "```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@module",
+                    "content": []
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 39,
@@ -341,10 +513,17 @@
       "groups": [
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             37
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "comment4.ts",
+          "line": 11,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment4.ts#L11"
         }
       ]
     }
@@ -352,7 +531,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         26,

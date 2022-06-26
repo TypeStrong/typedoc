@@ -24,6 +24,14 @@
               "kind": 64,
               "kindString": "Function",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 305,
+                  "character": 7,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L305"
+                }
+              ],
               "signatures": [
                 {
                   "id": 82,
@@ -42,10 +50,23 @@
           "groups": [
             {
               "title": "Functions",
-              "kind": 64,
               "children": [
                 81
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 304,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L304"
+            },
+            {
+              "fileName": "function.ts",
+              "line": 305,
+              "character": 0,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L305"
             }
           ]
         },
@@ -56,7 +77,12 @@
           "kindString": "Namespace",
           "flags": {},
           "comment": {
-            "shortText": "This is the module extending the function moduleFunction()."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the module extending the function moduleFunction()."
+              }
+            ]
           },
           "children": [
             {
@@ -66,8 +92,21 @@
               "kindString": "Variable",
               "flags": {},
               "comment": {
-                "shortText": "This variable is appended to a function."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This variable is appended to a function."
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 264,
+                  "character": 15,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L264"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -79,6 +118,14 @@
               "kind": 64,
               "kindString": "Function",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 269,
+                  "character": 20,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L269"
+                }
+              ],
               "signatures": [
                 {
                   "id": 57,
@@ -87,7 +134,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "This function is appended to another function."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This function is appended to another function."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -102,6 +154,14 @@
               "kind": 64,
               "kindString": "Function",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 274,
+                  "character": 20,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L274"
+                }
+              ],
               "signatures": [
                 {
                   "id": 59,
@@ -110,7 +170,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "This function is appended to another function."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This function is appended to another function."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -123,18 +188,30 @@
           "groups": [
             {
               "title": "Variables",
-              "kind": 32,
               "children": [
                 60
               ]
             },
             {
               "title": "Functions",
-              "kind": 64,
               "children": [
                 56,
                 58
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 218,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L218"
+            },
+            {
+              "fileName": "function.ts",
+              "line": 260,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L260"
             }
           ]
         },
@@ -172,6 +249,14 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 285,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L285"
+                }
+              ],
               "signatures": [
                 {
                   "id": 98,
@@ -197,6 +282,14 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 281,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L281"
+                }
+              ],
               "signatures": [
                 {
                   "id": 96,
@@ -224,6 +317,14 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 284,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L284"
+                }
+              ],
               "signatures": [
                 {
                   "id": 91,
@@ -260,6 +361,14 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 278,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L278"
+                }
+              ],
               "signatures": [
                 {
                   "id": 88,
@@ -296,20 +405,26 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 93
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 97,
                 95,
                 90,
                 87
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 277,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L277"
             }
           ]
         },
@@ -319,6 +434,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 293,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L293"
+            }
+          ],
           "signatures": [
             {
               "id": 100,
@@ -326,10 +449,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "shortText": "Returns true if fn returns true for every item in the iterator",
-                "text": "Returns true if the iterator is empty\n"
-              },
               "typeParameter": [
                 {
                   "id": 101,
@@ -354,6 +473,14 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 294,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L294"
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 104,
@@ -399,9 +526,9 @@
                         "name": "T"
                       }
                     ],
+                    "name": "Iterable",
                     "qualifiedName": "Iterable",
-                    "package": "typescript",
-                    "name": "Iterable"
+                    "package": "typescript"
                   }
                 }
               ],
@@ -416,10 +543,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "shortText": "Returns true if fn returns true for every item in the iterator",
-                "text": "Returns true if the iterator is empty\n"
-              },
               "typeParameter": [
                 {
                   "id": 108,
@@ -444,6 +567,14 @@
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 295,
+                          "character": 12,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L295"
+                        }
+                      ],
                       "signatures": [
                         {
                           "id": 111,
@@ -483,6 +614,14 @@
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 295,
+                      "character": 35,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L295"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 114,
@@ -506,9 +645,9 @@
                                 "name": "T"
                               }
                             ],
+                            "name": "Iterable",
                             "qualifiedName": "Iterable",
-                            "package": "typescript",
-                            "name": "Iterable"
+                            "package": "typescript"
                           }
                         }
                       ],
@@ -529,6 +668,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 241,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L241"
+            }
+          ],
           "signatures": [
             {
               "id": 68,
@@ -537,7 +684,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Asserts that an argument is not null."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Asserts that an argument is not null."
+                  }
+                ]
               },
               "typeParameter": [
                 {
@@ -555,9 +707,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "shortText": "\n"
-                  },
                   "type": {
                     "type": "union",
                     "types": [
@@ -597,6 +746,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 227,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L227"
+            }
+          ],
           "signatures": [
             {
               "id": 62,
@@ -605,7 +762,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is an assertion function."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is an assertion function."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -615,7 +777,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "The condition that is asserted to be true when this function returns.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The condition that is asserted to be true when this function returns."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -637,6 +804,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 298,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L298"
+            }
+          ],
           "signatures": [
             {
               "id": 76,
@@ -679,6 +854,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 233,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L233"
+            }
+          ],
           "signatures": [
             {
               "id": 65,
@@ -687,7 +870,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Assertion function with a type."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Assertion function with a type."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -696,9 +884,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "shortText": "\n"
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -723,6 +908,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 4,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L4"
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -731,7 +924,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a simple exported function."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a simple exported function."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -746,6 +944,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 100,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L100"
+            }
+          ],
           "signatures": [
             {
               "id": 24,
@@ -754,8 +960,23 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a destructured parameter.",
-                "returns": "This is the return value of the function.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function with a destructured parameter."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This is the return value of the function."
+                      }
+                    ]
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -765,7 +986,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This is the parameter that is destructured."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This is the parameter that is destructured."
+                      }
+                    ]
                   },
                   "originalName": "__namedParameters",
                   "type": {
@@ -784,13 +1010,30 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "shortText": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
+                            "summary": [
+                              {
+                                "kind": "text",
+                                "text": "This is a **parameter** pointing to an interface.\n\n  "
+                              },
+                              {
+                                "kind": "code",
+                                "text": "```\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ```"
+                              }
+                            ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 107,
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L107"
+                            }
+                          ],
                           "type": {
                             "type": "reference",
+                            "name": "Object",
                             "qualifiedName": "Object",
-                            "package": "typescript",
-                            "name": "Object"
+                            "package": "typescript"
                           }
                         },
                         {
@@ -800,8 +1043,21 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "shortText": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
+                            "summary": [
+                              {
+                                "kind": "text",
+                                "text": "This is a parameter flagged with any.\n    This sentence is placed in the next line."
+                              }
+                            ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 106,
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L106"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "any"
@@ -814,8 +1070,21 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "shortText": "This is a string parameter."
+                            "summary": [
+                              {
+                                "kind": "text",
+                                "text": "This is a string parameter."
+                              }
+                            ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 105,
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L105"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -825,12 +1094,19 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             29,
                             28,
                             27
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 104,
+                          "character": 3,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L104"
                         }
                       ]
                     }
@@ -850,6 +1126,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 166,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L166"
+            }
+          ],
           "signatures": [
             {
               "id": 39,
@@ -858,8 +1142,39 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a destructured parameter and an extra `@param` directive with no corresponding parameter.\nThe `@param` directives are ignored because we cannot be certain which corresponds to the real parameter.",
-                "returns": "This is the return value of the function.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function with a destructured parameter and an extra "
+                  },
+                  {
+                    "kind": "code",
+                    "text": "`@param`"
+                  },
+                  {
+                    "kind": "text",
+                    "text": " directive with no corresponding parameter.\nThe "
+                  },
+                  {
+                    "kind": "code",
+                    "text": "`@param`"
+                  },
+                  {
+                    "kind": "text",
+                    "text": " directives are ignored because we cannot be certain which corresponds to the real parameter."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This is the return value of the function."
+                      }
+                    ]
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -883,11 +1198,19 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 173,
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L173"
+                            }
+                          ],
                           "type": {
                             "type": "reference",
+                            "name": "Object",
                             "qualifiedName": "Object",
-                            "package": "typescript",
-                            "name": "Object"
+                            "package": "typescript"
                           }
                         },
                         {
@@ -896,6 +1219,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 172,
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L172"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "any"
@@ -907,6 +1238,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 171,
+                              "character": 4,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L171"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -916,12 +1255,19 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             44,
                             43,
                             42
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 170,
+                          "character": 3,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L170"
                         }
                       ]
                     }
@@ -941,6 +1287,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 131,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L131"
+            }
+          ],
           "signatures": [
             {
               "id": 31,
@@ -949,8 +1303,31 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a destructured parameter and additional undocumented parameters.\nThe `@param` directives are ignored because we cannot be certain which parameter they refer to.",
-                "returns": "This is the return value of the function.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function with a destructured parameter and additional undocumented parameters.\nThe "
+                  },
+                  {
+                    "kind": "code",
+                    "text": "`@param`"
+                  },
+                  {
+                    "kind": "text",
+                    "text": " directives are ignored because we cannot be certain which parameter they refer to."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This is the return value of the function."
+                      }
+                    ]
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -974,11 +1351,19 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 139,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L139"
+                            }
+                          ],
                           "type": {
                             "type": "reference",
+                            "name": "Object",
                             "qualifiedName": "Object",
-                            "package": "typescript",
-                            "name": "Object"
+                            "package": "typescript"
                           }
                         },
                         {
@@ -987,6 +1372,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 138,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L138"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "any"
@@ -998,6 +1391,14 @@
                           "kind": 1024,
                           "kindString": "Property",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 137,
+                              "character": 8,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L137"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -1007,12 +1408,19 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             36,
                             35,
                             34
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 136,
+                          "character": 7,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L136"
                         }
                       ]
                     }
@@ -1043,6 +1451,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 62,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L62"
+            }
+          ],
           "signatures": [
             {
               "id": 14,
@@ -1051,8 +1467,23 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a parameter that has a default value.",
-                "returns": "This is the return value of the function.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function with a parameter that has a default value."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This is the return value of the function."
+                      }
+                    ]
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -1062,7 +1493,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default string value."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default string value."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1077,7 +1513,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default numeric value."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default numeric value."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1092,7 +1533,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default NaN value."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default NaN value."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1107,7 +1553,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default boolean value."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default boolean value."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1122,7 +1573,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A parameter with a default null value."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A parameter with a default null value."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1144,6 +1600,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 47,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L47"
+            }
+          ],
           "signatures": [
             {
               "id": 10,
@@ -1152,7 +1616,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with a parameter that is optional."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function with a parameter that is optional."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -1162,7 +1631,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A normal parameter."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A normal parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1178,7 +1652,12 @@
                     "isOptional": true
                   },
                   "comment": {
-                    "shortText": "An optional parameter.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "An optional parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1199,6 +1678,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 23,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L23"
+            }
+          ],
           "signatures": [
             {
               "id": 5,
@@ -1207,8 +1694,23 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with multiple arguments and a return value.",
-                "returns": "This is the return value of the function.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function with multiple arguments and a return value."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This is the return value of the function."
+                      }
+                    ]
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -1218,7 +1720,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This is a string parameter."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This is a string parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1232,7 +1739,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This is a parameter flagged with any.\n    This sentence is placed in the next line."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1246,13 +1758,22 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This is a **parameter** pointing to an interface.\n\n  "
+                      },
+                      {
+                        "kind": "code",
+                        "text": "```\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ```"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
+                    "name": "Object",
                     "qualifiedName": "Object",
-                    "package": "typescript",
-                    "name": "Object"
+                    "package": "typescript"
                   }
                 }
               ],
@@ -1269,6 +1790,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 78,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L78"
+            }
+          ],
           "signatures": [
             {
               "id": 21,
@@ -1277,8 +1806,23 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function with rest parameter.",
-                "returns": "This is the return value of the function.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function with rest parameter."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This is the return value of the function."
+                      }
+                    ]
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -1290,7 +1834,12 @@
                     "isRest": true
                   },
                   "comment": {
-                    "shortText": "The rest parameter."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The rest parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "array",
@@ -1314,6 +1863,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 253,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L253"
+            }
+          ],
           "signatures": [
             {
               "id": 72,
@@ -1322,7 +1879,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Checks that an argument is not null."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Checks that an argument is not null."
+                  }
+                ]
               },
               "typeParameter": [
                 {
@@ -1340,9 +1902,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "shortText": "\n"
-                  },
                   "type": {
                     "type": "union",
                     "types": [
@@ -1382,6 +1941,20 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 304,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L304"
+            },
+            {
+              "fileName": "function.ts",
+              "line": 305,
+              "character": 0,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L305"
+            }
+          ],
           "signatures": [
             {
               "id": 79,
@@ -1402,6 +1975,20 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 218,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L218"
+            },
+            {
+              "fileName": "function.ts",
+              "line": 260,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L260"
+            }
+          ],
           "signatures": [
             {
               "id": 53,
@@ -1410,7 +1997,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function that is extended by a module."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function that is extended by a module."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -1420,7 +2012,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "An argument.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "An argument."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1441,6 +2038,26 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 183,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L183"
+            },
+            {
+              "fileName": "function.ts",
+              "line": 191,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L191"
+            },
+            {
+              "fileName": "function.ts",
+              "line": 201,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L201"
+            }
+          ],
           "signatures": [
             {
               "id": 46,
@@ -1449,8 +2066,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is the first signature of a function with multiple signatures.",
-                "returns": "This is the return value of the function.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is the first signature of a function with multiple signatures."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -1460,7 +2081,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "The name value.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The name value."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -1480,8 +2106,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is the second signature of a function with multiple signatures.",
-                "returns": "This is the return value of the function.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is the second signature of a function with multiple signatures."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -1491,7 +2121,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "An object containing the name value."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "An object containing the name value."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reflection",
@@ -1509,8 +2144,21 @@
                           "kindString": "Property",
                           "flags": {},
                           "comment": {
-                            "shortText": "A value of the object.\n"
+                            "summary": [
+                              {
+                                "kind": "text",
+                                "text": "A value of the object."
+                              }
+                            ]
                           },
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 191,
+                              "character": 44,
+                              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L191"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -1520,10 +2168,17 @@
                       "groups": [
                         {
                           "title": "Properties",
-                          "kind": 1024,
                           "children": [
                             51
                           ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 191,
+                          "character": 42,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L191"
                         }
                       ]
                     }
@@ -1543,6 +2198,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 37,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L37"
+            }
+          ],
           "signatures": [
             {
               "id": 84,
@@ -1550,10 +2213,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "shortText": "This is a function that is assigned to a variable.",
-                "returns": "This is the return value of the function.\n"
-              },
               "parameters": [
                 {
                   "id": 85,
@@ -1561,9 +2220,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {
-                    "shortText": "This is some numeric parameter."
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1581,7 +2237,6 @@
       "groups": [
         {
           "title": "Namespaces",
-          "kind": 4,
           "children": [
             80,
             55
@@ -1589,14 +2244,12 @@
         },
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             86
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             99,
             67,
@@ -1618,6 +2271,14 @@
             83
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "function.ts",
+          "line": 4,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/function.ts#L4"
+        }
       ]
     },
     {
@@ -1633,6 +2294,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 18,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/generic-function.ts#L18"
+            }
+          ],
           "signatures": [
             {
               "id": 122,
@@ -1641,8 +2310,23 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "A function with a generic type array parameter.",
-                "returns": "A generic array.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A function with a generic type array parameter."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "A generic array."
+                      }
+                    ]
+                  }
+                ]
               },
               "typeParameter": [
                 {
@@ -1661,7 +2345,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A generic parameter."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A generic parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -1676,7 +2365,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "A generic array parameter."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "A generic array parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "array",
@@ -1705,6 +2399,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 29,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/generic-function.ts#L29"
+            }
+          ],
           "signatures": [
             {
               "id": 127,
@@ -1712,7 +2414,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
               "typeParameter": [
                 {
                   "id": 128,
@@ -1721,7 +2422,12 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "this describes T\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "this describes T"
+                      }
+                    ]
                   }
                 }
               ],
@@ -1733,7 +2439,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "this describes param"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "this describes param"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -1756,6 +2467,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 7,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/generic-function.ts#L7"
+            }
+          ],
           "signatures": [
             {
               "id": 118,
@@ -1764,8 +2483,23 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Generic function short text.",
-                "returns": "Generic function return value.\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Generic function short text."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Generic function return value."
+                      }
+                    ]
+                  }
+                ]
               },
               "typeParameter": [
                 {
@@ -1775,13 +2509,18 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Generic function type parameter."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Generic function type parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
+                    "name": "Object",
                     "qualifiedName": "Object",
-                    "package": "typescript",
-                    "name": "Object"
+                    "package": "typescript"
                   }
                 }
               ],
@@ -1793,7 +2532,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Generic function parameter."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Generic function parameter."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -1814,12 +2558,19 @@
       "groups": [
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             121,
             126,
             117
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "generic-function.ts",
+          "line": 7,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/generic-function.ts#L7"
         }
       ]
     },
@@ -1843,6 +2594,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 3,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L3"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1854,6 +2613,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 2,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L2"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1863,11 +2630,18 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 141,
                 140
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 1,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L1"
             }
           ]
         },
@@ -1877,6 +2651,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 14,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L14"
+            }
+          ],
           "signatures": [
             {
               "id": 132,
@@ -1899,6 +2681,14 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 9,
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L9"
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -1911,6 +2701,14 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 8,
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L8"
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -1923,6 +2721,14 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 7,
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L7"
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -1935,6 +2741,14 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 10,
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L10"
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -1947,6 +2761,14 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 11,
+                          "character": 4,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L11"
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "id": 139,
@@ -1957,7 +2779,6 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         136,
                         135,
@@ -1965,6 +2786,14 @@
                         137,
                         138
                       ]
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 6,
+                      "character": 18,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L6"
                     }
                   ]
                 }
@@ -1976,17 +2805,23 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             139
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             131
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "implicit-types.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/function/implicit-types.ts#L1"
         }
       ]
     }
@@ -1994,7 +2829,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         116,

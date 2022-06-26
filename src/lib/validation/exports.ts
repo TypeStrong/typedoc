@@ -1,4 +1,3 @@
-import { relative } from "path";
 import * as ts from "typescript";
 import {
     ContainerReflection,
@@ -10,7 +9,7 @@ import {
     SignatureReflection,
     TypeParameterReflection,
 } from "../models";
-import { Logger, normalizePath } from "../utils";
+import type { Logger } from "../utils";
 
 function makeIntentionallyExportedHelper(
     intentional: readonly string[],
@@ -96,18 +95,12 @@ export function validateExports(
                 ) {
                     warned.add(symbol);
                     const decl = symbol.declarations![0];
-                    const { line } = ts.getLineAndCharacterOfPosition(
-                        decl.getSourceFile(),
-                        decl.getStart()
-                    );
-                    const file = normalizePath(
-                        relative(process.cwd(), decl.getSourceFile().fileName)
-                    );
 
                     logger.warn(
-                        `${type.name}, defined at ${file}:${
-                            line + 1
-                        }, is referenced by ${current!.getFullName()} but not included in the documentation.`
+                        `${
+                            type.name
+                        } is referenced by ${current!.getFullName()} but not included in the documentation.`,
+                        decl
                     );
                 }
             }

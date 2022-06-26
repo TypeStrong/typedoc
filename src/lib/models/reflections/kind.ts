@@ -25,8 +25,7 @@ export enum ReflectionKind {
     SetSignature = 0x100000,
     ObjectLiteral = 0x200000,
     TypeAlias = 0x400000,
-    Event = 0x800000,
-    Reference = 0x1000000,
+    Reference = 0x800000,
 }
 
 /** @hidden */
@@ -43,8 +42,7 @@ export namespace ReflectionKind {
         ReflectionKind.Accessor |
         ReflectionKind.Constructor |
         ReflectionKind.Method |
-        ReflectionKind.Property |
-        ReflectionKind.Event;
+        ReflectionKind.Property;
     export const SomeSignature =
         ReflectionKind.CallSignature |
         ReflectionKind.IndexSignature |
@@ -62,6 +60,26 @@ export namespace ReflectionKind {
         ReflectionKind.Function |
         ReflectionKind.ObjectLiteral;
 
+    export const SomeMember =
+        ReflectionKind.EnumMember |
+        ReflectionKind.Property |
+        ReflectionKind.Method |
+        ReflectionKind.Accessor;
+
+    export const SomeExport =
+        ReflectionKind.Module |
+        ReflectionKind.Namespace |
+        ReflectionKind.Enum |
+        ReflectionKind.Variable |
+        ReflectionKind.Function |
+        ReflectionKind.Class |
+        ReflectionKind.Interface |
+        ReflectionKind.TypeAlias |
+        ReflectionKind.Reference;
+
+    export const ExportContainer =
+        ReflectionKind.SomeModule | ReflectionKind.Project;
+
     /** @internal */
     export const Inheritable =
         ReflectionKind.Accessor |
@@ -69,4 +87,10 @@ export namespace ReflectionKind {
         ReflectionKind.Property |
         ReflectionKind.Method |
         ReflectionKind.Constructor;
+
+    /** @internal */
+    export const ContainsCallSignatures =
+        ReflectionKind.Constructor |
+        ReflectionKind.Function |
+        ReflectionKind.Method;
 }

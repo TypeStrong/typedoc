@@ -10,7 +10,6 @@
       "kind": 2,
       "kindString": "Module",
       "flags": {},
-      "comment": {},
       "children": [
         {
           "id": 5,
@@ -18,6 +17,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export-eq-type.js",
+              "line": 1,
+              "character": 22,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/export-eq-type.js#L1"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -29,6 +36,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "export-eq-type.js",
+              "line": 4,
+              "character": 6,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/export-eq-type.js#L4"
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -36,7 +51,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
               "parameters": [
                 {
                   "id": 4,
@@ -44,7 +58,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
-                  "comment": {},
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -62,17 +75,23 @@
       "groups": [
         {
           "title": "Type Aliases",
-          "kind": 4194304,
           "children": [
             5
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-eq-type.js",
+          "line": 4,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/export-eq-type.js#L4"
         }
       ]
     },
@@ -82,7 +101,6 @@
       "kind": 2,
       "kindString": "Module",
       "flags": {},
-      "comment": {},
       "children": [
         {
           "id": 10,
@@ -90,7 +108,14 @@
           "kind": 8,
           "kindString": "Enumeration",
           "flags": {},
-          "comment": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "enum comment"
+              }
+            ]
+          },
           "children": [
             {
               "id": 12,
@@ -98,6 +123,14 @@
               "kind": 16,
               "kindString": "Enumeration Member",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 62,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L62"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -109,6 +142,14 @@
               "kind": 16,
               "kindString": "Enumeration Member",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 61,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L61"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -118,11 +159,24 @@
           "groups": [
             {
               "title": "Enumeration Members",
-              "kind": 16,
               "children": [
                 12,
                 11
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 60,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L60"
+            },
+            {
+              "fileName": "index.js",
+              "line": 58,
+              "character": 3,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L58"
             }
           ]
         },
@@ -133,7 +187,12 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "docs for interface"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "docs for interface"
+              }
+            ]
           },
           "children": [
             {
@@ -142,9 +201,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
-              "comment": {
-                "shortText": "can also use prop tag"
-              },
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 13,
+                  "character": 18,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L13"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -156,9 +220,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
-              "comment": {
-                "shortText": "docs for property"
-              },
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 12,
+                  "character": 22,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L12"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -168,11 +237,18 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 17,
                 16
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 11,
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L11"
             }
           ]
         },
@@ -189,9 +265,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
-              "comment": {
-                "shortText": "docs for property\nmore docs for property"
-              },
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 6,
+                  "character": 22,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L6"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -201,10 +282,17 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 14
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 5,
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L5"
             }
           ]
         },
@@ -214,6 +302,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 49,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L49"
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -222,6 +318,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 49,
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L49"
+                }
+              ],
               "signatures": [
                 {
                   "id": 44,
@@ -262,6 +366,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 27,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L27"
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -270,6 +382,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 27,
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L27"
+                }
+              ],
               "signatures": [
                 {
                   "id": 30,
@@ -293,9 +413,22 @@
           "kindString": "Type alias",
           "flags": {},
           "comment": {
-            "shortText": "comment on alias"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "comment on alias"
+              }
+            ]
           },
-          "typeParameter": [
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 45,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L45"
+            }
+          ],
+          "typeParameters": [
             {
               "id": 41,
               "name": "T",
@@ -303,7 +436,12 @@
               "kindString": "Type parameter",
               "flags": {},
               "comment": {
-                "shortText": "comment on template"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "comment on template"
+                  }
+                ]
               }
             }
           ],
@@ -319,7 +457,15 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
-          "typeParameter": [
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 33,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L33"
+            }
+          ],
+          "typeParameters": [
             {
               "id": 35,
               "name": "T",
@@ -336,6 +482,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 33,
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L33"
+                }
+              ],
               "signatures": [
                 {
                   "id": 33,
@@ -374,8 +528,21 @@
           "kindString": "Type alias",
           "flags": {},
           "comment": {
-            "shortText": "docs for alias"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "docs for alias"
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 22,
+              "character": 44,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
+            }
+          ],
           "type": {
             "type": "intersection",
             "types": [
@@ -394,6 +561,14 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "index.js",
+                          "line": 22,
+                          "character": 15,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -403,10 +578,17 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         22
                       ]
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "index.js",
+                      "line": 22,
+                      "character": 13,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
                     }
                   ]
                 }
@@ -426,6 +608,14 @@
                       "kind": 1024,
                       "kindString": "Property",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "index.js",
+                          "line": 22,
+                          "character": 31,
+                          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -435,10 +625,17 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         24
                       ]
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "index.js",
+                      "line": 22,
+                      "character": 29,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L22"
                     }
                   ]
                 }
@@ -452,6 +649,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 26,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L26"
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -460,6 +665,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 26,
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L26"
+                }
+              ],
               "signatures": [
                 {
                   "id": 27,
@@ -467,6 +680,14 @@
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "even though in the same comment block"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -483,13 +704,26 @@
           "kindString": "Type alias",
           "flags": {},
           "comment": {
-            "shortText": "type alias since it doesn't have a property tag"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "type alias since it doesn't have a property tag"
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 17,
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L17"
+            }
+          ],
           "type": {
             "type": "reference",
+            "name": "Object",
             "qualifiedName": "Object",
-            "package": "typescript",
-            "name": "Object"
+            "package": "typescript"
           }
         },
         {
@@ -498,6 +732,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 39,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L39"
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -506,6 +748,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 39,
+                  "character": 3,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L39"
+                }
+              ],
               "signatures": [
                 {
                   "id": 38,
@@ -521,6 +771,14 @@
                       "kindString": "Parameter",
                       "flags": {
                         "isOptional": true
+                      },
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "an optional argument"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -544,8 +802,21 @@
           "kindString": "Type alias",
           "flags": {},
           "comment": {
-            "shortText": "docs for alias"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "docs for alias"
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 21,
+              "character": 30,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L21"
+            }
+          ],
           "type": {
             "type": "union",
             "types": [
@@ -566,6 +837,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index.js",
+              "line": 55,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L55"
+            }
+          ],
           "signatures": [
             {
               "id": 8,
@@ -573,7 +852,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
               "parameters": [
                 {
                   "id": 9,
@@ -603,14 +881,12 @@
       "groups": [
         {
           "title": "Enumerations",
-          "kind": 8,
           "children": [
             10
           ]
         },
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             15,
             13
@@ -618,7 +894,6 @@
         },
         {
           "title": "Type Aliases",
-          "kind": 4194304,
           "children": [
             42,
             28,
@@ -633,10 +908,17 @@
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             7
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "index.js",
+          "line": 55,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/js/index.js#L55"
         }
       ]
     }
@@ -644,7 +926,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         6

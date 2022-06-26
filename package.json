@@ -1,10 +1,12 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.22.18",
+  "version": "0.23.0-beta.7",
   "homepage": "https://typedoc.org",
   "main": "./dist/index.js",
-  "exports": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "types": "./dist/index.d.ts",
   "bin": {
     "typedoc": "bin/typedoc"
@@ -18,20 +20,18 @@
     "url": "https://github.com/TypeStrong/TypeDoc/issues"
   },
   "engines": {
-    "node": ">= 12.10.0"
+    "node": ">= 14.14"
   },
   "dependencies": {
-    "glob": "^8.0.3",
     "lunr": "^2.3.9",
     "marked": "^4.0.16",
     "minimatch": "^5.1.0",
     "shiki": "^0.10.1"
   },
   "peerDependencies": {
-    "typescript": "4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x || 4.6.x || 4.7.x"
+    "typescript": "4.6.x || 4.7.x"
   },
   "devDependencies": {
-    "@types/glob": "^7.2.0",
     "@types/lunr": "^2.3.4",
     "@types/marked": "^4.0.3",
     "@types/minimatch": "3.0.5",
@@ -39,10 +39,11 @@
     "@types/node": "^17.0.35",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
+    "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#b88cd06fe814614a0d924af9d10d04ff95a551de",
+    "c8": "^7.11.3",
     "esbuild": "^0.14.39",
     "eslint": "^8.16.0",
     "mocha": "^9.2.1",
-    "nyc": "^15.1.0",
     "prettier": "2.6.2",
     "puppeteer": "^13.5.2",
     "reg-notify-github-plugin": "^0.11.1",
@@ -57,22 +58,22 @@
     "!*.map",
     "/dist",
     "!/dist/tmp",
+    "!/dist/.tsbuildinfo",
     "!/dist/test",
     "/LICENSE",
-    "/static"
+    "/static",
+    "/tsdoc.json"
   ],
   "scripts": {
-    "pretest": "node scripts/copy_test_files.js",
-    "test": "mocha -r ts-node/register --config .config/mocha.fast.json",
-    "pretest:full": "npm run pretest",
-    "test:full": "nyc mocha -r ts-node/register --config .config/mocha.full.json",
+    "test": "c8 mocha -r ts-node/register --config .config/mocha.fast.json",
+    "build:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
+    "test:full": "c8 mocha -r ts-node/register --config .config/mocha.full.json",
     "test:visual": "node ./dist/test/capture-screenshots.js && reg-suit -c .config/regconfig.json compare",
     "test:visual:accept": "node scripts/accept_visual_regression.js",
-    "prerebuild_specs": "npm run pretest",
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "npm run build:tsc && npm run build:themes",
     "build:tsc": "tsc --project .",
-    "build:themes": "esbuild src/lib/output/themes/default/assets/bootstrap.ts --bundle --minify --outfile=static/main.js",
+    "build:themes": "node scripts/build_themes.js",
     "build:prod": "npm run build:prod:tsc && npm run build:themes",
     "build:prod:tsc": "tsc --project . --sourceMap false",
     "lint": "eslint . && npm run prettier -- --check .",
@@ -85,18 +86,19 @@
     "documentation",
     "generator"
   ],
-  "nyc": {
+  "c8": {
     "extension": [
       ".ts",
       ".tsx"
     ],
     "reporter": [
-      "html",
+      "html-spa",
       "text-summary"
     ],
     "exclude": [
       "**/*.d.ts",
-      "src/test"
+      "src/test",
+      "tmp"
     ]
   }
 }

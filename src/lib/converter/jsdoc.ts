@@ -11,7 +11,7 @@ import {
     ReflectionType,
     SignatureReflection,
 } from "../models";
-import { flatMap } from "../utils/array";
+import { getJsDocComment } from "./comments";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
 import {
@@ -38,6 +38,11 @@ export function convertJsDocAlias(
         symbol,
         exportSymbol
     );
+    reflection.comment = getJsDocComment(
+        declaration,
+        context.converter.config,
+        context.logger
+    );
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
@@ -49,7 +54,7 @@ export function convertJsDocAlias(
         declaration.parent
     );
 
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
 }
 
 export function convertJsDocCallback(
@@ -63,7 +68,12 @@ export function convertJsDocCallback(
         symbol,
         exportSymbol
     );
-    context.finalizeDeclarationReflection(alias, symbol, exportSymbol);
+    alias.comment = getJsDocComment(
+        declaration,
+        context.converter.config,
+        context.logger
+    );
+    context.finalizeDeclarationReflection(alias);
 
     const ac = context.withScope(alias);
 
@@ -82,7 +92,12 @@ function convertJsDocInterface(
         symbol,
         exportSymbol
     );
-    context.finalizeDeclarationReflection(reflection, symbol, exportSymbol);
+    reflection.comment = getJsDocComment(
+        declaration,
+        context.converter.config,
+        context.logger
+    );
+    context.finalizeDeclarationReflection(reflection);
 
     const rc = context.withScope(reflection);
 
@@ -107,7 +122,7 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
         context.scope
     );
     context.registerReflection(reflection, symbol);
-    context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
+    context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
     const signature = new SignatureReflection(
         "__type",
@@ -147,6 +162,6 @@ function convertTemplateParameterNodes(
     context: Context,
     nodes: readonly ts.JSDocTemplateTag[] | undefined
 ) {
-    const params = flatMap(nodes ?? [], (tag) => tag.typeParameters);
+    const params = (nodes ?? []).flatMap((tag) => tag.typeParameters);
     return convertTypeParameterNodes(context, params);
 }

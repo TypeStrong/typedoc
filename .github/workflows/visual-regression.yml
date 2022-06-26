@@ -28,4 +28,9 @@ jobs:
                   npm run build
                   node dist/test/capture-screenshots.js
             - name: Test
-              run: npx reg-suit run --test
+              run: npx reg-suit run -c .config/regconfig.json --test
+            - name: Upload Results
+              uses: actions/upload-artifact@v3
+              with:
+                  name: visual-regression
+                  path: dist/tmp/.reg

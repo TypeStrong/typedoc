@@ -1,20 +1,15 @@
-import * as Path from "path";
 import * as ts from "typescript";
 
-import {
-    Reflection,
-    ProjectReflection,
-    DeclarationReflection,
-} from "../../models/reflections/index";
-import { SourceDirectory, SourceFile } from "../../models/sources/index";
+import type { Reflection } from "../../models/reflections/index";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import { BindOption } from "../../utils";
 import { isNamedNode } from "../utils/nodes";
 import { getCommonDirectory, normalizePath } from "../../utils/fs";
-import { relative } from "path";
-import * as assert from "assert";
+import { dirname, relative } from "path";
+import { SourceReference } from "../../models";
+import { gitIsInstalled, Repository } from "../utils/repository";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -24,16 +19,26 @@ export class SourcePlugin extends ConverterComponent {
     @BindOption("disableSources")
     readonly disableSources!: boolean;
 
-    /**
-     * A map of all generated {@link SourceFile} instances.
-     */
-    private fileMappings: { [name: string]: SourceFile } = {};
+    @BindOption("gitRevision")
+    readonly gitRevision!: string;
+
+    @BindOption("gitRemote")
+    readonly gitRemote!: string;
 
     /**
      * All file names to find the base path from.
      */
     private fileNames = new Set<string>();
-    private basePath?: string;
+
+    /**
+     * List of known repositories.
+     */
+    private repositories: { [path: string]: Repository } = {};
+
+    /**
+     * List of paths known to be not under git control.
+     */
+    private ignoredPaths = new Set<string>();
 
     /**
      * Create a new SourceHandler instance.
@@ -44,28 +49,12 @@ export class SourcePlugin extends ConverterComponent {
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
             [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
-            [Converter.EVENT_RESOLVE]: this.onResolve,
-            [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
         });
     }
 
-    private getSourceFile(
-        fileName: string,
-        project: ProjectReflection
-    ): SourceFile {
-        if (!this.fileMappings[fileName]) {
-            const file = new SourceFile(fileName);
-            this.fileMappings[fileName] = file;
-            project.files.push(file);
-        }
-
-        return this.fileMappings[fileName];
-    }
-
     private onEnd() {
-        this.fileMappings = {};
+        // Should probably clear repositories/ignoredPaths here, but these aren't likely to change between runs...
         this.fileNames.clear();
-        this.basePath = void 0;
     }
 
     /**
@@ -73,50 +62,40 @@ export class SourcePlugin extends ConverterComponent {
      *
      * Attach the current source file to the {@link DeclarationReflection.sources} array.
      *
-     * @param context  The context object describing the current state the converter is in.
+     * @param _context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently processed.
-     * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(
-        context: Context,
-        reflection: Reflection,
-        node?: ts.Node
-    ) {
-        if (!node || this.disableSources) {
-            return;
-        }
-        const sourceFile = node.getSourceFile();
-        const fileName = sourceFile.fileName;
-        this.fileNames.add(fileName);
-        const file: SourceFile = this.getSourceFile(fileName, context.project);
+    private onDeclaration(_context: Context, reflection: Reflection) {
+        if (this.disableSources) return;
 
-        let position: ts.LineAndCharacter;
-        if (isNamedNode(node)) {
-            position = ts.getLineAndCharacterOfPosition(
-                sourceFile,
-                node.name.getStart()
+        const symbol = reflection.project.getSymbolFromReflection(reflection);
+        for (const node of symbol?.declarations || []) {
+            const sourceFile = node.getSourceFile();
+            const fileName = sourceFile.fileName;
+            this.fileNames.add(fileName);
+
+            let position: ts.LineAndCharacter;
+            if (isNamedNode(node)) {
+                position = ts.getLineAndCharacterOfPosition(
+                    sourceFile,
+                    node.name.getStart()
+                );
+            } else {
+                position = ts.getLineAndCharacterOfPosition(
+                    sourceFile,
+                    node.getStart()
+                );
+            }
+
+            reflection.sources ||= [];
+            reflection.sources.push(
+                new SourceReference(
+                    fileName,
+                    position.line + 1,
+                    position.character
+                )
             );
-        } else {
-            position = ts.getLineAndCharacterOfPosition(
-                sourceFile,
-                node.getStart()
-            );
         }
-
-        if (reflection instanceof DeclarationReflection) {
-            file.reflections.push(reflection);
-        }
-
-        if (!reflection.sources) {
-            reflection.sources = [];
-        }
-
-        reflection.sources.push({
-            file: file,
-            fileName: fileName,
-            line: position.line + 1,
-            character: position.character,
-        });
     }
 
     /**
@@ -125,66 +104,64 @@ export class SourcePlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context: Context) {
-        this.basePath = getCommonDirectory([...this.fileNames]);
-        for (const file of context.project.files) {
-            const fileName = (file.fileName = normalizePath(
-                relative(this.basePath, file.fileName)
-            ));
-            this.fileMappings[fileName] = file;
-        }
-    }
+        if (this.disableSources) return;
 
-    /**
-     * Triggered when the converter resolves a reflection.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently resolved.
-     */
-    private onResolve(_context: Context, reflection: Reflection) {
-        assert(this.basePath != null);
-        for (const source of reflection.sources ?? []) {
-            source.fileName = normalizePath(
-                relative(this.basePath, source.fileName)
-            );
-        }
-    }
+        const basePath = getCommonDirectory([...this.fileNames]);
 
-    /**
-     * Triggered when the converter has finished resolving a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     */
-    private onEndResolve(context: Context) {
-        const project = context.project;
-        const home = project.directory;
-        project.files.forEach((file) => {
-            const reflections: DeclarationReflection[] = [];
-            file.reflections.forEach((reflection) => {
-                reflections.push(reflection);
-            });
-
-            let directory = home;
-            const path = Path.dirname(file.fileName);
-            if (path !== ".") {
-                path.split("/").forEach((pathPiece) => {
-                    if (
-                        !Object.prototype.hasOwnProperty.call(
-                            directory.directories,
-                            pathPiece
-                        )
-                    ) {
-                        directory.directories[pathPiece] = new SourceDirectory(
-                            pathPiece,
-                            directory
-                        );
+        for (const refl of Object.values(context.project.reflections)) {
+            for (const source of refl.sources || []) {
+                if (gitIsInstalled) {
+                    const repo = this.getRepository(source.fullFileName);
+                    source.url = repo?.getURL(source.fullFileName);
+                    if (source.url) {
+                        source.url += `#${repo!.getLineNumberAnchor(
+                            source.line
+                        )}`;
                     }
-                    directory = directory.directories[pathPiece];
-                });
-            }
+                }
 
-            directory.files.push(file);
-            file.parent = directory;
-            file.reflections = reflections;
-        });
+                source.fileName = normalizePath(
+                    relative(basePath, source.fullFileName)
+                );
+            }
+        }
+    }
+
+    /**
+     * Check whether the given file is placed inside a repository.
+     *
+     * @param fileName  The name of the file a repository should be looked for.
+     * @returns The found repository info or undefined.
+     */
+    private getRepository(fileName: string): Repository | undefined {
+        // Check for known non-repositories
+        const dirName = dirname(fileName);
+        const segments = dirName.split("/");
+        for (let i = segments.length; i > 0; i--) {
+            if (this.ignoredPaths.has(segments.slice(0, i).join("/"))) {
+                return;
+            }
+        }
+
+        // Check for known repositories
+        for (const path of Object.keys(this.repositories)) {
+            if (fileName.toLowerCase().startsWith(path)) {
+                return this.repositories[path];
+            }
+        }
+
+        // Try to create a new repository
+        const repository = Repository.tryCreateRepository(
+            dirName,
+            this.gitRevision,
+            this.gitRemote
+        );
+        if (repository) {
+            this.repositories[repository.path.toLowerCase()] = repository;
+            return repository;
+        }
+
+        // No repository found, add path to ignored paths
+        this.ignoredPaths.add(dirName);
     }
 }

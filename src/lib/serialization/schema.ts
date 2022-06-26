@@ -29,7 +29,6 @@
  */
 
 import type * as M from "../models";
-import type { SourceReferenceWrapper, DecoratorWrapper } from "./serializers";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
@@ -73,9 +72,9 @@ type _ModelToObject<T> =
         ? Comment
         : T extends M.CommentTag
         ? CommentTag
-        : T extends DecoratorWrapper
-        ? Decorator
-        : T extends SourceReferenceWrapper
+        : T extends M.CommentDisplayPart
+        ? CommentDisplayPart
+        : T extends M.SourceReference
         ? SourceReference
         : never;
 
@@ -101,7 +100,7 @@ type S<T, K extends keyof T> = {
 // Reflections
 
 export interface ReflectionGroup
-    extends S<M.ReflectionGroup, "title" | "kind" | "categories"> {
+    extends S<M.ReflectionGroup, "title" | "categories"> {
     children?: M.ReflectionGroup["children"][number]["id"][];
 }
 
@@ -152,16 +151,10 @@ export interface DeclarationReflection
             | "extendedBy"
             | "implementedTypes"
             | "implementedBy"
-        > {
-    // Weird not to call this typeParameters... preserving backwards compatibility for now.
-    typeParameter?: ModelToObject<M.DeclarationReflection["typeParameters"]>;
-
-    // Yep... backwards compatibility. This is an optional one-tuple.
-    getSignature?: [ModelToObject<M.DeclarationReflection["getSignature"]>];
-
-    // Yep... backwards compatibility. This is an optional one-tuple.
-    setSignature?: [ModelToObject<M.DeclarationReflection["setSignature"]>];
-}
+            | "getSignature"
+            | "setSignature"
+            | "typeParameters"
+        > {}
 
 export interface TypeParameterReflection
     extends Reflection,
@@ -172,41 +165,21 @@ export interface ProjectReflection extends ContainerReflection {}
 
 export interface ContainerReflection
     extends Reflection,
-        S<M.ContainerReflection, "children" | "groups" | "categories"> {
-    sources?: ModelToObject<SourceReferenceWrapper[]>;
-}
+        S<
+            M.ContainerReflection,
+            "children" | "groups" | "categories" | "sources"
+        > {}
 
 export interface Reflection
-    extends S<
-        M.Reflection,
-        "id" | "name" | "kind" | "kindString" | "comment" | "decorates"
-    > {
+    extends S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
     /** Will not be present if name === originalName */
     originalName?: M.Reflection["originalName"];
     flags: ReflectionFlags;
-    decorators?: ModelToObject<DecoratorWrapper[]>;
 }
 
 // Types
 
-export type SomeType =
-    | ArrayType
-    | ConditionalType
-    | IndexedAccessType
-    | InferredType
-    | IntersectionType
-    | IntrinsicType
-    | LiteralType
-    | OptionalType
-    | PredicateType
-    | QueryType
-    | ReferenceType
-    | ReflectionType
-    | RestType
-    | TupleType
-    | TypeOperatorType
-    | UnionType
-    | UnknownType;
+export type SomeType = ModelToObject<M.SomeType>;
 
 export type TypeKindMap = {
     array: ArrayType;
@@ -291,11 +264,7 @@ export interface TupleType extends Type, S<M.TupleType, "type"> {
 
 export interface NamedTupleMemberType
     extends Type,
-        S<M.NamedTupleMember, "type"> {
-    name: string;
-    isOptional: boolean;
-    element: ModelToObject<M.NamedTupleMember["element"]>;
-}
+        S<M.NamedTupleMember, "type" | "name" | "isOptional" | "element"> {}
 
 export interface TemplateLiteralType
     extends Type,
@@ -324,10 +293,6 @@ export interface UnionType extends Type, S<M.UnionType, "type" | "types"> {}
 
 export interface UnknownType extends Type, S<M.UnknownType, "type" | "name"> {}
 
-/**
- * Technically not correct, the `type` property will be set by the abstract serializer.
- * But to allow tagged literals, the `type` property is instead defined by each child type.
- */
 export interface Type {}
 
 // Miscellaneous
@@ -339,16 +304,28 @@ type BoolKeys<T> = {
 export interface ReflectionFlags
     extends Partial<S<M.ReflectionFlags, BoolKeys<M.ReflectionFlags>>> {}
 
-export interface Comment
-    extends Partial<S<M.Comment, "shortText" | "text" | "returns" | "tags">> {}
-
-export interface CommentTag extends S<M.CommentTag, "text"> {
-    tag: M.CommentTag["tagName"];
-    param?: M.CommentTag["paramName"];
+export interface Comment extends Partial<S<M.Comment, "blockTags">> {
+    summary: CommentDisplayPart[];
+    modifierTags?: string[];
 }
 
-export interface SourceReference
-    extends S<M.SourceReference, "fileName" | "line" | "character"> {}
+export interface CommentTag extends S<M.CommentTag, "tag" | "name"> {
+    content: CommentDisplayPart[];
+}
 
-export interface Decorator
-    extends S<M.Decorator, "name" | "type" | "arguments"> {}
+/**
+ * If `target` is a number, it is a reflection ID. If a string, it is a URL.
+ * `target` will only be set for `@link`, `@linkcode`, and `@linkplain` tags.
+ */
+export type CommentDisplayPart =
+    | { kind: "text"; text: string }
+    | { kind: "code"; text: string }
+    | {
+          kind: "inline-tag";
+          tag: `@${string}`;
+          text: string;
+          target?: string | number;
+      };
+
+export interface SourceReference
+    extends S<M.SourceReference, "fileName" | "line" | "character" | "url"> {}

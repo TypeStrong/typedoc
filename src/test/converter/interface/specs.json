@@ -24,6 +24,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "constructor-type.ts",
+                  "line": 1,
+                  "character": 17,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/constructor-type.ts#L1"
+                }
+              ],
               "signatures": [
                 {
                   "id": 4,
@@ -138,10 +146,17 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 3
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "constructor-type.ts",
+              "line": 1,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/constructor-type.ts#L1"
             }
           ]
         },
@@ -150,17 +165,32 @@
           "name": "Instance",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {}
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "constructor-type.ts",
+              "line": 12,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/constructor-type.ts#L12"
+            }
+          ]
         }
       ],
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             2,
             13
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "constructor-type.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/constructor-type.ts#L1"
         }
       ]
     },
@@ -177,6 +207,14 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 10,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L10"
+            }
+          ],
           "indexSignature": {
             "id": 22,
             "name": "__index",
@@ -207,6 +245,14 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 5,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L5"
+            }
+          ],
           "indexSignature": {
             "id": 19,
             "name": "__index",
@@ -237,6 +283,14 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 1,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L1"
+            }
+          ],
           "indexSignature": {
             "id": 16,
             "name": "__index",
@@ -267,6 +321,14 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 15,
+              "character": 12,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L15"
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -275,6 +337,14 @@
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 15,
+                  "character": 24,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L15"
+                }
+              ],
               "indexSignature": {
                 "id": 26,
                 "name": "__index",
@@ -305,7 +375,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             21,
             18,
@@ -314,10 +383,17 @@
         },
         {
           "title": "Type Aliases",
-          "kind": 4194304,
           "children": [
             24
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "index-signature.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L1"
         }
       ]
     },
@@ -335,7 +411,12 @@
           "kindString": "Class",
           "flags": {},
           "comment": {
-            "shortText": "A class implementing an empty interface."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "A class implementing an empty interface."
+              }
+            ]
           },
           "children": [
             {
@@ -367,6 +448,14 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "interface-empty.ts",
+                  "line": 10,
+                  "character": 12,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L10"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -380,6 +469,14 @@
               "flags": {
                 "isPublic": true
               },
+              "sources": [
+                {
+                  "fileName": "interface-empty.ts",
+                  "line": 11,
+                  "character": 11,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L11"
+                }
+              ],
               "signatures": [
                 {
                   "id": 35,
@@ -398,24 +495,29 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 31
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 33
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 34
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "interface-empty.ts",
+              "line": 9,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L9"
             }
           ],
           "implementedTypes": [
@@ -433,8 +535,21 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "An empty interface"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An empty interface"
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "interface-empty.ts",
+              "line": 4,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L4"
+            }
+          ],
           "implementedBy": [
             {
               "type": "reference",
@@ -447,17 +562,23 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             30
           ]
         },
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             29
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "interface-empty.ts",
+          "line": 4,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L4"
         }
       ]
     },
@@ -482,11 +603,21 @@
               "kindString": "Class",
               "flags": {},
               "comment": {
-                "shortText": "Implementation of IEventDispatcher",
-                "tags": [
+                "summary": [
                   {
-                    "tag": "see",
-                    "text": "IEventDispatcher\n"
+                    "kind": "text",
+                    "text": "Implementation of IEventDispatcher"
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@see",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "IEventDispatcher"
+                      }
+                    ]
                   }
                 ]
               },
@@ -536,6 +667,14 @@
                   "flags": {
                     "isPrivate": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 57,
+                      "character": 16,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L57"
+                    }
+                  ],
                   "type": {
                     "type": "array",
                     "elementType": {
@@ -558,6 +697,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 59,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L59"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 87,
@@ -641,6 +788,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 73,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L73"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 98,
@@ -671,6 +826,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 69,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L69"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 95,
@@ -715,6 +878,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 75,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L75"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 100,
@@ -745,6 +916,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 67,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L67"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 92,
@@ -794,21 +973,18 @@
               "groups": [
                 {
                   "title": "Constructors",
-                  "kind": 512,
                   "children": [
                     82
                   ]
                 },
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     85
                   ]
                 },
                 {
                   "title": "Methods",
-                  "kind": 2048,
                   "children": [
                     86,
                     97,
@@ -818,7 +994,15 @@
                   ]
                 }
               ],
-              "typeParameter": [
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 56,
+                  "character": 17,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L56"
+                }
+              ],
+              "typeParameters": [
                 {
                   "id": 101,
                   "name": "T",
@@ -848,6 +1032,14 @@
               "kind": 128,
               "kindString": "Class",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Encapsulates a subscription to an event dispatcher, and allows for unsubscribing"
+                  }
+                ]
+              },
               "children": [
                 {
                   "id": 50,
@@ -855,6 +1047,14 @@
                   "kind": 512,
                   "kindString": "Constructor",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 25,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L25"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 51,
@@ -956,6 +1156,14 @@
                   "flags": {
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 29,
+                      "character": 19,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L29"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 81,
@@ -977,6 +1185,14 @@
                   "flags": {
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 27,
+                      "character": 19,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L27"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -995,6 +1211,14 @@
                   "flags": {
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 26,
+                      "character": 19,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L26"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 38,
@@ -1021,6 +1245,14 @@
                   "flags": {
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 28,
+                      "character": 19,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L28"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1037,6 +1269,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 32,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L32"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 62,
@@ -1045,7 +1285,12 @@
                       "kindString": "Call signature",
                       "flags": {},
                       "comment": {
-                        "shortText": "Remove this subscription from its dispatcher"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Remove this subscription from its dispatcher"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1068,14 +1313,12 @@
               "groups": [
                 {
                   "title": "Constructors",
-                  "kind": 512,
                   "children": [
                     50
                   ]
                 },
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     60,
                     58,
@@ -1085,13 +1328,20 @@
                 },
                 {
                   "title": "Methods",
-                  "kind": 2048,
                   "children": [
                     61
                   ]
                 }
               ],
-              "typeParameter": [
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 24,
+                  "character": 17,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L24"
+                }
+              ],
+              "typeParameters": [
                 {
                   "id": 63,
                   "name": "V",
@@ -1122,7 +1372,12 @@
               "kindString": "Interface",
               "flags": {},
               "comment": {
-                "shortText": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."
+                  }
+                ]
               },
               "children": [
                 {
@@ -1131,6 +1386,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 41,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L41"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 66,
@@ -1206,6 +1469,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 48,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L48"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 77,
@@ -1226,6 +1497,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 47,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L47"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 74,
@@ -1260,6 +1539,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 49,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L49"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 79,
@@ -1280,6 +1567,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 46,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L46"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 71,
@@ -1319,7 +1614,6 @@
               "groups": [
                 {
                   "title": "Methods",
-                  "kind": 2048,
                   "children": [
                     65,
                     76,
@@ -1329,7 +1623,15 @@
                   ]
                 }
               ],
-              "typeParameter": [
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 40,
+                  "character": 21,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L40"
+                }
+              ],
+              "typeParameters": [
                 {
                   "id": 80,
                   "name": "U",
@@ -1352,7 +1654,15 @@
               "kind": 256,
               "kindString": "Interface",
               "flags": {},
-              "typeParameter": [
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 5,
+                  "character": 21,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L5"
+                }
+              ],
+              "typeParameters": [
                 {
                   "id": 39,
                   "name": "T",
@@ -1368,9 +1678,6 @@
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
-                  "comment": {
-                    "shortText": "Function signature of an event listener callback"
-                  },
                   "parameters": [
                     {
                       "id": 41,
@@ -1379,7 +1686,12 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "param text"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "param text"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "reference",
@@ -1402,7 +1714,12 @@
               "kindString": "Interface",
               "flags": {},
               "comment": {
-                "shortText": "Encapsulates a subscription to an event dispatcher, and allows for unsubscribing"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Encapsulates a subscription to an event dispatcher, and allows for unsubscribing"
+                  }
+                ]
               },
               "children": [
                 {
@@ -1411,6 +1728,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 16,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L16"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -1422,6 +1747,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 14,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L14"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 38,
@@ -1441,6 +1774,14 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 15,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L15"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1452,6 +1793,14 @@
                   "kind": 2048,
                   "kindString": "Method",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 21,
+                      "character": 8,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L21"
+                    }
+                  ],
                   "signatures": [
                     {
                       "id": 47,
@@ -1460,7 +1809,12 @@
                       "kindString": "Call signature",
                       "flags": {},
                       "comment": {
-                        "shortText": "Remove this subscription from its dispatcher"
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Remove this subscription from its dispatcher"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "intrinsic",
@@ -1473,7 +1827,6 @@
               "groups": [
                 {
                   "title": "Properties",
-                  "kind": 1024,
                   "children": [
                     45,
                     43,
@@ -1482,13 +1835,20 @@
                 },
                 {
                   "title": "Methods",
-                  "kind": 2048,
                   "children": [
                     46
                   ]
                 }
               ],
-              "typeParameter": [
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 13,
+                  "character": 21,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L13"
+                }
+              ],
+              "typeParameters": [
                 {
                   "id": 48,
                   "name": "T",
@@ -1509,7 +1869,6 @@
           "groups": [
             {
               "title": "Classes",
-              "kind": 128,
               "children": [
                 81,
                 49
@@ -1517,12 +1876,19 @@
             },
             {
               "title": "Interfaces",
-              "kind": 256,
               "children": [
                 64,
                 38,
                 42
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "interface-implementation.ts",
+              "line": 1,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L1"
             }
           ]
         }
@@ -1530,10 +1896,17 @@
       "groups": [
         {
           "title": "Namespaces",
-          "kind": 4,
           "children": [
             37
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "interface-implementation.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L1"
         }
       ]
     },
@@ -1557,6 +1930,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 2,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L2"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1566,10 +1947,17 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 104
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "merging.ts",
+              "line": 1,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L1"
             }
           ],
           "extendedBy": [
@@ -1598,6 +1986,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 6,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L6"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1607,10 +2003,17 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 106
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "merging.ts",
+              "line": 5,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L5"
             }
           ],
           "extendedBy": [
@@ -1634,6 +2037,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 2,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L2"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1650,6 +2061,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 6,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L6"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1666,6 +2085,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 10,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L10"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1677,6 +2104,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 15,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L15"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1686,13 +2121,26 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 110,
                 111,
                 108,
                 109
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "merging.ts",
+              "line": 9,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L9"
+            },
+            {
+              "fileName": "merging.ts",
+              "line": 14,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L14"
             }
           ],
           "extendedTypes": [
@@ -1728,6 +2176,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 2,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L2"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1744,6 +2200,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 6,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L6"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1760,6 +2224,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 10,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L10"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1776,6 +2248,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 19,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L19"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -1787,6 +2267,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 15,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L15"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 2
@@ -1801,7 +2289,6 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 116,
                 117,
@@ -1809,6 +2296,14 @@
                 113,
                 115
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "merging.ts",
+              "line": 18,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L18"
             }
           ],
           "extendedTypes": [
@@ -1828,7 +2323,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             103,
             105,
@@ -1836,13 +2330,20 @@
             112
           ]
         }
+      ],
+      "sources": [
+        {
+          "fileName": "merging.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L1"
+        }
       ]
     }
   ],
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         14,

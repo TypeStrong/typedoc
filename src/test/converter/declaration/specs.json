@@ -45,6 +45,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "declaration.d.ts",
+                  "line": 2,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/declaration.d.ts#L2"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -54,17 +62,23 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 3
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 5
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "declaration.d.ts",
+              "line": 1,
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/declaration.d.ts#L1"
             }
           ]
         },
@@ -76,6 +90,14 @@
           "flags": {
             "isConst": true
           },
+          "sources": [
+            {
+              "fileName": "declaration.d.ts",
+              "line": 5,
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/declaration.d.ts#L5"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -85,17 +107,23 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             2
           ]
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             6
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "declaration.d.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/declaration.d.ts#L1"
         }
       ]
     },
@@ -138,10 +166,17 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 9
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-declaration.d.ts",
+              "line": 1,
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/export-declaration.d.ts#L1"
             }
           ]
         },
@@ -177,10 +212,17 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 12
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-declaration.d.ts",
+              "line": 3,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/export-declaration.d.ts#L3"
             }
           ]
         }
@@ -188,11 +230,18 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             8,
             11
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-declaration.d.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/export-declaration.d.ts#L1"
         }
       ]
     },
@@ -211,21 +260,36 @@
           "flags": {
             "isConst": true
           },
+          "sources": [
+            {
+              "fileName": "external.d.ts",
+              "line": 3,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/external.d.ts#L3"
+            }
+          ],
           "type": {
             "type": "reference",
+            "name": "ts.server.ActionSet",
             "qualifiedName": "ts.server.ActionSet",
-            "package": "typescript",
-            "name": "ts.server.ActionSet"
+            "package": "typescript"
           }
         }
       ],
       "groups": [
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             15
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "external.d.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/declaration/external.d.ts#L1"
         }
       ]
     }
@@ -233,7 +297,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         7,

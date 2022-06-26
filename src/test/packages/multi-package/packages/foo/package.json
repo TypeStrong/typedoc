@@ -1,6 +1,0 @@
-{
-  "name": "typedoc-multi-package-foo",
-  "version": "1.0.0",
-  "main": "dist/index",
-  "typedocMain": "index.ts"
-}

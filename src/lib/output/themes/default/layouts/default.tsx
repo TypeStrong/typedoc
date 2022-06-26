@@ -28,26 +28,25 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
         <body>
             {context.hook("body.begin")}
             <script>
-                <Raw html='document.body.classList.add(localStorage.getItem("tsd-theme") || "os")' />
+                <Raw html='document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"' />
             </script>
-            {context.header(props)}
+            {context.toolbar(props)}
 
             <div class="container container-main">
-                <div class="row">
-                    <div class="col-8 col-content">
-                        {context.hook("content.begin")}
-                        {props.template(props)}
-                        {context.hook("content.end")}
-                    </div>
-                    <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-                        {context.hook("navigation.begin")}
-                        {context.navigation(props)}
-                        {context.hook("navigation.end")}
-                    </div>
+                <div class="col-8 col-content">
+                    {context.hook("content.begin")}
+                    {context.header(props)}
+                    {props.template(props)}
+                    {context.hook("content.end")}
+                </div>
+                <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+                    {context.hook("navigation.begin")}
+                    {context.navigation(props)}
+                    {context.hook("navigation.end")}
                 </div>
             </div>
 
-            {context.footer(props)}
+            {context.footer()}
 
             <div class="overlay"></div>
             <script src={context.relativeURL("assets/main.js")}></script>

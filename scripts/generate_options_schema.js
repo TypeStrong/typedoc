@@ -24,8 +24,12 @@ addTypeDocOptions({
             description: option.help,
         };
 
-        switch (option.type ?? ParameterType.String) {
+        const type = option.type ?? ParameterType.String;
+        switch (type) {
             case ParameterType.Array:
+            case ParameterType.GlobArray:
+            case ParameterType.PathArray:
+            case ParameterType.ModuleArray:
                 data.type = "array";
                 data.items = { type: "string" };
                 data.default =
@@ -34,6 +38,7 @@ addTypeDocOptions({
                     ).defaultValue ?? [];
                 break;
             case ParameterType.String:
+            case ParameterType.Path:
                 data.type = "string";
                 if (!IGNORED_DEFAULT_OPTIONS.has(option.name)) {
                     data.default =
@@ -105,7 +110,15 @@ addTypeDocOptions({
                 data.default = defaults;
             }
             case ParameterType.Mixed:
-                break; // Nothing to do... TypeDoc really shouldn't have any of these.
+                data.default =
+                    /** @type {import("../dist").MixedDeclarationOption} */ (
+                        option
+                    ).defaultValue;
+                break;
+
+            default:
+                /** @type {never} */
+                let _unused = type;
         }
 
         schema.properties[option.name] = data;
@@ -114,6 +127,26 @@ addTypeDocOptions({
 
 schema.properties.logger.enum = ["console", "none"];
 schema.properties.logger.default = "console";
+
+schema.properties.visibilityFilters.type = "object";
+schema.properties.visibilityFilters.properties = Object.fromEntries(
+    Object.keys(schema.properties.visibilityFilters.default).map((x) => [
+        x,
+        { type: "boolean" },
+    ])
+);
+schema.properties.visibilityFilters.patternProperties = {
+    "^@": { type: "boolean" },
+};
+schema.properties.visibilityFilters.additionalProperties = false;
+
+schema.properties.compilerOptions.type = "object";
+schema.properties.compilerOptions.markedOptions = "object";
+
+schema.properties.extends = {
+    type: "array",
+    items: { type: "string" },
+};
 
 const output = JSON.stringify(schema, null, "\t");
 

@@ -82,11 +82,11 @@ export function removeIfPresent<T>(arr: T[] | undefined, item: T) {
  * @param predicate
  */
 export function removeIf<T>(arr: T[], predicate: (item: T) => boolean) {
-    const indices = filterMap(arr, (item, index) =>
-        predicate(item) ? index : void 0
-    );
-    for (const index of indices.reverse()) {
-        arr.splice(index, 1);
+    for (let i = 0; i < arr.length; i++) {
+        if (predicate(arr[i])) {
+            arr.splice(i, 1);
+            i--;
+        }
     }
 }
 
@@ -116,17 +116,6 @@ export function partition<T>(
     return [left, right];
 }
 
-/**
- * Ensures the given item is an array.
- * @param item
- */
-export function toArray<T>(item: T | readonly T[] | undefined): T[] {
-    if (item === void 0) {
-        return [];
-    }
-    return Array.isArray(item) ? [...item] : [item];
-}
-
 export function* zip<T extends Iterable<any>[]>(
     ...args: T
 ): Iterable<{ [K in keyof T]: T[K] extends Iterable<infer U> ? U : T[K] }> {
@@ -142,32 +131,14 @@ export function* zip<T extends Iterable<any>[]>(
 }
 
 export function filterMap<T, U>(
-    arr: readonly T[],
-    fn: (item: T, index: number) => U | undefined
+    iter: Iterable<T>,
+    fn: (item: T) => U | undefined
 ): U[] {
     const result: U[] = [];
 
-    arr.forEach((item, index) => {
-        const newItem = fn(item, index);
-        if (newItem !== void 0) {
-            result.push(newItem);
-        }
-    });
-
-    return result;
-}
-
-export function flatMap<T, U>(
-    arr: readonly T[],
-    fn: (item: T) => U | readonly U[] | undefined
-): U[] {
-    const result: U[] = [];
-
-    for (const item of arr) {
+    for (const item of iter) {
         const newItem = fn(item);
-        if (newItem instanceof Array) {
-            result.push(...newItem);
-        } else if (newItem != null) {
+        if (newItem !== void 0) {
             result.push(newItem);
         }
     }

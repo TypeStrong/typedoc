@@ -59,15 +59,15 @@ export class MenuHighlight extends Component {
     private createAnchors() {
         let base = window.location.href;
         if (base.indexOf("#") != -1) {
-            base = base.substr(0, base.indexOf("#"));
+            base = base.substring(0, base.indexOf("#"));
         }
 
         this.el.querySelectorAll("a").forEach((el) => {
             const href = el.href;
             if (href.indexOf("#") == -1) return;
-            if (href.substr(0, base.length) != base) return;
+            if (href.substring(0, base.length) != base) return;
 
-            const hash = href.substr(href.indexOf("#") + 1);
+            const hash = href.substring(href.indexOf("#") + 1);
             const anchor = document.querySelector<HTMLElement>(
                 "a.tsd-anchor[name=" + hash + "]"
             );

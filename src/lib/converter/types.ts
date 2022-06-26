@@ -16,7 +16,6 @@ import {
     ReflectionType,
     LiteralType,
     TupleType,
-    Type,
     TypeOperatorType,
     UnionType,
     UnknownType,
@@ -219,7 +218,7 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
         rc.setConvertingTypeNode();
 
         context.registerReflection(reflection, symbol);
-        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
+        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
         const signature = new SignatureReflection(
             "__type",
@@ -319,7 +318,7 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
         const rc = context.withScope(reflection);
 
         context.registerReflection(reflection, symbol);
-        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
+        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
         const signature = new SignatureReflection(
             "__type",
@@ -541,7 +540,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
         rc.setConvertingTypeNode();
 
         context.registerReflection(reflection, symbol);
-        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection, node);
+        context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
         for (const prop of context.checker.getPropertiesOfType(type)) {
             convertSymbol(rc, prop);
@@ -836,7 +835,7 @@ const templateLiteralConverter: TypeConverter<
     },
     convertType(context, type) {
         assert(type.texts.length === type.types.length + 1);
-        const parts: [Type, string][] = [];
+        const parts: [SomeType, string][] = [];
         for (const [a, b] of zip(type.types, type.texts.slice(1))) {
             parts.push([convertType(context, a), b]);
         }
@@ -1004,15 +1003,9 @@ const jsDocNonNullableTypeConverter: TypeConverter<ts.JSDocNonNullableType> = {
 function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
     if ("kind" in nodeOrType) {
         const kindName = ts.SyntaxKind[nodeOrType.kind];
-        const { line, character } = ts.getLineAndCharacterOfPosition(
-            nodeOrType.getSourceFile(),
-            nodeOrType.pos
-        );
         context.logger.warn(
-            `Failed to convert type node with kind: ${kindName} and text ${nodeOrType.getText()}. Please report a bug.\n\t` +
-                `${nodeOrType.getSourceFile().fileName}:${
-                    line + 1
-                }:${character}`
+            `Failed to convert type node with kind: ${kindName} and text ${nodeOrType.getText()}. Please report a bug.`,
+            nodeOrType
         );
         return new UnknownType(nodeOrType.getText());
     } else {

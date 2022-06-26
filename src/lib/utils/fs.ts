@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import { promises as fsp } from "fs";
+import { Minimatch } from "minimatch";
 import { dirname, join } from "path";
 
 /**
@@ -133,15 +134,45 @@ export function copySync(src: string, dest: string): void {
 }
 
 /**
- * Equivalent to rm -rf
- * @param target
+ * Simpler version of `glob.sync` that only covers our use cases, always ignoring node_modules.
  */
-export async function remove(target: string) {
-    // Since v14.14
-    if (fsp.rm) {
-        await fsp.rm(target, { recursive: true, force: true });
-    } else if (fs.existsSync(target)) {
-        // Ew. We shouldn't need the exists check... Can't wait for Node 14.
-        await fsp.rmdir(target, { recursive: true });
-    }
+export function glob(
+    pattern: string,
+    root: string,
+    options?: { includeDirectories?: boolean }
+): string[] {
+    const result: string[] = [];
+    const mini = new Minimatch(normalizePath(pattern));
+    const dirs: string[][] = [normalizePath(root).split("/")];
+
+    do {
+        const dir = dirs.shift()!;
+
+        for (const child of fs.readdirSync(dir.join("/"), {
+            withFileTypes: true,
+        })) {
+            if (
+                child.isFile() ||
+                (options?.includeDirectories && child.isDirectory())
+            ) {
+                const childPath = [...dir, child.name].join("/");
+                if (mini.match(childPath)) {
+                    result.push(childPath);
+                }
+            }
+
+            if (child.isDirectory() && child.name !== "node_modules") {
+                const childPath = dir.concat(child.name);
+                if (
+                    mini.set.some((row) =>
+                        mini.matchOne(childPath, row, /* partial */ true)
+                    )
+                ) {
+                    dirs.push(childPath);
+                }
+            }
+        }
+    } while (dirs.length);
+
+    return result;
 }

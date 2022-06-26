@@ -1,10 +1,10 @@
 import type * as ts from "typescript";
-import type { SomeType } from "..";
-import { ReferenceType, ReflectionType, Type } from "../types";
-import { TraverseCallback, TraverseProperty } from "./abstract";
+import { ReferenceType, ReflectionType, Type, type SomeType } from "../types";
+import { type TraverseCallback, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import type { SignatureReflection } from "./signature";
 import type { TypeParameterReflection } from "./type-parameter";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 /**
  * Stores hierarchical type data.
@@ -78,9 +78,7 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * The default value of this reflection.
      *
-     * Applies to function parameters.
-     *
-     * Note: Using this for enum members is DEPRECATED and will be removed in 0.23.
+     * Applies to function parameters, variables, and properties.
      */
     defaultValue?: string;
 
@@ -108,7 +106,7 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * A list of all types this reflection extends (e.g. the parent classes).
      */
-    extendedTypes?: Type[];
+    extendedTypes?: SomeType[];
 
     /**
      * A list of all types that extend this reflection (e.g. the subclasses).
@@ -118,7 +116,7 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * A list of all types this reflection implements.
      */
-    implementedTypes?: Type[];
+    implementedTypes?: SomeType[];
 
     /**
      * A list of all types that implement this reflection.
@@ -234,10 +232,9 @@ export class DeclarationReflection extends ContainerReflection {
         let result = super.toString();
 
         if (this.typeParameters) {
-            const parameters: string[] = [];
-            this.typeParameters.forEach((parameter) => {
-                parameters.push(parameter.name);
-            });
+            const parameters: string[] = this.typeParameters.map(
+                (parameter) => parameter.name
+            );
             result += "<" + parameters.join(", ") + ">";
         }
 
@@ -246,5 +243,29 @@ export class DeclarationReflection extends ContainerReflection {
         }
 
         return result;
+    }
+
+    override toObject(
+        serializer: Serializer
+    ): JSONOutput.DeclarationReflection {
+        return {
+            ...super.toObject(serializer),
+            typeParameters: serializer.toObjectsOptional(this.typeParameters),
+            type: serializer.toObject(this.type),
+            signatures: serializer.toObjectsOptional(this.signatures),
+            indexSignature: serializer.toObject(this.indexSignature),
+            getSignature: serializer.toObject(this.getSignature),
+            setSignature: serializer.toObject(this.setSignature),
+            defaultValue: this.defaultValue,
+            overwrites: serializer.toObject(this.overwrites),
+            inheritedFrom: serializer.toObject(this.inheritedFrom),
+            implementationOf: serializer.toObject(this.implementationOf),
+            extendedTypes: serializer.toObjectsOptional(this.extendedTypes),
+            extendedBy: serializer.toObjectsOptional(this.extendedBy),
+            implementedTypes: serializer.toObjectsOptional(
+                this.implementedTypes
+            ),
+            implementedBy: serializer.toObjectsOptional(this.implementedBy),
+        };
     }
 }

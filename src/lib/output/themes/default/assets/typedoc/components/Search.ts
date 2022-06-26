@@ -193,7 +193,6 @@ function updateResults(
 
         const anchor = document.createElement("a");
         anchor.href = state.base + row.url;
-        anchor.classList.add("tsd-kind-icon");
         anchor.innerHTML = name;
         item.append(anchor);
 
@@ -261,7 +260,7 @@ function boldMatches(text: string, search: string) {
     const lowerText = text.toLocaleLowerCase();
     const lowerSearch = search.toLocaleLowerCase();
 
-    const parts = [];
+    const parts: string[] = [];
     let lastIndex = 0;
     let index = lowerText.indexOf(lowerSearch);
     while (index != -1) {

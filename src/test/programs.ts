@@ -9,7 +9,7 @@ let converter2App: Application | undefined;
 let converter2Program: ts.Program | undefined;
 
 export function getConverterBase() {
-    return join(__dirname, "converter");
+    return join(process.cwd(), "src/test/converter");
 }
 
 export function getConverterApp() {
@@ -20,11 +20,12 @@ export function getConverterApp() {
             logger: "none",
             name: "typedoc",
             excludeExternals: true,
-            disableSources: true,
+            disableSources: false,
             tsconfig: join(getConverterBase(), "tsconfig.json"),
             externalPattern: ["**/node_modules/**"],
             plugin: [],
             entryPointStrategy: EntryPointStrategy.Expand,
+            gitRevision: "fake",
         });
     }
 
@@ -46,7 +47,7 @@ export function getConverterProgram() {
 }
 
 export function getConverter2Base() {
-    return join(__dirname, "converter2");
+    return join(process.cwd(), "src/test/converter2");
 }
 
 export function getConverter2App() {

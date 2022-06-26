@@ -3,6 +3,7 @@ import type { ReflectionCategory } from "../ReflectionCategory";
 import type { ReflectionGroup } from "../ReflectionGroup";
 import type { DeclarationReflection } from "./declaration";
 import type { ReflectionKind } from "./kind";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 export class ContainerReflection extends Reflection {
     /**
@@ -21,8 +22,8 @@ export class ContainerReflection extends Reflection {
     categories?: ReflectionCategory[];
 
     /**
-     * A precomputed boost derived from the searchCategoryBoosts typedoc.json setting, to be used when
-     * boosting search relevance scores at runtime.
+     * A precomputed boost derived from the searchCategoryBoosts and searchGroupBoosts options, used when
+     * boosting search relevance scores at runtime. May be modified by plugins.
      */
     relevanceBoost?: number;
 
@@ -50,5 +51,15 @@ export class ContainerReflection extends Reflection {
                 return;
             }
         }
+    }
+
+    override toObject(serializer: Serializer): JSONOutput.ContainerReflection {
+        return {
+            ...super.toObject(serializer),
+            children: serializer.toObjectsOptional(this.children),
+            groups: serializer.toObjectsOptional(this.groups),
+            categories: serializer.toObjectsOptional(this.categories),
+            sources: serializer.toObjectsOptional(this.sources),
+        };
     }
 }

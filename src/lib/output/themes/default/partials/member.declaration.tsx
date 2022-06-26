@@ -1,11 +1,11 @@
-import { DeclarationReflection, ReflectionKind, ReflectionType } from "../../../../models";
+import { DeclarationReflection, ReflectionType } from "../../../../models";
 import { JSX } from "../../../../utils";
-import { renderTypeParametersSignature, wbr } from "../../lib";
+import { hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const memberDeclaration = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
-        <div class="tsd-signature tsd-kind-icon">
+        <div class="tsd-signature">
             {wbr(props.name)}
             {renderTypeParametersSignature(props.typeParameters)}
             {props.type && (
@@ -14,7 +14,7 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
                     {context.type(props.type)}
                 </>
             )}
-            {!!props.defaultValue && props.kind !== ReflectionKind.EnumMember && (
+            {!!props.defaultValue && (
                 <>
                     <span class="tsd-signature-symbol">
                         {" = "}
@@ -24,11 +24,9 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
             )}
         </div>
 
-        {context.memberSources(props)}
-
         {context.comment(props)}
 
-        {!!props.typeParameters && (
+        {hasTypeParameters(props) && (
             <>
                 <h4 class="tsd-type-parameters-title">Type Parameters</h4>
                 {context.typeParameters(props.typeParameters)}
@@ -40,5 +38,7 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
                 {context.parameter(props.type.declaration)}
             </div>
         )}
+
+        {context.memberSources(props)}
     </>
 );

@@ -4,7 +4,7 @@ export {
     ReflectionFlags,
     TraverseProperty,
 } from "./abstract";
-export type { Decorator, TraverseCallback } from "./abstract";
+export type { TraverseCallback } from "./abstract";
 export { ContainerReflection } from "./container";
 export { DeclarationReflection } from "./declaration";
 export type { DeclarationHierarchy } from "./declaration";

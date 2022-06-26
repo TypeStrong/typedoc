@@ -2,14 +2,13 @@ import {
     Reflection,
     ContainerReflection,
     DeclarationReflection,
-    CommentTag,
+    Comment,
 } from "../../models";
 import { ReflectionCategory } from "../../models";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { BindOption } from "../../utils";
-import type { Comment } from "../../models";
+import { BindOption, removeIf } from "../../utils";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -26,6 +25,11 @@ export class CategoryPlugin extends ConverterComponent {
 
     @BindOption("categorizeByGroup")
     categorizeByGroup!: boolean;
+
+    @BindOption("searchCategoryBoosts")
+    boosts!: Record<string, number>;
+
+    usedBoosts = new Set<string>();
 
     // For use in static methods
     static defaultCategory = "Other";
@@ -66,12 +70,9 @@ export class CategoryPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(context: Context, reflection: Reflection) {
+    private onResolve(_context: Context, reflection: Reflection) {
         if (reflection instanceof ContainerReflection) {
-            this.categorize(
-                reflection,
-                context.getSearchOptions()?.searchCategoryBoosts ?? {}
-            );
+            this.categorize(reflection);
         }
     }
 
@@ -82,37 +83,40 @@ export class CategoryPlugin extends ConverterComponent {
      */
     private onEndResolve(context: Context) {
         const project = context.project;
-        this.categorize(
-            project,
-            context.getSearchOptions()?.searchCategoryBoosts ?? {}
-        );
-    }
+        this.categorize(project);
 
-    private categorize(
-        obj: ContainerReflection,
-        categorySearchBoosts: { [key: string]: number }
-    ) {
-        if (this.categorizeByGroup) {
-            this.groupCategorize(obj, categorySearchBoosts);
-        } else {
-            CategoryPlugin.lumpCategorize(obj, categorySearchBoosts);
+        const unusedBoosts = new Set(Object.keys(this.boosts));
+        for (const boost of this.usedBoosts) {
+            unusedBoosts.delete(boost);
+        }
+        this.usedBoosts.clear();
+
+        if (unusedBoosts.size) {
+            context.logger.warn(
+                `Not all categories specified in searchCategoryBoosts were used in the documentation.` +
+                    ` The unused categories were:\n\t${Array.from(
+                        unusedBoosts
+                    ).join("\n\t")}`
+            );
         }
     }
 
-    private groupCategorize(
-        obj: ContainerReflection,
-        categorySearchBoosts: { [key: string]: number }
-    ) {
+    private categorize(obj: ContainerReflection) {
+        if (this.categorizeByGroup) {
+            this.groupCategorize(obj);
+        } else {
+            this.lumpCategorize(obj);
+        }
+    }
+
+    private groupCategorize(obj: ContainerReflection) {
         if (!obj.groups || obj.groups.length === 0) {
             return;
         }
         obj.groups.forEach((group) => {
             if (group.categories) return;
 
-            group.categories = CategoryPlugin.getReflectionCategories(
-                group.children,
-                categorySearchBoosts
-            );
+            group.categories = this.getReflectionCategories(group.children);
             if (group.categories && group.categories.length > 1) {
                 group.categories.sort(CategoryPlugin.sortCatCallback);
             } else if (
@@ -125,17 +129,11 @@ export class CategoryPlugin extends ConverterComponent {
         });
     }
 
-    static lumpCategorize(
-        obj: ContainerReflection,
-        categorySearchBoosts: { [key: string]: number }
-    ) {
+    private lumpCategorize(obj: ContainerReflection) {
         if (!obj.children || obj.children.length === 0 || obj.categories) {
             return;
         }
-        obj.categories = CategoryPlugin.getReflectionCategories(
-            obj.children,
-            categorySearchBoosts
-        );
+        obj.categories = this.getReflectionCategories(obj.children);
         if (obj.categories && obj.categories.length > 1) {
             obj.categories.sort(CategoryPlugin.sortCatCallback);
         } else if (
@@ -155,14 +153,13 @@ export class CategoryPlugin extends ConverterComponent {
      *   relevance boost to be used when searching
      * @returns An array containing all children of the given reflection categorized
      */
-    static getReflectionCategories(
-        reflections: DeclarationReflection[],
-        categorySearchBoosts: { [key: string]: number }
+    getReflectionCategories(
+        reflections: DeclarationReflection[]
     ): ReflectionCategory[] {
         const categories: ReflectionCategory[] = [];
         let defaultCat: ReflectionCategory | undefined;
         reflections.forEach((child) => {
-            const childCategories = CategoryPlugin.getCategories(child);
+            const childCategories = this.getCategories(child);
             if (childCategories.size === 0) {
                 if (!defaultCat) {
                     defaultCat = categories.find(
@@ -183,11 +180,6 @@ export class CategoryPlugin extends ConverterComponent {
             for (const childCat of childCategories) {
                 let category = categories.find((cat) => cat.title === childCat);
 
-                const catBoost = categorySearchBoosts[childCat ?? -1];
-                if (catBoost != undefined) {
-                    child.relevanceBoost =
-                        (child.relevanceBoost ?? 1) * catBoost;
-                }
                 if (category) {
                     category.children.push(child);
                     continue;
@@ -205,46 +197,46 @@ export class CategoryPlugin extends ConverterComponent {
      *
      * @param reflection The reflection.
      * @returns The category the reflection belongs to
+     *
+     * @privateRemarks
+     * If you change this, also update getGroups in GroupPlugin accordingly.
      */
-    static getCategories(reflection: DeclarationReflection) {
-        function extractCategoryTag(comment: Comment | undefined) {
-            const categories = new Set<string>();
-            if (!comment) return categories;
+    getCategories(reflection: DeclarationReflection) {
+        const categories = new Set<string>();
+        function extractCategoryTags(comment: Comment | undefined) {
+            if (!comment) return;
+            removeIf(comment.blockTags, (tag) => {
+                if (tag.tag === "@category") {
+                    categories.add(
+                        Comment.combineDisplayParts(tag.content).trim()
+                    );
 
-            const tags = comment.tags;
-            const commentTags: CommentTag[] = [];
-            tags.forEach((tag) => {
-                if (tag.tagName !== "category") {
-                    commentTags.push(tag);
-                    return;
+                    return true;
                 }
-                const text = tag.text.trim();
-                if (!text) {
-                    return;
-                }
-                categories.add(text);
+                return false;
             });
-            comment.tags = commentTags;
-            return categories;
         }
 
-        let categories = new Set<string>();
-
-        if (reflection.comment) {
-            categories = extractCategoryTag(reflection.comment);
-        } else if (reflection.signatures) {
-            for (const sig of reflection.signatures) {
-                for (const cat of extractCategoryTag(sig.comment)) {
-                    categories.add(cat);
-                }
-            }
+        extractCategoryTags(reflection.comment);
+        for (const sig of reflection.getNonIndexSignatures()) {
+            extractCategoryTags(sig.comment);
         }
 
         if (reflection.type?.type === "reflection") {
-            reflection.type.declaration.comment?.removeTags("category");
-            reflection.type.declaration.signatures?.forEach((s) =>
-                s.comment?.removeTags("category")
-            );
+            extractCategoryTags(reflection.type.declaration.comment);
+            for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+                extractCategoryTags(sig.comment);
+            }
+        }
+
+        categories.delete("");
+
+        for (const cat of categories) {
+            if (cat in this.boosts) {
+                this.usedBoosts.add(cat);
+                reflection.relevanceBoost =
+                    (reflection.relevanceBoost ?? 1) * this.boosts[cat];
+            }
         }
 
         return categories;

@@ -14,15 +14,17 @@ export {
     getCommonDirectory,
     normalizePath,
     readFile,
-    remove,
     writeFile,
     writeFileSync,
 } from "./fs";
-export type { IfInternal, NeverIfInternal } from "./general";
+export type { IfInternal, NeverIfInternal, Chars } from "./general";
+export { assertNever } from "./general";
 export { CallbackLogger, ConsoleLogger, Logger, LogLevel } from "./loggers";
+export { DefaultMap } from "./map";
 export {
     ArgumentsReader,
     BindOption,
+    CommentStyle,
     Options,
     ParameterHint,
     ParameterType,
@@ -47,6 +49,7 @@ export type {
     ValidationOptions,
     TypeDocOptionValues,
     ParameterTypeToOptionTypeMap,
+    ManuallyValidatedOption,
 } from "./options";
 export { discoverPlugins, loadPlugins } from "./plugins";
 export { sortReflections } from "./sort";
@@ -59,3 +62,5 @@ export * from "./entry-point";
 import * as JSX from "./jsx";
 export { JSX };
 export { Fragment, Raw, renderElement } from "./jsx";
+
+export * as Validation from "./validation";

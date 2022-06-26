@@ -10,15 +10,21 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                 <li class="tsd-parameter-signature">
                     <ul class={"tsd-signatures " + props.cssClasses}>
                         {props.signatures.map((item) => (
-                            <li class="tsd-signature tsd-kind-icon">
-                                {context.memberSignatureTitle(item, { hideName: true })}
+                            <li class="tsd-signature" id={item.anchor}>
+                                {context.memberSignatureTitle(item, {
+                                    hideName: true,
+                                })}
                             </li>
                         ))}
                     </ul>
 
                     <ul class="tsd-descriptions">
                         {props.signatures.map((item) => (
-                            <li class="tsd-description">{context.memberSignatureBody(item, { hideSources: true })}</li>
+                            <li class="tsd-description">
+                                {context.memberSignatureBody(item, {
+                                    hideSources: true,
+                                })}
+                            </li>
                         ))}
                     </ul>
                 </li>
@@ -63,7 +69,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                             {/* standard type */}
                             <li class="tsd-parameter">
                                 <h5>
-                                    {renderFlags(item.flags)}
+                                    {renderFlags(item.flags, item.comment)}
                                     {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                     {wbr(item.name)}
                                     <span class="tsd-signature-symbol">
@@ -85,7 +91,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                     {/* getter */}
                                     <li class="tsd-parameter">
                                         <h5>
-                                            {renderFlags(item.getSignature.flags)}
+                                            {renderFlags(item.getSignature.flags, item.getSignature.comment)}
                                             <span class="tsd-signature-symbol">get </span>
                                             {wbr(item.name)}
                                             <span class="tsd-signature-symbol">(): </span>
@@ -101,7 +107,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                     {/* setter */}
                                     <li class="tsd-parameter">
                                         <h5>
-                                            {renderFlags(item.setSignature.flags)}
+                                            {renderFlags(item.setSignature.flags, item.setSignature.comment)}
                                             <span class="tsd-signature-symbol">set </span>
                                             {wbr(item.name)}
                                             <span class="tsd-signature-symbol">(</span>

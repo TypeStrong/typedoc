@@ -23,9 +23,9 @@ class NotExportedClass {
 /**
  * This class is exported by being assigned to ´export´.
  *
- * ~~~
+ * ```
  * export = SingleExportedClass;
- * ~~~
+ * ```
  */
 class SingleExportedClass {
     /**

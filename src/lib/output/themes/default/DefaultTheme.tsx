@@ -6,8 +6,8 @@ import {
     ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
-} from "../../../models/reflections/index";
-import type { ReflectionGroup } from "../../../models/ReflectionGroup";
+    SignatureReflection,
+} from "../../../models";
 import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import { PageEvent, RendererEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
@@ -24,12 +24,6 @@ interface TemplateMapping {
      * {@link DeclarationReflection.kind} this rule applies to.
      */
     kind: ReflectionKind[];
-
-    /**
-     * Can this mapping have children or should all further reflections be rendered
-     * to the defined output page?
-     */
-    isLeaf: boolean;
 
     /**
      * The name of the directory the output files should be written to.
@@ -49,6 +43,7 @@ interface TemplateMapping {
 export class DefaultTheme extends Theme {
     /** @internal */
     markedPlugin: MarkedPlugin;
+
     private _renderContext?: DefaultThemeRenderContext;
     getRenderContext(_pageEvent: PageEvent<any>) {
         if (!this._renderContext) {
@@ -73,26 +68,37 @@ export class DefaultTheme extends Theme {
     private mappings: TemplateMapping[] = [
         {
             kind: [ReflectionKind.Class],
-            isLeaf: false,
             directory: "classes",
             template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Interface],
-            isLeaf: false,
             directory: "interfaces",
             template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Enum],
-            isLeaf: false,
             directory: "enums",
             template: this.reflectionTemplate,
         },
         {
             kind: [ReflectionKind.Namespace, ReflectionKind.Module],
-            isLeaf: false,
             directory: "modules",
+            template: this.reflectionTemplate,
+        },
+        {
+            kind: [ReflectionKind.TypeAlias],
+            directory: "types",
+            template: this.reflectionTemplate,
+        },
+        {
+            kind: [ReflectionKind.Function],
+            directory: "functions",
+            template: this.reflectionTemplate,
+        },
+        {
+            kind: [ReflectionKind.Variable],
+            directory: "variables",
             template: this.reflectionTemplate,
         },
     ];
@@ -145,18 +151,10 @@ export class DefaultTheme extends Theme {
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event: RendererEvent) {
-        if (event.project.groups) {
-            event.project.groups.forEach(DefaultTheme.applyGroupClasses);
-        }
-
-        for (const id in event.project.reflections) {
-            const reflection = event.project.reflections[id];
+        const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
+        for (const reflection of Object.values(event.project.reflections)) {
             if (reflection instanceof DeclarationReflection) {
-                DefaultTheme.applyReflectionClasses(reflection);
-            }
-
-            if (reflection instanceof ContainerReflection && reflection.groups) {
-                reflection.groups.forEach(DefaultTheme.applyGroupClasses);
+                DefaultTheme.applyReflectionClasses(reflection, filters);
             }
         }
     }
@@ -207,13 +205,14 @@ export class DefaultTheme extends Theme {
                 reflection.hasOwnDocument = true;
             }
 
-            for (const child of reflection.children || []) {
-                if (mapping.isLeaf) {
-                    DefaultTheme.applyAnchorUrl(child, reflection);
-                } else {
+            reflection.traverse((child) => {
+                if (child instanceof DeclarationReflection) {
                     this.buildUrls(child, urls);
+                } else {
+                    DefaultTheme.applyAnchorUrl(child, reflection);
                 }
-            }
+                return true;
+            });
         } else if (reflection.parent) {
             DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
         }
@@ -233,6 +232,10 @@ export class DefaultTheme extends Theme {
      * @param container   The nearest reflection having an own document.
      */
     static applyAnchorUrl(reflection: Reflection, container: Reflection) {
+        if (!(reflection instanceof DeclarationReflection) && !(reflection instanceof SignatureReflection)) {
+            return;
+        }
+
         if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
             const anchor = DefaultTheme.getUrl(reflection, container, ".");
 
@@ -242,9 +245,7 @@ export class DefaultTheme extends Theme {
         }
 
         reflection.traverse((child) => {
-            if (child instanceof DeclarationReflection) {
-                DefaultTheme.applyAnchorUrl(child, container);
-            }
+            DefaultTheme.applyAnchorUrl(child, container);
             return true;
         });
     }
@@ -255,85 +256,50 @@ export class DefaultTheme extends Theme {
      *
      * @param reflection  The reflection whose cssClasses property should be generated.
      */
-    static applyReflectionClasses(reflection: DeclarationReflection) {
+    static applyReflectionClasses(reflection: DeclarationReflection, filters: Record<string, boolean>) {
         const classes: string[] = [];
-        let kind: string;
 
-        if (reflection.kind === ReflectionKind.Accessor) {
-            if (!reflection.getSignature) {
-                classes.push("tsd-kind-set-signature");
-            } else if (!reflection.setSignature) {
-                classes.push("tsd-kind-get-signature");
-            } else {
-                classes.push("tsd-kind-accessor");
-            }
-        } else {
-            kind = ReflectionKind[reflection.kind];
-            classes.push(DefaultTheme.toStyleClass("tsd-kind-" + kind));
-        }
+        classes.push(DefaultTheme.toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
 
         if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
-            kind = ReflectionKind[reflection.parent.kind];
-            classes.push(DefaultTheme.toStyleClass(`tsd-parent-kind-${kind}`));
+            classes.push(DefaultTheme.toStyleClass(`tsd-parent-kind-${ReflectionKind[reflection.parent.kind]}`));
         }
 
-        let hasTypeParameters = !!reflection.typeParameters;
-        reflection.getAllSignatures().forEach((signature) => {
-            hasTypeParameters = hasTypeParameters || !!signature.typeParameters;
-        });
-
-        if (hasTypeParameters) {
-            classes.push("tsd-has-type-parameter");
-        }
-        if (reflection.overwrites) {
-            classes.push("tsd-is-overwrite");
-        }
-        if (reflection.inheritedFrom) {
-            classes.push("tsd-is-inherited");
-        }
-        if (reflection.flags.isPrivate) {
-            classes.push("tsd-is-private");
-        }
-        if (reflection.flags.isProtected) {
-            classes.push("tsd-is-protected");
-        }
-        if (reflection.flags.isStatic) {
-            classes.push("tsd-is-static");
-        }
-        if (reflection.flags.isExternal) {
-            classes.push("tsd-is-external");
+        // Filter classes should match up with the settings function in
+        // partials/navigation.tsx.
+        for (const key of Object.keys(filters)) {
+            if (key === "inherited") {
+                if (reflection.inheritedFrom) {
+                    classes.push("tsd-is-inherited");
+                }
+            } else if (key === "protected") {
+                if (reflection.flags.isProtected) {
+                    classes.push("tsd-is-protected");
+                }
+            } else if (key === "external") {
+                if (reflection.flags.isExternal) {
+                    classes.push("tsd-is-external");
+                }
+            } else if (key.startsWith("@")) {
+                if (key === "@deprecated") {
+                    if (reflection.isDeprecated()) {
+                        classes.push(DefaultTheme.toStyleClass(`tsd-is-${key.substring(1)}`));
+                    }
+                } else if (
+                    reflection.comment?.hasModifier(key as `@${string}`) ||
+                    reflection.comment?.getTag(key as `@${string}`)
+                ) {
+                    classes.push(DefaultTheme.toStyleClass(`tsd-is-${key.substring(1)}`));
+                }
+            }
         }
 
         reflection.cssClasses = classes.join(" ");
     }
 
     /**
-     * Generate the css classes for the given reflection group and apply them to the
-     * {@link ReflectionGroup.cssClasses} property.
-     *
-     * @param group  The reflection group whose cssClasses property should be generated.
-     */
-    static applyGroupClasses(group: ReflectionGroup) {
-        const classes: string[] = [];
-        if (group.allChildrenAreInherited) {
-            classes.push("tsd-is-inherited");
-        }
-        if (group.allChildrenArePrivate) {
-            classes.push("tsd-is-private");
-        }
-        if (group.allChildrenAreProtectedOrPrivate) {
-            classes.push("tsd-is-private-protected");
-        }
-        if (group.allChildrenAreExternal) {
-            classes.push("tsd-is-external");
-        }
-
-        group.cssClasses = classes.join(" ");
-    }
-
-    /**
      * Transform a space separated string into a string suitable to be used as a
-     * css class, e.g. "constructor method" > "Constructor-method".
+     * css class, e.g. "constructor method" > "constructor-method".
      */
     static toStyleClass(str: string) {
         return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();

@@ -12,7 +12,12 @@
       "kindString": "Namespace",
       "flags": {},
       "comment": {
-        "shortText": "This is a module extending an enumeration."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a module extending an enumeration."
+          }
+        ]
       },
       "children": [
         {
@@ -22,8 +27,21 @@
           "kindString": "Variable",
           "flags": {},
           "comment": {
-            "shortText": "This is a variable appended to an enumeration."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is a variable appended to an enumeration."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 48,
+              "character": 15,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L48"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -35,6 +53,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 53,
+              "character": 20,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L53"
+            }
+          ],
           "signatures": [
             {
               "id": 11,
@@ -43,7 +69,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "This is a function appended to an enumeration."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function appended to an enumeration."
+                  }
+                ]
               },
               "type": {
                 "type": "intrinsic",
@@ -56,17 +87,29 @@
       "groups": [
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             12
           ]
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             10
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 24,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L24"
+        },
+        {
+          "fileName": "enum.ts",
+          "line": 44,
+          "character": 14,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L44"
         }
       ]
     },
@@ -79,7 +122,12 @@
         "isConst": true
       },
       "comment": {
-        "shortText": "This is a const enum."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a const enum."
+          }
+        ]
       },
       "children": [
         {
@@ -88,11 +136,18 @@
           "kind": 16,
           "kindString": "Enumeration Member",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 60,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L60"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 1
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "id": 15,
@@ -100,21 +155,35 @@
           "kind": 16,
           "kindString": "Enumeration Member",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 61,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L61"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 2
-          },
-          "defaultValue": "2"
+          }
         }
       ],
       "groups": [
         {
           "title": "Enumeration Members",
-          "kind": 16,
           "children": [
             14,
             15
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 59,
+          "character": 18,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L59"
         }
       ]
     },
@@ -125,7 +194,12 @@
       "kindString": "Enumeration",
       "flags": {},
       "comment": {
-        "shortText": "This is an enumeration extended by a module."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is an enumeration extended by a module."
+          }
+        ]
       },
       "children": [
         {
@@ -135,13 +209,25 @@
           "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
-            "shortText": "This is the first enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the first enum member."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 28,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L28"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 1
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "id": 7,
@@ -150,13 +236,25 @@
           "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
-            "shortText": "This is the second enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the second enum member."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 33,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L33"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 2
-          },
-          "defaultValue": "2"
+          }
         },
         {
           "id": 8,
@@ -165,24 +263,49 @@
           "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
-            "shortText": "This is the third enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the third enum member."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 38,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L38"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 4
-          },
-          "defaultValue": "4"
+          }
         }
       ],
       "groups": [
         {
           "title": "Enumeration Members",
-          "kind": 16,
           "children": [
             6,
             7,
             8
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 24,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L24"
+        },
+        {
+          "fileName": "enum.ts",
+          "line": 44,
+          "character": 14,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L44"
         }
       ]
     },
@@ -193,7 +316,12 @@
       "kindString": "Enumeration",
       "flags": {},
       "comment": {
-        "shortText": "This is a simple enumeration."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This is a simple enumeration."
+          }
+        ]
       },
       "children": [
         {
@@ -203,13 +331,25 @@
           "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
-            "shortText": "This is the first enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the first enum member."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 8,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L8"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 1
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "id": 3,
@@ -218,13 +358,25 @@
           "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
-            "shortText": "This is the second enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the second enum member."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 13,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L13"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 2
-          },
-          "defaultValue": "2"
+          }
         },
         {
           "id": 4,
@@ -233,24 +385,43 @@
           "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
-            "shortText": "This is the third enum member."
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is the third enum member."
+              }
+            ]
           },
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 18,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L18"
+            }
+          ],
           "type": {
             "type": "literal",
             "value": 4
-          },
-          "defaultValue": "4"
+          }
         }
       ],
       "groups": [
         {
           "title": "Enumeration Members",
-          "kind": 16,
           "children": [
             2,
             3,
             4
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 4,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L4"
         }
       ]
     }
@@ -258,19 +429,25 @@
   "groups": [
     {
       "title": "Namespaces",
-      "kind": 4,
       "children": [
         9
       ]
     },
     {
       "title": "Enumerations",
-      "kind": 8,
       "children": [
         13,
         5,
         1
       ]
+    }
+  ],
+  "sources": [
+    {
+      "fileName": "enum.ts",
+      "line": 4,
+      "character": 0,
+      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/enum/enum.ts#L4"
     }
   ]
 }

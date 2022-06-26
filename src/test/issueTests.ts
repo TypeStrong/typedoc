@@ -1,4 +1,5 @@
 import { deepStrictEqual as equal, ok } from "assert";
+import type { Application } from "../lib/application";
 import {
     DeclarationReflection,
     ProjectReflection,
@@ -12,6 +13,7 @@ import {
     LiteralType,
     IntrinsicType,
 } from "../lib/models";
+import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
 import { getConverter2App } from "./programs";
 import type { TestLogger } from "./TestLogger";
 
@@ -22,8 +24,39 @@ function query(project: ProjectReflection, name: string) {
 }
 
 export const issueTests: {
-    [issue: string]: (project: ProjectReflection, logger: TestLogger) => void;
+    [issue: `pre${string}`]: (app: Application) => void;
+    [issue: `gh${string}`]: (
+        project: ProjectReflection,
+        logger: TestLogger
+    ) => void;
 } = {
+    gh567(project) {
+        const foo = query(project, "foo");
+        const sig = foo.signatures?.[0];
+        ok(sig, "Missing signature");
+        ok(sig.comment, "No comment for signature");
+        const param = sig.parameters?.[0];
+        equal(param?.name, "x");
+        equal(
+            Comment.combineDisplayParts(param.comment?.summary),
+            "JSDoc style param name"
+        );
+    },
+
+    gh671(project) {
+        const toNumber = query(project, "toNumber");
+        const sig = toNumber.signatures?.[0];
+        ok(sig, "Missing signatures");
+
+        const paramComments = sig.parameters?.map((param) =>
+            Comment.combineDisplayParts(param.comment?.summary)
+        );
+        equal(paramComments, [
+            "the string to parse as a number",
+            "whether to parse as an integer or float",
+        ]);
+    },
+
     gh869(project) {
         const classFoo = project.children?.find(
             (r) => r.name === "Foo" && r.kind === ReflectionKind.Class
@@ -58,10 +91,16 @@ export const issueTests: {
     gh1164(project) {
         const refl = query(project, "gh1164");
         equal(
-            refl.signatures?.[0]?.parameters?.[0]?.comment?.shortText,
+            Comment.combineDisplayParts(
+                refl.signatures?.[0]?.parameters?.[0]?.comment?.summary
+            ),
             "{@link CommentedClass} Test description."
         );
-        equal(refl.signatures?.[0]?.comment?.returns, "Test description.\n");
+        const tag = refl.signatures?.[0]?.comment?.blockTags.find(
+            (x) => x.tag === "@returns"
+        );
+        ok(tag);
+        equal(Comment.combineDisplayParts(tag.content), "Test description.");
     },
 
     gh1215(project) {
@@ -72,7 +111,7 @@ export const issueTests: {
 
     gh1255(project) {
         const foo = query(project, "C.foo");
-        equal(foo.comment?.shortText, "Docs!");
+        equal(Comment.combineDisplayParts(foo.comment?.summary), "Docs!");
     },
 
     gh1330(project) {
@@ -125,15 +164,23 @@ export const issueTests: {
         equal(prop.type?.toString(), "number");
 
         // Would be nice to get this to work someday
-        equal(prop.comment?.shortText, void 0);
+        equal(prop.comment?.summary, void 0);
 
         const method = query(project, "METHOD");
-        equal(method.signatures?.[0].comment?.shortText, "method docs");
+        equal(
+            Comment.combineDisplayParts(
+                method.signatures?.[0].comment?.summary
+            ),
+            "method docs"
+        );
     },
 
     gh1481(project) {
         const signature = query(project, "GH1481.static").signatures?.[0];
-        equal(signature?.comment?.shortText, "static docs");
+        equal(
+            Comment.combineDisplayParts(signature?.comment?.summary),
+            "static docs"
+        );
         equal(signature?.type?.toString(), "void");
     },
 
@@ -150,7 +197,10 @@ export const issueTests: {
 
     gh1490(project) {
         const refl = query(project, "GH1490.optionalMethod");
-        equal(refl.signatures?.[0]?.comment?.shortText, "With comment");
+        equal(
+            Comment.combineDisplayParts(refl.signatures?.[0]?.comment?.summary),
+            "With comment"
+        );
     },
 
     gh1509(project) {
@@ -209,7 +259,7 @@ export const issueTests: {
     gh1578(project) {
         ok(query(project, "notIgnored"));
         ok(
-            !project.findReflectionByName("ignored"),
+            !project.getChildByName("ignored"),
             "Symbol re-exported from ignored file is ignored."
         );
     },
@@ -246,9 +296,13 @@ export const issueTests: {
 
     gh1733(project) {
         const alias = query(project, "Foo");
-        equal(alias.typeParameters?.[0].comment?.shortText.trim(), "T docs");
+        equal(alias.typeParameters?.[0].comment?.summary, [
+            { kind: "text", text: "T docs" },
+        ]);
         const cls = query(project, "Bar");
-        equal(cls.typeParameters?.[0].comment?.shortText.trim(), "T docs");
+        equal(cls.typeParameters?.[0].comment?.summary, [
+            { kind: "text", text: "T docs" },
+        ]);
     },
 
     gh1734(project) {
@@ -257,34 +311,58 @@ export const issueTests: {
         ok(type instanceof ReflectionType);
 
         const expectedComment = new Comment();
-        expectedComment.returns = undefined;
-        expectedComment.tags = [
-            new CommentTag("asdf", void 0, "Some example text\n"),
+        expectedComment.blockTags = [
+            new CommentTag("@asdf", [
+                { kind: "text", text: "Some example text" },
+            ]),
         ];
         equal(type.declaration.signatures?.[0].comment, expectedComment);
     },
 
     gh1745(project) {
         const Foo = query(project, "Foo");
-        ok(Foo.type instanceof ReflectionType);
+        ok(Foo.type instanceof ReflectionType, "invalid type");
 
-        const group = project.groups?.find(
-            (g) => g.kind === ReflectionKind.TypeAlias
-        );
-        ok(group);
+        const group = project.groups?.find((g) => g.title === "Type Aliases");
+        ok(group, "missing group");
         const cat = group.categories?.find(
             (cat) => cat.title === "My category"
         );
-        ok(cat);
+        ok(cat, "missing cat");
 
-        ok(cat.children.includes(Foo));
-        ok(!Foo.comment?.hasTag("category"));
-        ok(!Foo.type.declaration.comment?.hasTag("category"));
+        ok(cat.children.includes(Foo), "not included in cat");
+        ok(!Foo.comment?.getTag("@category"), "has cat tag");
+        ok(!Foo.type.declaration.comment?.getTag("@category"), "has cat tag 2");
         ok(
             !Foo.type.declaration.signatures?.some((s) =>
-                s.comment?.hasTag("category")
-            )
+                s.comment?.getTag("@category")
+            ),
+            "has cat tag 3"
         );
+    },
+
+    gh1770(project) {
+        const sym1 = query(project, "sym1");
+        equal(
+            Comment.combineDisplayParts(sym1.signatures?.[0].comment?.summary),
+            "Docs for Sym1"
+        );
+
+        const sym2 = query(project, "sym2");
+        equal(
+            Comment.combineDisplayParts(sym2.comment?.summary),
+            "Docs for Sym2"
+        );
+    },
+
+    gh1771(project) {
+        const check = query(project, "check");
+        const tag = check.comment?.summary[0] as
+            | InlineTagDisplayPart
+            | undefined;
+        equal(tag?.kind, "inline-tag");
+        equal(tag.text, "Test2.method");
+        equal(tag.target, query(project, "Test.method"));
     },
 
     gh1795(project) {
@@ -294,6 +372,15 @@ export const issueTests: {
         );
         ok(project.children![0].kind === ReflectionKind.Reference);
         ok(project.children![1].kind !== ReflectionKind.Reference);
+    },
+
+    gh1804(project) {
+        const foo = query(project, "foo");
+        const sig = foo.signatures?.[0];
+        ok(sig);
+        const param = sig.parameters?.[0];
+        ok(param);
+        ok(param.flags.isOptional);
     },
 
     gh1875(project) {
@@ -317,9 +404,11 @@ export const issueTests: {
         ok(fooSig.type instanceof UnionType);
         ok(fooSig.type.types[1] instanceof ReflectionType);
         equal(
-            fooSig.type.types[1].declaration.getChildByName("min")?.comment
-                ?.shortText,
-            "Nested\n"
+            Comment.combineDisplayParts(
+                fooSig.type.types[1].declaration.getChildByName("min")?.comment
+                    ?.summary
+            ),
+            "Nested"
         );
 
         const bar = query(project, "bar");
@@ -329,14 +418,18 @@ export const issueTests: {
         ok(barSig.type.types[0] instanceof ReflectionType);
         ok(barSig.type.types[1] instanceof ReflectionType);
         equal(
-            barSig.type.types[0].declaration.getChildByName("min")?.comment
-                ?.shortText,
-            "Nested\n"
+            Comment.combineDisplayParts(
+                barSig.type.types[0].declaration.getChildByName("min")?.comment
+                    ?.summary
+            ),
+            "Nested"
         );
         equal(
-            barSig.type.types[1].declaration.getChildByName("min")?.comment
-                ?.shortText,
-            "Nested\n"
+            Comment.combineDisplayParts(
+                barSig.type.types[1].declaration.getChildByName("min")?.comment
+                    ?.summary
+            ),
+            "Nested"
         );
     },
 
@@ -347,6 +440,22 @@ export const issueTests: {
 
         const auto = query(project, "SomeEnum.AUTO");
         ok(auto.hasComment(), "Missing @enum member comment");
+    },
+
+    gh1896(project) {
+        const Type1 = query(project, "Type1");
+        const Type2 = query(project, "Type2");
+        equal(Type1.type?.type, "reflection" as const);
+        equal(Type2.type?.type, "reflection" as const);
+
+        equal(
+            Type1.type.declaration.signatures?.[0].comment,
+            new Comment([{ kind: "text", text: "On Tag" }])
+        );
+        equal(
+            Type2.type.declaration.signatures?.[0].comment,
+            new Comment([{ kind: "text", text: "Some type 2." }])
+        );
     },
 
     gh1898(project, logger) {
@@ -379,6 +488,27 @@ export const issueTests: {
         );
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
+    },
+
+    gh1913(project) {
+        const fn = query(project, "fn");
+
+        equal(
+            fn.signatures?.[0].comment,
+            new Comment(
+                [],
+                [new CommentTag("@returns", [{ kind: "text", text: "ret" }])]
+            )
+        );
+    },
+
+    gh1927(project) {
+        const ref = query(project, "Derived.getter");
+
+        equal(
+            ref.getSignature?.comment,
+            new Comment([{ kind: "text", text: "Base" }])
+        );
     },
 
     gh1942(project) {

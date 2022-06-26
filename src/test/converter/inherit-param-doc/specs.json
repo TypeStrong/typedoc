@@ -39,6 +39,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 11,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L11"
+            }
+          ],
           "signatures": [
             {
               "id": 10,
@@ -46,7 +54,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
               "parameters": [
                 {
                   "id": 11,
@@ -55,7 +62,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Parameter A."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter A."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -69,7 +81,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Parameter B.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter B."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -98,17 +115,23 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             7
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             9
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "inherit-param-doc.ts",
+          "line": 9,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L9"
         }
       ],
       "implementedTypes": [
@@ -153,6 +176,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 20,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L20"
+            }
+          ],
           "signatures": [
             {
               "id": 17,
@@ -160,7 +191,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
               "parameters": [
                 {
                   "id": 18,
@@ -169,7 +199,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Custom parameter A doc.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Custom parameter A doc."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -183,7 +218,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Parameter B.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter B."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -212,17 +252,23 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             14
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             16
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "inherit-param-doc.ts",
+          "line": 14,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L14"
         }
       ],
       "implementedTypes": [
@@ -267,6 +313,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 29,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L29"
+            }
+          ],
           "signatures": [
             {
               "id": 24,
@@ -274,7 +328,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
               "parameters": [
                 {
                   "id": 25,
@@ -283,7 +336,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Parameter A."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter A."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -297,7 +355,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Custom second parameter doc with name change.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Custom second parameter doc with name change."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -326,17 +389,23 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             21
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             23
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "inherit-param-doc.ts",
+          "line": 23,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L23"
         }
       ],
       "implementedTypes": [
@@ -360,6 +429,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 6,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L6"
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -367,7 +444,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {},
               "parameters": [
                 {
                   "id": 4,
@@ -376,7 +452,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Parameter A."
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter A."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -390,7 +471,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "Parameter B.\n"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Parameter B."
+                      }
+                    ]
                   },
                   "type": {
                     "type": "intrinsic",
@@ -409,10 +495,17 @@
       "groups": [
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "inherit-param-doc.ts",
+          "line": 1,
+          "character": 17,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L1"
         }
       ],
       "implementedBy": [
@@ -437,7 +530,6 @@
   "groups": [
     {
       "title": "Classes",
-      "kind": 128,
       "children": [
         6,
         13,
@@ -446,10 +538,17 @@
     },
     {
       "title": "Interfaces",
-      "kind": 256,
       "children": [
         1
       ]
+    }
+  ],
+  "sources": [
+    {
+      "fileName": "inherit-param-doc.ts",
+      "line": 1,
+      "character": 0,
+      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inherit-param-doc/inherit-param-doc.ts#L1"
     }
   ]
 }

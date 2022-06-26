@@ -5,17 +5,17 @@ import {
     DeclarationReflection,
 } from "../../models/reflections/index";
 import { ReflectionGroup } from "../../models/ReflectionGroup";
-import type { SourceDirectory } from "../../models/sources/directory";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import { sortReflections, SortStrategy } from "../../utils/sort";
-import { BindOption } from "../../utils";
+import { BindOption, removeIf } from "../../utils";
+import { Comment } from "../../models";
 
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.
  *
- * The handler sets the ´groups´ property of all reflections.
+ * The handler sets the `groups` property of all container reflections.
  */
 @Component({ name: "group" })
 export class GroupPlugin extends ConverterComponent {
@@ -41,6 +41,11 @@ export class GroupPlugin extends ConverterComponent {
     /** @internal */
     @BindOption("sort")
     sortStrategies!: SortStrategy[];
+
+    @BindOption("searchGroupBoosts")
+    boosts!: Record<string, number>;
+
+    usedBoosts = new Set<string>();
 
     /**
      * Create a new GroupPlugin instance.
@@ -72,23 +77,25 @@ export class GroupPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onEndResolve(context: Context) {
-        function walkDirectory(directory: SourceDirectory) {
-            directory.groups = GroupPlugin.getReflectionGroups(
-                directory.getAllReflections()
-            );
+        this.group(context.project);
 
-            for (const dir of Object.values(directory.directories)) {
-                walkDirectory(dir);
-            }
+        const unusedBoosts = new Set(Object.keys(this.boosts));
+        for (const boost of this.usedBoosts) {
+            unusedBoosts.delete(boost);
         }
+        this.usedBoosts.clear();
 
-        const project = context.project;
-        this.group(project);
-
-        walkDirectory(project.directory);
-        project.files.forEach((file) => {
-            file.groups = GroupPlugin.getReflectionGroups(file.reflections);
-        });
+        if (
+            unusedBoosts.size &&
+            this.application.options.isSet("searchGroupBoosts")
+        ) {
+            context.logger.warn(
+                `Not all groups specified in searchGroupBoosts were used in the documentation.` +
+                    ` The unused groups were:\n\t${Array.from(
+                        unusedBoosts
+                    ).join("\n\t")}`
+            );
+        }
     }
 
     private group(reflection: ContainerReflection) {
@@ -98,10 +105,56 @@ export class GroupPlugin extends ConverterComponent {
             !reflection.groups
         ) {
             sortReflections(reflection.children, this.sortStrategies);
-            reflection.groups = GroupPlugin.getReflectionGroups(
-                reflection.children
-            );
+            reflection.groups = this.getReflectionGroups(reflection.children);
         }
+    }
+
+    /**
+     * Extracts the groups for a given reflection.
+     *
+     * @privateRemarks
+     * If you change this, also update getCategories in CategoryPlugin accordingly.
+     */
+    getGroups(reflection: DeclarationReflection) {
+        const groups = new Set<string>();
+        function extractGroupTags(comment: Comment | undefined) {
+            if (!comment) return;
+            removeIf(comment.blockTags, (tag) => {
+                if (tag.tag === "@group") {
+                    groups.add(Comment.combineDisplayParts(tag.content).trim());
+
+                    return true;
+                }
+                return false;
+            });
+        }
+
+        extractGroupTags(reflection.comment);
+        for (const sig of reflection.getNonIndexSignatures()) {
+            extractGroupTags(sig.comment);
+        }
+
+        if (reflection.type?.type === "reflection") {
+            extractGroupTags(reflection.type.declaration.comment);
+            for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+                extractGroupTags(sig.comment);
+            }
+        }
+
+        groups.delete("");
+        if (groups.size === 0) {
+            groups.add(GroupPlugin.getKindPlural(reflection.kind));
+        }
+
+        for (const group of groups) {
+            if (group in this.boosts) {
+                this.usedBoosts.add(group);
+                reflection.relevanceBoost =
+                    (reflection.relevanceBoost ?? 1) * this.boosts[group];
+            }
+        }
+
+        return groups;
     }
 
     /**
@@ -112,56 +165,24 @@ export class GroupPlugin extends ConverterComponent {
      * @param reflections  The reflections that should be grouped.
      * @returns An array containing all children of the given reflection grouped by their kind.
      */
-    static getReflectionGroups(
+    getReflectionGroups(
         reflections: DeclarationReflection[]
     ): ReflectionGroup[] {
-        const groups: ReflectionGroup[] = [];
+        const groups = new Map<string, ReflectionGroup>();
+
         reflections.forEach((child) => {
-            for (let i = 0; i < groups.length; i++) {
-                const group = groups[i];
-                if (group.kind !== child.kind) {
-                    continue;
+            for (const name of this.getGroups(child)) {
+                let group = groups.get(name);
+                if (!group) {
+                    group = new ReflectionGroup(name);
+                    groups.set(name, group);
                 }
 
                 group.children.push(child);
-                return;
             }
-
-            const group = new ReflectionGroup(
-                GroupPlugin.getKindPlural(child.kind),
-                child.kind
-            );
-            group.children.push(child);
-            groups.push(group);
         });
 
-        groups.forEach((group) => {
-            let allInherited = true;
-            let allPrivate = true;
-            let allProtected = true;
-            let allExternal = true;
-
-            group.children.forEach((child) => {
-                allPrivate = child.flags.isPrivate && allPrivate;
-                allProtected =
-                    (child.flags.isPrivate || child.flags.isProtected) &&
-                    allProtected;
-                allExternal = child.flags.isExternal && allExternal;
-
-                if (child instanceof DeclarationReflection) {
-                    allInherited = !!child.inheritedFrom && allInherited;
-                } else {
-                    allInherited = false;
-                }
-            });
-
-            group.allChildrenAreInherited = allInherited;
-            group.allChildrenArePrivate = allPrivate;
-            group.allChildrenAreProtectedOrPrivate = allProtected;
-            group.allChildrenAreExternal = allExternal;
-        });
-
-        return groups;
+        return Array.from(groups.values());
     }
 
     /**

@@ -1,7 +1,5 @@
-import { SourceFile, SourceDirectory } from "../sources/index";
 import { Reflection, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
-import { splitUnquotedString } from "./utils";
 import { ReferenceReflection } from "./reference";
 import type { DeclarationReflection } from "./declaration";
 import type { SignatureReflection } from "./signature";
@@ -11,6 +9,7 @@ import type { TypeParameterReflection } from "./type-parameter";
 import { removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
+import type { CommentDisplayPart } from "../comments";
 
 /**
  * A reflection that represents the root of the project.
@@ -28,45 +27,19 @@ export class ProjectReflection extends ContainerReflection {
     private referenceGraph?: Map<number, number[]>;
 
     /**
-     * A list of all reflections within the project.
-     * @deprecated use {@link getReflectionById}, this will eventually be removed.
-     *   To iterate over all reflections, prefer {@link getReflectionsByKind}.
+     * A list of all reflections within the project. DO NOT MUTATE THIS OBJECT.
+     * All mutation should be done via {@link registerReflection} and {@link removeReflection}
+     * to ensure that links to reflections remain valid.
+     *
+     * This may be replaced with a `Map<number, Reflection>` someday.
      */
     reflections: { [id: number]: Reflection } = {};
 
     /**
-     * The root directory of the project.
-     */
-    directory: SourceDirectory = new SourceDirectory();
-
-    /**
-     * A list of all source files within the project.
-     */
-    files: SourceFile[] = [];
-
-    /**
-     * The name of the project.
-     *
-     * The name can be passed as a command line argument or it is read from the package info.
-     * this.name is assigned in the Reflection class.
-     */
-    override name!: string;
-
-    /**
      * The contents of the readme.md file of the project when found.
      */
-    readme?: string;
+    readme?: CommentDisplayPart[];
 
-    /**
-     * The parsed data of the package.json file of the project when found.
-     */
-    packageInfo: any;
-
-    /**
-     * Create a new ProjectReflection instance.
-     *
-     * @param name  The name of the project.
-     */
     constructor(name: string) {
         super(name, ReflectionKind.Project);
     }
@@ -88,41 +61,6 @@ export class ProjectReflection extends ContainerReflection {
         return Object.values(this.reflections).filter((reflection) =>
             reflection.kindOf(kind)
         );
-    }
-
-    /**
-     * Try to find a reflection by its name.
-     *
-     * @param names The name hierarchy to look for, if a string, the name will be split on "."
-     * @return The found reflection or undefined.
-     */
-    override findReflectionByName(
-        arg: string | string[]
-    ): Reflection | undefined {
-        const names: string[] = Array.isArray(arg)
-            ? arg
-            : splitUnquotedString(arg, ".");
-        const name = names.pop();
-
-        search: for (const key in this.reflections) {
-            const reflection = this.reflections[key];
-            if (reflection.name !== name) {
-                continue;
-            }
-
-            let depth = names.length - 1;
-            let target: Reflection | undefined = reflection;
-            while ((target = target.parent) && depth >= 0) {
-                if (target.name !== names[depth]) {
-                    continue search;
-                }
-                depth -= 1;
-            }
-
-            return reflection;
-        }
-
-        return undefined;
     }
 
     /**

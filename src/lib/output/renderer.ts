@@ -14,7 +14,7 @@ import type { Theme } from "./theme";
 import { RendererEvent, PageEvent } from "./events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { UrlMapping } from "./models/UrlMapping";
-import { remove, writeFileSync } from "../utils/fs";
+import { writeFileSync } from "../utils/fs";
 import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
@@ -24,6 +24,7 @@ import type { Theme as ShikiTheme } from "shiki";
 import { ReferenceType, Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
+import { clearSeenIconCache } from "./themes/default/partials/icon";
 
 /**
  * Describes the hooks available to inject output in the default theme.
@@ -150,20 +151,8 @@ export class Renderer extends ChildableComponent<
     cname!: string;
 
     /** @internal */
-    @BindOption("gaID")
-    gaID!: string;
-
-    /** @internal */
-    @BindOption("gaSite")
-    gaSite!: string;
-
-    /** @internal */
     @BindOption("githubPages")
     githubPages!: boolean;
-
-    /** @internal */
-    @BindOption("hideGenerator")
-    hideGenerator!: boolean;
 
     /** @internal */
     @BindOption("lightHighlightTheme")
@@ -175,10 +164,8 @@ export class Renderer extends ChildableComponent<
 
     /**
      * Define a new theme that can be used to render output.
-     * This API will likely be changing in TypeDoc 0.23.
-     * (sorry... changing as soon as it's introduced)
-     * As it is, it provides reasonable flexibility, but doesn't give users a sufficiently
-     * easy way to overwrite parts of a theme.
+     * This API will likely be changing at some point, to allow more easily overriding parts of the theme without
+     * requiring additional boilerplate.
      * @param name
      * @param theme
      */
@@ -264,6 +251,7 @@ export class Renderer extends ChildableComponent<
 
         if (!output.isDefaultPrevented) {
             output.urls.forEach((mapping: UrlMapping) => {
+                clearSeenIconCache();
                 this.renderDocument(output.createPageEvent(mapping));
             });
 
@@ -349,7 +337,10 @@ export class Renderer extends ChildableComponent<
     private async prepareOutputDirectory(directory: string): Promise<boolean> {
         if (this.cleanOutputDir) {
             try {
-                await remove(directory);
+                await fs.promises.rm(directory, {
+                    recursive: true,
+                    force: true,
+                });
             } catch (error) {
                 this.application.logger.warn(
                     "Could not empty the output directory."

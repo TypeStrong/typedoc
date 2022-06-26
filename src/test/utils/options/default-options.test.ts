@@ -85,7 +85,7 @@ describe("Default Options", () => {
         it("Should disallow non-numbers", () => {
             throws(() =>
                 opts.setValue("searchCategoryBoosts", {
-                    cat: true,
+                    cat: true as any as number,
                 })
             );
         });
@@ -96,12 +96,12 @@ describe("Default Options", () => {
             throws(() => opts.setValue("searchGroupBoosts", null as never));
         });
 
-        it("Should disallow invalid kind names", () => {
-            throws(() => opts.setValue("searchGroupBoosts", { Enum2: 123 }));
-        });
-
         it("Should disallow non-numbers", () => {
-            throws(() => opts.setValue("searchGroupBoosts", { Enum: true }));
+            throws(() =>
+                opts.setValue("searchGroupBoosts", {
+                    Enum: true as any as number,
+                })
+            );
         });
 
         it("Should allow groups", () => {

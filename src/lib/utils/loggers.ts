@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 import { url } from "inspector";
 import { resolve } from "path";
+import { nicePath } from "./paths";
 
 const isDebugging = () => !!url();
 
@@ -19,30 +20,50 @@ const Colors = {
     yellow: "\u001b[93m",
     cyan: "\u001b[96m",
     gray: "\u001b[90m",
+    black: "\u001b[47m\u001b[30m",
     reset: "\u001b[0m",
 };
 
+function color(text: string, color: keyof typeof Colors) {
+    if ("NO_COLOR" in process.env) return `${text}`;
+
+    return `${Colors[color]}${text}${Colors.reset}`;
+}
+
 const messagePrefixes = {
-    [LogLevel.Error]: "Error: ",
-    [LogLevel.Warn]: "Warning: ",
-    [LogLevel.Info]: "Info: ",
-    [LogLevel.Verbose]: "Debug: ",
+    [LogLevel.Error]: color("error", "red"),
+    [LogLevel.Warn]: color("warning", "yellow"),
+    [LogLevel.Info]: color("info", "cyan"),
+    [LogLevel.Verbose]: color("debug", "gray"),
 };
 
-const coloredMessagePrefixes = {
-    [LogLevel.Error]: `${Colors.red}${messagePrefixes[LogLevel.Error]}${
-        Colors.reset
-    }`,
-    [LogLevel.Warn]: `${Colors.yellow}${messagePrefixes[LogLevel.Warn]}${
-        Colors.reset
-    }`,
-    [LogLevel.Info]: `${Colors.cyan}${messagePrefixes[LogLevel.Info]}${
-        Colors.reset
-    }`,
-    [LogLevel.Verbose]: `${Colors.gray}${messagePrefixes[LogLevel.Verbose]}${
-        Colors.reset
-    }`,
-};
+function withContext(message: string, level: LogLevel, node?: ts.Node) {
+    if (!node) {
+        return `${messagePrefixes[level]} ${message}`;
+    }
+
+    const file = node.getSourceFile();
+    const path = nicePath(file.fileName);
+    const pos = node.getStart(file, false);
+    const { line, character } = ts.getLineAndCharacterOfPosition(file, pos);
+
+    const location = `${color(path, "cyan")}:${color(
+        `${line + 1}`,
+        "yellow"
+    )}:${color(`${character}`, "yellow")}`;
+
+    const start = file.text.lastIndexOf("\n", pos) + 1;
+    let end = file.text.indexOf("\n", start);
+    if (end === -1) end = file.text.length;
+
+    const prefix = `${location} - ${messagePrefixes[level]}`;
+    const context = `${color(`${line + 1}`, "black")}    ${file.text.substring(
+        start,
+        end
+    )}`;
+
+    return `${prefix} ${message}\n\n${context}\n`;
+}
 
 /**
  * A logger that will not produce any output.
@@ -120,10 +141,10 @@ export class Logger {
      * @param text  The warning that should be logged.
      * @param args  The arguments that should be printed into the given warning.
      */
-    warn(text: string) {
+    warn(text: string, node?: ts.Node) {
         if (this.seenWarnings.has(text)) return;
         this.seenWarnings.add(text);
-        this.log(text, LogLevel.Warn);
+        this.log(text, LogLevel.Warn, node);
     }
 
     /**
@@ -132,10 +153,10 @@ export class Logger {
      * @param text  The error that should be logged.
      * @param args  The arguments that should be printed into the given error.
      */
-    error(text: string) {
+    error(text: string, node?: ts.Node) {
         if (this.seenErrors.has(text)) return;
         this.seenErrors.add(text);
-        this.log(text, LogLevel.Error);
+        this.log(text, LogLevel.Error, node);
     }
 
     /** @internal */
@@ -152,10 +173,11 @@ export class Logger {
     /**
      * Print a log message.
      *
-     * @param _message  The message itself.
-     * @param level  The urgency of the log message.
+     * @param _message The message itself.
+     * @param level The urgency of the log message.
+     * @param _node Optional node to be used to provide additional context about the message.
      */
-    log(_message: string, level: LogLevel) {
+    log(_message: string, level: LogLevel, _node?: ts.Node) {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
@@ -205,16 +227,10 @@ export class Logger {
  */
 export class ConsoleLogger extends Logger {
     /**
-     * Specifies if the logger is using color codes in its output.
-     */
-    private hasColoredOutput: boolean;
-
-    /**
      * Create a new ConsoleLogger instance.
      */
     constructor() {
         super();
-        this.hasColoredOutput = !("NO_COLOR" in process.env);
     }
 
     /**
@@ -223,7 +239,7 @@ export class ConsoleLogger extends Logger {
      * @param message  The message itself.
      * @param level  The urgency of the log message.
      */
-    override log(message: string, level: LogLevel) {
+    override log(message: string, level: LogLevel, node?: ts.Node) {
         super.log(message, level);
         if (level < this.level && !isDebugging()) {
             return;
@@ -238,11 +254,8 @@ export class ConsoleLogger extends Logger {
             } as const
         )[level];
 
-        const prefix = this.hasColoredOutput
-            ? coloredMessagePrefixes[level]
-            : messagePrefixes[level];
-
-        console[method](prefix + message);
+        // eslint-disable-next-line no-console
+        console[method](withContext(message, level, node));
     }
 }
 

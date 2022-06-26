@@ -1,11 +1,11 @@
 import { ok } from "assert";
 import type { SourceReference } from "../sources/file";
-import type { Type } from "../types";
 import type { Comment } from "../comments/comment";
 import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
 import type { NeverIfInternal } from "../../utils";
 import { ReflectionKind } from "./kind";
+import type { Serializer, JSONOutput } from "../../serialization";
 
 /**
  * Holds all data models used by TypeDoc.
@@ -185,6 +185,28 @@ export class ReflectionFlags extends Array<string> {
             this.flags |= flag;
         }
     }
+
+    private static serializedFlags = [
+        "isPrivate",
+        "isProtected",
+        "isPublic",
+        "isStatic",
+        "isExternal",
+        "isOptional",
+        "isRest",
+        "hasExportAssignment",
+        "isAbstract",
+        "isConst",
+        "isReadonly",
+    ] as const;
+
+    toObject(): JSONOutput.ReflectionFlags {
+        return Object.fromEntries(
+            ReflectionFlags.serializedFlags
+                .filter((flag) => this[flag])
+                .map((flag) => [flag, true])
+        );
+    }
 }
 
 export enum TraverseProperty {
@@ -209,27 +231,6 @@ export interface TraverseCallback {
 }
 
 /**
- * Defines the usage of a decorator.
- */
-export interface Decorator {
-    /**
-     * The name of the decorator being applied.
-     */
-    name: string;
-
-    /**
-     * The type declaring the decorator.
-     * Usually a ReferenceType instance pointing to the decorator function.
-     */
-    type?: Type;
-
-    /**
-     * A named map of arguments the decorator is applied with.
-     */
-    arguments?: any;
-}
-
-/**
  * Base class for all reflection classes.
  *
  * While generating a documentation, TypeDoc generates an instance of {@link ProjectReflection}
@@ -237,8 +238,8 @@ export interface Decorator {
  * by the {@link DeclarationReflection} class.
  *
  * This base class exposes the basic properties one may use to traverse the reflection tree.
- * You can use the {@link ContainerReflection.children} and {@link parent} properties to walk the tree. The {@link groups} property
- * contains a list of all children grouped and sorted for being rendered.
+ * You can use the {@link ContainerReflection.children} and {@link parent} properties to walk the tree. The {@link ContainerReflection.groups} property
+ * contains a list of all children grouped and sorted for rendering.
  */
 export abstract class Reflection {
     /**
@@ -255,6 +256,12 @@ export abstract class Reflection {
      * The original name of the TypeScript declaration.
      */
     originalName: string;
+
+    /**
+     * Label associated with this reflection, if any (https://tsdoc.org/pages/tags/label/)
+     * Added by the CommentPlugin during resolution.
+     */
+    label?: string;
 
     /**
      * The kind of this reflection.
@@ -294,16 +301,6 @@ export abstract class Reflection {
     sources?: SourceReference[];
 
     /**
-     * A list of all decorators attached to this reflection.
-     */
-    decorators?: Decorator[];
-
-    /**
-     * A list of all types that are decorated by this reflection.
-     */
-    decorates?: Type[];
-
-    /**
      * The url of this reflection in the generated documentation.
      * TODO: Reflections shouldn't know urls exist. Move this to a serializer.
      */
@@ -339,9 +336,6 @@ export abstract class Reflection {
 
     private _aliases?: Map<string, number>;
 
-    /**
-     * Create a new BaseReflection instance.
-     */
     constructor(name: string, kind: ReflectionKind, parent?: Reflection) {
         this.id = REFLECTION_ID++;
         this.parent = parent;
@@ -415,23 +409,17 @@ export abstract class Reflection {
      */
     getAlias(): string {
         if (!this._alias) {
-            let alias = this.name.replace(/[^a-z0-9]/gi, "_");
+            let alias = this.name.replace(/\W/g, "_");
             if (alias === "") {
                 alias = "reflection-" + this.id;
             }
 
-            let target = <Reflection>this;
-            while (
-                target.parent &&
-                !target.parent.isProject() &&
-                !target.hasOwnDocument
-            ) {
+            let target = this as Reflection;
+            while (target.parent && !target.hasOwnDocument) {
                 target = target.parent;
             }
 
-            if (!target._aliases) {
-                target._aliases = new Map();
-            }
+            target._aliases ||= new Map();
 
             let suffix = "";
             if (!target._aliases.has(alias)) {
@@ -498,9 +486,23 @@ export abstract class Reflection {
     }
 
     /**
+     * Check if this reflection has been marked with the `@deprecated` tag.
+     */
+    isDeprecated(): boolean {
+        if (this.comment?.getTag("@deprecated")) {
+            return true;
+        }
+
+        return this.parent?.isDeprecated() ?? false;
+    }
+
+    /**
      * Try to find a reflection by its name.
      *
      * @return The found reflection or null.
+     * @deprecated This method not be used, it naively splits the name by a `.` and searches recursively up
+     * the parent tree, which is not how any other name resolver works. If you are currently using this and
+     * need another method, please open an issue. For tests {@link getChildByName} should generally be sufficient.
      */
     findReflectionByName(arg: string | string[]): Reflection | undefined {
         const names: string[] = Array.isArray(arg)
@@ -549,5 +551,21 @@ export abstract class Reflection {
         });
 
         return lines.join("\n");
+    }
+
+    toObject(serializer: Serializer): JSONOutput.Reflection {
+        return {
+            id: this.id,
+            name: this.name,
+            kind: this.kind,
+            kindString: this.kindString,
+            flags: this.flags.toObject(),
+            comment:
+                this.comment && !this.comment.isEmpty()
+                    ? serializer.toObject(this.comment)
+                    : undefined,
+            originalName:
+                this.originalName !== this.name ? this.originalName : undefined,
+        };
     }
 }

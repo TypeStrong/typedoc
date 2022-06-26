@@ -1,7 +1,92 @@
-import { removeIf } from "../../utils";
-import { CommentTag } from "./tag";
+import { assertNever, removeIf } from "../../utils";
+import type { Reflection } from "../reflections";
 
-const COPIED_TAGS = ["remarks"];
+import type { Serializer, JSONOutput } from "../../serialization";
+
+export type CommentDisplayPart =
+    | { kind: "text"; text: string }
+    | { kind: "code"; text: string }
+    | InlineTagDisplayPart;
+
+/**
+ * The `@link`, `@linkcode`, and `@linkplain` tags may have a `target`
+ * property set indicating which reflection/url they link to.
+ */
+export interface InlineTagDisplayPart {
+    kind: "inline-tag";
+    tag: `@${string}`;
+    text: string;
+    target?: Reflection | string;
+}
+
+function serializeDisplayPart(
+    part: CommentDisplayPart
+): JSONOutput.CommentDisplayPart {
+    switch (part.kind) {
+        case "text":
+        case "code":
+            return part;
+        case "inline-tag": {
+            return {
+                ...part,
+                target:
+                    typeof part.target === "object"
+                        ? part.target.id
+                        : part.target,
+            };
+        }
+    }
+}
+
+/**
+ * A model that represents a single TypeDoc comment tag.
+ *
+ * Tags are stored in the {@link Comment.blockTags} property.
+ */
+export class CommentTag {
+    /**
+     * The name of this tag, e.g. `@returns`, `@example`
+     */
+    tag: `@${string}`;
+
+    /**
+     * Some tags, (`@typedef`, `@param`, `@property`, etc.) may have a user defined identifier associated with them.
+     * If this tag is one of those, it will be parsed out and included here.
+     */
+    name?: string;
+
+    /**
+     * The actual body text of this tag.
+     */
+    content: CommentDisplayPart[];
+
+    /**
+     * Create a new CommentTag instance.
+     */
+    constructor(tag: `@${string}`, text: CommentDisplayPart[]) {
+        this.tag = tag;
+        this.content = text;
+    }
+
+    clone(): CommentTag {
+        const tag = new CommentTag(
+            this.tag,
+            Comment.cloneDisplayParts(this.content)
+        );
+        if (this.name) {
+            tag.name = this.name;
+        }
+        return tag;
+    }
+
+    toObject(): JSONOutput.CommentTag {
+        return {
+            tag: this.tag,
+            name: this.name,
+            content: this.content.map(serializeDisplayPart),
+        };
+    }
+}
 
 /**
  * A model that represents a comment.
@@ -11,32 +96,83 @@ const COPIED_TAGS = ["remarks"];
  */
 export class Comment {
     /**
-     * The abstract of the comment. TypeDoc interprets the first paragraph of a comment
-     * as the abstract.
+     * Debugging utility for combining parts into a simple string. Not suitable for
+     * rendering, but can be useful in tests.
      */
-    shortText: string;
+    static combineDisplayParts(
+        parts: readonly CommentDisplayPart[] | undefined
+    ): string {
+        let result = "";
+
+        for (const item of parts || []) {
+            switch (item.kind) {
+                case "text":
+                case "code":
+                    result += item.text;
+                    break;
+                case "inline-tag":
+                    result += `{${item.tag} ${item.text}}`;
+                    break;
+                default:
+                    assertNever(item);
+            }
+        }
+
+        return result;
+    }
 
     /**
-     * The full body text of the comment. Excludes the {@link shortText}.
+     * Helper utility to clone {@link Comment.summary} or {@link CommentTag.content}
      */
-    text: string;
+    static cloneDisplayParts(parts: CommentDisplayPart[]) {
+        return parts.map((p) => ({ ...p }));
+    }
 
     /**
-     * The text of the ```@returns``` tag if present.
+     * The content of the comment which is not associated with a block tag.
      */
-    returns?: string;
+    summary: CommentDisplayPart[];
 
     /**
-     * All associated tags.
+     * All associated block level tags.
      */
-    tags: CommentTag[] = [];
+    blockTags: CommentTag[] = [];
+
+    /**
+     * All modifier tags present on the comment, e.g. `@alpha`, `@beta`.
+     */
+    modifierTags: Set<string> = new Set<string>();
 
     /**
      * Creates a new Comment instance.
      */
-    constructor(shortText?: string, text?: string) {
-        this.shortText = shortText || "";
-        this.text = text || "";
+    constructor(
+        summary: CommentDisplayPart[] = [],
+        blockTags: CommentTag[] = [],
+        modifierTags: Set<string> = new Set()
+    ) {
+        this.summary = summary;
+        this.blockTags = blockTags;
+        this.modifierTags = modifierTags;
+    }
+
+    /**
+     * Create a deep clone of this comment.
+     */
+    clone() {
+        return new Comment(
+            Comment.cloneDisplayParts(this.summary),
+            this.blockTags.map((tag) => tag.clone()),
+            new Set(this.modifierTags)
+        );
+    }
+
+    /**
+     * Returns true if this comment is completely empty.
+     * @internal
+     */
+    isEmpty() {
+        return !this.hasVisibleComponent() && this.modifierTags.size === 0;
     }
 
     /**
@@ -45,7 +181,10 @@ export class Comment {
      * @returns TRUE when this comment has a visible component.
      */
     hasVisibleComponent(): boolean {
-        return !!this.shortText || !!this.text || this.tags.length > 0;
+        return (
+            this.summary.some((x) => x.kind !== "text" || x.text !== "") ||
+            this.blockTags.length > 0
+        );
     }
 
     /**
@@ -54,60 +193,54 @@ export class Comment {
      * @param tagName  The name of the tag to look for.
      * @returns TRUE when this comment contains a tag with the given name, otherwise FALSE.
      */
-    hasTag(tagName: string): boolean {
-        return this.tags.some((tag) => tag.tagName === tagName);
+    hasModifier(tagName: `@${string}`): boolean {
+        return this.modifierTags.has(tagName);
+    }
+
+    removeModifier(tagName: `@${string}`) {
+        this.modifierTags.delete(tagName);
     }
 
     /**
      * Return the first tag with the given name.
      *
-     * You can optionally pass a parameter name that should be searched to.
-     *
      * @param tagName  The name of the tag to look for.
      * @param paramName  An optional parameter name to look for.
      * @returns The found tag or undefined.
      */
-    getTag(tagName: string, paramName?: string): CommentTag | undefined {
-        return this.tags.find((tag) => {
-            return (
-                tag.tagName === tagName &&
-                (paramName === void 0 || tag.paramName === paramName)
-            );
-        });
+    getTag(tagName: `@${string}`): CommentTag | undefined {
+        return this.blockTags.find((tag) => tag.tag === tagName);
     }
 
     /**
-     * Removes all tags with the given tag name from the comment.
+     * Get all tags with the given tag name.
+     */
+    getTags(tagName: `@${string}`): CommentTag[] {
+        return this.blockTags.filter((tag) => tag.tag === tagName);
+    }
+
+    getIdentifiedTag(identifier: string, tagName: `@${string}`) {
+        return this.blockTags.find(
+            (tag) => tag.tag === tagName && tag.name === identifier
+        );
+    }
+
+    /**
+     * Removes all block tags with the given tag name from the comment.
      * @param tagName
      */
-    removeTags(tagName: string) {
-        removeIf(this.tags, (tag) => tag.tagName === tagName);
+    removeTags(tagName: `@${string}`) {
+        removeIf(this.blockTags, (tag) => tag.tag === tagName);
     }
 
-    /**
-     * Copy the data of the given comment into this comment.
-     *
-     * `shortText`, `text`, `returns` and tags from `COPIED_TAGS` are copied;
-     * other instance tags left unchanged.
-     *
-     * @param comment - Source comment to copy from
-     */
-    copyFrom(comment: Comment) {
-        this.shortText = comment.shortText;
-        this.text = comment.text;
-        this.returns = comment.returns;
-        const overrideTags: CommentTag[] = comment.tags
-            .filter((tag) => COPIED_TAGS.includes(tag.tagName))
-            .map((tag) => new CommentTag(tag.tagName, tag.paramName, tag.text));
-        this.tags.forEach((tag, index) => {
-            const matchingTag = overrideTags.find(
-                (matchingOverride) => matchingOverride?.tagName === tag.tagName
-            );
-            if (matchingTag) {
-                this.tags[index] = matchingTag;
-                overrideTags.splice(overrideTags.indexOf(matchingTag), 1);
-            }
-        });
-        this.tags = [...this.tags, ...overrideTags];
+    toObject(serializer: Serializer): JSONOutput.Comment {
+        return {
+            summary: this.summary.map(serializeDisplayPart),
+            blockTags: serializer.toObjectsOptional(this.blockTags),
+            modifierTags:
+                this.modifierTags.size > 0
+                    ? Array.from(this.modifierTags)
+                    : undefined,
+        };
     }
 }

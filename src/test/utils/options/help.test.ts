@@ -10,7 +10,7 @@ import { getOptionsHelp } from "../../../lib/utils/options/help";
 
 describe("Options - help", () => {
     const options = new Options(new Logger());
-    options.addDeclarations([
+    for (const decl of [
         { name: "td-option", help: "help", type: ParameterType.String },
         { name: "td-option2", help: "help" },
         { name: "not displayed", help: "" },
@@ -19,7 +19,9 @@ describe("Options - help", () => {
             help: "help",
             hint: ParameterHint.File,
         },
-    ]);
+    ]) {
+        options.addDeclaration(decl as never);
+    }
 
     it("Describes TypeDoc options", () => {
         const help = getOptionsHelp(options);

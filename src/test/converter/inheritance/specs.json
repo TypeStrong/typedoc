@@ -18,7 +18,12 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "Source interface summary"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Source interface summary"
+              }
+            ]
           },
           "children": [
             {
@@ -28,15 +33,33 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "Source interface property description",
-                "tags": [
+                "summary": [
                   {
-                    "tag": "typeparam",
-                    "text": "Source interface type parameter\n",
-                    "param": "T"
+                    "kind": "text",
+                    "text": "Source interface property description"
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@typeParam",
+                    "name": "T",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Source interface type parameter"
+                      }
+                    ]
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 12,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L12"
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 19,
@@ -49,6 +72,14 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 19,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L19"
+                }
+              ],
               "signatures": [
                 {
                   "id": 17,
@@ -57,7 +88,12 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Source interface method description"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Source interface method description"
+                      }
+                    ]
                   },
                   "parameters": [
                     {
@@ -66,9 +102,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "shortText": "\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -87,20 +120,26 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 15
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 16
               ]
             }
           ],
-          "typeParameter": [
+          "sources": [
+            {
+              "fileName": "inherit-doc.ts",
+              "line": 6,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L6"
+            }
+          ],
+          "typeParameters": [
             {
               "id": 19,
               "name": "T",
@@ -108,7 +147,12 @@
               "kindString": "Type parameter",
               "flags": {},
               "comment": {
-                "shortText": "Source interface type parameter\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Source interface type parameter"
+                  }
+                ]
               }
             }
           ]
@@ -120,7 +164,12 @@
           "kindString": "Interface",
           "flags": {},
           "comment": {
-            "shortText": "Source interface summary"
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Source interface summary"
+              }
+            ]
           },
           "children": [
             {
@@ -130,8 +179,21 @@
               "kindString": "Property",
               "flags": {},
               "comment": {
-                "shortText": "Source interface property description"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Source interface property description"
+                  }
+                ]
               },
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 30,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L30"
+                }
+              ],
               "type": {
                 "type": "reference",
                 "id": 25,
@@ -144,6 +206,14 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 37,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L37"
+                }
+              ],
               "signatures": [
                 {
                   "id": 23,
@@ -152,18 +222,20 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "Source interface method description"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Source interface method description"
+                      }
+                    ]
                   },
                   "parameters": [
                     {
-                      "id": 18,
+                      "id": 24,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "shortText": "\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -182,28 +254,39 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 21
               ]
             },
             {
               "title": "Methods",
-              "kind": 2048,
               "children": [
                 22
               ]
             }
           ],
-          "typeParameter": [
+          "sources": [
             {
-              "id": 19,
+              "fileName": "inherit-doc.ts",
+              "line": 26,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L26"
+            }
+          ],
+          "typeParameters": [
+            {
+              "id": 25,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
               "flags": {},
               "comment": {
-                "shortText": "Source interface type parameter\n"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Source interface type parameter"
+                  }
+                ]
               }
             }
           ]
@@ -214,6 +297,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-doc.ts",
+              "line": 58,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L58"
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -222,17 +313,39 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Function summary",
-                "text": "This part of the commentary will be inherited by other entities\n",
-                "returns": "Stringified sum or concatenation of numeric arguments\n",
-                "tags": [
+                "summary": [
                   {
-                    "tag": "remarks",
-                    "text": "\n\nRemarks will be inherited\n"
+                    "kind": "text",
+                    "text": "Function summary\n\nThis part of the commentary will be inherited by other entities"
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@remarks",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Remarks will be inherited"
+                      }
+                    ]
                   },
                   {
-                    "tag": "example",
-                    "text": "\n\nThis part of the commentary will not be inherited\n"
+                    "tag": "@customBlock",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This part of the commentary will not be inherited"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Stringified sum or concatenation of numeric arguments"
+                      }
+                    ]
                   }
                 ]
               },
@@ -244,7 +357,12 @@
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Type of arguments"
+                      }
+                    ]
                   }
                 }
               ],
@@ -256,7 +374,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "First argument"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -271,7 +394,12 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Second argument"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
@@ -293,6 +421,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-doc.ts",
+              "line": 68,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L68"
+            }
+          ],
           "signatures": [
             {
               "id": 8,
@@ -301,11 +437,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "tags": [
+                "summary": [],
+                "blockTags": [
                   {
-                    "tag": "inheritdoc",
-                    "text": "\n",
-                    "param": "SubClassA.printName"
+                    "tag": "@inheritDoc",
+                    "name": "SubClassA.printName",
+                    "content": []
                   }
                 ]
               },
@@ -322,6 +459,14 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "inherit-doc.ts",
+              "line": 85,
+              "character": 16,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L85"
+            }
+          ],
           "signatures": [
             {
               "id": 10,
@@ -330,60 +475,114 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Function summary",
-                "text": "This part of the commentary will be inherited by other entities\n",
-                "returns": "This will be inherited\n\n",
-                "tags": [
+                "summary": [
                   {
-                    "tag": "example",
-                    "text": "\n\nThis function inherited commentary from the `functionSource` function\n"
+                    "kind": "text",
+                    "text": "Function summary\n\nThis part of the commentary will be inherited by other entities"
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@remarks",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Remarks will be inherited"
+                      }
+                    ]
                   },
                   {
-                    "tag": "remarks",
-                    "text": "\n\nRemarks will be inherited\n"
+                    "tag": "@example",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This function inherited commentary from the "
+                      },
+                      {
+                        "kind": "code",
+                        "text": "`functionSource`"
+                      },
+                      {
+                        "kind": "text",
+                        "text": " function"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This will be inherited"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Stringified sum or concatenation of numeric arguments"
+                      }
+                    ]
                   }
                 ]
               },
               "typeParameter": [
                 {
-                  "id": 4,
+                  "id": 11,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Type of arguments"
+                      }
+                    ]
                   }
                 }
               ],
               "parameters": [
                 {
-                  "id": 5,
+                  "id": 12,
                   "name": "arg1",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "First argument"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
-                    "id": 4,
+                    "id": 11,
                     "name": "T"
                   }
                 },
                 {
-                  "id": 6,
+                  "id": 13,
                   "name": "arg2",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "shortText": "This will be inherited"
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Second argument"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "reference",
-                    "id": 4,
+                    "id": 11,
                     "name": "T"
                   }
                 }
@@ -399,7 +598,6 @@
       "groups": [
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             14,
             20
@@ -407,12 +605,19 @@
         },
         {
           "title": "Functions",
-          "kind": 64,
           "children": [
             2,
             7,
             9
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "inherit-doc.ts",
+          "line": 6,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L6"
         }
       ]
     },
@@ -436,6 +641,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 3,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L3"
+                }
+              ],
               "signatures": [
                 {
                   "id": 37,
@@ -465,6 +678,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 7,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L7"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -482,6 +703,14 @@
               "flags": {
                 "isStatic": true
               },
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 2,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L2"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -495,18 +724,24 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 36
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 38,
                 35
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mergable-class.ts",
+              "line": 12,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L12"
             }
           ],
           "extendedTypes": [
@@ -530,6 +765,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 7,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L7"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -539,10 +782,23 @@
           "groups": [
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 33
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mergable-class.ts",
+              "line": 6,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L6"
+            },
+            {
+              "fileName": "mergable-class.ts",
+              "line": 10,
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L10"
             }
           ]
         },
@@ -559,6 +815,14 @@
               "kind": 512,
               "kindString": "Constructor",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 1,
+                  "character": 17,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L1"
+                }
+              ],
               "signatures": [
                 {
                   "id": 30,
@@ -580,6 +844,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mergable-class.ts",
+                  "line": 2,
+                  "character": 4,
+                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L2"
+                }
+              ],
               "type": {
                 "type": "literal",
                 "value": 1
@@ -589,17 +861,23 @@
           "groups": [
             {
               "title": "Constructors",
-              "kind": 512,
               "children": [
                 29
               ]
             },
             {
               "title": "Properties",
-              "kind": 1024,
               "children": [
                 28
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mergable-class.ts",
+              "line": 1,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L1"
             }
           ]
         },
@@ -609,6 +887,20 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mergable-class.ts",
+              "line": 6,
+              "character": 17,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L6"
+            },
+            {
+              "fileName": "mergable-class.ts",
+              "line": 10,
+              "character": 21,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L10"
+            }
+          ],
           "type": {
             "type": "reference",
             "id": 27,
@@ -626,14 +918,12 @@
       "groups": [
         {
           "title": "Classes",
-          "kind": 128,
           "children": [
             34
           ]
         },
         {
           "title": "Interfaces",
-          "kind": 256,
           "children": [
             32,
             27
@@ -641,10 +931,17 @@
         },
         {
           "title": "Variables",
-          "kind": 32,
           "children": [
             31
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mergable-class.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L1"
         }
       ]
     }
@@ -652,7 +949,6 @@
   "groups": [
     {
       "title": "Modules",
-      "kind": 2,
       "children": [
         1,
         26

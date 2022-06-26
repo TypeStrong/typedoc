@@ -12,7 +12,12 @@
       "kindString": "Class",
       "flags": {},
       "comment": {
-        "shortText": "Base class"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Base class"
+          }
+        ]
       },
       "children": [
         {
@@ -42,6 +47,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 20,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L20"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -54,6 +67,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 22,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L22"
+            }
+          ],
           "signatures": [
             {
               "id": 18,
@@ -72,24 +93,29 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             14
           ]
         },
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             16
           ]
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             17
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 19,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L19"
         }
       ]
     },
@@ -100,7 +126,12 @@
       "kindString": "Class",
       "flags": {},
       "comment": {
-        "shortText": "Class that inherits from Base and consumes Mixin1 and Mixin2, in order."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Class that inherits from Base and consumes Mixin1 and Mixin2, in order."
+          }
+        ]
       },
       "children": [
         {
@@ -138,6 +169,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 20,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L20"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -154,6 +193,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 86,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L86"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -166,6 +213,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 35,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L35"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -182,6 +237,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 55,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L55"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -198,6 +261,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 22,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L22"
+            }
+          ],
           "signatures": [
             {
               "id": 76,
@@ -226,6 +297,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 88,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L88"
+            }
+          ],
           "signatures": [
             {
               "id": 65,
@@ -246,6 +325,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 37,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L37"
+            }
+          ],
           "signatures": [
             {
               "id": 72,
@@ -295,6 +382,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 57,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L57"
+            }
+          ],
           "signatures": [
             {
               "id": 68,
@@ -336,14 +431,12 @@
       "groups": [
         {
           "title": "Constructors",
-          "kind": 512,
           "children": [
             61
           ]
         },
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             74,
             63,
@@ -353,13 +446,20 @@
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             75,
             64,
             71,
             67
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 85,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L85"
         }
       ],
       "extendedTypes": [
@@ -404,10 +504,17 @@
                         "groups": [
                           {
                             "title": "Properties",
-                            "kind": 1024,
                             "children": [
                               60
                             ]
+                          }
+                        ],
+                        "sources": [
+                          {
+                            "fileName": "mixin.ts",
+                            "line": 34,
+                            "character": 10,
+                            "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L34"
                           }
                         ]
                       }
@@ -470,7 +577,12 @@
       "kindString": "Interface",
       "flags": {},
       "comment": {
-        "shortText": "The \"instance type\" of the Mixin1 using the interface notation (supports recursive type definition)"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "The \"instance type\" of the Mixin1 using the interface notation (supports recursive type definition)"
+          }
+        ]
       },
       "children": [
         {
@@ -479,6 +591,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 20,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L20"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -495,6 +615,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 35,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L35"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -511,6 +639,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 22,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L22"
+            }
+          ],
           "signatures": [
             {
               "id": 32,
@@ -539,6 +675,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 37,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L37"
+            }
+          ],
           "signatures": [
             {
               "id": 28,
@@ -586,7 +730,6 @@
       "groups": [
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             30,
             26
@@ -594,11 +737,18 @@
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             31,
             27
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 45,
+          "character": 17,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L45"
         }
       ],
       "extendedTypes": [
@@ -626,7 +776,12 @@
       "kindString": "Interface",
       "flags": {},
       "comment": {
-        "shortText": "The \"instance type\" of the Mixin2 using the interface notation (supports recursive type definition)"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "The \"instance type\" of the Mixin2 using the interface notation (supports recursive type definition)"
+          }
+        ]
       },
       "children": [
         {
@@ -635,6 +790,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 20,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L20"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -651,6 +814,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 35,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L35"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -667,6 +838,14 @@
           "kind": 1024,
           "kindString": "Property",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 55,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L55"
+            }
+          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -683,6 +862,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 22,
+              "character": 4,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L22"
+            }
+          ],
           "signatures": [
             {
               "id": 50,
@@ -711,6 +898,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 37,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L37"
+            }
+          ],
           "signatures": [
             {
               "id": 46,
@@ -760,6 +955,14 @@
           "kind": 2048,
           "kindString": "Method",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 57,
+              "character": 8,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L57"
+            }
+          ],
           "signatures": [
             {
               "id": 42,
@@ -801,7 +1004,6 @@
       "groups": [
         {
           "title": "Properties",
-          "kind": 1024,
           "children": [
             48,
             44,
@@ -810,12 +1012,19 @@
         },
         {
           "title": "Methods",
-          "kind": 2048,
           "children": [
             49,
             45,
             41
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 65,
+          "character": 17,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L65"
         }
       ],
       "extendedTypes": [
@@ -842,7 +1051,15 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
-      "typeParameter": [
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 9,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L9"
+        }
+      ],
+      "typeParameters": [
         {
           "id": 10,
           "name": "A",
@@ -863,6 +1080,14 @@
           "kind": 512,
           "kindString": "Constructor",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 9,
+              "character": 41,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L9"
+            }
+          ],
           "signatures": [
             {
               "id": 8,
@@ -871,7 +1096,12 @@
               "kindString": "Constructor signature",
               "flags": {},
               "comment": {
-                "shortText": "Any constructor function"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Any constructor function"
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -907,7 +1137,15 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
-      "typeParameter": [
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 4,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L4"
+        }
+      ],
+      "typeParameters": [
         {
           "id": 5,
           "name": "A",
@@ -928,6 +1166,14 @@
           "kind": 65536,
           "kindString": "Type literal",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 4,
+              "character": 35,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L4"
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -936,7 +1182,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "Any function"
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Any function"
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -973,9 +1224,22 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "Mixin type helper"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Mixin type helper"
+          }
+        ]
       },
-      "typeParameter": [
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 14,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L14"
+        }
+      ],
+      "typeParameters": [
         {
           "id": 12,
           "name": "T",
@@ -1001,14 +1265,14 @@
                 "name": "T"
               }
             ],
+            "name": "ReturnType",
             "qualifiedName": "ReturnType",
-            "package": "typescript",
-            "name": "ReturnType"
+            "package": "typescript"
           }
         ],
+        "name": "InstanceType",
         "qualifiedName": "InstanceType",
-        "package": "typescript",
-        "name": "InstanceType"
+        "package": "typescript"
       },
       "extendedBy": [
         {
@@ -1030,8 +1294,27 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
+          }
+        ]
       },
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 70,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L70"
+        },
+        {
+          "fileName": "mixin.ts",
+          "line": 80,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L80"
+        }
+      ],
       "type": {
         "type": "reference",
         "id": 11,
@@ -1054,6 +1337,14 @@
       "kind": 64,
       "kindString": "Function",
       "flags": {},
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 30,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L30"
+        }
+      ],
       "signatures": [
         {
           "id": 20,
@@ -1061,9 +1352,6 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
-          "comment": {
-            "shortText": "The \"mixin function\" of the Mixin1"
-          },
           "typeParameter": [
             {
               "id": 21,
@@ -1133,10 +1421,17 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         24
                       ]
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 34,
+                      "character": 10,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L34"
                     }
                   ]
                 }
@@ -1157,6 +1452,14 @@
       "kind": 64,
       "kindString": "Function",
       "flags": {},
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 50,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L50"
+        }
+      ],
       "signatures": [
         {
           "id": 34,
@@ -1164,9 +1467,6 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
-          "comment": {
-            "shortText": "The \"mixin function\" of the Mixin2"
-          },
           "typeParameter": [
             {
               "id": 35,
@@ -1246,10 +1546,17 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         38
                       ]
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 54,
+                      "character": 10,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L54"
                     }
                   ]
                 }
@@ -1270,6 +1577,20 @@
       "kind": 64,
       "kindString": "Function",
       "flags": {},
+      "sources": [
+        {
+          "fileName": "mixin.ts",
+          "line": 70,
+          "character": 13,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L70"
+        },
+        {
+          "fileName": "mixin.ts",
+          "line": 80,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L80"
+        }
+      ],
       "signatures": [
         {
           "id": 52,
@@ -1277,9 +1598,6 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
-          "comment": {
-            "shortText": "The \"mixin function\" of the Mixin3"
-          },
           "typeParameter": [
             {
               "id": 53,
@@ -1348,10 +1666,17 @@
                   "groups": [
                     {
                       "title": "Properties",
-                      "kind": 1024,
                       "children": [
                         56
                       ]
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 74,
+                      "character": 10,
+                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L74"
                     }
                   ]
                 }
@@ -1370,7 +1695,6 @@
   "groups": [
     {
       "title": "Classes",
-      "kind": 128,
       "children": [
         13,
         58
@@ -1378,7 +1702,6 @@
     },
     {
       "title": "Interfaces",
-      "kind": 256,
       "children": [
         25,
         39
@@ -1386,7 +1709,6 @@
     },
     {
       "title": "Type Aliases",
-      "kind": 4194304,
       "children": [
         6,
         1,
@@ -1396,12 +1718,19 @@
     },
     {
       "title": "Functions",
-      "kind": 64,
       "children": [
         19,
         33,
         51
       ]
+    }
+  ],
+  "sources": [
+    {
+      "fileName": "mixin.ts",
+      "line": 4,
+      "character": 0,
+      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L4"
     }
   ]
 }

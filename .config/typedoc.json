@@ -6,14 +6,27 @@
         "ConverterComponent",
         "RendererComponent",
         "SORT_STRATEGIES",
-        "_ModelToObject"
+        "_ModelToObject",
+        "EventHooksMomento",
+        "MarkedPlugin"
     ],
     "entryPoints": ["../src"],
     "entryPointStrategy": "Resolve",
     "excludeExternals": true,
+    "excludeInternal": false,
     "excludePrivate": true,
-    "excludeInternal": true,
     "treatWarningsAsErrors": false,
-    "validation": true,
+    "validation": {
+        "notExported": true,
+        "invalidLink": true,
+        "notDocumented": false
+    },
+    "visibilityFilters": {
+        "protected": false,
+        "private": false,
+        "inherited": true,
+        "external": false,
+        "@internal": false
+    },
     "logLevel": "Verbose"
 }

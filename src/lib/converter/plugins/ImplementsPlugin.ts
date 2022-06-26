@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 import {
+    ContainerReflection,
     DeclarationReflection,
     Reflection,
     ReflectionKind,
@@ -10,7 +11,6 @@ import { filterMap, zip } from "../../utils/array";
 import { Component, ConverterComponent } from "../components";
 import type { Context } from "../context";
 import { Converter } from "../converter";
-import { copyComment } from "../utils/reflections";
 
 /**
  * A plugin that detects interface implementations of functions and
@@ -25,7 +25,11 @@ export class ImplementsPlugin extends ConverterComponent {
      * Create a new ImplementsPlugin instance.
      */
     override initialize() {
-        this.listenTo(this.owner, Converter.EVENT_RESOLVE, this.onResolve, -10);
+        this.listenTo(
+            this.owner,
+            Converter.EVENT_RESOLVE_END,
+            this.onResolveEnd
+        );
         this.listenTo(
             this.owner,
             Converter.EVENT_CREATE_DECLARATION,
@@ -47,38 +51,21 @@ export class ImplementsPlugin extends ConverterComponent {
      * @param classReflection  The reflection of the classReflection class.
      * @param interfaceReflection  The reflection of the interfaceReflection interface.
      */
-    private analyzeClass(
+    private analyzeImplements(
         context: Context,
         classReflection: DeclarationReflection,
         interfaceReflection: DeclarationReflection
     ) {
+        handleInheritedComments(classReflection, interfaceReflection);
         if (!interfaceReflection.children) {
             return;
         }
 
         interfaceReflection.children.forEach((interfaceMember) => {
-            let classMember: DeclarationReflection | undefined;
-
-            if (!classReflection.children) {
-                return;
-            }
-
-            for (
-                let index = 0, count = classReflection.children.length;
-                index < count;
-                index++
-            ) {
-                const child = classReflection.children[index];
-                if (child.name !== interfaceMember.name) {
-                    continue;
-                }
-                if (child.flags.isStatic !== interfaceMember.flags.isStatic) {
-                    continue;
-                }
-
-                classMember = child;
-                break;
-            }
+            const classMember = findMatchingMember(
+                interfaceMember,
+                classReflection
+            );
 
             if (!classMember) {
                 return;
@@ -92,23 +79,6 @@ export class ImplementsPlugin extends ConverterComponent {
                     interfaceMember,
                     context.project
                 );
-            copyComment(classMember, interfaceMember);
-
-            if (
-                interfaceMember.kindOf(ReflectionKind.Property) &&
-                classMember.kindOf(ReflectionKind.Accessor)
-            ) {
-                if (classMember.getSignature) {
-                    copyComment(classMember.getSignature, interfaceMember);
-                    classMember.getSignature.implementationOf =
-                        classMember.implementationOf;
-                }
-                if (classMember.setSignature) {
-                    copyComment(classMember.setSignature, interfaceMember);
-                    classMember.setSignature.implementationOf =
-                        classMember.implementationOf;
-                }
-            }
 
             if (
                 interfaceMember.kindOf(ReflectionKind.FunctionOrMethod) &&
@@ -127,9 +97,10 @@ export class ImplementsPlugin extends ConverterComponent {
                                 context.project
                             );
                     }
-                    copyComment(clsSig, intSig);
                 }
             }
+
+            handleInheritedComments(classMember, interfaceMember);
         });
     }
 
@@ -150,12 +121,10 @@ export class ImplementsPlugin extends ConverterComponent {
         );
 
         for (const parent of extendedTypes) {
+            handleInheritedComments(reflection, parent.reflection);
+
             for (const parentMember of parent.reflection.children ?? []) {
-                const child = reflection.children?.find(
-                    (child) =>
-                        child.name == parentMember.name &&
-                        child.flags.isStatic === parentMember.flags.isStatic
-                );
+                const child = findMatchingMember(parentMember, reflection);
 
                 if (child) {
                     const key = child.overwrites
@@ -171,7 +140,6 @@ export class ImplementsPlugin extends ConverterComponent {
                             parentSig,
                             context.project
                         );
-                        copyComment(childSig, parentSig);
                     }
 
                     child[key] = ReferenceType.createResolvedReference(
@@ -179,20 +147,19 @@ export class ImplementsPlugin extends ConverterComponent {
                         parentMember,
                         context.project
                     );
-                    copyComment(child, parentMember);
+
+                    handleInheritedComments(child, parentMember);
                 }
             }
         }
     }
 
-    /**
-     * Triggered when the converter resolves a reflection.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently resolved.
-     */
-    private onResolve(context: Context, reflection: DeclarationReflection) {
-        this.tryResolve(context, reflection);
+    private onResolveEnd(context: Context) {
+        for (const reflection of Object.values(context.project.reflections)) {
+            if (reflection instanceof DeclarationReflection) {
+                this.tryResolve(context, reflection);
+            }
+        }
     }
 
     private tryResolve(context: Context, reflection: DeclarationReflection) {
@@ -235,22 +202,19 @@ export class ImplementsPlugin extends ConverterComponent {
 
                 if (
                     type.reflection &&
-                    type.reflection.kindOf(ReflectionKind.Interface)
+                    type.reflection.kindOf(ReflectionKind.ClassOrInterface)
                 ) {
-                    this.analyzeClass(
+                    this.analyzeImplements(
                         context,
                         reflection,
-                        <DeclarationReflection>type.reflection
+                        type.reflection as DeclarationReflection
                     );
                 }
             });
         }
 
         if (
-            reflection.kindOf([
-                ReflectionKind.Class,
-                ReflectionKind.Interface,
-            ]) &&
+            reflection.kindOf(ReflectionKind.ClassOrInterface) &&
             reflection.extendedTypes
         ) {
             this.analyzeInheritance(context, reflection);
@@ -266,10 +230,7 @@ export class ImplementsPlugin extends ConverterComponent {
         }
 
         // Need this because we re-use reflections for type literals.
-        if (
-            !reflection.parent ||
-            !reflection.parent.kindOf(ReflectionKind.ClassOrInterface)
-        ) {
+        if (!reflection.parent?.kindOf(ReflectionKind.ClassOrInterface)) {
             return;
         }
 
@@ -462,4 +423,110 @@ function createLink(
             );
         }
     }
+}
+
+/**
+ * Responsible for copying comments from "parent" reflections defined
+ * in either a base class or implemented interface to the child class.
+ */
+function handleInheritedComments(
+    child: DeclarationReflection,
+    parent: DeclarationReflection
+) {
+    copyComment(child, parent);
+
+    if (
+        parent.kindOf(ReflectionKind.Property) &&
+        child.kindOf(ReflectionKind.Accessor)
+    ) {
+        if (child.getSignature) {
+            copyComment(child.getSignature, parent);
+            child.getSignature.implementationOf = child.implementationOf;
+        }
+        if (child.setSignature) {
+            copyComment(child.setSignature, parent);
+            child.setSignature.implementationOf = child.implementationOf;
+        }
+    }
+    if (
+        parent.kindOf(ReflectionKind.Accessor) &&
+        child.kindOf(ReflectionKind.Accessor)
+    ) {
+        if (parent.getSignature && child.getSignature) {
+            copyComment(child.getSignature, parent.getSignature);
+        }
+        if (parent.setSignature && child.setSignature) {
+            copyComment(child.setSignature, parent.setSignature);
+        }
+    }
+
+    if (
+        parent.kindOf(ReflectionKind.FunctionOrMethod) &&
+        parent.signatures &&
+        child.signatures
+    ) {
+        for (const [cs, ps] of zip(child.signatures, parent.signatures)) {
+            copyComment(cs, ps);
+        }
+    }
+}
+
+/**
+ * Copy the comment of the source reflection to the target reflection with a JSDoc style copy
+ * function. The TSDoc copy function is in the InheritDocPlugin.
+ */
+function copyComment(target: Reflection, source: Reflection) {
+    if (target.comment) {
+        // We might still want to copy, if the child has a JSDoc style inheritDoc tag.
+        const tag = target.comment.getTag("@inheritDoc");
+        if (!tag || tag.name) {
+            return;
+        }
+    }
+
+    if (!source.comment) {
+        return;
+    }
+
+    target.comment = source.comment.clone();
+
+    if (
+        target instanceof DeclarationReflection &&
+        source instanceof DeclarationReflection
+    ) {
+        for (const [tt, ts] of zip(
+            target.typeParameters || [],
+            source.typeParameters || []
+        )) {
+            copyComment(tt, ts);
+        }
+    }
+    if (
+        target instanceof SignatureReflection &&
+        source instanceof SignatureReflection
+    ) {
+        for (const [tt, ts] of zip(
+            target.typeParameters || [],
+            source.typeParameters || []
+        )) {
+            copyComment(tt, ts);
+        }
+        for (const [pt, ps] of zip(
+            target.parameters || [],
+            source.parameters || []
+        )) {
+            copyComment(pt, ps);
+        }
+    }
+}
+
+function findMatchingMember(
+    toMatch: Reflection,
+    container: ContainerReflection
+) {
+    return container.children?.find(
+        (child) =>
+            child.name == toMatch.name &&
+            child.flags.isStatic === toMatch.flags.isStatic
+    );
 }

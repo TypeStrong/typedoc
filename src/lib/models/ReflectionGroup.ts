@@ -1,6 +1,6 @@
-import type { ReflectionKind } from "./reflections/kind";
 import type { ReflectionCategory } from "./ReflectionCategory";
 import type { DeclarationReflection } from ".";
+import type { Serializer, JSONOutput } from "../serialization";
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -16,40 +16,9 @@ export class ReflectionGroup {
     title: string;
 
     /**
-     * The original typescript kind of the children of this group.
-     */
-    kind: ReflectionKind;
-
-    /**
      * All reflections of this group.
      */
     children: DeclarationReflection[] = [];
-
-    /**
-     * A list of generated css classes that should be applied to representations of this
-     * group in the generated markup.
-     */
-    cssClasses?: string;
-
-    /**
-     * Are all children inherited members?
-     */
-    allChildrenAreInherited?: boolean;
-
-    /**
-     * Are all children private members?
-     */
-    allChildrenArePrivate?: boolean;
-
-    /**
-     * Are all children private or protected members?
-     */
-    allChildrenAreProtectedOrPrivate?: boolean;
-
-    /**
-     * Are all children external members?
-     */
-    allChildrenAreExternal?: boolean;
 
     /**
      * Categories contained within this group.
@@ -60,11 +29,9 @@ export class ReflectionGroup {
      * Create a new ReflectionGroup instance.
      *
      * @param title The title of this group.
-     * @param kind  The original typescript kind of the children of this group.
      */
-    constructor(title: string, kind: ReflectionKind) {
+    constructor(title: string) {
         this.title = title;
-        this.kind = kind;
     }
 
     /**
@@ -72,5 +39,16 @@ export class ReflectionGroup {
      */
     allChildrenHaveOwnDocument(): boolean {
         return this.children.every((child) => child.hasOwnDocument);
+    }
+
+    toObject(serializer: Serializer): JSONOutput.ReflectionGroup {
+        return {
+            title: this.title,
+            children:
+                this.children.length > 0
+                    ? this.children.map((child) => child.id)
+                    : undefined,
+            categories: serializer.toObjectsOptional(this.categories),
+        };
     }
 }

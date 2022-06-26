@@ -1,37 +1,22 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
 import type { Reflection } from "../../../../models";
+import { camelToTitleCase, displayPartsToMarkdown } from "../../lib";
 
-export function comment({ markdown }: DefaultThemeRenderContext, props: Reflection) {
+export function comment({ markdown, urlTo }: DefaultThemeRenderContext, props: Reflection) {
     if (!props.comment?.hasVisibleComponent()) return;
+
+    // Note: Comment modifiers are handled in `renderFlags`
 
     return (
         <div class="tsd-comment tsd-typography">
-            {!!props.comment.shortText && (
-                <div class="lead">
-                    <Raw html={"\n" + markdown(props.comment.shortText)} />
-                </div>
-            )}
-            {!!props.comment.text && (
-                <div>
-                    <Raw html={markdown(props.comment.text)} />
-                </div>
-            )}
-            {props.comment.tags?.length > 0 && (
-                <dl class="tsd-comment-tags">
-                    {props.comment.tags.map((item) => (
-                        <>
-                            <dt>
-                                {item.tagName}
-                                {item.paramName ? ` ${item.paramName}` : ""}
-                            </dt>
-                            <dd>
-                                <Raw html={markdown(item.text)} />
-                            </dd>
-                        </>
-                    ))}
-                </dl>
-            )}
+            <Raw html={markdown(displayPartsToMarkdown(props.comment.summary, urlTo))} />
+            {props.comment.blockTags.map((item) => (
+                <>
+                    <h3>{camelToTitleCase(item.tag.substring(1))}</h3>
+                    <Raw html={markdown(displayPartsToMarkdown(item.content, urlTo))} />
+                </>
+            ))}
         </div>
     );
 }

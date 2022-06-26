@@ -1,11 +1,14 @@
 import {
+    Comment,
+    CommentDisplayPart,
     DeclarationReflection,
     Reflection,
     ReflectionFlags,
     SignatureReflection,
     TypeParameterReflection,
 } from "../../models";
-import { JSX } from "../../utils";
+import { assertNever, JSX } from "../../utils";
+import type { DefaultThemeRenderContext } from "./default/DefaultThemeRenderContext";
 
 export function stringify(data: unknown) {
     if (typeof data === "bigint") {
@@ -25,12 +28,11 @@ export function stringify(data: unknown) {
 export function wbr(str: string): (string | JSX.Element)[] {
     // TODO surely there is a better way to do this, but I'm tired.
     const ret: (string | JSX.Element)[] = [];
-    const re = /[\s\S]*?(?:([^_-][_-])(?=[^_-])|([^A-Z])(?=[A-Z][^A-Z]))/g;
+    const re = /[\s\S]*?(?:[^_-][_-](?=[^_-])|[^A-Z](?=[A-Z][^A-Z]))/g;
     let match: RegExpExecArray | null;
     let i = 0;
     while ((match = re.exec(str))) {
-        ret.push(match[0]);
-        ret.push(<wbr />);
+        ret.push(match[0], <wbr />);
         i += match[0].length;
     }
     ret.push(str.slice(i));
@@ -51,32 +53,41 @@ export function join<T>(joiner: JSX.Children, list: readonly T[], cb: (x: T) => 
     return <>{result}</>;
 }
 
-export function renderFlags(flags: ReflectionFlags) {
+export function renderFlags(flags: ReflectionFlags, comment: Comment | undefined) {
+    const allFlags = [...flags];
+    if (comment) {
+        allFlags.push(...Array.from(comment.modifierTags, (tag) => tag.replace(/@([a-z])/, (x) => x[1].toUpperCase())));
+    }
+
     return (
         <>
-            {flags.map((item) => (
+            {allFlags.map((item) => (
                 <>
-                    <span class={"tsd-flag ts-flag" + item}>{item}</span>{" "}
+                    <code class={"tsd-tag ts-flag" + item}>{item}</code>{" "}
                 </>
             ))}
         </>
     );
 }
 
-export function classNames(names: Record<string, boolean | null | undefined>) {
-    return Object.entries(names)
-        .filter(([, include]) => include)
-        .map(([key]) => key)
-        .join(" ");
+export function classNames(names: Record<string, boolean | null | undefined>, extraCss?: string) {
+    const css = Object.keys(names)
+        .filter((key) => names[key])
+        .concat(extraCss || "")
+        .join(" ")
+        .trim()
+        .replace(/\s+/g, " ");
+    return css.length ? css : undefined;
 }
 
 export function hasTypeParameters(
     reflection: Reflection
 ): reflection is Reflection & { typeParameters: TypeParameterReflection[] } {
-    if (reflection instanceof DeclarationReflection || reflection instanceof SignatureReflection) {
-        return reflection.typeParameters != null;
-    }
-    return false;
+    return (
+        (reflection instanceof DeclarationReflection || reflection instanceof SignatureReflection) &&
+        reflection.typeParameters != null &&
+        reflection.typeParameters.length > 0
+    );
 }
 
 export function renderTypeParametersSignature(
@@ -100,4 +111,49 @@ export function renderTypeParametersSignature(
             )}
         </>
     );
+}
+
+export function camelToTitleCase(text: string) {
+    return text.substring(0, 1).toUpperCase() + text.substring(1).replace(/[a-z][A-Z]/g, (x) => `${x[0]} ${x[1]}`);
+}
+
+export function displayPartsToMarkdown(parts: CommentDisplayPart[], urlTo: DefaultThemeRenderContext["urlTo"]) {
+    const result: string[] = [];
+
+    for (const part of parts) {
+        switch (part.kind) {
+            case "text":
+            case "code":
+                result.push(part.text);
+                break;
+            case "inline-tag":
+                switch (part.tag) {
+                    case "@label":
+                    case "@inheritdoc": // Shouldn't happen
+                        break; // Not rendered.
+                    case "@link":
+                    case "@linkcode":
+                    case "@linkplain": {
+                        if (part.target) {
+                            const url = typeof part.target === "string" ? part.target : urlTo(part.target);
+                            const wrap = part.tag === "@linkcode" ? "`" : "";
+                            result.push(url ? `[${wrap}${part.text}${wrap}](${url})` : part.text);
+                        } else {
+                            result.push(part.text);
+                        }
+                        break;
+                    }
+                    default:
+                        // Hmm... probably want to be able to render these somehow, so custom inline tags can be given
+                        // special rendering rules. Future capability. For now, just render their text.
+                        result.push(`{${part.tag} ${part.text}}`);
+                        break;
+                }
+                break;
+            default:
+                assertNever(part);
+        }
+    }
+
+    return result.join("");
 }

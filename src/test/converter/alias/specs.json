@@ -12,9 +12,22 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "Conditional types from TS2.8"
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Conditional types from TS2.8"
+          }
+        ]
       },
-      "typeParameter": [
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 14,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L14"
+        }
+      ],
+      "typeParameters": [
         {
           "id": 9,
           "name": "T",
@@ -51,9 +64,22 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "Extracts the type of a promise."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Extracts the type of a promise."
+          }
+        ]
       },
-      "typeParameter": [
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 19,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L19"
+        }
+      ],
+      "typeParameters": [
         {
           "id": 11,
           "name": "T",
@@ -77,9 +103,9 @@
               "name": "U"
             }
           ],
+          "name": "PromiseLike",
           "qualifiedName": "PromiseLike",
-          "package": "typescript",
-          "name": "PromiseLike"
+          "package": "typescript"
         },
         "trueType": {
           "type": "reference",
@@ -98,7 +124,15 @@
       "kind": 4194304,
       "kindString": "Type alias",
       "flags": {},
-      "typeParameter": [
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 4,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L4"
+        }
+      ],
+      "typeParameters": [
         {
           "id": 6,
           "name": "T",
@@ -115,6 +149,14 @@
           "kind": 65536,
           "kindString": "Type literal",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "alias.ts",
+              "line": 4,
+              "character": 34,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L4"
+            }
+          ],
           "signatures": [
             {
               "id": 3,
@@ -123,7 +165,12 @@
               "kindString": "Call signature",
               "flags": {},
               "comment": {
-                "shortText": "A type that describes a compare function, e.g. for array.sort()."
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "A type that describes a compare function, e.g. for array.sort()."
+                  }
+                ]
               },
               "parameters": [
                 {
@@ -167,8 +214,21 @@
       "kindString": "Type alias",
       "flags": {},
       "comment": {
-        "shortText": "A type for IDs."
+        "summary": [
+          {
+            "kind": "text",
+            "text": "A type for IDs."
+          }
+        ]
       },
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 9,
+          "character": 12,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L9"
+        }
+      ],
       "type": {
         "type": "union",
         "types": [
@@ -187,13 +247,20 @@
   "groups": [
     {
       "title": "Type Aliases",
-      "kind": 4194304,
       "children": [
         8,
         10,
         1,
         7
       ]
+    }
+  ],
+  "sources": [
+    {
+      "fileName": "alias.ts",
+      "line": 4,
+      "character": 0,
+      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L4"
     }
   ]
 }

@@ -1,0 +1,278 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 1,
+  "flags": {},
+  "children": [
+    {
+      "id": 14,
+      "name": "export",
+      "kind": 2,
+      "kindString": "Module",
+      "flags": {},
+      "children": [
+        {
+          "id": 43,
+          "name": "Mod2",
+          "kind": 8388608,
+          "kindString": "Reference",
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is a comment for Mod that overwrites the one specified in \"mod\""
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 14,
+              "character": 12,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/export.ts#L14"
+            }
+          ],
+          "target": 29
+        },
+        {
+          "id": 45,
+          "name": "b",
+          "kind": 8388608,
+          "kindString": "Reference",
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export of a local under a different name."
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 13,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/mod.ts#L13"
+            }
+          ],
+          "target": 31
+        }
+      ],
+      "groups": [
+        {
+          "title": "References",
+          "children": [
+            43,
+            45
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export.ts",
+          "line": 1,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/export.ts#L1"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "name": "mod",
+      "kind": 2,
+      "kindString": "Module",
+      "flags": {},
+      "children": [
+        {
+          "id": 31,
+          "name": "b",
+          "kind": 8388608,
+          "kindString": "Reference",
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export of a local under a different name."
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 13,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/mod.ts#L13"
+            }
+          ],
+          "target": 30
+        },
+        {
+          "id": 32,
+          "name": "c",
+          "kind": 8388608,
+          "kindString": "Reference",
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export with a module specifier that comes from this file."
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 18,
+              "character": 14,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/mod.ts#L18"
+            }
+          ],
+          "target": 30
+        },
+        {
+          "id": 30,
+          "name": "a",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Doc comment for Mod"
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 8,
+              "character": 13,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/mod.ts#L8"
+            }
+          ],
+          "type": {
+            "type": "literal",
+            "value": 1
+          },
+          "defaultValue": "1"
+        },
+        {
+          "id": 36,
+          "name": "default",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 23,
+              "character": 0,
+              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/mod.ts#L23"
+            }
+          ],
+          "signatures": [
+            {
+              "id": 37,
+              "name": "default",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Will not be re-exported from export.ts using export * from..."
+                  }
+                ]
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "References",
+          "children": [
+            31,
+            32
+          ]
+        },
+        {
+          "title": "Variables",
+          "children": [
+            30
+          ]
+        },
+        {
+          "title": "Functions",
+          "children": [
+            36
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mod.ts",
+          "line": 8,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/mod.ts#L8"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "name": "no-doc-members",
+      "kind": 2,
+      "kindString": "Module",
+      "flags": {},
+      "comment": {
+        "summary": [
+          {
+            "kind": "text",
+            "text": "This module has documentation, but no exported members do."
+          }
+        ],
+        "blockTags": [
+          {
+            "tag": "@see",
+            "content": [
+              {
+                "kind": "text",
+                "text": "https://github.com/TypeStrong/typedoc/issues/1948"
+              }
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "fileName": "no-doc-members.ts",
+          "line": 6,
+          "character": 0,
+          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/exports/no-doc-members.ts#L6"
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "Modules",
+      "children": [
+        14,
+        29,
+        38
+      ]
+    }
+  ]
+}

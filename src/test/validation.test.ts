@@ -1,6 +1,6 @@
 import { equal, fail, ok } from "assert";
-import { join, relative } from "path";
-import { Logger, LogLevel, normalizePath } from "..";
+import { join } from "path";
+import { Logger, LogLevel } from "..";
 import { validateDocumentation } from "../lib/validation/documentation";
 import { validateExports } from "../lib/validation/exports";
 import { getConverter2App, getConverter2Program } from "./programs";
@@ -36,7 +36,7 @@ function expectWarning(
 
     let sawWarning = false;
     const regex =
-        /(.*?), defined at (.*?):\d+, is referenced by (.*?) but not included in the documentation\./;
+        /(.*?) is referenced by (.*?) but not included in the documentation\./;
 
     class LoggerCheck extends Logger {
         override log(message: string, level: LogLevel) {
@@ -46,16 +46,6 @@ function expectWarning(
                 equal(match[1], typeName, "Missing type name is different.");
                 equal(
                     match[2],
-                    normalizePath(
-                        relative(
-                            process.cwd(),
-                            `${__dirname}/converter2/validation/${file}`
-                        )
-                    ),
-                    "Referencing file is different."
-                );
-                equal(
-                    match[3],
                     referencingName,
                     "Referencing name is different"
                 );

@@ -5,6 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "args": [
+                "--timeout",
+                "0",
+                "--config",
+                "${workspaceFolder}/.config/mocha.fast.json",
+                "-g",
+                "1734"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "name": "Debug Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "request": "launch",
+            "skipFiles": ["<node_internals>/**"],
+            "type": "pwa-node"
+        },
+        {
             "name": "Attach",
             "port": 9229,
             "request": "attach",

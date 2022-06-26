@@ -3,17 +3,28 @@ import type { LogLevel } from "../loggers";
 import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point";
-import { ReflectionKind } from "../../models/reflections/kind";
+import type { ReflectionKind } from "../../models/reflections/kind";
 
+/** @enum */
 export const EmitStrategy = {
-    true: true, // Alias for both, for backwards compatibility until 0.23
-    false: false, // Alias for docs, for backwards compatibility until 0.23
     both: "both", // Emit both documentation and JS
     docs: "docs", // Emit documentation, but not JS (default)
     none: "none", // Emit nothing, just convert and run validation
 } as const;
 /** @hidden */
 export type EmitStrategy = typeof EmitStrategy[keyof typeof EmitStrategy];
+
+/**
+ * Determines how TypeDoc searches for comments.
+ * @enum
+ */
+export const CommentStyle = {
+    JSDoc: "jsdoc",
+    Block: "block",
+    Line: "line",
+    All: "all",
+} as const;
+export type CommentStyle = typeof CommentStyle[keyof typeof CommentStyle];
 
 /**
  * An interface describing all TypeDoc specific options. Generated from a
@@ -23,6 +34,10 @@ export type EmitStrategy = typeof EmitStrategy[keyof typeof EmitStrategy];
 export type TypeDocOptions = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
         ? unknown
+        : TypeDocOptionMap[K] extends ManuallyValidatedOption<
+              infer ManuallyValidated
+          >
+        ? ManuallyValidated
         : TypeDocOptionMap[K] extends string | string[] | number | boolean
         ? TypeDocOptionMap[K]
         : TypeDocOptionMap[K] extends Record<string, boolean>
@@ -35,11 +50,15 @@ export type TypeDocOptions = {
 /**
  * Describes all TypeDoc specific options as returned by {@link Options.getValue}, this is
  * slightly more restrictive than the {@link TypeDocOptions} since it does not allow both
- * keys and values for mapped option types, and does nto allow partials of flag values.
+ * keys and values for mapped option types, and does not allow partials of flag values.
  */
 export type TypeDocOptionValues = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
         ? unknown
+        : TypeDocOptionMap[K] extends ManuallyValidatedOption<
+              infer ManuallyValidated
+          >
+        ? ManuallyValidated
         : TypeDocOptionMap[K] extends
               | string
               | string[]
@@ -49,12 +68,6 @@ export type TypeDocOptionValues = {
         ? TypeDocOptionMap[K]
         : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
-
-const Kinds = Object.values(ReflectionKind);
-export interface SearchConfig {
-    searchGroupBoosts?: { [key: typeof Kinds[number]]: number };
-    searchCategoryBoosts?: { [key: string]: number };
-}
 
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
@@ -90,10 +103,16 @@ export interface TypeDocOptionMap {
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     customCss: string;
+    visibilityFilters: ManuallyValidatedOption<{
+        protected?: boolean;
+        private?: boolean;
+        inherited?: boolean;
+        external?: boolean;
+        [tag: `@${string}`]: boolean;
+    }>;
 
     name: string;
     includeVersion: boolean;
-    excludeTags: string[];
     readme: string;
     defaultCategory: string;
     categoryOrder: string[];
@@ -103,18 +122,22 @@ export interface TypeDocOptionMap {
     gitRevision: string;
     gitRemote: string;
     gaID: string;
-    gaSite: string;
     githubPages: boolean;
     hideGenerator: boolean;
-    hideLegend: boolean;
     cleanOutputDir: boolean;
+
+    commentStyle: typeof CommentStyle;
+    excludeTags: `@${string}`[];
+    blockTags: `@${string}`[];
+    inlineTags: `@${string}`[];
+    modifierTags: `@${string}`[];
 
     help: boolean;
     version: boolean;
     showConfig: boolean;
     plugin: string[];
-    searchCategoryBoosts: unknown;
-    searchGroupBoosts: unknown;
+    searchCategoryBoosts: ManuallyValidatedOption<Record<string, number>>;
+    searchGroupBoosts: ManuallyValidatedOption<Record<string, number>>;
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
     markedOptions: unknown;
@@ -123,11 +146,15 @@ export interface TypeDocOptionMap {
     // Validation
     treatWarningsAsErrors: boolean;
     intentionallyNotExported: string[];
-    /** @deprecated use validation.invalidLink */
-    listInvalidSymbolLinks: boolean;
     validation: ValidationOptions;
     requiredToBeDocumented: (keyof typeof ReflectionKind)[];
 }
+
+/**
+ * Wrapper type for values in TypeDocOptionMap which are represented with an unknown option type, but
+ * have a validation function that checks that they are the given type.
+ */
+export type ManuallyValidatedOption<T> = { __validated: T };
 
 export type ValidationOptions = {
     /**
@@ -159,6 +186,8 @@ export type KeyToDeclaration<K extends keyof TypeDocOptionMap> =
         ? ArrayDeclarationOption
         : unknown extends TypeDocOptionMap[K]
         ? MixedDeclarationOption
+        : TypeDocOptionMap[K] extends ManuallyValidatedOption<unknown>
+        ? MixedDeclarationOption & { validate(value: unknown): void }
         : TypeDocOptionMap[K] extends Record<string, boolean>
         ? FlagsDeclarationOption<TypeDocOptionMap[K]>
         : TypeDocOptionMap[K] extends Record<string | number, infer U>
@@ -285,7 +314,7 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
     /**
      * If not specified defaults to an empty array.
      */
-    defaultValue?: string[];
+    defaultValue?: readonly string[];
 
     /**
      * An optional validation function that validates a potential value of this option.
@@ -565,7 +594,7 @@ const defaultGetters: {
         return option.defaultValue;
     },
     [ParameterType.Array](option) {
-        return option.defaultValue ?? [];
+        return option.defaultValue?.slice() ?? [];
     },
     [ParameterType.PathArray](option) {
         return (
@@ -600,7 +629,7 @@ export function getDefaultValue(option: DeclarationOption) {
 function resolveGlobPaths(globs: readonly string[], configPath: string) {
     return globs.map((path) => {
         const start = path.match(/^[!#]+/)?.[0] ?? "";
-        const remaining = path.substr(start.length);
+        const remaining = path.substring(start.length);
         if (!remaining.startsWith("**")) {
             return start + resolve(configPath, remaining);
         }

@@ -31,10 +31,9 @@ class SignatureGroup {
      *
      * @param className  The class name to add.
      */
-    addClass(className: string): SignatureGroup {
+    addClass(className: string) {
         this.signature.classList.add(className);
         this.description.classList.add(className);
-        return this;
     }
 
     /**
@@ -42,15 +41,14 @@ class SignatureGroup {
      *
      * @param className  The class name to remove.
      */
-    removeClass(className: string): SignatureGroup {
+    removeClass(className: string) {
         this.signature.classList.remove(className);
         this.description.classList.remove(className);
-        return this;
     }
 }
 
 /**
- * Controls the tab like behaviour of methods and functions with multiple signatures.
+ * Controls the tab like behavior of methods and functions with multiple signatures.
  */
 export class Signature extends Component {
     /**
@@ -89,7 +87,7 @@ export class Signature extends Component {
                 );
             });
             this.container.classList.add("active");
-            this.setIndex(0);
+            this.setIndex(this.inferIndexFromHash());
         }
     }
 
@@ -107,9 +105,17 @@ export class Signature extends Component {
         if (this.index > -1) {
             const from = this.groups[this.index];
 
-            from.removeClass("current").addClass("fade-out");
+            from.removeClass("current");
+            from.addClass("fade-out");
             to.addClass("current");
             to.addClass("fade-in");
+
+            if (to.signature.id) {
+                const target = new URL(location.href);
+                target.hash = to.signature.id;
+                history.replaceState({}, "", target);
+            }
+
             Viewport.instance.triggerResize();
 
             setTimeout(() => {
@@ -153,5 +159,11 @@ export class Signature extends Component {
                 this.setIndex(index);
             }
         });
+    }
+
+    private inferIndexFromHash() {
+        const hash = location.hash.substring(1);
+        const index = this.groups.findIndex((s) => s.signature.id === hash);
+        return Math.max(0, index);
     }
 }

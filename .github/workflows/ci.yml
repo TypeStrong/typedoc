@@ -5,9 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                # ESLint doesn't support Node 12.10 anymore. Test on the oldest available
-                # node that our tools support.
-                node: ["12.22", "12", "14", "16"]
+                node: ["14.14", "14", "16", "18"]
         name: Node ${{ matrix.node }}
         steps:
             - name: Checkout repository
@@ -29,7 +27,7 @@ jobs:
                   # For other test runs, skip so we don't have to go build the regression screenshots.
                   SKIP_VISUAL_TEST: true
             - name: Lint
-              run: npm run lint
+              run: npm run lint -- --max-warnings 0
             - name: Circular dependency check
               uses: gerrit0/circular-dependency-check@v1
               with:
