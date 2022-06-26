@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   If a declaration has multiple comments associated with it, the last one should be used, #1961.
+
 # v0.23.0 (2022-06-26)
 
 ### Breaking Changes
