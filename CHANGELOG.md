@@ -1,5 +1,7 @@
 # Unreleased
 
+# v0.23.0 (2022-06-26)
+
 ### Breaking Changes
 
 -   Node 12 is no longer officially supported as it has gone end of life as of 2022-04-30. It might still work, but may stop working at any time.
