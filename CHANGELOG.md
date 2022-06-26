@@ -72,6 +72,7 @@
 -   TypeDoc will now automatically inherit documentation from classes `implements` by other interfaces/classes.
 -   Fixed `@inheritDoc` on accessors, #1927.
 -   JS exports defined as `exports.foo = ...` will now be converted as variables rather than properties.
+-   `searchCategoryBoosts` are now correctly computed for all categories, #1960.
 -   The `excludeNotDocumented` option will no longer hide a module if it has a documentation comment, #1948.
 -   Prevent `--excludeNotDocumented` from hiding properties of type literals (`a` in `function fn(p: { a: string })`), #1752.
 -   Allow `cts` and `mts` extensions in packages resolution mode, #1952.
@@ -83,6 +84,7 @@
 -   @fb55
 -   @futurGH
 -   @Shane4368
+-   @shmax
 
 ## v0.22.18 (2022-06-25)
 
