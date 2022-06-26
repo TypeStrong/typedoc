@@ -145,7 +145,7 @@
             "summary": [
               {
                 "kind": "text",
-                "text": "Doc comment for Mod"
+                "text": "A simple named export that will be exported from export.ts"
               }
             ]
           },

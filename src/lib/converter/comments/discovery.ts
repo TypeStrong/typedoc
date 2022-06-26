@@ -88,7 +88,7 @@ export function discoverComment(
 ): [ts.SourceFile, ts.CommentRange[]] | undefined {
     // For a module comment, we want the first one defined in the file,
     // not the last one, since that will apply to the import or declaration.
-    const reverse = symbol.declarations?.some(ts.isSourceFile);
+    const reverse = !symbol.declarations?.some(ts.isSourceFile);
 
     const discovered: [ts.SourceFile, ts.CommentRange[]][] = [];
 
@@ -118,7 +118,7 @@ export function discoverComment(
             );
 
             if (reverse) {
-                comments?.reverse();
+                comments.reverse();
             }
 
             const selectedDocComment = comments.find((ranges) =>

@@ -516,4 +516,13 @@ export const issueTests: {
         equal(query(project, "Foo.B").type, new IntrinsicType("number"));
         equal(query(project, "Bar.C").type, new LiteralType("C"));
     },
+
+    gh1961(project) {
+        equal(
+            Comment.combineDisplayParts(
+                query(project, "WithDocs1").comment?.summary
+            ),
+            "second"
+        );
+    },
 };
