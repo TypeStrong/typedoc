@@ -22,6 +22,7 @@
 -   The `searchGroupBoosts` option must now be given the rendered group name rather than reflection kind names, and can be given custom group names.
 -   `@inheritDoc` now follows the behavior specified by TSDoc when copying comments with a reference.
 -   The `gaSite` option has been removed since Google Analytics now infers the site automatically, updated Google Analytics script to latest version, #1846.
+-   The `hideLegend` option has been removed as the default theme no longer contains a legend.
 -   Comments on export declarations will only overrides comments for references and namespaces, #1901.
 -   The deprecated `listInvalidSymbolLinks` option has been removed. Use `validation.invalidLink` instead.
 -   The deprecated `true` and `false` values have been removed from `--emit`, to migrate replace `true` with `"both"` and `false` with `"docs"` (the default).
