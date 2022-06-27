@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Removed duplicate "in comment" warning when parsing comments, #1964.
+
 ## v0.23.1 (2022-06-26)
 
 ### Bug Fixes

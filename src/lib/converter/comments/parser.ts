@@ -256,7 +256,7 @@ function blockContent(
 
             case TokenSyntaxKind.CloseBrace:
                 // Unmatched closing brace, generate a warning, and treat it as text.
-                warning(`Unmatched closing brace in comment`);
+                warning(`Unmatched closing brace`);
                 content.push({ kind: "text", text: next.text });
                 break;
 
