@@ -61,20 +61,15 @@ function getCommentWithCache(
     return comment.clone();
 }
 
-export function getComment(
-    symbol: ts.Symbol,
-    kind: ReflectionKind,
+function getCommentImpl(
+    commentSource: [ts.SourceFile, ts.CommentRange[]] | undefined,
     config: CommentParserConfig,
     logger: Logger,
-    commentStyle: CommentStyle
-): Comment | undefined {
-    const comment = getCommentWithCache(
-        discoverComment(symbol, kind, logger, commentStyle),
-        config,
-        logger
-    );
+    moduleComment: boolean
+) {
+    const comment = getCommentWithCache(commentSource, config, logger);
 
-    if (symbol.declarations?.some(ts.isSourceFile) && comment) {
+    if (moduleComment && comment) {
         // Module comment, make sure it is tagged with @packageDocumentation or @module.
         // If it isn't then the comment applies to the first statement in the file, so throw it away.
         if (
@@ -85,7 +80,7 @@ export function getComment(
         }
     }
 
-    if (!symbol.declarations?.some(ts.isSourceFile) && comment) {
+    if (!moduleComment && comment) {
         // Ensure module comments are not attached to non-module reflections.
         if (
             comment.hasModifier("@packageDocumentation") ||
@@ -98,16 +93,32 @@ export function getComment(
     return comment;
 }
 
+export function getComment(
+    symbol: ts.Symbol,
+    kind: ReflectionKind,
+    config: CommentParserConfig,
+    logger: Logger,
+    commentStyle: CommentStyle
+): Comment | undefined {
+    return getCommentImpl(
+        discoverComment(symbol, kind, logger, commentStyle),
+        config,
+        logger,
+        symbol.declarations?.some(ts.isSourceFile) || false
+    );
+}
+
 export function getSignatureComment(
     declaration: ts.SignatureDeclaration | ts.JSDocSignature,
     config: CommentParserConfig,
     logger: Logger,
     commentStyle: CommentStyle
 ): Comment | undefined {
-    return getCommentWithCache(
+    return getCommentImpl(
         discoverSignatureComment(declaration, commentStyle),
         config,
-        logger
+        logger,
+        false
     );
 }
 

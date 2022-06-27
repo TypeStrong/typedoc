@@ -237,25 +237,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
-                  },
-                  {
-                    "kind": "code",
-                    "text": "`multiply`"
-                  },
-                  {
-                    "kind": "text",
-                    "text": " function."
-                  }
-                ],
-                "modifierTags": [
-                  "@packageDocumentation"
-                ]
-              },
               "parameters": [
                 {
                   "id": 29,
@@ -349,28 +330,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
-                  },
-                  {
-                    "kind": "code",
-                    "text": "`multiply`"
-                  },
-                  {
-                    "kind": "text",
-                    "text": " function."
-                  }
-                ],
-                "blockTags": [
-                  {
-                    "tag": "@module",
-                    "content": []
-                  }
-                ]
-              },
               "parameters": [
                 {
                   "id": 34,
@@ -460,24 +419,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "This is a comment containing a multiline code block\n"
-                  },
-                  {
-                    "kind": "code",
-                    "text": "```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
-                  }
-                ],
-                "blockTags": [
-                  {
-                    "tag": "@module",
-                    "content": []
-                  }
-                ]
-              },
               "parameters": [
                 {
                   "id": 39,
