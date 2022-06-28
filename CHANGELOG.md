@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.2 (2022-06-28)
+
 ### Bug Fixes
 
 -   Module comments will no longer be inappropriately attached to signatures, #1962.
