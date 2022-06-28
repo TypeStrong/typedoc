@@ -59,6 +59,10 @@ export class JavascriptIndexPlugin extends RendererComponent {
 
             let parent = reflection.parent;
             const boost = reflection.relevanceBoost ?? 1;
+            if (boost <= 0) {
+                continue;
+            }
+
             if (parent instanceof ProjectReflection) {
                 parent = undefined;
             }
