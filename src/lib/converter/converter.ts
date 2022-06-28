@@ -13,7 +13,7 @@ import { createMinimatch, matchesAny } from "../utils/paths";
 import type { IMinimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
-import type { CommentParserConfig } from "./comments";
+import { CommentParserConfig, getComment } from "./comments";
 import type { CommentStyle } from "../utils/options/declaration";
 
 /**
@@ -238,6 +238,15 @@ export class Converter extends ChildableComponent<
             // Special case for when we're giving a single entry point, we don't need to
             // create modules for each entry. Register the project as this module.
             context.project.registerReflection(context.project, symbol);
+            context.project.comment =
+                symbol &&
+                getComment(
+                    symbol,
+                    context.project.kind,
+                    this.config,
+                    this.application.logger,
+                    this.commentStyle
+                );
             context.trigger(
                 Converter.EVENT_CREATE_DECLARATION,
                 context.project

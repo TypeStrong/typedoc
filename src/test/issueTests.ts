@@ -529,11 +529,14 @@ export const issueTests: {
     gh1962(project) {
         const foo = query(project, "foo");
         ok(foo.signatures);
-        // #1963
-        // ok(project.hasComment(), "Missing module comment");
+        ok(project.hasComment(), "Missing module comment");
         ok(
             !foo.signatures[0].hasComment(),
             "Module comment attached to signature"
         );
+    },
+
+    gh1963(project) {
+        ok(project.hasComment(), "Missing module comment");
     },
 };
