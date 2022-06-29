@@ -20,6 +20,8 @@ labels: bug
 
 <!--
 If possible, please create a *minimal* repo reproducing your problem and link it.
+You can easily do this by submitting a pull request to https://github.com/TypeStrong/typedoc-repros
+which changes the files necessary to reproduce your bug.
 
 If this is not possible, include at least:
     1. Installed packages + versions
