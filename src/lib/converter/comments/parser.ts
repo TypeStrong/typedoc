@@ -109,7 +109,7 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
             tag.tag === "@example" &&
             !tag.content.some((part) => part.kind === "code")
         ) {
-            const caption = tag.content[0].text.match(
+            const caption = tag.content[0]?.text.match(
                 /^\s*<caption>(.*?)<\/caption>\s*(\n|$)/
             );
             if (caption) {

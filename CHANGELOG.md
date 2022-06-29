@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   TypeDoc will no longer crash if a comment contains an empty `@example` tag, #1967.
+
 ## v0.23.2 (2022-06-28)
 
 ### Bug Fixes

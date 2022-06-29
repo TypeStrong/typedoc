@@ -539,4 +539,13 @@ export const issueTests: {
     gh1963(project) {
         ok(project.hasComment(), "Missing module comment");
     },
+
+    gh1967(project) {
+        equal(query(project, "abc").comment?.getTag("@example")?.content, [
+            {
+                kind: "code",
+                text: "```ts\n\n```",
+            },
+        ]);
+    },
 };
