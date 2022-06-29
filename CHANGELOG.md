@@ -3,6 +3,11 @@
 ### Bug Fixes
 
 -   TypeDoc will no longer crash if a comment contains an empty `@example` tag, #1967.
+-   TypeDoc will now detect attempted inheritance from accessors and inherit from the getter or setter, #1968.
+
+### Features
+
+-   Added support for TypeDoc specific `:getter` and `:setter` meaning keywords in declaration references.
 
 ## v0.23.2 (2022-06-28)
 

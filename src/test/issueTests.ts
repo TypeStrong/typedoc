@@ -548,4 +548,11 @@ export const issueTests: {
             },
         ]);
     },
+
+    gh1968(project) {
+        const comments = ["Bar.x", "Bar.y", "Bar.z"].map((n) =>
+            Comment.combineDisplayParts(query(project, n).comment?.summary)
+        );
+        equal(comments, ["getter", "getter", "setter"]);
+    },
 };

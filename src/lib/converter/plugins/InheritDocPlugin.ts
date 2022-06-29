@@ -1,6 +1,7 @@
 import {
     Comment,
     DeclarationReflection,
+    ReflectionKind,
     SignatureReflection,
 } from "../../models";
 import { Component, ConverterComponent } from "../components";
@@ -75,6 +76,16 @@ export class InheritDocPlugin extends ConverterComponent {
                         .indexOf(reflection);
                     sourceRefl = sourceRefl.getAllSignatures()[index];
                 }
+            }
+
+            if (
+                sourceRefl instanceof DeclarationReflection &&
+                sourceRefl.kindOf(ReflectionKind.Accessor)
+            ) {
+                // Accessors, like functions, never have comments on their actual root reflection.
+                // If the user didn't specify whether to inherit from the getter or setter, then implicitly
+                // try to inherit from the getter, #1968.
+                sourceRefl = sourceRefl.getSignature || sourceRefl.setSignature;
             }
 
             if (!sourceRefl) {

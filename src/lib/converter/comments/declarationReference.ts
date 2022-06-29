@@ -23,6 +23,10 @@ export const MeaningKeywords = [
     "new", // SymbolFlags.Signature (for __new)
     "index", // SymbolFlags.Signature (for __index)
     "complex", // Any complex type
+
+    // TypeDoc specific
+    "getter",
+    "setter",
 ] as const;
 export type MeaningKeyword = typeof MeaningKeywords[number];
 

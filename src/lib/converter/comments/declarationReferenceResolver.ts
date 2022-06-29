@@ -5,7 +5,7 @@ import {
     Reflection,
     ReflectionKind,
 } from "../../models";
-import { filterMap } from "../../utils";
+import { assertNever, filterMap } from "../../utils";
 import type {
     ComponentPath,
     DeclarationReference,
@@ -166,6 +166,21 @@ function resolveKeyword(
         case "complex":
             if (refl.kindOf(ReflectionKind.SomeType)) return [refl];
             break;
+
+        case "getter":
+            if ((refl as DeclarationReflection).getSignature) {
+                return [(refl as DeclarationReflection).getSignature!];
+            }
+            break;
+
+        case "setter":
+            if ((refl as DeclarationReflection).setSignature) {
+                return [(refl as DeclarationReflection).setSignature!];
+            }
+            break;
+
+        default:
+            assertNever(kw);
     }
 }
 
