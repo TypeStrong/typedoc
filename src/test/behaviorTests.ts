@@ -174,7 +174,7 @@ export const behaviorTests: {
         ]);
     },
 
-    exampleTags(project) {
+    exampleTags(project, logger) {
         const foo = query(project, "foo");
         const tags = foo.comment?.blockTags.map((tag) => tag.content);
 
@@ -187,8 +187,18 @@ export const behaviorTests: {
                     text: "```ts\n// JSDoc style\ncodeHere();\n```",
                 },
             ],
+            [
+                { kind: "text", text: "JSDoc with braces\n" },
+                {
+                    kind: "code",
+                    text: "```ts\nx.map(() => { return 1; })\n```",
+                },
+            ],
             [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
         ]);
+
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
     },
 
     exportComments(project) {

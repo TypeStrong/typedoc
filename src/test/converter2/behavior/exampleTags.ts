@@ -12,6 +12,9 @@
  * // JSDoc style
  * codeHere();
  *
+ * @example <caption>JSDoc with braces</caption>
+ * x.map(() => { return 1; })
+ *
  * @example
  * ```ts
  * // TSDoc style

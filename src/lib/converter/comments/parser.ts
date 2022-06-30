@@ -8,26 +8,46 @@ interface LookaheadGenerator<T> {
     done(): boolean;
     peek(): T;
     take(): T;
+
+    mark(): void;
+    release(): void;
 }
 
 function makeLookaheadGenerator<T>(
     gen: Generator<T, void>
 ): LookaheadGenerator<T> {
-    let nextItem = gen.next();
+    let trackHistory = false;
+    const history: IteratorResult<T>[] = [];
+    const next = [gen.next()];
 
     return {
         done() {
-            return !!nextItem.done;
+            return !!next[0].done;
         },
         peek() {
-            ok(!nextItem.done);
-            return nextItem.value;
+            ok(!next[0].done);
+            return next[0].value;
         },
         take() {
-            const thisItem = nextItem;
+            const thisItem = next.shift()!;
+            if (trackHistory) {
+                history.push(thisItem);
+            }
             ok(!thisItem.done);
-            nextItem = gen.next();
+            next.push(gen.next());
             return thisItem.value;
+        },
+        mark() {
+            ok(
+                !trackHistory,
+                "Can only mark one location for backtracking at a time"
+            );
+            trackHistory = true;
+        },
+        release() {
+            trackHistory = false;
+            next.unshift(...history);
+            history.length = 0;
         },
     };
 }
@@ -104,43 +124,6 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
                 "An inline @inheritDoc tag should not appear within a block tag as it will not be processed"
             );
         }
-
-        if (
-            tag.tag === "@example" &&
-            !tag.content.some((part) => part.kind === "code")
-        ) {
-            const caption = tag.content[0]?.text.match(
-                /^\s*<caption>(.*?)<\/caption>\s*(\n|$)/
-            );
-            if (caption) {
-                const code = Comment.combineDisplayParts([
-                    {
-                        kind: "text",
-                        text: tag.content[0].text.slice(caption[0].length),
-                    },
-                    ...tag.content.slice(1),
-                ]);
-                tag.content = [
-                    {
-                        kind: "text",
-                        text: caption[1] + "\n",
-                    },
-                    {
-                        kind: "code",
-                        text: makeCodeBlock(code),
-                    },
-                ];
-            } else {
-                tag.content = [
-                    {
-                        kind: "code",
-                        text: makeCodeBlock(
-                            Comment.combineDisplayParts(tag.content)
-                        ),
-                    },
-                ];
-            }
-        }
     }
 
     const remarks = comment.blockTags.filter((tag) => tag.tag === "@remarks");
@@ -194,7 +177,10 @@ function blockTag(
     warning: (msg: string) => void
 ): CommentTag {
     const blockTag = lexer.take();
-    ok(blockTag.kind === TokenSyntaxKind.Tag); // blockContent is broken if this fails.
+    ok(
+        blockTag.kind === TokenSyntaxKind.Tag,
+        "blockTag called not at the start of a block tag."
+    ); // blockContent is broken if this fails.
 
     const tagName = aliasedTags.get(blockTag.text) || blockTag.text;
 
@@ -218,8 +204,46 @@ function exampleBlockContent(
     config: CommentParserConfig,
     warning: (msg: string) => void
 ): CommentDisplayPart[] {
-    // TODO: Needs implementation
-    return blockContent(comment, lexer, config, warning);
+    lexer.mark();
+    const content = blockContent(comment, lexer, config, () => {});
+    const end = lexer.done() || lexer.peek();
+    lexer.release();
+
+    if (content.some((part) => part.kind === "code")) {
+        return blockContent(comment, lexer, config, warning);
+    }
+
+    const tokens: Token[] = [];
+    while ((lexer.done() || lexer.peek()) !== end) {
+        tokens.push(lexer.take());
+    }
+
+    const blockText = tokens
+        .map((tok) => tok.text)
+        .join("")
+        .trim();
+
+    const caption = blockText.match(/^\s*<caption>(.*?)<\/caption>\s*(\n|$)/);
+
+    if (caption) {
+        return [
+            {
+                kind: "text",
+                text: caption[1] + "\n",
+            },
+            {
+                kind: "code",
+                text: makeCodeBlock(blockText.slice(caption[0].length)),
+            },
+        ];
+    } else {
+        return [
+            {
+                kind: "code",
+                text: makeCodeBlock(blockText),
+            },
+        ];
+    }
 }
 
 function blockContent(
