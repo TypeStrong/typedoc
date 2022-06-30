@@ -463,7 +463,7 @@ export const issueTests: {
         app.validate(project);
         logger.discardDebugMessages();
         logger.expectMessage(
-            "warn: UnDocFn.__type, defined at src/test/converter2/issues/gh1898.ts:4, does not have any documentation."
+            "warn: UnDocFn.__type does not have any documentation."
         );
         logger.expectNoOtherMessages();
     },

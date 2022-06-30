@@ -25,7 +25,7 @@ function makeIntentionallyExportedHelper(
     });
 
     return {
-        has(symbol: ts.Symbol) {
+        has(symbol: ts.Symbol, typeName: string) {
             // If it isn't declared anywhere, we can't produce a good error message about where
             // the non-exported symbol is, so even if it isn't ignored, pretend it is. In practice,
             // this will happen incredibly rarely, since symbols without declarations are very rare.
@@ -52,7 +52,7 @@ function makeIntentionallyExportedHelper(
 
             for (const [index, [file, name]] of processed.entries()) {
                 if (
-                    symbol.name === name &&
+                    typeName === name &&
                     symbol.declarations.some((d) =>
                         d.getSourceFile().fileName.endsWith(file)
                     )
@@ -90,7 +90,7 @@ export function validateExports(
             if (!type.reflection && symbol) {
                 if (
                     (symbol.flags & ts.SymbolFlags.TypeParameter) === 0 &&
-                    !intentional.has(symbol) &&
+                    !intentional.has(symbol, type.qualifiedName) &&
                     !warned.has(symbol)
                 ) {
                     warned.add(symbol);
@@ -98,7 +98,7 @@ export function validateExports(
 
                     logger.warn(
                         `${
-                            type.name
+                            type.qualifiedName
                         } is referenced by ${current!.getFullName()} but not included in the documentation.`,
                         decl
                     );

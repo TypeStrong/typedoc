@@ -4,6 +4,7 @@ import { Reflection } from "./reflections/abstract";
 import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
 import type { Serializer, JSONOutput } from "../serialization";
+import { getQualifiedName } from "../utils/tsutils";
 
 /**
  * Base class of all type definitions.
@@ -796,9 +797,8 @@ export class ReferenceType extends Type {
     /**
      * The fully qualified name of the referenced type, relative to the file it is defined in.
      * This will usually be the same as `name`, unless namespaces are used.
-     * Will only be set for `ReferenceType`s pointing to a symbol within `node_modules`.
      */
-    qualifiedName?: string;
+    qualifiedName: string;
 
     /**
      * The package that this type is referencing.
@@ -812,12 +812,14 @@ export class ReferenceType extends Type {
     private constructor(
         name: string,
         target: ts.Symbol | Reflection | number,
-        project: ProjectReflection | null
+        project: ProjectReflection | null,
+        qualifiedName: string
     ) {
         super();
         this.name = name;
         this._target = target instanceof Reflection ? target.id : target;
         this._project = project;
+        this.qualifiedName = qualifiedName;
     }
 
     static createResolvedReference(
@@ -825,7 +827,7 @@ export class ReferenceType extends Type {
         target: Reflection | number,
         project: ProjectReflection | null
     ) {
-        return new ReferenceType(name, target, project);
+        return new ReferenceType(name, target, project, name);
     }
 
     static createSymbolReference(
@@ -836,7 +838,8 @@ export class ReferenceType extends Type {
         const ref = new ReferenceType(
             name ?? symbol.name,
             symbol,
-            context.project
+            context.project,
+            getQualifiedName(context.checker, symbol)
         );
 
         const symbolPath = symbol?.declarations?.[0]
@@ -856,25 +859,12 @@ export class ReferenceType extends Type {
         const packageName = symbolPath.substring(startIndex, stopIndex);
         ref.package = packageName;
 
-        const qualifiedName = context.checker.getFullyQualifiedName(symbol);
-        // I think this is less bad than depending on symbol.parent...
-        // https://github.com/microsoft/TypeScript/issues/38344
-        // It will break if someone names a directory with a quote in it, but so will lots
-        // of other things including other parts of TypeDoc. Until it *actually* breaks someone...
-        if (qualifiedName.startsWith('"')) {
-            ref.qualifiedName = qualifiedName.substring(
-                qualifiedName.indexOf('".', 1) + 2
-            );
-        } else {
-            ref.qualifiedName = qualifiedName;
-        }
-
         return ref;
     }
 
     /** @internal this is used for type parameters, which don't actually point to something */
     static createBrokenReference(name: string, project: ProjectReflection) {
-        return new ReferenceType(name, -1, project);
+        return new ReferenceType(name, -1, project, name);
     }
 
     protected override getTypeString() {
@@ -904,7 +894,7 @@ export class ReferenceType extends Type {
             name: this.name,
         };
 
-        if (this.qualifiedName && this.package) {
+        if (this.package) {
             result.qualifiedName = this.qualifiedName;
             result.package = this.package;
         }

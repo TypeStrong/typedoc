@@ -1,5 +1,5 @@
 import { Logger, LogLevel, removeIf } from "../lib/utils";
-import { deepStrictEqual as equal, fail } from "assert";
+import { fail, ok } from "assert";
 import * as ts from "typescript";
 import { resolve } from "path";
 
@@ -36,7 +36,12 @@ export class TestLogger extends Logger {
     }
 
     expectNoOtherMessages() {
-        equal(this.messages, [], "Expected no other messages to be logged.");
+        ok(
+            this.messages.length === 0,
+            `Expected no other messages to be logged. The logged messages were:\n\t${this.messages.join(
+                "\n\t"
+            )}`
+        );
     }
 
     override diagnostic(diagnostic: ts.Diagnostic): void {

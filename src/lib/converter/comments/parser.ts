@@ -198,10 +198,28 @@ function blockTag(
 
     const tagName = aliasedTags.get(blockTag.text) || blockTag.text;
 
-    return new CommentTag(
-        tagName as `@${string}`,
-        blockContent(comment, lexer, config, warning)
-    );
+    let content: CommentDisplayPart[];
+    if (tagName === "@example") {
+        content = exampleBlockContent(comment, lexer, config, warning);
+    } else {
+        content = blockContent(comment, lexer, config, warning);
+    }
+
+    return new CommentTag(tagName as `@${string}`, content);
+}
+
+/**
+ * The `@example` tag gets a special case because otherwise we will produce many warnings
+ * about unescaped/mismatched/missing braces
+ */
+function exampleBlockContent(
+    comment: Comment,
+    lexer: LookaheadGenerator<Token>,
+    config: CommentParserConfig,
+    warning: (msg: string) => void
+): CommentDisplayPart[] {
+    // TODO: Needs implementation
+    return blockContent(comment, lexer, config, warning);
 }
 
 function blockContent(

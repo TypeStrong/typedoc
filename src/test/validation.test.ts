@@ -1,4 +1,4 @@
-import { equal, fail, ok } from "assert";
+import { ok } from "assert";
 import { join } from "path";
 import { Logger, LogLevel } from "..";
 import { validateDocumentation } from "../lib/validation/documentation";
@@ -34,27 +34,12 @@ function expectWarning(
 ) {
     const project = convertValidationFile(file);
 
-    let sawWarning = false;
-    const regex =
-        /(.*?) is referenced by (.*?) but not included in the documentation\./;
+    const logger = new TestLogger();
+    validateExports(project, logger, intentionallyNotExported);
 
-    class LoggerCheck extends Logger {
-        override log(message: string, level: LogLevel) {
-            const match = message.match(regex);
-            if (level === LogLevel.Warn && match) {
-                sawWarning = true;
-                equal(match[1], typeName, "Missing type name is different.");
-                equal(
-                    match[2],
-                    referencingName,
-                    "Referencing name is different"
-                );
-            }
-        }
-    }
-
-    validateExports(project, new LoggerCheck(), intentionallyNotExported);
-    ok(sawWarning, `Expected warning message for ${typeName} to be reported.`);
+    logger.expectMessage(
+        `warn: ${typeName} is referenced by ${referencingName} but not included in the documentation.`
+    );
 }
 
 function expectNoWarning(
@@ -77,19 +62,11 @@ function expectNoWarning(
         },
     ]);
 
-    const regex =
-        /(.*?), defined at (.*?):\d+, is referenced by (.*?) but not included in the documentation\./;
+    const logger = new TestLogger();
 
-    class LoggerCheck extends Logger {
-        override log(message: string, level: LogLevel) {
-            const match = message.match(regex);
-            if (level === LogLevel.Warn && match) {
-                fail("Expected no warnings about missing exports");
-            }
-        }
-    }
-
-    validateExports(project, new LoggerCheck(), intentionallyNotExported);
+    validateExports(project, logger, intentionallyNotExported);
+    logger.discardDebugMessages();
+    logger.expectNoOtherMessages();
 }
 
 describe("validateExports", () => {
@@ -143,6 +120,10 @@ describe("validateExports", () => {
         expectNoWarning("externalType.ts");
     });
 
+    it("Should not warn if namespaced name is given to intentionallyNotExported", () => {
+        expectNoWarning("namespace.ts", ["Bar.Baz"]);
+    });
+
     it("Should warn if intentionallyNotExported contains unused values", () => {
         const app = getConverter2App();
         const program = getConverter2Program();
@@ -191,9 +172,7 @@ describe("validateDocumentation", () => {
         const logger = new TestLogger();
         validateDocumentation(project, logger, ["Function"]);
 
-        logger.expectMessage(
-            "warn: bar, defined at src/test/converter2/validation/function.ts:4, does not have any documentation."
-        );
+        logger.expectMessage("warn: bar does not have any documentation.");
         logger.expectNoOtherMessages();
     });
 
@@ -202,9 +181,7 @@ describe("validateDocumentation", () => {
         const logger = new TestLogger();
         validateDocumentation(project, logger, ["Accessor"]);
 
-        logger.expectMessage(
-            "warn: Foo.foo, defined at src/test/converter2/validation/getSignature.ts:2, does not have any documentation."
-        );
+        logger.expectMessage("warn: Foo.foo does not have any documentation.");
         logger.expectNoOtherMessages();
     });
 
@@ -214,7 +191,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Constructor"]);
 
         logger.expectMessage(
-            "warn: Foo.constructor, defined at src/test/converter2/validation/class.ts:4, does not have any documentation."
+            "warn: Foo.constructor does not have any documentation."
         );
         logger.expectNoOtherMessages();
     });

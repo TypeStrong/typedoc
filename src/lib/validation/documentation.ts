@@ -1,5 +1,3 @@
-import * as path from "path";
-import * as ts from "typescript";
 import {
     DeclarationReflection,
     ProjectReflection,
@@ -8,7 +6,7 @@ import {
     ReflectionType,
     SignatureReflection,
 } from "../models";
-import { Logger, normalizePath } from "../utils";
+import type { Logger } from "../utils";
 import { removeFlag } from "../utils/enum";
 
 export function validateDocumentation(
@@ -86,17 +84,9 @@ export function validateDocumentation(
                 continue;
             }
 
-            const { line } = ts.getLineAndCharacterOfPosition(
-                sourceFile,
-                decl.getStart()
-            );
-            const file = normalizePath(
-                path.relative(process.cwd(), sourceFile.fileName)
-            );
-
-            const loc = `${file}:${line + 1}`;
             logger.warn(
-                `${ref.getFriendlyFullName()}, defined at ${loc}, does not have any documentation.`
+                `${ref.getFriendlyFullName()} does not have any documentation.`,
+                decl
             );
         }
     }
