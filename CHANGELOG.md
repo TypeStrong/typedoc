@@ -12,6 +12,7 @@
 
 ### Features
 
+-   Added `--htmlLang` option to set the [`lang`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang) attribute in the generated HTML. Defaults to `en`, #1951.
 -   Added support for TypeDoc specific `:getter` and `:setter` meaning keywords in declaration references.
 -   Warnings caused by comment contents will now do a better job of including the location of the text that caused the warning.
 

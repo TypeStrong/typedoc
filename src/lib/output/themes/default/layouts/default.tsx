@@ -4,7 +4,7 @@ import type { PageEvent } from "../../../events";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
-    <html class="default">
+    <html class="default" lang={context.options.getValue("htmlLang")}>
         <head>
             <meta charSet="utf-8" />
             {context.hook("head.begin")}

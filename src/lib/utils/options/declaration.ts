@@ -123,6 +123,7 @@ export interface TypeDocOptionMap {
     gitRemote: string;
     gaID: string;
     githubPages: boolean;
+    htmlLang: string;
     hideGenerator: boolean;
     cleanOutputDir: boolean;
 

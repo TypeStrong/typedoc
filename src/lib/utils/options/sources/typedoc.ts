@@ -251,6 +251,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: true,
     });
     options.addDeclaration({
+        name: "htmlLang",
+        help: "Sets the lang attribute in the generated html tag.",
+        type: ParameterType.String,
+        defaultValue: "en",
+    });
+    options.addDeclaration({
         name: "gaID",
         help: "Set the Google Analytics tracking ID and activate tracking code.",
     });
