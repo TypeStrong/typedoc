@@ -8,6 +8,7 @@
 -   `intentionallyNotExported` will now properly respect qualified names, #1972.
 -   Fixed missing namespace comments on `export * as NS` declarations, #1973.
 -   Fixed missing comments on `export const x = () => 123` function variables, #1973.
+-   Exported variable functions with properties will now be converted as a function+namespace instead of a variable+namespace, #1651.
 -   Validation warnings caused by missing documentation will now be formatted like other warnings which reference a declaration.
 -   TypeDoc will no longer warn if both the `get` and `set` signatures of an accessor have a comment.
 

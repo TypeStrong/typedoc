@@ -294,6 +294,27 @@ export const issueTests: {
         equal(ctor.sources?.[0]?.character, 4);
     },
 
+    gh1651(project) {
+        equal(
+            project.children?.map((c) => c.name),
+            ["bar", "bar"]
+        );
+
+        equal(
+            project.children[0].children?.map((c) => c.name),
+            ["metadata", "fn"]
+        );
+
+        const comments = [
+            project.children[0].comment?.summary,
+            project.children[0].children[0].comment?.summary,
+            project.children[0].children[1].signatures![0].comment?.summary,
+            project.children[1].signatures![0].comment?.summary,
+        ].map(Comment.combineDisplayParts);
+
+        equal(comments, ["", "metadata", "fn", "bar"]);
+    },
+
     gh1660(project) {
         const alias = query(project, "SomeType");
         ok(alias.type instanceof QueryType);

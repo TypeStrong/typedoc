@@ -788,7 +788,7 @@ function convertVariable(
         return convertVariableAsEnum(context, symbol, exportSymbol);
     }
 
-    if (type.getCallSignatures().length && !type.getProperties().length) {
+    if (type.getCallSignatures().length) {
         return convertVariableAsFunction(context, symbol, exportSymbol);
     }
 

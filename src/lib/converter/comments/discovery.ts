@@ -32,6 +32,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.VariableDeclaration,
         ts.SyntaxKind.BindingElement,
         ts.SyntaxKind.ExportAssignment,
+        ts.SyntaxKind.PropertyAccessExpression,
     ],
     [ReflectionKind.Function]: [
         ts.SyntaxKind.FunctionDeclaration,
