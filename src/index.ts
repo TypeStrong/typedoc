@@ -32,6 +32,7 @@ export {
     TypeDocReader,
     EntryPointStrategy,
     EventHooks,
+    MinimalSourceFile,
 } from "./lib/utils";
 
 export type {
