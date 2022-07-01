@@ -8,9 +8,9 @@ previous minor version relies completely on community pull requests.
 
 | Version | Status             |
 | ------- | ------------------ |
-| 0.22.x  | :white_check_mark: |
-| 0.21.x  | :warning:          |
-| < 0.21  | :x:                |
+| 0.23.x  | :white_check_mark: |
+| 0.22.x  | :warning:          |
+| < 0.22  | :x:                |
 
 ## Patching LTS Versions
 
