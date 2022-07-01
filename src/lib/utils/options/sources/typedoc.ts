@@ -214,6 +214,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "basePath",
+        help: "Specifies the base path to be used when displaying file paths.",
+        type: ParameterType.Path,
+    });
+    options.addDeclaration({
         name: "excludeTags",
         help: "Remove the listed block/modifier tags from doc comments.",
         type: ParameterType.Array,

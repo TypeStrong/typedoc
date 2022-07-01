@@ -138,7 +138,8 @@ function getEntryPointsForPaths(
     options: Options,
     programs = getEntryPrograms(logger, options)
 ): DocumentationEntryPoint[] | undefined {
-    const baseDir = getCommonDirectory(inputFiles);
+    const baseDir =
+        options.getValue("basePath") || getCommonDirectory(inputFiles);
     const entryPoints: DocumentationEntryPoint[] = [];
 
     entryLoop: for (const fileOrDir of inputFiles.map(normalizePath)) {

@@ -88,6 +88,7 @@ export interface TypeDocOptionMap {
     excludeNotDocumented: boolean;
     excludeInternal: boolean;
     disableSources: boolean;
+    basePath: string;
     includes: string;
     media: string;
 

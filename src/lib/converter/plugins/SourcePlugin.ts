@@ -25,6 +25,9 @@ export class SourcePlugin extends ConverterComponent {
     @BindOption("gitRemote")
     readonly gitRemote!: string;
 
+    @BindOption("basePath")
+    readonly basePath!: string;
+
     /**
      * All file names to find the base path from.
      */
@@ -106,7 +109,8 @@ export class SourcePlugin extends ConverterComponent {
     private onBeginResolve(context: Context) {
         if (this.disableSources) return;
 
-        const basePath = getCommonDirectory([...this.fileNames]);
+        const basePath =
+            this.basePath || getCommonDirectory([...this.fileNames]);
 
         for (const refl of Object.values(context.project.reflections)) {
             for (const source of refl.sources || []) {
