@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.3 (2022-07-01)
+
 ### Bug Fixes
 
 -   Function properties in type space will no longer be interpreted as methods, #1637.
