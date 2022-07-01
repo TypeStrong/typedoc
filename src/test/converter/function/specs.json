@@ -2213,6 +2213,25 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is a function that is assigned to a variable."
+                  }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "This is the return value of the function."
+                      }
+                    ]
+                  }
+                ]
+              },
               "parameters": [
                 {
                   "id": 85,
@@ -2220,6 +2239,14 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "This is some numeric parameter."
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"

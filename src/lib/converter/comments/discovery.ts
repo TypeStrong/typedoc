@@ -167,6 +167,7 @@ export function discoverSignatureComment(
     const comments = collectCommentRanges(
         ts.getLeadingCommentRanges(text, node.pos)
     );
+    comments.reverse();
 
     const comment = comments.find((ranges) =>
         permittedRange(text, ranges, commentStyle)
@@ -220,15 +221,42 @@ function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
 }
 
 function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
-    if (node.parent?.kind === ts.SyntaxKind.VariableDeclarationList) {
+    if (!node.parent) return node;
+
+    // const abc = 123
+    //       ^^^
+    if (node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
         return node.parent.parent;
     }
 
-    if (node.kind === ts.SyntaxKind.ModuleDeclaration) {
-        if (!isTopmostModuleDeclaration(<ts.ModuleDeclaration>node)) {
+    // const a = () => {}
+    //           ^^^^^^^^
+    if (node.parent.kind === ts.SyntaxKind.VariableDeclaration) {
+        return node.parent.parent.parent;
+    }
+
+    // class X { y = () => {} }
+    //               ^^^^^^^^
+    // function Z() {}
+    // Z.method = () => {}
+    //            ^^^^^^^^
+    // export default () => {}
+    //                ^^^^^^^^
+    if (
+        [
+            ts.SyntaxKind.PropertyDeclaration,
+            ts.SyntaxKind.BinaryExpression,
+            ts.SyntaxKind.ExportAssignment,
+        ].includes(node.parent.kind)
+    ) {
+        return node.parent;
+    }
+
+    if (ts.isModuleDeclaration(node)) {
+        if (!isTopmostModuleDeclaration(node)) {
             return;
         } else {
-            return getRootModuleDeclaration(<ts.ModuleDeclaration>node);
+            return getRootModuleDeclaration(node);
         }
     }
 
@@ -237,13 +265,9 @@ function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
     }
 
     if (
-        [
-            ts.SyntaxKind.NamespaceExport,
-            ts.SyntaxKind.FunctionExpression,
-            ts.SyntaxKind.FunctionType,
-            ts.SyntaxKind.FunctionType,
-            ts.SyntaxKind.ArrowFunction,
-        ].includes(node.kind)
+        [ts.SyntaxKind.NamespaceExport, ts.SyntaxKind.FunctionType].includes(
+            node.kind
+        )
     ) {
         return node.parent;
     }

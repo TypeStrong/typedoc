@@ -1352,6 +1352,14 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "The \"mixin function\" of the Mixin1"
+              }
+            ]
+          },
           "typeParameter": [
             {
               "id": 21,
@@ -1467,6 +1475,14 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "The \"mixin function\" of the Mixin2"
+              }
+            ]
+          },
           "typeParameter": [
             {
               "id": 35,
@@ -1598,6 +1614,14 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "The \"mixin function\" of the Mixin3"
+              }
+            ]
+          },
           "typeParameter": [
             {
               "id": 53,

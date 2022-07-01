@@ -562,5 +562,13 @@ export const issueTests: {
         );
 
         equal(comments, ["A override", "B module"]);
+
+        const comments2 = ["A.a", "B.b"].map((n) =>
+            Comment.combineDisplayParts(
+                query(project, n).signatures![0].comment?.summary
+            )
+        );
+
+        equal(comments2, ["Comment for a", "Comment for b"]);
     },
 };
