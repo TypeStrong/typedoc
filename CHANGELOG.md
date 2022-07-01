@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 
+-   Function properties in type space will no longer be interpreted as methods, #1637.
 -   TypeDoc will no longer crash if a comment contains an empty `@example` tag, #1967.
 -   TypeDoc will now detect attempted inheritance from accessors and inherit from the getter or setter, #1968.
 -   `intentionallyNotExported` will now properly respect qualified names, #1972.

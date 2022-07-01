@@ -276,8 +276,14 @@ export const issueTests: {
     },
 
     gh1624(project) {
-        ok(
-            query(project, "Foo.baz").signatures?.[0]?.hasComment(),
+        // #1637
+        equal(query(project, "Bar.baz").kind, ReflectionKind.Property);
+
+        equal(
+            Comment.combineDisplayParts(
+                query(project, "Foo.baz").signatures?.[0]?.comment?.summary
+            ),
+            "Some property style doc.",
             "Property methods declared in interface should still allow comment inheritance"
         );
     },

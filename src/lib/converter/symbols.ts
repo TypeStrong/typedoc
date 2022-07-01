@@ -614,20 +614,6 @@ function convertProperty(
                 exportSymbol
             );
         }
-
-        // Special case: "arrow properties" in type space should be treated as methods.
-        if (
-            ts.isPropertySignature(declaration) &&
-            declaration.type &&
-            ts.isFunctionTypeNode(declaration.type)
-        ) {
-            return convertArrowAsMethod(
-                context,
-                symbol,
-                declaration.type,
-                exportSymbol
-            );
-        }
     }
 
     const reflection = context.createDeclarationReflection(
@@ -671,7 +657,7 @@ function convertProperty(
 function convertArrowAsMethod(
     context: Context,
     symbol: ts.Symbol,
-    arrow: ts.ArrowFunction | ts.FunctionTypeNode,
+    arrow: ts.ArrowFunction,
     exportSymbol?: ts.Symbol
 ) {
     const reflection = context.createDeclarationReflection(

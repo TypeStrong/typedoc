@@ -6,7 +6,7 @@ import {
     ReflectionKind,
     SignatureReflection,
 } from "../../models/reflections/index";
-import { ReferenceType, Type } from "../../models/types";
+import { ReferenceType, ReflectionType, Type } from "../../models/types";
 import { filterMap, zip } from "../../utils/array";
 import { Component, ConverterComponent } from "../components";
 import type { Context } from "../context";
@@ -466,6 +466,18 @@ function handleInheritedComments(
         child.signatures
     ) {
         for (const [cs, ps] of zip(child.signatures, parent.signatures)) {
+            copyComment(cs, ps);
+        }
+    } else if (
+        parent.kindOf(ReflectionKind.Property) &&
+        parent.type instanceof ReflectionType &&
+        parent.type.declaration.signatures &&
+        child.signatures
+    ) {
+        for (const [cs, ps] of zip(
+            child.signatures,
+            parent.type.declaration.signatures
+        )) {
             copyComment(cs, ps);
         }
     }
