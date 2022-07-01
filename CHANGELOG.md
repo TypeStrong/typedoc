@@ -5,6 +5,7 @@
 -   TypeDoc will no longer crash if a comment contains an empty `@example` tag, #1967.
 -   TypeDoc will now detect attempted inheritance from accessors and inherit from the getter or setter, #1968.
 -   `intentionallyNotExported` will now properly respect qualified names, #1972.
+-   Fixed missing namespace comments on `export * as NS` declarations, #1973.
 -   Validation warnings caused by missing documentation will now be formatted like other warnings which reference a declaration.
 -   TypeDoc will no longer warn if both the `get` and `set` signatures of an accessor have a comment.
 

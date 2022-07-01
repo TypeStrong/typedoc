@@ -16,6 +16,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.SourceFile,
         ts.SyntaxKind.BindingElement,
         ts.SyntaxKind.ExportSpecifier,
+        ts.SyntaxKind.NamespaceExport,
     ],
     [ReflectionKind.Enum]: [
         ts.SyntaxKind.EnumDeclaration,

@@ -555,4 +555,12 @@ export const issueTests: {
         );
         equal(comments, ["getter", "getter", "setter"]);
     },
+
+    gh1973(project) {
+        const comments = ["A", "B"].map((n) =>
+            Comment.combineDisplayParts(query(project, n).comment?.summary)
+        );
+
+        equal(comments, ["A override", "B module"]);
+    },
 };
