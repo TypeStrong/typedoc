@@ -1,7 +1,9 @@
 import { ok } from "assert";
 import type { CommentParserConfig } from ".";
 import { Comment, CommentDisplayPart, CommentTag } from "../../models";
-import { assertNever, removeIf } from "../../utils";
+import { assertNever, Logger, removeIf } from "../../utils";
+import type { MinimalSourceFile } from "../../utils/minimalSourceFile";
+import { nicePath } from "../../utils/paths";
 import { Token, TokenSyntaxKind } from "./lexer";
 
 interface LookaheadGenerator<T> {
@@ -55,20 +57,33 @@ function makeLookaheadGenerator<T>(
 export function parseComment(
     tokens: Generator<Token, undefined, undefined>,
     config: CommentParserConfig,
-    warning: (message: string) => void
+    file: MinimalSourceFile,
+    logger: Logger
 ): Comment {
     const lexer = makeLookaheadGenerator(tokens);
+    const tok = lexer.done() || lexer.peek();
 
     const comment = new Comment();
-    comment.summary = blockContent(comment, lexer, config, warning);
+    comment.summary = blockContent(comment, lexer, config, warningImpl);
 
     while (!lexer.done()) {
-        comment.blockTags.push(blockTag(comment, lexer, config, warning));
+        comment.blockTags.push(blockTag(comment, lexer, config, warningImpl));
     }
 
-    postProcessComment(comment, warning);
+    postProcessComment(comment, (message) => {
+        ok(typeof tok === "object");
+        logger.warn(
+            `${message} in comment at ${nicePath(file.fileName)}:${
+                file.getLineAndCharacterOfPosition(tok.pos).line + 1
+            }`
+        );
+    });
 
     return comment;
+
+    function warningImpl(message: string, token: Token) {
+        logger.warn(message, token.pos, file);
+    }
 }
 
 const HAS_USER_IDENTIFIER: `@${string}`[] = [
@@ -174,7 +189,7 @@ function blockTag(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string) => void
+    warning: (msg: string, token: Token) => void
 ): CommentTag {
     const blockTag = lexer.take();
     ok(
@@ -202,7 +217,7 @@ function exampleBlockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string) => void
+    warning: (msg: string, token: Token) => void
 ): CommentDisplayPart[] {
     lexer.mark();
     const content = blockContent(comment, lexer, config, () => {});
@@ -250,7 +265,7 @@ function blockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string) => void
+    warning: (msg: string, token: Token) => void
 ): CommentDisplayPart[] {
     const content: CommentDisplayPart[] = [];
     let atNewLine = true;
@@ -272,7 +287,8 @@ function blockContent(
             case TokenSyntaxKind.Tag:
                 if (next.text === "@inheritdoc") {
                     warning(
-                        "The @inheritDoc tag should be properly capitalized"
+                        "The @inheritDoc tag should be properly capitalized",
+                        next
                     );
                     next.text = "@inheritDoc";
                 }
@@ -283,7 +299,8 @@ function blockContent(
                     // Treat unknown tag as a modifier, but warn about it.
                     comment.modifierTags.add(next.text);
                     warning(
-                        `Treating unrecognized tag "${next.text}" as a modifier tag`
+                        `Treating unrecognized tag "${next.text}" as a modifier tag`,
+                        next
                     );
                     break;
                 } else {
@@ -298,7 +315,7 @@ function blockContent(
 
             case TokenSyntaxKind.CloseBrace:
                 // Unmatched closing brace, generate a warning, and treat it as text.
-                warning(`Unmatched closing brace`);
+                warning(`Unmatched closing brace`, next);
                 content.push({ kind: "text", text: next.text });
                 break;
 
@@ -349,7 +366,7 @@ function inlineTag(
     lexer: LookaheadGenerator<Token>,
     block: CommentDisplayPart[],
     config: CommentParserConfig,
-    warning: (msg: string) => void
+    warning: (msg: string, token: Token) => void
 ) {
     const openBrace = lexer.take();
 
@@ -360,7 +377,10 @@ function inlineTag(
         lexer.done() ||
         ![TokenSyntaxKind.Text, TokenSyntaxKind.Tag].includes(lexer.peek().kind)
     ) {
-        warning("Encountered an unescaped open brace without an inline tag");
+        warning(
+            "Encountered an unescaped open brace without an inline tag",
+            openBrace
+        );
         block.push({ kind: "text", text: openBrace.text });
         return;
     }
@@ -373,7 +393,10 @@ function inlineTag(
             (!/^\s+$/.test(tagName.text) ||
                 lexer.peek().kind != TokenSyntaxKind.Tag))
     ) {
-        warning("Encountered an unescaped open brace without an inline tag");
+        warning(
+            "Encountered an unescaped open brace without an inline tag",
+            openBrace
+        );
         block.push({ kind: "text", text: openBrace.text + tagName.text });
         return;
     }
@@ -383,7 +406,7 @@ function inlineTag(
     }
 
     if (!config.inlineTags.has(tagName.text)) {
-        warning(`Encountered an unknown inline tag "${tagName.text}"`);
+        warning(`Encountered an unknown inline tag "${tagName.text}"`, tagName);
     }
 
     const content: string[] = [];
@@ -394,7 +417,8 @@ function inlineTag(
         const token = lexer.take();
         if (token.kind === TokenSyntaxKind.OpenBrace) {
             warning(
-                "Encountered an open brace within an inline tag, this is likely a mistake"
+                "Encountered an open brace within an inline tag, this is likely a mistake",
+                token
             );
         }
 
@@ -402,7 +426,7 @@ function inlineTag(
     }
 
     if (lexer.done()) {
-        warning("Inline tag is not closed");
+        warning("Inline tag is not closed", openBrace);
     } else {
         lexer.take(); // Close brace
     }

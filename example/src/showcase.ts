@@ -70,9 +70,9 @@ export function markdownShowcase(): void {
  *
  * You can specify the language at the start of your code block like this:
  *
- *  ```text
+ *  ````text
  *  ```rust
- *  ```
+ *  ````
  *
  * Use the `tsx` language to get JSX support:
  *

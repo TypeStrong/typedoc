@@ -7,7 +7,7 @@ export function* lexLineComments(
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
-    for (const token of lexBlockComment2(
+    for (const token of lexLineComments2(
         file,
         ranges[0].pos,
         ranges[ranges.length - 1].end
@@ -33,7 +33,7 @@ export function* lexLineComments(
     return;
 }
 
-function* lexBlockComment2(
+function* lexLineComments2(
     file: string,
     pos: number,
     end: number
@@ -106,6 +106,7 @@ function* lexBlockComment2(
                         yield {
                             kind: TokenSyntaxKind.Code,
                             text: codeText.join(""),
+                            pos,
                         };
                         pos = lookahead;
                         break;
@@ -140,6 +141,7 @@ function* lexBlockComment2(
                         yield {
                             kind: TokenSyntaxKind.Code,
                             text: codeText.join(""),
+                            pos,
                         };
                         pos = lookahead;
                     } else {
@@ -212,12 +214,13 @@ function* lexBlockComment2(
                     braceStartsType = false;
                 }
 
-                pos = lookahead;
                 // This piece of text had line continuations or escaped text
                 yield {
                     kind: TokenSyntaxKind.Text,
                     text: textParts.join(""),
+                    pos,
                 };
+                pos = lookahead;
                 break;
             }
         }
@@ -230,6 +233,7 @@ function* lexBlockComment2(
         return {
             kind,
             text: file.substring(start, pos),
+            pos: start,
         };
     }
 

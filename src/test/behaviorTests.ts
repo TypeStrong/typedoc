@@ -324,7 +324,7 @@ export const behaviorTests: {
             "Remarks"
         );
         logger.expectMessage(
-            "warn: Content in the summary section will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:9."
+            "warn: Content in the summary section will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:10"
         );
 
         const target2 = query(project, "target2");
@@ -336,7 +336,7 @@ export const behaviorTests: {
             "Remarks"
         );
         logger.expectMessage(
-            "warn: Content in the @remarks block will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:15."
+            "warn: Content in the @remarks block will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:16"
         );
 
         const target3 = query(project, "target3");

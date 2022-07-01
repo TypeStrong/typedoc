@@ -1,4 +1,4 @@
-import { deepStrictEqual as equal, fail } from "assert";
+import { deepStrictEqual as equal } from "assert";
 import * as ts from "typescript";
 import type { CommentParserConfig } from "../lib/converter/comments";
 
@@ -8,6 +8,8 @@ import { Token, TokenSyntaxKind } from "../lib/converter/comments/lexer";
 import { parseComment } from "../lib/converter/comments/parser";
 import { lexCommentString } from "../lib/converter/comments/rawLexer";
 import { Comment, CommentTag } from "../lib/models";
+import { MinimalSourceFile } from "../lib/utils/minimalSourceFile";
+import { TestLogger } from "./TestLogger";
 
 function dedent(text: string) {
     const lines = text.split(/\r?\n/);
@@ -71,16 +73,18 @@ describe("Block Comment Lexer", () => {
     it("Should handle a trivial comment", () => {
         const tokens = lex("/** Comment */");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Comment" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "Comment", pos: 4 },
+        ]);
     });
 
     it("Should handle a multiline comment without stars", () => {
         const tokens = lex("/* Comment\nNext line */");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Comment" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "Next line" },
+            { kind: TokenSyntaxKind.Text, text: "Comment", pos: 3 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 10 },
+            { kind: TokenSyntaxKind.Text, text: "Next line", pos: 11 },
         ]);
     });
 
@@ -88,9 +92,9 @@ describe("Block Comment Lexer", () => {
         const tokens = lex("/*\n * Comment\n * Next line */");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Comment" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "Next line" },
+            { kind: TokenSyntaxKind.Text, text: "Comment", pos: 6 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 13 },
+            { kind: TokenSyntaxKind.Text, text: "Next line", pos: 17 },
         ]);
     });
 
@@ -99,7 +103,7 @@ describe("Block Comment Lexer", () => {
             * Text
             */`);
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Text" }]);
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Text", pos: 18 }]);
     });
 
     it("Should handle an indented comment without stars", () => {
@@ -107,7 +111,7 @@ describe("Block Comment Lexer", () => {
             Text
             */`);
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Text" }]);
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Text", pos: 15 }]);
     });
 
     it("Should handle a list within a comment without stars", () => {
@@ -121,9 +125,13 @@ describe("Block Comment Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Comment start" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: " * This is a list item" },
+            { kind: TokenSyntaxKind.Text, text: "Comment start", pos: 4 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 17 },
+            {
+                kind: TokenSyntaxKind.Text,
+                text: " * This is a list item",
+                pos: 19,
+            },
         ]);
     });
 
@@ -138,9 +146,9 @@ describe("Block Comment Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "A" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "B" },
+            { kind: TokenSyntaxKind.Text, text: "A", pos: 8 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 9 },
+            { kind: TokenSyntaxKind.Text, text: "B", pos: 10 },
         ]);
     });
 
@@ -155,9 +163,9 @@ describe("Block Comment Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "A" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "B" },
+            { kind: TokenSyntaxKind.Text, text: "A", pos: 6 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 7 },
+            { kind: TokenSyntaxKind.Text, text: "B", pos: 10 },
         ]);
     });
 
@@ -165,21 +173,23 @@ describe("Block Comment Lexer", () => {
         const tokens = lex("/* {} */");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
-            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 3 },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 4 },
         ]);
     });
 
     it("Should handle escaping braces", () => {
         const tokens = lex("/* \\{\\} */");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "{}" }]);
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "{}", pos: 3 }]);
     });
 
     it("Should allow escaping slashes", () => {
         const tokens = lex("/* Text *\\/ */");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Text */" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "Text */", pos: 3 },
+        ]);
     });
 
     it("Should allow escaping slashes in code blocks", () => {
@@ -197,6 +207,7 @@ describe("Block Comment Lexer", () => {
             {
                 kind: TokenSyntaxKind.Code,
                 text: "```ts\n/* inner block comment */\n```",
+                pos: 7,
             },
         ]);
     });
@@ -204,69 +215,79 @@ describe("Block Comment Lexer", () => {
     it("Should pass through unknown escapes", () => {
         const tokens = lex("/* \\\\ \\n */");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "\\\\ \\n" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "\\\\ \\n", pos: 3 },
+        ]);
     });
 
     it("Should recognize tags", () => {
         const tokens = lex("/* @tag @a @abc234 */");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@tag" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@a" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@abc234" },
+            { kind: TokenSyntaxKind.Tag, text: "@tag", pos: 3 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 7 },
+            { kind: TokenSyntaxKind.Tag, text: "@a", pos: 8 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 10 },
+            { kind: TokenSyntaxKind.Tag, text: "@abc234", pos: 11 },
         ]);
     });
 
     it("Should not indiscriminately create tags", () => {
         const tokens = lex("/* @123 @@ @ */");
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "@123 @@ @" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "@123 @@ @", pos: 3 },
+        ]);
     });
 
     it("Should allow escaping @ to prevent a tag creation", () => {
         const tokens = lex("/* not a \\@tag */");
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "not a @tag" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "not a @tag", pos: 3 },
+        ]);
     });
 
     it("Should not mistake an email for a modifier tag", () => {
         const tokens = lex("/* test@example.com */");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test@example.com" },
+            { kind: TokenSyntaxKind.Text, text: "test@example.com", pos: 3 },
         ]);
     });
 
     it("Should allow escaping @ in an email", () => {
         const tokens = lex("/* test\\@example.com */");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test@example.com" },
+            { kind: TokenSyntaxKind.Text, text: "test@example.com", pos: 3 },
         ]);
     });
 
     it("Should allow inline code", () => {
         const tokens = lex("/* test `code` after */");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test " },
-            { kind: TokenSyntaxKind.Code, text: "`code`" },
-            { kind: TokenSyntaxKind.Text, text: " after" },
+            { kind: TokenSyntaxKind.Text, text: "test ", pos: 3 },
+            { kind: TokenSyntaxKind.Code, text: "`code`", pos: 8 },
+            { kind: TokenSyntaxKind.Text, text: " after", pos: 14 },
         ]);
     });
 
     it("Should allow inline code with multiple ticks", () => {
         const tokens = lex("/* test ```not ```` closed``` after */");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test " },
-            { kind: TokenSyntaxKind.Code, text: "```not ```` closed```" },
-            { kind: TokenSyntaxKind.Text, text: " after" },
+            { kind: TokenSyntaxKind.Text, text: "test ", pos: 3 },
+            {
+                kind: TokenSyntaxKind.Code,
+                text: "```not ```` closed```",
+                pos: 8,
+            },
+            { kind: TokenSyntaxKind.Text, text: " after", pos: 29 },
         ]);
     });
 
     it("Should allow escaping ticks", () => {
         const tokens = lex("/* test `\\`` after */");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test " },
-            { kind: TokenSyntaxKind.Code, text: "`\\``" },
-            { kind: TokenSyntaxKind.Text, text: " after" },
+            { kind: TokenSyntaxKind.Text, text: "test ", pos: 3 },
+            { kind: TokenSyntaxKind.Code, text: "`\\``", pos: 8 },
+            { kind: TokenSyntaxKind.Text, text: " after", pos: 12 },
         ]);
     });
 
@@ -281,7 +302,11 @@ describe("Block Comment Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Code, text: "```ts\n  test()\n```" },
+            {
+                kind: TokenSyntaxKind.Code,
+                text: "```ts\n  test()\n```",
+                pos: 7,
+            },
         ]);
     });
 
@@ -296,14 +321,18 @@ describe("Block Comment Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Code, text: "```ts\n  test()\n```" },
+            {
+                kind: TokenSyntaxKind.Code,
+                text: "```ts\n  test()\n```",
+                pos: 4,
+            },
         ]);
     });
 
     it("Should treat unclosed inline code as text", () => {
         const tokens = lex("/* text ` still text */");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "text ` still text" },
+            { kind: TokenSyntaxKind.Text, text: "text ` still text", pos: 3 },
         ]);
     });
 
@@ -317,9 +346,9 @@ describe("Block Comment Lexer", () => {
                  */`)
         );
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Code, text: "```ts\nfoo();" },
+            { kind: TokenSyntaxKind.Text, text: "Text", pos: 6 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 10 },
+            { kind: TokenSyntaxKind.Code, text: "```ts\nfoo();", pos: 14 },
         ]);
     });
 
@@ -333,12 +362,12 @@ describe("Block Comment Lexer", () => {
                  */`)
         );
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "code? `` fake" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Tag, text: "@blockTag" },
-            { kind: TokenSyntaxKind.Text, text: " text" },
+            { kind: TokenSyntaxKind.Text, text: "Text", pos: 6 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 10 },
+            { kind: TokenSyntaxKind.Text, text: "code? `` fake", pos: 14 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 27 },
+            { kind: TokenSyntaxKind.Tag, text: "@blockTag", pos: 31 },
+            { kind: TokenSyntaxKind.Text, text: " text", pos: 40 },
         ]);
     });
 
@@ -350,9 +379,9 @@ describe("Block Comment Lexer", () => {
                  */`)
         );
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "Text2" },
+            { kind: TokenSyntaxKind.Text, text: "Text", pos: 3 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 7 },
+            { kind: TokenSyntaxKind.Text, text: "Text2", pos: 11 },
         ]);
 
         tokens = lex(
@@ -362,9 +391,9 @@ describe("Block Comment Lexer", () => {
                  */`)
         );
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "Text2" },
+            { kind: TokenSyntaxKind.Text, text: "Text", pos: 4 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 8 },
+            { kind: TokenSyntaxKind.Text, text: "Text2", pos: 12 },
         ]);
     });
 
@@ -382,21 +411,29 @@ describe("Block Comment Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "This is a summary." },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Tag, text: "@remarks" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "Detailed text here with a " },
-            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
-            { kind: TokenSyntaxKind.Tag, text: "@link" },
-            { kind: TokenSyntaxKind.Text, text: " Inline | inline link" },
-            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Tag, text: "@alpha" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@beta" },
+            { kind: TokenSyntaxKind.Text, text: "This is a summary.", pos: 7 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 25 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 28 },
+            { kind: TokenSyntaxKind.Tag, text: "@remarks", pos: 32 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 40 },
+            {
+                kind: TokenSyntaxKind.Text,
+                text: "Detailed text here with a ",
+                pos: 44,
+            },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 70 },
+            { kind: TokenSyntaxKind.Tag, text: "@link", pos: 71 },
+            {
+                kind: TokenSyntaxKind.Text,
+                text: " Inline | inline link",
+                pos: 76,
+            },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 97 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 98 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 101 },
+            { kind: TokenSyntaxKind.Tag, text: "@alpha", pos: 105 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 111 },
+            { kind: TokenSyntaxKind.Tag, text: "@beta", pos: 112 },
         ]);
     });
 
@@ -411,9 +448,9 @@ describe("Block Comment Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Code, text: "```\nText" },
+            { kind: TokenSyntaxKind.Text, text: "Text", pos: 6 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 10 },
+            { kind: TokenSyntaxKind.Code, text: "```\nText", pos: 13 },
         ]);
     });
 
@@ -426,10 +463,10 @@ describe("Block Comment Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@param" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.TypeAnnotation, text: "{string}" },
-            { kind: TokenSyntaxKind.Text, text: " foo" },
+            { kind: TokenSyntaxKind.Tag, text: "@param", pos: 7 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 13 },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{string}", pos: 14 },
+            { kind: TokenSyntaxKind.Text, text: " foo", pos: 22 },
         ]);
     });
 
@@ -460,7 +497,10 @@ describe("Block Comment Lexer", () => {
         ]);
         expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
 
-        equal(tokens, expectedTokens);
+        equal(
+            tokens.map((tok) => ({ kind: tok.kind, text: tok.text })),
+            expectedTokens
+        );
     });
 
     it("Should handle type annotations with object literals", () => {
@@ -486,15 +526,18 @@ describe("Block Comment Lexer", () => {
         ]);
         expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
 
-        equal(tokens, expectedTokens);
+        equal(
+            tokens.map((tok) => ({ kind: tok.kind, text: tok.text })),
+            expectedTokens
+        );
     });
 
     it("Should handle unclosed type annotations", () => {
         const tokens = lex("/** @type {oops */");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@type" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.TypeAnnotation, text: "{oops" },
+            { kind: TokenSyntaxKind.Tag, text: "@type", pos: 4 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 9 },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{oops", pos: 10 },
         ]);
     });
 
@@ -502,12 +545,12 @@ describe("Block Comment Lexer", () => {
         const tokens = lex("/** @param {@link foo} */");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@param" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
-            { kind: TokenSyntaxKind.Tag, text: "@link" },
-            { kind: TokenSyntaxKind.Text, text: " foo" },
-            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+            { kind: TokenSyntaxKind.Tag, text: "@param", pos: 4 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 10 },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 11 },
+            { kind: TokenSyntaxKind.Tag, text: "@link", pos: 12 },
+            { kind: TokenSyntaxKind.Text, text: " foo", pos: 17 },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 21 },
         ]);
     });
 });
@@ -534,16 +577,18 @@ describe("Line Comment Lexer", () => {
     it("Should handle a trivial comment", () => {
         const tokens = lex("// Comment ");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Comment" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "Comment", pos: 3 },
+        ]);
     });
 
     it("Should handle a multiline comment", () => {
         const tokens = lex("// Comment\n  // Next line ");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Comment" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "Next line" },
+            { kind: TokenSyntaxKind.Text, text: "Comment", pos: 3 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 10 },
+            { kind: TokenSyntaxKind.Text, text: "Next line", pos: 16 },
         ]);
     });
 
@@ -551,91 +596,103 @@ describe("Line Comment Lexer", () => {
         const tokens = lex("// {}");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
-            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 3 },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 4 },
         ]);
     });
 
     it("Should handle escaping braces", () => {
         const tokens = lex("// \\{\\}");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "{}" }]);
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "{}", pos: 3 }]);
     });
 
     it("Should pass through unknown escapes", () => {
         const tokens = lex("// \\\\ \\n");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "\\\\ \\n" }]);
-        equal(lex("// *\\/"), [{ kind: TokenSyntaxKind.Text, text: "*\\/" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "\\\\ \\n", pos: 3 },
+        ]);
+        equal(lex("// *\\/"), [
+            { kind: TokenSyntaxKind.Text, text: "*\\/", pos: 3 },
+        ]);
     });
 
     it("Should recognize tags", () => {
         const tokens = lex("// @tag @a @abc234");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@tag" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@a" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@abc234" },
+            { kind: TokenSyntaxKind.Tag, text: "@tag", pos: 3 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 7 },
+            { kind: TokenSyntaxKind.Tag, text: "@a", pos: 8 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 10 },
+            { kind: TokenSyntaxKind.Tag, text: "@abc234", pos: 11 },
         ]);
     });
 
     it("Should not indiscriminately create tags", () => {
         const tokens = lex("// @123 @@ @");
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "@123 @@ @" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "@123 @@ @", pos: 3 },
+        ]);
     });
 
     it("Should allow escaping @ to prevent a tag creation", () => {
         const tokens = lex("// not a \\@tag");
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "not a @tag" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "not a @tag", pos: 3 },
+        ]);
     });
 
     it("Should not mistake an email for a modifier tag", () => {
         const tokens = lex("// test@example.com");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test@example.com" },
+            { kind: TokenSyntaxKind.Text, text: "test@example.com", pos: 3 },
         ]);
     });
 
     it("Should allow escaping @ in an email", () => {
         const tokens = lex("// test\\@example.com");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test@example.com" },
+            { kind: TokenSyntaxKind.Text, text: "test@example.com", pos: 3 },
         ]);
     });
 
     it("Should allow inline code", () => {
         const tokens = lex("// test `code` after");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test " },
-            { kind: TokenSyntaxKind.Code, text: "`code`" },
-            { kind: TokenSyntaxKind.Text, text: " after" },
+            { kind: TokenSyntaxKind.Text, text: "test ", pos: 3 },
+            { kind: TokenSyntaxKind.Code, text: "`code`", pos: 8 },
+            { kind: TokenSyntaxKind.Text, text: " after", pos: 14 },
         ]);
     });
 
     it("Should allow inline code with multiple ticks", () => {
         const tokens = lex("// test ```not ```` closed``` after");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test " },
-            { kind: TokenSyntaxKind.Code, text: "```not ```` closed```" },
-            { kind: TokenSyntaxKind.Text, text: " after" },
+            { kind: TokenSyntaxKind.Text, text: "test ", pos: 3 },
+            {
+                kind: TokenSyntaxKind.Code,
+                text: "```not ```` closed```",
+                pos: 8,
+            },
+            { kind: TokenSyntaxKind.Text, text: " after", pos: 29 },
         ]);
     });
 
     it("Should allow escaping ticks", () => {
         const tokens = lex("// test `\\`` after");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test " },
-            { kind: TokenSyntaxKind.Code, text: "`\\``" },
-            { kind: TokenSyntaxKind.Text, text: " after" },
+            { kind: TokenSyntaxKind.Text, text: "test ", pos: 3 },
+            { kind: TokenSyntaxKind.Code, text: "`\\``", pos: 8 },
+            { kind: TokenSyntaxKind.Text, text: " after", pos: 12 },
         ]);
     });
 
     it("Should treat unclosed inline code as text", () => {
         const tokens = lex("// text ` still text");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "text ` still text" },
+            { kind: TokenSyntaxKind.Text, text: "text ` still text", pos: 3 },
         ]);
     });
 
@@ -648,12 +705,12 @@ describe("Line Comment Lexer", () => {
         `)
         );
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "code? `` fake" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Tag, text: "@blockTag" },
-            { kind: TokenSyntaxKind.Text, text: " text" },
+            { kind: TokenSyntaxKind.Text, text: "Text", pos: 3 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 7 },
+            { kind: TokenSyntaxKind.Text, text: "code? `` fake", pos: 11 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 24 },
+            { kind: TokenSyntaxKind.Tag, text: "@blockTag", pos: 28 },
+            { kind: TokenSyntaxKind.Text, text: " text", pos: 37 },
         ]);
     });
 
@@ -669,23 +726,29 @@ describe("Line Comment Lexer", () => {
             `)
         );
 
-        equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "This is a summary." },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Tag, text: "@remarks" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "Detailed text here with a " },
-            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
-            { kind: TokenSyntaxKind.Tag, text: "@link" },
-            { kind: TokenSyntaxKind.Text, text: " Inline | inline link" },
-            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Tag, text: "@alpha" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@beta" },
-        ]);
+        equal(
+            tokens.map((tok) => ({ kind: tok.kind, text: tok.text })),
+            [
+                { kind: TokenSyntaxKind.Text, text: "This is a summary." },
+                { kind: TokenSyntaxKind.NewLine, text: "\n" },
+                { kind: TokenSyntaxKind.NewLine, text: "\n" },
+                { kind: TokenSyntaxKind.Tag, text: "@remarks" },
+                { kind: TokenSyntaxKind.NewLine, text: "\n" },
+                {
+                    kind: TokenSyntaxKind.Text,
+                    text: "Detailed text here with a ",
+                },
+                { kind: TokenSyntaxKind.OpenBrace, text: "{" },
+                { kind: TokenSyntaxKind.Tag, text: "@link" },
+                { kind: TokenSyntaxKind.Text, text: " Inline | inline link" },
+                { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+                { kind: TokenSyntaxKind.NewLine, text: "\n" },
+                { kind: TokenSyntaxKind.NewLine, text: "\n" },
+                { kind: TokenSyntaxKind.Tag, text: "@alpha" },
+                { kind: TokenSyntaxKind.Text, text: " " },
+                { kind: TokenSyntaxKind.Tag, text: "@beta" },
+            ]
+        );
     });
 
     it("Should handle unclosed code blocks", () => {
@@ -697,9 +760,9 @@ describe("Line Comment Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Code, text: "```\nText" },
+            { kind: TokenSyntaxKind.Text, text: "Text", pos: 3 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 7 },
+            { kind: TokenSyntaxKind.Code, text: "```\nText", pos: 11 },
         ]);
     });
 
@@ -707,10 +770,10 @@ describe("Line Comment Lexer", () => {
         const tokens = lex(`// @param {string} foo`);
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@param" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.TypeAnnotation, text: "{string}" },
-            { kind: TokenSyntaxKind.Text, text: " foo" },
+            { kind: TokenSyntaxKind.Tag, text: "@param", pos: 3 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 9 },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{string}", pos: 10 },
+            { kind: TokenSyntaxKind.Text, text: " foo", pos: 18 },
         ]);
     });
 
@@ -740,7 +803,10 @@ describe("Line Comment Lexer", () => {
         ]);
         expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
 
-        equal(tokens, expectedTokens);
+        equal(
+            tokens.map((tok) => ({ kind: tok.kind, text: tok.text })),
+            expectedTokens
+        );
     });
 
     it("Should handle type annotations with object literals", () => {
@@ -765,15 +831,18 @@ describe("Line Comment Lexer", () => {
         ]);
         expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
 
-        equal(tokens, expectedTokens);
+        equal(
+            tokens.map((tok) => ({ kind: tok.kind, text: tok.text })),
+            expectedTokens
+        );
     });
 
     it("Should handle unclosed type annotations", () => {
         const tokens = lex("// @type {oops");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@type" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.TypeAnnotation, text: "{oops" },
+            { kind: TokenSyntaxKind.Tag, text: "@type", pos: 3 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 8 },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{oops", pos: 9 },
         ]);
     });
 
@@ -781,13 +850,13 @@ describe("Line Comment Lexer", () => {
         const tokens = lex("// @param { @link foo}");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@param" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@link" },
-            { kind: TokenSyntaxKind.Text, text: " foo" },
-            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+            { kind: TokenSyntaxKind.Tag, text: "@param", pos: 3 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 9 },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 10 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 11 },
+            { kind: TokenSyntaxKind.Tag, text: "@link", pos: 12 },
+            { kind: TokenSyntaxKind.Text, text: " foo", pos: 17 },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 21 },
         ]);
     });
 });
@@ -806,16 +875,18 @@ describe("Raw Lexer", () => {
     it("Should handle a trivial comment", () => {
         const tokens = lex(" Comment ");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "Comment" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "Comment", pos: 1 },
+        ]);
     });
 
     it("Should handle a multiline comment", () => {
         const tokens = lex(" Comment\nNext line ");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Comment" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "Next line" },
+            { kind: TokenSyntaxKind.Text, text: "Comment", pos: 1 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 8 },
+            { kind: TokenSyntaxKind.Text, text: "Next line", pos: 9 },
         ]);
     });
 
@@ -823,66 +894,74 @@ describe("Raw Lexer", () => {
         const tokens = lex("{}");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
-            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 0 },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 1 },
         ]);
     });
 
     it("Should handle escaping braces", () => {
         const tokens = lex("\\{\\}");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "{}" }]);
+        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "{}", pos: 0 }]);
     });
 
     it("Should pass through unknown escapes", () => {
         const tokens = lex("\\\\ \\n");
 
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "\\\\ \\n" }]);
-        equal(lex("*\\/"), [{ kind: TokenSyntaxKind.Text, text: "*\\/" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "\\\\ \\n", pos: 0 },
+        ]);
+        equal(lex("*\\/"), [
+            { kind: TokenSyntaxKind.Text, text: "*\\/", pos: 0 },
+        ]);
     });
 
     it("Should recognize tags", () => {
         const tokens = lex("@tag @a @abc234");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@tag" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@a" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@abc234" },
+            { kind: TokenSyntaxKind.Tag, text: "@tag", pos: 0 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 4 },
+            { kind: TokenSyntaxKind.Tag, text: "@a", pos: 5 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 7 },
+            { kind: TokenSyntaxKind.Tag, text: "@abc234", pos: 8 },
         ]);
     });
 
     it("Should not indiscriminately create tags", () => {
         const tokens = lex("@123 @@ @");
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "@123 @@ @" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "@123 @@ @", pos: 0 },
+        ]);
     });
 
     it("Should allow escaping @ to prevent a tag creation", () => {
         const tokens = lex("not a \\@tag");
-        equal(tokens, [{ kind: TokenSyntaxKind.Text, text: "not a @tag" }]);
+        equal(tokens, [
+            { kind: TokenSyntaxKind.Text, text: "not a @tag", pos: 0 },
+        ]);
     });
 
     it("Should not mistake an email for a modifier tag", () => {
         const tokens = lex("test@example.com");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test@example.com" },
+            { kind: TokenSyntaxKind.Text, text: "test@example.com", pos: 0 },
         ]);
     });
 
     it("Should allow escaping @ in an email", () => {
         const tokens = lex("test\\@example.com");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test@example.com" },
+            { kind: TokenSyntaxKind.Text, text: "test@example.com", pos: 0 },
         ]);
     });
 
     it("Should allow inline code", () => {
         const tokens = lex("test `code` after");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test " },
-            { kind: TokenSyntaxKind.Code, text: "`code`" },
-            { kind: TokenSyntaxKind.Text, text: " after" },
+            { kind: TokenSyntaxKind.Text, text: "test ", pos: 0 },
+            { kind: TokenSyntaxKind.Code, text: "`code`", pos: 5 },
+            { kind: TokenSyntaxKind.Text, text: " after", pos: 11 },
         ]);
     });
 
@@ -894,6 +973,7 @@ describe("Raw Lexer", () => {
             {
                 kind: "code",
                 text: "`code`",
+                pos: 0,
             },
         ]);
     });
@@ -901,25 +981,29 @@ describe("Raw Lexer", () => {
     it("Should allow inline code with multiple ticks", () => {
         const tokens = lex("test ```not ```` closed``` after");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test " },
-            { kind: TokenSyntaxKind.Code, text: "```not ```` closed```" },
-            { kind: TokenSyntaxKind.Text, text: " after" },
+            { kind: TokenSyntaxKind.Text, text: "test ", pos: 0 },
+            {
+                kind: TokenSyntaxKind.Code,
+                text: "```not ```` closed```",
+                pos: 5,
+            },
+            { kind: TokenSyntaxKind.Text, text: " after", pos: 26 },
         ]);
     });
 
     it("Should allow escaping ticks", () => {
         const tokens = lex("test `\\`` after");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "test " },
-            { kind: TokenSyntaxKind.Code, text: "`\\``" },
-            { kind: TokenSyntaxKind.Text, text: " after" },
+            { kind: TokenSyntaxKind.Text, text: "test ", pos: 0 },
+            { kind: TokenSyntaxKind.Code, text: "`\\``", pos: 5 },
+            { kind: TokenSyntaxKind.Text, text: " after", pos: 9 },
         ]);
     });
 
     it("Should treat unclosed inline code as text", () => {
         const tokens = lex("text ` still text");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "text ` still text" },
+            { kind: TokenSyntaxKind.Text, text: "text ` still text", pos: 0 },
         ]);
     });
 
@@ -932,12 +1016,12 @@ describe("Raw Lexer", () => {
         `)
         );
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Text, text: "code? `` fake" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Tag, text: "@blockTag" },
-            { kind: TokenSyntaxKind.Text, text: " text" },
+            { kind: TokenSyntaxKind.Text, text: "Text", pos: 0 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 4 },
+            { kind: TokenSyntaxKind.Text, text: "code? `` fake", pos: 5 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 18 },
+            { kind: TokenSyntaxKind.Tag, text: "@blockTag", pos: 19 },
+            { kind: TokenSyntaxKind.Text, text: " text", pos: 28 },
         ]);
     });
 
@@ -951,7 +1035,7 @@ describe("Raw Lexer", () => {
 
             @alpha @beta
             `)
-        );
+        ).map((t) => ({ kind: t.kind, text: t.text }));
 
         equal(tokens, [
             { kind: TokenSyntaxKind.Text, text: "This is a summary." },
@@ -981,9 +1065,9 @@ describe("Raw Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text" },
-            { kind: TokenSyntaxKind.NewLine, text: "\n" },
-            { kind: TokenSyntaxKind.Code, text: "```\nText" },
+            { kind: TokenSyntaxKind.Text, text: "Text", pos: 0 },
+            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 4 },
+            { kind: TokenSyntaxKind.Code, text: "```\nText", pos: 5 },
         ]);
     });
 
@@ -991,10 +1075,10 @@ describe("Raw Lexer", () => {
         const tokens = lex(`@param {string} foo`);
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@param" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.TypeAnnotation, text: "{string}" },
-            { kind: TokenSyntaxKind.Text, text: " foo" },
+            { kind: TokenSyntaxKind.Tag, text: "@param", pos: 0 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 6 },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{string}", pos: 7 },
+            { kind: TokenSyntaxKind.Text, text: " foo", pos: 15 },
         ]);
     });
 
@@ -1024,7 +1108,10 @@ describe("Raw Lexer", () => {
         ]);
         expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
 
-        equal(tokens, expectedTokens);
+        equal(
+            tokens.map((t) => ({ kind: t.kind, text: t.text })),
+            expectedTokens
+        );
     });
 
     it("Should handle type annotations with object literals", () => {
@@ -1049,15 +1136,18 @@ describe("Raw Lexer", () => {
         ]);
         expectedTokens.push({ kind: TokenSyntaxKind.Text, text: "EOF" });
 
-        equal(tokens, expectedTokens);
+        equal(
+            tokens.map((t) => ({ kind: t.kind, text: t.text })),
+            expectedTokens
+        );
     });
 
     it("Should handle unclosed type annotations", () => {
         const tokens = lex("@type {oops");
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@type" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.TypeAnnotation, text: "{oops" },
+            { kind: TokenSyntaxKind.Tag, text: "@type", pos: 0 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 5 },
+            { kind: TokenSyntaxKind.TypeAnnotation, text: "{oops", pos: 6 },
         ]);
     });
 
@@ -1065,13 +1155,13 @@ describe("Raw Lexer", () => {
         const tokens = lex("@param { @link foo}");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Tag, text: "@param" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.OpenBrace, text: "{" },
-            { kind: TokenSyntaxKind.Text, text: " " },
-            { kind: TokenSyntaxKind.Tag, text: "@link" },
-            { kind: TokenSyntaxKind.Text, text: " foo" },
-            { kind: TokenSyntaxKind.CloseBrace, text: "}" },
+            { kind: TokenSyntaxKind.Tag, text: "@param", pos: 0 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 6 },
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 7 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 8 },
+            { kind: TokenSyntaxKind.Tag, text: "@link", pos: 9 },
+            { kind: TokenSyntaxKind.Text, text: " foo", pos: 14 },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 18 },
         ]);
     });
 });
@@ -1092,22 +1182,34 @@ describe("Comment Parser", () => {
     };
 
     it("Should rewrite @inheritdoc to @inheritDoc", () => {
-        let calls = 0;
-        function warning(msg: string) {
-            equal(msg, "The @inheritDoc tag should be properly capitalized");
-            calls++;
-        }
-        const content = lexBlockComment("/** @inheritdoc */");
-        const comment = parseComment(content, config, warning);
+        const logger = new TestLogger();
+        const file = "/** @inheritdoc */";
+        const content = lexBlockComment(file);
+        const comment = parseComment(
+            content,
+            config,
+            new MinimalSourceFile(file, "<memory>"),
+            logger
+        );
 
-        equal(calls, 1);
+        logger.expectMessage(
+            "warn: The @inheritDoc tag should be properly capitalized"
+        );
+        logger.expectNoOtherMessages();
         equal(comment, new Comment([], [new CommentTag("@inheritDoc", [])]));
     });
 
     function test(name: string, text: string, cb: (comment: Comment) => void) {
         it(name, () => {
+            const logger = new TestLogger();
             const content = lexBlockComment(text);
-            const comment = parseComment(content, config, fail);
+            const comment = parseComment(
+                content,
+                config,
+                new MinimalSourceFile(text, "<memory>"),
+                logger
+            );
+            logger.expectNoOtherMessages();
             cb(comment);
         });
     }

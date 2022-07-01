@@ -9,6 +9,7 @@ import { getCommonDirectory } from "../../utils/fs";
 import { nicePath } from "../../utils/paths";
 import { lexCommentString } from "../comments/rawLexer";
 import { parseComment } from "../comments/parser";
+import { MinimalSourceFile } from "../../utils/minimalSourceFile";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -104,11 +105,8 @@ export class PackagePlugin extends ConverterComponent {
             const comment = parseComment(
                 lexCommentString(readme),
                 context.converter.config,
-                (msg) => {
-                    this.application.logger.warn(
-                        `${msg} in ${this.readmeFile}`
-                    );
-                }
+                new MinimalSourceFile(readme, this.readmeFile),
+                context.logger
             );
 
             if (comment.blockTags.length || comment.modifierTags.size) {

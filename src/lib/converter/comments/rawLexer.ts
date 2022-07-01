@@ -105,6 +105,7 @@ function* lexCommentString2(
                         yield {
                             kind: TokenSyntaxKind.Code,
                             text: codeText.join(""),
+                            pos,
                         };
                         pos = lookahead;
                         break;
@@ -138,6 +139,7 @@ function* lexCommentString2(
                         yield {
                             kind: TokenSyntaxKind.Code,
                             text: codeText.join(""),
+                            pos,
                         };
                         pos = lookahead;
                     } else {
@@ -210,12 +212,13 @@ function* lexCommentString2(
                     braceStartsType = false;
                 }
 
-                pos = lookahead;
                 // This piece of text had line continuations or escaped text
                 yield {
                     kind: TokenSyntaxKind.Text,
                     text: textParts.join(""),
+                    pos,
                 };
+                pos = lookahead;
                 break;
             }
         }
@@ -228,6 +231,7 @@ function* lexCommentString2(
         return {
             kind,
             text: file.substring(start, pos),
+            pos: start,
         };
     }
 

@@ -11,4 +11,6 @@ export enum TokenSyntaxKind {
 export interface Token {
     kind: TokenSyntaxKind;
     text: string;
+
+    pos: number;
 }

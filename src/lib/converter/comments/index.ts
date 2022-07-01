@@ -2,7 +2,6 @@ import * as ts from "typescript";
 import { Comment, ReflectionKind } from "../../models";
 import { assertNever, Logger } from "../../utils";
 import type { CommentStyle } from "../../utils/options/declaration";
-import { nicePath } from "../../utils/paths";
 import { lexBlockComment } from "./blockLexer";
 import { discoverComment, discoverSignatureComment } from "./discovery";
 import { lexLineComments } from "./lineLexer";
@@ -29,26 +28,22 @@ function getCommentWithCache(
         return cache.get(ranges[0].pos)!.clone();
     }
 
-    const line = ts.getLineAndCharacterOfPosition(file, ranges[0].pos).line + 1;
-    const warning = (warning: string) =>
-        logger.warn(
-            `${warning} in comment at ${nicePath(file.fileName)}:${line}.`
-        );
-
     let comment: Comment;
     switch (ranges[0].kind) {
         case ts.SyntaxKind.MultiLineCommentTrivia:
             comment = parseComment(
                 lexBlockComment(file.text, ranges[0].pos, ranges[0].end),
                 config,
-                warning
+                file,
+                logger
             );
             break;
         case ts.SyntaxKind.SingleLineCommentTrivia:
             comment = parseComment(
                 lexLineComments(file.text, ranges),
                 config,
-                warning
+                file,
+                logger
             );
             break;
         default:

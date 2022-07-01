@@ -2,6 +2,7 @@ import * as ts from "typescript";
 import { url } from "inspector";
 import { resolve } from "path";
 import { nicePath } from "./paths";
+import type { MinimalSourceFile } from "./minimalSourceFile";
 
 const isDebugging = () => !!url();
 
@@ -37,33 +38,7 @@ const messagePrefixes = {
     [LogLevel.Verbose]: color("debug", "gray"),
 };
 
-function withContext(message: string, level: LogLevel, node?: ts.Node) {
-    if (!node) {
-        return `${messagePrefixes[level]} ${message}`;
-    }
-
-    const file = node.getSourceFile();
-    const path = nicePath(file.fileName);
-    const pos = node.getStart(file, false);
-    const { line, character } = ts.getLineAndCharacterOfPosition(file, pos);
-
-    const location = `${color(path, "cyan")}:${color(
-        `${line + 1}`,
-        "yellow"
-    )}:${color(`${character}`, "yellow")}`;
-
-    const start = file.text.lastIndexOf("\n", pos) + 1;
-    let end = file.text.indexOf("\n", start);
-    if (end === -1) end = file.text.length;
-
-    const prefix = `${location} - ${messagePrefixes[level]}`;
-    const context = `${color(`${line + 1}`, "black")}    ${file.text.substring(
-        start,
-        end
-    )}`;
-
-    return `${prefix} ${message}\n\n${context}\n`;
-}
+type FormatArgs = [ts.Node?] | [number, MinimalSourceFile];
 
 /**
  * A logger that will not produce any output.
@@ -141,10 +116,12 @@ export class Logger {
      * @param text  The warning that should be logged.
      * @param args  The arguments that should be printed into the given warning.
      */
-    warn(text: string, node?: ts.Node) {
+    warn(text: string, node?: ts.Node): void;
+    warn(text: string, pos: number, file: MinimalSourceFile): void;
+    warn(text: string, ...args: FormatArgs): void {
         if (this.seenWarnings.has(text)) return;
         this.seenWarnings.add(text);
-        this.log(text, LogLevel.Warn, node);
+        this.log(this.addContext(text, LogLevel.Warn, ...args), LogLevel.Warn);
     }
 
     /**
@@ -153,10 +130,15 @@ export class Logger {
      * @param text  The error that should be logged.
      * @param args  The arguments that should be printed into the given error.
      */
-    error(text: string, node?: ts.Node) {
+    error(text: string, node?: ts.Node): void;
+    error(text: string, pos: number, file: MinimalSourceFile): void;
+    error(text: string, ...args: FormatArgs) {
         if (this.seenErrors.has(text)) return;
         this.seenErrors.add(text);
-        this.log(text, LogLevel.Error, node);
+        this.log(
+            this.addContext(text, LogLevel.Error, ...args),
+            LogLevel.Error
+        );
     }
 
     /** @internal */
@@ -175,9 +157,8 @@ export class Logger {
      *
      * @param _message The message itself.
      * @param level The urgency of the log message.
-     * @param _node Optional node to be used to provide additional context about the message.
      */
-    log(_message: string, level: LogLevel, _node?: ts.Node) {
+    log(_message: string, level: LogLevel) {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
@@ -220,6 +201,14 @@ export class Logger {
                 this.log(output, LogLevel.Info);
         }
     }
+
+    protected addContext(
+        message: string,
+        _level: LogLevel,
+        ..._args: [ts.Node?] | [number, MinimalSourceFile]
+    ): string {
+        return message;
+    }
 }
 
 /**
@@ -239,7 +228,7 @@ export class ConsoleLogger extends Logger {
      * @param message  The message itself.
      * @param level  The urgency of the log message.
      */
-    override log(message: string, level: LogLevel, node?: ts.Node) {
+    override log(message: string, level: LogLevel) {
         super.log(message, level);
         if (level < this.level && !isDebugging()) {
             return;
@@ -255,7 +244,48 @@ export class ConsoleLogger extends Logger {
         )[level];
 
         // eslint-disable-next-line no-console
-        console[method](withContext(message, level, node));
+        console[method](message);
+    }
+
+    protected override addContext(
+        message: string,
+        level: LogLevel,
+        ...args: [ts.Node?] | [number, MinimalSourceFile]
+    ): string {
+        if (typeof args[0] === "undefined") {
+            return `${messagePrefixes[level]} ${message}`;
+        }
+
+        if (typeof args[0] !== "number") {
+            return this.addContext(
+                message,
+                level,
+                args[0].getStart(args[0].getSourceFile(), false),
+                args[0].getSourceFile()
+            );
+        }
+
+        const [pos, file] = args as [number, MinimalSourceFile];
+
+        const path = nicePath(file.fileName);
+        const { line, character } = file.getLineAndCharacterOfPosition(pos);
+
+        const location = `${color(path, "cyan")}:${color(
+            `${line + 1}`,
+            "yellow"
+        )}:${color(`${character}`, "yellow")}`;
+
+        const start = file.text.lastIndexOf("\n", pos) + 1;
+        let end = file.text.indexOf("\n", start);
+        if (end === -1) end = file.text.length;
+
+        const prefix = `${location} - ${messagePrefixes[level]}`;
+        const context = `${color(
+            `${line + 1}`,
+            "black"
+        )}    ${file.text.substring(start, end)}`;
+
+        return `${prefix} ${message}\n\n${context}\n`;
     }
 }
 

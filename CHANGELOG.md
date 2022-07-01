@@ -6,10 +6,12 @@
 -   TypeDoc will now detect attempted inheritance from accessors and inherit from the getter or setter, #1968.
 -   `intentionallyNotExported` will now properly respect qualified names, #1972.
 -   Validation warnings caused by missing documentation will now be formatted like other warnings which reference a declaration.
+-   TypeDoc will no longer warn if both the `get` and `set` signatures of an accessor have a comment.
 
 ### Features
 
 -   Added support for TypeDoc specific `:getter` and `:setter` meaning keywords in declaration references.
+-   Warnings caused by comment contents will now do a better job of including the location of the text that caused the warning.
 
 ## v0.23.2 (2022-06-28)
 
