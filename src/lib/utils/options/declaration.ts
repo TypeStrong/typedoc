@@ -110,10 +110,11 @@ export interface TypeDocOptionMap {
     cname: string;
     gitRevision: string;
     gitRemote: string;
-    githubPages: boolean;
     htmlLang: string;
+    githubPages: boolean;
     gaID: string;
     hideGenerator: boolean;
+    searchInComments: boolean;
     cleanOutputDir: boolean;
 
     commentStyle: typeof CommentStyle;
@@ -135,34 +136,8 @@ export interface TypeDocOptionMap {
     searchCategoryBoosts: ManuallyValidatedOption<Record<string, number>>;
     searchGroupBoosts: ManuallyValidatedOption<Record<string, number>>;
 
-<<<<<<< HEAD
     watch: boolean;
     preserveWatchOutput: boolean;
-=======
-    name: string;
-    includeVersion: boolean;
-    readme: string;
-    defaultCategory: string;
-    categoryOrder: string[];
-    categorizeByGroup: boolean;
-    cname: string;
-    sort: SortStrategy[];
-    gitRevision: string;
-    gitRemote: string;
-    gaID: string;
-    githubPages: boolean;
-    htmlLang: string;
-    hideGenerator: boolean;
-    searchInComments: boolean;
-    cleanOutputDir: boolean;
-
-    commentStyle: typeof CommentStyle;
-    excludeTags: `@${string}`[];
-    blockTags: `@${string}`[];
-    inlineTags: `@${string}`[];
-    modifierTags: `@${string}`[];
->>>>>>> master
-
     skipErrorChecking: boolean;
     help: boolean;
     version: boolean;
