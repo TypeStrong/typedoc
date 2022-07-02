@@ -308,10 +308,16 @@ function getEntryPointsForPackages(
     options: Options
 ): DocumentationEntryPoint[] | undefined {
     const results: DocumentationEntryPoint[] = [];
+    const exclude = createMinimatch(options.getValue("exclude"));
 
     // packages arguments are workspace tree roots, or glob patterns
     // This expands them to leave only leaf packages
-    const expandedPackages = expandPackages(logger, ".", packageGlobPaths);
+    const expandedPackages = expandPackages(
+        logger,
+        ".",
+        packageGlobPaths,
+        exclude
+    );
     for (const packagePath of expandedPackages) {
         const packageJsonPath = resolve(packagePath, "package.json");
         const packageJson = loadPackageManifest(logger, packageJsonPath);
@@ -367,6 +373,7 @@ function getEntryPointsForPackages(
         const program = ts.createProgram({
             rootNames: parsedCommandLine.fileNames,
             options: options.fixCompilerOptions(parsedCommandLine.options),
+            projectReferences: parsedCommandLine.projectReferences,
         });
         const sourceFile = program.getSourceFile(packageEntryPoint);
         if (sourceFile === undefined) {

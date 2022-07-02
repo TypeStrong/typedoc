@@ -271,6 +271,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "searchInComments",
+        help: "If set, the search index will also include comments. This will greatly increase the size of the search index.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "cleanOutputDir",
         help: "If set, TypeDoc will remove the output directory before writing output.",
         type: ParameterType.Boolean,

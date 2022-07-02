@@ -1,19 +1,23 @@
 import { debounce } from "../utils/debounce";
 import { Index } from "lunr";
 
-interface IDocument {
+/**
+ * Keep this in sync with the interface in src/lib/output/plugins/JavascriptIndexPlugin.ts
+ * It's not imported because these are separate TS projects today.
+ */
+interface SearchDocument {
     id: number;
+
     kind: number;
     name: string;
     url: string;
     classes?: string;
     parent?: string;
-    boost?: number;
 }
 
 interface IData {
     kinds: { [kind: number]: string };
-    rows: IDocument[];
+    rows: SearchDocument[];
     index: object;
 }
 
@@ -167,9 +171,6 @@ function updateResults(
             boost *=
                 1 + 1 / (Math.abs(row.name.length - searchText.length) * 10);
         }
-
-        // boost by relevanceBoost
-        boost *= row.boost ?? 1;
 
         item.score *= boost;
     }

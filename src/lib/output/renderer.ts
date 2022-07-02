@@ -11,7 +11,7 @@ import * as path from "path";
 
 import type { Application } from "../application";
 import type { Theme } from "./theme";
-import { RendererEvent, PageEvent } from "./events";
+import { RendererEvent, PageEvent, IndexEvent } from "./events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { UrlMapping } from "./models/UrlMapping";
 import { writeFileSync } from "../utils/fs";
@@ -99,6 +99,10 @@ export interface RendererHooks {
  *  * {@link Renderer.EVENT_END}<br>
  *    Triggered after the renderer has written all documents. The listener receives
  *    an instance of {@link RendererEvent}.
+ *
+ * * {@link Renderer.EVENT_PREPARE_INDEX}<br>
+ *    Triggered when the JavascriptIndexPlugin is preparing the search index. Listeners receive
+ *    an instance of {@link IndexEvent}.
  */
 @Component({ name: "renderer", internal: true, childClass: RendererComponent })
 export class Renderer extends ChildableComponent<
@@ -122,6 +126,9 @@ export class Renderer extends ChildableComponent<
     static readonly EVENT_BEGIN = RendererEvent.BEGIN;
     /** @event */
     static readonly EVENT_END = RendererEvent.END;
+
+    /** @event */
+    static readonly EVENT_PREPARE_INDEX = IndexEvent.PREPARE_INDEX;
 
     /**
      * The theme that is used to render the documentation.

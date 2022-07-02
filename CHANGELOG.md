@@ -6,6 +6,20 @@
     before attempting to generate documentation. Turning this on may improve generation speed, but could also
     cause a crash if your code contains compiler errors.
 
+## v0.23.4 (2022-07-02)
+
+### Bug Fixes
+
+-   TypeDoc no longer ignores project references if `--entryPointStrategy Packages` is set, #1976.
+-   Boost computations are now done when creating the search index, resulting in a smaller `search.js` generated file.
+
+### Features
+
+-   The `--exclude` option will now be respected by `--entryPointStrategy Packages` and can be used to exclude package directories, #1959.
+-   TypeDoc now emits an `IndexEvent` on the `Renderer` when preparing the search index, #1953.
+-   Added new `--searchInComments` option to include comment text in the search index, #1553.
+    Turning this option on will increase the size of your search index, potentially by an order of magnitude.
+
 ## v0.23.3 (2022-07-01)
 
 ### Bug Fixes
