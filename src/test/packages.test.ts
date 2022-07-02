@@ -9,6 +9,7 @@ import {
 
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import { TestLogger } from "./TestLogger";
+import { createMinimatch } from "../lib/utils/paths";
 
 describe("Packages support", () => {
     let project: ReturnType<typeof tempdirProject>;
@@ -73,9 +74,25 @@ describe("Packages support", () => {
         });
         project.addJsonFile("packages/foo/tsconfig.json", childTsconfig);
 
+        // Ign, ignored package
+        project.addFile("packages/ign/dist/index.js", "module.exports = 123");
+        project.addFile("packages/ign/index.ts", "export function ign() {}");
+        project.addJsonFile("packages/ign/package.json", {
+            name: "typedoc-multi-package-ign",
+            version: "1.0.0",
+            main: "dist/index",
+            typedocMain: "index.ts",
+        });
+        project.addJsonFile("packages/ign/tsconfig.json", childTsconfig);
+
         project.write();
         const logger = new TestLogger();
-        const packages = expandPackages(logger, project.cwd, [project.cwd]);
+        const packages = expandPackages(
+            logger,
+            project.cwd,
+            [project.cwd],
+            createMinimatch(["**/ign"])
+        );
 
         equal(
             packages,
@@ -134,7 +151,7 @@ describe("Packages support", () => {
         project.write();
 
         const logger = new TestLogger();
-        const packages = expandPackages(logger, project.cwd, [project.cwd]);
+        const packages = expandPackages(logger, project.cwd, [project.cwd], []);
 
         logger.expectNoOtherMessages();
         equal(packages, [normalizePath(project.cwd)]);
@@ -169,7 +186,7 @@ describe("Packages support", () => {
         project.write();
 
         const logger = new TestLogger();
-        const packages = expandPackages(logger, project.cwd, [project.cwd]);
+        const packages = expandPackages(logger, project.cwd, [project.cwd], []);
 
         logger.expectNoOtherMessages();
         equal(packages, [normalizePath(project.cwd)]);

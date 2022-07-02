@@ -4,6 +4,10 @@
 
 -   TypeDoc no longer ignores project references if `--entryPointStrategy Packages` is set, #1976.
 
+### Features
+
+-   The `--exclude` option will now be respected by `--entryPointStrategy Packages` and can be used to exclude package directories, #1959.
+
 ## v0.23.3 (2022-07-01)
 
 ### Bug Fixes

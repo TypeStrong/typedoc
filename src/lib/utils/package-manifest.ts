@@ -5,6 +5,8 @@ import { existsSync } from "fs";
 
 import { readFile, glob } from "./fs";
 import type { Logger } from "./loggers";
+import type { IMinimatch } from "minimatch";
+import { matchesAny } from "./paths";
 
 /**
  * Helper for the TS type system to understand hasOwnProperty
@@ -71,7 +73,8 @@ function getPackagePaths(
 export function expandPackages(
     logger: Logger,
     packageJsonDir: string,
-    workspaces: string[]
+    workspaces: string[],
+    exclude: IMinimatch[]
 ): string[] {
     // Technically npm and Yarn workspaces don't support recursive nesting,
     // however we support the passing of paths to either packages or
@@ -84,6 +87,10 @@ export function expandPackages(
             resolve(packageJsonDir)
         );
         return globbedPackageJsonPaths.flatMap((packageJsonPath) => {
+            if (matchesAny(exclude, dirname(packageJsonPath))) {
+                return [];
+            }
+
             const packageJson = loadPackageManifest(logger, packageJsonPath);
             if (packageJson === undefined) {
                 logger.error(`Failed to load ${packageJsonPath}`);
@@ -98,7 +105,8 @@ export function expandPackages(
             return expandPackages(
                 logger,
                 dirname(packageJsonPath),
-                packagePaths
+                packagePaths,
+                exclude
             );
         });
     });
