@@ -15,6 +15,7 @@ export {
     PageEvent,
     RendererEvent,
     MarkdownEvent,
+    IndexEvent,
 } from "./lib/output";
 export type { RenderTemplate, RendererHooks } from "./lib/output";
 

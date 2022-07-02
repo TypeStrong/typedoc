@@ -3,6 +3,7 @@ import * as Path from "path";
 import { Event } from "../utils/events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
+import type { DeclarationReflection } from "../models";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -150,5 +151,66 @@ export class MarkdownEvent extends Event {
         super(name);
         this.originalText = originalText;
         this.parsedText = parsedText;
+    }
+}
+
+/**
+ * An event emitted when the search index is being prepared.
+ */
+export class IndexEvent extends Event {
+    /**
+     * Triggered on the renderer when the search index is being prepared.
+     * @event
+     */
+    static readonly PREPARE_INDEX = "prepareIndex";
+
+    /**
+     * May be filtered by plugins to reduce the results available.
+     * Additional items *should not* be added to this array.
+     *
+     * If you remove an index from this array, you must also remove the
+     * same index from {@link searchFields}. The {@link removeResult} helper
+     * will do this for you.
+     */
+    searchResults: DeclarationReflection[];
+
+    /**
+     * Additional search fields to be used when creating the search index.
+     * `name` and `comment` may be specified to overwrite TypeDoc's search fields.
+     *
+     * Do not use `id` as a custom search field.
+     */
+    searchFields: Record<string, string>[];
+
+    /**
+     * Weights for the fields defined in `searchFields`. The default will weight
+     * `name` as 10x more important than comment content.
+     *
+     * If a field added to {@link searchFields} is not added to this object, it
+     * will **not** be searchable.
+     *
+     * Do not replace this object, instead, set new properties on it for custom search
+     * fields added by your plugin.
+     */
+    readonly searchFieldWeights: Record<string, number> = {
+        name: 10,
+        comment: 1,
+    };
+
+    /**
+     * Remove a search result by index.
+     */
+    removeResult(index: number) {
+        this.searchResults.splice(index, 1);
+        this.searchFields.splice(index, 1);
+    }
+
+    constructor(name: string, searchResults: DeclarationReflection[]) {
+        super(name);
+        this.searchResults = searchResults;
+        this.searchFields = Array.from(
+            { length: this.searchResults.length },
+            () => ({})
+        );
     }
 }

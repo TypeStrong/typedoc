@@ -126,6 +126,7 @@ export interface TypeDocOptionMap {
     githubPages: boolean;
     htmlLang: string;
     hideGenerator: boolean;
+    searchInComments: boolean;
     cleanOutputDir: boolean;
 
     commentStyle: typeof CommentStyle;
