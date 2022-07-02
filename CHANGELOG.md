@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.5 (2022-07-02)
+
 ### Features
 
 -   The `DEBUG_SEARCH_WEIGHTS` global variable can now be set on `window` to add search scoring information in the search results.
