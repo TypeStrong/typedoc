@@ -10,6 +10,7 @@ import { comment } from "./partials/comment";
 import { footer } from "./partials/footer";
 import { header } from "./partials/header";
 import { hierarchy } from "./partials/hierarchy";
+import { icons } from "./partials/icon";
 import { member } from "./partials/member";
 import { memberDeclaration } from "./partials/member.declaration";
 import { memberGetterSetter } from "./partials/member.getterSetter";
@@ -39,6 +40,8 @@ export class DefaultThemeRenderContext {
     constructor(private theme: DefaultTheme, options: Options) {
         this.options = options;
     }
+
+    icons = icons;
 
     hook = (name: keyof RendererHooks) =>
         this.theme.owner.hooks.emit(name, this);

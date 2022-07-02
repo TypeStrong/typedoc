@@ -11,7 +11,7 @@ export const member = (context: DefaultThemeRenderContext, props: DeclarationRef
             <h3 class="tsd-anchor-link">
                 {renderFlags(props.flags, props.comment)}
                 <span class={classNames({ deprecated: props.isDeprecated() })}>{wbr(props.name)}</span>
-                {anchorIcon(props.anchor)}
+                {anchorIcon(context, props.anchor)}
             </h3>
         )}
         {props.signatures

@@ -2,9 +2,8 @@ import { classNames, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import type { ContainerReflection, ReflectionCategory } from "../../../../models";
-import { icons } from "./icon";
 
-function renderCategory({ urlTo }: DefaultThemeRenderContext, item: ReflectionCategory, prependName = "") {
+function renderCategory({ urlTo, icons }: DefaultThemeRenderContext, item: ReflectionCategory, prependName = "") {
     return (
         <section class="tsd-index-section">
             <h3 class="tsd-index-heading">{prependName ? `${prependName} - ${item.title}` : item.title}</h3>
@@ -52,7 +51,7 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
             <details class="tsd-index-content tsd-index-accordion" open={true}>
                 <summary class="tsd-accordion-summary tsd-index-summary">
                     <h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex={0}>
-                        {icons.chevronSmall()} Index
+                        {context.icons.chevronSmall()} Index
                     </h5>
                 </summary>
                 <div class="tsd-accordion-details">{content}</div>

@@ -1,11 +1,6 @@
 import { ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
 
-type UtilityIcons = Record<
-    "chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall" | "anchor",
-    () => JSX.Element
->;
-
 const seenIcons = new Set<unknown>();
 
 export function clearSeenIconCache() {
@@ -46,7 +41,10 @@ const kindIcon = (kind: ReflectionKind, letterPath: JSX.Element, color: string, 
     </svg>
 );
 
-export const icons: Record<ReflectionKind, () => JSX.Element> & UtilityIcons = {
+export const icons: Record<
+    ReflectionKind | "chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall" | "anchor",
+    () => JSX.Element
+> = {
     [ReflectionKind.Accessor]: () =>
         kindIcon(
             ReflectionKind.Accessor,

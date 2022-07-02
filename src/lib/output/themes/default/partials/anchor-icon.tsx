@@ -1,8 +1,8 @@
 import { JSX } from "../../../../utils";
-import { icons } from "./icon";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
-export const anchorIcon = (anchor: string | undefined) => (
+export const anchorIcon = (context: DefaultThemeRenderContext, anchor: string | undefined) => (
     <a href={`#${anchor}`} aria-label="Permalink" class="tsd-anchor-icon">
-        {icons.anchor()}
+        {context.icons.anchor()}
     </a>
 );

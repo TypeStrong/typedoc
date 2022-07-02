@@ -3,7 +3,6 @@ import { JSX, partition } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { classNames, camelToTitleCase, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { icons } from "./icon";
 
 export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
@@ -15,12 +14,12 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
     );
 }
 
-function buildFilterItem(name: string, displayName: string, defaultValue: boolean) {
+function buildFilterItem(context: DefaultThemeRenderContext, name: string, displayName: string, defaultValue: boolean) {
     return (
         <li class="tsd-filter-item">
             <label class="tsd-filter-input">
                 <input type="checkbox" id={`tsd-filter-${name}`} name={name} checked={defaultValue} />
-                {icons.checkbox()}
+                {context.icons.checkbox()}
                 <span>{displayName}</span>
             </label>
         </li>
@@ -40,7 +39,7 @@ function settings(context: DefaultThemeRenderContext) {
                 .toLowerCase();
 
             visibilityOptions.push(
-                buildFilterItem(filterName, camelToTitleCase(key.substring(1)), defaultFilters[key])
+                buildFilterItem(context, filterName, camelToTitleCase(key.substring(1)), defaultFilters[key])
             );
         } else if (
             (key === "protected" && !context.options.getValue("excludeProtected")) ||
@@ -48,7 +47,7 @@ function settings(context: DefaultThemeRenderContext) {
             (key === "external" && !context.options.getValue("excludeExternals")) ||
             key === "inherited"
         ) {
-            visibilityOptions.push(buildFilterItem(key, camelToTitleCase(key), defaultFilters[key]));
+            visibilityOptions.push(buildFilterItem(context, key, camelToTitleCase(key), defaultFilters[key]));
         }
     }
 
@@ -58,7 +57,7 @@ function settings(context: DefaultThemeRenderContext) {
         <div class="tsd-navigation settings">
             <details class="tsd-index-accordion" open={false}>
                 <summary class="tsd-accordion-summary">
-                    <h3>{icons.chevronDown()} Settings</h3>
+                    <h3>{context.icons.chevronDown()} Settings</h3>
                 </summary>
                 <div class="tsd-accordion-details">
                     {visibilityOptions.length && (
@@ -96,7 +95,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
         <nav class="tsd-navigation primary">
             <details class="tsd-index-accordion" open={true}>
                 <summary class="tsd-accordion-summary">
-                    <h3>{icons.chevronDown()} Modules</h3>
+                    <h3>{context.icons.chevronDown()} Modules</h3>
                 </summary>
                 <div class="tsd-accordion-details">
                     <ul>
@@ -153,7 +152,7 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
                     )}
                 >
                     <a href={context.urlTo(child)} class="tsd-index-link">
-                        {icons[child.kind]()}
+                        {context.icons[child.kind]()}
                         {wbr(child.name)}
                     </a>
                 </li>
@@ -181,7 +180,7 @@ function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEven
                     )}
                 >
                     <a href={context.urlTo(effectivePageParent)} class="tsd-index-link">
-                        {icons[effectivePageParent.kind]()}
+                        {context.icons[effectivePageParent.kind]()}
                         <span>{wbr(effectivePageParent.name)}</span>
                     </a>
                     {!!pageNavigation.length && <ul>{pageNavigation}</ul>}
