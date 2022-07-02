@@ -1,8 +1,10 @@
 import { join, relative, resolve } from "path";
 import * as ts from "typescript";
 import * as FS from "fs";
+import * as Path from "path";
 import {
     expandPackages,
+    extractTypedocConfigFromPackageManifest,
     getTsEntryPointForPackage,
     ignorePackage,
     loadPackageManifest,
@@ -39,6 +41,7 @@ export type EntryPointStrategy =
 
 export interface DocumentationEntryPoint {
     displayName: string;
+    readmeFile?: string;
     program: ts.Program;
     sourceFile: ts.SourceFile;
 }
@@ -321,6 +324,10 @@ function getEntryPointsForPackages(
     for (const packagePath of expandedPackages) {
         const packageJsonPath = resolve(packagePath, "package.json");
         const packageJson = loadPackageManifest(logger, packageJsonPath);
+        const includeVersion = options.getValue("includeVersion");
+        const typedocPackageConfig = packageJson
+            ? extractTypedocConfigFromPackageManifest(logger, packageJsonPath)
+            : undefined;
         if (packageJson === undefined) {
             logger.error(`Could not load package manifest ${packageJsonPath}`);
             return;
@@ -384,7 +391,23 @@ function getEntryPointsForPackages(
         }
 
         results.push({
-            displayName: packageJson["name"] as string,
+            displayName:
+                typedocPackageConfig?.displayName ??
+                // if displayName is not configured, use the package name (and version, if configured)
+                `${packageJson["name"]}${
+                    includeVersion && packageJson["version"]
+                        ? `@${packageJson["version"]}`
+                        : ""
+                }`,
+            readmeFile: typedocPackageConfig?.readmeFile
+                ? Path.resolve(
+                      Path.join(
+                          packageJsonPath,
+                          "..",
+                          typedocPackageConfig?.readmeFile
+                      )
+                  )
+                : undefined,
             program,
             sourceFile,
         });

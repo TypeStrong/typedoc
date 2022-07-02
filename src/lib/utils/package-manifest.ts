@@ -36,6 +36,54 @@ export function loadPackageManifest(
     return packageJson as Record<string, unknown>;
 }
 
+export interface TypedocPackageManifestConfig {
+    entryPoint?: string | undefined;
+    displayName?: string | undefined;
+    readmeFile?: string | undefined;
+}
+
+/**
+ * Extracts typedoc specific config from a specified package manifest
+ */
+export function extractTypedocConfigFromPackageManifest(
+    logger: Logger,
+    packageJsonPath: string
+): TypedocPackageManifestConfig | undefined {
+    const packageJson = loadPackageManifest(logger, packageJsonPath);
+    if (!packageJson) {
+        return undefined;
+    }
+    if (
+        hasOwnProperty(packageJson, "typedoc") &&
+        typeof packageJson.typedoc == "object" &&
+        packageJson.typedoc
+    ) {
+        // TODO: we should consider another less manual approach in the future,
+        // e.g. uses a library to deserialize config from raw JSON
+        const config: TypedocPackageManifestConfig = packageJson.typedoc;
+        if (
+            hasOwnProperty(config, "entryPoint") &&
+            typeof config.entryPoint !== "string"
+        ) {
+            logger.error(
+                `Typedoc config extracted from package manifest file ${packageJsonPath} is malformed: field 'entryPoint' is not a string`
+            );
+            return undefined;
+        }
+        if (
+            hasOwnProperty(config, "displayName") &&
+            typeof config.displayName !== "string"
+        ) {
+            logger.error(
+                `Typedoc config extracted from package manifest file ${packageJsonPath} is malformed: field 'displayName' is not a string`
+            );
+            return undefined;
+        }
+        return config;
+    }
+    return undefined;
+}
+
 /**
  * Load the paths to packages specified in a Yarn workspace package JSON
  * Returns undefined if packageJSON does not define a Yarn workspace
@@ -205,7 +253,13 @@ export function getTsEntryPointForPackage(
 ): string | undefined | typeof ignorePackage {
     let packageMain = "index.js"; // The default, per the npm docs.
     let packageTypes = null;
-    if (
+    const typedocPackageConfig = extractTypedocConfigFromPackageManifest(
+        logger,
+        packageJsonPath
+    );
+    if (typedocPackageConfig?.entryPoint) {
+        packageMain = typedocPackageConfig.entryPoint;
+    } else if (
         hasOwnProperty(packageJson, "typedocMain") &&
         typeof packageJson.typedocMain == "string"
     ) {

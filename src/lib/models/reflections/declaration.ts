@@ -5,6 +5,7 @@ import { ContainerReflection } from "./container";
 import type { SignatureReflection } from "./signature";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { Serializer, JSONOutput } from "../../serialization";
+import type { CommentDisplayPart } from "../comments";
 
 /**
  * Stores hierarchical type data.
@@ -128,6 +129,11 @@ export class DeclarationReflection extends ContainerReflection {
      * rendered in templates.
      */
     typeHierarchy?: DeclarationHierarchy;
+
+    /**
+     * The contents of the readme.md file of the module when found.
+     */
+    readme?: CommentDisplayPart[];
 
     override hasGetterOrSetter(): boolean {
         return !!this.getSignature || !!this.setSignature;

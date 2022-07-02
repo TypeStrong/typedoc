@@ -5,7 +5,7 @@ import { ProjectReflection, ReflectionKind, SomeType } from "../models/index";
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
-import { BindOption } from "../utils";
+import { BindOption, MinimalSourceFile, readFile } from "../utils";
 import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
 import { convertSymbol } from "./symbols";
@@ -15,6 +15,8 @@ import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
 import { CommentParserConfig, getComment } from "./comments";
 import type { CommentStyle } from "../utils/options/declaration";
+import { parseComment } from "./comments/parser";
+import { lexCommentString } from "./comments/rawLexer";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -201,9 +203,8 @@ export class Converter extends ChildableComponent<
             context.setActiveProgram(e.entryPoint.program);
             e.context = this.convertExports(
                 context,
-                e.entryPoint.sourceFile,
-                entries.length === 1,
-                e.entryPoint.displayName
+                e.entryPoint,
+                entries.length === 1
             );
         });
         for (const { entryPoint, context } of entries) {
@@ -218,10 +219,11 @@ export class Converter extends ChildableComponent<
 
     private convertExports(
         context: Context,
-        node: ts.SourceFile,
-        singleEntryPoint: boolean,
-        entryName: string
+        entryPoint: DocumentationEntryPoint,
+        singleEntryPoint: boolean
     ) {
+        const node = entryPoint.sourceFile;
+        const entryName = entryPoint.displayName;
         const symbol = getSymbolForModuleLike(context, node);
         let moduleContext: Context;
 
@@ -259,6 +261,30 @@ export class Converter extends ChildableComponent<
                 void 0,
                 entryName
             );
+
+            if (entryPoint.readmeFile) {
+                const readme = readFile(entryPoint.readmeFile);
+                const comment = parseComment(
+                    lexCommentString(readme),
+                    context.converter.config,
+                    new MinimalSourceFile(readme, entryPoint.readmeFile),
+                    context.logger
+                );
+
+                if (comment.blockTags.length || comment.modifierTags.size) {
+                    const ignored = [
+                        ...comment.blockTags.map((tag) => tag.tag),
+                        ...comment.modifierTags,
+                    ];
+                    context.logger.warn(
+                        `Block and modifier tags will be ignored within the readme:\n\t${ignored.join(
+                            "\n\t"
+                        )}`
+                    );
+                }
+
+                reflection.readme = comment.summary;
+            }
             context.finalizeDeclarationReflection(reflection);
             moduleContext = context.withScope(reflection);
         }

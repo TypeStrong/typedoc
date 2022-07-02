@@ -63,6 +63,19 @@ describe("Packages support", () => {
         });
         project.addJsonFile("packages/baz/tsconfig.json", childTsconfig);
 
+        // Bay, entry point with "typedoc.entryPoint"
+        project.addFile("packages/bay/dist/index.js", "module.exports = 123");
+        project.addFile("packages/bay/index.ts", "export function foo() {}");
+        project.addJsonFile("packages/bay/package.json", {
+            name: "typedoc-multi-package-bay",
+            version: "1.0.0",
+            main: "dist/index",
+            typedoc: {
+                entryPoint: "index.ts",
+            },
+        });
+        project.addJsonFile("packages/bay/tsconfig.json", childTsconfig);
+
         // Foo, entry point with "typedocMain"
         project.addFile("packages/foo/dist/index.js", "module.exports = 123");
         project.addFile("packages/foo/index.ts", "export function foo() {}");
@@ -98,6 +111,7 @@ describe("Packages support", () => {
             packages,
             [
                 join(project.cwd, "packages/bar"),
+                join(project.cwd, "packages/bay"),
                 join(project.cwd, "packages/baz"),
                 join(project.cwd, "packages/foo"),
             ].map(normalizePath)
@@ -114,6 +128,7 @@ describe("Packages support", () => {
 
         equal(entries, [
             join(project.cwd, "packages/bar/index.d.ts"),
+            join(project.cwd, "packages/bay/index.ts"),
             join(project.cwd, "packages/baz/index.ts"),
             join(project.cwd, "packages/foo/index.ts"),
         ]);
