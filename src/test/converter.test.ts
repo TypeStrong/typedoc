@@ -1,7 +1,7 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import * as FS from "fs";
 import * as Path from "path";
-import { normalizePath, ProjectReflection, resetReflectionID } from "..";
+import { ProjectReflection, resetReflectionID } from "..";
 import { getExpandedEntryPointsForPaths } from "../lib/utils";
 import {
     getConverterApp,
@@ -76,14 +76,12 @@ describe("Converter", function () {
                     const specs = JSON.parse(
                         FS.readFileSync(specsFile, "utf-8")
                     );
-                    let data = JSON.stringify(
-                        result && app.serializer.toObject(result),
-                        null,
-                        "  "
+                    // Pass data through a parse/stringify to get rid of undefined properties
+                    const data = JSON.parse(
+                        JSON.stringify(app.serializer.toObject(result))
                     );
-                    data = data.split(normalizePath(base)).join("%BASE%");
 
-                    equal(JSON.parse(data), specs);
+                    equal(data, specs);
                 });
             }
         });

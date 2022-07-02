@@ -17,7 +17,12 @@ export interface SerializerComponent<T> {
      */
     readonly priority: number;
 
-    supports(item: unknown): item is T;
+    /**
+     * Technically this should return `item is T`, but that doesn't play nicely
+     * with inference, so allow the looser `boolean` return type.
+     * @param item
+     */
+    supports(item: unknown): boolean;
 
     toObject(
         item: T,

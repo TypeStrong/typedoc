@@ -24,7 +24,7 @@
           "fileName": "alias.ts",
           "line": 14,
           "character": 12,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L14"
+          "url": "typedoc://alias.ts#L14"
         }
       ],
       "typeParameters": [
@@ -76,7 +76,7 @@
           "fileName": "alias.ts",
           "line": 19,
           "character": 12,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L19"
+          "url": "typedoc://alias.ts#L19"
         }
       ],
       "typeParameters": [
@@ -129,7 +129,7 @@
           "fileName": "alias.ts",
           "line": 4,
           "character": 12,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L4"
+          "url": "typedoc://alias.ts#L4"
         }
       ],
       "typeParameters": [
@@ -154,7 +154,7 @@
               "fileName": "alias.ts",
               "line": 4,
               "character": 34,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L4"
+              "url": "typedoc://alias.ts#L4"
             }
           ],
           "signatures": [
@@ -226,7 +226,7 @@
           "fileName": "alias.ts",
           "line": 9,
           "character": 12,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L9"
+          "url": "typedoc://alias.ts#L9"
         }
       ],
       "type": {
@@ -260,7 +260,7 @@
       "fileName": "alias.ts",
       "line": 4,
       "character": 0,
-      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/alias/alias.ts#L4"
+      "url": "typedoc://alias.ts#L4"
     }
   ]
 }

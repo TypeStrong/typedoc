@@ -52,7 +52,7 @@
               "fileName": "mixin.ts",
               "line": 20,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L20"
+              "url": "typedoc://mixin.ts#L20"
             }
           ],
           "type": {
@@ -72,7 +72,7 @@
               "fileName": "mixin.ts",
               "line": 22,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L22"
+              "url": "typedoc://mixin.ts#L22"
             }
           ],
           "signatures": [
@@ -115,7 +115,7 @@
           "fileName": "mixin.ts",
           "line": 19,
           "character": 13,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L19"
+          "url": "typedoc://mixin.ts#L19"
         }
       ]
     },
@@ -174,7 +174,7 @@
               "fileName": "mixin.ts",
               "line": 20,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L20"
+              "url": "typedoc://mixin.ts#L20"
             }
           ],
           "type": {
@@ -198,7 +198,7 @@
               "fileName": "mixin.ts",
               "line": 86,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L86"
+              "url": "typedoc://mixin.ts#L86"
             }
           ],
           "type": {
@@ -218,7 +218,7 @@
               "fileName": "mixin.ts",
               "line": 35,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L35"
+              "url": "typedoc://mixin.ts#L35"
             }
           ],
           "type": {
@@ -242,7 +242,7 @@
               "fileName": "mixin.ts",
               "line": 55,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L55"
+              "url": "typedoc://mixin.ts#L55"
             }
           ],
           "type": {
@@ -266,7 +266,7 @@
               "fileName": "mixin.ts",
               "line": 22,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L22"
+              "url": "typedoc://mixin.ts#L22"
             }
           ],
           "signatures": [
@@ -302,7 +302,7 @@
               "fileName": "mixin.ts",
               "line": 88,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L88"
+              "url": "typedoc://mixin.ts#L88"
             }
           ],
           "signatures": [
@@ -330,7 +330,7 @@
               "fileName": "mixin.ts",
               "line": 37,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L37"
+              "url": "typedoc://mixin.ts#L37"
             }
           ],
           "signatures": [
@@ -387,7 +387,7 @@
               "fileName": "mixin.ts",
               "line": 57,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L57"
+              "url": "typedoc://mixin.ts#L57"
             }
           ],
           "signatures": [
@@ -459,7 +459,7 @@
           "fileName": "mixin.ts",
           "line": 85,
           "character": 13,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L85"
+          "url": "typedoc://mixin.ts#L85"
         }
       ],
       "extendedTypes": [
@@ -514,7 +514,7 @@
                             "fileName": "mixin.ts",
                             "line": 34,
                             "character": 10,
-                            "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L34"
+                            "url": "typedoc://mixin.ts#L34"
                           }
                         ]
                       }
@@ -596,7 +596,7 @@
               "fileName": "mixin.ts",
               "line": 20,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L20"
+              "url": "typedoc://mixin.ts#L20"
             }
           ],
           "type": {
@@ -620,7 +620,7 @@
               "fileName": "mixin.ts",
               "line": 35,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L35"
+              "url": "typedoc://mixin.ts#L35"
             }
           ],
           "type": {
@@ -644,7 +644,7 @@
               "fileName": "mixin.ts",
               "line": 22,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L22"
+              "url": "typedoc://mixin.ts#L22"
             }
           ],
           "signatures": [
@@ -680,7 +680,7 @@
               "fileName": "mixin.ts",
               "line": 37,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L37"
+              "url": "typedoc://mixin.ts#L37"
             }
           ],
           "signatures": [
@@ -748,7 +748,7 @@
           "fileName": "mixin.ts",
           "line": 45,
           "character": 17,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L45"
+          "url": "typedoc://mixin.ts#L45"
         }
       ],
       "extendedTypes": [
@@ -795,7 +795,7 @@
               "fileName": "mixin.ts",
               "line": 20,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L20"
+              "url": "typedoc://mixin.ts#L20"
             }
           ],
           "type": {
@@ -819,7 +819,7 @@
               "fileName": "mixin.ts",
               "line": 35,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L35"
+              "url": "typedoc://mixin.ts#L35"
             }
           ],
           "type": {
@@ -843,7 +843,7 @@
               "fileName": "mixin.ts",
               "line": 55,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L55"
+              "url": "typedoc://mixin.ts#L55"
             }
           ],
           "type": {
@@ -867,7 +867,7 @@
               "fileName": "mixin.ts",
               "line": 22,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L22"
+              "url": "typedoc://mixin.ts#L22"
             }
           ],
           "signatures": [
@@ -903,7 +903,7 @@
               "fileName": "mixin.ts",
               "line": 37,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L37"
+              "url": "typedoc://mixin.ts#L37"
             }
           ],
           "signatures": [
@@ -960,7 +960,7 @@
               "fileName": "mixin.ts",
               "line": 57,
               "character": 8,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L57"
+              "url": "typedoc://mixin.ts#L57"
             }
           ],
           "signatures": [
@@ -1024,7 +1024,7 @@
           "fileName": "mixin.ts",
           "line": 65,
           "character": 17,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L65"
+          "url": "typedoc://mixin.ts#L65"
         }
       ],
       "extendedTypes": [
@@ -1056,7 +1056,7 @@
           "fileName": "mixin.ts",
           "line": 9,
           "character": 12,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L9"
+          "url": "typedoc://mixin.ts#L9"
         }
       ],
       "typeParameters": [
@@ -1085,7 +1085,7 @@
               "fileName": "mixin.ts",
               "line": 9,
               "character": 41,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L9"
+              "url": "typedoc://mixin.ts#L9"
             }
           ],
           "signatures": [
@@ -1142,7 +1142,7 @@
           "fileName": "mixin.ts",
           "line": 4,
           "character": 12,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L4"
+          "url": "typedoc://mixin.ts#L4"
         }
       ],
       "typeParameters": [
@@ -1171,7 +1171,7 @@
               "fileName": "mixin.ts",
               "line": 4,
               "character": 35,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L4"
+              "url": "typedoc://mixin.ts#L4"
             }
           ],
           "signatures": [
@@ -1236,7 +1236,7 @@
           "fileName": "mixin.ts",
           "line": 14,
           "character": 12,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L14"
+          "url": "typedoc://mixin.ts#L14"
         }
       ],
       "typeParameters": [
@@ -1306,13 +1306,13 @@
           "fileName": "mixin.ts",
           "line": 70,
           "character": 13,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L70"
+          "url": "typedoc://mixin.ts#L70"
         },
         {
           "fileName": "mixin.ts",
           "line": 80,
           "character": 12,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L80"
+          "url": "typedoc://mixin.ts#L80"
         }
       ],
       "type": {
@@ -1342,7 +1342,7 @@
           "fileName": "mixin.ts",
           "line": 30,
           "character": 13,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L30"
+          "url": "typedoc://mixin.ts#L30"
         }
       ],
       "signatures": [
@@ -1439,7 +1439,7 @@
                       "fileName": "mixin.ts",
                       "line": 34,
                       "character": 10,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L34"
+                      "url": "typedoc://mixin.ts#L34"
                     }
                   ]
                 }
@@ -1465,7 +1465,7 @@
           "fileName": "mixin.ts",
           "line": 50,
           "character": 13,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L50"
+          "url": "typedoc://mixin.ts#L50"
         }
       ],
       "signatures": [
@@ -1572,7 +1572,7 @@
                       "fileName": "mixin.ts",
                       "line": 54,
                       "character": 10,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L54"
+                      "url": "typedoc://mixin.ts#L54"
                     }
                   ]
                 }
@@ -1598,13 +1598,13 @@
           "fileName": "mixin.ts",
           "line": 70,
           "character": 13,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L70"
+          "url": "typedoc://mixin.ts#L70"
         },
         {
           "fileName": "mixin.ts",
           "line": 80,
           "character": 12,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L80"
+          "url": "typedoc://mixin.ts#L80"
         }
       ],
       "signatures": [
@@ -1700,7 +1700,7 @@
                       "fileName": "mixin.ts",
                       "line": 74,
                       "character": 10,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L74"
+                      "url": "typedoc://mixin.ts#L74"
                     }
                   ]
                 }
@@ -1754,7 +1754,7 @@
       "fileName": "mixin.ts",
       "line": 4,
       "character": 0,
-      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/mixin/mixin.ts#L4"
+      "url": "typedoc://mixin.ts#L4"
     }
   ]
 }

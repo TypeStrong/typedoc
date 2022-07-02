@@ -23,7 +23,7 @@
               "fileName": "react.tsx",
               "line": 20,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L20"
+              "url": "typedoc://react.tsx#L20"
             }
           ],
           "signatures": [
@@ -68,7 +68,7 @@
               "fileName": "react.tsx",
               "line": 18,
               "character": 12,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L18"
+              "url": "typedoc://react.tsx#L18"
             }
           ],
           "type": {
@@ -87,7 +87,7 @@
               "fileName": "react.tsx",
               "line": 25,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L25"
+              "url": "typedoc://react.tsx#L25"
             }
           ],
           "signatures": [
@@ -130,7 +130,7 @@
           "fileName": "react.tsx",
           "line": 17,
           "character": 13,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L17"
+          "url": "typedoc://react.tsx#L17"
         }
       ]
     },
@@ -152,7 +152,7 @@
               "fileName": "react.tsx",
               "line": 14,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L14"
+              "url": "typedoc://react.tsx#L14"
             }
           ],
           "type": {
@@ -171,7 +171,7 @@
               "fileName": "react.tsx",
               "line": 13,
               "character": 4,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L13"
+              "url": "typedoc://react.tsx#L13"
             }
           ],
           "type": {
@@ -194,7 +194,7 @@
           "fileName": "react.tsx",
           "line": 12,
           "character": 17,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L12"
+          "url": "typedoc://react.tsx#L12"
         }
       ]
     }
@@ -218,7 +218,7 @@
       "fileName": "react.tsx",
       "line": 2,
       "character": 0,
-      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/react/react.tsx#L2"
+      "url": "typedoc://react.tsx#L2"
     }
   ]
 }

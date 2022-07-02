@@ -29,7 +29,7 @@
                   "fileName": "constructor-type.ts",
                   "line": 1,
                   "character": 17,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/constructor-type.ts#L1"
+                  "url": "typedoc://constructor-type.ts#L1"
                 }
               ],
               "signatures": [
@@ -156,7 +156,7 @@
               "fileName": "constructor-type.ts",
               "line": 1,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/constructor-type.ts#L1"
+              "url": "typedoc://constructor-type.ts#L1"
             }
           ]
         },
@@ -171,7 +171,7 @@
               "fileName": "constructor-type.ts",
               "line": 12,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/constructor-type.ts#L12"
+              "url": "typedoc://constructor-type.ts#L12"
             }
           ]
         }
@@ -190,7 +190,7 @@
           "fileName": "constructor-type.ts",
           "line": 1,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/constructor-type.ts#L1"
+          "url": "typedoc://constructor-type.ts#L1"
         }
       ]
     },
@@ -212,7 +212,7 @@
               "fileName": "index-signature.ts",
               "line": 10,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L10"
+              "url": "typedoc://index-signature.ts#L10"
             }
           ],
           "indexSignature": {
@@ -250,7 +250,7 @@
               "fileName": "index-signature.ts",
               "line": 5,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L5"
+              "url": "typedoc://index-signature.ts#L5"
             }
           ],
           "indexSignature": {
@@ -288,7 +288,7 @@
               "fileName": "index-signature.ts",
               "line": 1,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L1"
+              "url": "typedoc://index-signature.ts#L1"
             }
           ],
           "indexSignature": {
@@ -326,7 +326,7 @@
               "fileName": "index-signature.ts",
               "line": 15,
               "character": 12,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L15"
+              "url": "typedoc://index-signature.ts#L15"
             }
           ],
           "type": {
@@ -342,7 +342,7 @@
                   "fileName": "index-signature.ts",
                   "line": 15,
                   "character": 24,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L15"
+                  "url": "typedoc://index-signature.ts#L15"
                 }
               ],
               "indexSignature": {
@@ -393,7 +393,7 @@
           "fileName": "index-signature.ts",
           "line": 1,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/index-signature.ts#L1"
+          "url": "typedoc://index-signature.ts#L1"
         }
       ]
     },
@@ -453,7 +453,7 @@
                   "fileName": "interface-empty.ts",
                   "line": 10,
                   "character": 12,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L10"
+                  "url": "typedoc://interface-empty.ts#L10"
                 }
               ],
               "type": {
@@ -474,7 +474,7 @@
                   "fileName": "interface-empty.ts",
                   "line": 11,
                   "character": 11,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L11"
+                  "url": "typedoc://interface-empty.ts#L11"
                 }
               ],
               "signatures": [
@@ -517,7 +517,7 @@
               "fileName": "interface-empty.ts",
               "line": 9,
               "character": 13,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L9"
+              "url": "typedoc://interface-empty.ts#L9"
             }
           ],
           "implementedTypes": [
@@ -547,7 +547,7 @@
               "fileName": "interface-empty.ts",
               "line": 4,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L4"
+              "url": "typedoc://interface-empty.ts#L4"
             }
           ],
           "implementedBy": [
@@ -578,7 +578,7 @@
           "fileName": "interface-empty.ts",
           "line": 4,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-empty.ts#L4"
+          "url": "typedoc://interface-empty.ts#L4"
         }
       ]
     },
@@ -672,7 +672,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 57,
                       "character": 16,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L57"
+                      "url": "typedoc://interface-implementation.ts#L57"
                     }
                   ],
                   "type": {
@@ -702,7 +702,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 59,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L59"
+                      "url": "typedoc://interface-implementation.ts#L59"
                     }
                   ],
                   "signatures": [
@@ -793,7 +793,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 73,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L73"
+                      "url": "typedoc://interface-implementation.ts#L73"
                     }
                   ],
                   "signatures": [
@@ -831,7 +831,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 69,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L69"
+                      "url": "typedoc://interface-implementation.ts#L69"
                     }
                   ],
                   "signatures": [
@@ -883,7 +883,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 75,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L75"
+                      "url": "typedoc://interface-implementation.ts#L75"
                     }
                   ],
                   "signatures": [
@@ -921,7 +921,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 67,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L67"
+                      "url": "typedoc://interface-implementation.ts#L67"
                     }
                   ],
                   "signatures": [
@@ -999,7 +999,7 @@
                   "fileName": "interface-implementation.ts",
                   "line": 56,
                   "character": 17,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L56"
+                  "url": "typedoc://interface-implementation.ts#L56"
                 }
               ],
               "typeParameters": [
@@ -1052,7 +1052,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 25,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L25"
+                      "url": "typedoc://interface-implementation.ts#L25"
                     }
                   ],
                   "signatures": [
@@ -1161,7 +1161,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 29,
                       "character": 19,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L29"
+                      "url": "typedoc://interface-implementation.ts#L29"
                     }
                   ],
                   "type": {
@@ -1190,7 +1190,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 27,
                       "character": 19,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L27"
+                      "url": "typedoc://interface-implementation.ts#L27"
                     }
                   ],
                   "type": {
@@ -1216,7 +1216,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 26,
                       "character": 19,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L26"
+                      "url": "typedoc://interface-implementation.ts#L26"
                     }
                   ],
                   "type": {
@@ -1250,7 +1250,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 28,
                       "character": 19,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L28"
+                      "url": "typedoc://interface-implementation.ts#L28"
                     }
                   ],
                   "type": {
@@ -1274,7 +1274,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 32,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L32"
+                      "url": "typedoc://interface-implementation.ts#L32"
                     }
                   ],
                   "signatures": [
@@ -1338,7 +1338,7 @@
                   "fileName": "interface-implementation.ts",
                   "line": 24,
                   "character": 17,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L24"
+                  "url": "typedoc://interface-implementation.ts#L24"
                 }
               ],
               "typeParameters": [
@@ -1391,7 +1391,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 41,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L41"
+                      "url": "typedoc://interface-implementation.ts#L41"
                     }
                   ],
                   "signatures": [
@@ -1474,7 +1474,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 48,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L48"
+                      "url": "typedoc://interface-implementation.ts#L48"
                     }
                   ],
                   "signatures": [
@@ -1502,7 +1502,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 47,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L47"
+                      "url": "typedoc://interface-implementation.ts#L47"
                     }
                   ],
                   "signatures": [
@@ -1544,7 +1544,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 49,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L49"
+                      "url": "typedoc://interface-implementation.ts#L49"
                     }
                   ],
                   "signatures": [
@@ -1572,7 +1572,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 46,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L46"
+                      "url": "typedoc://interface-implementation.ts#L46"
                     }
                   ],
                   "signatures": [
@@ -1628,7 +1628,7 @@
                   "fileName": "interface-implementation.ts",
                   "line": 40,
                   "character": 21,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L40"
+                  "url": "typedoc://interface-implementation.ts#L40"
                 }
               ],
               "typeParameters": [
@@ -1659,7 +1659,7 @@
                   "fileName": "interface-implementation.ts",
                   "line": 5,
                   "character": 21,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L5"
+                  "url": "typedoc://interface-implementation.ts#L5"
                 }
               ],
               "typeParameters": [
@@ -1733,7 +1733,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 16,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L16"
+                      "url": "typedoc://interface-implementation.ts#L16"
                     }
                   ],
                   "type": {
@@ -1752,7 +1752,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 14,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L14"
+                      "url": "typedoc://interface-implementation.ts#L14"
                     }
                   ],
                   "type": {
@@ -1779,7 +1779,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 15,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L15"
+                      "url": "typedoc://interface-implementation.ts#L15"
                     }
                   ],
                   "type": {
@@ -1798,7 +1798,7 @@
                       "fileName": "interface-implementation.ts",
                       "line": 21,
                       "character": 8,
-                      "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L21"
+                      "url": "typedoc://interface-implementation.ts#L21"
                     }
                   ],
                   "signatures": [
@@ -1845,7 +1845,7 @@
                   "fileName": "interface-implementation.ts",
                   "line": 13,
                   "character": 21,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L13"
+                  "url": "typedoc://interface-implementation.ts#L13"
                 }
               ],
               "typeParameters": [
@@ -1888,7 +1888,7 @@
               "fileName": "interface-implementation.ts",
               "line": 1,
               "character": 14,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L1"
+              "url": "typedoc://interface-implementation.ts#L1"
             }
           ]
         }
@@ -1906,7 +1906,7 @@
           "fileName": "interface-implementation.ts",
           "line": 1,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/interface-implementation.ts#L1"
+          "url": "typedoc://interface-implementation.ts#L1"
         }
       ]
     },
@@ -1935,7 +1935,7 @@
                   "fileName": "merging.ts",
                   "line": 2,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L2"
+                  "url": "typedoc://merging.ts#L2"
                 }
               ],
               "type": {
@@ -1957,7 +1957,7 @@
               "fileName": "merging.ts",
               "line": 1,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L1"
+              "url": "typedoc://merging.ts#L1"
             }
           ],
           "extendedBy": [
@@ -1991,7 +1991,7 @@
                   "fileName": "merging.ts",
                   "line": 6,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L6"
+                  "url": "typedoc://merging.ts#L6"
                 }
               ],
               "type": {
@@ -2013,7 +2013,7 @@
               "fileName": "merging.ts",
               "line": 5,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L5"
+              "url": "typedoc://merging.ts#L5"
             }
           ],
           "extendedBy": [
@@ -2042,7 +2042,7 @@
                   "fileName": "merging.ts",
                   "line": 2,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L2"
+                  "url": "typedoc://merging.ts#L2"
                 }
               ],
               "type": {
@@ -2066,7 +2066,7 @@
                   "fileName": "merging.ts",
                   "line": 6,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L6"
+                  "url": "typedoc://merging.ts#L6"
                 }
               ],
               "type": {
@@ -2090,7 +2090,7 @@
                   "fileName": "merging.ts",
                   "line": 10,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L10"
+                  "url": "typedoc://merging.ts#L10"
                 }
               ],
               "type": {
@@ -2109,7 +2109,7 @@
                   "fileName": "merging.ts",
                   "line": 15,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L15"
+                  "url": "typedoc://merging.ts#L15"
                 }
               ],
               "type": {
@@ -2134,13 +2134,13 @@
               "fileName": "merging.ts",
               "line": 9,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L9"
+              "url": "typedoc://merging.ts#L9"
             },
             {
               "fileName": "merging.ts",
               "line": 14,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L14"
+              "url": "typedoc://merging.ts#L14"
             }
           ],
           "extendedTypes": [
@@ -2181,7 +2181,7 @@
                   "fileName": "merging.ts",
                   "line": 2,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L2"
+                  "url": "typedoc://merging.ts#L2"
                 }
               ],
               "type": {
@@ -2205,7 +2205,7 @@
                   "fileName": "merging.ts",
                   "line": 6,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L6"
+                  "url": "typedoc://merging.ts#L6"
                 }
               ],
               "type": {
@@ -2229,7 +2229,7 @@
                   "fileName": "merging.ts",
                   "line": 10,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L10"
+                  "url": "typedoc://merging.ts#L10"
                 }
               ],
               "type": {
@@ -2253,7 +2253,7 @@
                   "fileName": "merging.ts",
                   "line": 19,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L19"
+                  "url": "typedoc://merging.ts#L19"
                 }
               ],
               "type": {
@@ -2272,7 +2272,7 @@
                   "fileName": "merging.ts",
                   "line": 15,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L15"
+                  "url": "typedoc://merging.ts#L15"
                 }
               ],
               "type": {
@@ -2303,7 +2303,7 @@
               "fileName": "merging.ts",
               "line": 18,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L18"
+              "url": "typedoc://merging.ts#L18"
             }
           ],
           "extendedTypes": [
@@ -2336,7 +2336,7 @@
           "fileName": "merging.ts",
           "line": 1,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/interface/merging.ts#L1"
+          "url": "typedoc://merging.ts#L1"
         }
       ]
     }

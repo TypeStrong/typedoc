@@ -85,7 +85,7 @@
                   "fileName": "comment.ts",
                   "line": 37,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment.ts#L37"
+                  "url": "typedoc://comment.ts#L37"
                 }
               ],
               "type": {
@@ -171,7 +171,7 @@
               "fileName": "comment.ts",
               "line": 33,
               "character": 13,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment.ts#L33"
+              "url": "typedoc://comment.ts#L33"
             }
           ]
         }
@@ -189,7 +189,7 @@
           "fileName": "comment.ts",
           "line": 5,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment.ts#L5"
+          "url": "typedoc://comment.ts#L5"
         }
       ]
     },
@@ -227,7 +227,7 @@
               "fileName": "comment2.ts",
               "line": 8,
               "character": 16,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment2.ts#L8"
+              "url": "typedoc://comment2.ts#L8"
             }
           ],
           "signatures": [
@@ -282,7 +282,7 @@
           "fileName": "comment2.ts",
           "line": 8,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment2.ts#L8"
+          "url": "typedoc://comment2.ts#L8"
         }
       ]
     },
@@ -320,7 +320,7 @@
               "fileName": "comment3.ts",
               "line": 8,
               "character": 16,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment3.ts#L8"
+              "url": "typedoc://comment3.ts#L8"
             }
           ],
           "signatures": [
@@ -375,7 +375,7 @@
           "fileName": "comment3.ts",
           "line": 8,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment3.ts#L8"
+          "url": "typedoc://comment3.ts#L8"
         }
       ]
     },
@@ -409,7 +409,7 @@
               "fileName": "comment4.ts",
               "line": 11,
               "character": 16,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment4.ts#L11"
+              "url": "typedoc://comment4.ts#L11"
             }
           ],
           "signatures": [
@@ -464,7 +464,7 @@
           "fileName": "comment4.ts",
           "line": 11,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/comment/comment4.ts#L11"
+          "url": "typedoc://comment4.ts#L11"
         }
       ]
     }

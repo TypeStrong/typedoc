@@ -1,7 +1,13 @@
 import { deepStrictEqual as equal } from "assert";
 import { join } from "path";
 import * as ts from "typescript";
-import { Application, EntryPointStrategy, TSConfigReader } from "..";
+import {
+    Application,
+    EntryPointStrategy,
+    SourceReference,
+    TSConfigReader,
+} from "..";
+import type { ModelToObject } from "../lib/serialization/schema";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -26,6 +32,25 @@ export function getConverterApp() {
             plugin: [],
             entryPointStrategy: EntryPointStrategy.Expand,
             gitRevision: "fake",
+        });
+
+        converterApp.serializer.addSerializer({
+            priority: -1,
+            supports(obj) {
+                return obj instanceof SourceReference;
+            },
+            toObject(
+                ref: SourceReference,
+                obj: ModelToObject<SourceReference>,
+                _serializer
+            ) {
+                if (obj.url) {
+                    obj.url = `typedoc://${obj.url.substring(
+                        obj.url.indexOf(ref.fileName)
+                    )}`;
+                }
+                return obj;
+            },
         });
     }
 

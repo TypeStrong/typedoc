@@ -57,7 +57,7 @@
                   "fileName": "inherit-doc.ts",
                   "line": 12,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L12"
+                  "url": "typedoc://inherit-doc.ts#L12"
                 }
               ],
               "type": {
@@ -77,7 +77,7 @@
                   "fileName": "inherit-doc.ts",
                   "line": 19,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L19"
+                  "url": "typedoc://inherit-doc.ts#L19"
                 }
               ],
               "signatures": [
@@ -136,7 +136,7 @@
               "fileName": "inherit-doc.ts",
               "line": 6,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L6"
+              "url": "typedoc://inherit-doc.ts#L6"
             }
           ],
           "typeParameters": [
@@ -191,7 +191,7 @@
                   "fileName": "inherit-doc.ts",
                   "line": 30,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L30"
+                  "url": "typedoc://inherit-doc.ts#L30"
                 }
               ],
               "type": {
@@ -211,7 +211,7 @@
                   "fileName": "inherit-doc.ts",
                   "line": 37,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L37"
+                  "url": "typedoc://inherit-doc.ts#L37"
                 }
               ],
               "signatures": [
@@ -270,7 +270,7 @@
               "fileName": "inherit-doc.ts",
               "line": 26,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L26"
+              "url": "typedoc://inherit-doc.ts#L26"
             }
           ],
           "typeParameters": [
@@ -302,7 +302,7 @@
               "fileName": "inherit-doc.ts",
               "line": 58,
               "character": 16,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L58"
+              "url": "typedoc://inherit-doc.ts#L58"
             }
           ],
           "signatures": [
@@ -426,7 +426,7 @@
               "fileName": "inherit-doc.ts",
               "line": 68,
               "character": 16,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L68"
+              "url": "typedoc://inherit-doc.ts#L68"
             }
           ],
           "signatures": [
@@ -464,7 +464,7 @@
               "fileName": "inherit-doc.ts",
               "line": 85,
               "character": 16,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L85"
+              "url": "typedoc://inherit-doc.ts#L85"
             }
           ],
           "signatures": [
@@ -617,7 +617,7 @@
           "fileName": "inherit-doc.ts",
           "line": 6,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/inherit-doc.ts#L6"
+          "url": "typedoc://inherit-doc.ts#L6"
         }
       ]
     },
@@ -646,7 +646,7 @@
                   "fileName": "mergable-class.ts",
                   "line": 3,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L3"
+                  "url": "typedoc://mergable-class.ts#L3"
                 }
               ],
               "signatures": [
@@ -683,7 +683,7 @@
                   "fileName": "mergable-class.ts",
                   "line": 7,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L7"
+                  "url": "typedoc://mergable-class.ts#L7"
                 }
               ],
               "type": {
@@ -708,7 +708,7 @@
                   "fileName": "mergable-class.ts",
                   "line": 2,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L2"
+                  "url": "typedoc://mergable-class.ts#L2"
                 }
               ],
               "type": {
@@ -741,7 +741,7 @@
               "fileName": "mergable-class.ts",
               "line": 12,
               "character": 13,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L12"
+              "url": "typedoc://mergable-class.ts#L12"
             }
           ],
           "extendedTypes": [
@@ -770,7 +770,7 @@
                   "fileName": "mergable-class.ts",
                   "line": 7,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L7"
+                  "url": "typedoc://mergable-class.ts#L7"
                 }
               ],
               "type": {
@@ -792,13 +792,13 @@
               "fileName": "mergable-class.ts",
               "line": 6,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L6"
+              "url": "typedoc://mergable-class.ts#L6"
             },
             {
               "fileName": "mergable-class.ts",
               "line": 10,
               "character": 21,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L10"
+              "url": "typedoc://mergable-class.ts#L10"
             }
           ]
         },
@@ -820,7 +820,7 @@
                   "fileName": "mergable-class.ts",
                   "line": 1,
                   "character": 17,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L1"
+                  "url": "typedoc://mergable-class.ts#L1"
                 }
               ],
               "signatures": [
@@ -849,7 +849,7 @@
                   "fileName": "mergable-class.ts",
                   "line": 2,
                   "character": 4,
-                  "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L2"
+                  "url": "typedoc://mergable-class.ts#L2"
                 }
               ],
               "type": {
@@ -877,7 +877,7 @@
               "fileName": "mergable-class.ts",
               "line": 1,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L1"
+              "url": "typedoc://mergable-class.ts#L1"
             }
           ]
         },
@@ -892,13 +892,13 @@
               "fileName": "mergable-class.ts",
               "line": 6,
               "character": 17,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L6"
+              "url": "typedoc://mergable-class.ts#L6"
             },
             {
               "fileName": "mergable-class.ts",
               "line": 10,
               "character": 21,
-              "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L10"
+              "url": "typedoc://mergable-class.ts#L10"
             }
           ],
           "type": {
@@ -941,7 +941,7 @@
           "fileName": "mergable-class.ts",
           "line": 1,
           "character": 0,
-          "url": "https://github.com/TypeStrong/typedoc/blob/fake/src/test/converter/inheritance/mergable-class.ts#L1"
+          "url": "typedoc://mergable-class.ts#L1"
         }
       ]
     }

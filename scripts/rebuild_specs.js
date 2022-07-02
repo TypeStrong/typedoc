@@ -6,6 +6,8 @@ const fs = require("fs");
 const path = require("path");
 const TypeDoc = require("..");
 const { getExpandedEntryPointsForPaths } = require("../dist/lib/utils");
+const { ok } = require("assert");
+const { SourceReference } = require("..");
 
 const base = path.join(__dirname, "../src/test/converter");
 
@@ -20,6 +22,23 @@ app.bootstrap({
     entryPointStrategy: TypeDoc.EntryPointStrategy.Expand,
     logLevel: TypeDoc.LogLevel.Warn,
     gitRevision: "fake",
+});
+app.serializer.addSerializer({
+    priority: -1,
+    supports(obj) {
+        return obj instanceof SourceReference;
+    },
+    /**
+     * @param {SourceReference} ref
+     */
+    toObject(ref, obj, _serializer) {
+        if (obj.url) {
+            obj.url = `typedoc://${obj.url.substring(
+                obj.url.indexOf(ref.fileName)
+            )}`;
+        }
+        return obj;
+    },
 });
 
 /** @type {[string, () => void, () => void][]} */
@@ -68,20 +87,17 @@ function rebuildConverterTests(dirs) {
             if (fs.existsSync(out)) {
                 TypeDoc.resetReflectionID();
                 before();
-                const result = app.converter.convert(
-                    getExpandedEntryPointsForPaths(
-                        app.logger,
-                        [fullPath],
-                        app.options,
-                        [program]
-                    )
+                const entry = getExpandedEntryPointsForPaths(
+                    app.logger,
+                    [fullPath],
+                    app.options,
+                    [program]
                 );
+                ok(entry, "Missing entry point");
+                const result = app.converter.convert(entry);
                 const serialized = app.serializer.toObject(result);
 
-                const data =
-                    JSON.stringify(serialized, null, "  ")
-                        .split(TypeDoc.normalizePath(base))
-                        .join("%BASE%") + "\n";
+                const data = JSON.stringify(serialized, null, "  ") + "\n";
                 after();
                 fs.writeFileSync(out, data);
             }
