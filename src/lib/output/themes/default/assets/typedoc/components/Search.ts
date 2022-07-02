@@ -169,7 +169,7 @@ function updateResults(
         // boost by exact match on name
         if (row.name.toLowerCase().startsWith(searchText.toLowerCase())) {
             boost *=
-                1 + 1 / (Math.abs(row.name.length - searchText.length) * 10);
+                1 + 1 / (1 + Math.abs(row.name.length - searchText.length));
         }
 
         item.score *= boost;
@@ -182,6 +182,9 @@ function updateResults(
 
         // Bold the matched part of the query in the search results
         let name = boldMatches(row.name, searchText);
+        if (globalThis.DEBUG_SEARCH_WEIGHTS) {
+            name += ` (score: ${res[i].score.toFixed(2)})`;
+        }
         if (row.parent) {
             name = `<span class="parent">${boldMatches(
                 row.parent,

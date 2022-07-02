@@ -28,5 +28,12 @@
         "external": false,
         "@internal": false
     },
+    "searchGroupBoosts": {
+        "Classes": 2.0,
+        "Interfaces": 2.0,
+        "Enumerations": 2.0,
+        "Type Aliases": 2.0
+    },
+    "searchInComments": true,
     "logLevel": "Verbose"
 }
