@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   TypeDoc no longer ignores project references if `--entryPointStrategy Packages` is set, #1976.
+
 ## v0.23.3 (2022-07-01)
 
 ### Bug Fixes

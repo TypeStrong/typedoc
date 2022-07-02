@@ -367,6 +367,7 @@ function getEntryPointsForPackages(
         const program = ts.createProgram({
             rootNames: parsedCommandLine.fileNames,
             options: options.fixCompilerOptions(parsedCommandLine.options),
+            projectReferences: parsedCommandLine.projectReferences,
         });
         const sourceFile = program.getSourceFile(packageEntryPoint);
         if (sourceFile === undefined) {
