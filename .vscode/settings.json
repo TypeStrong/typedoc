@@ -1,14 +1,22 @@
 {
+    "files.associations": {
+        "tsdoc.json": "jsonc", // TSDoc allows comments.
+        "typedoc.json": "jsonc" // TypeDoc uses the JSONC parser for its configuration files.
+    },
+
     "typescript.tsdk": "./node_modules/typescript/lib",
+
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
+
     "prettier.enable": true,
     "prettier.configPath": ".config/.prettierrc.json",
     "prettier.ignorePath": ".config/.prettierignore",
+
     "eslint.workingDirectories": [".", "./example"],
     "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
     "cSpell.words": ["cname", "tsbuildinfo", "tsdoc"]

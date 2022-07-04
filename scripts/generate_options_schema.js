@@ -13,7 +13,12 @@ const schema = {
     title: "JSON Schema for typedoc.json",
     type: "object",
     properties: {},
+    allowTrailingCommas: true,
 };
+
+function lowerCaseFirstLetter(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+}
 
 addTypeDocOptions({
     /** @param {import("../dist").DeclarationOption} option */
@@ -72,8 +77,8 @@ addTypeDocOptions({
                     ).map;
                 data.enum =
                     map instanceof Map
-                        ? [...map.keys()]
-                        : Object.keys(map).filter((key) => isNaN(+key));
+                        ? [...map.keys()].map(lowerCaseFirstLetter)
+                        : Object.keys(map).filter((key) => isNaN(+key)).map(lowerCaseFirstLetter);
                 data.default =
                     /** @type {import("../dist").MapDeclarationOption} */ (
                         option
