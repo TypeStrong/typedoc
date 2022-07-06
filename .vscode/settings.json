@@ -1,14 +1,42 @@
 {
+    "files.associations": {
+        "tsdoc.json": "jsonc", // TSDoc allows comments.
+        "typedoc.json": "jsonc" // TypeDoc uses the JSONC parser for its configuration files.
+    },
+
     "typescript.tsdk": "./node_modules/typescript/lib",
+
+    // Automatically run the formatter when certain files are saved.
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4
+    },
     "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4
     },
     "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4
     },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4
+    },
+
     "prettier.enable": true,
     "prettier.configPath": ".config/.prettierrc.json",
     "prettier.ignorePath": ".config/.prettierignore",
+
     "eslint.workingDirectories": [".", "./example"],
     "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
     "cSpell.words": ["cname", "tsbuildinfo", "tsdoc"]

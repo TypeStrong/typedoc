@@ -13,6 +13,7 @@ const schema = {
     title: "JSON Schema for typedoc.json",
     type: "object",
     properties: {},
+    allowTrailingCommas: true,
 };
 
 addTypeDocOptions({
@@ -72,8 +73,12 @@ addTypeDocOptions({
                     ).map;
                 data.enum =
                     map instanceof Map
-                        ? [...map.keys()]
-                        : Object.keys(map).filter((key) => isNaN(+key));
+                        ? [...map.values()]
+                        : Object.keys(map)
+                              .filter((key) => isNaN(+key))
+                              .map((key) =>
+                                  typeof map[key] === "number" ? key : map[key]
+                              );
                 data.default =
                     /** @type {import("../dist").MapDeclarationOption} */ (
                         option
