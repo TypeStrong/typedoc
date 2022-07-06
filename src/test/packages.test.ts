@@ -76,17 +76,6 @@ describe("Packages support", () => {
         });
         project.addJsonFile("packages/bay/tsconfig.json", childTsconfig);
 
-        // Foo, entry point with "typedocMain"
-        project.addFile("packages/foo/dist/index.js", "module.exports = 123");
-        project.addFile("packages/foo/index.ts", "export function foo() {}");
-        project.addJsonFile("packages/foo/package.json", {
-            name: "typedoc-multi-package-foo",
-            version: "1.0.0",
-            main: "dist/index",
-            typedocMain: "index.ts",
-        });
-        project.addJsonFile("packages/foo/tsconfig.json", childTsconfig);
-
         // Ign, ignored package
         project.addFile("packages/ign/dist/index.js", "module.exports = 123");
         project.addFile("packages/ign/index.ts", "export function ign() {}");
@@ -94,7 +83,6 @@ describe("Packages support", () => {
             name: "typedoc-multi-package-ign",
             version: "1.0.0",
             main: "dist/index",
-            typedocMain: "index.ts",
         });
         project.addJsonFile("packages/ign/tsconfig.json", childTsconfig);
 
@@ -113,7 +101,6 @@ describe("Packages support", () => {
                 join(project.cwd, "packages/bar"),
                 join(project.cwd, "packages/bay"),
                 join(project.cwd, "packages/baz"),
-                join(project.cwd, "packages/foo"),
             ].map(normalizePath)
         );
 
@@ -130,11 +117,72 @@ describe("Packages support", () => {
             join(project.cwd, "packages/bar/index.d.ts"),
             join(project.cwd, "packages/bay/index.ts"),
             join(project.cwd, "packages/baz/index.ts"),
-            join(project.cwd, "packages/foo/index.ts"),
         ]);
 
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
+    });
+
+    it("handles monorepos with legacy configuration", () => {
+        project.addJsonFile("tsconfig.json", {
+            compilerOptions: {
+                strict: true,
+                sourceMap: true,
+            },
+            exclude: ["node_modules", "dist"],
+        });
+        const childTsconfig = {
+            extends: "../../tsconfig.json",
+            compilerOptions: {
+                outDir: "dist",
+            },
+        };
+        project.addJsonFile("package.json", {
+            name: "typedoc-multi-package-example",
+            main: "dist/index.js",
+            workspaces: ["packages/*"],
+        });
+
+        // Foo, entry point with "typedocMain"
+        project.addFile("packages/foo/dist/index.js", "module.exports = 123");
+        project.addFile("packages/foo/index.ts", "export function foo() {}");
+        project.addJsonFile("packages/foo/package.json", {
+            name: "typedoc-multi-package-foo",
+            version: "1.0.0",
+            main: "dist/index",
+            typedocMain: "index.ts",
+        });
+        project.addJsonFile("packages/foo/tsconfig.json", childTsconfig);
+
+        project.write();
+        const logger = new TestLogger();
+        const packages = expandPackages(
+            logger,
+            project.cwd,
+            [project.cwd],
+            createMinimatch(["**/ign"])
+        );
+
+        equal(packages, [join(project.cwd, "packages/foo")].map(normalizePath));
+
+        const entries = packages.map((p) => {
+            const packageJson = join(p, "package.json");
+            return getTsEntryPointForPackage(
+                logger,
+                packageJson,
+                JSON.parse(readFileSync(packageJson, "utf-8"))
+            );
+        });
+
+        equal(entries, [join(project.cwd, "packages/foo/index.ts")]);
+
+        logger.discardDebugMessages();
+        logger.expectMessage(
+            `warn: Legacy typedoc entry point config (using "typedocMain" field) found for "${join(
+                project.cwd,
+                "/packages/foo/package.json"
+            )}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`
+        );
     });
 
     it("handles single packages", () => {
