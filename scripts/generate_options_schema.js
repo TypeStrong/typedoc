@@ -77,10 +77,12 @@ addTypeDocOptions({
                     ).map;
                 data.enum =
                     map instanceof Map
-                        ? [...map.keys()].map(lowerCaseFirstLetter)
+                        ? [...map.values()]
                         : Object.keys(map)
                               .filter((key) => isNaN(+key))
-                              .map(lowerCaseFirstLetter);
+                              .map((key) =>
+                                  typeof map[key] === "number" ? key : map[key]
+                              );
                 data.default =
                     /** @type {import("../dist").MapDeclarationOption} */ (
                         option
