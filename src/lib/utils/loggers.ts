@@ -119,9 +119,10 @@ export class Logger {
     warn(text: string, node?: ts.Node): void;
     warn(text: string, pos: number, file: MinimalSourceFile): void;
     warn(text: string, ...args: FormatArgs): void {
-        if (this.seenWarnings.has(text)) return;
-        this.seenWarnings.add(text);
-        this.log(this.addContext(text, LogLevel.Warn, ...args), LogLevel.Warn);
+        const text2 = this.addContext(text, LogLevel.Warn, ...args);
+        if (this.seenWarnings.has(text2)) return;
+        this.seenWarnings.add(text2);
+        this.log(text2, LogLevel.Warn);
     }
 
     /**
@@ -133,12 +134,10 @@ export class Logger {
     error(text: string, node?: ts.Node): void;
     error(text: string, pos: number, file: MinimalSourceFile): void;
     error(text: string, ...args: FormatArgs) {
-        if (this.seenErrors.has(text)) return;
-        this.seenErrors.add(text);
-        this.log(
-            this.addContext(text, LogLevel.Error, ...args),
-            LogLevel.Error
-        );
+        const text2 = this.addContext(text, LogLevel.Error, ...args);
+        if (this.seenErrors.has(text2)) return;
+        this.seenErrors.add(text2);
+        this.log(text2, LogLevel.Error);
     }
 
     /** @internal */
