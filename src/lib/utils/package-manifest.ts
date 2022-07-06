@@ -7,6 +7,7 @@ import { readFile, glob } from "./fs";
 import type { Logger } from "./loggers";
 import type { IMinimatch } from "minimatch";
 import { matchesAny } from "./paths";
+import { additionalProperties, Infer, optional, validate } from "./validation";
 
 /**
  * Helper for the TS type system to understand hasOwnProperty
@@ -36,11 +37,17 @@ export function loadPackageManifest(
     return packageJson as Record<string, unknown>;
 }
 
-export interface TypedocPackageManifestConfig {
-    entryPoint?: string | undefined;
-    displayName?: string | undefined;
-    readmeFile?: string | undefined;
-}
+const typedocPackageManifestConfigSchema = {
+    displayName: optional(String),
+    entryPoint: optional(String),
+    readmeFile: optional(String),
+
+    [additionalProperties]: false,
+};
+
+export type TypedocPackageManifestConfig = Infer<
+    typeof typedocPackageManifestConfigSchema
+>;
 
 /**
  * Extracts typedoc specific config from a specified package manifest
@@ -58,28 +65,15 @@ export function extractTypedocConfigFromPackageManifest(
         typeof packageJson.typedoc == "object" &&
         packageJson.typedoc
     ) {
-        // TODO: we should consider another less manual approach in the future,
-        // e.g. uses a library to deserialize config from raw JSON
-        const config: TypedocPackageManifestConfig = packageJson.typedoc;
         if (
-            hasOwnProperty(config, "entryPoint") &&
-            typeof config.entryPoint !== "string"
+            !validate(typedocPackageManifestConfigSchema, packageJson.typedoc)
         ) {
             logger.error(
-                `Typedoc config extracted from package manifest file ${packageJsonPath} is malformed: field 'entryPoint' is not a string`
+                `Typedoc config extracted from package manifest file ${packageJsonPath} is not valid`
             );
             return undefined;
         }
-        if (
-            hasOwnProperty(config, "displayName") &&
-            typeof config.displayName !== "string"
-        ) {
-            logger.error(
-                `Typedoc config extracted from package manifest file ${packageJsonPath} is malformed: field 'displayName' is not a string`
-            );
-            return undefined;
-        }
-        return config;
+        return packageJson.typedoc;
     }
     return undefined;
 }
@@ -263,6 +257,9 @@ export function getTsEntryPointForPackage(
         hasOwnProperty(packageJson, "typedocMain") &&
         typeof packageJson.typedocMain == "string"
     ) {
+        logger.warn(
+            `Legacy typedoc entry point config (using "typedocMain" field) found for "${packageJsonPath}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`
+        );
         packageMain = packageJson.typedocMain;
     } else if (
         hasOwnProperty(packageJson, "main") &&

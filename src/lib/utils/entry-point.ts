@@ -396,7 +396,7 @@ function getEntryPointsForPackages(
                 // if displayName is not configured, use the package name (and version, if configured)
                 `${packageJson["name"]}${
                     includeVersion && packageJson["version"]
-                        ? `@${packageJson["version"]}`
+                        ? ` - v${packageJson["version"]}`
                         : ""
                 }`,
             readmeFile: typedocPackageConfig?.readmeFile

@@ -71,7 +71,7 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
             {props instanceof DeclarationReflection &&
                 props.kind === ReflectionKind.Module &&
                 props.readme?.length !== 0 && (
-                    <section class="tsd-panel-group tsd-index-group">
+                    <section class="tsd-panel-group">
                         <section class="tsd-panel tsd-typography">
                             <Raw html={context.markdown(displayPartsToMarkdown(props.readme || [], context.urlTo))} />
                         </section>
