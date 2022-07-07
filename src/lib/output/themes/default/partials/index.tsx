@@ -1,7 +1,7 @@
-import { classNames, wbr } from "../../lib";
+import { classNames, displayPartsToMarkdown, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
-import type { ContainerReflection, ReflectionCategory } from "../../../../models";
+import { JSX, Raw } from "../../../../utils";
+import { ContainerReflection, DeclarationReflection, ReflectionCategory, ReflectionKind } from "../../../../models";
 
 function renderCategory({ urlTo, icons }: DefaultThemeRenderContext, item: ReflectionCategory, prependName = "") {
     return (
@@ -67,8 +67,19 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
     }
 
     return (
-        <section class="tsd-panel-group tsd-index-group">
-            <section class="tsd-panel tsd-index-panel">{content}</section>
-        </section>
+        <>
+            {props instanceof DeclarationReflection &&
+                props.kind === ReflectionKind.Module &&
+                props.readme?.length !== 0 && (
+                    <section class="tsd-panel-group">
+                        <section class="tsd-panel tsd-typography">
+                            <Raw html={context.markdown(displayPartsToMarkdown(props.readme || [], context.urlTo))} />
+                        </section>
+                    </section>
+                )}
+            <section class="tsd-panel-group tsd-index-group">
+                <section class="tsd-panel tsd-index-panel">{content}</section>
+            </section>
+        </>
     );
 }

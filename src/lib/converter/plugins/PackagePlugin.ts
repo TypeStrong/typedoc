@@ -4,7 +4,7 @@ import * as FS from "fs";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { BindOption, readFile } from "../../utils";
+import { BindOption, EntryPointStrategy, readFile } from "../../utils";
 import { getCommonDirectory } from "../../utils/fs";
 import { nicePath } from "../../utils/paths";
 import { lexCommentString } from "../comments/rawLexer";
@@ -22,6 +22,9 @@ export class PackagePlugin extends ConverterComponent {
 
     @BindOption("includeVersion")
     includeVersion!: boolean;
+
+    @BindOption("entryPointStrategy")
+    entryPointStrategy!: EntryPointStrategy;
 
     /**
      * The file name of the found readme.md file.
@@ -140,9 +143,15 @@ export class PackagePlugin extends ConverterComponent {
                 if (packageInfo.version) {
                     project.name = `${project.name} - v${packageInfo.version}`;
                 } else {
-                    context.logger.warn(
-                        "--includeVersion was specified, but package.json does not specify a version."
-                    );
+                    // since not all monorepo specifies a meaningful version to the main package.json
+                    // this warning should be optional
+                    if (
+                        this.entryPointStrategy !== EntryPointStrategy.Packages
+                    ) {
+                        context.logger.warn(
+                            "--includeVersion was specified, but package.json does not specify a version."
+                        );
+                    }
                 }
             }
         } else {
@@ -153,9 +162,13 @@ export class PackagePlugin extends ConverterComponent {
                 project.name = "Documentation";
             }
             if (this.includeVersion) {
-                context.logger.warn(
-                    "--includeVersion was specified, but no package.json was found. Not adding package version to the documentation."
-                );
+                // since not all monorepo specifies a meaningful version to the main package.json
+                // this warning should be optional
+                if (this.entryPointStrategy !== EntryPointStrategy.Packages) {
+                    context.logger.warn(
+                        "--includeVersion was specified, but no package.json was found. Not adding package version to the documentation."
+                    );
+                }
             }
         }
     }

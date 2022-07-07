@@ -1,13 +1,15 @@
 import { join, relative, resolve } from "path";
 import * as ts from "typescript";
 import * as FS from "fs";
+import * as Path from "path";
 import {
     expandPackages,
+    extractTypedocConfigFromPackageManifest,
     getTsEntryPointForPackage,
     ignorePackage,
     loadPackageManifest,
 } from "./package-manifest";
-import { createMinimatch, matchesAny } from "./paths";
+import { createMinimatch, matchesAny, nicePath } from "./paths";
 import type { Logger } from "./loggers";
 import type { Options } from "./options";
 import { getCommonDirectory, glob, normalizePath } from "./fs";
@@ -39,8 +41,10 @@ export type EntryPointStrategy =
 
 export interface DocumentationEntryPoint {
     displayName: string;
+    readmeFile?: string;
     program: ts.Program;
     sourceFile: ts.SourceFile;
+    version?: string;
 }
 
 export function getEntryPoints(
@@ -321,6 +325,10 @@ function getEntryPointsForPackages(
     for (const packagePath of expandedPackages) {
         const packageJsonPath = resolve(packagePath, "package.json");
         const packageJson = loadPackageManifest(logger, packageJsonPath);
+        const includeVersion = options.getValue("includeVersion");
+        const typedocPackageConfig = packageJson
+            ? extractTypedocConfigFromPackageManifest(logger, packageJsonPath)
+            : undefined;
         if (packageJson === undefined) {
             logger.error(`Could not load package manifest ${packageJsonPath}`);
             return;
@@ -383,8 +391,32 @@ function getEntryPointsForPackages(
             return;
         }
 
+        if (
+            includeVersion &&
+            (!packageJson["version"] ||
+                typeof packageJson["version"] !== "string")
+        ) {
+            logger.warn(
+                `--includeVersion was specified, but "${nicePath(
+                    packageJsonPath
+                )}" does not properly specify a version.`
+            );
+        }
+
         results.push({
-            displayName: packageJson["name"] as string,
+            displayName:
+                typedocPackageConfig?.displayName ??
+                (packageJson["name"] as string),
+            version: packageJson["version"] as string | undefined,
+            readmeFile: typedocPackageConfig?.readmeFile
+                ? Path.resolve(
+                      Path.join(
+                          packageJsonPath,
+                          "..",
+                          typedocPackageConfig?.readmeFile
+                      )
+                  )
+                : undefined,
             program,
             sourceFile,
         });

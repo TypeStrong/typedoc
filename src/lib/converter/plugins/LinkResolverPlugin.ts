@@ -10,6 +10,7 @@ import type {
     CommentDisplayPart,
     InlineTagDisplayPart,
 } from "../../models/comments";
+import { DeclarationReflection } from "../../models";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 const brackets = /\[\[([^\]]+)\]\]/g;
@@ -135,6 +136,14 @@ export class LinkResolverPlugin extends ConverterComponent {
         comment.summary = this.processParts(reflection, comment.summary, warn);
         for (const tag of comment.blockTags) {
             tag.content = this.processParts(reflection, tag.content, warn);
+        }
+
+        if (reflection instanceof DeclarationReflection && reflection.readme) {
+            reflection.readme = this.processParts(
+                reflection,
+                reflection.readme,
+                warn
+            );
         }
     }
 
