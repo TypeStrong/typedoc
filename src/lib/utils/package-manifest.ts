@@ -6,7 +6,7 @@ import { existsSync } from "fs";
 import { readFile, glob } from "./fs";
 import type { Logger } from "./loggers";
 import type { IMinimatch } from "minimatch";
-import { matchesAny } from "./paths";
+import { matchesAny, nicePath } from "./paths";
 import { additionalProperties, Infer, optional, validate } from "./validation";
 
 /**
@@ -258,7 +258,9 @@ export function getTsEntryPointForPackage(
         typeof packageJson.typedocMain == "string"
     ) {
         logger.warn(
-            `Legacy typedoc entry point config (using "typedocMain" field) found for "${packageJsonPath}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`
+            `Legacy typedoc entry point config (using "typedocMain" field) found for "${nicePath(
+                packageJsonPath
+            )}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`
         );
         packageMain = packageJson.typedocMain;
     } else if (

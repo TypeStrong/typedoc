@@ -9,7 +9,7 @@ import {
 
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import { TestLogger } from "./TestLogger";
-import { createMinimatch } from "../lib/utils/paths";
+import { createMinimatch, nicePath } from "../lib/utils/paths";
 
 describe("Packages support", () => {
     let project: ReturnType<typeof tempdirProject>;
@@ -178,9 +178,8 @@ describe("Packages support", () => {
 
         logger.discardDebugMessages();
         logger.expectMessage(
-            `warn: Legacy typedoc entry point config (using "typedocMain" field) found for "${join(
-                project.cwd,
-                "/packages/foo/package.json"
+            `warn: Legacy typedoc entry point config (using "typedocMain" field) found for "${nicePath(
+                join(project.cwd, "/packages/foo/package.json")
             )}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`
         );
     });

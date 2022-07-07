@@ -131,9 +131,14 @@ export class DeclarationReflection extends ContainerReflection {
     typeHierarchy?: DeclarationHierarchy;
 
     /**
-     * The contents of the readme.md file of the module when found.
+     * The contents of the readme file of the module when found.
      */
     readme?: CommentDisplayPart[];
+
+    /**
+     * The version of the module when found.
+     */
+    version?: string;
 
     override hasGetterOrSetter(): boolean {
         return !!this.getSignature || !!this.setSignature;

@@ -9,7 +9,7 @@ import {
     ignorePackage,
     loadPackageManifest,
 } from "./package-manifest";
-import { createMinimatch, matchesAny } from "./paths";
+import { createMinimatch, matchesAny, nicePath } from "./paths";
 import type { Logger } from "./loggers";
 import type { Options } from "./options";
 import { getCommonDirectory, glob, normalizePath } from "./fs";
@@ -44,6 +44,7 @@ export interface DocumentationEntryPoint {
     readmeFile?: string;
     program: ts.Program;
     sourceFile: ts.SourceFile;
+    version?: string;
 }
 
 export function getEntryPoints(
@@ -390,15 +391,23 @@ function getEntryPointsForPackages(
             return;
         }
 
+        if (
+            includeVersion &&
+            (!packageJson["version"] ||
+                typeof packageJson["version"] !== "string")
+        ) {
+            logger.warn(
+                `--includeVersion was specified, but "${nicePath(
+                    packageJsonPath
+                )}" does not properly specify a version.`
+            );
+        }
+
         results.push({
             displayName:
                 typedocPackageConfig?.displayName ??
-                // if displayName is not configured, use the package name (and version, if configured)
-                `${packageJson["name"]}${
-                    includeVersion && packageJson["version"]
-                        ? ` - v${packageJson["version"]}`
-                        : ""
-                }`,
+                (packageJson["name"] as string),
+            version: packageJson["version"] as string | undefined,
             readmeFile: typedocPackageConfig?.readmeFile
                 ? Path.resolve(
                       Path.join(

@@ -121,7 +121,9 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
 
         return (
             <li class={classNames({ current, selected, deprecated: mod.isDeprecated() }, mod.cssClasses)}>
-                <a href={context.urlTo(mod)}>{wbr(mod.name)}</a>
+                <a href={context.urlTo(mod)}>
+                    {wbr(`${mod.name}${mod.version !== undefined ? ` - v${mod.version}` : ""}`)}
+                </a>
                 {childNav}
             </li>
         );
