@@ -4,6 +4,7 @@
 
 -   Improved support for `--entryPointStrategy Packages`. TypeDoc will now load package-specific configurations from `package.json` `typedoc` field. This configuration allows configuring a custom display name (`typedoc.displayName`) field, entry point (`typedoc.entryPoint` - this is equivalent and will override `typedocMain`), and path to a readme file to be rendered at the top of the package page (`typedoc.readmeFile`), #1658.
 -   The `--includeVersion` option will now be respected by `--entryPointStrategy Packages`. Also, for this combination, missing `version` field in the root `package.json` will not issue a warning.
+-   The `navigation` partial will now call the new `settings`, `primaryNavigation`, and `secondaryNavigation` partials, #1987.
 
 ### Bug Fixes
 

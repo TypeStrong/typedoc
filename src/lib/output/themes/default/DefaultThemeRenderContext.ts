@@ -21,7 +21,12 @@ import { memberSignatures } from "./partials/member.signatures";
 import { memberSources } from "./partials/member.sources";
 import { members } from "./partials/members";
 import { membersGroup } from "./partials/members.group";
-import { navigation } from "./partials/navigation";
+import {
+    navigation,
+    primaryNavigation,
+    secondaryNavigation,
+    settings,
+} from "./partials/navigation";
 import { parameter } from "./partials/parameter";
 import { toolbar } from "./partials/toolbar";
 import { type } from "./partials/type";
@@ -83,6 +88,9 @@ export class DefaultThemeRenderContext {
     members = bind(members, this);
     membersGroup = bind(membersGroup, this);
     navigation = bind(navigation, this);
+    settings = bind(settings, this);
+    primaryNavigation = bind(primaryNavigation, this);
+    secondaryNavigation = bind(secondaryNavigation, this);
     parameter = bind(parameter, this);
     toolbar = bind(toolbar, this);
     type = bind(type, this);

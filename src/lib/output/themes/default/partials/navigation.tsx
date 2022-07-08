@@ -1,15 +1,15 @@
 import { ContainerReflection, DeclarationReflection, Reflection, ReflectionKind } from "../../../../models";
 import { JSX, partition } from "../../../../utils";
 import type { PageEvent } from "../../../events";
-import { classNames, camelToTitleCase, wbr } from "../../lib";
+import { camelToTitleCase, classNames, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
         <>
-            {settings(context)}
-            {primaryNavigation(context, props)}
-            {secondaryNavigation(context, props)}
+            {context.settings()}
+            {context.primaryNavigation(props)}
+            {context.secondaryNavigation(props)}
         </>
     );
 }
@@ -26,7 +26,7 @@ function buildFilterItem(context: DefaultThemeRenderContext, name: string, displ
     );
 }
 
-function settings(context: DefaultThemeRenderContext) {
+export function settings(context: DefaultThemeRenderContext) {
     const defaultFilters = context.options.getValue("visibilityFilters") as Record<string, boolean>;
 
     const visibilityOptions: JSX.Element[] = [];
@@ -82,7 +82,7 @@ function settings(context: DefaultThemeRenderContext) {
     );
 }
 
-function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+export function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     // Create the navigation for the current page
 
     const modules = props.model.project.getChildrenByKind(ReflectionKind.SomeModule);
@@ -130,7 +130,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
     }
 }
 
-function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+export function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     // Multiple entry points, and on main project page.
     if (props.model.isProject() && props.model.getChildrenByKind(ReflectionKind.Module).length) {
         return;
