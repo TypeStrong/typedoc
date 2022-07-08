@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.6 (2022-07-08)
+
 ### Features
 
 -   Improved support for `--entryPointStrategy Packages`. TypeDoc will now load package-specific configurations from `package.json` `typedoc` field. This configuration allows configuring a custom display name (`typedoc.displayName`) field, entry point (`typedoc.entryPoint` - this is equivalent and will override `typedocMain`), and path to a readme file to be rendered at the top of the package page (`typedoc.readmeFile`), #1658.
