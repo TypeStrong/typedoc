@@ -7,7 +7,14 @@
 
 ### Bug Fixes
 
+-   All warnings will be reported instead of only the first warning of a given type, #1981.
 -   Include references will no longer be incorrectly parsed as links, #1986.
+-   The generated schema.json on the website will now use enum values rather than enum names if possible.
+
+### Thanks!
+
+-   @akphi
+-   @zamiell
 
 ## v0.23.5 (2022-07-02)
 
