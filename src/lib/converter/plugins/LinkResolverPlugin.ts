@@ -13,7 +13,7 @@ import type {
 import { DeclarationReflection } from "../../models";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
-const brackets = /\[\[([^\]]+)\]\]/g;
+const brackets = /\[\[(?!include:)([^\]]+)\]\]/g;
 /**
  * A plugin that resolves `{@link Foo}` tags.
  */

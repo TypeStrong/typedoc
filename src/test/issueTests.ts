@@ -598,4 +598,14 @@ export const issueTests: {
 
         equal(comments2, ["Comment for a", "Comment for b"]);
     },
+
+    gh1986(project, logger) {
+        const a = query(project, "a");
+        equal(
+            Comment.combineDisplayParts(a.comment?.summary),
+            "[[include:file.md]] this is not a link."
+        );
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
+    },
 };
