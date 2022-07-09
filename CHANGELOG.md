@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.7 (2022-07-09)
+
 ### Bug Fixes
 
 -   Tags must now contain whitespace after the tag name to be parsed as a tag, `@jest/globals` in a comment will no longer be parsed as a tag #1990.
