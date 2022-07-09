@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   The private member visibility option will now be respected in generated sites, #1992.
+
 ## v0.23.6 (2022-07-08)
 
 ### Features

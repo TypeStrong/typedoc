@@ -276,6 +276,10 @@ export class DefaultTheme extends Theme {
                 if (reflection.flags.isProtected) {
                     classes.push("tsd-is-protected");
                 }
+            } else if (key === "private") {
+                if (reflection.flags.isPrivate) {
+                    classes.push("tsd-is-private");
+                }
             } else if (key === "external") {
                 if (reflection.flags.isExternal) {
                     classes.push("tsd-is-external");
