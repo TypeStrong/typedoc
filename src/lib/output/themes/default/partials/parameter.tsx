@@ -10,21 +10,18 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                 <li class="tsd-parameter-signature">
                     <ul class={"tsd-signatures " + props.cssClasses}>
                         {props.signatures.map((item) => (
-                            <li class="tsd-signature" id={item.anchor}>
-                                {context.memberSignatureTitle(item, {
-                                    hideName: true,
-                                })}
-                            </li>
-                        ))}
-                    </ul>
-
-                    <ul class="tsd-descriptions">
-                        {props.signatures.map((item) => (
-                            <li class="tsd-description">
-                                {context.memberSignatureBody(item, {
-                                    hideSources: true,
-                                })}
-                            </li>
+                            <>
+                                <li class="tsd-signature" id={item.anchor}>
+                                    {context.memberSignatureTitle(item, {
+                                        hideName: true,
+                                    })}
+                                </li>
+                                <li class="tsd-description">
+                                    {context.memberSignatureBody(item, {
+                                        hideSources: true,
+                                    })}
+                                </li>
+                            </>
                         ))}
                     </ul>
                 </li>

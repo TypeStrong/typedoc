@@ -1,7 +1,7 @@
 import { join, renderTypeParametersSignature, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import type { SignatureReflection } from "../../../../models";
+import { ReflectionKind, SignatureReflection } from "../../../../models";
 
 export const memberSignatureTitle = (
     context: DefaultThemeRenderContext,
@@ -13,7 +13,7 @@ export const memberSignatureTitle = (
             wbr(props.name)
         ) : (
             <>
-                {props.kindString === "Constructor signature" && (
+                {props.kind === ReflectionKind.ConstructorSignature && (
                     <>
                         {!!props.flags.isAbstract && <span class="tsd-signature-symbol">abstract </span>}
                         <span class="tsd-signature-symbol">new </span>
