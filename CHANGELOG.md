@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 
+-   Tags must now contain whitespace after the tag name to be parsed as a tag, `@jest/globals` in a comment will no longer be parsed as a tag #1990.
 -   The private member visibility option will now be respected in generated sites, #1992.
 -   Overload rendering will no longer be broken if JavaScript is disabled, #453.
 -   All overloads are now shown at once rather than requiring clicks to see the documentation for each signature, #1100.

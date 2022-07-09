@@ -253,6 +253,17 @@ describe("Block Comment Lexer", () => {
         ]);
     });
 
+    it("Should not mistake a scoped package for a tag", () => {
+        const tokens = lex("/* @typescript-eslint/parser @jest/globals */");
+        equal(tokens, [
+            {
+                kind: TokenSyntaxKind.Text,
+                text: "@typescript-eslint/parser @jest/globals",
+                pos: 3,
+            },
+        ]);
+    });
+
     it("Should allow escaping @ in an email", () => {
         const tokens = lex("/* test\\@example.com */");
         equal(tokens, [
@@ -651,6 +662,17 @@ describe("Line Comment Lexer", () => {
         ]);
     });
 
+    it("Should not mistake a scoped package for a tag", () => {
+        const tokens = lex("// @typescript-eslint/parser @jest/globals");
+        equal(tokens, [
+            {
+                kind: TokenSyntaxKind.Text,
+                text: "@typescript-eslint/parser @jest/globals",
+                pos: 3,
+            },
+        ]);
+    });
+
     it("Should allow escaping @ in an email", () => {
         const tokens = lex("// test\\@example.com");
         equal(tokens, [
@@ -946,6 +968,17 @@ describe("Raw Lexer", () => {
         const tokens = lex("test@example.com");
         equal(tokens, [
             { kind: TokenSyntaxKind.Text, text: "test@example.com", pos: 0 },
+        ]);
+    });
+
+    it("Should not mistake a scoped package for a tag", () => {
+        const tokens = lex("@typescript-eslint/parser @jest/globals");
+        equal(tokens, [
+            {
+                kind: TokenSyntaxKind.Text,
+                text: "@typescript-eslint/parser @jest/globals",
+                pos: 0,
+            },
         ]);
     });
 

@@ -167,7 +167,10 @@ function* lexLineComments2(
                     }
                 }
 
-                if (lookahead !== pos + 1) {
+                if (
+                    lookahead !== pos + 1 &&
+                    (lookahead === end || /\s/.test(file[lookahead]))
+                ) {
                     braceStartsType = true;
                     yield makeToken(TokenSyntaxKind.Tag, lookahead - pos);
                     break;
