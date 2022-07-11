@@ -5,7 +5,7 @@ import { DeclarationReflection, ReferenceReflection } from "../../../../models";
 import { anchorIcon } from "./anchor-icon";
 
 export const member = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
-    <section class={"tsd-panel tsd-member " + props.cssClasses}>
+    <section class={classNames({ "tsd-panel": true, "tsd-member": true }, context.getReflectionClasses(props))}>
         <a id={props.anchor} class="tsd-anchor"></a>
         {!!props.name && (
             <h3 class="tsd-anchor-link">

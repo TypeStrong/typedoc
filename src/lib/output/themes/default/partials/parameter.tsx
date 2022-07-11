@@ -1,4 +1,4 @@
-import { renderFlags, wbr } from "../../lib";
+import { classNames, renderFlags, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
@@ -8,7 +8,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
         <ul class="tsd-parameters">
             {!!props.signatures && (
                 <li class="tsd-parameter-signature">
-                    <ul class={"tsd-signatures " + props.cssClasses}>
+                    <ul class={classNames({ "tsd-signatures": true }, context.getReflectionClasses(props))}>
                         {props.signatures.map((item) => (
                             <>
                                 <li class="tsd-signature" id={item.anchor}>

@@ -105,7 +105,9 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 kind: reflection.kind,
                 name: reflection.name,
                 url: reflection.url,
-                classes: reflection.cssClasses,
+                classes: this.owner.theme
+                    .getRenderContext()
+                    .getReflectionClasses(reflection),
             };
 
             if (parent) {

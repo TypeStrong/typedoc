@@ -5,6 +5,7 @@
 -   The `label` property on `Reflection` has moved to `Comment`.
 -   Removed unused `Reflection#originalName`.
 -   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.
+-   Properties related to rendering are no longer stored on `Reflection`, including `url`, `anchor`, `hasOwnDocument`, and `cssClasses`.
 
 # Unreleased
 

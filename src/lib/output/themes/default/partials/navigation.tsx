@@ -120,7 +120,12 @@ export function primaryNavigation(context: DefaultThemeRenderContext, props: Pag
         }
 
         return (
-            <li class={classNames({ current, selected, deprecated: mod.isDeprecated() }, mod.cssClasses)}>
+            <li
+                class={classNames(
+                    { current, selected, deprecated: mod.isDeprecated() },
+                    context.getReflectionClasses(mod)
+                )}
+            >
                 <a href={context.urlTo(mod)}>
                     {wbr(`${mod.name}${mod.version !== undefined ? ` - v${mod.version}` : ""}`)}
                 </a>
@@ -150,7 +155,7 @@ export function secondaryNavigation(context: DefaultThemeRenderContext, props: P
                 <li
                     class={classNames(
                         { deprecated: child.isDeprecated(), current: props.model === child },
-                        child.cssClasses
+                        context.getReflectionClasses(child)
                     )}
                 >
                     <a href={context.urlTo(child)} class="tsd-index-link">
@@ -178,7 +183,9 @@ export function secondaryNavigation(context: DefaultThemeRenderContext, props: P
                             deprecated: effectivePageParent.isDeprecated(),
                             current: effectivePageParent === props.model,
                         },
-                        effectivePageParent.cssClasses
+                        effectivePageParent instanceof DeclarationReflection
+                            ? context.getReflectionClasses(effectivePageParent)
+                            : ""
                     )}
                 >
                     <a href={context.urlTo(effectivePageParent)} class="tsd-index-link">

@@ -3,7 +3,11 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
 import { ContainerReflection, DeclarationReflection, ReflectionCategory, ReflectionKind } from "../../../../models";
 
-function renderCategory({ urlTo, icons }: DefaultThemeRenderContext, item: ReflectionCategory, prependName = "") {
+function renderCategory(
+    { urlTo, icons, getReflectionClasses }: DefaultThemeRenderContext,
+    item: ReflectionCategory,
+    prependName = ""
+) {
     return (
         <section class="tsd-index-section">
             <h3 class="tsd-index-heading">{prependName ? `${prependName} - ${item.title}` : item.title}</h3>
@@ -14,7 +18,7 @@ function renderCategory({ urlTo, icons }: DefaultThemeRenderContext, item: Refle
                             href={urlTo(item)}
                             class={classNames(
                                 { "tsd-index-link": true, deprecated: item.isDeprecated() },
-                                item.cssClasses
+                                getReflectionClasses(item)
                             )}
                         >
                             {icons[item.kind]()}

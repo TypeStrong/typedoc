@@ -292,13 +292,6 @@ export abstract class Reflection {
     hasOwnDocument?: boolean;
 
     /**
-     * A list of generated css classes that should be applied to representations of this
-     * reflection in the generated markup.
-     * TODO: Reflections shouldn't know about CSS. Move this property to the correct serializer.
-     */
-    cssClasses?: string;
-
-    /**
      * Url safe alias for this reflection.
      *
      * @see {@link BaseReflection.getAlias}
