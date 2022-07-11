@@ -144,6 +144,12 @@ export class Comment {
     modifierTags: Set<string> = new Set<string>();
 
     /**
+     * Label associated with this reflection, if any (https://tsdoc.org/pages/tags/label/)
+     * Added by the CommentPlugin during resolution.
+     */
+    label?: string;
+
+    /**
      * Creates a new Comment instance.
      */
     constructor(
@@ -154,6 +160,7 @@ export class Comment {
         this.summary = summary;
         this.blockTags = blockTags;
         this.modifierTags = modifierTags;
+        extractLabelTag(this);
     }
 
     /**
@@ -241,6 +248,17 @@ export class Comment {
                 this.modifierTags.size > 0
                     ? Array.from(this.modifierTags)
                     : undefined,
+            label: this.label,
         };
+    }
+}
+
+function extractLabelTag(comment: Comment) {
+    const index = comment.summary.findIndex(
+        (part) => part.kind === "inline-tag" && part.tag === "@label"
+    );
+
+    if (index !== -1) {
+        comment.label = comment.summary.splice(index, 1)[0].text;
     }
 }

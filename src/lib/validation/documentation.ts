@@ -12,7 +12,7 @@ import { removeFlag } from "../utils/enum";
 export function validateDocumentation(
     project: ProjectReflection,
     logger: Logger,
-    requiredToBeDocumented: readonly (keyof typeof ReflectionKind)[]
+    requiredToBeDocumented: readonly ReflectionKind.KindString[]
 ): void {
     let kinds = requiredToBeDocumented.reduce(
         (prev, cur) => prev | ReflectionKind[cur],

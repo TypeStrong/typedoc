@@ -93,7 +93,7 @@ function filterMapByMeaning(
     return filterMap(reflections, (refl): Reflection | undefined => {
         const kwResolved = resolveKeyword(refl, meaning.keyword) || [];
         if (meaning.label) {
-            return kwResolved.find((r) => r.label === meaning.label);
+            return kwResolved.find((r) => r.comment?.label === meaning.label);
         }
         return kwResolved[meaning.index || 0];
     });

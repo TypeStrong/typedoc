@@ -1,4 +1,4 @@
-import { classNames, displayPartsToMarkdown, wbr } from "../../lib";
+import { classNames, displayPartsToMarkdown } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
 import { ContainerReflection, DeclarationReflection, ReflectionCategory, ReflectionKind } from "../../../../models";
@@ -18,7 +18,7 @@ function renderCategory({ urlTo, icons }: DefaultThemeRenderContext, item: Refle
                             )}
                         >
                             {icons[item.kind]()}
-                            <span>{item.name ? wbr(item.name) : <em>{wbr(item.kindString!)}</em>}</span>
+                            <span>{item.name}</span>
                         </a>
                         {"\n"}
                     </>

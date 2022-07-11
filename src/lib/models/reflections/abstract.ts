@@ -8,18 +8,6 @@ import { ReflectionKind } from "./kind";
 import type { Serializer, JSONOutput } from "../../serialization";
 
 /**
- * Holds all data models used by TypeDoc.
- *
- * The {@link BaseReflection} is base class of all reflection models. The subclass {@link ProjectReflection}
- * serves as the root container for the current project while {@link DeclarationReflection} instances
- * form the structure of the project. Most of the other classes in this namespace are referenced by this
- * two base classes.
- *
- * The models {@link NavigationItem} and {@link UrlMapping} are special as they are only used by the {@link Renderer}
- * while creating the final output.
- */
-
-/**
  * Current reflection id.
  */
 let REFLECTION_ID = 0;
@@ -253,26 +241,9 @@ export abstract class Reflection {
     name: string;
 
     /**
-     * The original name of the TypeScript declaration.
-     */
-    originalName: string;
-
-    /**
-     * Label associated with this reflection, if any (https://tsdoc.org/pages/tags/label/)
-     * Added by the CommentPlugin during resolution.
-     */
-    label?: string;
-
-    /**
      * The kind of this reflection.
      */
     kind: ReflectionKind;
-
-    /**
-     * The human readable string representation of the kind of this reflection.
-     * Set during the resolution phase by GroupPlugin
-     */
-    kindString?: string;
 
     flags: ReflectionFlags = new ReflectionFlags();
 
@@ -340,7 +311,6 @@ export abstract class Reflection {
         this.id = REFLECTION_ID++;
         this.parent = parent;
         this.name = name;
-        this.originalName = name;
         this.kind = kind;
 
         // If our parent is external, we are too.
@@ -558,14 +528,11 @@ export abstract class Reflection {
             id: this.id,
             name: this.name,
             kind: this.kind,
-            kindString: this.kindString,
             flags: this.flags.toObject(),
             comment:
                 this.comment && !this.comment.isEmpty()
                     ? serializer.toObject(this.comment)
                     : undefined,
-            originalName:
-                this.originalName !== this.name ? this.originalName : undefined,
         };
     }
 }

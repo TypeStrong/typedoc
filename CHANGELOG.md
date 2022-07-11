@@ -1,3 +1,11 @@
+# Beta
+
+### Breaking Changes
+
+-   The `label` property on `Reflection` has moved to `Comment`.
+-   Removed unused `Reflection#originalName`.
+-   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.
+
 # Unreleased
 
 ## v0.23.7 (2022-07-09)

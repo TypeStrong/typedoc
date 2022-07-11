@@ -10,7 +10,7 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
         <div class="tsd-page-title">
             {!!props.model.parent && <ul class="tsd-breadcrumb">{context.breadcrumb(props.model)}</ul>}
             <HeadingLevel>
-                {props.model.kind !== ReflectionKind.Project && `${props.model.kindString ?? ""} `}
+                {props.model.kind !== ReflectionKind.Project && `${ReflectionKind.singularString(props.model.kind)} `}
                 {props.model.name}
                 {props.model instanceof DeclarationReflection &&
                     props.model.version !== undefined &&

@@ -993,7 +993,6 @@
                       }
                     ]
                   },
-                  "originalName": "__namedParameters",
                   "type": {
                     "type": "reflection",
                     "declaration": {

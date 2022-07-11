@@ -488,7 +488,7 @@ export const behaviorTests: {
         equal(foo.comment, undefined);
 
         equal(
-            foo.signatures?.map((s) => s.label),
+            foo.signatures?.map((s) => s.comment?.label),
             ["NO_ARGS", "WITH_X"]
         );
 

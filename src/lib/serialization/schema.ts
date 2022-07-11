@@ -171,9 +171,7 @@ export interface ContainerReflection
         > {}
 
 export interface Reflection
-    extends S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
-    /** Will not be present if name === originalName */
-    originalName?: M.Reflection["originalName"];
+    extends S<M.Reflection, "id" | "name" | "kind" | "comment"> {
     flags: ReflectionFlags;
 }
 
@@ -302,7 +300,7 @@ type BoolKeys<T> = {
 export interface ReflectionFlags
     extends Partial<S<M.ReflectionFlags, BoolKeys<M.ReflectionFlags>>> {}
 
-export interface Comment extends Partial<S<M.Comment, "blockTags">> {
+export interface Comment extends Partial<S<M.Comment, "blockTags" | "label">> {
     summary: CommentDisplayPart[];
     modifierTags?: string[];
 }

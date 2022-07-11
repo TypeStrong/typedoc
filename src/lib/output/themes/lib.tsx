@@ -4,6 +4,7 @@ import {
     DeclarationReflection,
     Reflection,
     ReflectionFlags,
+    ReflectionKind,
     SignatureReflection,
     TypeParameterReflection,
 } from "../../models";
@@ -101,7 +102,7 @@ export function renderTypeParametersSignature(
                     {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
                         <>
                             {item.varianceModifier ? `${item.varianceModifier} ` : ""}
-                            <span class="tsd-signature-type" data-tsd-kind={item.kindString}>
+                            <span class="tsd-signature-type" data-tsd-kind={ReflectionKind.singularString(item.kind)}>
                                 {item.name}
                             </span>
                         </>

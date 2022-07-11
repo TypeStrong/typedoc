@@ -150,7 +150,7 @@ export interface TypeDocOptionMap {
     treatWarningsAsErrors: boolean;
     intentionallyNotExported: string[];
     validation: ValidationOptions;
-    requiredToBeDocumented: (keyof typeof ReflectionKind)[];
+    requiredToBeDocumented: ReflectionKind.KindString[];
 }
 
 /**
