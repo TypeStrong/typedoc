@@ -608,13 +608,4 @@ export const issueTests: {
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
-
-    gh1994(_project, logger) {
-        // const case1 = query(project, "Collection.case1");
-        // TODO: I don't know how to add test case for this case
-        // and I added a test simple file in 'issues' folder.
-        // But I don't know how to test it.
-        logger.discardDebugMessages();
-        logger.expectNoOtherMessages();
-    },
 };
