@@ -203,6 +203,26 @@ export class CommentPlugin extends ConverterComponent {
         this.removeExcludedTags(comment);
     }
 
+    private getHiddenItems(reflection: Reflection) {
+        const hiddenItems = new Set<Reflection>();
+        if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
+            const decl = reflection as DeclarationReflection;
+            if (decl.signatures) {
+                for (const sig of decl.signatures) {
+                    if (!sig.comment) {
+                        hiddenItems.add(sig);
+                    }
+                }
+            }
+            if (!decl.signatures?.some(sig => sig.comment)) {
+                hiddenItems.add(decl);
+            }
+        } else {
+            hiddenItems.add(reflection);
+        }
+        return hiddenItems || [];
+    }
+
     /**
      * Triggered when the converter begins resolving a project.
      *
@@ -225,7 +245,7 @@ export class CommentPlugin extends ConverterComponent {
             }
 
             if (this.isHidden(ref)) {
-                hidden.add(ref);
+                this.getHiddenItems(ref).forEach(item => hidden.add(item));
             }
         }
         hidden.forEach((reflection) => project.removeReflection(reflection));
