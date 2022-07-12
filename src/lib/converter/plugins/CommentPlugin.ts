@@ -214,7 +214,7 @@ export class CommentPlugin extends ConverterComponent {
                     }
                 }
             }
-            if (!decl.signatures?.some(sig => sig.comment)) {
+            if (!decl.signatures?.some((sig) => sig.comment)) {
                 hiddenItems.add(decl);
             }
         } else {
@@ -245,7 +245,7 @@ export class CommentPlugin extends ConverterComponent {
             }
 
             if (this.isHidden(ref)) {
-                this.getHiddenItems(ref).forEach(item => hidden.add(item));
+                this.getHiddenItems(ref).forEach((item) => hidden.add(item));
             }
         }
         hidden.forEach((reflection) => project.removeReflection(reflection));

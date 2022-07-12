@@ -616,5 +616,5 @@ export const issueTests: {
         // But I don't know how to test it.
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
-    }
+    },
 };
