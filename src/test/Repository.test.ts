@@ -46,6 +46,32 @@ describe("Repository", function () {
             equal(repository.type, RepositoryType.GitHub);
         });
 
+        it("handles a ghe.com URL", function () {
+            const mockRemotes = [
+                "ssh://org@bigcompany.ghe.com/joebloggs/foobar.git",
+            ];
+
+            const repository = new Repository("", "", mockRemotes);
+
+            equal(repository.hostname, "bigcompany.ghe.com");
+            equal(repository.user, "joebloggs");
+            equal(repository.project, "foobar");
+            equal(repository.type, RepositoryType.GitHub);
+        });
+
+        it("handles a github.us URL", function () {
+            const mockRemotes = [
+                "ssh://org@bigcompany.github.us/joebloggs/foobar.git",
+            ];
+
+            const repository = new Repository("", "", mockRemotes);
+
+            equal(repository.hostname, "bigcompany.github.us");
+            equal(repository.user, "joebloggs");
+            equal(repository.project, "foobar");
+            equal(repository.type, RepositoryType.GitHub);
+        });
+
         it("handles a Bitbucket HTTPS URL", function () {
             const mockRemotes = [
                 "https://joebloggs@bitbucket.org/joebloggs/foobar.git",
