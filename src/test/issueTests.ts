@@ -609,7 +609,7 @@ export const issueTests: {
         logger.expectNoOtherMessages();
     },
 
-    preGh1994(app) {
+    pre1994(app) {
         app.options.setValue("excludeNotDocumented", true);
     },
     gh1994(project) {

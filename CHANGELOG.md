@@ -9,9 +9,11 @@
 ### Bug Fixes
 
 -   Fixed missing `sources` property on signature reflections #1996.
+-   `excludeNotDocumented` will no longer remove functions/methods/accessors which are documented, #1994.
 
 ### Thanks!
 
+-   @cary-hu
 -   @chadhietala
 
 ## v0.23.7 (2022-07-09)
