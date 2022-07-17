@@ -1,5 +1,13 @@
 # Unreleased
 
+### Features
+
+-   Added support for `*.ghe.com` and `*.github.us` GitHub enterprise domains for source links, #2001.
+
+### Thanks!
+
+-   @chadhietala
+
 ## v0.23.7 (2022-07-09)
 
 ### Bug Fixes
