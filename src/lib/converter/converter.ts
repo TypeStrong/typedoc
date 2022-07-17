@@ -184,6 +184,18 @@ export class Converter extends ChildableComponent<
     }
 
     /**
+     * Parse the given file into a comment. Intended to be used with markdown files.
+     */
+    parseRawComment(file: MinimalSourceFile) {
+        return parseComment(
+            lexCommentString(file.text),
+            this.config,
+            file,
+            this.application.logger
+        );
+    }
+
+    /**
      * Compile the files within the given context and convert the compiler symbols to reflections.
      *
      * @param context  The context object describing the current state the converter is in.
@@ -264,11 +276,8 @@ export class Converter extends ChildableComponent<
 
             if (entryPoint.readmeFile) {
                 const readme = readFile(entryPoint.readmeFile);
-                const comment = parseComment(
-                    lexCommentString(readme),
-                    context.converter.config,
-                    new MinimalSourceFile(readme, entryPoint.readmeFile),
-                    context.logger
+                const comment = this.parseRawComment(
+                    new MinimalSourceFile(readme, entryPoint.readmeFile)
                 );
 
                 if (comment.blockTags.length || comment.modifierTags.size) {

@@ -3,6 +3,7 @@
 ### Features
 
 -   Added support for `*.ghe.com` and `*.github.us` GitHub enterprise domains for source links, #2001.
+-   Expose `Converter.parseRawComment` for plugins to parse additional markdown files, #2004.
 
 ### Thanks!
 
