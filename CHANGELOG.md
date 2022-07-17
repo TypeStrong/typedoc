@@ -1,5 +1,19 @@
 # Unreleased
 
+### Features
+
+-   Added support for `*.ghe.com` and `*.github.us` GitHub enterprise domains for source links, #2001.
+-   Expose `Converter.parseRawComment` for plugins to parse additional markdown files, #2004.
+-   Added defined in links for classes, enums #180.
+
+### Bug Fixes
+
+-   Fixed missing `sources` property on signature reflections #1996.
+
+### Thanks!
+
+-   @chadhietala
+
 ## v0.23.7 (2022-07-09)
 
 ### Bug Fixes

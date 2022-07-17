@@ -71,6 +71,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                                 context.parameter(props.model.indexSignature.type.declaration)}
                         </section>
                     )}
+                    {!props.model.signatures && context.memberSources(props.model)}
                 </>
             )}
             {!!props.model.children?.length && context.index(props.model)}
