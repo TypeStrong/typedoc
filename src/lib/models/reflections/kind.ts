@@ -93,4 +93,11 @@ export namespace ReflectionKind {
         ReflectionKind.Constructor |
         ReflectionKind.Function |
         ReflectionKind.Method;
+
+    /**
+     * Note: This does not include Class/Interface, even though they technically could contain index signatures
+     * @internal
+     */
+    export const SignatureContainer =
+        ContainsCallSignatures | ReflectionKind.Accessor;
 }

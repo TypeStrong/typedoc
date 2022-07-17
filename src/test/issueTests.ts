@@ -608,4 +608,20 @@ export const issueTests: {
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
+
+    preGh1994(app) {
+        app.options.setValue("excludeNotDocumented", true);
+    },
+    gh1994(project) {
+        for (const exp of ["documented", "documented2", "Docs.x", "Docs.y"]) {
+            query(project, exp);
+        }
+        for (const rem of ["notDocumented", "Docs.z"]) {
+            ok(!project.getChildByName(rem));
+        }
+
+        const y = query(project, "Docs.y");
+        ok(y.getSignature);
+        ok(!y.setSignature);
+    },
 };
