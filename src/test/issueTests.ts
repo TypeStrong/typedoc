@@ -599,6 +599,35 @@ export const issueTests: {
         equal(comments2, ["Comment for a", "Comment for b"]);
     },
 
+    gh1980(project, logger) {
+        const link = query(project, "link");
+        equal(
+            link.comment?.summary.filter((t) => t.kind === "inline-tag"),
+            [
+                {
+                    kind: "inline-tag",
+                    tag: "@link",
+                    target: "http://example.com",
+                    text: "http://example.com",
+                },
+                {
+                    kind: "inline-tag",
+                    tag: "@link",
+                    target: "http://example.com",
+                    text: "with text",
+                },
+                {
+                    kind: "inline-tag",
+                    tag: "@link",
+                    target: "http://example.com",
+                    text: "jsdoc support",
+                },
+            ]
+        );
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
+    },
+
     gh1986(project, logger) {
         const a = query(project, "a");
         equal(
