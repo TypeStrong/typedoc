@@ -94,7 +94,8 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a signature reflection.
-     * The listener will be given {@link Context}, {@link SignatureReflection} | {@link ProjectReflection} and a `ts.Node?`
+     * The listener will be given {@link Context}, {@link SignatureReflection} | {@link ProjectReflection} and
+     * `ts.SignatureDeclaration | ts.IndexSignatureDeclaration | ts.JSDocSignature | undefined`
      * @event
      */
     static readonly EVENT_CREATE_SIGNATURE = ConverterEvents.CREATE_SIGNATURE;

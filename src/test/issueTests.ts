@@ -608,4 +608,15 @@ export const issueTests: {
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
+
+    gh1996(project) {
+        const a = query(project, "a");
+        equal(a.signatures![0].sources?.[0].fileName, "gh1996.ts");
+        equal(a.signatures![0].sources?.[0].line, 1);
+        equal(a.signatures![0].sources?.[0].character, 17);
+        const b = query(project, "b");
+        equal(b.signatures![0].sources?.[0].fileName, "gh1996.ts");
+        equal(b.signatures![0].sources?.[0].line, 3);
+        equal(b.signatures![0].sources?.[0].character, 0);
+    },
 };

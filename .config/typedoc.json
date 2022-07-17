@@ -11,7 +11,7 @@
         "MarkedPlugin"
     ],
     "entryPoints": ["../src"],
-    "entryPointStrategy": "Resolve",
+    "entryPointStrategy": "resolve",
     "excludeExternals": true,
     "excludeInternal": false,
     "excludePrivate": true,

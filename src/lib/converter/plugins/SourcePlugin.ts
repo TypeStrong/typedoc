@@ -50,7 +50,7 @@ export class SourcePlugin extends ConverterComponent {
         this.listenTo(this.owner, {
             [Converter.EVENT_END]: this.onEnd,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
-            [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,
+            [Converter.EVENT_CREATE_SIGNATURE]: this.onSignature,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
         });
     }
@@ -99,6 +99,31 @@ export class SourcePlugin extends ConverterComponent {
                 )
             );
         }
+    }
+
+    private onSignature(
+        _context: Context,
+        reflection: Reflection,
+        sig?:
+            | ts.SignatureDeclaration
+            | ts.IndexSignatureDeclaration
+            | ts.JSDocSignature
+    ) {
+        if (this.disableSources || !sig) return;
+
+        const sourceFile = sig.getSourceFile();
+        const fileName = sourceFile.fileName;
+        this.fileNames.add(fileName);
+
+        const position = ts.getLineAndCharacterOfPosition(
+            sourceFile,
+            sig.getStart()
+        );
+
+        reflection.sources ||= [];
+        reflection.sources.push(
+            new SourceReference(fileName, position.line + 1, position.character)
+        );
     }
 
     /**
