@@ -240,15 +240,6 @@ export class Converter extends ChildableComponent<
         const symbol = getSymbolForModuleLike(context, node);
         let moduleContext: Context;
 
-        const allExports = getExports(context, node, symbol);
-
-        if (allExports.every((exp) => this.shouldIgnore(exp))) {
-            this.owner.logger.verbose(
-                `All members of ${entryName} are excluded, ignoring entry point.`
-            );
-            return;
-        }
-
         if (singleEntryPoint) {
             // Special case for when we're giving a single entry point, we don't need to
             // create modules for each entry. Register the project as this module.
@@ -302,6 +293,7 @@ export class Converter extends ChildableComponent<
             moduleContext = context.withScope(reflection);
         }
 
+        const allExports = getExports(context, node, symbol);
         for (const exp of allExports.filter((exp) =>
             isDirectExport(context.resolveAliasedSymbol(exp), node)
         )) {
