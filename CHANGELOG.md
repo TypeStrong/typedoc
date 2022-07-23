@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 
+-   Fixed missing comments on callable variable-functions constructed indirectly, #2008.
 -   Fixed multiple reflections mapping to the same file name on case insensitive file systems, #2012.
 
 ## v0.23.8 (2022-07-17)

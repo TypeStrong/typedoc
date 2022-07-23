@@ -439,11 +439,23 @@ export class CommentPlugin extends ConverterComponent {
             return false;
         }
 
-        return (
+        const isHidden =
             comment.hasModifier("@hidden") ||
             comment.hasModifier("@ignore") ||
-            (comment.hasModifier("@internal") && this.excludeInternal)
-        );
+            (comment.hasModifier("@internal") && this.excludeInternal);
+
+        if (
+            isHidden &&
+            reflection.kindOf(ReflectionKind.ContainsCallSignatures)
+        ) {
+            return (reflection as DeclarationReflection)
+                .getNonIndexSignatures()
+                .every((sig) => {
+                    return !sig.comment || this.isHidden(sig);
+                });
+        }
+
+        return isHidden;
     }
 }
 

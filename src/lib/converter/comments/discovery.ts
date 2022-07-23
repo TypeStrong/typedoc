@@ -37,6 +37,9 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.Function]: [
         ts.SyntaxKind.FunctionDeclaration,
         ts.SyntaxKind.BindingElement,
+        ts.SyntaxKind.VariableDeclaration,
+        ts.SyntaxKind.ExportAssignment,
+        ts.SyntaxKind.PropertyAccessExpression,
     ],
     [ReflectionKind.Class]: [
         ts.SyntaxKind.ClassDeclaration,
@@ -106,8 +109,12 @@ export function discoverComment(
             // See the gh1770 test for an example.
             if (
                 kind & ReflectionKind.ContainsCallSignatures &&
-                !(node as ts.FunctionDeclaration).body &&
-                node.kind !== ts.SyntaxKind.BindingElement
+                [
+                    ts.SyntaxKind.FunctionDeclaration,
+                    ts.SyntaxKind.MethodDeclaration,
+                    ts.SyntaxKind.Constructor,
+                ].includes(node.kind) &&
+                !(node as ts.FunctionDeclaration).body
             ) {
                 continue;
             }

@@ -449,6 +449,14 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Returns true if fn returns true for every item in the iterator\n\nReturns true if the iterator is empty"
+                  }
+                ]
+              },
               "typeParameter": [
                 {
                   "id": 101,
@@ -543,6 +551,14 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Returns true if fn returns true for every item in the iterator\n\nReturns true if the iterator is empty"
+                  }
+                ]
+              },
               "typeParameter": [
                 {
                   "id": 108,

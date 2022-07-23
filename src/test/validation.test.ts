@@ -195,4 +195,15 @@ describe("validateDocumentation", () => {
         );
         logger.expectNoOtherMessages();
     });
+
+    it("Should correctly handle interfaces", () => {
+        const project = convertValidationFile("interface.ts");
+        const logger = new TestLogger();
+        validateDocumentation(project, logger, ["Method"]);
+
+        logger.expectMessage(
+            "warn: Foo.method does not have any documentation."
+        );
+        logger.expectNoOtherMessages();
+    });
 });

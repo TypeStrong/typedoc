@@ -666,6 +666,11 @@ export const issueTests: {
         equal(b.signatures![0].sources?.[0].character, 0);
     },
 
+    gh2008(project) {
+        const fn = query(project, "myFn").signatures![0];
+        equal(Comment.combineDisplayParts(fn.comment?.summary), "Docs");
+    },
+
     gh2012(project) {
         project.hasOwnDocument = true;
         const model = query(project, "model");
