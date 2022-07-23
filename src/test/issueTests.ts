@@ -665,4 +665,12 @@ export const issueTests: {
         equal(b.signatures![0].sources?.[0].line, 3);
         equal(b.signatures![0].sources?.[0].character, 0);
     },
+
+    gh2012(project) {
+        project.hasOwnDocument = true;
+        const model = query(project, "model");
+        const Model = query(project, "Model");
+        equal(model.getAlias(), "model");
+        equal(Model.getAlias(), "Model-1");
+    },
 };
