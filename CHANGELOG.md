@@ -6,6 +6,7 @@
     If using `"entryPointStrategy": "expand"`, this change may result in new pages being added to your documentation.
     If this is not desired, you can use the `exclude` option to filter them out.
 -   Fixed missing comments on callable variable-functions constructed indirectly, #2008.
+-   Packages mode will now respect the `--includeVersion` flag, #2010.
 -   Fixed multiple reflections mapping to the same file name on case insensitive file systems, #2012.
 
 ## v0.23.8 (2022-07-17)
