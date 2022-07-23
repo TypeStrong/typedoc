@@ -113,6 +113,7 @@
 -   `{@link}` tags in comments will now be resolved as declaration references similar to TSDoc's declaration references.
     For most cases, this will just work. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on how link resolution works.
 -   TypeDoc will now produce warnings for bracketed links (`[[ target ]]`). Use `{@link target}` instead. The `{@link}` syntax will be recognized by [TypeScript 4.3](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#editor-support-for-link-tags) and later and used to provide better intellisense. TypeDoc version 0.24.0 will remove support for `[[ target ]]` style links.
+    Support for `` [[`links`]] `` with brackets + code ticks have been dropped.
 -   `extends` in typedoc.json is now resolved using NodeJS module resolution, so a local path must begin with `./`.
 -   In the JSON output for `DeclarationReflection`s, `getSignature` is no longer a one-tuple.
 -   In the JSON output for `DeclarationReflection`s, `setSignature` is no longer a one-tuple.

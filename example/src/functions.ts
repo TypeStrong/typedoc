@@ -42,7 +42,7 @@ export function concat<T>(array1: T[], array2: T[]): T[] {
 }
 
 /**
- * The options type for [[`makeHttpCallA`]].
+ * The options type for {@link makeHttpCallA}.
  */
 export interface MakeHttpCallAOptions {
     url: string;

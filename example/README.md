@@ -34,39 +34,39 @@ Here are some examples we wanted to highlight:
 
 ### Rendering
 
--   Markdown showcase: [[`markdownShowcase`]]
--   Syntax highlighting showcase: [[`syntaxHighlightingShowcase`]]
+-   Markdown showcase: {@link markdownShowcase | `markdownShowcase`}
+-   Syntax highlighting showcase: {@link syntaxHighlightingShowcase | `syntaxHighlightingShowcase` }
 
 ### Functions
 
--   Simple functions: [[`sqrt`]] and [[`sqrtArrowFunction`]]
--   A generic function: [[`concat`]]
--   Functions that take an options object: [[`makeHttpCallA`]] and [[`makeHttpCallB`]]
--   An overloaded function: [[`overloadedFunction`]]
--   An external function exported under a different name: [[`lodashSortBy`]]
+-   Simple functions: {@link sqrt | `sqrt` } and {@link sqrtArrowFunction | `sqrtArrowFunction` }
+-   A generic function: {@link concat | `concat` }
+-   Functions that take an options object: {@link makeHttpCallA | `makeHttpCallA` } and {@link makeHttpCallB | `makeHttpCallB` }
+-   An overloaded function: {@link overloadedFunction | `overloadedFunction` }
+-   An external function exported under a different name: {@link lodashSortBy | `lodashSortBy` }
 
 ### Types
 
--   Type aliases: [[`SimpleTypeAlias`]] and [[`ComplexGenericTypeAlias`]]
--   Interfaces: [[`User`]] and [[`AdminUser`]]
+-   Type aliases: {@link SimpleTypeAlias | `SimpleTypeAlias` } and {@link ComplexGenericTypeAlias | `ComplexGenericTypeAlias` }
+-   Interfaces: {@link User | `User` } and {@link AdminUser | `AdminUser` }
 
 ### Classes
 
--   A basic class: [[`Customer`]]
--   A subclass: [[`DeliveryCustomer`]]
--   A complex class: [[`CancellablePromise`]]
--   A class that extends a built-in generic type: [[`StringArray`]]
+-   A basic class: {@link Customer | `Customer` }
+-   A subclass: {@link DeliveryCustomer | `DeliveryCustomer` }
+-   A complex class: {@link CancellablePromise | `CancellablePromise` }
+-   A class that extends a built-in generic type: {@link StringArray | `StringArray` }
 
 ### Enums
 
--   A basic enum: [[`SimpleEnum`]]
--   Using the `@enum` tag: [[`EnumLikeObject`]]
+-   A basic enum: {@link SimpleEnum | `SimpleEnum` }
+-   Using the `@enum` tag: {@link EnumLikeObject | `EnumLikeObject` }
 
 ### Variables
 
--   [[`PI`]], [[`STRING_CONSTANT`]], and [[`ObjectConstant`]]
+-   {@link PI | `PI` }, {@link STRING_CONSTANT | `STRING_CONSTANT` }, and {@link ObjectConstant | `ObjectConstant` }
 
 ### React Components
 
--   Basic React components: [[`CardA`]] and [[`CardB`]]
--   A complex React component: [[`EasyFormDialog`]] and [[`EasyFormDialogProps`]]
+-   Basic React components: {@link CardA | `CardA` } and {@link CardB | `CardB` }
+-   A complex React component: {@link EasyFormDialog | `EasyFormDialog` } and {@link EasyFormDialogProps | `EasyFormDialogProps` }
