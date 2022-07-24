@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.9 (2022-07-24)
+
 ### Bug Fixes
 
 -   TypeDoc will no longer skip entry points which have no exports, #2007.
