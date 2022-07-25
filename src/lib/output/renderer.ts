@@ -131,6 +131,28 @@ export class Renderer extends ChildableComponent<
     static readonly EVENT_PREPARE_INDEX = IndexEvent.PREPARE_INDEX;
 
     /**
+     * A list of async jobs which must be completed *before* rendering output.
+     * They will be called after {@link RendererEvent.BEGIN} has fired, but before any files have been written.
+     *
+     * This may be used by plugins to register work that must be done to prepare output files. For example: asynchronously
+     * transform markdown to HTML.
+     *
+     * Note: This array is cleared after calling the contained functions on each {@link Renderer.render} call.
+     */
+    preRenderAsyncJobs: Array<(output: RendererEvent) => Promise<void>> = [];
+
+    /**
+     * A list of async jobs which must be completed after rendering output files but before generation is considered successful.
+     * These functions will be called after all documents have been written to the filesystem.
+     *
+     * This may be used by plugins to register work that must be done to finalize output files. For example: asynchronously
+     * generating an image referenced in a render hook.
+     *
+     * Note: This array is cleared after calling the contained functions on each {@link Renderer.render} call.
+     */
+    postRenderAsyncJobs: Array<(output: RendererEvent) => Promise<void>> = [];
+
+    /**
      * The theme that is used to render the documentation.
      */
     theme?: Theme;
@@ -256,11 +278,19 @@ export class Renderer extends ChildableComponent<
 
         this.trigger(output);
 
+        await Promise.all(this.preRenderAsyncJobs.map((job) => job(output)));
+        this.preRenderAsyncJobs = [];
+
         if (!output.isDefaultPrevented) {
             output.urls.forEach((mapping: UrlMapping) => {
                 clearSeenIconCache();
                 this.renderDocument(output.createPageEvent(mapping));
             });
+
+            await Promise.all(
+                this.postRenderAsyncJobs.map((job) => job(output))
+            );
+            this.postRenderAsyncJobs = [];
 
             this.trigger(RendererEvent.END, output);
         }

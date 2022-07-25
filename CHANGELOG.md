@@ -9,6 +9,12 @@
 -   Removed special case for `--plugin none`, to disable plugin auto discovery, set `"plugin": []` in a config file.
 -   `Application.bootstrap` is now async to support ESM based plugins, #1635.
 
+### Features
+
+-   Plugins may now return a `Promise<void>` from their `load` function, #185.
+-   Added `Renderer.preRenderAsyncJobs` and `Renderer.postRenderAsyncJobs`, which may be used by plugins to perform async processing for rendering, #185.
+    Note: Conversion is still intentionally a synchronous process to ensure stability of converted projects between runs.
+
 # Unreleased
 
 ## v0.23.9 (2022-07-24)
