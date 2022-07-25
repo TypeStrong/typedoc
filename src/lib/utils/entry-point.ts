@@ -407,7 +407,9 @@ function getEntryPointsForPackages(
             displayName:
                 typedocPackageConfig?.displayName ??
                 (packageJson["name"] as string),
-            version: packageJson["version"] as string | undefined,
+            version: includeVersion
+                ? (packageJson["version"] as string | undefined)
+                : void 0,
             readmeFile: typedocPackageConfig?.readmeFile
                 ? Path.resolve(
                       Path.join(

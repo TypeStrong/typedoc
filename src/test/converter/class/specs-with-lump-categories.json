@@ -8,14 +8,12 @@
       "id": 1,
       "name": "access",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 8,
           "name": "PrivateClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {
             "isPrivate": true
           },
@@ -32,7 +30,6 @@
               "id": 13,
               "name": "fakePrivateProperty",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
@@ -61,7 +58,6 @@
               "id": 14,
               "name": "fakeProtectedProperty",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -90,7 +86,6 @@
               "id": 9,
               "name": "privateStaticGetter",
               "kind": 262144,
-              "kindString": "Accessor",
               "flags": {
                 "isPrivate": true,
                 "isStatic": true
@@ -107,7 +102,6 @@
                 "id": 10,
                 "name": "privateStaticGetter",
                 "kind": 524288,
-                "kindString": "Get signature",
                 "flags": {},
                 "type": {
                   "type": "intrinsic",
@@ -119,7 +113,6 @@
               "id": 15,
               "name": "fakePrivateMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPrivate": true
               },
@@ -136,7 +129,6 @@
                   "id": 16,
                   "name": "fakePrivateMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {
                     "isPrivate": true
                   },
@@ -159,7 +151,6 @@
               "id": 17,
               "name": "fakeProtectedMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true
               },
@@ -176,7 +167,6 @@
                   "id": 18,
                   "name": "fakeProtectedMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {
                     "isProtected": true
                   },
@@ -199,7 +189,6 @@
               "id": 19,
               "name": "privateArrow",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPrivate": true
               },
@@ -216,7 +205,6 @@
                   "id": 20,
                   "name": "privateArrow",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -262,7 +250,6 @@
           "id": 6,
           "name": "fakePrivateVariable",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isPrivate": true,
             "isConst": true
@@ -293,7 +280,6 @@
           "id": 7,
           "name": "fakeProtectedVariable",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isProtected": true,
             "isConst": true
@@ -324,7 +310,6 @@
           "id": 2,
           "name": "fakePrivateFunction",
           "kind": 64,
-          "kindString": "Function",
           "flags": {
             "isPrivate": true
           },
@@ -341,7 +326,6 @@
               "id": 3,
               "name": "fakePrivateFunction",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {
                 "isPrivate": true
               },
@@ -364,7 +348,6 @@
           "id": 4,
           "name": "fakeProtectedFunction",
           "kind": 64,
-          "kindString": "Function",
           "flags": {
             "isProtected": true
           },
@@ -381,7 +364,6 @@
               "id": 5,
               "name": "fakeProtectedFunction",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {
                 "isProtected": true
               },
@@ -436,21 +418,18 @@
       "id": 21,
       "name": "class",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 59,
           "name": "TestSubClass",
           "kind": 4,
-          "kindString": "Namespace",
           "flags": {},
           "children": [
             {
               "id": 60,
               "name": "staticMergedMethod",
               "kind": 64,
-              "kindString": "Function",
               "flags": {},
               "sources": [
                 {
@@ -465,7 +444,6 @@
                   "id": 61,
                   "name": "staticMergedMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -516,7 +494,6 @@
           "id": 85,
           "name": "Abstract",
           "kind": 128,
-          "kindString": "Class",
           "flags": {
             "isAbstract": true
           },
@@ -525,14 +502,12 @@
               "id": 86,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 87,
                   "name": "new Abstract",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -546,7 +521,6 @@
               "id": 88,
               "name": "needsImpl",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isAbstract": true
               },
@@ -563,7 +537,6 @@
                   "id": 89,
                   "name": "needsImpl",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -600,21 +573,18 @@
           "id": 74,
           "name": "ComputedNames",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 75,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 76,
                   "name": "new ComputedNames",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -628,7 +598,6 @@
               "id": 79,
               "name": "[toStringTag]",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -648,7 +617,6 @@
               "id": 80,
               "name": "literal",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -668,7 +636,6 @@
               "id": 77,
               "name": "literal2",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -688,7 +655,6 @@
               "id": 78,
               "name": "y",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -735,7 +701,6 @@
           "id": 62,
           "name": "TestAbstractClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {
             "isAbstract": true
           },
@@ -744,14 +709,12 @@
               "id": 63,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 64,
                   "name": "new TestAbstractClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -765,7 +728,6 @@
               "id": 65,
               "name": "myAbstractProperty",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isAbstract": true
               },
@@ -786,7 +748,6 @@
               "id": 66,
               "name": "myAbstractMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true,
                 "isAbstract": true
@@ -804,7 +765,6 @@
                   "id": 67,
                   "name": "myAbstractMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -854,21 +814,18 @@
           "id": 68,
           "name": "TestAbstractClassImplementation",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 69,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 70,
                   "name": "new TestAbstractClassImplementation",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -892,7 +849,6 @@
               "id": 71,
               "name": "myAbstractProperty",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -916,7 +872,6 @@
               "id": 72,
               "name": "myAbstractMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true
               },
@@ -933,7 +888,6 @@
                   "id": 73,
                   "name": "myAbstractMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -993,7 +947,6 @@
           "id": 22,
           "name": "TestClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -1025,7 +978,6 @@
               "id": 26,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -1040,7 +992,6 @@
                   "id": 27,
                   "name": "new TestClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1062,7 +1013,6 @@
               "id": 29,
               "name": "privateProperty",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
@@ -1094,7 +1044,6 @@
               "id": 28,
               "name": "publicProperty",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -1123,7 +1072,6 @@
               "id": 23,
               "name": "staticProperty",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isStatic": true
               },
@@ -1153,7 +1101,6 @@
               "id": 36,
               "name": "arrowMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -1168,7 +1115,6 @@
                   "id": 37,
                   "name": "arrowMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1189,7 +1135,6 @@
               "id": 34,
               "name": "privateMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPrivate": true
               },
@@ -1206,7 +1151,6 @@
                   "id": 35,
                   "name": "privateMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1227,7 +1171,6 @@
               "id": 32,
               "name": "protectedMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true
               },
@@ -1244,7 +1187,6 @@
                   "id": 33,
                   "name": "protectedMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1265,7 +1207,6 @@
               "id": 30,
               "name": "publicMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPublic": true
               },
@@ -1282,7 +1223,6 @@
                   "id": 31,
                   "name": "publicMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1303,7 +1243,6 @@
               "id": 24,
               "name": "staticMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isStatic": true
               },
@@ -1320,7 +1259,6 @@
                   "id": 25,
                   "name": "staticMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1412,7 +1350,6 @@
           "id": 38,
           "name": "TestSubClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -1444,7 +1381,6 @@
               "id": 42,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -1459,7 +1395,6 @@
                   "id": 43,
                   "name": "new TestSubClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1474,7 +1409,6 @@
                       "id": 44,
                       "name": "p1",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -1493,7 +1427,6 @@
                       "id": 45,
                       "name": "p2",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -1512,7 +1445,6 @@
                       "id": 46,
                       "name": "p3",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -1531,7 +1463,6 @@
                       "id": 47,
                       "name": "p4",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -1569,7 +1500,6 @@
               "id": 52,
               "name": "p3",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -1590,7 +1520,6 @@
               "id": 53,
               "name": "p4",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -1611,7 +1540,6 @@
               "id": 56,
               "name": "publicProperty",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -1645,7 +1573,6 @@
               "id": 39,
               "name": "staticProperty",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isStatic": true
               },
@@ -1680,7 +1607,6 @@
               "id": 57,
               "name": "arrowMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -1695,7 +1621,6 @@
                   "id": 58,
                   "name": "arrowMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1726,7 +1651,6 @@
               "id": 54,
               "name": "mergedMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -1741,7 +1665,6 @@
                   "id": 55,
                   "name": "mergedMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1762,7 +1685,6 @@
               "id": 50,
               "name": "protectedMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true
               },
@@ -1779,7 +1701,6 @@
                   "id": 51,
                   "name": "protectedMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1810,7 +1731,6 @@
               "id": 48,
               "name": "publicMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPublic": true
               },
@@ -1827,7 +1747,6 @@
                   "id": 49,
                   "name": "publicMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1858,7 +1777,6 @@
               "id": 40,
               "name": "staticMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isStatic": true
               },
@@ -1875,7 +1793,6 @@
                   "id": 41,
                   "name": "staticMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1962,21 +1879,18 @@
           "id": 81,
           "name": "Ts38PrivateFields",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 82,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 83,
                   "name": "new Ts38PrivateFields",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -1990,7 +1904,6 @@
               "id": 84,
               "name": "#foo",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
@@ -2044,7 +1957,6 @@
           "id": 90,
           "name": "AbstractMe",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "sources": [
             {
@@ -2060,7 +1972,6 @@
               "id": 91,
               "name": "__type",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -2075,7 +1986,6 @@
                   "id": 92,
                   "name": "__type",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {
                     "isAbstract": true
                   },
@@ -2129,14 +2039,12 @@
       "id": 93,
       "name": "constructor-properties",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 94,
           "name": "Vector2",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -2151,7 +2059,6 @@
               "id": 95,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -2166,14 +2073,12 @@
                   "id": 96,
                   "name": "new Vector2",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "parameters": [
                     {
                       "id": 97,
                       "name": "x",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2192,7 +2097,6 @@
                       "id": 98,
                       "name": "y",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2211,7 +2115,6 @@
                       "id": 99,
                       "name": "name",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2239,7 +2142,6 @@
               "id": 102,
               "name": "name",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isReadonly": true
               },
@@ -2260,7 +2162,6 @@
               "id": 100,
               "name": "x",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2281,7 +2182,6 @@
               "id": 101,
               "name": "y",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2335,7 +2235,6 @@
           "id": 103,
           "name": "Vector3",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -2350,7 +2249,6 @@
               "id": 104,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -2365,14 +2263,12 @@
                   "id": 105,
                   "name": "new Vector3",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "parameters": [
                     {
                       "id": 106,
                       "name": "x",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2391,7 +2287,6 @@
                       "id": 107,
                       "name": "y",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2410,7 +2305,6 @@
                       "id": 108,
                       "name": "z",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2429,7 +2323,6 @@
                       "id": 109,
                       "name": "name",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2467,7 +2360,6 @@
               "id": 112,
               "name": "name",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isReadonly": true
               },
@@ -2493,7 +2385,6 @@
               "id": 113,
               "name": "x",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2519,7 +2410,6 @@
               "id": 110,
               "name": "y",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2545,7 +2435,6 @@
               "id": 111,
               "name": "z",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2619,14 +2508,12 @@
       "id": 114,
       "name": "decorators",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 128,
           "name": "DecoratedClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -2641,14 +2528,12 @@
               "id": 129,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 130,
                   "name": "new DecoratedClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -2662,7 +2547,6 @@
               "id": 131,
               "name": "decoratedMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -2677,7 +2561,6 @@
                   "id": 132,
                   "name": "decoratedMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2722,7 +2605,6 @@
           "id": 115,
           "name": "decoratorAtom",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2737,7 +2619,6 @@
               "id": 116,
               "name": "decoratorAtom",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2752,7 +2633,6 @@
                   "id": 117,
                   "name": "target",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -2765,7 +2645,6 @@
                   "id": 118,
                   "name": "propertyKey",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "union",
@@ -2785,7 +2664,6 @@
                   "id": 119,
                   "name": "descriptor",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -2812,7 +2690,6 @@
           "id": 123,
           "name": "decoratorWithOptions",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2827,7 +2704,6 @@
               "id": 124,
               "name": "decoratorWithOptions",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2842,7 +2718,6 @@
                   "id": 125,
                   "name": "options",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2858,14 +2733,12 @@
                       "id": 126,
                       "name": "__type",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 127,
                           "name": "name",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "comment": {
                             "summary": [
@@ -2922,7 +2795,6 @@
           "id": 120,
           "name": "decoratorWithParam",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2937,7 +2809,6 @@
               "id": 121,
               "name": "decoratorWithParam",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2952,7 +2823,6 @@
                   "id": 122,
                   "name": "value",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3007,28 +2877,24 @@
       "id": 160,
       "name": "events",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 161,
           "name": "EventDispatcher",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 163,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 164,
                   "name": "new EventDispatcher",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -3042,7 +2908,6 @@
               "id": 162,
               "name": "EVENT_CLICK",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isStatic": true
               },
@@ -3114,14 +2979,12 @@
       "id": 133,
       "name": "events-overloads",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 134,
           "name": "Test",
           "kind": 256,
-          "kindString": "Interface",
           "flags": {},
           "comment": {
             "summary": [
@@ -3147,7 +3010,6 @@
               "id": 135,
               "name": "on",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -3180,7 +3042,6 @@
                   "id": 136,
                   "name": "on",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3195,7 +3056,6 @@
                       "id": 137,
                       "name": "event",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3214,7 +3074,6 @@
                       "id": 138,
                       "name": "handler",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3230,7 +3089,6 @@
                           "id": 139,
                           "name": "__type",
                           "kind": 65536,
-                          "kindString": "Type literal",
                           "flags": {},
                           "sources": [
                             {
@@ -3245,14 +3103,12 @@
                               "id": 140,
                               "name": "__type",
                               "kind": 4096,
-                              "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
                                   "id": 141,
                                   "name": "e",
                                   "kind": 32768,
-                                  "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
                                     "type": "intrinsic",
@@ -3279,7 +3135,6 @@
                   "id": 142,
                   "name": "on",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3294,7 +3149,6 @@
                       "id": 143,
                       "name": "event",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3313,7 +3167,6 @@
                       "id": 144,
                       "name": "handler",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3329,7 +3182,6 @@
                           "id": 145,
                           "name": "__type",
                           "kind": 65536,
-                          "kindString": "Type literal",
                           "flags": {},
                           "sources": [
                             {
@@ -3344,14 +3196,12 @@
                               "id": 146,
                               "name": "__type",
                               "kind": 4096,
-                              "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
                                   "id": 147,
                                   "name": "e",
                                   "kind": 32768,
-                                  "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
                                     "type": "intrinsic",
@@ -3378,7 +3228,6 @@
                   "id": 148,
                   "name": "on",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3393,7 +3242,6 @@
                       "id": 149,
                       "name": "event",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3412,7 +3260,6 @@
                       "id": 150,
                       "name": "handler",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3428,7 +3275,6 @@
                           "id": 151,
                           "name": "__type",
                           "kind": 65536,
-                          "kindString": "Type literal",
                           "flags": {},
                           "sources": [
                             {
@@ -3443,14 +3289,12 @@
                               "id": 152,
                               "name": "__type",
                               "kind": 4096,
-                              "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
                                   "id": 153,
                                   "name": "e",
                                   "kind": 32768,
-                                  "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
                                     "type": "intrinsic",
@@ -3477,7 +3321,6 @@
                   "id": 154,
                   "name": "on",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3492,7 +3335,6 @@
                       "id": 155,
                       "name": "event",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3511,7 +3353,6 @@
                       "id": 156,
                       "name": "handler",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3527,7 +3368,6 @@
                           "id": 157,
                           "name": "__type",
                           "kind": 65536,
-                          "kindString": "Type literal",
                           "flags": {},
                           "sources": [
                             {
@@ -3542,14 +3382,12 @@
                               "id": 158,
                               "name": "__type",
                               "kind": 4096,
-                              "kindString": "Call signature",
                               "flags": {},
                               "parameters": [
                                 {
                                   "id": 159,
                                   "name": "e",
                                   "kind": 32768,
-                                  "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
                                     "type": "intrinsic",
@@ -3614,14 +3452,12 @@
       "id": 165,
       "name": "generic-class",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 166,
           "name": "GenericClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -3636,7 +3472,6 @@
               "id": 167,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -3651,7 +3486,6 @@
                   "id": 168,
                   "name": "new GenericClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3666,7 +3500,6 @@
                       "id": 169,
                       "name": "T",
                       "kind": 131072,
-                      "kindString": "Type parameter",
                       "flags": {}
                     }
                   ],
@@ -3675,7 +3508,6 @@
                       "id": 170,
                       "name": "value",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3711,7 +3543,6 @@
               "id": 171,
               "name": "value",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -3741,7 +3572,6 @@
               "id": 172,
               "name": "values",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -3774,7 +3604,6 @@
               "id": 173,
               "name": "getValue",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -3789,7 +3618,6 @@
                   "id": 174,
                   "name": "getValue",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3853,7 +3681,6 @@
               "id": 175,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "comment": {
                 "summary": [
@@ -3877,7 +3704,6 @@
           "id": 176,
           "name": "NonGenericClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -3892,7 +3718,6 @@
               "id": 177,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -3907,7 +3732,6 @@
                   "id": 178,
                   "name": "new NonGenericClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3922,7 +3746,6 @@
                       "id": 179,
                       "name": "value",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3960,7 +3783,6 @@
               "id": 180,
               "name": "value",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -3994,7 +3816,6 @@
               "id": 181,
               "name": "values",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -4031,7 +3852,6 @@
               "id": 182,
               "name": "getValue",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -4046,7 +3866,6 @@
                   "id": 183,
                   "name": "getValue",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -4151,28 +3970,24 @@
       "id": 184,
       "name": "getter-setter",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 185,
           "name": "GetterSetter",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 186,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 187,
                   "name": "new GetterSetter",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -4186,7 +4001,6 @@
               "id": 188,
               "name": "_name",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
@@ -4207,7 +4021,6 @@
               "id": 189,
               "name": "name",
               "kind": 262144,
-              "kindString": "Accessor",
               "flags": {},
               "sources": [
                 {
@@ -4227,7 +4040,6 @@
                 "id": 190,
                 "name": "name",
                 "kind": 524288,
-                "kindString": "Get signature",
                 "flags": {},
                 "type": {
                   "type": "intrinsic",
@@ -4238,14 +4050,12 @@
                 "id": 191,
                 "name": "name",
                 "kind": 1048576,
-                "kindString": "Set signature",
                 "flags": {},
                 "parameters": [
                   {
                     "id": 192,
                     "name": "value",
                     "kind": 32768,
-                    "kindString": "Parameter",
                     "flags": {},
                     "type": {
                       "type": "intrinsic",
@@ -4263,7 +4073,6 @@
               "id": 193,
               "name": "readOnlyName",
               "kind": 262144,
-              "kindString": "Accessor",
               "flags": {},
               "sources": [
                 {
@@ -4277,7 +4086,6 @@
                 "id": 194,
                 "name": "readOnlyName",
                 "kind": 524288,
-                "kindString": "Get signature",
                 "flags": {},
                 "type": {
                   "type": "intrinsic",
@@ -4289,7 +4097,6 @@
               "id": 195,
               "name": "writeOnlyName",
               "kind": 262144,
-              "kindString": "Accessor",
               "flags": {},
               "sources": [
                 {
@@ -4303,14 +4110,12 @@
                 "id": 196,
                 "name": "writeOnlyName",
                 "kind": 1048576,
-                "kindString": "Set signature",
                 "flags": {},
                 "parameters": [
                   {
                     "id": 197,
                     "name": "value",
                     "kind": 32768,
-                    "kindString": "Parameter",
                     "flags": {},
                     "type": {
                       "type": "intrinsic",
@@ -4378,14 +4183,12 @@
       "id": 198,
       "name": "this",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 199,
           "name": "ChainClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -4400,14 +4203,12 @@
               "id": 200,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 201,
                   "name": "new ChainClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -4421,7 +4222,6 @@
               "id": 202,
               "name": "chain",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPublic": true
               },
@@ -4438,7 +4238,6 @@
                   "id": 203,
                   "name": "chain",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -4502,35 +4301,30 @@
       "id": 204,
       "name": "type-operator",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 210,
           "name": "GenericClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 211,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 212,
                   "name": "new GenericClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "typeParameter": [
                     {
                       "id": 213,
                       "name": "T",
                       "kind": 131072,
-                      "kindString": "Type parameter",
                       "flags": {},
                       "type": {
                         "type": "typeOperator",
@@ -4562,7 +4356,6 @@
               "id": 214,
               "name": "c",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -4606,7 +4399,6 @@
               "id": 215,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "type": {
                 "type": "typeOperator",
@@ -4624,7 +4416,6 @@
           "id": 205,
           "name": "TestClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -4656,14 +4447,12 @@
               "id": 206,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 207,
                   "name": "new TestClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -4677,7 +4466,6 @@
               "id": 208,
               "name": "a",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -4696,7 +4484,6 @@
               "id": 209,
               "name": "b",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {

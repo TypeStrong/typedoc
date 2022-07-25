@@ -8,14 +8,12 @@
       "id": 14,
       "name": "export",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 48,
           "name": "GH1453Helper",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "sources": [
             {
@@ -31,7 +29,6 @@
           "id": 41,
           "name": "Mod",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "sources": [
             {
@@ -47,7 +44,6 @@
           "id": 43,
           "name": "Mod2",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -71,7 +67,6 @@
           "id": 42,
           "name": "ModDefault",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "sources": [
             {
@@ -87,7 +82,6 @@
           "id": 47,
           "name": "ThisModule",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "sources": [
             {
@@ -103,7 +97,6 @@
           "id": 44,
           "name": "a",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "sources": [
             {
@@ -119,7 +112,6 @@
           "id": 45,
           "name": "b",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -143,7 +135,6 @@
           "id": 40,
           "name": "c",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "sources": [
             {
@@ -159,14 +150,12 @@
           "id": 20,
           "name": "GH1453",
           "kind": 4,
-          "kindString": "Namespace",
           "flags": {},
           "children": [
             {
               "id": 25,
               "name": "Foo",
               "kind": 4194304,
-              "kindString": "Type alias",
               "flags": {},
               "sources": [
                 {
@@ -186,7 +175,6 @@
               "id": 23,
               "name": "Member",
               "kind": 32,
-              "kindString": "Variable",
               "flags": {
                 "isConst": true
               },
@@ -208,7 +196,6 @@
               "id": 21,
               "name": "Module",
               "kind": 32,
-              "kindString": "Variable",
               "flags": {
                 "isConst": true
               },
@@ -231,7 +218,6 @@
               "id": 24,
               "name": "TypedMember",
               "kind": 32,
-              "kindString": "Variable",
               "flags": {
                 "isConst": true
               },
@@ -254,7 +240,6 @@
               "id": 22,
               "name": "TypedModule",
               "kind": 32,
-              "kindString": "Variable",
               "flags": {
                 "isConst": true
               },
@@ -304,7 +289,6 @@
           "id": 15,
           "name": "add",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -319,14 +303,12 @@
               "id": 16,
               "name": "add",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 17,
                   "name": "x",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -337,7 +319,6 @@
                   "id": 18,
                   "name": "y",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -356,7 +337,6 @@
           "id": 26,
           "name": "default",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -371,14 +351,12 @@
               "id": 27,
               "name": "default",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 28,
                   "name": "a",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -435,14 +413,12 @@
       "id": 1,
       "name": "export-assignment",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "export=",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -457,14 +433,12 @@
               "id": 3,
               "name": "export=",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 4,
                   "name": "x",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -475,7 +449,6 @@
                   "id": 5,
                   "name": "y",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -512,14 +485,12 @@
       "id": 6,
       "name": "export-default",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 7,
           "name": "default",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -559,14 +530,12 @@
       "id": 8,
       "name": "export-with-local",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 13,
           "name": "x",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -588,7 +557,6 @@
           "id": 9,
           "name": "add",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -603,14 +571,12 @@
               "id": 10,
               "name": "add",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 11,
                   "name": "x",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -621,7 +587,6 @@
                   "id": 12,
                   "name": "y",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -664,14 +629,12 @@
       "id": 29,
       "name": "mod",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 34,
           "name": "ThisModule",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "sources": [
             {
@@ -687,7 +650,6 @@
           "id": 31,
           "name": "b",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -711,7 +673,6 @@
           "id": 32,
           "name": "c",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -735,7 +696,6 @@
           "id": 35,
           "name": "GH1453Helper",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "sources": [
             {
@@ -754,7 +714,6 @@
           "id": 30,
           "name": "a",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -784,7 +743,6 @@
           "id": 36,
           "name": "default",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -799,7 +757,6 @@
               "id": 37,
               "name": "default",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -858,7 +815,6 @@
       "id": 38,
       "name": "no-doc-members",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "comment": {
         "summary": [
@@ -884,7 +840,6 @@
           "id": 39,
           "name": "abc",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },

@@ -8,28 +8,24 @@
       "id": 1,
       "name": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "Decl",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 3,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 4,
                   "name": "new Decl",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -43,7 +39,6 @@
               "id": 5,
               "name": "prop",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -86,7 +81,6 @@
           "id": 6,
           "name": "x",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -131,28 +125,24 @@
       "id": 7,
       "name": "export-declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 8,
           "name": "Exported",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 9,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 10,
                   "name": "new Exported",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -184,21 +174,18 @@
           "id": 11,
           "name": "NotExported",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 12,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 13,
                   "name": "new NotExported",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -249,14 +236,12 @@
       "id": 14,
       "name": "external",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 15,
           "name": "ActionSet",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },

@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.23.7",
+  "version": "0.23.9",
   "homepage": "https://typedoc.org",
   "main": "./dist/index.js",
   "exports": {
@@ -66,7 +66,8 @@
     "/tsdoc.json"
   ],
   "scripts": {
-    "test": "c8 mocha -r ts-node/register --config .config/mocha.fast.json",
+    "test": "mocha -r ts-node/register --config .config/mocha.fast.json",
+    "test:cov": "c8 mocha -r ts-node/register --config .config/mocha.fast.json",
     "build:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
     "test:full": "c8 mocha -r ts-node/register --config .config/mocha.full.json",
     "test:visual": "node ./dist/test/capture-screenshots.js && reg-suit -c .config/regconfig.json compare",

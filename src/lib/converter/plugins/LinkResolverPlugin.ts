@@ -220,15 +220,28 @@ function resolveLinkTag(
 ) {
     let pos = 0;
     const end = part.text.length;
+    while (pos < end && ts.isWhiteSpaceLike(part.text.charCodeAt(pos))) {
+        pos++;
+    }
+    const origText = part.text;
 
     // Try to parse one
     const declRef = parseDeclarationReference(part.text, pos, end);
 
-    let target: Reflection | undefined;
+    let target: Reflection | string | undefined;
     if (declRef) {
         // Got one, great! Try to resolve the link
         target = resolveDeclarationReference(reflection, declRef[0]);
         pos = declRef[1];
+    }
+
+    if (!target) {
+        if (urlPrefix.test(part.text)) {
+            const wsIndex = part.text.search(/\s/);
+            target =
+                wsIndex === -1 ? part.text : part.text.substring(0, wsIndex);
+            pos = target.length;
+        }
     }
 
     // If resolution via a declaration reference failed, revert to the legacy "split and check"
@@ -237,9 +250,7 @@ function resolveLinkTag(
         const resolved = legacyResolveLinkTag(reflection, part);
         if (resolved) {
             warn(
-                `Failed to resolve {@link ${
-                    part.text
-                }} in ${reflection.getFriendlyFullName()} with declaration references. This link will break in v0.24.`
+                `Failed to resolve {@link ${origText}} in ${reflection.getFriendlyFullName()} with declaration references. This link will break in v0.24.`
             );
         }
         return resolved;
@@ -255,7 +266,9 @@ function resolveLinkTag(
     }
 
     part.target = target;
-    part.text = part.text.substring(pos).trim() || target.name;
+    part.text =
+        part.text.substring(pos).trim() ||
+        (typeof target === "string" ? target : target.name);
 
     return part;
 }

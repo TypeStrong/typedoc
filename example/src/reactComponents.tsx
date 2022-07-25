@@ -1,7 +1,7 @@
 import { ReactElement, PropsWithChildren } from "react";
 
 /**
- * The props type for [[`CardA`]].
+ * The props type for {@link CardA}.
  */
 export interface CardAProps {
     /** The theme of the card. Defaults to `primary`. */
@@ -81,7 +81,7 @@ export function CardB({
     return <div className={`card card-${variant}`}>{children}</div>;
 }
 
-/** The props type of [[`EasyFormDialog`]]. */
+/** The props type of {@link EasyFormDialog | `EasyFormDialog`}. */
 export interface EasyFormDialogProps {
     /** The title of the dialog. Can be a JSX element. */
     title: React.ReactNode;

@@ -32,7 +32,7 @@ export interface User {
 }
 
 /**
- * An interface that extends [[`User`]] and adds more properties.
+ * An interface that extends {@link User | `User`} and adds more properties.
  *
  * Notice how TypeDoc automatically shows the inheritance hierarchy and where
  * each property was originally defined.

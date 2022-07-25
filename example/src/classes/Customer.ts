@@ -78,7 +78,7 @@ export abstract class Customer {
 }
 
 /**
- * A class that extends [[`Customer`]].
+ * A class that extends {@link Customer | `Customer`}.
  */
 export class DeliveryCustomer extends Customer {
     /** A property defined on the subclass. */

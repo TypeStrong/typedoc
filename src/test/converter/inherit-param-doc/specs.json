@@ -2,28 +2,24 @@
   "id": 0,
   "name": "typedoc",
   "kind": 1,
-  "kindString": "Project",
   "flags": {},
   "children": [
     {
       "id": 6,
       "name": "Class1",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 7,
           "name": "constructor",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "signatures": [
             {
               "id": 8,
               "name": "new Class1",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -37,7 +33,6 @@
           "id": 9,
           "name": "method1",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -52,14 +47,12 @@
               "id": 10,
               "name": "method1",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 11,
                   "name": "a",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -78,7 +71,6 @@
                   "id": 12,
                   "name": "b",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -146,21 +138,18 @@
       "id": 13,
       "name": "Class2",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 14,
           "name": "constructor",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "signatures": [
             {
               "id": 15,
               "name": "new Class2",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -174,7 +163,6 @@
           "id": 16,
           "name": "method1",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -189,14 +177,12 @@
               "id": 17,
               "name": "method1",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 18,
                   "name": "a",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -215,7 +201,6 @@
                   "id": 19,
                   "name": "b",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -283,21 +268,18 @@
       "id": 20,
       "name": "Class3",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 21,
           "name": "constructor",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "signatures": [
             {
               "id": 22,
               "name": "new Class3",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -311,7 +293,6 @@
           "id": 23,
           "name": "method1",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -326,14 +307,12 @@
               "id": 24,
               "name": "method1",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 25,
                   "name": "a",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -352,7 +331,6 @@
                   "id": 26,
                   "name": "c",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -420,14 +398,12 @@
       "id": 1,
       "name": "Base",
       "kind": 256,
-      "kindString": "Interface",
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "method1",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -442,14 +418,12 @@
               "id": 3,
               "name": "method1",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 4,
                   "name": "a",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -468,7 +442,6 @@
                   "id": 5,
                   "name": "b",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [

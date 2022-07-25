@@ -2,14 +2,12 @@
   "id": 0,
   "name": "typedoc",
   "kind": 1,
-  "kindString": "Project",
   "flags": {},
   "children": [
     {
       "id": 13,
       "name": "Base",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "comment": {
         "summary": [
@@ -24,14 +22,12 @@
           "id": 14,
           "name": "constructor",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "signatures": [
             {
               "id": 15,
               "name": "new Base",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -45,7 +41,6 @@
           "id": 16,
           "name": "baseProperty",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -65,7 +60,6 @@
           "id": 17,
           "name": "baseMethod",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -80,7 +74,6 @@
               "id": 18,
               "name": "baseMethod",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "type": {
                 "type": "intrinsic",
@@ -123,7 +116,6 @@
       "id": 58,
       "name": "SomeClassWithMixin",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "comment": {
         "summary": [
@@ -138,14 +130,12 @@
           "id": 61,
           "name": "constructor",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "signatures": [
             {
               "id": 62,
               "name": "new SomeClassWithMixin",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -167,7 +157,6 @@
           "id": 74,
           "name": "baseProperty",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -191,7 +180,6 @@
           "id": 63,
           "name": "classWithMixinProperty",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -211,7 +199,6 @@
           "id": 70,
           "name": "property1",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -235,7 +222,6 @@
           "id": 66,
           "name": "property2",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -259,7 +245,6 @@
           "id": 75,
           "name": "baseMethod",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -274,7 +259,6 @@
               "id": 76,
               "name": "baseMethod",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "type": {
                 "type": "intrinsic",
@@ -295,7 +279,6 @@
           "id": 64,
           "name": "classWithMixinMethod",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -310,7 +293,6 @@
               "id": 65,
               "name": "classWithMixinMethod",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "type": {
                 "type": "intrinsic",
@@ -323,7 +305,6 @@
           "id": 71,
           "name": "method1",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -338,14 +319,12 @@
               "id": 72,
               "name": "method1",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 73,
                   "name": "arg",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "array",
@@ -380,7 +359,6 @@
           "id": 67,
           "name": "method2",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -395,14 +373,12 @@
               "id": 68,
               "name": "method2",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 69,
                   "name": "arg",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -479,14 +455,12 @@
                         "id": 59,
                         "name": "__type",
                         "kind": 65536,
-                        "kindString": "Type literal",
                         "flags": {},
                         "children": [
                           {
                             "id": 60,
                             "name": "prototype",
                             "kind": 1024,
-                            "kindString": "Property",
                             "flags": {},
                             "type": {
                               "type": "reference",
@@ -574,7 +548,6 @@
       "id": 25,
       "name": "Mixin1Type",
       "kind": 256,
-      "kindString": "Interface",
       "flags": {},
       "comment": {
         "summary": [
@@ -589,7 +562,6 @@
           "id": 30,
           "name": "baseProperty",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -613,7 +585,6 @@
           "id": 26,
           "name": "property1",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -637,7 +608,6 @@
           "id": 31,
           "name": "baseMethod",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -652,7 +622,6 @@
               "id": 32,
               "name": "baseMethod",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "type": {
                 "type": "intrinsic",
@@ -673,7 +642,6 @@
           "id": 27,
           "name": "method1",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -688,14 +656,12 @@
               "id": 28,
               "name": "method1",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 29,
                   "name": "arg",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "array",
@@ -773,7 +739,6 @@
       "id": 39,
       "name": "Mixin2Type",
       "kind": 256,
-      "kindString": "Interface",
       "flags": {},
       "comment": {
         "summary": [
@@ -788,7 +753,6 @@
           "id": 48,
           "name": "baseProperty",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -812,7 +776,6 @@
           "id": 44,
           "name": "property1",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -836,7 +799,6 @@
           "id": 40,
           "name": "property2",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -860,7 +822,6 @@
           "id": 49,
           "name": "baseMethod",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -875,7 +836,6 @@
               "id": 50,
               "name": "baseMethod",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "type": {
                 "type": "intrinsic",
@@ -896,7 +856,6 @@
           "id": 45,
           "name": "method1",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -911,14 +870,12 @@
               "id": 46,
               "name": "method1",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 47,
                   "name": "arg",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "array",
@@ -953,7 +910,6 @@
           "id": 41,
           "name": "method2",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -968,14 +924,12 @@
               "id": 42,
               "name": "method2",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 43,
                   "name": "arg",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -1049,7 +1003,6 @@
       "id": 6,
       "name": "AnyConstructor",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "sources": [
         {
@@ -1064,7 +1017,6 @@
           "id": 10,
           "name": "A",
           "kind": 131072,
-          "kindString": "Type parameter",
           "flags": {},
           "default": {
             "type": "intrinsic",
@@ -1078,7 +1030,6 @@
           "id": 7,
           "name": "__type",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "sources": [
             {
@@ -1093,7 +1044,6 @@
               "id": 8,
               "name": "__type",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -1108,7 +1058,6 @@
                   "id": 9,
                   "name": "input",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {
                     "isRest": true
                   },
@@ -1135,7 +1084,6 @@
       "id": 1,
       "name": "AnyFunction",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "sources": [
         {
@@ -1150,7 +1098,6 @@
           "id": 5,
           "name": "A",
           "kind": 131072,
-          "kindString": "Type parameter",
           "flags": {},
           "default": {
             "type": "intrinsic",
@@ -1164,7 +1111,6 @@
           "id": 2,
           "name": "__type",
           "kind": 65536,
-          "kindString": "Type literal",
           "flags": {},
           "sources": [
             {
@@ -1179,7 +1125,6 @@
               "id": 3,
               "name": "__type",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -1194,7 +1139,6 @@
                   "id": 4,
                   "name": "input",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {
                     "isRest": true
                   },
@@ -1221,7 +1165,6 @@
       "id": 11,
       "name": "Mixin",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "comment": {
         "summary": [
@@ -1244,7 +1187,6 @@
           "id": 12,
           "name": "T",
           "kind": 131072,
-          "kindString": "Type parameter",
           "flags": {},
           "type": {
             "type": "reference",
@@ -1291,7 +1233,6 @@
       "id": 57,
       "name": "Mixin3",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "comment": {
         "summary": [
@@ -1335,7 +1276,6 @@
       "id": 19,
       "name": "Mixin1Func",
       "kind": 64,
-      "kindString": "Function",
       "flags": {},
       "sources": [
         {
@@ -1350,7 +1290,6 @@
           "id": 20,
           "name": "Mixin1Func",
           "kind": 4096,
-          "kindString": "Call signature",
           "flags": {},
           "comment": {
             "summary": [
@@ -1365,7 +1304,6 @@
               "id": 21,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -1386,7 +1324,6 @@
               "id": 22,
               "name": "base",
               "kind": 32768,
-              "kindString": "Parameter",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -1404,14 +1341,12 @@
                   "id": 23,
                   "name": "__type",
                   "kind": 65536,
-                  "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
                       "id": 24,
                       "name": "prototype",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "type": {
                         "type": "reference",
@@ -1458,7 +1393,6 @@
       "id": 33,
       "name": "Mixin2",
       "kind": 64,
-      "kindString": "Function",
       "flags": {},
       "sources": [
         {
@@ -1473,7 +1407,6 @@
           "id": 34,
           "name": "Mixin2",
           "kind": 4096,
-          "kindString": "Call signature",
           "flags": {},
           "comment": {
             "summary": [
@@ -1488,7 +1421,6 @@
               "id": 35,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -1519,7 +1451,6 @@
               "id": 36,
               "name": "base",
               "kind": 32768,
-              "kindString": "Parameter",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -1537,14 +1468,12 @@
                   "id": 37,
                   "name": "__type",
                   "kind": 65536,
-                  "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
                       "id": 38,
                       "name": "prototype",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "type": {
                         "type": "reference",
@@ -1591,7 +1520,6 @@
       "id": 51,
       "name": "Mixin3",
       "kind": 64,
-      "kindString": "Function",
       "flags": {},
       "sources": [
         {
@@ -1612,7 +1540,6 @@
           "id": 52,
           "name": "Mixin3",
           "kind": 4096,
-          "kindString": "Call signature",
           "flags": {},
           "comment": {
             "summary": [
@@ -1627,7 +1554,6 @@
               "id": 53,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -1647,7 +1573,6 @@
               "id": 54,
               "name": "base",
               "kind": 32768,
-              "kindString": "Parameter",
               "flags": {},
               "type": {
                 "type": "reference",
@@ -1665,14 +1590,12 @@
                   "id": 55,
                   "name": "__type",
                   "kind": 65536,
-                  "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
                       "id": 56,
                       "name": "prototype",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "type": {
                         "type": "reference",

@@ -8,14 +8,12 @@
       "id": 1,
       "name": "array",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "Array",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -38,7 +36,6 @@
               "id": 6,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {}
             }
           ],
@@ -54,7 +51,6 @@
           "id": 9,
           "name": "Foo",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -77,7 +73,6 @@
           "id": 12,
           "name": "FooList",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -114,7 +109,6 @@
           "id": 7,
           "name": "complex",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -184,7 +178,6 @@
           "id": 8,
           "name": "custom",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -248,14 +241,12 @@
       "id": 15,
       "name": "destructuring",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 16,
           "name": "drawText",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -270,7 +261,6 @@
               "id": 17,
               "name": "drawText",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -285,7 +275,6 @@
                   "id": 18,
                   "name": "__namedParameters",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -322,14 +311,12 @@
       "id": 30,
       "name": "literal",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 70,
           "name": "objectLiteral",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -355,14 +342,12 @@
               "id": 71,
               "name": "__type",
               "kind": 65536,
-              "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
                   "id": 89,
                   "name": "[toStringTag]",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -382,7 +367,6 @@
                   "id": 90,
                   "name": "literal",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -402,7 +386,6 @@
                   "id": 91,
                   "name": "literal2",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -422,7 +405,6 @@
                   "id": 87,
                   "name": "valueA",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -442,7 +424,6 @@
                   "id": 88,
                   "name": "valueB",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -462,7 +443,6 @@
                   "id": 76,
                   "name": "valueX",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -478,14 +458,12 @@
                       "id": 77,
                       "name": "__type",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 86,
                           "name": "valueA",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -508,7 +486,6 @@
                           "id": 79,
                           "name": "valueY",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -524,7 +501,6 @@
                               "id": 80,
                               "name": "__type",
                               "kind": 65536,
-                              "kindString": "Type literal",
                               "flags": {},
                               "sources": [
                                 {
@@ -539,14 +515,12 @@
                                   "id": 81,
                                   "name": "__type",
                                   "kind": 4096,
-                                  "kindString": "Call signature",
                                   "flags": {},
                                   "parameters": [
                                     {
                                       "id": 82,
                                       "name": "z",
                                       "kind": 32768,
-                                      "kindString": "Parameter",
                                       "flags": {},
                                       "type": {
                                         "type": "intrinsic",
@@ -560,14 +534,12 @@
                                       "id": 83,
                                       "name": "__type",
                                       "kind": 65536,
-                                      "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
                                           "id": 84,
                                           "name": "a",
                                           "kind": 1024,
-                                          "kindString": "Property",
                                           "flags": {},
                                           "sources": [
                                             {
@@ -587,7 +559,6 @@
                                           "id": 85,
                                           "name": "b",
                                           "kind": 1024,
-                                          "kindString": "Property",
                                           "flags": {},
                                           "sources": [
                                             {
@@ -633,7 +604,6 @@
                           "id": 78,
                           "name": "valueZ",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -676,7 +646,6 @@
                   "id": 73,
                   "name": "valueY",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -692,7 +661,6 @@
                       "id": 74,
                       "name": "__type",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "sources": [
                         {
@@ -707,7 +675,6 @@
                           "id": 75,
                           "name": "__type",
                           "kind": 4096,
-                          "kindString": "Call signature",
                           "flags": {},
                           "type": {
                             "type": "intrinsic",
@@ -723,7 +690,6 @@
                   "id": 72,
                   "name": "valueZ",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -771,7 +737,6 @@
           "id": 31,
           "name": "typeLiteral",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {},
           "comment": {
             "summary": [
@@ -795,14 +760,12 @@
               "id": 32,
               "name": "__type",
               "kind": 65536,
-              "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
                   "id": 48,
                   "name": "valueA",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {
                     "isOptional": true
                   },
@@ -823,7 +786,6 @@
                   "id": 49,
                   "name": "valueB",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {
                     "isOptional": true
                   },
@@ -844,7 +806,6 @@
                   "id": 37,
                   "name": "valueX",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -860,14 +821,12 @@
                       "id": 38,
                       "name": "__type",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 47,
                           "name": "valueA",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -889,7 +848,6 @@
                           "id": 40,
                           "name": "valueY",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -905,7 +863,6 @@
                               "id": 41,
                               "name": "__type",
                               "kind": 65536,
-                              "kindString": "Type literal",
                               "flags": {},
                               "sources": [
                                 {
@@ -920,14 +877,12 @@
                                   "id": 42,
                                   "name": "__type",
                                   "kind": 4096,
-                                  "kindString": "Call signature",
                                   "flags": {},
                                   "parameters": [
                                     {
                                       "id": 43,
                                       "name": "z",
                                       "kind": 32768,
-                                      "kindString": "Parameter",
                                       "flags": {},
                                       "type": {
                                         "type": "intrinsic",
@@ -941,14 +896,12 @@
                                       "id": 44,
                                       "name": "__type",
                                       "kind": 65536,
-                                      "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
                                           "id": 45,
                                           "name": "a",
                                           "kind": 1024,
-                                          "kindString": "Property",
                                           "flags": {},
                                           "sources": [
                                             {
@@ -967,7 +920,6 @@
                                           "id": 46,
                                           "name": "b",
                                           "kind": 1024,
-                                          "kindString": "Property",
                                           "flags": {},
                                           "sources": [
                                             {
@@ -1011,7 +963,6 @@
                           "id": 39,
                           "name": "valueZ",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -1052,7 +1003,6 @@
                   "id": 34,
                   "name": "valueY",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -1068,7 +1018,6 @@
                       "id": 35,
                       "name": "__type",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "sources": [
                         {
@@ -1083,7 +1032,6 @@
                           "id": 36,
                           "name": "__type",
                           "kind": 4096,
-                          "kindString": "Call signature",
                           "flags": {},
                           "type": {
                             "type": "intrinsic",
@@ -1098,7 +1046,6 @@
                   "id": 33,
                   "name": "valueZ",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {

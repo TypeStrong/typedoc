@@ -2,14 +2,12 @@
   "id": 0,
   "name": "typedoc",
   "kind": 1,
-  "kindString": "Project",
   "flags": {},
   "children": [
     {
       "id": 9,
       "name": "ModuleEnum",
       "kind": 4,
-      "kindString": "Namespace",
       "flags": {},
       "comment": {
         "summary": [
@@ -24,7 +22,6 @@
           "id": 12,
           "name": "enumValue",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {},
           "comment": {
             "summary": [
@@ -51,7 +48,6 @@
           "id": 10,
           "name": "enumFunction",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -66,7 +62,6 @@
               "id": 11,
               "name": "enumFunction",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -117,7 +112,6 @@
       "id": 13,
       "name": "ConstEnum",
       "kind": 8,
-      "kindString": "Enumeration",
       "flags": {
         "isConst": true
       },
@@ -134,7 +128,6 @@
           "id": 14,
           "name": "a",
           "kind": 16,
-          "kindString": "Enumeration Member",
           "flags": {},
           "sources": [
             {
@@ -153,7 +146,6 @@
           "id": 15,
           "name": "b",
           "kind": 16,
-          "kindString": "Enumeration Member",
           "flags": {},
           "sources": [
             {
@@ -191,7 +183,6 @@
       "id": 5,
       "name": "ModuleEnum",
       "kind": 8,
-      "kindString": "Enumeration",
       "flags": {},
       "comment": {
         "summary": [
@@ -206,7 +197,6 @@
           "id": 6,
           "name": "EnumValue1",
           "kind": 16,
-          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -233,7 +223,6 @@
           "id": 7,
           "name": "EnumValue2",
           "kind": 16,
-          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -260,7 +249,6 @@
           "id": 8,
           "name": "EnumValue3",
           "kind": 16,
-          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -313,7 +301,6 @@
       "id": 1,
       "name": "SimpleEnum",
       "kind": 8,
-      "kindString": "Enumeration",
       "flags": {},
       "comment": {
         "summary": [
@@ -328,7 +315,6 @@
           "id": 2,
           "name": "EnumValue1",
           "kind": 16,
-          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -355,7 +341,6 @@
           "id": 3,
           "name": "EnumValue2",
           "kind": 16,
-          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [
@@ -382,7 +367,6 @@
           "id": 4,
           "name": "EnumValue3",
           "kind": 16,
-          "kindString": "Enumeration Member",
           "flags": {},
           "comment": {
             "summary": [

@@ -71,7 +71,7 @@ export class Repository {
 
         for (let i = 0, c = repoLinks.length; i < c; i++) {
             let match =
-                /(github(?:\.[a-z]+)*\.[a-z]{2,})[:/]([^/]+)\/(.*)/.exec(
+                /(github(?!.us)(?:\.[a-z]+)*\.[a-z]{2,})[:/]([^/]+)\/(.*)/.exec(
                     repoLinks[i]
                 );
 
@@ -80,6 +80,16 @@ export class Repository {
                 match = /(\w+\.githubprivate.com)[:/]([^/]+)\/(.*)/.exec(
                     repoLinks[i]
                 );
+            }
+
+            // Github Enterprise
+            if (!match) {
+                match = /(\w+\.ghe.com)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);
+            }
+
+            // Github Enterprise
+            if (!match) {
+                match = /(\w+\.github.us)[:/]([^/]+)\/(.*)/.exec(repoLinks[i]);
             }
 
             if (!match) {

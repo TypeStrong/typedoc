@@ -2,14 +2,12 @@
   "id": 0,
   "name": "typedoc",
   "kind": 1,
-  "kindString": "Project",
   "flags": {},
   "children": [
     {
       "id": 8,
       "name": "IsString",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "comment": {
         "summary": [
@@ -32,7 +30,6 @@
           "id": 9,
           "name": "T",
           "kind": 131072,
-          "kindString": "Type parameter",
           "flags": {}
         }
       ],
@@ -61,7 +58,6 @@
       "id": 10,
       "name": "PromiseType",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "comment": {
         "summary": [
@@ -84,7 +80,6 @@
           "id": 11,
           "name": "T",
           "kind": 131072,
-          "kindString": "Type parameter",
           "flags": {}
         }
       ],
@@ -122,7 +117,6 @@
       "id": 1,
       "name": "TCompareFunction",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "sources": [
         {
@@ -137,7 +131,6 @@
           "id": 6,
           "name": "T",
           "kind": 131072,
-          "kindString": "Type parameter",
           "flags": {}
         }
       ],
@@ -147,7 +140,6 @@
           "id": 2,
           "name": "__type",
           "kind": 65536,
-          "kindString": "Type literal",
           "flags": {},
           "sources": [
             {
@@ -162,7 +154,6 @@
               "id": 3,
               "name": "__type",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -177,7 +168,6 @@
                   "id": 4,
                   "name": "a",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -189,7 +179,6 @@
                   "id": 5,
                   "name": "b",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -211,7 +200,6 @@
       "id": 7,
       "name": "TId",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "comment": {
         "summary": [

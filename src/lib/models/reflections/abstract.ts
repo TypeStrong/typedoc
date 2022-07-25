@@ -376,6 +376,9 @@ export abstract class Reflection {
             if (alias === "") {
                 alias = "reflection-" + this.id;
             }
+            // NTFS/ExFAT use uppercase, so we will too. It probably won't matter
+            // in this case since names will generally be valid identifiers, but to be safe...
+            const upperAlias = alias.toUpperCase();
 
             let target = this as Reflection;
             while (target.parent && !target.hasOwnDocument) {
@@ -385,12 +388,12 @@ export abstract class Reflection {
             target._aliases ||= new Map();
 
             let suffix = "";
-            if (!target._aliases.has(alias)) {
-                target._aliases.set(alias, 1);
+            if (!target._aliases.has(upperAlias)) {
+                target._aliases.set(upperAlias, 1);
             } else {
-                const count = target._aliases.get(alias)!;
+                const count = target._aliases.get(upperAlias)!;
                 suffix = "-" + count.toString();
-                target._aliases.set(alias, count + 1);
+                target._aliases.set(upperAlias, count + 1);
             }
 
             alias += suffix;

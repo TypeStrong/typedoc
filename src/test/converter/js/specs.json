@@ -8,14 +8,12 @@
       "id": 1,
       "name": "export-eq-type",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 5,
           "name": "Foo",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "sources": [
             {
@@ -34,7 +32,6 @@
           "id": 2,
           "name": "export=",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -49,14 +46,12 @@
               "id": 3,
               "name": "export=",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 4,
                   "name": "x",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -99,14 +94,12 @@
       "id": 6,
       "name": "index",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 10,
           "name": "ColumnType",
           "kind": 8,
-          "kindString": "Enumeration",
           "flags": {},
           "comment": {
             "summary": [
@@ -121,7 +114,6 @@
               "id": 12,
               "name": "NUMBER",
               "kind": 16,
-              "kindString": "Enumeration Member",
               "flags": {},
               "sources": [
                 {
@@ -140,7 +132,6 @@
               "id": 11,
               "name": "STRING",
               "kind": 16,
-              "kindString": "Enumeration Member",
               "flags": {},
               "sources": [
                 {
@@ -184,7 +175,6 @@
           "id": 15,
           "name": "AlsoInterfaceIsh",
           "kind": 256,
-          "kindString": "Interface",
           "flags": {},
           "comment": {
             "summary": [
@@ -199,7 +189,6 @@
               "id": 17,
               "name": "bar",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -218,7 +207,6 @@
               "id": 16,
               "name": "foo",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -256,14 +244,12 @@
           "id": 13,
           "name": "InterfaceIsh",
           "kind": 256,
-          "kindString": "Interface",
           "flags": {},
           "children": [
             {
               "id": 14,
               "name": "foo",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -300,7 +286,6 @@
           "id": 42,
           "name": "Foo",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "sources": [
             {
@@ -316,7 +301,6 @@
               "id": 43,
               "name": "__type",
               "kind": 65536,
-              "kindString": "Type literal",
               "flags": {},
               "sources": [
                 {
@@ -331,14 +315,12 @@
                   "id": 44,
                   "name": "__type",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
                       "id": 45,
                       "name": "args",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {
                         "isRest": true
                       },
@@ -364,7 +346,6 @@
           "id": 28,
           "name": "HasReturnTag",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "sources": [
             {
@@ -380,7 +361,6 @@
               "id": 29,
               "name": "__type",
               "kind": 65536,
-              "kindString": "Type literal",
               "flags": {},
               "sources": [
                 {
@@ -395,7 +375,6 @@
                   "id": 30,
                   "name": "__type",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -410,7 +389,6 @@
           "id": 40,
           "name": "Identity",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "comment": {
             "summary": [
@@ -433,7 +411,6 @@
               "id": 41,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "comment": {
                 "summary": [
@@ -455,7 +432,6 @@
           "id": 31,
           "name": "IdentityFn",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "sources": [
             {
@@ -470,7 +446,6 @@
               "id": 35,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {}
             }
           ],
@@ -480,7 +455,6 @@
               "id": 32,
               "name": "__type",
               "kind": 65536,
-              "kindString": "Type literal",
               "flags": {},
               "sources": [
                 {
@@ -495,14 +469,12 @@
                   "id": 33,
                   "name": "__type",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
                       "id": 34,
                       "name": "data",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "reference",
@@ -525,7 +497,6 @@
           "id": 20,
           "name": "IntersectionType",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "comment": {
             "summary": [
@@ -552,14 +523,12 @@
                   "id": 21,
                   "name": "__type",
                   "kind": 65536,
-                  "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
                       "id": 22,
                       "name": "x",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "sources": [
                         {
@@ -599,14 +568,12 @@
                   "id": 23,
                   "name": "__type",
                   "kind": 65536,
-                  "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
                       "id": 24,
                       "name": "y",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "sources": [
                         {
@@ -647,7 +614,6 @@
           "id": 25,
           "name": "NoReturnTag",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "sources": [
             {
@@ -663,7 +629,6 @@
               "id": 26,
               "name": "__type",
               "kind": 65536,
-              "kindString": "Type literal",
               "flags": {},
               "sources": [
                 {
@@ -678,7 +643,6 @@
                   "id": 27,
                   "name": "__type",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -701,7 +665,6 @@
           "id": 18,
           "name": "ObjectAlias",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "comment": {
             "summary": [
@@ -730,7 +693,6 @@
           "id": 36,
           "name": "OptionalArg",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "sources": [
             {
@@ -746,7 +708,6 @@
               "id": 37,
               "name": "__type",
               "kind": 65536,
-              "kindString": "Type literal",
               "flags": {},
               "sources": [
                 {
@@ -761,14 +722,12 @@
                   "id": 38,
                   "name": "__type",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
                       "id": 39,
                       "name": "data",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {
                         "isOptional": true
                       },
@@ -799,7 +758,6 @@
           "id": 19,
           "name": "UnionType",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "comment": {
             "summary": [
@@ -835,7 +793,6 @@
           "id": 7,
           "name": "usedFoo",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -850,14 +807,12 @@
               "id": 8,
               "name": "usedFoo",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 9,
                   "name": "args",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {
                     "isRest": true
                   },

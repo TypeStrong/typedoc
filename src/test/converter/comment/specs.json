@@ -8,14 +8,12 @@
       "id": 1,
       "name": "comment",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "CommentedClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -49,14 +47,12 @@
               "id": 3,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 4,
                   "name": "new CommentedClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -70,7 +66,6 @@
               "id": 5,
               "name": "prop",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "comment": {
                 "summary": [
@@ -97,14 +92,20 @@
               "id": 19,
               "name": "mixedHidden",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "comment.ts",
+                  "line": 77,
+                  "character": 4,
+                  "url": "typedoc://comment.ts#L77"
+                }
+              ],
               "signatures": [
                 {
                   "id": 22,
                   "name": "mixedHidden",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -119,7 +120,6 @@
                       "id": 23,
                       "name": "arg1",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "intrinsic",
@@ -130,7 +130,6 @@
                       "id": 24,
                       "name": "arg2",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "intrinsic",
@@ -197,7 +196,6 @@
       "id": 26,
       "name": "comment2",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "comment": {
         "summary": [
@@ -220,7 +218,6 @@
           "id": 27,
           "name": "multiply",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -235,14 +232,12 @@
               "id": 28,
               "name": "multiply",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 29,
                   "name": "a",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -253,7 +248,6 @@
                   "id": 30,
                   "name": "b",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -290,7 +284,6 @@
       "id": 31,
       "name": "comment3",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "comment": {
         "summary": [
@@ -313,7 +306,6 @@
           "id": 32,
           "name": "multiply",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -328,14 +320,12 @@
               "id": 33,
               "name": "multiply",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 34,
                   "name": "a",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -346,7 +336,6 @@
                   "id": 35,
                   "name": "b",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -383,7 +372,6 @@
       "id": 36,
       "name": "comment4",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "comment": {
         "summary": [
@@ -402,7 +390,6 @@
           "id": 37,
           "name": "multiply",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -417,14 +404,12 @@
               "id": 38,
               "name": "multiply",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 39,
                   "name": "a",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -435,7 +420,6 @@
                   "id": 40,
                   "name": "b",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",

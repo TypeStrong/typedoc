@@ -128,6 +128,13 @@ export namespace ReflectionKind {
         ReflectionKind.Function |
         ReflectionKind.Method;
 
+    /**
+     * Note: This does not include Class/Interface, even though they technically could contain index signatures
+     * @internal
+     */
+    export const SignatureContainer =
+        ContainsCallSignatures | ReflectionKind.Accessor;
+
     const SINGULARS = {
         [ReflectionKind.Enum]: "Enumeration",
         [ReflectionKind.EnumMember]: "Enumeration Member",

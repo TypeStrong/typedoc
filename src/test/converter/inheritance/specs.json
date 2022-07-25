@@ -8,14 +8,12 @@
       "id": 1,
       "name": "inherit-doc",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 14,
           "name": "InterfaceSource",
           "kind": 256,
-          "kindString": "Interface",
           "flags": {},
           "comment": {
             "summary": [
@@ -30,7 +28,6 @@
               "id": 15,
               "name": "property",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "comment": {
                 "summary": [
@@ -70,7 +67,6 @@
               "id": 16,
               "name": "someMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -85,7 +81,6 @@
                   "id": 17,
                   "name": "someMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -100,7 +95,6 @@
                       "id": 18,
                       "name": "arg",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "intrinsic",
@@ -144,7 +138,6 @@
               "id": 19,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "comment": {
                 "summary": [
@@ -161,7 +154,6 @@
           "id": 20,
           "name": "InterfaceTarget",
           "kind": 256,
-          "kindString": "Interface",
           "flags": {},
           "comment": {
             "summary": [
@@ -176,7 +168,6 @@
               "id": 21,
               "name": "property",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "comment": {
                 "summary": [
@@ -204,7 +195,6 @@
               "id": 22,
               "name": "someMethod",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -219,7 +209,6 @@
                   "id": 23,
                   "name": "someMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -234,7 +223,6 @@
                       "id": 24,
                       "name": "arg",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "intrinsic",
@@ -278,7 +266,6 @@
               "id": 25,
               "name": "T",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "comment": {
                 "summary": [
@@ -295,7 +282,6 @@
           "id": 2,
           "name": "functionSource",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -310,7 +296,6 @@
               "id": 3,
               "name": "functionSource",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -354,7 +339,6 @@
                   "id": 4,
                   "name": "T",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -371,7 +355,6 @@
                   "id": 5,
                   "name": "arg1",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -391,7 +374,6 @@
                   "id": 6,
                   "name": "arg2",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -419,7 +401,6 @@
           "id": 7,
           "name": "functionTargetGlobal",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -434,7 +415,6 @@
               "id": 8,
               "name": "functionTargetGlobal",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [],
@@ -457,7 +437,6 @@
           "id": 9,
           "name": "functionTargetLocal",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -472,7 +451,6 @@
               "id": 10,
               "name": "functionTargetLocal",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -533,7 +511,6 @@
                   "id": 11,
                   "name": "T",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -550,7 +527,6 @@
                   "id": 12,
                   "name": "arg1",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -570,7 +546,6 @@
                   "id": 13,
                   "name": "arg2",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -625,21 +600,18 @@
       "id": 26,
       "name": "mergable-class",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 34,
           "name": "MySubClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 36,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -654,7 +626,6 @@
                   "id": 37,
                   "name": "new MySubClass",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -676,7 +647,6 @@
               "id": 38,
               "name": "instanceProp",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -699,7 +669,6 @@
               "id": 35,
               "name": "staticProp",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isStatic": true
               },
@@ -756,14 +725,12 @@
           "id": 32,
           "name": "My",
           "kind": 256,
-          "kindString": "Interface",
           "flags": {},
           "children": [
             {
               "id": 33,
               "name": "instanceProp",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -806,14 +773,12 @@
           "id": 27,
           "name": "MyCtor",
           "kind": 256,
-          "kindString": "Interface",
           "flags": {},
           "children": [
             {
               "id": 29,
               "name": "constructor",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -828,7 +793,6 @@
                   "id": 30,
                   "name": "new MyCtor",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -842,7 +806,6 @@
               "id": 28,
               "name": "staticProp",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -885,7 +848,6 @@
           "id": 31,
           "name": "My",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {},
           "sources": [
             {

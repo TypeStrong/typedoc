@@ -3,7 +3,7 @@ const noop = () => {
 };
 
 /**
- * If canceled, a [[`CancellablePromise`]] should throw an `Cancellation` object.
+ * If canceled, a {@link CancellablePromise | `CancellablePromise`} should throw an `Cancellation` object.
  */
 class Cancellation extends Error {
     constructor(message = "Promise canceled.") {
@@ -301,7 +301,7 @@ export class CancellablePromise<T> {
      *
      * @param values an array that may contain `CancellablePromise`s, promises,
      * thenables, and resolved values
-     * @returns a [[`CancellablePromise`]], which, if canceled, will cancel each
+     * @returns a {@link CancellablePromise | `CancellablePromise`}, which, if canceled, will cancel each
      * of the promises passed in to `CancellablePromise.all`.
      */
     static all(values: readonly unknown[]): CancellablePromise<unknown> {

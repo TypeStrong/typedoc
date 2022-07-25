@@ -232,24 +232,22 @@ export class CommentPlugin extends ConverterComponent {
 
         // remove functions with empty signatures after their signatures have been removed
         const [allRemoved, someRemoved] = partition(
-            filterMap(hidden, (reflection) =>
-                reflection.parent?.kindOf(
-                    ReflectionKind.FunctionOrMethod | ReflectionKind.Constructor
-                )
-                    ? reflection.parent
-                    : void 0
-            ) as DeclarationReflection[],
-            (method) => method.signatures?.length === 0
+            unique(
+                filterMap(hidden, (reflection) =>
+                    reflection.parent?.kindOf(ReflectionKind.SignatureContainer)
+                        ? reflection.parent
+                        : void 0
+                ) as DeclarationReflection[]
+            ),
+            (method) => method.getNonIndexSignatures().length === 0
         );
         allRemoved.forEach((reflection) => {
             project.removeReflection(reflection);
         });
         someRemoved.forEach((reflection) => {
-            reflection.sources = unique(
-                reflection.signatures!.flatMap<SourceReference>(
-                    (s) => s.sources ?? []
-                )
-            );
+            reflection.sources = reflection
+                .getNonIndexSignatures()
+                .flatMap<SourceReference>((s) => s.sources ?? []);
         });
     }
 
@@ -407,24 +405,34 @@ export class CommentPlugin extends ConverterComponent {
 
         if (!comment) {
             if (this.excludeNotDocumented) {
-                // Only allow excludeNotDocumented to exclude root level reflections
-                if (!(reflection instanceof DeclarationReflection)) {
+                // Don't let excludeNotDocumented remove parameters.
+                if (
+                    !(reflection instanceof DeclarationReflection) &&
+                    !(reflection instanceof SignatureReflection)
+                ) {
                     return false;
                 }
 
                 // excludeNotDocumented should hide a module only if it has no visible children
                 if (reflection.kindOf(ReflectionKind.SomeModule)) {
-                    if (!reflection.children) {
+                    if (!(reflection as DeclarationReflection).children) {
                         return true;
                     }
-                    return reflection.children.every((child) =>
-                        this.isHidden(child)
-                    );
+                    return (
+                        reflection as DeclarationReflection
+                    ).children!.every((child) => this.isHidden(child));
                 }
 
                 // enum members should all be included if the parent enum is documented
                 if (reflection.kind === ReflectionKind.EnumMember) {
                     return false;
+                }
+
+                // signature containers should only be hidden if all their signatures are hidden
+                if (reflection.kindOf(ReflectionKind.SignatureContainer)) {
+                    return (reflection as DeclarationReflection)
+                        .getAllSignatures()
+                        .every((child) => this.isHidden(child));
                 }
 
                 // excludeNotDocumented should never hide parts of "type" reflections
@@ -433,11 +441,23 @@ export class CommentPlugin extends ConverterComponent {
             return false;
         }
 
-        return (
+        const isHidden =
             comment.hasModifier("@hidden") ||
             comment.hasModifier("@ignore") ||
-            (comment.hasModifier("@internal") && this.excludeInternal)
-        );
+            (comment.hasModifier("@internal") && this.excludeInternal);
+
+        if (
+            isHidden &&
+            reflection.kindOf(ReflectionKind.ContainsCallSignatures)
+        ) {
+            return (reflection as DeclarationReflection)
+                .getNonIndexSignatures()
+                .every((sig) => {
+                    return !sig.comment || this.isHidden(sig);
+                });
+        }
+
+        return isHidden;
     }
 }
 

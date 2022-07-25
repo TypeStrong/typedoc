@@ -9,6 +9,36 @@
 
 # Unreleased
 
+## v0.23.9 (2022-07-24)
+
+### Bug Fixes
+
+-   TypeDoc will no longer skip entry points which have no exports, #2007.
+    If using `"entryPointStrategy": "expand"`, this change may result in new pages being added to your documentation.
+    If this is not desired, you can use the `exclude` option to filter them out.
+-   Fixed missing comments on callable variable-functions constructed indirectly, #2008.
+-   Packages mode will now respect the `--includeVersion` flag, #2010.
+-   Fixed multiple reflections mapping to the same file name on case insensitive file systems, #2012.
+
+## v0.23.8 (2022-07-17)
+
+### Features
+
+-   Added defined in links for classes, enums, #180.
+-   Added support for `*.ghe.com` and `*.github.us` GitHub enterprise domains for source links, #2001.
+-   Expose `Converter.parseRawComment` for plugins to parse additional markdown files, #2004.
+
+### Bug Fixes
+
+-   TypeDoc will no longer emit a warning for `{@link}` containing a URL, #1980.
+-   `excludeNotDocumented` will no longer remove functions/methods/accessors which are documented, #1994.
+-   Fixed missing `sources` property on signature reflections #1996.
+
+### Thanks!
+
+-   @cary-hu
+-   @chadhietala
+
 ## v0.23.7 (2022-07-09)
 
 ### Bug Fixes
@@ -103,6 +133,7 @@
 -   `{@link}` tags in comments will now be resolved as declaration references similar to TSDoc's declaration references.
     For most cases, this will just work. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on how link resolution works.
 -   TypeDoc will now produce warnings for bracketed links (`[[ target ]]`). Use `{@link target}` instead. The `{@link}` syntax will be recognized by [TypeScript 4.3](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#editor-support-for-link-tags) and later and used to provide better intellisense. TypeDoc version 0.24.0 will remove support for `[[ target ]]` style links.
+    Support for `` [[`links`]] `` with brackets + code ticks have been dropped.
 -   `extends` in typedoc.json is now resolved using NodeJS module resolution, so a local path must begin with `./`.
 -   In the JSON output for `DeclarationReflection`s, `getSignature` is no longer a one-tuple.
 -   In the JSON output for `DeclarationReflection`s, `setSignature` is no longer a one-tuple.

@@ -23,7 +23,7 @@
  * const x: number | string = 12
  * ```
  *
- * See [[`syntaxHighlightingShowcase`]] for more code blocks.
+ * See {@link syntaxHighlightingShowcase | `syntaxHighlightingShowcase`} for more code blocks.
  *
  * ## A List
  *

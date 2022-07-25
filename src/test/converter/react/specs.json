@@ -2,21 +2,18 @@
   "id": 0,
   "name": "typedoc",
   "kind": 1,
-  "kindString": "Project",
   "flags": {},
   "children": [
     {
       "id": 4,
       "name": "Demo",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 5,
           "name": "constructor",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "sources": [
             {
@@ -31,14 +28,12 @@
               "id": 6,
               "name": "new Demo",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "parameters": [
                 {
                   "id": 7,
                   "name": "props",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
@@ -59,7 +54,6 @@
           "id": 8,
           "name": "foo",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {
             "isPrivate": true
           },
@@ -80,7 +74,6 @@
           "id": 9,
           "name": "render",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -95,7 +88,6 @@
               "id": 10,
               "name": "render",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "type": {
                 "type": "intrinsic",
@@ -138,14 +130,12 @@
       "id": 1,
       "name": "DemoProps",
       "kind": 256,
-      "kindString": "Interface",
       "flags": {},
       "children": [
         {
           "id": 3,
           "name": "age",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -164,7 +154,6 @@
           "id": 2,
           "name": "name",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {

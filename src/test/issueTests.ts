@@ -599,6 +599,35 @@ export const issueTests: {
         equal(comments2, ["Comment for a", "Comment for b"]);
     },
 
+    gh1980(project, logger) {
+        const link = query(project, "link");
+        equal(
+            link.comment?.summary.filter((t) => t.kind === "inline-tag"),
+            [
+                {
+                    kind: "inline-tag",
+                    tag: "@link",
+                    target: "http://example.com",
+                    text: "http://example.com",
+                },
+                {
+                    kind: "inline-tag",
+                    tag: "@link",
+                    target: "http://example.com",
+                    text: "with text",
+                },
+                {
+                    kind: "inline-tag",
+                    tag: "@link",
+                    target: "http://example.com",
+                    text: "jsdoc support",
+                },
+            ]
+        );
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
+    },
+
     gh1986(project, logger) {
         const a = query(project, "a");
         equal(
@@ -607,5 +636,46 @@ export const issueTests: {
         );
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
+    },
+
+    pre1994(app) {
+        app.options.setValue("excludeNotDocumented", true);
+    },
+    gh1994(project) {
+        for (const exp of ["documented", "documented2", "Docs.x", "Docs.y"]) {
+            query(project, exp);
+        }
+        for (const rem of ["notDocumented", "Docs.z"]) {
+            ok(!project.getChildByName(rem));
+        }
+
+        const y = query(project, "Docs.y");
+        equal(y.sources?.length, 1);
+        ok(y.getSignature);
+        ok(!y.setSignature);
+    },
+
+    gh1996(project) {
+        const a = query(project, "a");
+        equal(a.signatures![0].sources?.[0].fileName, "gh1996.ts");
+        equal(a.signatures![0].sources?.[0].line, 1);
+        equal(a.signatures![0].sources?.[0].character, 17);
+        const b = query(project, "b");
+        equal(b.signatures![0].sources?.[0].fileName, "gh1996.ts");
+        equal(b.signatures![0].sources?.[0].line, 3);
+        equal(b.signatures![0].sources?.[0].character, 0);
+    },
+
+    gh2008(project) {
+        const fn = query(project, "myFn").signatures![0];
+        equal(Comment.combineDisplayParts(fn.comment?.summary), "Docs");
+    },
+
+    gh2012(project) {
+        project.hasOwnDocument = true;
+        const model = query(project, "model");
+        const Model = query(project, "Model");
+        equal(model.getAlias(), "model");
+        equal(Model.getAlias(), "Model-1");
     },
 };

@@ -84,5 +84,6 @@ describe("Entry Points", () => {
         const entryPoints = app.getEntryPoints();
         ok(entryPoints);
         equal(entryPoints.length, 1);
+        equal(entryPoints[0].version, void 0);
     });
 });

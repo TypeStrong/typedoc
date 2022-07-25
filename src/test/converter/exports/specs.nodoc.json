@@ -8,14 +8,12 @@
       "id": 14,
       "name": "export",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 43,
           "name": "Mod2",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -39,7 +37,6 @@
           "id": 45,
           "name": "b",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -82,14 +79,12 @@
       "id": 29,
       "name": "mod",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 31,
           "name": "b",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -113,7 +108,6 @@
           "id": 32,
           "name": "c",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -137,7 +131,6 @@
           "id": 30,
           "name": "a",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -167,7 +160,6 @@
           "id": 36,
           "name": "default",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -182,7 +174,6 @@
               "id": 37,
               "name": "default",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -234,7 +225,6 @@
       "id": 38,
       "name": "no-doc-members",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "comment": {
         "summary": [

@@ -78,7 +78,7 @@ describe("Converter2", () => {
         } else {
             runTest(
                 name,
-                issueTests[`pre${entry}`],
+                issueTests[`pre${entry.slice(2)}`],
                 join("issues", entry),
                 check as (
                     project: ProjectReflection,

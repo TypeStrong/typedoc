@@ -7,8 +7,6 @@ import type { Context } from "../context";
 import { BindOption, EntryPointStrategy, readFile } from "../../utils";
 import { getCommonDirectory } from "../../utils/fs";
 import { nicePath } from "../../utils/paths";
-import { lexCommentString } from "../comments/rawLexer";
-import { parseComment } from "../comments/parser";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile";
 
 /**
@@ -105,11 +103,8 @@ export class PackagePlugin extends ConverterComponent {
         const project = context.project;
         if (this.readmeFile) {
             const readme = readFile(this.readmeFile);
-            const comment = parseComment(
-                lexCommentString(readme),
-                context.converter.config,
-                new MinimalSourceFile(readme, this.readmeFile),
-                context.logger
+            const comment = context.converter.parseRawComment(
+                new MinimalSourceFile(readme, this.readmeFile)
             );
 
             if (comment.blockTags.length || comment.modifierTags.size) {
