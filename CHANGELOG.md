@@ -6,6 +6,7 @@
 -   Removed unused `Reflection#originalName`.
 -   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.
 -   Properties related to rendering are no longer stored on `Reflection`, including `url`, `anchor`, `hasOwnDocument`, and `cssClasses`.
+-   Removed special case for `--plugin none`, to disable plugin auto discovery, set `"plugin": []` in a config file.
 
 # Unreleased
 

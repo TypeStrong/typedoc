@@ -6,10 +6,6 @@ import type { Logger } from "./loggers";
 import { nicePath } from "./paths";
 
 export function loadPlugins(app: Application, plugins: readonly string[]) {
-    if (plugins.includes("none")) {
-        return;
-    }
-
     for (const plugin of plugins) {
         const pluginDisplay = getPluginDisplayName(plugin);
 

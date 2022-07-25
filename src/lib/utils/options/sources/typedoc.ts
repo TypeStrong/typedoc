@@ -483,7 +483,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "plugin",
-        help: "Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.",
+        help: "Specify the npm plugins that should be loaded. Omit to load all installed plugins.",
         type: ParameterType.ModuleArray,
     });
     options.addDeclaration({
