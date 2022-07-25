@@ -23,8 +23,6 @@ app.options.addReader(new td.TypeDocReader());
 app.options.addReader(new td.TSConfigReader());
 app.options.addReader(new td.ArgumentsReader(300));
 
-app.bootstrap();
-
 run(app)
     .catch((error) => {
         console.error("TypeDoc exiting with unexpected error:");
@@ -35,6 +33,8 @@ run(app)
 
 /** @param {td.Application} app */
 async function run(app) {
+    await app.bootstrap();
+
     if (app.options.getValue("version")) {
         console.log(app.toString());
         return ExitCodes.Ok;

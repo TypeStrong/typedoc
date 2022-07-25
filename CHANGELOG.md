@@ -7,6 +7,7 @@
 -   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.
 -   Properties related to rendering are no longer stored on `Reflection`, including `url`, `anchor`, `hasOwnDocument`, and `cssClasses`.
 -   Removed special case for `--plugin none`, to disable plugin auto discovery, set `"plugin": []` in a config file.
+-   `Application.bootstrap` is now async to support ESM based plugins, #1635.
 
 # Unreleased
 

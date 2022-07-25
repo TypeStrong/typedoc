@@ -1,5 +1,7 @@
 import { deepStrictEqual as equal, ok } from "assert";
-import { RegSuitCore } from "reg-suit-core";
+// Using a require here to avoid loading types since they're busted.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { RegSuitCore } = require("reg-suit-core");
 import { captureRegressionScreenshots } from "../capture-screenshots";
 
 describe("Visual Test", () => {

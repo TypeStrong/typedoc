@@ -1,21 +1,39 @@
 import * as FS from "fs";
 import * as Path from "path";
+import { isAbsolute } from "path";
 
 import type { Application } from "../application";
 import type { Logger } from "./loggers";
 import { nicePath } from "./paths";
 
-export function loadPlugins(app: Application, plugins: readonly string[]) {
+export async function loadPlugins(
+    app: Application,
+    plugins: readonly string[]
+) {
     for (const plugin of plugins) {
         const pluginDisplay = getPluginDisplayName(plugin);
 
         try {
             // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const instance = require(plugin);
+            let instance: any;
+            try {
+                instance = require(plugin);
+            } catch (error: any) {
+                if (error.code === "ERR_REQUIRE_ESM") {
+                    // On Windows, we need to ensure this path is a file path.
+                    // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
+                    const esmPath = isAbsolute(plugin)
+                        ? `file:///${plugin}`
+                        : plugin;
+                    instance = await import(esmPath);
+                } else {
+                    throw error;
+                }
+            }
             const initFunction = instance.load;
 
             if (typeof initFunction === "function") {
-                initFunction(app);
+                await initFunction(app);
                 app.logger.info(`Loaded plugin ${pluginDisplay}`);
             } else {
                 app.logger.error(
