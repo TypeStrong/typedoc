@@ -1,3 +1,6 @@
+import * as fs from "fs";
+import * as path from "path";
+
 import type * as ts from "typescript";
 import type { Context } from "../converter";
 import { Reflection } from "./reflections/abstract";
@@ -847,18 +850,28 @@ export class ReferenceType extends Type {
             .fileName.replace(/\\/g, "/");
         if (!symbolPath) return ref;
 
-        let startIndex = symbolPath.indexOf("node_modules/");
-        if (startIndex === -1) return ref;
-        startIndex += "node_modules/".length;
-        let stopIndex = symbolPath.indexOf("/", startIndex);
-        // Scoped package, e.g. `@types/node`
-        if (symbolPath[startIndex] === "@") {
-            stopIndex = symbolPath.indexOf("/", stopIndex + 1);
+        function findPackageForPath(sourcePath: string): string | undefined {
+            let basePath = sourcePath;
+            for (;;) {
+                const nextPath = path.dirname(basePath);
+                if (nextPath === basePath) {
+                    return;
+                }
+                basePath = nextPath;
+                const projectPath = path.join(basePath, "package.json");
+                try {
+                    const packageJsonData = fs.readFileSync(projectPath, {
+                        encoding: "utf8",
+                    });
+                    const packageJson = JSON.parse(packageJsonData);
+                    return packageJson.name;
+                } catch (err) {
+                    continue;
+                }
+            }
         }
 
-        const packageName = symbolPath.substring(startIndex, stopIndex);
-        ref.package = packageName;
-
+        ref.package = findPackageForPath(symbolPath);
         return ref;
     }
 
