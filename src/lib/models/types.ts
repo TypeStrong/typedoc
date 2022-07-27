@@ -850,27 +850,21 @@ export class ReferenceType extends Type {
             .fileName.replace(/\\/g, "/");
         if (!symbolPath) return ref;
 
-        function findPackageForPath(sourcePath: string): string | undefined {
-            let basePath = sourcePath;
-            for (;;) {
-                const nextPath = path.dirname(basePath);
-                if (nextPath === basePath) {
-                    return;
-                }
-                basePath = nextPath;
-                const projectPath = path.join(basePath, "package.json");
-                try {
-                    const packageJsonData = fs.readFileSync(projectPath, {
-                        encoding: "utf8",
-                    });
-                    const packageJson = JSON.parse(packageJsonData);
-                    return packageJson.name;
-                } catch (err) {
-                    continue;
-                }
+        // Attempt to decide package name from path if it contains "node_modules"
+        let startIndex = symbolPath.lastIndexOf("node_modules/");
+        if (startIndex !== -1) {
+            startIndex += "node_modules/".length;
+            let stopIndex = symbolPath.indexOf("/", startIndex);
+            // Scoped package, e.g. `@types/node`
+            if (symbolPath[startIndex] === "@") {
+                stopIndex = symbolPath.indexOf("/", stopIndex + 1);
             }
+            const packageName = symbolPath.substring(startIndex, stopIndex);
+            ref.package = packageName;
+            return ref;
         }
 
+        // Otherwise, look for a "package.json" file in a parent path
         ref.package = findPackageForPath(symbolPath);
         return ref;
     }
@@ -1298,5 +1292,34 @@ export class UnknownType extends Type {
             type: this.type,
             name: this.name,
         };
+    }
+}
+
+const packageJsonLookupCache: Record<string, string> = {};
+
+function findPackageForPath(sourcePath: string): string | undefined {
+    if (packageJsonLookupCache[sourcePath] !== undefined) {
+        return packageJsonLookupCache[sourcePath];
+    }
+    let basePath = sourcePath;
+    for (;;) {
+        const nextPath = path.dirname(basePath);
+        if (nextPath === basePath) {
+            return;
+        }
+        basePath = nextPath;
+        const projectPath = path.join(basePath, "package.json");
+        try {
+            const packageJsonData = fs.readFileSync(projectPath, {
+                encoding: "utf8",
+            });
+            const packageJson = JSON.parse(packageJsonData);
+            if (packageJson.name !== undefined) {
+                packageJsonLookupCache[sourcePath] = packageJson.name;
+            }
+            return packageJson.name;
+        } catch (err) {
+            continue;
+        }
     }
 }
