@@ -1,6 +1,11 @@
 import type { RendererHooks } from "../..";
-import type { ReferenceType, Reflection } from "../../../models";
-import type { Options } from "../../../utils";
+import type {
+    CommentDisplayPart,
+    ReferenceType,
+    Reflection,
+} from "../../../models";
+import type { NeverIfInternal, Options } from "../../../utils";
+import { displayPartsToMarkdown } from "../lib";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
@@ -58,7 +63,14 @@ export class DefaultThemeRenderContext {
 
     urlTo = (reflection: Reflection) => this.relativeURL(reflection.url);
 
-    markdown = (md: string | undefined) => {
+    markdown = (
+        md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>
+    ) => {
+        if (md instanceof Array) {
+            return this.theme.markedPlugin.parseMarkdown(
+                displayPartsToMarkdown(md, this.urlTo)
+            );
+        }
         return md ? this.theme.markedPlugin.parseMarkdown(md) : "";
     };
 

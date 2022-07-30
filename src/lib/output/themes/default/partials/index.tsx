@@ -1,4 +1,4 @@
-import { classNames, displayPartsToMarkdown, renderName } from "../../lib";
+import { classNames, renderName } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
 import { ContainerReflection, DeclarationReflection, ReflectionCategory, ReflectionKind } from "../../../../models";
@@ -73,7 +73,7 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                 props.readme?.length !== 0 && (
                     <section class="tsd-panel-group">
                         <section class="tsd-panel tsd-typography">
-                            <Raw html={context.markdown(displayPartsToMarkdown(props.readme || [], context.urlTo))} />
+                            <Raw html={context.markdown(props.readme || [])} />
                         </section>
                     </section>
                 )}
