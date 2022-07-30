@@ -10,6 +10,7 @@
         "EventHooksMomento",
         "MarkedPlugin"
     ],
+    "sort": ["kind", "instance-first", "required-first", "alphabetical"],
     "entryPoints": ["../src"],
     "entryPointStrategy": "resolve",
     "excludeExternals": true,

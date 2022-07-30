@@ -4,6 +4,8 @@
 
 -   Added support for detecting comments directly before parameters as the parameter comment, #2019.
 -   Added support for using the comment directly before a constructor parameter that declares a property as the property comment, #2019.
+-   Improved schema generation to give better autocomplete for the `sort` option.
+-   Optional properties are now visually distinguished in the index/sidebar by rendering `prop` as `prop?`, #2023.
 
 ### Bug Fixes
 

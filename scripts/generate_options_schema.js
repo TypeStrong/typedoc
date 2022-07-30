@@ -153,6 +153,10 @@ schema.properties.extends = {
     items: { type: "string" },
 };
 
+delete schema.properties.sort.items.type;
+schema.properties.sort.items.enum =
+    require("../dist/lib/utils/sort").SORT_STRATEGIES;
+
 const output = JSON.stringify(schema, null, "\t");
 
 if (process.argv.length > 2) {

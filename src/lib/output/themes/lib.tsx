@@ -157,3 +157,18 @@ export function displayPartsToMarkdown(parts: CommentDisplayPart[], urlTo: Defau
 
     return result.join("");
 }
+
+/**
+ * Renders the reflection name with an additional `?` if optional.
+ */
+export function renderName(refl: Reflection) {
+    if (!refl.name) {
+        return <em>{wbr(refl.kindString!)}</em>;
+    }
+
+    if (refl.flags.isOptional) {
+        return <>{wbr(refl.name)}?</>;
+    }
+
+    return wbr(refl.name);
+}
