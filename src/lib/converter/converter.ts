@@ -1,7 +1,14 @@
 import * as ts from "typescript";
 
 import type { Application } from "../application";
-import { ProjectReflection, ReflectionKind, SomeType } from "../models/index";
+import {
+    Comment,
+    CommentDisplayPart,
+    ProjectReflection,
+    Reflection,
+    ReflectionKind,
+    SomeType,
+} from "../models/index";
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
@@ -14,9 +21,13 @@ import type { IMinimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
 import { CommentParserConfig, getComment } from "./comments";
-import type { CommentStyle } from "../utils/options/declaration";
+import type {
+    CommentStyle,
+    ValidationOptions,
+} from "../utils/options/declaration";
 import { parseComment } from "./comments/parser";
 import { lexCommentString } from "./comments/rawLexer";
+import { resolvePartLinks, resolveLinks } from "./comments/linkResolver";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -55,6 +66,10 @@ export class Converter extends ChildableComponent<
 
     @BindOption("commentStyle")
     commentStyle!: CommentStyle;
+
+    /** @internal */
+    @BindOption("validation")
+    validation!: ValidationOptions;
 
     private _config?: CommentParserConfig;
 
@@ -194,6 +209,38 @@ export class Converter extends ChildableComponent<
             file,
             this.application.logger
         );
+    }
+
+    resolveLinks(comment: Comment, owner: Reflection): void;
+    resolveLinks(
+        parts: readonly CommentDisplayPart[],
+        owner: Reflection
+    ): CommentDisplayPart[];
+    resolveLinks(
+        comment: Comment | readonly CommentDisplayPart[],
+        owner: Reflection
+    ): CommentDisplayPart[] | undefined {
+        if (comment instanceof Comment) {
+            resolveLinks(comment, owner, this.validation, this.owner.logger);
+        } else {
+            let warned = false;
+            const warn = () => {
+                if (!warned) {
+                    warned = true;
+                    this.application.logger.warn(
+                        `${owner.name}: Comment [[target]] style links are deprecated and will be removed in 0.24`
+                    );
+                }
+            };
+
+            return resolvePartLinks(
+                owner,
+                comment,
+                warn,
+                this.validation,
+                this.owner.logger
+            );
+        }
     }
 
     /**

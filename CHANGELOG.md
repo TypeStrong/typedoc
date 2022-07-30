@@ -7,6 +7,7 @@
 -   Improved schema generation to give better autocomplete for the `sort` option.
 -   Optional properties are now visually distinguished in the index/sidebar by rendering `prop` as `prop?`, #2023.
 -   `DefaultThemeRenderContext.markdown` now also accepts a `CommentDisplayPart[]` for rendering, #2004.
+-   Expose `Converter.resolveLinks` method for use with `Converter.parseRawComment`, #2004.
 
 ### Bug Fixes
 
