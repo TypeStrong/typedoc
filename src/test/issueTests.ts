@@ -679,6 +679,23 @@ export const issueTests: {
         equal(Model.getAlias(), "Model-1");
     },
 
+    gh2019(project) {
+        const param = query(project, "A.constructor").signatures![0]
+            .parameters![0];
+        const prop = query(project, "A.property");
+
+        equal(
+            Comment.combineDisplayParts(param.comment?.summary),
+            "Param comment",
+            "Constructor parameter"
+        );
+        equal(
+            Comment.combineDisplayParts(prop.comment?.summary),
+            "Param comment",
+            "Property"
+        );
+    },
+
     gh2020(project) {
         const opt = query(project, "Options");
         equal(Comment.combineDisplayParts(opt.comment?.summary), "Desc");

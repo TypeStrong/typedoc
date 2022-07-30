@@ -1,5 +1,10 @@
 # Unreleased
 
+### Features
+
+-   Added support for detecting comments directly before parameters as the parameter comment, #2019.
+-   Added support for using the comment directly before a constructor parameter that declares a property as the property comment, #2019.
+
 ### Bug Fixes
 
 -   Fixed schema URL for TSDoc preventing the use of `typedoc/tsdoc.json` in TSDoc extends, #2015.

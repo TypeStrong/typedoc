@@ -16,7 +16,7 @@ import type { Context } from "../context";
 import { ConverterEvents } from "../converter-events";
 import { convertDefaultValue } from "../convert-expression";
 import { removeUndefined } from "../utils/reflections";
-import { getJsDocComment, getSignatureComment } from "../comments";
+import { getComment, getJsDocComment, getSignatureComment } from "../comments";
 
 export function createSignature(
     context: Context,
@@ -131,6 +131,14 @@ function convertParameters(
                 context.logger
             );
         }
+        paramRefl.comment ||= getComment(
+            param,
+            paramRefl.kind,
+            context.converter.config,
+            context.logger,
+            context.converter.commentStyle
+        );
+
         context.registerReflection(paramRefl, param);
         context.trigger(ConverterEvents.CREATE_PARAMETER, paramRefl);
 

@@ -52,6 +52,8 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.PropertySignature,
         ts.SyntaxKind.BinaryExpression,
         ts.SyntaxKind.PropertyAssignment,
+        // class X { constructor(/** Comment */ readonly z: any) }
+        ts.SyntaxKind.Parameter,
     ],
     [ReflectionKind.Method]: [
         ts.SyntaxKind.FunctionDeclaration,
