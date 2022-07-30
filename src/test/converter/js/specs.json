@@ -201,6 +201,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "can also use prop tag"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "index.js",
@@ -220,6 +228,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "docs for property"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "index.js",
@@ -265,6 +281,14 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "docs for property\nmore docs for property"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "index.js",

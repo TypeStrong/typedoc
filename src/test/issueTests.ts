@@ -678,4 +678,21 @@ export const issueTests: {
         equal(model.getAlias(), "model");
         equal(Model.getAlias(), "Model-1");
     },
+
+    gh2020(project) {
+        const opt = query(project, "Options");
+        equal(Comment.combineDisplayParts(opt.comment?.summary), "Desc");
+        equal(
+            Comment.combineDisplayParts(
+                opt.getChildByName("url")?.comment?.summary
+            ),
+            "Desc2"
+        );
+        equal(
+            Comment.combineDisplayParts(
+                opt.getChildByName("apiKey")?.comment?.summary
+            ),
+            "Desc3"
+        );
+    },
 };
