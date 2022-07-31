@@ -118,7 +118,10 @@ export function camelToTitleCase(text: string) {
     return text.substring(0, 1).toUpperCase() + text.substring(1).replace(/[a-z][A-Z]/g, (x) => `${x[0]} ${x[1]}`);
 }
 
-export function displayPartsToMarkdown(parts: CommentDisplayPart[], urlTo: DefaultThemeRenderContext["urlTo"]) {
+export function displayPartsToMarkdown(
+    parts: readonly CommentDisplayPart[],
+    urlTo: DefaultThemeRenderContext["urlTo"]
+) {
     const result: string[] = [];
 
     for (const part of parts) {
@@ -157,4 +160,19 @@ export function displayPartsToMarkdown(parts: CommentDisplayPart[], urlTo: Defau
     }
 
     return result.join("");
+}
+
+/**
+ * Renders the reflection name with an additional `?` if optional.
+ */
+export function renderName(refl: Reflection) {
+    if (!refl.name) {
+        return <em>{wbr(ReflectionKind.singularString(refl.kind))}</em>;
+    }
+
+    if (refl.flags.isOptional) {
+        return <>{wbr(refl.name)}?</>;
+    }
+
+    return wbr(refl.name);
 }

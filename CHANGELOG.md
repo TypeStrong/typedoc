@@ -18,6 +18,28 @@
 
 # Unreleased
 
+## v0.23.10 (2022-07-31)
+
+### Features
+
+-   Added support for detecting comments directly before parameters as the parameter comment, #2019.
+-   Added support for using the comment directly before a constructor parameter that declares a property as the property comment, #2019.
+-   Improved schema generation to give better autocomplete for the `sort` option.
+-   Optional properties are now visually distinguished in the index/sidebar by rendering `prop` as `prop?`, #2023.
+-   `DefaultThemeRenderContext.markdown` now also accepts a `CommentDisplayPart[]` for rendering, #2004.
+-   Expose `Converter.resolveLinks` method for use with `Converter.parseRawComment`, #2004.
+
+### Bug Fixes
+
+-   Fixed schema URL for TSDoc preventing the use of `typedoc/tsdoc.json` in TSDoc extends, #2015.
+-   Improved detection of package names in repositories using pnpm, #2017.
+-   Fixed missing JSDoc style `@typedef` comments for properties, #2020.
+
+### Thanks!
+
+-   @bodil
+-   @nazarhussain
+
 ## v0.23.9 (2022-07-24)
 
 ### Bug Fixes

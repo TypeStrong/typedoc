@@ -190,6 +190,14 @@
               "name": "bar",
               "kind": 1024,
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "can also use prop tag"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "index.js",
@@ -208,6 +216,14 @@
               "name": "foo",
               "kind": 1024,
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "docs for property"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "index.js",
@@ -251,6 +267,14 @@
               "name": "foo",
               "kind": 1024,
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "docs for property\nmore docs for property"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "index.js",

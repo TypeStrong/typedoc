@@ -1,7 +1,7 @@
 import { ContainerReflection, DeclarationReflection, Reflection, ReflectionKind } from "../../../../models";
 import { JSX, partition } from "../../../../utils";
 import type { PageEvent } from "../../../events";
-import { camelToTitleCase, classNames, wbr } from "../../lib";
+import { camelToTitleCase, classNames, renderName, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
@@ -160,7 +160,7 @@ export function secondaryNavigation(context: DefaultThemeRenderContext, props: P
                 >
                     <a href={context.urlTo(child)} class="tsd-index-link">
                         {context.icons[child.kind]()}
-                        {wbr(child.name)}
+                        {renderName(child)}
                     </a>
                 </li>
             );
@@ -190,7 +190,7 @@ export function secondaryNavigation(context: DefaultThemeRenderContext, props: P
                 >
                     <a href={context.urlTo(effectivePageParent)} class="tsd-index-link">
                         {context.icons[effectivePageParent.kind]()}
-                        <span>{wbr(effectivePageParent.name)}</span>
+                        <span>{renderName(effectivePageParent)}</span>
                     </a>
                     {!!pageNavigation.length && <ul>{pageNavigation}</ul>}
                 </li>

@@ -13,6 +13,14 @@ export interface CommentParserConfig {
     modifierTags: Set<string>;
 }
 
+const jsDocCommentKinds = [
+    ts.SyntaxKind.JSDocPropertyTag,
+    ts.SyntaxKind.JSDocCallbackTag,
+    ts.SyntaxKind.JSDocTypedefTag,
+    ts.SyntaxKind.JSDocTemplateTag,
+    ts.SyntaxKind.JSDocEnumTag,
+];
+
 const commentCache = new WeakMap<ts.SourceFile, Map<number, Comment>>();
 
 function getCommentWithCache(
@@ -95,6 +103,18 @@ export function getComment(
     logger: Logger,
     commentStyle: CommentStyle
 ): Comment | undefined {
+    if (
+        symbol
+            .getDeclarations()
+            ?.every((d) => jsDocCommentKinds.includes(d.kind))
+    ) {
+        return getJsDocComment(
+            symbol.declarations![0] as ts.JSDocPropertyLikeTag,
+            config,
+            logger
+        );
+    }
+
     return getCommentImpl(
         discoverComment(symbol, kind, logger, commentStyle),
         config,
@@ -191,6 +211,6 @@ export function getJsDocComment(
             declaration
         );
     } else {
-        return new Comment(tag.content.slice());
+        return new Comment(Comment.cloneDisplayParts(tag.content));
     }
 }

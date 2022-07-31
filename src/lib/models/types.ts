@@ -847,7 +847,7 @@ export class ReferenceType extends Type {
             .fileName.replace(/\\/g, "/");
         if (!symbolPath) return ref;
 
-        let startIndex = symbolPath.indexOf("node_modules/");
+        let startIndex = symbolPath.lastIndexOf("node_modules/");
         if (startIndex === -1) return ref;
         startIndex += "node_modules/".length;
         let stopIndex = symbolPath.indexOf("/", startIndex);
