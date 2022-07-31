@@ -1,6 +1,7 @@
 import * as FS from "fs";
 import * as Path from "path";
 import { isAbsolute } from "path";
+import { pathToFileURL } from "url";
 
 import type { Application } from "../application";
 import type { Logger } from "./loggers";
@@ -23,7 +24,7 @@ export async function loadPlugins(
                     // On Windows, we need to ensure this path is a file path.
                     // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
                     const esmPath = isAbsolute(plugin)
-                        ? `file:///${plugin}`
+                        ? pathToFileURL(plugin).toString()
                         : plugin;
                     instance = await import(esmPath);
                 } else {
