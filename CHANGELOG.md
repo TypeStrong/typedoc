@@ -12,10 +12,12 @@
 ### Bug Fixes
 
 -   Fixed schema URL for TSDoc preventing the use of `typedoc/tsdoc.json` in TSDoc extends, #2015.
+-   Improved detection of package names in repositories using pnpm, #2017.
 -   Fixed missing JSDoc style `@typedef` comments for properties, #2020.
 
 ### Thanks!
 
+-   @bodil
 -   @nazarhussain
 
 ## v0.23.9 (2022-07-24)
