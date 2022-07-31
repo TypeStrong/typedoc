@@ -14,6 +14,7 @@
 -   Plugins may now return a `Promise<void>` from their `load` function, #185.
 -   Added `Renderer.preRenderAsyncJobs` and `Renderer.postRenderAsyncJobs`, which may be used by plugins to perform async processing for rendering, #185.
     Note: Conversion is still intentionally a synchronous process to ensure stability of converted projects between runs.
+-   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.
 
 # Unreleased
 
