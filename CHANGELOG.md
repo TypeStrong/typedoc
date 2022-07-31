@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.10 (2022-07-31)
+
 ### Features
 
 -   Added support for detecting comments directly before parameters as the parameter comment, #2019.
