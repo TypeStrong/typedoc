@@ -48,6 +48,13 @@ export class ArgumentsReader implements OptionsReader {
                 : options.getDeclaration("entryPoints");
 
             if (decl) {
+                if (decl.configFileOnly) {
+                    logger.error(
+                        `The '${decl.name}' option can only be specified via a config file.`
+                    );
+                    continue;
+                }
+
                 if (seen.has(decl.name) && ARRAY_OPTION_TYPES.has(decl.type)) {
                     trySet(
                         decl.name,

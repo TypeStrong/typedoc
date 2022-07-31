@@ -247,6 +247,12 @@ export interface DeclarationOptionBase {
      * If not set, the type will be a string.
      */
     type?: ParameterType;
+
+    /**
+     * If set, this option will be omitted from `--help`, and attempting to specify it on the command
+     * line will produce an error.
+     */
+    configFileOnly?: boolean;
 }
 
 export interface StringDeclarationOption extends DeclarationOptionBase {

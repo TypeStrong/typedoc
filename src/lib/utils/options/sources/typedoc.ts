@@ -37,6 +37,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "compilerOptions",
         help: "Selectively override the TypeScript compiler options used by TypeDoc.",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
@@ -191,6 +192,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "markedOptions",
         help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
@@ -382,6 +384,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "visibilityFilters",
         help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         defaultValue: {
             protected: false,
             private: false,
@@ -416,6 +419,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "searchCategoryBoosts",
         help: "Configure search to give a relevance boost to selected categories",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         defaultValue: {},
         validate(value) {
             if (!isObject(value)) {
@@ -435,6 +439,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "searchGroupBoosts",
         help: 'Configure search to give a relevance boost to selected kinds (eg "class")',
         type: ParameterType.Mixed,
+        configFileOnly: true,
         defaultValue: {},
         validate(value: unknown) {
             if (!isObject(value)) {
