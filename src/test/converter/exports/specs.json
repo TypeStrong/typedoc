@@ -168,7 +168,9 @@
               "type": {
                 "type": "reference",
                 "id": 29,
-                "name": "GH1453Helper"
+                "name": "GH1453Helper",
+                "qualifiedName": "GH1453Helper",
+                "package": "typedoc"
               }
             },
             {
@@ -210,7 +212,9 @@
               "type": {
                 "type": "reference",
                 "id": 29,
-                "name": "__module"
+                "name": "__module",
+                "qualifiedName": "__module",
+                "package": "typedoc"
               },
               "defaultValue": "Mod"
             },
@@ -232,7 +236,9 @@
               "type": {
                 "type": "reference",
                 "id": 29,
-                "name": "a"
+                "name": "a",
+                "qualifiedName": "a",
+                "package": "typedoc"
               },
               "defaultValue": "Mod.a"
             },
@@ -254,7 +260,9 @@
               "type": {
                 "type": "reference",
                 "id": 29,
-                "name": "__module"
+                "name": "__module",
+                "qualifiedName": "__module",
+                "package": "typedoc"
               },
               "defaultValue": "Mod"
             }

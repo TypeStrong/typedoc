@@ -92,7 +92,9 @@
                   "type": {
                     "type": "reference",
                     "id": 2,
-                    "name": "Constructor"
+                    "name": "Constructor",
+                    "qualifiedName": "Constructor",
+                    "package": "typedoc"
                   }
                 },
                 {
@@ -125,7 +127,9 @@
                   "type": {
                     "type": "reference",
                     "id": 13,
-                    "name": "Instance"
+                    "name": "Instance",
+                    "qualifiedName": "Instance",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -408,7 +412,9 @@
                   "type": {
                     "type": "reference",
                     "id": 30,
-                    "name": "ClassImplementingEmptyInterface"
+                    "name": "ClassImplementingEmptyInterface",
+                    "qualifiedName": "ClassImplementingEmptyInterface",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -494,7 +500,9 @@
             {
               "type": "reference",
               "id": 29,
-              "name": "EmptyInterface"
+              "name": "EmptyInterface",
+              "qualifiedName": "EmptyInterface",
+              "package": "typedoc"
             }
           ]
         },
@@ -523,7 +531,8 @@
             {
               "type": "reference",
               "id": 30,
-              "name": "ClassImplementingEmptyInterface"
+              "name": "ClassImplementingEmptyInterface",
+              "qualifiedName": "ClassImplementingEmptyInterface"
             }
           ]
         }
@@ -614,10 +623,14 @@
                           {
                             "type": "reference",
                             "id": 84,
-                            "name": "T"
+                            "name": "T",
+                            "qualifiedName": "Forms.EventDispatcher.T",
+                            "package": "typedoc"
                           }
                         ],
-                        "name": "EventDispatcher"
+                        "name": "EventDispatcher",
+                        "qualifiedName": "Forms.EventDispatcher",
+                        "package": "typedoc"
                       }
                     }
                   ]
@@ -646,10 +659,14 @@
                         {
                           "type": "reference",
                           "id": 84,
-                          "name": "T"
+                          "name": "T",
+                          "qualifiedName": "Forms.EventDispatcher.T",
+                          "package": "typedoc"
                         }
                       ],
-                      "name": "SubscriptionInt"
+                      "name": "SubscriptionInt",
+                      "qualifiedName": "Forms.SubscriptionInt",
+                      "package": "typedoc"
                     }
                   }
                 },
@@ -685,10 +702,14 @@
                               {
                                 "type": "reference",
                                 "id": 84,
-                                "name": "T"
+                                "name": "T",
+                                "qualifiedName": "Forms.EventDispatcher.T",
+                                "package": "typedoc"
                               }
                             ],
-                            "name": "EventListener"
+                            "name": "EventListener",
+                            "qualifiedName": "Forms.EventListener",
+                            "package": "typedoc"
                           }
                         },
                         {
@@ -721,22 +742,28 @@
                           {
                             "type": "reference",
                             "id": 84,
-                            "name": "T"
+                            "name": "T",
+                            "qualifiedName": "Forms.EventDispatcher.T",
+                            "package": "typedoc"
                           }
                         ],
-                        "name": "SubscriptionInt"
+                        "name": "SubscriptionInt",
+                        "qualifiedName": "Forms.SubscriptionInt",
+                        "package": "typedoc"
                       },
                       "implementationOf": {
                         "type": "reference",
                         "id": 66,
-                        "name": "EventDispatcherInt.add"
+                        "name": "EventDispatcherInt.add",
+                        "qualifiedName": "EventDispatcherInt.add"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 65,
-                    "name": "EventDispatcherInt.add"
+                    "name": "EventDispatcherInt.add",
+                    "qualifiedName": "EventDispatcherInt.add"
                   }
                 },
                 {
@@ -765,14 +792,16 @@
                       "implementationOf": {
                         "type": "reference",
                         "id": 77,
-                        "name": "EventDispatcherInt.clear"
+                        "name": "EventDispatcherInt.clear",
+                        "qualifiedName": "EventDispatcherInt.clear"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 76,
-                    "name": "EventDispatcherInt.clear"
+                    "name": "EventDispatcherInt.clear",
+                    "qualifiedName": "EventDispatcherInt.clear"
                   }
                 },
                 {
@@ -803,7 +832,9 @@
                           "type": {
                             "type": "reference",
                             "id": 84,
-                            "name": "T"
+                            "name": "T",
+                            "qualifiedName": "Forms.EventDispatcher.T",
+                            "package": "typedoc"
                           }
                         }
                       ],
@@ -814,14 +845,16 @@
                       "implementationOf": {
                         "type": "reference",
                         "id": 74,
-                        "name": "EventDispatcherInt.dispatch"
+                        "name": "EventDispatcherInt.dispatch",
+                        "qualifiedName": "EventDispatcherInt.dispatch"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 73,
-                    "name": "EventDispatcherInt.dispatch"
+                    "name": "EventDispatcherInt.dispatch",
+                    "qualifiedName": "EventDispatcherInt.dispatch"
                   }
                 },
                 {
@@ -850,14 +883,16 @@
                       "implementationOf": {
                         "type": "reference",
                         "id": 79,
-                        "name": "EventDispatcherInt.hasListeners"
+                        "name": "EventDispatcherInt.hasListeners",
+                        "qualifiedName": "EventDispatcherInt.hasListeners"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 78,
-                    "name": "EventDispatcherInt.hasListeners"
+                    "name": "EventDispatcherInt.hasListeners",
+                    "qualifiedName": "EventDispatcherInt.hasListeners"
                   }
                 },
                 {
@@ -892,10 +927,14 @@
                               {
                                 "type": "reference",
                                 "id": 84,
-                                "name": "T"
+                                "name": "T",
+                                "qualifiedName": "Forms.EventDispatcher.T",
+                                "package": "typedoc"
                               }
                             ],
-                            "name": "SubscriptionInt"
+                            "name": "SubscriptionInt",
+                            "qualifiedName": "Forms.SubscriptionInt",
+                            "package": "typedoc"
                           }
                         }
                       ],
@@ -906,14 +945,16 @@
                       "implementationOf": {
                         "type": "reference",
                         "id": 71,
-                        "name": "EventDispatcherInt.remove"
+                        "name": "EventDispatcherInt.remove",
+                        "qualifiedName": "EventDispatcherInt.remove"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 70,
-                    "name": "EventDispatcherInt.remove"
+                    "name": "EventDispatcherInt.remove",
+                    "qualifiedName": "EventDispatcherInt.remove"
                   }
                 }
               ],
@@ -965,10 +1006,14 @@
                     {
                       "type": "reference",
                       "id": 84,
-                      "name": "T"
+                      "name": "T",
+                      "qualifiedName": "Forms.EventDispatcher.T",
+                      "package": "typedoc"
                     }
                   ],
-                  "name": "EventDispatcherInt"
+                  "name": "EventDispatcherInt",
+                  "qualifiedName": "Forms.EventDispatcherInt",
+                  "package": "typedoc"
                 }
               ]
             },
@@ -1026,10 +1071,14 @@
                               {
                                 "type": "reference",
                                 "id": 52,
-                                "name": "V"
+                                "name": "V",
+                                "qualifiedName": "Forms.Subscription.V",
+                                "package": "typedoc"
                               }
                             ],
-                            "name": "EventListener"
+                            "name": "EventListener",
+                            "qualifiedName": "Forms.EventListener",
+                            "package": "typedoc"
                           }
                         },
                         {
@@ -1064,10 +1113,14 @@
                               {
                                 "type": "reference",
                                 "id": 52,
-                                "name": "V"
+                                "name": "V",
+                                "qualifiedName": "Forms.Subscription.V",
+                                "package": "typedoc"
                               }
                             ],
-                            "name": "EventDispatcher"
+                            "name": "EventDispatcher",
+                            "qualifiedName": "Forms.EventDispatcher",
+                            "package": "typedoc"
                           }
                         }
                       ],
@@ -1078,10 +1131,14 @@
                           {
                             "type": "reference",
                             "id": 52,
-                            "name": "V"
+                            "name": "V",
+                            "qualifiedName": "Forms.Subscription.V",
+                            "package": "typedoc"
                           }
                         ],
-                        "name": "Subscription"
+                        "name": "Subscription",
+                        "qualifiedName": "Forms.Subscription",
+                        "package": "typedoc"
                       }
                     }
                   ]
@@ -1108,10 +1165,14 @@
                       {
                         "type": "reference",
                         "id": 52,
-                        "name": "V"
+                        "name": "V",
+                        "qualifiedName": "Forms.Subscription.V",
+                        "package": "typedoc"
                       }
                     ],
-                    "name": "EventDispatcher"
+                    "name": "EventDispatcher",
+                    "qualifiedName": "Forms.EventDispatcher",
+                    "package": "typedoc"
                   }
                 },
                 {
@@ -1136,7 +1197,8 @@
                   "implementationOf": {
                     "type": "reference",
                     "id": 45,
-                    "name": "SubscriptionInt.filter"
+                    "name": "SubscriptionInt.filter",
+                    "qualifiedName": "SubscriptionInt.filter"
                   }
                 },
                 {
@@ -1161,15 +1223,20 @@
                       {
                         "type": "reference",
                         "id": 52,
-                        "name": "V"
+                        "name": "V",
+                        "qualifiedName": "Forms.Subscription.V",
+                        "package": "typedoc"
                       }
                     ],
-                    "name": "EventListener"
+                    "name": "EventListener",
+                    "qualifiedName": "Forms.EventListener",
+                    "package": "typedoc"
                   },
                   "implementationOf": {
                     "type": "reference",
                     "id": 43,
-                    "name": "SubscriptionInt.listener"
+                    "name": "SubscriptionInt.listener",
+                    "qualifiedName": "SubscriptionInt.listener"
                   }
                 },
                 {
@@ -1194,7 +1261,8 @@
                   "implementationOf": {
                     "type": "reference",
                     "id": 44,
-                    "name": "SubscriptionInt.priority"
+                    "name": "SubscriptionInt.priority",
+                    "qualifiedName": "SubscriptionInt.priority"
                   }
                 },
                 {
@@ -1231,14 +1299,16 @@
                       "implementationOf": {
                         "type": "reference",
                         "id": 47,
-                        "name": "SubscriptionInt.unsubscribe"
+                        "name": "SubscriptionInt.unsubscribe",
+                        "qualifiedName": "SubscriptionInt.unsubscribe"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 46,
-                    "name": "SubscriptionInt.unsubscribe"
+                    "name": "SubscriptionInt.unsubscribe",
+                    "qualifiedName": "SubscriptionInt.unsubscribe"
                   }
                 }
               ],
@@ -1289,10 +1359,14 @@
                     {
                       "type": "reference",
                       "id": 52,
-                      "name": "V"
+                      "name": "V",
+                      "qualifiedName": "Forms.Subscription.V",
+                      "package": "typedoc"
                     }
                   ],
-                  "name": "SubscriptionInt"
+                  "name": "SubscriptionInt",
+                  "qualifiedName": "Forms.SubscriptionInt",
+                  "package": "typedoc"
                 }
               ]
             },
@@ -1342,10 +1416,14 @@
                               {
                                 "type": "reference",
                                 "id": 80,
-                                "name": "U"
+                                "name": "U",
+                                "qualifiedName": "Forms.EventDispatcherInt.U",
+                                "package": "typedoc"
                               }
                             ],
-                            "name": "EventListener"
+                            "name": "EventListener",
+                            "qualifiedName": "Forms.EventListener",
+                            "package": "typedoc"
                           }
                         },
                         {
@@ -1380,10 +1458,14 @@
                           {
                             "type": "reference",
                             "id": 80,
-                            "name": "U"
+                            "name": "U",
+                            "qualifiedName": "Forms.EventDispatcherInt.U",
+                            "package": "typedoc"
                           }
                         ],
-                        "name": "SubscriptionInt"
+                        "name": "SubscriptionInt",
+                        "qualifiedName": "Forms.SubscriptionInt",
+                        "package": "typedoc"
                       }
                     }
                   ]
@@ -1442,7 +1524,9 @@
                           "type": {
                             "type": "reference",
                             "id": 80,
-                            "name": "U"
+                            "name": "U",
+                            "qualifiedName": "Forms.EventDispatcherInt.U",
+                            "package": "typedoc"
                           }
                         }
                       ],
@@ -1511,10 +1595,14 @@
                               {
                                 "type": "reference",
                                 "id": 80,
-                                "name": "U"
+                                "name": "U",
+                                "qualifiedName": "Forms.EventDispatcherInt.U",
+                                "package": "typedoc"
                               }
                             ],
-                            "name": "SubscriptionInt"
+                            "name": "SubscriptionInt",
+                            "qualifiedName": "Forms.SubscriptionInt",
+                            "package": "typedoc"
                           }
                         }
                       ],
@@ -1558,7 +1646,8 @@
                 {
                   "type": "reference",
                   "id": 81,
-                  "name": "EventDispatcher"
+                  "name": "EventDispatcher",
+                  "qualifiedName": "EventDispatcher"
                 }
               ]
             },
@@ -1606,7 +1695,9 @@
                       "type": {
                         "type": "reference",
                         "id": 39,
-                        "name": "T"
+                        "name": "T",
+                        "qualifiedName": "Forms.EventListener.T",
+                        "package": "typedoc"
                       }
                     }
                   ],
@@ -1669,10 +1760,14 @@
                       {
                         "type": "reference",
                         "id": 48,
-                        "name": "T"
+                        "name": "T",
+                        "qualifiedName": "Forms.SubscriptionInt.T",
+                        "package": "typedoc"
                       }
                     ],
-                    "name": "EventListener"
+                    "name": "EventListener",
+                    "qualifiedName": "Forms.EventListener",
+                    "package": "typedoc"
                   }
                 },
                 {
@@ -1764,7 +1859,8 @@
                 {
                   "type": "reference",
                   "id": 49,
-                  "name": "Subscription"
+                  "name": "Subscription",
+                  "qualifiedName": "Subscription"
                 }
               ]
             }
@@ -1864,12 +1960,14 @@
             {
               "type": "reference",
               "id": 107,
-              "name": "Child"
+              "name": "Child",
+              "qualifiedName": "Child"
             },
             {
               "type": "reference",
               "id": 112,
-              "name": "Child2"
+              "name": "Child2",
+              "qualifiedName": "Child2"
             }
           ]
         },
@@ -1918,7 +2016,8 @@
             {
               "type": "reference",
               "id": 107,
-              "name": "Child"
+              "name": "Child",
+              "qualifiedName": "Child"
             }
           ]
         },
@@ -1948,7 +2047,8 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 104,
-                "name": "Base.base"
+                "name": "Base.base",
+                "qualifiedName": "Base.base"
               }
             },
             {
@@ -1971,7 +2071,8 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 106,
-                "name": "Base2.base2"
+                "name": "Base2.base2",
+                "qualifiedName": "Base2.base2"
               }
             },
             {
@@ -2040,19 +2141,24 @@
             {
               "type": "reference",
               "id": 103,
-              "name": "Base"
+              "name": "Base",
+              "qualifiedName": "Base",
+              "package": "typedoc"
             },
             {
               "type": "reference",
               "id": 105,
-              "name": "Base2"
+              "name": "Base2",
+              "qualifiedName": "Base2",
+              "package": "typedoc"
             }
           ],
           "extendedBy": [
             {
               "type": "reference",
               "id": 112,
-              "name": "Child2"
+              "name": "Child2",
+              "qualifiedName": "Child2"
             }
           ]
         },
@@ -2082,7 +2188,8 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 104,
-                "name": "Base.base"
+                "name": "Base.base",
+                "qualifiedName": "Base.base"
               }
             },
             {
@@ -2105,7 +2212,8 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 111,
-                "name": "Child.base2"
+                "name": "Child.base2",
+                "qualifiedName": "Child.base2"
               }
             },
             {
@@ -2128,7 +2236,8 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 108,
-                "name": "Child.child"
+                "name": "Child.child",
+                "qualifiedName": "Child.child"
               }
             },
             {
@@ -2169,7 +2278,8 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 109,
-                "name": "Child.child3"
+                "name": "Child.child3",
+                "qualifiedName": "Child.child3"
               }
             }
           ],
@@ -2197,12 +2307,16 @@
             {
               "type": "reference",
               "id": 107,
-              "name": "Child"
+              "name": "Child",
+              "qualifiedName": "Child",
+              "package": "typedoc"
             },
             {
               "type": "reference",
               "id": 103,
-              "name": "Base"
+              "name": "Base",
+              "qualifiedName": "Base",
+              "package": "typedoc"
             }
           ]
         }

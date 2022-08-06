@@ -32,7 +32,9 @@
               "type": {
                 "type": "reference",
                 "id": 13,
-                "name": "Base"
+                "name": "Base",
+                "qualifiedName": "Base",
+                "package": "typedoc"
               }
             }
           ]
@@ -140,17 +142,21 @@
               "type": {
                 "type": "reference",
                 "id": 58,
-                "name": "SomeClassWithMixin"
+                "name": "SomeClassWithMixin",
+                "qualifiedName": "SomeClassWithMixin",
+                "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Mixin2(Mixin1Func(Base)).constructor"
+                "name": "Mixin2(Mixin1Func(Base)).constructor",
+                "qualifiedName": "Mixin2(Mixin1Func(Base)).constructor"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin2(Mixin1Func(Base)).constructor"
+            "name": "Mixin2(Mixin1Func(Base)).constructor",
+            "qualifiedName": "Mixin2(Mixin1Func(Base)).constructor"
           }
         },
         {
@@ -173,7 +179,8 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin2(Mixin1Func(Base)).baseProperty"
+            "name": "Mixin2(Mixin1Func(Base)).baseProperty",
+            "qualifiedName": "Mixin2(Mixin1Func(Base)).baseProperty"
           }
         },
         {
@@ -215,7 +222,8 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin2(Mixin1Func(Base)).property1"
+            "name": "Mixin2(Mixin1Func(Base)).property1",
+            "qualifiedName": "Mixin2(Mixin1Func(Base)).property1"
           }
         },
         {
@@ -238,7 +246,8 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin2(Mixin1Func(Base)).property2"
+            "name": "Mixin2(Mixin1Func(Base)).property2",
+            "qualifiedName": "Mixin2(Mixin1Func(Base)).property2"
           }
         },
         {
@@ -266,13 +275,15 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Mixin2(Mixin1Func(Base)).baseMethod"
+                "name": "Mixin2(Mixin1Func(Base)).baseMethod",
+                "qualifiedName": "Mixin2(Mixin1Func(Base)).baseMethod"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin2(Mixin1Func(Base)).baseMethod"
+            "name": "Mixin2(Mixin1Func(Base)).baseMethod",
+            "qualifiedName": "Mixin2(Mixin1Func(Base)).baseMethod"
           }
         },
         {
@@ -331,7 +342,9 @@
                     "elementType": {
                       "type": "reference",
                       "id": 25,
-                      "name": "Mixin1Type"
+                      "name": "Mixin1Type",
+                      "qualifiedName": "Mixin1Type",
+                      "package": "typedoc"
                     }
                   }
                 }
@@ -341,18 +354,22 @@
                 "elementType": {
                   "type": "reference",
                   "id": 25,
-                  "name": "Mixin1Type"
+                  "name": "Mixin1Type",
+                  "qualifiedName": "Mixin1Type",
+                  "package": "typedoc"
                 }
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Mixin2(Mixin1Func(Base)).method1"
+                "name": "Mixin2(Mixin1Func(Base)).method1",
+                "qualifiedName": "Mixin2(Mixin1Func(Base)).method1"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin2(Mixin1Func(Base)).method1"
+            "name": "Mixin2(Mixin1Func(Base)).method1",
+            "qualifiedName": "Mixin2(Mixin1Func(Base)).method1"
           }
         },
         {
@@ -383,24 +400,30 @@
                   "type": {
                     "type": "reference",
                     "id": 39,
-                    "name": "Mixin2Type"
+                    "name": "Mixin2Type",
+                    "qualifiedName": "Mixin2Type",
+                    "package": "typedoc"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
                 "id": 39,
-                "name": "Mixin2Type"
+                "name": "Mixin2Type",
+                "qualifiedName": "Mixin2Type",
+                "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Mixin2(Mixin1Func(Base)).method2"
+                "name": "Mixin2(Mixin1Func(Base)).method2",
+                "qualifiedName": "Mixin2(Mixin1Func(Base)).method2"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin2(Mixin1Func(Base)).method2"
+            "name": "Mixin2(Mixin1Func(Base)).method2",
+            "qualifiedName": "Mixin2(Mixin1Func(Base)).method2"
           }
         }
       ],
@@ -471,7 +494,9 @@
                                   "name": "any"
                                 }
                               ],
-                              "name": "Mixin1Class"
+                              "name": "Mixin1Class",
+                              "qualifiedName": "Mixin1Class",
+                              "package": "typedoc"
                             }
                           }
                         ],
@@ -498,7 +523,9 @@
                       "queryType": {
                         "type": "reference",
                         "id": 13,
-                        "name": "Base"
+                        "name": "Base",
+                        "qualifiedName": "Base",
+                        "package": "typedoc"
                       }
                     }
                   ]
@@ -508,7 +535,9 @@
                   "name": "this"
                 }
               ],
-              "name": "Mixin2"
+              "name": "Mixin2",
+              "qualifiedName": "Mixin2",
+              "package": "typedoc"
             },
             {
               "type": "reference",
@@ -519,7 +548,9 @@
                   "queryType": {
                     "type": "reference",
                     "id": 13,
-                    "name": "Base"
+                    "name": "Base",
+                    "qualifiedName": "Base",
+                    "package": "typedoc"
                   }
                 },
                 {
@@ -527,7 +558,9 @@
                   "name": "this"
                 }
               ],
-              "name": "Mixin1Class"
+              "name": "Mixin1Class",
+              "qualifiedName": "Mixin1Class",
+              "package": "typedoc"
             },
             {
               "type": "reference",
@@ -538,7 +571,9 @@
                   "name": "this"
                 }
               ],
-              "name": "Base"
+              "name": "Base",
+              "qualifiedName": "Base",
+              "package": "typedoc"
             }
           ]
         }
@@ -578,7 +613,8 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.baseProperty"
+            "name": "Mixin.baseProperty",
+            "qualifiedName": "Mixin.baseProperty"
           }
         },
         {
@@ -601,7 +637,8 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.property1"
+            "name": "Mixin.property1",
+            "qualifiedName": "Mixin.property1"
           }
         },
         {
@@ -629,13 +666,15 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Mixin.baseMethod"
+                "name": "Mixin.baseMethod",
+                "qualifiedName": "Mixin.baseMethod"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.baseMethod"
+            "name": "Mixin.baseMethod",
+            "qualifiedName": "Mixin.baseMethod"
           }
         },
         {
@@ -668,7 +707,9 @@
                     "elementType": {
                       "type": "reference",
                       "id": 25,
-                      "name": "Mixin1Type"
+                      "name": "Mixin1Type",
+                      "qualifiedName": "Mixin1Type",
+                      "package": "typedoc"
                     }
                   }
                 }
@@ -678,18 +719,22 @@
                 "elementType": {
                   "type": "reference",
                   "id": 25,
-                  "name": "Mixin1Type"
+                  "name": "Mixin1Type",
+                  "qualifiedName": "Mixin1Type",
+                  "package": "typedoc"
                 }
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Mixin.method1"
+                "name": "Mixin.method1",
+                "qualifiedName": "Mixin.method1"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.method1"
+            "name": "Mixin.method1",
+            "qualifiedName": "Mixin.method1"
           }
         }
       ],
@@ -727,11 +772,15 @@
               "queryType": {
                 "type": "reference",
                 "id": 19,
-                "name": "Mixin1Func"
+                "name": "Mixin1Func",
+                "qualifiedName": "Mixin1Func",
+                "package": "typedoc"
               }
             }
           ],
-          "name": "Mixin"
+          "name": "Mixin",
+          "qualifiedName": "Mixin",
+          "package": "typedoc"
         }
       ]
     },
@@ -769,7 +818,8 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.baseProperty"
+            "name": "Mixin.baseProperty",
+            "qualifiedName": "Mixin.baseProperty"
           }
         },
         {
@@ -792,7 +842,8 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.property1"
+            "name": "Mixin.property1",
+            "qualifiedName": "Mixin.property1"
           }
         },
         {
@@ -815,7 +866,8 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.property2"
+            "name": "Mixin.property2",
+            "qualifiedName": "Mixin.property2"
           }
         },
         {
@@ -843,13 +895,15 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Mixin.baseMethod"
+                "name": "Mixin.baseMethod",
+                "qualifiedName": "Mixin.baseMethod"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.baseMethod"
+            "name": "Mixin.baseMethod",
+            "qualifiedName": "Mixin.baseMethod"
           }
         },
         {
@@ -882,7 +936,9 @@
                     "elementType": {
                       "type": "reference",
                       "id": 25,
-                      "name": "Mixin1Type"
+                      "name": "Mixin1Type",
+                      "qualifiedName": "Mixin1Type",
+                      "package": "typedoc"
                     }
                   }
                 }
@@ -892,18 +948,22 @@
                 "elementType": {
                   "type": "reference",
                   "id": 25,
-                  "name": "Mixin1Type"
+                  "name": "Mixin1Type",
+                  "qualifiedName": "Mixin1Type",
+                  "package": "typedoc"
                 }
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Mixin.method1"
+                "name": "Mixin.method1",
+                "qualifiedName": "Mixin.method1"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.method1"
+            "name": "Mixin.method1",
+            "qualifiedName": "Mixin.method1"
           }
         },
         {
@@ -934,24 +994,30 @@
                   "type": {
                     "type": "reference",
                     "id": 39,
-                    "name": "Mixin2Type"
+                    "name": "Mixin2Type",
+                    "qualifiedName": "Mixin2Type",
+                    "package": "typedoc"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
                 "id": 39,
-                "name": "Mixin2Type"
+                "name": "Mixin2Type",
+                "qualifiedName": "Mixin2Type",
+                "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Mixin.method2"
+                "name": "Mixin.method2",
+                "qualifiedName": "Mixin.method2"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
-            "name": "Mixin.method2"
+            "name": "Mixin.method2",
+            "qualifiedName": "Mixin.method2"
           }
         }
       ],
@@ -991,11 +1057,15 @@
               "queryType": {
                 "type": "reference",
                 "id": 33,
-                "name": "Mixin2"
+                "name": "Mixin2",
+                "qualifiedName": "Mixin2",
+                "package": "typedoc"
               }
             }
           ],
-          "name": "Mixin"
+          "name": "Mixin",
+          "qualifiedName": "Mixin",
+          "package": "typedoc"
         }
       ]
     },
@@ -1073,7 +1143,9 @@
               "type": {
                 "type": "reference",
                 "id": 10,
-                "name": "A"
+                "name": "A",
+                "qualifiedName": "A",
+                "package": "typedoc"
               }
             }
           ]
@@ -1154,7 +1226,9 @@
               "type": {
                 "type": "reference",
                 "id": 5,
-                "name": "A"
+                "name": "A",
+                "qualifiedName": "A",
+                "package": "typedoc"
               }
             }
           ]
@@ -1191,7 +1265,9 @@
           "type": {
             "type": "reference",
             "id": 1,
-            "name": "AnyFunction"
+            "name": "AnyFunction",
+            "qualifiedName": "AnyFunction",
+            "package": "typedoc"
           }
         }
       ],
@@ -1204,7 +1280,9 @@
               {
                 "type": "reference",
                 "id": 12,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             ],
             "name": "ReturnType",
@@ -1220,12 +1298,14 @@
         {
           "type": "reference",
           "id": 25,
-          "name": "Mixin1Type"
+          "name": "Mixin1Type",
+          "qualifiedName": "Mixin1Type"
         },
         {
           "type": "reference",
           "id": 39,
-          "name": "Mixin2Type"
+          "name": "Mixin2Type",
+          "qualifiedName": "Mixin2Type"
         }
       ]
     },
@@ -1265,11 +1345,15 @@
             "queryType": {
               "type": "reference",
               "id": 51,
-              "name": "Mixin3"
+              "name": "Mixin3",
+              "qualifiedName": "Mixin3",
+              "package": "typedoc"
             }
           }
         ],
-        "name": "Mixin"
+        "name": "Mixin",
+        "qualifiedName": "Mixin",
+        "package": "typedoc"
       }
     },
     {
@@ -1312,10 +1396,14 @@
                   {
                     "type": "reference",
                     "id": 13,
-                    "name": "Base"
+                    "name": "Base",
+                    "qualifiedName": "Base",
+                    "package": "typedoc"
                   }
                 ],
-                "name": "AnyConstructor"
+                "name": "AnyConstructor",
+                "qualifiedName": "AnyConstructor",
+                "package": "typedoc"
               }
             }
           ],
@@ -1328,7 +1416,9 @@
               "type": {
                 "type": "reference",
                 "id": 21,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             }
           ],
@@ -1357,7 +1447,9 @@
                             "name": "any"
                           }
                         ],
-                        "name": "Mixin1Class"
+                        "name": "Mixin1Class",
+                        "qualifiedName": "Mixin1Class",
+                        "package": "typedoc"
                       }
                     }
                   ],
@@ -1382,7 +1474,9 @@
               {
                 "type": "reference",
                 "id": 21,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             ]
           }
@@ -1432,17 +1526,23 @@
                       {
                         "type": "reference",
                         "id": 25,
-                        "name": "Mixin1Type"
+                        "name": "Mixin1Type",
+                        "qualifiedName": "Mixin1Type",
+                        "package": "typedoc"
                       },
                       {
                         "type": "reference",
                         "id": 13,
-                        "name": "Base"
+                        "name": "Base",
+                        "qualifiedName": "Base",
+                        "package": "typedoc"
                       }
                     ]
                   }
                 ],
-                "name": "AnyConstructor"
+                "name": "AnyConstructor",
+                "qualifiedName": "AnyConstructor",
+                "package": "typedoc"
               }
             }
           ],
@@ -1455,7 +1555,9 @@
               "type": {
                 "type": "reference",
                 "id": 35,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             }
           ],
@@ -1484,7 +1586,9 @@
                             "name": "any"
                           }
                         ],
-                        "name": "Mixin2"
+                        "name": "Mixin2",
+                        "qualifiedName": "Mixin2",
+                        "package": "typedoc"
                       }
                     }
                   ],
@@ -1509,7 +1613,9 @@
               {
                 "type": "reference",
                 "id": 35,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             ]
           }
@@ -1564,7 +1670,9 @@
                     "name": "object"
                   }
                 ],
-                "name": "AnyConstructor"
+                "name": "AnyConstructor",
+                "qualifiedName": "AnyConstructor",
+                "package": "typedoc"
               }
             }
           ],
@@ -1577,7 +1685,9 @@
               "type": {
                 "type": "reference",
                 "id": 53,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             }
           ],
@@ -1606,7 +1716,9 @@
                             "name": "any"
                           }
                         ],
-                        "name": "Mixin3"
+                        "name": "Mixin3",
+                        "qualifiedName": "Mixin3",
+                        "package": "typedoc"
                       }
                     }
                   ],
@@ -1631,7 +1743,9 @@
               {
                 "type": "reference",
                 "id": 53,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             ]
           }

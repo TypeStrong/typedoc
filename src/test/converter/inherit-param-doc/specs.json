@@ -24,7 +24,9 @@
               "type": {
                 "type": "reference",
                 "id": 6,
-                "name": "Class1"
+                "name": "Class1",
+                "qualifiedName": "Class1",
+                "package": "typedoc"
               }
             }
           ]
@@ -93,14 +95,16 @@
               "implementationOf": {
                 "type": "reference",
                 "id": 3,
-                "name": "Base.method1"
+                "name": "Base.method1",
+                "qualifiedName": "Base.method1"
               }
             }
           ],
           "implementationOf": {
             "type": "reference",
             "id": 2,
-            "name": "Base.method1"
+            "name": "Base.method1",
+            "qualifiedName": "Base.method1"
           }
         }
       ],
@@ -130,7 +134,9 @@
         {
           "type": "reference",
           "id": 1,
-          "name": "Base"
+          "name": "Base",
+          "qualifiedName": "Base",
+          "package": "typedoc"
         }
       ]
     },
@@ -154,7 +160,9 @@
               "type": {
                 "type": "reference",
                 "id": 13,
-                "name": "Class2"
+                "name": "Class2",
+                "qualifiedName": "Class2",
+                "package": "typedoc"
               }
             }
           ]
@@ -223,14 +231,16 @@
               "implementationOf": {
                 "type": "reference",
                 "id": 3,
-                "name": "Base.method1"
+                "name": "Base.method1",
+                "qualifiedName": "Base.method1"
               }
             }
           ],
           "implementationOf": {
             "type": "reference",
             "id": 2,
-            "name": "Base.method1"
+            "name": "Base.method1",
+            "qualifiedName": "Base.method1"
           }
         }
       ],
@@ -260,7 +270,9 @@
         {
           "type": "reference",
           "id": 1,
-          "name": "Base"
+          "name": "Base",
+          "qualifiedName": "Base",
+          "package": "typedoc"
         }
       ]
     },
@@ -284,7 +296,9 @@
               "type": {
                 "type": "reference",
                 "id": 20,
-                "name": "Class3"
+                "name": "Class3",
+                "qualifiedName": "Class3",
+                "package": "typedoc"
               }
             }
           ]
@@ -353,14 +367,16 @@
               "implementationOf": {
                 "type": "reference",
                 "id": 3,
-                "name": "Base.method1"
+                "name": "Base.method1",
+                "qualifiedName": "Base.method1"
               }
             }
           ],
           "implementationOf": {
             "type": "reference",
             "id": 2,
-            "name": "Base.method1"
+            "name": "Base.method1",
+            "qualifiedName": "Base.method1"
           }
         }
       ],
@@ -390,7 +406,9 @@
         {
           "type": "reference",
           "id": 1,
-          "name": "Base"
+          "name": "Base",
+          "qualifiedName": "Base",
+          "package": "typedoc"
         }
       ]
     },
@@ -485,17 +503,20 @@
         {
           "type": "reference",
           "id": 6,
-          "name": "Class1"
+          "name": "Class1",
+          "qualifiedName": "Class1"
         },
         {
           "type": "reference",
           "id": 13,
-          "name": "Class2"
+          "name": "Class2",
+          "qualifiedName": "Class2"
         },
         {
           "type": "reference",
           "id": 20,
-          "name": "Class3"
+          "name": "Class3",
+          "qualifiedName": "Class3"
         }
       ]
     }

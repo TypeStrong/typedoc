@@ -1,3 +1,6 @@
+import * as fs from "fs";
+import * as path from "path";
+
 import type * as ts from "typescript";
 import type { Context } from "../converter";
 import { Reflection } from "./reflections/abstract";
@@ -839,7 +842,7 @@ export class ReferenceType extends Type {
             name ?? symbol.name,
             symbol,
             context.project,
-            getQualifiedName(context.checker, symbol)
+            getQualifiedName(symbol, name ?? symbol.name)
         );
 
         const symbolPath = symbol?.declarations?.[0]
@@ -847,18 +850,22 @@ export class ReferenceType extends Type {
             .fileName.replace(/\\/g, "/");
         if (!symbolPath) return ref;
 
+        // Attempt to decide package name from path if it contains "node_modules"
         let startIndex = symbolPath.lastIndexOf("node_modules/");
-        if (startIndex === -1) return ref;
-        startIndex += "node_modules/".length;
-        let stopIndex = symbolPath.indexOf("/", startIndex);
-        // Scoped package, e.g. `@types/node`
-        if (symbolPath[startIndex] === "@") {
-            stopIndex = symbolPath.indexOf("/", stopIndex + 1);
+        if (startIndex !== -1) {
+            startIndex += "node_modules/".length;
+            let stopIndex = symbolPath.indexOf("/", startIndex);
+            // Scoped package, e.g. `@types/node`
+            if (symbolPath[startIndex] === "@") {
+                stopIndex = symbolPath.indexOf("/", stopIndex + 1);
+            }
+            const packageName = symbolPath.substring(startIndex, stopIndex);
+            ref.package = packageName;
+            return ref;
         }
 
-        const packageName = symbolPath.substring(startIndex, stopIndex);
-        ref.package = packageName;
-
+        // Otherwise, look for a "package.json" file in a parent path
+        ref.package = findPackageForPath(symbolPath);
         return ref;
     }
 
@@ -887,19 +894,14 @@ export class ReferenceType extends Type {
     }
 
     override toObject(serializer: Serializer): JSONOutput.ReferenceType {
-        const result: JSONOutput.ReferenceType = {
+        return {
             type: this.type,
             id: this.reflection?.id,
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
+            qualifiedName: this.qualifiedName,
+            package: this.package,
         };
-
-        if (this.package) {
-            result.qualifiedName = this.qualifiedName;
-            result.package = this.package;
-        }
-
-        return result;
     }
 }
 
@@ -1285,5 +1287,34 @@ export class UnknownType extends Type {
             type: this.type,
             name: this.name,
         };
+    }
+}
+
+const packageJsonLookupCache: Record<string, string> = {};
+
+function findPackageForPath(sourcePath: string): string | undefined {
+    if (packageJsonLookupCache[sourcePath] !== undefined) {
+        return packageJsonLookupCache[sourcePath];
+    }
+    let basePath = sourcePath;
+    for (;;) {
+        const nextPath = path.dirname(basePath);
+        if (nextPath === basePath) {
+            return;
+        }
+        basePath = nextPath;
+        const projectPath = path.join(basePath, "package.json");
+        try {
+            const packageJsonData = fs.readFileSync(projectPath, {
+                encoding: "utf8",
+            });
+            const packageJson = JSON.parse(packageJsonData);
+            if (packageJson.name !== undefined) {
+                packageJsonLookupCache[sourcePath] = packageJson.name;
+            }
+            return packageJson.name;
+        } catch (err) {
+            continue;
+        }
     }
 }
