@@ -35,6 +35,8 @@ export class ProjectReflection extends ContainerReflection {
      */
     reflections: { [id: number]: Reflection } = {};
 
+    packageName?: string;
+
     /**
      * The contents of the readme.md file of the project when found.
      */

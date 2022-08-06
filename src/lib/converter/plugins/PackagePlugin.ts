@@ -124,11 +124,17 @@ export class PackagePlugin extends ConverterComponent {
 
         if (this.packageFile) {
             const packageInfo = JSON.parse(readFile(this.packageFile));
+            if (!packageInfo.name) {
+                context.logger.warn(
+                    `The package file at ${nicePath(
+                        this.packageFile
+                    )} does not have a name field.`
+                );
+            } else {
+                project.packageName = String(packageInfo.name);
+            }
             if (!project.name) {
                 if (!packageInfo.name) {
-                    context.logger.warn(
-                        'The --name option was not specified, and package.json does not have a name field. Defaulting project name to "Documentation".'
-                    );
                     project.name = "Documentation";
                 } else {
                     project.name = String(packageInfo.name);

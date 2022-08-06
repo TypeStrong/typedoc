@@ -511,7 +511,7 @@ export const issueTests: {
 
     gh1907(_project, logger) {
         logger.expectMessage(
-            'warn: The --name option was not specified, and package.json does not have a name field. Defaulting project name to "Documentation".'
+            "warn: The package file at ./src/test/converter2/issues/gh1907/package.json does not have a name field."
         );
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();

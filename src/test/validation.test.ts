@@ -38,7 +38,7 @@ function expectWarning(
     validateExports(project, logger, intentionallyNotExported);
 
     logger.expectMessage(
-        `warn: ${typeName} is referenced by ${referencingName} but not included in the documentation.`
+        `warn: ${typeName}, defined in */${file}, is referenced by ${referencingName} but not included in the documentation.`
     );
 }
 

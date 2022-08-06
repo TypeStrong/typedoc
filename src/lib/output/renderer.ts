@@ -228,10 +228,8 @@ export class Renderer extends ChildableComponent<
     }
 
     /**
-     * Marked as internal for now. Using this requires the internal `getSymbol()` method on ReferenceType.
-     * Someday that needs to be fixed so that this can be made public. ReferenceTypes really shouldn't store
-     * symbols so that we don't need to keep the program around forever.
-     * @internal
+     * Attempt to resolve a reference type with no internal links to some reference outside
+     * of the project.
      */
     attemptExternalResolution(type: ReferenceType): string | undefined {
         if (!type.qualifiedName || !type.package) {

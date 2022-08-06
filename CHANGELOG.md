@@ -8,6 +8,7 @@
 -   Properties related to rendering are no longer stored on `Reflection`, including `url`, `anchor`, `hasOwnDocument`, and `cssClasses`.
 -   Removed special case for `--plugin none`, to disable plugin auto discovery, set `"plugin": []` in a config file.
 -   `Application.bootstrap` is now async to support ESM based plugins, #1635.
+-   Removed internal `ReferenceType.getSymbol`, reference types no longer reference the `ts.Symbol` to enable generation from serialized JSON.
 
 ### Features
 

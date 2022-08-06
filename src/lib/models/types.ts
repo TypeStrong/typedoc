@@ -785,16 +785,11 @@ export class ReferenceType extends Type {
     }
 
     /**
-     * Don't use this if at all possible. It will eventually go away since models may not
-     * retain information from the original TS objects to enable documentation generation from
-     * previously generated JSON.
-     * @internal
+     * Checks if this type is a reference type because it uses a name, but is intentionally not pointing
+     * to a reflection. This happens for type parameters and when representing a mapped type.
      */
-    getSymbol(): ts.Symbol | undefined {
-        if (typeof this._target === "number") {
-            return;
-        }
-        return this._target;
+    isIntentionallyBroken(): boolean {
+        return this._target === -1;
     }
 
     /**
@@ -808,6 +803,17 @@ export class ReferenceType extends Type {
      * Will only be set for `ReferenceType`s pointing to a symbol within `node_modules`.
      */
     package?: string;
+
+    /**
+     * The source file that this reference type points to.
+     *
+     * May not be defined if a target symbol does not have any declarations. This
+     * can happen if it is pointing to a property on a non-homomorphic mapped type
+     * or to `undefined`. The `undefined` case won't happen with TypeDoc's default
+     * converter, but non-homomorphic mapped types may.
+     */
+    // TODO: Serialize sourceFileName... how?
+    sourceFileName: string | undefined;
 
     private _target: ts.Symbol | number;
     private _project: ProjectReflection | null;
@@ -849,6 +855,8 @@ export class ReferenceType extends Type {
             ?.getSourceFile()
             .fileName.replace(/\\/g, "/");
         if (!symbolPath) return ref;
+
+        ref.sourceFileName = symbolPath;
 
         // Attempt to decide package name from path if it contains "node_modules"
         let startIndex = symbolPath.lastIndexOf("node_modules/");
