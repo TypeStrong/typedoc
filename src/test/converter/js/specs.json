@@ -448,7 +448,9 @@
           "type": {
             "type": "reference",
             "id": 41,
-            "name": "T"
+            "name": "T",
+            "qualifiedName": "T",
+            "package": "typedoc"
           }
         },
         {
@@ -507,14 +509,18 @@
                       "type": {
                         "type": "reference",
                         "id": 35,
-                        "name": "T"
+                        "name": "T",
+                        "qualifiedName": "T",
+                        "package": "typedoc"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
                     "id": 35,
-                    "name": "T"
+                    "name": "T",
+                    "qualifiedName": "T",
+                    "package": "typedoc"
                   }
                 }
               ]

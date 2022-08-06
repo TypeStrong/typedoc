@@ -34,7 +34,9 @@
                   "type": {
                     "type": "reference",
                     "id": 2,
-                    "name": "Decl"
+                    "name": "Decl",
+                    "qualifiedName": "Decl",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -157,7 +159,9 @@
                   "type": {
                     "type": "reference",
                     "id": 8,
-                    "name": "Exported"
+                    "name": "Exported",
+                    "qualifiedName": "Exported",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -203,7 +207,9 @@
                   "type": {
                     "type": "reference",
                     "id": 11,
-                    "name": "NotExported"
+                    "name": "NotExported",
+                    "qualifiedName": "NotExported",
+                    "package": "typedoc"
                   }
                 }
               ]

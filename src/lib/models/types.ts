@@ -842,7 +842,7 @@ export class ReferenceType extends Type {
             name ?? symbol.name,
             symbol,
             context.project,
-            getQualifiedName(context.checker, symbol)
+            getQualifiedName(symbol, name ?? symbol.name)
         );
 
         const symbolPath = symbol?.declarations?.[0]
@@ -894,19 +894,14 @@ export class ReferenceType extends Type {
     }
 
     override toObject(serializer: Serializer): JSONOutput.ReferenceType {
-        const result: JSONOutput.ReferenceType = {
+        return {
             type: this.type,
             id: this.reflection?.id,
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
+            qualifiedName: this.qualifiedName,
+            package: this.package,
         };
-
-        if (this.package) {
-            result.qualifiedName = this.qualifiedName;
-            result.package = this.package;
-        }
-
-        return result;
     }
 }
 

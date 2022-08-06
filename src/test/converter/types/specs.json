@@ -87,7 +87,9 @@
             "checkType": {
               "type": "reference",
               "id": 12,
-              "name": "T"
+              "name": "T",
+              "qualifiedName": "T",
+              "package": "typedoc"
             },
             "extendsType": {
               "type": "tuple",
@@ -114,7 +116,9 @@
             },
             "trueType": {
               "type": "reference",
-              "name": "S"
+              "name": "S",
+              "qualifiedName": "S",
+              "package": "typedoc"
             },
             "falseType": {
               "type": "intrinsic",
@@ -515,7 +519,9 @@
                   "target": {
                     "type": "reference",
                     "id": 35,
-                    "name": "T"
+                    "name": "T",
+                    "qualifiedName": "T",
+                    "package": "typedoc"
                   }
                 },
                 {
@@ -528,12 +534,16 @@
               "type": "indexedAccess",
               "indexType": {
                 "type": "reference",
-                "name": "K"
+                "name": "K",
+                "qualifiedName": "K",
+                "package": "typedoc"
               },
               "objectType": {
                 "type": "reference",
                 "id": 35,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             },
             "nameType": {
@@ -543,14 +553,18 @@
                 [
                   {
                     "type": "reference",
-                    "name": "K"
+                    "name": "K",
+                    "qualifiedName": "K",
+                    "package": "typedoc"
                   },
                   ""
                 ],
                 [
                   {
                     "type": "reference",
-                    "name": "K"
+                    "name": "K",
+                    "qualifiedName": "K",
+                    "package": "typedoc"
                   },
                   ""
                 ]
@@ -590,19 +604,25 @@
               "target": {
                 "type": "reference",
                 "id": 33,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             },
             "templateType": {
               "type": "indexedAccess",
               "indexType": {
                 "type": "reference",
-                "name": "K"
+                "name": "K",
+                "qualifiedName": "K",
+                "package": "typedoc"
               },
               "objectType": {
                 "type": "reference",
                 "id": 33,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             }
           }
@@ -647,7 +667,9 @@
                   "type": {
                     "type": "reference",
                     "id": 30,
-                    "name": "T"
+                    "name": "T",
+                    "qualifiedName": "T",
+                    "package": "typedoc"
                   }
                 }
               ],
@@ -662,12 +684,16 @@
                   "type": "indexedAccess",
                   "indexType": {
                     "type": "reference",
-                    "name": "K"
+                    "name": "K",
+                    "qualifiedName": "K",
+                    "package": "typedoc"
                   },
                   "objectType": {
                     "type": "reference",
                     "id": 30,
-                    "name": "T"
+                    "name": "T",
+                    "qualifiedName": "T",
+                    "package": "typedoc"
                   }
                 },
                 "nameType": {
@@ -677,14 +703,18 @@
                     [
                       {
                         "type": "reference",
-                        "name": "K"
+                        "name": "K",
+                        "qualifiedName": "K",
+                        "package": "typedoc"
                       },
                       ""
                     ],
                     [
                       {
                         "type": "reference",
-                        "name": "K"
+                        "name": "K",
+                        "qualifiedName": "K",
+                        "package": "typedoc"
                       },
                       ""
                     ]
@@ -734,7 +764,9 @@
                   "type": {
                     "type": "reference",
                     "id": 26,
-                    "name": "T"
+                    "name": "T",
+                    "qualifiedName": "T",
+                    "package": "typedoc"
                   }
                 }
               ],
@@ -916,7 +948,9 @@
             "queryType": {
               "type": "reference",
               "id": 41,
-              "name": "x"
+              "name": "x",
+              "qualifiedName": "x",
+              "package": "typedoc"
             }
           }
         },
@@ -1528,7 +1562,9 @@
             "target": {
               "type": "reference",
               "id": 57,
-              "name": "C"
+              "name": "C",
+              "qualifiedName": "C",
+              "package": "typedoc"
             }
           }
         },
@@ -1765,12 +1801,16 @@
                           {
                             "type": "reference",
                             "id": 63,
-                            "name": "FirstType"
+                            "name": "FirstType",
+                            "qualifiedName": "FirstType",
+                            "package": "typedoc"
                           },
                           {
                             "type": "reference",
                             "id": 65,
-                            "name": "SecondType"
+                            "name": "SecondType",
+                            "qualifiedName": "SecondType",
+                            "package": "typedoc"
                           }
                         ]
                       }
@@ -1807,12 +1847,16 @@
                   {
                     "type": "reference",
                     "id": 63,
-                    "name": "FirstType"
+                    "name": "FirstType",
+                    "qualifiedName": "FirstType",
+                    "package": "typedoc"
                   },
                   {
                     "type": "reference",
                     "id": 67,
-                    "name": "ThirdType"
+                    "name": "ThirdType",
+                    "qualifiedName": "ThirdType",
+                    "package": "typedoc"
                   }
                 ]
               }
@@ -1845,12 +1889,16 @@
                   {
                     "type": "reference",
                     "id": 63,
-                    "name": "FirstType"
+                    "name": "FirstType",
+                    "qualifiedName": "FirstType",
+                    "package": "typedoc"
                   },
                   {
                     "type": "reference",
                     "id": 65,
-                    "name": "SecondType"
+                    "name": "SecondType",
+                    "qualifiedName": "SecondType",
+                    "package": "typedoc"
                   }
                 ]
               }

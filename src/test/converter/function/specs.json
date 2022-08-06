@@ -238,7 +238,9 @@
                   "type": {
                     "type": "reference",
                     "id": 86,
-                    "name": "Predicates"
+                    "name": "Predicates",
+                    "qualifiedName": "Predicates",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -506,7 +508,9 @@
                               "type": {
                                 "type": "reference",
                                 "id": 101,
-                                "name": "T"
+                                "name": "T",
+                                "qualifiedName": "T",
+                                "package": "typedoc"
                               }
                             }
                           ],
@@ -531,7 +535,9 @@
                       {
                         "type": "reference",
                         "id": 101,
-                        "name": "T"
+                        "name": "T",
+                        "qualifiedName": "T",
+                        "package": "typedoc"
                       }
                     ],
                     "name": "Iterable",
@@ -608,7 +614,9 @@
                               "type": {
                                 "type": "reference",
                                 "id": 108,
-                                "name": "T"
+                                "name": "T",
+                                "qualifiedName": "T",
+                                "package": "typedoc"
                               }
                             }
                           ],
@@ -658,7 +666,9 @@
                               {
                                 "type": "reference",
                                 "id": 108,
-                                "name": "T"
+                                "name": "T",
+                                "qualifiedName": "T",
+                                "package": "typedoc"
                               }
                             ],
                             "name": "Iterable",
@@ -737,7 +747,9 @@
                       {
                         "type": "reference",
                         "id": 69,
-                        "name": "T"
+                        "name": "T",
+                        "qualifiedName": "T",
+                        "package": "typedoc"
                       }
                     ]
                   }
@@ -750,7 +762,9 @@
                 "targetType": {
                   "type": "reference",
                   "id": 69,
-                  "name": "T"
+                  "name": "T",
+                  "qualifiedName": "T",
+                  "package": "typedoc"
                 }
               }
             }
@@ -1932,7 +1946,9 @@
                       {
                         "type": "reference",
                         "id": 73,
-                        "name": "T"
+                        "name": "T",
+                        "qualifiedName": "T",
+                        "package": "typedoc"
                       }
                     ]
                   }
@@ -1945,7 +1961,9 @@
                 "targetType": {
                   "type": "reference",
                   "id": 73,
-                  "name": "T"
+                  "name": "T",
+                  "qualifiedName": "T",
+                  "package": "typedoc"
                 }
               }
             }
@@ -2398,7 +2416,9 @@
                   "type": {
                     "type": "reference",
                     "id": 123,
-                    "name": "T"
+                    "name": "T",
+                    "qualifiedName": "T",
+                    "package": "typedoc"
                   }
                 },
                 {
@@ -2420,7 +2440,9 @@
                     "elementType": {
                       "type": "reference",
                       "id": 123,
-                      "name": "T"
+                      "name": "T",
+                      "qualifiedName": "T",
+                      "package": "typedoc"
                     }
                   }
                 }
@@ -2430,7 +2452,9 @@
                 "elementType": {
                   "type": "reference",
                   "id": 123,
-                  "name": "T"
+                  "name": "T",
+                  "qualifiedName": "T",
+                  "package": "typedoc"
                 }
               }
             }
@@ -2492,14 +2516,18 @@
                   "type": {
                     "type": "reference",
                     "id": 128,
-                    "name": "T"
+                    "name": "T",
+                    "qualifiedName": "T",
+                    "package": "typedoc"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
                 "id": 128,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             }
           ]
@@ -2585,14 +2613,18 @@
                   "type": {
                     "type": "reference",
                     "id": 119,
-                    "name": "T"
+                    "name": "T",
+                    "qualifiedName": "T",
+                    "package": "typedoc"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
                 "id": 119,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "T",
+                "package": "typedoc"
               }
             }
           ]
@@ -2735,7 +2767,9 @@
                       "type": {
                         "type": "reference",
                         "id": 139,
-                        "name": "BreakpointRange"
+                        "name": "BreakpointRange",
+                        "qualifiedName": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     },
                     {
@@ -2755,7 +2789,9 @@
                       "type": {
                         "type": "reference",
                         "id": 139,
-                        "name": "BreakpointRange"
+                        "name": "BreakpointRange",
+                        "qualifiedName": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     },
                     {
@@ -2775,7 +2811,9 @@
                       "type": {
                         "type": "reference",
                         "id": 139,
-                        "name": "BreakpointRange"
+                        "name": "BreakpointRange",
+                        "qualifiedName": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     },
                     {
@@ -2795,7 +2833,9 @@
                       "type": {
                         "type": "reference",
                         "id": 139,
-                        "name": "BreakpointRange"
+                        "name": "BreakpointRange",
+                        "qualifiedName": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     },
                     {
@@ -2815,7 +2855,9 @@
                       "type": {
                         "type": "reference",
                         "id": 139,
-                        "name": "BreakpointRange"
+                        "name": "BreakpointRange",
+                        "qualifiedName": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     }
                   ],

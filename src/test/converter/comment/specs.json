@@ -61,7 +61,9 @@
                   "type": {
                     "type": "reference",
                     "id": 2,
-                    "name": "CommentedClass"
+                    "name": "CommentedClass",
+                    "qualifiedName": "CommentedClass",
+                    "package": "typedoc"
                   }
                 }
               ]

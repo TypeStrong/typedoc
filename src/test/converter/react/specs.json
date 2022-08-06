@@ -43,14 +43,18 @@
                   "type": {
                     "type": "reference",
                     "id": 1,
-                    "name": "DemoProps"
+                    "name": "DemoProps",
+                    "qualifiedName": "DemoProps",
+                    "package": "typedoc"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
                 "id": 4,
-                "name": "Demo"
+                "name": "Demo",
+                "qualifiedName": "Demo",
+                "package": "typedoc"
               }
             }
           ]

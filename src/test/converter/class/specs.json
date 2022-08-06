@@ -537,7 +537,9 @@
                   "type": {
                     "type": "reference",
                     "id": 85,
-                    "name": "Abstract"
+                    "name": "Abstract",
+                    "qualifiedName": "Abstract",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -619,7 +621,9 @@
                   "type": {
                     "type": "reference",
                     "id": 74,
-                    "name": "ComputedNames"
+                    "name": "ComputedNames",
+                    "qualifiedName": "ComputedNames",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -756,7 +760,9 @@
                   "type": {
                     "type": "reference",
                     "id": 62,
-                    "name": "TestAbstractClass"
+                    "name": "TestAbstractClass",
+                    "qualifiedName": "TestAbstractClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -873,7 +879,9 @@
                   "type": {
                     "type": "reference",
                     "id": 68,
-                    "name": "TestAbstractClassImplementation"
+                    "name": "TestAbstractClassImplementation",
+                    "qualifiedName": "TestAbstractClassImplementation",
+                    "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
@@ -985,7 +993,9 @@
             {
               "type": "reference",
               "id": 62,
-              "name": "TestAbstractClass"
+              "name": "TestAbstractClass",
+              "qualifiedName": "TestAbstractClass",
+              "package": "typedoc"
             }
           ]
         },
@@ -1053,7 +1063,9 @@
                   "type": {
                     "type": "reference",
                     "id": 22,
-                    "name": "TestClass"
+                    "name": "TestClass",
+                    "qualifiedName": "TestClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -1146,7 +1158,9 @@
               "type": {
                 "type": "reference",
                 "id": 22,
-                "name": "TestClass"
+                "name": "TestClass",
+                "qualifiedName": "TestClass",
+                "package": "typedoc"
               }
             },
             {
@@ -1546,7 +1560,9 @@
                   "type": {
                     "type": "reference",
                     "id": 38,
-                    "name": "TestSubClass"
+                    "name": "TestSubClass",
+                    "qualifiedName": "TestSubClass",
+                    "package": "typedoc"
                   },
                   "overwrites": {
                     "type": "reference",
@@ -1664,7 +1680,9 @@
               "type": {
                 "type": "reference",
                 "id": 22,
-                "name": "TestClass"
+                "name": "TestClass",
+                "qualifiedName": "TestClass",
+                "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
@@ -1950,7 +1968,9 @@
             {
               "type": "reference",
               "id": 22,
-              "name": "TestClass"
+              "name": "TestClass",
+              "qualifiedName": "TestClass",
+              "package": "typedoc"
             }
           ]
         },
@@ -1977,7 +1997,9 @@
                   "type": {
                     "type": "reference",
                     "id": 81,
-                    "name": "Ts38PrivateFields"
+                    "name": "Ts38PrivateFields",
+                    "qualifiedName": "Ts38PrivateFields",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -2078,7 +2100,9 @@
                   "type": {
                     "type": "reference",
                     "id": 85,
-                    "name": "Abstract"
+                    "name": "Abstract",
+                    "qualifiedName": "Abstract",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -2226,7 +2250,9 @@
                   "type": {
                     "type": "reference",
                     "id": 94,
-                    "name": "Vector2"
+                    "name": "Vector2",
+                    "qualifiedName": "Vector2",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -2444,7 +2470,9 @@
                   "type": {
                     "type": "reference",
                     "id": 103,
-                    "name": "Vector3"
+                    "name": "Vector3",
+                    "qualifiedName": "Vector3",
+                    "package": "typedoc"
                   },
                   "overwrites": {
                     "type": "reference",
@@ -2588,7 +2616,9 @@
             {
               "type": "reference",
               "id": 94,
-              "name": "Vector2"
+              "name": "Vector2",
+              "qualifiedName": "Vector2",
+              "package": "typedoc"
             }
           ]
         }
@@ -2649,7 +2679,9 @@
                   "type": {
                     "type": "reference",
                     "id": 128,
-                    "name": "DecoratedClass"
+                    "name": "DecoratedClass",
+                    "qualifiedName": "DecoratedClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -3029,7 +3061,9 @@
                   "type": {
                     "type": "reference",
                     "id": 161,
-                    "name": "EventDispatcher"
+                    "name": "EventDispatcher",
+                    "qualifiedName": "EventDispatcher",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -3684,7 +3718,9 @@
                       "type": {
                         "type": "reference",
                         "id": 169,
-                        "name": "T"
+                        "name": "T",
+                        "qualifiedName": "GenericClass.T",
+                        "package": "typedoc"
                       }
                     }
                   ],
@@ -3695,10 +3731,14 @@
                       {
                         "type": "reference",
                         "id": 169,
-                        "name": "T"
+                        "name": "T",
+                        "qualifiedName": "GenericClass.T",
+                        "package": "typedoc"
                       }
                     ],
-                    "name": "GenericClass"
+                    "name": "GenericClass",
+                    "qualifiedName": "GenericClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -3730,7 +3770,9 @@
               "type": {
                 "type": "reference",
                 "id": 169,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "GenericClass.T",
+                "package": "typedoc"
               }
             },
             {
@@ -3762,7 +3804,9 @@
                 "elementType": {
                   "type": "reference",
                   "id": 169,
-                  "name": "T"
+                  "name": "T",
+                  "qualifiedName": "GenericClass.T",
+                  "package": "typedoc"
                 }
               }
             },
@@ -3809,7 +3853,9 @@
                   "type": {
                     "type": "reference",
                     "id": 169,
-                    "name": "T"
+                    "name": "T",
+                    "qualifiedName": "GenericClass.T",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -3937,7 +3983,9 @@
                   "type": {
                     "type": "reference",
                     "id": 176,
-                    "name": "NonGenericClass"
+                    "name": "NonGenericClass",
+                    "qualifiedName": "NonGenericClass",
+                    "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
@@ -4120,7 +4168,9 @@
                   "name": "string"
                 }
               ],
-              "name": "GenericClass"
+              "name": "GenericClass",
+              "qualifiedName": "GenericClass",
+              "package": "typedoc"
             }
           ]
         }
@@ -4173,7 +4223,9 @@
                   "type": {
                     "type": "reference",
                     "id": 185,
-                    "name": "GetterSetter"
+                    "name": "GetterSetter",
+                    "qualifiedName": "GetterSetter",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -4408,7 +4460,9 @@
                   "type": {
                     "type": "reference",
                     "id": 199,
-                    "name": "ChainClass"
+                    "name": "ChainClass",
+                    "qualifiedName": "ChainClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -4447,7 +4501,9 @@
                   "type": {
                     "type": "reference",
                     "id": 199,
-                    "name": "ChainClass"
+                    "name": "ChainClass",
+                    "qualifiedName": "ChainClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -4534,7 +4590,9 @@
                         "target": {
                           "type": "reference",
                           "id": 205,
-                          "name": "TestClass"
+                          "name": "TestClass",
+                          "qualifiedName": "TestClass",
+                          "package": "typedoc"
                         }
                       }
                     }
@@ -4546,10 +4604,14 @@
                       {
                         "type": "reference",
                         "id": 213,
-                        "name": "T"
+                        "name": "T",
+                        "qualifiedName": "GenericClass.T",
+                        "package": "typedoc"
                       }
                     ],
-                    "name": "GenericClass"
+                    "name": "GenericClass",
+                    "qualifiedName": "GenericClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -4571,7 +4633,9 @@
               "type": {
                 "type": "reference",
                 "id": 213,
-                "name": "T"
+                "name": "T",
+                "qualifiedName": "GenericClass.T",
+                "package": "typedoc"
               }
             }
           ],
@@ -4610,7 +4674,9 @@
                 "target": {
                   "type": "reference",
                   "id": 205,
-                  "name": "TestClass"
+                  "name": "TestClass",
+                  "qualifiedName": "TestClass",
+                  "package": "typedoc"
                 }
               }
             }
@@ -4664,7 +4730,9 @@
                   "type": {
                     "type": "reference",
                     "id": 205,
-                    "name": "TestClass"
+                    "name": "TestClass",
+                    "qualifiedName": "TestClass",
+                    "package": "typedoc"
                   }
                 }
               ]
