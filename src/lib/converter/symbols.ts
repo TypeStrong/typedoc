@@ -378,15 +378,13 @@ function convertFunctionOrMethod(
         return;
     }
 
-    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
-
     const locationDeclaration =
-        parentSymbol
+        symbol.parent
             ?.getDeclarations()
             ?.find(
                 (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d)
             ) ??
-        parentSymbol?.getDeclarations()?.[0]?.getSourceFile() ??
+        symbol.parent?.getDeclarations()?.[0]?.getSourceFile() ??
         symbol.getDeclarations()?.[0]?.getSourceFile();
     assert(locationDeclaration, "Missing declaration context");
 
@@ -427,6 +425,7 @@ function convertFunctionOrMethod(
             scope,
             ReflectionKind.CallSignature,
             signatures[i],
+            symbol,
             declarations[i]
         );
     }
@@ -526,7 +525,8 @@ function convertClassOrInterface(
             createSignature(
                 constructContext,
                 ReflectionKind.ConstructorSignature,
-                sig
+                sig,
+                symbol
             );
         });
     }
@@ -554,7 +554,8 @@ function convertClassOrInterface(
             createSignature(
                 reflectionContext,
                 ReflectionKind.CallSignature,
-                sig
+                sig,
+                symbol
             )
         );
 
@@ -674,7 +675,7 @@ function convertArrowAsMethod(
     const signature = context.checker.getSignatureFromDeclaration(arrow);
     assert(signature);
 
-    createSignature(rc, ReflectionKind.CallSignature, signature, arrow);
+    createSignature(rc, ReflectionKind.CallSignature, signature, symbol, arrow);
 }
 
 function convertConstructor(context: Context, symbol: ts.Symbol) {
@@ -700,7 +701,8 @@ function convertConstructor(context: Context, symbol: ts.Symbol) {
         createSignature(
             reflectionContext,
             ReflectionKind.ConstructorSignature,
-            sig
+            sig,
+            symbol
         );
     }
 }
@@ -729,7 +731,8 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
             createSignature(
                 constructContext,
                 ReflectionKind.ConstructorSignature,
-                sig
+                sig,
+                symbol
             )
         );
     }
@@ -904,7 +907,8 @@ function convertVariableAsFunction(
         createSignature(
             reflectionContext,
             ReflectionKind.CallSignature,
-            signature
+            signature,
+            symbol
         );
     }
 
@@ -939,6 +943,7 @@ function convertAccessor(
                 rc,
                 ReflectionKind.GetSignature,
                 signature,
+                symbol,
                 getDeclaration
             );
         }
@@ -953,6 +958,7 @@ function convertAccessor(
                 rc,
                 ReflectionKind.SetSignature,
                 signature,
+                symbol,
                 setDeclaration
             );
         }

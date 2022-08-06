@@ -27,6 +27,7 @@ import {
     TemplateLiteralType,
     SomeType,
 } from "../models";
+import { ReflectionSymbolId } from "../models/reflections/id";
 import { zip } from "../utils/array";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
@@ -235,6 +236,10 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
         ) {
             signature.setFlag(ReflectionFlag.Abstract);
         }
+        context.project.registerSymbolId(
+            signature,
+            new ReflectionSymbolId(symbol, node)
+        );
         context.registerReflection(signature, void 0);
         const signatureCtx = rc.withScope(signature);
 
@@ -268,7 +273,8 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
         createSignature(
             context.withScope(reflection),
             ReflectionKind.ConstructorSignature,
-            type.getConstructSignatures()[0]
+            type.getConstructSignatures()[0],
+            type.symbol
         );
 
         return new ReflectionType(reflection);
@@ -325,6 +331,10 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
             ReflectionKind.CallSignature,
             reflection
         );
+        context.project.registerSymbolId(
+            signature,
+            new ReflectionSymbolId(symbol, node)
+        );
         context.registerReflection(signature, void 0);
         const signatureCtx = rc.withScope(signature);
 
@@ -358,7 +368,8 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
         createSignature(
             context.withScope(reflection),
             ReflectionKind.CallSignature,
-            type.getCallSignatures()[0]
+            type.getCallSignatures()[0],
+            type.getSymbol()
         );
 
         return new ReflectionType(reflection);
@@ -546,7 +557,12 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             convertSymbol(rc, prop);
         }
         for (const signature of type.getCallSignatures()) {
-            createSignature(rc, ReflectionKind.CallSignature, signature);
+            createSignature(
+                rc,
+                ReflectionKind.CallSignature,
+                signature,
+                symbol
+            );
         }
 
         convertIndexSignature(rc, symbol);
@@ -573,7 +589,8 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             createSignature(
                 context.withScope(reflection),
                 ReflectionKind.CallSignature,
-                signature
+                signature,
+                type.symbol
             );
         }
 

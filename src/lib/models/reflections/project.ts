@@ -10,6 +10,7 @@ import { removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
 import type { CommentDisplayPart } from "../comments";
+import { ReflectionSymbolId, ReflectionSymbolIdString } from "./id";
 
 /**
  * A reflection that represents the root of the project.
@@ -19,7 +20,12 @@ import type { CommentDisplayPart } from "../comments";
  */
 export class ProjectReflection extends ContainerReflection {
     // Used to resolve references.
-    private symbolToReflectionIdMap = new Map<ts.Symbol, number>();
+    private symbolToReflectionIdMap = new Map<
+        ReflectionSymbolIdString,
+        number
+    >();
+
+    private reflectionIdToSymbolIdMap = new Map<number, ReflectionSymbolId>();
 
     private reflectionIdToSymbolMap = new Map<number, ts.Symbol>();
 
@@ -93,10 +99,13 @@ export class ProjectReflection extends ContainerReflection {
         this.reflections[reflection.id] = reflection;
 
         if (symbol) {
+            const id = new ReflectionSymbolId(symbol);
             this.symbolToReflectionIdMap.set(
-                symbol,
-                this.symbolToReflectionIdMap.get(symbol) ?? reflection.id
+                id.toIdString(),
+                this.symbolToReflectionIdMap.get(id.toIdString()) ??
+                    reflection.id
             );
+            this.reflectionIdToSymbolIdMap.set(reflection.id, id);
             this.reflectionIdToSymbolMap.set(reflection.id, symbol);
         }
     }
@@ -158,13 +167,17 @@ export class ProjectReflection extends ContainerReflection {
         });
 
         const symbol = this.reflectionIdToSymbolMap.get(reflection.id);
-        if (
-            symbol &&
-            this.symbolToReflectionIdMap.get(symbol) === reflection.id
-        ) {
-            this.symbolToReflectionIdMap.delete(symbol);
+        if (symbol) {
+            const id = new ReflectionSymbolId(symbol);
+            if (
+                this.symbolToReflectionIdMap.get(id.toIdString()) ===
+                reflection.id
+            ) {
+                this.symbolToReflectionIdMap.delete(id.toIdString());
+            }
         }
 
+        this.reflectionIdToSymbolIdMap.delete(reflection.id);
         delete this.reflections[reflection.id];
     }
 
@@ -181,13 +194,25 @@ export class ProjectReflection extends ContainerReflection {
      * @internal
      */
     getReflectionFromSymbol(symbol: ts.Symbol) {
-        const id = this.symbolToReflectionIdMap.get(symbol);
+        const id = this.symbolToReflectionIdMap.get(
+            new ReflectionSymbolId(symbol).toIdString()
+        );
         if (typeof id === "number") {
             return this.getReflectionById(id);
         }
     }
 
     /** @internal */
+    getSymbolIdFromReflection(reflection: Reflection) {
+        return this.reflectionIdToSymbolIdMap.get(reflection.id);
+    }
+
+    /** @internal */
+    registerSymbolId(reflection: Reflection, id: ReflectionSymbolId) {
+        this.reflectionIdToSymbolIdMap.set(reflection.id, id);
+    }
+
+    /** @internal @deprecated */
     getSymbolFromReflection(reflection: Reflection) {
         return this.reflectionIdToSymbolMap.get(reflection.id);
     }

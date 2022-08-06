@@ -491,9 +491,8 @@ export const issueTests: {
     gh1898(project, logger) {
         const app = getConverter2App();
         app.validate(project);
-        logger.discardDebugMessages();
         logger.expectMessage(
-            "warn: UnDocFn.__type does not have any documentation."
+            "warn: UnDocFn.__type, defined in */gh1898.ts, does not have any documentation."
         );
         logger.expectNoOtherMessages();
     },
@@ -516,7 +515,6 @@ export const issueTests: {
         logger.expectMessage(
             "warn: The package file at ./src/test/converter2/issues/gh1907/package.json does not have a name field."
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -627,7 +625,6 @@ export const issueTests: {
                 },
             ]
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -637,7 +634,6 @@ export const issueTests: {
             Comment.combineDisplayParts(a.comment?.summary),
             "[[include:file.md]] this is not a link."
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 

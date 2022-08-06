@@ -1,4 +1,4 @@
-import { Logger, LogLevel, removeIf } from "../lib/utils";
+import { Logger, LogLevel } from "../lib/utils";
 import { fail, ok } from "assert";
 import * as ts from "typescript";
 import { resolve } from "path";
@@ -19,10 +19,6 @@ export class TestLogger extends Logger {
         this.messages = [];
     }
 
-    discardDebugMessages() {
-        removeIf(this.messages, (msg) => msg.startsWith("debug"));
-    }
-
     expectMessage(message: string) {
         const regex = createRegex(message);
         const index = this.messages.findIndex((m) => regex.test(m));
@@ -35,9 +31,13 @@ export class TestLogger extends Logger {
         this.messages.splice(index, 1);
     }
 
-    expectNoOtherMessages() {
+    expectNoOtherMessages({ ignoreDebug } = { ignoreDebug: true }) {
+        const messages = ignoreDebug
+            ? this.messages.filter((msg) => !msg.startsWith("debug"))
+            : this.messages;
+
         ok(
-            this.messages.length === 0,
+            messages.length === 0,
             `Expected no other messages to be logged. The logged messages were:\n\t${this.messages.join(
                 "\n\t"
             )}`

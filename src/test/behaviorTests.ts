@@ -171,7 +171,6 @@ export const behaviorTests: {
             [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
         ]);
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -329,7 +328,6 @@ export const behaviorTests: {
             "warn: Declaration reference in @inheritDoc for badParse was not fully parsed and may resolve incorrectly."
         );
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -476,7 +474,6 @@ export const behaviorTests: {
         logger.expectMessage(
             'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.'
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -530,7 +527,6 @@ export const behaviorTests: {
             "warn: Not all categories specified in searchCategoryBoosts were used in the documentation." +
                 " The unused categories were:\n\tCatUnused"
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -556,7 +552,6 @@ export const behaviorTests: {
             "warn: Not all groups specified in searchGroupBoosts were used in the documentation." +
                 " The unused groups were:\n\tGroupUnused"
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 };

@@ -17,6 +17,7 @@ import { ConverterEvents } from "../converter-events";
 import { convertDefaultValue } from "../convert-expression";
 import { removeUndefined } from "../utils/reflections";
 import { getComment, getJsDocComment, getSignatureComment } from "../comments";
+import { ReflectionSymbolId } from "../../models/reflections/id";
 
 export function createSignature(
     context: Context,
@@ -26,6 +27,7 @@ export function createSignature(
         | ReflectionKind.GetSignature
         | ReflectionKind.SetSignature,
     signature: ts.Signature,
+    symbol: ts.Symbol | undefined,
     declaration?: ts.SignatureDeclaration | ts.JSDocSignature
 ) {
     assert(context.scope instanceof DeclarationReflection);
@@ -41,6 +43,12 @@ export function createSignature(
         kind,
         context.scope
     );
+    if (symbol && declaration) {
+        context.project.registerSymbolId(
+            sigRef,
+            new ReflectionSymbolId(symbol, declaration)
+        );
+    }
     if (declaration) {
         sigRef.comment = getSignatureComment(
             declaration,
