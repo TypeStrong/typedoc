@@ -452,7 +452,7 @@ export abstract class Reflection {
     }
 
     /**
-     * Check if this reflection has been marked with the `@deprecated` tag.
+     * Check if this reflection or any of its parents have been marked with the `@deprecated` tag.
      */
     isDeprecated(): boolean {
         if (this.comment?.getTag("@deprecated")) {
@@ -460,27 +460,6 @@ export abstract class Reflection {
         }
 
         return this.parent?.isDeprecated() ?? false;
-    }
-
-    /**
-     * Try to find a reflection by its name.
-     *
-     * @return The found reflection or null.
-     * @deprecated This method not be used, it naively splits the name by a `.` and searches recursively up
-     * the parent tree, which is not how any other name resolver works. If you are currently using this and
-     * need another method, please open an issue. For tests {@link getChildByName} should generally be sufficient.
-     */
-    findReflectionByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg)
-            ? arg
-            : splitUnquotedString(arg, ".");
-
-        const reflection = this.getChildByName(names);
-        if (reflection) {
-            return reflection;
-        } else if (this.parent) {
-            return this.parent.findReflectionByName(names);
-        }
     }
 
     /**

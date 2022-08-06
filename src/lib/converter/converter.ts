@@ -221,25 +221,9 @@ export class Converter extends ChildableComponent<
         owner: Reflection
     ): CommentDisplayPart[] | undefined {
         if (comment instanceof Comment) {
-            resolveLinks(comment, owner, this.validation, this.owner.logger);
+            resolveLinks(comment, owner);
         } else {
-            let warned = false;
-            const warn = () => {
-                if (!warned) {
-                    warned = true;
-                    this.application.logger.warn(
-                        `${owner.name}: Comment [[target]] style links are deprecated and will be removed in 0.24`
-                    );
-                }
-            };
-
-            return resolvePartLinks(
-                owner,
-                comment,
-                warn,
-                this.validation,
-                this.owner.logger
-            );
+            return resolvePartLinks(owner, comment);
         }
     }
 

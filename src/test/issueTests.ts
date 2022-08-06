@@ -388,8 +388,11 @@ export const issueTests: {
             | InlineTagDisplayPart
             | undefined;
         equal(tag?.kind, "inline-tag");
-        equal(tag.text, "Test2.method");
-        equal(tag.target, query(project, "Test.method"));
+        equal(tag.text, "method");
+        ok(
+            tag.target === query(project, "Test.method"),
+            "Incorrect resolution"
+        );
     },
 
     gh1795(project) {

@@ -6,7 +6,6 @@ import {
     ProjectReflection,
     ReflectionKind,
     Comment,
-    CommentDisplayPart,
     CommentTag,
     Reflection,
     SignatureReflection,
@@ -131,31 +130,6 @@ export const behaviorTests: {
         equal(
             project.children?.map((c) => c.name),
             ["DeclareGlobal"]
-        );
-    },
-
-    deprecatedBracketLinks(project, logger) {
-        const a = query(project, "alpha");
-        const b = query(project, "beta");
-
-        const aTag = a.comment?.summary.find((p) => p.kind === "inline-tag") as
-            | Extract<CommentDisplayPart, { kind: "inline-tag" }>
-            | undefined;
-        equal(aTag?.tag, "@link");
-        equal(aTag?.text, "beta");
-        equal(aTag.target, b);
-        logger.expectMessage(
-            "warn: alpha: Comment [[target]] style links are deprecated and will be removed in 0.24"
-        );
-
-        const bTag = b.comment?.summary.find((p) => p.kind === "inline-tag") as
-            | Extract<CommentDisplayPart, { kind: "inline-tag" }>
-            | undefined;
-        equal(bTag?.tag, "@link");
-        equal(bTag?.text, "bracket links");
-        equal(bTag.target, a);
-        logger.expectMessage(
-            "warn: beta: Comment [[target]] style links are deprecated and will be removed in 0.24"
         );
     },
 

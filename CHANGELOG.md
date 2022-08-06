@@ -2,6 +2,8 @@
 
 ### Breaking Changes
 
+-   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
+-   Internal links are now only resolved with declaration references.
 -   The `label` property on `Reflection` has moved to `Comment`.
 -   Removed unused `Reflection#originalName`.
 -   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.
