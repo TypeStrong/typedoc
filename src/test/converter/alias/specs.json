@@ -39,7 +39,6 @@
           "type": "reference",
           "id": 9,
           "name": "T",
-          "qualifiedName": "T",
           "package": "typedoc"
         },
         "extendsType": {
@@ -91,7 +90,6 @@
           "type": "reference",
           "id": 11,
           "name": "T",
-          "qualifiedName": "T",
           "package": "typedoc"
         },
         "extendsType": {
@@ -103,20 +101,17 @@
             }
           ],
           "name": "PromiseLike",
-          "qualifiedName": "PromiseLike",
           "package": "typescript"
         },
         "trueType": {
           "type": "reference",
           "name": "U",
-          "qualifiedName": "U",
           "package": "typedoc"
         },
         "falseType": {
           "type": "reference",
           "id": 11,
           "name": "T",
-          "qualifiedName": "T",
           "package": "typedoc"
         }
       }
@@ -181,7 +176,6 @@
                     "type": "reference",
                     "id": 6,
                     "name": "T",
-                    "qualifiedName": "T",
                     "package": "typedoc"
                   }
                 },
@@ -194,7 +188,6 @@
                     "type": "reference",
                     "id": 6,
                     "name": "T",
-                    "qualifiedName": "T",
                     "package": "typedoc"
                   }
                 }

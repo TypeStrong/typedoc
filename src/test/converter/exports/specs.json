@@ -169,7 +169,6 @@
                 "type": "reference",
                 "id": 29,
                 "name": "GH1453Helper",
-                "qualifiedName": "GH1453Helper",
                 "package": "typedoc"
               }
             },
@@ -213,7 +212,6 @@
                 "type": "reference",
                 "id": 29,
                 "name": "__module",
-                "qualifiedName": "__module",
                 "package": "typedoc"
               },
               "defaultValue": "Mod"
@@ -237,7 +235,6 @@
                 "type": "reference",
                 "id": 29,
                 "name": "a",
-                "qualifiedName": "a",
                 "package": "typedoc"
               },
               "defaultValue": "Mod.a"
@@ -261,7 +258,6 @@
                 "type": "reference",
                 "id": 29,
                 "name": "__module",
-                "qualifiedName": "__module",
                 "package": "typedoc"
               },
               "defaultValue": "Mod"

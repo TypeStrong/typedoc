@@ -51,12 +51,11 @@
                         "type": "reference",
                         "id": 5,
                         "name": "T",
-                        "qualifiedName": "Array.T",
-                        "package": "typedoc"
+                        "package": "typedoc",
+                        "qualifiedName": "Array.T"
                       }
                     ],
                     "name": "Array",
-                    "qualifiedName": "Array",
                     "package": "typedoc"
                   }
                 }
@@ -91,8 +90,7 @@
             {
               "type": "reference",
               "id": 12,
-              "name": "FooList",
-              "qualifiedName": "FooList"
+              "name": "FooList"
             }
           ]
         },
@@ -125,7 +123,6 @@
                     "type": "reference",
                     "id": 9,
                     "name": "Foo",
-                    "qualifiedName": "Foo",
                     "package": "typedoc"
                   }
                 }
@@ -178,22 +175,19 @@
                     "type": "reference",
                     "id": 12,
                     "name": "FooList",
-                    "qualifiedName": "FooList",
                     "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
                     "id": 4,
-                    "name": "Array.constructor",
-                    "qualifiedName": "Array.constructor"
+                    "name": "Array.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 3,
-                "name": "Array.constructor",
-                "qualifiedName": "Array.constructor"
+                "name": "Array.constructor"
               }
             }
           ],
@@ -222,12 +216,10 @@
                   "type": "reference",
                   "id": 9,
                   "name": "Foo",
-                  "qualifiedName": "Foo",
                   "package": "typedoc"
                 }
               ],
               "name": "Array",
-              "qualifiedName": "Array",
               "package": "typedoc"
             }
           ]
@@ -279,7 +271,6 @@
                               }
                             ],
                             "name": "Array",
-                            "qualifiedName": "Array",
                             "package": "typedoc"
                           }
                         },
@@ -336,7 +327,6 @@
               }
             ],
             "name": "Array",
-            "qualifiedName": "Array",
             "package": "typedoc"
           },
           "defaultValue": "{}"
@@ -1871,7 +1861,6 @@
               }
             ],
             "name": "Promise",
-            "qualifiedName": "Promise",
             "package": "typescript"
           }
         },
@@ -1897,7 +1886,6 @@
               }
             ],
             "name": "Promise",
-            "qualifiedName": "Promise",
             "package": "typescript"
           }
         }

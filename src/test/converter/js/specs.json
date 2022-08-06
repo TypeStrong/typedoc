@@ -450,7 +450,6 @@
             "type": "reference",
             "id": 41,
             "name": "T",
-            "qualifiedName": "T",
             "package": "typedoc"
           }
         },
@@ -506,7 +505,6 @@
                         "type": "reference",
                         "id": 35,
                         "name": "T",
-                        "qualifiedName": "T",
                         "package": "typedoc"
                       }
                     }
@@ -515,7 +513,6 @@
                     "type": "reference",
                     "id": 35,
                     "name": "T",
-                    "qualifiedName": "T",
                     "package": "typedoc"
                   }
                 }
@@ -715,7 +712,6 @@
           "type": {
             "type": "reference",
             "name": "Object",
-            "qualifiedName": "Object",
             "package": "typescript"
           }
         },

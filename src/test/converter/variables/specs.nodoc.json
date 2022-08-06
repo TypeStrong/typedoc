@@ -43,8 +43,7 @@
             {
               "type": "reference",
               "id": 12,
-              "name": "FooList",
-              "qualifiedName": "FooList"
+              "name": "FooList"
             }
           ]
         },
@@ -100,12 +99,10 @@
                   "type": "reference",
                   "id": 9,
                   "name": "Foo",
-                  "qualifiedName": "Foo",
                   "package": "typedoc"
                 }
               ],
               "name": "Array",
-              "qualifiedName": "Array",
               "package": "typedoc"
             }
           ]
@@ -157,7 +154,6 @@
                               }
                             ],
                             "name": "Array",
-                            "qualifiedName": "Array",
                             "package": "typedoc"
                           }
                         },
@@ -214,7 +210,6 @@
               }
             ],
             "name": "Array",
-            "qualifiedName": "Array",
             "package": "typedoc"
           },
           "defaultValue": "{}"

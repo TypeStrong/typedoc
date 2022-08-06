@@ -39,7 +39,6 @@
                     "type": "reference",
                     "id": 1,
                     "name": "DemoProps",
-                    "qualifiedName": "DemoProps",
                     "package": "typedoc"
                   }
                 }
@@ -48,7 +47,6 @@
                 "type": "reference",
                 "id": 4,
                 "name": "Demo",
-                "qualifiedName": "Demo",
                 "package": "typedoc"
               }
             }

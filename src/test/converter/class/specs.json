@@ -513,7 +513,6 @@
                     "type": "reference",
                     "id": 85,
                     "name": "Abstract",
-                    "qualifiedName": "Abstract",
                     "package": "typedoc"
                   }
                 }
@@ -592,7 +591,6 @@
                     "type": "reference",
                     "id": 74,
                     "name": "ComputedNames",
-                    "qualifiedName": "ComputedNames",
                     "package": "typedoc"
                   }
                 }
@@ -724,7 +722,6 @@
                     "type": "reference",
                     "id": 62,
                     "name": "TestAbstractClass",
-                    "qualifiedName": "TestAbstractClass",
                     "package": "typedoc"
                   }
                 }
@@ -812,8 +809,7 @@
             {
               "type": "reference",
               "id": 68,
-              "name": "TestAbstractClassImplementation",
-              "qualifiedName": "TestAbstractClassImplementation"
+              "name": "TestAbstractClassImplementation"
             }
           ]
         },
@@ -838,22 +834,19 @@
                     "type": "reference",
                     "id": 68,
                     "name": "TestAbstractClassImplementation",
-                    "qualifiedName": "TestAbstractClassImplementation",
                     "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
                     "id": 64,
-                    "name": "TestAbstractClass.constructor",
-                    "qualifiedName": "TestAbstractClass.constructor"
+                    "name": "TestAbstractClass.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 63,
-                "name": "TestAbstractClass.constructor",
-                "qualifiedName": "TestAbstractClass.constructor"
+                "name": "TestAbstractClass.constructor"
               }
             },
             {
@@ -876,8 +869,7 @@
               "overwrites": {
                 "type": "reference",
                 "id": 65,
-                "name": "TestAbstractClass.myAbstractProperty",
-                "qualifiedName": "TestAbstractClass.myAbstractProperty"
+                "name": "TestAbstractClass.myAbstractProperty"
               }
             },
             {
@@ -908,16 +900,14 @@
                   "overwrites": {
                     "type": "reference",
                     "id": 67,
-                    "name": "TestAbstractClass.myAbstractMethod",
-                    "qualifiedName": "TestAbstractClass.myAbstractMethod"
+                    "name": "TestAbstractClass.myAbstractMethod"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
                 "id": 66,
-                "name": "TestAbstractClass.myAbstractMethod",
-                "qualifiedName": "TestAbstractClass.myAbstractMethod"
+                "name": "TestAbstractClass.myAbstractMethod"
               }
             }
           ],
@@ -954,7 +944,6 @@
               "type": "reference",
               "id": 62,
               "name": "TestAbstractClass",
-              "qualifiedName": "TestAbstractClass",
               "package": "typedoc"
             }
           ]
@@ -1021,7 +1010,6 @@
                     "type": "reference",
                     "id": 22,
                     "name": "TestClass",
-                    "qualifiedName": "TestClass",
                     "package": "typedoc"
                   }
                 }
@@ -1113,7 +1101,6 @@
                 "type": "reference",
                 "id": 22,
                 "name": "TestClass",
-                "qualifiedName": "TestClass",
                 "package": "typedoc"
               }
             },
@@ -1358,8 +1345,7 @@
             {
               "type": "reference",
               "id": 38,
-              "name": "TestSubClass",
-              "qualifiedName": "TestSubClass"
+              "name": "TestSubClass"
             }
           ]
         },
@@ -1499,22 +1485,19 @@
                     "type": "reference",
                     "id": 38,
                     "name": "TestSubClass",
-                    "qualifiedName": "TestSubClass",
                     "package": "typedoc"
                   },
                   "overwrites": {
                     "type": "reference",
                     "id": 27,
-                    "name": "TestClass.constructor",
-                    "qualifiedName": "TestClass.constructor"
+                    "name": "TestClass.constructor"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
                 "id": 26,
-                "name": "TestClass.constructor",
-                "qualifiedName": "TestClass.constructor"
+                "name": "TestClass.constructor"
               }
             },
             {
@@ -1587,8 +1570,7 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 28,
-                "name": "TestClass.publicProperty",
-                "qualifiedName": "TestClass.publicProperty"
+                "name": "TestClass.publicProperty"
               }
             },
             {
@@ -1618,14 +1600,12 @@
                 "type": "reference",
                 "id": 22,
                 "name": "TestClass",
-                "qualifiedName": "TestClass",
                 "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
                 "id": 23,
-                "name": "TestClass.staticProperty",
-                "qualifiedName": "TestClass.staticProperty"
+                "name": "TestClass.staticProperty"
               }
             },
             {
@@ -1662,16 +1642,14 @@
                   "inheritedFrom": {
                     "type": "reference",
                     "id": 37,
-                    "name": "TestClass.arrowMethod",
-                    "qualifiedName": "TestClass.arrowMethod"
+                    "name": "TestClass.arrowMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 36,
-                "name": "TestClass.arrowMethod",
-                "qualifiedName": "TestClass.arrowMethod"
+                "name": "TestClass.arrowMethod"
               }
             },
             {
@@ -1744,16 +1722,14 @@
                   "overwrites": {
                     "type": "reference",
                     "id": 33,
-                    "name": "TestClass.protectedMethod",
-                    "qualifiedName": "TestClass.protectedMethod"
+                    "name": "TestClass.protectedMethod"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
                 "id": 32,
-                "name": "TestClass.protectedMethod",
-                "qualifiedName": "TestClass.protectedMethod"
+                "name": "TestClass.protectedMethod"
               }
             },
             {
@@ -1792,16 +1768,14 @@
                   "overwrites": {
                     "type": "reference",
                     "id": 31,
-                    "name": "TestClass.publicMethod",
-                    "qualifiedName": "TestClass.publicMethod"
+                    "name": "TestClass.publicMethod"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
                 "id": 30,
-                "name": "TestClass.publicMethod",
-                "qualifiedName": "TestClass.publicMethod"
+                "name": "TestClass.publicMethod"
               }
             },
             {
@@ -1840,16 +1814,14 @@
                   "inheritedFrom": {
                     "type": "reference",
                     "id": 25,
-                    "name": "TestClass.staticMethod",
-                    "qualifiedName": "TestClass.staticMethod"
+                    "name": "TestClass.staticMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 24,
-                "name": "TestClass.staticMethod",
-                "qualifiedName": "TestClass.staticMethod"
+                "name": "TestClass.staticMethod"
               }
             }
           ],
@@ -1905,7 +1877,6 @@
               "type": "reference",
               "id": 22,
               "name": "TestClass",
-              "qualifiedName": "TestClass",
               "package": "typedoc"
             }
           ]
@@ -1931,7 +1902,6 @@
                     "type": "reference",
                     "id": 81,
                     "name": "Ts38PrivateFields",
-                    "qualifiedName": "Ts38PrivateFields",
                     "package": "typedoc"
                   }
                 }
@@ -2030,7 +2000,6 @@
                     "type": "reference",
                     "id": 85,
                     "name": "Abstract",
-                    "qualifiedName": "Abstract",
                     "package": "typedoc"
                   }
                 }
@@ -2173,7 +2142,6 @@
                     "type": "reference",
                     "id": 94,
                     "name": "Vector2",
-                    "qualifiedName": "Vector2",
                     "package": "typedoc"
                   }
                 }
@@ -2268,8 +2236,7 @@
             {
               "type": "reference",
               "id": 103,
-              "name": "Vector3",
-              "qualifiedName": "Vector3"
+              "name": "Vector3"
             }
           ]
         },
@@ -2384,22 +2351,19 @@
                     "type": "reference",
                     "id": 103,
                     "name": "Vector3",
-                    "qualifiedName": "Vector3",
                     "package": "typedoc"
                   },
                   "overwrites": {
                     "type": "reference",
                     "id": 96,
-                    "name": "Vector2.constructor",
-                    "qualifiedName": "Vector2.constructor"
+                    "name": "Vector2.constructor"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
                 "id": 95,
-                "name": "Vector2.constructor",
-                "qualifiedName": "Vector2.constructor"
+                "name": "Vector2.constructor"
               }
             },
             {
@@ -2424,8 +2388,7 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 102,
-                "name": "Vector2.name",
-                "qualifiedName": "Vector2.name"
+                "name": "Vector2.name"
               }
             },
             {
@@ -2450,8 +2413,7 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 100,
-                "name": "Vector2.x",
-                "qualifiedName": "Vector2.x"
+                "name": "Vector2.x"
               }
             },
             {
@@ -2476,8 +2438,7 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 101,
-                "name": "Vector2.y",
-                "qualifiedName": "Vector2.y"
+                "name": "Vector2.y"
               }
             },
             {
@@ -2531,7 +2492,6 @@
               "type": "reference",
               "id": 94,
               "name": "Vector2",
-              "qualifiedName": "Vector2",
               "package": "typedoc"
             }
           ]
@@ -2590,7 +2550,6 @@
                     "type": "reference",
                     "id": 128,
                     "name": "DecoratedClass",
-                    "qualifiedName": "DecoratedClass",
                     "package": "typedoc"
                   }
                 }
@@ -2690,7 +2649,6 @@
                   "type": {
                     "type": "reference",
                     "name": "Object",
-                    "qualifiedName": "Object",
                     "package": "typescript"
                   }
                 },
@@ -2727,7 +2685,6 @@
                       }
                     ],
                     "name": "TypedPropertyDescriptor",
-                    "qualifiedName": "TypedPropertyDescriptor",
                     "package": "typescript"
                   }
                 }
@@ -2838,7 +2795,6 @@
               "type": {
                 "type": "reference",
                 "name": "ClassDecorator",
-                "qualifiedName": "ClassDecorator",
                 "package": "typescript"
               }
             }
@@ -2894,7 +2850,6 @@
               "type": {
                 "type": "reference",
                 "name": "MethodDecorator",
-                "qualifiedName": "MethodDecorator",
                 "package": "typescript"
               }
             }
@@ -2953,7 +2908,6 @@
                     "type": "reference",
                     "id": 161,
                     "name": "EventDispatcher",
-                    "qualifiedName": "EventDispatcher",
                     "package": "typedoc"
                   }
                 }
@@ -3576,8 +3530,8 @@
                         "type": "reference",
                         "id": 169,
                         "name": "T",
-                        "qualifiedName": "GenericClass.T",
-                        "package": "typedoc"
+                        "package": "typedoc",
+                        "qualifiedName": "GenericClass.T"
                       }
                     }
                   ],
@@ -3589,12 +3543,11 @@
                         "type": "reference",
                         "id": 169,
                         "name": "T",
-                        "qualifiedName": "GenericClass.T",
-                        "package": "typedoc"
+                        "package": "typedoc",
+                        "qualifiedName": "GenericClass.T"
                       }
                     ],
                     "name": "GenericClass",
-                    "qualifiedName": "GenericClass",
                     "package": "typedoc"
                   }
                 }
@@ -3627,8 +3580,8 @@
                 "type": "reference",
                 "id": 169,
                 "name": "T",
-                "qualifiedName": "GenericClass.T",
-                "package": "typedoc"
+                "package": "typedoc",
+                "qualifiedName": "GenericClass.T"
               }
             },
             {
@@ -3660,8 +3613,8 @@
                   "type": "reference",
                   "id": 169,
                   "name": "T",
-                  "qualifiedName": "GenericClass.T",
-                  "package": "typedoc"
+                  "package": "typedoc",
+                  "qualifiedName": "GenericClass.T"
                 }
               }
             },
@@ -3707,8 +3660,8 @@
                     "type": "reference",
                     "id": 169,
                     "name": "T",
-                    "qualifiedName": "GenericClass.T",
-                    "package": "typedoc"
+                    "package": "typedoc",
+                    "qualifiedName": "GenericClass.T"
                   }
                 }
               ]
@@ -3763,8 +3716,7 @@
             {
               "type": "reference",
               "id": 176,
-              "name": "NonGenericClass",
-              "qualifiedName": "NonGenericClass"
+              "name": "NonGenericClass"
             }
           ]
         },
@@ -3833,22 +3785,19 @@
                     "type": "reference",
                     "id": 176,
                     "name": "NonGenericClass",
-                    "qualifiedName": "NonGenericClass",
                     "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
                     "id": 168,
-                    "name": "GenericClass.constructor",
-                    "qualifiedName": "GenericClass.constructor"
+                    "name": "GenericClass.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 167,
-                "name": "GenericClass.constructor",
-                "qualifiedName": "GenericClass.constructor"
+                "name": "GenericClass.constructor"
               }
             },
             {
@@ -3881,8 +3830,7 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 171,
-                "name": "GenericClass.value",
-                "qualifiedName": "GenericClass.value"
+                "name": "GenericClass.value"
               }
             },
             {
@@ -3918,8 +3866,7 @@
               "inheritedFrom": {
                 "type": "reference",
                 "id": 172,
-                "name": "GenericClass.values",
-                "qualifiedName": "GenericClass.values"
+                "name": "GenericClass.values"
               }
             },
             {
@@ -3967,16 +3914,14 @@
                   "inheritedFrom": {
                     "type": "reference",
                     "id": 174,
-                    "name": "GenericClass.getValue",
-                    "qualifiedName": "GenericClass.getValue"
+                    "name": "GenericClass.getValue"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 173,
-                "name": "GenericClass.getValue",
-                "qualifiedName": "GenericClass.getValue"
+                "name": "GenericClass.getValue"
               }
             }
           ],
@@ -4020,7 +3965,6 @@
                 }
               ],
               "name": "GenericClass",
-              "qualifiedName": "GenericClass",
               "package": "typedoc"
             }
           ]
@@ -4071,7 +4015,6 @@
                     "type": "reference",
                     "id": 185,
                     "name": "GetterSetter",
-                    "qualifiedName": "GetterSetter",
                     "package": "typedoc"
                   }
                 }
@@ -4294,7 +4237,6 @@
                     "type": "reference",
                     "id": 199,
                     "name": "ChainClass",
-                    "qualifiedName": "ChainClass",
                     "package": "typedoc"
                   }
                 }
@@ -4333,7 +4275,6 @@
                     "type": "reference",
                     "id": 199,
                     "name": "ChainClass",
-                    "qualifiedName": "ChainClass",
                     "package": "typedoc"
                   }
                 }
@@ -4417,7 +4358,6 @@
                           "type": "reference",
                           "id": 205,
                           "name": "TestClass",
-                          "qualifiedName": "TestClass",
                           "package": "typedoc"
                         }
                       }
@@ -4431,12 +4371,11 @@
                         "type": "reference",
                         "id": 213,
                         "name": "T",
-                        "qualifiedName": "GenericClass.T",
-                        "package": "typedoc"
+                        "package": "typedoc",
+                        "qualifiedName": "GenericClass.T"
                       }
                     ],
                     "name": "GenericClass",
-                    "qualifiedName": "GenericClass",
                     "package": "typedoc"
                   }
                 }
@@ -4459,8 +4398,8 @@
                 "type": "reference",
                 "id": 213,
                 "name": "T",
-                "qualifiedName": "GenericClass.T",
-                "package": "typedoc"
+                "package": "typedoc",
+                "qualifiedName": "GenericClass.T"
               }
             }
           ],
@@ -4499,7 +4438,6 @@
                   "type": "reference",
                   "id": 205,
                   "name": "TestClass",
-                  "qualifiedName": "TestClass",
                   "package": "typedoc"
                 }
               }
@@ -4552,7 +4490,6 @@
                     "type": "reference",
                     "id": 205,
                     "name": "TestClass",
-                    "qualifiedName": "TestClass",
                     "package": "typedoc"
                   }
                 }

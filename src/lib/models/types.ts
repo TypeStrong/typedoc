@@ -894,14 +894,19 @@ export class ReferenceType extends Type {
     }
 
     override toObject(serializer: Serializer): JSONOutput.ReferenceType {
-        return {
+        const result: JSONOutput.ReferenceType = {
             type: this.type,
             id: this.reflection?.id,
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
-            qualifiedName: this.qualifiedName,
             package: this.package,
         };
+
+        if (this.name !== this.qualifiedName) {
+            result.qualifiedName = this.qualifiedName;
+        }
+
+        return result;
     }
 }
 

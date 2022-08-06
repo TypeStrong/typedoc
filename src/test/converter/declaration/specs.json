@@ -31,7 +31,6 @@
                     "type": "reference",
                     "id": 2,
                     "name": "Decl",
-                    "qualifiedName": "Decl",
                     "package": "typedoc"
                   }
                 }
@@ -150,7 +149,6 @@
                     "type": "reference",
                     "id": 8,
                     "name": "Exported",
-                    "qualifiedName": "Exported",
                     "package": "typedoc"
                   }
                 }
@@ -195,7 +193,6 @@
                     "type": "reference",
                     "id": 11,
                     "name": "NotExported",
-                    "qualifiedName": "NotExported",
                     "package": "typedoc"
                   }
                 }
@@ -262,7 +259,6 @@
           "type": {
             "type": "reference",
             "name": "ts.server.ActionSet",
-            "qualifiedName": "ts.server.ActionSet",
             "package": "typescript"
           }
         }

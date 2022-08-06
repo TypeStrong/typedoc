@@ -61,8 +61,8 @@
                 "type": "reference",
                 "id": 19,
                 "name": "T",
-                "qualifiedName": "InterfaceSource.T",
-                "package": "typedoc"
+                "package": "typedoc",
+                "qualifiedName": "InterfaceSource.T"
               }
             },
             {
@@ -108,8 +108,8 @@
                     "type": "reference",
                     "id": 19,
                     "name": "T",
-                    "qualifiedName": "InterfaceSource.T",
-                    "package": "typedoc"
+                    "package": "typedoc",
+                    "qualifiedName": "InterfaceSource.T"
                   }
                 }
               ]
@@ -193,8 +193,8 @@
                 "type": "reference",
                 "id": 25,
                 "name": "T",
-                "qualifiedName": "InterfaceTarget.T",
-                "package": "typedoc"
+                "package": "typedoc",
+                "qualifiedName": "InterfaceTarget.T"
               }
             },
             {
@@ -240,8 +240,8 @@
                     "type": "reference",
                     "id": 25,
                     "name": "T",
-                    "qualifiedName": "InterfaceTarget.T",
-                    "package": "typedoc"
+                    "package": "typedoc",
+                    "qualifiedName": "InterfaceTarget.T"
                   }
                 }
               ]
@@ -376,7 +376,6 @@
                     "type": "reference",
                     "id": 4,
                     "name": "T",
-                    "qualifiedName": "T",
                     "package": "typedoc"
                   }
                 },
@@ -397,7 +396,6 @@
                     "type": "reference",
                     "id": 4,
                     "name": "T",
-                    "qualifiedName": "T",
                     "package": "typedoc"
                   }
                 }
@@ -552,7 +550,6 @@
                     "type": "reference",
                     "id": 11,
                     "name": "T",
-                    "qualifiedName": "T",
                     "package": "typedoc"
                   }
                 },
@@ -573,7 +570,6 @@
                     "type": "reference",
                     "id": 11,
                     "name": "T",
-                    "qualifiedName": "T",
                     "package": "typedoc"
                   }
                 }
@@ -647,20 +643,17 @@
                     "type": "reference",
                     "id": 34,
                     "name": "MySubClass",
-                    "qualifiedName": "MySubClass",
                     "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "name": "My.constructor",
-                    "qualifiedName": "My.constructor"
+                    "name": "My.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "name": "My.constructor",
-                "qualifiedName": "My.constructor"
+                "name": "My.constructor"
               }
             },
             {
@@ -682,8 +675,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "My.instanceProp",
-                "qualifiedName": "My.instanceProp"
+                "name": "My.instanceProp"
               }
             },
             {
@@ -707,8 +699,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "My.staticProp",
-                "qualifiedName": "My.staticProp"
+                "name": "My.staticProp"
               }
             }
           ],
@@ -740,7 +731,6 @@
               "type": "reference",
               "id": 31,
               "name": "My",
-              "qualifiedName": "My",
               "package": "typedoc"
             }
           ]
@@ -822,7 +812,6 @@
                     "type": "reference",
                     "id": 31,
                     "name": "My",
-                    "qualifiedName": "My",
                     "package": "typedoc"
                   }
                 }
@@ -893,15 +882,13 @@
             "type": "reference",
             "id": 27,
             "name": "MyCtor",
-            "qualifiedName": "MyCtor",
             "package": "typedoc"
           },
           "extendedBy": [
             {
               "type": "reference",
               "id": 34,
-              "name": "MySubClass",
-              "qualifiedName": "MySubClass"
+              "name": "MySubClass"
             }
           ]
         }
