@@ -171,11 +171,10 @@ export class Converter extends ChildableComponent<
 
         this.compile(entryPoints, context);
         this.resolve(context);
-        // This should only do anything if a plugin does something bad.
-        project.removeDanglingReferences();
 
         this.trigger(Converter.EVENT_END, context);
 
+        project.forgetTsReferences();
         return project;
     }
 

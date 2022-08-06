@@ -72,22 +72,12 @@ export class ProjectReflection extends ContainerReflection {
     }
 
     /**
-     * When excludeNotExported is set, if a symbol is exported only under a different name
-     * there will be a reference which points to the symbol, but the symbol will not be converted
-     * and the rename will point to nothing. Warn the user if this happens.
+     * Disassociate this project with all TypeScript created objects, allowing the underlying
+     * `ts.Program` to be garbage collected. This is very important for monorepo projects where
+     * we need to create multiple programs. See #1606 and surrounding discussion.
      */
-    removeDanglingReferences() {
-        const dangling = new Set<ReferenceReflection>();
-        for (const ref of Object.values(this.reflections)) {
-            if (ref instanceof ReferenceReflection) {
-                if (!ref.tryGetTargetReflection()) {
-                    dangling.add(ref);
-                }
-            }
-        }
-        for (const refl of dangling) {
-            this.removeReflection(refl);
-        }
+    forgetTsReferences() {
+        this.reflectionIdToSymbolMap.clear();
     }
 
     /**
@@ -194,9 +184,15 @@ export class ProjectReflection extends ContainerReflection {
      * @internal
      */
     getReflectionFromSymbol(symbol: ts.Symbol) {
-        const id = this.symbolToReflectionIdMap.get(
-            new ReflectionSymbolId(symbol).toIdString()
-        );
+        return this.getReflectionFromSymbolId(new ReflectionSymbolId(symbol));
+    }
+
+    /**
+     * Gets the reflection associated with the given symbol id, if it exists.
+     * @internal
+     */
+    getReflectionFromSymbolId(symbolId: ReflectionSymbolId) {
+        const id = this.symbolToReflectionIdMap.get(symbolId.toIdString());
         if (typeof id === "number") {
             return this.getReflectionById(id);
         }
@@ -212,7 +208,10 @@ export class ProjectReflection extends ContainerReflection {
         this.reflectionIdToSymbolIdMap.set(reflection.id, id);
     }
 
-    /** @internal @deprecated */
+    /**
+     * THIS MAY NOT BE USED AFTER CONVERSION HAS FINISHED.
+     * @internal
+     */
     getSymbolFromReflection(reflection: Reflection) {
         return this.reflectionIdToSymbolMap.get(reflection.id);
     }

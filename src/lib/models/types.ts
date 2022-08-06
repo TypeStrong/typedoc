@@ -8,6 +8,7 @@ import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
 import type { Serializer, JSONOutput } from "../serialization";
 import { getQualifiedName } from "../utils/tsutils";
+import { ReflectionSymbolId } from "./reflections/id";
 
 /**
  * Base class of all type definitions.
@@ -779,7 +780,7 @@ export class ReferenceType extends Type {
         if (typeof this._target === "number") {
             return this._project?.getReflectionById(this._target);
         }
-        const resolved = this._project?.getReflectionFromSymbol(this._target);
+        const resolved = this._project?.getReflectionFromSymbolId(this._target);
         if (resolved) this._target = resolved.id;
         return resolved;
     }
@@ -815,12 +816,12 @@ export class ReferenceType extends Type {
     // TODO: Serialize sourceFileName... how?
     sourceFileName: string | undefined;
 
-    private _target: ts.Symbol | number;
+    private _target: ReflectionSymbolId | number;
     private _project: ProjectReflection | null;
 
     private constructor(
         name: string,
-        target: ts.Symbol | Reflection | number,
+        target: ReflectionSymbolId | Reflection | number,
         project: ProjectReflection | null,
         qualifiedName: string
     ) {
@@ -846,7 +847,7 @@ export class ReferenceType extends Type {
     ) {
         const ref = new ReferenceType(
             name ?? symbol.name,
-            symbol,
+            new ReflectionSymbolId(symbol),
             context.project,
             getQualifiedName(symbol, name ?? symbol.name)
         );
