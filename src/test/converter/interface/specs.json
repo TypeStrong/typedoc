@@ -659,10 +659,8 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "id": 84,
-                            "name": "T",
-                            "package": "typedoc",
-                            "qualifiedName": "Forms.EventDispatcher.T"
+                            "id": -1,
+                            "name": "T"
                           }
                         ],
                         "name": "EventDispatcher",
@@ -696,10 +694,8 @@
                       "typeArguments": [
                         {
                           "type": "reference",
-                          "id": 84,
-                          "name": "T",
-                          "package": "typedoc",
-                          "qualifiedName": "Forms.EventDispatcher.T"
+                          "id": -1,
+                          "name": "T"
                         }
                       ],
                       "name": "SubscriptionInt",
@@ -742,10 +738,8 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 84,
-                                "name": "T",
-                                "package": "typedoc",
-                                "qualifiedName": "Forms.EventDispatcher.T"
+                                "id": -1,
+                                "name": "T"
                               }
                             ],
                             "name": "EventListener",
@@ -784,10 +778,8 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "id": 84,
-                            "name": "T",
-                            "package": "typedoc",
-                            "qualifiedName": "Forms.EventDispatcher.T"
+                            "id": -1,
+                            "name": "T"
                           }
                         ],
                         "name": "SubscriptionInt",
@@ -875,10 +867,8 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": 84,
-                            "name": "T",
-                            "package": "typedoc",
-                            "qualifiedName": "Forms.EventDispatcher.T"
+                            "id": -1,
+                            "name": "T"
                           }
                         }
                       ],
@@ -971,10 +961,8 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 84,
-                                "name": "T",
-                                "package": "typedoc",
-                                "qualifiedName": "Forms.EventDispatcher.T"
+                                "id": -1,
+                                "name": "T"
                               }
                             ],
                             "name": "SubscriptionInt",
@@ -1049,10 +1037,8 @@
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "id": 84,
-                      "name": "T",
-                      "package": "typedoc",
-                      "qualifiedName": "Forms.EventDispatcher.T"
+                      "id": -1,
+                      "name": "T"
                     }
                   ],
                   "name": "EventDispatcherInt",
@@ -1119,10 +1105,8 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 52,
-                                "name": "V",
-                                "package": "typedoc",
-                                "qualifiedName": "Forms.Subscription.V"
+                                "id": -1,
+                                "name": "V"
                               }
                             ],
                             "name": "EventListener",
@@ -1164,10 +1148,8 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 52,
-                                "name": "V",
-                                "package": "typedoc",
-                                "qualifiedName": "Forms.Subscription.V"
+                                "id": -1,
+                                "name": "V"
                               }
                             ],
                             "name": "EventDispatcher",
@@ -1182,10 +1164,8 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "id": 52,
-                            "name": "V",
-                            "package": "typedoc",
-                            "qualifiedName": "Forms.Subscription.V"
+                            "id": -1,
+                            "name": "V"
                           }
                         ],
                         "name": "Subscription",
@@ -1217,10 +1197,8 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 52,
-                        "name": "V",
-                        "package": "typedoc",
-                        "qualifiedName": "Forms.Subscription.V"
+                        "id": -1,
+                        "name": "V"
                       }
                     ],
                     "name": "EventDispatcher",
@@ -1276,10 +1254,8 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 52,
-                        "name": "V",
-                        "package": "typedoc",
-                        "qualifiedName": "Forms.Subscription.V"
+                        "id": -1,
+                        "name": "V"
                       }
                     ],
                     "name": "EventListener",
@@ -1412,10 +1388,8 @@
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "id": 52,
-                      "name": "V",
-                      "package": "typedoc",
-                      "qualifiedName": "Forms.Subscription.V"
+                      "id": -1,
+                      "name": "V"
                     }
                   ],
                   "name": "SubscriptionInt",
@@ -1473,10 +1447,8 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 80,
-                                "name": "U",
-                                "package": "typedoc",
-                                "qualifiedName": "Forms.EventDispatcherInt.U"
+                                "id": -1,
+                                "name": "U"
                               }
                             ],
                             "name": "EventListener",
@@ -1517,10 +1489,8 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "id": 80,
-                            "name": "U",
-                            "package": "typedoc",
-                            "qualifiedName": "Forms.EventDispatcherInt.U"
+                            "id": -1,
+                            "name": "U"
                           }
                         ],
                         "name": "SubscriptionInt",
@@ -1588,10 +1558,8 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": 80,
-                            "name": "U",
-                            "package": "typedoc",
-                            "qualifiedName": "Forms.EventDispatcherInt.U"
+                            "id": -1,
+                            "name": "U"
                           }
                         }
                       ],
@@ -1664,10 +1632,8 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 80,
-                                "name": "U",
-                                "package": "typedoc",
-                                "qualifiedName": "Forms.EventDispatcherInt.U"
+                                "id": -1,
+                                "name": "U"
                               }
                             ],
                             "name": "SubscriptionInt",
@@ -1768,10 +1734,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 39,
-                        "name": "T",
-                        "package": "typedoc",
-                        "qualifiedName": "Forms.EventListener.T"
+                        "id": -1,
+                        "name": "T"
                       }
                     }
                   ],
@@ -1836,10 +1800,8 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 48,
-                        "name": "T",
-                        "package": "typedoc",
-                        "qualifiedName": "Forms.SubscriptionInt.T"
+                        "id": -1,
+                        "name": "T"
                       }
                     ],
                     "name": "EventListener",

@@ -13,6 +13,7 @@
 -   Removed internal `ReferenceType.getSymbol`, reference types no longer reference the `ts.Symbol` to enable generation from serialized JSON.
 -   `OptionsReader.priority` has been renamed to `OptionsReader.order` to more accurately reflect how it works.
 -   `id: -1` will not be included in the JSON output for reference types which are intentionally broken.
+-   `ReferenceType`s which point to type parameters will now always be intentionally broken since they were never linked and should not be warned about when validating exports.
 
 ### Features
 

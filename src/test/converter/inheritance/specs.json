@@ -63,10 +63,8 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 19,
-                "name": "T",
-                "package": "typedoc",
-                "qualifiedName": "InterfaceSource.T"
+                "id": -1,
+                "name": "T"
               }
             },
             {
@@ -113,10 +111,8 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 19,
-                    "name": "T",
-                    "package": "typedoc",
-                    "qualifiedName": "InterfaceSource.T"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ]
@@ -201,10 +197,8 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 25,
-                "name": "T",
-                "package": "typedoc",
-                "qualifiedName": "InterfaceTarget.T"
+                "id": -1,
+                "name": "T"
               }
             },
             {
@@ -251,10 +245,8 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 25,
-                    "name": "T",
-                    "package": "typedoc",
-                    "qualifiedName": "InterfaceTarget.T"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ]
@@ -392,9 +384,8 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 4,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 },
                 {
@@ -413,9 +404,8 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 4,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ],
@@ -573,9 +563,8 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 11,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 },
                 {
@@ -594,9 +583,8 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 11,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ],

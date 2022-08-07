@@ -507,9 +507,8 @@
                               "flags": {},
                               "type": {
                                 "type": "reference",
-                                "id": 101,
-                                "name": "T",
-                                "package": "typedoc"
+                                "id": -1,
+                                "name": "T"
                               }
                             }
                           ],
@@ -533,9 +532,8 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 101,
-                        "name": "T",
-                        "package": "typedoc"
+                        "id": -1,
+                        "name": "T"
                       }
                     ],
                     "name": "Iterable",
@@ -610,9 +608,8 @@
                               "flags": {},
                               "type": {
                                 "type": "reference",
-                                "id": 108,
-                                "name": "T",
-                                "package": "typedoc"
+                                "id": -1,
+                                "name": "T"
                               }
                             }
                           ],
@@ -661,9 +658,8 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 108,
-                                "name": "T",
-                                "package": "typedoc"
+                                "id": -1,
+                                "name": "T"
                               }
                             ],
                             "name": "Iterable",
@@ -740,9 +736,8 @@
                       },
                       {
                         "type": "reference",
-                        "id": 69,
-                        "name": "T",
-                        "package": "typedoc"
+                        "id": -1,
+                        "name": "T"
                       }
                     ]
                   }
@@ -754,9 +749,8 @@
                 "asserts": true,
                 "targetType": {
                   "type": "reference",
-                  "id": 69,
-                  "name": "T",
-                  "package": "typedoc"
+                  "id": -1,
+                  "name": "T"
                 }
               }
             }
@@ -1932,9 +1926,8 @@
                       },
                       {
                         "type": "reference",
-                        "id": 73,
-                        "name": "T",
-                        "package": "typedoc"
+                        "id": -1,
+                        "name": "T"
                       }
                     ]
                   }
@@ -1946,9 +1939,8 @@
                 "asserts": false,
                 "targetType": {
                   "type": "reference",
-                  "id": 73,
-                  "name": "T",
-                  "package": "typedoc"
+                  "id": -1,
+                  "name": "T"
                 }
               }
             }
@@ -2400,9 +2392,8 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 123,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 },
                 {
@@ -2423,9 +2414,8 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 123,
-                      "name": "T",
-                      "package": "typedoc"
+                      "id": -1,
+                      "name": "T"
                     }
                   }
                 }
@@ -2434,9 +2424,8 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "id": 123,
-                  "name": "T",
-                  "package": "typedoc"
+                  "id": -1,
+                  "name": "T"
                 }
               }
             }
@@ -2497,17 +2486,15 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 128,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
-                "id": 128,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             }
           ]
@@ -2591,17 +2578,15 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 119,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
-                "id": 119,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             }
           ]

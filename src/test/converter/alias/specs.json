@@ -40,9 +40,8 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
-          "id": 9,
-          "name": "T",
-          "package": "typedoc"
+          "id": -1,
+          "name": "T"
         },
         "extendsType": {
           "type": "intrinsic",
@@ -93,9 +92,8 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
-          "id": 11,
-          "name": "T",
-          "package": "typedoc"
+          "id": -1,
+          "name": "T"
         },
         "extendsType": {
           "type": "reference",
@@ -110,14 +108,13 @@
         },
         "trueType": {
           "type": "reference",
-          "name": "U",
-          "package": "typedoc"
+          "id": -1,
+          "name": "U"
         },
         "falseType": {
           "type": "reference",
-          "id": 11,
-          "name": "T",
-          "package": "typedoc"
+          "id": -1,
+          "name": "T"
         }
       }
     },
@@ -184,9 +181,8 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 6,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 },
                 {
@@ -197,9 +193,8 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 6,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ],

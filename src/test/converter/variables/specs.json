@@ -55,10 +55,8 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 5,
-                        "name": "T",
-                        "package": "typedoc",
-                        "qualifiedName": "Array.T"
+                        "id": -1,
+                        "name": "T"
                       }
                     ],
                     "name": "Array",

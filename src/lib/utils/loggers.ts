@@ -107,7 +107,7 @@ export class Logger {
 
     /** Log the given info message. */
     info(text: string) {
-        this.log(text, LogLevel.Info);
+        this.log(this.addContext(text, LogLevel.Info), LogLevel.Info);
     }
 
     /**

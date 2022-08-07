@@ -3697,10 +3697,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 169,
-                        "name": "T",
-                        "package": "typedoc",
-                        "qualifiedName": "GenericClass.T"
+                        "id": -1,
+                        "name": "T"
                       }
                     }
                   ],
@@ -3710,10 +3708,8 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 169,
-                        "name": "T",
-                        "package": "typedoc",
-                        "qualifiedName": "GenericClass.T"
+                        "id": -1,
+                        "name": "T"
                       }
                     ],
                     "name": "GenericClass",
@@ -3748,10 +3744,8 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 169,
-                "name": "T",
-                "package": "typedoc",
-                "qualifiedName": "GenericClass.T"
+                "id": -1,
+                "name": "T"
               }
             },
             {
@@ -3782,10 +3776,8 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "id": 169,
-                  "name": "T",
-                  "package": "typedoc",
-                  "qualifiedName": "GenericClass.T"
+                  "id": -1,
+                  "name": "T"
                 }
               }
             },
@@ -3831,10 +3823,8 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 169,
-                    "name": "T",
-                    "package": "typedoc",
-                    "qualifiedName": "GenericClass.T"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ]
@@ -4576,10 +4566,8 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 213,
-                        "name": "T",
-                        "package": "typedoc",
-                        "qualifiedName": "GenericClass.T"
+                        "id": -1,
+                        "name": "T"
                       }
                     ],
                     "name": "GenericClass",
@@ -4604,10 +4592,8 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 213,
-                "name": "T",
-                "package": "typedoc",
-                "qualifiedName": "GenericClass.T"
+                "id": -1,
+                "name": "T"
               }
             }
           ],

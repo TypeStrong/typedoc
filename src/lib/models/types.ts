@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import type * as ts from "typescript";
+import * as ts from "typescript";
 import type { Context } from "../converter";
 import type { Reflection } from "./reflections/abstract";
 import type { DeclarationReflection } from "./reflections/declaration";
@@ -845,6 +845,15 @@ export class ReferenceType extends Type {
         context: Context,
         name?: string
     ) {
+        // Type parameters should never have resolved references because they
+        // cannot be linked to, and might be declared within the type with conditional types.
+        if (symbol.flags & ts.SymbolFlags.TypeParameter) {
+            return ReferenceType.createBrokenReference(
+                name ?? symbol.name,
+                context.project
+            );
+        }
+
         const ref = new ReferenceType(
             name ?? symbol.name,
             new ReflectionSymbolId(symbol),

@@ -472,9 +472,8 @@
           ],
           "type": {
             "type": "reference",
-            "id": 41,
-            "name": "T",
-            "package": "typedoc"
+            "id": -1,
+            "name": "T"
           }
         },
         {
@@ -532,17 +531,15 @@
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 35,
-                        "name": "T",
-                        "package": "typedoc"
+                        "id": -1,
+                        "name": "T"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 35,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ]

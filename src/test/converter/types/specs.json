@@ -87,9 +87,8 @@
             "type": "conditional",
             "checkType": {
               "type": "reference",
-              "id": 12,
-              "name": "T",
-              "package": "typedoc"
+              "id": -1,
+              "name": "T"
             },
             "extendsType": {
               "type": "tuple",
@@ -116,8 +115,8 @@
             },
             "trueType": {
               "type": "reference",
-              "name": "S",
-              "package": "typedoc"
+              "id": -1,
+              "name": "S"
             },
             "falseType": {
               "type": "intrinsic",
@@ -520,9 +519,8 @@
                   "operator": "keyof",
                   "target": {
                     "type": "reference",
-                    "id": 35,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 },
                 {
@@ -535,14 +533,13 @@
               "type": "indexedAccess",
               "indexType": {
                 "type": "reference",
-                "name": "K",
-                "package": "typedoc"
+                "id": -1,
+                "name": "K"
               },
               "objectType": {
                 "type": "reference",
-                "id": 35,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             },
             "nameType": {
@@ -552,16 +549,16 @@
                 [
                   {
                     "type": "reference",
-                    "name": "K",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "K"
                   },
                   ""
                 ],
                 [
                   {
                     "type": "reference",
-                    "name": "K",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "K"
                   },
                   ""
                 ]
@@ -600,23 +597,21 @@
               "operator": "keyof",
               "target": {
                 "type": "reference",
-                "id": 33,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             },
             "templateType": {
               "type": "indexedAccess",
               "indexType": {
                 "type": "reference",
-                "name": "K",
-                "package": "typedoc"
+                "id": -1,
+                "name": "K"
               },
               "objectType": {
                 "type": "reference",
-                "id": 33,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             }
           }
@@ -660,9 +655,8 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 30,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ],
@@ -677,14 +671,13 @@
                   "type": "indexedAccess",
                   "indexType": {
                     "type": "reference",
-                    "name": "K",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "K"
                   },
                   "objectType": {
                     "type": "reference",
-                    "id": 30,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 },
                 "nameType": {
@@ -694,16 +687,16 @@
                     [
                       {
                         "type": "reference",
-                        "name": "K",
-                        "package": "typedoc"
+                        "id": -1,
+                        "name": "K"
                       },
                       ""
                     ],
                     [
                       {
                         "type": "reference",
-                        "name": "K",
-                        "package": "typedoc"
+                        "id": -1,
+                        "name": "K"
                       },
                       ""
                     ]
@@ -752,9 +745,8 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 26,
-                    "name": "T",
-                    "package": "typedoc"
+                    "id": -1,
+                    "name": "T"
                   }
                 }
               ],

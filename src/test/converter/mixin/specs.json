@@ -1171,9 +1171,8 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 10,
-                "name": "A",
-                "package": "typedoc"
+                "id": -1,
+                "name": "A"
               }
             }
           ]
@@ -1258,9 +1257,8 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 5,
-                "name": "A",
-                "package": "typedoc"
+                "id": -1,
+                "name": "A"
               }
             }
           ]
@@ -1312,9 +1310,8 @@
             "typeArguments": [
               {
                 "type": "reference",
-                "id": 12,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             ],
             "name": "ReturnType",
@@ -1444,9 +1441,8 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 21,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             }
           ],
@@ -1502,9 +1498,8 @@
               },
               {
                 "type": "reference",
-                "id": 21,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             ]
           }
@@ -1583,9 +1578,8 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 35,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             }
           ],
@@ -1641,9 +1635,8 @@
               },
               {
                 "type": "reference",
-                "id": 35,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             ]
           }
@@ -1715,9 +1708,8 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 53,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             }
           ],
@@ -1773,9 +1765,8 @@
               },
               {
                 "type": "reference",
-                "id": 53,
-                "name": "T",
-                "package": "typedoc"
+                "id": -1,
+                "name": "T"
               }
             ]
           }
