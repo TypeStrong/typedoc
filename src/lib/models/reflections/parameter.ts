@@ -5,6 +5,8 @@ import type { SignatureReflection } from "./signature";
 import type { Serializer, JSONOutput } from "../../serialization";
 
 export class ParameterReflection extends Reflection {
+    readonly variant = "param";
+
     override parent?: SignatureReflection;
 
     defaultValue?: string;
@@ -44,6 +46,7 @@ export class ParameterReflection extends Reflection {
     override toObject(serializer: Serializer): JSONOutput.ParameterReflection {
         return {
             ...super.toObject(serializer),
+            variant: this.variant,
             type: serializer.toObject(this.type),
             defaultValue: this.defaultValue,
         };

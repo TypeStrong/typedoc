@@ -1,30 +1,35 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "declaration",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "Decl",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 3,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 4,
                   "name": "new Decl",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -39,6 +44,7 @@
             {
               "id": 5,
               "name": "prop",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -81,6 +87,7 @@
         {
           "id": 6,
           "name": "x",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -125,24 +132,28 @@
     {
       "id": 7,
       "name": "export-declaration",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 8,
           "name": "Exported",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 9,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 10,
                   "name": "new Exported",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -175,18 +186,21 @@
         {
           "id": 11,
           "name": "NotExported",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 12,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 13,
                   "name": "new NotExported",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -238,12 +252,14 @@
     {
       "id": 14,
       "name": "external",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 15,
           "name": "ActionSet",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true

@@ -1,11 +1,12 @@
 import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
-import type { ReflectionCategory } from "../ReflectionCategory";
-import type { ReflectionGroup } from "../ReflectionGroup";
-import type { DeclarationReflection } from "./declaration";
+import { ReflectionCategory } from "../ReflectionCategory";
+import { ReflectionGroup } from "../ReflectionGroup";
 import type { ReflectionKind } from "./kind";
-import type { Serializer, JSONOutput } from "../../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
+import type { DeclarationReflection } from "./declaration";
+import { SourceReference } from "../sources/file";
 
-export class ContainerReflection extends Reflection {
+export abstract class ContainerReflection extends Reflection {
     /**
      * The children of this reflection.
      */
@@ -61,5 +62,24 @@ export class ContainerReflection extends Reflection {
             categories: serializer.toObjectsOptional(this.categories),
             sources: serializer.toObjectsOptional(this.sources),
         };
+    }
+
+    override fromObject(de: Deserializer, obj: JSONOutput.ContainerReflection) {
+        super.fromObject(de, obj);
+        this.children = de.reviveMany(obj.children, (child) =>
+            de.constructReflection(child)
+        );
+        this.groups = de.reviveMany(
+            obj.groups,
+            (group) => new ReflectionGroup(group.title)
+        );
+        this.categories = de.reviveMany(
+            obj.categories,
+            (cat) => new ReflectionCategory(cat.title)
+        );
+        this.sources = de.reviveMany(
+            obj.sources,
+            (src) => new SourceReference(src.fileName, src.line, src.character)
+        );
     }
 }

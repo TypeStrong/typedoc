@@ -1,24 +1,28 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "function",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 80,
           "name": "merged",
+          "variant": "declaration",
           "kind": 4,
           "flags": {},
           "children": [
             {
               "id": 81,
               "name": "nsFn",
+              "variant": "declaration",
               "kind": 64,
               "flags": {},
               "sources": [
@@ -33,6 +37,7 @@
                 {
                   "id": 82,
                   "name": "nsFn",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "type": {
@@ -69,6 +74,7 @@
         {
           "id": 55,
           "name": "moduleFunction",
+          "variant": "declaration",
           "kind": 4,
           "flags": {},
           "comment": {
@@ -83,6 +89,7 @@
             {
               "id": 60,
               "name": "functionVariable",
+              "variant": "declaration",
               "kind": 32,
               "flags": {},
               "comment": {
@@ -109,6 +116,7 @@
             {
               "id": 56,
               "name": "append",
+              "variant": "declaration",
               "kind": 64,
               "flags": {},
               "sources": [
@@ -123,6 +131,7 @@
                 {
                   "id": 57,
                   "name": "append",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -143,6 +152,7 @@
             {
               "id": 58,
               "name": "prepend",
+              "variant": "declaration",
               "kind": 64,
               "flags": {},
               "sources": [
@@ -157,6 +167,7 @@
                 {
                   "id": 59,
                   "name": "prepend",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -208,18 +219,21 @@
         {
           "id": 86,
           "name": "Predicates",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 93,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 94,
                   "name": "new Predicates",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -234,6 +248,7 @@
             {
               "id": 97,
               "name": "assertString",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -248,6 +263,7 @@
                 {
                   "id": 98,
                   "name": "assertString",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "type": {
@@ -265,6 +281,7 @@
             {
               "id": 95,
               "name": "isString",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -279,6 +296,7 @@
                 {
                   "id": 96,
                   "name": "isString",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "type": {
@@ -296,6 +314,7 @@
             {
               "id": 90,
               "name": "assert",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isStatic": true
@@ -312,12 +331,14 @@
                 {
                   "id": 91,
                   "name": "assert",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 92,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -337,6 +358,7 @@
             {
               "id": 87,
               "name": "isString",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isStatic": true
@@ -353,12 +375,14 @@
                 {
                   "id": 88,
                   "name": "isString",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 89,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -409,6 +433,7 @@
         {
           "id": 99,
           "name": "all",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -423,6 +448,7 @@
             {
               "id": 100,
               "name": "all",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -437,6 +463,7 @@
                 {
                   "id": 101,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -445,6 +472,7 @@
                 {
                   "id": 102,
                   "name": "fn",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -452,6 +480,7 @@
                     "declaration": {
                       "id": 103,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "sources": [
@@ -466,12 +495,14 @@
                         {
                           "id": 104,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
                           "flags": {},
                           "parameters": [
                             {
                               "id": 105,
                               "name": "item",
+                              "variant": "param",
                               "kind": 32768,
                               "flags": {},
                               "type": {
@@ -494,6 +525,7 @@
                 {
                   "id": 106,
                   "name": "iterator",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -519,6 +551,7 @@
             {
               "id": 107,
               "name": "all",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -533,6 +566,7 @@
                 {
                   "id": 108,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -541,6 +575,7 @@
                 {
                   "id": 109,
                   "name": "fn",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -548,6 +583,7 @@
                     "declaration": {
                       "id": 110,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "sources": [
@@ -562,12 +598,14 @@
                         {
                           "id": 111,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
                           "flags": {},
                           "parameters": [
                             {
                               "id": 112,
                               "name": "item",
+                              "variant": "param",
                               "kind": 32768,
                               "flags": {},
                               "type": {
@@ -593,6 +631,7 @@
                 "declaration": {
                   "id": 113,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "sources": [
@@ -607,12 +646,14 @@
                     {
                       "id": 114,
                       "name": "__type",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "parameters": [
                         {
                           "id": 115,
                           "name": "iterator",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -644,6 +685,7 @@
         {
           "id": 67,
           "name": "assertIsNonNull",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -658,6 +700,7 @@
             {
               "id": 68,
               "name": "assertIsNonNull",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -672,6 +715,7 @@
                 {
                   "id": 69,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -680,6 +724,7 @@
                 {
                   "id": 70,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -720,6 +765,7 @@
         {
           "id": 61,
           "name": "assertionFunction",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -734,6 +780,7 @@
             {
               "id": 62,
               "name": "assertionFunction",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -748,6 +795,7 @@
                 {
                   "id": 63,
                   "name": "condition",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -775,6 +823,7 @@
         {
           "id": 75,
           "name": "boolOrUndef",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -789,12 +838,14 @@
             {
               "id": 76,
               "name": "boolOrUndef",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 77,
                   "name": "x",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -822,6 +873,7 @@
         {
           "id": 64,
           "name": "checkerFunction",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -836,6 +888,7 @@
             {
               "id": 65,
               "name": "checkerFunction",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -850,6 +903,7 @@
                 {
                   "id": 66,
                   "name": "anything",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -873,6 +927,7 @@
         {
           "id": 2,
           "name": "exportedFunction",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -887,6 +942,7 @@
             {
               "id": 3,
               "name": "exportedFunction",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -907,6 +963,7 @@
         {
           "id": 23,
           "name": "functionWithADestructuredParameter",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -921,6 +978,7 @@
             {
               "id": 24,
               "name": "functionWithADestructuredParameter",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -946,6 +1004,7 @@
                 {
                   "id": 25,
                   "name": "destructuredParam",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -961,12 +1020,14 @@
                     "declaration": {
                       "id": 26,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
                           "id": 29,
                           "name": "paramA",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "comment": {
@@ -998,6 +1059,7 @@
                         {
                           "id": 28,
                           "name": "paramG",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "comment": {
@@ -1024,6 +1086,7 @@
                         {
                           "id": 27,
                           "name": "paramZ",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "comment": {
@@ -1080,6 +1143,7 @@
         {
           "id": 38,
           "name": "functionWithADestructuredParameterAndAnExtraParamDirective",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1094,6 +1158,7 @@
             {
               "id": 39,
               "name": "functionWithADestructuredParameterAndAnExtraParamDirective",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1135,6 +1200,7 @@
                 {
                   "id": 40,
                   "name": "__namedParameters",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -1142,12 +1208,14 @@
                     "declaration": {
                       "id": 41,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
                           "id": 44,
                           "name": "paramA",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1167,6 +1235,7 @@
                         {
                           "id": 43,
                           "name": "paramG",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1185,6 +1254,7 @@
                         {
                           "id": 42,
                           "name": "paramZ",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1233,6 +1303,7 @@
         {
           "id": 30,
           "name": "functionWithADestructuredParameterAndExtraParameters",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1247,6 +1318,7 @@
             {
               "id": 31,
               "name": "functionWithADestructuredParameterAndExtraParameters",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1280,6 +1352,7 @@
                 {
                   "id": 32,
                   "name": "__namedParameters",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -1287,12 +1360,14 @@
                     "declaration": {
                       "id": 33,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
                           "id": 36,
                           "name": "paramA",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1312,6 +1387,7 @@
                         {
                           "id": 35,
                           "name": "paramG",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1330,6 +1406,7 @@
                         {
                           "id": 34,
                           "name": "paramZ",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1370,6 +1447,7 @@
                 {
                   "id": 37,
                   "name": "extraParameter",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -1388,6 +1466,7 @@
         {
           "id": 13,
           "name": "functionWithDefaults",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1402,6 +1481,7 @@
             {
               "id": 14,
               "name": "functionWithDefaults",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1427,6 +1507,7 @@
                 {
                   "id": 15,
                   "name": "valueA",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1446,6 +1527,7 @@
                 {
                   "id": 16,
                   "name": "valueB",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1465,6 +1547,7 @@
                 {
                   "id": 17,
                   "name": "valueC",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1484,6 +1567,7 @@
                 {
                   "id": 18,
                   "name": "valueD",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1503,6 +1587,7 @@
                 {
                   "id": 19,
                   "name": "valueE",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1530,6 +1615,7 @@
         {
           "id": 9,
           "name": "functionWithOptionalValue",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1544,6 +1630,7 @@
             {
               "id": 10,
               "name": "functionWithOptionalValue",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1558,6 +1645,7 @@
                 {
                   "id": 11,
                   "name": "requiredParam",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1576,6 +1664,7 @@
                 {
                   "id": 12,
                   "name": "optionalParam",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {
                     "isOptional": true
@@ -1604,6 +1693,7 @@
         {
           "id": 4,
           "name": "functionWithParameters",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1618,6 +1708,7 @@
             {
               "id": 5,
               "name": "functionWithParameters",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1643,6 +1734,7 @@
                 {
                   "id": 6,
                   "name": "paramZ",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1661,6 +1753,7 @@
                 {
                   "id": 7,
                   "name": "paramG",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1679,6 +1772,7 @@
                 {
                   "id": 8,
                   "name": "paramA",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1710,6 +1804,7 @@
         {
           "id": 20,
           "name": "functionWithRest",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1724,6 +1819,7 @@
             {
               "id": 21,
               "name": "functionWithRest",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1749,6 +1845,7 @@
                 {
                   "id": 22,
                   "name": "rest",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {
                     "isRest": true
@@ -1780,6 +1877,7 @@
         {
           "id": 71,
           "name": "isNonNull",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1794,6 +1892,7 @@
             {
               "id": 72,
               "name": "isNonNull",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1808,6 +1907,7 @@
                 {
                   "id": 73,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -1816,6 +1916,7 @@
                 {
                   "id": 74,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -1856,6 +1957,7 @@
         {
           "id": 78,
           "name": "merged",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1876,6 +1978,7 @@
             {
               "id": 79,
               "name": "merged",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "type": {
@@ -1888,6 +1991,7 @@
         {
           "id": 52,
           "name": "moduleFunction",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1908,6 +2012,7 @@
             {
               "id": 53,
               "name": "moduleFunction",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1922,6 +2027,7 @@
                 {
                   "id": 54,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -1948,6 +2054,7 @@
         {
           "id": 45,
           "name": "multipleSignatures",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -1974,6 +2081,7 @@
             {
               "id": 46,
               "name": "multipleSignatures",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1988,6 +2096,7 @@
                 {
                   "id": 47,
                   "name": "value",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -2012,6 +2121,7 @@
             {
               "id": 48,
               "name": "multipleSignatures",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -2026,6 +2136,7 @@
                 {
                   "id": 49,
                   "name": "value",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -2041,12 +2152,14 @@
                     "declaration": {
                       "id": 50,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
                           "id": 51,
                           "name": "name",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "comment": {
@@ -2101,6 +2214,7 @@
         {
           "id": 83,
           "name": "variableFunction",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -2115,6 +2229,7 @@
             {
               "id": 84,
               "name": "variableFunction",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -2140,6 +2255,7 @@
                 {
                   "id": 85,
                   "name": "someParam",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -2214,12 +2330,14 @@
     {
       "id": 116,
       "name": "generic-function",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 121,
           "name": "functionWithGenericArrayParameter",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -2234,6 +2352,7 @@
             {
               "id": 122,
               "name": "functionWithGenericArrayParameter",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -2259,6 +2378,7 @@
                 {
                   "id": 123,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -2267,6 +2387,7 @@
                 {
                   "id": 124,
                   "name": "param",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -2287,6 +2408,7 @@
                 {
                   "id": 125,
                   "name": "params",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -2323,6 +2445,7 @@
         {
           "id": 126,
           "name": "functionWithTemplate",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -2337,12 +2460,14 @@
             {
               "id": 127,
               "name": "functionWithTemplate",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "typeParameter": [
                 {
                   "id": 128,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {},
                   "comment": {
@@ -2359,6 +2484,7 @@
                 {
                   "id": 129,
                   "name": "param",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -2389,6 +2515,7 @@
         {
           "id": 117,
           "name": "genericFunction",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -2403,6 +2530,7 @@
             {
               "id": 118,
               "name": "genericFunction",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -2428,6 +2556,7 @@
                 {
                   "id": 119,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {},
                   "comment": {
@@ -2449,6 +2578,7 @@
                 {
                   "id": 120,
                   "name": "value",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -2499,18 +2629,21 @@
     {
       "id": 130,
       "name": "implicit-types",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 139,
           "name": "BreakpointRange",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
               "id": 141,
               "name": "end",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2529,6 +2662,7 @@
             {
               "id": 140,
               "name": "start",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2566,6 +2700,7 @@
         {
           "id": 131,
           "name": "getBreakpoints",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -2580,6 +2715,7 @@
             {
               "id": 132,
               "name": "getBreakpoints",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "type": {
@@ -2587,12 +2723,14 @@
                 "declaration": {
                   "id": 133,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "children": [
                     {
                       "id": 136,
                       "name": "large",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "sources": [
@@ -2613,6 +2751,7 @@
                     {
                       "id": 135,
                       "name": "medium",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "sources": [
@@ -2633,6 +2772,7 @@
                     {
                       "id": 134,
                       "name": "small",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "sources": [
@@ -2653,6 +2793,7 @@
                     {
                       "id": 137,
                       "name": "xlarge",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "sources": [
@@ -2673,6 +2814,7 @@
                     {
                       "id": 138,
                       "name": "xxlarge",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "sources": [

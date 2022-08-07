@@ -1,18 +1,21 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "export-eq-type",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 5,
           "name": "Foo",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -31,6 +34,7 @@
         {
           "id": 2,
           "name": "export=",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -45,12 +49,14 @@
             {
               "id": 3,
               "name": "export=",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 4,
                   "name": "x",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -93,12 +99,14 @@
     {
       "id": 6,
       "name": "index",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 10,
           "name": "ColumnType",
+          "variant": "declaration",
           "kind": 8,
           "flags": {},
           "comment": {
@@ -113,6 +121,7 @@
             {
               "id": 12,
               "name": "NUMBER",
+              "variant": "declaration",
               "kind": 16,
               "flags": {},
               "sources": [
@@ -131,6 +140,7 @@
             {
               "id": 11,
               "name": "STRING",
+              "variant": "declaration",
               "kind": 16,
               "flags": {},
               "sources": [
@@ -174,6 +184,7 @@
         {
           "id": 15,
           "name": "AlsoInterfaceIsh",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "comment": {
@@ -188,6 +199,7 @@
             {
               "id": 17,
               "name": "bar",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -214,6 +226,7 @@
             {
               "id": 16,
               "name": "foo",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -259,12 +272,14 @@
         {
           "id": 13,
           "name": "InterfaceIsh",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
               "id": 14,
               "name": "foo",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -309,6 +324,7 @@
         {
           "id": 42,
           "name": "Foo",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -324,6 +340,7 @@
             "declaration": {
               "id": 43,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "sources": [
@@ -338,12 +355,14 @@
                 {
                   "id": 44,
                   "name": "__type",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 45,
                       "name": "args",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {
                         "isRest": true
@@ -369,6 +388,7 @@
         {
           "id": 28,
           "name": "HasReturnTag",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -384,6 +404,7 @@
             "declaration": {
               "id": 29,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "sources": [
@@ -398,6 +419,7 @@
                 {
                   "id": 30,
                   "name": "__type",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "type": {
@@ -412,6 +434,7 @@
         {
           "id": 40,
           "name": "Identity",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "comment": {
@@ -434,6 +457,7 @@
             {
               "id": 41,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {},
               "comment": {
@@ -456,6 +480,7 @@
         {
           "id": 31,
           "name": "IdentityFn",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -470,6 +495,7 @@
             {
               "id": 35,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {}
             }
@@ -479,6 +505,7 @@
             "declaration": {
               "id": 32,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "sources": [
@@ -493,12 +520,14 @@
                 {
                   "id": 33,
                   "name": "__type",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 34,
                       "name": "data",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -523,6 +552,7 @@
         {
           "id": 20,
           "name": "IntersectionType",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "comment": {
@@ -549,12 +579,14 @@
                 "declaration": {
                   "id": 21,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "children": [
                     {
                       "id": 22,
                       "name": "x",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "sources": [
@@ -594,12 +626,14 @@
                 "declaration": {
                   "id": 23,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "children": [
                     {
                       "id": 24,
                       "name": "y",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "sources": [
@@ -640,6 +674,7 @@
         {
           "id": 25,
           "name": "NoReturnTag",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -655,6 +690,7 @@
             "declaration": {
               "id": 26,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "sources": [
@@ -669,6 +705,7 @@
                 {
                   "id": 27,
                   "name": "__type",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -691,6 +728,7 @@
         {
           "id": 18,
           "name": "ObjectAlias",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "comment": {
@@ -718,6 +756,7 @@
         {
           "id": 36,
           "name": "OptionalArg",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -733,6 +772,7 @@
             "declaration": {
               "id": 37,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "sources": [
@@ -747,12 +787,14 @@
                 {
                   "id": 38,
                   "name": "__type",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 39,
                       "name": "data",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {
                         "isOptional": true
@@ -783,6 +825,7 @@
         {
           "id": 19,
           "name": "UnionType",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "comment": {
@@ -818,6 +861,7 @@
         {
           "id": 7,
           "name": "usedFoo",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -832,12 +876,14 @@
             {
               "id": 8,
               "name": "usedFoo",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 9,
                   "name": "args",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {
                     "isRest": true

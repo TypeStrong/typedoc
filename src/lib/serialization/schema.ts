@@ -42,9 +42,9 @@ type _ModelToObject<T> =
     // Reflections
     T extends Primitive
         ? T
-        : T extends M.ReflectionGroup
+        : Required<T> extends Required<M.ReflectionGroup>
         ? ReflectionGroup
-        : T extends M.ReflectionCategory
+        : Required<T> extends Required<M.ReflectionCategory>
         ? ReflectionCategory
         : T extends M.SignatureReflection
         ? SignatureReflection
@@ -97,8 +97,6 @@ type S<T, K extends keyof T> = {
     -readonly [K2 in K]: ToSerialized<T[K2]>;
 };
 
-// Reflections
-
 export interface ReflectionGroup
     extends S<M.ReflectionGroup, "title" | "categories"> {
     children?: M.ReflectionGroup["children"][number]["id"][];
@@ -108,9 +106,15 @@ export interface ReflectionCategory extends S<M.ReflectionCategory, "title"> {
     children?: M.ReflectionCategory["children"][number]["id"][];
 }
 
+// Reflections
+
+export type SomeReflection = {
+    [K in keyof M.ReflectionVariant]: ModelToObject<M.ReflectionVariant[K]>;
+}[keyof M.ReflectionVariant];
+
 export interface ReferenceReflection
-    extends DeclarationReflection,
-        S<M.ReferenceReflection, never> {
+    extends Omit<DeclarationReflection, "variant">,
+        S<M.ReferenceReflection, "variant"> {
     /**
      * -1 if the reference refers to a symbol that does not exist in the documentation.
      * Otherwise, the reflection ID.
@@ -119,9 +123,10 @@ export interface ReferenceReflection
 }
 
 export interface SignatureReflection
-    extends Reflection,
+    extends Omit<Reflection, "variant">,
         S<
             M.SignatureReflection,
+            | "variant"
             | "parameters"
             | "type"
             | "overwrites"
@@ -133,13 +138,16 @@ export interface SignatureReflection
 }
 
 export interface ParameterReflection
-    extends Reflection,
-        S<M.ParameterReflection, "type" | "defaultValue"> {}
+    extends Omit<Reflection, "variant">,
+        S<M.ParameterReflection, "variant" | "type" | "defaultValue"> {
+    variant: "param";
+}
 
 export interface DeclarationReflection
-    extends ContainerReflection,
+    extends Omit<ContainerReflection, "variant">,
         S<
             M.DeclarationReflection,
+            | "variant"
             | "type"
             | "signatures"
             | "indexSignature"
@@ -157,11 +165,15 @@ export interface DeclarationReflection
         > {}
 
 export interface TypeParameterReflection
-    extends Reflection,
-        S<M.TypeParameterReflection, "type" | "default" | "varianceModifier"> {}
+    extends Omit<Reflection, "variant">,
+        S<
+            M.TypeParameterReflection,
+            "variant" | "type" | "default" | "varianceModifier"
+        > {}
 
-// Nothing extra yet.
-export interface ProjectReflection extends ContainerReflection {}
+export interface ProjectReflection
+    extends Omit<ContainerReflection, "variant">,
+        S<M.ProjectReflection, "variant"> {}
 
 export interface ContainerReflection
     extends Reflection,
@@ -171,7 +183,7 @@ export interface ContainerReflection
         > {}
 
 export interface Reflection
-    extends S<M.Reflection, "id" | "name" | "kind" | "comment"> {
+    extends S<M.Reflection, "id" | "variant" | "name" | "kind" | "comment"> {
     flags: ReflectionFlags;
 }
 
@@ -246,9 +258,9 @@ export interface ReferenceType
     qualifiedName?: string;
 }
 
-export interface ReflectionType extends Type, S<M.ReflectionType, "type"> {
-    declaration?: ModelToObject<M.ReflectionType["declaration"]>;
-}
+export interface ReflectionType
+    extends Type,
+        S<M.ReflectionType, "type" | "declaration"> {}
 
 export interface RestType extends Type, S<M.RestType, "type" | "elementType"> {}
 

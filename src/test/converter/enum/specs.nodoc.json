@@ -1,12 +1,14 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 9,
       "name": "ModuleEnum",
+      "variant": "declaration",
       "kind": 4,
       "flags": {},
       "comment": {
@@ -21,6 +23,7 @@
         {
           "id": 12,
           "name": "enumValue",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "comment": {
@@ -47,6 +50,7 @@
         {
           "id": 10,
           "name": "enumFunction",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -61,6 +65,7 @@
             {
               "id": 11,
               "name": "enumFunction",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -111,6 +116,7 @@
     {
       "id": 13,
       "name": "ConstEnum",
+      "variant": "declaration",
       "kind": 8,
       "flags": {
         "isConst": true
@@ -127,6 +133,7 @@
         {
           "id": 14,
           "name": "a",
+          "variant": "declaration",
           "kind": 16,
           "flags": {},
           "sources": [
@@ -145,6 +152,7 @@
         {
           "id": 15,
           "name": "b",
+          "variant": "declaration",
           "kind": 16,
           "flags": {},
           "sources": [
@@ -182,6 +190,7 @@
     {
       "id": 5,
       "name": "ModuleEnum",
+      "variant": "declaration",
       "kind": 8,
       "flags": {},
       "comment": {
@@ -196,6 +205,7 @@
         {
           "id": 6,
           "name": "EnumValue1",
+          "variant": "declaration",
           "kind": 16,
           "flags": {},
           "comment": {
@@ -222,6 +232,7 @@
         {
           "id": 7,
           "name": "EnumValue2",
+          "variant": "declaration",
           "kind": 16,
           "flags": {},
           "comment": {
@@ -248,6 +259,7 @@
         {
           "id": 8,
           "name": "EnumValue3",
+          "variant": "declaration",
           "kind": 16,
           "flags": {},
           "comment": {
@@ -300,6 +312,7 @@
     {
       "id": 1,
       "name": "SimpleEnum",
+      "variant": "declaration",
       "kind": 8,
       "flags": {},
       "comment": {
@@ -314,6 +327,7 @@
         {
           "id": 2,
           "name": "EnumValue1",
+          "variant": "declaration",
           "kind": 16,
           "flags": {},
           "comment": {
@@ -340,6 +354,7 @@
         {
           "id": 3,
           "name": "EnumValue2",
+          "variant": "declaration",
           "kind": 16,
           "flags": {},
           "comment": {
@@ -366,6 +381,7 @@
         {
           "id": 4,
           "name": "EnumValue3",
+          "variant": "declaration",
           "kind": 16,
           "flags": {},
           "comment": {

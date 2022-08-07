@@ -15,3 +15,4 @@ export { ReferenceReflection } from "./reference";
 export { SignatureReflection } from "./signature";
 export { TypeParameterReflection, VarianceModifier } from "./type-parameter";
 export { splitUnquotedString } from "./utils";
+export type { ReflectionVariant } from "./variant";

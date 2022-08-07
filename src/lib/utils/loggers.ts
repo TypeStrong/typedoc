@@ -102,7 +102,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given message.
      */
     verbose(text: string) {
-        this.log(text, LogLevel.Verbose);
+        this.log(this.addContext(text, LogLevel.Verbose), LogLevel.Verbose);
     }
 
     /** Log the given info message. */

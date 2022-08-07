@@ -1,6 +1,6 @@
 import { DeclarationReflection } from "./declaration";
 import { ReflectionKind } from "./kind";
-import type { Serializer, JSONOutput } from "../../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 import type { Reflection } from "./abstract";
 
 /**
@@ -17,6 +17,8 @@ import type { Reflection } from "./abstract";
  * ```
  */
 export class ReferenceReflection extends DeclarationReflection {
+    override readonly variant = "reference";
+
     private _target: number;
 
     /**
@@ -79,7 +81,19 @@ export class ReferenceReflection extends DeclarationReflection {
     override toObject(serializer: Serializer): JSONOutput.ReferenceReflection {
         return {
             ...super.toObject(serializer),
+            variant: this.variant,
             target: this.tryGetTargetReflection()?.id ?? -1,
         };
+    }
+
+    override fromObject(
+        de: Deserializer,
+        obj: JSONOutput.ReferenceReflection
+    ): void {
+        de.defer((project) => {
+            this._target =
+                project.getReflectionById(de.oldIdToNewId[obj.target] || -1)
+                    ?.id ?? -1;
+        });
     }
 }

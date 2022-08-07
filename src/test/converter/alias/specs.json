@@ -1,12 +1,14 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 8,
       "name": "IsString",
+      "variant": "declaration",
       "kind": 4194304,
       "flags": {},
       "comment": {
@@ -29,6 +31,7 @@
         {
           "id": 9,
           "name": "T",
+          "variant": "typeParam",
           "kind": 131072,
           "flags": {}
         }
@@ -58,6 +61,7 @@
     {
       "id": 10,
       "name": "PromiseType",
+      "variant": "declaration",
       "kind": 4194304,
       "flags": {},
       "comment": {
@@ -80,6 +84,7 @@
         {
           "id": 11,
           "name": "T",
+          "variant": "typeParam",
           "kind": 131072,
           "flags": {}
         }
@@ -119,6 +124,7 @@
     {
       "id": 1,
       "name": "TCompareFunction",
+      "variant": "declaration",
       "kind": 4194304,
       "flags": {},
       "sources": [
@@ -133,6 +139,7 @@
         {
           "id": 6,
           "name": "T",
+          "variant": "typeParam",
           "kind": 131072,
           "flags": {}
         }
@@ -142,6 +149,7 @@
         "declaration": {
           "id": 2,
           "name": "__type",
+          "variant": "declaration",
           "kind": 65536,
           "flags": {},
           "sources": [
@@ -156,6 +164,7 @@
             {
               "id": 3,
               "name": "__type",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -170,6 +179,7 @@
                 {
                   "id": 4,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -182,6 +192,7 @@
                 {
                   "id": 5,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -204,6 +215,7 @@
     {
       "id": 7,
       "name": "TId",
+      "variant": "declaration",
       "kind": 4194304,
       "flags": {},
       "comment": {

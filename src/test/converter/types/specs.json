@@ -1,18 +1,21 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "general",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 8,
           "name": "BigIntAlias",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -31,6 +34,7 @@
         {
           "id": 2,
           "name": "BigIntLiteral",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -52,6 +56,7 @@
         {
           "id": 11,
           "name": "FirstIfString",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -66,6 +71,7 @@
             {
               "id": 12,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {},
               "type": {
@@ -122,6 +128,7 @@
         {
           "id": 4,
           "name": "NegativeBigIntLiteral",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -143,6 +150,7 @@
         {
           "id": 9,
           "name": "NegativeOne",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -161,6 +169,7 @@
         {
           "id": 6,
           "name": "NumArray",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -182,6 +191,7 @@
         {
           "id": 3,
           "name": "BigIntLiteralType",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -206,6 +216,7 @@
         {
           "id": 5,
           "name": "NegativeBigIntLiteralType",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -230,6 +241,7 @@
         {
           "id": 10,
           "name": "negativeOne",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -251,6 +263,7 @@
         {
           "id": 7,
           "name": "numArray",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -307,12 +320,14 @@
     {
       "id": 13,
       "name": "index-signature",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 17,
           "name": "PartialIndex",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "sources": [
@@ -326,12 +341,14 @@
           "indexSignature": {
             "id": 18,
             "name": "__index",
+            "variant": "signature",
             "kind": 8192,
             "flags": {},
             "parameters": [
               {
                 "id": 19,
                 "name": "optName",
+                "variant": "param",
                 "kind": 32768,
                 "flags": {},
                 "type": {
@@ -358,6 +375,7 @@
         {
           "id": 14,
           "name": "SymbolIndex",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "sources": [
@@ -371,12 +389,14 @@
           "indexSignature": {
             "id": 15,
             "name": "__index",
+            "variant": "signature",
             "kind": 8192,
             "flags": {},
             "parameters": [
               {
                 "id": 16,
                 "name": "sym",
+                "variant": "param",
                 "kind": 32768,
                 "flags": {},
                 "type": {
@@ -394,6 +414,7 @@
         {
           "id": 20,
           "name": "UnionIndex",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "sources": [
@@ -407,12 +428,14 @@
           "indexSignature": {
             "id": 21,
             "name": "__index",
+            "variant": "signature",
             "kind": 8192,
             "flags": {},
             "parameters": [
               {
                 "id": 22,
                 "name": "optName",
+                "variant": "param",
                 "kind": 32768,
                 "flags": {},
                 "type": {
@@ -459,12 +482,14 @@
     {
       "id": 23,
       "name": "mapped",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 34,
           "name": "DoubleKey",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -479,6 +504,7 @@
             {
               "id": 35,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {}
             }
@@ -546,6 +572,7 @@
         {
           "id": 32,
           "name": "Mappy",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -560,6 +587,7 @@
             {
               "id": 33,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {}
             }
@@ -596,6 +624,7 @@
         {
           "id": 28,
           "name": "doubleKey",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -610,12 +639,14 @@
             {
               "id": 29,
               "name": "doubleKey",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "typeParameter": [
                 {
                   "id": 30,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -624,6 +655,7 @@
                 {
                   "id": 31,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -684,6 +716,7 @@
         {
           "id": 24,
           "name": "mapped",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -698,12 +731,14 @@
             {
               "id": 25,
               "name": "mapped",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "typeParameter": [
                 {
                   "id": 26,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -712,6 +747,7 @@
                 {
                   "id": 27,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -781,12 +817,14 @@
     {
       "id": 36,
       "name": "parens",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 37,
           "name": "ZZ",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -809,12 +847,14 @@
                 "declaration": {
                   "id": 38,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "children": [
                     {
                       "id": 39,
                       "name": "a",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "sources": [
@@ -873,12 +913,14 @@
     {
       "id": 40,
       "name": "query",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 42,
           "name": "TypeOfX",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -902,6 +944,7 @@
         {
           "id": 41,
           "name": "x",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -947,12 +990,14 @@
     {
       "id": 43,
       "name": "tuple",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 52,
           "name": "LeadingRest",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -986,6 +1031,7 @@
         {
           "id": 44,
           "name": "NamedTuple",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -1023,6 +1069,7 @@
         {
           "id": 50,
           "name": "WithOptionalElements",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -1060,6 +1107,7 @@
         {
           "id": 46,
           "name": "WithRestType",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -1093,6 +1141,7 @@
         {
           "id": 48,
           "name": "WithRestTypeNames",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -1133,6 +1182,7 @@
         {
           "id": 53,
           "name": "leadingRest",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -1169,6 +1219,7 @@
         {
           "id": 45,
           "name": "namedTuple",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -1209,6 +1260,7 @@
         {
           "id": 51,
           "name": "withOptionalElements",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -1249,6 +1301,7 @@
         {
           "id": 47,
           "name": "withRestType",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -1285,6 +1338,7 @@
         {
           "id": 49,
           "name": "withRestTypeNames",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -1363,12 +1417,14 @@
     {
       "id": 54,
       "name": "type-operator",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 56,
           "name": "B",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -1394,6 +1450,7 @@
         {
           "id": 57,
           "name": "C",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -1409,12 +1466,14 @@
             "declaration": {
               "id": 58,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "children": [
                 {
                   "id": 59,
                   "name": "prop1",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1433,6 +1492,7 @@
                 {
                   "id": 60,
                   "name": "prop2",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1472,6 +1532,7 @@
         {
           "id": 61,
           "name": "D",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -1496,6 +1557,7 @@
         {
           "id": 55,
           "name": "a",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -1547,12 +1609,14 @@
     {
       "id": 62,
       "name": "union-or-intersection",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 63,
           "name": "FirstType",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "comment": {
@@ -1567,6 +1631,7 @@
             {
               "id": 64,
               "name": "firstProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -1611,6 +1676,7 @@
         {
           "id": 65,
           "name": "SecondType",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "comment": {
@@ -1625,6 +1691,7 @@
             {
               "id": 66,
               "name": "secondProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -1669,6 +1736,7 @@
         {
           "id": 67,
           "name": "ThirdType",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "comment": {
@@ -1683,6 +1751,7 @@
             {
               "id": 70,
               "name": "thirdComplexProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -1737,6 +1806,7 @@
             {
               "id": 69,
               "name": "thirdIntersectionProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -1776,6 +1846,7 @@
             {
               "id": 68,
               "name": "thirdUnionProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {

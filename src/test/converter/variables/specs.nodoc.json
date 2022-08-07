@@ -1,18 +1,21 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "array",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "Array",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -35,6 +38,7 @@
             {
               "id": 6,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {}
             }
@@ -50,6 +54,7 @@
         {
           "id": 9,
           "name": "Foo",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -72,6 +77,7 @@
         {
           "id": 12,
           "name": "FooList",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -110,6 +116,7 @@
         {
           "id": 7,
           "name": "complex",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -180,6 +187,7 @@
         {
           "id": 8,
           "name": "custom",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -244,12 +252,14 @@
     {
       "id": 15,
       "name": "destructuring",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 16,
           "name": "drawText",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -264,6 +274,7 @@
             {
               "id": 17,
               "name": "drawText",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -278,6 +289,7 @@
                 {
                   "id": 18,
                   "name": "__namedParameters",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -314,12 +326,14 @@
     {
       "id": 30,
       "name": "literal",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 70,
           "name": "objectLiteral",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -345,12 +359,14 @@
             "declaration": {
               "id": 71,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "children": [
                 {
                   "id": 89,
                   "name": "[toStringTag]",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -370,6 +386,7 @@
                 {
                   "id": 90,
                   "name": "literal",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -389,6 +406,7 @@
                 {
                   "id": 91,
                   "name": "literal2",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -408,6 +426,7 @@
                 {
                   "id": 87,
                   "name": "valueA",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -427,6 +446,7 @@
                 {
                   "id": 88,
                   "name": "valueB",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -446,6 +466,7 @@
                 {
                   "id": 76,
                   "name": "valueX",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -461,12 +482,14 @@
                     "declaration": {
                       "id": 77,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
                           "id": 86,
                           "name": "valueA",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -489,6 +512,7 @@
                         {
                           "id": 79,
                           "name": "valueY",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -504,6 +528,7 @@
                             "declaration": {
                               "id": 80,
                               "name": "__type",
+                              "variant": "declaration",
                               "kind": 65536,
                               "flags": {},
                               "sources": [
@@ -518,12 +543,14 @@
                                 {
                                   "id": 81,
                                   "name": "__type",
+                                  "variant": "signature",
                                   "kind": 4096,
                                   "flags": {},
                                   "parameters": [
                                     {
                                       "id": 82,
                                       "name": "z",
+                                      "variant": "param",
                                       "kind": 32768,
                                       "flags": {},
                                       "type": {
@@ -537,12 +564,14 @@
                                     "declaration": {
                                       "id": 83,
                                       "name": "__type",
+                                      "variant": "declaration",
                                       "kind": 65536,
                                       "flags": {},
                                       "children": [
                                         {
                                           "id": 84,
                                           "name": "a",
+                                          "variant": "declaration",
                                           "kind": 1024,
                                           "flags": {},
                                           "sources": [
@@ -562,6 +591,7 @@
                                         {
                                           "id": 85,
                                           "name": "b",
+                                          "variant": "declaration",
                                           "kind": 1024,
                                           "flags": {},
                                           "sources": [
@@ -607,6 +637,7 @@
                         {
                           "id": 78,
                           "name": "valueZ",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -649,6 +680,7 @@
                 {
                   "id": 73,
                   "name": "valueY",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -664,6 +696,7 @@
                     "declaration": {
                       "id": 74,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "sources": [
@@ -678,6 +711,7 @@
                         {
                           "id": 75,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
                           "flags": {},
                           "type": {
@@ -693,6 +727,7 @@
                 {
                   "id": 72,
                   "name": "valueZ",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -740,6 +775,7 @@
         {
           "id": 31,
           "name": "typeLiteral",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "comment": {
@@ -763,12 +799,14 @@
             "declaration": {
               "id": 32,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "children": [
                 {
                   "id": 48,
                   "name": "valueA",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {
                     "isOptional": true
@@ -789,6 +827,7 @@
                 {
                   "id": 49,
                   "name": "valueB",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {
                     "isOptional": true
@@ -809,6 +848,7 @@
                 {
                   "id": 37,
                   "name": "valueX",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -824,12 +864,14 @@
                     "declaration": {
                       "id": 38,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
                           "id": 47,
                           "name": "valueA",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -851,6 +893,7 @@
                         {
                           "id": 40,
                           "name": "valueY",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -866,6 +909,7 @@
                             "declaration": {
                               "id": 41,
                               "name": "__type",
+                              "variant": "declaration",
                               "kind": 65536,
                               "flags": {},
                               "sources": [
@@ -880,12 +924,14 @@
                                 {
                                   "id": 42,
                                   "name": "__type",
+                                  "variant": "signature",
                                   "kind": 4096,
                                   "flags": {},
                                   "parameters": [
                                     {
                                       "id": 43,
                                       "name": "z",
+                                      "variant": "param",
                                       "kind": 32768,
                                       "flags": {},
                                       "type": {
@@ -899,12 +945,14 @@
                                     "declaration": {
                                       "id": 44,
                                       "name": "__type",
+                                      "variant": "declaration",
                                       "kind": 65536,
                                       "flags": {},
                                       "children": [
                                         {
                                           "id": 45,
                                           "name": "a",
+                                          "variant": "declaration",
                                           "kind": 1024,
                                           "flags": {},
                                           "sources": [
@@ -923,6 +971,7 @@
                                         {
                                           "id": 46,
                                           "name": "b",
+                                          "variant": "declaration",
                                           "kind": 1024,
                                           "flags": {},
                                           "sources": [
@@ -966,6 +1015,7 @@
                         {
                           "id": 39,
                           "name": "valueZ",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1006,6 +1056,7 @@
                 {
                   "id": 34,
                   "name": "valueY",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1021,6 +1072,7 @@
                     "declaration": {
                       "id": 35,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "sources": [
@@ -1035,6 +1087,7 @@
                         {
                           "id": 36,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
                           "flags": {},
                           "type": {
@@ -1049,6 +1102,7 @@
                 {
                   "id": 33,
                   "name": "valueZ",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [

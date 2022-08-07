@@ -1,18 +1,21 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 14,
       "name": "export",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 48,
           "name": "GH1453Helper",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "sources": [
@@ -28,6 +31,7 @@
         {
           "id": 41,
           "name": "Mod",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "sources": [
@@ -43,6 +47,7 @@
         {
           "id": 43,
           "name": "Mod2",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "comment": {
@@ -66,6 +71,7 @@
         {
           "id": 42,
           "name": "ModDefault",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "sources": [
@@ -81,6 +87,7 @@
         {
           "id": 47,
           "name": "ThisModule",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "sources": [
@@ -96,6 +103,7 @@
         {
           "id": 44,
           "name": "a",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "sources": [
@@ -111,6 +119,7 @@
         {
           "id": 45,
           "name": "b",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "comment": {
@@ -134,6 +143,7 @@
         {
           "id": 40,
           "name": "c",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "sources": [
@@ -149,12 +159,14 @@
         {
           "id": 20,
           "name": "GH1453",
+          "variant": "declaration",
           "kind": 4,
           "flags": {},
           "children": [
             {
               "id": 25,
               "name": "Foo",
+              "variant": "declaration",
               "kind": 4194304,
               "flags": {},
               "sources": [
@@ -175,6 +187,7 @@
             {
               "id": 23,
               "name": "Member",
+              "variant": "declaration",
               "kind": 32,
               "flags": {
                 "isConst": true
@@ -196,6 +209,7 @@
             {
               "id": 21,
               "name": "Module",
+              "variant": "declaration",
               "kind": 32,
               "flags": {
                 "isConst": true
@@ -219,6 +233,7 @@
             {
               "id": 24,
               "name": "TypedMember",
+              "variant": "declaration",
               "kind": 32,
               "flags": {
                 "isConst": true
@@ -242,6 +257,7 @@
             {
               "id": 22,
               "name": "TypedModule",
+              "variant": "declaration",
               "kind": 32,
               "flags": {
                 "isConst": true
@@ -292,6 +308,7 @@
         {
           "id": 15,
           "name": "add",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -306,12 +323,14 @@
             {
               "id": 16,
               "name": "add",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 17,
                   "name": "x",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -322,6 +341,7 @@
                 {
                   "id": 18,
                   "name": "y",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -340,6 +360,7 @@
         {
           "id": 26,
           "name": "default",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -354,12 +375,14 @@
             {
               "id": 27,
               "name": "default",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 28,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -416,12 +439,14 @@
     {
       "id": 1,
       "name": "export-assignment",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "export=",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -436,12 +461,14 @@
             {
               "id": 3,
               "name": "export=",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 4,
                   "name": "x",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -452,6 +479,7 @@
                 {
                   "id": 5,
                   "name": "y",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -488,12 +516,14 @@
     {
       "id": 6,
       "name": "export-default",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 7,
           "name": "default",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -533,12 +563,14 @@
     {
       "id": 8,
       "name": "export-with-local",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 13,
           "name": "x",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -560,6 +592,7 @@
         {
           "id": 9,
           "name": "add",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -574,12 +607,14 @@
             {
               "id": 10,
               "name": "add",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 11,
                   "name": "x",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -590,6 +625,7 @@
                 {
                   "id": 12,
                   "name": "y",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -632,12 +668,14 @@
     {
       "id": 29,
       "name": "mod",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 34,
           "name": "ThisModule",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "sources": [
@@ -653,6 +691,7 @@
         {
           "id": 31,
           "name": "b",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "comment": {
@@ -676,6 +715,7 @@
         {
           "id": 32,
           "name": "c",
+          "variant": "reference",
           "kind": 8388608,
           "flags": {},
           "comment": {
@@ -699,6 +739,7 @@
         {
           "id": 35,
           "name": "GH1453Helper",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -717,6 +758,7 @@
         {
           "id": 30,
           "name": "a",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -746,6 +788,7 @@
         {
           "id": 36,
           "name": "default",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -760,6 +803,7 @@
             {
               "id": 37,
               "name": "default",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -818,6 +862,7 @@
     {
       "id": 38,
       "name": "no-doc-members",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "comment": {
@@ -843,6 +888,7 @@
         {
           "id": 39,
           "name": "abc",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true

@@ -1,11 +1,13 @@
 import { ok } from "assert";
 import type { SourceReference } from "../sources/file";
-import type { Comment } from "../comments/comment";
+import { Comment } from "../comments/comment";
 import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
 import type { NeverIfInternal } from "../../utils";
 import { ReflectionKind } from "./kind";
-import type { Serializer, JSONOutput } from "../../serialization";
+import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
+import type { ReflectionVariant } from "./variant";
+import type { DeclarationReflection } from "./declaration";
 
 /**
  * Current reflection id.
@@ -195,6 +197,17 @@ export class ReflectionFlags extends Array<string> {
                 .map((flag) => [flag, true])
         );
     }
+
+    fromObject(obj: JSONOutput.ReflectionFlags) {
+        for (const key of Object.keys(obj)) {
+            if (key in ReflectionFlag) {
+                this.setFlag(
+                    ReflectionFlag[key as keyof typeof ReflectionFlag],
+                    true
+                );
+            }
+        }
+    }
 }
 
 export enum TraverseProperty {
@@ -230,6 +243,11 @@ export interface TraverseCallback {
  * contains a list of all children grouped and sorted for rendering.
  */
 export abstract class Reflection {
+    /**
+     * Discriminator representing the type of reflection represented by this object.
+     */
+    abstract readonly variant: keyof ReflectionVariant;
+
     /**
      * Unique id of this reflection.
      */
@@ -450,6 +468,9 @@ export abstract class Reflection {
     isProject(): this is ProjectReflection {
         return false;
     }
+    isDeclaration(): this is DeclarationReflection {
+        return false;
+    }
 
     /**
      * Check if this reflection or any of its parents have been marked with the `@deprecated` tag.
@@ -502,6 +523,7 @@ export abstract class Reflection {
         return {
             id: this.id,
             name: this.name,
+            variant: this.variant,
             kind: this.kind,
             flags: this.flags.toObject(),
             comment:
@@ -509,5 +531,16 @@ export abstract class Reflection {
                     ? serializer.toObject(this.comment)
                     : undefined,
         };
+    }
+
+    fromObject(de: Deserializer, obj: JSONOutput.Reflection) {
+        this.id = obj.id;
+        this.name = obj.name;
+        this.kind = obj.kind;
+        this.flags.fromObject(obj.flags);
+        if (obj.comment) {
+            this.comment = new Comment();
+            de.fromObject(this.comment, obj.comment);
+        }
     }
 }

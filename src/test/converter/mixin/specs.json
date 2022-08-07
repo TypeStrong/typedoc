@@ -1,12 +1,14 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 13,
       "name": "Base",
+      "variant": "declaration",
       "kind": 128,
       "flags": {},
       "comment": {
@@ -21,12 +23,14 @@
         {
           "id": 14,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
           "flags": {},
           "signatures": [
             {
               "id": 15,
               "name": "new Base",
+              "variant": "signature",
               "kind": 16384,
               "flags": {},
               "type": {
@@ -41,6 +45,7 @@
         {
           "id": 16,
           "name": "baseProperty",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -60,6 +65,7 @@
         {
           "id": 17,
           "name": "baseMethod",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -74,6 +80,7 @@
             {
               "id": 18,
               "name": "baseMethod",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "type": {
@@ -116,6 +123,7 @@
     {
       "id": 58,
       "name": "SomeClassWithMixin",
+      "variant": "declaration",
       "kind": 128,
       "flags": {},
       "comment": {
@@ -130,12 +138,14 @@
         {
           "id": 61,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
           "flags": {},
           "signatures": [
             {
               "id": 62,
               "name": "new SomeClassWithMixin",
+              "variant": "signature",
               "kind": 16384,
               "flags": {},
               "type": {
@@ -146,18 +156,21 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "Mixin2(Mixin1Func(Base)).constructor"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin2(Mixin1Func(Base)).constructor"
           }
         },
         {
           "id": 74,
           "name": "baseProperty",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -175,12 +188,14 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin2(Mixin1Func(Base)).baseProperty"
           }
         },
         {
           "id": 63,
           "name": "classWithMixinProperty",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -200,6 +215,7 @@
         {
           "id": 70,
           "name": "property1",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -217,12 +233,14 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin2(Mixin1Func(Base)).property1"
           }
         },
         {
           "id": 66,
           "name": "property2",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -240,12 +258,14 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin2(Mixin1Func(Base)).property2"
           }
         },
         {
           "id": 75,
           "name": "baseMethod",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -260,6 +280,7 @@
             {
               "id": 76,
               "name": "baseMethod",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "type": {
@@ -268,18 +289,21 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "Mixin2(Mixin1Func(Base)).baseMethod"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin2(Mixin1Func(Base)).baseMethod"
           }
         },
         {
           "id": 64,
           "name": "classWithMixinMethod",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -294,6 +318,7 @@
             {
               "id": 65,
               "name": "classWithMixinMethod",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "type": {
@@ -306,6 +331,7 @@
         {
           "id": 71,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -320,12 +346,14 @@
             {
               "id": 72,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 73,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -350,18 +378,21 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "Mixin2(Mixin1Func(Base)).method1"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin2(Mixin1Func(Base)).method1"
           }
         },
         {
           "id": 67,
           "name": "method2",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -376,12 +407,14 @@
             {
               "id": 68,
               "name": "method2",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 69,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -400,12 +433,14 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "Mixin2(Mixin1Func(Base)).method2"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin2(Mixin1Func(Base)).method2"
           }
         }
@@ -460,12 +495,14 @@
                       "declaration": {
                         "id": 59,
                         "name": "__type",
+                        "variant": "declaration",
                         "kind": 65536,
                         "flags": {},
                         "children": [
                           {
                             "id": 60,
                             "name": "prototype",
+                            "variant": "declaration",
                             "kind": 1024,
                             "flags": {},
                             "type": {
@@ -559,6 +596,7 @@
     {
       "id": 25,
       "name": "Mixin1Type",
+      "variant": "declaration",
       "kind": 256,
       "flags": {},
       "comment": {
@@ -573,6 +611,7 @@
         {
           "id": 30,
           "name": "baseProperty",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -590,12 +629,14 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.baseProperty"
           }
         },
         {
           "id": 26,
           "name": "property1",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -613,12 +654,14 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.property1"
           }
         },
         {
           "id": 31,
           "name": "baseMethod",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -633,6 +676,7 @@
             {
               "id": 32,
               "name": "baseMethod",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "type": {
@@ -641,18 +685,21 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "Mixin.baseMethod"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.baseMethod"
           }
         },
         {
           "id": 27,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -667,12 +714,14 @@
             {
               "id": 28,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 29,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -697,12 +746,14 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "Mixin.method1"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.method1"
           }
         }
@@ -754,6 +805,7 @@
     {
       "id": 39,
       "name": "Mixin2Type",
+      "variant": "declaration",
       "kind": 256,
       "flags": {},
       "comment": {
@@ -768,6 +820,7 @@
         {
           "id": 48,
           "name": "baseProperty",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -785,12 +838,14 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.baseProperty"
           }
         },
         {
           "id": 44,
           "name": "property1",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -808,12 +863,14 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.property1"
           }
         },
         {
           "id": 40,
           "name": "property2",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -831,12 +888,14 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.property2"
           }
         },
         {
           "id": 49,
           "name": "baseMethod",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -851,6 +910,7 @@
             {
               "id": 50,
               "name": "baseMethod",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "type": {
@@ -859,18 +919,21 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "Mixin.baseMethod"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.baseMethod"
           }
         },
         {
           "id": 45,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -885,12 +948,14 @@
             {
               "id": 46,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 47,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -915,18 +980,21 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "Mixin.method1"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.method1"
           }
         },
         {
           "id": 41,
           "name": "method2",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -941,12 +1009,14 @@
             {
               "id": 42,
               "name": "method2",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 43,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -965,12 +1035,14 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "Mixin.method2"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "id": -1,
             "name": "Mixin.method2"
           }
         }
@@ -1024,6 +1096,7 @@
     {
       "id": 6,
       "name": "AnyConstructor",
+      "variant": "declaration",
       "kind": 4194304,
       "flags": {},
       "sources": [
@@ -1038,6 +1111,7 @@
         {
           "id": 10,
           "name": "A",
+          "variant": "typeParam",
           "kind": 131072,
           "flags": {},
           "default": {
@@ -1051,6 +1125,7 @@
         "declaration": {
           "id": 7,
           "name": "__type",
+          "variant": "declaration",
           "kind": 512,
           "flags": {},
           "sources": [
@@ -1065,6 +1140,7 @@
             {
               "id": 8,
               "name": "__type",
+              "variant": "signature",
               "kind": 16384,
               "flags": {},
               "comment": {
@@ -1079,6 +1155,7 @@
                 {
                   "id": 9,
                   "name": "input",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {
                     "isRest": true
@@ -1106,6 +1183,7 @@
     {
       "id": 1,
       "name": "AnyFunction",
+      "variant": "declaration",
       "kind": 4194304,
       "flags": {},
       "sources": [
@@ -1120,6 +1198,7 @@
         {
           "id": 5,
           "name": "A",
+          "variant": "typeParam",
           "kind": 131072,
           "flags": {},
           "default": {
@@ -1133,6 +1212,7 @@
         "declaration": {
           "id": 2,
           "name": "__type",
+          "variant": "declaration",
           "kind": 65536,
           "flags": {},
           "sources": [
@@ -1147,6 +1227,7 @@
             {
               "id": 3,
               "name": "__type",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -1161,6 +1242,7 @@
                 {
                   "id": 4,
                   "name": "input",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {
                     "isRest": true
@@ -1188,6 +1270,7 @@
     {
       "id": 11,
       "name": "Mixin",
+      "variant": "declaration",
       "kind": 4194304,
       "flags": {},
       "comment": {
@@ -1210,6 +1293,7 @@
         {
           "id": 12,
           "name": "T",
+          "variant": "typeParam",
           "kind": 131072,
           "flags": {},
           "type": {
@@ -1256,6 +1340,7 @@
     {
       "id": 57,
       "name": "Mixin3",
+      "variant": "declaration",
       "kind": 4194304,
       "flags": {},
       "comment": {
@@ -1301,6 +1386,7 @@
     {
       "id": 19,
       "name": "Mixin1Func",
+      "variant": "declaration",
       "kind": 64,
       "flags": {},
       "sources": [
@@ -1315,6 +1401,7 @@
         {
           "id": 20,
           "name": "Mixin1Func",
+          "variant": "signature",
           "kind": 4096,
           "flags": {},
           "comment": {
@@ -1329,6 +1416,7 @@
             {
               "id": 21,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {},
               "type": {
@@ -1351,6 +1439,7 @@
             {
               "id": 22,
               "name": "base",
+              "variant": "param",
               "kind": 32768,
               "flags": {},
               "type": {
@@ -1369,12 +1458,14 @@
                 "declaration": {
                   "id": 23,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "children": [
                     {
                       "id": 24,
                       "name": "prototype",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "type": {
@@ -1423,6 +1514,7 @@
     {
       "id": 33,
       "name": "Mixin2",
+      "variant": "declaration",
       "kind": 64,
       "flags": {},
       "sources": [
@@ -1437,6 +1529,7 @@
         {
           "id": 34,
           "name": "Mixin2",
+          "variant": "signature",
           "kind": 4096,
           "flags": {},
           "comment": {
@@ -1451,6 +1544,7 @@
             {
               "id": 35,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {},
               "type": {
@@ -1484,6 +1578,7 @@
             {
               "id": 36,
               "name": "base",
+              "variant": "param",
               "kind": 32768,
               "flags": {},
               "type": {
@@ -1502,12 +1597,14 @@
                 "declaration": {
                   "id": 37,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "children": [
                     {
                       "id": 38,
                       "name": "prototype",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "type": {
@@ -1556,6 +1653,7 @@
     {
       "id": 51,
       "name": "Mixin3",
+      "variant": "declaration",
       "kind": 64,
       "flags": {},
       "sources": [
@@ -1576,6 +1674,7 @@
         {
           "id": 52,
           "name": "Mixin3",
+          "variant": "signature",
           "kind": 4096,
           "flags": {},
           "comment": {
@@ -1590,6 +1689,7 @@
             {
               "id": 53,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {},
               "type": {
@@ -1610,6 +1710,7 @@
             {
               "id": 54,
               "name": "base",
+              "variant": "param",
               "kind": 32768,
               "flags": {},
               "type": {
@@ -1628,12 +1729,14 @@
                 "declaration": {
                   "id": 55,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "children": [
                     {
                       "id": 56,
                       "name": "prototype",
+                      "variant": "declaration",
                       "kind": 1024,
                       "flags": {},
                       "type": {

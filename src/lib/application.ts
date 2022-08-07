@@ -3,7 +3,7 @@ import * as ts from "typescript";
 
 import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
-import { Serializer } from "./serialization";
+import { Deserializer, Serializer } from "./serialization";
 import type { ProjectReflection } from "./models/index";
 import {
     Logger,
@@ -78,6 +78,11 @@ export class Application extends ChildableComponent<
      * The serializer used to generate JSON output.
      */
     serializer: Serializer;
+
+    /**
+     * The deserializer used to restore previously serialized JSON output.
+     */
+    deserializer = new Deserializer();
 
     /**
      * The logger that should be used to output messages.

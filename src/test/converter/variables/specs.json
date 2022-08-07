@@ -1,18 +1,21 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "array",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "Array",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -27,18 +30,21 @@
             {
               "id": 3,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 4,
                   "name": "new Array",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "typeParameter": [
                     {
                       "id": 5,
                       "name": "T",
+                      "variant": "typeParam",
                       "kind": 131072,
                       "flags": {}
                     }
@@ -82,6 +88,7 @@
             {
               "id": 6,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {}
             }
@@ -97,6 +104,7 @@
         {
           "id": 9,
           "name": "Foo",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -111,12 +119,14 @@
             {
               "id": 10,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 11,
                   "name": "new Foo",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -149,6 +159,7 @@
         {
           "id": 12,
           "name": "FooList",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -163,12 +174,14 @@
             {
               "id": 13,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 14,
                   "name": "new FooList",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -227,6 +240,7 @@
         {
           "id": 7,
           "name": "complex",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -297,6 +311,7 @@
         {
           "id": 8,
           "name": "custom",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -361,12 +376,14 @@
     {
       "id": 15,
       "name": "destructuring",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 22,
           "name": "destructArrayA",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -385,6 +402,7 @@
         {
           "id": 23,
           "name": "destructArrayB",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -403,6 +421,7 @@
         {
           "id": 24,
           "name": "destructArrayC",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -431,6 +450,7 @@
         {
           "id": 28,
           "name": "destructArrayWithIgnoresA",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -449,6 +469,7 @@
         {
           "id": 29,
           "name": "destructArrayWithIgnoresRest",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -476,6 +497,7 @@
         {
           "id": 27,
           "name": "destructArrayWithRest",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -503,6 +525,7 @@
         {
           "id": 25,
           "name": "destructArrayWithRestA",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -521,6 +544,7 @@
         {
           "id": 26,
           "name": "destructArrayWithRestB",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -539,6 +563,7 @@
         {
           "id": 19,
           "name": "destructObjectA",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -557,6 +582,7 @@
         {
           "id": 20,
           "name": "destructObjectB",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -575,6 +601,7 @@
         {
           "id": 21,
           "name": "destructObjectC",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -593,6 +620,7 @@
         {
           "id": 16,
           "name": "drawText",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -607,6 +635,7 @@
             {
               "id": 17,
               "name": "drawText",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -621,6 +650,7 @@
                 {
                   "id": 18,
                   "name": "__namedParameters",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -673,12 +703,14 @@
     {
       "id": 30,
       "name": "literal",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 50,
           "name": "callbackReturn",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -696,12 +728,14 @@
             "declaration": {
               "id": 51,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "children": [
                 {
                   "id": 58,
                   "name": "error",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -717,6 +751,7 @@
                     "declaration": {
                       "id": 59,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "sources": [
@@ -731,12 +766,14 @@
                         {
                           "id": 60,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
                           "flags": {},
                           "parameters": [
                             {
                               "id": 61,
                               "name": "errorCallback",
+                              "variant": "param",
                               "kind": 32768,
                               "flags": {},
                               "type": {
@@ -744,6 +781,7 @@
                                 "declaration": {
                                   "id": 62,
                                   "name": "__type",
+                                  "variant": "declaration",
                                   "kind": 65536,
                                   "flags": {},
                                   "sources": [
@@ -758,6 +796,7 @@
                                     {
                                       "id": 63,
                                       "name": "__type",
+                                      "variant": "signature",
                                       "kind": 4096,
                                       "flags": {},
                                       "type": {
@@ -783,6 +822,7 @@
                 {
                   "id": 64,
                   "name": "finally",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -798,6 +838,7 @@
                     "declaration": {
                       "id": 65,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "sources": [
@@ -812,12 +853,14 @@
                         {
                           "id": 66,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
                           "flags": {},
                           "parameters": [
                             {
                               "id": 67,
                               "name": "finallyCallback",
+                              "variant": "param",
                               "kind": 32768,
                               "flags": {},
                               "type": {
@@ -825,6 +868,7 @@
                                 "declaration": {
                                   "id": 68,
                                   "name": "__type",
+                                  "variant": "declaration",
                                   "kind": 65536,
                                   "flags": {},
                                   "sources": [
@@ -839,6 +883,7 @@
                                     {
                                       "id": 69,
                                       "name": "__type",
+                                      "variant": "signature",
                                       "kind": 4096,
                                       "flags": {},
                                       "type": {
@@ -864,6 +909,7 @@
                 {
                   "id": 52,
                   "name": "success",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -879,6 +925,7 @@
                     "declaration": {
                       "id": 53,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "sources": [
@@ -893,12 +940,14 @@
                         {
                           "id": 54,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
                           "flags": {},
                           "parameters": [
                             {
                               "id": 55,
                               "name": "successCallback",
+                              "variant": "param",
                               "kind": 32768,
                               "flags": {},
                               "type": {
@@ -906,6 +955,7 @@
                                 "declaration": {
                                   "id": 56,
                                   "name": "__type",
+                                  "variant": "declaration",
                                   "kind": 65536,
                                   "flags": {},
                                   "sources": [
@@ -920,6 +970,7 @@
                                     {
                                       "id": 57,
                                       "name": "__type",
+                                      "variant": "signature",
                                       "kind": 4096,
                                       "flags": {},
                                       "type": {
@@ -968,6 +1019,7 @@
         {
           "id": 70,
           "name": "objectLiteral",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -993,12 +1045,14 @@
             "declaration": {
               "id": 71,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "children": [
                 {
                   "id": 89,
                   "name": "[toStringTag]",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1018,6 +1072,7 @@
                 {
                   "id": 90,
                   "name": "literal",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1037,6 +1092,7 @@
                 {
                   "id": 91,
                   "name": "literal2",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1056,6 +1112,7 @@
                 {
                   "id": 87,
                   "name": "valueA",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1075,6 +1132,7 @@
                 {
                   "id": 88,
                   "name": "valueB",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1094,6 +1152,7 @@
                 {
                   "id": 76,
                   "name": "valueX",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1109,12 +1168,14 @@
                     "declaration": {
                       "id": 77,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
                           "id": 86,
                           "name": "valueA",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1137,6 +1198,7 @@
                         {
                           "id": 79,
                           "name": "valueY",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1152,6 +1214,7 @@
                             "declaration": {
                               "id": 80,
                               "name": "__type",
+                              "variant": "declaration",
                               "kind": 65536,
                               "flags": {},
                               "sources": [
@@ -1166,12 +1229,14 @@
                                 {
                                   "id": 81,
                                   "name": "__type",
+                                  "variant": "signature",
                                   "kind": 4096,
                                   "flags": {},
                                   "parameters": [
                                     {
                                       "id": 82,
                                       "name": "z",
+                                      "variant": "param",
                                       "kind": 32768,
                                       "flags": {},
                                       "type": {
@@ -1185,12 +1250,14 @@
                                     "declaration": {
                                       "id": 83,
                                       "name": "__type",
+                                      "variant": "declaration",
                                       "kind": 65536,
                                       "flags": {},
                                       "children": [
                                         {
                                           "id": 84,
                                           "name": "a",
+                                          "variant": "declaration",
                                           "kind": 1024,
                                           "flags": {},
                                           "sources": [
@@ -1210,6 +1277,7 @@
                                         {
                                           "id": 85,
                                           "name": "b",
+                                          "variant": "declaration",
                                           "kind": 1024,
                                           "flags": {},
                                           "sources": [
@@ -1255,6 +1323,7 @@
                         {
                           "id": 78,
                           "name": "valueZ",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1297,6 +1366,7 @@
                 {
                   "id": 73,
                   "name": "valueY",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1312,6 +1382,7 @@
                     "declaration": {
                       "id": 74,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "sources": [
@@ -1326,6 +1397,7 @@
                         {
                           "id": 75,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
                           "flags": {},
                           "type": {
@@ -1341,6 +1413,7 @@
                 {
                   "id": 72,
                   "name": "valueZ",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1388,6 +1461,7 @@
         {
           "id": 31,
           "name": "typeLiteral",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "comment": {
@@ -1411,12 +1485,14 @@
             "declaration": {
               "id": 32,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "children": [
                 {
                   "id": 48,
                   "name": "valueA",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {
                     "isOptional": true
@@ -1437,6 +1513,7 @@
                 {
                   "id": 49,
                   "name": "valueB",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {
                     "isOptional": true
@@ -1457,6 +1534,7 @@
                 {
                   "id": 37,
                   "name": "valueX",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1472,12 +1550,14 @@
                     "declaration": {
                       "id": 38,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
                           "id": 47,
                           "name": "valueA",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1499,6 +1579,7 @@
                         {
                           "id": 40,
                           "name": "valueY",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1514,6 +1595,7 @@
                             "declaration": {
                               "id": 41,
                               "name": "__type",
+                              "variant": "declaration",
                               "kind": 65536,
                               "flags": {},
                               "sources": [
@@ -1528,12 +1610,14 @@
                                 {
                                   "id": 42,
                                   "name": "__type",
+                                  "variant": "signature",
                                   "kind": 4096,
                                   "flags": {},
                                   "parameters": [
                                     {
                                       "id": 43,
                                       "name": "z",
+                                      "variant": "param",
                                       "kind": 32768,
                                       "flags": {},
                                       "type": {
@@ -1547,12 +1631,14 @@
                                     "declaration": {
                                       "id": 44,
                                       "name": "__type",
+                                      "variant": "declaration",
                                       "kind": 65536,
                                       "flags": {},
                                       "children": [
                                         {
                                           "id": 45,
                                           "name": "a",
+                                          "variant": "declaration",
                                           "kind": 1024,
                                           "flags": {},
                                           "sources": [
@@ -1571,6 +1657,7 @@
                                         {
                                           "id": 46,
                                           "name": "b",
+                                          "variant": "declaration",
                                           "kind": 1024,
                                           "flags": {},
                                           "sources": [
@@ -1614,6 +1701,7 @@
                         {
                           "id": 39,
                           "name": "valueZ",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "sources": [
@@ -1654,6 +1742,7 @@
                 {
                   "id": 34,
                   "name": "valueY",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1669,6 +1758,7 @@
                     "declaration": {
                       "id": 35,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "sources": [
@@ -1683,6 +1773,7 @@
                         {
                           "id": 36,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
                           "flags": {},
                           "type": {
@@ -1697,6 +1788,7 @@
                 {
                   "id": 33,
                   "name": "valueZ",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1759,12 +1851,14 @@
     {
       "id": 92,
       "name": "variable",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 93,
           "name": "myConst",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isConst": true
@@ -1786,6 +1880,7 @@
         {
           "id": 94,
           "name": "myLet",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -1805,6 +1900,7 @@
         {
           "id": 95,
           "name": "myVar",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -1824,6 +1920,7 @@
         {
           "id": 96,
           "name": "x",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -1842,6 +1939,7 @@
         {
           "id": 97,
           "name": "y",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [
@@ -1867,6 +1965,7 @@
         {
           "id": 98,
           "name": "z",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [

@@ -1,18 +1,21 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 4,
       "name": "Demo",
+      "variant": "declaration",
       "kind": 128,
       "flags": {},
       "children": [
         {
           "id": 5,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
           "flags": {},
           "sources": [
@@ -27,12 +30,14 @@
             {
               "id": 6,
               "name": "new Demo",
+              "variant": "signature",
               "kind": 16384,
               "flags": {},
               "parameters": [
                 {
                   "id": 7,
                   "name": "props",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -55,6 +60,7 @@
         {
           "id": 8,
           "name": "foo",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {
             "isPrivate": true
@@ -75,6 +81,7 @@
         {
           "id": 9,
           "name": "render",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -89,6 +96,7 @@
             {
               "id": 10,
               "name": "render",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "type": {
@@ -131,12 +139,14 @@
     {
       "id": 1,
       "name": "DemoProps",
+      "variant": "declaration",
       "kind": 256,
       "flags": {},
       "children": [
         {
           "id": 3,
           "name": "age",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [
@@ -155,6 +165,7 @@
         {
           "id": 2,
           "name": "name",
+          "variant": "declaration",
           "kind": 1024,
           "flags": {},
           "sources": [

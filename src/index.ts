@@ -64,6 +64,9 @@ export type { EventMap, EventCallback } from "./lib/utils/events";
 export {
     JSONOutput,
     Serializer,
+    Deserializer,
+    type Deserializable,
+    type DeserializerComponent,
     type SerializerComponent,
     SerializeEvent,
 } from "./lib/serialization";

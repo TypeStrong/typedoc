@@ -4,7 +4,7 @@ import { type TraverseCallback, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import type { SignatureReflection } from "./signature";
 import type { TypeParameterReflection } from "./type-parameter";
-import type { Serializer, JSONOutput } from "../../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 import type { CommentDisplayPart } from "../comments";
 
 /**
@@ -36,6 +36,8 @@ export interface DeclarationHierarchy {
  * kind of a reflection is stored in its ´kind´ member.
  */
 export class DeclarationReflection extends ContainerReflection {
+    readonly variant = "declaration" as "declaration" | "reference";
+
     /**
      * The escaped name of this declaration assigned by the TS compiler if there is an associated symbol.
      * This is used to retrieve properties for analyzing inherited members.
@@ -139,6 +141,10 @@ export class DeclarationReflection extends ContainerReflection {
      * The version of the module when found.
      */
     version?: string;
+
+    override isDeclaration(): this is DeclarationReflection {
+        return true;
+    }
 
     override hasGetterOrSetter(): boolean {
         return !!this.getSignature || !!this.setSignature;
@@ -261,6 +267,7 @@ export class DeclarationReflection extends ContainerReflection {
     ): JSONOutput.DeclarationReflection {
         return {
             ...super.toObject(serializer),
+            variant: this.variant,
             typeParameters: serializer.toObjectsOptional(this.typeParameters),
             type: serializer.toObject(this.type),
             signatures: serializer.toObjectsOptional(this.signatures),
@@ -278,5 +285,45 @@ export class DeclarationReflection extends ContainerReflection {
             ),
             implementedBy: serializer.toObjectsOptional(this.implementedBy),
         };
+    }
+
+    override fromObject(
+        de: Deserializer,
+        obj: JSONOutput.DeclarationReflection
+    ): void {
+        super.fromObject(de, obj);
+
+        this.typeParameters = de.reviveMany(obj.typeParameters, (tp) =>
+            de.constructReflection(tp)
+        );
+        this.type = de.revive(obj.type, (t) => de.constructType(t));
+        this.signatures = de.reviveMany(obj.signatures, (r) =>
+            de.constructReflection(r)
+        );
+        this.indexSignature = de.revive(obj.indexSignature, (r) =>
+            de.constructReflection(r)
+        );
+        this.getSignature = de.revive(obj.getSignature, (r) =>
+            de.constructReflection(r)
+        );
+        this.setSignature = de.revive(obj.setSignature, (r) =>
+            de.constructReflection(r)
+        );
+        this.defaultValue = obj.defaultValue;
+        this.overwrites = de.reviveType(obj.overwrites);
+        this.inheritedFrom = de.reviveType(obj.inheritedFrom);
+        this.implementationOf = de.reviveType(obj.implementationOf);
+        this.extendedTypes = de.reviveMany(obj.extendedTypes, (t) =>
+            de.reviveType(t)
+        );
+        this.extendedBy = de.reviveMany(obj.extendedBy, (t) =>
+            de.reviveType(t)
+        );
+        this.implementedTypes = de.reviveMany(obj.implementedTypes, (t) =>
+            de.reviveType(t)
+        );
+        this.implementedBy = de.reviveMany(obj.implementedBy, (t) =>
+            de.reviveType(t)
+        );
     }
 }

@@ -1,24 +1,28 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 6,
       "name": "Class1",
+      "variant": "declaration",
       "kind": 128,
       "flags": {},
       "children": [
         {
           "id": 7,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
           "flags": {},
           "signatures": [
             {
               "id": 8,
               "name": "new Class1",
+              "variant": "signature",
               "kind": 16384,
               "flags": {},
               "type": {
@@ -33,6 +37,7 @@
         {
           "id": 9,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -47,12 +52,14 @@
             {
               "id": 10,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 11,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -71,6 +78,7 @@
                 {
                   "id": 12,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -139,18 +147,21 @@
     {
       "id": 13,
       "name": "Class2",
+      "variant": "declaration",
       "kind": 128,
       "flags": {},
       "children": [
         {
           "id": 14,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
           "flags": {},
           "signatures": [
             {
               "id": 15,
               "name": "new Class2",
+              "variant": "signature",
               "kind": 16384,
               "flags": {},
               "type": {
@@ -165,6 +176,7 @@
         {
           "id": 16,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -179,12 +191,14 @@
             {
               "id": 17,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 18,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -203,6 +217,7 @@
                 {
                   "id": 19,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -271,18 +286,21 @@
     {
       "id": 20,
       "name": "Class3",
+      "variant": "declaration",
       "kind": 128,
       "flags": {},
       "children": [
         {
           "id": 21,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
           "flags": {},
           "signatures": [
             {
               "id": 22,
               "name": "new Class3",
+              "variant": "signature",
               "kind": 16384,
               "flags": {},
               "type": {
@@ -297,6 +315,7 @@
         {
           "id": 23,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -311,12 +330,14 @@
             {
               "id": 24,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 25,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -335,6 +356,7 @@
                 {
                   "id": 26,
                   "name": "c",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -403,12 +425,14 @@
     {
       "id": 1,
       "name": "Base",
+      "variant": "declaration",
       "kind": 256,
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
           "flags": {},
           "sources": [
@@ -423,12 +447,14 @@
             {
               "id": 3,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 4,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -447,6 +473,7 @@
                 {
                   "id": 5,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {

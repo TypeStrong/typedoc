@@ -3,10 +3,10 @@ import * as path from "path";
 
 import type * as ts from "typescript";
 import type { Context } from "../converter";
-import { Reflection } from "./reflections/abstract";
+import type { Reflection } from "./reflections/abstract";
 import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
-import type { Serializer, JSONOutput } from "../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 import { getQualifiedName } from "../utils/tsutils";
 import { ReflectionSymbolId } from "./reflections/id";
 
@@ -43,6 +43,9 @@ export abstract class Type {
     }
 
     abstract toObject(serializer: Serializer): JSONOutput.SomeType;
+
+    // Nothing to do for the majority of types.
+    fromObject(_de: Deserializer, _obj: JSONOutput.SomeType) {}
 
     abstract needsParenthesis(context: TypeContext): boolean;
 
@@ -628,11 +631,8 @@ export class MappedType extends Type {
 export class OptionalType extends Type {
     override readonly type = "optional";
 
-    elementType: SomeType;
-
-    constructor(elementType: SomeType) {
+    constructor(public elementType: SomeType) {
         super();
-        this.elementType = elementType;
     }
 
     protected override getTypeString() {
@@ -717,13 +717,10 @@ export class PredicateType extends Type {
  * ```
  */
 export class QueryType extends Type {
-    readonly queryType: ReferenceType;
-
     override readonly type = "query";
 
-    constructor(reference: ReferenceType) {
+    constructor(public queryType: ReferenceType) {
         super();
-        this.queryType = reference;
     }
 
     protected override getTypeString() {
@@ -801,7 +798,6 @@ export class ReferenceType extends Type {
 
     /**
      * The package that this type is referencing.
-     * Will only be set for `ReferenceType`s pointing to a symbol within `node_modules`.
      */
     package?: string;
 
@@ -827,7 +823,11 @@ export class ReferenceType extends Type {
     ) {
         super();
         this.name = name;
-        this._target = target instanceof Reflection ? target.id : target;
+        if (typeof target === "number") {
+            this._target = target;
+        } else {
+            this._target = "variant" in target ? target.id : target;
+        }
         this._project = project;
         this.qualifiedName = qualifiedName;
     }
@@ -905,7 +905,7 @@ export class ReferenceType extends Type {
     override toObject(serializer: Serializer): JSONOutput.ReferenceType {
         const result: JSONOutput.ReferenceType = {
             type: this.type,
-            id: this.reflection?.id,
+            id: this._target === -1 ? -1 : this.reflection?.id,
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
             package: this.package,
@@ -916,6 +916,29 @@ export class ReferenceType extends Type {
         }
 
         return result;
+    }
+
+    override fromObject(de: Deserializer, obj: JSONOutput.ReferenceType): void {
+        this.typeArguments = de.reviveMany(obj.typeArguments, (t) =>
+            de.constructType(t)
+        );
+        if (obj.id !== -1) {
+            de.defer((project) => {
+                const target = project.getReflectionById(
+                    de.oldIdToNewId[obj.id!] ?? -1
+                );
+                if (target) {
+                    this._project = project;
+                    this._target = target.id;
+                }
+            });
+        } else {
+            this._target = -1;
+        }
+
+        this.qualifiedName = obj.qualifiedName ?? obj.name;
+        this.package = obj.package;
+        // TODO: sourceFileName
     }
 }
 
@@ -932,11 +955,8 @@ export class ReferenceType extends Type {
 export class ReflectionType extends Type {
     override readonly type = "reflection";
 
-    declaration: DeclarationReflection;
-
-    constructor(declaration: DeclarationReflection) {
+    constructor(public declaration: DeclarationReflection) {
         super();
-        this.declaration = declaration;
     }
 
     // This really ought to do better, but I'm putting off investing effort here until

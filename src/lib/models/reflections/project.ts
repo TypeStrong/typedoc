@@ -11,6 +11,8 @@ import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
 import type { CommentDisplayPart } from "../comments";
 import { ReflectionSymbolId, ReflectionSymbolIdString } from "./id";
+import type { Serializer } from "../../serialization/serializer";
+import type { JSONOutput } from "../../serialization/index";
 
 /**
  * A reflection that represents the root of the project.
@@ -19,6 +21,8 @@ import { ReflectionSymbolId, ReflectionSymbolIdString } from "./id";
  * and source files of the processed project through this reflection.
  */
 export class ProjectReflection extends ContainerReflection {
+    readonly variant = "project";
+
     // Used to resolve references.
     private symbolToReflectionIdMap = new Map<
         ReflectionSymbolIdString,
@@ -77,7 +81,16 @@ export class ProjectReflection extends ContainerReflection {
      * we need to create multiple programs. See #1606 and surrounding discussion.
      */
     forgetTsReferences() {
+        // Clear ts.Symbol references
         this.reflectionIdToSymbolMap.clear();
+
+        // TODO: I think we need to do something like this.
+        // // Update local references
+        // this.symbolToReflectionIdMap.clear();
+        // for (const [k, v] of this.reflectionIdToSymbolIdMap) {
+        //     v.pos = Infinity;
+        //     this.symbolToReflectionIdMap.set(v.toIdString(), k);
+        // }
     }
 
     /**
@@ -232,5 +245,12 @@ export class ProjectReflection extends ContainerReflection {
         }
 
         return this.referenceGraph;
+    }
+
+    override toObject(serializer: Serializer): JSONOutput.ProjectReflection {
+        return {
+            ...super.toObject(serializer),
+            variant: this.variant,
+        };
     }
 }

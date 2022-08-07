@@ -20,7 +20,7 @@ export class ReflectionSymbolId {
      * Note: This is **not** serialized. It exists for sorting by declaration order, but
      * should not be needed when deserializing form JSON.
      */
-    readonly pos: number;
+    pos: number;
 
     constructor(symbol: ts.Symbol, declaration = symbol.declarations?.[0]) {
         this.fileName = declaration?.getSourceFile().fileName ?? "\0";

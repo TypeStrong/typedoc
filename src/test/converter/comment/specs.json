@@ -1,18 +1,21 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "comment",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "CommentedClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -46,12 +49,14 @@
             {
               "id": 3,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 4,
                   "name": "new CommentedClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -66,6 +71,7 @@
             {
               "id": 5,
               "name": "prop",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -92,6 +98,7 @@
             {
               "id": 19,
               "name": "mixedHidden",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -106,6 +113,7 @@
                 {
                   "id": 22,
                   "name": "mixedHidden",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -120,6 +128,7 @@
                     {
                       "id": 23,
                       "name": "arg1",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -130,6 +139,7 @@
                     {
                       "id": 24,
                       "name": "arg2",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -196,6 +206,7 @@
     {
       "id": 26,
       "name": "comment2",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "comment": {
@@ -218,6 +229,7 @@
         {
           "id": 27,
           "name": "multiply",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -232,12 +244,14 @@
             {
               "id": 28,
               "name": "multiply",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 29,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -248,6 +262,7 @@
                 {
                   "id": 30,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -284,6 +299,7 @@
     {
       "id": 31,
       "name": "comment3",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "comment": {
@@ -306,6 +322,7 @@
         {
           "id": 32,
           "name": "multiply",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -320,12 +337,14 @@
             {
               "id": 33,
               "name": "multiply",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 34,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -336,6 +355,7 @@
                 {
                   "id": 35,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -372,6 +392,7 @@
     {
       "id": 36,
       "name": "comment4",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "comment": {
@@ -390,6 +411,7 @@
         {
           "id": 37,
           "name": "multiply",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -404,12 +426,14 @@
             {
               "id": 38,
               "name": "multiply",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "parameters": [
                 {
                   "id": 39,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -420,6 +444,7 @@
                 {
                   "id": 40,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {

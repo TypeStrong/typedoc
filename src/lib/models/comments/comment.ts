@@ -1,7 +1,7 @@
 import { assertNever, removeIf } from "../../utils";
 import type { Reflection } from "../reflections";
 
-import type { Serializer, JSONOutput } from "../../serialization";
+import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
 
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
@@ -25,7 +25,7 @@ function serializeDisplayPart(
     switch (part.kind) {
         case "text":
         case "code":
-            return part;
+            return { ...part };
         case "inline-tag": {
             return {
                 ...part,
@@ -36,6 +36,47 @@ function serializeDisplayPart(
             };
         }
     }
+}
+
+function deserializeDisplayParts(
+    de: Deserializer,
+    parts: JSONOutput.CommentDisplayPart[]
+): CommentDisplayPart[] {
+    const links: [number, InlineTagDisplayPart][] = [];
+
+    const result = parts.map((part): CommentDisplayPart => {
+        switch (part.kind) {
+            case "text":
+            case "code":
+                return { ...part };
+            case "inline-tag": {
+                if (typeof part.target !== "number") {
+                    // TS isn't quite smart enough here...
+                    return { ...part } as CommentDisplayPart;
+                } else {
+                    const part2 = {
+                        kind: part.kind,
+                        tag: part.tag,
+                        text: part.text,
+                    };
+                    links.push([part.target, part2]);
+                    return part2;
+                }
+            }
+        }
+    });
+
+    if (links.length) {
+        de.defer((project) => {
+            for (const [oldId, part] of links) {
+                part.target = project.getReflectionById(
+                    de.oldIdToNewId[oldId] || -1
+                );
+            }
+        });
+    }
+
+    return result;
 }
 
 /**
@@ -85,6 +126,12 @@ export class CommentTag {
             name: this.name,
             content: this.content.map(serializeDisplayPart),
         };
+    }
+
+    fromObject(de: Deserializer, obj: JSONOutput.CommentTag) {
+        // tag already set by Comment.fromObject
+        this.name = obj.name;
+        this.content = deserializeDisplayParts(de, obj.content);
     }
 }
 
@@ -250,6 +297,18 @@ export class Comment {
                     : undefined,
             label: this.label,
         };
+    }
+
+    fromObject(de: Deserializer, obj: JSONOutput.Comment) {
+        this.summary = deserializeDisplayParts(de, obj.summary);
+        this.blockTags =
+            obj.blockTags?.map((tagObj) => {
+                const tag = new CommentTag(tagObj.tag, []);
+                de.fromObject(tag, tagObj);
+                return tag;
+            }) || [];
+        this.modifierTags = new Set(obj.modifierTags);
+        this.label = obj.label;
     }
 }
 

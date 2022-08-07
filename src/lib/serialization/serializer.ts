@@ -4,6 +4,7 @@ import type { ProjectReflection } from "../models";
 import { SerializeEvent, SerializeEventData } from "./events";
 import type { ModelToObject } from "./schema";
 import type { SerializerComponent } from "./components";
+import { insertPrioritySorted } from "../utils/array";
 
 export class Serializer extends EventDispatcher {
     /**
@@ -21,15 +22,7 @@ export class Serializer extends EventDispatcher {
     private serializers: SerializerComponent<any>[] = [];
 
     addSerializer(serializer: SerializerComponent<any>): void {
-        if ("serializeGroup" in serializer) {
-            // Remove this check in 0.24
-            throw new Error(
-                "Support for `serializeGroup` was removed. Use supports instead."
-            );
-        }
-
-        this.serializers.push(serializer);
-        this.serializers.sort((a, b) => b.priority - a.priority);
+        insertPrioritySorted(this.serializers, serializer);
     }
 
     toObject<T extends { toObject(serializer: Serializer): ModelToObject<T> }>(

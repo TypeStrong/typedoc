@@ -1,24 +1,28 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "constructor-type",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "Constructor",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
               "id": 3,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -33,12 +37,14 @@
                 {
                   "id": 4,
                   "name": "new Constructor",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 5,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -49,6 +55,7 @@
                     {
                       "id": 6,
                       "name": "y",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -65,12 +72,14 @@
                 {
                   "id": 7,
                   "name": "new Constructor",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 8,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -81,6 +90,7 @@
                     {
                       "id": 9,
                       "name": "y",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -99,12 +109,14 @@
                 {
                   "id": 10,
                   "name": "new Constructor",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 11,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -115,6 +127,7 @@
                     {
                       "id": 12,
                       "name": "y",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -153,6 +166,7 @@
         {
           "id": 13,
           "name": "Instance",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "sources": [
@@ -186,12 +200,14 @@
     {
       "id": 14,
       "name": "index-signature",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 21,
           "name": "BothIndex",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "sources": [
@@ -205,12 +221,14 @@
           "indexSignature": {
             "id": 22,
             "name": "__index",
+            "variant": "signature",
             "kind": 8192,
             "flags": {},
             "parameters": [
               {
                 "id": 23,
                 "name": "x",
+                "variant": "param",
                 "kind": 32768,
                 "flags": {},
                 "type": {
@@ -228,6 +246,7 @@
         {
           "id": 18,
           "name": "NumIndex",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "sources": [
@@ -241,12 +260,14 @@
           "indexSignature": {
             "id": 19,
             "name": "__index",
+            "variant": "signature",
             "kind": 8192,
             "flags": {},
             "parameters": [
               {
                 "id": 20,
                 "name": "x",
+                "variant": "param",
                 "kind": 32768,
                 "flags": {},
                 "type": {
@@ -264,6 +285,7 @@
         {
           "id": 15,
           "name": "StrIndex",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "sources": [
@@ -277,12 +299,14 @@
           "indexSignature": {
             "id": 16,
             "name": "__index",
+            "variant": "signature",
             "kind": 8192,
             "flags": {},
             "parameters": [
               {
                 "id": 17,
                 "name": "x",
+                "variant": "param",
                 "kind": 32768,
                 "flags": {},
                 "type": {
@@ -300,6 +324,7 @@
         {
           "id": 24,
           "name": "TypeIndex",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -315,6 +340,7 @@
             "declaration": {
               "id": 25,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "sources": [
@@ -328,12 +354,14 @@
               "indexSignature": {
                 "id": 26,
                 "name": "__index",
+                "variant": "signature",
                 "kind": 8192,
                 "flags": {},
                 "parameters": [
                   {
                     "id": 27,
                     "name": "x",
+                    "variant": "param",
                     "kind": 32768,
                     "flags": {},
                     "type": {
@@ -379,12 +407,14 @@
     {
       "id": 28,
       "name": "interface-empty",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 30,
           "name": "ClassImplementingEmptyInterface",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -399,12 +429,14 @@
             {
               "id": 31,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 32,
                   "name": "new ClassImplementingEmptyInterface",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -419,6 +451,7 @@
             {
               "id": 33,
               "name": "name",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPrivate": true
@@ -439,6 +472,7 @@
             {
               "id": 34,
               "name": "goto",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isPublic": true
@@ -455,6 +489,7 @@
                 {
                   "id": 35,
                   "name": "goto",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "type": {
@@ -505,6 +540,7 @@
         {
           "id": 29,
           "name": "EmptyInterface",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "comment": {
@@ -558,18 +594,21 @@
     {
       "id": 36,
       "name": "interface-implementation",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 37,
           "name": "Forms",
+          "variant": "declaration",
           "kind": 4,
           "flags": {},
           "children": [
             {
               "id": 81,
               "name": "EventDispatcher",
+              "variant": "declaration",
               "kind": 128,
               "flags": {},
               "comment": {
@@ -595,18 +634,21 @@
                 {
                   "id": 82,
                   "name": "constructor",
+                  "variant": "declaration",
                   "kind": 512,
                   "flags": {},
                   "signatures": [
                     {
                       "id": 83,
                       "name": "new EventDispatcher",
+                      "variant": "signature",
                       "kind": 16384,
                       "flags": {},
                       "typeParameter": [
                         {
                           "id": 84,
                           "name": "T",
+                          "variant": "typeParam",
                           "kind": 131072,
                           "flags": {}
                         }
@@ -633,6 +675,7 @@
                 {
                   "id": 85,
                   "name": "subscriptions",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {
                     "isPrivate": true
@@ -668,6 +711,7 @@
                 {
                   "id": 86,
                   "name": "add",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -682,12 +726,14 @@
                     {
                       "id": 87,
                       "name": "add",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "parameters": [
                         {
                           "id": 88,
                           "name": "listener",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -710,6 +756,7 @@
                         {
                           "id": 89,
                           "name": "filter",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -721,6 +768,7 @@
                         {
                           "id": 90,
                           "name": "priority",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -762,6 +810,7 @@
                 {
                   "id": 97,
                   "name": "clear",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -776,6 +825,7 @@
                     {
                       "id": 98,
                       "name": "clear",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "type": {
@@ -798,6 +848,7 @@
                 {
                   "id": 94,
                   "name": "dispatch",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -812,12 +863,14 @@
                     {
                       "id": 95,
                       "name": "dispatch",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "parameters": [
                         {
                           "id": 96,
                           "name": "event",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -849,6 +902,7 @@
                 {
                   "id": 99,
                   "name": "hasListeners",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -863,6 +917,7 @@
                     {
                       "id": 100,
                       "name": "hasListeners",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "type": {
@@ -885,6 +940,7 @@
                 {
                   "id": 91,
                   "name": "remove",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -899,12 +955,14 @@
                     {
                       "id": 92,
                       "name": "remove",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "parameters": [
                         {
                           "id": 93,
                           "name": "subscription",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -979,6 +1037,7 @@
                 {
                   "id": 101,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -1005,6 +1064,7 @@
             {
               "id": 49,
               "name": "Subscription",
+              "variant": "declaration",
               "kind": 128,
               "flags": {},
               "comment": {
@@ -1019,6 +1079,7 @@
                 {
                   "id": 50,
                   "name": "constructor",
+                  "variant": "declaration",
                   "kind": 512,
                   "flags": {},
                   "sources": [
@@ -1033,12 +1094,14 @@
                     {
                       "id": 51,
                       "name": "new Subscription",
+                      "variant": "signature",
                       "kind": 16384,
                       "flags": {},
                       "typeParameter": [
                         {
                           "id": 52,
                           "name": "V",
+                          "variant": "typeParam",
                           "kind": 131072,
                           "flags": {}
                         }
@@ -1047,6 +1110,7 @@
                         {
                           "id": 53,
                           "name": "listener",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -1069,6 +1133,7 @@
                         {
                           "id": 54,
                           "name": "filter",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -1079,6 +1144,7 @@
                         {
                           "id": 55,
                           "name": "priority",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -1089,6 +1155,7 @@
                         {
                           "id": 56,
                           "name": "dispatcher",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -1131,6 +1198,7 @@
                 {
                   "id": 60,
                   "name": "dispatcher",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {
                     "isPublic": true
@@ -1163,6 +1231,7 @@
                 {
                   "id": 58,
                   "name": "filter",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {
                     "isPublic": true
@@ -1188,6 +1257,7 @@
                 {
                   "id": 57,
                   "name": "listener",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {
                     "isPublic": true
@@ -1225,6 +1295,7 @@
                 {
                   "id": 59,
                   "name": "priority",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {
                     "isPublic": true
@@ -1250,6 +1321,7 @@
                 {
                   "id": 61,
                   "name": "unsubscribe",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -1264,6 +1336,7 @@
                     {
                       "id": 62,
                       "name": "unsubscribe",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "comment": {
@@ -1327,6 +1400,7 @@
                 {
                   "id": 63,
                   "name": "V",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -1353,6 +1427,7 @@
             {
               "id": 64,
               "name": "EventDispatcherInt",
+              "variant": "declaration",
               "kind": 256,
               "flags": {},
               "comment": {
@@ -1367,6 +1442,7 @@
                 {
                   "id": 65,
                   "name": "add",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -1381,12 +1457,14 @@
                     {
                       "id": 66,
                       "name": "add",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "parameters": [
                         {
                           "id": 67,
                           "name": "listener",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -1409,6 +1487,7 @@
                         {
                           "id": 68,
                           "name": "filter",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {
                             "isOptional": true
@@ -1421,6 +1500,7 @@
                         {
                           "id": 69,
                           "name": "priority",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {
                             "isOptional": true
@@ -1453,6 +1533,7 @@
                 {
                   "id": 76,
                   "name": "clear",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -1467,6 +1548,7 @@
                     {
                       "id": 77,
                       "name": "clear",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "type": {
@@ -1479,6 +1561,7 @@
                 {
                   "id": 73,
                   "name": "dispatch",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -1493,12 +1576,14 @@
                     {
                       "id": 74,
                       "name": "dispatch",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "parameters": [
                         {
                           "id": 75,
                           "name": "parameter",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -1520,6 +1605,7 @@
                 {
                   "id": 78,
                   "name": "hasListeners",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -1534,6 +1620,7 @@
                     {
                       "id": 79,
                       "name": "hasListeners",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "type": {
@@ -1546,6 +1633,7 @@
                 {
                   "id": 70,
                   "name": "remove",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -1560,12 +1648,14 @@
                     {
                       "id": 71,
                       "name": "remove",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "parameters": [
                         {
                           "id": 72,
                           "name": "subscription",
+                          "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
@@ -1618,6 +1708,7 @@
                 {
                   "id": 80,
                   "name": "U",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -1633,6 +1724,7 @@
             {
               "id": 38,
               "name": "EventListener",
+              "variant": "declaration",
               "kind": 256,
               "flags": {},
               "sources": [
@@ -1647,6 +1739,7 @@
                 {
                   "id": 39,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -1655,12 +1748,14 @@
                 {
                   "id": 40,
                   "name": "EventListener",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 41,
                       "name": "parameter",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -1690,6 +1785,7 @@
             {
               "id": 42,
               "name": "SubscriptionInt",
+              "variant": "declaration",
               "kind": 256,
               "flags": {},
               "comment": {
@@ -1704,6 +1800,7 @@
                 {
                   "id": 45,
                   "name": "filter",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1722,6 +1819,7 @@
                 {
                   "id": 43,
                   "name": "listener",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1752,6 +1850,7 @@
                 {
                   "id": 44,
                   "name": "priority",
+                  "variant": "declaration",
                   "kind": 1024,
                   "flags": {},
                   "sources": [
@@ -1770,6 +1869,7 @@
                 {
                   "id": 46,
                   "name": "unsubscribe",
+                  "variant": "declaration",
                   "kind": 2048,
                   "flags": {},
                   "sources": [
@@ -1784,6 +1884,7 @@
                     {
                       "id": 47,
                       "name": "unsubscribe",
+                      "variant": "signature",
                       "kind": 4096,
                       "flags": {},
                       "comment": {
@@ -1830,6 +1931,7 @@
                 {
                   "id": 48,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {}
                 }
@@ -1890,18 +1992,21 @@
     {
       "id": 102,
       "name": "merging",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 103,
           "name": "Base",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
               "id": 104,
               "name": "base",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -1950,12 +2055,14 @@
         {
           "id": 105,
           "name": "Base2",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
               "id": 106,
               "name": "base2",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -1999,12 +2106,14 @@
         {
           "id": 107,
           "name": "Child",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
               "id": 110,
               "name": "base",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2028,6 +2137,7 @@
             {
               "id": 111,
               "name": "base2",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2051,6 +2161,7 @@
             {
               "id": 108,
               "name": "child",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2069,6 +2180,7 @@
             {
               "id": 109,
               "name": "child3",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2135,12 +2247,14 @@
         {
           "id": 112,
           "name": "Child2",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
               "id": 116,
               "name": "base",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2164,6 +2278,7 @@
             {
               "id": 117,
               "name": "base2",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2187,6 +2302,7 @@
             {
               "id": 114,
               "name": "child",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2210,6 +2326,7 @@
             {
               "id": 113,
               "name": "child2",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -2228,6 +2345,7 @@
             {
               "id": 115,
               "name": "child3",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [

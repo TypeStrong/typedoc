@@ -1,18 +1,21 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "inherit-doc",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 14,
           "name": "InterfaceSource",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "comment": {
@@ -27,6 +30,7 @@
             {
               "id": 15,
               "name": "property",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -68,6 +72,7 @@
             {
               "id": 16,
               "name": "someMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -82,6 +87,7 @@
                 {
                   "id": 17,
                   "name": "someMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -96,6 +102,7 @@
                     {
                       "id": 18,
                       "name": "arg",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -141,6 +148,7 @@
             {
               "id": 19,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {},
               "comment": {
@@ -157,6 +165,7 @@
         {
           "id": 20,
           "name": "InterfaceTarget",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "comment": {
@@ -171,6 +180,7 @@
             {
               "id": 21,
               "name": "property",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "comment": {
@@ -200,6 +210,7 @@
             {
               "id": 22,
               "name": "someMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -214,6 +225,7 @@
                 {
                   "id": 23,
                   "name": "someMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -228,6 +240,7 @@
                     {
                       "id": 24,
                       "name": "arg",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "type": {
@@ -273,6 +286,7 @@
             {
               "id": 25,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {},
               "comment": {
@@ -289,6 +303,7 @@
         {
           "id": 2,
           "name": "functionSource",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -303,6 +318,7 @@
             {
               "id": 3,
               "name": "functionSource",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -346,6 +362,7 @@
                 {
                   "id": 4,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {},
                   "comment": {
@@ -362,6 +379,7 @@
                 {
                   "id": 5,
                   "name": "arg1",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -382,6 +400,7 @@
                 {
                   "id": 6,
                   "name": "arg2",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -410,6 +429,7 @@
         {
           "id": 7,
           "name": "functionTargetGlobal",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -424,6 +444,7 @@
             {
               "id": 8,
               "name": "functionTargetGlobal",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -446,6 +467,7 @@
         {
           "id": 9,
           "name": "functionTargetLocal",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -460,6 +482,7 @@
             {
               "id": 10,
               "name": "functionTargetLocal",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -520,6 +543,7 @@
                 {
                   "id": 11,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
                   "flags": {},
                   "comment": {
@@ -536,6 +560,7 @@
                 {
                   "id": 12,
                   "name": "arg1",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -556,6 +581,7 @@
                 {
                   "id": 13,
                   "name": "arg2",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -611,18 +637,21 @@
     {
       "id": 26,
       "name": "mergable-class",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 34,
           "name": "MySubClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 36,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -637,6 +666,7 @@
                 {
                   "id": 37,
                   "name": "new MySubClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -647,18 +677,21 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": -1,
                     "name": "My.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "My.constructor"
               }
             },
             {
               "id": 38,
               "name": "instanceProp",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -675,12 +708,14 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "My.instanceProp"
               }
             },
             {
               "id": 35,
               "name": "staticProp",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isStatic": true
@@ -699,6 +734,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": -1,
                 "name": "My.staticProp"
               }
             }
@@ -738,12 +774,14 @@
         {
           "id": 32,
           "name": "My",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
               "id": 33,
               "name": "instanceProp",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -786,12 +824,14 @@
         {
           "id": 27,
           "name": "MyCtor",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
               "id": 29,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -806,6 +846,7 @@
                 {
                   "id": 30,
                   "name": "new MyCtor",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -820,6 +861,7 @@
             {
               "id": 28,
               "name": "staticProp",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -862,6 +904,7 @@
         {
           "id": 31,
           "name": "My",
+          "variant": "declaration",
           "kind": 32,
           "flags": {},
           "sources": [

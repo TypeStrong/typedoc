@@ -2,7 +2,7 @@ import type * as ts from "typescript";
 import { ParameterType } from "./declaration";
 import type { NeverIfInternal } from "..";
 import type { Application } from "../../..";
-import { insertPrioritySorted, unique } from "../array";
+import { insertOrderSorted, unique } from "../array";
 import type { Logger } from "../loggers";
 import {
     convert,
@@ -21,17 +21,14 @@ import { addTypeDocOptions } from "./sources";
  */
 export interface OptionsReader {
     /**
-     * Readers will be processed according to their priority.
-     * A higher priority indicates that the reader should be called *later* so that
-     * it can override options set by lower priority readers.
+     * Readers will be processed according to their orders.
+     * A higher order indicates that the reader should be called *later*.
      *
      * Note that to preserve expected behavior, the argv reader must have both the lowest
-     * priority so that it may set the location of config files used by other readers and
-     * the highest priority so that it can override settings from lower priority readers.
-     *
-     * Note: In 0.23. `priority` will be renamed to `order`, with the same meaning
+     * order so that it may set the location of config files used by other readers and
+     * the highest order so that it can override settings from lower order readers.
      */
-    priority: number;
+    order: number;
 
     /**
      * The name of this reader so that it may be removed by plugins without the plugin
@@ -183,7 +180,7 @@ export class Options {
      * @param reader
      */
     addReader(reader: OptionsReader): void {
-        insertPrioritySorted(this._readers, reader);
+        insertOrderSorted(this._readers, reader);
     }
 
     read(logger: Logger) {

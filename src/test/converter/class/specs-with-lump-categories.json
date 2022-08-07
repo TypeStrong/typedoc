@@ -1,18 +1,21 @@
 {
   "id": 0,
   "name": "typedoc",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "access",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 8,
           "name": "PrivateClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {
             "isPrivate": true
@@ -29,6 +32,7 @@
             {
               "id": 13,
               "name": "fakePrivateProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPrivate": true
@@ -57,6 +61,7 @@
             {
               "id": 14,
               "name": "fakeProtectedProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isProtected": true
@@ -85,6 +90,7 @@
             {
               "id": 9,
               "name": "privateStaticGetter",
+              "variant": "declaration",
               "kind": 262144,
               "flags": {
                 "isPrivate": true,
@@ -101,6 +107,7 @@
               "getSignature": {
                 "id": 10,
                 "name": "privateStaticGetter",
+                "variant": "signature",
                 "kind": 524288,
                 "flags": {},
                 "type": {
@@ -112,6 +119,7 @@
             {
               "id": 15,
               "name": "fakePrivateMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isPrivate": true
@@ -128,6 +136,7 @@
                 {
                   "id": 16,
                   "name": "fakePrivateMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {
                     "isPrivate": true
@@ -150,6 +159,7 @@
             {
               "id": 17,
               "name": "fakeProtectedMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isProtected": true
@@ -166,6 +176,7 @@
                 {
                   "id": 18,
                   "name": "fakeProtectedMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {
                     "isProtected": true
@@ -188,6 +199,7 @@
             {
               "id": 19,
               "name": "privateArrow",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isPrivate": true
@@ -204,6 +216,7 @@
                 {
                   "id": 20,
                   "name": "privateArrow",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "type": {
@@ -249,6 +262,7 @@
         {
           "id": 6,
           "name": "fakePrivateVariable",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isPrivate": true,
@@ -279,6 +293,7 @@
         {
           "id": 7,
           "name": "fakeProtectedVariable",
+          "variant": "declaration",
           "kind": 32,
           "flags": {
             "isProtected": true,
@@ -309,6 +324,7 @@
         {
           "id": 2,
           "name": "fakePrivateFunction",
+          "variant": "declaration",
           "kind": 64,
           "flags": {
             "isPrivate": true
@@ -325,6 +341,7 @@
             {
               "id": 3,
               "name": "fakePrivateFunction",
+              "variant": "signature",
               "kind": 4096,
               "flags": {
                 "isPrivate": true
@@ -347,6 +364,7 @@
         {
           "id": 4,
           "name": "fakeProtectedFunction",
+          "variant": "declaration",
           "kind": 64,
           "flags": {
             "isProtected": true
@@ -363,6 +381,7 @@
             {
               "id": 5,
               "name": "fakeProtectedFunction",
+              "variant": "signature",
               "kind": 4096,
               "flags": {
                 "isProtected": true
@@ -417,18 +436,21 @@
     {
       "id": 21,
       "name": "class",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 59,
           "name": "TestSubClass",
+          "variant": "declaration",
           "kind": 4,
           "flags": {},
           "children": [
             {
               "id": 60,
               "name": "staticMergedMethod",
+              "variant": "declaration",
               "kind": 64,
               "flags": {},
               "sources": [
@@ -443,6 +465,7 @@
                 {
                   "id": 61,
                   "name": "staticMergedMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -493,6 +516,7 @@
         {
           "id": 85,
           "name": "Abstract",
+          "variant": "declaration",
           "kind": 128,
           "flags": {
             "isAbstract": true
@@ -501,12 +525,14 @@
             {
               "id": 86,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 87,
                   "name": "new Abstract",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -521,6 +547,7 @@
             {
               "id": 88,
               "name": "needsImpl",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isAbstract": true
@@ -537,6 +564,7 @@
                 {
                   "id": 89,
                   "name": "needsImpl",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "type": {
@@ -573,18 +601,21 @@
         {
           "id": 74,
           "name": "ComputedNames",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 75,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 76,
                   "name": "new ComputedNames",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -599,6 +630,7 @@
             {
               "id": 79,
               "name": "[toStringTag]",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -618,6 +650,7 @@
             {
               "id": 80,
               "name": "literal",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -637,6 +670,7 @@
             {
               "id": 77,
               "name": "literal2",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -656,6 +690,7 @@
             {
               "id": 78,
               "name": "y",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -702,6 +737,7 @@
         {
           "id": 62,
           "name": "TestAbstractClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {
             "isAbstract": true
@@ -710,12 +746,14 @@
             {
               "id": 63,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 64,
                   "name": "new TestAbstractClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -730,6 +768,7 @@
             {
               "id": 65,
               "name": "myAbstractProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isAbstract": true
@@ -750,6 +789,7 @@
             {
               "id": 66,
               "name": "myAbstractMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isProtected": true,
@@ -767,6 +807,7 @@
                 {
                   "id": 67,
                   "name": "myAbstractMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "type": {
@@ -816,18 +857,21 @@
         {
           "id": 68,
           "name": "TestAbstractClassImplementation",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 69,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 70,
                   "name": "new TestAbstractClassImplementation",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -852,6 +896,7 @@
             {
               "id": 71,
               "name": "myAbstractProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -875,6 +920,7 @@
             {
               "id": 72,
               "name": "myAbstractMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isProtected": true
@@ -891,6 +937,7 @@
                 {
                   "id": 73,
                   "name": "myAbstractMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "type": {
@@ -951,6 +998,7 @@
         {
           "id": 22,
           "name": "TestClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -982,6 +1030,7 @@
             {
               "id": 26,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -996,6 +1045,7 @@
                 {
                   "id": 27,
                   "name": "new TestClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "comment": {
@@ -1018,6 +1068,7 @@
             {
               "id": 29,
               "name": "privateProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPrivate": true
@@ -1049,6 +1100,7 @@
             {
               "id": 28,
               "name": "publicProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPublic": true
@@ -1077,6 +1129,7 @@
             {
               "id": 23,
               "name": "staticProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isStatic": true
@@ -1107,6 +1160,7 @@
             {
               "id": 36,
               "name": "arrowMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -1121,6 +1175,7 @@
                 {
                   "id": 37,
                   "name": "arrowMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1141,6 +1196,7 @@
             {
               "id": 34,
               "name": "privateMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isPrivate": true
@@ -1157,6 +1213,7 @@
                 {
                   "id": 35,
                   "name": "privateMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1177,6 +1234,7 @@
             {
               "id": 32,
               "name": "protectedMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isProtected": true
@@ -1193,6 +1251,7 @@
                 {
                   "id": 33,
                   "name": "protectedMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1213,6 +1272,7 @@
             {
               "id": 30,
               "name": "publicMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isPublic": true
@@ -1229,6 +1289,7 @@
                 {
                   "id": 31,
                   "name": "publicMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1249,6 +1310,7 @@
             {
               "id": 24,
               "name": "staticMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isStatic": true
@@ -1265,6 +1327,7 @@
                 {
                   "id": 25,
                   "name": "staticMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1356,6 +1419,7 @@
         {
           "id": 38,
           "name": "TestSubClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -1387,6 +1451,7 @@
             {
               "id": 42,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -1401,6 +1466,7 @@
                 {
                   "id": 43,
                   "name": "new TestSubClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "comment": {
@@ -1415,6 +1481,7 @@
                     {
                       "id": 44,
                       "name": "p1",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -1433,6 +1500,7 @@
                     {
                       "id": 45,
                       "name": "p2",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -1451,6 +1519,7 @@
                     {
                       "id": 46,
                       "name": "p3",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -1469,6 +1538,7 @@
                     {
                       "id": 47,
                       "name": "p4",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -1507,6 +1577,7 @@
             {
               "id": 52,
               "name": "p3",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPublic": true
@@ -1527,6 +1598,7 @@
             {
               "id": 53,
               "name": "p4",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPublic": true
@@ -1547,6 +1619,7 @@
             {
               "id": 56,
               "name": "publicProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPublic": true
@@ -1580,6 +1653,7 @@
             {
               "id": 39,
               "name": "staticProperty",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isStatic": true
@@ -1615,6 +1689,7 @@
             {
               "id": 57,
               "name": "arrowMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -1629,6 +1704,7 @@
                 {
                   "id": 58,
                   "name": "arrowMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1659,6 +1735,7 @@
             {
               "id": 54,
               "name": "mergedMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -1673,6 +1750,7 @@
                 {
                   "id": 55,
                   "name": "mergedMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1693,6 +1771,7 @@
             {
               "id": 50,
               "name": "protectedMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isProtected": true
@@ -1709,6 +1788,7 @@
                 {
                   "id": 51,
                   "name": "protectedMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1739,6 +1819,7 @@
             {
               "id": 48,
               "name": "publicMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isPublic": true
@@ -1755,6 +1836,7 @@
                 {
                   "id": 49,
                   "name": "publicMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1785,6 +1867,7 @@
             {
               "id": 40,
               "name": "staticMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isStatic": true
@@ -1801,6 +1884,7 @@
                 {
                   "id": 41,
                   "name": "staticMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -1888,18 +1972,21 @@
         {
           "id": 81,
           "name": "Ts38PrivateFields",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 82,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 83,
                   "name": "new Ts38PrivateFields",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -1914,6 +2001,7 @@
             {
               "id": 84,
               "name": "#foo",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPrivate": true
@@ -1967,6 +2055,7 @@
         {
           "id": 90,
           "name": "AbstractMe",
+          "variant": "declaration",
           "kind": 4194304,
           "flags": {},
           "sources": [
@@ -1982,6 +2071,7 @@
             "declaration": {
               "id": 91,
               "name": "__type",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -1996,6 +2086,7 @@
                 {
                   "id": 92,
                   "name": "__type",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {
                     "isAbstract": true
@@ -2050,12 +2141,14 @@
     {
       "id": 93,
       "name": "constructor-properties",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 94,
           "name": "Vector2",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -2070,6 +2163,7 @@
             {
               "id": 95,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -2084,12 +2178,14 @@
                 {
                   "id": 96,
                   "name": "new Vector2",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 97,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -2108,6 +2204,7 @@
                     {
                       "id": 98,
                       "name": "y",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -2126,6 +2223,7 @@
                     {
                       "id": 99,
                       "name": "name",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -2154,6 +2252,7 @@
             {
               "id": 102,
               "name": "name",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isReadonly": true
@@ -2174,6 +2273,7 @@
             {
               "id": 100,
               "name": "x",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPublic": true
@@ -2194,6 +2294,7 @@
             {
               "id": 101,
               "name": "y",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPublic": true
@@ -2247,6 +2348,7 @@
         {
           "id": 103,
           "name": "Vector3",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -2261,6 +2363,7 @@
             {
               "id": 104,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -2275,12 +2378,14 @@
                 {
                   "id": 105,
                   "name": "new Vector3",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "parameters": [
                     {
                       "id": 106,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -2299,6 +2404,7 @@
                     {
                       "id": 107,
                       "name": "y",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -2317,6 +2423,7 @@
                     {
                       "id": 108,
                       "name": "z",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -2335,6 +2442,7 @@
                     {
                       "id": 109,
                       "name": "name",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -2373,6 +2481,7 @@
             {
               "id": 112,
               "name": "name",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isReadonly": true
@@ -2398,6 +2507,7 @@
             {
               "id": 113,
               "name": "x",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPublic": true
@@ -2423,6 +2533,7 @@
             {
               "id": 110,
               "name": "y",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPublic": true
@@ -2448,6 +2559,7 @@
             {
               "id": 111,
               "name": "z",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPublic": true
@@ -2522,12 +2634,14 @@
     {
       "id": 114,
       "name": "decorators",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 128,
           "name": "DecoratedClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -2542,12 +2656,14 @@
             {
               "id": 129,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 130,
                   "name": "new DecoratedClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -2562,6 +2678,7 @@
             {
               "id": 131,
               "name": "decoratedMethod",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -2576,6 +2693,7 @@
                 {
                   "id": 132,
                   "name": "decoratedMethod",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -2620,6 +2738,7 @@
         {
           "id": 115,
           "name": "decoratorAtom",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -2634,6 +2753,7 @@
             {
               "id": 116,
               "name": "decoratorAtom",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -2648,6 +2768,7 @@
                 {
                   "id": 117,
                   "name": "target",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -2659,6 +2780,7 @@
                 {
                   "id": 118,
                   "name": "propertyKey",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -2678,6 +2800,7 @@
                 {
                   "id": 119,
                   "name": "descriptor",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
@@ -2703,6 +2826,7 @@
         {
           "id": 123,
           "name": "decoratorWithOptions",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -2717,6 +2841,7 @@
             {
               "id": 124,
               "name": "decoratorWithOptions",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -2731,6 +2856,7 @@
                 {
                   "id": 125,
                   "name": "options",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -2746,12 +2872,14 @@
                     "declaration": {
                       "id": 126,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
                           "id": 127,
                           "name": "name",
+                          "variant": "declaration",
                           "kind": 1024,
                           "flags": {},
                           "comment": {
@@ -2807,6 +2935,7 @@
         {
           "id": 120,
           "name": "decoratorWithParam",
+          "variant": "declaration",
           "kind": 64,
           "flags": {},
           "sources": [
@@ -2821,6 +2950,7 @@
             {
               "id": 121,
               "name": "decoratorWithParam",
+              "variant": "signature",
               "kind": 4096,
               "flags": {},
               "comment": {
@@ -2835,6 +2965,7 @@
                 {
                   "id": 122,
                   "name": "value",
+                  "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "comment": {
@@ -2888,24 +3019,28 @@
     {
       "id": 160,
       "name": "events",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 161,
           "name": "EventDispatcher",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 163,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 164,
                   "name": "new EventDispatcher",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -2920,6 +3055,7 @@
             {
               "id": 162,
               "name": "EVENT_CLICK",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isStatic": true
@@ -2991,12 +3127,14 @@
     {
       "id": 133,
       "name": "events-overloads",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 134,
           "name": "Test",
+          "variant": "declaration",
           "kind": 256,
           "flags": {},
           "comment": {
@@ -3022,6 +3160,7 @@
             {
               "id": 135,
               "name": "on",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -3054,6 +3193,7 @@
                 {
                   "id": 136,
                   "name": "on",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -3068,6 +3208,7 @@
                     {
                       "id": 137,
                       "name": "event",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3086,6 +3227,7 @@
                     {
                       "id": 138,
                       "name": "handler",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3101,6 +3243,7 @@
                         "declaration": {
                           "id": 139,
                           "name": "__type",
+                          "variant": "declaration",
                           "kind": 65536,
                           "flags": {},
                           "sources": [
@@ -3115,12 +3258,14 @@
                             {
                               "id": 140,
                               "name": "__type",
+                              "variant": "signature",
                               "kind": 4096,
                               "flags": {},
                               "parameters": [
                                 {
                                   "id": 141,
                                   "name": "e",
+                                  "variant": "param",
                                   "kind": 32768,
                                   "flags": {},
                                   "type": {
@@ -3147,6 +3292,7 @@
                 {
                   "id": 142,
                   "name": "on",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -3161,6 +3307,7 @@
                     {
                       "id": 143,
                       "name": "event",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3179,6 +3326,7 @@
                     {
                       "id": 144,
                       "name": "handler",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3194,6 +3342,7 @@
                         "declaration": {
                           "id": 145,
                           "name": "__type",
+                          "variant": "declaration",
                           "kind": 65536,
                           "flags": {},
                           "sources": [
@@ -3208,12 +3357,14 @@
                             {
                               "id": 146,
                               "name": "__type",
+                              "variant": "signature",
                               "kind": 4096,
                               "flags": {},
                               "parameters": [
                                 {
                                   "id": 147,
                                   "name": "e",
+                                  "variant": "param",
                                   "kind": 32768,
                                   "flags": {},
                                   "type": {
@@ -3240,6 +3391,7 @@
                 {
                   "id": 148,
                   "name": "on",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -3254,6 +3406,7 @@
                     {
                       "id": 149,
                       "name": "event",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3272,6 +3425,7 @@
                     {
                       "id": 150,
                       "name": "handler",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3287,6 +3441,7 @@
                         "declaration": {
                           "id": 151,
                           "name": "__type",
+                          "variant": "declaration",
                           "kind": 65536,
                           "flags": {},
                           "sources": [
@@ -3301,12 +3456,14 @@
                             {
                               "id": 152,
                               "name": "__type",
+                              "variant": "signature",
                               "kind": 4096,
                               "flags": {},
                               "parameters": [
                                 {
                                   "id": 153,
                                   "name": "e",
+                                  "variant": "param",
                                   "kind": 32768,
                                   "flags": {},
                                   "type": {
@@ -3333,6 +3490,7 @@
                 {
                   "id": 154,
                   "name": "on",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -3347,6 +3505,7 @@
                     {
                       "id": 155,
                       "name": "event",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3365,6 +3524,7 @@
                     {
                       "id": 156,
                       "name": "handler",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3380,6 +3540,7 @@
                         "declaration": {
                           "id": 157,
                           "name": "__type",
+                          "variant": "declaration",
                           "kind": 65536,
                           "flags": {},
                           "sources": [
@@ -3394,12 +3555,14 @@
                             {
                               "id": 158,
                               "name": "__type",
+                              "variant": "signature",
                               "kind": 4096,
                               "flags": {},
                               "parameters": [
                                 {
                                   "id": 159,
                                   "name": "e",
+                                  "variant": "param",
                                   "kind": 32768,
                                   "flags": {},
                                   "type": {
@@ -3464,12 +3627,14 @@
     {
       "id": 165,
       "name": "generic-class",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 166,
           "name": "GenericClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -3484,6 +3649,7 @@
             {
               "id": 167,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -3498,6 +3664,7 @@
                 {
                   "id": 168,
                   "name": "new GenericClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "comment": {
@@ -3512,6 +3679,7 @@
                     {
                       "id": 169,
                       "name": "T",
+                      "variant": "typeParam",
                       "kind": 131072,
                       "flags": {}
                     }
@@ -3520,6 +3688,7 @@
                     {
                       "id": 170,
                       "name": "value",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3560,6 +3729,7 @@
             {
               "id": 171,
               "name": "value",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isProtected": true
@@ -3591,6 +3761,7 @@
             {
               "id": 172,
               "name": "values",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isProtected": true
@@ -3625,6 +3796,7 @@
             {
               "id": 173,
               "name": "getValue",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -3639,6 +3811,7 @@
                 {
                   "id": 174,
                   "name": "getValue",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -3704,6 +3877,7 @@
             {
               "id": 175,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {},
               "comment": {
@@ -3727,6 +3901,7 @@
         {
           "id": 176,
           "name": "NonGenericClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -3741,6 +3916,7 @@
             {
               "id": 177,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "sources": [
@@ -3755,6 +3931,7 @@
                 {
                   "id": 178,
                   "name": "new NonGenericClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "comment": {
@@ -3769,6 +3946,7 @@
                     {
                       "id": 179,
                       "name": "value",
+                      "variant": "param",
                       "kind": 32768,
                       "flags": {},
                       "comment": {
@@ -3807,6 +3985,7 @@
             {
               "id": 180,
               "name": "value",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isProtected": true
@@ -3840,6 +4019,7 @@
             {
               "id": 181,
               "name": "values",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isProtected": true
@@ -3876,6 +4056,7 @@
             {
               "id": 182,
               "name": "getValue",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {},
               "sources": [
@@ -3890,6 +4071,7 @@
                 {
                   "id": 183,
                   "name": "getValue",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -3995,24 +4177,28 @@
     {
       "id": 184,
       "name": "getter-setter",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 185,
           "name": "GetterSetter",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 186,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 187,
                   "name": "new GetterSetter",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -4027,6 +4213,7 @@
             {
               "id": 188,
               "name": "_name",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {
                 "isPrivate": true
@@ -4047,6 +4234,7 @@
             {
               "id": 189,
               "name": "name",
+              "variant": "declaration",
               "kind": 262144,
               "flags": {},
               "sources": [
@@ -4066,6 +4254,7 @@
               "getSignature": {
                 "id": 190,
                 "name": "name",
+                "variant": "signature",
                 "kind": 524288,
                 "flags": {},
                 "type": {
@@ -4076,12 +4265,14 @@
               "setSignature": {
                 "id": 191,
                 "name": "name",
+                "variant": "signature",
                 "kind": 1048576,
                 "flags": {},
                 "parameters": [
                   {
                     "id": 192,
                     "name": "value",
+                    "variant": "param",
                     "kind": 32768,
                     "flags": {},
                     "type": {
@@ -4099,6 +4290,7 @@
             {
               "id": 193,
               "name": "readOnlyName",
+              "variant": "declaration",
               "kind": 262144,
               "flags": {},
               "sources": [
@@ -4112,6 +4304,7 @@
               "getSignature": {
                 "id": 194,
                 "name": "readOnlyName",
+                "variant": "signature",
                 "kind": 524288,
                 "flags": {},
                 "type": {
@@ -4123,6 +4316,7 @@
             {
               "id": 195,
               "name": "writeOnlyName",
+              "variant": "declaration",
               "kind": 262144,
               "flags": {},
               "sources": [
@@ -4136,12 +4330,14 @@
               "setSignature": {
                 "id": 196,
                 "name": "writeOnlyName",
+                "variant": "signature",
                 "kind": 1048576,
                 "flags": {},
                 "parameters": [
                   {
                     "id": 197,
                     "name": "value",
+                    "variant": "param",
                     "kind": 32768,
                     "flags": {},
                     "type": {
@@ -4209,12 +4405,14 @@
     {
       "id": 198,
       "name": "this",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 199,
           "name": "ChainClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -4229,12 +4427,14 @@
             {
               "id": 200,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 201,
                   "name": "new ChainClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -4249,6 +4449,7 @@
             {
               "id": 202,
               "name": "chain",
+              "variant": "declaration",
               "kind": 2048,
               "flags": {
                 "isPublic": true
@@ -4265,6 +4466,7 @@
                 {
                   "id": 203,
                   "name": "chain",
+                  "variant": "signature",
                   "kind": 4096,
                   "flags": {},
                   "comment": {
@@ -4329,30 +4531,35 @@
     {
       "id": 204,
       "name": "type-operator",
+      "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
           "id": 210,
           "name": "GenericClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
               "id": 211,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 212,
                   "name": "new GenericClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "typeParameter": [
                     {
                       "id": 213,
                       "name": "T",
+                      "variant": "typeParam",
                       "kind": 131072,
                       "flags": {},
                       "type": {
@@ -4388,6 +4595,7 @@
             {
               "id": 214,
               "name": "c",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -4433,6 +4641,7 @@
             {
               "id": 215,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
               "flags": {},
               "type": {
@@ -4451,6 +4660,7 @@
         {
           "id": 205,
           "name": "TestClass",
+          "variant": "declaration",
           "kind": 128,
           "flags": {},
           "comment": {
@@ -4482,12 +4692,14 @@
             {
               "id": 206,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
                   "id": 207,
                   "name": "new TestClass",
+                  "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
@@ -4502,6 +4714,7 @@
             {
               "id": 208,
               "name": "a",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
@@ -4520,6 +4733,7 @@
             {
               "id": 209,
               "name": "b",
+              "variant": "declaration",
               "kind": 1024,
               "flags": {},
               "sources": [
