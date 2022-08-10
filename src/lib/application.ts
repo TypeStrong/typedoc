@@ -154,27 +154,32 @@ export class Application extends ChildableComponent<
         }
         this.options.read(this.logger);
 
-        /* For plugin options as an object (ie. ParameterType.Mixed), this takes the default 
-         * options declared in 'load()' by the plugin developer, and merges them with any 
+        /* For plugin options as an object (ie. ParameterType.Mixed), this takes the default
+         * options declared in 'load()' by the plugin developer, and merges them with any
          * custom options declared by a user in 'typedoc.json'.
-         * 
+         *
          * see https://github.com/TypeStrong/typedoc/issues/2024
          */
         for (const [key, value] of Object.entries(defaultPluginOptions)) {
-            const loadedValue = this.options.getValue(key as keyof TypeDocOptions) as object;
+            const loadedValue = this.options.getValue(
+                key as keyof TypeDocOptions
+            ) as object;
             /* Only merge plugin keys from objects.
              * Arrays and string options, if set in typedoc.json, completely
              * overwrite the default plugin options.
-             */ 
-            if (typeof value === 'object' && !Array.isArray(value)) {
-                const newValue = {...value, ...loadedValue};
+             */
+            if (typeof value === "object" && !Array.isArray(value)) {
+                const newValue = { ...value, ...loadedValue };
                 try {
-                    this.options.setValue(key as keyof TypeDocOptions, newValue);
+                    this.options.setValue(
+                        key as keyof TypeDocOptions,
+                        newValue
+                    );
                 } catch (error) {
                     ok(error instanceof Error);
                     this.logger.error(error.message);
-                }    
-            } 
+                }
+            }
         }
 
         if (hasBeenLoadedMultipleTimes()) {
@@ -185,16 +190,20 @@ export class Application extends ChildableComponent<
     }
     /**
      * Isolates and returns options specific to plugins only.
-     * 
+     *
      * @param typedocOptionKeys an array of all typedoc specific options keys
      * @returns options specific to plugins
      */
-    private stashPluginOptions(typedocOptionKeys: string[]): {[key: string]: unknown} {
-        const allOptions: {[key: string]: unknown} = this.options.getRawValues();
-        const pluginOptions: {[key: string]: unknown} = {};
-        Object.keys(allOptions).forEach(key => {
-            (typedocOptionKeys.indexOf(key) < 0) && (pluginOptions[key] = allOptions[key])
-        })
+    private stashPluginOptions(typedocOptionKeys: string[]): {
+        [key: string]: unknown;
+    } {
+        const allOptions: { [key: string]: unknown } =
+            this.options.getRawValues();
+        const pluginOptions: { [key: string]: unknown } = {};
+        Object.keys(allOptions).forEach((key) => {
+            typedocOptionKeys.indexOf(key) < 0 &&
+                (pluginOptions[key] = allOptions[key]);
+        });
         return pluginOptions;
     }
 

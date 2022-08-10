@@ -113,18 +113,20 @@ describe("Default Options", () => {
     /* passing arrow functions to MOCHA is discouraged.
      * See: https://mochajs.org/#arrow-functions
      */
-    describe("plugin options", function() {
-        it("overrides 'mixed' type plugin options by individual keys", function (){
+    describe("plugin options", function () {
+        it("overrides 'mixed' type plugin options by individual keys", function () {
             const app = new Application();
             app.bootstrap({
                 plugin: ["./src/test/plugins/testOptionsPlugin.js"],
-                testOptions: {"foo": "foofoo"}
-            } as Partial<TypeDocOptions>)
-            const testOptions = app.options.getValue('testOptions' as keyof TypeDocOptions);
+                testOptions: { foo: "foofoo" },
+            } as Partial<TypeDocOptions>);
+            const testOptions = app.options.getValue(
+                "testOptions" as keyof TypeDocOptions
+            );
             deepEqual(testOptions, {
-                foo: 'foofoo',
-                bar: ['foo', 'bar']
-            })
+                foo: "foofoo",
+                bar: ["foo", "bar"],
+            });
         });
-    })
+    });
 });
