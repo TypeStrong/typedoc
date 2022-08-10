@@ -1,6 +1,7 @@
-import { ok, throws, strictEqual, doesNotThrow } from "assert";
+import { ok, throws, strictEqual, doesNotThrow, deepEqual } from "assert";
 import { BUNDLED_THEMES } from "shiki";
-import { Logger, Options } from "../../../lib/utils";
+import { Logger, Options, TypeDocOptions } from "../../../lib/utils";
+import { Application } from "../../../lib/application";
 
 describe("Default Options", () => {
     const opts = new Options(new Logger());
@@ -108,4 +109,22 @@ describe("Default Options", () => {
             doesNotThrow(() => opts.setValue("searchGroupBoosts", { Enum: 5 }));
         });
     });
+
+    /* passing arrow functions to MOCHA is discouraged.
+     * See: https://mochajs.org/#arrow-functions
+     */
+    describe("plugin options", function() {
+        it("overrides 'mixed' type plugin options by individual keys", function (){
+            const app = new Application();
+            app.bootstrap({
+                plugin: ["./src/test/plugins/testOptionsPlugin.js"],
+                testOptions: {"foo": "foofoo"}
+            } as Partial<TypeDocOptions>)
+            const testOptions = app.options.getValue('testOptions' as keyof TypeDocOptions);
+            deepEqual(testOptions, {
+                foo: 'foofoo',
+                bar: ['foo', 'bar']
+            })
+        });
+    })
 });
