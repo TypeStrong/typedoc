@@ -117,6 +117,8 @@ export class Application extends ChildableComponent<
      * @param options  The desired options to set.
      */
     bootstrap(options: Partial<TypeDocOptions> = {}): void {
+        /* get the typdoc options keys before plugins have loaded */
+        const typedocOptionKeys = Object.keys(this.options.getRawValues());
         for (const [key, val] of Object.entries(options)) {
             try {
                 this.options.setValue(key as keyof TypeDocOptions, val);
@@ -139,6 +141,8 @@ export class Application extends ChildableComponent<
         const plugins = discoverPlugins(this);
         loadPlugins(this, plugins);
 
+        /* get the default plugin options before they are overwritten by 'options.read()' */
+        const defaultPluginOptions = this.stashPluginOptions(typedocOptionKeys);
         this.options.reset();
         for (const [key, val] of Object.entries(options)) {
             try {
@@ -150,11 +154,48 @@ export class Application extends ChildableComponent<
         }
         this.options.read(this.logger);
 
+        /* For plugin options as an object (ie. ParameterType.Mixed), this takes the default 
+         * options declared in 'load()' by the plugin developer, and merges them with any 
+         * custom options declared by a user in 'typedoc.json'.
+         * 
+         * see https://github.com/TypeStrong/typedoc/issues/2024
+         */
+        for (const [key, value] of Object.entries(defaultPluginOptions)) {
+            const loadedValue = this.options.getValue(key as keyof TypeDocOptions) as object;
+            /* Only merge plugin keys from objects.
+             * Arrays and string options, if set in typedoc.json, completely
+             * overwrite the default plugin options.
+             */ 
+            if (typeof value === 'object' && !Array.isArray(value)) {
+                const newValue = {...value, ...loadedValue};
+                try {
+                    this.options.setValue(key as keyof TypeDocOptions, newValue);
+                } catch (error) {
+                    ok(error instanceof Error);
+                    this.logger.error(error.message);
+                }    
+            } 
+        }
+
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
                 `TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. This will likely break things.`
             );
         }
+    }
+    /**
+     * Isolates and returns options specific to plugins only.
+     * 
+     * @param typedocOptionKeys an array of all typedoc specific options keys
+     * @returns options specific to plugins
+     */
+    private stashPluginOptions(typedocOptionKeys: string[]): {[key: string]: unknown} {
+        const allOptions: {[key: string]: unknown} = this.options.getRawValues();
+        const pluginOptions: {[key: string]: unknown} = {};
+        Object.keys(allOptions).forEach(key => {
+            (typedocOptionKeys.indexOf(key) < 0) && (pluginOptions[key] = allOptions[key])
+        })
+        return pluginOptions;
     }
 
     /**
