@@ -712,4 +712,18 @@ export const issueTests: {
             "Desc3"
         );
     },
+
+    gh2031(project, logger) {
+        const sig = query(project, "MyClass.aMethod").signatures![0];
+        const summaryLink = sig.comment?.summary[0];
+        ok(summaryLink?.kind === "inline-tag");
+        ok(summaryLink.target);
+
+        const paramLink = sig.parameters![0].comment?.summary[0];
+        ok(paramLink?.kind === "inline-tag");
+        ok(paramLink.target);
+
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
+    },
 };

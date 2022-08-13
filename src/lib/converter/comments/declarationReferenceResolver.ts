@@ -42,6 +42,8 @@ export function resolveDeclarationReference(
             refl = refl.parent;
             if (refl.kindOf(ReflectionKind.ExportContainer)) {
                 high.push(refl);
+            } else {
+                low.push(refl);
             }
         }
 
