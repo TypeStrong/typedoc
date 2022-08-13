@@ -4,6 +4,7 @@
 
 -   Readme files within monorepos now have `@link` tags resolved, #2029.
 -   Correctly resolve unqualified links to class members within parameters, #2031.
+-   TypeDoc will now consider other reflections with the same name as parents when resolving links, #2033.
 
 ## v0.23.10 (2022-07-31)
 

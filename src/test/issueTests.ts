@@ -726,4 +726,18 @@ export const issueTests: {
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
+
+    gh2033(project, logger) {
+        const cls = project.children!.find(
+            (c) => c.name === "Foo" && c.kind === ReflectionKind.Class
+        );
+        ok(cls);
+
+        const link = cls.comment?.summary[0];
+        ok(link?.kind === "inline-tag");
+        ok(link.target);
+
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
+    },
 };
