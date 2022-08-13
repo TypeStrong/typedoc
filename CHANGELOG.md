@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Readme files within monorepos now have `@link` tags resolved, #2029.
+
 ## v0.23.10 (2022-07-31)
 
 ### Features

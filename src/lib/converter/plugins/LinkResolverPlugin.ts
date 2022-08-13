@@ -2,6 +2,7 @@ import { Component, ConverterComponent } from "../components";
 import type { Context } from "../../converter";
 import { ConverterEvents } from "../converter-events";
 import { BindOption, ValidationOptions } from "../../utils";
+import { DeclarationReflection } from "../../models";
 
 /**
  * A plugin that resolves `{@link Foo}` tags.
@@ -23,6 +24,16 @@ export class LinkResolverPlugin extends ConverterComponent {
         for (const reflection of Object.values(context.project.reflections)) {
             if (reflection.comment) {
                 context.converter.resolveLinks(reflection.comment, reflection);
+            }
+
+            if (
+                reflection instanceof DeclarationReflection &&
+                reflection.readme
+            ) {
+                reflection.readme = context.converter.resolveLinks(
+                    reflection.readme,
+                    reflection
+                );
             }
         }
 
