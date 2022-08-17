@@ -31,7 +31,7 @@ import {
     getWatchEntryPoints,
 } from "./utils/entry-point";
 import { nicePath } from "./utils/paths";
-import { hasBeenLoadedMultipleTimes } from "./utils/general";
+import { getLoadedPaths, hasBeenLoadedMultipleTimes } from "./utils/general";
 import { validateExports } from "./validation/exports";
 import { validateDocumentation } from "./validation/documentation";
 import { validateLinks } from "./validation/links";
@@ -152,7 +152,9 @@ export class Application extends ChildableComponent<
 
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
-                `TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. This will likely break things.`
+                `TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. The loaded paths are:\n\t${getLoadedPaths().join(
+                    "\n\t"
+                )}`
             );
         }
     }

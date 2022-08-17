@@ -793,6 +793,10 @@
 
 ## v0.20.31 (2021-03-14)
 
+### Features
+
+-   Improved warning message if TypeDoc is loaded multiple times.
+
 ### Bug Fixes
 
 -   readonly tuples were recognized as arrays, closes #1534
