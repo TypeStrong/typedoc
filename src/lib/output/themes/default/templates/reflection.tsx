@@ -18,7 +18,6 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
 
             {hasTypeParameters(props.model) && (
                 <section class="tsd-panel tsd-type-parameters">
-                    <h4>Type Parameters</h4>
                     {context.typeParameters(props.model.typeParameters)}
                 </section>
             )}
@@ -26,7 +25,6 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                 <>
                     {!!props.model.typeHierarchy && (
                         <section class="tsd-panel tsd-hierarchy">
-                            <h4>Hierarchy</h4>
                             {context.hierarchy(props.model.typeHierarchy)}
                         </section>
                     )}
