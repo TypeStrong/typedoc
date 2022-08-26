@@ -226,6 +226,10 @@ export enum ParameterType {
      */
     GlobArray,
     /**
+     * An unopinionated object that preserves default settings unless explicitly overridden
+     */
+    Object,
+    /**
      * An object with true/false flags
      */
     Flags,
@@ -341,6 +345,20 @@ export interface MixedDeclarationOption extends DeclarationOptionBase {
     validate?: (value: unknown) => void;
 }
 
+export interface ObjectDeclarationOption extends DeclarationOptionBase {
+    type: ParameterType.Object;
+
+    /**
+     * If not specified defaults to undefined.
+     */
+    defaultValue?: unknown;
+
+    /**
+     * An optional validation function that validates a potential value of this option.
+     * The function must throw an Error if the validation fails and should do nothing otherwise.
+     */
+    validate?: (value: unknown) => void;
+}
 export interface MapDeclarationOption<T> extends DeclarationOptionBase {
     type: ParameterType.Map;
 
@@ -378,6 +396,7 @@ export type DeclarationOption =
     | NumberDeclarationOption
     | BooleanDeclarationOption
     | MixedDeclarationOption
+    | ObjectDeclarationOption
     | MapDeclarationOption<unknown>
     | ArrayDeclarationOption
     | FlagsDeclarationOption<Record<string, boolean>>;
@@ -388,6 +407,7 @@ export interface ParameterTypeToOptionTypeMap {
     [ParameterType.Number]: number;
     [ParameterType.Boolean]: boolean;
     [ParameterType.Mixed]: unknown;
+    [ParameterType.Object]: unknown;
     [ParameterType.Array]: string[];
     [ParameterType.PathArray]: string[];
     [ParameterType.ModuleArray]: string[];
@@ -503,6 +523,12 @@ const converters: {
         option.validate?.(value);
         return value;
     },
+    [ParameterType.Object](value, option, _configPath, oldValue) {
+        option.validate?.(value);
+        if (typeof oldValue !== "undefined")
+            value = { ...(oldValue as {}), ...(value as {}) };
+        return value;
+    },
     [ParameterType.Flags](value, option) {
         if (typeof value === "boolean") {
             value = Object.fromEntries(
@@ -594,6 +620,9 @@ const defaultGetters: {
         return option.defaultValue;
     },
     [ParameterType.Mixed](option) {
+        return option.defaultValue;
+    },
+    [ParameterType.Object](option) {
         return option.defaultValue;
     },
     [ParameterType.Array](option) {
