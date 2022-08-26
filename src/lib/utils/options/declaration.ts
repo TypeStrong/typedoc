@@ -188,9 +188,11 @@ export type KeyToDeclaration<K extends keyof TypeDocOptionMap> =
         : TypeDocOptionMap[K] extends string[]
         ? ArrayDeclarationOption
         : unknown extends TypeDocOptionMap[K]
-        ? MixedDeclarationOption
+        ? MixedDeclarationOption | ObjectDeclarationOption
         : TypeDocOptionMap[K] extends ManuallyValidatedOption<unknown>
-        ? MixedDeclarationOption & { validate(value: unknown): void }
+        ?
+              | (MixedDeclarationOption & { validate(value: unknown): void })
+              | (ObjectDeclarationOption & { validate(value: unknown): void })
         : TypeDocOptionMap[K] extends Record<string, boolean>
         ? FlagsDeclarationOption<TypeDocOptionMap[K]>
         : TypeDocOptionMap[K] extends Record<string | number, infer U>
