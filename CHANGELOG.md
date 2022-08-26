@@ -2,6 +2,7 @@
 
 ### Features
 
+-   Added support for TypeScript 4.8.
 -   Introduced a `skipErrorChecking` option which instructs TypeDoc to not ask TypeScript for compiler errors
     before attempting to generate documentation. Turning this on may improve generation speed, but could also
     cause a crash if your code contains compiler errors.
@@ -11,6 +12,12 @@
 -   Readme files within monorepos now have `@link` tags resolved, #2029.
 -   Correctly resolve unqualified links to class members within parameters, #2031.
 -   TypeDoc will now consider other reflections with the same name as parents when resolving links, #2033.
+-   The "Hierarchy" and "Type Parameters" helpers on `DefaultThemeRenderContext` now contain all the HTML for their sections of the page, #2038.
+
+### Thanks!
+
+-   @citkane
+-   @kaphula
 
 ## v0.23.10 (2022-07-31)
 
