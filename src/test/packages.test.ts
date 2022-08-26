@@ -253,4 +253,32 @@ describe("Packages support", () => {
         logger.expectNoOtherMessages();
         equal(packages, [normalizePath(project.cwd)]);
     });
+
+    it("Handles js entry points (#2037)", () => {
+        project.addJsonFile("tsconfig.json", {
+            compilerOptions: {
+                strict: true,
+                checkJs: true,
+            },
+            include: ["src"],
+        });
+        const packageJson = {
+            name: "typedoc-js-package",
+            main: "src/index.js",
+        };
+        project.addJsonFile("package.json", packageJson);
+        project.addFile("src/index.js", `exports.foo = 123;`);
+        project.write();
+
+        const logger = new TestLogger();
+        const entry = getTsEntryPointForPackage(
+            logger,
+            join(project.cwd, "package.json"),
+            packageJson
+        );
+
+        logger.discardDebugMessages();
+        logger.expectNoOtherMessages();
+        equal(entry, join(project.cwd, "src/index.js"));
+    });
 });

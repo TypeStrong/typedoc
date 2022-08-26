@@ -6,6 +6,7 @@
 -   Introduced a `skipErrorChecking` option which instructs TypeDoc to not ask TypeScript for compiler errors
     before attempting to generate documentation. Turning this on may improve generation speed, but could also
     cause a crash if your code contains compiler errors.
+-   Added support for JS entry points when using packages mode, #2037.
 
 ### Bug Fixes
 

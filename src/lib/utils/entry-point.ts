@@ -13,6 +13,7 @@ import { createMinimatch, matchesAny, nicePath } from "./paths";
 import type { Logger } from "./loggers";
 import type { Options } from "./options";
 import { getCommonDirectory, glob, normalizePath } from "./fs";
+import { validate } from "./validation";
 
 /**
  * Defines how entry points are interpreted.
@@ -386,16 +387,12 @@ function getEntryPointsForPackages(
         const sourceFile = program.getSourceFile(packageEntryPoint);
         if (sourceFile === undefined) {
             logger.error(
-                `Entry point "${packageEntryPoint}" does not appear to be built by the tsconfig found at "${tsconfigFile}"`
+                `Entry point "${packageEntryPoint}" does not appear to be built by/included in the tsconfig found at "${tsconfigFile}"`
             );
             return;
         }
 
-        if (
-            includeVersion &&
-            (!packageJson["version"] ||
-                typeof packageJson["version"] !== "string")
-        ) {
+        if (includeVersion && !validate({ version: String }, packageJson)) {
             logger.warn(
                 `--includeVersion was specified, but "${nicePath(
                     packageJsonPath
