@@ -1,5 +1,11 @@
 # Unreleased
 
+### Features
+
+-   Introduced a `skipErrorChecking` option which instructs TypeDoc to not ask TypeScript for compiler errors
+    before attempting to generate documentation. Turning this on may improve generation speed, but could also
+    cause a crash if your code contains compiler errors.
+
 ### Bug Fixes
 
 -   Readme files within monorepos now have `@link` tags resolved, #2029.

@@ -76,6 +76,7 @@ export type TypeDocOptionValues = {
 export interface TypeDocOptionMap {
     options: string;
     tsconfig: string;
+    compilerOptions: unknown;
 
     entryPoints: string[];
     entryPointStrategy: typeof EntryPointStrategy;
@@ -83,27 +84,48 @@ export interface TypeDocOptionMap {
     exclude: string[];
     externalPattern: string[];
     excludeExternals: boolean;
-    excludePrivate: boolean;
-    excludeProtected: boolean;
     excludeNotDocumented: boolean;
     excludeInternal: boolean;
-    disableSources: boolean;
-    basePath: string;
-    includes: string;
+    excludePrivate: boolean;
+    excludeProtected: boolean;
     media: string;
-
-    emit: typeof EmitStrategy;
-    watch: boolean;
-    preserveWatchOutput: boolean;
+    includes: string;
 
     out: string;
     json: string;
     pretty: boolean;
-
+    emit: typeof EmitStrategy;
     theme: string;
+
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     customCss: string;
+    markedOptions: unknown;
+    name: string;
+    includeVersion: boolean;
+    disableSources: boolean;
+    basePath: string;
+    excludeTags: `@${string}`[];
+    readme: string;
+    cname: string;
+    gitRevision: string;
+    gitRemote: string;
+    htmlLang: string;
+    githubPages: boolean;
+    gaID: string;
+    hideGenerator: boolean;
+    searchInComments: boolean;
+    cleanOutputDir: boolean;
+
+    commentStyle: typeof CommentStyle;
+    blockTags: `@${string}`[];
+    inlineTags: `@${string}`[];
+    modifierTags: `@${string}`[];
+
+    categorizeByGroup: boolean;
+    defaultCategory: string;
+    categoryOrder: string[];
+    sort: SortStrategy[];
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;
@@ -111,40 +133,18 @@ export interface TypeDocOptionMap {
         external?: boolean;
         [tag: `@${string}`]: boolean;
     }>;
+    searchCategoryBoosts: ManuallyValidatedOption<Record<string, number>>;
+    searchGroupBoosts: ManuallyValidatedOption<Record<string, number>>;
 
-    name: string;
-    includeVersion: boolean;
-    readme: string;
-    defaultCategory: string;
-    categoryOrder: string[];
-    categorizeByGroup: boolean;
-    cname: string;
-    sort: SortStrategy[];
-    gitRevision: string;
-    gitRemote: string;
-    gaID: string;
-    githubPages: boolean;
-    htmlLang: string;
-    hideGenerator: boolean;
-    searchInComments: boolean;
-    cleanOutputDir: boolean;
-
-    commentStyle: typeof CommentStyle;
-    excludeTags: `@${string}`[];
-    blockTags: `@${string}`[];
-    inlineTags: `@${string}`[];
-    modifierTags: `@${string}`[];
-
+    watch: boolean;
+    preserveWatchOutput: boolean;
+    skipErrorChecking: boolean;
     help: boolean;
     version: boolean;
     showConfig: boolean;
     plugin: string[];
-    searchCategoryBoosts: ManuallyValidatedOption<Record<string, number>>;
-    searchGroupBoosts: ManuallyValidatedOption<Record<string, number>>;
     logger: unknown; // string | Function
     logLevel: typeof LogLevel;
-    markedOptions: unknown;
-    compilerOptions: unknown;
 
     // Validation
     treatWarningsAsErrors: boolean;

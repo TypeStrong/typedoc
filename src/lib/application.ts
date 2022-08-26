@@ -88,7 +88,11 @@ export class Application extends ChildableComponent<
 
     /** @internal */
     @BindOption("logger")
-    loggerType!: string | Function;
+    readonly loggerType!: string | Function;
+
+    /** @internal */
+    @BindOption("skipErrorChecking")
+    readonly skipErrorChecking!: boolean;
 
     /**
      * The version number of TypeDoc.
@@ -216,12 +220,14 @@ export class Application extends ChildableComponent<
             `Converting with ${programs.length} programs ${entryPoints.length} entry points`
         );
 
-        const errors = programs.flatMap((program) =>
-            ts.getPreEmitDiagnostics(program)
-        );
-        if (errors.length) {
-            this.logger.diagnostics(errors);
-            return;
+        if (this.skipErrorChecking === false) {
+            const errors = programs.flatMap((program) =>
+                ts.getPreEmitDiagnostics(program)
+            );
+            if (errors.length) {
+                this.logger.diagnostics(errors);
+                return;
+            }
         }
 
         if (this.options.getValue("emit") === "both") {

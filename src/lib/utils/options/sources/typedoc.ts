@@ -467,6 +467,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "skipErrorChecking",
+        help: "Do not run TypeScript's type checking before generating docs.",
+        type: ParameterType.Boolean,
+        defaultValue: false,
+    });
+    options.addDeclaration({
         name: "help",
         help: "Print this message.",
         type: ParameterType.Boolean,
