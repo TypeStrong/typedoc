@@ -429,7 +429,8 @@ const converters: {
     [K in ParameterType]: (
         value: unknown,
         option: DeclarationOption & { type: K },
-        configPath: string
+        configPath: string,
+        oldValue: unknown
     ) => ParameterTypeToOptionTypeMap[K];
 } = {
     [ParameterType.String](value, option) {
@@ -580,16 +581,18 @@ const converters: {
 export function convert(
     value: unknown,
     option: DeclarationOption,
-    configPath: string
+    configPath: string,
+    oldValue?: unknown
 ): unknown {
     const _converters = converters as Record<
         ParameterType,
-        (v: unknown, o: DeclarationOption, c: string) => unknown
+        (v: unknown, o: DeclarationOption, c: string, ov: unknown) => unknown
     >;
     return _converters[option.type ?? ParameterType.String](
         value,
         option,
-        configPath
+        configPath,
+        oldValue
     );
 }
 
