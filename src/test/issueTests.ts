@@ -1,9 +1,11 @@
 import {
+    deepStrictEqual,
     deepStrictEqual as equal,
     notDeepStrictEqual as notEqual,
     ok,
 } from "assert";
-import type { Application } from "../lib/application";
+import { Application } from "../lib/application";
+import { ApplicationEvents } from "../lib/application-events";
 import {
     DeclarationReflection,
     ProjectReflection,
@@ -18,6 +20,7 @@ import {
     IntrinsicType,
 } from "../lib/models";
 import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
+import { ParameterType, TypeDocOptionMap } from "../lib/utils";
 import { getConverter2App } from "./programs";
 import type { TestLogger } from "./TestLogger";
 
@@ -722,6 +725,40 @@ export const issueTests: {
                 opt.getChildByName("apiKey")?.comment?.summary
             ),
             "Desc3"
+        );
+    },
+
+    gh2024() {
+        const name = "objectOptions" as keyof TypeDocOptionMap;
+        const defaultValue = {
+            neverChange: "ok",
+            foo: "foo",
+        };
+        const app = new Application();
+        app.options.addDeclaration({
+            help: "Test option parsing with default values from plugins",
+            name,
+            type: ParameterType.Object,
+            defaultValue,
+        });
+        deepStrictEqual(app.options.getValue(name), defaultValue);
+        app.options.setValue(name, { foo: "bar" });
+        const newVal = app.options.getValue(name) as typeof defaultValue;
+        equal(newVal.foo, "bar");
+        equal(newVal.neverChange, "ok");
+        app.options.setValue("out", "testOutString");
+        app.on(ApplicationEvents.BOOTSTRAP_END, () => {
+            equal(app.options.getValue("out"), "");
+            app.options.setValue("out", "testOutString");
+            app.options.setValue(name, { foo: "foo" });
+        });
+        app.bootstrap();
+        app.options.setValue(name, {});
+        app.convert();
+        deepStrictEqual(app.options.getValue(name), defaultValue);
+        equal(
+            app.options.getValue("out").trim().endsWith("testOutString"),
+            true
         );
     },
 
