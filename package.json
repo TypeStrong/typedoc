@@ -78,7 +78,7 @@
     "build:prod": "npm run build:prod:tsc && npm run build:themes",
     "build:prod:tsc": "tsc --project . --sourceMap false",
     "lint": "eslint . && npm run prettier -- --check .",
-    "prettier": "prettier --config .config/.prettierrc.json --ignore-path .config/.prettierignore",
+    "prettier": "prettier -w --config .config/.prettierrc.json --ignore-path .config/.prettierignore",
     "prepublishOnly": "node scripts/set_strict.js false && npm run build:prod && npm test",
     "postpublish": "node scripts/set_strict.js true"
   },

@@ -16,18 +16,11 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                 <section class="tsd-panel tsd-comment">{context.comment(props.model)}</section>
             )}
 
-            {hasTypeParameters(props.model) && (
-                <section class="tsd-panel tsd-type-parameters">
-                    {context.typeParameters(props.model.typeParameters)}
-                </section>
-            )}
+            {hasTypeParameters(props.model) && <> {context.typeParameters(props.model.typeParameters)} </>}
             {props.model instanceof DeclarationReflection && (
                 <>
-                    {!!props.model.typeHierarchy && (
-                        <section class="tsd-panel tsd-hierarchy">
-                            {context.hierarchy(props.model.typeHierarchy)}
-                        </section>
-                    )}
+                    {context.hierarchy(props.model.typeHierarchy)}
+
                     {!!props.model.implementedTypes && (
                         <section class="tsd-panel">
                             <h4>Implements</h4>
