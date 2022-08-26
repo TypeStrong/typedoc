@@ -10,6 +10,7 @@
 
 ### Bug Fixes
 
+-   Fixed crash when converting abstract mixin class, #2011.
 -   Readme files within monorepos now have `@link` tags resolved, #2029.
 -   Correctly resolve unqualified links to class members within parameters, #2031.
 -   TypeDoc will now consider other reflections with the same name as parents when resolving links, #2033.

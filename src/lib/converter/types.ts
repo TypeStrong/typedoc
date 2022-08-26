@@ -153,8 +153,16 @@ export function convertType(
         seenTypeSymbols.add(symbol);
     }
 
-    const converter = converters.get(node.kind);
+    let converter = converters.get(node.kind);
     if (converter) {
+        // Hacky fix for #2011, need to find a better way to choose the converter.
+        if (
+            converter === intersectionConverter &&
+            !typeOrNode.isIntersection()
+        ) {
+            converter = typeLiteralConverter;
+        }
+
         const result = converter.convertType(context, typeOrNode, node);
         if (symbol) seenTypeSymbols.delete(symbol);
         return result;

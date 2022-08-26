@@ -1,4 +1,8 @@
-import { deepStrictEqual as equal, ok } from "assert";
+import {
+    deepStrictEqual as equal,
+    notDeepStrictEqual as notEqual,
+    ok,
+} from "assert";
 import type { Application } from "../lib/application";
 import {
     DeclarationReflection,
@@ -669,6 +673,14 @@ export const issueTests: {
     gh2008(project) {
         const fn = query(project, "myFn").signatures![0];
         equal(Comment.combineDisplayParts(fn.comment?.summary), "Docs");
+    },
+
+    gh2011(project) {
+        const readable = query(project, "Readable").signatures![0];
+        const type = readable.type!;
+        equal(type.type, "intersection" as const);
+        notEqual(type.types[0], "intersection");
+        notEqual(type.types[1], "intersection");
     },
 
     gh2012(project) {
