@@ -11,6 +11,9 @@
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
 
+        // *grumble* need to get rid of reg-suit
+        "skipLibCheck": true,
+
         "experimentalDecorators": true,
         "strict": true,
         "alwaysStrict": true,

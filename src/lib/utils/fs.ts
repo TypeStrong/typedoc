@@ -165,7 +165,13 @@ export function glob(
                 const childPath = dir.concat(child.name);
                 if (
                     mini.set.some((row) =>
-                        mini.matchOne(childPath, row, /* partial */ true)
+                        mini.matchOne(
+                            // @ts-expect-error childPath really should be an array of strings, not a string.
+                            // https://github.com/DefinitelyTyped/DefinitelyTyped/pull/61956
+                            childPath,
+                            row,
+                            /* partial */ true
+                        )
                     )
                 ) {
                     dirs.push(childPath);
