@@ -17,7 +17,7 @@ import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
 import { convertSymbol } from "./symbols";
 import { createMinimatch, matchesAny } from "../utils/paths";
-import type { IMinimatch } from "minimatch";
+import type { Minimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
 import { CommentParserConfig, getComment } from "./comments";
@@ -49,8 +49,8 @@ export class Converter extends ChildableComponent<
 
     @BindOption("externalPattern")
     externalPattern!: string[];
-    private externalPatternCache?: IMinimatch[];
-    private excludeCache?: IMinimatch[];
+    private externalPatternCache?: Minimatch[];
+    private excludeCache?: Minimatch[];
 
     @BindOption("excludeExternals")
     excludeExternals!: boolean;

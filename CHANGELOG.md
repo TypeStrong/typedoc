@@ -1,5 +1,10 @@
 # Unreleased
 
+### Bug Fixes
+
+-   TypeDoc will now work properly in packages mode when converting packages outside the current working directory, #2043.
+-   Fixed deprecation warning for `isIdentifierOrPrivateIdentifier`.
+
 ## v0.23.11 (2022-08-26)
 
 ### Features

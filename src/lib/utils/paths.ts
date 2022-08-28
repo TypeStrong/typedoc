@@ -1,4 +1,4 @@
-import { Minimatch, IMinimatch } from "minimatch";
+import { Minimatch } from "minimatch";
 import { relative } from "path";
 import { normalizePath } from "./fs";
 
@@ -7,7 +7,7 @@ import { normalizePath } from "./fs";
  *
  * Handle a few Windows-Unix path gotchas.
  */
-export function createMinimatch(patterns: string[]): IMinimatch[] {
+export function createMinimatch(patterns: string[]): Minimatch[] {
     return patterns.map(
         (pattern) =>
             new Minimatch(normalizePath(pattern).replace(/^\w:\//, ""), {
@@ -16,7 +16,7 @@ export function createMinimatch(patterns: string[]): IMinimatch[] {
     );
 }
 
-export function matchesAny(patterns: readonly IMinimatch[], path: string) {
+export function matchesAny(patterns: readonly Minimatch[], path: string) {
     const normPath = normalizePath(path).replace(/^\w:\//, "");
     return patterns.some((pat) => pat.match(normPath));
 }

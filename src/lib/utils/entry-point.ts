@@ -14,6 +14,7 @@ import type { Logger } from "./loggers";
 import type { Options } from "./options";
 import { getCommonDirectory, glob, normalizePath } from "./fs";
 import { validate } from "./validation";
+import { filterMap } from "./array";
 
 /**
  * Defines how entry points are interpreted.
@@ -300,6 +301,17 @@ function expandInputFiles(
     return files;
 }
 
+function deriveRootDir(packageGlobPaths: string[]): string {
+    const globs = createMinimatch(packageGlobPaths);
+    const rootPaths = globs.flatMap((glob) =>
+        filterMap(glob.set, (set) => {
+            const stop = set.findIndex((part) => typeof part !== "string");
+            return stop === -1 ? set.join("/") : set.slice(0, stop).join("/");
+        })
+    );
+    return getCommonDirectory(rootPaths);
+}
+
 /**
  * Expand the provided packages configuration paths, determining the entry points
  * and creating the ts.Programs for any which are found.
@@ -314,12 +326,13 @@ function getEntryPointsForPackages(
 ): DocumentationEntryPoint[] | undefined {
     const results: DocumentationEntryPoint[] = [];
     const exclude = createMinimatch(options.getValue("exclude"));
+    const rootDir = deriveRootDir(packageGlobPaths);
 
     // packages arguments are workspace tree roots, or glob patterns
     // This expands them to leave only leaf packages
     const expandedPackages = expandPackages(
         logger,
-        ".",
+        rootDir,
         packageGlobPaths,
         exclude
     );

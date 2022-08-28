@@ -5,7 +5,7 @@ import { existsSync } from "fs";
 
 import { readFile, glob } from "./fs";
 import type { Logger } from "./loggers";
-import type { IMinimatch } from "minimatch";
+import type { Minimatch } from "minimatch";
 import { matchesAny, nicePath } from "./paths";
 import { additionalProperties, Infer, optional, validate } from "./validation";
 
@@ -116,7 +116,7 @@ export function expandPackages(
     logger: Logger,
     packageJsonDir: string,
     workspaces: string[],
-    exclude: IMinimatch[]
+    exclude: Minimatch[]
 ): string[] {
     // Technically npm and Yarn workspaces don't support recursive nesting,
     // however we support the passing of paths to either packages or
