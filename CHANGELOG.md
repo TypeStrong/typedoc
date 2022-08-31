@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.12 (2022-08-31)
+
 ### Features
 
 -   Added a new `ParameterType.Object` for declaring object options which will be shallowly merged when read from user configuration.
