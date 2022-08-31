@@ -4,6 +4,7 @@
 
 -   TypeDoc will now work properly in packages mode when converting packages outside the current working directory, #2043.
 -   Fixed deprecation warning for `isIdentifierOrPrivateIdentifier`.
+-   Fixed centering of title bar on wide displays, #2046.
 
 ## v0.23.11 (2022-08-26)
 
