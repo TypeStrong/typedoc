@@ -50,6 +50,7 @@ export type {
     BooleanDeclarationOption,
     ArrayDeclarationOption,
     MixedDeclarationOption,
+    ObjectDeclarationOption,
     MapDeclarationOption,
     FlagsDeclarationOption,
     DeclarationOptionToOptionType,
