@@ -166,9 +166,8 @@ export function glob(
                 if (
                     mini.set.some((row) =>
                         mini.matchOne(
-                            // @ts-expect-error childPath really should be an array of strings, not a string.
-                            // https://github.com/DefinitelyTyped/DefinitelyTyped/pull/61956
                             childPath,
+                            // @ts-expect-error https://github.com/DefinitelyTyped/DefinitelyTyped/pull/62049
                             row,
                             /* partial */ true
                         )

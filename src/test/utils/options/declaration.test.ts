@@ -345,6 +345,19 @@ describe("Options - conversions", () => {
             new Error("test must be an object")
         );
     });
+
+    it("Converts object options", () => {
+        const declaration: ObjectDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Object,
+            defaultValue: { a: 1, b: 2 },
+        };
+        equal(convert({ b: 3 }, declaration, "", declaration.defaultValue), {
+            a: 1,
+            b: 3,
+        });
+    });
 });
 
 describe("Options - default values", () => {

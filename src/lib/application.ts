@@ -101,6 +101,13 @@ export class Application extends ChildableComponent<
     static VERSION = packageInfo.version;
 
     /**
+     * Emitted after plugins have been loaded and options have been read, but before they have been frozen.
+     * The listener will be given an instance of {@link Application} and the {@link TypeDocOptions | Partial<TypeDocOptions>}
+     * passed to `bootstrap`.
+     */
+    static readonly EVENT_BOOTSTRAP_END = ApplicationEvents.BOOTSTRAP_END;
+
+    /**
      * Create a new TypeDoc application instance.
      *
      * @param options An object containing the options that should be used.
