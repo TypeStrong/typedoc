@@ -35,6 +35,7 @@ import { getLoadedPaths, hasBeenLoadedMultipleTimes } from "./utils/general";
 import { validateExports } from "./validation/exports";
 import { validateDocumentation } from "./validation/documentation";
 import { validateLinks } from "./validation/links";
+import { ApplicationEvents } from "./application-events";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -161,6 +162,7 @@ export class Application extends ChildableComponent<
                 )}`
             );
         }
+        this.trigger(ApplicationEvents.BOOTSTRAP_END, this, options);
     }
 
     /**

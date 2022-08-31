@@ -301,10 +301,15 @@ export class Options {
             );
         }
 
+        let oldValue = this._values[declaration.name];
+        if (typeof oldValue === "undefined")
+            oldValue = getDefaultValue(declaration);
+
         const converted = convert(
             value,
             declaration,
-            configPath ?? process.cwd()
+            configPath ?? process.cwd(),
+            oldValue
         );
 
         if (declaration.type === ParameterType.Flags) {
