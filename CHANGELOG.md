@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.13 (2022-09-01)
+
 ### Bug Fixes
 
 -   Fixed packages mode bug introduced in 0.23.12 (again), #2043.
