@@ -556,6 +556,9 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
         for (const signature of type.getCallSignatures()) {
             createSignature(rc, ReflectionKind.CallSignature, signature);
         }
+        for (const signature of type.getConstructSignatures()) {
+            createSignature(rc, ReflectionKind.ConstructorSignature, signature);
+        }
 
         convertIndexSignature(rc, symbol);
 
@@ -581,6 +584,13 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             createSignature(
                 context.withScope(reflection),
                 ReflectionKind.CallSignature,
+                signature
+            );
+        }
+        for (const signature of type.getConstructSignatures()) {
+            createSignature(
+                context.withScope(reflection),
+                ReflectionKind.ConstructorSignature,
                 signature
             );
         }

@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 
+-   Fixed conversion of object literal types containing construct signatures, #2036.
 -   Fixed centering of title bar on wide displays, actually this time, #2046.
 
 ## v0.23.13 (2022-09-01)

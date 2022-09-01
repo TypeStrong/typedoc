@@ -752,4 +752,18 @@ export const issueTests: {
         logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
+
+    gh2036(project) {
+        const SingleSimpleCtor = query(project, "SingleSimpleCtor");
+        const MultipleSimpleCtors = query(project, "MultipleSimpleCtors");
+        const AnotherCtor = query(project, "AnotherCtor");
+
+        equal(SingleSimpleCtor.type?.type, "reflection" as const);
+        equal(MultipleSimpleCtors.type?.type, "reflection" as const);
+        equal(AnotherCtor.type?.type, "reflection" as const);
+
+        equal(SingleSimpleCtor.type.declaration.signatures?.length, 1);
+        equal(MultipleSimpleCtors.type.declaration.signatures?.length, 2);
+        equal(AnotherCtor.type.declaration.signatures?.length, 1);
+    },
 };
