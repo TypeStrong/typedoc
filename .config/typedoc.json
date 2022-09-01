@@ -8,7 +8,8 @@
         "SORT_STRATEGIES",
         "_ModelToObject",
         "EventHooksMomento",
-        "MarkedPlugin"
+        "MarkedPlugin",
+        "MeaningKeywords"
     ],
     "sort": ["kind", "instance-first", "required-first", "alphabetical"],
     "entryPoints": ["../src"],

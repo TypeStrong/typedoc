@@ -1,5 +1,14 @@
 # Unreleased
 
+### Features
+
+-   External link resolvers defined with `addUnknownSymbolResolver` will now be checked when resolving `@link` tags, #2030.
+    Note: To support this, resolution will now happen during conversion, and as such, `Renderer.addUnknownSymbolResolver` has been
+    soft deprecated in favor of `Converter.addUnknownSymbolResolver`. Plugins should update to use the method on `Converter`.
+    `DefaultThemeRenderContext.attemptExternalResolution` has also been deprecated since it will repeat work done during conversion,
+    use `ReferenceType.externalUrl` instead.
+-   Added `Converter.addUnknownSymbolResolver` for use by plugins supporting external links.
+
 ### Bug Fixes
 
 -   Fixed conversion of object literal types containing construct signatures, #2036.

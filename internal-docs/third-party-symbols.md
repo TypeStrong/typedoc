@@ -9,7 +9,7 @@ and no link will be rendered unless provided by another resolver.
 The following plugin will resolve a few types from React to links on the official React documentation site.
 
 ```ts
-import { Application } from "typedoc";
+import { Application, type DeclarationReference } from "typedoc";
 
 const knownSymbols = {
     Component: "https://reactjs.org/docs/react-component.html",
@@ -17,9 +17,34 @@ const knownSymbols = {
 };
 
 export function load(app: Application) {
-    app.renderer.addUnknownSymbolResolver("@types/react", (name: string) => {
-        if (knownSymbols.hasOwnProperty(name)) {
-            return knownSymbols[name as never];
+    app.converter.addUnknownSymbolResolver((ref: DeclarationReference) => {
+        if (
+            ref.moduleSource !== "@types/react" &&
+            ref.moduleSource !== "react"
+        ) {
+            return;
+        }
+
+        // If someone did {@link react!}, link them directly to the home page.
+        if (!ref.symbolReference) {
+            return "https://reactjs.org/";
+        }
+
+        // Otherwise, we need to navigate through the symbol reference to
+        // determine where they meant to link to. Since the symbols we know
+        // about are all a single "level" deep, this is pretty simple.
+
+        if (!ref.symbolReference.path) {
+            // Someone included a meaning, but not a path.
+            // https://typedoc.org/guides/declaration-references/#meaning
+            return;
+        }
+
+        if (ref.symbolReference.path.length === 1) {
+            const name = ref.symbolReference.path[0].path;
+            if (knownSymbols.hasOwnProperty(name)) {
+                return knownSymbols[name as never];
+            }
         }
     });
 }

@@ -250,17 +250,14 @@ const typeRenderers: {
             } else {
                 name = renderUniquePath(context, reflection);
             }
+        } else if (type.externalUrl) {
+            name = (
+                <a href={type.externalUrl} class="tsd-signature-type external" target="_blank">
+                    {type.name}
+                </a>
+            );
         } else {
-            const externalUrl = context.attemptExternalResolution(type);
-            if (externalUrl) {
-                name = (
-                    <a href={externalUrl} class="tsd-signature-type external" target="_blank">
-                        {type.name}
-                    </a>
-                );
-            } else {
-                name = <span class="tsd-signature-type">{type.name}</span>;
-            }
+            name = <span class="tsd-signature-type">{type.name}</span>;
         }
 
         if (type.typeArguments?.length) {

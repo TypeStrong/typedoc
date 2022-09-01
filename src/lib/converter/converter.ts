@@ -28,6 +28,7 @@ import type {
 import { parseComment } from "./comments/parser";
 import { lexCommentString } from "./comments/rawLexer";
 import { resolvePartLinks, resolveLinks } from "./comments/linkResolver";
+import type { DeclarationReference } from "./comments/declarationReference";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -41,29 +42,29 @@ export class Converter extends ChildableComponent<
     Application,
     ConverterComponent
 > {
-    /**
-     * The human readable name of the project. Used within the templates to set the title of the document.
-     */
-    @BindOption("name")
-    name!: string;
-
+    /** @internal */
     @BindOption("externalPattern")
     externalPattern!: string[];
     private externalPatternCache?: Minimatch[];
     private excludeCache?: Minimatch[];
 
+    /** @internal */
     @BindOption("excludeExternals")
     excludeExternals!: boolean;
 
+    /** @internal */
     @BindOption("excludeNotDocumented")
     excludeNotDocumented!: boolean;
 
+    /** @internal */
     @BindOption("excludePrivate")
     excludePrivate!: boolean;
 
+    /** @internal */
     @BindOption("excludeProtected")
     excludeProtected!: boolean;
 
+    /** @internal */
     @BindOption("commentStyle")
     commentStyle!: CommentStyle;
 
@@ -72,6 +73,9 @@ export class Converter extends ChildableComponent<
     validation!: ValidationOptions;
 
     private _config?: CommentParserConfig;
+    private _externalSymbolResolvers: Array<
+        (ref: DeclarationReference) => string | undefined
+    > = [];
 
     get config(): CommentParserConfig {
         return this._config || this._buildCommentParserConfig();
@@ -164,7 +168,9 @@ export class Converter extends ChildableComponent<
         const programs = entryPoints.map((e) => e.program);
         this.externalPatternCache = void 0;
 
-        const project = new ProjectReflection(this.name);
+        const project = new ProjectReflection(
+            this.application.options.getValue("name")
+        );
         const context = new Context(this, programs, project);
 
         this.trigger(Converter.EVENT_BEGIN, context);
@@ -211,6 +217,32 @@ export class Converter extends ChildableComponent<
         );
     }
 
+    /**
+     * Adds a new resolver that the theme can use to try to figure out how to link to a symbol declared
+     * by a third-party library which is not included in the documentation.
+     *
+     * The resolver function will be passed a declaration reference which it can attempt to resolve. If
+     * resolution fails, the function should return undefined.
+     *
+     * Note: This will be used for both references to types declared in node_modules (in which case the
+     * reference passed will have the `moduleSource` set and the `symbolReference` will navigate via `.`)
+     * and user defined \{\@link\} tags which cannot be resolved.
+     * @since 0.22.14
+     */
+    addUnknownSymbolResolver(
+        resolver: (ref: DeclarationReference) => string | undefined
+    ): void {
+        this._externalSymbolResolvers.push(resolver);
+    }
+
+    /** @internal */
+    resolveExternalLink(ref: DeclarationReference): string | undefined {
+        for (const resolver of this._externalSymbolResolvers) {
+            const resolved = resolver(ref);
+            if (resolved) return resolved;
+        }
+    }
+
     resolveLinks(comment: Comment, owner: Reflection): void;
     resolveLinks(
         parts: readonly CommentDisplayPart[],
@@ -221,7 +253,13 @@ export class Converter extends ChildableComponent<
         owner: Reflection
     ): CommentDisplayPart[] | undefined {
         if (comment instanceof Comment) {
-            resolveLinks(comment, owner, this.validation, this.owner.logger);
+            resolveLinks(
+                comment,
+                owner,
+                this.validation,
+                this.owner.logger,
+                (ref) => this.resolveExternalLink(ref)
+            );
         } else {
             let warned = false;
             const warn = () => {
@@ -238,7 +276,8 @@ export class Converter extends ChildableComponent<
                 comment,
                 warn,
                 this.validation,
-                this.owner.logger
+                this.owner.logger,
+                (ref) => this.resolveExternalLink(ref)
             );
         }
     }

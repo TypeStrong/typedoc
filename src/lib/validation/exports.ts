@@ -1,15 +1,7 @@
 import * as ts from "typescript";
-import {
-    ContainerReflection,
-    DeclarationReflection,
-    makeRecursiveVisitor,
-    ParameterReflection,
-    ProjectReflection,
-    Reflection,
-    SignatureReflection,
-    TypeParameterReflection,
-} from "../models";
+import type { ProjectReflection } from "../models";
 import type { Logger } from "../utils";
+import { discoverAllReferenceTypes } from "../utils/reflections";
 
 function makeIntentionallyExportedHelper(
     intentional: readonly string[],
@@ -75,90 +67,33 @@ export function validateExports(
     logger: Logger,
     intentionallyNotExported: readonly string[]
 ) {
-    let current: Reflection | undefined = project;
-    const queue: Reflection[] = [];
     const intentional = makeIntentionallyExportedHelper(
         intentionallyNotExported,
         logger
     );
     const warned = new Set<ts.Symbol>();
 
-    const visitor = makeRecursiveVisitor({
-        reference(type) {
-            // If we don't have a symbol, then this was an intentionally broken reference.
-            const symbol = type.getSymbol();
-            if (!type.reflection && symbol) {
-                if (
-                    (symbol.flags & ts.SymbolFlags.TypeParameter) === 0 &&
-                    !intentional.has(symbol, type.qualifiedName) &&
-                    !warned.has(symbol)
-                ) {
-                    warned.add(symbol);
-                    const decl = symbol.declarations![0];
+    for (const { type, owner } of discoverAllReferenceTypes(project, true)) {
+        // If we don't have a symbol, then this was an intentionally broken reference.
+        const symbol = type.getSymbol();
+        if (!type.reflection && symbol) {
+            if (
+                (symbol.flags & ts.SymbolFlags.TypeParameter) === 0 &&
+                !intentional.has(symbol, type.qualifiedName) &&
+                !warned.has(symbol)
+            ) {
+                warned.add(symbol);
+                const decl = symbol.declarations![0];
 
-                    logger.warn(
-                        `${
-                            type.qualifiedName
-                        } is referenced by ${current!.getFullName()} but not included in the documentation.`,
-                        decl
-                    );
-                }
+                logger.warn(
+                    `${
+                        type.qualifiedName
+                    } is referenced by ${owner.getFullName()} but not included in the documentation.`,
+                    decl
+                );
             }
-        },
-        reflection(type) {
-            queue.push(type.declaration);
-        },
-    });
-
-    const add = (item: Reflection | Reflection[] | undefined) => {
-        if (!item) return;
-
-        if (item instanceof Reflection) {
-            queue.push(item);
-        } else {
-            queue.push(...item);
         }
-    };
-
-    do {
-        if (current instanceof ContainerReflection) {
-            add(current.children);
-        }
-
-        if (current instanceof DeclarationReflection) {
-            current.type?.visit(visitor);
-            add(current.typeParameters);
-            add(current.signatures);
-            add(current.indexSignature);
-            add(current.getSignature);
-            add(current.setSignature);
-            current.overwrites?.visit(visitor);
-            // Do not check inheritedFrom, it doesn't always make sense to export a base type.
-            // Do not validate implementationOf will always be defined or intentionally broken.
-            // Do not check extendedTypes, it doesn't always make sense to export a base type.
-            // Do not validate extendedBy, guaranteed to all be in the documentation.
-            current.implementedTypes?.forEach((type) => type.visit(visitor));
-            // Do not validate implementedBy, guaranteed to all be in the documentation.
-        }
-
-        if (current instanceof SignatureReflection) {
-            add(current.parameters);
-            add(current.typeParameters);
-            current.type?.visit(visitor);
-            current.overwrites?.visit(visitor);
-            // Do not check inheritedFrom, it doesn't always make sense to export a base type.
-            // Do not validate implementationOf will always be defined or intentionally broken.
-        }
-
-        if (current instanceof ParameterReflection) {
-            current.type?.visit(visitor);
-        }
-
-        if (current instanceof TypeParameterReflection) {
-            current.type?.visit(visitor);
-            current.default?.visit(visitor);
-        }
-    } while ((current = queue.shift()));
+    }
 
     const unusedIntentional = intentional.getUnused();
     if (unusedIntentional.length) {

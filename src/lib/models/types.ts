@@ -5,6 +5,7 @@ import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
 import type { Serializer, JSONOutput } from "../serialization";
 import { getQualifiedName } from "../utils/tsutils";
+import type { DeclarationReference } from "../converter/comments/declarationReference";
 
 /**
  * Base class of all type definitions.
@@ -795,6 +796,21 @@ export class ReferenceType extends Type {
     }
 
     /**
+     * Convert this reference type to a declaration reference used for resolution of external types.
+     */
+    toDeclarationReference(): DeclarationReference {
+        return {
+            resolutionStart: "global",
+            moduleSource: this.package,
+            symbolReference: {
+                path: this.qualifiedName
+                    .split(".")
+                    .map((p) => ({ path: p, navigation: "." })),
+            },
+        };
+    }
+
+    /**
      * The fully qualified name of the referenced type, relative to the file it is defined in.
      * This will usually be the same as `name`, unless namespaces are used.
      */
@@ -806,13 +822,19 @@ export class ReferenceType extends Type {
      */
     package?: string;
 
+    /**
+     * If this reference type refers to a reflection defined by a project not being rendered,
+     * points to the url that this type should be linked to.
+     */
+    externalUrl?: string;
+
     private _target: ts.Symbol | number;
-    private _project: ProjectReflection | null;
+    private _project: ProjectReflection;
 
     private constructor(
         name: string,
         target: ts.Symbol | Reflection | number,
-        project: ProjectReflection | null,
+        project: ProjectReflection,
         qualifiedName: string
     ) {
         super();
@@ -825,7 +847,7 @@ export class ReferenceType extends Type {
     static createResolvedReference(
         name: string,
         target: Reflection | number,
-        project: ProjectReflection | null
+        project: ProjectReflection
     ) {
         return new ReferenceType(name, target, project, name);
     }
@@ -892,6 +914,7 @@ export class ReferenceType extends Type {
             id: this.reflection?.id,
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
+            externalUrl: this.externalUrl,
         };
 
         if (this.package) {

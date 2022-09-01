@@ -166,7 +166,7 @@ export type ValidationOptions = {
      */
     notExported: boolean;
     /**
-     * If set, TypeDoc will produce warnings about \{&amp;link\} tags which will produce broken links.
+     * If set, TypeDoc will produce warnings about \{\@link\} tags which will produce broken links.
      */
     invalidLink: boolean;
     /**

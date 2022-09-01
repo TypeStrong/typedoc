@@ -7,7 +7,10 @@ import {
     Reflection,
 } from "../../models";
 import type { Logger, ValidationOptions } from "../../utils";
-import { parseDeclarationReference } from "./declarationReference";
+import {
+    DeclarationReference,
+    parseDeclarationReference,
+} from "./declarationReference";
 import { resolveDeclarationReference } from "./declarationReferenceResolver";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
@@ -17,7 +20,8 @@ export function resolveLinks(
     comment: Comment,
     reflection: Reflection,
     validation: ValidationOptions,
-    logger: Logger
+    logger: Logger,
+    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
 ) {
     let warned = false;
     const warn = () => {
@@ -34,7 +38,8 @@ export function resolveLinks(
         comment.summary,
         warn,
         validation,
-        logger
+        logger,
+        attemptExternalResolve
     );
     for (const tag of comment.blockTags) {
         tag.content = resolvePartLinks(
@@ -42,7 +47,8 @@ export function resolveLinks(
             tag.content,
             warn,
             validation,
-            logger
+            logger,
+            attemptExternalResolve
         );
     }
 
@@ -52,7 +58,8 @@ export function resolveLinks(
             reflection.readme,
             warn,
             validation,
-            logger
+            logger,
+            attemptExternalResolve
         );
     }
 }
@@ -62,10 +69,18 @@ export function resolvePartLinks(
     parts: readonly CommentDisplayPart[],
     warn: () => void,
     validation: ValidationOptions,
-    logger: Logger
+    logger: Logger,
+    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
 ): CommentDisplayPart[] {
     return parts.flatMap((part) =>
-        processPart(reflection, part, warn, validation, logger)
+        processPart(
+            reflection,
+            part,
+            warn,
+            validation,
+            logger,
+            attemptExternalResolve
+        )
     );
 }
 
@@ -74,7 +89,8 @@ function processPart(
     part: CommentDisplayPart,
     warn: () => void,
     validation: ValidationOptions,
-    logger: Logger
+    logger: Logger,
+    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
 ): CommentDisplayPart | CommentDisplayPart[] {
     if (part.kind === "text" && brackets.test(part.text)) {
         warn();
@@ -87,11 +103,16 @@ function processPart(
             part.tag === "@linkcode" ||
             part.tag === "@linkplain"
         ) {
-            return resolveLinkTag(reflection, part, (msg: string) => {
-                if (validation.invalidLink) {
-                    logger.warn(msg);
+            return resolveLinkTag(
+                reflection,
+                part,
+                attemptExternalResolve,
+                (msg: string) => {
+                    if (validation.invalidLink) {
+                        logger.warn(msg);
+                    }
                 }
-            });
+            );
         }
     }
 
@@ -101,6 +122,7 @@ function processPart(
 function resolveLinkTag(
     reflection: Reflection,
     part: InlineTagDisplayPart,
+    attemptExternalResolve: (ref: DeclarationReference) => string | undefined,
     warn: (message: string) => void
 ) {
     let pos = 0;
@@ -118,6 +140,11 @@ function resolveLinkTag(
         // Got one, great! Try to resolve the link
         target = resolveDeclarationReference(reflection, declRef[0]);
         pos = declRef[1];
+
+        // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
+        if (!target) {
+            target = attemptExternalResolve(declRef[0]);
+        }
     }
 
     if (!target) {
@@ -133,7 +160,7 @@ function resolveLinkTag(
     // method... this should go away in 0.24, once people have had a chance to migrate any failing links.
     if (!target) {
         const resolved = legacyResolveLinkTag(reflection, part);
-        if (resolved) {
+        if (resolved.target) {
             warn(
                 `Failed to resolve {@link ${origText}} in ${reflection.getFriendlyFullName()} with declaration references. This link will break in v0.24.`
             );

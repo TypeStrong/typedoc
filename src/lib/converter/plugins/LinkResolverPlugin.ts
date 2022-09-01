@@ -3,6 +3,7 @@ import type { Context } from "../../converter";
 import { ConverterEvents } from "../converter-events";
 import { BindOption, ValidationOptions } from "../../utils";
 import { DeclarationReflection } from "../../models";
+import { discoverAllReferenceTypes } from "../../utils/reflections";
 
 /**
  * A plugin that resolves `{@link Foo}` tags.
@@ -42,6 +43,17 @@ export class LinkResolverPlugin extends ConverterComponent {
                 context.project.readme,
                 context.project
             );
+        }
+
+        for (const { type } of discoverAllReferenceTypes(
+            context.project,
+            false
+        )) {
+            if (!type.reflection) {
+                type.externalUrl = context.converter.resolveExternalLink(
+                    type.toDeclarationReference()
+                );
+            }
         }
     }
 }

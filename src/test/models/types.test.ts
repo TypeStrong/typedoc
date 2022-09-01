@@ -2,6 +2,7 @@
 
 import * as T from "../../lib/models/types";
 import { strictEqual as equal } from "assert";
+import { ProjectReflection } from "../../lib/models";
 
 describe("Type.toString", () => {
     describe("Union types", () => {
@@ -261,9 +262,10 @@ describe("Type.toString", () => {
         });
 
         it("Does not wrap type query", () => {
+            const project = new ProjectReflection("test");
             const type = new T.OptionalType(
                 new T.QueryType(
-                    T.ReferenceType.createResolvedReference("X", -1, null)
+                    T.ReferenceType.createResolvedReference("X", -1, project)
                 )
             );
             equal(type.toString(), "typeof X?");
@@ -281,9 +283,10 @@ describe("Type.toString", () => {
 
     describe("Type operator", () => {
         it("Does not wrap type query", () => {
+            const project = new ProjectReflection("test");
             const type = new T.TypeOperatorType(
                 new T.QueryType(
-                    T.ReferenceType.createResolvedReference("X", -1, null)
+                    T.ReferenceType.createResolvedReference("X", -1, project)
                 ),
                 "keyof"
             );

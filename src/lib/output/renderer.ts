@@ -21,7 +21,7 @@ import { Component, ChildableComponent } from "../utils/component";
 import { BindOption, EventHooks } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import type { Theme as ShikiTheme } from "shiki";
-import { ReferenceType, Reflection } from "../models";
+import { Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
 import { clearSeenIconCache } from "./themes/default/partials/icon";
@@ -113,10 +113,9 @@ export class Renderer extends ChildableComponent<
         ["default", DefaultTheme],
     ]);
 
-    private unknownSymbolResolvers = new Map<
-        string,
-        Array<(symbol: string) => string | undefined>
-    >();
+    private unknownSymbolResolvers: Array<
+        (ref: DeclarationReference) => string | undefined
+    > = [];
 
     /** @event */
     static readonly EVENT_BEGIN_PAGE = PageEvent.BEGIN;
@@ -184,7 +183,7 @@ export class Renderer extends ChildableComponent<
     }
 
     /**
-     * Adds a new resolver that the theme can used to try to figure out how to link to a symbol
+     * Adds a new resolver that the theme can use to try to figure out how to link to a symbol
      * declared by a third-party library which is not included in the documentation.
      * @param packageName the npm package name that this resolver can handle to limit which files it will be tried on.
      *   If the resolver will create links for Node builtin types, it should be set to `@types/node`.
@@ -192,34 +191,35 @@ export class Renderer extends ChildableComponent<
      * @param resolver a function that will be called to create links for a given symbol name in the registered path.
      *  If the provided name is not contained within the docs, should return `undefined`.
      * @since 0.22.0
+     * @deprecated
+     * Deprecated since v0.23.14, use {@link Converter.addUnknownSymbolResolver | Converter.addUnknownSymbolResolver} instead.
+     * This signature will be removed in 0.24 or possibly 0.25.
      */
     addUnknownSymbolResolver(
         packageName: string,
         resolver: (name: string) => string | undefined
     ) {
-        const existing = this.unknownSymbolResolvers.get(packageName);
-        if (existing) {
-            existing.push(resolver);
-        } else {
-            this.unknownSymbolResolvers.set(packageName, [resolver]);
-        }
+        this.owner.converter.addUnknownSymbolResolver((ref) => {
+            const path = ref.symbolReference?.path
+                ?.map((path) => path.path)
+                .join(".");
+            if (ref.moduleSource === packageName && path) {
+                return resolver(path);
+            }
+        });
     }
 
     /**
      * Marked as internal for now. Using this requires the internal `getSymbol()` method on ReferenceType.
      * Someday that needs to be fixed so that this can be made public. ReferenceTypes really shouldn't store
      * symbols so that we don't need to keep the program around forever.
+     *
+     * Remove in 0.24.
      * @internal
      */
-    attemptExternalResolution(type: ReferenceType): string | undefined {
-        if (!type.qualifiedName || !type.package) {
-            return;
-        }
-
-        const resolvers = this.unknownSymbolResolvers.get(type.package);
-
-        for (const resolver of resolvers || []) {
-            const resolved = resolver(type.qualifiedName);
+    attemptExternalResolution(ref: DeclarationReference): string | undefined {
+        for (const resolver of this.unknownSymbolResolvers) {
+            const resolved = resolver(ref);
             if (resolved) return resolved;
         }
     }
@@ -392,3 +392,4 @@ export class Renderer extends ChildableComponent<
 // HACK: THIS HAS TO STAY DOWN HERE
 // if you try to move it up to the top of the file, then you'll run into stuff being used before it has been defined.
 import "./plugins";
+import type { DeclarationReference } from "../converter/comments/declarationReference";
