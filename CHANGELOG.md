@@ -2,7 +2,7 @@
 
 ### Bug Fixes
 
--   Fixed packages mode for packages outside of cwd (again), #2043.
+-   Fixed packages mode bug introduced in 0.23.12 (again), #2043.
 
 ## v0.23.12 (2022-08-31)
 
