@@ -1,6 +1,7 @@
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
+import { tmpdir } from "os";
 import { Application, EntryPointStrategy, TSConfigReader } from "../..";
 
 const fixture = tempdirProject();
@@ -82,6 +83,30 @@ describe("Entry Points", () => {
         });
 
         const entryPoints = app.getEntryPoints();
+        ok(entryPoints);
+        equal(entryPoints.length, 1);
+        equal(entryPoints[0].version, void 0);
+    });
+
+    it("Supports resolving packages outside of cwd", () => {
+        const fixture = tempdirProject({ rootDir: tmpdir() });
+        fixture.addJsonFile("tsconfig.json", {
+            include: ["."],
+        });
+        fixture.addJsonFile("package.json", {
+            main: "index.ts",
+        });
+        fixture.addFile("index.ts", "export function fromIndex() {}");
+        fixture.write();
+
+        app.bootstrap({
+            tsconfig: tsconfig,
+            entryPoints: [fixture.cwd],
+            entryPointStrategy: EntryPointStrategy.Packages,
+        });
+
+        const entryPoints = app.getEntryPoints();
+        fixture.rm();
         ok(entryPoints);
         equal(entryPoints.length, 1);
         equal(entryPoints[0].version, void 0);

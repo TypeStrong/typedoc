@@ -306,7 +306,8 @@ function deriveRootDir(packageGlobPaths: string[]): string {
     const rootPaths = globs.flatMap((glob) =>
         filterMap(glob.set, (set) => {
             const stop = set.findIndex((part) => typeof part !== "string");
-            return stop === -1 ? set.join("/") : set.slice(0, stop).join("/");
+            const path = stop === -1 ? set : set.slice(0, stop);
+            return `/${path.join("/")}`;
         })
     );
     return getCommonDirectory(rootPaths);
