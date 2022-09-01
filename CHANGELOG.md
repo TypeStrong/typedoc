@@ -1,10 +1,14 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed centering of title bar on wide displays, actually this time, #2046.
+
 ## v0.23.13 (2022-09-01)
 
 ### Bug Fixes
 
--   Fixed packages mode bug introduced in 0.23.12 (again), #2043.
+-   Fixed packages mode bug introduced in 0.23.12, #2043.
 
 ## v0.23.12 (2022-08-31)
 
