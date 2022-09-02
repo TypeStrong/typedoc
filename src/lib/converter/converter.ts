@@ -72,6 +72,10 @@ export class Converter extends ChildableComponent<
     @BindOption("validation")
     validation!: ValidationOptions;
 
+    /** @internal */
+    @BindOption("externalSymbolLinkMappings")
+    externalSymbolLinkMappings!: Record<string, Record<string, string>>;
+
     private _config?: CommentParserConfig;
     private _externalSymbolResolvers: Array<
         (ref: DeclarationReference) => string | undefined
@@ -158,6 +162,36 @@ export class Converter extends ChildableComponent<
      * @event
      */
     static readonly EVENT_RESOLVE_END = ConverterEvents.RESOLVE_END;
+
+    constructor(owner: Application) {
+        super(owner);
+
+        this.addUnknownSymbolResolver((ref) => {
+            // Require global links, matching local ones will likely hide mistakes where the
+            // user meant to link to a local type.
+            if (ref.resolutionStart !== "global" || !ref.symbolReference) {
+                return;
+            }
+
+            const modLinks =
+                this.externalSymbolLinkMappings[ref.moduleSource ?? "global"];
+            if (typeof modLinks !== "object") {
+                return;
+            }
+
+            let name = "";
+            if (ref.symbolReference.path) {
+                name += ref.symbolReference.path.map((p) => p.path).join(".");
+            }
+            if (ref.symbolReference.meaning) {
+                name += ":" + ref.symbolReference.meaning;
+            }
+
+            if (typeof modLinks[name] === "string") {
+                return modLinks[name];
+            }
+        });
+    }
 
     /**
      * Compile the given source files and create a project reflection for them.

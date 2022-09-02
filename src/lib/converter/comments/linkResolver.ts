@@ -136,14 +136,20 @@ function resolveLinkTag(
     const declRef = parseDeclarationReference(part.text, pos, end);
 
     let target: Reflection | string | undefined;
+    let defaultDisplayText: string;
     if (declRef) {
         // Got one, great! Try to resolve the link
         target = resolveDeclarationReference(reflection, declRef[0]);
         pos = declRef[1];
 
-        // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
-        if (!target) {
+        if (target) {
+            defaultDisplayText = target.name;
+        } else {
+            // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
             target = attemptExternalResolve(declRef[0]);
+            if (target) {
+                defaultDisplayText = part.text.substring(0, pos);
+            }
         }
     }
 
@@ -153,6 +159,7 @@ function resolveLinkTag(
             target =
                 wsIndex === -1 ? part.text : part.text.substring(0, wsIndex);
             pos = target.length;
+            defaultDisplayText = target;
         }
     }
 
@@ -178,9 +185,7 @@ function resolveLinkTag(
     }
 
     part.target = target;
-    part.text =
-        part.text.substring(pos).trim() ||
-        (typeof target === "string" ? target : target.name);
+    part.text = part.text.substring(pos).trim() || defaultDisplayText!;
 
     return part;
 }

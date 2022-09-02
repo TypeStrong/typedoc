@@ -88,6 +88,9 @@ export interface TypeDocOptionMap {
     excludeInternal: boolean;
     excludePrivate: boolean;
     excludeProtected: boolean;
+    externalSymbolLinkMappings: ManuallyValidatedOption<
+        Record<string, Record<string, string>>
+    >;
     media: string;
     includes: string;
 

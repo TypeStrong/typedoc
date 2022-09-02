@@ -2,6 +2,8 @@
 
 ### Features
 
+-   Added support for defining one-off external link mappings with `externalSymbolLinkMappings` see
+    [the documentation](https://typedoc.org/guides/options/#externalsymbollinkmappings) for usage examples and caveats, #2030.
 -   External link resolvers defined with `addUnknownSymbolResolver` will now be checked when resolving `@link` tags, #2030.
     Note: To support this, resolution will now happen during conversion, and as such, `Renderer.addUnknownSymbolResolver` has been
     soft deprecated in favor of `Converter.addUnknownSymbolResolver`. Plugins should update to use the method on `Converter`.

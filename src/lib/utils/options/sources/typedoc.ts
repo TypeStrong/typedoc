@@ -100,6 +100,32 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "externalSymbolLinkMappings",
+        help: "Define custom links for symbols not included in the documentation.",
+        type: ParameterType.Mixed,
+        defaultValue: {},
+        validate(value) {
+            const error =
+                "externalSymbolLinkMappings must be a Record<package name, Record<symbol name, link>>";
+
+            if (!Validation.validate({}, value)) {
+                throw new Error(error);
+            }
+
+            for (const mappings of Object.values(value)) {
+                if (!Validation.validate({}, mappings)) {
+                    throw new Error(error);
+                }
+
+                for (const link of Object.values(mappings)) {
+                    if (typeof link !== "string") {
+                        throw new Error(error);
+                    }
+                }
+            }
+        },
+    });
+    options.addDeclaration({
         name: "media",
         help: "Specify the location with media files that should be copied to the output directory.",
         type: ParameterType.Path,

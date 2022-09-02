@@ -217,6 +217,29 @@ export const behaviorTests: {
         equal(Comment.combineDisplayParts(foo.comment?.summary), "export foo");
     },
 
+    _externalSymbols(app) {
+        app.options.setValue("externalSymbolLinkMappings", {
+            global: {
+                Promise: "/promise",
+            },
+            typescript: {
+                Promise: "/promise2",
+            },
+        });
+    },
+    externalSymbols(project) {
+        const p = query(project, "P");
+        equal(p.comment?.summary?.[1], {
+            kind: "inline-tag",
+            tag: "@link",
+            target: "/promise",
+            text: "!Promise",
+        });
+
+        equal(p.type?.type, "reference" as const);
+        equal(p.type.externalUrl, "/promise2");
+    },
+
     groupTag(project) {
         const A = query(project, "A");
         const B = query(project, "B");

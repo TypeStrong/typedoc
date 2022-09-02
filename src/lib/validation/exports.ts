@@ -76,7 +76,7 @@ export function validateExports(
     for (const { type, owner } of discoverAllReferenceTypes(project, true)) {
         // If we don't have a symbol, then this was an intentionally broken reference.
         const symbol = type.getSymbol();
-        if (!type.reflection && symbol) {
+        if (!type.reflection && !type.externalUrl && symbol) {
             if (
                 (symbol.flags & ts.SymbolFlags.TypeParameter) === 0 &&
                 !intentional.has(symbol, type.qualifiedName) &&
