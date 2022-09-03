@@ -80,9 +80,7 @@ export class DefaultThemeRenderContext {
      * Will be removed in 0.24.
      */
     attemptExternalResolution = (type: NeverIfInternal<ReferenceType>) => {
-        return this.theme.owner.attemptExternalResolution(
-            (type as ReferenceType).toDeclarationReference()
-        );
+        return (type as ReferenceType).externalUrl;
     };
 
     reflectionTemplate = bind(reflectionTemplate, this);

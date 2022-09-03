@@ -113,10 +113,6 @@ export class Renderer extends ChildableComponent<
         ["default", DefaultTheme],
     ]);
 
-    private unknownSymbolResolvers: Array<
-        (ref: DeclarationReference) => string | undefined
-    > = [];
-
     /** @event */
     static readonly EVENT_BEGIN_PAGE = PageEvent.BEGIN;
     /** @event */
@@ -207,21 +203,6 @@ export class Renderer extends ChildableComponent<
                 return resolver(path);
             }
         });
-    }
-
-    /**
-     * Marked as internal for now. Using this requires the internal `getSymbol()` method on ReferenceType.
-     * Someday that needs to be fixed so that this can be made public. ReferenceTypes really shouldn't store
-     * symbols so that we don't need to keep the program around forever.
-     *
-     * Remove in 0.24.
-     * @internal
-     */
-    attemptExternalResolution(ref: DeclarationReference): string | undefined {
-        for (const resolver of this.unknownSymbolResolvers) {
-            const resolved = resolver(ref);
-            if (resolved) return resolved;
-        }
     }
 
     /**
@@ -392,4 +373,3 @@ export class Renderer extends ChildableComponent<
 // HACK: THIS HAS TO STAY DOWN HERE
 // if you try to move it up to the top of the file, then you'll run into stuff being used before it has been defined.
 import "./plugins";
-import type { DeclarationReference } from "../converter/comments/declarationReference";
