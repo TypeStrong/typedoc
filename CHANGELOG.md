@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.14 (2022-09-03)
+
 ### Features
 
 -   Added support for defining one-off external link mappings with `externalSymbolLinkMappings` see
