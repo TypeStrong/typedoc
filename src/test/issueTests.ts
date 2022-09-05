@@ -16,6 +16,7 @@ import {
     UnionType,
     LiteralType,
     IntrinsicType,
+    ReferenceReflection,
 } from "../lib/models";
 import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
 import { getConverter2App } from "./programs";
@@ -765,5 +766,18 @@ export const issueTests: {
         equal(SingleSimpleCtor.type.declaration.signatures?.length, 1);
         equal(MultipleSimpleCtors.type.declaration.signatures?.length, 2);
         equal(AnotherCtor.type.declaration.signatures?.length, 1);
+    },
+
+    gh2044(project) {
+        for (const [name, ref] of [
+            ["Foo", false],
+            ["RenamedFoo", true],
+            ["Generic", false],
+            ["RenamedGeneric", true],
+            ["NonGeneric", false],
+        ] as const) {
+            const decl = query(project, name);
+            equal(decl instanceof ReferenceReflection, ref, `${name} = ${ref}`);
+        }
     },
 };

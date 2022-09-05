@@ -37,6 +37,7 @@ import {
     createSignature,
 } from "./factories/signature";
 import { convertSymbol } from "./symbols";
+import { isObjectType } from "./utils/nodes";
 import { removeUndefined } from "./utils/reflections";
 
 export interface TypeConverter<
@@ -1033,10 +1034,6 @@ function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
         );
         return new UnknownType(typeString);
     }
-}
-
-function isObjectType(type: ts.Type): type is ts.ObjectType {
-    return typeof (type as any).objectFlags === "number";
 }
 
 function resolveReference(type: ts.Type) {

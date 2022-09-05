@@ -30,3 +30,7 @@ export function getHeritageTypes(
         return true;
     });
 }
+
+export function isObjectType(type: ts.Type): type is ts.ObjectType {
+    return typeof (type as any).objectFlags === "number";
+}

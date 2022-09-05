@@ -2,7 +2,7 @@
     "compilerOptions": {
         "strict": true,
         "module": "CommonJS",
-        "allowJs": true,
+        "checkJs": true,
         "outDir": "dist",
         "target": "ESNext",
 

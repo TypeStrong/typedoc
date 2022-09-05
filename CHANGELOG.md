@@ -1,5 +1,10 @@
 # Unreleased
 
+### Features
+
+-   TypeDoc will now treat `@typedef {import("foo").Bar<Z>} Baz` type declarations which forward type parameters to the imported
+    symbol as re-exports of that symbol, #2044.
+
 ## v0.23.14 (2022-09-03)
 
 ### Features

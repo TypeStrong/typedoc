@@ -8,7 +8,7 @@
 
 /**
  * Before tag
- * @typedef {{(one: number, two: number) => number}} Type2
+ * @typedef {{(one: number, two: number): number}} Type2
  *
  * Some type 2.
  */
