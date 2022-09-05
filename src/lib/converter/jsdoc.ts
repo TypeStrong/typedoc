@@ -18,7 +18,6 @@ import {
     convertParameterNodes,
     convertTypeParameterNodes,
 } from "./factories/signature";
-import { convertSymbol } from "./symbols";
 
 export function convertJsDocAlias(
     context: Context,
@@ -39,7 +38,11 @@ export function convertJsDocAlias(
     // a type alias with an import type.
     const aliasedSymbol = getTypedefReExportTarget(context, declaration);
     if (aliasedSymbol) {
-        convertSymbol(context, aliasedSymbol, exportSymbol ?? symbol);
+        context.converter.convertSymbol(
+            context,
+            aliasedSymbol,
+            exportSymbol ?? symbol
+        );
         return;
     }
 

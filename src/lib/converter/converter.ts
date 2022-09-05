@@ -220,8 +220,12 @@ export class Converter extends ChildableComponent<
     }
 
     /** @internal */
-    convertSymbol(context: Context, symbol: ts.Symbol) {
-        convertSymbol(context, symbol);
+    convertSymbol(
+        context: Context,
+        symbol: ts.Symbol,
+        exportSymbol?: ts.Symbol
+    ) {
+        convertSymbol(context, symbol, exportSymbol);
     }
 
     /**
