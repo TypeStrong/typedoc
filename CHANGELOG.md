@@ -5,6 +5,10 @@
 -   TypeDoc will now treat `@typedef {import("foo").Bar<Z>} Baz` type declarations which forward type parameters to the imported
     symbol as re-exports of that symbol, #2044.
 
+### Bug Fixes
+
+-   TypeDoc will now prefer comments on variable declarations over signature comments, #2042.
+
 ## v0.23.14 (2022-09-03)
 
 ### Features

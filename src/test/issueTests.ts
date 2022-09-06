@@ -768,6 +768,25 @@ export const issueTests: {
         equal(AnotherCtor.type.declaration.signatures?.length, 1);
     },
 
+    gh2042(project) {
+        for (const [name, docs] of [
+            ["built", "inner docs"],
+            ["built2", "outer docs"],
+            ["fn", "inner docs"],
+            ["fn2", "outer docs"],
+        ]) {
+            const refl = query(project, name);
+            ok(refl.signatures?.[0]);
+            equal(
+                Comment.combineDisplayParts(
+                    refl.signatures[0].comment?.summary
+                ),
+                docs,
+                name
+            );
+        }
+    },
+
     gh2044(project) {
         for (const [name, ref] of [
             ["Foo", false],

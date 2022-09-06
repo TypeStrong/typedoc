@@ -8,6 +8,7 @@ import {
     Reflection,
     ReflectionFlag,
     ReflectionKind,
+    ConversionFlags,
 } from "../models";
 import {
     getEnumFlags,
@@ -894,7 +895,7 @@ function convertVariableAsFunction(
         exportSymbol
     );
     setModifiers(symbol, accessDeclaration, reflection);
-
+    reflection.conversionFlags |= ConversionFlags.VariableSource;
     context.finalizeDeclarationReflection(reflection);
 
     const reflectionContext = context.withScope(reflection);
