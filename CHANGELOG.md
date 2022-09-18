@@ -9,6 +9,7 @@
 
 -   TypeDoc will now prefer comments on variable declarations over signature comments, #2042.
 -   Fixed double rendering of "Type Parameters" header, #2054.
+-   Fixed double rendering of "Hierarchy" header, #2053.
 -   Removed unused `widgets.png` and `widgets@2x.png` files from generated assets folder.
 
 ## v0.23.14 (2022-09-03)
