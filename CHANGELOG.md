@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.15 (2022-09-18)
+
 ### Features
 
 -   TypeDoc will now treat `@typedef {import("foo").Bar<Z>} Baz` type declarations which forward type parameters to the imported
