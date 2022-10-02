@@ -799,4 +799,8 @@ export const issueTests: {
             equal(decl instanceof ReferenceReflection, ref, `${name} = ${ref}`);
         }
     },
+
+    gh2064(project) {
+        query(project, "PrivateCtorDecl.x");
+    },
 };

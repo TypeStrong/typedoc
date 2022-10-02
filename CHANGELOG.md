@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Private parameter properties will no longer be ignored, #2064.
+
 ## v0.23.15 (2022-09-18)
 
 ### Features
