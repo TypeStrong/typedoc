@@ -16,12 +16,15 @@ import { resolveDeclarationReference } from "./declarationReferenceResolver";
 const urlPrefix = /^(http|ftp)s?:\/\//;
 const brackets = /\[\[(?!include:)([^\]]+)\]\]/g;
 
+export type ExternalResolveResult = { target: string, caption: string }
+export type ExternalResolveAttempt = (ref: DeclarationReference, part: CommentDisplayPart, refl: Reflection) => ExternalResolveResult | string | undefined;
+
 export function resolveLinks(
     comment: Comment,
     reflection: Reflection,
     validation: ValidationOptions,
     logger: Logger,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    attemptExternalResolve: ExternalResolveAttempt
 ) {
     let warned = false;
     const warn = () => {
@@ -70,7 +73,7 @@ export function resolvePartLinks(
     warn: () => void,
     validation: ValidationOptions,
     logger: Logger,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    attemptExternalResolve: ExternalResolveAttempt
 ): CommentDisplayPart[] {
     return parts.flatMap((part) =>
         processPart(
@@ -90,7 +93,7 @@ function processPart(
     warn: () => void,
     validation: ValidationOptions,
     logger: Logger,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    attemptExternalResolve: ExternalResolveAttempt
 ): CommentDisplayPart | CommentDisplayPart[] {
     if (part.kind === "text" && brackets.test(part.text)) {
         warn();
@@ -122,7 +125,7 @@ function processPart(
 function resolveLinkTag(
     reflection: Reflection,
     part: InlineTagDisplayPart,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined,
+    attemptExternalResolve: ExternalResolveAttempt,
     warn: (message: string) => void
 ) {
     let pos = 0;
@@ -146,9 +149,18 @@ function resolveLinkTag(
             defaultDisplayText = target.name;
         } else {
             // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
-            target = attemptExternalResolve(declRef[0]);
-            if (target) {
-                defaultDisplayText = part.text.substring(0, pos);
+            let externalResolveResult = attemptExternalResolve(declRef[0], part, reflection);
+
+            switch (typeof externalResolveResult) {
+                case 'string':
+                    target = externalResolveResult as string;
+                    defaultDisplayText = part.text.substring(0, pos);
+                    break;
+                case 'object':
+                    externalResolveResult = externalResolveResult as ExternalResolveResult;
+                    part.target = externalResolveResult.target;
+                    part.text = externalResolveResult.caption;
+                    return part;
             }
         }
     }

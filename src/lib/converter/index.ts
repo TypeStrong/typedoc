@@ -9,5 +9,9 @@ export type {
     Meaning,
     MeaningKeyword,
 } from "./comments/declarationReference";
+export type {
+    ExternalResolveAttempt,
+    ExternalResolveResult
+} from "./comments/linkResolver"
 
 import "./plugins/index";
