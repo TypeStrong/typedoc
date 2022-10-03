@@ -68,9 +68,11 @@ function renderUniquePath(context: DefaultThemeRenderContext, reflection: Reflec
     ));
 }
 function includeIndentation(context: DefaultThemeRenderContext): JSX.Element {
-    return context.getCurrentDepth() > 0 
-        ? <span>{new Array(context.getCurrentDepth() * 4).fill('\u00A0').join('')}</span> 
-        : <></>; 
+    return context.getCurrentDepth() > 0 ? (
+        <span>{new Array(context.getCurrentDepth() * 4).fill("\u00A0").join("")}</span>
+    ) : (
+        <></>
+    );
 }
 
 // The type helper accepts an optional needsParens parameter that is checked
@@ -372,7 +374,7 @@ const typeRenderers: {
                 includeIndentation(context),
                 m,
                 <span class="tsd-signature-symbol">; </span>,
-                <br></br>
+                <br></br>,
             ]);
             membersWithSeparators.pop();
 

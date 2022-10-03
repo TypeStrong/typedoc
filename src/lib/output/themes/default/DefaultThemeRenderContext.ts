@@ -59,11 +59,11 @@ export class DefaultThemeRenderContext {
     }
 
     incrementCurrentDepth(): void {
-        this.currentDepth ++;
+        this.currentDepth++;
     }
 
     decrementCurrentDepth(): void {
-        this.currentDepth --;
+        this.currentDepth--;
     }
 
     hook = (name: keyof RendererHooks) =>
