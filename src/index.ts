@@ -13,6 +13,8 @@ export {
     type ComponentPath,
     type Meaning,
     type MeaningKeyword,
+    type ExternalResolveAttempt,
+    type ExternalResolveResult
 } from "./lib/converter";
 
 export {
