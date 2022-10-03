@@ -11,7 +11,7 @@ export type {
 } from "./comments/declarationReference";
 export type {
     ExternalResolveAttempt,
-    ExternalResolveResult
-} from "./comments/linkResolver"
+    ExternalResolveResult,
+} from "./comments/linkResolver";
 
 import "./plugins/index";
