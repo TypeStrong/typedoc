@@ -233,7 +233,7 @@ export class Renderer extends ChildableComponent<
             outputDirectory,
             project
         );
-        output.urls = this.theme!.getUrls(project);
+        output.urls = await this.theme!.getUrls(project);
 
         this.trigger(output);
 

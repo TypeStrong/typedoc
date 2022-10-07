@@ -1,3 +1,5 @@
+export type MaybePromise<T> = T | Promise<T>;
+
 export function splitUnquotedString(
     input: string,
     delimiter: string
