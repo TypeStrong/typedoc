@@ -1,6 +1,7 @@
 # Unreleased
 
 ### Features
+
 -   Plugins can now optionally return a promise from `getUrls` to allow async determination of url mappings
 
 ### Bug Fixes
