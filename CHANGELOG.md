@@ -1,5 +1,8 @@
 # Unreleased
 
+### Features
+-   Plugins can now optionally return a promise from `getUrls` to allow async determination of url mappings
+
 ### Bug Fixes
 
 -   Private parameter properties will no longer be ignored, #2064.
