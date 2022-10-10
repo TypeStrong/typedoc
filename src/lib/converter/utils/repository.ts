@@ -48,7 +48,7 @@ export class Repository {
         this.baseUrl = baseUrl;
         this.anchorPrefix = guessAnchorPrefix(this.baseUrl);
 
-        let out = git("-C", path, "ls-files");
+        const out = git("-C", path, "ls-files");
         if (out.status === 0) {
             out.stdout.split("\n").forEach((file) => {
                 if (file !== "") {
