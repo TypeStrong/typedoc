@@ -1,5 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import {
+    DeclarationReflection,
     LiteralType,
     ProjectReflection,
     ReferenceType,
@@ -65,6 +66,13 @@ function renderUniquePath(context: DefaultThemeRenderContext, reflection: Reflec
             {item.name}
         </a>
     ));
+}
+function includeIndentation(context: DefaultThemeRenderContext): JSX.Element {
+    return context.getCurrentDepth() > 0 ? (
+        <span>{new Array(context.getCurrentDepth() * 4).fill("\u00A0").join("")}</span>
+    ) : (
+        <></>
+    );
 }
 
 // The type helper accepts an optional needsParens parameter that is checked
@@ -277,8 +285,11 @@ const typeRenderers: {
     },
     reflection(context, type) {
         const members: JSX.Element[] = [];
+        const children: DeclarationReflection[] = type.declaration.children || [];
 
-        for (const item of type.declaration.children || []) {
+        if (children.length) context.incrementCurrentDepth();
+
+        for (const item of children) {
             if (item.getSignature && item.setSignature) {
                 members.push(
                     <>
@@ -359,14 +370,24 @@ const typeRenderers: {
         }
 
         if (members.length) {
-            const membersWithSeparators = members.flatMap((m) => [m, <span class="tsd-signature-symbol">; </span>]);
+            const membersWithSeparators = members.flatMap((m) => [
+                includeIndentation(context),
+                m,
+                <span class="tsd-signature-symbol">; </span>,
+                <br></br>,
+            ]);
             membersWithSeparators.pop();
+
+            context.decrementCurrentDepth();
 
             return (
                 <>
                     <span class="tsd-signature-symbol">{"{"} </span>
+                    <br></br>
                     {membersWithSeparators}
-                    <span class="tsd-signature-symbol"> {"}"}</span>
+                    <br></br>
+                    {includeIndentation(context)}
+                    <span class="tsd-signature-symbol">{"}"}</span>
                 </>
             );
         }
