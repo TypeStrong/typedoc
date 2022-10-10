@@ -46,25 +46,12 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 
 export class DefaultThemeRenderContext {
     options: Options;
-    private currentDepth = 0;
 
     constructor(private theme: DefaultTheme, options: Options) {
         this.options = options;
     }
 
     icons = icons;
-
-    getCurrentDepth(): number {
-        return this.currentDepth;
-    }
-
-    incrementCurrentDepth(): void {
-        this.currentDepth++;
-    }
-
-    decrementCurrentDepth(): void {
-        this.currentDepth--;
-    }
 
     hook = (name: keyof RendererHooks) =>
         this.theme.owner.hooks.emit(name, this);
