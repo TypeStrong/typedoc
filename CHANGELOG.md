@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.16 (2022-10-10)
+
 ### Features
 
 -   Object types will now be pretty printed, #1793.
