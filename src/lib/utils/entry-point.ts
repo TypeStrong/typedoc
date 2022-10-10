@@ -364,7 +364,8 @@ function getEntryPointsForPackages(
         }
         const tsconfigFile = ts.findConfigFile(
             packageEntryPoint,
-            ts.sys.fileExists
+            ts.sys.fileExists,
+            typedocPackageConfig?.tsconfig
         );
         if (tsconfigFile === undefined) {
             logger.error(

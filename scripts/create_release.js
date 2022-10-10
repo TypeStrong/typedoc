@@ -65,7 +65,7 @@ async function main() {
     const currentVersion = `v${
         require(join(__dirname, "..", "package.json")).version
     }`;
-    const [_major, _minor, patch] = currentVersion.substr(1).split(".");
+    const [_major, _minor, patch] = currentVersion.substring(1).split(".");
 
     if (lastTag == currentVersion) {
         console.log("No version change, not publishing.");
@@ -98,7 +98,7 @@ async function main() {
         fullChangelog =
             "# Unreleased\n\n" +
             `${heading} ${currentVersion} (${dateStr})` +
-            fullChangelog.substr(start);
+            fullChangelog.substring(start);
         start = fullChangelog.indexOf(`${heading} ${currentVersion}`);
 
         await writeFile(CHANGELOG_MD, fullChangelog);

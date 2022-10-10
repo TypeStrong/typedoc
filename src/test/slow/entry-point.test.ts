@@ -111,4 +111,31 @@ describe("Entry Points", () => {
         equal(entryPoints.length, 1);
         equal(entryPoints[0].version, void 0);
     });
+
+    it("Supports custom tsconfig files #2061", () => {
+        const fixture = tempdirProject({ rootDir: tmpdir() });
+        fixture.addJsonFile("tsconfig.lib.json", {
+            include: ["."],
+        });
+        fixture.addJsonFile("package.json", {
+            main: "index.ts",
+            typedoc: {
+                tsconfig: "tsconfig.lib.json",
+            },
+        });
+        fixture.addFile("index.ts", "export function fromIndex() {}");
+        fixture.write();
+
+        app.bootstrap({
+            tsconfig: tsconfig,
+            entryPoints: [fixture.cwd],
+            entryPointStrategy: EntryPointStrategy.Packages,
+        });
+
+        const entryPoints = app.getEntryPoints();
+        fixture.rm();
+        ok(entryPoints);
+        equal(entryPoints.length, 1);
+        equal(entryPoints[0].version, void 0);
+    });
 });

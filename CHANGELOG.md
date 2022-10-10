@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added support for specifying the tsconfig.json file in packages mode with `{ "typedoc": { "tsconfig": "tsconfig.lib.json" }}` in package.json, #2061.
+
 ### Bug Fixes
 
 -   Private parameter properties will no longer be ignored, #2064.
