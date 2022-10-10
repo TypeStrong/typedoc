@@ -422,19 +422,37 @@ function getEntryPointsForPackages(
             version: includeVersion
                 ? (packageJson["version"] as string | undefined)
                 : void 0,
-            readmeFile: typedocPackageConfig?.readmeFile
-                ? Path.resolve(
-                      Path.join(
-                          packageJsonPath,
-                          "..",
-                          typedocPackageConfig?.readmeFile
-                      )
-                  )
-                : undefined,
+            readmeFile: discoverReadmeFile(
+                logger,
+                Path.join(packageJsonPath, ".."),
+                typedocPackageConfig?.readmeFile
+            ),
             program,
             sourceFile,
         });
     }
 
     return results;
+}
+
+function discoverReadmeFile(
+    logger: Logger,
+    packageDir: string,
+    userReadme: string | undefined
+): string | undefined {
+    if (userReadme) {
+        if (!FS.existsSync(Path.join(packageDir, userReadme))) {
+            logger.warn(
+                `Failed to find ${userReadme} in ${nicePath(packageDir)}`
+            );
+            return;
+        }
+        return Path.resolve(Path.join(packageDir, userReadme));
+    }
+
+    for (const file of FS.readdirSync(packageDir)) {
+        if (file.toLowerCase() === "readme.md") {
+            return Path.resolve(Path.join(packageDir, file));
+        }
+    }
 }

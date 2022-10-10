@@ -2,8 +2,9 @@
 
 ### Features
 
--   Added support for specifying the tsconfig.json file in packages mode with `{ "typedoc": { "tsconfig": "tsconfig.lib.json" }}` in package.json, #2061.
 -   Object types will now be pretty printed, #1793.
+-   Added support for specifying the tsconfig.json file in packages mode with `{ "typedoc": { "tsconfig": "tsconfig.lib.json" }}` in package.json, #2061.
+-   In packages mode, readme files will now be automatically included if present, #2065.
 -   Added support for specifying the base file url for links to source code, #2068.
 
 ### Bug Fixes
