@@ -9,9 +9,9 @@ jobs:
         name: Node ${{ matrix.node }}
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
             - name: Set up Node
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node }}
             - name: Upgrade npm

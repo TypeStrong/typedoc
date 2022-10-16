@@ -21,10 +21,11 @@ import { Component, ChildableComponent } from "../utils/component";
 import { BindOption, EventHooks } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import type { Theme as ShikiTheme } from "shiki";
-import { ReferenceType, Reflection } from "../models";
+import { Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
 import { clearSeenIconCache } from "./themes/default/partials/icon";
+import { validateStateIsClean } from "./themes/default/partials/type";
 
 /**
  * Describes the hooks available to inject output in the default theme.
@@ -112,11 +113,6 @@ export class Renderer extends ChildableComponent<
     private themes = new Map<string, new (renderer: Renderer) => Theme>([
         ["default", DefaultTheme],
     ]);
-
-    private unknownSymbolResolvers = new Map<
-        string,
-        Array<(symbol: string) => string | undefined>
-    >();
 
     /** @event */
     static readonly EVENT_BEGIN_PAGE = PageEvent.BEGIN;
@@ -206,45 +202,6 @@ export class Renderer extends ChildableComponent<
     }
 
     /**
-     * Adds a new resolver that the theme can used to try to figure out how to link to a symbol
-     * declared by a third-party library which is not included in the documentation.
-     * @param packageName the npm package name that this resolver can handle to limit which files it will be tried on.
-     *   If the resolver will create links for Node builtin types, it should be set to `@types/node`.
-     *   Links for builtin types live in the default lib files under `typescript`.
-     * @param resolver a function that will be called to create links for a given symbol name in the registered path.
-     *  If the provided name is not contained within the docs, should return `undefined`.
-     * @since 0.22.0
-     */
-    addUnknownSymbolResolver(
-        packageName: string,
-        resolver: (name: string) => string | undefined
-    ) {
-        const existing = this.unknownSymbolResolvers.get(packageName);
-        if (existing) {
-            existing.push(resolver);
-        } else {
-            this.unknownSymbolResolvers.set(packageName, [resolver]);
-        }
-    }
-
-    /**
-     * Attempt to resolve a reference type with no internal links to some reference outside
-     * of the project.
-     */
-    attemptExternalResolution(type: ReferenceType): string | undefined {
-        if (!type.qualifiedName || !type.package) {
-            return;
-        }
-
-        const resolvers = this.unknownSymbolResolvers.get(type.package);
-
-        for (const resolver of resolvers || []) {
-            const resolved = resolver(type.qualifiedName);
-            if (resolved) return resolved;
-        }
-    }
-
-    /**
      * Render the given project reflection to the specified output directory.
      *
      * @param project  The project that should be rendered.
@@ -283,6 +240,7 @@ export class Renderer extends ChildableComponent<
             output.urls.forEach((mapping: UrlMapping) => {
                 clearSeenIconCache();
                 this.renderDocument(output.createPageEvent(mapping));
+                validateStateIsClean(mapping.url);
             });
 
             await Promise.all(

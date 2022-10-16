@@ -4,11 +4,7 @@ export function isNamedNode(node: ts.Node): node is ts.Node & {
     name: ts.Identifier | ts.PrivateIdentifier | ts.ComputedPropertyName;
 } {
     const name: ts.Node | undefined = (node as any).name;
-    return (
-        !!name &&
-        (ts.isIdentifierOrPrivateIdentifier(name) ||
-            ts.isComputedPropertyName(name))
-    );
+    return !!name && (ts.isMemberName(name) || ts.isComputedPropertyName(name));
 }
 
 export function getHeritageTypes(
@@ -33,4 +29,8 @@ export function getHeritageTypes(
         seenTexts.add(text);
         return true;
     });
+}
+
+export function isObjectType(type: ts.Type): type is ts.ObjectType {
+    return typeof (type as any).objectFlags === "number";
 }

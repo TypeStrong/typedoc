@@ -31,10 +31,11 @@ import {
     getWatchEntryPoints,
 } from "./utils/entry-point";
 import { nicePath } from "./utils/paths";
-import { hasBeenLoadedMultipleTimes } from "./utils/general";
+import { getLoadedPaths, hasBeenLoadedMultipleTimes } from "./utils/general";
 import { validateExports } from "./validation/exports";
 import { validateDocumentation } from "./validation/documentation";
 import { validateLinks } from "./validation/links";
+import { ApplicationEvents } from "./application-events";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -93,12 +94,23 @@ export class Application extends ChildableComponent<
 
     /** @internal */
     @BindOption("logger")
-    loggerType!: string | Function;
+    readonly loggerType!: string | Function;
+
+    /** @internal */
+    @BindOption("skipErrorChecking")
+    readonly skipErrorChecking!: boolean;
 
     /**
      * The version number of TypeDoc.
      */
     static VERSION = packageInfo.version;
+
+    /**
+     * Emitted after plugins have been loaded and options have been read, but before they have been frozen.
+     * The listener will be given an instance of {@link Application} and the {@link TypeDocOptions | Partial<TypeDocOptions>}
+     * passed to `bootstrap`.
+     */
+    static readonly EVENT_BOOTSTRAP_END = ApplicationEvents.BOOTSTRAP_END;
 
     /**
      * Create a new TypeDoc application instance.
@@ -157,9 +169,12 @@ export class Application extends ChildableComponent<
 
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
-                `TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. This will likely break things.`
+                `TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. The loaded paths are:\n\t${getLoadedPaths().join(
+                    "\n\t"
+                )}`
             );
         }
+        this.trigger(ApplicationEvents.BOOTSTRAP_END, this, options);
     }
 
     /**
@@ -219,12 +234,14 @@ export class Application extends ChildableComponent<
             `Converting with ${programs.length} programs ${entryPoints.length} entry points`
         );
 
-        const errors = programs.flatMap((program) =>
-            ts.getPreEmitDiagnostics(program)
-        );
-        if (errors.length) {
-            this.logger.diagnostics(errors);
-            return;
+        if (this.skipErrorChecking === false) {
+            const errors = programs.flatMap((program) =>
+                ts.getPreEmitDiagnostics(program)
+            );
+            if (errors.length) {
+                this.logger.diagnostics(errors);
+                return;
+            }
         }
 
         if (this.options.getValue("emit") === "both") {

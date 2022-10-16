@@ -76,8 +76,13 @@ export class DefaultThemeRenderContext {
         return md ? this.theme.markedPlugin.parseMarkdown(md) : "";
     };
 
-    attemptExternalResolution = (type: ReferenceType) => {
-        return this.theme.owner.attemptExternalResolution(type);
+    /**
+     * Using this method will repeat work already done, instead of calling it, use `type.externalUrl`.
+     * @deprecated
+     * Will be removed in 0.24.
+     */
+    attemptExternalResolution = (type: NeverIfInternal<ReferenceType>) => {
+        return (type as ReferenceType).externalUrl;
     };
 
     getReflectionClasses = (reflection: DeclarationReflection) => {

@@ -9,16 +9,16 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
               with:
                   fetch-depth: 0
             - id: check
-              uses: EndBug/version-check@v1
+              uses: EndBug/version-check@v2.1.0
               with:
                   diff-search: true
             - name: Set up Node
               if: steps.check.outputs.changed == 'true'
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
                   node-version: "16"
             - name: Install

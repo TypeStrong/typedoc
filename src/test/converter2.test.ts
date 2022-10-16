@@ -30,6 +30,7 @@ function runTest(
             join(base, `${entry}.tsx`),
             join(base, `${entry}.js`),
             join(base, entry, "index.ts"),
+            join(base, entry, "index.js"),
         ].find(existsSync);
 
         ok(entryPoint, `No entry point found for ${entry}`);

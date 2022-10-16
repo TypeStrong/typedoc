@@ -183,7 +183,8 @@ export class SourcePlugin extends ConverterComponent {
         const repository = Repository.tryCreateRepository(
             dirName,
             this.gitRevision,
-            this.gitRemote
+            this.gitRemote,
+            this.application.logger
         );
         if (repository) {
             this.repositories[repository.path.toLowerCase()] = repository;

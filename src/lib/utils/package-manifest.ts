@@ -5,7 +5,7 @@ import { existsSync } from "fs";
 
 import { readFile, glob } from "./fs";
 import type { Logger } from "./loggers";
-import type { IMinimatch } from "minimatch";
+import type { Minimatch } from "minimatch";
 import { matchesAny, nicePath } from "./paths";
 import { additionalProperties, Infer, optional, validate } from "./validation";
 
@@ -41,6 +41,7 @@ const typedocPackageManifestConfigSchema = {
     displayName: optional(String),
     entryPoint: optional(String),
     readmeFile: optional(String),
+    tsconfig: optional(String),
 
     [additionalProperties]: false,
 };
@@ -116,7 +117,7 @@ export function expandPackages(
     logger: Logger,
     packageJsonDir: string,
     workspaces: string[],
-    exclude: IMinimatch[]
+    exclude: Minimatch[]
 ): string[] {
     // Technically npm and Yarn workspaces don't support recursive nesting,
     // however we support the passing of paths to either packages or
@@ -166,8 +167,10 @@ function getTsSourceFromJsSource(
     const sourceMapPrefix = "\n//# sourceMappingURL=";
     const indexOfSourceMapPrefix = contents.indexOf(sourceMapPrefix);
     if (indexOfSourceMapPrefix === -1) {
-        logger.error(`The file ${jsPath} does not contain a sourceMappingURL`);
-        return;
+        logger.verbose(
+            `The file ${jsPath} does not contain a sourceMappingURL`
+        );
+        return jsPath;
     }
     const endOfSourceMapPrefix =
         indexOfSourceMapPrefix + sourceMapPrefix.length;
@@ -253,30 +256,18 @@ export function getTsEntryPointForPackage(
     );
     if (typedocPackageConfig?.entryPoint) {
         packageMain = typedocPackageConfig.entryPoint;
-    } else if (
-        hasOwnProperty(packageJson, "typedocMain") &&
-        typeof packageJson.typedocMain == "string"
-    ) {
+    } else if (validate({ typedocMain: String }, packageJson)) {
         logger.warn(
             `Legacy typedoc entry point config (using "typedocMain" field) found for "${nicePath(
                 packageJsonPath
             )}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`
         );
         packageMain = packageJson.typedocMain;
-    } else if (
-        hasOwnProperty(packageJson, "main") &&
-        typeof packageJson.main == "string"
-    ) {
+    } else if (validate({ main: String }, packageJson)) {
         packageMain = packageJson.main;
-    } else if (
-        hasOwnProperty(packageJson, "types") &&
-        typeof packageJson.types == "string"
-    ) {
+    } else if (validate({ types: String }, packageJson)) {
         packageTypes = packageJson.types;
-    } else if (
-        hasOwnProperty(packageJson, "typings") &&
-        typeof packageJson.typings == "string"
-    ) {
+    } else if (validate({ typings: String }, packageJson)) {
         packageTypes = packageJson.typings;
     }
     let entryPointPath = resolve(packageJsonPath, "..", packageMain);
@@ -287,7 +278,7 @@ export function getTsEntryPointForPackage(
     try {
         entryPointPath = require.resolve(entryPointPath, { paths: [] });
         if (
-            /\.([cm]ts|tsx?)$/.test(entryPointPath) &&
+            /\.([cm]?ts|tsx?)$/.test(entryPointPath) &&
             existsSync(entryPointPath)
         ) {
             return entryPointPath;
@@ -302,7 +293,7 @@ export function getTsEntryPointForPackage(
                 packageTypes ?? packageMain
             );
             if (
-                /\.([cm][tj]s|tsx?)$/.test(entryPointPath) &&
+                /\.([cm]?[tj]s|tsx?)$/.test(entryPointPath) &&
                 existsSync(entryPointPath)
             ) {
                 return entryPointPath;

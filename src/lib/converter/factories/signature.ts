@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 import assert from "assert";
 import {
+    ConversionFlags,
     DeclarationReflection,
     IntrinsicType,
     ParameterReflection,
@@ -49,7 +50,15 @@ export function createSignature(
             new ReflectionSymbolId(symbol, declaration)
         );
     }
-    if (declaration) {
+
+    // If we are creating signatures for a variable and the variable has a comment associated with it
+    // then we should prefer that variable's comment over any comment on the signature. The comment plugin
+    // will copy the comment down if this signature doesn't have one, so don't set one.
+    if (
+        declaration &&
+        (!context.scope.comment ||
+            !(context.scope.conversionFlags & ConversionFlags.VariableSource))
+    ) {
         sigRef.comment = getSignatureComment(
             declaration,
             context.converter.config,

@@ -1124,6 +1124,7 @@ ul.tsd-type-parameter-list h5 {
     display: flex;
     justify-content: space-between;
     height: 2.5rem;
+    margin: 0 auto;
 }
 .tsd-page-toolbar .table-cell {
     position: relative;

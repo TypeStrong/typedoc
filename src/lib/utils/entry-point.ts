@@ -13,6 +13,8 @@ import { createMinimatch, matchesAny, nicePath } from "./paths";
 import type { Logger } from "./loggers";
 import type { Options } from "./options";
 import { getCommonDirectory, glob, normalizePath } from "./fs";
+import { validate } from "./validation";
+import { filterMap } from "./array";
 
 /**
  * Defines how entry points are interpreted.
@@ -299,6 +301,18 @@ function expandInputFiles(
     return files;
 }
 
+function deriveRootDir(packageGlobPaths: string[]): string {
+    const globs = createMinimatch(packageGlobPaths);
+    const rootPaths = globs.flatMap((glob) =>
+        filterMap(glob.set, (set) => {
+            const stop = set.findIndex((part) => typeof part !== "string");
+            const path = stop === -1 ? set : set.slice(0, stop);
+            return `/${path.join("/")}`;
+        })
+    );
+    return getCommonDirectory(rootPaths);
+}
+
 /**
  * Expand the provided packages configuration paths, determining the entry points
  * and creating the ts.Programs for any which are found.
@@ -313,12 +327,13 @@ function getEntryPointsForPackages(
 ): DocumentationEntryPoint[] | undefined {
     const results: DocumentationEntryPoint[] = [];
     const exclude = createMinimatch(options.getValue("exclude"));
+    const rootDir = deriveRootDir(packageGlobPaths);
 
     // packages arguments are workspace tree roots, or glob patterns
     // This expands them to leave only leaf packages
     const expandedPackages = expandPackages(
         logger,
-        ".",
+        rootDir,
         packageGlobPaths,
         exclude
     );
@@ -349,7 +364,8 @@ function getEntryPointsForPackages(
         }
         const tsconfigFile = ts.findConfigFile(
             packageEntryPoint,
-            ts.sys.fileExists
+            ts.sys.fileExists,
+            typedocPackageConfig?.tsconfig
         );
         if (tsconfigFile === undefined) {
             logger.error(
@@ -386,16 +402,12 @@ function getEntryPointsForPackages(
         const sourceFile = program.getSourceFile(packageEntryPoint);
         if (sourceFile === undefined) {
             logger.error(
-                `Entry point "${packageEntryPoint}" does not appear to be built by the tsconfig found at "${tsconfigFile}"`
+                `Entry point "${packageEntryPoint}" does not appear to be built by/included in the tsconfig found at "${tsconfigFile}"`
             );
             return;
         }
 
-        if (
-            includeVersion &&
-            (!packageJson["version"] ||
-                typeof packageJson["version"] !== "string")
-        ) {
+        if (includeVersion && !validate({ version: String }, packageJson)) {
             logger.warn(
                 `--includeVersion was specified, but "${nicePath(
                     packageJsonPath
@@ -410,19 +422,37 @@ function getEntryPointsForPackages(
             version: includeVersion
                 ? (packageJson["version"] as string | undefined)
                 : void 0,
-            readmeFile: typedocPackageConfig?.readmeFile
-                ? Path.resolve(
-                      Path.join(
-                          packageJsonPath,
-                          "..",
-                          typedocPackageConfig?.readmeFile
-                      )
-                  )
-                : undefined,
+            readmeFile: discoverReadmeFile(
+                logger,
+                Path.join(packageJsonPath, ".."),
+                typedocPackageConfig?.readmeFile
+            ),
             program,
             sourceFile,
         });
     }
 
     return results;
+}
+
+function discoverReadmeFile(
+    logger: Logger,
+    packageDir: string,
+    userReadme: string | undefined
+): string | undefined {
+    if (userReadme) {
+        if (!FS.existsSync(Path.join(packageDir, userReadme))) {
+            logger.warn(
+                `Failed to find ${userReadme} in ${nicePath(packageDir)}`
+            );
+            return;
+        }
+        return Path.resolve(Path.join(packageDir, userReadme));
+    }
+
+    for (const file of FS.readdirSync(packageDir)) {
+        if (file.toLowerCase() === "readme.md") {
+            return Path.resolve(Path.join(packageDir, file));
+        }
+    }
 }

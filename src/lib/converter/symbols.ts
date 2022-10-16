@@ -8,6 +8,7 @@ import {
     Reflection,
     ReflectionFlag,
     ReflectionKind,
+    ConversionFlags,
 } from "../models";
 import {
     getEnumFlags,
@@ -897,7 +898,7 @@ function convertVariableAsFunction(
         exportSymbol
     );
     setModifiers(symbol, accessDeclaration, reflection);
-
+    reflection.conversionFlags |= ConversionFlags.VariableSource;
     context.finalizeDeclarationReflection(reflection);
 
     const reflectionContext = context.withScope(reflection);
@@ -971,12 +972,19 @@ function isInherited(context: Context, symbol: ts.Symbol) {
         parentSymbol,
         `No parent symbol found for ${symbol.name} in ${context.scope.name}`
     );
+
+    const parents = parentSymbol.declarations?.slice() || [];
+    const constructorDecls = parents.flatMap((parent) =>
+        ts.isClassDeclaration(parent)
+            ? parent.members.filter(ts.isConstructorDeclaration)
+            : []
+    );
+    parents.push(...constructorDecls);
+
     return (
-        parentSymbol
-            .getDeclarations()
-            ?.some((d) =>
-                symbol.getDeclarations()?.some((d2) => d2.parent === d)
-            ) === false
+        parents.some((d) =>
+            symbol.getDeclarations()?.some((d2) => d2.parent === d)
+        ) === false
     );
 }
 

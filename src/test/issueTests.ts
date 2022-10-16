@@ -1,4 +1,8 @@
-import { deepStrictEqual as equal, ok } from "assert";
+import {
+    deepStrictEqual as equal,
+    notDeepStrictEqual as notEqual,
+    ok,
+} from "assert";
 import type { Application } from "../lib/application";
 import {
     DeclarationReflection,
@@ -12,6 +16,7 @@ import {
     UnionType,
     LiteralType,
     IntrinsicType,
+    ReferenceReflection,
 } from "../lib/models";
 import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
 import { getConverter2App } from "./programs";
@@ -670,6 +675,14 @@ export const issueTests: {
         equal(Comment.combineDisplayParts(fn.comment?.summary), "Docs");
     },
 
+    gh2011(project) {
+        const readable = query(project, "Readable").signatures![0];
+        const type = readable.type!;
+        equal(type.type, "intersection" as const);
+        notEqual(type.types[0], "intersection");
+        notEqual(type.types[1], "intersection");
+    },
+
     gh2012(project) {
         project.hasOwnDocument = true;
         const model = query(project, "model");
@@ -710,5 +723,81 @@ export const issueTests: {
             ),
             "Desc3"
         );
+    },
+
+    gh2031(project, logger) {
+        const sig = query(project, "MyClass.aMethod").signatures![0];
+        const summaryLink = sig.comment?.summary[0];
+        ok(summaryLink?.kind === "inline-tag");
+        ok(summaryLink.target);
+
+        const paramLink = sig.parameters![0].comment?.summary[0];
+        ok(paramLink?.kind === "inline-tag");
+        ok(paramLink.target);
+
+        logger.expectNoOtherMessages();
+    },
+
+    gh2033(project, logger) {
+        const cls = project.children!.find(
+            (c) => c.name === "Foo" && c.kind === ReflectionKind.Class
+        );
+        ok(cls);
+
+        const link = cls.comment?.summary[0];
+        ok(link?.kind === "inline-tag");
+        ok(link.target);
+
+        logger.expectNoOtherMessages();
+    },
+
+    gh2036(project) {
+        const SingleSimpleCtor = query(project, "SingleSimpleCtor");
+        const MultipleSimpleCtors = query(project, "MultipleSimpleCtors");
+        const AnotherCtor = query(project, "AnotherCtor");
+
+        equal(SingleSimpleCtor.type?.type, "reflection" as const);
+        equal(MultipleSimpleCtors.type?.type, "reflection" as const);
+        equal(AnotherCtor.type?.type, "reflection" as const);
+
+        equal(SingleSimpleCtor.type.declaration.signatures?.length, 1);
+        equal(MultipleSimpleCtors.type.declaration.signatures?.length, 2);
+        equal(AnotherCtor.type.declaration.signatures?.length, 1);
+    },
+
+    gh2042(project) {
+        for (const [name, docs] of [
+            ["built", "inner docs"],
+            ["built2", "outer docs"],
+            ["fn", "inner docs"],
+            ["fn2", "outer docs"],
+        ]) {
+            const refl = query(project, name);
+            ok(refl.signatures?.[0]);
+            equal(
+                Comment.combineDisplayParts(
+                    refl.signatures[0].comment?.summary
+                ),
+                docs,
+                name
+            );
+        }
+    },
+
+    gh2044(project) {
+        for (const [name, ref] of [
+            ["Foo", false],
+            ["RenamedFoo", true],
+            ["Generic", false],
+            ["RenamedGeneric", true],
+            ["NonGeneric", false],
+        ] as const) {
+            const decl = query(project, name);
+            equal(decl instanceof ReferenceReflection, ref, `${name} = ${ref}`);
+        }
+    },
+
+    gh2064(project) {
+        query(project, "PrivateCtorDecl.x");
     },
 };

@@ -34,6 +34,19 @@ export function convertJsDocAlias(
         return;
     }
 
+    // If the typedef tag is just referring to another type-space symbol, with no type parameters
+    // or appropriate forwarding type parameters, then we treat it as a re-export instead of creating
+    // a type alias with an import type.
+    const aliasedSymbol = getTypedefReExportTarget(context, declaration);
+    if (aliasedSymbol) {
+        context.converter.convertSymbol(
+            context,
+            aliasedSymbol,
+            exportSymbol ?? symbol
+        );
+        return;
+    }
+
     const reflection = context.createDeclarationReflection(
         ReflectionKind.TypeAlias,
         symbol,
@@ -169,4 +182,59 @@ function convertTemplateParameterNodes(
 ) {
     const params = (nodes ?? []).flatMap((tag) => tag.typeParameters);
     return convertTypeParameterNodes(context, params);
+}
+
+function getTypedefReExportTarget(
+    context: Context,
+    declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag
+): ts.Symbol | undefined {
+    const typeExpression = declaration.typeExpression;
+    if (
+        !ts.isJSDocTypedefTag(declaration) ||
+        !typeExpression ||
+        ts.isJSDocTypeLiteral(typeExpression) ||
+        !ts.isImportTypeNode(typeExpression.type) ||
+        !typeExpression.type.qualifier ||
+        !ts.isIdentifier(typeExpression.type.qualifier)
+    ) {
+        return;
+    }
+
+    const targetSymbol = context.expectSymbolAtLocation(
+        typeExpression.type.qualifier
+    );
+    const decl = targetSymbol.declarations?.[0];
+
+    if (
+        !decl ||
+        !(
+            ts.isTypeAliasDeclaration(decl) ||
+            ts.isInterfaceDeclaration(decl) ||
+            ts.isJSDocTypedefTag(decl) ||
+            ts.isJSDocCallbackTag(decl)
+        )
+    ) {
+        return;
+    }
+
+    const targetParams = ts.getEffectiveTypeParameterDeclarations(decl);
+    const localParams = ts.getEffectiveTypeParameterDeclarations(declaration);
+    const localArgs = typeExpression.type.typeArguments || [];
+
+    // If we have type parameters, ensure they are forwarding parameters with no transformations.
+    // This doesn't check constraints since they aren't checked in JSDoc types.
+    if (
+        targetParams.length !== localParams.length ||
+        localArgs.some(
+            (arg, i) =>
+                !ts.isTypeReferenceNode(arg) ||
+                !ts.isIdentifier(arg.typeName) ||
+                arg.typeArguments ||
+                localParams[i]?.name.text !== arg.typeName.text
+        )
+    ) {
+        return;
+    }
+
+    return targetSymbol;
 }

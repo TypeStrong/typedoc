@@ -6,32 +6,55 @@ import {
     InlineTagDisplayPart,
     Reflection,
 } from "../../models";
-import { parseDeclarationReference } from "./declarationReference";
+import {
+    DeclarationReference,
+    parseDeclarationReference,
+} from "./declarationReference";
 import { resolveDeclarationReference } from "./declarationReferenceResolver";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 
-export function resolveLinks(comment: Comment, reflection: Reflection) {
-    comment.summary = resolvePartLinks(reflection, comment.summary);
+export function resolveLinks(
+    comment: Comment,
+    reflection: Reflection,
+    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+) {
+    comment.summary = resolvePartLinks(
+        reflection,
+        comment.summary,
+        attemptExternalResolve
+    );
     for (const tag of comment.blockTags) {
-        tag.content = resolvePartLinks(reflection, tag.content);
+        tag.content = resolvePartLinks(
+            reflection,
+            tag.content,
+            attemptExternalResolve
+        );
     }
 
     if (reflection instanceof DeclarationReflection && reflection.readme) {
-        reflection.readme = resolvePartLinks(reflection, reflection.readme);
+        reflection.readme = resolvePartLinks(
+            reflection,
+            reflection.readme,
+            attemptExternalResolve
+        );
     }
 }
 
 export function resolvePartLinks(
     reflection: Reflection,
-    parts: readonly CommentDisplayPart[]
+    parts: readonly CommentDisplayPart[],
+    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
 ): CommentDisplayPart[] {
-    return parts.flatMap((part) => processPart(reflection, part));
+    return parts.flatMap((part) =>
+        processPart(reflection, part, attemptExternalResolve)
+    );
 }
 
 function processPart(
     reflection: Reflection,
-    part: CommentDisplayPart
+    part: CommentDisplayPart,
+    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
 ): CommentDisplayPart | CommentDisplayPart[] {
     if (part.kind === "inline-tag") {
         if (
@@ -39,14 +62,18 @@ function processPart(
             part.tag === "@linkcode" ||
             part.tag === "@linkplain"
         ) {
-            return resolveLinkTag(reflection, part);
+            return resolveLinkTag(reflection, part, attemptExternalResolve);
         }
     }
 
     return part;
 }
 
-function resolveLinkTag(reflection: Reflection, part: InlineTagDisplayPart) {
+function resolveLinkTag(
+    reflection: Reflection,
+    part: InlineTagDisplayPart,
+    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+) {
     let pos = 0;
     const end = part.text.length;
     while (pos < end && ts.isWhiteSpaceLike(part.text.charCodeAt(pos))) {
@@ -57,10 +84,21 @@ function resolveLinkTag(reflection: Reflection, part: InlineTagDisplayPart) {
     const declRef = parseDeclarationReference(part.text, pos, end);
 
     let target: Reflection | string | undefined;
+    let defaultDisplayText: string;
     if (declRef) {
         // Got one, great! Try to resolve the link
         target = resolveDeclarationReference(reflection, declRef[0]);
         pos = declRef[1];
+
+        if (target) {
+            defaultDisplayText = target.name;
+        } else {
+            // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
+            target = attemptExternalResolve(declRef[0]);
+            if (target) {
+                defaultDisplayText = part.text.substring(0, pos);
+            }
+        }
     }
 
     if (!target) {
@@ -69,6 +107,7 @@ function resolveLinkTag(reflection: Reflection, part: InlineTagDisplayPart) {
             target =
                 wsIndex === -1 ? part.text : part.text.substring(0, wsIndex);
             pos = target.length;
+            defaultDisplayText = target;
         }
     }
 
@@ -86,9 +125,7 @@ function resolveLinkTag(reflection: Reflection, part: InlineTagDisplayPart) {
     }
 
     part.target = target;
-    part.text =
-        part.text.substring(pos).trim() ||
-        (typeof target === "string" ? target : target.name);
+    part.text = part.text.substring(pos).trim() || defaultDisplayText!;
 
     return part;
 }

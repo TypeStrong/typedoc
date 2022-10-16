@@ -1,3 +1,4 @@
+import { dirname } from "path";
 import * as Util from "util";
 
 /**
@@ -59,11 +60,23 @@ export function assertNever(x: never): never {
  * multiple times, then parts of it will not work as expected.
  */
 const loadSymbol = Symbol.for("typedoc_loads");
-const getLoads = () => globalThis[loadSymbol as never] || 0;
+const pathSymbol = Symbol.for("typedoc_paths");
 
-// @ts-expect-error there's no way to add symbols to globalThis, sadly.
-globalThis[loadSymbol] = getLoads() + 1;
+interface TypeDocGlobals {
+    [loadSymbol]?: number;
+    [pathSymbol]?: string[];
+}
+const g = globalThis as TypeDocGlobals;
+
+g[loadSymbol] = (g[loadSymbol] || 0) + 1;
+g[pathSymbol] ||= [];
+// transform /abs/path/to/typedoc/dist/lib/utils/general -> /abs/path/to/typedoc
+g[pathSymbol].push(dirname(dirname(dirname(__dirname))));
 
 export function hasBeenLoadedMultipleTimes() {
-    return getLoads() !== 1;
+    return g[loadSymbol] !== 1;
+}
+
+export function getLoadedPaths() {
+    return g[pathSymbol] || [];
 }

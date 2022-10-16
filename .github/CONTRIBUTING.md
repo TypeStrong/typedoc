@@ -6,15 +6,21 @@ This document includes a set of guidelines for contributing to TypeDoc. These ar
 
 ## Table of Contents
 
-1. [How Can I Contribute?](#how-can-i-contribute)
-    - [Bug Reports](#bug-reports)
-    - [Suggestions](#suggestions)
-    - [Documentation](#documentation)
-    - [Code](#code)
-1. [Setup - Git, GitHub, and Node](#setup---git-github-and-node)
-1. [Linting, Building, and Testing](#linting-building-and-testing)
-1. [Pull Requests](#pull-requests)
-1. [Updating Your Branch](#updating-your-branch)
+-   [Contributing to TypeDoc](#contributing-to-typedoc)
+    -   [Table of Contents](#table-of-contents)
+    -   [How Can I Contribute?](#how-can-i-contribute)
+        -   [Bug Reports](#bug-reports)
+        -   [Suggestions](#suggestions)
+        -   [Documentation](#documentation)
+        -   [Code](#code)
+    -   [Setup - Git, GitHub, and Node](#setup---git-github-and-node)
+        -   [Installation](#installation)
+    -   [Linting, Building, and Testing](#linting-building-and-testing)
+        -   [Linting](#linting)
+        -   [Building](#building)
+        -   [Testing](#testing)
+    -   [Pull Requests](#pull-requests)
+    -   [Updating Your Branch](#updating-your-branch)
 
 ## How Can I Contribute?
 
@@ -102,7 +108,7 @@ Once you have cloned TypeDoc, you can lint, build, and test the code from your t
 
 To lint the TypeDoc code, run `npm run lint`. This will start eslint and check all files for stylistic problems. You can also install an eslint plugin for your editor to show most style problems as you type.
 
-You can automatically fix some style problems by running `npm run lint -- --fix`.
+You can automatically fix some style problems by running `npm run lint -- --write`.
 
 #### Building
 

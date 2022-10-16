@@ -38,6 +38,7 @@ import {
     createSignature,
 } from "./factories/signature";
 import { convertSymbol } from "./symbols";
+import { isObjectType } from "./utils/nodes";
 import { removeUndefined } from "./utils/reflections";
 
 export interface TypeConverter<
@@ -154,8 +155,16 @@ export function convertType(
         seenTypeSymbols.add(symbol);
     }
 
-    const converter = converters.get(node.kind);
+    let converter = converters.get(node.kind);
     if (converter) {
+        // Hacky fix for #2011, need to find a better way to choose the converter.
+        if (
+            converter === intersectionConverter &&
+            !typeOrNode.isIntersection()
+        ) {
+            converter = typeLiteralConverter;
+        }
+
         const result = converter.convertType(context, typeOrNode, node);
         if (symbol) seenTypeSymbols.delete(symbol);
         return result;
@@ -564,6 +573,14 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
                 symbol
             );
         }
+        for (const signature of type.getConstructSignatures()) {
+            createSignature(
+                rc,
+                ReflectionKind.ConstructorSignature,
+                signature,
+                symbol
+            );
+        }
 
         convertIndexSignature(rc, symbol);
 
@@ -589,6 +606,14 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             createSignature(
                 context.withScope(reflection),
                 ReflectionKind.CallSignature,
+                signature,
+                type.symbol
+            );
+        }
+        for (const signature of type.getConstructSignatures()) {
+            createSignature(
+                context.withScope(reflection),
+                ReflectionKind.ConstructorSignature,
                 signature,
                 type.symbol
             );
@@ -1032,10 +1057,6 @@ function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
         );
         return new UnknownType(typeString);
     }
-}
-
-function isObjectType(type: ts.Type): type is ts.ObjectType {
-    return typeof (type as any).objectFlags === "number";
 }
 
 function resolveReference(type: ts.Type) {

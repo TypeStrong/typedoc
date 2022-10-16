@@ -1,16 +1,7 @@
-import {
-    ContainerReflection,
-    DeclarationReflection,
-    makeRecursiveVisitor,
-    ParameterReflection,
-    ProjectReflection,
-    ReferenceType,
-    Reflection,
-    SignatureReflection,
-    TypeParameterReflection,
-} from "../models";
+import type { ProjectReflection, ReferenceType } from "../models";
 import type { Logger } from "../utils";
 import { nicePath } from "../utils/paths";
+import { discoverAllReferenceTypes } from "../utils/reflections";
 
 function makeIntentionallyExportedHelper(
     project: ProjectReflection,
@@ -68,8 +59,6 @@ export function validateExports(
     logger: Logger,
     intentionallyNotExported: readonly string[]
 ) {
-    let current: Reflection | undefined = project;
-    const queue: Reflection[] = [];
     const intentional = makeIntentionallyExportedHelper(
         project,
         intentionallyNotExported,
@@ -77,80 +66,25 @@ export function validateExports(
     );
     const warned = new Set<string>();
 
-    const visitor = makeRecursiveVisitor({
-        reference(type) {
-            const uniqueId = `${type.sourceFileName}\0${type.qualifiedName}`;
+    for (const { type, owner } of discoverAllReferenceTypes(project, true)) {
+        const uniqueId = `${type.sourceFileName}\0${type.qualifiedName}`;
 
-            // If we don't have a symbol, then this was an intentionally broken reference.
-            if (
-                !type.reflection &&
-                !type.isIntentionallyBroken() &&
-                !intentional.has(type, type.qualifiedName) &&
-                !warned.has(uniqueId)
-            ) {
-                warned.add(uniqueId);
+        if (
+            !type.reflection &&
+            !type.externalUrl &&
+            !type.isIntentionallyBroken() &&
+            !intentional.has(type, type.qualifiedName) &&
+            !warned.has(uniqueId)
+        ) {
+            warned.add(uniqueId);
 
-                logger.warn(
-                    `${type.qualifiedName}, defined in ${nicePath(
-                        type.sourceFileName!
-                    )}, is referenced by ${current!.getFullName()} but not included in the documentation.`
-                );
-            }
-        },
-        reflection(type) {
-            queue.push(type.declaration);
-        },
-    });
-
-    const add = (item: Reflection | Reflection[] | undefined) => {
-        if (!item) return;
-
-        if (item instanceof Reflection) {
-            queue.push(item);
-        } else {
-            queue.push(...item);
+            logger.warn(
+                `${type.qualifiedName}, defined in ${nicePath(
+                    type.sourceFileName!
+                )}, is referenced by ${owner.getFullName()} but not included in the documentation.`
+            );
         }
-    };
-
-    do {
-        if (current instanceof ContainerReflection) {
-            add(current.children);
-        }
-
-        if (current instanceof DeclarationReflection) {
-            current.type?.visit(visitor);
-            add(current.typeParameters);
-            add(current.signatures);
-            add(current.indexSignature);
-            add(current.getSignature);
-            add(current.setSignature);
-            current.overwrites?.visit(visitor);
-            // Do not check inheritedFrom, it doesn't always make sense to export a base type.
-            // Do not validate implementationOf will always be defined or intentionally broken.
-            // Do not check extendedTypes, it doesn't always make sense to export a base type.
-            // Do not validate extendedBy, guaranteed to all be in the documentation.
-            current.implementedTypes?.forEach((type) => type.visit(visitor));
-            // Do not validate implementedBy, guaranteed to all be in the documentation.
-        }
-
-        if (current instanceof SignatureReflection) {
-            add(current.parameters);
-            add(current.typeParameters);
-            current.type?.visit(visitor);
-            current.overwrites?.visit(visitor);
-            // Do not check inheritedFrom, it doesn't always make sense to export a base type.
-            // Do not validate implementationOf will always be defined or intentionally broken.
-        }
-
-        if (current instanceof ParameterReflection) {
-            current.type?.visit(visitor);
-        }
-
-        if (current instanceof TypeParameterReflection) {
-            current.type?.visit(visitor);
-            current.default?.visit(visitor);
-        }
-    } while ((current = queue.shift()));
+    }
 
     const unusedIntentional = intentional.getUnused();
     if (unusedIntentional.length) {

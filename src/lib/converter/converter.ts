@@ -17,7 +17,7 @@ import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
 import { convertSymbol } from "./symbols";
 import { createMinimatch, matchesAny } from "../utils/paths";
-import type { IMinimatch } from "minimatch";
+import type { Minimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
 import { CommentParserConfig, getComment } from "./comments";
@@ -28,6 +28,7 @@ import type {
 import { parseComment } from "./comments/parser";
 import { lexCommentString } from "./comments/rawLexer";
 import { resolvePartLinks, resolveLinks } from "./comments/linkResolver";
+import type { DeclarationReference } from "./comments/declarationReference";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -41,29 +42,29 @@ export class Converter extends ChildableComponent<
     Application,
     ConverterComponent
 > {
-    /**
-     * The human readable name of the project. Used within the templates to set the title of the document.
-     */
-    @BindOption("name")
-    name!: string;
-
+    /** @internal */
     @BindOption("externalPattern")
     externalPattern!: string[];
-    private externalPatternCache?: IMinimatch[];
-    private excludeCache?: IMinimatch[];
+    private externalPatternCache?: Minimatch[];
+    private excludeCache?: Minimatch[];
 
+    /** @internal */
     @BindOption("excludeExternals")
     excludeExternals!: boolean;
 
+    /** @internal */
     @BindOption("excludeNotDocumented")
     excludeNotDocumented!: boolean;
 
+    /** @internal */
     @BindOption("excludePrivate")
     excludePrivate!: boolean;
 
+    /** @internal */
     @BindOption("excludeProtected")
     excludeProtected!: boolean;
 
+    /** @internal */
     @BindOption("commentStyle")
     commentStyle!: CommentStyle;
 
@@ -71,7 +72,14 @@ export class Converter extends ChildableComponent<
     @BindOption("validation")
     validation!: ValidationOptions;
 
+    /** @internal */
+    @BindOption("externalSymbolLinkMappings")
+    externalSymbolLinkMappings!: Record<string, Record<string, string>>;
+
     private _config?: CommentParserConfig;
+    private _externalSymbolResolvers: Array<
+        (ref: DeclarationReference) => string | undefined
+    > = [];
 
     get config(): CommentParserConfig {
         return this._config || this._buildCommentParserConfig();
@@ -155,6 +163,36 @@ export class Converter extends ChildableComponent<
      */
     static readonly EVENT_RESOLVE_END = ConverterEvents.RESOLVE_END;
 
+    constructor(owner: Application) {
+        super(owner);
+
+        this.addUnknownSymbolResolver((ref) => {
+            // Require global links, matching local ones will likely hide mistakes where the
+            // user meant to link to a local type.
+            if (ref.resolutionStart !== "global" || !ref.symbolReference) {
+                return;
+            }
+
+            const modLinks =
+                this.externalSymbolLinkMappings[ref.moduleSource ?? "global"];
+            if (typeof modLinks !== "object") {
+                return;
+            }
+
+            let name = "";
+            if (ref.symbolReference.path) {
+                name += ref.symbolReference.path.map((p) => p.path).join(".");
+            }
+            if (ref.symbolReference.meaning) {
+                name += ":" + ref.symbolReference.meaning;
+            }
+
+            if (typeof modLinks[name] === "string") {
+                return modLinks[name];
+            }
+        });
+    }
+
     /**
      * Compile the given source files and create a project reflection for them.
      */
@@ -164,7 +202,9 @@ export class Converter extends ChildableComponent<
         const programs = entryPoints.map((e) => e.program);
         this.externalPatternCache = void 0;
 
-        const project = new ProjectReflection(this.name);
+        const project = new ProjectReflection(
+            this.application.options.getValue("name")
+        );
         const context = new Context(this, programs, project);
 
         this.trigger(Converter.EVENT_BEGIN, context);
@@ -179,8 +219,12 @@ export class Converter extends ChildableComponent<
     }
 
     /** @internal */
-    convertSymbol(context: Context, symbol: ts.Symbol) {
-        convertSymbol(context, symbol);
+    convertSymbol(
+        context: Context,
+        symbol: ts.Symbol,
+        exportSymbol?: ts.Symbol
+    ) {
+        convertSymbol(context, symbol, exportSymbol);
     }
 
     /**
@@ -210,6 +254,32 @@ export class Converter extends ChildableComponent<
         );
     }
 
+    /**
+     * Adds a new resolver that the theme can use to try to figure out how to link to a symbol declared
+     * by a third-party library which is not included in the documentation.
+     *
+     * The resolver function will be passed a declaration reference which it can attempt to resolve. If
+     * resolution fails, the function should return undefined.
+     *
+     * Note: This will be used for both references to types declared in node_modules (in which case the
+     * reference passed will have the `moduleSource` set and the `symbolReference` will navigate via `.`)
+     * and user defined \{\@link\} tags which cannot be resolved.
+     * @since 0.22.14
+     */
+    addUnknownSymbolResolver(
+        resolver: (ref: DeclarationReference) => string | undefined
+    ): void {
+        this._externalSymbolResolvers.push(resolver);
+    }
+
+    /** @internal */
+    resolveExternalLink(ref: DeclarationReference): string | undefined {
+        for (const resolver of this._externalSymbolResolvers) {
+            const resolved = resolver(ref);
+            if (resolved) return resolved;
+        }
+    }
+
     resolveLinks(comment: Comment, owner: Reflection): void;
     resolveLinks(
         parts: readonly CommentDisplayPart[],
@@ -220,9 +290,13 @@ export class Converter extends ChildableComponent<
         owner: Reflection
     ): CommentDisplayPart[] | undefined {
         if (comment instanceof Comment) {
-            resolveLinks(comment, owner);
+            resolveLinks(comment, owner, (ref) =>
+                this.resolveExternalLink(ref)
+            );
         } else {
-            return resolvePartLinks(owner, comment);
+            return resolvePartLinks(owner, comment, (ref) =>
+                this.resolveExternalLink(ref)
+            );
         }
     }
 

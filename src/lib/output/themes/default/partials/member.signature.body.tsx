@@ -12,12 +12,8 @@ export const memberSignatureBody = (
         {renderFlags(props.flags, props.comment)}
         {context.comment(props)}
 
-        {hasTypeParameters(props) && (
-            <div class="tsd-type-parameters">
-                <h4 class="tsd-type-parameters-title">Type Parameters</h4>
-                {context.typeParameters(props.typeParameters)}
-            </div>
-        )}
+        {hasTypeParameters(props) && context.typeParameters(props.typeParameters)}
+
         {props.parameters && props.parameters.length > 0 && (
             <div class="tsd-parameters">
                 <h4 class="tsd-parameters-title">Parameters</h4>

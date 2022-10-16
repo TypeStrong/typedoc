@@ -9,6 +9,7 @@ import type { ProjectReflection } from "./reflections/project";
 import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 import { getQualifiedName } from "../utils/tsutils";
 import { ReflectionSymbolId } from "./reflections/id";
+import type { DeclarationReference } from "../converter/comments/declarationReference";
 
 /**
  * Base class of all type definitions.
@@ -791,6 +792,21 @@ export class ReferenceType extends Type {
     }
 
     /**
+     * Convert this reference type to a declaration reference used for resolution of external types.
+     */
+    toDeclarationReference(): DeclarationReference {
+        return {
+            resolutionStart: "global",
+            moduleSource: this.package,
+            symbolReference: {
+                path: this.qualifiedName
+                    .split(".")
+                    .map((p) => ({ path: p, navigation: "." })),
+            },
+        };
+    }
+
+    /**
      * The fully qualified name of the referenced type, relative to the file it is defined in.
      * This will usually be the same as `name`, unless namespaces are used.
      */
@@ -811,6 +827,12 @@ export class ReferenceType extends Type {
      */
     // TODO: Serialize sourceFileName... how?
     sourceFileName: string | undefined;
+
+    /**
+     * If this reference type refers to a reflection defined by a project not being rendered,
+     * points to the url that this type should be linked to.
+     */
+    externalUrl?: string;
 
     private _target: ReflectionSymbolId | number;
     private _project: ProjectReflection | null;
@@ -918,6 +940,7 @@ export class ReferenceType extends Type {
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
             package: this.package,
+            externalUrl: this.externalUrl,
         };
 
         if (this.name !== this.qualifiedName) {

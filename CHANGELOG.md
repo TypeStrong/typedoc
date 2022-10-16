@@ -14,6 +14,7 @@
 -   `OptionsReader.priority` has been renamed to `OptionsReader.order` to more accurately reflect how it works.
 -   `id: -1` will not be included in the JSON output for reference types which are intentionally broken.
 -   `ReferenceType`s which point to type parameters will now always be intentionally broken since they were never linked and should not be warned about when validating exports.
+-   Removed `Renderer.addExternalSymbolResolver`, use `Converter.addExternalSymbolResolver` instead.
 
 ### Features
 
@@ -23,6 +24,101 @@
 -   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.
 
 # Unreleased
+
+## v0.23.16 (2022-10-10)
+
+### Features
+
+-   Object types will now be pretty printed, #1793.
+-   Added support for specifying the tsconfig.json file in packages mode with `{ "typedoc": { "tsconfig": "tsconfig.lib.json" }}` in package.json, #2061.
+-   In packages mode, readme files will now be automatically included if present, #2065.
+-   Added support for specifying the base file url for links to source code, #2068.
+
+### Bug Fixes
+
+-   Private parameter properties will no longer be ignored, #2064.
+
+### Thanks!
+
+-   @captainTorch
+
+## v0.23.15 (2022-09-18)
+
+### Features
+
+-   TypeDoc will now treat `@typedef {import("foo").Bar<Z>} Baz` type declarations which forward type parameters to the imported
+    symbol as re-exports of that symbol, #2044.
+
+### Bug Fixes
+
+-   TypeDoc will now prefer comments on variable declarations over signature comments, #2042.
+-   Fixed double rendering of "Type Parameters" header, #2054.
+-   Fixed double rendering of "Hierarchy" header, #2053.
+-   Removed unused `widgets.png` and `widgets@2x.png` files from generated assets folder.
+
+## v0.23.14 (2022-09-03)
+
+### Features
+
+-   Added support for defining one-off external link mappings with `externalSymbolLinkMappings` see
+    [the documentation](https://typedoc.org/guides/options/#externalsymbollinkmappings) for usage examples and caveats, #2030.
+-   External link resolvers defined with `addUnknownSymbolResolver` will now be checked when resolving `@link` tags, #2030.
+    Note: To support this, resolution will now happen during conversion, and as such, `Renderer.addUnknownSymbolResolver` has been
+    soft deprecated in favor of `Converter.addUnknownSymbolResolver`. Plugins should update to use the method on `Converter`.
+    `DefaultThemeRenderContext.attemptExternalResolution` has also been deprecated since it will repeat work done during conversion,
+    use `ReferenceType.externalUrl` instead.
+-   Added `Converter.addUnknownSymbolResolver` for use by plugins supporting external links.
+
+### Bug Fixes
+
+-   Fixed conversion of object literal types containing construct signatures, #2036.
+-   Fixed centering of title bar on wide displays, actually this time, #2046.
+
+## v0.23.13 (2022-09-01)
+
+### Bug Fixes
+
+-   Fixed packages mode bug introduced in 0.23.12, #2043.
+
+## v0.23.12 (2022-08-31)
+
+### Features
+
+-   Added a new `ParameterType.Object` for declaring object options which will be shallowly merged when read from user configuration.
+-   Added a new `Application.EVENT_BOOTSTRAP_END` event emitted when `Application.bootstrap` is called.
+
+### Bug Fixes
+
+-   TypeDoc will now work properly in packages mode when converting packages outside the current working directory, #2043.
+-   Fixed deprecation warning for `isIdentifierOrPrivateIdentifier`.
+-   Fixed centering of title bar on wide displays, #2046.
+
+### Thanks!
+
+-   @citkane
+
+## v0.23.11 (2022-08-26)
+
+### Features
+
+-   Added support for TypeScript 4.8.
+-   Introduced a `skipErrorChecking` option which instructs TypeDoc to not ask TypeScript for compiler errors
+    before attempting to generate documentation. Turning this on may improve generation speed, but could also
+    cause a crash if your code contains compiler errors.
+-   Added support for JS entry points when using packages mode, #2037.
+
+### Bug Fixes
+
+-   Fixed crash when converting abstract mixin class, #2011.
+-   Readme files within monorepos now have `@link` tags resolved, #2029.
+-   Correctly resolve unqualified links to class members within parameters, #2031.
+-   TypeDoc will now consider other reflections with the same name as parents when resolving links, #2033.
+-   The "Hierarchy" and "Type Parameters" helpers on `DefaultThemeRenderContext` now contain all the HTML for their sections of the page, #2038.
+
+### Thanks!
+
+-   @citkane
+-   @kaphula
 
 ## v0.23.10 (2022-07-31)
 
@@ -810,6 +906,10 @@
 -   Correct crash with reflection types, closes #1538
 
 ## v0.20.31 (2021-03-14)
+
+### Features
+
+-   Improved warning message if TypeDoc is loaded multiple times.
 
 ### Bug Fixes
 

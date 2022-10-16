@@ -7,6 +7,7 @@ import {
     getDefaultValue,
     MapDeclarationOption,
     MixedDeclarationOption,
+    ObjectDeclarationOption,
     NumberDeclarationOption,
     ParameterType,
     StringDeclarationOption,
@@ -320,6 +321,42 @@ describe("Options - conversions", () => {
             () => convert(1, declaration, ""),
             new Error("test must not be a number")
         );
+    });
+    it("Passes through object", () => {
+        const data = {};
+        equal(convert(data, optionWithType(ParameterType.Object), ""), data);
+    });
+
+    it("Validates object options", () => {
+        const declaration: ObjectDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Object,
+            defaultValue: "default",
+            validate: (value: unknown) => {
+                if (typeof value !== "object" || Array.isArray(value)) {
+                    throw new Error("test must be an object");
+                }
+            },
+        };
+        equal(convert({}, declaration, ""), {});
+        throws(
+            () => convert(1, declaration, ""),
+            new Error("test must be an object")
+        );
+    });
+
+    it("Converts object options", () => {
+        const declaration: ObjectDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Object,
+            defaultValue: { a: 1, b: 2 },
+        };
+        equal(convert({ b: 3 }, declaration, "", declaration.defaultValue), {
+            a: 1,
+            b: 3,
+        });
     });
 });
 

@@ -30,6 +30,14 @@ export interface DeclarationHierarchy {
 }
 
 /**
+ * @internal
+ */
+export enum ConversionFlags {
+    None = 0,
+    VariableSource = 1,
+}
+
+/**
  * A reflection that represents a single declaration emitted by the TypeScript compiler.
  *
  * All parts of a project are represented by DeclarationReflection instances. The actual
@@ -141,6 +149,12 @@ export class DeclarationReflection extends ContainerReflection {
      * The version of the module when found.
      */
     version?: string;
+
+    /**
+     * Flags for information about a reflection which is needed solely during conversion.
+     * @internal
+     */
+    conversionFlags = ConversionFlags.None;
 
     override isDeclaration(): this is DeclarationReflection {
         return true;

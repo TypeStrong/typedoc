@@ -50,6 +50,8 @@ export function resolveDeclarationReference(
             refl = refl.parent;
             if (refl.kindOf(ReflectionKind.ExportContainer)) {
                 high.push(refl);
+            } else {
+                low.push(refl);
             }
         }
 
@@ -61,7 +63,15 @@ export function resolveDeclarationReference(
         ) {
             high.push(reflection.parent!.parent!);
         } else if (high[0] !== reflection) {
-            high.push(reflection);
+            if (reflection.parent instanceof ContainerReflection) {
+                high.push(
+                    ...(reflection.parent.children?.filter(
+                        (c) => c.name === reflection.name
+                    ) || [])
+                );
+            } else {
+                high.push(reflection);
+            }
         }
     }
 

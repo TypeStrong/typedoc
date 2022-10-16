@@ -2,6 +2,8 @@ import { Component, ConverterComponent } from "../components";
 import type { Context } from "../../converter";
 import { ConverterEvents } from "../converter-events";
 import { BindOption, ValidationOptions } from "../../utils";
+import { DeclarationReflection } from "../../models";
+import { discoverAllReferenceTypes } from "../../utils/reflections";
 
 /**
  * A plugin that resolves `{@link Foo}` tags.
@@ -24,6 +26,16 @@ export class LinkResolverPlugin extends ConverterComponent {
             if (reflection.comment) {
                 context.converter.resolveLinks(reflection.comment, reflection);
             }
+
+            if (
+                reflection instanceof DeclarationReflection &&
+                reflection.readme
+            ) {
+                reflection.readme = context.converter.resolveLinks(
+                    reflection.readme,
+                    reflection
+                );
+            }
         }
 
         if (context.project.readme) {
@@ -31,6 +43,17 @@ export class LinkResolverPlugin extends ConverterComponent {
                 context.project.readme,
                 context.project
             );
+        }
+
+        for (const { type } of discoverAllReferenceTypes(
+            context.project,
+            false
+        )) {
+            if (!type.reflection) {
+                type.externalUrl = context.converter.resolveExternalLink(
+                    type.toDeclarationReference()
+                );
+            }
         }
     }
 }

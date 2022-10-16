@@ -6,7 +6,7 @@ export {
 } from "./abstract";
 export type { TraverseCallback } from "./abstract";
 export { ContainerReflection } from "./container";
-export { DeclarationReflection } from "./declaration";
+export { DeclarationReflection, ConversionFlags } from "./declaration";
 export type { DeclarationHierarchy } from "./declaration";
 export { ReflectionKind } from "./kind";
 export { ParameterReflection } from "./parameter";

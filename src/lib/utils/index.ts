@@ -42,6 +42,7 @@ export type {
     MixedDeclarationOption,
     NumberDeclarationOption,
     FlagsDeclarationOption,
+    ObjectDeclarationOption,
     OptionsReader,
     StringDeclarationOption,
     TypeDocOptionMap,

@@ -26,12 +26,8 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
 
         {context.comment(props)}
 
-        {hasTypeParameters(props) && (
-            <>
-                <h4 class="tsd-type-parameters-title">Type Parameters</h4>
-                {context.typeParameters(props.typeParameters)}
-            </>
-        )}
+        {hasTypeParameters(props) && context.typeParameters(props.typeParameters)}
+
         {props.type instanceof ReflectionType && (
             <div class="tsd-type-declaration">
                 <h4>Type declaration</h4>
