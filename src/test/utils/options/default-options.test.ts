@@ -117,7 +117,7 @@ describe("Default Options", () => {
         it("Should disallow non-strings", () => {
             throws(() =>
                 opts.setValue("navigationLinks", {
-                    "Home": true as any as string,
+                    Home: true as any as string,
                 })
             );
         });
@@ -131,7 +131,7 @@ describe("Default Options", () => {
         it("Should disallow non-strings", () => {
             throws(() =>
                 opts.setValue("sidebarLinks", {
-                    "Home": true as any as string,
+                    Home: true as any as string,
                 })
             );
         });
