@@ -31,6 +31,7 @@ import {
     primaryNavigation,
     secondaryNavigation,
     settings,
+    sidebarLinks,
 } from "./partials/navigation";
 import { parameter } from "./partials/parameter";
 import { toolbar } from "./partials/toolbar";
@@ -105,6 +106,7 @@ export class DefaultThemeRenderContext {
     members = bind(members, this);
     membersGroup = bind(membersGroup, this);
     navigation = bind(navigation, this);
+    sidebarLinks = bind(sidebarLinks, this);
     settings = bind(settings, this);
     primaryNavigation = bind(primaryNavigation, this);
     secondaryNavigation = bind(secondaryNavigation, this);
