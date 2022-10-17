@@ -23,7 +23,6 @@ export function getConverterApp() {
         converterApp = new Application();
         converterApp.options.addReader(new TSConfigReader());
         converterApp.bootstrap({
-            logger: "none",
             name: "typedoc",
             excludeExternals: true,
             disableSources: false,

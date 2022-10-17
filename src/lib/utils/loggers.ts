@@ -14,6 +14,7 @@ export enum LogLevel {
     Info,
     Warn,
     Error,
+    None,
 }
 
 const Colors = {
@@ -227,7 +228,7 @@ export class ConsoleLogger extends Logger {
      * @param message  The message itself.
      * @param level  The urgency of the log message.
      */
-    override log(message: string, level: LogLevel) {
+    override log(message: string, level: Exclude<LogLevel, LogLevel.None>) {
         super.log(message, level);
         if (level < this.level && !isDebugging()) {
             return;
@@ -248,7 +249,7 @@ export class ConsoleLogger extends Logger {
 
     protected override addContext(
         message: string,
-        level: LogLevel,
+        level: Exclude<LogLevel, LogLevel.None>,
         ...args: [ts.Node?] | [number, MinimalSourceFile]
     ): string {
         if (typeof args[0] === "undefined") {
@@ -285,36 +286,5 @@ export class ConsoleLogger extends Logger {
         )}    ${file.text.substring(start, end)}`;
 
         return `${prefix} ${message}\n\n${context}\n`;
-    }
-}
-
-/**
- * A logger that calls a callback function.
- */
-export class CallbackLogger extends Logger {
-    /**
-     * This loggers callback function
-     */
-    callback: Function;
-
-    /**
-     * Create a new CallbackLogger instance.
-     *
-     * @param callback  The callback that should be used to log messages.
-     */
-    constructor(callback: Function) {
-        super();
-        this.callback = callback;
-    }
-
-    /**
-     * Print a log message.
-     *
-     * @param message  The message itself.
-     * @param level  The urgency of the log message.
-     */
-    override log(message: string, level: LogLevel) {
-        super.log(message, level);
-        this.callback(message, level);
     }
 }

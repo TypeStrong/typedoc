@@ -10,7 +10,6 @@
         // Speed up dev compilation time
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
-        "declarationMap": true,
 
         // *grumble* need to get rid of reg-suit
         "skipLibCheck": true,
@@ -29,6 +28,7 @@
         "preserveConstEnums": true,
         "declaration": true,
         "sourceMap": true,
+        "declarationMap": true,
         "isolatedModules": true,
         "noImplicitOverride": true,
         "noPropertyAccessFromIndexSignature": true,

@@ -8,7 +8,6 @@ import type { ProjectReflection } from "./models/index";
 import {
     Logger,
     ConsoleLogger,
-    CallbackLogger,
     loadPlugins,
     writeFile,
     discoverPlugins,
@@ -93,10 +92,6 @@ export class Application extends ChildableComponent<
     options: Options;
 
     /** @internal */
-    @BindOption("logger")
-    readonly loggerType!: string | Function;
-
-    /** @internal */
     @BindOption("skipErrorChecking")
     readonly skipErrorChecking!: boolean;
 
@@ -128,11 +123,11 @@ export class Application extends ChildableComponent<
     }
 
     /**
-     * Initialize TypeDoc with the given options object.
-     *
-     * @param options  The desired options to set.
+     * Initialize TypeDoc, loading plugins if applicable.
      */
-    async bootstrap(options: Partial<TypeDocOptions> = {}): Promise<void> {
+    async bootstrapWithPlugins(
+        options: Partial<TypeDocOptions> = {}
+    ): Promise<void> {
         for (const [key, val] of Object.entries(options)) {
             try {
                 this.options.setValue(key as keyof TypeDocOptions, val);
@@ -142,19 +137,19 @@ export class Application extends ChildableComponent<
         }
         this.options.read(new Logger());
 
-        const logger = this.loggerType;
-        if (typeof logger === "function") {
-            this.logger = new CallbackLogger(<any>logger);
-            this.options.setLogger(this.logger);
-        } else if (logger === "none") {
-            this.logger = new Logger();
-            this.options.setLogger(this.logger);
-        }
         this.logger.level = this.options.getValue("logLevel");
 
         const plugins = discoverPlugins(this);
         await loadPlugins(this, plugins);
 
+        this.bootstrap(options);
+    }
+
+    /**
+     * Initialize TypeDoc with the given options object.
+     * Does not load plugins.
+     */
+    bootstrap(options: Partial<TypeDocOptions> = {}): void {
         this.options.reset();
         for (const [key, val] of Object.entries(options)) {
             try {

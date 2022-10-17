@@ -4,6 +4,7 @@ import * as ts from "typescript";
 import { resolve } from "path";
 
 const levelMap: Record<LogLevel, string> = {
+    [LogLevel.None]: "none: ",
     [LogLevel.Error]: "error: ",
     [LogLevel.Warn]: "warn: ",
     [LogLevel.Info]: "info: ",

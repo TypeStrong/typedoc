@@ -524,12 +524,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.ModuleArray,
     });
     options.addDeclaration({
-        name: "logger",
-        help: "Specify the logger that should be used, 'none' or 'console'.",
-        defaultValue: "console",
-        type: ParameterType.Mixed,
-    });
-    options.addDeclaration({
         name: "logLevel",
         help: "Specify what level of logging should be used.",
         type: ParameterType.Map,

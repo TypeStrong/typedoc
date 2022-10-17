@@ -33,7 +33,7 @@ run(app)
 
 /** @param {td.Application} app */
 async function run(app) {
-    await app.bootstrap();
+    await app.bootstrapWithPlugins();
 
     if (app.options.getValue("version")) {
         console.log(app.toString());

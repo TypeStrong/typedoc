@@ -76,7 +76,11 @@ export class Deserializer {
         },
         reference(parent, obj): ReferenceReflection {
             // Ugly, but we don't have a reference yet!
-            return new ReferenceReflection(obj.name, null!, parent);
+            return new ReferenceReflection(
+                obj.name,
+                /* target */ parent,
+                parent
+            );
         },
         signature(parent, obj) {
             return new SignatureReflection(

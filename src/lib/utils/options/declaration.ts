@@ -146,7 +146,6 @@ export interface TypeDocOptionMap {
     version: boolean;
     showConfig: boolean;
     plugin: string[];
-    logger: unknown; // string | Function
     logLevel: typeof LogLevel;
 
     // Validation

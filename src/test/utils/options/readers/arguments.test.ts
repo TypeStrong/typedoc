@@ -110,10 +110,6 @@ describe("Options - ArgumentsReader", () => {
         equal(options.getValue("mapped"), 2);
     });
 
-    test("Works with mixed options", ["--logger", "word"], () => {
-        equal(options.getValue("logger"), "word");
-    });
-
     test("Works with array options", ["--exclude", "a"], () => {
         equal(options.getValue("exclude"), [resolve("a")]);
     });

@@ -2,6 +2,7 @@
 
 ### Breaking Changes
 
+-   Removed `logger` option, to disable all logging, set the `logLevel` option to `none`.
 -   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
 -   Internal links are now only resolved with declaration references.
 -   The `label` property on `Reflection` has moved to `Comment`.
@@ -9,7 +10,7 @@
 -   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.
 -   Properties related to rendering are no longer stored on `Reflection`, including `url`, `anchor`, `hasOwnDocument`, and `cssClasses`.
 -   Removed special case for `--plugin none`, to disable plugin auto discovery, set `"plugin": []` in a config file.
--   `Application.bootstrap` is now async to support ESM based plugins, #1635.
+-   `Application.bootstrap` will no longer load plugins. If you want to load plugins, use `Application.bootstrapWithPlugins` instead, #1635.
 -   Removed internal `ReferenceType.getSymbol`, reference types no longer reference the `ts.Symbol` to enable generation from serialized JSON.
 -   `OptionsReader.priority` has been renamed to `OptionsReader.order` to more accurately reflect how it works.
 -   `id: -1` will not be included in the JSON output for reference types which are intentionally broken.

@@ -25,7 +25,6 @@
         // Would be nice to lint these, but they shouldn't be included in the project,
         // so we need a second eslint config file.
         "example",
-        "src/codegen",
         "src/test/converter",
         "src/test/converter2",
         "src/test/module",

@@ -13,7 +13,9 @@ import {
     ReferenceType,
     Comment,
     CommentDisplayPart,
+    SourceReference,
 } from "..";
+import type { ModelToObject } from "../lib/serialization/schema";
 import { getExpandedEntryPointsForPaths } from "../lib/utils";
 import {
     getConverterApp,
@@ -87,6 +89,24 @@ comparisonSerializer.addSerializer({
     },
     toObject(refl: ReflectionCategory | ReflectionGroup, obj: any) {
         obj.children = refl.children?.map((c) => c.getFullName());
+        return obj;
+    },
+});
+comparisonSerializer.addSerializer({
+    priority: -1,
+    supports(obj) {
+        return obj instanceof SourceReference;
+    },
+    toObject(
+        ref: SourceReference,
+        obj: ModelToObject<SourceReference>,
+        _serializer
+    ) {
+        if (obj.url) {
+            obj.url = `typedoc://${obj.url.substring(
+                obj.url.indexOf(ref.fileName)
+            )}`;
+        }
         return obj;
     },
 });
