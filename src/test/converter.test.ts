@@ -1,13 +1,95 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import * as FS from "fs";
 import * as Path from "path";
-import { ProjectReflection, resetReflectionID } from "..";
+import {
+    ProjectReflection,
+    Serializer,
+    resetReflectionID,
+    Reflection,
+    ReflectionCategory,
+    ReflectionGroup,
+    JSONOutput,
+    CommentTag,
+    ReferenceType,
+    Comment,
+    CommentDisplayPart,
+} from "..";
 import { getExpandedEntryPointsForPaths } from "../lib/utils";
 import {
     getConverterApp,
     getConverterBase,
     getConverterProgram,
 } from "./programs";
+
+const comparisonSerializer = new Serializer();
+comparisonSerializer.addSerializer({
+    priority: 0,
+    supports(x) {
+        return x instanceof ReferenceType;
+    },
+    toObject(ref: ReferenceType, obj: any) {
+        if (ref.reflection) {
+            obj.id = ref.reflection.getFullName();
+        }
+        return obj;
+    },
+});
+comparisonSerializer.addSerializer({
+    priority: 0,
+    supports(x) {
+        return x instanceof Comment;
+    },
+    toObject(comment: Comment, obj: JSONOutput.Comment) {
+        obj.summary.forEach((part, i) => {
+            if (part.kind === "inline-tag" && typeof part.target === "number") {
+                const origPart = comment.summary[i] as CommentDisplayPart & {
+                    target: Reflection;
+                };
+                part.target = origPart.target.getFullName();
+            }
+        });
+        return obj;
+    },
+});
+comparisonSerializer.addSerializer({
+    priority: 0,
+    supports(x) {
+        return x instanceof CommentTag;
+    },
+    toObject(tag: any, obj: JSONOutput.CommentTag) {
+        obj["content"].forEach(
+            (part: JSONOutput.CommentDisplayPart, i: number) => {
+                if (
+                    part.kind === "inline-tag" &&
+                    typeof part.target === "number"
+                ) {
+                    part.target = tag.content[i].target.getFullName();
+                }
+            }
+        );
+        return obj;
+    },
+});
+comparisonSerializer.addSerializer({
+    priority: 0,
+    supports(x) {
+        return x instanceof Reflection;
+    },
+    toObject(_refl, obj) {
+        delete obj["id"];
+        return obj;
+    },
+});
+comparisonSerializer.addSerializer({
+    priority: 0,
+    supports(x) {
+        return x instanceof ReflectionCategory || x instanceof ReflectionGroup;
+    },
+    toObject(refl: ReflectionCategory | ReflectionGroup, obj: any) {
+        obj.children = refl.children?.map((c) => c.getFullName());
+        return obj;
+    },
+});
 
 describe("Converter", function () {
     const base = getConverterBase();
@@ -52,6 +134,8 @@ describe("Converter", function () {
                     continue;
                 }
 
+                const specs = JSON.parse(FS.readFileSync(specsFile, "utf-8"));
+
                 let result: ProjectReflection | undefined;
 
                 it(`[${file}] converts fixtures`, function () {
@@ -73,15 +157,26 @@ describe("Converter", function () {
                 });
 
                 it(`[${file}] matches specs`, function () {
-                    const specs = JSON.parse(
-                        FS.readFileSync(specsFile, "utf-8")
-                    );
                     // Pass data through a parse/stringify to get rid of undefined properties
                     const data = JSON.parse(
                         JSON.stringify(app.serializer.toObject(result))
                     );
 
                     equal(data, specs);
+                });
+
+                it(`[${file}] round trips revival`, () => {
+                    const revived = app.deserializer.reviveProject(specs);
+                    const specs2 = JSON.parse(
+                        JSON.stringify(comparisonSerializer.toObject(revived))
+                    );
+
+                    // Pass data through a parse/stringify to get rid of undefined properties
+                    const data = JSON.parse(
+                        JSON.stringify(comparisonSerializer.toObject(result))
+                    );
+
+                    equal(data, specs2);
                 });
             }
         });

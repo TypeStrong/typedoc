@@ -30,14 +30,10 @@ export class TypeParameterReflection extends Reflection {
 
     constructor(
         name: string,
-        constraint: SomeType | undefined,
-        defaultType: SomeType | undefined,
         parent: Reflection,
         varianceModifier: VarianceModifier | undefined
     ) {
         super(name, ReflectionKind.TypeParameter, parent);
-        this.type = constraint;
-        this.default = defaultType;
         this.varianceModifier = varianceModifier;
     }
 

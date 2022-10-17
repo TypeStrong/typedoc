@@ -200,9 +200,10 @@ export class ReflectionFlags extends Array<string> {
 
     fromObject(obj: JSONOutput.ReflectionFlags) {
         for (const key of Object.keys(obj)) {
-            if (key in ReflectionFlag) {
+            const flagName = key.substring(2); // isPublic => Public
+            if (flagName in ReflectionFlag) {
                 this.setFlag(
-                    ReflectionFlag[key as keyof typeof ReflectionFlag],
+                    ReflectionFlag[flagName as keyof typeof ReflectionFlag],
                     true
                 );
             }
@@ -534,7 +535,8 @@ export abstract class Reflection {
     }
 
     fromObject(de: Deserializer, obj: JSONOutput.Reflection) {
-        this.id = obj.id;
+        // DO NOT copy id from obj. When deserializing reflections
+        // they should be given new ids since they belong to a different project.
         this.name = obj.name;
         this.kind = obj.kind;
         this.flags.fromObject(obj.flags);

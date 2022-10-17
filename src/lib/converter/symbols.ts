@@ -644,7 +644,7 @@ function convertProperty(
     reflection.defaultValue = declaration && convertDefaultValue(declaration);
 
     reflection.type = context.converter.convertType(
-        context,
+        context.withScope(reflection),
         (context.isConvertingTypeNode() ? parameterType : void 0) ??
             context.checker.getTypeOfSymbol(symbol)
     );

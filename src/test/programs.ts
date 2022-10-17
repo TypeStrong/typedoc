@@ -32,6 +32,7 @@ export function getConverterApp() {
             plugin: [],
             entryPointStrategy: EntryPointStrategy.Expand,
             gitRevision: "fake",
+            readme: "none",
         });
 
         converterApp.serializer.addSerializer({

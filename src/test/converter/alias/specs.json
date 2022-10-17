@@ -40,7 +40,6 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
-          "id": -1,
           "name": "T"
         },
         "extendsType": {
@@ -92,7 +91,6 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
-          "id": -1,
           "name": "T"
         },
         "extendsType": {
@@ -108,12 +106,10 @@
         },
         "trueType": {
           "type": "reference",
-          "id": -1,
           "name": "U"
         },
         "falseType": {
           "type": "reference",
-          "id": -1,
           "name": "T"
         }
       }
@@ -181,7 +177,6 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 },
@@ -193,7 +188,6 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 }

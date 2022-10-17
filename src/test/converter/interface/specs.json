@@ -659,7 +659,6 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "id": -1,
                             "name": "T"
                           }
                         ],
@@ -694,7 +693,6 @@
                       "typeArguments": [
                         {
                           "type": "reference",
-                          "id": -1,
                           "name": "T"
                         }
                       ],
@@ -738,7 +736,6 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": -1,
                                 "name": "T"
                               }
                             ],
@@ -778,7 +775,6 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "id": -1,
                             "name": "T"
                           }
                         ],
@@ -867,7 +863,6 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": -1,
                             "name": "T"
                           }
                         }
@@ -961,7 +956,6 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": -1,
                                 "name": "T"
                               }
                             ],
@@ -1037,7 +1031,6 @@
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "id": -1,
                       "name": "T"
                     }
                   ],
@@ -1105,7 +1098,6 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": -1,
                                 "name": "V"
                               }
                             ],
@@ -1148,7 +1140,6 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": -1,
                                 "name": "V"
                               }
                             ],
@@ -1164,7 +1155,6 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "id": -1,
                             "name": "V"
                           }
                         ],
@@ -1197,7 +1187,6 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": -1,
                         "name": "V"
                       }
                     ],
@@ -1254,7 +1243,6 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": -1,
                         "name": "V"
                       }
                     ],
@@ -1388,7 +1376,6 @@
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "id": -1,
                       "name": "V"
                     }
                   ],
@@ -1447,7 +1434,6 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": -1,
                                 "name": "U"
                               }
                             ],
@@ -1489,7 +1475,6 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "id": -1,
                             "name": "U"
                           }
                         ],
@@ -1558,7 +1543,6 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": -1,
                             "name": "U"
                           }
                         }
@@ -1632,7 +1616,6 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": -1,
                                 "name": "U"
                               }
                             ],
@@ -1734,7 +1717,6 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": -1,
                         "name": "T"
                       }
                     }
@@ -1800,7 +1782,6 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": -1,
                         "name": "T"
                       }
                     ],

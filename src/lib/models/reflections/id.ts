@@ -18,7 +18,7 @@ export class ReflectionSymbolId {
     readonly qualifiedName: string;
     /**
      * Note: This is **not** serialized. It exists for sorting by declaration order, but
-     * should not be needed when deserializing form JSON.
+     * should not be needed when deserializing from JSON.
      */
     pos: number;
 
@@ -28,7 +28,7 @@ export class ReflectionSymbolId {
         this.pos = declaration?.pos ?? Infinity;
     }
 
-    toIdString(): ReflectionSymbolIdString {
+    getStableKey(): ReflectionSymbolIdString {
         if (Number.isFinite(this.pos)) {
             return `${this.fileName}\0${this.qualifiedName}\0${this.pos}` as ReflectionSymbolIdString;
         } else {

@@ -87,7 +87,6 @@
             "type": "conditional",
             "checkType": {
               "type": "reference",
-              "id": -1,
               "name": "T"
             },
             "extendsType": {
@@ -115,7 +114,6 @@
             },
             "trueType": {
               "type": "reference",
-              "id": -1,
               "name": "S"
             },
             "falseType": {
@@ -519,7 +517,6 @@
                   "operator": "keyof",
                   "target": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 },
@@ -533,12 +530,10 @@
               "type": "indexedAccess",
               "indexType": {
                 "type": "reference",
-                "id": -1,
                 "name": "K"
               },
               "objectType": {
                 "type": "reference",
-                "id": -1,
                 "name": "T"
               }
             },
@@ -549,7 +544,6 @@
                 [
                   {
                     "type": "reference",
-                    "id": -1,
                     "name": "K"
                   },
                   ""
@@ -557,7 +551,6 @@
                 [
                   {
                     "type": "reference",
-                    "id": -1,
                     "name": "K"
                   },
                   ""
@@ -597,7 +590,6 @@
               "operator": "keyof",
               "target": {
                 "type": "reference",
-                "id": -1,
                 "name": "T"
               }
             },
@@ -605,12 +597,10 @@
               "type": "indexedAccess",
               "indexType": {
                 "type": "reference",
-                "id": -1,
                 "name": "K"
               },
               "objectType": {
                 "type": "reference",
-                "id": -1,
                 "name": "T"
               }
             }
@@ -655,7 +645,6 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 }
@@ -671,12 +660,10 @@
                   "type": "indexedAccess",
                   "indexType": {
                     "type": "reference",
-                    "id": -1,
                     "name": "K"
                   },
                   "objectType": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 },
@@ -687,7 +674,6 @@
                     [
                       {
                         "type": "reference",
-                        "id": -1,
                         "name": "K"
                       },
                       ""
@@ -695,7 +681,6 @@
                     [
                       {
                         "type": "reference",
-                        "id": -1,
                         "name": "K"
                       },
                       ""
@@ -745,7 +730,6 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 }

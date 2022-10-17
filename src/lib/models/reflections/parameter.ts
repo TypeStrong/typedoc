@@ -2,7 +2,7 @@ import type { SomeType } from "..";
 import { ReflectionType } from "../types";
 import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
 import type { SignatureReflection } from "./signature";
-import type { Serializer, JSONOutput } from "../../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 
 export class ParameterReflection extends Reflection {
     readonly variant = "param";
@@ -50,5 +50,14 @@ export class ParameterReflection extends Reflection {
             type: serializer.toObject(this.type),
             defaultValue: this.defaultValue,
         };
+    }
+
+    override fromObject(
+        de: Deserializer,
+        obj: JSONOutput.ParameterReflection
+    ): void {
+        super.fromObject(de, obj);
+        this.type = de.reviveType(obj.type);
+        this.defaultValue = obj.defaultValue;
     }
 }

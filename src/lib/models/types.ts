@@ -936,7 +936,7 @@ export class ReferenceType extends Type {
     override toObject(serializer: Serializer): JSONOutput.ReferenceType {
         const result: JSONOutput.ReferenceType = {
             type: this.type,
-            id: this._target === -1 ? -1 : this.reflection?.id,
+            id: this.reflection?.id,
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
             package: this.package,
@@ -954,7 +954,7 @@ export class ReferenceType extends Type {
         this.typeArguments = de.reviveMany(obj.typeArguments, (t) =>
             de.constructType(t)
         );
-        if (obj.id !== -1) {
+        if (typeof obj.id === "number") {
             de.defer((project) => {
                 const target = project.getReflectionById(
                     de.oldIdToNewId[obj.id!] ?? -1
@@ -962,6 +962,10 @@ export class ReferenceType extends Type {
                 if (target) {
                     this._project = project;
                     this._target = target.id;
+                } else {
+                    de.logger.warn(
+                        `Serialized project contained a reference to ${obj.id} (${this.qualifiedName}), which was not a part of the project.`
+                    );
                 }
             });
         } else {

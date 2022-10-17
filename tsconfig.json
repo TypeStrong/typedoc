@@ -10,6 +10,7 @@
         // Speed up dev compilation time
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
+        "declarationMap": true,
 
         // *grumble* need to get rid of reg-suit
         "skipLibCheck": true,

@@ -55,7 +55,6 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": -1,
                         "name": "T"
                       }
                     ],

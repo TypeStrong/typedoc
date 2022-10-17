@@ -78,12 +78,12 @@ export class Application extends ChildableComponent<
     /**
      * The serializer used to generate JSON output.
      */
-    serializer: Serializer;
+    serializer = new Serializer();
 
     /**
      * The deserializer used to restore previously serialized JSON output.
      */
-    deserializer = new Deserializer();
+    deserializer = new Deserializer(this);
 
     /**
      * The logger that should be used to output messages.
@@ -123,7 +123,6 @@ export class Application extends ChildableComponent<
         this.logger = new ConsoleLogger();
         this.options = new Options(this.logger);
         this.options.addDefaultDeclarations();
-        this.serializer = new Serializer();
         this.converter = this.addComponent<Converter>("converter", Converter);
         this.renderer = this.addComponent<Renderer>("renderer", Renderer);
     }

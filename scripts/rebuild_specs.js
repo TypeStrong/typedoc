@@ -22,6 +22,7 @@ app.bootstrap({
     entryPointStrategy: TypeDoc.EntryPointStrategy.Expand,
     logLevel: TypeDoc.LogLevel.Warn,
     gitRevision: "fake",
+    readme: "none",
 });
 app.serializer.addSerializer({
     priority: -1,

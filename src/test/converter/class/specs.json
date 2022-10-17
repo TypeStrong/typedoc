@@ -3719,7 +3719,6 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": -1,
                         "name": "T"
                       }
                     }
@@ -3730,7 +3729,6 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": -1,
                         "name": "T"
                       }
                     ],
@@ -3766,7 +3764,6 @@
               ],
               "type": {
                 "type": "reference",
-                "id": -1,
                 "name": "T"
               }
             },
@@ -3798,7 +3795,6 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "id": -1,
                   "name": "T"
                 }
               }
@@ -3845,7 +3841,6 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 }
@@ -4588,7 +4583,6 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": -1,
                         "name": "T"
                       }
                     ],
@@ -4614,7 +4608,6 @@
               ],
               "type": {
                 "type": "reference",
-                "id": -1,
                 "name": "T"
               }
             }

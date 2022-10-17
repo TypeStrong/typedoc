@@ -39,5 +39,12 @@
 
     "eslint.workingDirectories": [".", "./example"],
     "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
-    "cSpell.words": ["cname", "tsbuildinfo", "tsdoc"]
+    "cSpell.words": [
+        "cname",
+        "deserializers",
+        "linkcode",
+        "linkplain",
+        "tsbuildinfo",
+        "tsdoc"
+    ]
 }

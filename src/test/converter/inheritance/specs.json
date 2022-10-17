@@ -63,7 +63,6 @@
               ],
               "type": {
                 "type": "reference",
-                "id": -1,
                 "name": "T"
               }
             },
@@ -111,7 +110,6 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 }
@@ -197,7 +195,6 @@
               ],
               "type": {
                 "type": "reference",
-                "id": -1,
                 "name": "T"
               }
             },
@@ -245,7 +242,6 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 }
@@ -384,7 +380,6 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 },
@@ -404,7 +399,6 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 }
@@ -563,7 +557,6 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 },
@@ -583,7 +576,6 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": -1,
                     "name": "T"
                   }
                 }
@@ -665,14 +657,12 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": -1,
                     "name": "My.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": -1,
                 "name": "My.constructor"
               }
             },
@@ -696,7 +686,6 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": -1,
                 "name": "My.instanceProp"
               }
             },
@@ -722,7 +711,6 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": -1,
                 "name": "My.staticProp"
               }
             }

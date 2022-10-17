@@ -19,66 +19,6 @@ export interface InlineTagDisplayPart {
     target?: Reflection | string;
 }
 
-function serializeDisplayPart(
-    part: CommentDisplayPart
-): JSONOutput.CommentDisplayPart {
-    switch (part.kind) {
-        case "text":
-        case "code":
-            return { ...part };
-        case "inline-tag": {
-            return {
-                ...part,
-                target:
-                    typeof part.target === "object"
-                        ? part.target.id
-                        : part.target,
-            };
-        }
-    }
-}
-
-function deserializeDisplayParts(
-    de: Deserializer,
-    parts: JSONOutput.CommentDisplayPart[]
-): CommentDisplayPart[] {
-    const links: [number, InlineTagDisplayPart][] = [];
-
-    const result = parts.map((part): CommentDisplayPart => {
-        switch (part.kind) {
-            case "text":
-            case "code":
-                return { ...part };
-            case "inline-tag": {
-                if (typeof part.target !== "number") {
-                    // TS isn't quite smart enough here...
-                    return { ...part } as CommentDisplayPart;
-                } else {
-                    const part2 = {
-                        kind: part.kind,
-                        tag: part.tag,
-                        text: part.text,
-                    };
-                    links.push([part.target, part2]);
-                    return part2;
-                }
-            }
-        }
-    });
-
-    if (links.length) {
-        de.defer((project) => {
-            for (const [oldId, part] of links) {
-                part.target = project.getReflectionById(
-                    de.oldIdToNewId[oldId] || -1
-                );
-            }
-        });
-    }
-
-    return result;
-}
-
 /**
  * A model that represents a single TypeDoc comment tag.
  *
@@ -124,14 +64,14 @@ export class CommentTag {
         return {
             tag: this.tag,
             name: this.name,
-            content: this.content.map(serializeDisplayPart),
+            content: Comment.serializeDisplayParts(this.content),
         };
     }
 
     fromObject(de: Deserializer, obj: JSONOutput.CommentTag) {
         // tag already set by Comment.fromObject
         this.name = obj.name;
-        this.content = deserializeDisplayParts(de, obj.content);
+        this.content = Comment.deserializeDisplayParts(de, obj.content);
     }
 }
 
@@ -173,6 +113,82 @@ export class Comment {
      */
     static cloneDisplayParts(parts: CommentDisplayPart[]) {
         return parts.map((p) => ({ ...p }));
+    }
+
+    //Since display parts are plain objects, this lives here
+    static serializeDisplayParts(
+        parts: CommentDisplayPart[]
+    ): JSONOutput.CommentDisplayPart[];
+    /** @hidden no point in showing this signature in api docs */
+    static serializeDisplayParts(
+        parts: CommentDisplayPart[] | undefined
+    ): JSONOutput.CommentDisplayPart[] | undefined;
+    static serializeDisplayParts(
+        parts: CommentDisplayPart[] | undefined
+    ): JSONOutput.CommentDisplayPart[] | undefined {
+        return parts?.map((part) => {
+            switch (part.kind) {
+                case "text":
+                case "code":
+                    return { ...part };
+                case "inline-tag": {
+                    return {
+                        ...part,
+                        target:
+                            typeof part.target === "object"
+                                ? part.target.id
+                                : part.target,
+                    };
+                }
+            }
+        });
+    }
+
+    //Since display parts are plain objects, this lives here
+    static deserializeDisplayParts(
+        de: Deserializer,
+        parts: JSONOutput.CommentDisplayPart[]
+    ): CommentDisplayPart[] {
+        const links: [number, InlineTagDisplayPart][] = [];
+
+        const result = parts.map((part): CommentDisplayPart => {
+            switch (part.kind) {
+                case "text":
+                case "code":
+                    return { ...part };
+                case "inline-tag": {
+                    if (typeof part.target !== "number") {
+                        // TS isn't quite smart enough here...
+                        return { ...part } as CommentDisplayPart;
+                    } else {
+                        const part2 = {
+                            kind: part.kind,
+                            tag: part.tag,
+                            text: part.text,
+                        };
+                        links.push([part.target, part2]);
+                        return part2;
+                    }
+                }
+            }
+        });
+
+        if (links.length) {
+            de.defer((project) => {
+                for (const [oldId, part] of links) {
+                    part.target = project.getReflectionById(
+                        de.oldIdToNewId[oldId] || -1
+                    );
+                    if (!part.target) {
+                        de.logger.warn(
+                            `Serialized project contained a link to ${oldId} (${part.text}), which was not a part of the project.`
+                        );
+                    }
+                }
+            });
+        }
+
+        return result;
     }
 
     /**
@@ -289,7 +305,7 @@ export class Comment {
 
     toObject(serializer: Serializer): JSONOutput.Comment {
         return {
-            summary: this.summary.map(serializeDisplayPart),
+            summary: Comment.serializeDisplayParts(this.summary),
             blockTags: serializer.toObjectsOptional(this.blockTags),
             modifierTags:
                 this.modifierTags.size > 0
@@ -300,7 +316,7 @@ export class Comment {
     }
 
     fromObject(de: Deserializer, obj: JSONOutput.Comment) {
-        this.summary = deserializeDisplayParts(de, obj.summary);
+        this.summary = Comment.deserializeDisplayParts(de, obj.summary);
         this.blockTags =
             obj.blockTags?.map((tagObj) => {
                 const tag = new CommentTag(tagObj.tag, []);

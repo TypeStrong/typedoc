@@ -1,4 +1,5 @@
 import { ok } from "assert";
+import type { Application } from "../application";
 import {
     ArrayType,
     ConditionalType,
@@ -32,6 +33,7 @@ import {
     UnknownType,
 } from "../models/index";
 import { insertPrioritySorted } from "../utils/array";
+import type { Logger } from "../utils/loggers";
 import type { JSONOutput } from "./index";
 
 export interface DeserializerComponent {
@@ -47,7 +49,13 @@ export interface Deserializable<T> {
 export class Deserializer {
     private deferred: Array<(project: ProjectReflection) => void> = [];
     private deserializers: DeserializerComponent[] = [];
+    private project: ProjectReflection | undefined;
     private activeReflection: Reflection[] = [];
+    constructor(private app: Application) {}
+
+    get logger(): Logger {
+        return this.app.logger;
+    }
 
     reflectionBuilders: {
         [K in keyof ReflectionVariant]: (
@@ -78,13 +86,7 @@ export class Deserializer {
             );
         },
         typeParam(parent, obj) {
-            return new TypeParameterReflection(
-                obj.name,
-                void 0,
-                void 0,
-                parent,
-                void 0
-            );
+            return new TypeParameterReflection(obj.name, parent, void 0);
         },
     };
 
@@ -207,6 +209,7 @@ export class Deserializer {
             "Deserializer.defer was called when not deserializing"
         );
         const project = new ProjectReflection(projectObj.name);
+        this.project = project;
         this.fromObject(project, projectObj);
 
         const deferred = this.deferred;
@@ -225,6 +228,7 @@ export class Deserializer {
             "Imbalanced reflection deserialization"
         );
 
+        this.project = undefined;
         return project;
     }
 
@@ -285,6 +289,8 @@ export class Deserializer {
             obj as never
         );
         this.oldIdToNewId[obj.id] = result.id;
+        this.project!.registerReflection(result);
+
         return result as any;
     }
 

@@ -44,6 +44,7 @@ export function createSignature(
         kind,
         context.scope
     );
+    const sigRefCtx = context.withScope(sigRef);
     if (symbol && declaration) {
         context.project.registerSymbolId(
             sigRef,
@@ -68,7 +69,7 @@ export function createSignature(
     }
 
     sigRef.typeParameters = convertTypeParameters(
-        context,
+        sigRefCtx,
         sigRef,
         signature.typeParameters
     );
@@ -79,7 +80,7 @@ export function createSignature(
             : signature.parameters;
 
     sigRef.parameters = convertParameters(
-        context,
+        sigRefCtx,
         sigRef,
         parameterSymbols,
         declaration?.parameters
@@ -87,12 +88,12 @@ export function createSignature(
 
     const predicate = context.checker.getTypePredicateOfSignature(signature);
     if (predicate) {
-        sigRef.type = convertPredicate(predicate, context.withScope(sigRef));
+        sigRef.type = convertPredicate(predicate, sigRefCtx);
     } else if (kind == ReflectionKind.SetSignature) {
         sigRef.type = new IntrinsicType("void");
     } else {
         sigRef.type = context.converter.convertType(
-            context.withScope(sigRef),
+            sigRefCtx,
             (declaration?.kind === ts.SyntaxKind.FunctionDeclaration &&
                 declaration.type) ||
                 signature.getReturnType()
@@ -266,13 +267,6 @@ function convertTypeParameters(
         const constraintT = param.getConstraint();
         const defaultT = param.getDefault();
 
-        const constraint = constraintT
-            ? context.converter.convertType(context, constraintT)
-            : void 0;
-        const defaultType = defaultT
-            ? context.converter.convertType(context, defaultT)
-            : void 0;
-
         // There's no way to determine directly from a ts.TypeParameter what it's variance modifiers are
         // so unfortunately we have to go back to the node for this...
         const variance = getVariance(
@@ -282,11 +276,18 @@ function convertTypeParameters(
 
         const paramRefl = new TypeParameterReflection(
             param.symbol.name,
-            constraint,
-            defaultType,
             parent,
             variance
         );
+        const paramCtx = context.withScope(paramRefl);
+
+        paramRefl.type = constraintT
+            ? context.converter.convertType(paramCtx, constraintT)
+            : void 0;
+        paramRefl.default = defaultT
+            ? context.converter.convertType(paramCtx, defaultT)
+            : void 0;
+
         context.registerReflection(paramRefl, param.getSymbol());
         context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
 
@@ -307,19 +308,18 @@ export function createTypeParamReflection(
     param: ts.TypeParameterDeclaration,
     context: Context
 ) {
-    const constraint = param.constraint
-        ? context.converter.convertType(context, param.constraint)
-        : void 0;
-    const defaultType = param.default
-        ? context.converter.convertType(context, param.default)
-        : void 0;
     const paramRefl = new TypeParameterReflection(
         param.name.text,
-        constraint,
-        defaultType,
         context.scope,
         getVariance(param.modifiers)
     );
+    const paramScope = context.withScope(paramRefl);
+    paramRefl.type = param.constraint
+        ? context.converter.convertType(paramScope, param.constraint)
+        : void 0;
+    paramRefl.default = param.default
+        ? context.converter.convertType(paramScope, param.default)
+        : void 0;
     context.registerReflection(paramRefl, param.symbol);
 
     if (ts.isJSDocTemplateTag(param.parent)) {

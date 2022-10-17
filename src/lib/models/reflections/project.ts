@@ -9,10 +9,11 @@ import type { TypeParameterReflection } from "./type-parameter";
 import { removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
-import type { CommentDisplayPart } from "../comments";
-import { ReflectionSymbolId, ReflectionSymbolIdString } from "./id";
+import { Comment, CommentDisplayPart } from "../comments";
+import { ReflectionSymbolId } from "./id";
 import type { Serializer } from "../../serialization/serializer";
-import type { JSONOutput } from "../../serialization/index";
+import type { Deserializer, JSONOutput } from "../../serialization/index";
+import { StableKeyMap } from "../../utils/map";
 
 /**
  * A reflection that represents the root of the project.
@@ -24,10 +25,8 @@ export class ProjectReflection extends ContainerReflection {
     readonly variant = "project";
 
     // Used to resolve references.
-    private symbolToReflectionIdMap = new Map<
-        ReflectionSymbolIdString,
-        number
-    >();
+    private symbolToReflectionIdMap: Map<ReflectionSymbolId, number> =
+        new StableKeyMap();
 
     private reflectionIdToSymbolIdMap = new Map<number, ReflectionSymbolId>();
 
@@ -104,9 +103,8 @@ export class ProjectReflection extends ContainerReflection {
         if (symbol) {
             const id = new ReflectionSymbolId(symbol);
             this.symbolToReflectionIdMap.set(
-                id.toIdString(),
-                this.symbolToReflectionIdMap.get(id.toIdString()) ??
-                    reflection.id
+                id,
+                this.symbolToReflectionIdMap.get(id) ?? reflection.id
             );
             this.reflectionIdToSymbolIdMap.set(reflection.id, id);
             this.reflectionIdToSymbolMap.set(reflection.id, symbol);
@@ -172,11 +170,8 @@ export class ProjectReflection extends ContainerReflection {
         const symbol = this.reflectionIdToSymbolMap.get(reflection.id);
         if (symbol) {
             const id = new ReflectionSymbolId(symbol);
-            if (
-                this.symbolToReflectionIdMap.get(id.toIdString()) ===
-                reflection.id
-            ) {
-                this.symbolToReflectionIdMap.delete(id.toIdString());
+            if (this.symbolToReflectionIdMap.get(id) === reflection.id) {
+                this.symbolToReflectionIdMap.delete(id);
             }
         }
 
@@ -205,7 +200,7 @@ export class ProjectReflection extends ContainerReflection {
      * @internal
      */
     getReflectionFromSymbolId(symbolId: ReflectionSymbolId) {
-        const id = this.symbolToReflectionIdMap.get(symbolId.toIdString());
+        const id = this.symbolToReflectionIdMap.get(symbolId);
         if (typeof id === "number") {
             return this.getReflectionById(id);
         }
@@ -251,6 +246,17 @@ export class ProjectReflection extends ContainerReflection {
         return {
             ...super.toObject(serializer),
             variant: this.variant,
+            readme: Comment.serializeDisplayParts(this.readme),
         };
+    }
+
+    override fromObject(
+        de: Deserializer,
+        obj: JSONOutput.ProjectReflection
+    ): void {
+        super.fromObject(de, obj);
+        if (obj.readme) {
+            this.readme = Comment.deserializeDisplayParts(de, obj.readme);
+        }
     }
 }
