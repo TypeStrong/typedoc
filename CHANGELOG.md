@@ -1,5 +1,15 @@
 # Unreleased
 
+### Features
+
+-   Added `titleLink`, `navigationLinks` and `sidebarLinks` options to add additional links to the rendered output, #1830.
+-   Added `sourceLinkTemplate` option to allow more flexible specification of remote urls.
+    Deprecated now redundant `gitRevision` detection starting with `https?://` introduced in v0.23.16, #2068.
+
+### Thanks!
+
+-   @futurGH
+
 ## v0.23.16 (2022-10-10)
 
 ### Features

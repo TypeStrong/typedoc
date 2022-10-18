@@ -267,6 +267,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Set the CNAME file text, it's useful for custom domains on GitHub Pages.",
     });
     options.addDeclaration({
+        name: "sourceLinkTemplate",
+        help: "Specify a link template to be used when generating source urls. If not set, will be automatically created using the git remote. Supports {path}, {line}, {gitRevision} placeholders.",
+    });
+    options.addDeclaration({
         name: "gitRevision",
         help: "Use specified revision instead of the last revision for linking to GitHub/Bitbucket source files.",
     });

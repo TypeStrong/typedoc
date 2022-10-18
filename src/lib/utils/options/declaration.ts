@@ -111,6 +111,7 @@ export interface TypeDocOptionMap {
     excludeTags: `@${string}`[];
     readme: string;
     cname: string;
+    sourceLinkTemplate: string;
     gitRevision: string;
     gitRemote: string;
     htmlLang: string;

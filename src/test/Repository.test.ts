@@ -1,14 +1,14 @@
-import { guessBaseUrl } from "../lib/converter/utils/repository";
+import { guessSourceUrlTemplate } from "../lib/converter/utils/repository";
 import { strictEqual as equal } from "assert";
 
 describe("Repository", function () {
-    describe("guessBaseUrl helper", () => {
+    describe("guessSourceUrlTemplate helper", () => {
         it("handles a personal GitHub HTTPS URL", () => {
             const mockRemotes = ["https://github.com/joebloggs/foobar.git"];
 
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://github.com/joebloggs/foobar/blob/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://github.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
             );
         });
 
@@ -16,16 +16,16 @@ describe("Repository", function () {
             const mockRemotes = ["git@github.com:TypeStrong/typedoc.git"];
 
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://github.com/TypeStrong/typedoc/blob/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://github.com/TypeStrong/typedoc/blob/{gitRevision}/{path}#L{line}"
             );
         });
 
         it("handles an enterprise GitHub URL", () => {
             const mockRemotes = ["git@github.acme.com:joebloggs/foobar.git"];
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://github.acme.com/joebloggs/foobar/blob/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://github.acme.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
             );
         });
 
@@ -34,8 +34,8 @@ describe("Repository", function () {
                 "ssh://org@bigcompany.githubprivate.com/joebloggs/foobar.git",
             ];
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://bigcompany.githubprivate.com/joebloggs/foobar/blob/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bigcompany.githubprivate.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
             );
         });
 
@@ -44,8 +44,8 @@ describe("Repository", function () {
                 "ssh://org@bigcompany.ghe.com/joebloggs/foobar.git",
             ];
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://bigcompany.ghe.com/joebloggs/foobar/blob/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bigcompany.ghe.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
             );
         });
 
@@ -55,8 +55,8 @@ describe("Repository", function () {
             ];
 
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://bigcompany.github.us/joebloggs/foobar/blob/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bigcompany.github.us/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
             );
         });
 
@@ -65,38 +65,38 @@ describe("Repository", function () {
                 "https://joebloggs@bitbucket.org/joebloggs/foobar.git",
             ];
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://bitbucket.org/joebloggs/foobar/src/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bitbucket.org/joebloggs/foobar/src/{gitRevision}/{path}#lines-{line}"
             );
         });
 
         it("handles a bitbucket SSH URL", () => {
             const mockRemotes = ["git@bitbucket.org:joebloggs/foobar.git"];
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://bitbucket.org/joebloggs/foobar/src/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bitbucket.org/joebloggs/foobar/src/{gitRevision}/{path}#lines-{line}"
             );
         });
 
         it("handles a GitLab URL", () => {
             const mockRemotes = ["https://gitlab.com/joebloggs/foobar.git"];
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://gitlab.com/joebloggs/foobar/-/blob/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://gitlab.com/joebloggs/foobar/-/blob/{gitRevision}/{path}#L{line}"
             );
         });
 
         it("handles a GitLab SSH URL", () => {
             const mockRemotes = ["git@gitlab.com:joebloggs/foobar.git"];
             equal(
-                guessBaseUrl("rev", mockRemotes),
-                "https://gitlab.com/joebloggs/foobar/-/blob/rev"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://gitlab.com/joebloggs/foobar/-/blob/{gitRevision}/{path}#L{line}"
             );
         });
 
         it("Gracefully handles unknown urls", () => {
             const mockRemotes = ["git@example.com"];
-            equal(guessBaseUrl("rev", mockRemotes), undefined);
+            equal(guessSourceUrlTemplate(mockRemotes), undefined);
         });
     });
 });
