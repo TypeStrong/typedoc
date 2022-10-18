@@ -108,4 +108,32 @@ describe("Default Options", () => {
             doesNotThrow(() => opts.setValue("searchGroupBoosts", { Enum: 5 }));
         });
     });
+
+    describe("headerLinks", () => {
+        it("Should disallow non-objects", () => {
+            throws(() => opts.setValue("navigationLinks", null as never));
+        });
+
+        it("Should disallow non-strings", () => {
+            throws(() =>
+                opts.setValue("navigationLinks", {
+                    Home: true as any as string,
+                })
+            );
+        });
+    });
+
+    describe("sidebarLinks", () => {
+        it("Should disallow non-objects", () => {
+            throws(() => opts.setValue("sidebarLinks", null as never));
+        });
+
+        it("Should disallow non-strings", () => {
+            throws(() =>
+                opts.setValue("sidebarLinks", {
+                    Home: true as any as string,
+                })
+            );
+        });
+    });
 });

@@ -111,6 +111,7 @@ export interface TypeDocOptionMap {
     excludeTags: `@${string}`[];
     readme: string;
     cname: string;
+    sourceLinkTemplate: string;
     gitRevision: string;
     gitRemote: string;
     htmlLang: string;
@@ -119,6 +120,9 @@ export interface TypeDocOptionMap {
     hideGenerator: boolean;
     searchInComments: boolean;
     cleanOutputDir: boolean;
+    titleLink: string;
+    navigationLinks: ManuallyValidatedOption<Record<string, string>>;
+    sidebarLinks: ManuallyValidatedOption<Record<string, string>>;
 
     commentStyle: typeof CommentStyle;
     blockTags: `@${string}`[];

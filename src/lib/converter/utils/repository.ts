@@ -28,25 +28,18 @@ export class Repository {
      */
     files = new Set<string>();
 
-    /**
-     * The base url for link creation.
-     */
-    baseUrl: string;
-
-    /**
-     * The anchor prefix used to select lines, usually `L`
-     */
-    anchorPrefix: string;
+    urlTemplate: string;
+    gitRevision: string;
 
     /**
      * Create a new Repository instance.
      *
      * @param path  The root path of the repository.
      */
-    constructor(path: string, baseUrl: string) {
+    constructor(path: string, gitRevision: string, urlTemplate: string) {
         this.path = path;
-        this.baseUrl = baseUrl;
-        this.anchorPrefix = guessAnchorPrefix(this.baseUrl);
+        this.gitRevision = gitRevision;
+        this.urlTemplate = urlTemplate;
 
         const out = git("-C", path, "ls-files");
         if (out.status === 0) {
@@ -64,16 +57,21 @@ export class Repository {
      * @param fileName  The file whose URL should be determined.
      * @returns A URL pointing to the web preview of the given file or undefined.
      */
-    getURL(fileName: string): string | undefined {
+    getURL(fileName: string, line: number): string | undefined {
         if (!this.files.has(fileName)) {
             return;
         }
 
-        return `${this.baseUrl}/${fileName.substring(this.path.length + 1)}`;
-    }
+        const replacements = {
+            gitRevision: this.gitRevision,
+            path: fileName.substring(this.path.length + 1),
+            line,
+        };
 
-    getLineNumberAnchor(lineNumber: number): string {
-        return `${this.anchorPrefix}${lineNumber}`;
+        return this.urlTemplate.replace(
+            /\{(gitRevision|path|line)\}/g,
+            (_, key) => replacements[key as never]
+        );
     }
 
     /**
@@ -87,6 +85,7 @@ export class Repository {
      */
     static tryCreateRepository(
         path: string,
+        sourceLinkTemplate: string,
         gitRevision: string,
         gitRemote: string,
         logger: Logger
@@ -103,14 +102,18 @@ export class Repository {
         ).stdout.trim();
         if (!gitRevision) return; // Will only happen in a repo with no commits.
 
-        let baseUrl: string | undefined;
-        if (/^https?:\/\//.test(gitRemote)) {
-            baseUrl = `${gitRemote}/${gitRevision}`;
+        let urlTemplate: string | undefined;
+        if (sourceLinkTemplate) {
+            urlTemplate = sourceLinkTemplate;
+        } else if (/^https?:\/\//.test(gitRemote)) {
+            logger.warn(
+                "Using a link as the gitRemote is deprecated and will be removed in 0.24."
+            );
+            urlTemplate = `${gitRemote}/{gitRevision}`;
         } else {
             const remotesOut = git("-C", path, "remote", "get-url", gitRemote);
             if (remotesOut.status === 0) {
-                baseUrl = guessBaseUrl(
-                    gitRevision,
+                urlTemplate = guessSourceUrlTemplate(
                     remotesOut.stdout.split("\n")
                 );
             } else {
@@ -120,11 +123,12 @@ export class Repository {
             }
         }
 
-        if (!baseUrl) return;
+        if (!urlTemplate) return;
 
         return new Repository(
             BasePath.normalize(topLevel.stdout.replace("\n", "")),
-            baseUrl
+            gitRevision,
+            urlTemplate
         );
     }
 }
@@ -142,10 +146,7 @@ const repoExpressions = [
     /(gitlab.com)[:/]([^/]+)\/(.*)/,
 ];
 
-export function guessBaseUrl(
-    gitRevision: string,
-    remotes: string[]
-): string | undefined {
+export function guessSourceUrlTemplate(remotes: string[]): string | undefined {
     let hostname = "";
     let user = "";
     let project = "";
@@ -168,19 +169,13 @@ export function guessBaseUrl(
     }
 
     let sourcePath = "blob";
+    let anchorPrefix = "L";
     if (hostname.includes("gitlab")) {
         sourcePath = "-/blob";
     } else if (hostname.includes("bitbucket")) {
         sourcePath = "src";
+        anchorPrefix = "lines-";
     }
 
-    return `https://${hostname}/${user}/${project}/${sourcePath}/${gitRevision}`;
-}
-
-function guessAnchorPrefix(url: string) {
-    if (url.includes("bitbucket")) {
-        return "lines-";
-    }
-
-    return "L";
+    return `https://${hostname}/${user}/${project}/${sourcePath}/{gitRevision}/{path}#${anchorPrefix}{line}`;
 }

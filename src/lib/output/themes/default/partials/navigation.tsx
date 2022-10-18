@@ -7,6 +7,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
         <>
+            {context.sidebarLinks()}
             {context.settings()}
             {context.primaryNavigation(props)}
             {context.secondaryNavigation(props)}
@@ -23,6 +24,20 @@ function buildFilterItem(context: DefaultThemeRenderContext, name: string, displ
                 <span>{displayName}</span>
             </label>
         </li>
+    );
+}
+
+export function sidebarLinks(context: DefaultThemeRenderContext) {
+    const links = Object.entries(context.options.getValue("sidebarLinks"));
+    if (!links.length) return null;
+    return (
+        <nav id="tsd-sidebar-links" class="tsd-navigation">
+            {links.map(([label, url]) => (
+                <a href={url} target="_blank">
+                    {label}
+                </a>
+            ))}
+        </nav>
     );
 }
 
