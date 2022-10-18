@@ -55,6 +55,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 11,
+                  "character": 4,
+                  "url": "typedoc://inherit-param-doc.ts#L11"
+                }
+              ],
               "parameters": [
                 {
                   "id": 11,
@@ -194,6 +202,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 20,
+                  "character": 4,
+                  "url": "typedoc://inherit-param-doc.ts#L20"
+                }
+              ],
               "parameters": [
                 {
                   "id": 18,
@@ -333,6 +349,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 29,
+                  "character": 4,
+                  "url": "typedoc://inherit-param-doc.ts#L29"
+                }
+              ],
               "parameters": [
                 {
                   "id": 25,
@@ -450,6 +474,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 6,
+                  "character": 4,
+                  "url": "typedoc://inherit-param-doc.ts#L6"
+                }
+              ],
               "parameters": [
                 {
                   "id": 4,
@@ -547,14 +579,6 @@
       "children": [
         1
       ]
-    }
-  ],
-  "sources": [
-    {
-      "fileName": "inherit-param-doc.ts",
-      "line": 1,
-      "character": 0,
-      "url": "typedoc://inherit-param-doc.ts#L1"
     }
   ]
 }

@@ -110,6 +110,14 @@
                 "variant": "signature",
                 "kind": 524288,
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "access.ts",
+                    "line": 59,
+                    "character": 4,
+                    "url": "typedoc://access.ts#L59"
+                  }
+                ],
                 "type": {
                   "type": "intrinsic",
                   "name": "number"
@@ -149,6 +157,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "access.ts",
+                      "line": 46,
+                      "character": 4,
+                      "url": "typedoc://access.ts#L46"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -189,6 +205,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "access.ts",
+                      "line": 52,
+                      "character": 4,
+                      "url": "typedoc://access.ts#L52"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -219,6 +243,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "access.ts",
+                      "line": 54,
+                      "character": 27,
+                      "url": "typedoc://access.ts#L54"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -354,6 +386,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 17,
+                  "character": 0,
+                  "url": "typedoc://access.ts#L17"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -394,6 +434,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 23,
+                  "character": 0,
+                  "url": "typedoc://access.ts#L23"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -476,6 +524,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 108,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L108"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -567,6 +623,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 126,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L126"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -810,6 +874,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 88,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L88"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -940,6 +1012,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 94,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L94"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1056,6 +1136,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 27,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L27"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 22,
@@ -1186,6 +1274,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 58,
+                      "character": 18,
+                      "url": "typedoc://class.ts#L58"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1224,6 +1320,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 48,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L48"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1262,6 +1366,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 41,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L41"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1300,6 +1412,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 34,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L34"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1338,6 +1458,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 53,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L53"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1477,6 +1605,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 80,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L80"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 44,
@@ -1736,6 +1872,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 58,
+                      "character": 18,
+                      "url": "typedoc://class.ts#L58"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1782,6 +1926,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 101,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L101"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -1820,6 +1972,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 70,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L70"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1868,6 +2028,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 65,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L65"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1916,6 +2084,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 53,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L53"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -2203,6 +2379,14 @@
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "constructor-properties.ts",
+                      "line": 10,
+                      "character": 4,
+                      "url": "typedoc://constructor-properties.ts#L10"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 98,
@@ -2403,6 +2587,14 @@
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "constructor-properties.ts",
+                      "line": 23,
+                      "character": 4,
+                      "url": "typedoc://constructor-properties.ts#L23"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 107,
@@ -2726,6 +2918,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "decorators.ts",
+                      "line": 11,
+                      "character": 4,
+                      "url": "typedoc://decorators.ts#L11"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -2786,6 +2986,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "decorators.ts",
+                  "line": 19,
+                  "character": 0,
+                  "url": "typedoc://decorators.ts#L19"
+                }
+              ],
               "parameters": [
                 {
                   "id": 118,
@@ -2874,6 +3082,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "decorators.ts",
+                  "line": 48,
+                  "character": 0,
+                  "url": "typedoc://decorators.ts#L48"
+                }
+              ],
               "parameters": [
                 {
                   "id": 126,
@@ -2983,6 +3199,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "decorators.ts",
+                  "line": 32,
+                  "character": 0,
+                  "url": "typedoc://decorators.ts#L32"
+                }
+              ],
               "parameters": [
                 {
                   "id": 123,
@@ -3226,6 +3450,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "events-overloads.ts",
+                      "line": 14,
+                      "character": 4,
+                      "url": "typedoc://events-overloads.ts#L14"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 138,
@@ -3283,6 +3515,14 @@
                               "variant": "signature",
                               "kind": 4096,
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "events-overloads.ts",
+                                  "line": 14,
+                                  "character": 31,
+                                  "url": "typedoc://events-overloads.ts#L14"
+                                }
+                              ],
                               "parameters": [
                                 {
                                   "id": 142,
@@ -3325,6 +3565,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "events-overloads.ts",
+                      "line": 23,
+                      "character": 4,
+                      "url": "typedoc://events-overloads.ts#L23"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 144,
@@ -3382,6 +3630,14 @@
                               "variant": "signature",
                               "kind": 4096,
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "events-overloads.ts",
+                                  "line": 23,
+                                  "character": 32,
+                                  "url": "typedoc://events-overloads.ts#L23"
+                                }
+                              ],
                               "parameters": [
                                 {
                                   "id": 148,
@@ -3424,6 +3680,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "events-overloads.ts",
+                      "line": 32,
+                      "character": 4,
+                      "url": "typedoc://events-overloads.ts#L32"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 150,
@@ -3481,6 +3745,14 @@
                               "variant": "signature",
                               "kind": 4096,
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "events-overloads.ts",
+                                  "line": 32,
+                                  "character": 35,
+                                  "url": "typedoc://events-overloads.ts#L32"
+                                }
+                              ],
                               "parameters": [
                                 {
                                   "id": 154,
@@ -3523,6 +3795,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "events-overloads.ts",
+                      "line": 41,
+                      "character": 4,
+                      "url": "typedoc://events-overloads.ts#L41"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 156,
@@ -3580,6 +3860,14 @@
                               "variant": "signature",
                               "kind": 4096,
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "events-overloads.ts",
+                                  "line": 41,
+                                  "character": 35,
+                                  "url": "typedoc://events-overloads.ts#L41"
+                                }
+                              ],
                               "parameters": [
                                 {
                                   "id": 160,
@@ -3697,6 +3985,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "generic-class.ts",
+                      "line": 20,
+                      "character": 4,
+                      "url": "typedoc://generic-class.ts#L20"
+                    }
+                  ],
                   "typeParameter": [
                     {
                       "id": 170,
@@ -3843,6 +4139,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "generic-class.ts",
+                      "line": 28,
+                      "character": 4,
+                      "url": "typedoc://generic-class.ts#L28"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "T"
@@ -3949,6 +4253,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "generic-class.ts",
+                      "line": 20,
+                      "character": 4,
+                      "url": "typedoc://generic-class.ts#L20"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 180,
@@ -4100,6 +4412,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "generic-class.ts",
+                      "line": 28,
+                      "character": 4,
+                      "url": "typedoc://generic-class.ts#L28"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -4264,6 +4584,14 @@
                 "variant": "signature",
                 "kind": 524288,
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 4,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L4"
+                  }
+                ],
                 "type": {
                   "type": "intrinsic",
                   "name": "string"
@@ -4275,6 +4603,14 @@
                 "variant": "signature",
                 "kind": 1048576,
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 7,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L7"
+                  }
+                ],
                 "parameters": [
                   {
                     "id": 193,
@@ -4314,6 +4650,14 @@
                 "variant": "signature",
                 "kind": 524288,
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 11,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L11"
+                  }
+                ],
                 "type": {
                   "type": "intrinsic",
                   "name": "string"
@@ -4340,6 +4684,14 @@
                 "variant": "signature",
                 "kind": 1048576,
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 15,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L15"
+                  }
+                ],
                 "parameters": [
                   {
                     "id": 198,
@@ -4484,6 +4836,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "this.ts",
+                      "line": 10,
+                      "character": 4,
+                      "url": "typedoc://this.ts#L10"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 200,

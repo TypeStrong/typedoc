@@ -5,6 +5,7 @@ import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 import type { ReflectionKind } from "./kind";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
+import { SourceReference } from "../index";
 
 export class SignatureReflection extends Reflection {
     readonly variant = "signature";
@@ -25,6 +26,11 @@ export class SignatureReflection extends Reflection {
         | ReflectionKind.ConstructorSignature;
 
     override parent!: DeclarationReflection;
+
+    /**
+     * A list of all source files that contributed to this reflection.
+     */
+    sources?: SourceReference[];
 
     parameters?: ParameterReflection[];
 
@@ -112,6 +118,7 @@ export class SignatureReflection extends Reflection {
         return {
             ...super.toObject(serializer),
             variant: this.variant,
+            sources: serializer.toObjectsOptional(this.sources),
             typeParameter: serializer.toObjectsOptional(this.typeParameters),
             parameters: serializer.toObjectsOptional(this.parameters),
             type: serializer.toObject(this.type),
@@ -127,6 +134,10 @@ export class SignatureReflection extends Reflection {
     ): void {
         super.fromObject(de, obj);
 
+        this.sources = de.reviveMany(
+            obj.sources,
+            (t) => new SourceReference(t.fileName, t.line, t.character)
+        );
         this.typeParameters = de.reviveMany(obj.typeParameter, (t) =>
             de.constructReflection(t)
         );

@@ -124,6 +124,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "comment.ts",
+                      "line": 77,
+                      "character": 4,
+                      "url": "typedoc://comment.ts#L77"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 23,
@@ -247,6 +255,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "comment2.ts",
+                  "line": 8,
+                  "character": 0,
+                  "url": "typedoc://comment2.ts#L8"
+                }
+              ],
               "parameters": [
                 {
                   "id": 29,
@@ -340,6 +356,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "comment3.ts",
+                  "line": 8,
+                  "character": 0,
+                  "url": "typedoc://comment3.ts#L8"
+                }
+              ],
               "parameters": [
                 {
                   "id": 34,
@@ -429,6 +453,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "comment4.ts",
+                  "line": 11,
+                  "character": 0,
+                  "url": "typedoc://comment4.ts#L11"
+                }
+              ],
               "parameters": [
                 {
                   "id": 39,

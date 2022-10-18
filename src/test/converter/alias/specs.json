@@ -248,13 +248,5 @@
         7
       ]
     }
-  ],
-  "sources": [
-    {
-      "fileName": "alias.ts",
-      "line": 4,
-      "character": 0,
-      "url": "typedoc://alias.ts#L4"
-    }
   ]
 }

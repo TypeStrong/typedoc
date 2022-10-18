@@ -83,6 +83,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 22,
+                  "character": 4,
+                  "url": "typedoc://mixin.ts#L22"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -278,6 +286,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 22,
+                  "character": 4,
+                  "url": "typedoc://mixin.ts#L22"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -314,6 +330,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 88,
+                  "character": 4,
+                  "url": "typedoc://mixin.ts#L88"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -342,6 +366,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 37,
+                  "character": 8,
+                  "url": "typedoc://mixin.ts#L37"
+                }
+              ],
               "parameters": [
                 {
                   "id": 81,
@@ -401,6 +433,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 57,
+                  "character": 8,
+                  "url": "typedoc://mixin.ts#L57"
+                }
+              ],
               "parameters": [
                 {
                   "id": 77,
@@ -531,6 +571,14 @@
                             "variant": "signature",
                             "kind": 16384,
                             "flags": {},
+                            "sources": [
+                              {
+                                "fileName": "mixin.ts",
+                                "line": 9,
+                                "character": 41,
+                                "url": "typedoc://mixin.ts#L9"
+                              }
+                            ],
                             "parameters": [
                               {
                                 "id": 68,
@@ -710,6 +758,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 22,
+                  "character": 4,
+                  "url": "typedoc://mixin.ts#L22"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -746,6 +802,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 37,
+                  "character": 8,
+                  "url": "typedoc://mixin.ts#L37"
+                }
+              ],
               "parameters": [
                 {
                   "id": 31,
@@ -937,6 +1001,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 22,
+                  "character": 4,
+                  "url": "typedoc://mixin.ts#L22"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -973,6 +1045,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 37,
+                  "character": 8,
+                  "url": "typedoc://mixin.ts#L37"
+                }
+              ],
               "parameters": [
                 {
                   "id": 51,
@@ -1032,6 +1112,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 57,
+                  "character": 8,
+                  "url": "typedoc://mixin.ts#L57"
+                }
+              ],
               "parameters": [
                 {
                   "id": 47,
@@ -1424,6 +1512,14 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 30,
+              "character": 26,
+              "url": "typedoc://mixin.ts#L30"
+            }
+          ],
           "typeParameter": [
             {
               "id": 21,
@@ -1515,6 +1611,14 @@
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "mixin.ts",
+                          "line": 9,
+                          "character": 41,
+                          "url": "typedoc://mixin.ts#L9"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 26,
@@ -1587,6 +1691,14 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 50,
+              "character": 22,
+              "url": "typedoc://mixin.ts#L50"
+            }
+          ],
           "typeParameter": [
             {
               "id": 37,
@@ -1689,6 +1801,14 @@
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "mixin.ts",
+                          "line": 9,
+                          "character": 41,
+                          "url": "typedoc://mixin.ts#L9"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 42,
@@ -1767,6 +1887,14 @@
               }
             ]
           },
+          "sources": [
+            {
+              "fileName": "mixin.ts",
+              "line": 70,
+              "character": 22,
+              "url": "typedoc://mixin.ts#L70"
+            }
+          ],
           "typeParameter": [
             {
               "id": 57,
@@ -1856,6 +1984,14 @@
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "mixin.ts",
+                          "line": 9,
+                          "character": 41,
+                          "url": "typedoc://mixin.ts#L9"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 62,
@@ -1931,14 +2067,6 @@
         35,
         55
       ]
-    }
-  ],
-  "sources": [
-    {
-      "fileName": "mixin.ts",
-      "line": 4,
-      "character": 0,
-      "url": "typedoc://mixin.ts#L4"
     }
   ]
 }

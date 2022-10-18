@@ -33,6 +33,14 @@
               "variant": "signature",
               "kind": 16384,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 20,
+                  "character": 4,
+                  "url": "typedoc://react.tsx#L20"
+                }
+              ],
               "parameters": [
                 {
                   "id": 7,
@@ -99,6 +107,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 25,
+                  "character": 4,
+                  "url": "typedoc://react.tsx#L25"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "any"
@@ -213,14 +229,6 @@
       "children": [
         1
       ]
-    }
-  ],
-  "sources": [
-    {
-      "fileName": "react.tsx",
-      "line": 2,
-      "character": 0,
-      "url": "typedoc://react.tsx#L2"
     }
   ]
 }

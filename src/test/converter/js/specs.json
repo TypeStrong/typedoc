@@ -52,6 +52,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export-eq-type.js",
+                  "line": 4,
+                  "character": 12,
+                  "url": "typedoc://export-eq-type.js#L4"
+                }
+              ],
               "parameters": [
                 {
                   "id": 4,
@@ -873,6 +881,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "index.js",
+                  "line": 49,
+                  "character": 3,
+                  "url": "typedoc://index.js#L49"
+                }
+              ],
               "parameters": [
                 {
                   "id": 9,

@@ -4,7 +4,6 @@ import { ReflectionGroup } from "../ReflectionGroup";
 import type { ReflectionKind } from "./kind";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 import type { DeclarationReflection } from "./declaration";
-import { SourceReference } from "../sources/file";
 
 export abstract class ContainerReflection extends Reflection {
     /**
@@ -21,12 +20,6 @@ export abstract class ContainerReflection extends Reflection {
      * All children grouped by their category.
      */
     categories?: ReflectionCategory[];
-
-    /**
-     * A precomputed boost derived from the searchCategoryBoosts and searchGroupBoosts options, used when
-     * boosting search relevance scores at runtime. May be modified by plugins.
-     */
-    relevanceBoost?: number;
 
     /**
      * Return a list of all children of a certain kind.
@@ -60,7 +53,6 @@ export abstract class ContainerReflection extends Reflection {
             children: serializer.toObjectsOptional(this.children),
             groups: serializer.toObjectsOptional(this.groups),
             categories: serializer.toObjectsOptional(this.categories),
-            sources: serializer.toObjectsOptional(this.sources),
         };
     }
 
@@ -76,10 +68,6 @@ export abstract class ContainerReflection extends Reflection {
         this.categories = de.reviveMany(
             obj.categories,
             (cat) => new ReflectionCategory(cat.title)
-        );
-        this.sources = de.reviveMany(
-            obj.sources,
-            (src) => new SourceReference(src.fileName, src.line, src.character)
         );
     }
 }

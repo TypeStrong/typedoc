@@ -40,6 +40,14 @@
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "constructor-type.ts",
+                      "line": 3,
+                      "character": 4,
+                      "url": "typedoc://constructor-type.ts#L3"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 5,
@@ -75,6 +83,14 @@
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "constructor-type.ts",
+                      "line": 6,
+                      "character": 4,
+                      "url": "typedoc://constructor-type.ts#L6"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 8,
@@ -112,6 +128,14 @@
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "constructor-type.ts",
+                      "line": 9,
+                      "character": 4,
+                      "url": "typedoc://constructor-type.ts#L9"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 11,
@@ -224,6 +248,14 @@
             "variant": "signature",
             "kind": 8192,
             "flags": {},
+            "sources": [
+              {
+                "fileName": "index-signature.ts",
+                "line": 11,
+                "character": 4,
+                "url": "typedoc://index-signature.ts#L11"
+              }
+            ],
             "parameters": [
               {
                 "id": 23,
@@ -263,6 +295,14 @@
             "variant": "signature",
             "kind": 8192,
             "flags": {},
+            "sources": [
+              {
+                "fileName": "index-signature.ts",
+                "line": 6,
+                "character": 4,
+                "url": "typedoc://index-signature.ts#L6"
+              }
+            ],
             "parameters": [
               {
                 "id": 20,
@@ -302,6 +342,14 @@
             "variant": "signature",
             "kind": 8192,
             "flags": {},
+            "sources": [
+              {
+                "fileName": "index-signature.ts",
+                "line": 2,
+                "character": 4,
+                "url": "typedoc://index-signature.ts#L2"
+              }
+            ],
             "parameters": [
               {
                 "id": 17,
@@ -357,6 +405,14 @@
                 "variant": "signature",
                 "kind": 8192,
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "index-signature.ts",
+                    "line": 15,
+                    "character": 26,
+                    "url": "typedoc://index-signature.ts#L15"
+                  }
+                ],
                 "parameters": [
                   {
                     "id": 27,
@@ -492,6 +548,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-empty.ts",
+                      "line": 11,
+                      "character": 4,
+                      "url": "typedoc://interface-empty.ts#L11"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -723,6 +787,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 59,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L59"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 88,
@@ -816,6 +888,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 73,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L73"
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "void"
@@ -854,6 +934,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 69,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L69"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 96,
@@ -905,6 +993,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 75,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L75"
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "boolean"
@@ -943,6 +1039,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 67,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L67"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 93,
@@ -1076,6 +1180,14 @@
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 25,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L25"
+                        }
+                      ],
                       "typeParameter": [
                         {
                           "id": 52,
@@ -1311,6 +1423,14 @@
                           }
                         ]
                       },
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 32,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L32"
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "void"
@@ -1421,6 +1541,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 41,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L41"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 67,
@@ -1506,6 +1634,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 48,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L48"
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "void"
@@ -1534,6 +1670,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 47,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L47"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 75,
@@ -1575,6 +1719,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 49,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L49"
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "boolean"
@@ -1603,6 +1755,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 46,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L46"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 72,
@@ -1700,6 +1860,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 7,
+                      "character": 8,
+                      "url": "typedoc://interface-implementation.ts#L7"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 41,
@@ -1838,6 +2006,14 @@
                           }
                         ]
                       },
+                      "sources": [
+                        {
+                          "fileName": "interface-implementation.ts",
+                          "line": 21,
+                          "character": 8,
+                          "url": "typedoc://interface-implementation.ts#L21"
+                        }
+                      ],
                       "type": {
                         "type": "intrinsic",
                         "name": "void"

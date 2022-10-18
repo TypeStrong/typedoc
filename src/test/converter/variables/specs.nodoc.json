@@ -285,6 +285,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "destructuring.ts",
+                  "line": 38,
+                  "character": 0,
+                  "url": "typedoc://destructuring.ts#L38"
+                }
+              ],
               "parameters": [
                 {
                   "id": 18,
@@ -546,6 +554,14 @@
                                   "variant": "signature",
                                   "kind": 4096,
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 12,
+                                      "character": 16,
+                                      "url": "typedoc://literal.ts#L12"
+                                    }
+                                  ],
                                   "parameters": [
                                     {
                                       "id": 82,
@@ -714,6 +730,14 @@
                           "variant": "signature",
                           "kind": 4096,
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 7,
+                              "character": 12,
+                              "url": "typedoc://literal.ts#L7"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -927,6 +951,14 @@
                                   "variant": "signature",
                                   "kind": 4096,
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 32,
+                                      "character": 18,
+                                      "url": "typedoc://literal.ts#L32"
+                                    }
+                                  ],
                                   "parameters": [
                                     {
                                       "id": 43,
@@ -1090,6 +1122,14 @@
                           "variant": "signature",
                           "kind": 4096,
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 29,
+                              "character": 14,
+                              "url": "typedoc://literal.ts#L29"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"

@@ -76,6 +76,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 53,
+                  "character": 4,
+                  "url": "typedoc://enum.ts#L53"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -440,14 +448,6 @@
         5,
         1
       ]
-    }
-  ],
-  "sources": [
-    {
-      "fileName": "enum.ts",
-      "line": 4,
-      "character": 0,
-      "url": "typedoc://enum.ts#L4"
     }
   ]
 }

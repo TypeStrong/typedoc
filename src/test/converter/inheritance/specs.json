@@ -95,6 +95,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "inherit-doc.ts",
+                      "line": 19,
+                      "character": 4,
+                      "url": "typedoc://inherit-doc.ts#L19"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 18,
@@ -227,6 +235,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "inherit-doc.ts",
+                      "line": 37,
+                      "character": 4,
+                      "url": "typedoc://inherit-doc.ts#L37"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 24,
@@ -346,6 +362,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 58,
+                  "character": 0,
+                  "url": "typedoc://inherit-doc.ts#L58"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 4,
@@ -441,6 +465,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 68,
+                  "character": 0,
+                  "url": "typedoc://inherit-doc.ts#L68"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -523,6 +555,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "inherit-doc.ts",
+                  "line": 85,
+                  "character": 0,
+                  "url": "typedoc://inherit-doc.ts#L85"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 11,
@@ -649,6 +689,14 @@
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "mergable-class.ts",
+                      "line": 3,
+                      "character": 4,
+                      "url": "typedoc://mergable-class.ts#L3"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 34,
@@ -825,6 +873,14 @@
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "mergable-class.ts",
+                      "line": 3,
+                      "character": 4,
+                      "url": "typedoc://mergable-class.ts#L3"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "id": 31,

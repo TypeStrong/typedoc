@@ -1,6 +1,9 @@
 import * as ts from "typescript";
 
-import type { Reflection } from "../../models/reflections/index";
+import {
+    DeclarationReflection,
+    SignatureReflection,
+} from "../../models/reflections/index";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
@@ -68,7 +71,10 @@ export class SourcePlugin extends ConverterComponent {
      * @param _context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently processed.
      */
-    private onDeclaration(_context: Context, reflection: Reflection) {
+    private onDeclaration(
+        _context: Context,
+        reflection: DeclarationReflection
+    ) {
         if (this.disableSources) return;
 
         const symbol = reflection.project.getSymbolFromReflection(reflection);
@@ -103,7 +109,7 @@ export class SourcePlugin extends ConverterComponent {
 
     private onSignature(
         _context: Context,
-        reflection: Reflection,
+        reflection: SignatureReflection,
         sig?:
             | ts.SignatureDeclaration
             | ts.IndexSignatureDeclaration
@@ -138,6 +144,15 @@ export class SourcePlugin extends ConverterComponent {
             this.basePath || getCommonDirectory([...this.fileNames]);
 
         for (const refl of Object.values(context.project.reflections)) {
+            if (
+                !(
+                    refl instanceof DeclarationReflection ||
+                    refl instanceof SignatureReflection
+                )
+            ) {
+                continue;
+            }
+
             for (const source of refl.sources || []) {
                 if (gitIsInstalled) {
                     const repo = this.getRepository(source.fullFileName);

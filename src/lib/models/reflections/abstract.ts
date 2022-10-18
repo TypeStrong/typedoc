@@ -1,5 +1,4 @@
 import { ok } from "assert";
-import type { SourceReference } from "../sources/file";
 import { Comment } from "../comments/comment";
 import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
@@ -286,11 +285,6 @@ export abstract class Reflection {
     comment?: Comment;
 
     /**
-     * A list of all source files that contributed to this reflection.
-     */
-    sources?: SourceReference[];
-
-    /**
      * The url of this reflection in the generated documentation.
      * TODO: Reflections shouldn't know urls exist. Move this to a serializer.
      */
@@ -542,6 +536,9 @@ export abstract class Reflection {
         // will construct the correct class type.
         this.kind = obj.kind;
         this.flags.fromObject(obj.flags);
+        // Parent is set during construction, so we don't need to do it here.
         this.comment = de.revive(obj.comment, () => new Comment());
+        // url, anchor, hasOwnDocument, _alias, _aliases are set during rendering and only relevant during render.
+        // It doesn't make sense to serialize them to json, or restore them.
     }
 }

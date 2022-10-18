@@ -326,6 +326,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export.ts",
+                  "line": 7,
+                  "character": 0,
+                  "url": "typedoc://export.ts#L7"
+                }
+              ],
               "parameters": [
                 {
                   "id": 17,
@@ -378,6 +386,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export.ts",
+                  "line": 18,
+                  "character": 0,
+                  "url": "typedoc://export.ts#L18"
+                }
+              ],
               "parameters": [
                 {
                   "id": 28,
@@ -464,6 +480,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export-assignment.ts",
+                  "line": 1,
+                  "character": 0,
+                  "url": "typedoc://export-assignment.ts#L1"
+                }
+              ],
               "parameters": [
                 {
                   "id": 4,
@@ -610,6 +634,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "export-with-local.ts",
+                  "line": 6,
+                  "character": 0,
+                  "url": "typedoc://export-with-local.ts#L6"
+                }
+              ],
               "parameters": [
                 {
                   "id": 11,
@@ -814,6 +846,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "mod.ts",
+                  "line": 23,
+                  "character": 0,
+                  "url": "typedoc://mod.ts#L23"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"

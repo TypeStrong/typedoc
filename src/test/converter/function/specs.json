@@ -40,6 +40,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 305,
+                      "character": 14,
+                      "url": "typedoc://function.ts#L305"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -142,6 +150,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 269,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L269"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -178,6 +194,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 274,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L274"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -266,6 +290,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 285,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L285"
+                    }
+                  ],
                   "type": {
                     "type": "predicate",
                     "name": "this",
@@ -299,6 +331,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 281,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L281"
+                    }
+                  ],
                   "type": {
                     "type": "predicate",
                     "name": "this",
@@ -334,6 +374,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 284,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L284"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 92,
@@ -378,6 +426,14 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 278,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L278"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 89,
@@ -459,6 +515,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 294,
+                  "character": 4,
+                  "url": "typedoc://function.ts#L294"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 101,
@@ -498,6 +562,14 @@
                           "variant": "signature",
                           "kind": 4096,
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 294,
+                              "character": 12,
+                              "url": "typedoc://function.ts#L294"
+                            }
+                          ],
                           "parameters": [
                             {
                               "id": 105,
@@ -558,6 +630,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 295,
+                  "character": 4,
+                  "url": "typedoc://function.ts#L295"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 108,
@@ -597,6 +677,14 @@
                           "variant": "signature",
                           "kind": 4096,
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 295,
+                              "character": 12,
+                              "url": "typedoc://function.ts#L295"
+                            }
+                          ],
                           "parameters": [
                             {
                               "id": 112,
@@ -643,6 +731,14 @@
                       "variant": "signature",
                       "kind": 4096,
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 295,
+                          "character": 35,
+                          "url": "typedoc://function.ts#L295"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 115,
@@ -703,6 +799,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 241,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L241"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 69,
@@ -779,6 +883,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 227,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L227"
+                }
+              ],
               "parameters": [
                 {
                   "id": 63,
@@ -829,6 +941,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 298,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L298"
+                }
+              ],
               "parameters": [
                 {
                   "id": 77,
@@ -887,6 +1007,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 233,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L233"
+                }
+              ],
               "parameters": [
                 {
                   "id": 66,
@@ -941,6 +1069,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 4,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L4"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -988,6 +1124,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 100,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L100"
+                }
+              ],
               "parameters": [
                 {
                   "id": 25,
@@ -1184,6 +1328,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 166,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L166"
+                }
+              ],
               "parameters": [
                 {
                   "id": 40,
@@ -1336,6 +1488,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 131,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L131"
+                }
+              ],
               "parameters": [
                 {
                   "id": 32,
@@ -1491,6 +1651,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 62,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L62"
+                }
+              ],
               "parameters": [
                 {
                   "id": 15,
@@ -1629,6 +1797,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 47,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L47"
+                }
+              ],
               "parameters": [
                 {
                   "id": 11,
@@ -1718,6 +1894,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 23,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L23"
+                }
+              ],
               "parameters": [
                 {
                   "id": 6,
@@ -1829,6 +2013,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 78,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L78"
+                }
+              ],
               "parameters": [
                 {
                   "id": 22,
@@ -1891,6 +2083,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 253,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L253"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 73,
@@ -1965,6 +2165,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 304,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L304"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -2007,6 +2215,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 218,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L218"
+                }
+              ],
               "parameters": [
                 {
                   "id": 54,
@@ -2076,6 +2292,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 183,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L183"
+                }
+              ],
               "parameters": [
                 {
                   "id": 47,
@@ -2116,6 +2340,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 191,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L191"
+                }
+              ],
               "parameters": [
                 {
                   "id": 49,
@@ -2235,6 +2467,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 37,
+                  "character": 32,
+                  "url": "typedoc://function.ts#L37"
+                }
+              ],
               "parameters": [
                 {
                   "id": 85,
@@ -2358,6 +2598,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-function.ts",
+                  "line": 18,
+                  "character": 0,
+                  "url": "typedoc://generic-function.ts#L18"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 123,
@@ -2441,6 +2689,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "generic-function.ts",
+                  "line": 29,
+                  "character": 0,
+                  "url": "typedoc://generic-function.ts#L29"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 128,
@@ -2526,6 +2782,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-function.ts",
+                  "line": 7,
+                  "character": 0,
+                  "url": "typedoc://generic-function.ts#L7"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 119,
@@ -2688,6 +2952,14 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 14,
+                  "character": 0,
+                  "url": "typedoc://implicit-types.ts#L14"
+                }
+              ],
               "type": {
                 "type": "reflection",
                 "declaration": {

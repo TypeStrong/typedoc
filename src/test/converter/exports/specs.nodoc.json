@@ -193,6 +193,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "mod.ts",
+                  "line": 23,
+                  "character": 0,
+                  "url": "typedoc://mod.ts#L23"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"

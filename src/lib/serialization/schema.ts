@@ -127,6 +127,7 @@ export interface SignatureReflection
         S<
             M.SignatureReflection,
             | "variant"
+            | "sources"
             | "parameters"
             | "type"
             | "overwrites"
@@ -148,6 +149,8 @@ export interface DeclarationReflection
         S<
             M.DeclarationReflection,
             | "variant"
+            | "sources"
+            | "relevanceBoost"
             | "type"
             | "signatures"
             | "indexSignature"
@@ -177,10 +180,7 @@ export interface ProjectReflection
 
 export interface ContainerReflection
     extends Reflection,
-        S<
-            M.ContainerReflection,
-            "children" | "groups" | "categories" | "sources"
-        > {}
+        S<M.ContainerReflection, "children" | "groups" | "categories"> {}
 
 export interface Reflection
     extends S<M.Reflection, "id" | "variant" | "name" | "kind" | "comment"> {

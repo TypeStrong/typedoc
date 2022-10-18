@@ -6,6 +6,7 @@ import type { SignatureReflection } from "./signature";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 import type { CommentDisplayPart } from "../comments";
+import { SourceReference } from "../index";
 
 /**
  * Stores hierarchical type data.
@@ -45,6 +46,17 @@ export enum ConversionFlags {
  */
 export class DeclarationReflection extends ContainerReflection {
     readonly variant = "declaration" as "declaration" | "reference";
+
+    /**
+     * A list of all source files that contributed to this reflection.
+     */
+    sources?: SourceReference[];
+
+    /**
+     * A precomputed boost derived from the searchCategoryBoosts and searchGroupBoosts options, used when
+     * boosting search relevance scores at runtime. May be modified by plugins.
+     */
+    relevanceBoost?: number;
 
     /**
      * The escaped name of this declaration assigned by the TS compiler if there is an associated symbol.
@@ -282,6 +294,9 @@ export class DeclarationReflection extends ContainerReflection {
         return {
             ...super.toObject(serializer),
             variant: this.variant,
+            sources: serializer.toObjectsOptional(this.sources),
+            relevanceBoost:
+                this.relevanceBoost === 1 ? undefined : this.relevanceBoost,
             typeParameters: serializer.toObjectsOptional(this.typeParameters),
             type: serializer.toObject(this.type),
             signatures: serializer.toObjectsOptional(this.signatures),
@@ -306,6 +321,12 @@ export class DeclarationReflection extends ContainerReflection {
         obj: JSONOutput.DeclarationReflection
     ): void {
         super.fromObject(de, obj);
+
+        this.sources = de.reviveMany(
+            obj.sources,
+            (src) => new SourceReference(src.fileName, src.line, src.character)
+        );
+        this.relevanceBoost = obj.relevanceBoost;
 
         this.typeParameters = de.reviveMany(obj.typeParameters, (tp) =>
             de.constructReflection(tp)
