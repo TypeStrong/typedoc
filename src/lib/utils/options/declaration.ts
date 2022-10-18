@@ -119,6 +119,9 @@ export interface TypeDocOptionMap {
     hideGenerator: boolean;
     searchInComments: boolean;
     cleanOutputDir: boolean;
+    titleLink: string;
+    navigationLinks: ManuallyValidatedOption<Record<string, string>>;
+    sidebarLinks: ManuallyValidatedOption<Record<string, string>>;
 
     commentStyle: typeof CommentStyle;
     blockTags: `@${string}`[];
