@@ -8,9 +8,11 @@ import {
     MapDeclarationOption,
 } from "../../../../lib/utils/options";
 import { join, resolve } from "path";
+import { TestLogger } from "../../../TestLogger";
 
 describe("Options - ArgumentsReader", () => {
-    const logger = new Logger();
+    const logger = new TestLogger();
+    afterEach(() => logger.reset());
     // Note: We lie about the type of Options here since we want the less strict
     // behavior for tests. If TypeDoc ever gets a numeric option, then we can
     // exclusively use the builtin options for tests and this cast can go away.
@@ -49,8 +51,6 @@ describe("Options - ArgumentsReader", () => {
     function test(name: string, args: string[], cb: () => void) {
         it(name, () => {
             const reader = new ArgumentsReader(1, args);
-            logger.resetErrors();
-            logger.resetWarnings();
             options.reset();
             options.addReader(reader);
             options.read(logger);
@@ -123,18 +123,16 @@ describe("Options - ArgumentsReader", () => {
     );
 
     it("Errors if given an unknown option", () => {
-        let check = false;
-        class TestLogger extends Logger {
-            override error(msg: string) {
-                equal(msg, "Unknown option: --badOption");
-                check = true;
-            }
-        }
+        const similarOptions = options.getSimilarOptions("badOption");
         const reader = new ArgumentsReader(1, ["--badOption"]);
         options.reset();
         options.addReader(reader);
-        options.read(new TestLogger());
-        equal(check, true, "Reader did not report an error.");
+        options.read(logger);
+        logger.expectMessage(
+            `error: Unknown option: --badOption, you may have meant:\n\t${similarOptions.join(
+                "\n\t"
+            )}`
+        );
     });
 
     it("Warns if option is expecting a value but no value is provided", () => {

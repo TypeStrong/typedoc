@@ -110,7 +110,11 @@ export class ArgumentsReader implements OptionsReader {
                 }
             }
 
-            logger.error(`Unknown option: ${name}`);
+            logger.error(
+                `Unknown option: ${name}, you may have meant:\n\t${options
+                    .getSimilarOptions(name)
+                    .join("\n\t")}`
+            );
             index++;
         }
     }

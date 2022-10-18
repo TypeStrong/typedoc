@@ -262,7 +262,12 @@ export class Options {
     getValue(name: string): unknown {
         const declaration = this.getDeclaration(name);
         if (!declaration) {
-            throw new Error(`Unknown option '${name}'`);
+            const nearNames = this.getSimilarOptions(name);
+            throw new Error(
+                `Unknown option '${name}', you may have meant:\n\t${nearNames.join(
+                    "\n\t"
+                )}`
+            );
         }
 
         return this._values[declaration.name];
@@ -293,8 +298,11 @@ export class Options {
 
         const declaration = this.getDeclaration(name);
         if (!declaration) {
+            const nearNames = this.getSimilarOptions(name);
             throw new Error(
-                `Tried to set an option (${name}) that was not declared.`
+                `Tried to set an option (${name}) that was not declared. You may have meant:\n\t${nearNames.join(
+                    "\n\t"
+                )}`
             );
         }
 
@@ -383,6 +391,27 @@ export class Options {
         this._compilerOptions = { ...options };
         this._projectReferences = projectReferences ?? [];
     }
+
+    /**
+     * Discover similar option names to the given name, for use in error reporting.
+     */
+    getSimilarOptions(missingName: string): string[] {
+        const results: Record<number, string[]> = {};
+        let lowest = Infinity;
+        for (const name of this._declarations.keys()) {
+            const distance = editDistance(missingName, name);
+            lowest = Math.min(lowest, distance);
+            results[distance] ||= [];
+            results[distance].push(name);
+        }
+
+        // Experimenting a bit, it seems an edit distance of 3 is roughly the
+        // right metric for relevant "similar" results without showing obviously wrong suggestions
+        return results[lowest].concat(
+            results[lowest + 1] || [],
+            results[lowest + 2] || []
+        );
+    }
 }
 
 /**
@@ -434,4 +463,36 @@ export function BindOption(name: string) {
             configurable: true,
         });
     };
+}
+
+// Based on https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows
+// Slightly modified for improved match results for options
+function editDistance(s: string, t: string): number {
+    if (s.length < t.length) return editDistance(t, s);
+
+    let v0 = Array.from({ length: t.length + 1 }, (_, i) => i);
+    let v1 = Array.from({ length: t.length + 1 }, () => 0);
+
+    for (let i = 0; i < s.length; i++) {
+        v1[0] = i + 1;
+
+        for (let j = 0; j < s.length; j++) {
+            const deletionCost = v0[j + 1] + 1;
+            const insertionCost = v1[j] + 1;
+            let substitutionCost: number;
+            if (s[i] === t[j]) {
+                substitutionCost = v0[j];
+            } else if (s[i]?.toUpperCase() === t[j]?.toUpperCase()) {
+                substitutionCost = v0[j] + 1;
+            } else {
+                substitutionCost = v0[j] + 3;
+            }
+
+            v1[j + 1] = Math.min(deletionCost, insertionCost, substitutionCost);
+        }
+
+        [v0, v1] = [v1, v0];
+    }
+
+    return v0[t.length];
 }

@@ -119,7 +119,7 @@ describe("Options - TypeDocReader", () => {
         {
             someOptionThatDoesNotExist: true,
         },
-        "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared."
+        "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared. You may have meant:*"
     );
     testError(
         "Errors if extends results in a loop",
