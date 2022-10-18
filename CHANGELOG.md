@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.17 (2022-10-18)
+
 ### Features
 
 -   Added `titleLink`, `navigationLinks` and `sidebarLinks` options to add additional links to the rendered output, #1830.
