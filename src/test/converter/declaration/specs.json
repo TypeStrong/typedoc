@@ -306,5 +306,6 @@
         14
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

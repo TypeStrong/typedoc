@@ -978,5 +978,6 @@
         38
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

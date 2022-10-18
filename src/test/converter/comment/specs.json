@@ -521,5 +521,6 @@
         36
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

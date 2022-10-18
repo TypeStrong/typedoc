@@ -44,7 +44,9 @@
         "deserializers",
         "linkcode",
         "linkplain",
+        "shiki",
         "tsbuildinfo",
-        "tsdoc"
+        "tsdoc",
+        "typestrong"
     ]
 }

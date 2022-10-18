@@ -2554,5 +2554,6 @@
         102
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

@@ -14,6 +14,7 @@
 -   The options passed to `Application.bootstrap` will now be applied both before _and_ after reading options files, which may cause a change in configuration
     if using a custom script to run TypeDoc that includes some options, but other options are set in config files.
 -   Moved `sources` property previously declared on base `Reflection` class to `DeclarationReflection` and `SignatureReflection`.
+-   Moved `relevanceBoost` from `ContainerReflection` to `DeclarationReflection` since setting it on the parent class has no effect.
 -   Removed internal `ReferenceType.getSymbol`, reference types no longer reference the `ts.Symbol` to enable generation from serialized JSON.
 -   `OptionsReader.priority` has been renamed to `OptionsReader.order` to more accurately reflect how it works.
 -   `id: -1` will not be included in the JSON output for reference types which are intentionally broken.

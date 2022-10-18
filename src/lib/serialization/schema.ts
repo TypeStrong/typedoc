@@ -176,7 +176,7 @@ export interface TypeParameterReflection
 
 export interface ProjectReflection
     extends Omit<ContainerReflection, "variant">,
-        S<M.ProjectReflection, "variant" | "readme"> {}
+        S<M.ProjectReflection, "variant" | "packageName" | "readme"> {}
 
 export interface ContainerReflection
     extends Reflection,

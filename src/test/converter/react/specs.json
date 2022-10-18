@@ -230,5 +230,6 @@
         1
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

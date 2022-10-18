@@ -3134,5 +3134,6 @@
         130
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

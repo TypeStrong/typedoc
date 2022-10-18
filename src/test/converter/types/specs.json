@@ -1954,5 +1954,6 @@
         62
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

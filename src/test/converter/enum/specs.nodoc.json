@@ -449,5 +449,6 @@
         1
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

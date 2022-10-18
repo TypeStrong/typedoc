@@ -373,7 +373,7 @@ function findProperty(reflection: DeclarationReflection, parent: ts.Type) {
     return parent.getProperties().find((prop) => {
         return reflection.escapedName
             ? prop.escapedName === reflection.escapedName
-            : prop.name === reflection.escapedName;
+            : prop.name === reflection.name;
     });
 }
 

@@ -1211,5 +1211,6 @@
         30
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

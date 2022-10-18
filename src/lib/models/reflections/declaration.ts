@@ -61,6 +61,8 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * The escaped name of this declaration assigned by the TS compiler if there is an associated symbol.
      * This is used to retrieve properties for analyzing inherited members.
+     *
+     * Not serialized, only useful during conversion.
      * @internal
      */
     escapedName?: ts.__String;

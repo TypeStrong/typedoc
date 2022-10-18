@@ -580,5 +580,6 @@
         1
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc"
 }

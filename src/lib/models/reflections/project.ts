@@ -44,6 +44,9 @@ export class ProjectReflection extends ContainerReflection {
      */
     reflections: { [id: number]: Reflection } = {};
 
+    /**
+     * The name of the package that this reflection documents according to package.json.
+     */
     packageName?: string;
 
     /**
@@ -246,6 +249,7 @@ export class ProjectReflection extends ContainerReflection {
         return {
             ...super.toObject(serializer),
             variant: this.variant,
+            packageName: this.packageName,
             readme: Comment.serializeDisplayParts(this.readme),
         };
     }
@@ -255,6 +259,7 @@ export class ProjectReflection extends ContainerReflection {
         obj: JSONOutput.ProjectReflection
     ): void {
         super.fromObject(de, obj);
+        this.packageName = obj.packageName;
         if (obj.readme) {
             this.readme = Comment.deserializeDisplayParts(de, obj.readme);
         }
