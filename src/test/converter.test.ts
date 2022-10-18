@@ -14,6 +14,7 @@ import {
     Comment,
     CommentDisplayPart,
     SourceReference,
+    ReferenceReflection,
 } from "..";
 import type { ModelToObject } from "../lib/serialization/schema";
 import { getExpandedEntryPointsForPaths } from "../lib/utils";
@@ -79,6 +80,16 @@ comparisonSerializer.addSerializer({
     },
     toObject(_refl, obj) {
         delete obj["id"];
+        return obj;
+    },
+});
+comparisonSerializer.addSerializer({
+    priority: 0,
+    supports(x) {
+        return x instanceof ReferenceReflection;
+    },
+    toObject(refl: ReferenceReflection, obj: any) {
+        obj.target = refl.getTargetReflectionDeep().getFullName();
         return obj;
     },
 });

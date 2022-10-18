@@ -35,33 +35,34 @@
         "bin"
     ],
     "rules": {
-        "@typescript-eslint/no-floating-promises": 1,
+        "@typescript-eslint/no-floating-promises": "error",
+        "@typescript-eslint/await-thenable": "error",
 
         // This one is just annoying since it complains at incomplete code
-        "no-empty": 0,
+        "no-empty": "off",
 
         // This rule is factually incorrect. Interfaces which extend some type alias can be used to introduce
         // new type names. This is useful particularly when dealing with mixins.
-        "@typescript-eslint/no-empty-interface": 0,
+        "@typescript-eslint/no-empty-interface": "off",
 
         // We still use `any` fairly frequently...
-        "@typescript-eslint/ban-types": 0,
-        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
 
         // Really annoying, doesn't provide any value.
-        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/no-empty-function": "off",
 
         // Declaration merging with a namespace is a necessary tool when working with enums.
-        "@typescript-eslint/no-namespace": 0,
+        "@typescript-eslint/no-namespace": "off",
 
         // Reported by TypeScript
-        "@typescript-eslint/no-unused-vars": 0,
+        "@typescript-eslint/no-unused-vars": "off",
 
-        "no-console": 1,
+        "no-console": "warn",
 
         // Feel free to turn one of these back on and submit a PR!
-        "@typescript-eslint/no-non-null-assertion": 0,
-        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
 
         "no-restricted-syntax": [
             "warn",

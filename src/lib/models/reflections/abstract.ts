@@ -538,11 +538,10 @@ export abstract class Reflection {
         // DO NOT copy id from obj. When deserializing reflections
         // they should be given new ids since they belong to a different project.
         this.name = obj.name;
+        // Skip copying variant, we know it's already the correct value because the deserializer
+        // will construct the correct class type.
         this.kind = obj.kind;
         this.flags.fromObject(obj.flags);
-        if (obj.comment) {
-            this.comment = new Comment();
-            de.fromObject(this.comment, obj.comment);
-        }
+        this.comment = de.revive(obj.comment, () => new Comment());
     }
 }

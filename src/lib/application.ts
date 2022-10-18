@@ -102,8 +102,7 @@ export class Application extends ChildableComponent<
 
     /**
      * Emitted after plugins have been loaded and options have been read, but before they have been frozen.
-     * The listener will be given an instance of {@link Application} and the {@link TypeDocOptions | Partial<TypeDocOptions>}
-     * passed to `bootstrap`.
+     * The listener will be given an instance of {@link Application}.
      */
     static readonly EVENT_BOOTSTRAP_END = ApplicationEvents.BOOTSTRAP_END;
 
@@ -128,15 +127,9 @@ export class Application extends ChildableComponent<
     async bootstrapWithPlugins(
         options: Partial<TypeDocOptions> = {}
     ): Promise<void> {
-        for (const [key, val] of Object.entries(options)) {
-            try {
-                this.options.setValue(key as keyof TypeDocOptions, val);
-            } catch {
-                // Ignore errors, plugins haven't been loaded yet and may declare an option.
-            }
-        }
+        this.options.reset();
+        this.setOptions(options, /* reportErrors */ false);
         this.options.read(new Logger());
-
         this.logger.level = this.options.getValue("logLevel");
 
         const plugins = discoverPlugins(this);
@@ -146,20 +139,14 @@ export class Application extends ChildableComponent<
     }
 
     /**
-     * Initialize TypeDoc with the given options object.
-     * Does not load plugins.
+     * Initialize TypeDoc without loading plugins.
      */
     bootstrap(options: Partial<TypeDocOptions> = {}): void {
         this.options.reset();
-        for (const [key, val] of Object.entries(options)) {
-            try {
-                this.options.setValue(key as keyof TypeDocOptions, val);
-            } catch (error) {
-                ok(error instanceof Error);
-                this.logger.error(error.message);
-            }
-        }
+        this.setOptions(options, /* reportErrors */ false);
         this.options.read(this.logger);
+        this.setOptions(options);
+        this.logger.level = this.options.getValue("logLevel");
 
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
@@ -168,7 +155,20 @@ export class Application extends ChildableComponent<
                 )}`
             );
         }
-        this.trigger(ApplicationEvents.BOOTSTRAP_END, this, options);
+        this.trigger(ApplicationEvents.BOOTSTRAP_END, this);
+    }
+
+    private setOptions(options: Partial<TypeDocOptions>, reportErrors = true) {
+        for (const [key, val] of Object.entries(options)) {
+            try {
+                this.options.setValue(key as never, val as never);
+            } catch (error) {
+                ok(error instanceof Error);
+                if (reportErrors) {
+                    this.logger.error(error.message);
+                }
+            }
+        }
     }
 
     /**

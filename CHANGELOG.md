@@ -11,6 +11,8 @@
 -   Properties related to rendering are no longer stored on `Reflection`, including `url`, `anchor`, `hasOwnDocument`, and `cssClasses`.
 -   Removed special case for `--plugin none`, to disable plugin auto discovery, set `"plugin": []` in a config file.
 -   `Application.bootstrap` will no longer load plugins. If you want to load plugins, use `Application.bootstrapWithPlugins` instead, #1635.
+-   The options passed to `Application.bootstrap` will now be applied both before _and_ after reading options files, which may cause a change in configuration
+    if using a custom script to run TypeDoc that includes some options, but other options are set in config files.
 -   Removed internal `ReferenceType.getSymbol`, reference types no longer reference the `ts.Symbol` to enable generation from serialized JSON.
 -   `OptionsReader.priority` has been renamed to `OptionsReader.order` to more accurately reflect how it works.
 -   `id: -1` will not be included in the JSON output for reference types which are intentionally broken.

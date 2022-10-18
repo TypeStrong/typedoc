@@ -90,6 +90,7 @@ export class ReferenceReflection extends DeclarationReflection {
         de: Deserializer,
         obj: JSONOutput.ReferenceReflection
     ): void {
+        super.fromObject(de, obj);
         de.defer((project) => {
             this._target =
                 project.getReflectionById(de.oldIdToNewId[obj.target] || -1)

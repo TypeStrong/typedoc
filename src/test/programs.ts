@@ -82,7 +82,6 @@ export function getConverter2App() {
         converter2App.bootstrap({
             excludeExternals: true,
             tsconfig: join(getConverter2Base(), "tsconfig.json"),
-            plugin: [],
             validation: true,
         });
     }
