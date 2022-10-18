@@ -1,13 +1,16 @@
 // @ts-check
 "use strict";
+
+require("ts-node/register");
+
 Error.stackTraceLimit = 50;
 const ts = require("typescript");
 const fs = require("fs");
 const path = require("path");
-const TypeDoc = require("..");
-const { getExpandedEntryPointsForPaths } = require("../dist/lib/utils");
+const TypeDoc = require("../src");
+const { getExpandedEntryPointsForPaths } = require("../src/lib/utils");
 const { ok } = require("assert");
-const { SourceReference } = require("..");
+const { SourceReference } = require("../src");
 
 const base = path.join(__dirname, "../src/test/converter");
 

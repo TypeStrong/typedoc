@@ -1,13 +1,15 @@
 //@ts-check
 
+require("ts-node/register");
+
 const fs = require("fs/promises");
-const { copy } = require("../dist/lib/utils/fs");
+const { copy } = require("../src/lib/utils/fs");
 const { join } = require("path");
 
 const expectedDir = join(__dirname, "../dist/tmp/.reg/expected");
 const outputDir = join(__dirname, "../dist/tmp/__screenshots__");
 
-fs.rmdir(expectedDir, { recursive: true })
+fs.rm(expectedDir, { recursive: true, force: true })
     .then(() => copy(outputDir, expectedDir))
     .catch((err) => {
         console.error(err);

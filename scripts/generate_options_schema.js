@@ -1,8 +1,10 @@
 //@ts-check
 
+require("ts-node/register");
+
 const { writeFileSync } = require("fs");
-const { addTypeDocOptions } = require("../dist/lib/utils/options/sources");
-const { ParameterType } = require("../dist");
+const { addTypeDocOptions } = require("../src/lib/utils/options/sources");
+const { ParameterType } = require("../src");
 
 const IGNORED_OPTIONS = new Set(["help", "version"]);
 
@@ -17,7 +19,7 @@ const schema = {
 };
 
 addTypeDocOptions({
-    /** @param {import("../dist").DeclarationOption} option */
+    /** @param {import("../src").DeclarationOption} option */
     addDeclaration(option) {
         if (IGNORED_OPTIONS.has(option.name)) return;
 
@@ -34,7 +36,7 @@ addTypeDocOptions({
                 data.type = "array";
                 data.items = { type: "string" };
                 data.default =
-                    /** @type {import("../dist").ArrayDeclarationOption} */ (
+                    /** @type {import("../src").ArrayDeclarationOption} */ (
                         option
                     ).defaultValue ?? [];
                 break;
@@ -43,7 +45,7 @@ addTypeDocOptions({
                 data.type = "string";
                 if (!IGNORED_DEFAULT_OPTIONS.has(option.name)) {
                     data.default =
-                        /** @type {import("../dist").StringDeclarationOption} */ (
+                        /** @type {import("../src").StringDeclarationOption} */ (
                             option
                         ).defaultValue ?? "";
                 }
@@ -51,13 +53,13 @@ addTypeDocOptions({
             case ParameterType.Boolean:
                 data.type = "boolean";
                 data.default =
-                    /** @type {import("../dist").BooleanDeclarationOption} */ (
+                    /** @type {import("../src").BooleanDeclarationOption} */ (
                         option
                     ).defaultValue ?? false;
                 break;
             case ParameterType.Number: {
                 const decl =
-                    /** @type {import("../dist").NumberDeclarationOption} */ (
+                    /** @type {import("../src").NumberDeclarationOption} */ (
                         option
                     );
                 data.type = "number";
@@ -68,7 +70,7 @@ addTypeDocOptions({
             }
             case ParameterType.Map: {
                 const map =
-                    /** @type {import("../dist").MapDeclarationOption} */ (
+                    /** @type {import("../src").MapDeclarationOption} */ (
                         option
                     ).map;
                 data.enum =
@@ -80,7 +82,7 @@ addTypeDocOptions({
                                   typeof map[key] === "number" ? key : map[key]
                               );
                 data.default =
-                    /** @type {import("../dist").MapDeclarationOption} */ (
+                    /** @type {import("../src").MapDeclarationOption} */ (
                         option
                     ).defaultValue;
                 if (!data.enum.includes(data.default)) {
@@ -101,7 +103,7 @@ addTypeDocOptions({
                     properties: {},
                 };
                 const defaults =
-                    /** @type {import("../dist").FlagsDeclarationOption<Record<string, boolean>>} */ (
+                    /** @type {import("../src").FlagsDeclarationOption<Record<string, boolean>>} */ (
                         option
                     ).defaults;
 
@@ -115,8 +117,9 @@ addTypeDocOptions({
                 data.default = defaults;
             }
             case ParameterType.Mixed:
+            case ParameterType.Object:
                 data.default =
-                    /** @type {import("../dist").MixedDeclarationOption} */ (
+                    /** @type {import("../src").MixedDeclarationOption} */ (
                         option
                     ).defaultValue;
                 break;
@@ -129,9 +132,6 @@ addTypeDocOptions({
         schema.properties[option.name] = data;
     },
 });
-
-schema.properties.logger.enum = ["console", "none"];
-schema.properties.logger.default = "console";
 
 schema.properties.visibilityFilters.type = "object";
 schema.properties.visibilityFilters.properties = Object.fromEntries(
@@ -155,7 +155,7 @@ schema.properties.extends = {
 
 delete schema.properties.sort.items.type;
 schema.properties.sort.items.enum =
-    require("../dist/lib/utils/sort").SORT_STRATEGIES;
+    require("../src/lib/utils/sort").SORT_STRATEGIES;
 
 const output = JSON.stringify(schema, null, "\t");
 
