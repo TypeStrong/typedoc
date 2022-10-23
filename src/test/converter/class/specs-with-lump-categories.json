@@ -1573,6 +1573,14 @@
               "flags": {
                 "isPrivate": true
               },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Private string property"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "class.ts",
@@ -1594,6 +1602,14 @@
               "flags": {
                 "isPublic": true
               },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Public number property"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "class.ts",
@@ -1614,6 +1630,14 @@
               "kindString": "Property",
               "flags": {
                 "isPublic": true
+              },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Public implicit any property"
+                  }
+                ]
               },
               "sources": [
                 {
@@ -2265,6 +2289,14 @@
               "flags": {
                 "isReadonly": true
               },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Vector name"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
@@ -2286,6 +2318,14 @@
               "flags": {
                 "isPublic": true
               },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "X component of the Vector"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
@@ -2306,6 +2346,14 @@
               "kindString": "Property",
               "flags": {
                 "isPublic": true
+              },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Y component of the Vector"
+                  }
+                ]
               },
               "sources": [
                 {
@@ -2493,6 +2541,14 @@
               "flags": {
                 "isReadonly": true
               },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Vector name"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
@@ -2518,6 +2574,14 @@
               "kindString": "Property",
               "flags": {
                 "isPublic": true
+              },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "X component of the Vector"
+                  }
+                ]
               },
               "sources": [
                 {
@@ -2545,6 +2609,14 @@
               "flags": {
                 "isPublic": true
               },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Y component of the Vector"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
@@ -2570,6 +2642,14 @@
               "kindString": "Property",
               "flags": {
                 "isPublic": true
+              },
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Z component of the Vector"
+                  }
+                ]
               },
               "sources": [
                 {

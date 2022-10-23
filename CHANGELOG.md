@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 
+-   Constructor parameter-properties will now use the `@param` comment for the parameter if available, #1261.
 -   Fixed display of object types containing methods, #1788.
 -   Fixed conversion of intrinsic string mapping types when converting without a type node, #2079.
 
