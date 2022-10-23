@@ -176,7 +176,11 @@ function getEntryPointsForPaths(
                 }
             }
         }
-        logger.warn(`Unable to locate entry point: ${fileOrDir}`);
+        logger.warn(
+            `The entry point ${nicePath(
+                fileOrDir
+            )} does not exist or is not included in the program for your provided tsconfig.`
+        );
     }
 
     return entryPoints;
