@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.18 (2022-10-23)
+
 ### Features
 
 -   Improved error reporting when failing to find entry points, #2080, #2082.
