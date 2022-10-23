@@ -31,6 +31,18 @@
 
 # Unreleased
 
+## v0.23.18 (2022-10-23)
+
+### Features
+
+-   Improved error reporting when failing to find entry points, #2080, #2082.
+
+### Bug Fixes
+
+-   Constructor parameter-properties will now use the `@param` comment for the parameter if available, #1261.
+-   Fixed display of object types containing methods, #1788.
+-   Fixed conversion of intrinsic string mapping types when converting without a type node, #2079.
+
 ## v0.23.17 (2022-10-18)
 
 ### Features

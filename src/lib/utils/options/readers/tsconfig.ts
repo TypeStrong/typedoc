@@ -22,6 +22,7 @@ import {
     tsdocModifierTags,
 } from "../tsdoc-defaults";
 import { unique } from "../../array";
+import { EntryPointStrategy } from "../../entry-point";
 
 function isFile(file: string) {
     return existsSync(file) && statSync(file).isFile();
@@ -103,6 +104,13 @@ export class TSConfigReader implements OptionsReader {
             if (container.isSet("tsconfig")) {
                 logger.error(
                     `The tsconfig file ${nicePath(file)} does not exist`
+                );
+            } else if (
+                container.getValue("entryPointStrategy") !==
+                EntryPointStrategy.Packages
+            ) {
+                logger.warn(
+                    "No tsconfig file found, this will prevent TypeDoc from finding your entry points."
                 );
             }
             return;
