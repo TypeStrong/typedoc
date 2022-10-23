@@ -338,6 +338,22 @@ const typeRenderers: {
                 continue;
             }
 
+            if (item.signatures) {
+                for (const sig of item.signatures) {
+                    members.push(
+                        <>
+                            {item.name}
+                            {item.flags.isOptional && <span class="tsd-signature-symbol">?</span>}
+                            {context.memberSignatureTitle(sig, {
+                                hideName: true,
+                                arrowStyle: false,
+                            })}
+                        </>
+                    );
+                }
+                continue;
+            }
+
             members.push(
                 <>
                     {item.name}
