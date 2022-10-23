@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Improved error reporting when failing to find entry points, #2080, #2082.
+
 ### Bug Fixes
 
 -   Constructor parameter-properties will now use the `@param` comment for the parameter if available, #1261.
