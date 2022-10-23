@@ -803,4 +803,10 @@ export const issueTests: {
     gh2064(project) {
         query(project, "PrivateCtorDecl.x");
     },
+
+    gh2079(project) {
+        const cap = query(project, "capitalize");
+        const sig = cap.signatures![0];
+        equal(sig.type?.toString(), "Capitalize<T>");
+    },
 };

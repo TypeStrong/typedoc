@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed conversion of intrinsic string mapping types when converting without a type node, #2079.
+
 ## v0.23.17 (2022-10-18)
 
 ### Features
