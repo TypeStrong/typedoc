@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.19 (2022-10-28)
+
 ### Bug Fixes
 
 -   Fixed title link if `titleLink` option was not specified, #2085.
