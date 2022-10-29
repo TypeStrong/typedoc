@@ -817,4 +817,12 @@ export const issueTests: {
         const sig = cap.signatures![0];
         equal(sig.type?.toString(), "Capitalize<T>");
     },
+
+    gh2087(project) {
+        const x = query(project, "Bar.x");
+        equal(
+            Comment.combineDisplayParts(x.comment?.summary),
+            "Foo type comment"
+        );
+    },
 };
