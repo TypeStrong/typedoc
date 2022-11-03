@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.20 (2022-11-03)
+
 ### Bug Fixes
 
 -   Fixed comment discovery for `@inheritDoc` if inheriting from a function type alias, #2087.
