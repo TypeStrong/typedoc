@@ -52,7 +52,7 @@ const NEVER_RENDERED = [
  * - Handle visibility flags (`@private`, `@protected`. `@public`)
  * - Handle module renames (`@module`)
  * - Remove excluded tags & comment discovery tags (`@module`, `@packageDocumentation`)
- * - Copy comments for type parameters from the parent container
+ * - Copy comments for type parameters from the parent container (for classes/interfaces)
  *
  * Resolve begin:
  * - Remove hidden reflections
@@ -61,7 +61,7 @@ const NEVER_RENDERED = [
  * - Apply `@label` tag
  * - Copy comments on signature containers to the signature if signatures don't already have a comment
  *   and then remove the comment on the container.
- * - Copy comments from signatures to parameters and type parameters (again? why?)
+ * - Copy comments to parameters and type parameters (for signatures)
  * - Apply `@group` and `@category` tags
  *
  * Resolve end:
@@ -185,7 +185,6 @@ export class CommentPlugin extends ConverterComponent {
             if (!tag) {
                 tag = comment.getIdentifiedTag(reflection.name, "@param");
             }
-
             if (tag) {
                 reflection.comment = new Comment(tag.content);
                 removeIfPresent(comment.blockTags, tag);
