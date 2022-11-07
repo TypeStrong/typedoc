@@ -77,7 +77,7 @@ async function main(args) {
     );
     const tarballs = await Promise.all(plugins.map(getTarballUrl));
     console.log(`Downloading tarballs...`);
-    await fs.promises.rmdir(outDir, { recursive: true }).catch(console.error);
+    await fs.promises.rm(outDir, { recursive: true, force: true });
     await fs.promises.mkdir(outDir, { recursive: true });
     const tarballFiles = await Promise.all(
         tarballs.map((tar) => downloadTarball(tar, outDir))
