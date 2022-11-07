@@ -48,6 +48,8 @@ const NEVER_RENDERED = [
 /**
  * Handles most behavior triggered by comments. `@group` and `@category` are handled by their respective plugins, but everything else is here.
  *
+ * How it works today
+ * ==================
  * During conversion:
  * - Handle visibility flags (`@private`, `@protected`. `@public`)
  * - Handle module renames (`@module`)
@@ -68,6 +70,36 @@ const NEVER_RENDERED = [
  * - Copy auto inherited comments from heritage clauses
  * - Handle `@inheritDoc`
  * - Resolve `@link` tags to point to target reflections
+ *
+ * How it should work
+ * ==================
+ * During conversion:
+ * - Handle visibility flags (`@private`, `@protected`. `@public`)
+ * - Handle module renames (`@module`)
+ * - Remove excluded tags & comment discovery tags (`@module`, `@packageDocumentation`)
+ *
+ * Resolve begin (100):
+ * - Copy auto inherited comments from heritage clauses
+ * - Apply `@label` tag
+ *
+ * Resolve begin (75)
+ * - Handle `@inheritDoc`
+ *
+ * Resolve begin (50)
+ * - Copy comments on signature containers to the signature if signatures don't already have a comment
+ *   and then remove the comment on the container.
+ * - Copy comments for type parameters from the parent container (for classes/interfaces)
+ *
+ * Resolve begin (25)
+ * - Remove hidden reflections
+ *
+ * Resolve:
+ * - Copy comments to parameters and type parameters (for signatures)
+ * - Apply `@group` and `@category` tags
+ *
+ * Resolve end:
+ * - Resolve `@link` tags to point to target reflections
+ *
  */
 @Component({ name: "comment" })
 export class CommentPlugin extends ConverterComponent {
