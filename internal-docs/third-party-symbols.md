@@ -32,6 +32,20 @@ detected as belonging to the `typescript` package rather than the `global` packa
 }
 ```
 
+A wildcard can be used to provide a fallback link to any unmapped type.
+
+```jsonc
+// typedoc.json
+{
+    "externalSymbolLinkMappings": {
+        "external-lib": {
+            "SomeObject": "https://external-lib.site/docs/SomeObject",
+            "*": "https://external-lib.site/docs"
+        }
+    }
+}
+```
+
 Plugins can add support for linking to third party sites by calling `app.converter.addUnknownSymbolResolver`.
 
 If the given symbol is unknown, or does not appear in the documentation site, the resolver may return `undefined`

@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Allow to define wildcard mapping in `externalSymbolLinkMappings`.
+
 ## v0.23.20 (2022-11-03)
 
 ### Bug Fixes
