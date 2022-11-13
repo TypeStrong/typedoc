@@ -88,7 +88,7 @@ const eventSplitter = /\s+/;
  * space-separated events `"change blur", callback` and jQuery-style event
  * maps `{event: callback}`).
  */
-function eventsApi<T, U>(
+function eventsApi<T extends {}, U>(
     iteratee: EventIteratee<T, U>,
     events: U,
     name: EventMap | string | undefined,

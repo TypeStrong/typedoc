@@ -3,6 +3,7 @@
 ### Features
 
 -   Added support for a catch-all wildcard in `externalSymbolLinkMappings`, #2102.
+-   Added support for TypeScript 4.9.
 
 ### Thanks!
 

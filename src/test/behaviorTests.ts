@@ -268,6 +268,14 @@ export const behaviorTests: {
         );
     },
 
+    hiddenAccessor(project) {
+        const test = query(project, "Test");
+        equal(
+            test.children?.map((c) => c.name),
+            ["constructor", "auto", "x", "y"]
+        );
+    },
+
     inheritDocBasic(project) {
         const target = query(project, "InterfaceTarget");
         const comment = new Comment(
