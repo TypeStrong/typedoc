@@ -225,6 +225,10 @@ export const behaviorTests: {
             typescript: {
                 Promise: "/promise2",
             },
+            "@types/marked": {
+                Lexer: "https://marked.js.org/using_pro#lexer",
+                "*": "https://marked.js.org",
+            },
         });
     },
     externalSymbols(project) {
@@ -238,6 +242,14 @@ export const behaviorTests: {
 
         equal(p.type?.type, "reference" as const);
         equal(p.type.externalUrl, "/promise2");
+
+        const m = query(project, "L");
+        equal(m.type?.type, "reference" as const);
+        equal(m.type.externalUrl, "https://marked.js.org/using_pro#lexer");
+
+        const s = query(project, "S");
+        equal(s.type?.type, "reference" as const);
+        equal(s.type.externalUrl, "https://marked.js.org");
     },
 
     groupTag(project) {
