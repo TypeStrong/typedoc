@@ -2,7 +2,11 @@
 
 ### Features
 
--   Allow to define wildcard mapping in `externalSymbolLinkMappings`.
+-   Added support for a catch-all wildcard in `externalSymbolLinkMappings`, #2102.
+
+### Thanks!
+
+-   @mistic100
 
 ## v0.23.20 (2022-11-03)
 
