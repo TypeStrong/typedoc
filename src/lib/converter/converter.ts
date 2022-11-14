@@ -190,6 +190,9 @@ export class Converter extends ChildableComponent<
             if (typeof modLinks[name] === "string") {
                 return modLinks[name];
             }
+            if (typeof modLinks["*"] === "string") {
+                return modLinks["*"];
+            }
         });
     }
 

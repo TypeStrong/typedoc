@@ -656,7 +656,7 @@ export class OptionalType extends Type {
  * Represents a type predicate.
  *
  * ```ts
- * function isString(anything: any): anything is string {}
+ * function isString(x: unknown): x is string {}
  * function assert(condition: boolean): asserts condition {}
  * ```
  */

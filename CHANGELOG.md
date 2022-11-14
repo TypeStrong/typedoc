@@ -31,6 +31,33 @@
 
 # Unreleased
 
+## v0.23.21 (2022-11-14)
+
+### Features
+
+-   Added support for a catch-all wildcard in `externalSymbolLinkMappings`, #2102.
+-   Added support for TypeScript 4.9.
+
+### Thanks!
+
+-   @mistic100
+
+## v0.23.20 (2022-11-03)
+
+### Bug Fixes
+
+-   Fixed comment discovery for `@inheritDoc` if inheriting from a function type alias, #2087.
+
+## v0.23.19 (2022-10-28)
+
+### Bug Fixes
+
+-   Fixed title link if `titleLink` option was not specified, #2085.
+
+### Thanks!
+
+-   @krisztianb
+
 ## v0.23.18 (2022-10-23)
 
 ### Features

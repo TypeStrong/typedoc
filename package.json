@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.23.18",
+  "version": "0.23.21",
   "homepage": "https://typedoc.org",
   "main": "./dist/index.js",
   "exports": {
@@ -30,7 +30,7 @@
     "shiki": "^0.11.1"
   },
   "peerDependencies": {
-    "typescript": "4.6.x || 4.7.x || 4.8.x"
+    "typescript": "4.6.x || 4.7.x || 4.8.x || 4.9.x"
   },
   "devDependencies": {
     "@types/lunr": "^2.3.4",
@@ -47,11 +47,8 @@
     "mocha": "^10.0.0",
     "prettier": "2.7.1",
     "puppeteer": "^13.5.2",
-    "reg-suit": "^0.12.1",
-    "reg-suit-core": "^0.12.1",
-    "reg-suit-interface": "^0.12.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.8.2"
+    "typescript": "4.9.2-rc"
   },
   "files": [
     "/bin",
@@ -67,9 +64,10 @@
   "scripts": {
     "test": "mocha -r ts-node/register --config .config/mocha.fast.json",
     "test:cov": "c8 mocha -r ts-node/register --config .config/mocha.fast.json",
-    "build:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
+    "doc:c": "node bin/typedoc --tsconfig src/test/converter/tsconfig.json",
+    "doc:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
     "test:full": "c8 mocha -r ts-node/register --config .config/mocha.full.json",
-    "test:visual": "node ./dist/test/capture-screenshots.js && reg-suit -c .config/regconfig.json compare",
+    "test:visual": "ts-node ./src/test/capture-screenshots.ts && ./scripts/compare_screenshots.sh",
     "test:visual:accept": "node scripts/accept_visual_regression.js",
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "npm run build:tsc && npm run build:themes",
@@ -101,5 +99,8 @@
       "src/test",
       "tmp"
     ]
+  },
+  "overrides": {
+    "typescript": "4.9.2-rc"
   }
 }

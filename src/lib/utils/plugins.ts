@@ -6,6 +6,7 @@ import { pathToFileURL } from "url";
 import type { Application } from "../application";
 import type { Logger } from "./loggers";
 import { nicePath } from "./paths";
+import { validate } from "./validation";
 
 export async function loadPlugins(
     app: Application,
@@ -112,7 +113,7 @@ export function discoverPlugins(app: Application): string[] {
 /**
  * Load and parse the given `package.json`.
  */
-function loadPackageInfo(logger: Logger, fileName: string): any {
+function loadPackageInfo(logger: Logger, fileName: string): unknown {
     try {
         return require(fileName);
     } catch {
@@ -126,20 +127,13 @@ const PLUGIN_KEYWORDS = ["typedocplugin", "typedoc-plugin", "typedoc-theme"];
 /**
  * Test whether the given package info describes a TypeDoc plugin.
  */
-function isPlugin(info: any): boolean {
-    if (typeof info !== "object" || !info) {
+function isPlugin(info: unknown): boolean {
+    if (!validate({ keywords: [Array, String] }, info)) {
         return false;
     }
 
-    const keywords: unknown[] = info.keywords;
-    if (!keywords || !Array.isArray(keywords)) {
-        return false;
-    }
-
-    return keywords.some(
-        (keyword) =>
-            typeof keyword === "string" &&
-            PLUGIN_KEYWORDS.includes(keyword.toLocaleLowerCase())
+    return info.keywords.some((keyword) =>
+        PLUGIN_KEYWORDS.includes(keyword.toLocaleLowerCase())
     );
 }
 

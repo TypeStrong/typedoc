@@ -46,8 +46,60 @@ const NEVER_RENDERED = [
 ] as const;
 
 /**
- * A handler that parses TypeDoc comments and attaches {@link Comment} instances to
- * the generated reflections.
+ * Handles most behavior triggered by comments. `@group` and `@category` are handled by their respective plugins, but everything else is here.
+ *
+ * How it works today
+ * ==================
+ * During conversion:
+ * - Handle visibility flags (`@private`, `@protected`. `@public`)
+ * - Handle module renames (`@module`)
+ * - Remove excluded tags & comment discovery tags (`@module`, `@packageDocumentation`)
+ * - Copy comments for type parameters from the parent container (for classes/interfaces)
+ *
+ * Resolve begin:
+ * - Remove hidden reflections
+ *
+ * Resolve:
+ * - Apply `@label` tag
+ * - Copy comments on signature containers to the signature if signatures don't already have a comment
+ *   and then remove the comment on the container.
+ * - Copy comments to parameters and type parameters (for signatures)
+ * - Apply `@group` and `@category` tags
+ *
+ * Resolve end:
+ * - Copy auto inherited comments from heritage clauses
+ * - Handle `@inheritDoc`
+ * - Resolve `@link` tags to point to target reflections
+ *
+ * How it should work
+ * ==================
+ * During conversion:
+ * - Handle visibility flags (`@private`, `@protected`. `@public`)
+ * - Handle module renames (`@module`)
+ * - Remove excluded tags & comment discovery tags (`@module`, `@packageDocumentation`)
+ *
+ * Resolve begin (100):
+ * - Copy auto inherited comments from heritage clauses
+ * - Apply `@label` tag
+ *
+ * Resolve begin (75)
+ * - Handle `@inheritDoc`
+ *
+ * Resolve begin (50)
+ * - Copy comments on signature containers to the signature if signatures don't already have a comment
+ *   and then remove the comment on the container.
+ * - Copy comments for type parameters from the parent container (for classes/interfaces)
+ *
+ * Resolve begin (25)
+ * - Remove hidden reflections
+ *
+ * Resolve:
+ * - Copy comments to parameters and type parameters (for signatures)
+ * - Apply `@group` and `@category` tags
+ *
+ * Resolve end:
+ * - Resolve `@link` tags to point to target reflections
+ *
  */
 @Component({ name: "comment" })
 export class CommentPlugin extends ConverterComponent {
@@ -165,7 +217,6 @@ export class CommentPlugin extends ConverterComponent {
             if (!tag) {
                 tag = comment.getIdentifiedTag(reflection.name, "@param");
             }
-
             if (tag) {
                 reflection.comment = new Comment(tag.content);
                 removeIfPresent(comment.blockTags, tag);

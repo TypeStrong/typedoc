@@ -2,6 +2,7 @@ import {
     Comment,
     DeclarationReflection,
     ReflectionKind,
+    ReflectionType,
     SignatureReflection,
 } from "../../models";
 import { Component, ConverterComponent } from "../components";
@@ -104,6 +105,23 @@ export class InheritDocPlugin extends ConverterComponent {
 
     private copyComment(source: Reflection, target: Reflection) {
         if (!target.comment) return;
+
+        if (
+            !source.comment &&
+            source instanceof DeclarationReflection &&
+            source.signatures
+        ) {
+            source = source.signatures[0];
+        }
+
+        if (
+            !source.comment &&
+            source instanceof DeclarationReflection &&
+            source.type instanceof ReflectionType &&
+            source.type.declaration.signatures
+        ) {
+            source = source.type.declaration.signatures[0];
+        }
 
         if (!source.comment) {
             this.application.logger.warn(

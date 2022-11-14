@@ -4639,6 +4639,29 @@
               }
             },
             {
+              "id": 199,
+              "name": "autoAccessor",
+              "variant": "declaration",
+              "kind": 262144,
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Accessor comment"
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 22,
+                  "character": 13,
+                  "url": "typedoc://getter-setter.ts#L22"
+                }
+              ]
+            },
+            {
               "id": 190,
               "name": "name",
               "variant": "declaration",
@@ -4808,6 +4831,7 @@
             {
               "title": "Accessors",
               "children": [
+                199,
                 190,
                 194,
                 196
@@ -4842,14 +4866,14 @@
       ]
     },
     {
-      "id": 199,
+      "id": 200,
       "name": "this",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 200,
+          "id": 201,
           "name": "ChainClass",
           "variant": "declaration",
           "kind": 128,
@@ -4864,21 +4888,21 @@
           },
           "children": [
             {
-              "id": 201,
+              "id": 202,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 202,
+                  "id": 203,
                   "name": "new ChainClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 200,
+                    "id": 201,
                     "name": "ChainClass",
                     "package": "typedoc"
                   }
@@ -4886,7 +4910,7 @@
               ]
             },
             {
-              "id": 203,
+              "id": 204,
               "name": "chain",
               "variant": "declaration",
               "kind": 2048,
@@ -4903,7 +4927,7 @@
               ],
               "signatures": [
                 {
-                  "id": 204,
+                  "id": 205,
                   "name": "chain",
                   "variant": "signature",
                   "kind": 4096,
@@ -4926,7 +4950,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 200,
+                    "id": 201,
                     "name": "ChainClass",
                     "package": "typedoc"
                   }
@@ -4938,13 +4962,13 @@
             {
               "title": "Constructors",
               "children": [
-                201
+                202
               ]
             },
             {
               "title": "Methods",
               "children": [
-                203
+                204
               ]
             }
           ],
@@ -4962,7 +4986,7 @@
         {
           "title": "Classes",
           "children": [
-            200
+            201
           ]
         }
       ],
@@ -4976,35 +5000,35 @@
       ]
     },
     {
-      "id": 205,
+      "id": 206,
       "name": "type-operator",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 211,
+          "id": 212,
           "name": "GenericClass",
           "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
-              "id": 212,
+              "id": 213,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 213,
+                  "id": 214,
                   "name": "new GenericClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "typeParameter": [
                     {
-                      "id": 214,
+                      "id": 215,
                       "name": "T",
                       "variant": "typeParam",
                       "kind": 131072,
@@ -5014,7 +5038,7 @@
                         "operator": "keyof",
                         "target": {
                           "type": "reference",
-                          "id": 206,
+                          "id": 207,
                           "name": "TestClass",
                           "package": "typedoc"
                         }
@@ -5023,7 +5047,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 211,
+                    "id": 212,
                     "typeArguments": [
                       {
                         "type": "reference",
@@ -5037,7 +5061,7 @@
               ]
             },
             {
-              "id": 215,
+              "id": 216,
               "name": "c",
               "variant": "declaration",
               "kind": 1024,
@@ -5060,13 +5084,13 @@
             {
               "title": "Constructors",
               "children": [
-                212
+                213
               ]
             },
             {
               "title": "Properties",
               "children": [
-                215
+                216
               ]
             }
           ],
@@ -5080,7 +5104,7 @@
           ],
           "typeParameters": [
             {
-              "id": 216,
+              "id": 217,
               "name": "T",
               "variant": "typeParam",
               "kind": 131072,
@@ -5090,7 +5114,7 @@
                 "operator": "keyof",
                 "target": {
                   "type": "reference",
-                  "id": 206,
+                  "id": 207,
                   "name": "TestClass",
                   "package": "typedoc"
                 }
@@ -5099,7 +5123,7 @@
           ]
         },
         {
-          "id": 206,
+          "id": 207,
           "name": "TestClass",
           "variant": "declaration",
           "kind": 128,
@@ -5119,7 +5143,7 @@
                     "kind": "inline-tag",
                     "tag": "@link",
                     "text": "TestClass",
-                    "target": 206
+                    "target": 207
                   },
                   {
                     "kind": "text",
@@ -5131,21 +5155,21 @@
           },
           "children": [
             {
-              "id": 207,
+              "id": 208,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 208,
+                  "id": 209,
                   "name": "new TestClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 206,
+                    "id": 207,
                     "name": "TestClass",
                     "package": "typedoc"
                   }
@@ -5153,7 +5177,7 @@
               ]
             },
             {
-              "id": 209,
+              "id": 210,
               "name": "a",
               "variant": "declaration",
               "kind": 1024,
@@ -5172,7 +5196,7 @@
               }
             },
             {
-              "id": 210,
+              "id": 211,
               "name": "b",
               "variant": "declaration",
               "kind": 1024,
@@ -5195,14 +5219,14 @@
             {
               "title": "Constructors",
               "children": [
-                207
+                208
               ]
             },
             {
               "title": "Properties",
               "children": [
-                209,
-                210
+                210,
+                211
               ]
             }
           ],
@@ -5220,8 +5244,8 @@
         {
           "title": "Classes",
           "children": [
-            211,
-            206
+            212,
+            207
           ]
         }
       ],
@@ -5247,8 +5271,8 @@
         134,
         166,
         185,
-        199,
-        205
+        200,
+        206
       ]
     }
   ],

@@ -18,10 +18,15 @@
         "src/test/renderer/specs",
         "dist",
         "docs",
+        "tmp",
         "coverage",
         "static/main.js",
         "src/lib/output/themes/default/assets",
         "node_modules",
+        // Temporarily ignored until eslint supports TS 4.9
+        "src/test/converter/class/getter-setter.ts",
+        "src/test/converter/variables/variable.ts",
+        "src/test/converter2/behavior/hiddenAccessor.ts",
         // Would be nice to lint these, but they shouldn't be included in the project,
         // so we need a second eslint config file.
         "example",
