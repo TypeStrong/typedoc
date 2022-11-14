@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.21 (2022-11-14)
+
 ### Features
 
 -   Added support for a catch-all wildcard in `externalSymbolLinkMappings`, #2102.
