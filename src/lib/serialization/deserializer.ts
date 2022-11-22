@@ -169,7 +169,7 @@ export class Deserializer {
         rest(obj, de) {
             return new RestType(de.reviveType(obj.elementType));
         },
-        "template-literal"(obj, de) {
+        templateLiteral(obj, de) {
             return new TemplateLiteralType(
                 obj.head,
                 obj.tail.map(([t, s]) => [de.reviveType(t), s])
@@ -180,7 +180,7 @@ export class Deserializer {
                 obj.elements?.map((t) => de.reviveType(t)) || []
             );
         },
-        "named-tuple-member"(obj, de) {
+        namedTupleMember(obj, de) {
             return new NamedTupleMember(
                 obj.name,
                 obj.isOptional,

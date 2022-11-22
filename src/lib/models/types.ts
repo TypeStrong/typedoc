@@ -72,9 +72,9 @@ export interface TypeKindMap {
     reference: ReferenceType;
     reflection: ReflectionType;
     rest: RestType;
-    "template-literal": TemplateLiteralType;
+    templateLiteral: TemplateLiteralType;
     tuple: TupleType;
-    "named-tuple-member": NamedTupleMember;
+    namedTupleMember: NamedTupleMember;
     typeOperator: TypeOperatorType;
     union: UnionType;
     unknown: UnknownType;
@@ -88,12 +88,12 @@ export function makeRecursiveVisitor(
     visitor: Partial<TypeVisitor>
 ): TypeVisitor {
     const recursiveVisitor: TypeVisitor = {
-        "named-tuple-member"(type) {
-            visitor["named-tuple-member"]?.(type);
+        namedTupleMember(type) {
+            visitor.namedTupleMember?.(type);
             type.element.visit(recursiveVisitor);
         },
-        "template-literal"(type) {
-            visitor["template-literal"]?.(type);
+        templateLiteral(type) {
+            visitor.templateLiteral?.(type);
             for (const [h] of type.tail) {
                 h.visit(recursiveVisitor);
             }
@@ -1055,7 +1055,7 @@ export class RestType extends Type {
  * ```
  */
 export class TemplateLiteralType extends Type {
-    override readonly type = "template-literal";
+    override readonly type = "templateLiteral";
 
     constructor(public head: string, public tail: [SomeType, string][]) {
         super();
@@ -1140,7 +1140,7 @@ export class TupleType extends Type {
  * ```
  */
 export class NamedTupleMember extends Type {
-    override readonly type = "named-tuple-member";
+    override readonly type = "namedTupleMember";
 
     constructor(
         public name: string,

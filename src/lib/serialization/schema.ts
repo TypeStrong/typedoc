@@ -206,9 +206,9 @@ export type TypeKindMap = {
     reference: ReferenceType;
     reflection: ReflectionType;
     rest: RestType;
-    "template-literal": TemplateLiteralType;
+    templateLiteral: TemplateLiteralType;
     tuple: TupleType;
-    "named-tuple-member": NamedTupleMemberType;
+    namedTupleMember: NamedTupleMemberType;
     typeOperator: TypeOperatorType;
     union: UnionType;
     unknown: UnknownType;

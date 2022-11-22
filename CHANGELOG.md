@@ -2,6 +2,7 @@
 
 ### Breaking Changes
 
+-   The `named-tuple-member` and `template-literal` type kind have been replaced with `namedTupleMember` and `templateLiteral`, #2100.
 -   Removed `logger` option, to disable all logging, set the `logLevel` option to `none`.
 -   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
 -   Internal links are now only resolved with declaration references.

@@ -209,7 +209,7 @@ const typeRenderers: {
             </>
         );
     },
-    "named-tuple-member"(context, type) {
+    namedTupleMember(context, type) {
         return (
             <>
                 {type.name}
@@ -430,7 +430,7 @@ const typeRenderers: {
             </>
         );
     },
-    "template-literal"(context, type) {
+    templateLiteral(context, type) {
         return (
             <>
                 <span class="tsd-signature-symbol">`</span>
