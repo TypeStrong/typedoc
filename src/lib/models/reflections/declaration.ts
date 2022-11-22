@@ -6,7 +6,7 @@ import type { SignatureReflection } from "./signature";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 import type { CommentDisplayPart } from "../comments";
-import { SourceReference } from "../index";
+import { SourceReference } from "../sources/file";
 
 /**
  * Stores hierarchical type data.

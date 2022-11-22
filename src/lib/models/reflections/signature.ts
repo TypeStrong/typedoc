@@ -5,7 +5,7 @@ import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 import type { ReflectionKind } from "./kind";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
-import { SourceReference } from "../index";
+import { SourceReference } from "../sources/file";
 
 export class SignatureReflection extends Reflection {
     readonly variant = "signature";
