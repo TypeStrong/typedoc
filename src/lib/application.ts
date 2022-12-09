@@ -128,7 +128,7 @@ export class Application extends ChildableComponent<
      *
      * @param options  The desired options to set.
      */
-    bootstrap(options: Partial<TypeDocOptions> = {}): void {
+    async bootstrap(options: Partial<TypeDocOptions> = {}): Promise<void> {
         for (const [key, val] of Object.entries(options)) {
             try {
                 this.options.setValue(key as keyof TypeDocOptions, val);
@@ -149,7 +149,7 @@ export class Application extends ChildableComponent<
         this.logger.level = this.options.getValue("logLevel");
 
         const plugins = discoverPlugins(this);
-        loadPlugins(this, plugins);
+        await loadPlugins(this, plugins);
 
         this.options.reset();
         for (const [key, val] of Object.entries(options)) {

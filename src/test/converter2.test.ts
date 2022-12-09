@@ -13,7 +13,7 @@ import {
 import { TestLogger } from "./TestLogger";
 
 const base = getConverter2Base();
-const app = getConverter2App();
+const appPromise = getConverter2App();
 
 function runTest(
     title: string,
@@ -21,8 +21,10 @@ function runTest(
     entry: string,
     check: (project: ProjectReflection, logger: TestLogger) => void
 ) {
-    it(title, () => {
-        const program = getConverter2Program();
+    it(title, async () => {
+        const app = await appPromise;
+
+        const program = await getConverter2Program();
 
         const entryPoint = [
             join(base, `${entry}.ts`),
@@ -57,8 +59,8 @@ function runTest(
 }
 
 describe("Converter2", () => {
-    it("Compiles", () => {
-        getConverter2Program();
+    it("Compiles", async () => {
+        await getConverter2Program();
     });
 
     for (const [entry, check] of Object.entries(issueTests)) {

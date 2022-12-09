@@ -58,7 +58,7 @@ class PQueue {
 export async function captureRegressionScreenshots() {
     const app = new Application();
     app.options.addReader(new TSConfigReader());
-    app.bootstrap({
+    await app.bootstrap({
         logger: "console",
         readme: join(src, "..", "README.md"),
         name: "typedoc",

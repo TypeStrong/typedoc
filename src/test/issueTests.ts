@@ -498,8 +498,8 @@ export const issueTests: {
         );
     },
 
-    gh1898(project, logger) {
-        const app = getConverter2App();
+    async gh1898(project, logger) {
+        const app = await getConverter2App();
         app.validate(project);
         logger.discardDebugMessages();
         logger.expectMessage(

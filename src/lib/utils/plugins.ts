@@ -6,7 +6,10 @@ import type { Logger } from "./loggers";
 import { nicePath } from "./paths";
 import { validate } from "./validation";
 
-export function loadPlugins(app: Application, plugins: readonly string[]) {
+export async function loadPlugins(
+    app: Application,
+    plugins: readonly string[]
+) {
     if (plugins.includes("none")) {
         return;
     }
@@ -20,7 +23,7 @@ export function loadPlugins(app: Application, plugins: readonly string[]) {
             const initFunction = instance.load;
 
             if (typeof initFunction === "function") {
-                initFunction(app);
+                await initFunction(app);
                 app.logger.info(`Loaded plugin ${pluginDisplay}`);
             } else {
                 app.logger.error(

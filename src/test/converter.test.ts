@@ -8,13 +8,18 @@ import {
     getConverterBase,
     getConverterProgram,
 } from "./programs";
+import type { Application } from "..";
 
 describe("Converter", function () {
     const base = getConverterBase();
-    const app = getConverterApp();
+    let app: Application;
 
-    it("Compiles", () => {
-        getConverterProgram();
+    before(async () => {
+        app = await getConverterApp();
+    });
+
+    it("Compiles", async () => {
+        await getConverterProgram();
     });
 
     const checks: [string, () => void, () => void][] = [
@@ -54,14 +59,14 @@ describe("Converter", function () {
 
                 let result: ProjectReflection | undefined;
 
-                it(`[${file}] converts fixtures`, function () {
+                it(`[${file}] converts fixtures`, async function () {
                     before();
                     resetReflectionID();
                     const entryPoints = getExpandedEntryPointsForPaths(
                         app.logger,
                         [path],
                         app.options,
-                        [getConverterProgram()]
+                        [await getConverterProgram()]
                     );
                     ok(entryPoints, "Failed to get entry points");
                     result = app.converter.convert(entryPoints);
