@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.22 (2022-12-11)
+
 ### Features
 
 -   Add support for defining the kind sort order, #2109.
