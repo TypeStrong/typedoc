@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 -   Normalize all file paths on Windows, #2113.
+-   Fix `@link` tags within lists, #2103.
 
 ## v0.23.21 (2022-11-14)
 
