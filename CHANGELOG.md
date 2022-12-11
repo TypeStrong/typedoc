@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Add support for defining the kind sort order, #2109.
+
 ### Bug Fixes
 
 -   Normalize all file paths on Windows, #2113.

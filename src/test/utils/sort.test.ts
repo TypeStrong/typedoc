@@ -7,9 +7,20 @@ import {
     ReflectionKind,
 } from "../../lib/models";
 import { resetReflectionID } from "../../lib/models/reflections/abstract";
-import { sortReflections } from "../../lib/utils";
+import { Logger, Options } from "../../lib/utils";
+import { getSortFunction, SortStrategy } from "../../lib/utils/sort";
 
 describe("Sort", () => {
+    function sortReflections(
+        arr: DeclarationReflection[],
+        strategies: SortStrategy[]
+    ) {
+        const opts = new Options(new Logger());
+        opts.addDefaultDeclarations();
+        opts.setValue("sort", strategies);
+        getSortFunction(opts)(arr);
+    }
+
     it("Should sort by name", () => {
         const arr = [
             new DeclarationReflection("a", ReflectionKind.TypeAlias),

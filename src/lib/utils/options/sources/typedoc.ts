@@ -12,6 +12,7 @@ import { EntryPointStrategy } from "../../entry-point";
 import { ReflectionKind } from "../../../models/reflections/kind";
 import * as Validation from "../../validation";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults";
+import { getEnumKeys } from "../../enum";
 
 // For convenience, added in the same order as they are documented on the website.
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
@@ -452,6 +453,28 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
     options.addDeclaration({
+        name: "kindSortOrder",
+        help: "Specify the sort order for reflections when 'kind' is specified.",
+        type: ParameterType.Array,
+        defaultValue: [],
+        validate(value) {
+            const invalid = new Set(value);
+            const valid = getEnumKeys(ReflectionKind);
+            for (const v of valid) {
+                invalid.delete(v);
+            }
+
+            if (invalid.size !== 0) {
+                throw new Error(
+                    `kindSortOrder may only specify known values, and invalid values were provided (${Array.from(
+                        invalid
+                    ).join(", ")}). The valid kinds are:\n${valid.join(", ")}`
+                );
+            }
+        },
+    });
+
+    options.addDeclaration({
         name: "visibilityFilters",
         help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
         type: ParameterType.Mixed,
@@ -595,9 +618,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Array,
         validate(values) {
             // this is good enough because the values of the ReflectionKind enum are all numbers
-            const validValues = Object.values(ReflectionKind).filter(
-                (v) => typeof v === "string"
-            );
+            const validValues = getEnumKeys(ReflectionKind);
 
             for (const kind of values) {
                 if (!validValues.includes(kind)) {

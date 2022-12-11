@@ -6,6 +6,7 @@
 import { ReflectionKind } from "../models/reflections/kind";
 import type { DeclarationReflection } from "../models/reflections/declaration";
 import { LiteralType } from "../models/types";
+import type { Options } from "./options";
 
 export const SORT_STRATEGIES = [
     "source-order",
@@ -21,10 +22,43 @@ export const SORT_STRATEGIES = [
 
 export type SortStrategy = typeof SORT_STRATEGIES[number];
 
+const defaultKindSortOrder = [
+    ReflectionKind.Reference,
+    ReflectionKind.Project,
+    ReflectionKind.Module,
+    ReflectionKind.Namespace,
+    ReflectionKind.Enum,
+    ReflectionKind.EnumMember,
+    ReflectionKind.Class,
+    ReflectionKind.Interface,
+    ReflectionKind.TypeAlias,
+
+    ReflectionKind.Constructor,
+    ReflectionKind.Property,
+    ReflectionKind.Variable,
+    ReflectionKind.Function,
+    ReflectionKind.Accessor,
+    ReflectionKind.Method,
+    ReflectionKind.ObjectLiteral,
+
+    ReflectionKind.Parameter,
+    ReflectionKind.TypeParameter,
+    ReflectionKind.TypeLiteral,
+    ReflectionKind.CallSignature,
+    ReflectionKind.ConstructorSignature,
+    ReflectionKind.IndexSignature,
+    ReflectionKind.GetSignature,
+    ReflectionKind.SetSignature,
+] as const;
+
 // Return true if a < b
 const sorts: Record<
     SortStrategy,
-    (a: DeclarationReflection, b: DeclarationReflection) => boolean
+    (
+        a: DeclarationReflection,
+        b: DeclarationReflection,
+        data: { kindSortOrder: ReflectionKind[] }
+    ) => boolean
 > = {
     "source-order"(a, b) {
         const aSymbol = a.project.getSymbolFromReflection(a);
@@ -107,53 +141,36 @@ const sorts: Record<
     "required-first"(a, b) {
         return !a.flags.isOptional && b.flags.isOptional;
     },
-    kind(a, b) {
-        const weights = [
-            ReflectionKind.Reference,
-            ReflectionKind.Project,
-            ReflectionKind.Module,
-            ReflectionKind.Namespace,
-            ReflectionKind.Enum,
-            ReflectionKind.EnumMember,
-            ReflectionKind.Class,
-            ReflectionKind.Interface,
-            ReflectionKind.TypeAlias,
-
-            ReflectionKind.Constructor,
-            ReflectionKind.Property,
-            ReflectionKind.Variable,
-            ReflectionKind.Function,
-            ReflectionKind.Accessor,
-            ReflectionKind.Method,
-            ReflectionKind.ObjectLiteral,
-
-            ReflectionKind.Parameter,
-            ReflectionKind.TypeParameter,
-            ReflectionKind.TypeLiteral,
-            ReflectionKind.CallSignature,
-            ReflectionKind.ConstructorSignature,
-            ReflectionKind.IndexSignature,
-            ReflectionKind.GetSignature,
-            ReflectionKind.SetSignature,
-        ] as const;
-
-        return weights.indexOf(a.kind) < weights.indexOf(b.kind);
+    kind(a, b, { kindSortOrder }) {
+        return kindSortOrder.indexOf(a.kind) < kindSortOrder.indexOf(b.kind);
     },
 };
 
-export function sortReflections(
-    reflections: DeclarationReflection[],
-    strategies: readonly SortStrategy[]
-) {
-    reflections.sort((a, b) => {
-        for (const s of strategies) {
-            if (sorts[s](a, b)) {
-                return -1;
-            }
-            if (sorts[s](b, a)) {
-                return 1;
-            }
+export function getSortFunction(opts: Options) {
+    const kindSortOrder = opts
+        .getValue("kindSortOrder")
+        .map((k) => ReflectionKind[k]);
+
+    for (const kind of defaultKindSortOrder) {
+        if (!kindSortOrder.includes(kind)) {
+            kindSortOrder.push(kind);
         }
-        return 0;
-    });
+    }
+
+    const strategies = opts.getValue("sort");
+    const data = { kindSortOrder };
+
+    return function sortReflections(reflections: DeclarationReflection[]) {
+        reflections.sort((a, b) => {
+            for (const s of strategies) {
+                if (sorts[s](a, b, data)) {
+                    return -1;
+                }
+                if (sorts[s](b, a, data)) {
+                    return 1;
+                }
+            }
+            return 0;
+        });
+    };
 }

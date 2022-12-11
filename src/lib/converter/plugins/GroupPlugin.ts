@@ -8,7 +8,7 @@ import { ReflectionGroup } from "../../models/ReflectionGroup";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { sortReflections, SortStrategy } from "../../utils/sort";
+import { getSortFunction } from "../../utils/sort";
 import { BindOption, removeIf } from "../../utils";
 import { Comment } from "../../models";
 
@@ -38,9 +38,7 @@ export class GroupPlugin extends ConverterComponent {
         [ReflectionKind.TypeAlias]: "Type Aliases",
     };
 
-    /** @internal */
-    @BindOption("sort")
-    sortStrategies!: SortStrategy[];
+    sortFunction!: (reflections: DeclarationReflection[]) => void;
 
     @BindOption("searchGroupBoosts")
     boosts!: Record<string, number>;
@@ -52,6 +50,9 @@ export class GroupPlugin extends ConverterComponent {
      */
     override initialize() {
         this.listenTo(this.owner, {
+            [Converter.EVENT_RESOLVE_BEGIN]: () => {
+                this.sortFunction = getSortFunction(this.application.options);
+            },
             [Converter.EVENT_RESOLVE]: this.onResolve,
             [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
         });
@@ -104,7 +105,7 @@ export class GroupPlugin extends ConverterComponent {
             reflection.children.length > 0 &&
             !reflection.groups
         ) {
-            sortReflections(reflection.children, this.sortStrategies);
+            this.sortFunction(reflection.children);
             reflection.groups = this.getReflectionGroups(reflection.children);
         }
     }
