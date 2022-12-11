@@ -88,7 +88,7 @@ export class BasePath {
         // Remove all surrounding quotes
         path = path.replace(/^["']+|["']+$/g, "");
 
-        // Make Windows drive letters lower case
+        // Make Windows drive letters upper case
         return path.replace(/^([^:]+):\//, (_m, m1) => m1.toUpperCase() + ":/");
     }
 }
