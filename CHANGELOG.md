@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   If `src/` and `src/x` are specified as entry points, `src/` will no longer be ignored, #2121.
+
 ## v0.23.22 (2022-12-11)
 
 ### Features

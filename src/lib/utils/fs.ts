@@ -148,13 +148,14 @@ export function glob(
     do {
         const dir = dirs.shift()!;
 
+        if (options?.includeDirectories && mini.match(dir.join("/"))) {
+            result.push(dir.join("/"));
+        }
+
         for (const child of fs.readdirSync(dir.join("/"), {
             withFileTypes: true,
         })) {
-            if (
-                child.isFile() ||
-                (options?.includeDirectories && child.isDirectory())
-            ) {
+            if (child.isFile()) {
                 const childPath = [...dir, child.name].join("/");
                 if (mini.match(childPath)) {
                     result.push(childPath);
