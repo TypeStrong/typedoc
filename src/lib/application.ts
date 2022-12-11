@@ -11,7 +11,6 @@ import {
     loadPlugins,
     writeFile,
     discoverPlugins,
-    TSConfigReader,
 } from "./utils/index";
 
 import {
@@ -35,6 +34,7 @@ import { validateExports } from "./validation/exports";
 import { validateDocumentation } from "./validation/documentation";
 import { validateLinks } from "./validation/links";
 import { ApplicationEvents } from "./application-events";
+import { findTsConfigFile } from "./utils/tsconfig";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -116,7 +116,6 @@ export class Application extends ChildableComponent<
 
         this.logger = new ConsoleLogger();
         this.options = new Options(this.logger);
-        this.options.addDefaultDeclarations();
         this.converter = this.addComponent<Converter>("converter", Converter);
         this.renderer = this.addComponent<Renderer>("renderer", Renderer);
     }
@@ -310,7 +309,7 @@ export class Application extends ChildableComponent<
         }
 
         const tsconfigFile =
-            TSConfigReader.findConfigFile(this.options.getValue("tsconfig")) ??
+            findTsConfigFile(this.options.getValue("tsconfig")) ??
             "tsconfig.json";
 
         // We don't want to do it the first time to preserve initial debug status messages. They'll be lost

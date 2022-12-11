@@ -19,7 +19,6 @@ describe("Options", () => {
 
     beforeEach(() => {
         options = new Options(logger);
-        options.addDefaultDeclarations();
         options.addDeclaration({
             name: "mapped",
             type: ParameterType.Map,
@@ -119,7 +118,6 @@ describe("Options", () => {
 
     it("Resets a flag to the default if set to null", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
 
         options.setValue("validation", { notExported: true });
         options.setValue("validation", { notExported: null! });
@@ -132,7 +130,6 @@ describe("Options", () => {
 
     it("Handles mapped enums properly", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
 
         equal(options.getValue("logLevel"), LogLevel.Info);
         options.setValue("logLevel", LogLevel.Error);
@@ -147,7 +144,6 @@ describe("Options", () => {
 
     it("Supports checking if an option is set", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
         equal(options.isSet("excludePrivate"), false);
         options.setValue("excludePrivate", false);
         equal(options.isSet("excludePrivate"), true);
@@ -159,7 +155,6 @@ describe("Options", () => {
 
     it("Throws if frozen and a value is set", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
         options.freeze();
 
         throws(() => options.setValue("categorizeByGroup", true));
@@ -168,7 +163,6 @@ describe("Options", () => {
 
     it("Supports resetting values", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
 
         options.setValue("entryPoints", ["x"]);
         const oldExcludeTags = options.getValue("excludeTags");
@@ -181,7 +175,6 @@ describe("Options", () => {
 
     it("Supports resetting a single value", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
 
         options.setValue("name", "test");
         const originalExclude = options.getValue("excludeTags");
@@ -194,7 +187,6 @@ describe("Options", () => {
 
     it("Throws if resetting a single value which does not exist", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
 
         throws(() => options.reset("thisOptionDoesNotExist" as never));
     });
@@ -210,7 +202,6 @@ describe("BindOption", () => {
 
     it("Supports fetching options", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
 
         const container = new Container(options);
         equal(container.emit, "docs");
@@ -218,7 +209,6 @@ describe("BindOption", () => {
 
     it("Updates as option values change", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
 
         const container = new Container(options);
         equal(container.emit, "docs");
@@ -229,7 +219,6 @@ describe("BindOption", () => {
 
     it("Caches set options when frozen", () => {
         const options = new Options(new Logger());
-        options.addDefaultDeclarations();
 
         const container = new Container(options);
 

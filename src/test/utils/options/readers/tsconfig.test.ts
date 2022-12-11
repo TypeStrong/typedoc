@@ -9,7 +9,6 @@ import { tmpdir } from "os";
 
 describe("Options - TSConfigReader", () => {
     const options = new Options(new Logger());
-    options.addDefaultDeclarations();
     options.addReader(new TSConfigReader());
     const logger = new TestLogger();
 
@@ -82,7 +81,6 @@ describe("Options - TSConfigReader", () => {
                 return false;
             }
         })(logger);
-        options.addDefaultDeclarations();
 
         options.setValue(
             "tsconfig",

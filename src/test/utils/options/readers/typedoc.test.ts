@@ -7,7 +7,6 @@ import { TestLogger } from "../../../TestLogger";
 
 describe("Options - TypeDocReader", () => {
     const options = new Options(new Logger());
-    options.addDefaultDeclarations();
     options.addReader(new TypeDocReader());
 
     it("Supports comments in json", () => {
@@ -143,7 +142,6 @@ describe("Options - TypeDocReader", () => {
             }
         })(new Logger());
 
-        options.addDefaultDeclarations();
         options.addReader(new TypeDocReader());
         const logger = new Logger();
         options.read(logger);

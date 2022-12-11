@@ -6,7 +6,6 @@
 const ExitCodes = {
     Ok: 0,
     OptionError: 1,
-    NoEntryPoints: 2,
     CompileError: 3,
     ValidationError: 4,
     OutputError: 5,
@@ -58,11 +57,6 @@ async function run(app) {
         app.logger.hasWarnings()
     ) {
         return ExitCodes.OptionError;
-    }
-
-    if (app.options.getValue("entryPoints").length === 0) {
-        app.logger.error("No entry points provided");
-        return ExitCodes.NoEntryPoints;
     }
 
     if (app.options.getValue("watch")) {

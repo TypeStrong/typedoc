@@ -91,6 +91,7 @@ export class Options {
 
     constructor(logger: Logger) {
         this._logger = logger;
+        addTypeDocOptions(this);
     }
 
     /**
@@ -138,13 +139,6 @@ export class Options {
      */
     setLogger(logger: Logger) {
         this._logger = logger;
-    }
-
-    /**
-     * Adds the option declarations declared by the TypeDoc and all supported TypeScript declarations.
-     */
-    addDefaultDeclarations() {
-        addTypeDocOptions(this);
     }
 
     /**

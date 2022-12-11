@@ -176,3 +176,7 @@ export function glob(
 
     return result;
 }
+
+export function hasTsExtension(path: string): boolean {
+    return /\.[cm]?ts$|\.tsx$/.test(path);
+}

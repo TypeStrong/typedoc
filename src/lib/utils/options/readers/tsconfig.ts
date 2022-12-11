@@ -23,13 +23,10 @@ import {
 } from "../tsdoc-defaults";
 import { unique } from "../../array";
 import { EntryPointStrategy } from "../../entry-point";
+import { findTsConfigFile, readTsConfig } from "../../tsconfig";
 
 function isFile(file: string) {
     return existsSync(file) && statSync(file).isFile();
-}
-
-function isDir(path: string) {
-    return existsSync(path) && statSync(path).isDirectory();
 }
 
 function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
@@ -77,27 +74,10 @@ export class TSConfigReader implements OptionsReader {
 
     private seenTsdocPaths = new Set<string>();
 
-    /**
-     * Not considered part of the public API. You can use it, but it might break.
-     * @internal
-     */
-    static findConfigFile(file: string): string | undefined {
-        let fileToRead: string | undefined = file;
-        if (isDir(fileToRead)) {
-            fileToRead = ts.findConfigFile(file, isFile);
-        }
-
-        if (!fileToRead || !isFile(fileToRead)) {
-            return;
-        }
-
-        return fileToRead;
-    }
-
     read(container: Options, logger: Logger): void {
         const file = container.getValue("tsconfig");
 
-        let fileToRead = TSConfigReader.findConfigFile(file);
+        let fileToRead = findTsConfigFile(file);
 
         if (!fileToRead) {
             // If the user didn't give us this option, we shouldn't complain about not being able to find it.
@@ -119,16 +99,7 @@ export class TSConfigReader implements OptionsReader {
         fileToRead = normalizePath(resolve(fileToRead));
         this.addTagsFromTsdocJson(container, logger, resolve(fileToRead));
 
-        const parsed = ts.getParsedCommandLineOfConfigFile(
-            fileToRead,
-            {},
-            {
-                ...ts.sys,
-                onUnRecoverableConfigFileDiagnostic:
-                    logger.diagnostic.bind(logger),
-            }
-        );
-
+        const parsed = readTsConfig(fileToRead, logger);
         if (!parsed) {
             return;
         }

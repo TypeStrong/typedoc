@@ -33,7 +33,6 @@ describe("Options - ArgumentsReader", () => {
 
     beforeEach(() => {
         options = new Options(logger);
-        options.addDefaultDeclarations();
         options.addDeclaration({
             name: "numOption",
             help: "",
