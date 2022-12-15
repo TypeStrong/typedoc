@@ -1,176 +1,102 @@
-import { Repository } from "../lib/converter/utils/repository";
-import { RepositoryType } from "../lib/models";
+import { guessSourceUrlTemplate } from "../lib/converter/utils/repository";
 import { strictEqual as equal } from "assert";
 
 describe("Repository", function () {
-    describe("constructor", function () {
-        it("defaults to github.com hostname", function () {
-            const repository = new Repository("", "", []);
-
-            equal(repository.hostname, "github.com");
-            equal(repository.type, RepositoryType.GitHub);
-        });
-
-        it("handles a personal GitHub HTTPS URL", function () {
+    describe("guessSourceUrlTemplate helper", () => {
+        it("handles a personal GitHub HTTPS URL", () => {
             const mockRemotes = ["https://github.com/joebloggs/foobar.git"];
 
-            const repository = new Repository("", "", mockRemotes);
-
-            equal(repository.hostname, "github.com");
-            equal(repository.user, "joebloggs");
-            equal(repository.project, "foobar");
-            equal(repository.type, RepositoryType.GitHub);
+            equal(
+                guessSourceUrlTemplate(mockRemotes),
+                "https://github.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+            );
         });
 
-        it("handles an enterprise GitHub URL", function () {
+        it("handles a personal GitHub SSH URL", () => {
+            const mockRemotes = ["git@github.com:TypeStrong/typedoc.git"];
+
+            equal(
+                guessSourceUrlTemplate(mockRemotes),
+                "https://github.com/TypeStrong/typedoc/blob/{gitRevision}/{path}#L{line}"
+            );
+        });
+
+        it("handles an enterprise GitHub URL", () => {
             const mockRemotes = ["git@github.acme.com:joebloggs/foobar.git"];
-
-            const repository = new Repository("", "", mockRemotes);
-
-            equal(repository.hostname, "github.acme.com");
-            equal(repository.user, "joebloggs");
-            equal(repository.project, "foobar");
-            equal(repository.type, RepositoryType.GitHub);
+            equal(
+                guessSourceUrlTemplate(mockRemotes),
+                "https://github.acme.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+            );
         });
 
-        it("handles a githubprivate.com URL", function () {
+        it("handles an enterprise GitHub URL", () => {
             const mockRemotes = [
                 "ssh://org@bigcompany.githubprivate.com/joebloggs/foobar.git",
             ];
-
-            const repository = new Repository("", "", mockRemotes);
-
-            equal(repository.hostname, "bigcompany.githubprivate.com");
-            equal(repository.user, "joebloggs");
-            equal(repository.project, "foobar");
-            equal(repository.type, RepositoryType.GitHub);
+            equal(
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bigcompany.githubprivate.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+            );
         });
 
-        it("handles a ghe.com URL", function () {
+        it("handles a ghe.com URL", () => {
             const mockRemotes = [
                 "ssh://org@bigcompany.ghe.com/joebloggs/foobar.git",
             ];
-
-            const repository = new Repository("", "", mockRemotes);
-
-            equal(repository.hostname, "bigcompany.ghe.com");
-            equal(repository.user, "joebloggs");
-            equal(repository.project, "foobar");
-            equal(repository.type, RepositoryType.GitHub);
+            equal(
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bigcompany.ghe.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+            );
         });
 
-        it("handles a github.us URL", function () {
+        it("handles a github.us URL", () => {
             const mockRemotes = [
                 "ssh://org@bigcompany.github.us/joebloggs/foobar.git",
             ];
 
-            const repository = new Repository("", "", mockRemotes);
-
-            equal(repository.hostname, "bigcompany.github.us");
-            equal(repository.user, "joebloggs");
-            equal(repository.project, "foobar");
-            equal(repository.type, RepositoryType.GitHub);
+            equal(
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bigcompany.github.us/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+            );
         });
 
-        it("handles a Bitbucket HTTPS URL", function () {
+        it("handles a bitbucket URL", () => {
             const mockRemotes = [
                 "https://joebloggs@bitbucket.org/joebloggs/foobar.git",
             ];
-
-            const repository = new Repository("", "", mockRemotes);
-
-            equal(repository.hostname, "bitbucket.org");
-            equal(repository.user, "joebloggs");
-            equal(repository.project, "foobar");
-            equal(repository.type, RepositoryType.Bitbucket);
+            equal(
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bitbucket.org/joebloggs/foobar/src/{gitRevision}/{path}#lines-{line}"
+            );
         });
 
-        it("handles a Bitbucket SSH URL", function () {
+        it("handles a bitbucket SSH URL", () => {
             const mockRemotes = ["git@bitbucket.org:joebloggs/foobar.git"];
-
-            const repository = new Repository("", "", mockRemotes);
-
-            equal(repository.hostname, "bitbucket.org");
-            equal(repository.user, "joebloggs");
-            equal(repository.project, "foobar");
-            equal(repository.type, RepositoryType.Bitbucket);
+            equal(
+                guessSourceUrlTemplate(mockRemotes),
+                "https://bitbucket.org/joebloggs/foobar/src/{gitRevision}/{path}#lines-{line}"
+            );
         });
 
-        it("handles a GitLab HTTPS URL", function () {
+        it("handles a GitLab URL", () => {
             const mockRemotes = ["https://gitlab.com/joebloggs/foobar.git"];
-
-            const repository = new Repository("", "", mockRemotes);
-
-            equal(repository.hostname, "gitlab.com");
-            equal(repository.user, "joebloggs");
-            equal(repository.project, "foobar");
-            equal(repository.type, RepositoryType.GitLab);
+            equal(
+                guessSourceUrlTemplate(mockRemotes),
+                "https://gitlab.com/joebloggs/foobar/-/blob/{gitRevision}/{path}#L{line}"
+            );
         });
 
-        it("handles a GitLab SSH URL", function () {
+        it("handles a GitLab SSH URL", () => {
             const mockRemotes = ["git@gitlab.com:joebloggs/foobar.git"];
-
-            const repository = new Repository("", "", mockRemotes);
-
-            equal(repository.hostname, "gitlab.com");
-            equal(repository.user, "joebloggs");
-            equal(repository.project, "foobar");
-            equal(repository.type, RepositoryType.GitLab);
-        });
-    });
-
-    describe("getURL", () => {
-        const repositoryPath = "C:/Projects/foobar";
-        const filePath = repositoryPath + "/src/index.ts";
-
-        it("returns a GitHub URL", function () {
-            const mockRemotes = ["https://github.com/joebloggs/foobar.git"];
-
-            const repository = new Repository(
-                repositoryPath,
-                "main",
-                mockRemotes
-            );
-            repository.files = [filePath];
-
             equal(
-                repository.getURL(filePath),
-                "https://github.com/joebloggs/foobar/blob/main/src/index.ts"
+                guessSourceUrlTemplate(mockRemotes),
+                "https://gitlab.com/joebloggs/foobar/-/blob/{gitRevision}/{path}#L{line}"
             );
         });
 
-        it("returns a Bitbucket URL", function () {
-            const mockRemotes = [
-                "https://joebloggs@bitbucket.org/joebloggs/foobar.git",
-            ];
-
-            const repository = new Repository(
-                repositoryPath,
-                "main",
-                mockRemotes
-            );
-            repository.files = [filePath];
-
-            equal(
-                repository.getURL(filePath),
-                "https://bitbucket.org/joebloggs/foobar/src/main/src/index.ts"
-            );
-        });
-
-        it("returns a GitLab URL", function () {
-            const mockRemotes = ["https://gitlab.com/joebloggs/foobar.git"];
-
-            const repository = new Repository(
-                repositoryPath,
-                "main",
-                mockRemotes
-            );
-            repository.files = [filePath];
-
-            equal(
-                repository.getURL(filePath),
-                "https://gitlab.com/joebloggs/foobar/-/blob/main/src/index.ts"
-            );
+        it("Gracefully handles unknown urls", () => {
+            const mockRemotes = ["git@example.com"];
+            equal(guessSourceUrlTemplate(mockRemotes), undefined);
         });
     });
 });

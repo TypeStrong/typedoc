@@ -1,7 +1,7 @@
-export const debounce = (fn: Function, wait: number = 100) => {
+export const debounce = (fn: () => void, wait: number = 100) => {
     let timeout: ReturnType<typeof setTimeout>;
-    return (...args: any[]) => {
+    return () => {
         clearTimeout(timeout);
-        timeout = setTimeout(() => fn(args), wait);
+        timeout = setTimeout(() => fn(), wait);
     };
 };

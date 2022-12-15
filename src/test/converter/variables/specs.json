@@ -1908,6 +1908,93 @@
           "defaultValue": "15"
         },
         {
+          "id": 99,
+          "name": "satisfies",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 9,
+              "character": 13,
+              "url": "typedoc://variable.ts#L9"
+            }
+          ],
+          "type": {
+            "type": "reflection",
+            "declaration": {
+              "id": 100,
+              "name": "__type",
+              "kind": 65536,
+              "kindString": "Type literal",
+              "flags": {},
+              "children": [
+                {
+                  "id": 101,
+                  "name": "a",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "variable.ts",
+                      "line": 10,
+                      "character": 4,
+                      "url": "typedoc://variable.ts#L10"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "defaultValue": "1"
+                },
+                {
+                  "id": 102,
+                  "name": "b",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "variable.ts",
+                      "line": 11,
+                      "character": 4,
+                      "url": "typedoc://variable.ts#L11"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "defaultValue": "\"2\""
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "children": [
+                    101,
+                    102
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "variable.ts",
+                  "line": 9,
+                  "character": 25,
+                  "url": "typedoc://variable.ts#L9"
+                }
+              ]
+            }
+          },
+          "defaultValue": "..."
+        },
+        {
           "id": 96,
           "name": "x",
           "kind": 32,
@@ -1988,6 +2075,7 @@
             93,
             94,
             95,
+            99,
             96,
             97,
             98

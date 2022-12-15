@@ -25,6 +25,9 @@ export class SourcePlugin extends ConverterComponent {
     @BindOption("gitRemote")
     readonly gitRemote!: string;
 
+    @BindOption("sourceLinkTemplate")
+    readonly sourceLinkTemplate!: string;
+
     @BindOption("basePath")
     readonly basePath!: string;
 
@@ -141,12 +144,7 @@ export class SourcePlugin extends ConverterComponent {
             for (const source of refl.sources || []) {
                 if (gitIsInstalled) {
                     const repo = this.getRepository(source.fullFileName);
-                    source.url = repo?.getURL(source.fullFileName);
-                    if (source.url) {
-                        source.url += `#${repo!.getLineNumberAnchor(
-                            source.line
-                        )}`;
-                    }
+                    source.url = repo?.getURL(source.fullFileName, source.line);
                 }
 
                 source.fileName = normalizePath(
@@ -182,8 +180,10 @@ export class SourcePlugin extends ConverterComponent {
         // Try to create a new repository
         const repository = Repository.tryCreateRepository(
             dirName,
+            this.sourceLinkTemplate,
             this.gitRevision,
-            this.gitRemote
+            this.gitRemote,
+            this.application.logger
         );
         if (repository) {
             this.repositories[repository.path.toLowerCase()] = repository;

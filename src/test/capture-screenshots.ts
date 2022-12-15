@@ -10,8 +10,8 @@ const puppeteer = require("puppeteer");
 
 const concurrency = 10;
 const src = join(__dirname, "../../src/test/renderer/testProject/src");
-const baseDirectory = join(__dirname, "../../dist/tmp/capture");
-const outputDirectory = join(__dirname, "../../dist/tmp/__screenshots__");
+const baseDirectory = join(__dirname, "../../tmp/capture");
+const outputDirectory = join(__dirname, "../../tmp/screenshots");
 const viewport = { width: 1024, height: 768 };
 
 class PQueue {

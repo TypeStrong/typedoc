@@ -267,6 +267,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Set the CNAME file text, it's useful for custom domains on GitHub Pages.",
     });
     options.addDeclaration({
+        name: "sourceLinkTemplate",
+        help: "Specify a link template to be used when generating source urls. If not set, will be automatically created using the git remote. Supports {path}, {line}, {gitRevision} placeholders.",
+    });
+    options.addDeclaration({
         name: "gitRevision",
         help: "Use specified revision instead of the last revision for linking to GitHub/Bitbucket source files.",
     });
@@ -306,6 +310,49 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "If set, TypeDoc will remove the output directory before writing output.",
         type: ParameterType.Boolean,
         defaultValue: true,
+    });
+    options.addDeclaration({
+        name: "titleLink",
+        help: "Set the link the title in the header points to. Defaults to the documentation homepage.",
+        type: ParameterType.String,
+    });
+    options.addDeclaration({
+        name: "navigationLinks",
+        help: "Defines links to be included in the header.",
+        type: ParameterType.Mixed,
+        defaultValue: {},
+        validate(value) {
+            if (!isObject(value)) {
+                throw new Error(
+                    `navigationLinks must be an object with string labels as keys and URL values.`
+                );
+            }
+
+            if (Object.values(value).some((x) => typeof x !== "string")) {
+                throw new Error(
+                    `All values of navigationLinks must be string URLs.`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "sidebarLinks",
+        help: "Defines links to be included in the sidebar.",
+        type: ParameterType.Mixed,
+        defaultValue: {},
+        validate(value) {
+            if (!isObject(value)) {
+                throw new Error(
+                    `sidebarLinks must be an object with string labels as keys and URL values.`
+                );
+            }
+
+            if (Object.values(value).some((x) => typeof x !== "string")) {
+                throw new Error(
+                    `All values of sidebarLinks must be string URLs.`
+                );
+            }
+        },
     });
 
     ///////////////////////////

@@ -25,6 +25,7 @@ import { Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
 import { clearSeenIconCache } from "./themes/default/partials/icon";
+import { validateStateIsClean } from "./themes/default/partials/type";
 
 /**
  * Describes the hooks available to inject output in the default theme.
@@ -241,6 +242,7 @@ export class Renderer extends ChildableComponent<
             output.urls.forEach((mapping: UrlMapping) => {
                 clearSeenIconCache();
                 this.renderDocument(output.createPageEvent(mapping));
+                validateStateIsClean(mapping.url);
             });
 
             this.trigger(RendererEvent.END, output);
