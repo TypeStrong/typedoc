@@ -63,7 +63,7 @@ export class DefaultThemeRenderContext {
     }
 
     decrementCurrentDepth(): void {
-        this.currentDepth--;
+        this.currentDepth = Math.max(this.currentDepth - 1, 0);
     }
 
     hook = (name: keyof RendererHooks) =>
