@@ -16,19 +16,12 @@ import { getCommonDirectory, glob, normalizePath } from "./fs";
 import { validate } from "./validation";
 import { filterMap } from "./array";
 import { assertNever } from "./general";
-import { getEntryPointsForPackage } from "./package";
 
 /**
  * Defines how entry points are interpreted.
  * @enum
  */
 export const EntryPointStrategy = {
-    /**
-     * The default behavior in v0.24+, automatically resolves entry point(s) according to package.json.
-     * At most one entry point may be provided. If not provided, will look for entry points in package.json
-     * in the current directory. If an entry point is provided, it should be the directory containing package.json.
-     */
-    Package: "package",
     /**
      * The default behavior in v0.22-v0.23, expects all provided entry points as being part of a single program.
      * Any directories included in the entry point list will result in `dir/index.([cm][tj]s|[tj]sx?)` being used.
@@ -84,11 +77,6 @@ export function getEntryPoints(
 
         case EntryPointStrategy.Packages:
             result = getEntryPointsForPackages(logger, entryPoints, options);
-            break;
-
-        case EntryPointStrategy.Package:
-            getEntryPointsForPackage(logger, options);
-            result = [];
             break;
 
         default:

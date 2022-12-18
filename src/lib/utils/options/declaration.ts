@@ -72,6 +72,17 @@ export type TypeDocOptionValues = {
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
  * External consumers should likely use {@link TypeDocOptions} instead.
+ *
+ * If writing a plugin, you may find it useful to use declaration merging to add your options to this interface
+ * so that you have autocomplete when using `app.options.getValue`.
+ *
+ * ```ts
+ * declare module "typedoc" {
+ *   export interface TypeDocOptionMap {
+ *     pluginOption: string[];
+ *   }
+ * }
+ * ```
  */
 export interface TypeDocOptionMap {
     options: string;
@@ -133,7 +144,7 @@ export interface TypeDocOptionMap {
     defaultCategory: string;
     categoryOrder: string[];
     sort: SortStrategy[];
-    kindSortOrder: Array<keyof typeof ReflectionKind>;
+    kindSortOrder: ReflectionKind.KindString[];
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;

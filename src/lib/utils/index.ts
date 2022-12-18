@@ -7,6 +7,7 @@ export {
     unique,
 } from "./array";
 export { AbstractComponent, ChildableComponent, Component } from "./component";
+export * from "./enum";
 export { Event, EventDispatcher } from "./events";
 export {
     copy,

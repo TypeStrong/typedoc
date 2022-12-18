@@ -1,3 +1,5 @@
+import type { EnumKeys } from "../../utils";
+
 /**
  * Defines the available reflection kinds.
  */
@@ -29,32 +31,7 @@ export enum ReflectionKind {
 }
 
 export namespace ReflectionKind {
-    // Would be nice to derive this...
-    export type KindString =
-        | "Project"
-        | "Module"
-        | "Namespace"
-        | "Enum"
-        | "EnumMember"
-        | "Variable"
-        | "Function"
-        | "Class"
-        | "Interface"
-        | "Constructor"
-        | "Property"
-        | "Method"
-        | "CallSignature"
-        | "IndexSignature"
-        | "ConstructorSignature"
-        | "Parameter"
-        | "TypeLiteral"
-        | "TypeParameter"
-        | "Accessor"
-        | "GetSignature"
-        | "SetSignature"
-        | "ObjectLiteral"
-        | "TypeAlias"
-        | "Reference";
+    export type KindString = EnumKeys<typeof ReflectionKind>;
 
     export const All = ReflectionKind.Reference * 2 - 1;
 
