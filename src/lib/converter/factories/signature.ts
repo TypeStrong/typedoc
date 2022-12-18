@@ -107,7 +107,13 @@ export function createSignature(
             break;
     }
 
-    context.trigger(ConverterEvents.CREATE_SIGNATURE, sigRef, declaration);
+    context.converter.trigger(
+        ConverterEvents.CREATE_SIGNATURE,
+        context,
+        sigRef,
+        declaration,
+        signature
+    );
 }
 
 function convertParameters(

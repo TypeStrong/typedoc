@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added `ts.Signature` to emitted `EVENT_CREATE_SIGNATURE` event, #2002.
+
 ### Bug Fixes
 
 -   If `src/` and `src/x` are specified as entry points, `src/` will no longer be ignored, #2121.

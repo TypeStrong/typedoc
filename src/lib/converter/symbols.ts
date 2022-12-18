@@ -419,7 +419,6 @@ function convertFunctionOrMethod(
     context.finalizeDeclarationReflection(reflection);
 
     const scope = context.withScope(reflection);
-    reflection.signatures ??= [];
 
     // Can't use zip here. We might have less declarations than signatures
     // or less signatures than declarations.
