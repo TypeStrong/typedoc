@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+-   Links to members hidden by filter settings now temporarily override the filter, #2092.
 -   If `src/` and `src/x` are specified as entry points, `src/` will no longer be ignored, #2121.
 
 ## v0.23.22 (2022-12-11)
