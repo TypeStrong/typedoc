@@ -12,8 +12,3 @@
 ../example/docs/
 **/tmp
 **/.vs
-
-# Turn this back on once supported by Prettier
-../src/test/converter/class/getter-setter.ts
-../src/test/converter/variables/variable.ts
-../src/test/converter2/behavior/hiddenAccessor.ts

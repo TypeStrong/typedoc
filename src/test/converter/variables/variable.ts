@@ -8,5 +8,5 @@ export let z: Promise<object>;
 
 export const satisfies = {
     a: 1,
-    b: "2"
-} satisfies Record<string, string | number>
+    b: "2",
+} satisfies Record<string, string | number>;
