@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.23 (2022-12-18)
+
 ### Features
 
 -   Added `ts.Signature` to emitted `EVENT_CREATE_SIGNATURE` event, #2002.
