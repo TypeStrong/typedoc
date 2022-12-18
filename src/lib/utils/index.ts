@@ -53,7 +53,7 @@ export type {
     ManuallyValidatedOption,
 } from "./options";
 export { discoverPlugins, loadPlugins } from "./plugins";
-export { sortReflections } from "./sort";
+export { getSortFunction } from "./sort";
 export type { SortStrategy } from "./sort";
 
 export { EventHooks } from "./hooks";

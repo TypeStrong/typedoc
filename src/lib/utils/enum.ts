@@ -21,3 +21,10 @@ export function hasAllFlags(flags: number, check: number): boolean {
 export function hasAnyFlag(flags: number, check: number): boolean {
     return (flags & check) !== 0;
 }
+
+// Note: String enums are not handled.
+export function getEnumKeys(Enum: Record<string, string | number>): string[] {
+    return Object.keys(Enum).filter((k) => {
+        return Enum[Enum[k]] === k;
+    });
+}

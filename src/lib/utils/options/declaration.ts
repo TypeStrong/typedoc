@@ -133,6 +133,7 @@ export interface TypeDocOptionMap {
     defaultCategory: string;
     categoryOrder: string[];
     sort: SortStrategy[];
+    kindSortOrder: Array<keyof typeof ReflectionKind>;
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;
