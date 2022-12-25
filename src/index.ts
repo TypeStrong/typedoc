@@ -36,6 +36,7 @@ export {
     LogLevel,
     Logger,
     Options,
+    PackageJsonReader,
     ParameterHint,
     ParameterType,
     TSConfigReader,
