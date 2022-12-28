@@ -10,6 +10,7 @@ export { AbstractComponent, ChildableComponent, Component } from "./component";
 export * from "./enum";
 export { Event, EventDispatcher } from "./events";
 export {
+    isFile,
     copy,
     copySync,
     getCommonDirectory,

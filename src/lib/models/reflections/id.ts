@@ -1,4 +1,6 @@
-import type ts from "typescript";
+import { isAbsolute, relative } from "path";
+import ts from "typescript";
+import type { JSONOutput, Serializer } from "../../serialization/index";
 import { getQualifiedName } from "../../utils/tsutils";
 
 /**
@@ -22,10 +24,26 @@ export class ReflectionSymbolId {
      */
     pos: number;
 
-    constructor(symbol: ts.Symbol, declaration = symbol.declarations?.[0]) {
-        this.fileName = declaration?.getSourceFile().fileName ?? "\0";
-        this.qualifiedName = getQualifiedName(symbol, symbol.name);
-        this.pos = declaration?.pos ?? Infinity;
+    constructor(symbol: ts.Symbol, declaration?: ts.Declaration);
+    constructor(json: JSONOutput.ReflectionSymbolId);
+    constructor(
+        symbol: ts.Symbol | JSONOutput.ReflectionSymbolId,
+        declaration?: ts.Declaration
+    ) {
+        if ("name" in symbol) {
+            declaration ??= symbol?.declarations?.[0];
+            this.fileName = declaration?.getSourceFile().fileName ?? "\0";
+            if (symbol.declarations?.some(ts.isSourceFile)) {
+                this.qualifiedName = "";
+            } else {
+                this.qualifiedName = getQualifiedName(symbol, symbol.name);
+            }
+            this.pos = declaration?.pos ?? Infinity;
+        } else {
+            this.fileName = symbol.sourceFileName;
+            this.qualifiedName = symbol.qualifiedName;
+            this.pos = Infinity;
+        }
     }
 
     getStableKey(): ReflectionSymbolIdString {
@@ -36,9 +54,11 @@ export class ReflectionSymbolId {
         }
     }
 
-    toObject() {
+    toObject(serializer: Serializer) {
         return {
-            sourceFileName: this.fileName,
+            sourceFileName: isAbsolute(this.fileName)
+                ? relative(serializer.basePath, this.fileName)
+                : this.fileName,
             qualifiedName: this.qualifiedName,
         };
     }

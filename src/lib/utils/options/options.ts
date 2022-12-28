@@ -14,6 +14,7 @@ import {
     TypeDocOptionValues,
 } from "./declaration";
 import { addTypeDocOptions } from "./sources";
+import { getOptionsHelp } from "./help";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the
@@ -405,6 +406,13 @@ export class Options {
             results[lowest + 1] || [],
             results[lowest + 2] || []
         );
+    }
+
+    /**
+     * Get the help message to be displayed to the user if `--help` is passed.
+     */
+    getHelp() {
+        return getOptionsHelp(this);
     }
 }
 

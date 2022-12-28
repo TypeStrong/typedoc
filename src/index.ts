@@ -67,6 +67,7 @@ export type {
     ParameterTypeToOptionTypeMap,
     DocumentationEntryPoint,
     ManuallyValidatedOption,
+    EnumKeys,
 } from "./lib/utils";
 
 export type { EventMap, EventCallback } from "./lib/utils/events";

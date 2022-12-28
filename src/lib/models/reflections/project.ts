@@ -246,11 +246,17 @@ export class ProjectReflection extends ContainerReflection {
     }
 
     override toObject(serializer: Serializer): JSONOutput.ProjectReflection {
+        const symbolIdMap: Record<number, JSONOutput.ReflectionSymbolId> = {};
+        this.reflectionIdToSymbolIdMap.forEach((sid, id) => {
+            symbolIdMap[id] = sid.toObject(serializer);
+        });
+
         return {
             ...super.toObject(serializer),
             variant: this.variant,
             packageName: this.packageName,
             readme: Comment.serializeDisplayParts(this.readme),
+            symbolIdMap,
         };
     }
 
@@ -262,6 +268,13 @@ export class ProjectReflection extends ContainerReflection {
         this.packageName = obj.packageName;
         if (obj.readme) {
             this.readme = Comment.deserializeDisplayParts(de, obj.readme);
+        }
+
+        for (const [id, sid] of Object.entries(obj.symbolIdMap)) {
+            this.reflectionIdToSymbolIdMap.set(
+                +id,
+                new ReflectionSymbolId(sid)
+            );
         }
     }
 }

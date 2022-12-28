@@ -35,6 +35,7 @@ import { validateDocumentation } from "./validation/documentation";
 import { validateLinks } from "./validation/links";
 import { ApplicationEvents } from "./application-events";
 import { findTsConfigFile } from "./utils/tsconfig";
+import { getCommonDirectory, glob, readFile } from "./utils/fs";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -94,6 +95,14 @@ export class Application extends ChildableComponent<
     /** @internal */
     @BindOption("skipErrorChecking")
     readonly skipErrorChecking!: boolean;
+
+    /** @internal */
+    @BindOption("entryPointStrategy")
+    readonly entryPointStrategy!: EntryPointStrategy;
+
+    /** @internal */
+    @BindOption("entryPoints")
+    readonly entryPoints!: string[];
 
     /**
      * The version number of TypeDoc.
@@ -196,12 +205,16 @@ export class Application extends ChildableComponent<
      */
     public convert(): ProjectReflection | undefined {
         const start = Date.now();
-        // We seal here rather than in the Converter class since TypeDoc's tests reuse the Application
+        // We freeze here rather than in the Converter class since TypeDoc's tests reuse the Application
         // with a few different settings.
         this.options.freeze();
         this.logger.verbose(
             `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`
         );
+
+        if (this.entryPointStrategy === EntryPointStrategy.Merge) {
+            return this._merge();
+        }
 
         if (
             !supportedVersionMajorMinor.some(
@@ -299,11 +312,11 @@ export class Application extends ChildableComponent<
 
         // Support for packages mode is currently unimplemented
         if (
-            this.options.getValue("entryPointStrategy") ===
-            EntryPointStrategy.Packages
+            this.entryPointStrategy !== EntryPointStrategy.Resolve &&
+            this.entryPointStrategy !== EntryPointStrategy.Expand
         ) {
             this.logger.error(
-                "The packages option of entryPointStrategy is not supported in watch mode."
+                "entryPointStrategy must be set to either resolve or expand for watch mode."
             );
             return;
         }
@@ -411,7 +424,12 @@ export class Application extends ChildableComponent<
         const checks = this.options.getValue("validation");
         const start = Date.now();
 
-        if (checks.notExported) {
+        // No point in validating exports when merging. Warnings will have already been emitted when
+        // creating the project jsons that this run merges together.
+        if (
+            checks.notExported &&
+            this.entryPointStrategy !== EntryPointStrategy.Merge
+        ) {
             validateExports(
                 project,
                 this.logger,
@@ -491,5 +509,43 @@ export class Application extends ChildableComponent<
             `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`,
             "",
         ].join("\n");
+    }
+
+    private _merge(): ProjectReflection | undefined {
+        const start = Date.now();
+
+        const rootDir = getCommonDirectory(this.entryPoints);
+        const entryPoints = this.entryPoints.flatMap((entry) =>
+            glob(entry, rootDir)
+        );
+        this.logger.verbose(
+            `Merging entry points:\n\t${entryPoints.join("\n\t")}`
+        );
+
+        if (entryPoints.length < 1) {
+            this.logger.error("No entry points provided to merge.");
+            return;
+        }
+
+        const jsonProjects = entryPoints.map((path) => {
+            try {
+                return JSON.parse(readFile(path));
+            } catch {
+                this.logger.error(
+                    `Failed to parse file at ${nicePath(path)} as json.`
+                );
+                return null;
+            }
+        });
+        if (this.logger.hasErrors()) return;
+
+        const root = this.deserializer.reviveProject(jsonProjects[0]);
+        // Need to copy reflections into root for remaining projects
+        // Also need to have a hook for merge actions
+        // - Resolve @link
+        // - Resolve type references
+
+        this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
+        return root;
     }
 }

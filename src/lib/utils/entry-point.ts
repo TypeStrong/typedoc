@@ -37,6 +37,10 @@ export const EntryPointStrategy = {
      * and tsconfig.json under each provided entry point. The `main` field of each package will be documented.
      */
     Packages: "packages",
+    /**
+     * Merges multiple previously generated output from TypeDoc's --json output together into a single project.
+     */
+    Merge: "merge",
 } as const;
 
 export type EntryPointStrategy =
@@ -78,6 +82,10 @@ export function getEntryPoints(
         case EntryPointStrategy.Packages:
             result = getEntryPointsForPackages(logger, entryPoints, options);
             break;
+
+        case EntryPointStrategy.Merge:
+            // Doesn't really have entry points in the traditional way of how TypeDoc has dealt with them.
+            return [];
 
         default:
             assertNever(strategy);

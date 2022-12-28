@@ -3,6 +3,22 @@ import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
 import { dirname, join } from "path";
 
+export function isFile(file: string) {
+    try {
+        return fs.statSync(file).isFile();
+    } catch {
+        return false;
+    }
+}
+
+export function isDir(path: string) {
+    try {
+        return fs.statSync(path).isDirectory();
+    } catch {
+        return false;
+    }
+}
+
 /**
  * Get the longest directory path common to all files.
  */

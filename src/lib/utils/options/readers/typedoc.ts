@@ -7,7 +7,7 @@ import type { Logger } from "../../loggers";
 import type { Options } from "../options";
 import { ok } from "assert";
 import { nicePath } from "../../paths";
-import { normalizePath } from "../../fs";
+import { isFile, normalizePath } from "../../fs";
 import { createRequire } from "module";
 
 /**
@@ -149,7 +149,7 @@ export class TypeDocReader implements OptionsReader {
             join(path, "typedoc.js"),
             join(path, ".config/typedoc.js"),
             join(path, ".config/typedoc.json"),
-        ].find((path) => FS.existsSync(path) && FS.statSync(path).isFile());
+        ].find(isFile);
     }
 }
 

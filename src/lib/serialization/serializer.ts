@@ -21,6 +21,15 @@ export class Serializer extends EventDispatcher {
 
     private serializers: SerializerComponent<any>[] = [];
 
+    /**
+     * Only set after resolve.
+     */
+    readonly basePath!: string;
+
+    setBasePath(path: string) {
+        (this as any).basePath = path;
+    }
+
     addSerializer(serializer: SerializerComponent<any>): void {
         insertPrioritySorted(this.serializers, serializer);
     }

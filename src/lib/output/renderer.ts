@@ -237,6 +237,9 @@ export class Renderer extends ChildableComponent<
         this.preRenderAsyncJobs = [];
 
         if (!output.isDefaultPrevented) {
+            this.application.logger.verbose(
+                `There are ${output.urls.length} pages to write.`
+            );
             output.urls.forEach((mapping: UrlMapping) => {
                 clearSeenIconCache();
                 this.renderDocument(output.createPageEvent(mapping));
@@ -261,7 +264,7 @@ export class Renderer extends ChildableComponent<
      * @param page An event describing the current page.
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
-    private renderDocument(page: PageEvent): boolean {
+    private renderDocument(page: PageEvent) {
         const momento = this.hooks.saveMomento();
         this.trigger(PageEvent.BEGIN, page);
         if (page.isDefaultPrevented) {
@@ -286,10 +289,7 @@ export class Renderer extends ChildableComponent<
             writeFileSync(page.filename, page.contents);
         } catch (error) {
             this.application.logger.error(`Could not write ${page.filename}`);
-            return false;
         }
-
-        return true;
     }
 
     /**

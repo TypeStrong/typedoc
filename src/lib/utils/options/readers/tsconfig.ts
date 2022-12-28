@@ -1,11 +1,10 @@
 import { resolve, join, dirname } from "path";
-import { existsSync, statSync } from "fs";
 
 import * as ts from "typescript";
 
 import type { Options, OptionsReader } from "../options";
 import type { Logger } from "../../loggers";
-import { normalizePath } from "../../fs";
+import { normalizePath, isFile } from "../../fs";
 import { ok } from "assert";
 import {
     additionalProperties,
@@ -24,10 +23,6 @@ import {
 import { unique } from "../../array";
 import { EntryPointStrategy } from "../../entry-point";
 import { findTsConfigFile, readTsConfig } from "../../tsconfig";
-
-function isFile(file: string) {
-    return existsSync(file) && statSync(file).isFile();
-}
 
 function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
     return (

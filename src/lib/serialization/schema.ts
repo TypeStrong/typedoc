@@ -97,6 +97,11 @@ type S<T, K extends keyof T> = {
     -readonly [K2 in K]: ToSerialized<T[K2]>;
 };
 
+export interface ReflectionSymbolId {
+    sourceFileName: string;
+    qualifiedName: string;
+}
+
 export interface ReflectionGroup
     extends S<M.ReflectionGroup, "title" | "categories"> {
     children?: M.ReflectionGroup["children"][number]["id"][];
@@ -176,7 +181,9 @@ export interface TypeParameterReflection
 
 export interface ProjectReflection
     extends Omit<ContainerReflection, "variant">,
-        S<M.ProjectReflection, "variant" | "packageName" | "readme"> {}
+        S<M.ProjectReflection, "variant" | "packageName" | "readme"> {
+    symbolIdMap: Record<number, ReflectionSymbolId>;
+}
 
 export interface ContainerReflection
     extends Reflection,

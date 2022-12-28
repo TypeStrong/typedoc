@@ -1,14 +1,6 @@
-import { existsSync, statSync } from "fs";
 import ts from "typescript";
+import { isFile, isDir } from "./fs";
 import type { Logger } from "./loggers";
-
-function isFile(file: string) {
-    return existsSync(file) && statSync(file).isFile();
-}
-
-function isDir(path: string) {
-    return existsSync(path) && statSync(path).isDirectory();
-}
 
 export function findTsConfigFile(path: string): string | undefined {
     let fileToRead: string | undefined = path;
