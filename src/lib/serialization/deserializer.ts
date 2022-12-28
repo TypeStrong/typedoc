@@ -19,6 +19,7 @@ import {
     ReferenceReflection,
     ReferenceType,
     Reflection,
+    ReflectionKind,
     ReflectionType,
     ReflectionVariant,
     RestType,
@@ -71,7 +72,7 @@ export class Deserializer {
         },
         project() {
             throw new Error(
-                "Not supported, use Deserializer.reviveProject instead."
+                "Not supported, use Deserializer.reviveProject(s) instead."
             );
         },
         reference(parent, obj): ReferenceReflection {
@@ -207,6 +208,11 @@ export class Deserializer {
         insertPrioritySorted(this.deserializers, de);
     }
 
+    /**
+     * Revive a single project into the structure it was originally created with.
+     * This is generally not appropriate for merging multiple projects since projects may
+     * contain reflections in their root, not inside a module.
+     */
     reviveProject(projectObj: JSONOutput.ProjectReflection): ProjectReflection {
         ok(
             this.deferred.length === 0,
@@ -233,6 +239,54 @@ export class Deserializer {
             "Imbalanced reflection deserialization"
         );
 
+        this.project = undefined;
+        this.oldIdToNewId = {};
+        return project;
+    }
+
+    reviveProjects(
+        projects: readonly JSONOutput.ProjectReflection[]
+    ): ProjectReflection {
+        if (projects.length === 1) {
+            return this.reviveProject(projects[0]);
+        }
+
+        const project = new ProjectReflection("(merged)");
+        project.children = [];
+        this.project = project;
+
+        for (const proj of projects) {
+            ok(
+                this.deferred.length === 0,
+                "Deserializer.defer was called when not deserializing"
+            );
+
+            const projModule = new DeclarationReflection(
+                proj.name,
+                ReflectionKind.Module,
+                project
+            );
+            project.children.push(projModule);
+            this.oldIdToNewId = { [proj.id]: projModule.id };
+            this.fromObject(projModule, proj);
+
+            const deferred = this.deferred;
+            this.deferred = [];
+            for (const def of deferred) {
+                def(project);
+            }
+            ok(
+                this.deferred.length === 0,
+                "Work may not be double deferred when deserializing."
+            );
+
+            ok(
+                this.activeReflection.length === 0,
+                "Imbalanced reflection deserialization"
+            );
+        }
+
+        this.oldIdToNewId = {};
         this.project = undefined;
         return project;
     }

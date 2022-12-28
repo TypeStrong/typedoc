@@ -519,7 +519,7 @@ export class Application extends ChildableComponent<
             glob(entry, rootDir)
         );
         this.logger.verbose(
-            `Merging entry points:\n\t${entryPoints.join("\n\t")}`
+            `Merging entry points:\n\t${entryPoints.map(nicePath).join("\n\t")}`
         );
 
         if (entryPoints.length < 1) {
@@ -539,13 +539,12 @@ export class Application extends ChildableComponent<
         });
         if (this.logger.hasErrors()) return;
 
-        const root = this.deserializer.reviveProject(jsonProjects[0]);
-        // Need to copy reflections into root for remaining projects
+        const result = this.deserializer.reviveProjects(jsonProjects);
         // Also need to have a hook for merge actions
         // - Resolve @link
         // - Resolve type references
 
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
-        return root;
+        return result;
     }
 }

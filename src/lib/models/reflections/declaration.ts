@@ -5,8 +5,10 @@ import { ContainerReflection } from "./container";
 import type { SignatureReflection } from "./signature";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
-import type { CommentDisplayPart } from "../comments";
+import { Comment, CommentDisplayPart } from "../comments";
 import { SourceReference } from "../sources/file";
+import { ReflectionSymbolId } from "./id";
+import { ReflectionKind } from "./kind";
 
 /**
  * Stores hierarchical type data.
@@ -320,9 +322,36 @@ export class DeclarationReflection extends ContainerReflection {
 
     override fromObject(
         de: Deserializer,
-        obj: JSONOutput.DeclarationReflection
+        obj: JSONOutput.DeclarationReflection | JSONOutput.ProjectReflection
     ): void {
         super.fromObject(de, obj);
+
+        // This happens when merging multiple projects together.
+        // If updating this, also check ProjectReflection.fromObject.
+        if (obj.variant === "project") {
+            this.kind = ReflectionKind.Module;
+            if (obj.packageName) {
+                this.name = obj.packageName;
+            }
+            if (obj.readme) {
+                this.readme = Comment.deserializeDisplayParts(de, obj.readme);
+            }
+
+            de.defer(() => {
+                for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {
+                    const refl = this.project.getReflectionById(
+                        de.oldIdToNewId[+id] || -1
+                    );
+                    if (refl) {
+                        this.project.registerSymbolId(
+                            refl,
+                            new ReflectionSymbolId(sid)
+                        );
+                    }
+                }
+            });
+            return;
+        }
 
         this.sources = de.reviveMany(
             obj.sources,

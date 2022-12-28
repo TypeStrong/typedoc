@@ -269,6 +269,7 @@ export class ProjectReflection extends ContainerReflection {
         obj: JSONOutput.ProjectReflection
     ): void {
         super.fromObject(de, obj);
+        // If updating this, also check the block in DeclarationReflection.fromObject.
         this.packageName = obj.packageName;
         if (obj.readme) {
             this.readme = Comment.deserializeDisplayParts(de, obj.readme);
