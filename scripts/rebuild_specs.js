@@ -99,7 +99,10 @@ function rebuildConverterTests(dirs) {
                 );
                 ok(entry, "Missing entry point");
                 const result = app.converter.convert(entry);
-                const serialized = app.serializer.toObject(result);
+                const serialized = app.serializer.projectToObject(
+                    result,
+                    process.cwd()
+                );
 
                 const data = JSON.stringify(serialized, null, "  ") + "\n";
                 after();

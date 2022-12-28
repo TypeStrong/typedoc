@@ -15,6 +15,7 @@ import { isNamedNode } from "./utils/nodes";
 import { ConverterEvents } from "./converter-events";
 import { resolveAliasedSymbol } from "./utils/symbols";
 import { getComment } from "./comments";
+import { getHumanName } from "../utils/tsutils";
 
 /**
  * The context describes the current state the converter is in.
@@ -288,15 +289,4 @@ export class Context {
         context.setActiveProgram(this._program);
         return context;
     }
-}
-
-const uniqueSymbolRegExp = /^__@(.*)@\d+$/;
-
-function getHumanName(name: string) {
-    const match = uniqueSymbolRegExp.exec(name);
-    if (match) {
-        return `[${match[1]}]`;
-    }
-
-    return name;
 }

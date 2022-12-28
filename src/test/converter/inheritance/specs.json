@@ -1008,5 +1008,159 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "functionSource"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "functionSource"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "T"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "arg1"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "arg2"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "functionTargetGlobal"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "functionTargetGlobal"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "functionTargetLocal"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "functionTargetLocal"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "T"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "arg1"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "arg2"
+    },
+    "14": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceSource"
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceSource.property"
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceSource.someMethod"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceSource.someMethod"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "arg"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceSource.T"
+    },
+    "20": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceTarget"
+    },
+    "21": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceTarget.property"
+    },
+    "22": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceTarget.someMethod"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceTarget.someMethod"
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "arg"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+      "qualifiedName": "InterfaceTarget.T"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": ""
+    },
+    "27": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "MyCtor"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "MyCtor.staticProp"
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "MyCtor"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "MyCtor"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "My"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "My"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "My.instanceProp"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "MySubClass"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "MyCtor.staticProp"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "MyCtor.__new"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "MySubClass"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "My.instanceProp"
+    }
+  }
 }

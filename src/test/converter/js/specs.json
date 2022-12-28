@@ -969,5 +969,187 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/js/export-eq-type.js",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/js/export-eq-type.js",
+      "qualifiedName": "foo"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/js/export-eq-type.js",
+      "qualifiedName": "foo"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/js/export-eq-type.js",
+      "qualifiedName": "x"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/js/export-eq-type.js",
+      "qualifiedName": "Foo"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": ""
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "usedFoo"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "usedFoo"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "args"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "ColumnType"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__object.STRING"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__object.NUMBER"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "InterfaceIsh"
+    },
+    "14": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type.foo"
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "AlsoInterfaceIsh"
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type.foo"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type.bar"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "ObjectAlias"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "UnionType"
+    },
+    "20": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "IntersectionType"
+    },
+    "21": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "22": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type.x"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type.y"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "NoReturnTag"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "27": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "HasReturnTag"
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "IdentityFn"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "data"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "T"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "OptionalArg"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "data"
+    },
+    "40": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "Identity"
+    },
+    "41": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "T"
+    },
+    "42": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "Foo"
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "44": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "__type"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/js/index.js",
+      "qualifiedName": "args"
+    }
+  }
 }

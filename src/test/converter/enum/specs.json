@@ -450,5 +450,71 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "0": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": ""
+    },
+    "1": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "SimpleEnum"
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "SimpleEnum.EnumValue1"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "SimpleEnum.EnumValue2"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "SimpleEnum.EnumValue3"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ModuleEnum"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ModuleEnum.EnumValue1"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ModuleEnum.EnumValue2"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ModuleEnum.EnumValue3"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ModuleEnum"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ModuleEnum.enumFunction"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ModuleEnum.enumFunction"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ModuleEnum.enumValue"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ConstEnum"
+    },
+    "14": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ConstEnum.a"
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/enum/enum.ts",
+      "qualifiedName": "ConstEnum.b"
+    }
+  }
 }

@@ -581,5 +581,91 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "0": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": ""
+    },
+    "1": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Base"
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Base.method1"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Base.method1"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "a"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "b"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class1"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class1.method1"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class1.method1"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "a"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "b"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class2"
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class2.method1"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class2.method1"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "a"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "b"
+    },
+    "20": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class3"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class3.method1"
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class3.method1"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "a"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "c"
+    }
+  }
 }

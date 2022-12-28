@@ -1955,5 +1955,275 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "BigIntLiteral"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "BigIntLiteralType"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "NegativeBigIntLiteral"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "NegativeBigIntLiteralType"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "NumArray"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "numArray"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "BigIntAlias"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "NegativeOne"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "negativeOne"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "FirstIfString"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/types/general.ts",
+      "qualifiedName": "T"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": ""
+    },
+    "14": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "SymbolIndex"
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "SymbolIndex.__index"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "PartialIndex"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "PartialIndex.__index"
+    },
+    "20": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "UnionIndex"
+    },
+    "21": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "UnionIndex.__index"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": ""
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "mapped"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "mapped"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "T"
+    },
+    "27": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "arg"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "doubleKey"
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "doubleKey"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "T"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "arg"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "Mappy"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "T"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "DoubleKey"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/types/mapped.ts",
+      "qualifiedName": "T"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/types/parens.ts",
+      "qualifiedName": ""
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/types/parens.ts",
+      "qualifiedName": "ZZ"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/types/parens.ts",
+      "qualifiedName": "__type"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/types/parens.ts",
+      "qualifiedName": "__type.a"
+    },
+    "40": {
+      "sourceFileName": "src/test/converter/types/query.ts",
+      "qualifiedName": ""
+    },
+    "41": {
+      "sourceFileName": "src/test/converter/types/query.ts",
+      "qualifiedName": "x"
+    },
+    "42": {
+      "sourceFileName": "src/test/converter/types/query.ts",
+      "qualifiedName": "TypeOfX"
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": ""
+    },
+    "44": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "NamedTuple"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "namedTuple"
+    },
+    "46": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "WithRestType"
+    },
+    "47": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "withRestType"
+    },
+    "48": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "WithRestTypeNames"
+    },
+    "49": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "withRestTypeNames"
+    },
+    "50": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "WithOptionalElements"
+    },
+    "51": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "withOptionalElements"
+    },
+    "52": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "LeadingRest"
+    },
+    "53": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "leadingRest"
+    },
+    "54": {
+      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "qualifiedName": ""
+    },
+    "55": {
+      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "qualifiedName": "a"
+    },
+    "56": {
+      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "qualifiedName": "B"
+    },
+    "57": {
+      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "qualifiedName": "C"
+    },
+    "58": {
+      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "qualifiedName": "__type"
+    },
+    "59": {
+      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "qualifiedName": "__type.prop1"
+    },
+    "60": {
+      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "qualifiedName": "__type.prop2"
+    },
+    "61": {
+      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "qualifiedName": "D"
+    },
+    "62": {
+      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+      "qualifiedName": ""
+    },
+    "63": {
+      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+      "qualifiedName": "FirstType"
+    },
+    "64": {
+      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+      "qualifiedName": "FirstType.firstProperty"
+    },
+    "65": {
+      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+      "qualifiedName": "SecondType"
+    },
+    "66": {
+      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+      "qualifiedName": "SecondType.secondProperty"
+    },
+    "67": {
+      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+      "qualifiedName": "ThirdType"
+    },
+    "68": {
+      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+      "qualifiedName": "ThirdType.thirdUnionProperty"
+    },
+    "69": {
+      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+      "qualifiedName": "ThirdType.thirdIntersectionProperty"
+    },
+    "70": {
+      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+      "qualifiedName": "ThirdType.thirdComplexProperty"
+    }
+  }
 }

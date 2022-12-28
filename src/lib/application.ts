@@ -488,7 +488,7 @@ export class Application extends ChildableComponent<
             outputDirectory: Path.dirname(out),
             outputFile: Path.basename(out),
         };
-        const ser = this.serializer.projectToObject(project, {
+        const ser = this.serializer.projectToObject(project, process.cwd(), {
             begin: eventData,
             end: eventData,
         });

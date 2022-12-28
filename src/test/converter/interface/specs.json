@@ -2555,5 +2555,443 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "Constructor"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "Constructor"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "Constructor"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "x"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "y"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "Constructor"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "x"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "y"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "Constructor"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "x"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "y"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+      "qualifiedName": "Instance"
+    },
+    "14": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": ""
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "StrIndex"
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "StrIndex.__index"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "NumIndex"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "NumIndex.__index"
+    },
+    "21": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "BothIndex"
+    },
+    "22": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "BothIndex.__index"
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "TypeIndex"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "__type"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "__type.__index"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": ""
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": "EmptyInterface"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": "ClassImplementingEmptyInterface"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": "ClassImplementingEmptyInterface.name"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": "ClassImplementingEmptyInterface.goto"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": "ClassImplementingEmptyInterface.goto"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": ""
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventListener"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventListener.T"
+    },
+    "40": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventListener"
+    },
+    "41": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "parameter"
+    },
+    "42": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.SubscriptionInt"
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.SubscriptionInt.listener"
+    },
+    "44": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.SubscriptionInt.priority"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.SubscriptionInt.filter"
+    },
+    "46": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
+    },
+    "47": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
+    },
+    "48": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.SubscriptionInt.T"
+    },
+    "49": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription"
+    },
+    "50": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription.__constructor"
+    },
+    "51": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription"
+    },
+    "52": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription.V"
+    },
+    "53": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "listener"
+    },
+    "54": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "filter"
+    },
+    "55": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "priority"
+    },
+    "56": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "dispatcher"
+    },
+    "57": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription.listener"
+    },
+    "58": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription.filter"
+    },
+    "59": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription.priority"
+    },
+    "60": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription.dispatcher"
+    },
+    "61": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription.unsubscribe"
+    },
+    "62": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription.unsubscribe"
+    },
+    "63": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.Subscription.V"
+    },
+    "64": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt"
+    },
+    "65": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.add"
+    },
+    "66": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.add"
+    },
+    "67": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "listener"
+    },
+    "68": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "filter"
+    },
+    "69": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "priority"
+    },
+    "70": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.remove"
+    },
+    "71": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.remove"
+    },
+    "72": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "subscription"
+    },
+    "73": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.dispatch"
+    },
+    "74": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.dispatch"
+    },
+    "75": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "parameter"
+    },
+    "76": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.clear"
+    },
+    "77": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.clear"
+    },
+    "78": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
+    },
+    "79": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
+    },
+    "80": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.U"
+    },
+    "81": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher"
+    },
+    "84": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.T"
+    },
+    "85": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.subscriptions"
+    },
+    "86": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.add"
+    },
+    "87": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.add"
+    },
+    "88": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "listener"
+    },
+    "89": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "filter"
+    },
+    "90": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "priority"
+    },
+    "91": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.remove"
+    },
+    "92": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.remove"
+    },
+    "93": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "subscription"
+    },
+    "94": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.dispatch"
+    },
+    "95": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.dispatch"
+    },
+    "96": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "event"
+    },
+    "97": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.clear"
+    },
+    "98": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.clear"
+    },
+    "99": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.hasListeners"
+    },
+    "100": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.hasListeners"
+    },
+    "101": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.T"
+    },
+    "102": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": ""
+    },
+    "103": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Base"
+    },
+    "104": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Base.base"
+    },
+    "105": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Base2"
+    },
+    "106": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Base2.base2"
+    },
+    "107": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Child"
+    },
+    "108": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Child.child"
+    },
+    "109": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Child.child3"
+    },
+    "110": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Base.base"
+    },
+    "111": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Base2.base2"
+    },
+    "112": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Child2"
+    },
+    "113": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Child2.child2"
+    },
+    "114": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Child.child"
+    },
+    "115": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Child.child3"
+    },
+    "116": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Base.base"
+    },
+    "117": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Base2.base2"
+    }
+  }
 }

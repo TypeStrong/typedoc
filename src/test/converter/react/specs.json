@@ -231,5 +231,51 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "0": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": ""
+    },
+    "1": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "DemoProps"
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "DemoProps.name"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "DemoProps.age"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo.__constructor"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "props"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo.foo"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo.render"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo.render"
+    }
+  }
 }

@@ -56,6 +56,7 @@ export class ProjectReflection extends ContainerReflection {
 
     constructor(name: string) {
         super(name, ReflectionKind.Project);
+        this.reflections[this.id] = this;
     }
 
     /**
@@ -217,6 +218,9 @@ export class ProjectReflection extends ContainerReflection {
     /** @internal */
     registerSymbolId(reflection: Reflection, id: ReflectionSymbolId) {
         this.reflectionIdToSymbolIdMap.set(reflection.id, id);
+        if (!this.symbolToReflectionIdMap.has(id)) {
+            this.symbolToReflectionIdMap.set(id, reflection.id);
+        }
     }
 
     /**
@@ -270,11 +274,13 @@ export class ProjectReflection extends ContainerReflection {
             this.readme = Comment.deserializeDisplayParts(de, obj.readme);
         }
 
-        for (const [id, sid] of Object.entries(obj.symbolIdMap)) {
-            this.reflectionIdToSymbolIdMap.set(
-                +id,
-                new ReflectionSymbolId(sid)
-            );
-        }
+        de.defer(() => {
+            for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {
+                const refl = this.getReflectionById(de.oldIdToNewId[+id] || -1);
+                if (refl) {
+                    this.registerSymbolId(refl, new ReflectionSymbolId(sid));
+                }
+            }
+        });
     }
 }

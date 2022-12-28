@@ -57,7 +57,7 @@ export class ReflectionSymbolId {
     toObject(serializer: Serializer) {
         return {
             sourceFileName: isAbsolute(this.fileName)
-                ? relative(serializer.basePath, this.fileName)
+                ? relative(serializer.projectRoot, this.fileName)
                 : this.fileName,
             qualifiedName: this.qualifiedName,
         };

@@ -2069,5 +2069,331 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "0": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": ""
+    },
+    "1": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "AnyFunction"
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "__type"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "__type"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "input"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "A"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "AnyConstructor"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "__type"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "__type"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "input"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "A"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "T"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base"
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseProperty"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseMethod"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseMethod"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Func"
+    },
+    "20": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Func"
+    },
+    "21": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "T"
+    },
+    "22": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "base"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class"
+    },
+    "24": {
+      "sourceFileName": "\u0000",
+      "qualifiedName": "Mixin1Class.prototype"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "input"
+    },
+    "27": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Type"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class.property1"
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class.method1"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class.method1"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "arg"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseProperty"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseMethod"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseMethod"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "T"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "base"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2"
+    },
+    "40": {
+      "sourceFileName": "\u0000",
+      "qualifiedName": "Mixin2.prototype"
+    },
+    "41": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2"
+    },
+    "42": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "input"
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2Type"
+    },
+    "44": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2.property2"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2.method2"
+    },
+    "46": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2.method2"
+    },
+    "47": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "arg"
+    },
+    "48": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class.property1"
+    },
+    "49": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class.method1"
+    },
+    "50": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class.method1"
+    },
+    "51": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "arg"
+    },
+    "52": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseProperty"
+    },
+    "53": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseMethod"
+    },
+    "54": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseMethod"
+    },
+    "55": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin3"
+    },
+    "56": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin3"
+    },
+    "57": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "T"
+    },
+    "58": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "base"
+    },
+    "59": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin3"
+    },
+    "60": {
+      "sourceFileName": "\u0000",
+      "qualifiedName": "Mixin3.prototype"
+    },
+    "61": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin3"
+    },
+    "62": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "input"
+    },
+    "63": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin3"
+    },
+    "64": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "SomeClassWithMixin"
+    },
+    "65": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class"
+    },
+    "66": {
+      "sourceFileName": "\u0000",
+      "qualifiedName": "Mixin1Class.prototype"
+    },
+    "67": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class"
+    },
+    "68": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "input"
+    },
+    "71": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "SomeClassWithMixin.classWithMixinProperty"
+    },
+    "72": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "SomeClassWithMixin.classWithMixinMethod"
+    },
+    "73": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "SomeClassWithMixin.classWithMixinMethod"
+    },
+    "74": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2.property2"
+    },
+    "75": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2.method2"
+    },
+    "76": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin2.method2"
+    },
+    "77": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "arg"
+    },
+    "78": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class.property1"
+    },
+    "79": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class.method1"
+    },
+    "80": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Mixin1Class.method1"
+    },
+    "81": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "arg"
+    },
+    "82": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseProperty"
+    },
+    "83": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseMethod"
+    },
+    "84": {
+      "sourceFileName": "src/test/converter/mixin/mixin.ts",
+      "qualifiedName": "Base.baseMethod"
+    }
+  }
 }

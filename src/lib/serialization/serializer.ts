@@ -24,11 +24,7 @@ export class Serializer extends EventDispatcher {
     /**
      * Only set after resolve.
      */
-    readonly basePath!: string;
-
-    setBasePath(path: string) {
-        (this as any).basePath = path;
-    }
+    projectRoot!: string;
 
     addSerializer(serializer: SerializerComponent<any>): void {
         insertPrioritySorted(this.serializers, serializer);
@@ -72,8 +68,11 @@ export class Serializer extends EventDispatcher {
      */
     projectToObject(
         value: ProjectReflection,
+        projectRoot: string,
         eventData: { begin?: SerializeEventData; end?: SerializeEventData } = {}
     ): ModelToObject<ProjectReflection> {
+        this.projectRoot = projectRoot;
+
         const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value);
         if (eventData.begin) {
             eventBegin.outputDirectory = eventData.begin.outputDirectory;

@@ -249,5 +249,55 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "0": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": ""
+    },
+    "1": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "TCompareFunction"
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "__type"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "__type"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "a"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "b"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "T"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "TId"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "IsString"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "T"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "PromiseType"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "T"
+    }
+  }
 }

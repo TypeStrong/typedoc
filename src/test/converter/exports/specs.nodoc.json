@@ -284,5 +284,47 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "14": {
+      "sourceFileName": "src/test/converter/exports/export.ts",
+      "qualifiedName": ""
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": ""
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "a"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "b"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "c"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "default"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "default"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
+      "qualifiedName": ""
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/exports/export.ts",
+      "qualifiedName": "Mod2"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "b"
+    }
+  }
 }

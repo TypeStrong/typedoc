@@ -147,11 +147,6 @@ export class SourcePlugin extends ConverterComponent {
         const basePath =
             this.basePath || getCommonDirectory([...this.fileNames]);
 
-        // When serializing this is used to determine the effective base path of symbol id paths.
-        // We don't do it now because to do so we'd have to fully traverse every created type, and hope
-        // we find all the reference types...
-        this.application.serializer.setBasePath(basePath);
-
         for (const refl of Object.values(context.project.reflections)) {
             if (
                 !(

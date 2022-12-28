@@ -1212,5 +1212,219 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "Array"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "Array.T"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "complex"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "custom"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "Foo"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "FooList"
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/variables/destructuring.ts",
+      "qualifiedName": ""
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/variables/destructuring.ts",
+      "qualifiedName": "drawText"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/variables/destructuring.ts",
+      "qualifiedName": "drawText"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/variables/destructuring.ts",
+      "qualifiedName": "__0"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": ""
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "typeLiteral"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueZ"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueY"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueX"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueZ"
+    },
+    "40": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueY"
+    },
+    "41": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "42": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "z"
+    },
+    "44": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.a"
+    },
+    "46": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.b"
+    },
+    "47": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueA"
+    },
+    "48": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueA"
+    },
+    "49": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueB"
+    },
+    "70": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "objectLiteral"
+    },
+    "71": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object"
+    },
+    "72": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueZ"
+    },
+    "73": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueY"
+    },
+    "74": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__function"
+    },
+    "75": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__function"
+    },
+    "76": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueX"
+    },
+    "77": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object"
+    },
+    "78": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueZ"
+    },
+    "79": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueY"
+    },
+    "80": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__function"
+    },
+    "81": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__function"
+    },
+    "82": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "z"
+    },
+    "83": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object"
+    },
+    "84": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.a"
+    },
+    "85": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.b"
+    },
+    "86": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueA"
+    },
+    "87": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueA"
+    },
+    "88": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueB"
+    },
+    "89": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.[toStringTag]"
+    },
+    "90": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.literal"
+    },
+    "91": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.literal2"
+    }
+  }
 }

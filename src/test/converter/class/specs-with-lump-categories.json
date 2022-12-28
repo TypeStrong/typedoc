@@ -5276,5 +5276,779 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakePrivateFunction"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakePrivateFunction"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakeProtectedFunction"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakeProtectedFunction"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakePrivateVariable"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakeProtectedVariable"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.privateStaticGetter"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.privateStaticGetter"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakePrivateProperty"
+    },
+    "14": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakeProtectedProperty"
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakePrivateMethod"
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakePrivateMethod"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakeProtectedMethod"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakeProtectedMethod"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.privateArrow"
+    },
+    "20": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.privateArrow"
+    },
+    "21": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": ""
+    },
+    "22": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticProperty"
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticMethod"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticMethod"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.__constructor"
+    },
+    "27": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.publicProperty"
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.privateProperty"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.publicMethod"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.publicMethod"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.protectedMethod"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.protectedMethod"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.privateMethod"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.privateMethod"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.arrowMethod"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.arrowMethod"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticProperty"
+    },
+    "40": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticMethod"
+    },
+    "41": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticMethod"
+    },
+    "42": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.__constructor"
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass"
+    },
+    "44": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "p1"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "p2"
+    },
+    "46": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "p3"
+    },
+    "47": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "p4"
+    },
+    "48": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.publicMethod"
+    },
+    "49": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.publicMethod"
+    },
+    "50": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.protectedMethod"
+    },
+    "51": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.protectedMethod"
+    },
+    "52": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.p2"
+    },
+    "53": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.p3"
+    },
+    "54": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.p4"
+    },
+    "55": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.mergedMethod"
+    },
+    "56": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.mergedMethod"
+    },
+    "57": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.publicProperty"
+    },
+    "58": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.arrowMethod"
+    },
+    "59": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.arrowMethod"
+    },
+    "60": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass"
+    },
+    "61": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.staticMergedMethod"
+    },
+    "62": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.staticMergedMethod"
+    },
+    "63": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClass"
+    },
+    "66": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClass.myAbstractProperty"
+    },
+    "67": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClass.myAbstractMethod"
+    },
+    "68": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClass.myAbstractMethod"
+    },
+    "69": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClassImplementation"
+    },
+    "72": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClassImplementation.myAbstractProperty"
+    },
+    "73": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClassImplementation.myAbstractMethod"
+    },
+    "74": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClassImplementation.myAbstractMethod"
+    },
+    "75": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames"
+    },
+    "78": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames.literal2"
+    },
+    "79": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames.y"
+    },
+    "80": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames.[toStringTag]"
+    },
+    "81": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames.literal"
+    },
+    "82": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Ts38PrivateFields"
+    },
+    "85": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Ts38PrivateFields.#foo"
+    },
+    "86": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Abstract"
+    },
+    "89": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Abstract.needsImpl"
+    },
+    "90": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Abstract.needsImpl"
+    },
+    "91": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "AbstractMe"
+    },
+    "92": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "__type"
+    },
+    "93": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "__type"
+    },
+    "94": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": ""
+    },
+    "95": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2"
+    },
+    "96": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.__constructor"
+    },
+    "97": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2"
+    },
+    "98": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "x"
+    },
+    "99": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "y"
+    },
+    "100": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "name"
+    },
+    "101": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.x"
+    },
+    "102": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.y"
+    },
+    "103": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.name"
+    },
+    "104": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3"
+    },
+    "105": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3.__constructor"
+    },
+    "106": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3"
+    },
+    "107": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "x"
+    },
+    "108": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "y"
+    },
+    "109": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "z"
+    },
+    "110": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "name"
+    },
+    "111": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3.y"
+    },
+    "112": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3.z"
+    },
+    "113": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3.name"
+    },
+    "114": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.x"
+    },
+    "115": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": ""
+    },
+    "116": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorAtom"
+    },
+    "117": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorAtom"
+    },
+    "118": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "target"
+    },
+    "119": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "propertyKey"
+    },
+    "120": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "descriptor"
+    },
+    "121": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorWithParam"
+    },
+    "122": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorWithParam"
+    },
+    "123": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "value"
+    },
+    "124": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorWithOptions"
+    },
+    "125": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorWithOptions"
+    },
+    "126": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "options"
+    },
+    "127": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "__type"
+    },
+    "128": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "__type.name"
+    },
+    "129": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "DecoratedClass"
+    },
+    "132": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "DecoratedClass.decoratedMethod"
+    },
+    "133": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "DecoratedClass.decoratedMethod"
+    },
+    "134": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": ""
+    },
+    "135": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test"
+    },
+    "136": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "137": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "138": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "event"
+    },
+    "139": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "handler"
+    },
+    "140": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "141": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "142": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "e"
+    },
+    "143": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "144": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "event"
+    },
+    "145": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "handler"
+    },
+    "146": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "147": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "148": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "e"
+    },
+    "149": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "150": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "event"
+    },
+    "151": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "handler"
+    },
+    "152": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "153": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "154": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "e"
+    },
+    "155": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "156": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "event"
+    },
+    "157": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "handler"
+    },
+    "158": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "159": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "160": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "e"
+    },
+    "161": {
+      "sourceFileName": "src/test/converter/class/events.ts",
+      "qualifiedName": ""
+    },
+    "162": {
+      "sourceFileName": "src/test/converter/class/events.ts",
+      "qualifiedName": "EventDispatcher"
+    },
+    "163": {
+      "sourceFileName": "src/test/converter/class/events.ts",
+      "qualifiedName": "EventDispatcher.EVENT_CLICK"
+    },
+    "166": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": ""
+    },
+    "167": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass"
+    },
+    "168": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.__constructor"
+    },
+    "169": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass"
+    },
+    "170": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.T"
+    },
+    "171": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "value"
+    },
+    "172": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.value"
+    },
+    "173": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.values"
+    },
+    "174": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.getValue"
+    },
+    "175": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.getValue"
+    },
+    "176": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.T"
+    },
+    "177": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "NonGenericClass"
+    },
+    "178": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.__constructor"
+    },
+    "179": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "NonGenericClass"
+    },
+    "180": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "value"
+    },
+    "181": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.value"
+    },
+    "182": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.values"
+    },
+    "183": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.getValue"
+    },
+    "184": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.getValue"
+    },
+    "185": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": ""
+    },
+    "186": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter"
+    },
+    "189": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter._name"
+    },
+    "190": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.name"
+    },
+    "191": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.name"
+    },
+    "192": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.name"
+    },
+    "193": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "value"
+    },
+    "194": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.readOnlyName"
+    },
+    "195": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.readOnlyName"
+    },
+    "196": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.writeOnlyName"
+    },
+    "197": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.writeOnlyName"
+    },
+    "198": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "value"
+    },
+    "199": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.autoAccessor"
+    },
+    "200": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": ""
+    },
+    "201": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": "ChainClass"
+    },
+    "204": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": "ChainClass.chain"
+    },
+    "205": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": "ChainClass.chain"
+    },
+    "206": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": ""
+    },
+    "207": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "TestClass"
+    },
+    "210": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "TestClass.a"
+    },
+    "211": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "TestClass.b"
+    },
+    "212": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass"
+    },
+    "215": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass.T"
+    },
+    "216": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass.c"
+    },
+    "217": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass.T"
+    }
+  }
 }

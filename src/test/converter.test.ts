@@ -121,6 +121,20 @@ comparisonSerializer.addSerializer({
         return obj;
     },
 });
+comparisonSerializer.addSerializer({
+    priority: -1,
+    supports(obj) {
+        return obj instanceof ProjectReflection;
+    },
+    toObject(project: ProjectReflection, obj: JSONOutput.ProjectReflection) {
+        const idMap: Record<string, JSONOutput.ReflectionSymbolId> = {};
+        for (const [k, v] of Object.entries(obj.symbolIdMap!)) {
+            idMap[project.getReflectionById(+k)!.getFullName()] = v;
+        }
+        obj.symbolIdMap = idMap;
+        return obj;
+    },
+});
 
 describe("Converter", function () {
     const base = getConverterBase();
@@ -190,21 +204,39 @@ describe("Converter", function () {
                 it(`[${file}] matches specs`, function () {
                     // Pass data through a parse/stringify to get rid of undefined properties
                     const data = JSON.parse(
-                        JSON.stringify(app.serializer.toObject(result))
+                        JSON.stringify(
+                            app.serializer.projectToObject(
+                                result!,
+                                process.cwd()
+                            )
+                        )
                     );
+                    delete data.symbolIdMap;
+                    const specCopy = { ...specs };
+                    delete specCopy.symbolIdMap;
 
-                    equal(data, specs);
+                    equal(data, specCopy);
                 });
 
                 it(`[${file}] round trips revival`, () => {
                     const revived = app.deserializer.reviveProject(specs);
                     const specs2 = JSON.parse(
-                        JSON.stringify(comparisonSerializer.toObject(revived))
+                        JSON.stringify(
+                            comparisonSerializer.projectToObject(
+                                revived,
+                                process.cwd()
+                            )
+                        )
                     );
 
                     // Pass data through a parse/stringify to get rid of undefined properties
                     const data = JSON.parse(
-                        JSON.stringify(comparisonSerializer.toObject(result))
+                        JSON.stringify(
+                            comparisonSerializer.projectToObject(
+                                result!,
+                                process.cwd()
+                            )
+                        )
                     );
 
                     equal(data, specs2);

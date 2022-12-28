@@ -214,6 +214,7 @@ export class Deserializer {
         );
         const project = new ProjectReflection(projectObj.name);
         this.project = project;
+        this.oldIdToNewId = { [projectObj.id]: project.id };
         this.fromObject(project, projectObj);
 
         const deferred = this.deferred;

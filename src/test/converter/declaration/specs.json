@@ -307,5 +307,43 @@
       ]
     }
   ],
-  "packageName": "typedoc"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/declaration/declaration.d.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/declaration/declaration.d.ts",
+      "qualifiedName": "Decl"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/declaration/declaration.d.ts",
+      "qualifiedName": "Decl.prop"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/declaration/declaration.d.ts",
+      "qualifiedName": "x"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/declaration/export-declaration.d.ts",
+      "qualifiedName": ""
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/declaration/export-declaration.d.ts",
+      "qualifiedName": "Exported"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/declaration/export-declaration.d.ts",
+      "qualifiedName": "NotExported"
+    },
+    "14": {
+      "sourceFileName": "src/test/converter/declaration/external.d.ts",
+      "qualifiedName": ""
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/declaration/external.d.ts",
+      "qualifiedName": "ActionSet"
+    }
+  }
 }
