@@ -1,10 +1,9 @@
-import { deepStrictEqual as equal } from "assert";
+import * as assert from "assert";
 import { project } from "@typestrong/fs-fixture-builder";
 
 import { PackageJsonReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
 import { TestLogger } from "../../../TestLogger";
-import { join } from "path";
 
 describe("Options - PackageJsonReader", () => {
     let optsContainer: Options;
@@ -18,24 +17,20 @@ describe("Options - PackageJsonReader", () => {
         optsContainer.addReader(new PackageJsonReader());
     });
 
-    it("Errors if the file cannot be found at a file path", () => {
+    it("Does not error if the file cannot be found at a file path", () => {
         optsContainer.setValue("options", "./non-existent-file.json");
 
         optsContainer.read(testLogger);
-        testLogger.expectMessage(
-            "error: A package.json file at */non-existent-file.json does not exist."
-        );
         testLogger.expectNoOtherMessages();
+        assert.strictEqual(testLogger.hasErrors(), false);
     });
 
-    it("Errors if the file cannot be found at a directory path", () => {
+    it("Does not error if the file cannot be found at a directory path", () => {
         optsContainer.setValue("options", "./non-existent-directory");
 
         optsContainer.read(testLogger);
-        testLogger.expectMessage(
-            "error: A package.json file at */non-existent-directory does not exist."
-        );
         testLogger.expectNoOtherMessages();
+        assert.strictEqual(testLogger.hasErrors(), false);
     });
 
     function testErrorLogs(
@@ -87,21 +82,4 @@ describe("Options - PackageJsonReader", () => {
         `{ "typedocOptions": { "someOptionThatDoesNotExist": true } }`,
         "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared."
     );
-
-    it("Does not error if the option file cannot be found but was not set", () => {
-        const logger = new Logger();
-        const opts = new (class LyingOptions extends Options {
-            override isSet() {
-                return false;
-            }
-        })(logger);
-
-        opts.addDefaultDeclarations();
-        opts.setValue("options", join(__dirname, "data/does_not_exist.json"));
-        opts.addReader(new PackageJsonReader());
-
-        opts.read(logger);
-
-        equal(logger.hasErrors(), false);
-    });
 });

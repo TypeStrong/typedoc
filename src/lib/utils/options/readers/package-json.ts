@@ -25,13 +25,6 @@ export class PackageJsonReader implements OptionsReader {
         );
 
         if (!path) {
-            if (container.isSet("options")) {
-                logger.error(
-                    `A package.json file at ${nicePath(
-                        cfgPath
-                    )} does not exist.`
-                );
-            }
             return;
         }
 
