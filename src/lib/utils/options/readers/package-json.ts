@@ -43,7 +43,12 @@ export class PackageJsonReader implements OptionsReader {
             return;
         }
 
-        const opts: Record<string, any> | undefined = pkg["typedocOptions"];
+        const optsKey = "typedocOptions";
+        if (!(optsKey in pkg)) {
+            return;
+        }
+
+        const opts = pkg[optsKey];
         if (opts === null || typeof opts !== "object") {
             logger.error(
                 `Failed to parse the "typedocOptions" field in ${nicePath(

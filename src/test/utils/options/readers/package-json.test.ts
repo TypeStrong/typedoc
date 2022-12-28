@@ -33,10 +33,10 @@ describe("Options - PackageJsonReader", () => {
         assert.strictEqual(testLogger.hasErrors(), false);
     });
 
-    function testErrorLogs(
+    function testLogs(
         testTitle: string,
         pkgJsonContent: string,
-        expMsg: string
+        test: (logger: TestLogger) => void
     ): void {
         it(testTitle, () => {
             const proj = project(testTitle.replace(/ /g, "_"));
@@ -49,37 +49,46 @@ describe("Options - PackageJsonReader", () => {
 
             proj.rm();
 
-            testLogger.expectMessage(expMsg);
+            test(testLogger);
         });
     }
 
-    testErrorLogs(
+    testLogs(
         "Errors if the package.json data is not valid JSON",
         "Not valid JSON {}",
-        "error: Failed to parse */package.json, ensure it exists and contains an object."
+        (l) =>
+            l.expectMessage(
+                "error: Failed to parse */package.json, ensure it exists and contains an object."
+            )
     );
 
-    testErrorLogs(
-        "Errors if the package.json data is not an object",
-        "123",
-        "error: Failed to parse */package.json, ensure it exists and contains an object."
+    testLogs("Errors if the package.json data is not an object", "123", (l) =>
+        l.expectMessage(
+            "error: Failed to parse */package.json, ensure it exists and contains an object."
+        )
     );
 
-    testErrorLogs(
-        `Errors if there is no "typedocOptions" field`,
+    testLogs(
+        `Does not error if the "typedocOptions" field is not set`,
         `{ "notTypedocOptions": {} }`,
-        `error: Failed to parse the "typedocOptions" field in */package.json, ensure it exists and contains an object.`
+        (l) => assert.strictEqual(l.hasErrors(), false)
     );
 
-    testErrorLogs(
-        `Errors if the "typedocOptions" field does not contain an object`,
+    testLogs(
+        `Errors if the "typedocOptions" field is set but does not contain an object`,
         `{ "typedocOptions": 123 }`,
-        `error: Failed to parse the "typedocOptions" field in */package.json, ensure it exists and contains an object.`
+        (l) =>
+            l.expectMessage(
+                `error: Failed to parse the "typedocOptions" field in */package.json, ensure it exists and contains an object.`
+            )
     );
 
-    testErrorLogs(
-        "Errors if any set option errors",
+    testLogs(
+        "Errors if setting any option errors",
         `{ "typedocOptions": { "someOptionThatDoesNotExist": true } }`,
-        "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared."
+        (l) =>
+            l.expectMessage(
+                "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared."
+            )
     );
 });
