@@ -213,12 +213,15 @@ export class Deserializer {
      * This is generally not appropriate for merging multiple projects since projects may
      * contain reflections in their root, not inside a module.
      */
-    reviveProject(projectObj: JSONOutput.ProjectReflection): ProjectReflection {
+    reviveProject(
+        projectObj: JSONOutput.ProjectReflection,
+        name?: string
+    ): ProjectReflection {
         ok(
             this.deferred.length === 0,
             "Deserializer.defer was called when not deserializing"
         );
-        const project = new ProjectReflection(projectObj.name);
+        const project = new ProjectReflection(name || projectObj.name);
         this.project = project;
         this.oldIdToNewId = { [projectObj.id]: project.id };
         this.fromObject(project, projectObj);
@@ -245,13 +248,14 @@ export class Deserializer {
     }
 
     reviveProjects(
+        name: string,
         projects: readonly JSONOutput.ProjectReflection[]
     ): ProjectReflection {
         if (projects.length === 1) {
-            return this.reviveProject(projects[0]);
+            return this.reviveProject(projects[0], name);
         }
 
-        const project = new ProjectReflection("(merged)");
+        const project = new ProjectReflection(name);
         project.children = [];
         this.project = project;
 

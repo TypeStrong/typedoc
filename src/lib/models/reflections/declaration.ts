@@ -330,9 +330,6 @@ export class DeclarationReflection extends ContainerReflection {
         // If updating this, also check ProjectReflection.fromObject.
         if (obj.variant === "project") {
             this.kind = ReflectionKind.Module;
-            if (obj.packageName) {
-                this.name = obj.packageName;
-            }
             if (obj.readme) {
                 this.readme = Comment.deserializeDisplayParts(de, obj.readme);
             }

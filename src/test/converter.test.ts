@@ -194,11 +194,8 @@ describe("Converter", function () {
                     );
                     ok(entryPoints, "Failed to get entry points");
                     result = app.converter.convert(entryPoints);
+                    result.name = directory;
                     after();
-                    ok(
-                        result instanceof ProjectReflection,
-                        "No reflection returned"
-                    );
                 });
 
                 it(`[${file}] matches specs`, function () {

@@ -2,8 +2,9 @@ import { Component, ConverterComponent } from "../components";
 import type { Context } from "../../converter";
 import { ConverterEvents } from "../converter-events";
 import { BindOption, ValidationOptions } from "../../utils";
-import { DeclarationReflection } from "../../models";
+import { DeclarationReflection, ProjectReflection } from "../../models";
 import { discoverAllReferenceTypes } from "../../utils/reflections";
+import { ApplicationEvents } from "../../application-events";
 
 /**
  * A plugin that resolves `{@link Foo}` tags.
@@ -13,44 +14,45 @@ export class LinkResolverPlugin extends ConverterComponent {
     @BindOption("validation")
     validation!: ValidationOptions;
 
-    /**
-     * Create a new LinkResolverPlugin instance.
-     */
     override initialize() {
         super.initialize();
         this.owner.on(ConverterEvents.RESOLVE_END, this.onResolve, this, -300);
+        this.application.on(
+            ApplicationEvents.REVIVE,
+            this.resolveLinks,
+            this,
+            -300
+        );
     }
 
     onResolve(context: Context) {
-        for (const reflection of Object.values(context.project.reflections)) {
+        this.resolveLinks(context.project);
+    }
+
+    resolveLinks(project: ProjectReflection) {
+        for (const reflection of Object.values(project.reflections)) {
             if (reflection.comment) {
-                context.converter.resolveLinks(reflection.comment, reflection);
+                this.owner.resolveLinks(reflection.comment, reflection);
             }
 
             if (
                 reflection instanceof DeclarationReflection &&
                 reflection.readme
             ) {
-                reflection.readme = context.converter.resolveLinks(
+                reflection.readme = this.owner.resolveLinks(
                     reflection.readme,
                     reflection
                 );
             }
         }
 
-        if (context.project.readme) {
-            context.project.readme = context.converter.resolveLinks(
-                context.project.readme,
-                context.project
-            );
+        if (project.readme) {
+            project.readme = this.owner.resolveLinks(project.readme, project);
         }
 
-        for (const { type } of discoverAllReferenceTypes(
-            context.project,
-            false
-        )) {
+        for (const { type } of discoverAllReferenceTypes(project, false)) {
             if (!type.reflection) {
-                type.externalUrl = context.converter.resolveExternalLink(
+                type.externalUrl = this.owner.resolveExternalLink(
                     type.toDeclarationReference()
                 );
             }

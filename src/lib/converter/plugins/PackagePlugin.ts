@@ -8,6 +8,8 @@ import { BindOption, EntryPointStrategy, readFile } from "../../utils";
 import { getCommonDirectory } from "../../utils/fs";
 import { nicePath } from "../../utils/paths";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile";
+import type { ProjectReflection } from "../../models/index";
+import { ApplicationEvents } from "../../application-events";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -34,9 +36,6 @@ export class PackagePlugin extends ConverterComponent {
      */
     private packageFile?: string;
 
-    /**
-     * Create a new PackageHandler instance.
-     */
     override initialize() {
         this.listenTo(this.owner, {
             [Converter.EVENT_BEGIN]: this.onBegin,
@@ -46,12 +45,19 @@ export class PackagePlugin extends ConverterComponent {
                 delete this.packageFile;
             },
         });
+        this.listenTo(this.application, {
+            [ApplicationEvents.REVIVE]: this.onRevive,
+        });
     }
 
-    /**
-     * Triggered when the converter begins converting a project.
-     */
-    private onBegin(_context: Context) {
+    private onRevive(project: ProjectReflection) {
+        this.onBegin();
+        this.addEntries(project);
+        delete this.readmeFile;
+        delete this.packageFile;
+    }
+
+    private onBegin() {
         this.readmeFile = undefined;
         this.packageFile = undefined;
 
@@ -94,16 +100,14 @@ export class PackagePlugin extends ConverterComponent {
         }
     }
 
-    /**
-     * Triggered when the converter begins resolving a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     */
     private onBeginResolve(context: Context) {
-        const project = context.project;
+        this.addEntries(context.project);
+    }
+
+    private addEntries(project: ProjectReflection) {
         if (this.readmeFile) {
             const readme = readFile(this.readmeFile);
-            const comment = context.converter.parseRawComment(
+            const comment = this.application.converter.parseRawComment(
                 new MinimalSourceFile(readme, this.readmeFile)
             );
 
@@ -125,7 +129,7 @@ export class PackagePlugin extends ConverterComponent {
         if (this.packageFile) {
             const packageInfo = JSON.parse(readFile(this.packageFile));
             if (!packageInfo.name) {
-                context.logger.warn(
+                this.application.logger.warn(
                     `The package file at ${nicePath(
                         this.packageFile
                     )} does not have a name field.`
@@ -149,7 +153,7 @@ export class PackagePlugin extends ConverterComponent {
                     if (
                         this.entryPointStrategy !== EntryPointStrategy.Packages
                     ) {
-                        context.logger.warn(
+                        this.application.logger.warn(
                             "--includeVersion was specified, but package.json does not specify a version."
                         );
                     }
@@ -157,7 +161,7 @@ export class PackagePlugin extends ConverterComponent {
             }
         } else {
             if (!project.name) {
-                context.logger.warn(
+                this.application.logger.warn(
                     'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".'
                 );
                 project.name = "Documentation";
@@ -166,7 +170,7 @@ export class PackagePlugin extends ConverterComponent {
                 // since not all monorepo specifies a meaningful version to the main package.json
                 // this warning should be optional
                 if (this.entryPointStrategy !== EntryPointStrategy.Packages) {
-                    context.logger.warn(
+                    this.application.logger.warn(
                         "--includeVersion was specified, but no package.json was found. Not adding package version to the documentation."
                     );
                 }

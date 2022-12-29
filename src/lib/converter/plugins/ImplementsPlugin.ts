@@ -1,7 +1,9 @@
 import * as ts from "typescript";
+import { ApplicationEvents } from "../../application-events";
 import {
     ContainerReflection,
     DeclarationReflection,
+    ProjectReflection,
     Reflection,
     ReflectionKind,
     SignatureReflection,
@@ -42,17 +44,14 @@ export class ImplementsPlugin extends ConverterComponent {
             this.onSignature,
             1000
         );
+        this.listenTo(this.application, ApplicationEvents.REVIVE, this.resolve);
     }
 
     /**
      * Mark all members of the given class to be the implementation of the matching interface member.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param classReflection  The reflection of the classReflection class.
-     * @param interfaceReflection  The reflection of the interfaceReflection interface.
      */
     private analyzeImplements(
-        context: Context,
+        project: ProjectReflection,
         classReflection: DeclarationReflection,
         interfaceReflection: DeclarationReflection
     ) {
@@ -77,7 +76,7 @@ export class ImplementsPlugin extends ConverterComponent {
                 ReferenceType.createResolvedReference(
                     interfaceMemberName,
                     interfaceMember,
-                    context.project
+                    project
                 );
 
             if (
@@ -94,7 +93,7 @@ export class ImplementsPlugin extends ConverterComponent {
                             ReferenceType.createResolvedReference(
                                 clsSig.implementationOf.name,
                                 intSig,
-                                context.project
+                                project
                             );
                     }
                 }
@@ -105,7 +104,7 @@ export class ImplementsPlugin extends ConverterComponent {
     }
 
     private analyzeInheritance(
-        context: Context,
+        project: ProjectReflection,
         reflection: DeclarationReflection
     ) {
         const extendedTypes = filterMap(
@@ -138,14 +137,14 @@ export class ImplementsPlugin extends ConverterComponent {
                         childSig[key] = ReferenceType.createResolvedReference(
                             `${parent.name}.${parentMember.name}`,
                             parentSig,
-                            context.project
+                            project
                         );
                     }
 
                     child[key] = ReferenceType.createResolvedReference(
                         `${parent.name}.${parentMember.name}`,
                         parentMember,
-                        context.project
+                        project
                     );
 
                     handleInheritedComments(child, parentMember);
@@ -155,14 +154,21 @@ export class ImplementsPlugin extends ConverterComponent {
     }
 
     private onResolveEnd(context: Context) {
-        for (const reflection of Object.values(context.project.reflections)) {
+        this.resolve(context.project);
+    }
+
+    private resolve(project: ProjectReflection) {
+        for (const reflection of Object.values(project.reflections)) {
             if (reflection instanceof DeclarationReflection) {
-                this.tryResolve(context, reflection);
+                this.tryResolve(project, reflection);
             }
         }
     }
 
-    private tryResolve(context: Context, reflection: DeclarationReflection) {
+    private tryResolve(
+        project: ProjectReflection,
+        reflection: DeclarationReflection
+    ) {
         const requirements = filterMap(
             [
                 ...(reflection.implementedTypes ?? []),
@@ -174,11 +180,11 @@ export class ImplementsPlugin extends ConverterComponent {
         );
 
         if (requirements.every((req) => this.resolved.has(req))) {
-            this.doResolve(context, reflection);
+            this.doResolve(project, reflection);
             this.resolved.add(reflection);
 
             for (const refl of this.postponed.get(reflection) ?? []) {
-                this.tryResolve(context, refl);
+                this.tryResolve(project, refl);
             }
             this.postponed.delete(reflection);
         } else {
@@ -190,7 +196,10 @@ export class ImplementsPlugin extends ConverterComponent {
         }
     }
 
-    private doResolve(context: Context, reflection: DeclarationReflection) {
+    private doResolve(
+        project: ProjectReflection,
+        reflection: DeclarationReflection
+    ) {
         if (
             reflection.kindOf(ReflectionKind.Class) &&
             reflection.implementedTypes
@@ -205,7 +214,7 @@ export class ImplementsPlugin extends ConverterComponent {
                     type.reflection.kindOf(ReflectionKind.ClassOrInterface)
                 ) {
                     this.analyzeImplements(
-                        context,
+                        project,
                         reflection,
                         type.reflection as DeclarationReflection
                     );
@@ -217,7 +226,7 @@ export class ImplementsPlugin extends ConverterComponent {
             reflection.kindOf(ReflectionKind.ClassOrInterface) &&
             reflection.extendedTypes
         ) {
-            this.analyzeInheritance(context, reflection);
+            this.analyzeInheritance(project, reflection);
         }
     }
 

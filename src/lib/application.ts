@@ -116,6 +116,11 @@ export class Application extends ChildableComponent<
     static readonly EVENT_BOOTSTRAP_END = ApplicationEvents.BOOTSTRAP_END;
 
     /**
+     * Emitted after a project has been deserialized from JSON.
+     */
+    static readonly EVENT_PROJECT_REVIVE = ApplicationEvents.REVIVE;
+
+    /**
      * Create a new TypeDoc application instance.
      *
      * @param options An object containing the options that should be used.
@@ -539,12 +544,13 @@ export class Application extends ChildableComponent<
         });
         if (this.logger.hasErrors()) return;
 
-        const result = this.deserializer.reviveProjects(jsonProjects);
-        // Also need to have a hook for merge actions
-        // - Resolve @link
-        // - Resolve type references
-
+        const result = this.deserializer.reviveProjects(
+            this.options.getValue("name"),
+            jsonProjects
+        );
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
+
+        this.trigger(ApplicationEvents.REVIVE, result);
         return result;
     }
 }

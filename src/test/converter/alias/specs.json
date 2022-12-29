@@ -1,6 +1,6 @@
 {
   "id": 0,
-  "name": "typedoc",
+  "name": "alias",
   "variant": "project",
   "kind": 1,
   "flags": {},
@@ -22,9 +22,9 @@
       "sources": [
         {
           "fileName": "alias.ts",
-          "line": 14,
+          "line": 16,
           "character": 12,
-          "url": "typedoc://alias.ts#L14"
+          "url": "typedoc://alias.ts#L16"
         }
       ],
       "typeParameters": [
@@ -57,6 +57,35 @@
       }
     },
     {
+      "id": 12,
+      "name": "MergedCrossReference",
+      "variant": "declaration",
+      "kind": 4194304,
+      "flags": {},
+      "comment": {
+        "summary": [
+          {
+            "kind": "inline-tag",
+            "tag": "@link",
+            "text": "class!TestClass"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 26,
+          "character": 12,
+          "url": "typedoc://alias.ts#L26"
+        }
+      ],
+      "type": {
+        "type": "reference",
+        "name": "TestClass",
+        "package": "typedoc"
+      }
+    },
+    {
       "id": 10,
       "name": "PromiseType",
       "variant": "declaration",
@@ -73,9 +102,9 @@
       "sources": [
         {
           "fileName": "alias.ts",
-          "line": 19,
+          "line": 21,
           "character": 12,
-          "url": "typedoc://alias.ts#L19"
+          "url": "typedoc://alias.ts#L21"
         }
       ],
       "typeParameters": [
@@ -123,9 +152,9 @@
       "sources": [
         {
           "fileName": "alias.ts",
-          "line": 4,
+          "line": 6,
           "character": 12,
-          "url": "typedoc://alias.ts#L4"
+          "url": "typedoc://alias.ts#L6"
         }
       ],
       "typeParameters": [
@@ -148,9 +177,9 @@
           "sources": [
             {
               "fileName": "alias.ts",
-              "line": 4,
+              "line": 6,
               "character": 34,
-              "url": "typedoc://alias.ts#L4"
+              "url": "typedoc://alias.ts#L6"
             }
           ],
           "signatures": [
@@ -218,9 +247,9 @@
       "sources": [
         {
           "fileName": "alias.ts",
-          "line": 9,
+          "line": 11,
           "character": 12,
-          "url": "typedoc://alias.ts#L9"
+          "url": "typedoc://alias.ts#L11"
         }
       ],
       "type": {
@@ -243,6 +272,7 @@
       "title": "Type Aliases",
       "children": [
         8,
+        12,
         10,
         1,
         7
@@ -298,6 +328,10 @@
     "11": {
       "sourceFileName": "src/test/converter/alias/alias.ts",
       "qualifiedName": "T"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "MergedCrossReference"
     }
   }
 }

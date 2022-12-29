@@ -11,6 +11,7 @@ const TypeDoc = require("../src");
 const { getExpandedEntryPointsForPaths } = require("../src/lib/utils");
 const { ok } = require("assert");
 const { SourceReference } = require("../src");
+const { basename } = require("path");
 
 const base = path.join(__dirname, "../src/test/converter");
 
@@ -99,6 +100,7 @@ function rebuildConverterTests(dirs) {
                 );
                 ok(entry, "Missing entry point");
                 const result = app.converter.convert(entry);
+                result.name = basename(fullPath);
                 const serialized = app.serializer.projectToObject(
                     result,
                     process.cwd()
