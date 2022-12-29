@@ -203,7 +203,7 @@ export function getExpandedEntryPointsForPaths(
 function expandGlobs(inputFiles: string[]) {
     const base = getCommonDirectory(inputFiles);
     const result = inputFiles.flatMap((entry) =>
-        glob(entry, base, { includeDirectories: true })
+        glob(entry, base, { includeDirectories: true, followSymlinks: true })
     );
     return result;
 }
