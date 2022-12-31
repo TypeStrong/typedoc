@@ -62,11 +62,11 @@
     "/tsdoc.json"
   ],
   "scripts": {
-    "test": "mocha -r ts-node/register --config .config/mocha.fast.json",
-    "test:cov": "c8 mocha -r ts-node/register --config .config/mocha.fast.json",
+    "test": "mocha --config .config/mocha.fast.json",
+    "test:cov": "c8 mocha --config .config/mocha.fast.json",
     "doc:c": "node bin/typedoc --tsconfig src/test/converter/tsconfig.json",
     "doc:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
-    "test:full": "c8 mocha -r ts-node/register --config .config/mocha.full.json",
+    "test:full": "c8 mocha --config .config/mocha.full.json",
     "test:visual": "ts-node ./src/test/capture-screenshots.ts && ./scripts/compare_screenshots.sh",
     "test:visual:accept": "node scripts/accept_visual_regression.js",
     "rebuild_specs": "node scripts/rebuild_specs.js",
