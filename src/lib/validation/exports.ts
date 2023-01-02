@@ -1,3 +1,4 @@
+import { ok } from "assert";
 import type { ProjectReflection, ReferenceType } from "../models";
 import type { Logger } from "../utils";
 import { nicePath } from "../utils/paths";
@@ -19,6 +20,8 @@ function makeIntentionallyExportedHelper(
 
     return {
         has(type: ReferenceType, typeName: string) {
+            ok(!type.reflection);
+
             // If it isn't declared anywhere, we can't produce a good error message about where
             // the non-exported symbol is, so even if it isn't ignored, pretend it is. In practice,
             // this will happen incredibly rarely, since symbols without declarations are very rare.
@@ -40,7 +43,10 @@ function makeIntentionallyExportedHelper(
             }
 
             for (const [index, [file, name]] of processed.entries()) {
-                if (typeName === name && type.sourceFileName?.endsWith(file)) {
+                if (
+                    typeName === name &&
+                    type.symbolId!.fileName.endsWith(file)
+                ) {
                     used.add(index);
                     return true;
                 }
@@ -67,20 +73,20 @@ export function validateExports(
     const warned = new Set<string>();
 
     for (const { type, owner } of discoverAllReferenceTypes(project, true)) {
-        const uniqueId = `${type.sourceFileName}\0${type.qualifiedName}`;
+        const uniqueId = type.symbolId?.getStableKey();
 
         if (
             !type.reflection &&
             !type.externalUrl &&
             !type.isIntentionallyBroken() &&
             !intentional.has(type, type.qualifiedName) &&
-            !warned.has(uniqueId)
+            !warned.has(uniqueId!)
         ) {
-            warned.add(uniqueId);
+            warned.add(uniqueId!);
 
             logger.warn(
                 `${type.qualifiedName}, defined in ${nicePath(
-                    type.sourceFileName!
+                    type.symbolId!.fileName
                 )}, is referenced by ${owner.getFullName()} but not included in the documentation.`
             );
         }

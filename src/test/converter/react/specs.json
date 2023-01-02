@@ -50,7 +50,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 1,
+                    "target": 1,
                     "name": "DemoProps",
                     "package": "typedoc"
                   }
@@ -58,7 +58,7 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 4,
+                "target": 4,
                 "name": "Demo",
                 "package": "typedoc"
               }

@@ -40,6 +40,7 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
+          "target": -1,
           "name": "T"
         },
         "extendsType": {
@@ -81,6 +82,10 @@
       ],
       "type": {
         "type": "reference",
+        "target": {
+          "sourceFileName": "src/test/converter/class/class.ts",
+          "qualifiedName": "TestClass"
+        },
         "name": "TestClass",
         "package": "typedoc"
       }
@@ -120,10 +125,15 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
+          "target": -1,
           "name": "T"
         },
         "extendsType": {
           "type": "reference",
+          "target": {
+            "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+            "qualifiedName": "PromiseLike"
+          },
           "typeArguments": [
             {
               "type": "inferred",
@@ -135,10 +145,12 @@
         },
         "trueType": {
           "type": "reference",
+          "target": -1,
           "name": "U"
         },
         "falseType": {
           "type": "reference",
+          "target": -1,
           "name": "T"
         }
       }
@@ -206,6 +218,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 },
@@ -217,6 +230,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 }

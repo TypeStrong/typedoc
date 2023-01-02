@@ -179,7 +179,7 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 29,
+                "target": 29,
                 "name": "GH1453Helper",
                 "package": "typedoc"
               }
@@ -224,7 +224,7 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 29,
+                "target": 29,
                 "name": "__module",
                 "package": "typedoc"
               },
@@ -248,7 +248,7 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 29,
+                "target": 29,
                 "name": "a",
                 "package": "typedoc"
               },
@@ -272,7 +272,7 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 29,
+                "target": 29,
                 "name": "__module",
                 "package": "typedoc"
               },

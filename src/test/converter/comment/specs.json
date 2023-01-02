@@ -61,7 +61,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 2,
+                    "target": 2,
                     "name": "CommentedClass",
                     "package": "typedoc"
                   }

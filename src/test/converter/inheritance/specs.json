@@ -63,6 +63,7 @@
               ],
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             },
@@ -118,6 +119,7 @@
                   ],
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 }
@@ -203,6 +205,7 @@
               ],
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             },
@@ -258,6 +261,7 @@
                   ],
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 }
@@ -404,6 +408,7 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 },
@@ -423,6 +428,7 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 }
@@ -597,6 +603,7 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 },
@@ -616,6 +623,7 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 }
@@ -699,18 +707,20 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 34,
+                    "target": 34,
                     "name": "MySubClass",
                     "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "target": -1,
                     "name": "My.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "My.constructor"
               }
             },
@@ -734,6 +744,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "My.instanceProp"
               }
             },
@@ -759,6 +770,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "My.staticProp"
               }
             }
@@ -789,7 +801,7 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 31,
+              "target": 31,
               "name": "My",
               "package": "typedoc"
             }
@@ -883,7 +895,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 31,
+                    "target": 31,
                     "name": "My",
                     "package": "typedoc"
                   }
@@ -955,14 +967,14 @@
           ],
           "type": {
             "type": "reference",
-            "id": 27,
+            "target": 27,
             "name": "MyCtor",
             "package": "typedoc"
           },
           "extendedBy": [
             {
               "type": "reference",
-              "id": 34,
+              "target": 34,
               "name": "MySubClass"
             }
           ]

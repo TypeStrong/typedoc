@@ -27,7 +27,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 6,
+                "target": 6,
                 "name": "Class1",
                 "package": "typedoc"
               }
@@ -109,14 +109,14 @@
               },
               "implementationOf": {
                 "type": "reference",
-                "id": 3,
+                "target": 3,
                 "name": "Base.method1"
               }
             }
           ],
           "implementationOf": {
             "type": "reference",
-            "id": 2,
+            "target": 2,
             "name": "Base.method1"
           }
         }
@@ -146,7 +146,7 @@
       "implementedTypes": [
         {
           "type": "reference",
-          "id": 1,
+          "target": 1,
           "name": "Base",
           "package": "typedoc"
         }
@@ -174,7 +174,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 13,
+                "target": 13,
                 "name": "Class2",
                 "package": "typedoc"
               }
@@ -256,14 +256,14 @@
               },
               "implementationOf": {
                 "type": "reference",
-                "id": 3,
+                "target": 3,
                 "name": "Base.method1"
               }
             }
           ],
           "implementationOf": {
             "type": "reference",
-            "id": 2,
+            "target": 2,
             "name": "Base.method1"
           }
         }
@@ -293,7 +293,7 @@
       "implementedTypes": [
         {
           "type": "reference",
-          "id": 1,
+          "target": 1,
           "name": "Base",
           "package": "typedoc"
         }
@@ -321,7 +321,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 20,
+                "target": 20,
                 "name": "Class3",
                 "package": "typedoc"
               }
@@ -403,14 +403,14 @@
               },
               "implementationOf": {
                 "type": "reference",
-                "id": 3,
+                "target": 3,
                 "name": "Base.method1"
               }
             }
           ],
           "implementationOf": {
             "type": "reference",
-            "id": 2,
+            "target": 2,
             "name": "Base.method1"
           }
         }
@@ -440,7 +440,7 @@
       "implementedTypes": [
         {
           "type": "reference",
-          "id": 1,
+          "target": 1,
           "name": "Base",
           "package": "typedoc"
         }
@@ -549,17 +549,17 @@
       "implementedBy": [
         {
           "type": "reference",
-          "id": 6,
+          "target": 6,
           "name": "Class1"
         },
         {
           "type": "reference",
-          "id": 13,
+          "target": 13,
           "name": "Class2"
         },
         {
           "type": "reference",
-          "id": 20,
+          "target": 20,
           "name": "Class3"
         }
       ]

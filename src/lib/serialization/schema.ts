@@ -264,7 +264,7 @@ export interface ReferenceType
             M.ReferenceType,
             "type" | "name" | "typeArguments" | "package" | "externalUrl"
         > {
-    id?: number;
+    target: number | ReflectionSymbolId;
     qualifiedName?: string;
 }
 

@@ -262,7 +262,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 86,
+                    "target": 86,
                     "name": "Predicates",
                     "package": "typedoc"
                   }
@@ -579,6 +579,7 @@
                               "flags": {},
                               "type": {
                                 "type": "reference",
+                                "target": -1,
                                 "name": "T"
                               }
                             }
@@ -600,9 +601,14 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                      "qualifiedName": "Iterable"
+                    },
                     "typeArguments": [
                       {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     ],
@@ -694,6 +700,7 @@
                               "flags": {},
                               "type": {
                                 "type": "reference",
+                                "target": -1,
                                 "name": "T"
                               }
                             }
@@ -748,9 +755,14 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
+                            "target": {
+                              "sourceFileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                              "qualifiedName": "Iterable"
+                            },
                             "typeArguments": [
                               {
                                 "type": "reference",
+                                "target": -1,
                                 "name": "T"
                               }
                             ],
@@ -836,6 +848,7 @@
                       },
                       {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     ]
@@ -848,6 +861,7 @@
                 "asserts": true,
                 "targetType": {
                   "type": "reference",
+                  "target": -1,
                   "name": "T"
                 }
               }
@@ -1184,6 +1198,10 @@
                           ],
                           "type": {
                             "type": "reference",
+                            "target": {
+                              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "qualifiedName": "Object"
+                            },
                             "name": "Object",
                             "package": "typescript"
                           }
@@ -1368,6 +1386,10 @@
                           ],
                           "type": {
                             "type": "reference",
+                            "target": {
+                              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "qualifiedName": "Object"
+                            },
                             "name": "Object",
                             "package": "typescript"
                           }
@@ -1528,6 +1550,10 @@
                           ],
                           "type": {
                             "type": "reference",
+                            "target": {
+                              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "qualifiedName": "Object"
+                            },
                             "name": "Object",
                             "package": "typescript"
                           }
@@ -1961,6 +1987,10 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                      "qualifiedName": "Object"
+                    },
                     "name": "Object",
                     "package": "typescript"
                   }
@@ -2120,6 +2150,7 @@
                       },
                       {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     ]
@@ -2132,6 +2163,7 @@
                 "asserts": false,
                 "targetType": {
                   "type": "reference",
+                  "target": -1,
                   "name": "T"
                 }
               }
@@ -2632,6 +2664,7 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 },
@@ -2653,6 +2686,7 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
+                      "target": -1,
                       "name": "T"
                     }
                   }
@@ -2662,6 +2696,7 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
+                  "target": -1,
                   "name": "T"
                 }
               }
@@ -2731,12 +2766,14 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             }
@@ -2807,6 +2844,10 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                      "qualifiedName": "Object"
+                    },
                     "name": "Object",
                     "package": "typescript"
                   }
@@ -2829,12 +2870,14 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             }
@@ -2985,7 +3028,7 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
+                        "target": 139,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }
@@ -3006,7 +3049,7 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
+                        "target": 139,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }
@@ -3027,7 +3070,7 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
+                        "target": 139,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }
@@ -3048,7 +3091,7 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
+                        "target": 139,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }
@@ -3069,7 +3112,7 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
+                        "target": 139,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }

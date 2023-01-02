@@ -593,7 +593,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 86,
+                    "target": 86,
                     "name": "Abstract",
                     "package": "typedoc"
                   }
@@ -684,7 +684,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 75,
+                    "target": 75,
                     "name": "ComputedNames",
                     "package": "typedoc"
                   }
@@ -822,7 +822,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 63,
+                    "target": 63,
                     "name": "TestAbstractClass",
                     "package": "typedoc"
                   }
@@ -921,7 +921,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 69,
+              "target": 69,
               "name": "TestAbstractClassImplementation"
             }
           ]
@@ -948,20 +948,20 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 69,
+                    "target": 69,
                     "name": "TestAbstractClassImplementation",
                     "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 65,
+                    "target": 65,
                     "name": "TestAbstractClass.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 64,
+                "target": 64,
                 "name": "TestAbstractClass.constructor"
               }
             },
@@ -985,7 +985,7 @@
               },
               "overwrites": {
                 "type": "reference",
-                "id": 66,
+                "target": 66,
                 "name": "TestAbstractClass.myAbstractProperty"
               }
             },
@@ -1026,14 +1026,14 @@
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 68,
+                    "target": 68,
                     "name": "TestAbstractClass.myAbstractMethod"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 67,
+                "target": 67,
                 "name": "TestAbstractClass.myAbstractMethod"
               }
             }
@@ -1069,7 +1069,7 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 63,
+              "target": 63,
               "name": "TestAbstractClass",
               "package": "typedoc"
             }
@@ -1146,7 +1146,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 22,
+                    "target": 22,
                     "name": "TestClass",
                     "package": "typedoc"
                   }
@@ -1240,7 +1240,7 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 22,
+                "target": 22,
                 "name": "TestClass",
                 "package": "typedoc"
               }
@@ -1535,7 +1535,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 38,
+              "target": 38,
               "name": "TestSubClass"
             }
           ]
@@ -1689,20 +1689,20 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 38,
+                    "target": 38,
                     "name": "TestSubClass",
                     "package": "typedoc"
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 27,
+                    "target": 27,
                     "name": "TestClass.constructor"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 26,
+                "target": 26,
                 "name": "TestClass.constructor"
               }
             },
@@ -1823,7 +1823,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 28,
+                "target": 28,
                 "name": "TestClass.publicProperty"
               }
             },
@@ -1853,13 +1853,13 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 22,
+                "target": 22,
                 "name": "TestClass",
                 "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 23,
+                "target": 23,
                 "name": "TestClass.staticProperty"
               }
             },
@@ -1906,14 +1906,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 37,
+                    "target": 37,
                     "name": "TestClass.arrowMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 36,
+                "target": 36,
                 "name": "TestClass.arrowMethod"
               }
             },
@@ -2006,14 +2006,14 @@
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 33,
+                    "target": 33,
                     "name": "TestClass.protectedMethod"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 32,
+                "target": 32,
                 "name": "TestClass.protectedMethod"
               }
             },
@@ -2062,14 +2062,14 @@
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 31,
+                    "target": 31,
                     "name": "TestClass.publicMethod"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 30,
+                "target": 30,
                 "name": "TestClass.publicMethod"
               }
             },
@@ -2118,14 +2118,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 25,
+                    "target": 25,
                     "name": "TestClass.staticMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 24,
+                "target": 24,
                 "name": "TestClass.staticMethod"
               }
             }
@@ -2181,7 +2181,7 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 22,
+              "target": 22,
               "name": "TestClass",
               "package": "typedoc"
             }
@@ -2209,7 +2209,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 82,
+                    "target": 82,
                     "name": "Ts38PrivateFields",
                     "package": "typedoc"
                   }
@@ -2311,7 +2311,7 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 86,
+                    "target": 86,
                     "name": "Abstract",
                     "package": "typedoc"
                   }
@@ -2468,7 +2468,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 95,
+                    "target": 95,
                     "name": "Vector2",
                     "package": "typedoc"
                   }
@@ -2590,7 +2590,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 104,
+              "target": 104,
               "name": "Vector3"
             }
           ]
@@ -2719,20 +2719,20 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 104,
+                    "target": 104,
                     "name": "Vector3",
                     "package": "typedoc"
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 97,
+                    "target": 97,
                     "name": "Vector2.constructor"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 96,
+                "target": 96,
                 "name": "Vector2.constructor"
               }
             },
@@ -2766,7 +2766,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 103,
+                "target": 103,
                 "name": "Vector2.name"
               }
             },
@@ -2800,7 +2800,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 101,
+                "target": 101,
                 "name": "Vector2.x"
               }
             },
@@ -2834,7 +2834,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 102,
+                "target": 102,
                 "name": "Vector2.y"
               }
             },
@@ -2896,7 +2896,7 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 95,
+              "target": 95,
               "name": "Vector2",
               "package": "typedoc"
             }
@@ -2958,7 +2958,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 129,
+                    "target": 129,
                     "name": "DecoratedClass",
                     "package": "typedoc"
                   }
@@ -3079,6 +3079,10 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                      "qualifiedName": "Object"
+                    },
                     "name": "Object",
                     "package": "typescript"
                   }
@@ -3111,6 +3115,10 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                      "qualifiedName": "TypedPropertyDescriptor"
+                    },
                     "typeArguments": [
                       {
                         "type": "intrinsic",
@@ -3240,6 +3248,10 @@
               ],
               "type": {
                 "type": "reference",
+                "target": {
+                  "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "qualifiedName": "ClassDecorator"
+                },
                 "name": "ClassDecorator",
                 "package": "typescript"
               }
@@ -3306,6 +3318,10 @@
               ],
               "type": {
                 "type": "reference",
+                "target": {
+                  "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "qualifiedName": "MethodDecorator"
+                },
                 "name": "MethodDecorator",
                 "package": "typescript"
               }
@@ -3367,7 +3383,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 162,
+                    "target": 162,
                     "name": "EventDispatcher",
                     "package": "typedoc"
                   }
@@ -4095,16 +4111,18 @@
                       },
                       "type": {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 167,
+                    "target": 167,
                     "typeArguments": [
                       {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     ],
@@ -4140,6 +4158,7 @@
               ],
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             },
@@ -4171,6 +4190,7 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
+                  "target": -1,
                   "name": "T"
                 }
               }
@@ -4225,6 +4245,7 @@
                   ],
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 }
@@ -4280,7 +4301,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 177,
+              "target": 177,
               "name": "NonGenericClass"
             }
           ]
@@ -4360,20 +4381,20 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 177,
+                    "target": 177,
                     "name": "NonGenericClass",
                     "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 169,
+                    "target": 169,
                     "name": "GenericClass.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 168,
+                "target": 168,
                 "name": "GenericClass.constructor"
               }
             },
@@ -4407,7 +4428,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 172,
+                "target": 172,
                 "name": "GenericClass.value"
               }
             },
@@ -4444,7 +4465,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 173,
+                "target": 173,
                 "name": "GenericClass.values"
               }
             },
@@ -4502,14 +4523,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 175,
+                    "target": 175,
                     "name": "GenericClass.getValue"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 174,
+                "target": 174,
                 "name": "GenericClass.getValue"
               }
             }
@@ -4546,7 +4567,7 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 167,
+              "target": 167,
               "typeArguments": [
                 {
                   "type": "intrinsic",
@@ -4606,7 +4627,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 186,
+                    "target": 186,
                     "name": "GetterSetter",
                     "package": "typedoc"
                   }
@@ -4898,7 +4919,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 201,
+                    "target": 201,
                     "name": "ChainClass",
                     "package": "typedoc"
                   }
@@ -4946,7 +4967,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 201,
+                    "target": 201,
                     "name": "ChainClass",
                     "package": "typedoc"
                   }
@@ -5034,7 +5055,7 @@
                         "operator": "keyof",
                         "target": {
                           "type": "reference",
-                          "id": 207,
+                          "target": 207,
                           "name": "TestClass",
                           "package": "typedoc"
                         }
@@ -5043,10 +5064,11 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 212,
+                    "target": 212,
                     "typeArguments": [
                       {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     ],
@@ -5072,6 +5094,7 @@
               ],
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             }
@@ -5110,7 +5133,7 @@
                 "operator": "keyof",
                 "target": {
                   "type": "reference",
-                  "id": 207,
+                  "target": 207,
                   "name": "TestClass",
                   "package": "typedoc"
                 }
@@ -5165,7 +5188,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 207,
+                    "target": 207,
                     "name": "TestClass",
                     "package": "typedoc"
                   }

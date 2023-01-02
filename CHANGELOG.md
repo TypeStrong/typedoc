@@ -18,8 +18,8 @@
 -   Moved `relevanceBoost` from `ContainerReflection` to `DeclarationReflection` since setting it on the parent class has no effect.
 -   Removed internal `ReferenceType.getSymbol`, reference types no longer reference the `ts.Symbol` to enable generation from serialized JSON.
 -   `OptionsReader.priority` has been renamed to `OptionsReader.order` to more accurately reflect how it works.
--   `id: -1` will not be included in the JSON output for reference types which are intentionally broken.
 -   `ReferenceType`s which point to type parameters will now always be intentionally broken since they were never linked and should not be warned about when validating exports.
+-   `ReferenceType`s now longer include an `id` property for their target. They now instead include a `target` property.
 -   Removed `Renderer.addExternalSymbolResolver`, use `Converter.addExternalSymbolResolver` instead.
 
 ### Features

@@ -480,6 +480,7 @@
           ],
           "type": {
             "type": "reference",
+            "target": -1,
             "name": "T"
           }
         },
@@ -538,12 +539,14 @@
                       "flags": {},
                       "type": {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
+                    "target": -1,
                     "name": "T"
                   }
                 }
@@ -751,6 +754,10 @@
           ],
           "type": {
             "type": "reference",
+            "target": {
+              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+              "qualifiedName": "Object"
+            },
             "name": "Object",
             "package": "typescript"
           }

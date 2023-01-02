@@ -51,10 +51,11 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 2,
+                    "target": 2,
                     "typeArguments": [
                       {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     ],
@@ -93,7 +94,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 12,
+              "target": 12,
               "name": "FooList"
             }
           ]
@@ -128,7 +129,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 9,
+                    "target": 9,
                     "name": "Foo",
                     "package": "typedoc"
                   }
@@ -183,20 +184,20 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 12,
+                    "target": 12,
                     "name": "FooList",
                     "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 4,
+                    "target": 4,
                     "name": "Array.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 3,
+                "target": 3,
                 "name": "Array.constructor"
               }
             }
@@ -220,11 +221,11 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 2,
+              "target": 2,
               "typeArguments": [
                 {
                   "type": "reference",
-                  "id": 9,
+                  "target": 9,
                   "name": "Foo",
                   "package": "typedoc"
                 }
@@ -274,7 +275,7 @@
                           "type": "array",
                           "elementType": {
                             "type": "reference",
-                            "id": 2,
+                            "target": 2,
                             "typeArguments": [
                               {
                                 "type": "intrinsic",
@@ -331,7 +332,7 @@
           ],
           "type": {
             "type": "reference",
-            "id": 2,
+            "target": 2,
             "typeArguments": [
               {
                 "type": "intrinsic",
@@ -2124,6 +2125,10 @@
           ],
           "type": {
             "type": "reference",
+            "target": {
+              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+              "qualifiedName": "Promise"
+            },
             "typeArguments": [
               {
                 "type": "intrinsic",
@@ -2150,6 +2155,10 @@
           ],
           "type": {
             "type": "reference",
+            "target": {
+              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+              "qualifiedName": "Promise"
+            },
             "typeArguments": [
               {
                 "type": "intrinsic",

@@ -117,7 +117,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 2,
+                    "target": 2,
                     "name": "Constructor",
                     "package": "typedoc"
                   }
@@ -162,7 +162,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 13,
+                    "target": 13,
                     "name": "Instance",
                     "package": "typedoc"
                   }
@@ -497,7 +497,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 30,
+                    "target": 30,
                     "name": "ClassImplementingEmptyInterface",
                     "package": "typedoc"
                   }
@@ -595,7 +595,7 @@
           "implementedTypes": [
             {
               "type": "reference",
-              "id": 29,
+              "target": 29,
               "name": "EmptyInterface",
               "package": "typedoc"
             }
@@ -626,7 +626,7 @@
           "implementedBy": [
             {
               "type": "reference",
-              "id": 30,
+              "target": 30,
               "name": "ClassImplementingEmptyInterface"
             }
           ]
@@ -719,10 +719,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 81,
+                        "target": 81,
                         "typeArguments": [
                           {
                             "type": "reference",
+                            "target": -1,
                             "name": "T"
                           }
                         ],
@@ -753,10 +754,11 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 42,
+                      "target": 42,
                       "typeArguments": [
                         {
                           "type": "reference",
+                          "target": -1,
                           "name": "T"
                         }
                       ],
@@ -804,10 +806,11 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": 38,
+                            "target": 38,
                             "typeArguments": [
                               {
                                 "type": "reference",
+                                "target": -1,
                                 "name": "T"
                               }
                             ],
@@ -843,10 +846,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 42,
+                        "target": 42,
                         "typeArguments": [
                           {
                             "type": "reference",
+                            "target": -1,
                             "name": "T"
                           }
                         ],
@@ -856,14 +860,14 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "id": 66,
+                        "target": 66,
                         "name": "EventDispatcherInt.add"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "id": 65,
+                    "target": 65,
                     "name": "EventDispatcherInt.add"
                   }
                 },
@@ -902,14 +906,14 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "id": 77,
+                        "target": 77,
                         "name": "EventDispatcherInt.clear"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "id": 76,
+                    "target": 76,
                     "name": "EventDispatcherInt.clear"
                   }
                 },
@@ -951,6 +955,7 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
+                            "target": -1,
                             "name": "T"
                           }
                         }
@@ -961,14 +966,14 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "id": 74,
+                        "target": 74,
                         "name": "EventDispatcherInt.dispatch"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "id": 73,
+                    "target": 73,
                     "name": "EventDispatcherInt.dispatch"
                   }
                 },
@@ -1007,14 +1012,14 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "id": 79,
+                        "target": 79,
                         "name": "EventDispatcherInt.hasListeners"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "id": 78,
+                    "target": 78,
                     "name": "EventDispatcherInt.hasListeners"
                   }
                 },
@@ -1056,10 +1061,11 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": 42,
+                            "target": 42,
                             "typeArguments": [
                               {
                                 "type": "reference",
+                                "target": -1,
                                 "name": "T"
                               }
                             ],
@@ -1075,14 +1081,14 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "id": 71,
+                        "target": 71,
                         "name": "EventDispatcherInt.remove"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "id": 70,
+                    "target": 70,
                     "name": "EventDispatcherInt.remove"
                   }
                 }
@@ -1131,10 +1137,11 @@
               "implementedTypes": [
                 {
                   "type": "reference",
-                  "id": 64,
+                  "target": 64,
                   "typeArguments": [
                     {
                       "type": "reference",
+                      "target": -1,
                       "name": "T"
                     }
                   ],
@@ -1206,10 +1213,11 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": 38,
+                            "target": 38,
                             "typeArguments": [
                               {
                                 "type": "reference",
+                                "target": -1,
                                 "name": "V"
                               }
                             ],
@@ -1248,10 +1256,11 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": 81,
+                            "target": 81,
                             "typeArguments": [
                               {
                                 "type": "reference",
+                                "target": -1,
                                 "name": "V"
                               }
                             ],
@@ -1263,10 +1272,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 49,
+                        "target": 49,
                         "typeArguments": [
                           {
                             "type": "reference",
+                            "target": -1,
                             "name": "V"
                           }
                         ],
@@ -1295,10 +1305,11 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 81,
+                    "target": 81,
                     "typeArguments": [
                       {
                         "type": "reference",
+                        "target": -1,
                         "name": "V"
                       }
                     ],
@@ -1329,7 +1340,7 @@
                   },
                   "implementationOf": {
                     "type": "reference",
-                    "id": 45,
+                    "target": 45,
                     "name": "SubscriptionInt.filter"
                   }
                 },
@@ -1351,10 +1362,11 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 38,
+                    "target": 38,
                     "typeArguments": [
                       {
                         "type": "reference",
+                        "target": -1,
                         "name": "V"
                       }
                     ],
@@ -1364,7 +1376,7 @@
                   },
                   "implementationOf": {
                     "type": "reference",
-                    "id": 43,
+                    "target": 43,
                     "name": "SubscriptionInt.listener"
                   }
                 },
@@ -1390,7 +1402,7 @@
                   },
                   "implementationOf": {
                     "type": "reference",
-                    "id": 44,
+                    "target": 44,
                     "name": "SubscriptionInt.priority"
                   }
                 },
@@ -1437,14 +1449,14 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "id": 47,
+                        "target": 47,
                         "name": "SubscriptionInt.unsubscribe"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "id": 46,
+                    "target": 46,
                     "name": "SubscriptionInt.unsubscribe"
                   }
                 }
@@ -1492,10 +1504,11 @@
               "implementedTypes": [
                 {
                   "type": "reference",
-                  "id": 42,
+                  "target": 42,
                   "typeArguments": [
                     {
                       "type": "reference",
+                      "target": -1,
                       "name": "V"
                     }
                   ],
@@ -1558,10 +1571,11 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": 38,
+                            "target": 38,
                             "typeArguments": [
                               {
                                 "type": "reference",
+                                "target": -1,
                                 "name": "U"
                               }
                             ],
@@ -1599,10 +1613,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 42,
+                        "target": 42,
                         "typeArguments": [
                           {
                             "type": "reference",
+                            "target": -1,
                             "name": "U"
                           }
                         ],
@@ -1687,6 +1702,7 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
+                            "target": -1,
                             "name": "U"
                           }
                         }
@@ -1772,10 +1788,11 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "id": 42,
+                            "target": 42,
                             "typeArguments": [
                               {
                                 "type": "reference",
+                                "target": -1,
                                 "name": "U"
                               }
                             ],
@@ -1825,7 +1842,7 @@
               "implementedBy": [
                 {
                   "type": "reference",
-                  "id": 81,
+                  "target": 81,
                   "name": "EventDispatcher"
                 }
               ]
@@ -1885,6 +1902,7 @@
                       },
                       "type": {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     }
@@ -1946,10 +1964,11 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 38,
+                    "target": 38,
                     "typeArguments": [
                       {
                         "type": "reference",
+                        "target": -1,
                         "name": "T"
                       }
                     ],
@@ -2058,7 +2077,7 @@
               "implementedBy": [
                 {
                   "type": "reference",
-                  "id": 49,
+                  "target": 49,
                   "name": "Subscription"
                 }
               ]
@@ -2161,12 +2180,12 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 107,
+              "target": 107,
               "name": "Child"
             },
             {
               "type": "reference",
-              "id": 112,
+              "target": 112,
               "name": "Child2"
             }
           ]
@@ -2217,7 +2236,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 107,
+              "target": 107,
               "name": "Child"
             }
           ]
@@ -2249,7 +2268,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 104,
+                "target": 104,
                 "name": "Base.base"
               }
             },
@@ -2273,7 +2292,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 106,
+                "target": 106,
                 "name": "Base2.base2"
               }
             },
@@ -2344,13 +2363,13 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 103,
+              "target": 103,
               "name": "Base",
               "package": "typedoc"
             },
             {
               "type": "reference",
-              "id": 105,
+              "target": 105,
               "name": "Base2",
               "package": "typedoc"
             }
@@ -2358,7 +2377,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 112,
+              "target": 112,
               "name": "Child2"
             }
           ]
@@ -2390,7 +2409,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 104,
+                "target": 104,
                 "name": "Base.base"
               }
             },
@@ -2414,7 +2433,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 111,
+                "target": 111,
                 "name": "Child.base2"
               }
             },
@@ -2438,7 +2457,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 108,
+                "target": 108,
                 "name": "Child.child"
               }
             },
@@ -2481,7 +2500,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 109,
+                "target": 109,
                 "name": "Child.child3"
               }
             }
@@ -2509,13 +2528,13 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 107,
+              "target": 107,
               "name": "Child",
               "package": "typedoc"
             },
             {
               "type": "reference",
-              "id": 103,
+              "target": 103,
               "name": "Base",
               "package": "typedoc"
             }

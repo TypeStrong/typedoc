@@ -784,6 +784,15 @@ export class ReferenceType extends Type {
     }
 
     /**
+     * If not resolved, the symbol id of the reflection, otherwise undefined.
+     */
+    get symbolId(): ReflectionSymbolId | undefined {
+        if (!this.reflection && typeof this._target === "object") {
+            return this._target;
+        }
+    }
+
+    /**
      * Checks if this type is a reference type because it uses a name, but is intentionally not pointing
      * to a reflection. This happens for type parameters and when representing a mapped type.
      */
@@ -816,17 +825,6 @@ export class ReferenceType extends Type {
      * The package that this type is referencing.
      */
     package?: string;
-
-    /**
-     * The source file that this reference type points to.
-     *
-     * May not be defined if a target symbol does not have any declarations. This
-     * can happen if it is pointing to a property on a non-homomorphic mapped type
-     * or to `undefined`. The `undefined` case won't happen with TypeDoc's default
-     * converter, but non-homomorphic mapped types may.
-     */
-    // TODO: Serialize sourceFileName... how?
-    sourceFileName: string | undefined;
 
     /**
      * If this reference type refers to a reflection defined by a project not being rendered,
@@ -888,8 +886,6 @@ export class ReferenceType extends Type {
             .fileName.replace(/\\/g, "/");
         if (!symbolPath) return ref;
 
-        ref.sourceFileName = symbolPath;
-
         // Attempt to decide package name from path if it contains "node_modules"
         let startIndex = symbolPath.lastIndexOf("node_modules/");
         if (startIndex !== -1) {
@@ -936,7 +932,10 @@ export class ReferenceType extends Type {
     override toObject(serializer: Serializer): JSONOutput.ReferenceType {
         const result: JSONOutput.ReferenceType = {
             type: this.type,
-            id: this.reflection?.id,
+            target:
+                typeof this._target === "number"
+                    ? this._target
+                    : this._target.toObject(serializer),
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
             package: this.package,
@@ -954,27 +953,28 @@ export class ReferenceType extends Type {
         this.typeArguments = de.reviveMany(obj.typeArguments, (t) =>
             de.constructType(t)
         );
-        if (typeof obj.id === "number") {
+        if (typeof obj.target === "number" && obj.target !== -1) {
             de.defer((project) => {
                 const target = project.getReflectionById(
-                    de.oldIdToNewId[obj.id!] ?? -1
+                    de.oldIdToNewId[obj.target as number] ?? -1
                 );
                 if (target) {
                     this._project = project;
                     this._target = target.id;
                 } else {
                     de.logger.warn(
-                        `Serialized project contained a reference to ${obj.id} (${this.qualifiedName}), which was not a part of the project.`
+                        `Serialized project contained a reference to ${obj.target} (${this.qualifiedName}), which was not a part of the project.`
                     );
                 }
             });
-        } else {
+        } else if (obj.target === -1) {
             this._target = -1;
+        } else {
+            this._target = new ReflectionSymbolId(obj.target);
         }
 
         this.qualifiedName = obj.qualifiedName ?? obj.name;
         this.package = obj.package;
-        // TODO: sourceFileName
     }
 }
 

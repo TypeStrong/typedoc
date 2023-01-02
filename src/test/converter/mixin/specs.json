@@ -35,7 +35,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 13,
+                "target": 13,
                 "name": "Base",
                 "package": "typedoc"
               }
@@ -158,18 +158,20 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 64,
+                "target": 64,
                 "name": "SomeClassWithMixin",
                 "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "Mixin2(Mixin1Func(Base)).constructor"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin2(Mixin1Func(Base)).constructor"
           }
         },
@@ -194,6 +196,7 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin2(Mixin1Func(Base)).baseProperty"
           }
         },
@@ -238,6 +241,7 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin2(Mixin1Func(Base)).property1"
           }
         },
@@ -262,6 +266,7 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin2(Mixin1Func(Base)).property2"
           }
         },
@@ -300,12 +305,14 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "Mixin2(Mixin1Func(Base)).baseMethod"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin2(Mixin1Func(Base)).baseMethod"
           }
         },
@@ -385,7 +392,7 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 27,
+                      "target": 27,
                       "name": "Mixin1Type",
                       "package": "typedoc"
                     }
@@ -396,19 +403,21 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "id": 27,
+                  "target": 27,
                   "name": "Mixin1Type",
                   "package": "typedoc"
                 }
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "Mixin2(Mixin1Func(Base)).method1"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin2(Mixin1Func(Base)).method1"
           }
         },
@@ -450,7 +459,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 43,
+                    "target": 43,
                     "name": "Mixin2Type",
                     "package": "typedoc"
                   }
@@ -458,18 +467,20 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 43,
+                "target": 43,
                 "name": "Mixin2Type",
                 "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "Mixin2(Mixin1Func(Base)).method2"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin2(Mixin1Func(Base)).method2"
           }
         }
@@ -514,7 +525,7 @@
           "types": [
             {
               "type": "reference",
-              "id": 39,
+              "target": 39,
               "typeArguments": [
                 {
                   "type": "intersection",
@@ -536,7 +547,7 @@
                             "flags": {},
                             "type": {
                               "type": "reference",
-                              "id": 23,
+                              "target": 23,
                               "typeArguments": [
                                 {
                                   "type": "intrinsic",
@@ -599,13 +610,13 @@
                             ],
                             "type": {
                               "type": "reference",
-                              "id": 23,
+                              "target": 23,
                               "typeArguments": [
                                 {
                                   "type": "query",
                                   "queryType": {
                                     "type": "reference",
-                                    "id": 13,
+                                    "target": 13,
                                     "name": "Base",
                                     "package": "typedoc"
                                   }
@@ -622,7 +633,7 @@
                       "type": "query",
                       "queryType": {
                         "type": "reference",
-                        "id": 13,
+                        "target": 13,
                         "name": "Base",
                         "package": "typedoc"
                       }
@@ -639,13 +650,13 @@
             },
             {
               "type": "reference",
-              "id": 23,
+              "target": 23,
               "typeArguments": [
                 {
                   "type": "query",
                   "queryType": {
                     "type": "reference",
-                    "id": 13,
+                    "target": 13,
                     "name": "Base",
                     "package": "typedoc"
                   }
@@ -660,7 +671,7 @@
             },
             {
               "type": "reference",
-              "id": 13,
+              "target": 13,
               "typeArguments": [
                 {
                   "type": "intrinsic",
@@ -710,6 +721,7 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.baseProperty"
           }
         },
@@ -734,6 +746,7 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.property1"
           }
         },
@@ -772,12 +785,14 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "Mixin.baseMethod"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.baseMethod"
           }
         },
@@ -821,7 +836,7 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 27,
+                      "target": 27,
                       "name": "Mixin1Type",
                       "package": "typedoc"
                     }
@@ -832,19 +847,21 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "id": 27,
+                  "target": 27,
                   "name": "Mixin1Type",
                   "package": "typedoc"
                 }
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "Mixin.method1"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.method1"
           }
         }
@@ -876,13 +893,13 @@
       "extendedTypes": [
         {
           "type": "reference",
-          "id": 11,
+          "target": 11,
           "typeArguments": [
             {
               "type": "query",
               "queryType": {
                 "type": "reference",
-                "id": 19,
+                "target": 19,
                 "name": "Mixin1Func",
                 "package": "typedoc"
               }
@@ -929,6 +946,7 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.baseProperty"
           }
         },
@@ -953,6 +971,7 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.property1"
           }
         },
@@ -977,6 +996,7 @@
           "defaultValue": "\"init\"",
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.property2"
           }
         },
@@ -1015,12 +1035,14 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "Mixin.baseMethod"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.baseMethod"
           }
         },
@@ -1064,7 +1086,7 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 27,
+                      "target": 27,
                       "name": "Mixin1Type",
                       "package": "typedoc"
                     }
@@ -1075,19 +1097,21 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "id": 27,
+                  "target": 27,
                   "name": "Mixin1Type",
                   "package": "typedoc"
                 }
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "Mixin.method1"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.method1"
           }
         },
@@ -1129,7 +1153,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 43,
+                    "target": 43,
                     "name": "Mixin2Type",
                     "package": "typedoc"
                   }
@@ -1137,18 +1161,20 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 43,
+                "target": 43,
                 "name": "Mixin2Type",
                 "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "target": -1,
                 "name": "Mixin.method2"
               }
             }
           ],
           "inheritedFrom": {
             "type": "reference",
+            "target": -1,
             "name": "Mixin.method2"
           }
         }
@@ -1182,13 +1208,13 @@
       "extendedTypes": [
         {
           "type": "reference",
-          "id": 11,
+          "target": 11,
           "typeArguments": [
             {
               "type": "query",
               "queryType": {
                 "type": "reference",
-                "id": 35,
+                "target": 35,
                 "name": "Mixin2",
                 "package": "typedoc"
               }
@@ -1277,6 +1303,7 @@
               ],
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "A"
               }
             }
@@ -1362,6 +1389,7 @@
               ],
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "A"
               }
             }
@@ -1400,7 +1428,7 @@
           "flags": {},
           "type": {
             "type": "reference",
-            "id": 1,
+            "target": 1,
             "name": "AnyFunction",
             "package": "typedoc"
           }
@@ -1408,12 +1436,21 @@
       ],
       "type": {
         "type": "reference",
+        "target": {
+          "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+          "qualifiedName": "InstanceType"
+        },
         "typeArguments": [
           {
             "type": "reference",
+            "target": {
+              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+              "qualifiedName": "ReturnType"
+            },
             "typeArguments": [
               {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             ],
@@ -1427,12 +1464,12 @@
       "extendedBy": [
         {
           "type": "reference",
-          "id": 27,
+          "target": 27,
           "name": "Mixin1Type"
         },
         {
           "type": "reference",
-          "id": 43,
+          "target": 43,
           "name": "Mixin2Type"
         }
       ]
@@ -1467,13 +1504,13 @@
       ],
       "type": {
         "type": "reference",
-        "id": 11,
+        "target": 11,
         "typeArguments": [
           {
             "type": "query",
             "queryType": {
               "type": "reference",
-              "id": 55,
+              "target": 55,
               "name": "Mixin3",
               "package": "typedoc"
             }
@@ -1529,11 +1566,11 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 6,
+                "target": 6,
                 "typeArguments": [
                   {
                     "type": "reference",
-                    "id": 13,
+                    "target": 13,
                     "name": "Base",
                     "package": "typedoc"
                   }
@@ -1552,6 +1589,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             }
@@ -1576,7 +1614,7 @@
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 23,
+                        "target": 23,
                         "typeArguments": [
                           {
                             "type": "intrinsic",
@@ -1639,10 +1677,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 23,
+                        "target": 23,
                         "typeArguments": [
                           {
                             "type": "reference",
+                            "target": -1,
                             "name": "T"
                           }
                         ],
@@ -1655,6 +1694,7 @@
               },
               {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             ]
@@ -1708,20 +1748,20 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 6,
+                "target": 6,
                 "typeArguments": [
                   {
                     "type": "intersection",
                     "types": [
                       {
                         "type": "reference",
-                        "id": 27,
+                        "target": 27,
                         "name": "Mixin1Type",
                         "package": "typedoc"
                       },
                       {
                         "type": "reference",
-                        "id": 13,
+                        "target": 13,
                         "name": "Base",
                         "package": "typedoc"
                       }
@@ -1742,6 +1782,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             }
@@ -1766,7 +1807,7 @@
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 39,
+                        "target": 39,
                         "typeArguments": [
                           {
                             "type": "intrinsic",
@@ -1829,10 +1870,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 39,
+                        "target": 39,
                         "typeArguments": [
                           {
                             "type": "reference",
+                            "target": -1,
                             "name": "T"
                           }
                         ],
@@ -1845,6 +1887,7 @@
               },
               {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             ]
@@ -1904,7 +1947,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 6,
+                "target": 6,
                 "typeArguments": [
                   {
                     "type": "intrinsic",
@@ -1925,6 +1968,7 @@
               "flags": {},
               "type": {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             }
@@ -1949,7 +1993,7 @@
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 59,
+                        "target": 59,
                         "typeArguments": [
                           {
                             "type": "intrinsic",
@@ -2012,10 +2056,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 59,
+                        "target": 59,
                         "typeArguments": [
                           {
                             "type": "reference",
+                            "target": -1,
                             "name": "T"
                           }
                         ],
@@ -2028,6 +2073,7 @@
               },
               {
                 "type": "reference",
+                "target": -1,
                 "name": "T"
               }
             ]

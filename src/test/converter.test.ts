@@ -32,7 +32,7 @@ comparisonSerializer.addSerializer({
     },
     toObject(ref: ReferenceType, obj: any) {
         if (ref.reflection) {
-            obj.id = ref.reflection.getFullName();
+            obj.target = ref.reflection.getFullName();
         }
         return obj;
     },
