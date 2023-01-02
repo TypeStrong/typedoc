@@ -825,4 +825,15 @@ export const issueTests: {
             "Foo type comment"
         );
     },
+
+    gh2135(project) {
+        const hook = query(project, "Camera.useCameraPermissions");
+        equal(hook.type?.type, "reflection" as const);
+        equal(
+            Comment.combineDisplayParts(
+                hook.type.declaration.signatures![0].comment?.summary
+            ),
+            "One"
+        );
+    },
 };

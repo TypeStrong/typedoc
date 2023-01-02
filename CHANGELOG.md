@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed an issue where signature comments were preferred over property comments for indirectly created function-properties, #2135.
+
 ## v0.23.23 (2022-12-18)
 
 ### Features
