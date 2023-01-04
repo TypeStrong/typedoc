@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { createServer } from "net";
 import { Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { AssertionError, deepStrictEqual as equal } from "assert";
-import { basename, dirname, resolve } from "path";
+import { basename, dirname, resolve, normalize } from "path";
 import { glob } from "../../lib/utils/fs";
 
 describe("fs.ts", () => {
@@ -20,7 +20,7 @@ describe("fs.ts", () => {
             fix.write();
 
             const result = glob(fix.cwd, fix.cwd, { includeDirectories: true });
-            equal(result, [fix.cwd]);
+            equal(result.map(normalize), [fix.cwd].map(normalize));
         });
 
         it("Handles basic globbing", () => {
