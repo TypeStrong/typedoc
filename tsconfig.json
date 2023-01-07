@@ -10,6 +10,7 @@
         // Speed up dev compilation time
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
+        "skipLibCheck": true,
 
         "experimentalDecorators": true,
         "strict": true,
