@@ -3,6 +3,11 @@
 ### Bug Fixes
 
 -   Fixed an issue where signature comments were preferred over property comments for indirectly created function-properties, #2135.
+-   Fixed symlink handling when expanding entry points, #2130.
+
+### Thanks!
+
+-   @boneskull
 
 ## v0.23.23 (2022-12-18)
 
