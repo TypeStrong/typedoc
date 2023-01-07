@@ -12,7 +12,7 @@ export const EmitStrategy = {
     none: "none", // Emit nothing, just convert and run validation
 } as const;
 /** @hidden */
-export type EmitStrategy = typeof EmitStrategy[keyof typeof EmitStrategy];
+export type EmitStrategy = (typeof EmitStrategy)[keyof typeof EmitStrategy];
 
 /**
  * Determines how TypeDoc searches for comments.
@@ -24,7 +24,7 @@ export const CommentStyle = {
     Line: "line",
     All: "all",
 } as const;
-export type CommentStyle = typeof CommentStyle[keyof typeof CommentStyle];
+export type CommentStyle = (typeof CommentStyle)[keyof typeof CommentStyle];
 
 /**
  * An interface describing all TypeDoc specific options. Generated from a

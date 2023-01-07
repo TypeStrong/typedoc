@@ -39,7 +39,7 @@ export const EntryPointStrategy = {
 } as const;
 
 export type EntryPointStrategy =
-    typeof EntryPointStrategy[keyof typeof EntryPointStrategy];
+    (typeof EntryPointStrategy)[keyof typeof EntryPointStrategy];
 
 export interface DocumentationEntryPoint {
     displayName: string;

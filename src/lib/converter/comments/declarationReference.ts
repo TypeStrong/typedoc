@@ -28,7 +28,7 @@ export const MeaningKeywords = [
     "getter",
     "setter",
 ] as const;
-export type MeaningKeyword = typeof MeaningKeywords[number];
+export type MeaningKeyword = (typeof MeaningKeywords)[number];
 
 export interface DeclarationReference {
     resolutionStart: "global" | "local";
