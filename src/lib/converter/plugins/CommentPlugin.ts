@@ -386,10 +386,12 @@ export class CommentPlugin extends ConverterComponent {
                 );
 
                 if (tag) {
-                    if(!parameter.comment){
+                    if (!parameter.comment) {
                         parameter.comment = new Comment();
                     }
-                    parameter.comment.summary = Comment.cloneDisplayParts(tag.content);
+                    parameter.comment.summary = Comment.cloneDisplayParts(
+                        tag.content
+                    );
                 }
             });
 
@@ -543,17 +545,19 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
                 }
             }
         },
-        reference(){
-            comment.blockTags.filter(
-                (t) =>
-                    t.tag === "@param" &&
-                    t.name?.startsWith(`${parameter.name}.`)
-            ).forEach(tag => {
-                if(!parameter.comment){
-                    parameter.comment = new Comment();
-                }
-                parameter.comment.blockTags.push(tag);
-            })
+        reference() {
+            comment.blockTags
+                .filter(
+                    (t) =>
+                        t.tag === "@param" &&
+                        t.name?.startsWith(`${parameter.name}.`)
+                )
+                .forEach((tag) => {
+                    if (!parameter.comment) {
+                        parameter.comment = new Comment();
+                    }
+                    parameter.comment.blockTags.push(tag);
+                });
         },
         // #1876, also do this for unions/intersections.
         union(u) {
