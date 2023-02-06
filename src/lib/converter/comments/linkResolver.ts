@@ -16,7 +16,7 @@ import { resolveDeclarationReference } from "./declarationReferenceResolver";
 const urlPrefix = /^(http|ftp)s?:\/\//;
 const brackets = /\[\[(?!include:)([^\]]+)\]\]/g;
 
-export type ExternalResolveResult = { target: string; caption: string };
+export type ExternalResolveResult = { target: string; caption?: string };
 export type ExternalResolveAttempt = (
     ref: DeclarationReference,
     part: CommentDisplayPart,
@@ -159,16 +159,17 @@ function resolveLinkTag(
                 reflection
             );
 
+            defaultDisplayText = part.text.substring(0, pos);
+
             switch (typeof externalResolveResult) {
                 case "string":
                     target = externalResolveResult as string;
-                    defaultDisplayText = part.text.substring(0, pos);
                     break;
                 case "object":
                     externalResolveResult =
                         externalResolveResult as ExternalResolveResult;
                     part.target = externalResolveResult.target;
-                    part.text = externalResolveResult.caption;
+                    part.text = externalResolveResult.caption || defaultDisplayText;
                     return part;
             }
         }
