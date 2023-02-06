@@ -14,7 +14,7 @@ export const VarianceModifier = {
     inOut: "in out",
 } as const;
 export type VarianceModifier =
-    typeof VarianceModifier[keyof typeof VarianceModifier];
+    (typeof VarianceModifier)[keyof typeof VarianceModifier];
 
 export class TypeParameterReflection extends Reflection {
     override parent?: DeclarationReflection;

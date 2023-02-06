@@ -139,8 +139,8 @@ export function displayPartsToMarkdown(
                     case "@linkplain": {
                         if (part.target) {
                             const url = typeof part.target === "string" ? part.target : urlTo(part.target);
-                            const wrap = part.tag === "@linkcode" ? "`" : "";
-                            result.push(url ? `[${wrap}${part.text}${wrap}](${url})` : part.text);
+                            const text = part.tag === "@linkcode" ? `<code>${part.text}</code>` : part.text;
+                            result.push(url ? `<a href="${url}">${text}</a>` : part.text);
                         } else {
                             result.push(part.text);
                         }

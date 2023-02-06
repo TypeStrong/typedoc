@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.23.15",
+  "version": "0.23.24",
   "homepage": "https://typedoc.org",
   "main": "./dist/index.js",
   "exports": {
@@ -25,33 +25,30 @@
   },
   "dependencies": {
     "lunr": "^2.3.9",
-    "marked": "^4.0.19",
-    "minimatch": "^5.1.0",
-    "shiki": "^0.11.1"
+    "marked": "^4.2.5",
+    "minimatch": "^5.1.2",
+    "shiki": "^0.12.1"
   },
   "peerDependencies": {
-    "typescript": "4.6.x || 4.7.x || 4.8.x"
+    "typescript": "4.6.x || 4.7.x || 4.8.x || 4.9.x"
   },
   "devDependencies": {
     "@types/lunr": "^2.3.4",
-    "@types/marked": "^4.0.6",
+    "@types/marked": "^4.0.8",
     "@types/minimatch": "5.1.2",
-    "@types/mocha": "^9.1.1",
+    "@types/mocha": "^10.0.1",
     "@types/node": "14",
-    "@typescript-eslint/eslint-plugin": "^5.36.1",
-    "@typescript-eslint/parser": "^5.36.1",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.0",
     "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#5a9486bc66f6e36988106685768396281f6cbc10",
     "c8": "^7.12.0",
-    "esbuild": "^0.15.6",
-    "eslint": "^8.23.0",
-    "mocha": "^10.0.0",
-    "prettier": "2.7.1",
+    "esbuild": "^0.16.15",
+    "eslint": "^8.31.0",
+    "mocha": "^10.2.0",
+    "prettier": "2.8.2",
     "puppeteer": "^13.5.2",
-    "reg-suit": "^0.12.1",
-    "reg-suit-core": "^0.12.1",
-    "reg-suit-interface": "^0.12.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.8.2"
+    "typescript": "4.9.4"
   },
   "files": [
     "/bin",
@@ -65,11 +62,12 @@
     "/tsdoc.json"
   ],
   "scripts": {
-    "test": "mocha -r ts-node/register --config .config/mocha.fast.json",
-    "test:cov": "c8 mocha -r ts-node/register --config .config/mocha.fast.json",
-    "build:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
-    "test:full": "c8 mocha -r ts-node/register --config .config/mocha.full.json",
-    "test:visual": "node ./dist/test/capture-screenshots.js && reg-suit -c .config/regconfig.json compare",
+    "test": "mocha --config .config/mocha.fast.json",
+    "test:cov": "c8 mocha --config .config/mocha.fast.json",
+    "doc:c": "node bin/typedoc --tsconfig src/test/converter/tsconfig.json",
+    "doc:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
+    "test:full": "c8 mocha --config .config/mocha.full.json",
+    "test:visual": "ts-node ./src/test/capture-screenshots.ts && ./scripts/compare_screenshots.sh",
     "test:visual:accept": "node scripts/accept_visual_regression.js",
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "npm run build:tsc && npm run build:themes",

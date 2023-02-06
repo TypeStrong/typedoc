@@ -1,5 +1,7 @@
 {
+    "$schema": "https://json.schemastore.org/mocharc.json",
     "timeout": 0,
     "spec": "src/test/**/*.test.ts",
-    "exclude": ["src/test/packages/**"]
+    "exclude": ["src/test/packages/**"],
+    "require": ["ts-node/register"]
 }

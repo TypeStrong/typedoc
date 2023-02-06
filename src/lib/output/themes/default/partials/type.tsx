@@ -1,5 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import {
+    DeclarationReflection,
     LiteralType,
     ProjectReflection,
     ReferenceType,
@@ -11,6 +12,7 @@ import {
 } from "../../../../models";
 import { JSX } from "../../../../utils";
 import { join, stringify } from "../../lib";
+import { ok } from "assert";
 
 const EXPORTABLE: ReflectionKind =
     ReflectionKind.Class |
@@ -65,6 +67,18 @@ function renderUniquePath(context: DefaultThemeRenderContext, reflection: Reflec
             {item.name}
         </a>
     ));
+}
+
+let indentationDepth = 0;
+function includeIndentation(): JSX.Element {
+    return indentationDepth > 0 ? <span>{"\u00A0".repeat(indentationDepth * 4)}</span> : <></>;
+}
+
+export function validateStateIsClean(page: string) {
+    ok(
+        indentationDepth === 0,
+        `Rendering ${page}: Indentation depth increment/decrement not matched: ${indentationDepth}`
+    );
 }
 
 // The type helper accepts an optional needsParens parameter that is checked
@@ -277,8 +291,11 @@ const typeRenderers: {
     },
     reflection(context, type) {
         const members: JSX.Element[] = [];
+        const children: DeclarationReflection[] = type.declaration.children || [];
 
-        for (const item of type.declaration.children || []) {
+        indentationDepth++;
+
+        for (const item of children) {
             if (item.getSignature && item.setSignature) {
                 members.push(
                     <>
@@ -321,6 +338,22 @@ const typeRenderers: {
                 continue;
             }
 
+            if (item.signatures) {
+                for (const sig of item.signatures) {
+                    members.push(
+                        <>
+                            {item.name}
+                            {item.flags.isOptional && <span class="tsd-signature-symbol">?</span>}
+                            {context.memberSignatureTitle(sig, {
+                                hideName: true,
+                                arrowStyle: false,
+                            })}
+                        </>
+                    );
+                }
+                continue;
+            }
+
             members.push(
                 <>
                     {item.name}
@@ -342,6 +375,8 @@ const typeRenderers: {
         }
 
         if (!members.length && type.declaration.signatures?.length === 1) {
+            indentationDepth--;
+
             return (
                 <>
                     <span class="tsd-signature-symbol">(</span>
@@ -359,18 +394,28 @@ const typeRenderers: {
         }
 
         if (members.length) {
-            const membersWithSeparators = members.flatMap((m) => [m, <span class="tsd-signature-symbol">; </span>]);
+            const membersWithSeparators = members.flatMap((m) => [
+                includeIndentation(),
+                m,
+                <span class="tsd-signature-symbol">; </span>,
+                <br></br>,
+            ]);
             membersWithSeparators.pop();
 
+            indentationDepth--;
             return (
                 <>
                     <span class="tsd-signature-symbol">{"{"} </span>
+                    <br></br>
                     {membersWithSeparators}
-                    <span class="tsd-signature-symbol"> {"}"}</span>
+                    <br></br>
+                    {includeIndentation()}
+                    <span class="tsd-signature-symbol">{"}"}</span>
                 </>
             );
         }
 
+        indentationDepth--;
         return <span class="tsd-signature-symbol">{"{}"}</span>;
     },
     rest(context, type) {

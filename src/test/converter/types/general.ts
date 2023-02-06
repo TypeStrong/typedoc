@@ -14,7 +14,9 @@ export type BigIntAlias = bigint;
 export type NegativeOne = -1;
 export const negativeOne = -1;
 
-export type FirstIfString<T extends unknown[]> =
-    T extends [infer S extends string, ...unknown[]]
-        ? S
-        : never;
+export type FirstIfString<T extends unknown[]> = T extends [
+    infer S extends string,
+    ...unknown[]
+]
+    ? S
+    : never;

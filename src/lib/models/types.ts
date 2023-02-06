@@ -205,7 +205,7 @@ export const TypeContext = {
     tupleElement: "tupleElement", // [here]
     unionElement: "unionElement", // here | 1
 } as const;
-export type TypeContext = typeof TypeContext[keyof typeof TypeContext];
+export type TypeContext = (typeof TypeContext)[keyof typeof TypeContext];
 
 /**
  * Represents an array type.
@@ -652,7 +652,7 @@ export class OptionalType extends Type {
  * Represents a type predicate.
  *
  * ```ts
- * function isString(anything: any): anything is string {}
+ * function isString(x: unknown): x is string {}
  * function assert(condition: boolean): asserts condition {}
  * ```
  */

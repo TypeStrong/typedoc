@@ -10,6 +10,7 @@ import { getCommonDirectory, normalizePath } from "../../utils/fs";
 import { dirname, relative } from "path";
 import { SourceReference } from "../../models";
 import { gitIsInstalled, Repository } from "../utils/repository";
+import { BasePath } from "../utils/base-path";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -24,6 +25,9 @@ export class SourcePlugin extends ConverterComponent {
 
     @BindOption("gitRemote")
     readonly gitRemote!: string;
+
+    @BindOption("sourceLinkTemplate")
+    readonly sourceLinkTemplate!: string;
 
     @BindOption("basePath")
     readonly basePath!: string;
@@ -74,7 +78,7 @@ export class SourcePlugin extends ConverterComponent {
         const symbol = reflection.project.getSymbolFromReflection(reflection);
         for (const node of symbol?.declarations || []) {
             const sourceFile = node.getSourceFile();
-            const fileName = sourceFile.fileName;
+            const fileName = BasePath.normalize(sourceFile.fileName);
             this.fileNames.add(fileName);
 
             let position: ts.LineAndCharacter;
@@ -112,7 +116,7 @@ export class SourcePlugin extends ConverterComponent {
         if (this.disableSources || !sig) return;
 
         const sourceFile = sig.getSourceFile();
-        const fileName = sourceFile.fileName;
+        const fileName = BasePath.normalize(sourceFile.fileName);
         this.fileNames.add(fileName);
 
         const position = ts.getLineAndCharacterOfPosition(
@@ -141,12 +145,7 @@ export class SourcePlugin extends ConverterComponent {
             for (const source of refl.sources || []) {
                 if (gitIsInstalled) {
                     const repo = this.getRepository(source.fullFileName);
-                    source.url = repo?.getURL(source.fullFileName);
-                    if (source.url) {
-                        source.url += `#${repo!.getLineNumberAnchor(
-                            source.line
-                        )}`;
-                    }
+                    source.url = repo?.getURL(source.fullFileName, source.line);
                 }
 
                 source.fileName = normalizePath(
@@ -182,8 +181,10 @@ export class SourcePlugin extends ConverterComponent {
         // Try to create a new repository
         const repository = Repository.tryCreateRepository(
             dirName,
+            this.sourceLinkTemplate,
             this.gitRevision,
-            this.gitRemote
+            this.gitRemote,
+            this.application.logger
         );
         if (repository) {
             this.repositories[repository.path.toLowerCase()] = repository;

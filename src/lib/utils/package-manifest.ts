@@ -41,6 +41,7 @@ const typedocPackageManifestConfigSchema = {
     displayName: optional(String),
     entryPoint: optional(String),
     readmeFile: optional(String),
+    tsconfig: optional(String),
 
     [additionalProperties]: false,
 };

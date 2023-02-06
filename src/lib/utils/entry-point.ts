@@ -39,7 +39,7 @@ export const EntryPointStrategy = {
 } as const;
 
 export type EntryPointStrategy =
-    typeof EntryPointStrategy[keyof typeof EntryPointStrategy];
+    (typeof EntryPointStrategy)[keyof typeof EntryPointStrategy];
 
 export interface DocumentationEntryPoint {
     displayName: string;
@@ -176,7 +176,11 @@ function getEntryPointsForPaths(
                 }
             }
         }
-        logger.warn(`Unable to locate entry point: ${fileOrDir}`);
+        logger.warn(
+            `The entry point ${nicePath(
+                fileOrDir
+            )} does not exist or is not included in the program for your provided tsconfig.`
+        );
     }
 
     return entryPoints;
@@ -199,7 +203,7 @@ export function getExpandedEntryPointsForPaths(
 function expandGlobs(inputFiles: string[]) {
     const base = getCommonDirectory(inputFiles);
     const result = inputFiles.flatMap((entry) =>
-        glob(entry, base, { includeDirectories: true })
+        glob(entry, base, { includeDirectories: true, followSymlinks: true })
     );
     return result;
 }
@@ -364,7 +368,8 @@ function getEntryPointsForPackages(
         }
         const tsconfigFile = ts.findConfigFile(
             packageEntryPoint,
-            ts.sys.fileExists
+            ts.sys.fileExists,
+            typedocPackageConfig?.tsconfig
         );
         if (tsconfigFile === undefined) {
             logger.error(
@@ -421,19 +426,37 @@ function getEntryPointsForPackages(
             version: includeVersion
                 ? (packageJson["version"] as string | undefined)
                 : void 0,
-            readmeFile: typedocPackageConfig?.readmeFile
-                ? Path.resolve(
-                      Path.join(
-                          packageJsonPath,
-                          "..",
-                          typedocPackageConfig?.readmeFile
-                      )
-                  )
-                : undefined,
+            readmeFile: discoverReadmeFile(
+                logger,
+                Path.join(packageJsonPath, ".."),
+                typedocPackageConfig?.readmeFile
+            ),
             program,
             sourceFile,
         });
     }
 
     return results;
+}
+
+function discoverReadmeFile(
+    logger: Logger,
+    packageDir: string,
+    userReadme: string | undefined
+): string | undefined {
+    if (userReadme) {
+        if (!FS.existsSync(Path.join(packageDir, userReadme))) {
+            logger.warn(
+                `Failed to find ${userReadme} in ${nicePath(packageDir)}`
+            );
+            return;
+        }
+        return Path.resolve(Path.join(packageDir, userReadme));
+    }
+
+    for (const file of FS.readdirSync(packageDir)) {
+        if (file.toLowerCase() === "readme.md") {
+            return Path.resolve(Path.join(packageDir, file));
+        }
+    }
 }

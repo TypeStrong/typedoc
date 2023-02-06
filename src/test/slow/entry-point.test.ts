@@ -86,6 +86,7 @@ describe("Entry Points", () => {
         ok(entryPoints);
         equal(entryPoints.length, 1);
         equal(entryPoints[0].version, void 0);
+        equal(entryPoints[0].readmeFile, void 0);
     });
 
     it("Supports resolving packages outside of cwd", () => {
@@ -110,5 +111,56 @@ describe("Entry Points", () => {
         ok(entryPoints);
         equal(entryPoints.length, 1);
         equal(entryPoints[0].version, void 0);
+    });
+
+    it("Supports custom tsconfig files #2061", () => {
+        const fixture = tempdirProject({ rootDir: tmpdir() });
+        fixture.addJsonFile("tsconfig.lib.json", {
+            include: ["."],
+        });
+        fixture.addJsonFile("package.json", {
+            main: "index.ts",
+            typedoc: {
+                tsconfig: "tsconfig.lib.json",
+            },
+        });
+        fixture.addFile("index.ts", "export function fromIndex() {}");
+        fixture.write();
+
+        app.bootstrap({
+            tsconfig: tsconfig,
+            entryPoints: [fixture.cwd],
+            entryPointStrategy: EntryPointStrategy.Packages,
+        });
+
+        const entryPoints = app.getEntryPoints();
+        fixture.rm();
+        ok(entryPoints);
+        equal(entryPoints.length, 1);
+    });
+
+    it("Supports automatically discovering the readme files", () => {
+        const fixture = tempdirProject();
+        fixture.addJsonFile("tsconfig.json", {
+            include: ["."],
+        });
+        fixture.addJsonFile("package.json", {
+            main: "index.ts",
+        });
+        fixture.addFile("reaDME.md", "Text");
+        fixture.addFile("index.ts", "export function fromIndex() {}");
+        fixture.write();
+
+        app.bootstrap({
+            tsconfig: tsconfig,
+            entryPoints: [fixture.cwd],
+            entryPointStrategy: EntryPointStrategy.Packages,
+        });
+
+        const entryPoints = app.getEntryPoints();
+        fixture.rm();
+        ok(entryPoints);
+        equal(entryPoints.length, 1);
+        equal(entryPoints[0].readmeFile, join(fixture.cwd, "reaDME.md"));
     });
 });

@@ -43,13 +43,24 @@ export function createSignature(
         context.scope
     );
 
-    // If we are creating signatures for a variable and the variable has a comment associated with it
-    // then we should prefer that variable's comment over any comment on the signature. The comment plugin
+    // If we are creating signatures for a variable or property and it has a comment associated with it
+    // then we should prefer that comment over any comment on the signature. The comment plugin
     // will copy the comment down if this signature doesn't have one, so don't set one.
+    let parentReflection = context.scope;
+    if (
+        parentReflection.kindOf(ReflectionKind.TypeLiteral) &&
+        parentReflection.parent instanceof DeclarationReflection
+    ) {
+        parentReflection = parentReflection.parent;
+    }
+
     if (
         declaration &&
-        (!context.scope.comment ||
-            !(context.scope.conversionFlags & ConversionFlags.VariableSource))
+        (!parentReflection.comment ||
+            !(
+                parentReflection.conversionFlags &
+                ConversionFlags.VariableOrPropertySource
+            ))
     ) {
         sigRef.comment = getSignatureComment(
             declaration,
@@ -107,7 +118,13 @@ export function createSignature(
             break;
     }
 
-    context.trigger(ConverterEvents.CREATE_SIGNATURE, sigRef, declaration);
+    context.converter.trigger(
+        ConverterEvents.CREATE_SIGNATURE,
+        context,
+        sigRef,
+        declaration,
+        signature
+    );
 }
 
 function convertParameters(

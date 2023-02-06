@@ -115,12 +115,41 @@ export function getComment(
         );
     }
 
-    return getCommentImpl(
+    const comment = getCommentImpl(
         discoverComment(symbol, kind, logger, commentStyle),
         config,
         logger,
         symbol.declarations?.some(ts.isSourceFile) || false
     );
+
+    if (!comment && kind === ReflectionKind.Property) {
+        return getConstructorParamPropertyComment(
+            symbol,
+            config,
+            logger,
+            commentStyle
+        );
+    }
+
+    return comment;
+}
+
+function getConstructorParamPropertyComment(
+    symbol: ts.Symbol,
+    config: CommentParserConfig,
+    logger: Logger,
+    commentStyle: CommentStyle
+): Comment | undefined {
+    const decl = symbol.declarations?.find(ts.isParameter);
+    if (!decl) return;
+
+    const ctor = decl.parent;
+    const comment = getSignatureComment(ctor, config, logger, commentStyle);
+
+    const paramTag = comment?.getIdentifiedTag(symbol.name, "@param");
+    if (paramTag) {
+        return new Comment(paramTag.content);
+    }
 }
 
 export function getSignatureComment(

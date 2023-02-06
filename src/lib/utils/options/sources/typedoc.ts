@@ -12,6 +12,7 @@ import { EntryPointStrategy } from "../../entry-point";
 import { ReflectionKind } from "../../../models/reflections/kind";
 import * as Validation from "../../validation";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults";
+import { getEnumKeys } from "../../enum";
 
 // For convenience, added in the same order as they are documented on the website.
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
@@ -267,6 +268,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Set the CNAME file text, it's useful for custom domains on GitHub Pages.",
     });
     options.addDeclaration({
+        name: "sourceLinkTemplate",
+        help: "Specify a link template to be used when generating source urls. If not set, will be automatically created using the git remote. Supports {path}, {line}, {gitRevision} placeholders.",
+    });
+    options.addDeclaration({
         name: "gitRevision",
         help: "Use specified revision instead of the last revision for linking to GitHub/Bitbucket source files.",
     });
@@ -306,6 +311,49 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "If set, TypeDoc will remove the output directory before writing output.",
         type: ParameterType.Boolean,
         defaultValue: true,
+    });
+    options.addDeclaration({
+        name: "titleLink",
+        help: "Set the link the title in the header points to. Defaults to the documentation homepage.",
+        type: ParameterType.String,
+    });
+    options.addDeclaration({
+        name: "navigationLinks",
+        help: "Defines links to be included in the header.",
+        type: ParameterType.Mixed,
+        defaultValue: {},
+        validate(value) {
+            if (!isObject(value)) {
+                throw new Error(
+                    `navigationLinks must be an object with string labels as keys and URL values.`
+                );
+            }
+
+            if (Object.values(value).some((x) => typeof x !== "string")) {
+                throw new Error(
+                    `All values of navigationLinks must be string URLs.`
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "sidebarLinks",
+        help: "Defines links to be included in the sidebar.",
+        type: ParameterType.Mixed,
+        defaultValue: {},
+        validate(value) {
+            if (!isObject(value)) {
+                throw new Error(
+                    `sidebarLinks must be an object with string labels as keys and URL values.`
+                );
+            }
+
+            if (Object.values(value).some((x) => typeof x !== "string")) {
+                throw new Error(
+                    `All values of sidebarLinks must be string URLs.`
+                );
+            }
+        },
     });
 
     ///////////////////////////
@@ -404,6 +452,28 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
+    options.addDeclaration({
+        name: "kindSortOrder",
+        help: "Specify the sort order for reflections when 'kind' is specified.",
+        type: ParameterType.Array,
+        defaultValue: [],
+        validate(value) {
+            const invalid = new Set(value);
+            const valid = getEnumKeys(ReflectionKind);
+            for (const v of valid) {
+                invalid.delete(v);
+            }
+
+            if (invalid.size !== 0) {
+                throw new Error(
+                    `kindSortOrder may only specify known values, and invalid values were provided (${Array.from(
+                        invalid
+                    ).join(", ")}). The valid kinds are:\n${valid.join(", ")}`
+                );
+            }
+        },
+    });
+
     options.addDeclaration({
         name: "visibilityFilters",
         help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
@@ -548,9 +618,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Array,
         validate(values) {
             // this is good enough because the values of the ReflectionKind enum are all numbers
-            const validValues = Object.values(ReflectionKind).filter(
-                (v) => typeof v === "string"
-            );
+            const validValues = getEnumKeys(ReflectionKind);
 
             for (const kind of values) {
                 if (!validValues.includes(kind)) {

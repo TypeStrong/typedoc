@@ -11,21 +11,21 @@
                 "--config",
                 "${workspaceFolder}/.config/mocha.fast.json",
                 "-g",
-                "1734"
+                "2135"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "name": "Debug Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "request": "launch",
             "skipFiles": ["<node_internals>/**"],
-            "type": "pwa-node"
+            "type": "node"
         },
         {
             "name": "Attach",
             "port": 9229,
             "request": "attach",
             "skipFiles": ["<node_internals>/**"],
-            "type": "pwa-node",
+            "type": "node",
             "sourceMaps": true
         }
     ]

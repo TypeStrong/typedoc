@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
-import { dirname, join } from "path";
+import { dirname, join, relative } from "path";
 
 /**
  * Get the longest directory path common to all files.
@@ -139,40 +139,92 @@ export function copySync(src: string, dest: string): void {
 export function glob(
     pattern: string,
     root: string,
-    options?: { includeDirectories?: boolean }
+    options: { includeDirectories?: boolean; followSymlinks?: boolean } = {}
 ): string[] {
     const result: string[] = [];
     const mini = new Minimatch(normalizePath(pattern));
     const dirs: string[][] = [normalizePath(root).split("/")];
+    // cache of real paths to avoid infinite recursion
+    const symlinkTargetsSeen: Set<string> = new Set();
+    // cache of fs.realpathSync results to avoid extra I/O
+    const realpathCache: Map<string, string> = new Map();
+    const { includeDirectories = false, followSymlinks = false } = options;
 
-    do {
-        const dir = dirs.shift()!;
+    let dir = dirs.shift();
+
+    const handleFile = (path: string) => {
+        const childPath = [...dir!, path].join("/");
+        if (mini.match(childPath)) {
+            result.push(childPath);
+        }
+    };
+
+    const handleDirectory = (path: string) => {
+        const childPath = [...dir!, path];
+        if (
+            mini.set.some((row) =>
+                mini.matchOne(childPath, row, /* partial */ true)
+            )
+        ) {
+            dirs.push(childPath);
+        }
+    };
+
+    const handleSymlink = (path: string) => {
+        const childPath = [...dir!, path].join("/");
+        let realpath: string;
+        try {
+            realpath =
+                realpathCache.get(childPath) ?? fs.realpathSync(childPath);
+            realpathCache.set(childPath, realpath);
+        } catch {
+            return;
+        }
+
+        if (symlinkTargetsSeen.has(realpath)) {
+            return;
+        }
+        symlinkTargetsSeen.add(realpath);
+
+        try {
+            const stats = fs.statSync(realpath);
+            if (stats.isDirectory()) {
+                handleDirectory(path);
+            } else if (stats.isFile()) {
+                handleFile(path);
+            } else if (stats.isSymbolicLink()) {
+                const dirpath = dir!.join("/");
+                if (dirpath === realpath) {
+                    // special case: real path of symlink is the directory we're currently traversing
+                    return;
+                }
+                const targetPath = relative(dirpath, realpath);
+                handleSymlink(targetPath);
+            } // everything else should be ignored
+        } catch (e) {
+            // invalid symbolic link; ignore
+        }
+    };
+
+    while (dir) {
+        if (includeDirectories && mini.match(dir.join("/"))) {
+            result.push(dir.join("/"));
+        }
 
         for (const child of fs.readdirSync(dir.join("/"), {
             withFileTypes: true,
         })) {
-            if (
-                child.isFile() ||
-                (options?.includeDirectories && child.isDirectory())
-            ) {
-                const childPath = [...dir, child.name].join("/");
-                if (mini.match(childPath)) {
-                    result.push(childPath);
-                }
-            }
-
-            if (child.isDirectory() && child.name !== "node_modules") {
-                const childPath = dir.concat(child.name);
-                if (
-                    mini.set.some((row) =>
-                        mini.matchOne(childPath, row, /* partial */ true)
-                    )
-                ) {
-                    dirs.push(childPath);
-                }
+            if (child.isFile()) {
+                handleFile(child.name);
+            } else if (child.isDirectory() && child.name !== "node_modules") {
+                handleDirectory(child.name);
+            } else if (followSymlinks && child.isSymbolicLink()) {
+                handleSymlink(child.name);
             }
         }
-    } while (dirs.length);
+
+        dir = dirs.shift();
+    }
 
     return result;
 }

@@ -196,7 +196,7 @@ output file :
         ) ?? {}) as Marked.marked.MarkedOptions;
 
         // Set some default values if they are not specified via the TypeDoc option
-        markedOptions.highlight ??= (text: any, lang: any) =>
+        markedOptions.highlight ??= (text, lang) =>
             this.getHighlighted(text, lang);
         markedOptions.renderer ??= customMarkedRenderer;
         markedOptions.mangle ??= false; // See https://github.com/TypeStrong/typedoc/issues/1395

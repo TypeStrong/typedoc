@@ -1,5 +1,106 @@
 # Unreleased
 
+## v0.23.24 (2023-01-07)
+
+### Bug Fixes
+
+-   Fixed an issue where signature comments were preferred over property comments for indirectly created function-properties, #2135.
+-   Fixed symlink handling when expanding entry points, #2130.
+
+### Thanks!
+
+-   @boneskull
+
+## v0.23.23 (2022-12-18)
+
+### Features
+
+-   Added `ts.Signature` to emitted `EVENT_CREATE_SIGNATURE` event, #2002.
+
+### Bug Fixes
+
+-   Links to members hidden by filter settings now temporarily override the filter, #2092.
+-   If `src/` and `src/x` are specified as entry points, `src/` will no longer be ignored, #2121.
+
+## v0.23.22 (2022-12-11)
+
+### Features
+
+-   Add support for defining the kind sort order, #2109.
+
+### Bug Fixes
+
+-   Normalize all file paths on Windows, #2113.
+-   Fix `@link` tags within lists, #2103.
+
+## v0.23.21 (2022-11-14)
+
+### Features
+
+-   Added support for a catch-all wildcard in `externalSymbolLinkMappings`, #2102.
+-   Added support for TypeScript 4.9.
+
+### Thanks!
+
+-   @mistic100
+
+## v0.23.20 (2022-11-03)
+
+### Bug Fixes
+
+-   Fixed comment discovery for `@inheritDoc` if inheriting from a function type alias, #2087.
+
+## v0.23.19 (2022-10-28)
+
+### Bug Fixes
+
+-   Fixed title link if `titleLink` option was not specified, #2085.
+
+### Thanks!
+
+-   @krisztianb
+
+## v0.23.18 (2022-10-23)
+
+### Features
+
+-   Improved error reporting when failing to find entry points, #2080, #2082.
+
+### Bug Fixes
+
+-   Constructor parameter-properties will now use the `@param` comment for the parameter if available, #1261.
+-   Fixed display of object types containing methods, #1788.
+-   Fixed conversion of intrinsic string mapping types when converting without a type node, #2079.
+
+## v0.23.17 (2022-10-18)
+
+### Features
+
+-   Added `titleLink`, `navigationLinks` and `sidebarLinks` options to add additional links to the rendered output, #1830.
+-   Added `sourceLinkTemplate` option to allow more flexible specification of remote urls.
+    Deprecated now redundant `gitRevision` detection starting with `https?://` introduced in v0.23.16, #2068.
+
+### Thanks!
+
+-   @futurGH
+
+## v0.23.16 (2022-10-10)
+
+### Features
+
+-   Object types will now be pretty printed, #1793.
+-   Added support for specifying the tsconfig.json file in packages mode with `{ "typedoc": { "tsconfig": "tsconfig.lib.json" }}` in package.json, #2061.
+-   In packages mode, readme files will now be automatically included if present, #2065.
+-   Added support for specifying the base file url for links to source code, #2068.
+
+### Bug Fixes
+
+-   Private parameter properties will no longer be ignored, #2064.
+
+### Thanks!
+
+-   @captainTorch
+
 ## v0.23.15 (2022-09-18)
 
 ### Features

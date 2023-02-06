@@ -1,5 +1,6 @@
 {
     "$schema": "https://typedoc.org/schema.json",
+    "name": "TypeDoc Example"
     "entryPoints": ["./src"],
     "sort": ["source-order"],
     "media": "media",
@@ -10,5 +11,12 @@
     },
     "searchGroupBoosts": {
         "Classes": 1.5
+    },
+    "navigationLinks": {
+        "Docs": "https://typedoc.org/guides/overview",
+        "GitHub": "https://github.com/TypeStrong/typedoc"
+    },
+    "sidebarLinks": {
+        "API": "https://typedoc.org/api"
     }
 }

@@ -15,6 +15,11 @@ export class GetterSetter {
     set writeOnlyName(value: string) {
         this._name = value;
     }
+
+    /**
+     * Accessor comment
+     */
+    accessor autoAccessor: string;
 }
 
 export {};

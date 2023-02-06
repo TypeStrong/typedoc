@@ -419,7 +419,6 @@ function convertFunctionOrMethod(
     context.finalizeDeclarationReflection(reflection);
 
     const scope = context.withScope(reflection);
-    reflection.signatures ??= [];
 
     // Can't use zip here. We might have less declarations than signatures
     // or less signatures than declarations.
@@ -624,6 +623,7 @@ function convertProperty(
         symbol,
         exportSymbol
     );
+    reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
 
     const declaration = symbol.getDeclarations()?.[0];
     let parameterType: ts.TypeNode | undefined;
@@ -643,7 +643,7 @@ function convertProperty(
     reflection.defaultValue = declaration && convertDefaultValue(declaration);
 
     reflection.type = context.converter.convertType(
-        context,
+        context.withScope(reflection),
         (context.isConvertingTypeNode() ? parameterType : void 0) ??
             context.checker.getTypeOfSymbol(symbol)
     );
@@ -895,7 +895,7 @@ function convertVariableAsFunction(
         exportSymbol
     );
     setModifiers(symbol, accessDeclaration, reflection);
-    reflection.conversionFlags |= ConversionFlags.VariableSource;
+    reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
     context.finalizeDeclarationReflection(reflection);
 
     const reflectionContext = context.withScope(reflection);
@@ -966,12 +966,19 @@ function isInherited(context: Context, symbol: ts.Symbol) {
         parentSymbol,
         `No parent symbol found for ${symbol.name} in ${context.scope.name}`
     );
+
+    const parents = parentSymbol.declarations?.slice() || [];
+    const constructorDecls = parents.flatMap((parent) =>
+        ts.isClassDeclaration(parent)
+            ? parent.members.filter(ts.isConstructorDeclaration)
+            : []
+    );
+    parents.push(...constructorDecls);
+
     return (
-        parentSymbol
-            .getDeclarations()
-            ?.some((d) =>
-                symbol.getDeclarations()?.some((d2) => d2.parent === d)
-            ) === false
+        parents.some((d) =>
+            symbol.getDeclarations()?.some((d2) => d2.parent === d)
+        ) === false
     );
 }
 

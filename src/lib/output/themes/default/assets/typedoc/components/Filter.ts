@@ -58,6 +58,8 @@ export class Filter extends Component {
         this.el.checked = this.value;
         document.documentElement.classList.toggle(this.key, this.value);
 
+        this.app.filterChanged();
+
         // Hide index headings where all index items are hidden.
         // offsetParent == null checks for display: none
         document

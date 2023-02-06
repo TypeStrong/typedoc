@@ -12,7 +12,7 @@ export const EmitStrategy = {
     none: "none", // Emit nothing, just convert and run validation
 } as const;
 /** @hidden */
-export type EmitStrategy = typeof EmitStrategy[keyof typeof EmitStrategy];
+export type EmitStrategy = (typeof EmitStrategy)[keyof typeof EmitStrategy];
 
 /**
  * Determines how TypeDoc searches for comments.
@@ -24,7 +24,7 @@ export const CommentStyle = {
     Line: "line",
     All: "all",
 } as const;
-export type CommentStyle = typeof CommentStyle[keyof typeof CommentStyle];
+export type CommentStyle = (typeof CommentStyle)[keyof typeof CommentStyle];
 
 /**
  * An interface describing all TypeDoc specific options. Generated from a
@@ -111,6 +111,7 @@ export interface TypeDocOptionMap {
     excludeTags: `@${string}`[];
     readme: string;
     cname: string;
+    sourceLinkTemplate: string;
     gitRevision: string;
     gitRemote: string;
     htmlLang: string;
@@ -119,6 +120,9 @@ export interface TypeDocOptionMap {
     hideGenerator: boolean;
     searchInComments: boolean;
     cleanOutputDir: boolean;
+    titleLink: string;
+    navigationLinks: ManuallyValidatedOption<Record<string, string>>;
+    sidebarLinks: ManuallyValidatedOption<Record<string, string>>;
 
     commentStyle: typeof CommentStyle;
     blockTags: `@${string}`[];
@@ -129,6 +133,7 @@ export interface TypeDocOptionMap {
     defaultCategory: string;
     categoryOrder: string[];
     sort: SortStrategy[];
+    kindSortOrder: Array<keyof typeof ReflectionKind>;
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;

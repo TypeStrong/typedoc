@@ -119,6 +119,14 @@ export const issueTests: {
         equal(Comment.combineDisplayParts(foo.comment?.summary), "Docs!");
     },
 
+    gh1261(project) {
+        const prop = query(project, "X.prop");
+        equal(
+            Comment.combineDisplayParts(prop.comment?.summary),
+            "The property of X."
+        );
+    },
+
     gh1330(project) {
         const example = query(project, "ExampleParam");
         equal(example?.type?.type, "reference");
@@ -798,5 +806,34 @@ export const issueTests: {
             const decl = query(project, name);
             equal(decl instanceof ReferenceReflection, ref, `${name} = ${ref}`);
         }
+    },
+
+    gh2064(project) {
+        query(project, "PrivateCtorDecl.x");
+    },
+
+    gh2079(project) {
+        const cap = query(project, "capitalize");
+        const sig = cap.signatures![0];
+        equal(sig.type?.toString(), "Capitalize<T>");
+    },
+
+    gh2087(project) {
+        const x = query(project, "Bar.x");
+        equal(
+            Comment.combineDisplayParts(x.comment?.summary),
+            "Foo type comment"
+        );
+    },
+
+    gh2135(project) {
+        const hook = query(project, "Camera.useCameraPermissions");
+        equal(hook.type?.type, "reflection" as const);
+        equal(
+            Comment.combineDisplayParts(
+                hook.type.declaration.signatures![0].comment?.summary
+            ),
+            "One"
+        );
     },
 };
