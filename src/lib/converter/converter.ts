@@ -27,7 +27,12 @@ import type {
 } from "../utils/options/declaration";
 import { parseComment } from "./comments/parser";
 import { lexCommentString } from "./comments/rawLexer";
-import { resolvePartLinks, resolveLinks, ExternalSymbolResolver, ExternalResolveResult } from './comments/linkResolver';
+import {
+    resolvePartLinks,
+    resolveLinks,
+    ExternalSymbolResolver,
+    ExternalResolveResult,
+} from "./comments/linkResolver";
 import type { DeclarationReference } from "./comments/declarationReference";
 
 /**
@@ -269,9 +274,7 @@ export class Converter extends ChildableComponent<
      * and user defined \{\@link\} tags which cannot be resolved.
      * @since 0.22.14
      */
-    addUnknownSymbolResolver(
-        resolver: ExternalSymbolResolver
-    ): void {
+    addUnknownSymbolResolver(resolver: ExternalSymbolResolver): void {
         this._externalSymbolResolvers.push(resolver);
     }
 

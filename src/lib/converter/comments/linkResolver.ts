@@ -169,7 +169,8 @@ function resolveLinkTag(
                     externalResolveResult =
                         externalResolveResult as ExternalResolveResult;
                     part.target = externalResolveResult.target;
-                    part.text = externalResolveResult.caption || defaultDisplayText;
+                    part.text =
+                        externalResolveResult.caption || defaultDisplayText;
                     return part;
             }
         }

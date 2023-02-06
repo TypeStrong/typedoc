@@ -19,7 +19,7 @@ export class GetterSetter {
     /**
      * Accessor comment
      */
-    accessor autoAccessor: string;
+    autoAccessor: string;
 }
 
 export {};
