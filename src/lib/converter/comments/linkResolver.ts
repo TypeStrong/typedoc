@@ -17,10 +17,10 @@ const urlPrefix = /^(http|ftp)s?:\/\//;
 const brackets = /\[\[(?!include:)([^\]]+)\]\]/g;
 
 export type ExternalResolveResult = { target: string; caption?: string };
-export type ExternalResolveAttempt = (
+export type ExternalSymbolResolver = (
     ref: DeclarationReference,
-    part: CommentDisplayPart,
-    refl: Reflection
+    part?: CommentDisplayPart,
+    refl?: Reflection
 ) => ExternalResolveResult | string | undefined;
 
 export function resolveLinks(
@@ -28,7 +28,7 @@ export function resolveLinks(
     reflection: Reflection,
     validation: ValidationOptions,
     logger: Logger,
-    attemptExternalResolve: ExternalResolveAttempt
+    externalResolver: ExternalSymbolResolver
 ) {
     let warned = false;
     const warn = () => {
@@ -46,7 +46,7 @@ export function resolveLinks(
         warn,
         validation,
         logger,
-        attemptExternalResolve
+        externalResolver
     );
     for (const tag of comment.blockTags) {
         tag.content = resolvePartLinks(
@@ -55,7 +55,7 @@ export function resolveLinks(
             warn,
             validation,
             logger,
-            attemptExternalResolve
+            externalResolver
         );
     }
 
@@ -66,7 +66,7 @@ export function resolveLinks(
             warn,
             validation,
             logger,
-            attemptExternalResolve
+            externalResolver
         );
     }
 }
@@ -77,7 +77,7 @@ export function resolvePartLinks(
     warn: () => void,
     validation: ValidationOptions,
     logger: Logger,
-    attemptExternalResolve: ExternalResolveAttempt
+    externalResolver: ExternalSymbolResolver
 ): CommentDisplayPart[] {
     return parts.flatMap((part) =>
         processPart(
@@ -86,7 +86,7 @@ export function resolvePartLinks(
             warn,
             validation,
             logger,
-            attemptExternalResolve
+            externalResolver
         )
     );
 }
@@ -97,7 +97,7 @@ function processPart(
     warn: () => void,
     validation: ValidationOptions,
     logger: Logger,
-    attemptExternalResolve: ExternalResolveAttempt
+    externalResolver: ExternalSymbolResolver
 ): CommentDisplayPart | CommentDisplayPart[] {
     if (part.kind === "text" && brackets.test(part.text)) {
         warn();
@@ -113,7 +113,7 @@ function processPart(
             return resolveLinkTag(
                 reflection,
                 part,
-                attemptExternalResolve,
+                externalResolver,
                 (msg: string) => {
                     if (validation.invalidLink) {
                         logger.warn(msg);
@@ -129,7 +129,7 @@ function processPart(
 function resolveLinkTag(
     reflection: Reflection,
     part: InlineTagDisplayPart,
-    attemptExternalResolve: ExternalResolveAttempt,
+    externalResolver: ExternalSymbolResolver,
     warn: (message: string) => void
 ) {
     let pos = 0;
@@ -153,7 +153,7 @@ function resolveLinkTag(
             defaultDisplayText = target.name;
         } else {
             // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
-            let externalResolveResult = attemptExternalResolve(
+            let externalResolveResult = externalResolver(
                 declRef[0],
                 part,
                 reflection

@@ -1,5 +1,5 @@
 import { Component, ConverterComponent } from "../components";
-import type { Context } from "../../converter";
+import type { Context, ExternalResolveResult } from '../../converter';
 import { ConverterEvents } from "../converter-events";
 import { BindOption, ValidationOptions } from "../../utils";
 import { DeclarationReflection } from "../../models";
@@ -50,9 +50,15 @@ export class LinkResolverPlugin extends ConverterComponent {
             false
         )) {
             if (!type.reflection) {
-                type.externalUrl = context.converter.resolveExternalLink(
-                    type.toDeclarationReference()
-                );
+                const resolveResult = context.converter.resolveExternalLink(type.toDeclarationReference());
+                switch (typeof resolveResult) {
+                    case "string":
+                        type.externalUrl = resolveResult as string;
+                        break;
+                    case "object":
+                        type.externalUrl = (resolveResult as ExternalResolveResult).target;
+                        break;
+                }
             }
         }
     }

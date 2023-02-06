@@ -27,7 +27,7 @@ import type {
 } from "../utils/options/declaration";
 import { parseComment } from "./comments/parser";
 import { lexCommentString } from "./comments/rawLexer";
-import { resolvePartLinks, resolveLinks } from "./comments/linkResolver";
+import { resolvePartLinks, resolveLinks, ExternalSymbolResolver, ExternalResolveResult } from './comments/linkResolver';
 import type { DeclarationReference } from "./comments/declarationReference";
 
 /**
@@ -77,13 +77,7 @@ export class Converter extends ChildableComponent<
     externalSymbolLinkMappings!: Record<string, Record<string, string>>;
 
     private _config?: CommentParserConfig;
-    private _externalSymbolResolvers: Array<
-        (
-            ref: DeclarationReference,
-            part?: CommentDisplayPart,
-            refl?: Reflection
-        ) => string | undefined
-    > = [];
+    private _externalSymbolResolvers: Array<ExternalSymbolResolver> = [];
 
     get config(): CommentParserConfig {
         return this._config || this._buildCommentParserConfig();
@@ -272,7 +266,7 @@ export class Converter extends ChildableComponent<
      * @since 0.22.14
      */
     addUnknownSymbolResolver(
-        resolver: (ref: DeclarationReference) => string | undefined
+        resolver: ExternalSymbolResolver
     ): void {
         this._externalSymbolResolvers.push(resolver);
     }
@@ -282,7 +276,7 @@ export class Converter extends ChildableComponent<
         ref: DeclarationReference,
         part?: CommentDisplayPart,
         refl?: Reflection
-    ): string | undefined {
+    ): ExternalResolveResult | string | undefined {
         for (const resolver of this._externalSymbolResolvers) {
             const resolved = resolver(ref, part, refl);
             if (resolved) return resolved;

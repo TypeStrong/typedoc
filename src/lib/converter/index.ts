@@ -10,7 +10,7 @@ export type {
     MeaningKeyword,
 } from "./comments/declarationReference";
 export type {
-    ExternalResolveAttempt,
+    ExternalSymbolResolver,
     ExternalResolveResult,
 } from "./comments/linkResolver";
 
