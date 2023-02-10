@@ -97,6 +97,32 @@ describe("fs.ts", () => {
             });
         });
 
+        describe("when node_modules is present in the pattern", function () {
+            it("should traverse node_modules", function () {
+                fix.dir("node_modules").addFile("test.ts").path;
+                fix.write();
+                equal(
+                    glob(`${fix.cwd}/node_modules/test.ts`, fix.cwd).map((f) =>
+                        basename(f)
+                    ),
+                    ["test.ts"]
+                );
+            });
+        });
+
+        describe("when node_modules is not present in the pattern", function () {
+            it("should not traverse node_modules", function () {
+                fix.dir("node_modules").addFile("test.ts").path;
+                fix.write();
+                equal(
+                    glob(`${fix.cwd}/**/test.ts`, fix.cwd).map((f) =>
+                        basename(f)
+                    ),
+                    []
+                );
+            });
+        });
+
         it("should ignore anything that is not a file, symbolic link, or directory", function (done) {
             // Use unix socket for example, because that's easiest to create.
             // Skip on Windows because it doesn't support unix sockets

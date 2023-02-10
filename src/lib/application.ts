@@ -109,8 +109,6 @@ export class Application extends ChildableComponent<
 
     /**
      * Create a new TypeDoc application instance.
-     *
-     * @param options An object containing the options that should be used.
      */
     constructor() {
         super(null!); // We own ourselves

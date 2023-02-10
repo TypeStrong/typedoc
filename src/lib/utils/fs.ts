@@ -149,7 +149,11 @@ export function glob(
     // cache of fs.realpathSync results to avoid extra I/O
     const realpathCache: Map<string, string> = new Map();
     const { includeDirectories = false, followSymlinks = false } = options;
-
+    // if we _specifically asked_ for something in node_modules, fine, otherwise ignore it
+    // to avoid globs like '**/*.ts' finding all the .d.ts files in node_modules.
+    // however, if the pattern is something like `!**/node_modules/**`, this will also
+    // cause node_modules to be considered, though it will be discarded by minimatch.
+    const shouldIncludeNodeModules = pattern.includes("node_modules");
     let dir = dirs.shift();
 
     const handleFile = (path: string) => {
@@ -216,8 +220,10 @@ export function glob(
         })) {
             if (child.isFile()) {
                 handleFile(child.name);
-            } else if (child.isDirectory() && child.name !== "node_modules") {
-                handleDirectory(child.name);
+            } else if (child.isDirectory()) {
+                if (shouldIncludeNodeModules || child.name !== "node_modules") {
+                    handleDirectory(child.name);
+                }
             } else if (followSymlinks && child.isSymbolicLink()) {
                 handleSymlink(child.name);
             }
