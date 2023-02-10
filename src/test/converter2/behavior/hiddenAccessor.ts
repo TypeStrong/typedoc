@@ -14,8 +14,8 @@ export class Test {
         return 1;
     }
 
-    auto!: string;
+    accessor auto!: string;
 
     /** @hidden */
-    autoHidden!: string;
+    accessor autoHidden!: string;
 }
