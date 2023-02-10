@@ -133,7 +133,7 @@ export class TypeDocReader implements OptionsReader {
     }
 
     /**
-     * Search for the typedoc.js or typedoc.json file from the given path
+     * Search for the configuration file given path
      *
      * @param  path Path to the typedoc.(js|json) file. If path is a directory
      *   typedoc file will be attempted to be found at the root of this path
@@ -146,8 +146,13 @@ export class TypeDocReader implements OptionsReader {
         return [
             path,
             join(path, "typedoc.json"),
+            join(path, "typedoc.jsonc"),
+            join(path, "typedoc.config.js"),
+            join(path, "typedoc.config.cjs"),
             join(path, "typedoc.js"),
+            join(path, "typedoc.cjs"),
             join(path, ".config/typedoc.js"),
+            join(path, ".config/typedoc.cjs"),
             join(path, ".config/typedoc.json"),
         ].find((path) => FS.existsSync(path) && FS.statSync(path).isFile());
     }
