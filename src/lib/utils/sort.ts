@@ -20,7 +20,7 @@ export const SORT_STRATEGIES = [
     "kind",
 ] as const;
 
-export type SortStrategy = typeof SORT_STRATEGIES[number];
+export type SortStrategy = (typeof SORT_STRATEGIES)[number];
 
 const defaultKindSortOrder = [
     ReflectionKind.Reference,
