@@ -151,9 +151,10 @@ export class TypeDocReader implements OptionsReader {
             join(path, "typedoc.config.cjs"),
             join(path, "typedoc.js"),
             join(path, "typedoc.cjs"),
+            join(path, ".config/typedoc.json"),
+            join(path, ".config/typedoc.jsonc"),
             join(path, ".config/typedoc.js"),
             join(path, ".config/typedoc.cjs"),
-            join(path, ".config/typedoc.json"),
         ].find((path) => FS.existsSync(path) && FS.statSync(path).isFile());
     }
 }
