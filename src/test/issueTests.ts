@@ -29,8 +29,8 @@ function query(project: ProjectReflection, name: string) {
 }
 
 export const issueTests: {
-    [issue: `pre${string}`]: (app: Application) => void;
-    [issue: `gh${string}`]: (
+    [issue: `pre${bigint}${string}`]: (app: Application) => void;
+    [issue: `gh${bigint}${string}`]: (
         project: ProjectReflection,
         logger: TestLogger
     ) => void;
@@ -834,6 +834,18 @@ export const issueTests: {
                 hook.type.declaration.signatures![0].comment?.summary
             ),
             "One"
+        );
+    },
+
+    pre2156(app) {
+        app.options.setValue("excludeNotDocumented", true);
+    },
+    gh2156(project) {
+        const foo = query(project, "foo");
+        equal(foo.signatures?.length, 1);
+        equal(
+            Comment.combineDisplayParts(foo.signatures[0].comment?.summary),
+            "Is documented"
         );
     },
 };

@@ -464,6 +464,18 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         if (!comment) {
+            // We haven't moved comments from the parent for signatures without a direct
+            // comment, so don't exclude those due to not being documented.
+            if (
+                reflection.kindOf(
+                    ReflectionKind.CallSignature |
+                        ReflectionKind.ConstructorSignature
+                ) &&
+                reflection.parent?.comment
+            ) {
+                return false;
+            }
+
             if (this.excludeNotDocumented) {
                 // Don't let excludeNotDocumented remove parameters.
                 if (
