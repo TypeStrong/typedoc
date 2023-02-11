@@ -79,5 +79,5 @@ export {
 } from "./lib/serialization";
 export type { SerializeEventData } from "./lib/serialization";
 
-import * as TypeScript from "typescript";
+import TypeScript from "typescript";
 export { TypeScript };

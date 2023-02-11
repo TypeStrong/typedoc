@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 
 import type { Application } from "../application";
 import {
@@ -45,8 +45,8 @@ export class Converter extends ChildableComponent<
     /** @internal */
     @BindOption("externalPattern")
     externalPattern!: string[];
-    private externalPatternCache?: Minimatch[];
-    private excludeCache?: Minimatch[];
+    private externalPatternCache?: InstanceType<typeof Minimatch>[];
+    private excludeCache?: InstanceType<typeof Minimatch>[];
 
     /** @internal */
     @BindOption("excludeExternals")

@@ -1,6 +1,6 @@
 import { deepStrictEqual as equal } from "assert";
 import { join } from "path";
-import * as ts from "typescript";
+import ts from "typescript";
 import {
     Application,
     EntryPointStrategy,

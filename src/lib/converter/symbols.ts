@@ -1,5 +1,5 @@
-import * as assert from "assert";
-import * as ts from "typescript";
+import assert from "assert";
+import ts from "typescript";
 import {
     DeclarationReflection,
     IntrinsicType,

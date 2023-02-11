@@ -1,5 +1,5 @@
 import * as Path from "path";
-import * as ts from "typescript";
+import ts from "typescript";
 
 import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";

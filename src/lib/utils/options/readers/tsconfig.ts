@@ -1,7 +1,7 @@
 import { resolve, join, dirname } from "path";
 import { existsSync, statSync } from "fs";
 
-import * as ts from "typescript";
+import ts from "typescript";
 
 import type { Options, OptionsReader } from "../options";
 import type { Logger } from "../../loggers";

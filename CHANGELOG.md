@@ -15,6 +15,7 @@
 ### Bug Fixes
 
 -   Entry points under `node_modules` will no longer be ignored, #2151.
+-   Added `package.json` to exports declaration.
 
 ### Thanks!
 

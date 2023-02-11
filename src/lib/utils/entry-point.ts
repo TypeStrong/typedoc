@@ -1,5 +1,5 @@
 import { join, relative, resolve } from "path";
-import * as ts from "typescript";
+import ts from "typescript";
 import * as FS from "fs";
 import * as Path from "path";
 import {

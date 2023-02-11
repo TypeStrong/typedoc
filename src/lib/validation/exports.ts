@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import type { ProjectReflection } from "../models";
 import type { Logger } from "../utils";
 import { discoverAllReferenceTypes } from "../utils/reflections";

@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 
 export function isNamedNode(node: ts.Node): node is ts.Node & {
     name: ts.Identifier | ts.PrivateIdentifier | ts.ComputedPropertyName;

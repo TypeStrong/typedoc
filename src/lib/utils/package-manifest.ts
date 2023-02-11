@@ -117,7 +117,7 @@ export function expandPackages(
     logger: Logger,
     packageJsonDir: string,
     workspaces: string[],
-    exclude: Minimatch[]
+    exclude: InstanceType<typeof Minimatch>[]
 ): string[] {
     // Technically npm and Yarn workspaces don't support recursive nesting,
     // however we support the passing of paths to either packages or

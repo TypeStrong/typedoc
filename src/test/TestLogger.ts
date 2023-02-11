@@ -1,6 +1,6 @@
 import { Logger, LogLevel, removeIf } from "../lib/utils";
 import { fail, ok } from "assert";
-import * as ts from "typescript";
+import ts from "typescript";
 import { resolve } from "path";
 
 const levelMap: Record<LogLevel, string> = {
