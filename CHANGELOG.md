@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.25 (2023-02-11)
+
 ### Breaking Changes
 
 -   Upgraded Shiki, if your highlight theme was set to `material-<theme>`, the value will need to be changed to
