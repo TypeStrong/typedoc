@@ -86,6 +86,58 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "excludeNotDocumentedKinds",
+        help: "Specify the type of reflections that can be removed by excludeNotDocumented.",
+        type: ParameterType.Array,
+        validate(value) {
+            const invalid = new Set(value);
+            const valid = new Set(getEnumKeys(ReflectionKind));
+            for (const notPermitted of [
+                ReflectionKind.Project,
+                ReflectionKind.TypeLiteral,
+                ReflectionKind.TypeParameter,
+                ReflectionKind.Parameter,
+                ReflectionKind.ObjectLiteral,
+            ]) {
+                valid.delete(ReflectionKind[notPermitted]);
+            }
+            for (const v of valid) {
+                invalid.delete(v);
+            }
+
+            if (invalid.size !== 0) {
+                throw new Error(
+                    `excludeNotDocumentedKinds may only specify known values, and invalid values were provided (${Array.from(
+                        invalid
+                    ).join(", ")}). The valid kinds are:\n${Array.from(
+                        valid
+                    ).join(", ")}`
+                );
+            }
+        },
+        defaultValue: [
+            ReflectionKind[ReflectionKind.Module],
+            ReflectionKind[ReflectionKind.Namespace],
+            ReflectionKind[ReflectionKind.Enum],
+            // Not including enum member here by default
+            ReflectionKind[ReflectionKind.Variable],
+            ReflectionKind[ReflectionKind.Function],
+            ReflectionKind[ReflectionKind.Class],
+            ReflectionKind[ReflectionKind.Interface],
+            ReflectionKind[ReflectionKind.Constructor],
+            ReflectionKind[ReflectionKind.Property],
+            ReflectionKind[ReflectionKind.Method],
+            ReflectionKind[ReflectionKind.CallSignature],
+            ReflectionKind[ReflectionKind.IndexSignature],
+            ReflectionKind[ReflectionKind.ConstructorSignature],
+            ReflectionKind[ReflectionKind.Accessor],
+            ReflectionKind[ReflectionKind.GetSignature],
+            ReflectionKind[ReflectionKind.SetSignature],
+            ReflectionKind[ReflectionKind.TypeAlias],
+            ReflectionKind[ReflectionKind.Reference],
+        ],
+    });
+    options.addDeclaration({
         name: "excludeInternal",
         help: "Prevent symbols that are marked with @internal from being documented.",
         type: ParameterType.Boolean,
@@ -631,16 +683,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
         defaultValue: [
-            "Enum",
-            "EnumMember",
-            "Variable",
-            "Function",
-            "Class",
-            "Interface",
-            "Property",
-            "Method",
-            "Accessor",
-            "TypeAlias",
+            ReflectionKind[ReflectionKind.Enum],
+            ReflectionKind[ReflectionKind.EnumMember],
+            ReflectionKind[ReflectionKind.Variable],
+            ReflectionKind[ReflectionKind.Function],
+            ReflectionKind[ReflectionKind.Class],
+            ReflectionKind[ReflectionKind.Interface],
+            ReflectionKind[ReflectionKind.Property],
+            ReflectionKind[ReflectionKind.Method],
+            ReflectionKind[ReflectionKind.Accessor],
+            ReflectionKind[ReflectionKind.TypeAlias],
         ],
     });
 

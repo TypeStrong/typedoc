@@ -85,6 +85,7 @@ export interface TypeDocOptionMap {
     externalPattern: string[];
     excludeExternals: boolean;
     excludeNotDocumented: boolean;
+    excludeNotDocumentedKinds: Array<keyof typeof ReflectionKind>;
     excludeInternal: boolean;
     excludePrivate: boolean;
     excludeProtected: boolean;

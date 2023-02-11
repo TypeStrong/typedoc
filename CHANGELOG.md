@@ -1,5 +1,27 @@
 # Unreleased
 
+### Breaking Changes
+
+-   Upgraded Shiki, if your highlight theme was set to `material-<theme>`, the value will need to be changed to
+    `material-theme-<theme>`, see the [Shiki release notes](https://github.com/shikijs/shiki/blob/main/CHANGELOG.md#0130--2023-01-27).
+
+### Features
+
+-   Added new `excludeNotDocumentedKinds` variable to control which reflection types can be removed
+    by the `excludeNotDocumented` option, #2162.
+-   Added `typedoc.jsonc`, `typedoc.config.js`, `typedoc.config.cjs`, `typedoc.cjs` to the list of files
+    which TypeDoc will automatically use as configuration files.
+
+### Bug Fixes
+
+-   Entry points under `node_modules` will no longer be ignored, #2151.
+
+### Thanks!
+
+-   @boneskull
+-   @Mikkal24
+-   @zamiell
+
 ## v0.23.24 (2023-01-07)
 
 ### Bug Fixes

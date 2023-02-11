@@ -118,6 +118,14 @@ export class CommentPlugin extends ConverterComponent {
     @BindOption("excludeNotDocumented")
     excludeNotDocumented!: boolean;
 
+    private _excludeKinds: number | undefined;
+    private get excludeNotDocumentedKinds(): number {
+        this._excludeKinds ??= this.application.options
+            .getValue("excludeNotDocumentedKinds")
+            .reduce((a, b) => a | ReflectionKind[b], 0);
+        return this._excludeKinds;
+    }
+
     /**
      * Create a new CommentPlugin instance.
      */
@@ -128,6 +136,9 @@ export class CommentPlugin extends ConverterComponent {
             [Converter.EVENT_CREATE_TYPE_PARAMETER]: this.onCreateTypeParameter,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
             [Converter.EVENT_RESOLVE]: this.onResolve,
+            [Converter.EVENT_END]: () => {
+                this._excludeKinds = undefined;
+            },
         });
     }
 
@@ -462,6 +473,10 @@ export class CommentPlugin extends ConverterComponent {
                     return false;
                 }
 
+                if (!reflection.kindOf(this.excludeNotDocumentedKinds)) {
+                    return false;
+                }
+
                 // excludeNotDocumented should hide a module only if it has no visible children
                 if (reflection.kindOf(ReflectionKind.SomeModule)) {
                     if (!(reflection as DeclarationReflection).children) {
@@ -470,11 +485,6 @@ export class CommentPlugin extends ConverterComponent {
                     return (
                         reflection as DeclarationReflection
                     ).children!.every((child) => this.isHidden(child));
-                }
-
-                // enum members should all be included if the parent enum is documented
-                if (reflection.kind === ReflectionKind.EnumMember) {
-                    return false;
                 }
 
                 // signature containers should only be hidden if all their signatures are hidden
