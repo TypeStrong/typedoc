@@ -176,6 +176,9 @@ export function getJsDocComment(
     config: CommentParserConfig,
     logger: Logger
 ): Comment | undefined {
+    if (!declaration) {
+        return undefined;
+    }
     const file = declaration.getSourceFile();
 
     // First, get the whole comment. We know we'll need all of it.
