@@ -16,12 +16,19 @@ import { resolveDeclarationReference } from "./declarationReferenceResolver";
 const urlPrefix = /^(http|ftp)s?:\/\//;
 const brackets = /\[\[(?!include:)([^\]]+)\]\]/g;
 
+export type ExternalResolveResult = { target: string; caption?: string };
+export type ExternalSymbolResolver = (
+    ref: DeclarationReference,
+    refl: Reflection,
+    part: Readonly<CommentDisplayPart> | undefined
+) => ExternalResolveResult | string | undefined;
+
 export function resolveLinks(
     comment: Comment,
     reflection: Reflection,
     validation: ValidationOptions,
     logger: Logger,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    externalResolver: ExternalSymbolResolver
 ) {
     let warned = false;
     const warn = () => {
@@ -39,7 +46,7 @@ export function resolveLinks(
         warn,
         validation,
         logger,
-        attemptExternalResolve
+        externalResolver
     );
     for (const tag of comment.blockTags) {
         tag.content = resolvePartLinks(
@@ -48,7 +55,7 @@ export function resolveLinks(
             warn,
             validation,
             logger,
-            attemptExternalResolve
+            externalResolver
         );
     }
 
@@ -59,7 +66,7 @@ export function resolveLinks(
             warn,
             validation,
             logger,
-            attemptExternalResolve
+            externalResolver
         );
     }
 }
@@ -70,7 +77,7 @@ export function resolvePartLinks(
     warn: () => void,
     validation: ValidationOptions,
     logger: Logger,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    externalResolver: ExternalSymbolResolver
 ): CommentDisplayPart[] {
     return parts.flatMap((part) =>
         processPart(
@@ -79,7 +86,7 @@ export function resolvePartLinks(
             warn,
             validation,
             logger,
-            attemptExternalResolve
+            externalResolver
         )
     );
 }
@@ -90,7 +97,7 @@ function processPart(
     warn: () => void,
     validation: ValidationOptions,
     logger: Logger,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    externalResolver: ExternalSymbolResolver
 ): CommentDisplayPart | CommentDisplayPart[] {
     if (part.kind === "text" && brackets.test(part.text)) {
         warn();
@@ -106,7 +113,7 @@ function processPart(
             return resolveLinkTag(
                 reflection,
                 part,
-                attemptExternalResolve,
+                externalResolver,
                 (msg: string) => {
                     if (validation.invalidLink) {
                         logger.warn(msg);
@@ -122,7 +129,7 @@ function processPart(
 function resolveLinkTag(
     reflection: Reflection,
     part: InlineTagDisplayPart,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined,
+    externalResolver: ExternalSymbolResolver,
     warn: (message: string) => void
 ) {
     let pos = 0;
@@ -146,9 +153,22 @@ function resolveLinkTag(
             defaultDisplayText = target.name;
         } else {
             // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
-            target = attemptExternalResolve(declRef[0]);
-            if (target) {
-                defaultDisplayText = part.text.substring(0, pos);
+            const externalResolveResult = externalResolver(
+                declRef[0],
+                reflection,
+                part
+            );
+
+            defaultDisplayText = part.text.substring(0, pos);
+
+            switch (typeof externalResolveResult) {
+                case "string":
+                    target = externalResolveResult;
+                    break;
+                case "object":
+                    target = externalResolveResult.target;
+                    defaultDisplayText =
+                        externalResolveResult.caption || defaultDisplayText;
             }
         }
     }
