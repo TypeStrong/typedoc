@@ -143,7 +143,7 @@ function resolveLinkTag(
     const declRef = parseDeclarationReference(part.text, pos, end);
 
     let target: Reflection | string | undefined;
-    let defaultDisplayText: string;
+    let defaultDisplayText = "";
     if (declRef) {
         // Got one, great! Try to resolve the link
         target = resolveDeclarationReference(reflection, declRef[0]);
@@ -205,7 +205,8 @@ function resolveLinkTag(
     }
 
     part.target = target;
-    part.text = part.text.substring(pos).trim() || defaultDisplayText!;
+    part.text =
+        part.text.substring(pos).trim() || defaultDisplayText || part.text;
 
     return part;
 }
