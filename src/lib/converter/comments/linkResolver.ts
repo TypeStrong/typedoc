@@ -19,8 +19,8 @@ const brackets = /\[\[(?!include:)([^\]]+)\]\]/g;
 export type ExternalResolveResult = { target: string; caption?: string };
 export type ExternalSymbolResolver = (
     ref: DeclarationReference,
-    part?: CommentDisplayPart,
-    refl?: Reflection
+    refl: Reflection,
+    part: Readonly<CommentDisplayPart> | undefined
 ) => ExternalResolveResult | string | undefined;
 
 export function resolveLinks(
@@ -155,23 +155,20 @@ function resolveLinkTag(
             // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
             let externalResolveResult = externalResolver(
                 declRef[0],
-                part,
-                reflection
+                reflection,
+                part
             );
 
             defaultDisplayText = part.text.substring(0, pos);
 
             switch (typeof externalResolveResult) {
                 case "string":
-                    target = externalResolveResult as string;
+                    target = externalResolveResult;
                     break;
                 case "object":
-                    externalResolveResult =
-                        externalResolveResult as ExternalResolveResult;
-                    part.target = externalResolveResult.target;
-                    part.text =
+                    target = externalResolveResult.target;
+                    defaultDisplayText =
                         externalResolveResult.caption || defaultDisplayText;
-                    return part;
             }
         }
     }

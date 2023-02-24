@@ -271,7 +271,8 @@ export class Converter extends ChildableComponent<
      *
      * Note: This will be used for both references to types declared in node_modules (in which case the
      * reference passed will have the `moduleSource` set and the `symbolReference` will navigate via `.`)
-     * and user defined \{\@link\} tags which cannot be resolved.
+     * and user defined \{\@link\} tags which cannot be resolved. If the link being resolved is inferred
+     * from a type, then no `part` will be passed to the resolver function.
      * @since 0.22.14
      */
     addUnknownSymbolResolver(resolver: ExternalSymbolResolver): void {
@@ -281,11 +282,11 @@ export class Converter extends ChildableComponent<
     /** @internal */
     resolveExternalLink(
         ref: DeclarationReference,
-        part?: CommentDisplayPart,
-        refl?: Reflection
+        refl: Reflection,
+        part?: CommentDisplayPart
     ): ExternalResolveResult | string | undefined {
         for (const resolver of this._externalSymbolResolvers) {
-            const resolved = resolver(ref, part, refl);
+            const resolved = resolver(ref, refl, part);
             if (resolved) return resolved;
         }
     }

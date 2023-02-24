@@ -45,13 +45,14 @@ export class LinkResolverPlugin extends ConverterComponent {
             );
         }
 
-        for (const { type } of discoverAllReferenceTypes(
+        for (const { type, owner } of discoverAllReferenceTypes(
             context.project,
             false
         )) {
             if (!type.reflection) {
                 const resolveResult = context.converter.resolveExternalLink(
-                    type.toDeclarationReference()
+                    type.toDeclarationReference(),
+                    owner
                 );
                 switch (typeof resolveResult) {
                     case "string":
