@@ -153,7 +153,7 @@ function resolveLinkTag(
             defaultDisplayText = target.name;
         } else {
             // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
-            let externalResolveResult = externalResolver(
+            const externalResolveResult = externalResolver(
                 declRef[0],
                 reflection,
                 part
