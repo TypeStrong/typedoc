@@ -103,13 +103,14 @@ export function getComment(
     logger: Logger,
     commentStyle: CommentStyle
 ): Comment | undefined {
+    const declarations = symbol.declarations || [];
+
     if (
-        symbol
-            .getDeclarations()
-            ?.every((d) => jsDocCommentKinds.includes(d.kind))
+        declarations.length &&
+        declarations.every((d) => jsDocCommentKinds.includes(d.kind))
     ) {
         return getJsDocComment(
-            symbol.declarations![0] as ts.JSDocPropertyLikeTag,
+            declarations[0] as ts.JSDocPropertyLikeTag,
             config,
             logger
         );
@@ -119,7 +120,7 @@ export function getComment(
         discoverComment(symbol, kind, logger, commentStyle),
         config,
         logger,
-        symbol.declarations?.some(ts.isSourceFile) || false
+        declarations.some(ts.isSourceFile)
     );
 
     if (!comment && kind === ReflectionKind.Property) {

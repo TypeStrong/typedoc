@@ -1,5 +1,13 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fix crash when converting `export default undefined`, #2175
+
+### Thanks!
+
+-   @loopingz
+
 ## v0.23.25 (2023-02-11)
 
 ### Breaking Changes

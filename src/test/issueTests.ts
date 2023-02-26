@@ -848,4 +848,10 @@ export const issueTests: {
             "Is documented"
         );
     },
+
+    gh2175(project) {
+        const def = query(project, "default");
+        equal(def.type?.type, "intrinsic");
+        equal(def.type.toString(), "undefined");
+    },
 };
