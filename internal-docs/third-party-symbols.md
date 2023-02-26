@@ -96,3 +96,58 @@ export function load(app: Application) {
     });
 }
 ```
+
+Since TypeDoc 0.23.26, plugins may also return return an object for more control
+over the displayed link. The returned `caption` will be used if the user does not
+specify the link text.
+
+```ts
+import { Application, type DeclarationReference } from "typedoc";
+
+const documentedExports = [
+    "chunk",
+    "compact",
+    "concat",
+    "difference",
+    "differenceBy",
+    "differenceWith",
+];
+
+export function load(app: Application) {
+    app.converter.addUnknownSymbolResolver((ref: DeclarationReference) => {
+        if (
+            // TS defined symbols
+            ref.moduleSource !== "@types/lodash" &&
+            // User {@link} tags
+            ref.moduleSource !== "lodash"
+        ) {
+            return;
+        }
+
+        // If someone did {@link lodash!}, link them directly to the home page.
+        if (!ref.symbolReference) {
+            return "https://lodash.com/";
+        }
+
+        if (!ref.symbolReference.path) {
+            // Someone included a meaning, but not a path.
+            // https://typedoc.org/guides/declaration-references/#meaning
+            return;
+        }
+
+        if (ref.symbolReference.path.length === 1) {
+            const name = ref.symbolReference.path[0].path;
+            if (documentedExports.includes(name)) {
+                return {
+                    target: `https://lodash.com/docs/4.17.15#${name}`,
+                    caption: name,
+                };
+            }
+        }
+    });
+}
+```
+
+The unknown symbol resolver will also be passed the reflection containing the link
+and, if the link was defined by the user, the [CommentDisplayPart](https://typedoc.org/api/types/CommentDisplayPart.html)
+which was parsed into the `DeclarationReference` provided as the first argument.

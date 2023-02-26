@@ -1,12 +1,19 @@
 # Unreleased
 
+### Features
+
+-   Added `Application.EVENT_VALIDATE_PROJECT` event for plugins which implement custom validation, #2183.
+-   Plugins may now return an object from external symbol resolvers, #2066.
+
 ### Bug Fixes
 
 -   Fix crash when converting `export default undefined`, #2175
 
 ### Thanks!
 
+-   @captain-torch
 -   @loopingz
+-   @RebeccaStevens
 
 ## v0.23.25 (2023-02-11)
 
