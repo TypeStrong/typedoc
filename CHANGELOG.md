@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.26 (2023-02-26)
+
 ### Features
 
 -   Added `Application.EVENT_VALIDATE_PROJECT` event for plugins which implement custom validation, #2183.
