@@ -108,6 +108,12 @@ export class Application extends ChildableComponent<
     static readonly EVENT_BOOTSTRAP_END = ApplicationEvents.BOOTSTRAP_END;
 
     /**
+     * Emitted when validation is being run.
+     * The listener will be given an instance of {@link ProjectReflection}.
+     */
+    static readonly EVENT_VALIDATE_PROJECT = ApplicationEvents.VALIDATE_PROJECT;
+
+    /**
      * Create a new TypeDoc application instance.
      */
     constructor() {
@@ -430,6 +436,8 @@ export class Application extends ChildableComponent<
         if (checks.invalidLink) {
             validateLinks(project, this.logger);
         }
+
+        this.trigger(Application.EVENT_VALIDATE_PROJECT, project);
 
         this.logger.verbose(`Validation took ${Date.now() - start}ms`);
     }
