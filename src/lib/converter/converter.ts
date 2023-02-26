@@ -50,8 +50,8 @@ export class Converter extends ChildableComponent<
     /** @internal */
     @BindOption("externalPattern")
     externalPattern!: string[];
-    private externalPatternCache?: InstanceType<typeof Minimatch>[];
-    private excludeCache?: InstanceType<typeof Minimatch>[];
+    private externalPatternCache?: Minimatch[];
+    private excludeCache?: Minimatch[];
 
     /** @internal */
     @BindOption("excludeExternals")
