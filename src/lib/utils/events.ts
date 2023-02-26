@@ -7,9 +7,6 @@
 // The Events object is a typesafe conversion of Backbones Events object:
 // https://github.com/jashkenas/backbone/blob/05fde9e201f7e2137796663081105cd6dad12a98/backbone.js#L119-L374
 
-import type { ProjectReflection } from "../models/index";
-import type { Application } from "../application";
-
 const uniqueId = (function () {
     const prefixes: Record<string, number | undefined> = Object.create(null);
     return function (prefix: string) {
@@ -437,12 +434,6 @@ export class EventDispatcher {
         priority?: number
     ): this;
     on(
-        name: (typeof Application)["EVENT_VALIDATION_RUN"],
-        callback: (project: ProjectReflection) => void,
-        context?: any,
-        priority?: number
-    ): this;
-    on(
         name: string,
         callback: EventCallback,
         context?: any,
@@ -450,7 +441,7 @@ export class EventDispatcher {
     ): this;
     on(
         nameOrMap: EventMap | string,
-        callback?: EventCallback,
+        callback: EventCallback,
         context?: any,
         priority?: number
     ) {

@@ -111,7 +111,7 @@ export class Application extends ChildableComponent<
      * Emitted when validation is being run.
      * The listener will be given an instance of {@link ProjectReflection}.
      */
-    static readonly EVENT_VALIDATION_RUN = ApplicationEvents.VALIDATION_RUN;
+    static readonly EVENT_VALIDATE_PROJECT = ApplicationEvents.VALIDATE_PROJECT;
 
     /**
      * Create a new TypeDoc application instance.
@@ -437,7 +437,7 @@ export class Application extends ChildableComponent<
             validateLinks(project, this.logger);
         }
 
-        this.trigger(Application.EVENT_VALIDATION_RUN, project);
+        this.trigger(Application.EVENT_VALIDATE_PROJECT, project);
 
         this.logger.verbose(`Validation took ${Date.now() - start}ms`);
     }
