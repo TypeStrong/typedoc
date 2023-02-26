@@ -14,6 +14,7 @@ export {
     type Meaning,
     type MeaningKeyword,
     type ExternalResolveResult,
+    type ExternalSymbolResolver,
 } from "./lib/converter";
 
 export {

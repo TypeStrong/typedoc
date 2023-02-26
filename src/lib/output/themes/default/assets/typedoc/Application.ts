@@ -76,8 +76,13 @@ export class Application {
         if (!reflAnchor) return;
 
         let reflContainer = reflAnchor.parentElement!;
-        while (reflContainer.tagName !== "SECTION") {
+        while (reflContainer && reflContainer.tagName !== "SECTION") {
             reflContainer = reflContainer.parentElement!;
+        }
+
+        if (!reflContainer) {
+            // This is probably a link in the readme, doesn't have a containing section
+            return;
         }
 
         if (reflContainer.offsetParent == null) {
