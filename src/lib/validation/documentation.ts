@@ -1,6 +1,5 @@
 import {
     DeclarationReflection,
-    ParameterReflection,
     ProjectReflection,
     Reflection,
     ReflectionKind,
