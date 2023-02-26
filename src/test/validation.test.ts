@@ -206,4 +206,12 @@ describe("validateDocumentation", () => {
         );
         logger.expectNoOtherMessages();
     });
+
+    it("Should correctly handle callback parameters", () => {
+        const project = convertValidationFile("callbackParameters.ts");
+        const logger = new TestLogger();
+        validateDocumentation(project, logger, ["Parameter", "Property"]);
+
+        logger.expectNoOtherMessages();
+    });
 });

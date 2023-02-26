@@ -9,6 +9,7 @@
 
 -   Fix crash when converting `export default undefined`, #2175.
 -   Fix error in console when clicking on headings in the readme, #2170.
+-   TypeDoc will now ignore parameters of callback parameters when validating that all parameters have documentation, #2154.
 
 ### Thanks!
 
