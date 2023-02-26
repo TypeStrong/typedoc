@@ -4,6 +4,7 @@
 
 -   Added `Application.EVENT_VALIDATE_PROJECT` event for plugins which implement custom validation, #2183.
 -   Plugins may now return an object from external symbol resolvers, #2066.
+-   Expose `Comment.displayPartsToMarkdown` on for themes overwriting the `comment` helper, #2115.
 
 ### Bug Fixes
 
