@@ -10,7 +10,7 @@ import { removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
 import { Comment, CommentDisplayPart } from "../comments";
-import { ReflectionSymbolId } from "./id";
+import { ReflectionSymbolId } from "./ReflectionSymbolId";
 import type { Serializer } from "../../serialization/serializer";
 import type { Deserializer, JSONOutput } from "../../serialization/index";
 import { StableKeyMap } from "../../utils/map";

@@ -27,7 +27,7 @@ import {
     TemplateLiteralType,
     SomeType,
 } from "../models";
-import { ReflectionSymbolId } from "../models/reflections/id";
+import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
 import { zip } from "../utils/array";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";

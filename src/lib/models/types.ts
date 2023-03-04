@@ -8,7 +8,7 @@ import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
 import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 import { getQualifiedName } from "../utils/tsutils";
-import { ReflectionSymbolId } from "./reflections/id";
+import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId";
 import type { DeclarationReference } from "../converter/comments/declarationReference";
 
 /**

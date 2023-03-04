@@ -18,7 +18,7 @@ import { ConverterEvents } from "../converter-events";
 import { convertDefaultValue } from "../convert-expression";
 import { removeUndefined } from "../utils/reflections";
 import { getComment, getJsDocComment, getSignatureComment } from "../comments";
-import { ReflectionSymbolId } from "../../models/reflections/id";
+import { ReflectionSymbolId } from "../../models/reflections/ReflectionSymbolId";
 
 export function createSignature(
     context: Context,

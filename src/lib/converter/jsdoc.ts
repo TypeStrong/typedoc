@@ -11,7 +11,7 @@ import {
     ReflectionType,
     SignatureReflection,
 } from "../models";
-import { ReflectionSymbolId } from "../models/reflections/id";
+import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
 import { getJsDocComment } from "./comments";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";

@@ -7,7 +7,7 @@ import type { TypeParameterReflection } from "./type-parameter";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 import { Comment, CommentDisplayPart } from "../comments";
 import { SourceReference } from "../sources/file";
-import { ReflectionSymbolId } from "./id";
+import { ReflectionSymbolId } from "./ReflectionSymbolId";
 import { ReflectionKind } from "./kind";
 
 /**
