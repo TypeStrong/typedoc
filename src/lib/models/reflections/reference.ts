@@ -93,7 +93,7 @@ export class ReferenceReflection extends DeclarationReflection {
         super.fromObject(de, obj);
         de.defer((project) => {
             this._target =
-                project.getReflectionById(de.oldIdToNewId[obj.target] || -1)
+                project.getReflectionById(de.oldIdToNewId[obj.target] ?? -1)
                     ?.id ?? -1;
         });
     }

@@ -50,7 +50,6 @@ export interface Deserializable<T> {
 export class Deserializer {
     private deferred: Array<(project: ProjectReflection) => void> = [];
     private deserializers: DeserializerComponent[] = [];
-    private project: ProjectReflection | undefined;
     private activeReflection: Reflection[] = [];
     constructor(private app: Application) {}
 
@@ -203,6 +202,7 @@ export class Deserializer {
     };
 
     oldIdToNewId: Record<number, number | undefined> = {};
+    project: ProjectReflection | undefined;
 
     addDeserializer(de: DeserializerComponent): void {
         insertPrioritySorted(this.deserializers, de);
@@ -222,6 +222,7 @@ export class Deserializer {
             "Deserializer.defer was called when not deserializing"
         );
         const project = new ProjectReflection(name || projectObj.name);
+        project.registerReflection(project);
         this.project = project;
         this.oldIdToNewId = { [projectObj.id]: project.id };
         this.fromObject(project, projectObj);
@@ -270,6 +271,7 @@ export class Deserializer {
                 ReflectionKind.Module,
                 project
             );
+            project.registerReflection(projModule);
             project.children.push(projModule);
             this.oldIdToNewId = { [proj.id]: projModule.id };
             this.fromObject(projModule, proj);

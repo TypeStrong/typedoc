@@ -177,7 +177,7 @@ export class Comment {
             de.defer((project) => {
                 for (const [oldId, part] of links) {
                     part.target = project.getReflectionById(
-                        de.oldIdToNewId[oldId] || -1
+                        de.oldIdToNewId[oldId] ?? -1
                     );
                     if (!part.target) {
                         de.logger.warn(

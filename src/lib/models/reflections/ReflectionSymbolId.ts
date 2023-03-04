@@ -1,7 +1,10 @@
-import { isAbsolute, relative } from "path";
+import { existsSync } from "fs";
+import { isAbsolute, join, relative, resolve } from "path";
 import ts from "typescript";
 import type { JSONOutput, Serializer } from "../../serialization/index";
+import { readFile } from "../../utils/fs";
 import { getQualifiedName } from "../../utils/tsutils";
+import { optional, validate } from "../../utils/validation";
 
 /**
  * See {@link ReflectionSymbolId}
@@ -57,9 +60,61 @@ export class ReflectionSymbolId {
     toObject(serializer: Serializer) {
         return {
             sourceFileName: isAbsolute(this.fileName)
-                ? relative(serializer.projectRoot, this.fileName)
+                ? relative(
+                      serializer.projectRoot,
+                      resolveDeclarationMaps(this.fileName)
+                  )
                 : this.fileName,
             qualifiedName: this.qualifiedName,
         };
     }
+}
+
+const declarationMapCache = new Map<string, string>();
+
+/**
+ * See also getTsSourceFromJsSource in package-manifest.ts.
+ */
+function resolveDeclarationMaps(file: string): string {
+    if (!file.endsWith(".d.ts")) return file;
+    if (declarationMapCache.has(file)) return declarationMapCache.get(file)!;
+
+    const mapFile = file + ".map";
+    if (!existsSync(mapFile)) return file;
+
+    let sourceMap: unknown;
+    try {
+        sourceMap = JSON.parse(readFile(mapFile)) as unknown;
+    } catch {
+        return file;
+    }
+
+    if (
+        validate(
+            {
+                file: String,
+                sourceRoot: optional(String),
+                sources: [Array, String],
+            },
+            sourceMap
+        )
+    ) {
+        // There's a pretty large assumption in here that we only have
+        // 1 source file per js file. This is a pretty standard typescript approach,
+        // but people might do interesting things with transpilation that could break this.
+        let source = sourceMap.sources[0];
+
+        // If we have a sourceRoot, trim any leading slash from the source, and join them
+        // Similar to how it's done at https://github.com/mozilla/source-map/blob/58819f09018d56ef84dc41ba9c93f554e0645169/lib/util.js#L412
+        if (sourceMap.sourceRoot !== undefined) {
+            source = source.replace(/^\//, "");
+            source = join(sourceMap.sourceRoot, source);
+        }
+
+        const result = resolve(mapFile, "..", source);
+        declarationMapCache.set(file, result);
+        return result;
+    }
+
+    return file;
 }

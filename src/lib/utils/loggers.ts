@@ -33,10 +33,10 @@ function color(text: string, color: keyof typeof Colors) {
 }
 
 const messagePrefixes = {
-    [LogLevel.Error]: color("error", "red"),
-    [LogLevel.Warn]: color("warning", "yellow"),
-    [LogLevel.Info]: color("info", "cyan"),
-    [LogLevel.Verbose]: color("debug", "gray"),
+    [LogLevel.Error]: color("[error]", "red"),
+    [LogLevel.Warn]: color("[warning]", "yellow"),
+    [LogLevel.Info]: color("[info]", "cyan"),
+    [LogLevel.Verbose]: color("[debug]", "gray"),
 };
 
 type FormatArgs = [ts.Node?] | [number, MinimalSourceFile];
@@ -121,7 +121,7 @@ export class Logger {
     warn(text: string, pos: number, file: MinimalSourceFile): void;
     warn(text: string, ...args: FormatArgs): void {
         const text2 = this.addContext(text, LogLevel.Warn, ...args);
-        if (this.seenWarnings.has(text2)) return;
+        if (this.seenWarnings.has(text2) && !isDebugging()) return;
         this.seenWarnings.add(text2);
         this.log(text2, LogLevel.Warn);
     }
@@ -136,7 +136,7 @@ export class Logger {
     error(text: string, pos: number, file: MinimalSourceFile): void;
     error(text: string, ...args: FormatArgs) {
         const text2 = this.addContext(text, LogLevel.Error, ...args);
-        if (this.seenErrors.has(text2)) return;
+        if (this.seenErrors.has(text2) && !isDebugging()) return;
         this.seenErrors.add(text2);
         this.log(text2, LogLevel.Error);
     }

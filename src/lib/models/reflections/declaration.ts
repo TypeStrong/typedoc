@@ -337,12 +337,16 @@ export class DeclarationReflection extends ContainerReflection {
             de.defer(() => {
                 for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {
                     const refl = this.project.getReflectionById(
-                        de.oldIdToNewId[+id] || -1
+                        de.oldIdToNewId[+id] ?? -1
                     );
                     if (refl) {
                         this.project.registerSymbolId(
                             refl,
                             new ReflectionSymbolId(sid)
+                        );
+                    } else {
+                        de.logger.warn(
+                            `Serialized project contained a reflection with id ${id} but it was not present in deserialized project.`
                         );
                     }
                 }

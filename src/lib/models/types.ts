@@ -761,7 +761,7 @@ export class ReferenceType extends Type {
     /**
      * The name of the referenced type.
      *
-     * If the symbol cannot be found cause it's not part of the documentation this
+     * If the symbol cannot be found because it's not part of the documentation this
      * can be used to represent the type.
      */
     name: string;
@@ -970,6 +970,7 @@ export class ReferenceType extends Type {
         } else if (obj.target === -1) {
             this._target = -1;
         } else {
+            this._project = de.project!;
             this._target = new ReflectionSymbolId(obj.target);
         }
 
