@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const ExitCodes = {
     Ok: 0,
     OptionError: 1,
@@ -16,7 +18,7 @@ app.options.addReader(new td.TypeDocReader());
 app.options.addReader(new td.TSConfigReader());
 app.options.addReader(new td.ArgumentsReader(300));
 
-run(app)
+void run(app)
     .catch((error) => {
         console.error("TypeDoc exiting with unexpected error:");
         console.error(error);

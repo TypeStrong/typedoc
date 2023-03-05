@@ -4,6 +4,8 @@ import * as ts from "typescript";
 import {
     Application,
     EntryPointStrategy,
+    JSONOutput,
+    ProjectReflection,
     SourceReference,
     TSConfigReader,
 } from "..";
@@ -49,6 +51,19 @@ export function getConverterApp() {
                         obj.url.indexOf(ref.fileName)
                     )}`;
                 }
+                return obj;
+            },
+        });
+        converterApp.serializer.addSerializer({
+            priority: -1,
+            supports(obj) {
+                return obj instanceof ProjectReflection;
+            },
+            toObject(
+                _refl: ProjectReflection,
+                obj: JSONOutput.ProjectReflection
+            ) {
+                delete obj.packageVersion;
                 return obj;
             },
         });

@@ -132,6 +132,7 @@ comparisonSerializer.addSerializer({
             idMap[project.getReflectionById(+k)!.getFullName()] = v;
         }
         obj.symbolIdMap = idMap;
+        delete obj.packageVersion;
         return obj;
     },
 });
