@@ -31,7 +31,7 @@ import { validateLinks } from "./validation/links";
 import { ApplicationEvents } from "./application-events";
 import { findTsConfigFile } from "./utils/tsconfig";
 import { getCommonDirectory, glob, readFile } from "./utils/fs";
-import { resetReflectionID } from "../index";
+import { resetReflectionID } from "./models/reflections/abstract";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
