@@ -29,9 +29,13 @@ void run(app)
         }
         return ExitCodes.ExceptionThrown;
     })
-    .then((exitCode) => (process.exitCode = exitCode));
+    .then((exitCode) => {
+        process.exitCode = exitCode;
+    });
 
 async function run(app: td.Application) {
+    const start = Date.now();
+
     await app.bootstrapWithPlugins();
 
     if (app.options.getValue("version")) {
@@ -124,5 +128,6 @@ async function run(app: td.Application) {
         }
     }
 
+    app.logger.verbose(`Full run took ${Date.now() - start}ms`);
     return ExitCodes.Ok;
 }

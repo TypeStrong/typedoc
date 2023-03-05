@@ -1,7 +1,7 @@
 import { EventDispatcher } from "../utils";
 import type { ProjectReflection } from "../models";
 
-import { SerializeEvent, SerializeEventData } from "./events";
+import { SerializeEvent } from "./events";
 import type { ModelToObject } from "./schema";
 import type { SerializerComponent } from "./components";
 import { insertPrioritySorted } from "../utils/array";
@@ -68,16 +68,11 @@ export class Serializer extends EventDispatcher {
      */
     projectToObject(
         value: ProjectReflection,
-        projectRoot: string,
-        eventData: { begin?: SerializeEventData; end?: SerializeEventData } = {}
+        projectRoot: string
     ): ModelToObject<ProjectReflection> {
         this.projectRoot = projectRoot;
 
         const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value);
-        if (eventData.begin) {
-            eventBegin.outputDirectory = eventData.begin.outputDirectory;
-            eventBegin.outputFile = eventData.begin.outputFile;
-        }
         this.trigger(eventBegin);
 
         const project = this.toObject(value);
@@ -87,10 +82,6 @@ export class Serializer extends EventDispatcher {
             value,
             project
         );
-        if (eventData.end) {
-            eventBegin.outputDirectory = eventData.end.outputDirectory;
-            eventBegin.outputFile = eventData.end.outputFile;
-        }
         this.trigger(eventEnd);
 
         return project;

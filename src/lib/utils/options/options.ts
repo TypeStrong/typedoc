@@ -29,14 +29,20 @@ export interface OptionsReader {
      * order so that it may set the location of config files used by other readers and
      * the highest order so that it can override settings from lower order readers.
      */
-    order: number;
+    readonly order: number;
 
     /**
      * The name of this reader so that it may be removed by plugins without the plugin
      * accessing the instance performing the read. Multiple readers may have the same
      * name.
      */
-    name: string;
+    readonly name: string;
+
+    /**
+     * Flag to indicate that this reader should be included in sub-options objects created
+     * to read options for packages mode.
+     */
+    readonly supportsPackages: boolean;
 
     /**
      * Read options from the reader's source and place them in the options parameter.
@@ -44,12 +50,11 @@ export interface OptionsReader {
      * {@link ParameterType.Mixed}. Options which have been declared must be converted to the
      * correct type. As an alternative to doing this conversion in the reader,
      * the reader may use {@link Options.setValue}, which will correctly convert values.
-     * @param options
-     * @param compilerOptions
      * @param container the options container that provides declarations
-     * @param logger
+     * @param logger logger to be used to report errors
+     * @param cwd the directory which should be treated as the current working directory for option file discovery
      */
-    read(container: Options, logger: Logger): void;
+    read(container: Options, logger: Logger, cwd: string): void;
 }
 
 const optionSnapshots = new WeakMap<
@@ -93,6 +98,20 @@ export class Options {
     constructor(logger: Logger) {
         this._logger = logger;
         addTypeDocOptions(this);
+    }
+
+    /**
+     * Clones the options, intended for use in packages mode.
+     */
+    copyForPackage(): Options {
+        const options = new Options(this._logger);
+
+        options._readers = this._readers.filter(
+            (reader) => reader.supportsPackages
+        );
+        options._declarations = new Map(this._declarations);
+
+        return options;
     }
 
     /**
@@ -178,9 +197,9 @@ export class Options {
         insertOrderSorted(this._readers, reader);
     }
 
-    read(logger: Logger) {
+    read(logger: Logger, cwd = process.cwd()) {
         for (const reader of this._readers) {
-            reader.read(this, logger);
+            reader.read(this, logger, cwd);
         }
     }
 
@@ -454,10 +473,6 @@ export function BindOption(name: string) {
                 const options =
                     "options" in this ? this.options : this.application.options;
                 const value = options.getValue(name as keyof TypeDocOptions);
-
-                if (options.isFrozen()) {
-                    Object.defineProperty(this, key, { value });
-                }
 
                 return value;
             },

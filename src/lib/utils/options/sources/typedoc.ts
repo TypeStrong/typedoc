@@ -25,14 +25,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "options",
         help: "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory.",
         hint: ParameterHint.File,
-        defaultValue: process.cwd(),
+        defaultValue: "",
     });
     options.addDeclaration({
         type: ParameterType.Path,
         name: "tsconfig",
         help: "Specify a TypeScript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
         hint: ParameterHint.File,
-        defaultValue: process.cwd(),
+        defaultValue: "",
     });
     options.addDeclaration({
         name: "compilerOptions",

@@ -22,13 +22,13 @@ export class TypeDocReader implements OptionsReader {
 
     name = "typedoc-json";
 
+    supportsPackages = true;
+
     /**
      * Read user configuration from a typedoc.json or typedoc.js configuration file.
-     * @param container
-     * @param logger
      */
-    read(container: Options, logger: Logger): void {
-        const path = container.getValue("options");
+    read(container: Options, logger: Logger, cwd: string): void {
+        const path = container.getValue("options") || cwd;
         const file = this.findTypedocFile(path);
 
         if (!file) {

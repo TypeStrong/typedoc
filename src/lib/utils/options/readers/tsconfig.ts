@@ -67,10 +67,12 @@ export class TSConfigReader implements OptionsReader {
 
     name = "tsconfig-json";
 
+    supportsPackages = true;
+
     private seenTsdocPaths = new Set<string>();
 
-    read(container: Options, logger: Logger): void {
-        const file = container.getValue("tsconfig");
+    read(container: Options, logger: Logger, cwd: string): void {
+        const file = container.getValue("tsconfig") || cwd;
 
         let fileToRead = findTsConfigFile(file);
 
@@ -92,6 +94,7 @@ export class TSConfigReader implements OptionsReader {
         }
 
         fileToRead = normalizePath(resolve(fileToRead));
+        logger.verbose(`Reading tsconfig at ${nicePath(fileToRead)}`);
         this.addTagsFromTsdocJson(container, logger, resolve(fileToRead));
 
         const parsed = readTsConfig(fileToRead, logger);

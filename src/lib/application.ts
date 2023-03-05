@@ -3,7 +3,7 @@ import * as ts from "typescript";
 
 import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
-import { Deserializer, Serializer } from "./serialization";
+import { Deserializer, JSONOutput, Serializer } from "./serialization";
 import type { ProjectReflection } from "./models/index";
 import { Logger, ConsoleLogger, loadPlugins, writeFile } from "./utils/index";
 
@@ -20,6 +20,7 @@ import {
     DocumentationEntryPoint,
     EntryPointStrategy,
     getEntryPoints,
+    getPackageDirectories,
     getWatchEntryPoints,
 } from "./utils/entry-point";
 import { nicePath } from "./utils/paths";
@@ -30,6 +31,7 @@ import { validateLinks } from "./validation/links";
 import { ApplicationEvents } from "./application-events";
 import { findTsConfigFile } from "./utils/tsconfig";
 import { getCommonDirectory, glob, readFile } from "./utils/fs";
+import { resetReflectionID } from "../index";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -212,6 +214,10 @@ export class Application extends ChildableComponent<
 
         if (this.entryPointStrategy === EntryPointStrategy.Merge) {
             return this._merge();
+        }
+
+        if (this.entryPointStrategy === EntryPointStrategy.Packages) {
+            return this._convertPackages();
         }
 
         if (
@@ -471,7 +477,7 @@ export class Application extends ChildableComponent<
     }
 
     /**
-     * Run the converter for the given set of files and write the reflections to a json file.
+     * Write the reflections to a json file.
      *
      * @param out The path and file name of the target file.
      * @returns Whether the JSON file could be written successfully.
@@ -482,14 +488,7 @@ export class Application extends ChildableComponent<
     ): Promise<void> {
         const start = Date.now();
         out = Path.resolve(out);
-        const eventData = {
-            outputDirectory: Path.dirname(out),
-            outputFile: Path.basename(out),
-        };
-        const ser = this.serializer.projectToObject(project, process.cwd(), {
-            begin: eventData,
-            end: eventData,
-        });
+        const ser = this.serializer.projectToObject(project, process.cwd());
 
         const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
@@ -507,6 +506,64 @@ export class Application extends ChildableComponent<
             `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`,
             "",
         ].join("\n");
+    }
+
+    private _convertPackages(): ProjectReflection | undefined {
+        const packageDirs = getPackageDirectories(
+            this.logger,
+            this.options,
+            this.options.getValue("entryPoints")
+        );
+
+        const origOptions = this.options;
+        const projects: JSONOutput.ProjectReflection[] = [];
+
+        // Generate a json file for each package
+        for (const dir of packageDirs) {
+            this.logger.info(`Converting project at ${nicePath(dir)}`);
+            const opts = origOptions.copyForPackage();
+            // Invalid links should only be reported after everything has been merged.
+            opts.setValue("validation", { invalidLink: false });
+            opts.read(this.logger, dir);
+            if (
+                opts.getValue("entryPointStrategy") ===
+                EntryPointStrategy.Packages
+            ) {
+                this.logger.error(
+                    `Project at ${nicePath(
+                        dir
+                    )} has entryPointStrategy set to packages, but nested packages are not supported.`
+                );
+                continue;
+            }
+
+            this.options = opts;
+            const project = this.convert();
+            if (project) {
+                projects.push(
+                    this.serializer.projectToObject(project, process.cwd())
+                );
+            }
+
+            resetReflectionID();
+        }
+
+        this.options = origOptions;
+
+        this.logger.info(`Merging converted projects`);
+        if (projects.length !== packageDirs.length) {
+            this.logger.error(
+                "Failed to convert one or more packages, result will not be merged together."
+            );
+            return;
+        }
+
+        const result = this.deserializer.reviveProjects(
+            this.options.getValue("name") || "Documentation",
+            projects
+        );
+        this.trigger(ApplicationEvents.REVIVE, result);
+        return result;
     }
 
     private _merge(): ProjectReflection | undefined {

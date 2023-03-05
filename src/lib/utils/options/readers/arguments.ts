@@ -16,6 +16,7 @@ const ARRAY_OPTION_TYPES = new Set<ParameterType | undefined>([
 export class ArgumentsReader implements OptionsReader {
     readonly name = "arguments";
     readonly order: number;
+    readonly supportsPackages = false;
     private args: string[];
 
     constructor(priority: number, args = process.argv.slice(2)) {

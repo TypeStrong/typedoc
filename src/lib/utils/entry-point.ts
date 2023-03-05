@@ -13,7 +13,6 @@ import { createMinimatch, matchesAny, nicePath } from "./paths";
 import type { Logger } from "./loggers";
 import type { Options } from "./options";
 import { getCommonDirectory, glob, normalizePath } from "./fs";
-import { validate } from "./validation";
 import { filterMap } from "./array";
 import { assertNever } from "./general";
 
@@ -33,10 +32,16 @@ export const EntryPointStrategy = {
      */
     Expand: "expand",
     /**
+     * Run TypeDoc in each directory passed as an entry point, and save the json result to `.typedoc/<project>`
+     * Once all have been saved, use the merge option to produce final output.
+     */
+    Packages: "packages",
+    /**
+     * Will be removed in 0.25, this was called packages mode in 0.24.
      * Alternative resolution mode useful for monorepos. With this mode, TypeDoc will look for a package.json
      * and tsconfig.json under each provided entry point. The `main` field of each package will be documented.
      */
-    Packages: "packages",
+    LegacyPackages: "legacy-packages",
     /**
      * Merges multiple previously generated output from TypeDoc's --json output together into a single project.
      */
@@ -79,11 +84,16 @@ export function getEntryPoints(
             );
             break;
 
-        case EntryPointStrategy.Packages:
-            result = getEntryPointsForPackages(logger, entryPoints, options);
+        case EntryPointStrategy.LegacyPackages:
+            result = getEntryPointsForLegacyPackages(
+                logger,
+                entryPoints,
+                options
+            );
             break;
 
         case EntryPointStrategy.Merge:
+        case EntryPointStrategy.Packages:
             // Doesn't really have entry points in the traditional way of how TypeDoc has dealt with them.
             return [];
 
@@ -138,6 +148,19 @@ export function getWatchEntryPoints(
     }
 
     return result;
+}
+
+export function getPackageDirectories(
+    logger: Logger,
+    options: Options,
+    packageGlobPaths: string[]
+) {
+    const exclude = createMinimatch(options.getValue("exclude"));
+    const rootDir = deriveRootDir(packageGlobPaths);
+
+    // packages arguments are workspace tree roots, or glob patterns
+    // This expands them to leave only leaf packages
+    return expandPackages(logger, rootDir, packageGlobPaths, exclude);
 }
 
 function getModuleName(fileName: string, baseDir: string) {
@@ -337,24 +360,18 @@ function deriveRootDir(packageGlobPaths: string[]): string {
  * @param packageGlobPaths
  * @returns The information about the discovered programs, undefined if an error occurs.
  */
-function getEntryPointsForPackages(
+function getEntryPointsForLegacyPackages(
     logger: Logger,
     packageGlobPaths: string[],
     options: Options
 ): DocumentationEntryPoint[] | undefined {
     const results: DocumentationEntryPoint[] = [];
-    const exclude = createMinimatch(options.getValue("exclude"));
-    const rootDir = deriveRootDir(packageGlobPaths);
 
-    // packages arguments are workspace tree roots, or glob patterns
-    // This expands them to leave only leaf packages
-    const expandedPackages = expandPackages(
+    for (const packagePath of getPackageDirectories(
         logger,
-        rootDir,
-        packageGlobPaths,
-        exclude
-    );
-    for (const packagePath of expandedPackages) {
+        options,
+        packageGlobPaths
+    )) {
         const packageJsonPath = resolve(packagePath, "package.json");
         const packageJson = loadPackageManifest(logger, packageJsonPath);
         const includeVersion = options.getValue("includeVersion");
@@ -422,14 +439,6 @@ function getEntryPointsForPackages(
                 `Entry point "${packageEntryPoint}" does not appear to be built by/included in the tsconfig found at "${tsconfigFile}"`
             );
             return;
-        }
-
-        if (includeVersion && !validate({ version: String }, packageJson)) {
-            logger.warn(
-                `--includeVersion was specified, but "${nicePath(
-                    packageJsonPath
-                )}" does not properly specify a version.`
-            );
         }
 
         results.push({

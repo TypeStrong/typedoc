@@ -3,6 +3,9 @@
 ### Breaking Changes
 
 -   TypeDoc will no longer automatically load plugins from `node_modules`. Specify the `--plugin` option to indicate which modules should be loaded.
+-   The `packages` entry point strategy will now run TypeDoc in each provided package directory and then merge the results together.
+    The previous `packages` strategy has been preserved under `legacy-packages` and will be removed in 0.25. If the new strategy does not work
+    for your use case, please open an issue.
 -   Removed `--logger` option, to disable all logging, set the `logLevel` option to `none`.
 -   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
 -   Internal links are now only resolved with declaration references.
@@ -27,10 +30,12 @@
 -   `ReferenceType`s now longer include an `id` property for their target. They now instead include a `target` property.
 -   Removed `Renderer.addExternalSymbolResolver`, use `Converter.addExternalSymbolResolver` instead.
 -   Removed `CallbackLogger`.
+-   Removed `SerializeEventData` from serialization events.
 
 ### Features
 
 -   Plugins may now return a `Promise<void>` from their `load` function, #185.
+-   TypeDoc now supports plugins written with ESM, #1635.
 -   Added `Renderer.preRenderAsyncJobs` and `Renderer.postRenderAsyncJobs`, which may be used by plugins to perform async processing for rendering, #185.
     Note: Conversion is still intentionally a synchronous process to ensure stability of converted projects between runs.
 -   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.

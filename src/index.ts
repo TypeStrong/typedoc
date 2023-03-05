@@ -81,7 +81,6 @@ export {
     type SerializerComponent,
     SerializeEvent,
 } from "./lib/serialization";
-export type { SerializeEventData } from "./lib/serialization";
 
 import * as TypeScript from "typescript";
 export { TypeScript };

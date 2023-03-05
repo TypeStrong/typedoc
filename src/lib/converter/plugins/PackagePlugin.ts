@@ -11,6 +11,7 @@ import { MinimalSourceFile } from "../../utils/minimalSourceFile";
 import type { ProjectReflection } from "../../models/index";
 import { ApplicationEvents } from "../../application-events";
 import { optional, validate } from "../../utils/validation";
+import { join } from "path";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -23,6 +24,9 @@ export class PackagePlugin extends ConverterComponent {
 
     @BindOption("entryPointStrategy")
     entryPointStrategy!: EntryPointStrategy;
+
+    @BindOption("entryPoints")
+    entryPoints!: string[];
 
     /**
      * The file name of the found readme.md file.
@@ -72,9 +76,12 @@ export class PackagePlugin extends ConverterComponent {
         const reachedTopDirectory = (dirName: string) =>
             dirName === Path.resolve(Path.join(dirName, ".."));
 
-        let dirName = Path.resolve(
-            getCommonDirectory(this.application.options.getValue("entryPoints"))
-        );
+        const entryFiles =
+            this.entryPointStrategy === EntryPointStrategy.Packages
+                ? this.entryPoints.map((d) => join(d, "package.json"))
+                : this.entryPoints;
+
+        let dirName = Path.resolve(getCommonDirectory(entryFiles));
         this.application.logger.verbose(
             `Begin readme.md/package.json search at ${nicePath(dirName)}`
         );
