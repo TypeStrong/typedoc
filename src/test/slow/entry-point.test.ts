@@ -79,7 +79,7 @@ describe("Entry Points", () => {
         app.bootstrap({
             tsconfig: tsconfig,
             entryPoints: [fixture.cwd],
-            entryPointStrategy: EntryPointStrategy.Packages,
+            entryPointStrategy: EntryPointStrategy.LegacyPackages,
         });
 
         const entryPoints = app.getEntryPoints();
@@ -103,7 +103,7 @@ describe("Entry Points", () => {
         app.bootstrap({
             tsconfig: tsconfig,
             entryPoints: [fixture.cwd],
-            entryPointStrategy: EntryPointStrategy.Packages,
+            entryPointStrategy: EntryPointStrategy.LegacyPackages,
         });
 
         const entryPoints = app.getEntryPoints();
@@ -130,7 +130,7 @@ describe("Entry Points", () => {
         app.bootstrap({
             tsconfig: tsconfig,
             entryPoints: [fixture.cwd],
-            entryPointStrategy: EntryPointStrategy.Packages,
+            entryPointStrategy: EntryPointStrategy.LegacyPackages,
         });
 
         const entryPoints = app.getEntryPoints();
@@ -154,7 +154,7 @@ describe("Entry Points", () => {
         app.bootstrap({
             tsconfig: tsconfig,
             entryPoints: [fixture.cwd],
-            entryPointStrategy: EntryPointStrategy.Packages,
+            entryPointStrategy: EntryPointStrategy.LegacyPackages,
         });
 
         const entryPoints = app.getEntryPoints();
