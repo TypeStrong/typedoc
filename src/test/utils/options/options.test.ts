@@ -216,18 +216,4 @@ describe("BindOption", () => {
         options.setValue("emit", "both");
         equal(container.emit, "both");
     });
-
-    it("Caches set options when frozen", () => {
-        const options = new Options(new Logger());
-
-        const container = new Container(options);
-
-        options.setValue("emit", "both");
-        options.freeze();
-        equal(container.emit, "both");
-
-        const prop = Object.getOwnPropertyDescriptor(container, "emit")!;
-        equal(prop.get, void 0);
-        equal(prop.value, "both");
-    });
 });

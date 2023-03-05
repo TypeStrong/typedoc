@@ -515,6 +515,13 @@ export class Application extends ChildableComponent<
             this.options.getValue("entryPoints")
         );
 
+        if (packageDirs.length === 0) {
+            this.logger.error(
+                "Failed to find any packages, ensure you have provided at least one directory as an entry point containing package.json"
+            );
+            return;
+        }
+
         const origOptions = this.options;
         const projects: JSONOutput.ProjectReflection[] = [];
 
