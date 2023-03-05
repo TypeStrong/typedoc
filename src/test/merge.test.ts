@@ -33,8 +33,9 @@ describe("Merging projects", () => {
         const crossRef = project.getChildByName(
             "alias.MergedCrossReference"
         ) as DeclarationReflection;
-        const testClass = project.getChildByName("class.TestClass");
-        ok(crossRef);
+        const testClass = project.getChildByName("class.class.TestClass");
+        ok(testClass, "Missing test class");
+        ok(crossRef, "Missing MergedCrossReference");
         ok(crossRef.type instanceof ReferenceType);
 
         ok(

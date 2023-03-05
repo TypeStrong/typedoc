@@ -68,7 +68,7 @@
           {
             "kind": "inline-tag",
             "tag": "@link",
-            "text": "class!TestClass"
+            "text": "class!class.TestClass"
           }
         ]
       },

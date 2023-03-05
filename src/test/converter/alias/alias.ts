@@ -21,6 +21,6 @@ export type IsString<T> = T extends string ? "string" : "not string";
 export type PromiseType<T> = T extends PromiseLike<infer U> ? U : T;
 
 /**
- * {@link class!TestClass}
+ * {@link class!class.TestClass}
  */
 export type MergedCrossReference = TestClass;

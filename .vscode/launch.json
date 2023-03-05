@@ -6,19 +6,20 @@
     "configurations": [
         {
             "args": [
+                "-r",
+                "ts-node/register",
                 "--timeout",
                 "0",
                 "--config",
-                "${workspaceFolder}/.config/mocha.fast.json",
-                "-g",
-                "1734"
+                "${workspaceFolder}/.config/mocha.fast.json"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "name": "Debug Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha.js",
             "request": "launch",
             "skipFiles": ["<node_internals>/**"],
-            "type": "node"
+            "type": "node",
+            "sourceMaps": true
         },
         {
             "name": "Attach",
