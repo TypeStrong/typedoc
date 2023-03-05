@@ -54,7 +54,7 @@ export type {
     ParameterTypeToOptionTypeMap,
     ManuallyValidatedOption,
 } from "./options";
-export { discoverPlugins, loadPlugins } from "./plugins";
+export { loadPlugins } from "./plugins";
 export { getSortFunction } from "./sort";
 export type { SortStrategy } from "./sort";
 

@@ -10,6 +10,7 @@ import { nicePath } from "../../utils/paths";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile";
 import type { ProjectReflection } from "../../models/index";
 import { ApplicationEvents } from "../../application-events";
+import { optional, validate } from "../../utils/validation";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -20,9 +21,6 @@ export class PackagePlugin extends ConverterComponent {
     @BindOption("readme")
     readme!: string;
 
-    @BindOption("includeVersion")
-    includeVersion!: boolean;
-
     @BindOption("entryPointStrategy")
     entryPointStrategy!: EntryPointStrategy;
 
@@ -32,9 +30,9 @@ export class PackagePlugin extends ConverterComponent {
     private readmeFile?: string;
 
     /**
-     * The file name of the found package.json file.
+     * Contents of package.json for the active project
      */
-    private packageFile?: string;
+    private packageJson?: { name: string; version?: string };
 
     override initialize() {
         this.listenTo(this.owner, {
@@ -42,7 +40,7 @@ export class PackagePlugin extends ConverterComponent {
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
             [Converter.EVENT_END]: () => {
                 delete this.readmeFile;
-                delete this.packageFile;
+                delete this.packageJson;
             },
         });
         this.listenTo(this.application, {
@@ -54,12 +52,12 @@ export class PackagePlugin extends ConverterComponent {
         this.onBegin();
         this.addEntries(project);
         delete this.readmeFile;
-        delete this.packageFile;
+        delete this.packageJson;
     }
 
     private onBegin() {
         this.readmeFile = undefined;
-        this.packageFile = undefined;
+        this.packageJson = undefined;
 
         // Path will be resolved already. This is kind of ugly, but...
         const noReadmeFile = this.readme.endsWith("none");
@@ -70,7 +68,7 @@ export class PackagePlugin extends ConverterComponent {
         }
 
         const packageAndReadmeFound = () =>
-            (noReadmeFile || this.readmeFile) && this.packageFile;
+            (noReadmeFile || this.readmeFile) && this.packageJson;
         const reachedTopDirectory = (dirName: string) =>
             dirName === Path.resolve(Path.join(dirName, ".."));
 
@@ -91,8 +89,22 @@ export class PackagePlugin extends ConverterComponent {
                     this.readmeFile = Path.join(dirName, file);
                 }
 
-                if (!this.packageFile && lowercaseFileName === "package.json") {
-                    this.packageFile = Path.join(dirName, file);
+                if (!this.packageJson && lowercaseFileName === "package.json") {
+                    try {
+                        const packageJson = JSON.parse(
+                            readFile(Path.join(dirName, file))
+                        );
+                        if (
+                            validate(
+                                { name: String, version: optional(String) },
+                                packageJson
+                            )
+                        ) {
+                            this.packageJson = packageJson;
+                        }
+                    } catch {
+                        // Ignore
+                    }
                 }
             });
 
@@ -126,55 +138,17 @@ export class PackagePlugin extends ConverterComponent {
             project.readme = comment.summary;
         }
 
-        if (this.packageFile) {
-            const packageInfo = JSON.parse(readFile(this.packageFile));
-            if (!packageInfo.name) {
-                this.application.logger.warn(
-                    `The package file at ${nicePath(
-                        this.packageFile
-                    )} does not have a name field.`
-                );
-            } else {
-                project.packageName = String(packageInfo.name);
-            }
+        if (this.packageJson) {
+            project.packageName = this.packageJson.name;
             if (!project.name) {
-                if (!packageInfo.name) {
-                    project.name = "Documentation";
-                } else {
-                    project.name = String(packageInfo.name);
-                }
+                project.name = project.packageName || "Documentation";
             }
-            if (this.includeVersion) {
-                if (packageInfo.version) {
-                    project.name = `${project.name} - v${packageInfo.version}`;
-                } else {
-                    // since not all monorepo specifies a meaningful version to the main package.json
-                    // this warning should be optional
-                    if (
-                        this.entryPointStrategy !== EntryPointStrategy.Packages
-                    ) {
-                        this.application.logger.warn(
-                            "--includeVersion was specified, but package.json does not specify a version."
-                        );
-                    }
-                }
-            }
-        } else {
-            if (!project.name) {
-                this.application.logger.warn(
-                    'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".'
-                );
-                project.name = "Documentation";
-            }
-            if (this.includeVersion) {
-                // since not all monorepo specifies a meaningful version to the main package.json
-                // this warning should be optional
-                if (this.entryPointStrategy !== EntryPointStrategy.Packages) {
-                    this.application.logger.warn(
-                        "--includeVersion was specified, but no package.json was found. Not adding package version to the documentation."
-                    );
-                }
-            }
+            project.packageVersion = this.packageJson.version;
+        } else if (!project.name) {
+            this.application.logger.warn(
+                'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".'
+            );
+            project.name = "Documentation";
         }
     }
 }

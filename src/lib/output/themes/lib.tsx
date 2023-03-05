@@ -2,6 +2,7 @@ import {
     Comment,
     CommentDisplayPart,
     DeclarationReflection,
+    ProjectReflection,
     Reflection,
     ReflectionFlags,
     ReflectionKind,
@@ -16,6 +17,19 @@ export function stringify(data: unknown) {
         return data.toString() + "n";
     }
     return JSON.stringify(data);
+}
+
+export function getDisplayName(context: DefaultThemeRenderContext, refl: Reflection) {
+    let version = "";
+    if (
+        (refl instanceof DeclarationReflection || refl instanceof ProjectReflection) &&
+        refl.packageVersion &&
+        context.options.getValue("includeVersion")
+    ) {
+        version = ` - v${refl.packageVersion}`;
+    }
+
+    return `${refl.name}${version}`;
 }
 
 /**

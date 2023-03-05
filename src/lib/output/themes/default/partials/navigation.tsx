@@ -1,7 +1,7 @@
 import { ContainerReflection, DeclarationReflection, Reflection, ReflectionKind } from "../../../../models";
 import { JSX, partition } from "../../../../utils";
 import type { PageEvent } from "../../../events";
-import { camelToTitleCase, classNames, renderName, wbr } from "../../lib";
+import { camelToTitleCase, classNames, getDisplayName, renderName, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
@@ -141,9 +141,7 @@ export function primaryNavigation(context: DefaultThemeRenderContext, props: Pag
                     context.getReflectionClasses(mod)
                 )}
             >
-                <a href={context.urlTo(mod)}>
-                    {wbr(`${mod.name}${mod.version !== undefined ? ` - v${mod.version}` : ""}`)}
-                </a>
+                <a href={context.urlTo(mod)}>{wbr(getDisplayName(context, mod))}</a>
                 {childNav}
             </li>
         );

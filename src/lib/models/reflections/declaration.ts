@@ -164,7 +164,7 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * The version of the module when found.
      */
-    version?: string;
+    packageVersion?: string;
 
     /**
      * Flags for information about a reflection which is needed solely during conversion.
@@ -298,6 +298,7 @@ export class DeclarationReflection extends ContainerReflection {
         return {
             ...super.toObject(serializer),
             variant: this.variant,
+            packageVersion: this.packageVersion,
             sources: serializer.toObjectsOptional(this.sources),
             relevanceBoost:
                 this.relevanceBoost === 1 ? undefined : this.relevanceBoost,
@@ -330,6 +331,7 @@ export class DeclarationReflection extends ContainerReflection {
         // If updating this, also check ProjectReflection.fromObject.
         if (obj.variant === "project") {
             this.kind = ReflectionKind.Module;
+            this.packageVersion = obj.packageVersion;
             if (obj.readme) {
                 this.readme = Comment.deserializeDisplayParts(de, obj.readme);
             }
@@ -354,6 +356,7 @@ export class DeclarationReflection extends ContainerReflection {
             return;
         }
 
+        this.packageVersion = obj.packageVersion;
         this.sources = de.reviveMany(
             obj.sources,
             (src) => new SourceReference(src.fileName, src.line, src.character)

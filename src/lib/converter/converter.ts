@@ -395,7 +395,7 @@ export class Converter extends ChildableComponent<
                 reflection.readme = comment.summary;
             }
 
-            reflection.version = entryPoint.version;
+            reflection.packageVersion = entryPoint.version;
 
             context.finalizeDeclarationReflection(reflection);
             moduleContext = context.withScope(reflection);

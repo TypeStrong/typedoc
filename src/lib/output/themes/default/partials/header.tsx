@@ -1,8 +1,8 @@
-import { hasTypeParameters, join, renderFlags } from "../../lib";
+import { getDisplayName, hasTypeParameters, join, renderFlags } from "../../lib";
 import { JSX } from "../../../../utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import type { PageEvent } from "../../../events";
-import { DeclarationReflection, Reflection, ReflectionKind } from "../../../../models";
+import { Reflection, ReflectionKind } from "../../../../models";
 
 export const header = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => {
     const HeadingLevel = props.model.isProject() ? "h2" : "h1";
@@ -11,10 +11,7 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
             {!!props.model.parent && <ul class="tsd-breadcrumb">{context.breadcrumb(props.model)}</ul>}
             <HeadingLevel>
                 {props.model.kind !== ReflectionKind.Project && `${ReflectionKind.singularString(props.model.kind)} `}
-                {props.model.name}
-                {props.model instanceof DeclarationReflection &&
-                    props.model.version !== undefined &&
-                    ` - v${props.model.version}`}
+                {getDisplayName(context, props.model)}
                 {hasTypeParameters(props.model) && (
                     <>
                         {"<"}

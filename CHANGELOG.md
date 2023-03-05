@@ -2,15 +2,20 @@
 
 ### Breaking Changes
 
--   The `named-tuple-member` and `template-literal` type kind have been replaced with `namedTupleMember` and `templateLiteral`, #2100.
--   Removed `logger` option, to disable all logging, set the `logLevel` option to `none`.
+-   TypeDoc will no longer automatically load plugins from `node_modules`. Specify the `--plugin` option to indicate which modules should be loaded.
+-   Removed `--logger` option, to disable all logging, set the `logLevel` option to `none`.
 -   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
 -   Internal links are now only resolved with declaration references.
+-   The `--includeVersion` option is now only considered when rendering and will not cause warnings if package.json does not contain a version.
+
+### API Breaking Changes
+
 -   The `label` property on `Reflection` has moved to `Comment`.
+-   Renamed `DeclarationReflection#version` to `DeclarationReflection#projectVersion` to match property on `ProjectReflection`.
 -   Removed unused `Reflection#originalName`.
 -   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.
+-   The `named-tuple-member` and `template-literal` type kind have been replaced with `namedTupleMember` and `templateLiteral`, #2100.
 -   Properties related to rendering are no longer stored on `Reflection`, including `url`, `anchor`, `hasOwnDocument`, and `cssClasses`.
--   Removed special case for `--plugin none`, to disable plugin auto discovery, set `"plugin": []` in a config file.
 -   `Application.bootstrap` will no longer load plugins. If you want to load plugins, use `Application.bootstrapWithPlugins` instead, #1635.
 -   The options passed to `Application.bootstrap` will now be applied both before _and_ after reading options files, which may cause a change in configuration
     if using a custom script to run TypeDoc that includes some options, but other options are set in config files.
@@ -29,6 +34,10 @@
     Note: Conversion is still intentionally a synchronous process to ensure stability of converted projects between runs.
 -   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.
 -   TypeDoc will now attempt to guess what option you may have meant if given an invalid option name.
+
+### Bug Fixes
+
+-   TypeDoc will now ignore package.json files not containing a `name` field, #2190.
 
 # Unreleased
 

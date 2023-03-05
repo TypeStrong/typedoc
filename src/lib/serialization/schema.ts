@@ -154,6 +154,7 @@ export interface DeclarationReflection
         S<
             M.DeclarationReflection,
             | "variant"
+            | "packageVersion"
             | "sources"
             | "relevanceBoost"
             | "type"
@@ -181,7 +182,10 @@ export interface TypeParameterReflection
 
 export interface ProjectReflection
     extends Omit<ContainerReflection, "variant">,
-        S<M.ProjectReflection, "variant" | "packageName" | "readme"> {
+        S<
+            M.ProjectReflection,
+            "variant" | "packageName" | "packageVersion" | "readme"
+        > {
     symbolIdMap: Record<number, ReflectionSymbolId>;
 }
 

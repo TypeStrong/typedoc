@@ -50,6 +50,11 @@ export class ProjectReflection extends ContainerReflection {
     packageName?: string;
 
     /**
+     * The version of the package that this reflection documents according to package.json.
+     */
+    packageVersion?: string;
+
+    /**
      * The contents of the readme.md file of the project when found.
      */
     readme?: CommentDisplayPart[];
@@ -88,12 +93,12 @@ export class ProjectReflection extends ContainerReflection {
         this.reflectionIdToSymbolMap.clear();
 
         // TODO: I think we need to do something like this.
-        // // Update local references
-        // this.symbolToReflectionIdMap.clear();
-        // for (const [k, v] of this.reflectionIdToSymbolIdMap) {
-        //     v.pos = Infinity;
-        //     this.symbolToReflectionIdMap.set(v.toIdString(), k);
-        // }
+        // Update local references
+        this.symbolToReflectionIdMap.clear();
+        for (const [k, v] of this.reflectionIdToSymbolIdMap) {
+            v.pos = Infinity;
+            this.symbolToReflectionIdMap.set(v, k);
+        }
     }
 
     /**
@@ -259,6 +264,7 @@ export class ProjectReflection extends ContainerReflection {
             ...super.toObject(serializer),
             variant: this.variant,
             packageName: this.packageName,
+            packageVersion: this.packageVersion,
             readme: Comment.serializeDisplayParts(this.readme),
             symbolIdMap,
         };
@@ -271,6 +277,7 @@ export class ProjectReflection extends ContainerReflection {
         super.fromObject(de, obj);
         // If updating this, also check the block in DeclarationReflection.fromObject.
         this.packageName = obj.packageName;
+        this.packageVersion = obj.packageVersion;
         if (obj.readme) {
             this.readme = Comment.deserializeDisplayParts(de, obj.readme);
         }

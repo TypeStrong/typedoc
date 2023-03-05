@@ -524,11 +524,9 @@ export const issueTests: {
         );
     },
 
-    gh1907(_project, logger) {
-        logger.expectMessage(
-            "warn: The package file at ./src/test/converter2/issues/gh1907/package.json does not have a name field."
-        );
-        logger.expectNoOtherMessages();
+    gh1907(project) {
+        // gh2190 - we now skip the first package.json we encounter because it doesn't contain a name field.
+        equal(project.packageName, "typedoc");
     },
 
     gh1913(project) {

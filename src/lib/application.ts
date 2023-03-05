@@ -5,13 +5,7 @@ import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
 import { Deserializer, Serializer } from "./serialization";
 import type { ProjectReflection } from "./models/index";
-import {
-    Logger,
-    ConsoleLogger,
-    loadPlugins,
-    writeFile,
-    discoverPlugins,
-} from "./utils/index";
+import { Logger, ConsoleLogger, loadPlugins, writeFile } from "./utils/index";
 
 import {
     AbstractComponent,
@@ -145,8 +139,7 @@ export class Application extends ChildableComponent<
         this.options.read(new Logger());
         this.logger.level = this.options.getValue("logLevel");
 
-        const plugins = discoverPlugins(this);
-        await loadPlugins(this, plugins);
+        await loadPlugins(this, this.options.getValue("plugin"));
 
         this.bootstrap(options);
     }
