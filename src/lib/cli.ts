@@ -22,6 +22,11 @@ void run(app)
     .catch((error) => {
         console.error("TypeDoc exiting with unexpected error:");
         console.error(error);
+        if (app.options.getValue("skipErrorChecking")) {
+            console.error(
+                "Try turning off --skipErrorChecking. If TypeDoc still crashes, please report a bug."
+            );
+        }
         return ExitCodes.ExceptionThrown;
     })
     .then((exitCode) => (process.exitCode = exitCode));
