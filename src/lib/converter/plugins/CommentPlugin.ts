@@ -122,7 +122,7 @@ export class CommentPlugin extends ConverterComponent {
     private get excludeNotDocumentedKinds(): number {
         this._excludeKinds ??= this.application.options
             .getValue("excludeNotDocumentedKinds")
-            .reduce((a, b) => a | ReflectionKind[b], 0);
+            .reduce((a, b) => a | (ReflectionKind[b] as number), 0);
         return this._excludeKinds;
     }
 
