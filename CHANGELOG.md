@@ -9,7 +9,6 @@
 -   Removed `--logger` option, to disable all logging, set the `logLevel` option to `none`.
 -   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
 -   Internal links are now only resolved with declaration references.
--   The `--includeVersion` option is now only considered when rendering and will not cause warnings if package.json does not contain a version.
 
 ### API Breaking Changes
 

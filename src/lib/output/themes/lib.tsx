@@ -19,13 +19,9 @@ export function stringify(data: unknown) {
     return JSON.stringify(data);
 }
 
-export function getDisplayName(context: DefaultThemeRenderContext, refl: Reflection) {
+export function getDisplayName(refl: Reflection) {
     let version = "";
-    if (
-        (refl instanceof DeclarationReflection || refl instanceof ProjectReflection) &&
-        refl.packageVersion &&
-        context.options.getValue("includeVersion")
-    ) {
+    if ((refl instanceof DeclarationReflection || refl instanceof ProjectReflection) && refl.packageVersion) {
         version = ` - v${refl.packageVersion}`;
     }
 

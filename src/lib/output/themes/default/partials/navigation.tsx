@@ -141,7 +141,7 @@ export function primaryNavigation(context: DefaultThemeRenderContext, props: Pag
                     context.getReflectionClasses(mod)
                 )}
             >
-                <a href={context.urlTo(mod)}>{wbr(getDisplayName(context, mod))}</a>
+                <a href={context.urlTo(mod)}>{wbr(getDisplayName(mod))}</a>
                 {childNav}
             </li>
         );

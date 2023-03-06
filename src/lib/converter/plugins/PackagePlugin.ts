@@ -28,6 +28,9 @@ export class PackagePlugin extends ConverterComponent {
     @BindOption("entryPoints")
     entryPoints!: string[];
 
+    @BindOption("includeVersion")
+    includeVersion!: boolean;
+
     /**
      * The file name of the found readme.md file.
      */
@@ -150,7 +153,9 @@ export class PackagePlugin extends ConverterComponent {
             if (!project.name) {
                 project.name = project.packageName || "Documentation";
             }
-            project.packageVersion = this.packageJson.version;
+            if (this.includeVersion) {
+                project.packageVersion = this.packageJson.version;
+            }
         } else if (!project.name) {
             this.application.logger.warn(
                 'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".'
