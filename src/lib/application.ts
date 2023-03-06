@@ -1,5 +1,5 @@
 import * as Path from "path";
-import * as ts from "typescript";
+import ts from "typescript";
 
 import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
@@ -113,13 +113,18 @@ export class Application extends ChildableComponent<
 
     /**
      * Emitted after a project has been deserialized from JSON.
+     * The listener will be given an instance of {@link ProjectReflection}.
      */
     static readonly EVENT_PROJECT_REVIVE = ApplicationEvents.REVIVE;
 
     /**
+     * Emitted when validation is being run.
+     * The listener will be given an instance of {@link ProjectReflection}.
+     */
+    static readonly EVENT_VALIDATE_PROJECT = ApplicationEvents.VALIDATE_PROJECT;
+
+    /**
      * Create a new TypeDoc application instance.
-     *
-     * @param options An object containing the options that should be used.
      */
     constructor() {
         super(null!); // We own ourselves
@@ -452,6 +457,8 @@ export class Application extends ChildableComponent<
         if (checks.invalidLink) {
             validateLinks(project, this.logger);
         }
+
+        this.trigger(Application.EVENT_VALIDATE_PROJECT, project);
 
         this.logger.verbose(`Validation took ${Date.now() - start}ms`);
     }

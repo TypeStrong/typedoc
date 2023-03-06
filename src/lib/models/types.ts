@@ -212,7 +212,7 @@ export const TypeContext = {
     tupleElement: "tupleElement", // [here]
     unionElement: "unionElement", // here | 1
 } as const;
-export type TypeContext = typeof TypeContext[keyof typeof TypeContext];
+export type TypeContext = (typeof TypeContext)[keyof typeof TypeContext];
 
 /**
  * Represents an array type.

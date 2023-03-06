@@ -1,5 +1,5 @@
 import { join, relative, resolve } from "path";
-import * as ts from "typescript";
+import ts from "typescript";
 import * as FS from "fs";
 import * as Path from "path";
 import {
@@ -49,7 +49,7 @@ export const EntryPointStrategy = {
 } as const;
 
 export type EntryPointStrategy =
-    typeof EntryPointStrategy[keyof typeof EntryPointStrategy];
+    (typeof EntryPointStrategy)[keyof typeof EntryPointStrategy];
 
 export interface DocumentationEntryPoint {
     displayName: string;
@@ -239,7 +239,7 @@ export function getExpandedEntryPointsForPaths(
 function expandGlobs(inputFiles: string[]) {
     const base = getCommonDirectory(inputFiles);
     const result = inputFiles.flatMap((entry) =>
-        glob(entry, base, { includeDirectories: true })
+        glob(entry, base, { includeDirectories: true, followSymlinks: true })
     );
     return result;
 }

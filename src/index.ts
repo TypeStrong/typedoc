@@ -13,6 +13,8 @@ export {
     type ComponentPath,
     type Meaning,
     type MeaningKeyword,
+    type ExternalResolveResult,
+    type ExternalSymbolResolver,
 } from "./lib/converter";
 
 export {
@@ -82,5 +84,5 @@ export {
     SerializeEvent,
 } from "./lib/serialization";
 
-import * as TypeScript from "typescript";
+import TypeScript from "typescript";
 export { TypeScript };

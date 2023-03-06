@@ -1,5 +1,5 @@
 import assert from "assert";
-import * as ts from "typescript";
+import ts from "typescript";
 import {
     DeclarationReflection,
     IntrinsicType,
@@ -624,6 +624,7 @@ function convertProperty(
         symbol,
         exportSymbol
     );
+    reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
 
     const declaration = symbol.getDeclarations()?.[0];
     let parameterType: ts.TypeNode | undefined;
@@ -897,7 +898,7 @@ function convertVariableAsFunction(
         exportSymbol
     );
     setModifiers(symbol, accessDeclaration, reflection);
-    reflection.conversionFlags |= ConversionFlags.VariableSource;
+    reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
     context.finalizeDeclarationReflection(reflection);
 
     const reflectionContext = context.withScope(reflection);

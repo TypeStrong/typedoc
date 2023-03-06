@@ -9,6 +9,7 @@ import {
     CommentTag,
     Reflection,
     SignatureReflection,
+    ContainerReflection,
 } from "../lib/models";
 import { Chars, filterMap } from "../lib/utils";
 import { CommentStyle } from "../lib/utils/options/declaration";
@@ -18,6 +19,20 @@ function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
     ok(reflection instanceof DeclarationReflection, `Failed to find ${name}`);
     return reflection;
+}
+
+type NameTree = { [name: string]: NameTree };
+
+function buildNameTree(
+    refl: ContainerReflection,
+    tree: NameTree = {}
+): NameTree {
+    for (const child of refl.children || []) {
+        tree[child.name] ||= {};
+        buildNameTree(child, tree[child.name]);
+    }
+
+    return tree;
 }
 
 type Letters = Chars<"abcdefghijklmnopqrstuvwxyz">;
@@ -172,6 +187,19 @@ export const behaviorTests: {
         ]);
 
         logger.expectNoOtherMessages();
+    },
+
+    _excludeNotDocumentedKinds(app) {
+        app.options.setValue("excludeNotDocumented", true);
+        app.options.setValue("excludeNotDocumentedKinds", ["Property"]);
+    },
+    excludeNotDocumentedKinds(project) {
+        equal(buildNameTree(project), {
+            NotDoc: {
+                prop: {},
+            },
+            identity: {},
+        });
     },
 
     exportComments(project) {

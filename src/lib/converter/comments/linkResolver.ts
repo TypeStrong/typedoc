@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import {
     Comment,
     CommentDisplayPart,
@@ -14,21 +14,28 @@ import { resolveDeclarationReference } from "./declarationReferenceResolver";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 
+export type ExternalResolveResult = { target: string; caption?: string };
+export type ExternalSymbolResolver = (
+    ref: DeclarationReference,
+    refl: Reflection,
+    part: Readonly<CommentDisplayPart> | undefined
+) => ExternalResolveResult | string | undefined;
+
 export function resolveLinks(
     comment: Comment,
     reflection: Reflection,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    externalResolver: ExternalSymbolResolver
 ) {
     comment.summary = resolvePartLinks(
         reflection,
         comment.summary,
-        attemptExternalResolve
+        externalResolver
     );
     for (const tag of comment.blockTags) {
         tag.content = resolvePartLinks(
             reflection,
             tag.content,
-            attemptExternalResolve
+            externalResolver
         );
     }
 
@@ -36,7 +43,7 @@ export function resolveLinks(
         reflection.readme = resolvePartLinks(
             reflection,
             reflection.readme,
-            attemptExternalResolve
+            externalResolver
         );
     }
 }
@@ -44,17 +51,17 @@ export function resolveLinks(
 export function resolvePartLinks(
     reflection: Reflection,
     parts: readonly CommentDisplayPart[],
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    externalResolver: ExternalSymbolResolver
 ): CommentDisplayPart[] {
     return parts.flatMap((part) =>
-        processPart(reflection, part, attemptExternalResolve)
+        processPart(reflection, part, externalResolver)
     );
 }
 
 function processPart(
     reflection: Reflection,
     part: CommentDisplayPart,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    externalResolver: ExternalSymbolResolver
 ): CommentDisplayPart | CommentDisplayPart[] {
     if (part.kind === "inline-tag") {
         if (
@@ -62,7 +69,7 @@ function processPart(
             part.tag === "@linkcode" ||
             part.tag === "@linkplain"
         ) {
-            return resolveLinkTag(reflection, part, attemptExternalResolve);
+            return resolveLinkTag(reflection, part, externalResolver);
         }
     }
 
@@ -72,7 +79,7 @@ function processPart(
 function resolveLinkTag(
     reflection: Reflection,
     part: InlineTagDisplayPart,
-    attemptExternalResolve: (ref: DeclarationReference) => string | undefined
+    externalResolver: ExternalSymbolResolver
 ) {
     let pos = 0;
     const end = part.text.length;
@@ -84,7 +91,7 @@ function resolveLinkTag(
     const declRef = parseDeclarationReference(part.text, pos, end);
 
     let target: Reflection | string | undefined;
-    let defaultDisplayText: string;
+    let defaultDisplayText = "";
     if (declRef) {
         // Got one, great! Try to resolve the link
         target = resolveDeclarationReference(reflection, declRef[0]);
@@ -94,9 +101,22 @@ function resolveLinkTag(
             defaultDisplayText = target.name;
         } else {
             // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
-            target = attemptExternalResolve(declRef[0]);
-            if (target) {
-                defaultDisplayText = part.text.substring(0, pos);
+            const externalResolveResult = externalResolver(
+                declRef[0],
+                reflection,
+                part
+            );
+
+            defaultDisplayText = part.text.substring(0, pos);
+
+            switch (typeof externalResolveResult) {
+                case "string":
+                    target = externalResolveResult;
+                    break;
+                case "object":
+                    target = externalResolveResult.target;
+                    defaultDisplayText =
+                        externalResolveResult.caption || defaultDisplayText;
             }
         }
     }
@@ -125,7 +145,8 @@ function resolveLinkTag(
     }
 
     part.target = target;
-    part.text = part.text.substring(pos).trim() || defaultDisplayText!;
+    part.text =
+        part.text.substring(pos).trim() || defaultDisplayText || part.text;
 
     return part;
 }

@@ -118,6 +118,14 @@ export class CommentPlugin extends ConverterComponent {
     @BindOption("excludeNotDocumented")
     excludeNotDocumented!: boolean;
 
+    private _excludeKinds: number | undefined;
+    private get excludeNotDocumentedKinds(): number {
+        this._excludeKinds ??= this.application.options
+            .getValue("excludeNotDocumentedKinds")
+            .reduce((a, b) => a | ReflectionKind[b], 0);
+        return this._excludeKinds;
+    }
+
     /**
      * Create a new CommentPlugin instance.
      */
@@ -128,6 +136,9 @@ export class CommentPlugin extends ConverterComponent {
             [Converter.EVENT_CREATE_TYPE_PARAMETER]: this.onCreateTypeParameter,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
             [Converter.EVENT_RESOLVE]: this.onResolve,
+            [Converter.EVENT_END]: () => {
+                this._excludeKinds = undefined;
+            },
         });
     }
 
@@ -455,12 +466,28 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         if (!comment) {
+            // We haven't moved comments from the parent for signatures without a direct
+            // comment, so don't exclude those due to not being documented.
+            if (
+                reflection.kindOf(
+                    ReflectionKind.CallSignature |
+                        ReflectionKind.ConstructorSignature
+                ) &&
+                reflection.parent?.comment
+            ) {
+                return false;
+            }
+
             if (this.excludeNotDocumented) {
                 // Don't let excludeNotDocumented remove parameters.
                 if (
                     !(reflection instanceof DeclarationReflection) &&
                     !(reflection instanceof SignatureReflection)
                 ) {
+                    return false;
+                }
+
+                if (!reflection.kindOf(this.excludeNotDocumentedKinds)) {
                     return false;
                 }
 
@@ -472,11 +499,6 @@ export class CommentPlugin extends ConverterComponent {
                     return (
                         reflection as DeclarationReflection
                     ).children!.every((child) => this.isHidden(child));
-                }
-
-                // enum members should all be included if the parent enum is documented
-                if (reflection.kind === ReflectionKind.EnumMember) {
-                    return false;
                 }
 
                 // signature containers should only be hidden if all their signatures are hidden

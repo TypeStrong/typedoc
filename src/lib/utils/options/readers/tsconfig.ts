@@ -1,6 +1,6 @@
 import { resolve, join, dirname } from "path";
 
-import * as ts from "typescript";
+import ts from "typescript";
 
 import type { Options, OptionsReader } from "../options";
 import type { Logger } from "../../loggers";

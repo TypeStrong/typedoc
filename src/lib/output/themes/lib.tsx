@@ -1,6 +1,5 @@
 import {
     Comment,
-    CommentDisplayPart,
     DeclarationReflection,
     ProjectReflection,
     Reflection,
@@ -9,8 +8,7 @@ import {
     SignatureReflection,
     TypeParameterReflection,
 } from "../../models";
-import { assertNever, JSX } from "../../utils";
-import type { DefaultThemeRenderContext } from "./default/DefaultThemeRenderContext";
+import { JSX } from "../../utils";
 
 export function stringify(data: unknown) {
     if (typeof data === "bigint") {
@@ -126,50 +124,6 @@ export function renderTypeParametersSignature(
 
 export function camelToTitleCase(text: string) {
     return text.substring(0, 1).toUpperCase() + text.substring(1).replace(/[a-z][A-Z]/g, (x) => `${x[0]} ${x[1]}`);
-}
-
-export function displayPartsToMarkdown(
-    parts: readonly CommentDisplayPart[],
-    urlTo: DefaultThemeRenderContext["urlTo"]
-) {
-    const result: string[] = [];
-
-    for (const part of parts) {
-        switch (part.kind) {
-            case "text":
-            case "code":
-                result.push(part.text);
-                break;
-            case "inline-tag":
-                switch (part.tag) {
-                    case "@label":
-                    case "@inheritdoc": // Shouldn't happen
-                        break; // Not rendered.
-                    case "@link":
-                    case "@linkcode":
-                    case "@linkplain": {
-                        if (part.target) {
-                            const url = typeof part.target === "string" ? part.target : urlTo(part.target);
-                            const text = part.tag === "@linkcode" ? `<code>${part.text}</code>` : part.text;
-                            result.push(url ? `<a href="${url}">${text}</a>` : part.text);
-                        } else {
-                            result.push(part.text);
-                        }
-                        break;
-                    }
-                    default:
-                        // Hmm... probably want to be able to render these somehow, so custom inline tags can be given
-                        // special rendering rules. Future capability. For now, just render their text.
-                        result.push(`{${part.tag} ${part.text}}`);
-                        break;
-                }
-                break;
-            default:
-                assertNever(part);
-        }
-    }
-
-    return result.join("");
 }
 
 /**

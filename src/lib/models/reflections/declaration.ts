@@ -37,7 +37,7 @@ export interface DeclarationHierarchy {
  */
 export enum ConversionFlags {
     None = 0,
-    VariableSource = 1,
+    VariableOrPropertySource = 1,
 }
 
 /**

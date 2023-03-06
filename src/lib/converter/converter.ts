@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 
 import type { Application } from "../application";
 import {
@@ -27,7 +27,12 @@ import type {
 } from "../utils/options/declaration";
 import { parseComment } from "./comments/parser";
 import { lexCommentString } from "./comments/rawLexer";
-import { resolvePartLinks, resolveLinks } from "./comments/linkResolver";
+import {
+    resolvePartLinks,
+    resolveLinks,
+    ExternalSymbolResolver,
+    ExternalResolveResult,
+} from "./comments/linkResolver";
 import type { DeclarationReference } from "./comments/declarationReference";
 
 /**
@@ -77,9 +82,7 @@ export class Converter extends ChildableComponent<
     externalSymbolLinkMappings!: Record<string, Record<string, string>>;
 
     private _config?: CommentParserConfig;
-    private _externalSymbolResolvers: Array<
-        (ref: DeclarationReference) => string | undefined
-    > = [];
+    private _externalSymbolResolvers: Array<ExternalSymbolResolver> = [];
 
     get config(): CommentParserConfig {
         return this._config || this._buildCommentParserConfig();
@@ -267,19 +270,22 @@ export class Converter extends ChildableComponent<
      *
      * Note: This will be used for both references to types declared in node_modules (in which case the
      * reference passed will have the `moduleSource` set and the `symbolReference` will navigate via `.`)
-     * and user defined \{\@link\} tags which cannot be resolved.
+     * and user defined \{\@link\} tags which cannot be resolved. If the link being resolved is inferred
+     * from a type, then no `part` will be passed to the resolver function.
      * @since 0.22.14
      */
-    addUnknownSymbolResolver(
-        resolver: (ref: DeclarationReference) => string | undefined
-    ): void {
+    addUnknownSymbolResolver(resolver: ExternalSymbolResolver): void {
         this._externalSymbolResolvers.push(resolver);
     }
 
     /** @internal */
-    resolveExternalLink(ref: DeclarationReference): string | undefined {
+    resolveExternalLink(
+        ref: DeclarationReference,
+        refl: Reflection,
+        part?: CommentDisplayPart
+    ): ExternalResolveResult | string | undefined {
         for (const resolver of this._externalSymbolResolvers) {
-            const resolved = resolver(ref);
+            const resolved = resolver(ref, refl, part);
             if (resolved) return resolved;
         }
     }
@@ -294,12 +300,12 @@ export class Converter extends ChildableComponent<
         owner: Reflection
     ): CommentDisplayPart[] | undefined {
         if (comment instanceof Comment) {
-            resolveLinks(comment, owner, (ref) =>
-                this.resolveExternalLink(ref)
+            resolveLinks(comment, owner, (ref, part, refl) =>
+                this.resolveExternalLink(ref, part, refl)
             );
         } else {
-            return resolvePartLinks(owner, comment, (ref) =>
-                this.resolveExternalLink(ref)
+            return resolvePartLinks(owner, comment, (ref, part, refl) =>
+                this.resolveExternalLink(ref, part, refl)
             );
         }
     }

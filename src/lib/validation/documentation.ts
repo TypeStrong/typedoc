@@ -38,10 +38,23 @@ export function validateDocumentation(
     const toProcess = project.getReflectionsByKind(kinds);
     const seen = new Set<Reflection>();
 
-    while (toProcess.length) {
+    outer: while (toProcess.length) {
         const ref = toProcess.shift()!;
         if (seen.has(ref)) continue;
         seen.add(ref);
+
+        // If there is a parameter inside another parameter, this is probably a callback function.
+        // TypeDoc doesn't support adding comments with @param to nested parameters, so it seems
+        // silly to warn about these.
+        if (ref.kindOf(ReflectionKind.Parameter)) {
+            let r: Reflection | undefined = ref.parent;
+            while (r) {
+                if (r.kindOf(ReflectionKind.Parameter)) {
+                    continue outer;
+                }
+                r = r.parent;
+            }
+        }
 
         if (ref instanceof DeclarationReflection) {
             const signatures =

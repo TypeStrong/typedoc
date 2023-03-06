@@ -18,8 +18,7 @@
             "program": "${workspaceFolder}/node_modules/mocha/bin/mocha.js",
             "request": "launch",
             "skipFiles": ["<node_internals>/**"],
-            "type": "node",
-            "sourceMaps": true
+            "type": "node"
         },
         {
             "name": "Attach",

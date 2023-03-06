@@ -109,6 +109,65 @@ export class Comment {
     }
 
     /**
+     * Helper function to convert an array of comment display parts into markdown suitable for
+     * passing into Marked. `urlTo` will be used to resolve urls to any reflections linked to with
+     * `@link` tags.
+     */
+    static displayPartsToMarkdown(
+        parts: readonly CommentDisplayPart[],
+        urlTo: (ref: Reflection) => string
+    ) {
+        const result: string[] = [];
+
+        for (const part of parts) {
+            switch (part.kind) {
+                case "text":
+                case "code":
+                    result.push(part.text);
+                    break;
+                case "inline-tag":
+                    switch (part.tag) {
+                        case "@label":
+                        case "@inheritdoc": // Shouldn't happen
+                            break; // Not rendered.
+                        case "@link":
+                        case "@linkcode":
+                        case "@linkplain": {
+                            if (part.target) {
+                                const url =
+                                    typeof part.target === "string"
+                                        ? part.target
+                                        : urlTo(part.target);
+                                const text =
+                                    part.tag === "@linkcode"
+                                        ? `<code>${part.text}</code>`
+                                        : part.text;
+                                result.push(
+                                    url
+                                        ? `<a href="${url}">${text}</a>`
+                                        : part.text
+                                );
+                            } else {
+                                result.push(part.text);
+                            }
+                            break;
+                        }
+                        default:
+                            // Hmm... probably want to be able to render these somehow, so custom inline tags can be given
+                            // special rendering rules. Future capability. For now, just render their text.
+                            result.push(`{${part.tag} ${part.text}}`);
+                            break;
+                    }
+                    break;
+                default:
+                    assertNever(part);
+            }
+        }
+
+        return result.join("");
+    }
+
+    /**
      * Helper utility to clone {@link Comment.summary} or {@link CommentTag.content}
      */
     static cloneDisplayParts(parts: CommentDisplayPart[]) {

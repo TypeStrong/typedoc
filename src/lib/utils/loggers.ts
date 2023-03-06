@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import { url } from "inspector";
 import { resolve } from "path";
 import { nicePath } from "./paths";

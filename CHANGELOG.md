@@ -46,6 +46,63 @@
 
 # Unreleased
 
+## v0.23.26 (2023-02-26)
+
+### Features
+
+-   Added `Application.EVENT_VALIDATE_PROJECT` event for plugins which implement custom validation, #2183.
+-   Plugins may now return an object from external symbol resolvers, #2066.
+-   Expose `Comment.displayPartsToMarkdown` on for themes overwriting the `comment` helper, #2115.
+
+### Bug Fixes
+
+-   Fix crash when converting `export default undefined`, #2175.
+-   Fix error in console when clicking on headings in the readme, #2170.
+-   TypeDoc will now ignore parameters of callback parameters when validating that all parameters have documentation, #2154.
+
+### Thanks!
+
+-   @captain-torch
+-   @loopingz
+-   @RebeccaStevens
+
+## v0.23.25 (2023-02-11)
+
+### Breaking Changes
+
+-   Upgraded Shiki, if your highlight theme was set to `material-<theme>`, the value will need to be changed to
+    `material-theme-<theme>`, see the [Shiki release notes](https://github.com/shikijs/shiki/blob/main/CHANGELOG.md#0130--2023-01-27).
+
+### Features
+
+-   Added new `excludeNotDocumentedKinds` variable to control which reflection types can be removed
+    by the `excludeNotDocumented` option, #2162.
+-   Added `typedoc.jsonc`, `typedoc.config.js`, `typedoc.config.cjs`, `typedoc.cjs` to the list of files
+    which TypeDoc will automatically use as configuration files.
+
+### Bug Fixes
+
+-   Entry points under `node_modules` will no longer be ignored, #2151.
+-   Corrected behavior of `excludeNotDocumented` on arrow function-variables, #2156.
+-   Added `package.json` to exports declaration.
+
+### Thanks!
+
+-   @boneskull
+-   @Mikkal24
+-   @zamiell
+
+## v0.23.24 (2023-01-07)
+
+### Bug Fixes
+
+-   Fixed an issue where signature comments were preferred over property comments for indirectly created function-properties, #2135.
+-   Fixed symlink handling when expanding entry points, #2130.
+
+### Thanks!
+
+-   @boneskull
+
 ## v0.23.23 (2022-12-18)
 
 ### Features
