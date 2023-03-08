@@ -483,10 +483,9 @@ blockquote {
     .has-menu .col-menu {
         visibility: visible;
         transform: translate(0, 0);
-        display: grid;
-        align-items: center;
-        grid-template-rows: auto 1fr;
-        grid-gap: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
         max-height: 100vh;
         padding: 1rem 2rem;
     }
