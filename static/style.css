@@ -911,7 +911,7 @@ a.tsd-index-link {
     margin-right: 0.8rem;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
     .col-content {
         margin: 2rem auto;
     }
