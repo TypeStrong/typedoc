@@ -66,17 +66,14 @@ async function run(app: td.Application) {
 
     if (app.options.getValue("watch")) {
         app.convertAndWatch(async (project) => {
-            const out = app.options.getValue("out");
-            if (out) {
-                await app.generateDocs(project, out);
-            }
             const json = app.options.getValue("json");
-            if (json) {
-                await app.generateJson(project, json);
+
+            if (!json || app.options.isSet("out")) {
+                await app.generateDocs(project, app.options.getValue("out"));
             }
 
-            if (!out && !json) {
-                await app.generateDocs(project, "./docs");
+            if (json) {
+                await app.generateJson(project, json);
             }
         });
         return ExitCodes.Ok;
@@ -105,17 +102,13 @@ async function run(app: td.Application) {
     }
 
     if (app.options.getValue("emit") !== "none") {
-        const out = app.options.getValue("out");
-        if (out) {
-            await app.generateDocs(project, out);
-        }
         const json = app.options.getValue("json");
-        if (json) {
-            await app.generateJson(project, json);
+        if (!json || app.options.isSet("out")) {
+            await app.generateDocs(project, app.options.getValue("out"));
         }
 
-        if (!out && !json) {
-            await app.generateDocs(project, "./docs");
+        if (json) {
+            await app.generateJson(project, json);
         }
 
         if (app.logger.hasErrors()) {

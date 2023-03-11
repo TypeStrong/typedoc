@@ -13,6 +13,7 @@
 ### API Breaking Changes
 
 -   The `label` property on `Reflection` has moved to `Comment`.
+-   The default value of the `out` option has been changed from `""` to `"./docs"`, #2195.
 -   Renamed `DeclarationReflection#version` to `DeclarationReflection#projectVersion` to match property on `ProjectReflection`.
 -   Removed unused `Reflection#originalName`.
 -   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.

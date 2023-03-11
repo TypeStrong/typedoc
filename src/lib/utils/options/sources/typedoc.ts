@@ -201,6 +201,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Specify the location the documentation should be written to.",
         type: ParameterType.Path,
         hint: ParameterHint.Directory,
+        defaultValue: "./docs",
     });
     options.addDeclaration({
         name: "json",
