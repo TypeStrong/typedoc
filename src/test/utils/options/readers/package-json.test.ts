@@ -1,4 +1,3 @@
-import * as assert from "assert";
 import { project } from "@typestrong/fs-fixture-builder";
 
 import { PackageJsonReader } from "../../../../lib/utils/options/readers";
@@ -16,20 +15,9 @@ describe("Options - PackageJsonReader", () => {
         optsContainer.addReader(new PackageJsonReader());
     });
 
-    it("Does not error if the file cannot be found at a file path", () => {
-        optsContainer.setValue("options", "./non-existent-file.json");
-
-        optsContainer.read(testLogger);
+    it("Does not error if no package.json file is found", () => {
+        optsContainer.read(testLogger, "/does-not-exist");
         testLogger.expectNoOtherMessages();
-        assert.strictEqual(testLogger.hasErrors(), false);
-    });
-
-    it("Does not error if the file cannot be found at a directory path", () => {
-        optsContainer.setValue("options", "./non-existent-directory");
-
-        optsContainer.read(testLogger);
-        testLogger.expectNoOtherMessages();
-        assert.strictEqual(testLogger.hasErrors(), false);
     });
 
     function testLogs(
@@ -40,42 +28,26 @@ describe("Options - PackageJsonReader", () => {
         it(testTitle, () => {
             const proj = project(testTitle.replace(/ /g, "_"));
             proj.addFile("package.json", pkgJsonContent);
-
-            optsContainer.setValue("options", proj.cwd);
             proj.write();
 
-            optsContainer.read(testLogger);
+            optsContainer.read(testLogger, proj.cwd);
 
             proj.rm();
 
             test(testLogger);
+            testLogger.expectNoOtherMessages();
         });
     }
 
     testLogs(
-        "Errors if the package.json data is not valid JSON",
-        "Not valid JSON {}",
-        (l) =>
-            l.expectMessage(
-                "error: Failed to parse */package.json, ensure it exists and contains an object."
-            )
-    );
-
-    testLogs("Errors if the package.json data is not an object", "123", (l) =>
-        l.expectMessage(
-            "error: Failed to parse */package.json, ensure it exists and contains an object."
-        )
-    );
-
-    testLogs(
-        `Does not error if the "typedocOptions" field is not set`,
-        `{ "notTypedocOptions": {} }`,
-        (l) => assert.strictEqual(l.hasErrors(), false)
+        `Does not error if typedocOptions is not present`,
+        `{ "name": "x" }`,
+        () => {}
     );
 
     testLogs(
         `Errors if the "typedocOptions" field is set but does not contain an object`,
-        `{ "typedocOptions": 123 }`,
+        `{ "name": "x", "typedocOptions": 123 }`,
         (l) =>
             l.expectMessage(
                 `error: Failed to parse the "typedocOptions" field in */package.json, ensure it exists and contains an object.`
@@ -84,7 +56,7 @@ describe("Options - PackageJsonReader", () => {
 
     testLogs(
         "Errors if setting any option errors",
-        `{ "typedocOptions": { "someOptionThatDoesNotExist": true } }`,
+        `{ "name": "x", "typedocOptions": { "someOptionThatDoesNotExist": true } }`,
         (l) =>
             l.expectMessage(
                 "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared.*"

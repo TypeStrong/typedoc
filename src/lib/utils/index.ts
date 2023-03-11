@@ -18,6 +18,8 @@ export {
     readFile,
     writeFile,
     writeFileSync,
+    discoverInParentDir,
+    discoverPackageJson,
 } from "./fs";
 export type { IfInternal, NeverIfInternal, Chars } from "./general";
 export { assertNever } from "./general";

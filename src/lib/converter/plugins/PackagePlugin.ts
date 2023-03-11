@@ -1,16 +1,18 @@
 import * as Path from "path";
-import * as FS from "fs";
 
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import { BindOption, EntryPointStrategy, readFile } from "../../utils";
-import { getCommonDirectory } from "../../utils/fs";
+import {
+    discoverInParentDir,
+    discoverPackageJson,
+    getCommonDirectory,
+} from "../../utils/fs";
 import { nicePath } from "../../utils/paths";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile";
 import type { ProjectReflection } from "../../models/index";
 import { ApplicationEvents } from "../../application-events";
-import { optional, validate } from "../../utils/validation";
 import { join } from "path";
 
 /**
@@ -35,6 +37,11 @@ export class PackagePlugin extends ConverterComponent {
      * The file name of the found readme.md file.
      */
     private readmeFile?: string;
+
+    /**
+     * Contents of the readme.md file discovered, if any
+     */
+    private readmeContents?: string;
 
     /**
      * Contents of package.json for the active project
@@ -64,20 +71,8 @@ export class PackagePlugin extends ConverterComponent {
 
     private onBegin() {
         this.readmeFile = undefined;
+        this.readmeContents = undefined;
         this.packageJson = undefined;
-
-        // Path will be resolved already. This is kind of ugly, but...
-        const noReadmeFile = this.readme.endsWith("none");
-        if (!noReadmeFile && this.readme) {
-            if (FS.existsSync(this.readme)) {
-                this.readmeFile = this.readme;
-            }
-        }
-
-        const packageAndReadmeFound = () =>
-            (noReadmeFile || this.readmeFile) && this.packageJson;
-        const reachedTopDirectory = (dirName: string) =>
-            dirName === Path.resolve(Path.join(dirName, ".."));
 
         const entryFiles =
             this.entryPointStrategy === EntryPointStrategy.Packages
@@ -85,40 +80,42 @@ export class PackagePlugin extends ConverterComponent {
                 : this.entryPoints;
 
         let dirName = Path.resolve(getCommonDirectory(entryFiles));
+
         this.application.logger.verbose(
             `Begin readme.md/package.json search at ${nicePath(dirName)}`
         );
-        while (!packageAndReadmeFound() && !reachedTopDirectory(dirName)) {
-            FS.readdirSync(dirName).forEach((file) => {
-                const lowercaseFileName = file.toLowerCase();
-                if (
-                    !noReadmeFile &&
-                    !this.readmeFile &&
-                    lowercaseFileName === "readme.md"
-                ) {
-                    this.readmeFile = Path.join(dirName, file);
-                }
 
-                if (!this.packageJson && lowercaseFileName === "package.json") {
-                    try {
-                        const packageJson = JSON.parse(
-                            readFile(Path.join(dirName, file))
-                        );
-                        if (
-                            validate(
-                                { name: String, version: optional(String) },
-                                packageJson
-                            )
-                        ) {
-                            this.packageJson = packageJson;
-                        }
-                    } catch {
-                        // Ignore
-                    }
-                }
-            });
+        this.packageJson = discoverPackageJson(dirName)?.content;
 
-            dirName = Path.resolve(Path.join(dirName, ".."));
+        // Path will be resolved already. This is kind of ugly, but...
+        if (this.readme.endsWith("none")) {
+            return; // No readme, we're done
+        }
+
+        if (this.readme) {
+            // Readme path provided, read only that file.
+            try {
+                this.readmeFile = this.readme;
+                this.readmeContents = readFile(this.readme);
+            } catch {
+                this.application.logger.error(
+                    `Provided README path, ${nicePath(
+                        this.readme
+                    )} could not be read.`
+                );
+            }
+        } else {
+            // No readme provided, automatically find the readme
+            const result = discoverInParentDir(
+                "readme.md",
+                dirName,
+                (content) => content
+            );
+
+            if (result) {
+                this.readmeFile = result.file;
+                this.readmeContents = result.content;
+            }
         }
     }
 
@@ -127,10 +124,9 @@ export class PackagePlugin extends ConverterComponent {
     }
 
     private addEntries(project: ProjectReflection) {
-        if (this.readmeFile) {
-            const readme = readFile(this.readmeFile);
+        if (this.readmeFile && this.readmeContents) {
             const comment = this.application.converter.parseRawComment(
-                new MinimalSourceFile(readme, this.readmeFile)
+                new MinimalSourceFile(this.readmeContents, this.readmeFile)
             );
 
             if (comment.blockTags.length || comment.modifierTags.size) {

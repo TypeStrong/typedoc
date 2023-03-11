@@ -39,10 +39,15 @@
     Note: Conversion is still intentionally a synchronous process to ensure stability of converted projects between runs.
 -   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.
 -   TypeDoc will now attempt to guess what option you may have meant if given an invalid option name.
+-   TypeDoc options may now be set under the `typedocOptions` key in `package.json`, #2112.
 
 ### Bug Fixes
 
 -   TypeDoc will now ignore package.json files not containing a `name` field, #2190.
+
+### Thanks!
+
+-   @jm4rtinez
 
 # Unreleased
 

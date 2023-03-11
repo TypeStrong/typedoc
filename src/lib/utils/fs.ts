@@ -1,7 +1,8 @@
 import * as fs from "fs";
 import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
-import { dirname, join, relative } from "path";
+import { dirname, join, relative, resolve } from "path";
+import { optional, validate } from "./validation";
 
 export function isFile(file: string) {
     try {
@@ -253,4 +254,40 @@ export function glob(
 
 export function hasTsExtension(path: string): boolean {
     return /\.[cm]?ts$|\.tsx$/.test(path);
+}
+
+export function discoverInParentDir<T extends {}>(
+    name: string,
+    dir: string,
+    read: (content: string) => T | undefined
+): { file: string; content: T } | undefined {
+    if (!isDir(dir)) return;
+
+    const reachedTopDirectory = (dirName: string) =>
+        dirName === resolve(join(dirName, ".."));
+
+    while (!reachedTopDirectory(dir)) {
+        for (const file of fs.readdirSync(dir)) {
+            if (file.toLowerCase() !== name.toLowerCase()) continue;
+
+            try {
+                const content = read(readFile(join(dir, file)));
+                if (content != null) {
+                    return { file: join(dir, file), content };
+                }
+            } catch {
+                // Ignore, file didn't pass validation
+            }
+        }
+        dir = resolve(join(dir, ".."));
+    }
+}
+
+export function discoverPackageJson(dir: string) {
+    return discoverInParentDir("package.json", dir, (content) => {
+        const pkg: unknown = JSON.parse(content);
+        if (validate({ name: String, version: optional(String) }, pkg)) {
+            return pkg;
+        }
+    });
 }
