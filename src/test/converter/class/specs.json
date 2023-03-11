@@ -1,21 +1,22 @@
 {
   "id": 0,
-  "name": "typedoc",
+  "name": "class",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "access",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 8,
           "name": "PrivateClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {
             "isPrivate": true
           },
@@ -31,8 +32,8 @@
             {
               "id": 13,
               "name": "fakePrivateProperty",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
@@ -60,8 +61,8 @@
             {
               "id": 14,
               "name": "fakeProtectedProperty",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -89,8 +90,8 @@
             {
               "id": 9,
               "name": "privateStaticGetter",
+              "variant": "declaration",
               "kind": 262144,
-              "kindString": "Accessor",
               "flags": {
                 "isPrivate": true,
                 "isStatic": true
@@ -106,9 +107,17 @@
               "getSignature": {
                 "id": 10,
                 "name": "privateStaticGetter",
+                "variant": "signature",
                 "kind": 524288,
-                "kindString": "Get signature",
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "access.ts",
+                    "line": 59,
+                    "character": 4,
+                    "url": "typedoc://access.ts#L59"
+                  }
+                ],
                 "type": {
                   "type": "intrinsic",
                   "name": "number"
@@ -118,8 +127,8 @@
             {
               "id": 15,
               "name": "fakePrivateMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPrivate": true
               },
@@ -135,8 +144,8 @@
                 {
                   "id": 16,
                   "name": "fakePrivateMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {
                     "isPrivate": true
                   },
@@ -148,6 +157,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "access.ts",
+                      "line": 46,
+                      "character": 4,
+                      "url": "typedoc://access.ts#L46"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -158,8 +175,8 @@
             {
               "id": 17,
               "name": "fakeProtectedMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true
               },
@@ -175,8 +192,8 @@
                 {
                   "id": 18,
                   "name": "fakeProtectedMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {
                     "isProtected": true
                   },
@@ -188,6 +205,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "access.ts",
+                      "line": 52,
+                      "character": 4,
+                      "url": "typedoc://access.ts#L52"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -198,8 +223,8 @@
             {
               "id": 19,
               "name": "privateArrow",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPrivate": true
               },
@@ -215,9 +240,17 @@
                 {
                   "id": 20,
                   "name": "privateArrow",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "access.ts",
+                      "line": 54,
+                      "character": 27,
+                      "url": "typedoc://access.ts#L54"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -261,8 +294,8 @@
         {
           "id": 6,
           "name": "fakePrivateVariable",
+          "variant": "declaration",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isPrivate": true,
             "isConst": true
@@ -292,8 +325,8 @@
         {
           "id": 7,
           "name": "fakeProtectedVariable",
+          "variant": "declaration",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isProtected": true,
             "isConst": true
@@ -323,8 +356,8 @@
         {
           "id": 2,
           "name": "fakePrivateFunction",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {
             "isPrivate": true
           },
@@ -340,8 +373,8 @@
             {
               "id": 3,
               "name": "fakePrivateFunction",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {
                 "isPrivate": true
               },
@@ -353,6 +386,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 17,
+                  "character": 0,
+                  "url": "typedoc://access.ts#L17"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -363,8 +404,8 @@
         {
           "id": 4,
           "name": "fakeProtectedFunction",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {
             "isProtected": true
           },
@@ -380,8 +421,8 @@
             {
               "id": 5,
               "name": "fakeProtectedFunction",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {
                 "isProtected": true
               },
@@ -393,6 +434,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 23,
+                  "character": 0,
+                  "url": "typedoc://access.ts#L23"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -435,22 +484,22 @@
     {
       "id": 21,
       "name": "class",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 60,
           "name": "TestSubClass",
+          "variant": "declaration",
           "kind": 4,
-          "kindString": "Namespace",
           "flags": {},
           "children": [
             {
               "id": 61,
               "name": "staticMergedMethod",
+              "variant": "declaration",
               "kind": 64,
-              "kindString": "Function",
               "flags": {},
               "sources": [
                 {
@@ -464,8 +513,8 @@
                 {
                   "id": 62,
                   "name": "staticMergedMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -475,6 +524,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 108,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L108"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -515,8 +572,8 @@
         {
           "id": 86,
           "name": "Abstract",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {
             "isAbstract": true
           },
@@ -524,20 +581,21 @@
             {
               "id": 87,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 88,
                   "name": "new Abstract",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 86,
-                    "name": "Abstract"
+                    "target": 86,
+                    "name": "Abstract",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -545,8 +603,8 @@
             {
               "id": 89,
               "name": "needsImpl",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isAbstract": true
               },
@@ -562,9 +620,17 @@
                 {
                   "id": 90,
                   "name": "needsImpl",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 126,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L126"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -599,27 +665,28 @@
         {
           "id": 75,
           "name": "ComputedNames",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 76,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 77,
                   "name": "new ComputedNames",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 75,
-                    "name": "ComputedNames"
+                    "target": 75,
+                    "name": "ComputedNames",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -627,8 +694,8 @@
             {
               "id": 80,
               "name": "[toStringTag]",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -647,8 +714,8 @@
             {
               "id": 81,
               "name": "literal",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -667,8 +734,8 @@
             {
               "id": 78,
               "name": "literal2",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -687,8 +754,8 @@
             {
               "id": 79,
               "name": "y",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -734,8 +801,8 @@
         {
           "id": 63,
           "name": "TestAbstractClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {
             "isAbstract": true
           },
@@ -743,20 +810,21 @@
             {
               "id": 64,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 65,
                   "name": "new TestAbstractClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 63,
-                    "name": "TestAbstractClass"
+                    "target": 63,
+                    "name": "TestAbstractClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -764,8 +832,8 @@
             {
               "id": 66,
               "name": "myAbstractProperty",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isAbstract": true
               },
@@ -785,8 +853,8 @@
             {
               "id": 67,
               "name": "myAbstractMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true,
                 "isAbstract": true
@@ -803,9 +871,17 @@
                 {
                   "id": 68,
                   "name": "myAbstractMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 88,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L88"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -845,7 +921,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 69,
+              "target": 69,
               "name": "TestAbstractClassImplementation"
             }
           ]
@@ -853,46 +929,47 @@
         {
           "id": 69,
           "name": "TestAbstractClassImplementation",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 70,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 71,
                   "name": "new TestAbstractClassImplementation",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 69,
-                    "name": "TestAbstractClassImplementation"
+                    "target": 69,
+                    "name": "TestAbstractClassImplementation",
+                    "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 65,
+                    "target": 65,
                     "name": "TestAbstractClass.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 64,
+                "target": 64,
                 "name": "TestAbstractClass.constructor"
               }
             },
             {
               "id": 72,
               "name": "myAbstractProperty",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -908,15 +985,15 @@
               },
               "overwrites": {
                 "type": "reference",
-                "id": 66,
+                "target": 66,
                 "name": "TestAbstractClass.myAbstractProperty"
               }
             },
             {
               "id": 73,
               "name": "myAbstractMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true
               },
@@ -932,23 +1009,31 @@
                 {
                   "id": 74,
                   "name": "myAbstractMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 94,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L94"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 68,
+                    "target": 68,
                     "name": "TestAbstractClass.myAbstractMethod"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 67,
+                "target": 67,
                 "name": "TestAbstractClass.myAbstractMethod"
               }
             }
@@ -984,16 +1069,17 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 63,
-              "name": "TestAbstractClass"
+              "target": 63,
+              "name": "TestAbstractClass",
+              "package": "typedoc"
             }
           ]
         },
         {
           "id": 22,
           "name": "TestClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -1024,8 +1110,8 @@
             {
               "id": 26,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -1039,8 +1125,8 @@
                 {
                   "id": 27,
                   "name": "new TestClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1050,10 +1136,19 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 27,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L27"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
-                    "id": 22,
-                    "name": "TestClass"
+                    "target": 22,
+                    "name": "TestClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -1061,8 +1156,8 @@
             {
               "id": 29,
               "name": "privateProperty",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
@@ -1093,8 +1188,8 @@
             {
               "id": 28,
               "name": "publicProperty",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -1122,8 +1217,8 @@
             {
               "id": 23,
               "name": "staticProperty",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isStatic": true
               },
@@ -1145,15 +1240,16 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 22,
-                "name": "TestClass"
+                "target": 22,
+                "name": "TestClass",
+                "package": "typedoc"
               }
             },
             {
               "id": 36,
               "name": "arrowMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -1167,8 +1263,8 @@
                 {
                   "id": 37,
                   "name": "arrowMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1178,6 +1274,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 58,
+                      "character": 18,
+                      "url": "typedoc://class.ts#L58"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1188,8 +1292,8 @@
             {
               "id": 34,
               "name": "privateMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPrivate": true
               },
@@ -1205,8 +1309,8 @@
                 {
                   "id": 35,
                   "name": "privateMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1216,6 +1320,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 48,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L48"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1226,8 +1338,8 @@
             {
               "id": 32,
               "name": "protectedMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true
               },
@@ -1243,8 +1355,8 @@
                 {
                   "id": 33,
                   "name": "protectedMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1254,6 +1366,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 41,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L41"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1264,8 +1384,8 @@
             {
               "id": 30,
               "name": "publicMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPublic": true
               },
@@ -1281,8 +1401,8 @@
                 {
                   "id": 31,
                   "name": "publicMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1292,6 +1412,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 34,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L34"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1302,8 +1430,8 @@
             {
               "id": 24,
               "name": "staticMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isStatic": true
               },
@@ -1319,8 +1447,8 @@
                 {
                   "id": 25,
                   "name": "staticMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1330,6 +1458,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 53,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L53"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -1399,7 +1535,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 38,
+              "target": 38,
               "name": "TestSubClass"
             }
           ]
@@ -1407,8 +1543,8 @@
         {
           "id": 38,
           "name": "TestSubClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -1439,8 +1575,8 @@
             {
               "id": 42,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -1454,8 +1590,8 @@
                 {
                   "id": 43,
                   "name": "new TestSubClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1465,12 +1601,20 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 80,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L80"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 44,
                       "name": "p1",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -1488,8 +1632,8 @@
                     {
                       "id": 45,
                       "name": "p2",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -1507,8 +1651,8 @@
                     {
                       "id": 46,
                       "name": "p3",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -1526,8 +1670,8 @@
                     {
                       "id": 47,
                       "name": "p4",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -1545,27 +1689,28 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 38,
-                    "name": "TestSubClass"
+                    "target": 38,
+                    "name": "TestSubClass",
+                    "package": "typedoc"
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 27,
+                    "target": 27,
                     "name": "TestClass.constructor"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 26,
+                "target": 26,
                 "name": "TestClass.constructor"
               }
             },
             {
               "id": 52,
               "name": "p2",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
@@ -1593,8 +1738,8 @@
             {
               "id": 53,
               "name": "p3",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -1622,8 +1767,8 @@
             {
               "id": 54,
               "name": "p4",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -1651,8 +1796,8 @@
             {
               "id": 57,
               "name": "publicProperty",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -1678,15 +1823,15 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 28,
+                "target": 28,
                 "name": "TestClass.publicProperty"
               }
             },
             {
               "id": 39,
               "name": "staticProperty",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isStatic": true
               },
@@ -1708,20 +1853,21 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 22,
-                "name": "TestClass"
+                "target": 22,
+                "name": "TestClass",
+                "package": "typedoc"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 23,
+                "target": 23,
                 "name": "TestClass.staticProperty"
               }
             },
             {
               "id": 58,
               "name": "arrowMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -1735,8 +1881,8 @@
                 {
                   "id": 59,
                   "name": "arrowMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1746,28 +1892,36 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 58,
+                      "character": 18,
+                      "url": "typedoc://class.ts#L58"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 37,
+                    "target": 37,
                     "name": "TestClass.arrowMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 36,
+                "target": 36,
                 "name": "TestClass.arrowMethod"
               }
             },
             {
               "id": 55,
               "name": "mergedMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -1781,8 +1935,8 @@
                 {
                   "id": 56,
                   "name": "mergedMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1792,6 +1946,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 101,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L101"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -1802,8 +1964,8 @@
             {
               "id": 50,
               "name": "protectedMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isProtected": true
               },
@@ -1819,8 +1981,8 @@
                 {
                   "id": 51,
                   "name": "protectedMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1830,28 +1992,36 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 70,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L70"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 33,
+                    "target": 33,
                     "name": "TestClass.protectedMethod"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 32,
+                "target": 32,
                 "name": "TestClass.protectedMethod"
               }
             },
             {
               "id": 48,
               "name": "publicMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPublic": true
               },
@@ -1867,8 +2037,8 @@
                 {
                   "id": 49,
                   "name": "publicMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1878,28 +2048,36 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 65,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L65"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 31,
+                    "target": 31,
                     "name": "TestClass.publicMethod"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 30,
+                "target": 30,
                 "name": "TestClass.publicMethod"
               }
             },
             {
               "id": 40,
               "name": "staticMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isStatic": true
               },
@@ -1915,8 +2093,8 @@
                 {
                   "id": 41,
                   "name": "staticMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1926,20 +2104,28 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "class.ts",
+                      "line": 53,
+                      "character": 4,
+                      "url": "typedoc://class.ts#L53"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 25,
+                    "target": 25,
                     "name": "TestClass.staticMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 24,
+                "target": 24,
                 "name": "TestClass.staticMethod"
               }
             }
@@ -1995,35 +2181,37 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 22,
-              "name": "TestClass"
+              "target": 22,
+              "name": "TestClass",
+              "package": "typedoc"
             }
           ]
         },
         {
           "id": 82,
           "name": "Ts38PrivateFields",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 83,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 84,
                   "name": "new Ts38PrivateFields",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 82,
-                    "name": "Ts38PrivateFields"
+                    "target": 82,
+                    "name": "Ts38PrivateFields",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -2031,8 +2219,8 @@
             {
               "id": 85,
               "name": "#foo",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
@@ -2085,8 +2273,8 @@
         {
           "id": 91,
           "name": "AbstractMe",
+          "variant": "declaration",
           "kind": 4194304,
-          "kindString": "Type alias",
           "flags": {},
           "sources": [
             {
@@ -2101,8 +2289,8 @@
             "declaration": {
               "id": 92,
               "name": "__type",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -2116,15 +2304,16 @@
                 {
                   "id": 93,
                   "name": "__type",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {
                     "isAbstract": true
                   },
                   "type": {
                     "type": "reference",
-                    "id": 86,
-                    "name": "Abstract"
+                    "target": 86,
+                    "name": "Abstract",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -2170,15 +2359,15 @@
     {
       "id": 94,
       "name": "constructor-properties",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 95,
           "name": "Vector2",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -2192,8 +2381,8 @@
             {
               "id": 96,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -2207,15 +2396,23 @@
                 {
                   "id": 97,
                   "name": "new Vector2",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "constructor-properties.ts",
+                      "line": 10,
+                      "character": 4,
+                      "url": "typedoc://constructor-properties.ts#L10"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 98,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2233,8 +2430,8 @@
                     {
                       "id": 99,
                       "name": "y",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2252,8 +2449,8 @@
                     {
                       "id": 100,
                       "name": "name",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2271,8 +2468,9 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 95,
-                    "name": "Vector2"
+                    "target": 95,
+                    "name": "Vector2",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -2280,8 +2478,8 @@
             {
               "id": 103,
               "name": "name",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isReadonly": true
               },
@@ -2309,8 +2507,8 @@
             {
               "id": 101,
               "name": "x",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2338,8 +2536,8 @@
             {
               "id": 102,
               "name": "y",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2392,7 +2590,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 104,
+              "target": 104,
               "name": "Vector3"
             }
           ]
@@ -2400,8 +2598,8 @@
         {
           "id": 104,
           "name": "Vector3",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -2415,8 +2613,8 @@
             {
               "id": 105,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -2430,15 +2628,23 @@
                 {
                   "id": 106,
                   "name": "new Vector3",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "constructor-properties.ts",
+                      "line": 23,
+                      "character": 4,
+                      "url": "typedoc://constructor-properties.ts#L23"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 107,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2456,8 +2662,8 @@
                     {
                       "id": 108,
                       "name": "y",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2475,8 +2681,8 @@
                     {
                       "id": 109,
                       "name": "z",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2494,8 +2700,8 @@
                     {
                       "id": 110,
                       "name": "name",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -2513,27 +2719,28 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 104,
-                    "name": "Vector3"
+                    "target": 104,
+                    "name": "Vector3",
+                    "package": "typedoc"
                   },
                   "overwrites": {
                     "type": "reference",
-                    "id": 97,
+                    "target": 97,
                     "name": "Vector2.constructor"
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "id": 96,
+                "target": 96,
                 "name": "Vector2.constructor"
               }
             },
             {
               "id": 113,
               "name": "name",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isReadonly": true
               },
@@ -2559,15 +2766,15 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 103,
+                "target": 103,
                 "name": "Vector2.name"
               }
             },
             {
               "id": 114,
               "name": "x",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2593,15 +2800,15 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 101,
+                "target": 101,
                 "name": "Vector2.x"
               }
             },
             {
               "id": 111,
               "name": "y",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2627,15 +2834,15 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 102,
+                "target": 102,
                 "name": "Vector2.y"
               }
             },
             {
               "id": 112,
               "name": "z",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPublic": true
               },
@@ -2689,8 +2896,9 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 95,
-              "name": "Vector2"
+              "target": 95,
+              "name": "Vector2",
+              "package": "typedoc"
             }
           ]
         }
@@ -2716,15 +2924,15 @@
     {
       "id": 115,
       "name": "decorators",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 129,
           "name": "DecoratedClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -2738,20 +2946,21 @@
             {
               "id": 130,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 131,
                   "name": "new DecoratedClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 129,
-                    "name": "DecoratedClass"
+                    "target": 129,
+                    "name": "DecoratedClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -2759,8 +2968,8 @@
             {
               "id": 132,
               "name": "decoratedMethod",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -2774,8 +2983,8 @@
                 {
                   "id": 133,
                   "name": "decoratedMethod",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2785,6 +2994,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "decorators.ts",
+                      "line": 11,
+                      "character": 4,
+                      "url": "typedoc://decorators.ts#L11"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -2819,8 +3036,8 @@
         {
           "id": 116,
           "name": "decoratorAtom",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2834,8 +3051,8 @@
             {
               "id": 117,
               "name": "decoratorAtom",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2845,25 +3062,36 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "decorators.ts",
+                  "line": 19,
+                  "character": 0,
+                  "url": "typedoc://decorators.ts#L19"
+                }
+              ],
               "parameters": [
                 {
                   "id": 118,
                   "name": "target",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                      "qualifiedName": "Object"
+                    },
                     "name": "Object",
-                    "qualifiedName": "Object",
                     "package": "typescript"
                   }
                 },
                 {
                   "id": 119,
                   "name": "propertyKey",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "union",
@@ -2882,11 +3110,15 @@
                 {
                   "id": 120,
                   "name": "descriptor",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                      "qualifiedName": "TypedPropertyDescriptor"
+                    },
                     "typeArguments": [
                       {
                         "type": "intrinsic",
@@ -2894,7 +3126,6 @@
                       }
                     ],
                     "name": "TypedPropertyDescriptor",
-                    "qualifiedName": "TypedPropertyDescriptor",
                     "package": "typescript"
                   }
                 }
@@ -2909,8 +3140,8 @@
         {
           "id": 124,
           "name": "decoratorWithOptions",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2924,8 +3155,8 @@
             {
               "id": 125,
               "name": "decoratorWithOptions",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2935,12 +3166,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "decorators.ts",
+                  "line": 48,
+                  "character": 0,
+                  "url": "typedoc://decorators.ts#L48"
+                }
+              ],
               "parameters": [
                 {
                   "id": 126,
                   "name": "options",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2955,15 +3194,15 @@
                     "declaration": {
                       "id": 127,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 128,
                           "name": "name",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "comment": {
                             "summary": [
@@ -3009,8 +3248,11 @@
               ],
               "type": {
                 "type": "reference",
+                "target": {
+                  "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "qualifiedName": "ClassDecorator"
+                },
                 "name": "ClassDecorator",
-                "qualifiedName": "ClassDecorator",
                 "package": "typescript"
               }
             }
@@ -3019,8 +3261,8 @@
         {
           "id": 121,
           "name": "decoratorWithParam",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -3034,8 +3276,8 @@
             {
               "id": 122,
               "name": "decoratorWithParam",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -3045,12 +3287,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "decorators.ts",
+                  "line": 32,
+                  "character": 0,
+                  "url": "typedoc://decorators.ts#L32"
+                }
+              ],
               "parameters": [
                 {
                   "id": 123,
                   "name": "value",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3068,8 +3318,11 @@
               ],
               "type": {
                 "type": "reference",
+                "target": {
+                  "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "qualifiedName": "MethodDecorator"
+                },
                 "name": "MethodDecorator",
-                "qualifiedName": "MethodDecorator",
                 "package": "typescript"
               }
             }
@@ -3104,34 +3357,35 @@
     {
       "id": 161,
       "name": "events",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 162,
           "name": "EventDispatcher",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 164,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 165,
                   "name": "new EventDispatcher",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 162,
-                    "name": "EventDispatcher"
+                    "target": 162,
+                    "name": "EventDispatcher",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -3139,8 +3393,8 @@
             {
               "id": 163,
               "name": "EVENT_CLICK",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isStatic": true
               },
@@ -3211,15 +3465,15 @@
     {
       "id": 134,
       "name": "events-overloads",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 135,
           "name": "Test",
+          "variant": "declaration",
           "kind": 256,
-          "kindString": "Interface",
           "flags": {},
           "comment": {
             "summary": [
@@ -3244,8 +3498,8 @@
             {
               "id": 136,
               "name": "on",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -3277,8 +3531,8 @@
                 {
                   "id": 137,
                   "name": "on",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3288,12 +3542,20 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "events-overloads.ts",
+                      "line": 14,
+                      "character": 4,
+                      "url": "typedoc://events-overloads.ts#L14"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 138,
                       "name": "event",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3311,8 +3573,8 @@
                     {
                       "id": 139,
                       "name": "handler",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3327,8 +3589,8 @@
                         "declaration": {
                           "id": 140,
                           "name": "__type",
+                          "variant": "declaration",
                           "kind": 65536,
-                          "kindString": "Type literal",
                           "flags": {},
                           "sources": [
                             {
@@ -3342,15 +3604,23 @@
                             {
                               "id": 141,
                               "name": "__type",
+                              "variant": "signature",
                               "kind": 4096,
-                              "kindString": "Call signature",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "events-overloads.ts",
+                                  "line": 14,
+                                  "character": 31,
+                                  "url": "typedoc://events-overloads.ts#L14"
+                                }
+                              ],
                               "parameters": [
                                 {
                                   "id": 142,
                                   "name": "e",
+                                  "variant": "param",
                                   "kind": 32768,
-                                  "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
                                     "type": "intrinsic",
@@ -3376,8 +3646,8 @@
                 {
                   "id": 143,
                   "name": "on",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3387,12 +3657,20 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "events-overloads.ts",
+                      "line": 23,
+                      "character": 4,
+                      "url": "typedoc://events-overloads.ts#L23"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 144,
                       "name": "event",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3410,8 +3688,8 @@
                     {
                       "id": 145,
                       "name": "handler",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3426,8 +3704,8 @@
                         "declaration": {
                           "id": 146,
                           "name": "__type",
+                          "variant": "declaration",
                           "kind": 65536,
-                          "kindString": "Type literal",
                           "flags": {},
                           "sources": [
                             {
@@ -3441,15 +3719,23 @@
                             {
                               "id": 147,
                               "name": "__type",
+                              "variant": "signature",
                               "kind": 4096,
-                              "kindString": "Call signature",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "events-overloads.ts",
+                                  "line": 23,
+                                  "character": 32,
+                                  "url": "typedoc://events-overloads.ts#L23"
+                                }
+                              ],
                               "parameters": [
                                 {
                                   "id": 148,
                                   "name": "e",
+                                  "variant": "param",
                                   "kind": 32768,
-                                  "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
                                     "type": "intrinsic",
@@ -3475,8 +3761,8 @@
                 {
                   "id": 149,
                   "name": "on",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3486,12 +3772,20 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "events-overloads.ts",
+                      "line": 32,
+                      "character": 4,
+                      "url": "typedoc://events-overloads.ts#L32"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 150,
                       "name": "event",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3509,8 +3803,8 @@
                     {
                       "id": 151,
                       "name": "handler",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3525,8 +3819,8 @@
                         "declaration": {
                           "id": 152,
                           "name": "__type",
+                          "variant": "declaration",
                           "kind": 65536,
-                          "kindString": "Type literal",
                           "flags": {},
                           "sources": [
                             {
@@ -3540,15 +3834,23 @@
                             {
                               "id": 153,
                               "name": "__type",
+                              "variant": "signature",
                               "kind": 4096,
-                              "kindString": "Call signature",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "events-overloads.ts",
+                                  "line": 32,
+                                  "character": 35,
+                                  "url": "typedoc://events-overloads.ts#L32"
+                                }
+                              ],
                               "parameters": [
                                 {
                                   "id": 154,
                                   "name": "e",
+                                  "variant": "param",
                                   "kind": 32768,
-                                  "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
                                     "type": "intrinsic",
@@ -3574,8 +3876,8 @@
                 {
                   "id": 155,
                   "name": "on",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3585,12 +3887,20 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "events-overloads.ts",
+                      "line": 41,
+                      "character": 4,
+                      "url": "typedoc://events-overloads.ts#L41"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 156,
                       "name": "event",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3608,8 +3918,8 @@
                     {
                       "id": 157,
                       "name": "handler",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3624,8 +3934,8 @@
                         "declaration": {
                           "id": 158,
                           "name": "__type",
+                          "variant": "declaration",
                           "kind": 65536,
-                          "kindString": "Type literal",
                           "flags": {},
                           "sources": [
                             {
@@ -3639,15 +3949,23 @@
                             {
                               "id": 159,
                               "name": "__type",
+                              "variant": "signature",
                               "kind": 4096,
-                              "kindString": "Call signature",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "events-overloads.ts",
+                                  "line": 41,
+                                  "character": 35,
+                                  "url": "typedoc://events-overloads.ts#L41"
+                                }
+                              ],
                               "parameters": [
                                 {
                                   "id": 160,
                                   "name": "e",
+                                  "variant": "param",
                                   "kind": 32768,
-                                  "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
                                     "type": "intrinsic",
@@ -3711,15 +4029,15 @@
     {
       "id": 166,
       "name": "generic-class",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 167,
           "name": "GenericClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -3733,8 +4051,8 @@
             {
               "id": 168,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -3748,8 +4066,8 @@
                 {
                   "id": 169,
                   "name": "new GenericClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3759,12 +4077,20 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "generic-class.ts",
+                      "line": 20,
+                      "character": 4,
+                      "url": "typedoc://generic-class.ts#L20"
+                    }
+                  ],
                   "typeParameter": [
                     {
                       "id": 170,
                       "name": "T",
+                      "variant": "typeParam",
                       "kind": 131072,
-                      "kindString": "Type parameter",
                       "flags": {}
                     }
                   ],
@@ -3772,8 +4098,8 @@
                     {
                       "id": 171,
                       "name": "value",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -3785,22 +4111,23 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 170,
+                        "target": -1,
                         "name": "T"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 167,
+                    "target": 167,
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 170,
+                        "target": -1,
                         "name": "T"
                       }
                     ],
-                    "name": "GenericClass"
+                    "name": "GenericClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -3808,8 +4135,8 @@
             {
               "id": 172,
               "name": "value",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -3831,15 +4158,15 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 170,
+                "target": -1,
                 "name": "T"
               }
             },
             {
               "id": 173,
               "name": "values",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -3863,7 +4190,7 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "id": 170,
+                  "target": -1,
                   "name": "T"
                 }
               }
@@ -3871,8 +4198,8 @@
             {
               "id": 174,
               "name": "getValue",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -3886,8 +4213,8 @@
                 {
                   "id": 175,
                   "name": "getValue",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -3908,9 +4235,17 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "generic-class.ts",
+                      "line": 28,
+                      "character": 4,
+                      "url": "typedoc://generic-class.ts#L28"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
-                    "id": 170,
+                    "target": -1,
                     "name": "T"
                   }
                 }
@@ -3950,8 +4285,8 @@
             {
               "id": 176,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "comment": {
                 "summary": [
@@ -3966,7 +4301,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 177,
+              "target": 177,
               "name": "NonGenericClass"
             }
           ]
@@ -3974,8 +4309,8 @@
         {
           "id": 177,
           "name": "NonGenericClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -3989,8 +4324,8 @@
             {
               "id": 178,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "sources": [
                 {
@@ -4004,8 +4339,8 @@
                 {
                   "id": 179,
                   "name": "new NonGenericClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -4015,12 +4350,20 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "generic-class.ts",
+                      "line": 20,
+                      "character": 4,
+                      "url": "typedoc://generic-class.ts#L20"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 180,
                       "name": "value",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "summary": [
@@ -4038,27 +4381,28 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 177,
-                    "name": "NonGenericClass"
+                    "target": 177,
+                    "name": "NonGenericClass",
+                    "package": "typedoc"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 169,
+                    "target": 169,
                     "name": "GenericClass.constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 168,
+                "target": 168,
                 "name": "GenericClass.constructor"
               }
             },
             {
               "id": 181,
               "name": "value",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -4084,15 +4428,15 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 172,
+                "target": 172,
                 "name": "GenericClass.value"
               }
             },
             {
               "id": 182,
               "name": "values",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -4121,15 +4465,15 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 173,
+                "target": 173,
                 "name": "GenericClass.values"
               }
             },
             {
               "id": 183,
               "name": "getValue",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -4143,8 +4487,8 @@
                 {
                   "id": 184,
                   "name": "getValue",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -4165,20 +4509,28 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "generic-class.ts",
+                      "line": 28,
+                      "character": 4,
+                      "url": "typedoc://generic-class.ts#L28"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 175,
+                    "target": 175,
                     "name": "GenericClass.getValue"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 174,
+                "target": 174,
                 "name": "GenericClass.getValue"
               }
             }
@@ -4215,14 +4567,15 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 167,
+              "target": 167,
               "typeArguments": [
                 {
                   "type": "intrinsic",
                   "name": "string"
                 }
               ],
-              "name": "GenericClass"
+              "name": "GenericClass",
+              "package": "typedoc"
             }
           ]
         }
@@ -4248,34 +4601,35 @@
     {
       "id": 185,
       "name": "getter-setter",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 186,
           "name": "GetterSetter",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 187,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 188,
                   "name": "new GetterSetter",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 186,
-                    "name": "GetterSetter"
+                    "target": 186,
+                    "name": "GetterSetter",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -4283,8 +4637,8 @@
             {
               "id": 189,
               "name": "_name",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
@@ -4304,8 +4658,8 @@
             {
               "id": 199,
               "name": "autoAccessor",
+              "variant": "declaration",
               "kind": 262144,
-              "kindString": "Accessor",
               "flags": {},
               "comment": {
                 "summary": [
@@ -4327,8 +4681,8 @@
             {
               "id": 190,
               "name": "name",
+              "variant": "declaration",
               "kind": 262144,
-              "kindString": "Accessor",
               "flags": {},
               "sources": [
                 {
@@ -4347,9 +4701,17 @@
               "getSignature": {
                 "id": 191,
                 "name": "name",
+                "variant": "signature",
                 "kind": 524288,
-                "kindString": "Get signature",
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 4,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L4"
+                  }
+                ],
                 "type": {
                   "type": "intrinsic",
                   "name": "string"
@@ -4358,15 +4720,23 @@
               "setSignature": {
                 "id": 192,
                 "name": "name",
+                "variant": "signature",
                 "kind": 1048576,
-                "kindString": "Set signature",
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 7,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L7"
+                  }
+                ],
                 "parameters": [
                   {
                     "id": 193,
                     "name": "value",
+                    "variant": "param",
                     "kind": 32768,
-                    "kindString": "Parameter",
                     "flags": {},
                     "type": {
                       "type": "intrinsic",
@@ -4383,8 +4753,8 @@
             {
               "id": 194,
               "name": "readOnlyName",
+              "variant": "declaration",
               "kind": 262144,
-              "kindString": "Accessor",
               "flags": {},
               "sources": [
                 {
@@ -4397,9 +4767,17 @@
               "getSignature": {
                 "id": 195,
                 "name": "readOnlyName",
+                "variant": "signature",
                 "kind": 524288,
-                "kindString": "Get signature",
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 11,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L11"
+                  }
+                ],
                 "type": {
                   "type": "intrinsic",
                   "name": "string"
@@ -4409,8 +4787,8 @@
             {
               "id": 196,
               "name": "writeOnlyName",
+              "variant": "declaration",
               "kind": 262144,
-              "kindString": "Accessor",
               "flags": {},
               "sources": [
                 {
@@ -4423,15 +4801,23 @@
               "setSignature": {
                 "id": 197,
                 "name": "writeOnlyName",
+                "variant": "signature",
                 "kind": 1048576,
-                "kindString": "Set signature",
                 "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 15,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L15"
+                  }
+                ],
                 "parameters": [
                   {
                     "id": 198,
                     "name": "value",
+                    "variant": "param",
                     "kind": 32768,
-                    "kindString": "Parameter",
                     "flags": {},
                     "type": {
                       "type": "intrinsic",
@@ -4499,15 +4885,15 @@
     {
       "id": 200,
       "name": "this",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 201,
           "name": "ChainClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -4521,20 +4907,21 @@
             {
               "id": 202,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 203,
                   "name": "new ChainClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 201,
-                    "name": "ChainClass"
+                    "target": 201,
+                    "name": "ChainClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -4542,8 +4929,8 @@
             {
               "id": 204,
               "name": "chain",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isPublic": true
               },
@@ -4559,8 +4946,8 @@
                 {
                   "id": 205,
                   "name": "chain",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -4570,10 +4957,19 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "this.ts",
+                      "line": 10,
+                      "character": 4,
+                      "url": "typedoc://this.ts#L10"
+                    }
+                  ],
                   "type": {
                     "type": "reference",
-                    "id": 201,
-                    "name": "ChainClass"
+                    "target": 201,
+                    "name": "ChainClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -4623,59 +5019,61 @@
     {
       "id": 206,
       "name": "type-operator",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 212,
           "name": "GenericClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 213,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 214,
                   "name": "new GenericClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "typeParameter": [
                     {
                       "id": 215,
                       "name": "T",
+                      "variant": "typeParam",
                       "kind": 131072,
-                      "kindString": "Type parameter",
                       "flags": {},
                       "type": {
                         "type": "typeOperator",
                         "operator": "keyof",
                         "target": {
                           "type": "reference",
-                          "id": 207,
-                          "name": "TestClass"
+                          "target": 207,
+                          "name": "TestClass",
+                          "package": "typedoc"
                         }
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 212,
+                    "target": 212,
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 215,
+                        "target": -1,
                         "name": "T"
                       }
                     ],
-                    "name": "GenericClass"
+                    "name": "GenericClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -4683,8 +5081,8 @@
             {
               "id": 216,
               "name": "c",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -4696,7 +5094,7 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 215,
+                "target": -1,
                 "name": "T"
               }
             }
@@ -4727,16 +5125,17 @@
             {
               "id": 217,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {},
               "type": {
                 "type": "typeOperator",
                 "operator": "keyof",
                 "target": {
                   "type": "reference",
-                  "id": 207,
-                  "name": "TestClass"
+                  "target": 207,
+                  "name": "TestClass",
+                  "package": "typedoc"
                 }
               }
             }
@@ -4745,8 +5144,8 @@
         {
           "id": 207,
           "name": "TestClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -4777,20 +5176,21 @@
             {
               "id": 208,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 209,
                   "name": "new TestClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 207,
-                    "name": "TestClass"
+                    "target": 207,
+                    "name": "TestClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -4798,8 +5198,8 @@
             {
               "id": 210,
               "name": "a",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -4817,8 +5217,8 @@
             {
               "id": 211,
               "name": "b",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -4894,5 +5294,780 @@
         206
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakePrivateFunction"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakePrivateFunction"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakeProtectedFunction"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakeProtectedFunction"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakePrivateVariable"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "fakeProtectedVariable"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.privateStaticGetter"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.privateStaticGetter"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakePrivateProperty"
+    },
+    "14": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakeProtectedProperty"
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakePrivateMethod"
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakePrivateMethod"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakeProtectedMethod"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.fakeProtectedMethod"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.privateArrow"
+    },
+    "20": {
+      "sourceFileName": "src/test/converter/class/access.ts",
+      "qualifiedName": "PrivateClass.privateArrow"
+    },
+    "21": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": ""
+    },
+    "22": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticProperty"
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticMethod"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticMethod"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.__constructor"
+    },
+    "27": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.publicProperty"
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.privateProperty"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.publicMethod"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.publicMethod"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.protectedMethod"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.protectedMethod"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.privateMethod"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.privateMethod"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.arrowMethod"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.arrowMethod"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticProperty"
+    },
+    "40": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticMethod"
+    },
+    "41": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.staticMethod"
+    },
+    "42": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.__constructor"
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass"
+    },
+    "44": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "p1"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "p2"
+    },
+    "46": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "p3"
+    },
+    "47": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "p4"
+    },
+    "48": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.publicMethod"
+    },
+    "49": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.publicMethod"
+    },
+    "50": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.protectedMethod"
+    },
+    "51": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.protectedMethod"
+    },
+    "52": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.p2"
+    },
+    "53": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.p3"
+    },
+    "54": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.p4"
+    },
+    "55": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.mergedMethod"
+    },
+    "56": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.mergedMethod"
+    },
+    "57": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.publicProperty"
+    },
+    "58": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.arrowMethod"
+    },
+    "59": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestClass.arrowMethod"
+    },
+    "60": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass"
+    },
+    "61": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.staticMergedMethod"
+    },
+    "62": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestSubClass.staticMergedMethod"
+    },
+    "63": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClass"
+    },
+    "66": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClass.myAbstractProperty"
+    },
+    "67": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClass.myAbstractMethod"
+    },
+    "68": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClass.myAbstractMethod"
+    },
+    "69": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClassImplementation"
+    },
+    "72": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClassImplementation.myAbstractProperty"
+    },
+    "73": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClassImplementation.myAbstractMethod"
+    },
+    "74": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "TestAbstractClassImplementation.myAbstractMethod"
+    },
+    "75": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames"
+    },
+    "78": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames.literal2"
+    },
+    "79": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames.y"
+    },
+    "80": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames.[toStringTag]"
+    },
+    "81": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "ComputedNames.literal"
+    },
+    "82": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Ts38PrivateFields"
+    },
+    "85": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Ts38PrivateFields.#foo"
+    },
+    "86": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Abstract"
+    },
+    "89": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Abstract.needsImpl"
+    },
+    "90": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "Abstract.needsImpl"
+    },
+    "91": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "AbstractMe"
+    },
+    "92": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "__type"
+    },
+    "93": {
+      "sourceFileName": "src/test/converter/class/class.ts",
+      "qualifiedName": "__type"
+    },
+    "94": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": ""
+    },
+    "95": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2"
+    },
+    "96": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.__constructor"
+    },
+    "97": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2"
+    },
+    "98": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "x"
+    },
+    "99": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "y"
+    },
+    "100": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "name"
+    },
+    "101": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.x"
+    },
+    "102": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.y"
+    },
+    "103": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.name"
+    },
+    "104": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3"
+    },
+    "105": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3.__constructor"
+    },
+    "106": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3"
+    },
+    "107": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "x"
+    },
+    "108": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "y"
+    },
+    "109": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "z"
+    },
+    "110": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "name"
+    },
+    "111": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3.y"
+    },
+    "112": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3.z"
+    },
+    "113": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector3.name"
+    },
+    "114": {
+      "sourceFileName": "src/test/converter/class/constructor-properties.ts",
+      "qualifiedName": "Vector2.x"
+    },
+    "115": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": ""
+    },
+    "116": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorAtom"
+    },
+    "117": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorAtom"
+    },
+    "118": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "target"
+    },
+    "119": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "propertyKey"
+    },
+    "120": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "descriptor"
+    },
+    "121": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorWithParam"
+    },
+    "122": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorWithParam"
+    },
+    "123": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "value"
+    },
+    "124": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorWithOptions"
+    },
+    "125": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "decoratorWithOptions"
+    },
+    "126": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "options"
+    },
+    "127": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "__type"
+    },
+    "128": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "__type.name"
+    },
+    "129": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "DecoratedClass"
+    },
+    "132": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "DecoratedClass.decoratedMethod"
+    },
+    "133": {
+      "sourceFileName": "src/test/converter/class/decorators.ts",
+      "qualifiedName": "DecoratedClass.decoratedMethod"
+    },
+    "134": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": ""
+    },
+    "135": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test"
+    },
+    "136": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "137": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "138": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "event"
+    },
+    "139": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "handler"
+    },
+    "140": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "141": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "142": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "e"
+    },
+    "143": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "144": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "event"
+    },
+    "145": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "handler"
+    },
+    "146": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "147": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "148": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "e"
+    },
+    "149": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "150": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "event"
+    },
+    "151": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "handler"
+    },
+    "152": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "153": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "154": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "e"
+    },
+    "155": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "Test.on"
+    },
+    "156": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "event"
+    },
+    "157": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "handler"
+    },
+    "158": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "159": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "__type"
+    },
+    "160": {
+      "sourceFileName": "src/test/converter/class/events-overloads.ts",
+      "qualifiedName": "e"
+    },
+    "161": {
+      "sourceFileName": "src/test/converter/class/events.ts",
+      "qualifiedName": ""
+    },
+    "162": {
+      "sourceFileName": "src/test/converter/class/events.ts",
+      "qualifiedName": "EventDispatcher"
+    },
+    "163": {
+      "sourceFileName": "src/test/converter/class/events.ts",
+      "qualifiedName": "EventDispatcher.EVENT_CLICK"
+    },
+    "166": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": ""
+    },
+    "167": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass"
+    },
+    "168": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.__constructor"
+    },
+    "169": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass"
+    },
+    "170": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.T"
+    },
+    "171": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "value"
+    },
+    "172": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.value"
+    },
+    "173": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.values"
+    },
+    "174": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.getValue"
+    },
+    "175": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.getValue"
+    },
+    "176": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.T"
+    },
+    "177": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "NonGenericClass"
+    },
+    "178": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.__constructor"
+    },
+    "179": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "NonGenericClass"
+    },
+    "180": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "value"
+    },
+    "181": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.value"
+    },
+    "182": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.values"
+    },
+    "183": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.getValue"
+    },
+    "184": {
+      "sourceFileName": "src/test/converter/class/generic-class.ts",
+      "qualifiedName": "GenericClass.getValue"
+    },
+    "185": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": ""
+    },
+    "186": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter"
+    },
+    "189": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter._name"
+    },
+    "190": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.name"
+    },
+    "191": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.name"
+    },
+    "192": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.name"
+    },
+    "193": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "value"
+    },
+    "194": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.readOnlyName"
+    },
+    "195": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.readOnlyName"
+    },
+    "196": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.writeOnlyName"
+    },
+    "197": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.writeOnlyName"
+    },
+    "198": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "value"
+    },
+    "199": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "GetterSetter.autoAccessor"
+    },
+    "200": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": ""
+    },
+    "201": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": "ChainClass"
+    },
+    "204": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": "ChainClass.chain"
+    },
+    "205": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": "ChainClass.chain"
+    },
+    "206": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": ""
+    },
+    "207": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "TestClass"
+    },
+    "210": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "TestClass.a"
+    },
+    "211": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "TestClass.b"
+    },
+    "212": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass"
+    },
+    "215": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass.T"
+    },
+    "216": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass.c"
+    },
+    "217": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass.T"
+    }
+  }
 }

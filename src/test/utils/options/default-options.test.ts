@@ -4,7 +4,6 @@ import { Logger, Options } from "../../../lib/utils";
 
 describe("Default Options", () => {
     const opts = new Options(new Logger());
-    opts.addDefaultDeclarations();
 
     describe("Highlighting theme", () => {
         it("Errors if an invalid theme is provided", () => {

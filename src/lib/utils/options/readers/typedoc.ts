@@ -1,13 +1,13 @@
 import { join, dirname, resolve } from "path";
 import * as FS from "fs";
-import * as ts from "typescript";
+import ts from "typescript";
 
 import type { OptionsReader } from "..";
 import type { Logger } from "../../loggers";
 import type { Options } from "../options";
 import { ok } from "assert";
 import { nicePath } from "../../paths";
-import { normalizePath } from "../../fs";
+import { isFile, normalizePath } from "../../fs";
 import { createRequire } from "module";
 
 /**
@@ -18,17 +18,17 @@ export class TypeDocReader implements OptionsReader {
     /**
      * Should run before the tsconfig reader so that it can specify a tsconfig file to read.
      */
-    priority = 100;
+    order = 100;
 
     name = "typedoc-json";
 
+    supportsPackages = true;
+
     /**
      * Read user configuration from a typedoc.json or typedoc.js configuration file.
-     * @param container
-     * @param logger
      */
-    read(container: Options, logger: Logger): void {
-        const path = container.getValue("options");
+    read(container: Options, logger: Logger, cwd: string): void {
+        const path = container.getValue("options") || cwd;
         const file = this.findTypedocFile(path);
 
         if (!file) {
@@ -133,7 +133,7 @@ export class TypeDocReader implements OptionsReader {
     }
 
     /**
-     * Search for the typedoc.js or typedoc.json file from the given path
+     * Search for the configuration file given path
      *
      * @param  path Path to the typedoc.(js|json) file. If path is a directory
      *   typedoc file will be attempted to be found at the root of this path
@@ -146,10 +146,18 @@ export class TypeDocReader implements OptionsReader {
         return [
             path,
             join(path, "typedoc.json"),
+            join(path, "typedoc.jsonc"),
+            join(path, "typedoc.config.js"),
+            join(path, "typedoc.config.cjs"),
             join(path, "typedoc.js"),
-            join(path, ".config/typedoc.js"),
+            join(path, "typedoc.cjs"),
             join(path, ".config/typedoc.json"),
-        ].find((path) => FS.existsSync(path) && FS.statSync(path).isFile());
+            join(path, ".config/typedoc.jsonc"),
+            join(path, ".config/typedoc.config.js"),
+            join(path, ".config/typedoc.config.cjs"),
+            join(path, ".config/typedoc.js"),
+            join(path, ".config/typedoc.cjs"),
+        ].find(isFile);
     }
 }
 

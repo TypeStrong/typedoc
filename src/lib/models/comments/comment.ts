@@ -1,7 +1,7 @@
 import { assertNever, removeIf } from "../../utils";
 import type { Reflection } from "../reflections";
 
-import type { Serializer, JSONOutput } from "../../serialization";
+import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
 
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
@@ -17,25 +17,6 @@ export interface InlineTagDisplayPart {
     tag: `@${string}`;
     text: string;
     target?: Reflection | string;
-}
-
-function serializeDisplayPart(
-    part: CommentDisplayPart
-): JSONOutput.CommentDisplayPart {
-    switch (part.kind) {
-        case "text":
-        case "code":
-            return part;
-        case "inline-tag": {
-            return {
-                ...part,
-                target:
-                    typeof part.target === "object"
-                        ? part.target.id
-                        : part.target,
-            };
-        }
-    }
 }
 
 /**
@@ -83,8 +64,14 @@ export class CommentTag {
         return {
             tag: this.tag,
             name: this.name,
-            content: this.content.map(serializeDisplayPart),
+            content: Comment.serializeDisplayParts(this.content),
         };
+    }
+
+    fromObject(de: Deserializer, obj: JSONOutput.CommentTag) {
+        // tag already set by Comment.fromObject
+        this.name = obj.name;
+        this.content = Comment.deserializeDisplayParts(de, obj.content);
     }
 }
 
@@ -122,10 +109,145 @@ export class Comment {
     }
 
     /**
+     * Helper function to convert an array of comment display parts into markdown suitable for
+     * passing into Marked. `urlTo` will be used to resolve urls to any reflections linked to with
+     * `@link` tags.
+     */
+    static displayPartsToMarkdown(
+        parts: readonly CommentDisplayPart[],
+        urlTo: (ref: Reflection) => string
+    ) {
+        const result: string[] = [];
+
+        for (const part of parts) {
+            switch (part.kind) {
+                case "text":
+                case "code":
+                    result.push(part.text);
+                    break;
+                case "inline-tag":
+                    switch (part.tag) {
+                        case "@label":
+                        case "@inheritdoc": // Shouldn't happen
+                            break; // Not rendered.
+                        case "@link":
+                        case "@linkcode":
+                        case "@linkplain": {
+                            if (part.target) {
+                                const url =
+                                    typeof part.target === "string"
+                                        ? part.target
+                                        : urlTo(part.target);
+                                const text =
+                                    part.tag === "@linkcode"
+                                        ? `<code>${part.text}</code>`
+                                        : part.text;
+                                result.push(
+                                    url
+                                        ? `<a href="${url}">${text}</a>`
+                                        : part.text
+                                );
+                            } else {
+                                result.push(part.text);
+                            }
+                            break;
+                        }
+                        default:
+                            // Hmm... probably want to be able to render these somehow, so custom inline tags can be given
+                            // special rendering rules. Future capability. For now, just render their text.
+                            result.push(`{${part.tag} ${part.text}}`);
+                            break;
+                    }
+                    break;
+                default:
+                    assertNever(part);
+            }
+        }
+
+        return result.join("");
+    }
+
+    /**
      * Helper utility to clone {@link Comment.summary} or {@link CommentTag.content}
      */
     static cloneDisplayParts(parts: CommentDisplayPart[]) {
         return parts.map((p) => ({ ...p }));
+    }
+
+    //Since display parts are plain objects, this lives here
+    static serializeDisplayParts(
+        parts: CommentDisplayPart[]
+    ): JSONOutput.CommentDisplayPart[];
+    /** @hidden no point in showing this signature in api docs */
+    static serializeDisplayParts(
+        parts: CommentDisplayPart[] | undefined
+    ): JSONOutput.CommentDisplayPart[] | undefined;
+    static serializeDisplayParts(
+        parts: CommentDisplayPart[] | undefined
+    ): JSONOutput.CommentDisplayPart[] | undefined {
+        return parts?.map((part) => {
+            switch (part.kind) {
+                case "text":
+                case "code":
+                    return { ...part };
+                case "inline-tag": {
+                    return {
+                        ...part,
+                        target:
+                            typeof part.target === "object"
+                                ? part.target.id
+                                : part.target,
+                    };
+                }
+            }
+        });
+    }
+
+    //Since display parts are plain objects, this lives here
+    static deserializeDisplayParts(
+        de: Deserializer,
+        parts: JSONOutput.CommentDisplayPart[]
+    ): CommentDisplayPart[] {
+        const links: [number, InlineTagDisplayPart][] = [];
+
+        const result = parts.map((part): CommentDisplayPart => {
+            switch (part.kind) {
+                case "text":
+                case "code":
+                    return { ...part };
+                case "inline-tag": {
+                    if (typeof part.target !== "number") {
+                        // TS isn't quite smart enough here...
+                        return { ...part } as CommentDisplayPart;
+                    } else {
+                        const part2 = {
+                            kind: part.kind,
+                            tag: part.tag,
+                            text: part.text,
+                        };
+                        links.push([part.target, part2]);
+                        return part2;
+                    }
+                }
+            }
+        });
+
+        if (links.length) {
+            de.defer((project) => {
+                for (const [oldId, part] of links) {
+                    part.target = project.getReflectionById(
+                        de.oldIdToNewId[oldId] ?? -1
+                    );
+                    if (!part.target) {
+                        de.logger.warn(
+                            `Serialized project contained a link to ${oldId} (${part.text}), which was not a part of the project.`
+                        );
+                    }
+                }
+            });
+        }
+
+        return result;
     }
 
     /**
@@ -144,6 +266,12 @@ export class Comment {
     modifierTags: Set<string> = new Set<string>();
 
     /**
+     * Label associated with this reflection, if any (https://tsdoc.org/pages/tags/label/)
+     * Added by the CommentPlugin during resolution.
+     */
+    label?: string;
+
+    /**
      * Creates a new Comment instance.
      */
     constructor(
@@ -154,6 +282,7 @@ export class Comment {
         this.summary = summary;
         this.blockTags = blockTags;
         this.modifierTags = modifierTags;
+        extractLabelTag(this);
     }
 
     /**
@@ -235,12 +364,35 @@ export class Comment {
 
     toObject(serializer: Serializer): JSONOutput.Comment {
         return {
-            summary: this.summary.map(serializeDisplayPart),
+            summary: Comment.serializeDisplayParts(this.summary),
             blockTags: serializer.toObjectsOptional(this.blockTags),
             modifierTags:
                 this.modifierTags.size > 0
                     ? Array.from(this.modifierTags)
                     : undefined,
+            label: this.label,
         };
+    }
+
+    fromObject(de: Deserializer, obj: JSONOutput.Comment) {
+        this.summary = Comment.deserializeDisplayParts(de, obj.summary);
+        this.blockTags =
+            obj.blockTags?.map((tagObj) => {
+                const tag = new CommentTag(tagObj.tag, []);
+                de.fromObject(tag, tagObj);
+                return tag;
+            }) || [];
+        this.modifierTags = new Set(obj.modifierTags);
+        this.label = obj.label;
+    }
+}
+
+function extractLabelTag(comment: Comment) {
+    const index = comment.summary.findIndex(
+        (part) => part.kind === "inline-tag" && part.tag === "@label"
+    );
+
+    if (index !== -1) {
+        comment.label = comment.summary.splice(index, 1)[0].text;
     }
 }

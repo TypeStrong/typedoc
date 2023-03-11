@@ -1,10 +1,14 @@
-import type * as ts from "typescript";
+import * as fs from "fs";
+import * as path from "path";
+
+import * as ts from "typescript";
 import type { Context } from "../converter";
-import { Reflection } from "./reflections/abstract";
+import type { Reflection } from "./reflections/abstract";
 import type { DeclarationReflection } from "./reflections/declaration";
 import type { ProjectReflection } from "./reflections/project";
-import type { Serializer, JSONOutput } from "../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 import { getQualifiedName } from "../utils/tsutils";
+import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId";
 import type { DeclarationReference } from "../converter/comments/declarationReference";
 
 /**
@@ -41,6 +45,9 @@ export abstract class Type {
 
     abstract toObject(serializer: Serializer): JSONOutput.SomeType;
 
+    // Nothing to do for the majority of types.
+    fromObject(_de: Deserializer, _obj: JSONOutput.SomeType) {}
+
     abstract needsParenthesis(context: TypeContext): boolean;
 
     /**
@@ -65,9 +72,9 @@ export interface TypeKindMap {
     reference: ReferenceType;
     reflection: ReflectionType;
     rest: RestType;
-    "template-literal": TemplateLiteralType;
+    templateLiteral: TemplateLiteralType;
     tuple: TupleType;
-    "named-tuple-member": NamedTupleMember;
+    namedTupleMember: NamedTupleMember;
     typeOperator: TypeOperatorType;
     union: UnionType;
     unknown: UnknownType;
@@ -81,12 +88,12 @@ export function makeRecursiveVisitor(
     visitor: Partial<TypeVisitor>
 ): TypeVisitor {
     const recursiveVisitor: TypeVisitor = {
-        "named-tuple-member"(type) {
-            visitor["named-tuple-member"]?.(type);
+        namedTupleMember(type) {
+            visitor.namedTupleMember?.(type);
             type.element.visit(recursiveVisitor);
         },
-        "template-literal"(type) {
-            visitor["template-literal"]?.(type);
+        templateLiteral(type) {
+            visitor.templateLiteral?.(type);
             for (const [h] of type.tail) {
                 h.visit(recursiveVisitor);
             }
@@ -205,7 +212,7 @@ export const TypeContext = {
     tupleElement: "tupleElement", // [here]
     unionElement: "unionElement", // here | 1
 } as const;
-export type TypeContext = typeof TypeContext[keyof typeof TypeContext];
+export type TypeContext = (typeof TypeContext)[keyof typeof TypeContext];
 
 /**
  * Represents an array type.
@@ -625,11 +632,8 @@ export class MappedType extends Type {
 export class OptionalType extends Type {
     override readonly type = "optional";
 
-    elementType: SomeType;
-
-    constructor(elementType: SomeType) {
+    constructor(public elementType: SomeType) {
         super();
-        this.elementType = elementType;
     }
 
     protected override getTypeString() {
@@ -714,13 +718,10 @@ export class PredicateType extends Type {
  * ```
  */
 export class QueryType extends Type {
-    readonly queryType: ReferenceType;
-
     override readonly type = "query";
 
-    constructor(reference: ReferenceType) {
+    constructor(public queryType: ReferenceType) {
         super();
-        this.queryType = reference;
     }
 
     protected override getTypeString() {
@@ -760,7 +761,7 @@ export class ReferenceType extends Type {
     /**
      * The name of the referenced type.
      *
-     * If the symbol cannot be found cause it's not part of the documentation this
+     * If the symbol cannot be found because it's not part of the documentation this
      * can be used to represent the type.
      */
     name: string;
@@ -777,22 +778,26 @@ export class ReferenceType extends Type {
         if (typeof this._target === "number") {
             return this._project?.getReflectionById(this._target);
         }
-        const resolved = this._project?.getReflectionFromSymbol(this._target);
+        const resolved = this._project?.getReflectionFromSymbolId(this._target);
         if (resolved) this._target = resolved.id;
         return resolved;
     }
 
     /**
-     * Don't use this if at all possible. It will eventually go away since models may not
-     * retain information from the original TS objects to enable documentation generation from
-     * previously generated JSON.
-     * @internal
+     * If not resolved, the symbol id of the reflection, otherwise undefined.
      */
-    getSymbol(): ts.Symbol | undefined {
-        if (typeof this._target === "number") {
-            return;
+    get symbolId(): ReflectionSymbolId | undefined {
+        if (!this.reflection && typeof this._target === "object") {
+            return this._target;
         }
-        return this._target;
+    }
+
+    /**
+     * Checks if this type is a reference type because it uses a name, but is intentionally not pointing
+     * to a reflection. This happens for type parameters and when representing a mapped type.
+     */
+    isIntentionallyBroken(): boolean {
+        return this._target === -1;
     }
 
     /**
@@ -818,7 +823,6 @@ export class ReferenceType extends Type {
 
     /**
      * The package that this type is referencing.
-     * Will only be set for `ReferenceType`s pointing to a symbol within `node_modules`.
      */
     package?: string;
 
@@ -828,18 +832,22 @@ export class ReferenceType extends Type {
      */
     externalUrl?: string;
 
-    private _target: ts.Symbol | number;
-    private _project: ProjectReflection;
+    private _target: ReflectionSymbolId | number;
+    private _project: ProjectReflection | null;
 
     private constructor(
         name: string,
-        target: ts.Symbol | Reflection | number,
-        project: ProjectReflection,
+        target: ReflectionSymbolId | Reflection | number,
+        project: ProjectReflection | null,
         qualifiedName: string
     ) {
         super();
         this.name = name;
-        this._target = target instanceof Reflection ? target.id : target;
+        if (typeof target === "number") {
+            this._target = target;
+        } else {
+            this._target = "variant" in target ? target.id : target;
+        }
         this._project = project;
         this.qualifiedName = qualifiedName;
     }
@@ -847,7 +855,7 @@ export class ReferenceType extends Type {
     static createResolvedReference(
         name: string,
         target: Reflection | number,
-        project: ProjectReflection
+        project: ProjectReflection | null
     ) {
         return new ReferenceType(name, target, project, name);
     }
@@ -857,11 +865,20 @@ export class ReferenceType extends Type {
         context: Context,
         name?: string
     ) {
+        // Type parameters should never have resolved references because they
+        // cannot be linked to, and might be declared within the type with conditional types.
+        if (symbol.flags & ts.SymbolFlags.TypeParameter) {
+            return ReferenceType.createBrokenReference(
+                name ?? symbol.name,
+                context.project
+            );
+        }
+
         const ref = new ReferenceType(
             name ?? symbol.name,
-            symbol,
+            new ReflectionSymbolId(symbol),
             context.project,
-            getQualifiedName(context.checker, symbol)
+            getQualifiedName(symbol, name ?? symbol.name)
         );
 
         const symbolPath = symbol?.declarations?.[0]
@@ -869,18 +886,22 @@ export class ReferenceType extends Type {
             .fileName.replace(/\\/g, "/");
         if (!symbolPath) return ref;
 
+        // Attempt to decide package name from path if it contains "node_modules"
         let startIndex = symbolPath.lastIndexOf("node_modules/");
-        if (startIndex === -1) return ref;
-        startIndex += "node_modules/".length;
-        let stopIndex = symbolPath.indexOf("/", startIndex);
-        // Scoped package, e.g. `@types/node`
-        if (symbolPath[startIndex] === "@") {
-            stopIndex = symbolPath.indexOf("/", stopIndex + 1);
+        if (startIndex !== -1) {
+            startIndex += "node_modules/".length;
+            let stopIndex = symbolPath.indexOf("/", startIndex);
+            // Scoped package, e.g. `@types/node`
+            if (symbolPath[startIndex] === "@") {
+                stopIndex = symbolPath.indexOf("/", stopIndex + 1);
+            }
+            const packageName = symbolPath.substring(startIndex, stopIndex);
+            ref.package = packageName;
+            return ref;
         }
 
-        const packageName = symbolPath.substring(startIndex, stopIndex);
-        ref.package = packageName;
-
+        // Otherwise, look for a "package.json" file in a parent path
+        ref.package = findPackageForPath(symbolPath);
         return ref;
     }
 
@@ -911,18 +932,50 @@ export class ReferenceType extends Type {
     override toObject(serializer: Serializer): JSONOutput.ReferenceType {
         const result: JSONOutput.ReferenceType = {
             type: this.type,
-            id: this.reflection?.id,
+            target:
+                typeof this._target === "number"
+                    ? this._target
+                    : this._target.toObject(serializer),
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
+            package: this.package,
             externalUrl: this.externalUrl,
         };
 
-        if (this.package) {
+        if (this.name !== this.qualifiedName) {
             result.qualifiedName = this.qualifiedName;
-            result.package = this.package;
         }
 
         return result;
+    }
+
+    override fromObject(de: Deserializer, obj: JSONOutput.ReferenceType): void {
+        this.typeArguments = de.reviveMany(obj.typeArguments, (t) =>
+            de.constructType(t)
+        );
+        if (typeof obj.target === "number" && obj.target !== -1) {
+            de.defer((project) => {
+                const target = project.getReflectionById(
+                    de.oldIdToNewId[obj.target as number] ?? -1
+                );
+                if (target) {
+                    this._project = project;
+                    this._target = target.id;
+                } else {
+                    de.logger.warn(
+                        `Serialized project contained a reference to ${obj.target} (${this.qualifiedName}), which was not a part of the project.`
+                    );
+                }
+            });
+        } else if (obj.target === -1) {
+            this._target = -1;
+        } else {
+            this._project = de.project!;
+            this._target = new ReflectionSymbolId(obj.target);
+        }
+
+        this.qualifiedName = obj.qualifiedName ?? obj.name;
+        this.package = obj.package;
     }
 }
 
@@ -939,11 +992,8 @@ export class ReferenceType extends Type {
 export class ReflectionType extends Type {
     override readonly type = "reflection";
 
-    declaration: DeclarationReflection;
-
-    constructor(declaration: DeclarationReflection) {
+    constructor(public declaration: DeclarationReflection) {
         super();
-        this.declaration = declaration;
     }
 
     // This really ought to do better, but I'm putting off investing effort here until
@@ -1006,7 +1056,7 @@ export class RestType extends Type {
  * ```
  */
 export class TemplateLiteralType extends Type {
-    override readonly type = "template-literal";
+    override readonly type = "templateLiteral";
 
     constructor(public head: string, public tail: [SomeType, string][]) {
         super();
@@ -1091,7 +1141,7 @@ export class TupleType extends Type {
  * ```
  */
 export class NamedTupleMember extends Type {
-    override readonly type = "named-tuple-member";
+    override readonly type = "namedTupleMember";
 
     constructor(
         public name: string,
@@ -1308,5 +1358,34 @@ export class UnknownType extends Type {
             type: this.type,
             name: this.name,
         };
+    }
+}
+
+const packageJsonLookupCache: Record<string, string> = {};
+
+function findPackageForPath(sourcePath: string): string | undefined {
+    if (packageJsonLookupCache[sourcePath] !== undefined) {
+        return packageJsonLookupCache[sourcePath];
+    }
+    let basePath = sourcePath;
+    for (;;) {
+        const nextPath = path.dirname(basePath);
+        if (nextPath === basePath) {
+            return;
+        }
+        basePath = nextPath;
+        const projectPath = path.join(basePath, "package.json");
+        try {
+            const packageJsonData = fs.readFileSync(projectPath, {
+                encoding: "utf8",
+            });
+            const packageJson = JSON.parse(packageJsonData);
+            if (packageJson.name !== undefined) {
+                packageJsonLookupCache[sourcePath] = packageJson.name;
+            }
+            return packageJson.name;
+        } catch (err) {
+            continue;
+        }
     }
 }

@@ -4,16 +4,81 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "type": "shell",
-            "command": "npm run build",
-            "problemMatcher": ["$tsc"]
+            "label": "build-tsc",
+            "type": "npm",
+            "script": "build:tsc",
+            "problemMatcher": ["$tsc"],
+            "detail": "Build TypeDoc w/ tsc",
+            "presentation": {
+                "group": "build",
+                "panel": "dedicated"
+            },
+            "group": {
+                "kind": "build"
+            }
         },
         {
-            "label": "build_and_test",
+            "label": "build-themes",
+            "type": "npm",
+            "script": "build:themes",
+            "problemMatcher": ["$esbuild"],
+            "detail": "Build TypeDoc themes",
+            "presentation": {
+                "group": "build",
+                "panel": "dedicated"
+            },
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "dev-build-tsc",
             "type": "shell",
-            "command": "npm run build_and_test",
-            "problemMatcher": ["$tsc"]
+            "command": "npm run build:tsc -- --watch",
+            "problemMatcher": ["$tsc-watch"],
+            "detail": "Build TypeDoc w/ tsc in watch mode",
+            "isBackground": true,
+            "presentation": {
+                "group": "dev",
+                "panel": "dedicated"
+            },
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "dev-build-themes",
+            "type": "shell",
+            "command": "npm run build:themes -- --watch",
+            "problemMatcher": ["$esbuild-watch"],
+            "detail": "Build TypeDoc themes in watch mode",
+            "isBackground": true,
+            "presentation": {
+                "group": "dev",
+                "panel": "dedicated"
+            },
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "dev",
+            "dependsOn": ["dev-build-tsc", "dev-build-themes"],
+            "detail": "Build TypeDoc in watch mode",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "build",
+            "dependsOn": ["build-tsc", "build-themes"],
+            "detail": "Build TypeDoc",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

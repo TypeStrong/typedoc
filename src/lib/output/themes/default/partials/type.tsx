@@ -63,7 +63,11 @@ function getNamespacedPath(reflection: Reflection): Reflection[] {
 }
 function renderUniquePath(context: DefaultThemeRenderContext, reflection: Reflection): JSX.Element {
     return join(<span class="tsd-signature-symbol">.</span>, getUniquePath(reflection), (item) => (
-        <a href={context.urlTo(item)} class="tsd-signature-type" data-tsd-kind={item.kindString}>
+        <a
+            href={context.urlTo(item)}
+            class="tsd-signature-type"
+            data-tsd-kind={ReflectionKind.singularString(item.kind)}
+        >
             {item.name}
         </a>
     ));
@@ -205,7 +209,7 @@ const typeRenderers: {
             </>
         );
     },
-    "named-tuple-member"(context, type) {
+    namedTupleMember(context, type) {
         return (
             <>
                 {type.name}
@@ -257,7 +261,7 @@ const typeRenderers: {
             if (reflection.kindOf(ReflectionKind.TypeParameter)) {
                 // Don't generate a link will always point to this page, but do set the kind.
                 name = (
-                    <span class="tsd-signature-type" data-tsd-kind={reflection.kindString}>
+                    <span class="tsd-signature-type" data-tsd-kind={ReflectionKind.singularString(reflection.kind)}>
                         {reflection.name}
                     </span>
                 );
@@ -426,7 +430,7 @@ const typeRenderers: {
             </>
         );
     },
-    "template-literal"(context, type) {
+    templateLiteral(context, type) {
         return (
             <>
                 <span class="tsd-signature-symbol">`</span>

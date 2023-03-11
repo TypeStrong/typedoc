@@ -9,7 +9,7 @@ import {
     SignatureReflection,
 } from "../../../models";
 import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
-import { PageEvent, RendererEvent } from "../../events";
+import type { PageEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 import { JSX } from "../../../utils";
@@ -45,7 +45,7 @@ export class DefaultTheme extends Theme {
     markedPlugin: MarkedPlugin;
 
     private _renderContext?: DefaultThemeRenderContext;
-    getRenderContext(_pageEvent: PageEvent<any>) {
+    getRenderContext() {
         if (!this._renderContext) {
             this._renderContext = new DefaultThemeRenderContext(this, this.application.options);
         }
@@ -53,13 +53,13 @@ export class DefaultTheme extends Theme {
     }
 
     reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
-        return this.getRenderContext(pageEvent).reflectionTemplate(pageEvent);
+        return this.getRenderContext().reflectionTemplate(pageEvent);
     };
     indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return this.getRenderContext(pageEvent).indexTemplate(pageEvent);
+        return this.getRenderContext().indexTemplate(pageEvent);
     };
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>) => {
-        return this.getRenderContext(pageEvent).defaultLayout(pageEvent);
+        return this.getRenderContext().defaultLayout(pageEvent);
     };
 
     /**
@@ -114,7 +114,6 @@ export class DefaultTheme extends Theme {
     constructor(renderer: Renderer) {
         super(renderer);
         this.markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
-        this.listenTo(renderer, RendererEvent.BEGIN, this.onRendererBegin, 1024);
     }
 
     /**
@@ -143,20 +142,6 @@ export class DefaultTheme extends Theme {
         });
 
         return urls;
-    }
-
-    /**
-     * Triggered before the renderer starts rendering a project.
-     *
-     * @param event  An event object describing the current render operation.
-     */
-    private onRendererBegin(event: RendererEvent) {
-        const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
-        for (const reflection of Object.values(event.project.reflections)) {
-            if (reflection instanceof DeclarationReflection) {
-                DefaultTheme.applyReflectionClasses(reflection, filters);
-            }
-        }
     }
 
     /**
@@ -248,65 +233,6 @@ export class DefaultTheme extends Theme {
             DefaultTheme.applyAnchorUrl(child, container);
             return true;
         });
-    }
-
-    /**
-     * Generate the css classes for the given reflection and apply them to the
-     * {@link DeclarationReflection.cssClasses} property.
-     *
-     * @param reflection  The reflection whose cssClasses property should be generated.
-     */
-    static applyReflectionClasses(reflection: DeclarationReflection, filters: Record<string, boolean>) {
-        const classes: string[] = [];
-
-        classes.push(DefaultTheme.toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
-
-        if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
-            classes.push(DefaultTheme.toStyleClass(`tsd-parent-kind-${ReflectionKind[reflection.parent.kind]}`));
-        }
-
-        // Filter classes should match up with the settings function in
-        // partials/navigation.tsx.
-        for (const key of Object.keys(filters)) {
-            if (key === "inherited") {
-                if (reflection.inheritedFrom) {
-                    classes.push("tsd-is-inherited");
-                }
-            } else if (key === "protected") {
-                if (reflection.flags.isProtected) {
-                    classes.push("tsd-is-protected");
-                }
-            } else if (key === "private") {
-                if (reflection.flags.isPrivate) {
-                    classes.push("tsd-is-private");
-                }
-            } else if (key === "external") {
-                if (reflection.flags.isExternal) {
-                    classes.push("tsd-is-external");
-                }
-            } else if (key.startsWith("@")) {
-                if (key === "@deprecated") {
-                    if (reflection.isDeprecated()) {
-                        classes.push(DefaultTheme.toStyleClass(`tsd-is-${key.substring(1)}`));
-                    }
-                } else if (
-                    reflection.comment?.hasModifier(key as `@${string}`) ||
-                    reflection.comment?.getTag(key as `@${string}`)
-                ) {
-                    classes.push(DefaultTheme.toStyleClass(`tsd-is-${key.substring(1)}`));
-                }
-            }
-        }
-
-        reflection.cssClasses = classes.join(" ");
-    }
-
-    /**
-     * Transform a space separated string into a string suitable to be used as a
-     * css class, e.g. "constructor method" > "constructor-method".
-     */
-    static toStyleClass(str: string) {
-        return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();
     }
 }
 

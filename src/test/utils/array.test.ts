@@ -18,22 +18,22 @@ describe("Array utils", () => {
         });
 
         it("inserts at the start", () => {
-            equal(insertPrioritySorted([item2], item1), [item1, item2]);
+            equal(insertPrioritySorted([item1], item2), [item2, item1]);
         });
 
         it("inserts in the middle", () => {
-            equal(insertPrioritySorted([item1, item3], item2), [
-                item1,
-                item2,
+            equal(insertPrioritySorted([item3, item1], item2), [
                 item3,
+                item2,
+                item1,
             ]);
         });
 
         it("inserts at the end", () => {
-            equal(insertPrioritySorted([item2, item3], item4), [
-                item2,
-                item3,
+            equal(insertPrioritySorted([item4, item3], item2), [
                 item4,
+                item3,
+                item2,
             ]);
         });
 

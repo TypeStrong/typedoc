@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 
 /**
  * Return the default value of the given node.

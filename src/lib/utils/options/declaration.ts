@@ -12,7 +12,7 @@ export const EmitStrategy = {
     none: "none", // Emit nothing, just convert and run validation
 } as const;
 /** @hidden */
-export type EmitStrategy = typeof EmitStrategy[keyof typeof EmitStrategy];
+export type EmitStrategy = (typeof EmitStrategy)[keyof typeof EmitStrategy];
 
 /**
  * Determines how TypeDoc searches for comments.
@@ -24,7 +24,7 @@ export const CommentStyle = {
     Line: "line",
     All: "all",
 } as const;
-export type CommentStyle = typeof CommentStyle[keyof typeof CommentStyle];
+export type CommentStyle = (typeof CommentStyle)[keyof typeof CommentStyle];
 
 /**
  * An interface describing all TypeDoc specific options. Generated from a
@@ -72,6 +72,17 @@ export type TypeDocOptionValues = {
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
  * External consumers should likely use {@link TypeDocOptions} instead.
+ *
+ * If writing a plugin, you may find it useful to use declaration merging to add your options to this interface
+ * so that you have autocomplete when using `app.options.getValue`.
+ *
+ * ```ts
+ * declare module "typedoc" {
+ *   export interface TypeDocOptionMap {
+ *     pluginOption: string[];
+ *   }
+ * }
+ * ```
  */
 export interface TypeDocOptionMap {
     options: string;
@@ -85,6 +96,7 @@ export interface TypeDocOptionMap {
     externalPattern: string[];
     excludeExternals: boolean;
     excludeNotDocumented: boolean;
+    excludeNotDocumentedKinds: Array<keyof typeof ReflectionKind>;
     excludeInternal: boolean;
     excludePrivate: boolean;
     excludeProtected: boolean;
@@ -133,7 +145,7 @@ export interface TypeDocOptionMap {
     defaultCategory: string;
     categoryOrder: string[];
     sort: SortStrategy[];
-    kindSortOrder: Array<keyof typeof ReflectionKind>;
+    kindSortOrder: ReflectionKind.KindString[];
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;
@@ -151,14 +163,13 @@ export interface TypeDocOptionMap {
     version: boolean;
     showConfig: boolean;
     plugin: string[];
-    logger: unknown; // string | Function
     logLevel: typeof LogLevel;
 
     // Validation
     treatWarningsAsErrors: boolean;
     intentionallyNotExported: string[];
     validation: ValidationOptions;
-    requiredToBeDocumented: (keyof typeof ReflectionKind)[];
+    requiredToBeDocumented: ReflectionKind.KindString[];
 }
 
 /**
@@ -261,6 +272,12 @@ export interface DeclarationOptionBase {
      * If not set, the type will be a string.
      */
     type?: ParameterType;
+
+    /**
+     * If set, this option will be omitted from `--help`, and attempting to specify it on the command
+     * line will produce an error.
+     */
+    configFileOnly?: boolean;
 }
 
 export interface StringDeclarationOption extends DeclarationOptionBase {

@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import { url } from "inspector";
 import { resolve } from "path";
 import { nicePath } from "./paths";
@@ -14,6 +14,7 @@ export enum LogLevel {
     Info,
     Warn,
     Error,
+    None,
 }
 
 const Colors = {
@@ -32,10 +33,10 @@ function color(text: string, color: keyof typeof Colors) {
 }
 
 const messagePrefixes = {
-    [LogLevel.Error]: color("error", "red"),
-    [LogLevel.Warn]: color("warning", "yellow"),
-    [LogLevel.Info]: color("info", "cyan"),
-    [LogLevel.Verbose]: color("debug", "gray"),
+    [LogLevel.Error]: color("[error]", "red"),
+    [LogLevel.Warn]: color("[warning]", "yellow"),
+    [LogLevel.Info]: color("[info]", "cyan"),
+    [LogLevel.Verbose]: color("[debug]", "gray"),
 };
 
 type FormatArgs = [ts.Node?] | [number, MinimalSourceFile];
@@ -102,12 +103,12 @@ export class Logger {
      * @param args  The arguments that should be printed into the given message.
      */
     verbose(text: string) {
-        this.log(text, LogLevel.Verbose);
+        this.log(this.addContext(text, LogLevel.Verbose), LogLevel.Verbose);
     }
 
     /** Log the given info message. */
     info(text: string) {
-        this.log(text, LogLevel.Info);
+        this.log(this.addContext(text, LogLevel.Info), LogLevel.Info);
     }
 
     /**
@@ -120,7 +121,7 @@ export class Logger {
     warn(text: string, pos: number, file: MinimalSourceFile): void;
     warn(text: string, ...args: FormatArgs): void {
         const text2 = this.addContext(text, LogLevel.Warn, ...args);
-        if (this.seenWarnings.has(text2)) return;
+        if (this.seenWarnings.has(text2) && !isDebugging()) return;
         this.seenWarnings.add(text2);
         this.log(text2, LogLevel.Warn);
     }
@@ -135,7 +136,7 @@ export class Logger {
     error(text: string, pos: number, file: MinimalSourceFile): void;
     error(text: string, ...args: FormatArgs) {
         const text2 = this.addContext(text, LogLevel.Error, ...args);
-        if (this.seenErrors.has(text2)) return;
+        if (this.seenErrors.has(text2) && !isDebugging()) return;
         this.seenErrors.add(text2);
         this.log(text2, LogLevel.Error);
     }
@@ -227,7 +228,7 @@ export class ConsoleLogger extends Logger {
      * @param message  The message itself.
      * @param level  The urgency of the log message.
      */
-    override log(message: string, level: LogLevel) {
+    override log(message: string, level: Exclude<LogLevel, LogLevel.None>) {
         super.log(message, level);
         if (level < this.level && !isDebugging()) {
             return;
@@ -248,7 +249,7 @@ export class ConsoleLogger extends Logger {
 
     protected override addContext(
         message: string,
-        level: LogLevel,
+        level: Exclude<LogLevel, LogLevel.None>,
         ...args: [ts.Node?] | [number, MinimalSourceFile]
     ): string {
         if (typeof args[0] === "undefined") {
@@ -285,36 +286,5 @@ export class ConsoleLogger extends Logger {
         )}    ${file.text.substring(start, end)}`;
 
         return `${prefix} ${message}\n\n${context}\n`;
-    }
-}
-
-/**
- * A logger that calls a callback function.
- */
-export class CallbackLogger extends Logger {
-    /**
-     * This loggers callback function
-     */
-    callback: Function;
-
-    /**
-     * Create a new CallbackLogger instance.
-     *
-     * @param callback  The callback that should be used to log messages.
-     */
-    constructor(callback: Function) {
-        super();
-        this.callback = callback;
-    }
-
-    /**
-     * Print a log message.
-     *
-     * @param message  The message itself.
-     * @param level  The urgency of the log message.
-     */
-    override log(message: string, level: LogLevel) {
-        super.log(message, level);
-        this.callback(message, level);
     }
 }

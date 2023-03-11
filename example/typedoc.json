@@ -1,5 +1,6 @@
 {
     "$schema": "https://typedoc.org/schema.json",
+    "name": "TypeDoc Example",
     "entryPoints": ["./src"],
     "sort": ["source-order"],
     "media": "media",

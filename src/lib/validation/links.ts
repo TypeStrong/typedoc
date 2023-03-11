@@ -29,7 +29,7 @@ export function validateLinks(
     for (const reflection of Object.values(project.reflections)) {
         for (const broken of getBrokenLinks(reflection.comment)) {
             logger.warn(
-                `Failed to resolve link to "${broken}" in comment for ${reflection.getFullName()}`
+                `Failed to resolve link to "${broken}" in comment for ${reflection.getFriendlyFullName()}.`
             );
         }
     }

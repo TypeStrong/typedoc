@@ -1,4 +1,107 @@
+# Beta
+
+### Breaking Changes
+
+-   TypeDoc will no longer automatically load plugins from `node_modules`. Specify the `--plugin` option to indicate which modules should be loaded.
+-   The `packages` entry point strategy will now run TypeDoc in each provided package directory and then merge the results together.
+    The previous `packages` strategy has been preserved under `legacy-packages` and will be removed in 0.25. If the new strategy does not work
+    for your use case, please open an issue.
+-   Removed `--logger` option, to disable all logging, set the `logLevel` option to `none`.
+-   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
+-   Internal links are now only resolved with declaration references.
+
+### API Breaking Changes
+
+-   The `label` property on `Reflection` has moved to `Comment`.
+-   Renamed `DeclarationReflection#version` to `DeclarationReflection#projectVersion` to match property on `ProjectReflection`.
+-   Removed unused `Reflection#originalName`.
+-   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.
+-   The `named-tuple-member` and `template-literal` type kind have been replaced with `namedTupleMember` and `templateLiteral`, #2100.
+-   Properties related to rendering are no longer stored on `Reflection`, including `url`, `anchor`, `hasOwnDocument`, and `cssClasses`.
+-   `Application.bootstrap` will no longer load plugins. If you want to load plugins, use `Application.bootstrapWithPlugins` instead, #1635.
+-   The options passed to `Application.bootstrap` will now be applied both before _and_ after reading options files, which may cause a change in configuration
+    if using a custom script to run TypeDoc that includes some options, but other options are set in config files.
+-   Moved `sources` property previously declared on base `Reflection` class to `DeclarationReflection` and `SignatureReflection`.
+-   Moved `relevanceBoost` from `ContainerReflection` to `DeclarationReflection` since setting it on the parent class has no effect.
+-   Removed internal `ReferenceType.getSymbol`, reference types no longer reference the `ts.Symbol` to enable generation from serialized JSON.
+-   `OptionsReader.priority` has been renamed to `OptionsReader.order` to more accurately reflect how it works.
+-   `ReferenceType`s which point to type parameters will now always be intentionally broken since they were never linked and should not be warned about when validating exports.
+-   `ReferenceType`s now longer include an `id` property for their target. They now instead include a `target` property.
+-   Removed `Renderer.addExternalSymbolResolver`, use `Converter.addExternalSymbolResolver` instead.
+-   Removed `CallbackLogger`.
+-   Removed `SerializeEventData` from serialization events.
+
+### Features
+
+-   Plugins may now return a `Promise<void>` from their `load` function, #185.
+-   TypeDoc now supports plugins written with ESM, #1635.
+-   Added `Renderer.preRenderAsyncJobs` and `Renderer.postRenderAsyncJobs`, which may be used by plugins to perform async processing for rendering, #185.
+    Note: Conversion is still intentionally a synchronous process to ensure stability of converted projects between runs.
+-   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.
+-   TypeDoc will now attempt to guess what option you may have meant if given an invalid option name.
+
+### Bug Fixes
+
+-   TypeDoc will now ignore package.json files not containing a `name` field, #2190.
+
 # Unreleased
+
+## v0.23.26 (2023-02-26)
+
+### Features
+
+-   Added `Application.EVENT_VALIDATE_PROJECT` event for plugins which implement custom validation, #2183.
+-   Plugins may now return an object from external symbol resolvers, #2066.
+-   Expose `Comment.displayPartsToMarkdown` on for themes overwriting the `comment` helper, #2115.
+
+### Bug Fixes
+
+-   Fix crash when converting `export default undefined`, #2175.
+-   Fix error in console when clicking on headings in the readme, #2170.
+-   TypeDoc will now ignore parameters of callback parameters when validating that all parameters have documentation, #2154.
+
+### Thanks!
+
+-   @captain-torch
+-   @loopingz
+-   @RebeccaStevens
+
+## v0.23.25 (2023-02-11)
+
+### Breaking Changes
+
+-   Upgraded Shiki, if your highlight theme was set to `material-<theme>`, the value will need to be changed to
+    `material-theme-<theme>`, see the [Shiki release notes](https://github.com/shikijs/shiki/blob/main/CHANGELOG.md#0130--2023-01-27).
+
+### Features
+
+-   Added new `excludeNotDocumentedKinds` variable to control which reflection types can be removed
+    by the `excludeNotDocumented` option, #2162.
+-   Added `typedoc.jsonc`, `typedoc.config.js`, `typedoc.config.cjs`, `typedoc.cjs` to the list of files
+    which TypeDoc will automatically use as configuration files.
+
+### Bug Fixes
+
+-   Entry points under `node_modules` will no longer be ignored, #2151.
+-   Corrected behavior of `excludeNotDocumented` on arrow function-variables, #2156.
+-   Added `package.json` to exports declaration.
+
+### Thanks!
+
+-   @boneskull
+-   @Mikkal24
+-   @zamiell
+
+## v0.23.24 (2023-01-07)
+
+### Bug Fixes
+
+-   Fixed an issue where signature comments were preferred over property comments for indirectly created function-properties, #2135.
+-   Fixed symlink handling when expanding entry points, #2130.
+
+### Thanks!
+
+-   @boneskull
 
 ## v0.23.23 (2022-12-18)
 

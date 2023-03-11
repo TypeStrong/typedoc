@@ -16,7 +16,6 @@ interface SearchDocument {
 }
 
 interface IData {
-    kinds: { [kind: number]: string };
     rows: SearchDocument[];
     index: object;
 }

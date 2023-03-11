@@ -8,6 +8,10 @@ import { BindOption, EntryPointStrategy, readFile } from "../../utils";
 import { getCommonDirectory } from "../../utils/fs";
 import { nicePath } from "../../utils/paths";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile";
+import type { ProjectReflection } from "../../models/index";
+import { ApplicationEvents } from "../../application-events";
+import { optional, validate } from "../../utils/validation";
+import { join } from "path";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -18,11 +22,14 @@ export class PackagePlugin extends ConverterComponent {
     @BindOption("readme")
     readme!: string;
 
-    @BindOption("includeVersion")
-    includeVersion!: boolean;
-
     @BindOption("entryPointStrategy")
     entryPointStrategy!: EntryPointStrategy;
+
+    @BindOption("entryPoints")
+    entryPoints!: string[];
+
+    @BindOption("includeVersion")
+    includeVersion!: boolean;
 
     /**
      * The file name of the found readme.md file.
@@ -30,30 +37,34 @@ export class PackagePlugin extends ConverterComponent {
     private readmeFile?: string;
 
     /**
-     * The file name of the found package.json file.
+     * Contents of package.json for the active project
      */
-    private packageFile?: string;
+    private packageJson?: { name: string; version?: string };
 
-    /**
-     * Create a new PackageHandler instance.
-     */
     override initialize() {
         this.listenTo(this.owner, {
             [Converter.EVENT_BEGIN]: this.onBegin,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
             [Converter.EVENT_END]: () => {
                 delete this.readmeFile;
-                delete this.packageFile;
+                delete this.packageJson;
             },
+        });
+        this.listenTo(this.application, {
+            [ApplicationEvents.REVIVE]: this.onRevive,
         });
     }
 
-    /**
-     * Triggered when the converter begins converting a project.
-     */
-    private onBegin(_context: Context) {
+    private onRevive(project: ProjectReflection) {
+        this.onBegin();
+        this.addEntries(project);
+        delete this.readmeFile;
+        delete this.packageJson;
+    }
+
+    private onBegin() {
         this.readmeFile = undefined;
-        this.packageFile = undefined;
+        this.packageJson = undefined;
 
         // Path will be resolved already. This is kind of ugly, but...
         const noReadmeFile = this.readme.endsWith("none");
@@ -64,13 +75,16 @@ export class PackagePlugin extends ConverterComponent {
         }
 
         const packageAndReadmeFound = () =>
-            (noReadmeFile || this.readmeFile) && this.packageFile;
+            (noReadmeFile || this.readmeFile) && this.packageJson;
         const reachedTopDirectory = (dirName: string) =>
             dirName === Path.resolve(Path.join(dirName, ".."));
 
-        let dirName = Path.resolve(
-            getCommonDirectory(this.application.options.getValue("entryPoints"))
-        );
+        const entryFiles =
+            this.entryPointStrategy === EntryPointStrategy.Packages
+                ? this.entryPoints.map((d) => join(d, "package.json"))
+                : this.entryPoints;
+
+        let dirName = Path.resolve(getCommonDirectory(entryFiles));
         this.application.logger.verbose(
             `Begin readme.md/package.json search at ${nicePath(dirName)}`
         );
@@ -85,8 +99,22 @@ export class PackagePlugin extends ConverterComponent {
                     this.readmeFile = Path.join(dirName, file);
                 }
 
-                if (!this.packageFile && lowercaseFileName === "package.json") {
-                    this.packageFile = Path.join(dirName, file);
+                if (!this.packageJson && lowercaseFileName === "package.json") {
+                    try {
+                        const packageJson = JSON.parse(
+                            readFile(Path.join(dirName, file))
+                        );
+                        if (
+                            validate(
+                                { name: String, version: optional(String) },
+                                packageJson
+                            )
+                        ) {
+                            this.packageJson = packageJson;
+                        }
+                    } catch {
+                        // Ignore
+                    }
                 }
             });
 
@@ -94,16 +122,14 @@ export class PackagePlugin extends ConverterComponent {
         }
     }
 
-    /**
-     * Triggered when the converter begins resolving a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     */
     private onBeginResolve(context: Context) {
-        const project = context.project;
+        this.addEntries(context.project);
+    }
+
+    private addEntries(project: ProjectReflection) {
         if (this.readmeFile) {
             const readme = readFile(this.readmeFile);
-            const comment = context.converter.parseRawComment(
+            const comment = this.application.converter.parseRawComment(
                 new MinimalSourceFile(readme, this.readmeFile)
             );
 
@@ -122,49 +148,19 @@ export class PackagePlugin extends ConverterComponent {
             project.readme = comment.summary;
         }
 
-        if (this.packageFile) {
-            const packageInfo = JSON.parse(readFile(this.packageFile));
+        if (this.packageJson) {
+            project.packageName = this.packageJson.name;
             if (!project.name) {
-                if (!packageInfo.name) {
-                    context.logger.warn(
-                        'The --name option was not specified, and package.json does not have a name field. Defaulting project name to "Documentation".'
-                    );
-                    project.name = "Documentation";
-                } else {
-                    project.name = String(packageInfo.name);
-                }
+                project.name = project.packageName || "Documentation";
             }
             if (this.includeVersion) {
-                if (packageInfo.version) {
-                    project.name = `${project.name} - v${packageInfo.version}`;
-                } else {
-                    // since not all monorepo specifies a meaningful version to the main package.json
-                    // this warning should be optional
-                    if (
-                        this.entryPointStrategy !== EntryPointStrategy.Packages
-                    ) {
-                        context.logger.warn(
-                            "--includeVersion was specified, but package.json does not specify a version."
-                        );
-                    }
-                }
+                project.packageVersion = this.packageJson.version;
             }
-        } else {
-            if (!project.name) {
-                context.logger.warn(
-                    'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".'
-                );
-                project.name = "Documentation";
-            }
-            if (this.includeVersion) {
-                // since not all monorepo specifies a meaningful version to the main package.json
-                // this warning should be optional
-                if (this.entryPointStrategy !== EntryPointStrategy.Packages) {
-                    context.logger.warn(
-                        "--includeVersion was specified, but no package.json was found. Not adding package version to the documentation."
-                    );
-                }
-            }
+        } else if (!project.name) {
+            this.application.logger.warn(
+                'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".'
+            );
+            project.name = "Documentation";
         }
     }
 }

@@ -1,5 +1,5 @@
 import type { DeclarationReflection } from ".";
-import type { Serializer, JSONOutput } from "../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 
 /**
  * A category of reflections.
@@ -43,5 +43,20 @@ export class ReflectionCategory {
                     ? this.children.map((child) => child.id)
                     : undefined,
         };
+    }
+
+    fromObject(de: Deserializer, obj: JSONOutput.ReflectionCategory) {
+        if (obj.children) {
+            de.defer((project) => {
+                for (const childId of obj.children || []) {
+                    const child = project.getReflectionById(
+                        de.oldIdToNewId[childId] ?? -1
+                    );
+                    if (child?.isDeclaration()) {
+                        this.children.push(child);
+                    }
+                }
+            });
+        }
     }
 }

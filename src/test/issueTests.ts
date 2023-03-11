@@ -29,8 +29,8 @@ function query(project: ProjectReflection, name: string) {
 }
 
 export const issueTests: {
-    [issue: `pre${string}`]: (app: Application) => void;
-    [issue: `gh${string}`]: (
+    [issue: `pre${bigint}${string}`]: (app: Application) => void;
+    [issue: `gh${bigint}${string}`]: (
         project: ProjectReflection,
         logger: TestLogger
     ) => void;
@@ -401,8 +401,11 @@ export const issueTests: {
             | InlineTagDisplayPart
             | undefined;
         equal(tag?.kind, "inline-tag");
-        equal(tag.text, "Test2.method");
-        equal(tag.target, query(project, "Test.method"));
+        equal(tag.text, "method");
+        ok(
+            tag.target === query(project, "Test.method"),
+            "Incorrect resolution"
+        );
     },
 
     gh1795(project) {
@@ -501,9 +504,8 @@ export const issueTests: {
     gh1898(project, logger) {
         const app = getConverter2App();
         app.validate(project);
-        logger.discardDebugMessages();
         logger.expectMessage(
-            "warn: UnDocFn.__type does not have any documentation."
+            "warn: UnDocFn.__type, defined in */gh1898.ts, does not have any documentation."
         );
         logger.expectNoOtherMessages();
     },
@@ -522,12 +524,9 @@ export const issueTests: {
         );
     },
 
-    gh1907(_project, logger) {
-        logger.expectMessage(
-            'warn: The --name option was not specified, and package.json does not have a name field. Defaulting project name to "Documentation".'
-        );
-        logger.discardDebugMessages();
-        logger.expectNoOtherMessages();
+    gh1907(project) {
+        // gh2190 - we now skip the first package.json we encounter because it doesn't contain a name field.
+        equal(project.packageName, "typedoc");
     },
 
     gh1913(project) {
@@ -637,7 +636,6 @@ export const issueTests: {
                 },
             ]
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -647,7 +645,6 @@ export const issueTests: {
             Comment.combineDisplayParts(a.comment?.summary),
             "[[include:file.md]] this is not a link."
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -744,7 +741,6 @@ export const issueTests: {
         ok(paramLink?.kind === "inline-tag");
         ok(paramLink.target);
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -758,7 +754,6 @@ export const issueTests: {
         ok(link?.kind === "inline-tag");
         ok(link.target);
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -824,5 +819,34 @@ export const issueTests: {
             Comment.combineDisplayParts(x.comment?.summary),
             "Foo type comment"
         );
+    },
+
+    gh2135(project) {
+        const hook = query(project, "Camera.useCameraPermissions");
+        equal(hook.type?.type, "reflection" as const);
+        equal(
+            Comment.combineDisplayParts(
+                hook.type.declaration.signatures![0].comment?.summary
+            ),
+            "One"
+        );
+    },
+
+    pre2156(app) {
+        app.options.setValue("excludeNotDocumented", true);
+    },
+    gh2156(project) {
+        const foo = query(project, "foo");
+        equal(foo.signatures?.length, 1);
+        equal(
+            Comment.combineDisplayParts(foo.signatures[0].comment?.summary),
+            "Is documented"
+        );
+    },
+
+    gh2175(project) {
+        const def = query(project, "default");
+        equal(def.type?.type, "intrinsic");
+        equal(def.type.toString(), "undefined");
     },
 };

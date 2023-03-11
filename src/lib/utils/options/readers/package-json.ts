@@ -10,7 +10,9 @@ import { nicePath } from "../../paths";
 export class PackageJsonReader implements OptionsReader {
     // Should run after the TypeDoc config reader but before the TS config
     // reader, so that it can still specify a path to a `tsconfig.json` file.
-    priority = 150;
+    order = 150;
+
+    supportsPackages = true;
 
     name = "package-json";
 

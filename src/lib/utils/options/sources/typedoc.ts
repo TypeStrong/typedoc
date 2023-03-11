@@ -25,19 +25,20 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "options",
         help: "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory.",
         hint: ParameterHint.File,
-        defaultValue: process.cwd(),
+        defaultValue: "",
     });
     options.addDeclaration({
         type: ParameterType.Path,
         name: "tsconfig",
         help: "Specify a TypeScript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
         hint: ParameterHint.File,
-        defaultValue: process.cwd(),
+        defaultValue: "",
     });
     options.addDeclaration({
         name: "compilerOptions",
         help: "Selectively override the TypeScript compiler options used by TypeDoc.",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
@@ -84,6 +85,58 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "excludeNotDocumented",
         help: "Prevent symbols that are not explicitly documented from appearing in the results.",
         type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
+        name: "excludeNotDocumentedKinds",
+        help: "Specify the type of reflections that can be removed by excludeNotDocumented.",
+        type: ParameterType.Array,
+        validate(value) {
+            const invalid = new Set(value);
+            const valid = new Set(getEnumKeys(ReflectionKind));
+            for (const notPermitted of [
+                ReflectionKind.Project,
+                ReflectionKind.TypeLiteral,
+                ReflectionKind.TypeParameter,
+                ReflectionKind.Parameter,
+                ReflectionKind.ObjectLiteral,
+            ]) {
+                valid.delete(ReflectionKind[notPermitted]);
+            }
+            for (const v of valid) {
+                invalid.delete(v);
+            }
+
+            if (invalid.size !== 0) {
+                throw new Error(
+                    `excludeNotDocumentedKinds may only specify known values, and invalid values were provided (${Array.from(
+                        invalid
+                    ).join(", ")}). The valid kinds are:\n${Array.from(
+                        valid
+                    ).join(", ")}`
+                );
+            }
+        },
+        defaultValue: [
+            ReflectionKind[ReflectionKind.Module],
+            ReflectionKind[ReflectionKind.Namespace],
+            ReflectionKind[ReflectionKind.Enum],
+            // Not including enum member here by default
+            ReflectionKind[ReflectionKind.Variable],
+            ReflectionKind[ReflectionKind.Function],
+            ReflectionKind[ReflectionKind.Class],
+            ReflectionKind[ReflectionKind.Interface],
+            ReflectionKind[ReflectionKind.Constructor],
+            ReflectionKind[ReflectionKind.Property],
+            ReflectionKind[ReflectionKind.Method],
+            ReflectionKind[ReflectionKind.CallSignature],
+            ReflectionKind[ReflectionKind.IndexSignature],
+            ReflectionKind[ReflectionKind.ConstructorSignature],
+            ReflectionKind[ReflectionKind.Accessor],
+            ReflectionKind[ReflectionKind.GetSignature],
+            ReflectionKind[ReflectionKind.SetSignature],
+            ReflectionKind[ReflectionKind.TypeAlias],
+            ReflectionKind[ReflectionKind.Reference],
+        ],
     });
     options.addDeclaration({
         name: "excludeInternal",
@@ -218,6 +271,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "markedOptions",
         help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
@@ -478,6 +532,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "visibilityFilters",
         help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         defaultValue: {
             protected: false,
             private: false,
@@ -512,6 +567,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "searchCategoryBoosts",
         help: "Configure search to give a relevance boost to selected categories",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         defaultValue: {},
         validate(value) {
             if (!isObject(value)) {
@@ -531,6 +587,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "searchGroupBoosts",
         help: 'Configure search to give a relevance boost to selected kinds (eg "class")',
         type: ParameterType.Mixed,
+        configFileOnly: true,
         defaultValue: {},
         validate(value: unknown) {
             if (!isObject(value)) {
@@ -585,14 +642,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "plugin",
-        help: "Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.",
+        help: "Specify the npm plugins that should be loaded. Omit to load all installed plugins.",
         type: ParameterType.ModuleArray,
-    });
-    options.addDeclaration({
-        name: "logger",
-        help: "Specify the logger that should be used, 'none' or 'console'.",
-        defaultValue: "console",
-        type: ParameterType.Mixed,
     });
     options.addDeclaration({
         name: "logLevel",
@@ -631,16 +682,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
         defaultValue: [
-            "Enum",
-            "EnumMember",
-            "Variable",
-            "Function",
-            "Class",
-            "Interface",
-            "Property",
-            "Method",
-            "Accessor",
-            "TypeAlias",
+            ReflectionKind[ReflectionKind.Enum],
+            ReflectionKind[ReflectionKind.EnumMember],
+            ReflectionKind[ReflectionKind.Variable],
+            ReflectionKind[ReflectionKind.Function],
+            ReflectionKind[ReflectionKind.Class],
+            ReflectionKind[ReflectionKind.Interface],
+            ReflectionKind[ReflectionKind.Property],
+            ReflectionKind[ReflectionKind.Method],
+            ReflectionKind[ReflectionKind.Accessor],
+            ReflectionKind[ReflectionKind.TypeAlias],
         ],
     });
 

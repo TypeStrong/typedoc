@@ -19,25 +19,6 @@ import { Comment } from "../../models";
  */
 @Component({ name: "group" })
 export class GroupPlugin extends ConverterComponent {
-    /**
-     * Define the singular name of individual reflection kinds.
-     */
-    static SINGULARS = {
-        [ReflectionKind.Enum]: "Enumeration",
-        [ReflectionKind.EnumMember]: "Enumeration Member",
-    };
-
-    /**
-     * Define the plural name of individual reflection kinds.
-     */
-    static PLURALS = {
-        [ReflectionKind.Class]: "Classes",
-        [ReflectionKind.Property]: "Properties",
-        [ReflectionKind.Enum]: "Enumerations",
-        [ReflectionKind.EnumMember]: "Enumeration Members",
-        [ReflectionKind.TypeAlias]: "Type Aliases",
-    };
-
     sortFunction!: (reflections: DeclarationReflection[]) => void;
 
     @BindOption("searchGroupBoosts")
@@ -65,8 +46,6 @@ export class GroupPlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently resolved.
      */
     private onResolve(_context: Context, reflection: Reflection) {
-        reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
-
         if (reflection instanceof ContainerReflection) {
             this.group(reflection);
         }
@@ -144,7 +123,7 @@ export class GroupPlugin extends ConverterComponent {
 
         groups.delete("");
         if (groups.size === 0) {
-            groups.add(GroupPlugin.getKindPlural(reflection.kind));
+            groups.add(ReflectionKind.pluralString(reflection.kind));
         }
 
         for (const group of groups) {
@@ -184,52 +163,5 @@ export class GroupPlugin extends ConverterComponent {
         });
 
         return Array.from(groups.values());
-    }
-
-    /**
-     * Transform the internal typescript kind identifier into a human readable version.
-     *
-     * @param kind  The original typescript kind identifier.
-     * @returns A human readable version of the given typescript kind identifier.
-     */
-    private static getKindString(kind: ReflectionKind): string {
-        let str = ReflectionKind[kind];
-        str = str.replace(
-            /(.)([A-Z])/g,
-            (_m, a, b) => a + " " + b.toLowerCase()
-        );
-        return str;
-    }
-
-    /**
-     * Return the singular name of a internal typescript kind identifier.
-     *
-     * @param kind The original internal typescript kind identifier.
-     * @returns The singular name of the given internal typescript kind identifier
-     */
-    static getKindSingular(kind: ReflectionKind): string {
-        if (kind in GroupPlugin.SINGULARS) {
-            return GroupPlugin.SINGULARS[
-                kind as keyof typeof GroupPlugin.SINGULARS
-            ];
-        } else {
-            return GroupPlugin.getKindString(kind);
-        }
-    }
-
-    /**
-     * Return the plural name of a internal typescript kind identifier.
-     *
-     * @param kind The original internal typescript kind identifier.
-     * @returns The plural name of the given internal typescript kind identifier
-     */
-    static getKindPlural(kind: ReflectionKind): string {
-        if (kind in GroupPlugin.PLURALS) {
-            return GroupPlugin.PLURALS[
-                kind as keyof typeof GroupPlugin.PLURALS
-            ];
-        } else {
-            return this.getKindString(kind) + "s";
-        }
     }
 }

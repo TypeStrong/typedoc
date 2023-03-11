@@ -1,5 +1,5 @@
-import * as assert from "assert";
-import * as ts from "typescript";
+import assert from "assert";
+import ts from "typescript";
 import {
     DeclarationReflection,
     IntrinsicType,
@@ -379,15 +379,13 @@ function convertFunctionOrMethod(
         return;
     }
 
-    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
-
     const locationDeclaration =
-        parentSymbol
+        symbol.parent
             ?.getDeclarations()
             ?.find(
                 (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d)
             ) ??
-        parentSymbol?.getDeclarations()?.[0]?.getSourceFile() ??
+        symbol.parent?.getDeclarations()?.[0]?.getSourceFile() ??
         symbol.getDeclarations()?.[0]?.getSourceFile();
     assert(locationDeclaration, "Missing declaration context");
 
@@ -427,6 +425,7 @@ function convertFunctionOrMethod(
             scope,
             ReflectionKind.CallSignature,
             signatures[i],
+            symbol,
             declarations[i]
         );
     }
@@ -526,7 +525,8 @@ function convertClassOrInterface(
             createSignature(
                 constructContext,
                 ReflectionKind.ConstructorSignature,
-                sig
+                sig,
+                symbol
             );
         });
     }
@@ -554,7 +554,8 @@ function convertClassOrInterface(
             createSignature(
                 reflectionContext,
                 ReflectionKind.CallSignature,
-                sig
+                sig,
+                symbol
             )
         );
 
@@ -623,6 +624,7 @@ function convertProperty(
         symbol,
         exportSymbol
     );
+    reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
 
     const declaration = symbol.getDeclarations()?.[0];
     let parameterType: ts.TypeNode | undefined;
@@ -642,7 +644,7 @@ function convertProperty(
     reflection.defaultValue = declaration && convertDefaultValue(declaration);
 
     reflection.type = context.converter.convertType(
-        context,
+        context.withScope(reflection),
         (context.isConvertingTypeNode() ? parameterType : void 0) ??
             context.checker.getTypeOfSymbol(symbol)
     );
@@ -674,7 +676,7 @@ function convertArrowAsMethod(
     const signature = context.checker.getSignatureFromDeclaration(arrow);
     assert(signature);
 
-    createSignature(rc, ReflectionKind.CallSignature, signature, arrow);
+    createSignature(rc, ReflectionKind.CallSignature, signature, symbol, arrow);
 }
 
 function convertConstructor(context: Context, symbol: ts.Symbol) {
@@ -700,7 +702,8 @@ function convertConstructor(context: Context, symbol: ts.Symbol) {
         createSignature(
             reflectionContext,
             ReflectionKind.ConstructorSignature,
-            sig
+            sig,
+            symbol
         );
     }
 }
@@ -729,7 +732,8 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
             createSignature(
                 constructContext,
                 ReflectionKind.ConstructorSignature,
-                sig
+                sig,
+                symbol
             )
         );
     }
@@ -894,7 +898,7 @@ function convertVariableAsFunction(
         exportSymbol
     );
     setModifiers(symbol, accessDeclaration, reflection);
-    reflection.conversionFlags |= ConversionFlags.VariableSource;
+    reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
     context.finalizeDeclarationReflection(reflection);
 
     const reflectionContext = context.withScope(reflection);
@@ -904,7 +908,8 @@ function convertVariableAsFunction(
         createSignature(
             reflectionContext,
             ReflectionKind.CallSignature,
-            signature
+            signature,
+            symbol
         );
     }
 
@@ -939,6 +944,7 @@ function convertAccessor(
                 rc,
                 ReflectionKind.GetSignature,
                 signature,
+                symbol,
                 getDeclaration
             );
         }
@@ -953,6 +959,7 @@ function convertAccessor(
                 rc,
                 ReflectionKind.SetSignature,
                 signature,
+                symbol,
                 setDeclaration
             );
         }

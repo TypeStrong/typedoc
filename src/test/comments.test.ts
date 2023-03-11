@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import * as ts from "typescript";
+import ts from "typescript";
 import type { CommentParserConfig } from "../lib/converter/comments";
 
 import { lexBlockComment } from "../lib/converter/comments/blockLexer";

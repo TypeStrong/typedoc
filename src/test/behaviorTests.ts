@@ -6,10 +6,10 @@ import {
     ProjectReflection,
     ReflectionKind,
     Comment,
-    CommentDisplayPart,
     CommentTag,
     Reflection,
     SignatureReflection,
+    ContainerReflection,
 } from "../lib/models";
 import { Chars, filterMap } from "../lib/utils";
 import { CommentStyle } from "../lib/utils/options/declaration";
@@ -19,6 +19,20 @@ function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
     ok(reflection instanceof DeclarationReflection, `Failed to find ${name}`);
     return reflection;
+}
+
+type NameTree = { [name: string]: NameTree };
+
+function buildNameTree(
+    refl: ContainerReflection,
+    tree: NameTree = {}
+): NameTree {
+    for (const child of refl.children || []) {
+        tree[child.name] ||= {};
+        buildNameTree(child, tree[child.name]);
+    }
+
+    return tree;
 }
 
 type Letters = Chars<"abcdefghijklmnopqrstuvwxyz">;
@@ -134,31 +148,6 @@ export const behaviorTests: {
         );
     },
 
-    deprecatedBracketLinks(project, logger) {
-        const a = query(project, "alpha");
-        const b = query(project, "beta");
-
-        const aTag = a.comment?.summary.find((p) => p.kind === "inline-tag") as
-            | Extract<CommentDisplayPart, { kind: "inline-tag" }>
-            | undefined;
-        equal(aTag?.tag, "@link");
-        equal(aTag?.text, "beta");
-        equal(aTag.target, b);
-        logger.expectMessage(
-            "warn: alpha: Comment [[target]] style links are deprecated and will be removed in 0.24"
-        );
-
-        const bTag = b.comment?.summary.find((p) => p.kind === "inline-tag") as
-            | Extract<CommentDisplayPart, { kind: "inline-tag" }>
-            | undefined;
-        equal(bTag?.tag, "@link");
-        equal(bTag?.text, "bracket links");
-        equal(bTag.target, a);
-        logger.expectMessage(
-            "warn: beta: Comment [[target]] style links are deprecated and will be removed in 0.24"
-        );
-    },
-
     duplicateHeritageClauses(project) {
         const b = query(project, "B");
         equal(b.extendedTypes?.map(String), ["A"]);
@@ -197,8 +186,20 @@ export const behaviorTests: {
             [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
         ]);
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
+    },
+
+    _excludeNotDocumentedKinds(app) {
+        app.options.setValue("excludeNotDocumented", true);
+        app.options.setValue("excludeNotDocumentedKinds", ["Property"]);
+    },
+    excludeNotDocumentedKinds(project) {
+        equal(buildNameTree(project), {
+            NotDoc: {
+                prop: {},
+            },
+            identity: {},
+        });
     },
 
     exportComments(project) {
@@ -398,7 +399,6 @@ export const behaviorTests: {
             "warn: Declaration reference in @inheritDoc for badParse was not fully parsed and may resolve incorrectly."
         );
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -531,7 +531,7 @@ export const behaviorTests: {
         equal(foo.comment, undefined);
 
         equal(
-            foo.signatures?.map((s) => s.label),
+            foo.signatures?.map((s) => s.comment?.label),
             ["NO_ARGS", "WITH_X"]
         );
 
@@ -545,7 +545,6 @@ export const behaviorTests: {
         logger.expectMessage(
             'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.'
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -599,7 +598,6 @@ export const behaviorTests: {
             "warn: Not all categories specified in searchCategoryBoosts were used in the documentation." +
                 " The unused categories were:\n\tCatUnused"
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 
@@ -625,7 +623,6 @@ export const behaviorTests: {
             "warn: Not all groups specified in searchGroupBoosts were used in the documentation." +
                 " The unused groups were:\n\tGroupUnused"
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     },
 };

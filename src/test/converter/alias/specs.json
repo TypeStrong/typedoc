@@ -1,15 +1,15 @@
 {
   "id": 0,
-  "name": "typedoc",
+  "name": "alias",
+  "variant": "project",
   "kind": 1,
-  "kindString": "Project",
   "flags": {},
   "children": [
     {
       "id": 8,
       "name": "IsString",
+      "variant": "declaration",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "comment": {
         "summary": [
@@ -22,17 +22,17 @@
       "sources": [
         {
           "fileName": "alias.ts",
-          "line": 14,
+          "line": 16,
           "character": 12,
-          "url": "typedoc://alias.ts#L14"
+          "url": "typedoc://alias.ts#L16"
         }
       ],
       "typeParameters": [
         {
           "id": 9,
           "name": "T",
+          "variant": "typeParam",
           "kind": 131072,
-          "kindString": "Type parameter",
           "flags": {}
         }
       ],
@@ -40,7 +40,7 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
-          "id": 9,
+          "target": -1,
           "name": "T"
         },
         "extendsType": {
@@ -58,10 +58,43 @@
       }
     },
     {
+      "id": 12,
+      "name": "MergedCrossReference",
+      "variant": "declaration",
+      "kind": 4194304,
+      "flags": {},
+      "comment": {
+        "summary": [
+          {
+            "kind": "inline-tag",
+            "tag": "@link",
+            "text": "class!class.TestClass"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "fileName": "alias.ts",
+          "line": 26,
+          "character": 12,
+          "url": "typedoc://alias.ts#L26"
+        }
+      ],
+      "type": {
+        "type": "reference",
+        "target": {
+          "sourceFileName": "src/test/converter/class/class.ts",
+          "qualifiedName": "TestClass"
+        },
+        "name": "TestClass",
+        "package": "typedoc"
+      }
+    },
+    {
       "id": 10,
       "name": "PromiseType",
+      "variant": "declaration",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "comment": {
         "summary": [
@@ -74,17 +107,17 @@
       "sources": [
         {
           "fileName": "alias.ts",
-          "line": 19,
+          "line": 21,
           "character": 12,
-          "url": "typedoc://alias.ts#L19"
+          "url": "typedoc://alias.ts#L21"
         }
       ],
       "typeParameters": [
         {
           "id": 11,
           "name": "T",
+          "variant": "typeParam",
           "kind": 131072,
-          "kindString": "Type parameter",
           "flags": {}
         }
       ],
@@ -92,11 +125,15 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
-          "id": 11,
+          "target": -1,
           "name": "T"
         },
         "extendsType": {
           "type": "reference",
+          "target": {
+            "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+            "qualifiedName": "PromiseLike"
+          },
           "typeArguments": [
             {
               "type": "inferred",
@@ -104,16 +141,16 @@
             }
           ],
           "name": "PromiseLike",
-          "qualifiedName": "PromiseLike",
           "package": "typescript"
         },
         "trueType": {
           "type": "reference",
+          "target": -1,
           "name": "U"
         },
         "falseType": {
           "type": "reference",
-          "id": 11,
+          "target": -1,
           "name": "T"
         }
       }
@@ -121,23 +158,23 @@
     {
       "id": 1,
       "name": "TCompareFunction",
+      "variant": "declaration",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "sources": [
         {
           "fileName": "alias.ts",
-          "line": 4,
+          "line": 6,
           "character": 12,
-          "url": "typedoc://alias.ts#L4"
+          "url": "typedoc://alias.ts#L6"
         }
       ],
       "typeParameters": [
         {
           "id": 6,
           "name": "T",
+          "variant": "typeParam",
           "kind": 131072,
-          "kindString": "Type parameter",
           "flags": {}
         }
       ],
@@ -146,23 +183,23 @@
         "declaration": {
           "id": 2,
           "name": "__type",
+          "variant": "declaration",
           "kind": 65536,
-          "kindString": "Type literal",
           "flags": {},
           "sources": [
             {
               "fileName": "alias.ts",
-              "line": 4,
+              "line": 6,
               "character": 34,
-              "url": "typedoc://alias.ts#L4"
+              "url": "typedoc://alias.ts#L6"
             }
           ],
           "signatures": [
             {
               "id": 3,
               "name": "__type",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -176,24 +213,24 @@
                 {
                   "id": 4,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 6,
+                    "target": -1,
                     "name": "T"
                   }
                 },
                 {
                   "id": 5,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 6,
+                    "target": -1,
                     "name": "T"
                   }
                 }
@@ -210,8 +247,8 @@
     {
       "id": 7,
       "name": "TId",
+      "variant": "declaration",
       "kind": 4194304,
-      "kindString": "Type alias",
       "flags": {},
       "comment": {
         "summary": [
@@ -224,9 +261,9 @@
       "sources": [
         {
           "fileName": "alias.ts",
-          "line": 9,
+          "line": 11,
           "character": 12,
-          "url": "typedoc://alias.ts#L9"
+          "url": "typedoc://alias.ts#L11"
         }
       ],
       "type": {
@@ -249,18 +286,66 @@
       "title": "Type Aliases",
       "children": [
         8,
+        12,
         10,
         1,
         7
       ]
     }
   ],
-  "sources": [
-    {
-      "fileName": "alias.ts",
-      "line": 4,
-      "character": 0,
-      "url": "typedoc://alias.ts#L4"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "0": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": ""
+    },
+    "1": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "TCompareFunction"
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "__type"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "__type"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "a"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "b"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "T"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "TId"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "IsString"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "T"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "PromiseType"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "T"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/alias/alias.ts",
+      "qualifiedName": "MergedCrossReference"
     }
-  ]
+  }
 }

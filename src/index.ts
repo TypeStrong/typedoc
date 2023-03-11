@@ -13,6 +13,8 @@ export {
     type ComponentPath,
     type Meaning,
     type MeaningKeyword,
+    type ExternalResolveResult,
+    type ExternalSymbolResolver,
 } from "./lib/converter";
 
 export {
@@ -68,6 +70,7 @@ export type {
     ParameterTypeToOptionTypeMap,
     DocumentationEntryPoint,
     ManuallyValidatedOption,
+    EnumKeys,
 } from "./lib/utils";
 
 export type { EventMap, EventCallback } from "./lib/utils/events";
@@ -75,10 +78,12 @@ export type { EventMap, EventCallback } from "./lib/utils/events";
 export {
     JSONOutput,
     Serializer,
+    Deserializer,
+    type Deserializable,
+    type DeserializerComponent,
     type SerializerComponent,
     SerializeEvent,
 } from "./lib/serialization";
-export type { SerializeEventData } from "./lib/serialization";
 
-import * as TypeScript from "typescript";
+import TypeScript from "typescript";
 export { TypeScript };

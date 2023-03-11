@@ -1,5 +1,5 @@
-import * as ts from "typescript";
-import * as assert from "assert";
+import ts from "typescript";
+import assert from "assert";
 import {
     ConversionFlags,
     DeclarationReflection,
@@ -18,6 +18,7 @@ import { ConverterEvents } from "../converter-events";
 import { convertDefaultValue } from "../convert-expression";
 import { removeUndefined } from "../utils/reflections";
 import { getComment, getJsDocComment, getSignatureComment } from "../comments";
+import { ReflectionSymbolId } from "../../models/reflections/ReflectionSymbolId";
 
 export function createSignature(
     context: Context,
@@ -27,6 +28,7 @@ export function createSignature(
         | ReflectionKind.GetSignature
         | ReflectionKind.SetSignature,
     signature: ts.Signature,
+    symbol: ts.Symbol | undefined,
     declaration?: ts.SignatureDeclaration | ts.JSDocSignature
 ) {
     assert(context.scope instanceof DeclarationReflection);
@@ -42,14 +44,32 @@ export function createSignature(
         kind,
         context.scope
     );
+    const sigRefCtx = context.withScope(sigRef);
+    if (symbol && declaration) {
+        context.project.registerSymbolId(
+            sigRef,
+            new ReflectionSymbolId(symbol, declaration)
+        );
+    }
 
-    // If we are creating signatures for a variable and the variable has a comment associated with it
-    // then we should prefer that variable's comment over any comment on the signature. The comment plugin
+    // If we are creating signatures for a variable or property and it has a comment associated with it
+    // then we should prefer that comment over any comment on the signature. The comment plugin
     // will copy the comment down if this signature doesn't have one, so don't set one.
+    let parentReflection = context.scope;
+    if (
+        parentReflection.kindOf(ReflectionKind.TypeLiteral) &&
+        parentReflection.parent instanceof DeclarationReflection
+    ) {
+        parentReflection = parentReflection.parent;
+    }
+
     if (
         declaration &&
-        (!context.scope.comment ||
-            !(context.scope.conversionFlags & ConversionFlags.VariableSource))
+        (!parentReflection.comment ||
+            !(
+                parentReflection.conversionFlags &
+                ConversionFlags.VariableOrPropertySource
+            ))
     ) {
         sigRef.comment = getSignatureComment(
             declaration,
@@ -60,7 +80,7 @@ export function createSignature(
     }
 
     sigRef.typeParameters = convertTypeParameters(
-        context,
+        sigRefCtx,
         sigRef,
         signature.typeParameters
     );
@@ -71,7 +91,7 @@ export function createSignature(
             : signature.parameters;
 
     sigRef.parameters = convertParameters(
-        context,
+        sigRefCtx,
         sigRef,
         parameterSymbols,
         declaration?.parameters
@@ -79,12 +99,12 @@ export function createSignature(
 
     const predicate = context.checker.getTypePredicateOfSignature(signature);
     if (predicate) {
-        sigRef.type = convertPredicate(predicate, context.withScope(sigRef));
+        sigRef.type = convertPredicate(predicate, sigRefCtx);
     } else if (kind == ReflectionKind.SetSignature) {
         sigRef.type = new IntrinsicType("void");
     } else {
         sigRef.type = context.converter.convertType(
-            context.withScope(sigRef),
+            sigRefCtx,
             (declaration?.kind === ts.SyntaxKind.FunctionDeclaration &&
                 declaration.type) ||
                 signature.getReturnType()
@@ -264,13 +284,6 @@ function convertTypeParameters(
         const constraintT = param.getConstraint();
         const defaultT = param.getDefault();
 
-        const constraint = constraintT
-            ? context.converter.convertType(context, constraintT)
-            : void 0;
-        const defaultType = defaultT
-            ? context.converter.convertType(context, defaultT)
-            : void 0;
-
         // There's no way to determine directly from a ts.TypeParameter what it's variance modifiers are
         // so unfortunately we have to go back to the node for this...
         const variance = getVariance(
@@ -280,11 +293,18 @@ function convertTypeParameters(
 
         const paramRefl = new TypeParameterReflection(
             param.symbol.name,
-            constraint,
-            defaultType,
             parent,
             variance
         );
+        const paramCtx = context.withScope(paramRefl);
+
+        paramRefl.type = constraintT
+            ? context.converter.convertType(paramCtx, constraintT)
+            : void 0;
+        paramRefl.default = defaultT
+            ? context.converter.convertType(paramCtx, defaultT)
+            : void 0;
+
         context.registerReflection(paramRefl, param.getSymbol());
         context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
 
@@ -305,19 +325,18 @@ export function createTypeParamReflection(
     param: ts.TypeParameterDeclaration,
     context: Context
 ) {
-    const constraint = param.constraint
-        ? context.converter.convertType(context, param.constraint)
-        : void 0;
-    const defaultType = param.default
-        ? context.converter.convertType(context, param.default)
-        : void 0;
     const paramRefl = new TypeParameterReflection(
         param.name.text,
-        constraint,
-        defaultType,
         context.scope,
         getVariance(param.modifiers)
     );
+    const paramScope = context.withScope(paramRefl);
+    paramRefl.type = param.constraint
+        ? context.converter.convertType(paramScope, param.constraint)
+        : void 0;
+    paramRefl.default = param.default
+        ? context.converter.convertType(paramScope, param.default)
+        : void 0;
     context.registerReflection(paramRefl, param.symbol);
 
     if (ts.isJSDocTemplateTag(param.parent)) {

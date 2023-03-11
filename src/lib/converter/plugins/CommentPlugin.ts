@@ -118,6 +118,14 @@ export class CommentPlugin extends ConverterComponent {
     @BindOption("excludeNotDocumented")
     excludeNotDocumented!: boolean;
 
+    private _excludeKinds: number | undefined;
+    private get excludeNotDocumentedKinds(): number {
+        this._excludeKinds ??= this.application.options
+            .getValue("excludeNotDocumentedKinds")
+            .reduce((a, b) => a | (ReflectionKind[b] as number), 0);
+        return this._excludeKinds;
+    }
+
     /**
      * Create a new CommentPlugin instance.
      */
@@ -128,6 +136,9 @@ export class CommentPlugin extends ConverterComponent {
             [Converter.EVENT_CREATE_TYPE_PARAMETER]: this.onCreateTypeParameter,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
             [Converter.EVENT_RESOLVE]: this.onResolve,
+            [Converter.EVENT_END]: () => {
+                this._excludeKinds = undefined;
+            },
         });
     }
 
@@ -316,11 +327,13 @@ export class CommentPlugin extends ConverterComponent {
      */
     private onResolve(context: Context, reflection: Reflection) {
         if (reflection.comment) {
-            reflection.label = extractLabelTag(reflection.comment);
-            if (reflection.label && !/[A-Z_][A-Z0-9_]/.test(reflection.label)) {
+            if (
+                reflection.comment.label &&
+                !/[A-Z_][A-Z0-9_]/.test(reflection.comment.label)
+            ) {
                 context.logger.warn(
                     `The label "${
-                        reflection.label
+                        reflection.comment.label
                     }" for ${reflection.getFriendlyFullName()} cannot be referenced with a declaration reference. ` +
                         `Labels may only contain A-Z, 0-9, and _, and may not start with a number.`
                 );
@@ -453,12 +466,28 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         if (!comment) {
+            // We haven't moved comments from the parent for signatures without a direct
+            // comment, so don't exclude those due to not being documented.
+            if (
+                reflection.kindOf(
+                    ReflectionKind.CallSignature |
+                        ReflectionKind.ConstructorSignature
+                ) &&
+                reflection.parent?.comment
+            ) {
+                return false;
+            }
+
             if (this.excludeNotDocumented) {
                 // Don't let excludeNotDocumented remove parameters.
                 if (
                     !(reflection instanceof DeclarationReflection) &&
                     !(reflection instanceof SignatureReflection)
                 ) {
+                    return false;
+                }
+
+                if (!reflection.kindOf(this.excludeNotDocumentedKinds)) {
                     return false;
                 }
 
@@ -470,11 +499,6 @@ export class CommentPlugin extends ConverterComponent {
                     return (
                         reflection as DeclarationReflection
                     ).children!.every((child) => this.isHidden(child));
-                }
-
-                // enum members should all be included if the parent enum is documented
-                if (reflection.kind === ReflectionKind.EnumMember) {
-                    return false;
                 }
 
                 // signature containers should only be hidden if all their signatures are hidden
@@ -554,15 +578,6 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
     parameter.type?.visit(visitor);
 }
 
-function extractLabelTag(comment: Comment): string | undefined {
-    const index = comment.summary.findIndex(
-        (part) => part.kind === "inline-tag" && part.tag === "@label"
-    );
-
-    if (index !== -1) {
-        return comment.summary.splice(index, 1)[0].text;
-    }
-}
 function mergeSeeTags(comment: Comment) {
     const see = comment.getTags("@see");
 

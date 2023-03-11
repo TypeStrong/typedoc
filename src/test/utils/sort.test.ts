@@ -16,7 +16,6 @@ describe("Sort", () => {
         strategies: SortStrategy[]
     ) {
         const opts = new Options(new Logger());
-        opts.addDefaultDeclarations();
         opts.setValue("sort", strategies);
         getSortFunction(opts)(arr);
     }

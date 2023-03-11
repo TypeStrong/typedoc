@@ -1,19 +1,11 @@
 import * as Path from "path";
-import * as ts from "typescript";
+import ts from "typescript";
 
 import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
-import { Serializer } from "./serialization";
+import { Deserializer, JSONOutput, Serializer } from "./serialization";
 import type { ProjectReflection } from "./models/index";
-import {
-    Logger,
-    ConsoleLogger,
-    CallbackLogger,
-    loadPlugins,
-    writeFile,
-    discoverPlugins,
-    TSConfigReader,
-} from "./utils/index";
+import { Logger, ConsoleLogger, loadPlugins, writeFile } from "./utils/index";
 
 import {
     AbstractComponent,
@@ -28,6 +20,7 @@ import {
     DocumentationEntryPoint,
     EntryPointStrategy,
     getEntryPoints,
+    getPackageDirectories,
     getWatchEntryPoints,
 } from "./utils/entry-point";
 import { nicePath } from "./utils/paths";
@@ -36,6 +29,9 @@ import { validateExports } from "./validation/exports";
 import { validateDocumentation } from "./validation/documentation";
 import { validateLinks } from "./validation/links";
 import { ApplicationEvents } from "./application-events";
+import { findTsConfigFile } from "./utils/tsconfig";
+import { getCommonDirectory, glob, readFile } from "./utils/fs";
+import { resetReflectionID } from "./models/reflections/abstract";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -78,7 +74,12 @@ export class Application extends ChildableComponent<
     /**
      * The serializer used to generate JSON output.
      */
-    serializer: Serializer;
+    serializer = new Serializer();
+
+    /**
+     * The deserializer used to restore previously serialized JSON output.
+     */
+    deserializer = new Deserializer(this);
 
     /**
      * The logger that should be used to output messages.
@@ -88,12 +89,16 @@ export class Application extends ChildableComponent<
     options: Options;
 
     /** @internal */
-    @BindOption("logger")
-    readonly loggerType!: string | Function;
-
-    /** @internal */
     @BindOption("skipErrorChecking")
     readonly skipErrorChecking!: boolean;
+
+    /** @internal */
+    @BindOption("entryPointStrategy")
+    readonly entryPointStrategy!: EntryPointStrategy;
+
+    /** @internal */
+    @BindOption("entryPoints")
+    readonly entryPoints!: string[];
 
     /**
      * The version number of TypeDoc.
@@ -102,65 +107,59 @@ export class Application extends ChildableComponent<
 
     /**
      * Emitted after plugins have been loaded and options have been read, but before they have been frozen.
-     * The listener will be given an instance of {@link Application} and the {@link TypeDocOptions | Partial<TypeDocOptions>}
-     * passed to `bootstrap`.
+     * The listener will be given an instance of {@link Application}.
      */
     static readonly EVENT_BOOTSTRAP_END = ApplicationEvents.BOOTSTRAP_END;
 
     /**
+     * Emitted after a project has been deserialized from JSON.
+     * The listener will be given an instance of {@link ProjectReflection}.
+     */
+    static readonly EVENT_PROJECT_REVIVE = ApplicationEvents.REVIVE;
+
+    /**
+     * Emitted when validation is being run.
+     * The listener will be given an instance of {@link ProjectReflection}.
+     */
+    static readonly EVENT_VALIDATE_PROJECT = ApplicationEvents.VALIDATE_PROJECT;
+
+    /**
      * Create a new TypeDoc application instance.
-     *
-     * @param options An object containing the options that should be used.
      */
     constructor() {
         super(null!); // We own ourselves
 
         this.logger = new ConsoleLogger();
         this.options = new Options(this.logger);
-        this.options.addDefaultDeclarations();
-        this.serializer = new Serializer();
         this.converter = this.addComponent<Converter>("converter", Converter);
         this.renderer = this.addComponent<Renderer>("renderer", Renderer);
     }
 
     /**
-     * Initialize TypeDoc with the given options object.
-     *
-     * @param options  The desired options to set.
+     * Initialize TypeDoc, loading plugins if applicable.
      */
-    bootstrap(options: Partial<TypeDocOptions> = {}): void {
-        for (const [key, val] of Object.entries(options)) {
-            try {
-                this.options.setValue(key as keyof TypeDocOptions, val);
-            } catch {
-                // Ignore errors, plugins haven't been loaded yet and may declare an option.
-            }
-        }
+    async bootstrapWithPlugins(
+        options: Partial<TypeDocOptions> = {}
+    ): Promise<void> {
+        this.options.reset();
+        this.setOptions(options, /* reportErrors */ false);
         this.options.read(new Logger());
-
-        const logger = this.loggerType;
-        if (typeof logger === "function") {
-            this.logger = new CallbackLogger(<any>logger);
-            this.options.setLogger(this.logger);
-        } else if (logger === "none") {
-            this.logger = new Logger();
-            this.options.setLogger(this.logger);
-        }
         this.logger.level = this.options.getValue("logLevel");
 
-        const plugins = discoverPlugins(this);
-        loadPlugins(this, plugins);
+        await loadPlugins(this, this.options.getValue("plugin"));
 
+        this.bootstrap(options);
+    }
+
+    /**
+     * Initialize TypeDoc without loading plugins.
+     */
+    bootstrap(options: Partial<TypeDocOptions> = {}): void {
         this.options.reset();
-        for (const [key, val] of Object.entries(options)) {
-            try {
-                this.options.setValue(key as keyof TypeDocOptions, val);
-            } catch (error) {
-                ok(error instanceof Error);
-                this.logger.error(error.message);
-            }
-        }
+        this.setOptions(options, /* reportErrors */ false);
         this.options.read(this.logger);
+        this.setOptions(options);
+        this.logger.level = this.options.getValue("logLevel");
 
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
@@ -169,7 +168,20 @@ export class Application extends ChildableComponent<
                 )}`
             );
         }
-        this.trigger(ApplicationEvents.BOOTSTRAP_END, this, options);
+        this.trigger(ApplicationEvents.BOOTSTRAP_END, this);
+    }
+
+    private setOptions(options: Partial<TypeDocOptions>, reportErrors = true) {
+        for (const [key, val] of Object.entries(options)) {
+            try {
+                this.options.setValue(key as never, val as never);
+            } catch (error) {
+                ok(error instanceof Error);
+                if (reportErrors) {
+                    this.logger.error(error.message);
+                }
+            }
+        }
     }
 
     /**
@@ -198,12 +210,20 @@ export class Application extends ChildableComponent<
      */
     public convert(): ProjectReflection | undefined {
         const start = Date.now();
-        // We seal here rather than in the Converter class since TypeDoc's tests reuse the Application
+        // We freeze here rather than in the Converter class since TypeDoc's tests reuse the Application
         // with a few different settings.
         this.options.freeze();
         this.logger.verbose(
             `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`
         );
+
+        if (this.entryPointStrategy === EntryPointStrategy.Merge) {
+            return this._merge();
+        }
+
+        if (this.entryPointStrategy === EntryPointStrategy.Packages) {
+            return this._convertPackages();
+        }
 
         if (
             !supportedVersionMajorMinor.some(
@@ -301,17 +321,17 @@ export class Application extends ChildableComponent<
 
         // Support for packages mode is currently unimplemented
         if (
-            this.options.getValue("entryPointStrategy") ===
-            EntryPointStrategy.Packages
+            this.entryPointStrategy !== EntryPointStrategy.Resolve &&
+            this.entryPointStrategy !== EntryPointStrategy.Expand
         ) {
             this.logger.error(
-                "The packages option of entryPointStrategy is not supported in watch mode."
+                "entryPointStrategy must be set to either resolve or expand for watch mode."
             );
             return;
         }
 
         const tsconfigFile =
-            TSConfigReader.findConfigFile(this.options.getValue("tsconfig")) ??
+            findTsConfigFile(this.options.getValue("tsconfig")) ??
             "tsconfig.json";
 
         // We don't want to do it the first time to preserve initial debug status messages. They'll be lost
@@ -413,7 +433,12 @@ export class Application extends ChildableComponent<
         const checks = this.options.getValue("validation");
         const start = Date.now();
 
-        if (checks.notExported) {
+        // No point in validating exports when merging. Warnings will have already been emitted when
+        // creating the project jsons that this run merges together.
+        if (
+            checks.notExported &&
+            this.entryPointStrategy !== EntryPointStrategy.Merge
+        ) {
             validateExports(
                 project,
                 this.logger,
@@ -432,6 +457,8 @@ export class Application extends ChildableComponent<
         if (checks.invalidLink) {
             validateLinks(project, this.logger);
         }
+
+        this.trigger(Application.EVENT_VALIDATE_PROJECT, project);
 
         this.logger.verbose(`Validation took ${Date.now() - start}ms`);
     }
@@ -457,7 +484,7 @@ export class Application extends ChildableComponent<
     }
 
     /**
-     * Run the converter for the given set of files and write the reflections to a json file.
+     * Write the reflections to a json file.
      *
      * @param out The path and file name of the target file.
      * @returns Whether the JSON file could be written successfully.
@@ -468,14 +495,7 @@ export class Application extends ChildableComponent<
     ): Promise<void> {
         const start = Date.now();
         out = Path.resolve(out);
-        const eventData = {
-            outputDirectory: Path.dirname(out),
-            outputFile: Path.basename(out),
-        };
-        const ser = this.serializer.projectToObject(project, {
-            begin: eventData,
-            end: eventData,
-        });
+        const ser = this.serializer.projectToObject(project, process.cwd());
 
         const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
@@ -493,5 +513,108 @@ export class Application extends ChildableComponent<
             `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`,
             "",
         ].join("\n");
+    }
+
+    private _convertPackages(): ProjectReflection | undefined {
+        const packageDirs = getPackageDirectories(
+            this.logger,
+            this.options,
+            this.options.getValue("entryPoints")
+        );
+
+        if (packageDirs.length === 0) {
+            this.logger.error(
+                "Failed to find any packages, ensure you have provided at least one directory as an entry point containing package.json"
+            );
+            return;
+        }
+
+        const origOptions = this.options;
+        const projects: JSONOutput.ProjectReflection[] = [];
+
+        // Generate a json file for each package
+        for (const dir of packageDirs) {
+            this.logger.info(`Converting project at ${nicePath(dir)}`);
+            const opts = origOptions.copyForPackage();
+            // Invalid links should only be reported after everything has been merged.
+            opts.setValue("validation", { invalidLink: false });
+            opts.read(this.logger, dir);
+            if (
+                opts.getValue("entryPointStrategy") ===
+                EntryPointStrategy.Packages
+            ) {
+                this.logger.error(
+                    `Project at ${nicePath(
+                        dir
+                    )} has entryPointStrategy set to packages, but nested packages are not supported.`
+                );
+                continue;
+            }
+
+            this.options = opts;
+            const project = this.convert();
+            if (project) {
+                projects.push(
+                    this.serializer.projectToObject(project, process.cwd())
+                );
+            }
+
+            resetReflectionID();
+        }
+
+        this.options = origOptions;
+
+        this.logger.info(`Merging converted projects`);
+        if (projects.length !== packageDirs.length) {
+            this.logger.error(
+                "Failed to convert one or more packages, result will not be merged together."
+            );
+            return;
+        }
+
+        const result = this.deserializer.reviveProjects(
+            this.options.getValue("name") || "Documentation",
+            projects
+        );
+        this.trigger(ApplicationEvents.REVIVE, result);
+        return result;
+    }
+
+    private _merge(): ProjectReflection | undefined {
+        const start = Date.now();
+
+        const rootDir = getCommonDirectory(this.entryPoints);
+        const entryPoints = this.entryPoints.flatMap((entry) =>
+            glob(entry, rootDir)
+        );
+        this.logger.verbose(
+            `Merging entry points:\n\t${entryPoints.map(nicePath).join("\n\t")}`
+        );
+
+        if (entryPoints.length < 1) {
+            this.logger.error("No entry points provided to merge.");
+            return;
+        }
+
+        const jsonProjects = entryPoints.map((path) => {
+            try {
+                return JSON.parse(readFile(path));
+            } catch {
+                this.logger.error(
+                    `Failed to parse file at ${nicePath(path)} as json.`
+                );
+                return null;
+            }
+        });
+        if (this.logger.hasErrors()) return;
+
+        const result = this.deserializer.reviveProjects(
+            this.options.getValue("name"),
+            jsonProjects
+        );
+        this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
+
+        this.trigger(ApplicationEvents.REVIVE, result);
+        return result;
     }
 }

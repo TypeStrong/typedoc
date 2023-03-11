@@ -4,15 +4,15 @@ import {
     Reflection,
     ReflectionKind,
     ReflectionType,
-    SignatureReflection,
 } from "../models";
 import type { Logger } from "../utils";
 import { removeFlag } from "../utils/enum";
+import { nicePath } from "../utils/paths";
 
 export function validateDocumentation(
     project: ProjectReflection,
     logger: Logger,
-    requiredToBeDocumented: readonly (keyof typeof ReflectionKind)[]
+    requiredToBeDocumented: readonly ReflectionKind.KindString[]
 ): void {
     let kinds = requiredToBeDocumented.reduce(
         (prev, cur) => prev | ReflectionKind[cur],
@@ -38,10 +38,23 @@ export function validateDocumentation(
     const toProcess = project.getReflectionsByKind(kinds);
     const seen = new Set<Reflection>();
 
-    while (toProcess.length) {
+    outer: while (toProcess.length) {
         const ref = toProcess.shift()!;
         if (seen.has(ref)) continue;
         seen.add(ref);
+
+        // If there is a parameter inside another parameter, this is probably a callback function.
+        // TypeDoc doesn't support adding comments with @param to nested parameters, so it seems
+        // silly to warn about these.
+        if (ref.kindOf(ReflectionKind.Parameter)) {
+            let r: Reflection | undefined = ref.parent;
+            while (r) {
+                if (r.kindOf(ReflectionKind.Parameter)) {
+                    continue outer;
+                }
+                r = r.parent;
+            }
+        }
 
         if (ref instanceof DeclarationReflection) {
             const signatures =
@@ -59,34 +72,17 @@ export function validateDocumentation(
             }
         }
 
-        let symbol = project.getSymbolFromReflection(ref);
-        let index = 0;
+        const symbolId = project.getSymbolIdFromReflection(ref);
 
-        // Signatures don't have symbols associated with them, so get the parent and then
-        // maybe also adjust the declaration index that we care about.
-        if (!symbol && ref.kindOf(ReflectionKind.SomeSignature)) {
-            symbol = project.getSymbolFromReflection(ref.parent!);
-
-            const parentIndex = (
-                ref.parent as DeclarationReflection
-            ).signatures?.indexOf(ref as SignatureReflection);
-            if (parentIndex) {
-                index = parentIndex;
-            }
-        }
-
-        const decl = symbol?.declarations?.[index];
-
-        if (!ref.hasComment() && decl) {
-            const sourceFile = decl.getSourceFile();
-
-            if (sourceFile.fileName.includes("node_modules")) {
+        if (!ref.hasComment() && symbolId) {
+            if (symbolId.fileName.includes("node_modules")) {
                 continue;
             }
 
             logger.warn(
-                `${ref.getFriendlyFullName()} does not have any documentation.`,
-                decl
+                `${ref.getFriendlyFullName()}, defined in ${nicePath(
+                    symbolId.fileName
+                )}, does not have any documentation.`
             );
         }
     }

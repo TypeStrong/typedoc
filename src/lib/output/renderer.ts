@@ -127,6 +127,28 @@ export class Renderer extends ChildableComponent<
     static readonly EVENT_PREPARE_INDEX = IndexEvent.PREPARE_INDEX;
 
     /**
+     * A list of async jobs which must be completed *before* rendering output.
+     * They will be called after {@link RendererEvent.BEGIN} has fired, but before any files have been written.
+     *
+     * This may be used by plugins to register work that must be done to prepare output files. For example: asynchronously
+     * transform markdown to HTML.
+     *
+     * Note: This array is cleared after calling the contained functions on each {@link Renderer.render} call.
+     */
+    preRenderAsyncJobs: Array<(output: RendererEvent) => Promise<void>> = [];
+
+    /**
+     * A list of async jobs which must be completed after rendering output files but before generation is considered successful.
+     * These functions will be called after all documents have been written to the filesystem.
+     *
+     * This may be used by plugins to register work that must be done to finalize output files. For example: asynchronously
+     * generating an image referenced in a render hook.
+     *
+     * Note: This array is cleared after calling the contained functions on each {@link Renderer.render} call.
+     */
+    postRenderAsyncJobs: Array<(output: RendererEvent) => Promise<void>> = [];
+
+    /**
      * The theme that is used to render the documentation.
      */
     theme?: Theme;
@@ -180,33 +202,6 @@ export class Renderer extends ChildableComponent<
     }
 
     /**
-     * Adds a new resolver that the theme can use to try to figure out how to link to a symbol
-     * declared by a third-party library which is not included in the documentation.
-     * @param packageName the npm package name that this resolver can handle to limit which files it will be tried on.
-     *   If the resolver will create links for Node builtin types, it should be set to `@types/node`.
-     *   Links for builtin types live in the default lib files under `typescript`.
-     * @param resolver a function that will be called to create links for a given symbol name in the registered path.
-     *  If the provided name is not contained within the docs, should return `undefined`.
-     * @since 0.22.0
-     * @deprecated
-     * Deprecated since v0.23.14, use {@link Converter.addUnknownSymbolResolver | Converter.addUnknownSymbolResolver} instead.
-     * This signature will be removed in 0.24 or possibly 0.25.
-     */
-    addUnknownSymbolResolver(
-        packageName: string,
-        resolver: (name: string) => string | undefined
-    ) {
-        this.owner.converter.addUnknownSymbolResolver((ref) => {
-            const path = ref.symbolReference?.path
-                ?.map((path) => path.path)
-                .join(".");
-            if (ref.moduleSource === packageName && path) {
-                return resolver(path);
-            }
-        });
-    }
-
-    /**
      * Render the given project reflection to the specified output directory.
      *
      * @param project  The project that should be rendered.
@@ -238,12 +233,23 @@ export class Renderer extends ChildableComponent<
 
         this.trigger(output);
 
+        await Promise.all(this.preRenderAsyncJobs.map((job) => job(output)));
+        this.preRenderAsyncJobs = [];
+
         if (!output.isDefaultPrevented) {
+            this.application.logger.verbose(
+                `There are ${output.urls.length} pages to write.`
+            );
             output.urls.forEach((mapping: UrlMapping) => {
                 clearSeenIconCache();
                 this.renderDocument(output.createPageEvent(mapping));
                 validateStateIsClean(mapping.url);
             });
+
+            await Promise.all(
+                this.postRenderAsyncJobs.map((job) => job(output))
+            );
+            this.postRenderAsyncJobs = [];
 
             this.trigger(RendererEvent.END, output);
         }
@@ -258,7 +264,7 @@ export class Renderer extends ChildableComponent<
      * @param page An event describing the current page.
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
-    private renderDocument(page: PageEvent): boolean {
+    private renderDocument(page: PageEvent) {
         const momento = this.hooks.saveMomento();
         this.trigger(PageEvent.BEGIN, page);
         if (page.isDefaultPrevented) {
@@ -283,10 +289,7 @@ export class Renderer extends ChildableComponent<
             writeFileSync(page.filename, page.contents);
         } catch (error) {
             this.application.logger.error(`Could not write ${page.filename}`);
-            return false;
         }
-
-        return true;
     }
 
     /**

@@ -42,9 +42,9 @@ type _ModelToObject<T> =
     // Reflections
     T extends Primitive
         ? T
-        : T extends M.ReflectionGroup
+        : Required<T> extends Required<M.ReflectionGroup>
         ? ReflectionGroup
-        : T extends M.ReflectionCategory
+        : Required<T> extends Required<M.ReflectionCategory>
         ? ReflectionCategory
         : T extends M.SignatureReflection
         ? SignatureReflection
@@ -97,7 +97,10 @@ type S<T, K extends keyof T> = {
     -readonly [K2 in K]: ToSerialized<T[K2]>;
 };
 
-// Reflections
+export interface ReflectionSymbolId {
+    sourceFileName: string;
+    qualifiedName: string;
+}
 
 export interface ReflectionGroup
     extends S<M.ReflectionGroup, "title" | "categories"> {
@@ -108,9 +111,15 @@ export interface ReflectionCategory extends S<M.ReflectionCategory, "title"> {
     children?: M.ReflectionCategory["children"][number]["id"][];
 }
 
+// Reflections
+
+export type SomeReflection = {
+    [K in keyof M.ReflectionVariant]: ModelToObject<M.ReflectionVariant[K]>;
+}[keyof M.ReflectionVariant];
+
 export interface ReferenceReflection
-    extends DeclarationReflection,
-        S<M.ReferenceReflection, never> {
+    extends Omit<DeclarationReflection, "variant">,
+        S<M.ReferenceReflection, "variant"> {
     /**
      * -1 if the reference refers to a symbol that does not exist in the documentation.
      * Otherwise, the reflection ID.
@@ -119,9 +128,11 @@ export interface ReferenceReflection
 }
 
 export interface SignatureReflection
-    extends Reflection,
+    extends Omit<Reflection, "variant">,
         S<
             M.SignatureReflection,
+            | "variant"
+            | "sources"
             | "parameters"
             | "type"
             | "overwrites"
@@ -133,13 +144,19 @@ export interface SignatureReflection
 }
 
 export interface ParameterReflection
-    extends Reflection,
-        S<M.ParameterReflection, "type" | "defaultValue"> {}
+    extends Omit<Reflection, "variant">,
+        S<M.ParameterReflection, "variant" | "type" | "defaultValue"> {
+    variant: "param";
+}
 
 export interface DeclarationReflection
-    extends ContainerReflection,
+    extends Omit<ContainerReflection, "variant">,
         S<
             M.DeclarationReflection,
+            | "variant"
+            | "packageVersion"
+            | "sources"
+            | "relevanceBoost"
             | "type"
             | "signatures"
             | "indexSignature"
@@ -157,23 +174,27 @@ export interface DeclarationReflection
         > {}
 
 export interface TypeParameterReflection
-    extends Reflection,
-        S<M.TypeParameterReflection, "type" | "default" | "varianceModifier"> {}
+    extends Omit<Reflection, "variant">,
+        S<
+            M.TypeParameterReflection,
+            "variant" | "type" | "default" | "varianceModifier"
+        > {}
 
-// Nothing extra yet.
-export interface ProjectReflection extends ContainerReflection {}
+export interface ProjectReflection
+    extends Omit<ContainerReflection, "variant">,
+        S<
+            M.ProjectReflection,
+            "variant" | "packageName" | "packageVersion" | "readme"
+        > {
+    symbolIdMap: Record<number, ReflectionSymbolId>;
+}
 
 export interface ContainerReflection
     extends Reflection,
-        S<
-            M.ContainerReflection,
-            "children" | "groups" | "categories" | "sources"
-        > {}
+        S<M.ContainerReflection, "children" | "groups" | "categories"> {}
 
 export interface Reflection
-    extends S<M.Reflection, "id" | "name" | "kind" | "kindString" | "comment"> {
-    /** Will not be present if name === originalName */
-    originalName?: M.Reflection["originalName"];
+    extends S<M.Reflection, "id" | "variant" | "name" | "kind" | "comment"> {
     flags: ReflectionFlags;
 }
 
@@ -196,9 +217,9 @@ export type TypeKindMap = {
     reference: ReferenceType;
     reflection: ReflectionType;
     rest: RestType;
-    "template-literal": TemplateLiteralType;
+    templateLiteral: TemplateLiteralType;
     tuple: TupleType;
-    "named-tuple-member": NamedTupleMemberType;
+    namedTupleMember: NamedTupleMemberType;
     typeOperator: TypeOperatorType;
     union: UnionType;
     unknown: UnknownType;
@@ -247,13 +268,13 @@ export interface ReferenceType
             M.ReferenceType,
             "type" | "name" | "typeArguments" | "package" | "externalUrl"
         > {
-    id?: number;
+    target: number | ReflectionSymbolId;
     qualifiedName?: string;
 }
 
-export interface ReflectionType extends Type, S<M.ReflectionType, "type"> {
-    declaration?: ModelToObject<M.ReflectionType["declaration"]>;
-}
+export interface ReflectionType
+    extends Type,
+        S<M.ReflectionType, "type" | "declaration"> {}
 
 export interface RestType extends Type, S<M.RestType, "type" | "elementType"> {}
 
@@ -305,7 +326,7 @@ type BoolKeys<T> = {
 export interface ReflectionFlags
     extends Partial<S<M.ReflectionFlags, BoolKeys<M.ReflectionFlags>>> {}
 
-export interface Comment extends Partial<S<M.Comment, "blockTags">> {
+export interface Comment extends Partial<S<M.Comment, "blockTags" | "label">> {
     summary: CommentDisplayPart[];
     modifierTags?: string[];
 }

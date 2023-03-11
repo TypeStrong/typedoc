@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import { ReflectionKind } from "../../models";
 import { assertNever, Logger } from "../../utils";
 import { CommentStyle } from "../../utils/options/declaration";

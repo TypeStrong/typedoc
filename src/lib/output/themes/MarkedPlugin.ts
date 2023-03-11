@@ -4,7 +4,7 @@ import * as Marked from "marked";
 
 import { Component, ContextAwareRendererComponent } from "../components";
 import { RendererEvent, MarkdownEvent } from "../events";
-import { BindOption, readFile, copySync } from "../../utils";
+import { BindOption, readFile, copySync, isFile } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { Theme } from "shiki";
 
@@ -104,7 +104,7 @@ output file :
         if (this.includes) {
             text = text.replace(this.includePattern, (_match, path) => {
                 path = Path.join(this.includes!, path.trim());
-                if (fs.existsSync(path) && fs.statSync(path).isFile()) {
+                if (isFile(path)) {
                     const contents = readFile(path);
                     return contents;
                 } else {
@@ -122,10 +122,7 @@ output file :
                 (match: string, path: string) => {
                     const fileName = Path.join(this.mediaDirectory!, path);
 
-                    if (
-                        fs.existsSync(fileName) &&
-                        fs.statSync(fileName).isFile()
-                    ) {
+                    if (isFile(fileName)) {
                         return this.getRelativeUrl("media") + "/" + path;
                     } else {
                         this.application.logger.warn(

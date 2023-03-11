@@ -20,7 +20,7 @@ export const SORT_STRATEGIES = [
     "kind",
 ] as const;
 
-export type SortStrategy = typeof SORT_STRATEGIES[number];
+export type SortStrategy = (typeof SORT_STRATEGIES)[number];
 
 const defaultKindSortOrder = [
     ReflectionKind.Reference,
@@ -61,29 +61,27 @@ const sorts: Record<
     ) => boolean
 > = {
     "source-order"(a, b) {
-        const aSymbol = a.project.getSymbolFromReflection(a);
-        const bSymbol = b.project.getSymbolFromReflection(b);
-
         // This is going to be somewhat ambiguous. No way around that. Treat the first
         // declaration of a symbol as its ordering declaration.
-        const aDecl = aSymbol?.getDeclarations()?.[0];
-        const bDecl = bSymbol?.getDeclarations()?.[0];
+        const aSymbol = a.project.getSymbolIdFromReflection(a);
+        const bSymbol = b.project.getSymbolIdFromReflection(b);
 
-        if (aDecl && bDecl) {
-            const aFile = aDecl.getSourceFile().fileName;
-            const bFile = bDecl.getSourceFile().fileName;
-            if (aFile < bFile) {
+        if (aSymbol && bSymbol) {
+            if (aSymbol.fileName < bSymbol.fileName) {
                 return true;
             }
-            if (aFile == bFile && aDecl.pos < bDecl.pos) {
+            if (
+                aSymbol.fileName === bSymbol.fileName &&
+                aSymbol.pos < aSymbol.pos
+            ) {
                 return true;
             }
 
             return false;
         }
 
-        // Someone is doing something weird. Fail to re-order. This *might* be a bug in TD
-        // but it could also be TS having some exported symbol without a declaration.
+        // Someone is doing something weird. Fail to re-order. This could happen if someone
+        // tries to sort with a reflection that has been removed from the project.
         return false;
     },
     alphabetical(a, b) {

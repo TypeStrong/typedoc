@@ -1,11 +1,13 @@
 import type { RendererHooks } from "../..";
-import type {
+import {
+    Comment,
     CommentDisplayPart,
+    DeclarationReflection,
     ReferenceType,
     Reflection,
+    ReflectionKind,
 } from "../../../models";
 import type { NeverIfInternal, Options } from "../../../utils";
-import { displayPartsToMarkdown } from "../lib";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
@@ -62,14 +64,14 @@ export class DefaultThemeRenderContext {
         return url ? this.theme.markedPlugin.getRelativeUrl(url) : url;
     };
 
-    urlTo = (reflection: Reflection) => this.relativeURL(reflection.url);
+    urlTo = (reflection: Reflection) => this.relativeURL(reflection.url)!;
 
     markdown = (
         md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>
     ) => {
         if (md instanceof Array) {
             return this.theme.markedPlugin.parseMarkdown(
-                displayPartsToMarkdown(md, this.urlTo)
+                Comment.displayPartsToMarkdown(md, this.urlTo)
             );
         }
         return md ? this.theme.markedPlugin.parseMarkdown(md) : "";
@@ -82,6 +84,14 @@ export class DefaultThemeRenderContext {
      */
     attemptExternalResolution = (type: NeverIfInternal<ReferenceType>) => {
         return (type as ReferenceType).externalUrl;
+    };
+
+    getReflectionClasses = (reflection: DeclarationReflection) => {
+        const filters = this.options.getValue("visibilityFilters") as Record<
+            string,
+            boolean
+        >;
+        return getReflectionClasses(reflection, filters);
     };
 
     reflectionTemplate = bind(reflectionTemplate, this);
@@ -115,4 +125,65 @@ export class DefaultThemeRenderContext {
     type = bind(type, this);
     typeAndParent = bind(typeAndParent, this);
     typeParameters = bind(typeParameters, this);
+}
+
+function getReflectionClasses(
+    reflection: DeclarationReflection,
+    filters: Record<string, boolean>
+) {
+    const classes: string[] = [];
+
+    classes.push(toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
+
+    if (
+        reflection.parent &&
+        reflection.parent instanceof DeclarationReflection
+    ) {
+        classes.push(
+            toStyleClass(
+                `tsd-parent-kind-${ReflectionKind[reflection.parent.kind]}`
+            )
+        );
+    }
+
+    // Filter classes should match up with the settings function in
+    // partials/navigation.tsx.
+    for (const key of Object.keys(filters)) {
+        if (key === "inherited") {
+            if (reflection.inheritedFrom) {
+                classes.push("tsd-is-inherited");
+            }
+        } else if (key === "protected") {
+            if (reflection.flags.isProtected) {
+                classes.push("tsd-is-protected");
+            }
+        } else if (key === "private") {
+            if (reflection.flags.isPrivate) {
+                classes.push("tsd-is-private");
+            }
+        } else if (key === "external") {
+            if (reflection.flags.isExternal) {
+                classes.push("tsd-is-external");
+            }
+        } else if (key.startsWith("@")) {
+            if (key === "@deprecated") {
+                if (reflection.isDeprecated()) {
+                    classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+                }
+            } else if (
+                reflection.comment?.hasModifier(key as `@${string}`) ||
+                reflection.comment?.getTag(key as `@${string}`)
+            ) {
+                classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+            }
+        }
+    }
+
+    return classes.join(" ");
+}
+
+function toStyleClass(str: string) {
+    return str
+        .replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2)
+        .toLowerCase();
 }

@@ -40,7 +40,7 @@ function getParameterHelp(options: Options): ParameterHelp {
     let margin = 0;
 
     for (const parameter of parameters) {
-        if (!parameter.help) {
+        if (!parameter.help || parameter.configFileOnly) {
             continue;
         }
 

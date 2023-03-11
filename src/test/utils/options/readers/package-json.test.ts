@@ -13,7 +13,6 @@ describe("Options - PackageJsonReader", () => {
         optsContainer = new Options(new Logger());
         testLogger = new TestLogger();
 
-        optsContainer.addDefaultDeclarations();
         optsContainer.addReader(new PackageJsonReader());
     });
 
@@ -88,7 +87,7 @@ describe("Options - PackageJsonReader", () => {
         `{ "typedocOptions": { "someOptionThatDoesNotExist": true } }`,
         (l) =>
             l.expectMessage(
-                "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared."
+                "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared.*"
             )
     );
 });

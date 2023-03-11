@@ -3,7 +3,7 @@
 // @callback
 
 import { ok } from "assert";
-import * as ts from "typescript";
+import ts from "typescript";
 import {
     DeclarationReflection,
     IntrinsicType,
@@ -11,6 +11,7 @@ import {
     ReflectionType,
     SignatureReflection,
 } from "../models";
+import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
 import { getJsDocComment } from "./comments";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
@@ -141,6 +142,10 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
         "__type",
         ReflectionKind.CallSignature,
         reflection
+    );
+    context.project.registerSymbolId(
+        signature,
+        new ReflectionSymbolId(symbol, node)
     );
     context.registerReflection(signature, void 0);
     const signatureCtx = context.withScope(signature);

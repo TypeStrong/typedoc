@@ -12,8 +12,7 @@
         "MeaningKeywords"
     ],
     "sort": ["kind", "instance-first", "required-first", "alphabetical"],
-    "entryPoints": ["../src"],
-    "entryPointStrategy": "resolve",
+    "entryPoints": ["../src/index.ts"],
     "excludeExternals": true,
     "excludeInternal": false,
     "excludePrivate": true,

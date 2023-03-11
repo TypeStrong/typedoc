@@ -7,8 +7,10 @@ export {
     unique,
 } from "./array";
 export { AbstractComponent, ChildableComponent, Component } from "./component";
+export * from "./enum";
 export { Event, EventDispatcher } from "./events";
 export {
+    isFile,
     copy,
     copySync,
     getCommonDirectory,
@@ -19,7 +21,7 @@ export {
 } from "./fs";
 export type { IfInternal, NeverIfInternal, Chars } from "./general";
 export { assertNever } from "./general";
-export { CallbackLogger, ConsoleLogger, Logger, LogLevel } from "./loggers";
+export { ConsoleLogger, Logger, LogLevel } from "./loggers";
 export { DefaultMap } from "./map";
 export {
     ArgumentsReader,
@@ -53,7 +55,7 @@ export type {
     ParameterTypeToOptionTypeMap,
     ManuallyValidatedOption,
 } from "./options";
-export { discoverPlugins, loadPlugins } from "./plugins";
+export { loadPlugins } from "./plugins";
 export { getSortFunction } from "./sort";
 export type { SortStrategy } from "./sort";
 

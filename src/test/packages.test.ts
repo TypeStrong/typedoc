@@ -119,7 +119,6 @@ describe("Packages support", () => {
             join(project.cwd, "packages/baz/index.ts"),
         ]);
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
     });
 
@@ -176,7 +175,6 @@ describe("Packages support", () => {
 
         equal(entries, [join(project.cwd, "packages/foo/index.ts")]);
 
-        logger.discardDebugMessages();
         logger.expectMessage(
             `warn: Legacy typedoc entry point config (using "typedocMain" field) found for "${nicePath(
                 join(project.cwd, "/packages/foo/package.json")
@@ -277,7 +275,6 @@ describe("Packages support", () => {
             packageJson
         );
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
         equal(entry, join(project.cwd, "src/index.js"));
     });
