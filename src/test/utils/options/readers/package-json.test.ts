@@ -62,4 +62,13 @@ describe("Options - PackageJsonReader", () => {
                 "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared.*"
             )
     );
+
+    testLogs(
+        "Warns if the legacy-packages 'typedoc' key is present",
+        `{ "name": "x", "typedoc": {} }`,
+        (l) =>
+            l.expectMessage(
+                "warn: The 'typedoc' key in */package.json was used by the legacy-packages entryPointStrategy and will be ignored."
+            )
+    );
 });

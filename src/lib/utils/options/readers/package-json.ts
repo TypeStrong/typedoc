@@ -24,6 +24,14 @@ export class PackageJsonReader implements OptionsReader {
 
         const { file, content } = result;
 
+        if ("typedoc" in content) {
+            logger.warn(
+                `The 'typedoc' key in ${nicePath(
+                    file
+                )} was used by the legacy-packages entryPointStrategy and will be ignored.`
+            );
+        }
+
         const optsKey = "typedocOptions";
         if (!(optsKey in content)) {
             return;
