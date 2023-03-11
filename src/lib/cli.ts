@@ -15,6 +15,7 @@ const app = new td.Application();
 
 app.options.addReader(new td.ArgumentsReader(0));
 app.options.addReader(new td.TypeDocReader());
+app.options.addReader(new td.PackageJsonReader());
 app.options.addReader(new td.TSConfigReader());
 app.options.addReader(new td.ArgumentsReader(300));
 

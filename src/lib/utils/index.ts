@@ -28,6 +28,7 @@ export {
     BindOption,
     CommentStyle,
     Options,
+    PackageJsonReader,
     ParameterHint,
     ParameterType,
     TSConfigReader,
