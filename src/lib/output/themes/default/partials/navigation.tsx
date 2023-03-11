@@ -173,7 +173,7 @@ export function secondaryNavigation(context: DefaultThemeRenderContext, props: P
                 >
                     <a href={context.urlTo(child)} class="tsd-index-link">
                         {context.icons[child.kind]()}
-                        {renderName(child)}
+                        <span>{renderName(child)}</span>
                     </a>
                 </li>
             );

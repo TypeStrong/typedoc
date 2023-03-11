@@ -253,7 +253,6 @@ dd {
 .col-8 {
     box-sizing: border-box;
     float: left;
-    padding: 2rem 1rem;
 }
 
 .col-4 {
@@ -262,7 +261,8 @@ dd {
 .col-8 {
     flex: 1 0;
     flex-wrap: wrap;
-    padding-left: 0;
+    padding: 2rem 3rem;
+    padding-right: 0;
 }
 
 @keyframes fade-in {
@@ -921,15 +921,12 @@ a.tsd-index-link {
         height: calc(100vh - 2rem);
         top: 4rem;
         right: 0;
-        padding: 0 1.5rem;
-        padding-top: 1rem;
+        padding: 2rem 0;
+        padding-right: 1rem;
         margin-top: 3rem;
         transition: 0.3s ease-in-out;
         transition-property: top, padding-top, padding, height;
         overflow-y: auto;
-    }
-    .col-menu {
-        border-left: 1px solid var(--color-accent);
     }
     .col-menu--hide {
         top: 1rem;
