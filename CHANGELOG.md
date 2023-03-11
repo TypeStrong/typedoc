@@ -40,6 +40,7 @@
 -   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.
 -   TypeDoc will now attempt to guess what option you may have meant if given an invalid option name.
 -   TypeDoc options may now be set under the `typedocOptions` key in `package.json`, #2112.
+-   Moved sidebar to left of content for consistency with most other websites, #2189
 
 ### Bug Fixes
 
@@ -47,6 +48,8 @@
 
 ### Thanks!
 
+-   @bodil
+-   @futurGH
 -   @jm4rtinez
 
 # Unreleased
