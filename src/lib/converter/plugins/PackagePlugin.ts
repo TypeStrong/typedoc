@@ -79,7 +79,7 @@ export class PackagePlugin extends ConverterComponent {
                 ? this.entryPoints.map((d) => join(d, "package.json"))
                 : this.entryPoints;
 
-        let dirName = Path.resolve(getCommonDirectory(entryFiles));
+        const dirName = Path.resolve(getCommonDirectory(entryFiles));
 
         this.application.logger.verbose(
             `Begin readme.md/package.json search at ${nicePath(dirName)}`
