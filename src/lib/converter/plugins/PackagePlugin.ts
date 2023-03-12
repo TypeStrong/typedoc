@@ -95,8 +95,8 @@ export class PackagePlugin extends ConverterComponent {
         if (this.readme) {
             // Readme path provided, read only that file.
             try {
-                this.readmeFile = this.readme;
                 this.readmeContents = readFile(this.readme);
+                this.readmeFile = this.readme;
             } catch {
                 this.application.logger.error(
                     `Provided README path, ${nicePath(

@@ -1,7 +1,7 @@
 # Custom Themes
 
-TypeDoc 0.22 changes how themes are defined, necessarily breaking compatibility with all Handlebars based themes
-created for TypeDoc 0.21 and earlier. In 0.22, themes are defined by plugins calling the `defineTheme` method on
+TypeDoc 0.22 changed how themes are defined, necessarily breaking compatibility with all Handlebars based themes
+created for TypeDoc 0.21 and earlier. In 0.22+, themes are defined by plugins calling the `defineTheme` method on
 `Application.renderer` when plugins are loaded. The most trivial theme, which exactly duplicates the default theme
 can be created by doing the following:
 
@@ -84,9 +84,28 @@ export function load(app: Application) {
 For documentation on the available hooks, see the [RendererHooks](https://typedoc.org/api/interfaces/RendererHooks.html)
 documentation on the website.
 
-## Future Work
+## Async Jobs
 
-The following is not currently supported by TypeDoc, but is planned on being included in a future version.
+Themes which completely override TypeDoc's builtin renderer may need to perform some async initialization
+or teardown after rendering. To support this, there are two arrays of functions available on `Renderer`
+which plugins may add a callback to. The renderer will call each function within these arrays when rendering
+and await the results.
 
--   Support for pre-render and post-render async actions for copying files, preparing the output directory, etc.
-    In the meantime, listen to `RendererEvent.BEGIN` or `RendererEvent.END` and perform processing there.
+```ts
+import { Application, RendererEvent } from "typedoc";
+export function load(app: Application) {
+    app.renderer.preRenderAsyncJobs.push(async (output: RendererEvent) => {
+        app.logger.info(
+            "Pre render, no docs written to " + output.outputDirectory + " yet"
+        );
+        // Slow down rendering by 1 second
+        await new Promise((r) => setTimeout(r, 1000));
+    });
+
+    app.renderer.postRenderAsyncJobs.push(async (output: RendererEvent) => {
+        app.logger.info(
+            "Post render, all docs written to " + output.outputDirectory
+        );
+    });
+}
+```

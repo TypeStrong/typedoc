@@ -20,6 +20,7 @@ detected as belonging to the `typescript` package rather than the `global` packa
 // typedoc.json
 {
     "externalSymbolLinkMappings": {
+        // For these you should probably install typedoc-plugin-mdn-links instead
         "global": {
             // Handle {@link !Promise}
             "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
