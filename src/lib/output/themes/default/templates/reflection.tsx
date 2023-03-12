@@ -8,8 +8,10 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
     if (
         [ReflectionKind.TypeAlias, ReflectionKind.Variable].includes(props.model.kind) &&
         props.model instanceof DeclarationReflection
-    )
+    ) {
         return context.memberDeclaration(props.model);
+    }
+
     return (
         <>
             {props.model.hasComment() && (

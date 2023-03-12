@@ -129,6 +129,11 @@ export class DefaultTheme extends Theme {
         if (false == hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
             urls.push(new UrlMapping<ContainerReflection>("index.html", project, this.reflectionTemplate));
+        } else if (project.children?.every((child) => child.kindOf(ReflectionKind.Module))) {
+            // If there are no non-module children, then there's no point in having a modules page since there
+            // will be nothing on it besides the navigation, so redirect the module page to the readme page
+            project.url = "index.html";
+            urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         } else {
             project.url = "modules.html";
             urls.push(new UrlMapping<ContainerReflection>("modules.html", project, this.reflectionTemplate));
