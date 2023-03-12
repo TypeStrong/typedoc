@@ -41,7 +41,7 @@ By default, TypeDoc will search for a file called `index` under the directory.
 If your codebase is comprised of one or more npm packages, you can build documentation for each of them individually
 and merge the results together into a single site by setting `entryPointStrategy` to `packages`. In this mode TypeDoc
 requires configuration to be present in each directory to specify the entry points. For an example setup, see
-`<TODO need to create example>`
+https://github.com/Gerrit0/typedoc-packages-example
 
 ### Arguments
 
