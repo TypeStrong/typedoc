@@ -2,7 +2,7 @@
 
 ### Features
 
--   Added `--treatValidationWarningsAsErrors` to turn treat only validation warnings as errors without treating all warnings as errors, #2199.
+-   Added `--treatValidationWarningsAsErrors` to treat only validation warnings as errors without treating all warnings as errors, #2199.
 
 ### Bug Fixes
 
