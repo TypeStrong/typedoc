@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.23.27 (2023-03-16)
+
 ### Features
 
 -   Added `--treatValidationWarningsAsErrors` to treat only validation warnings as errors without treating all warnings as errors, #2199.
