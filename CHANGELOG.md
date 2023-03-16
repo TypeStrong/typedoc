@@ -1,5 +1,14 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed a bug where optional properties were not appropriately marked as optional, #2200.
+-   Fixed shifted navigation pane on devices 1024px wide, #2191.
+
+### Thanks!
+
+-   @futurGH
+
 ## v0.23.26 (2023-02-26)
 
 ### Features

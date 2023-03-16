@@ -633,9 +633,13 @@ function convertProperty(
         (ts.isPropertyDeclaration(declaration) ||
             ts.isPropertySignature(declaration) ||
             ts.isParameter(declaration) ||
-            ts.isPropertyAccessExpression(declaration))
+            ts.isPropertyAccessExpression(declaration) ||
+            ts.isPropertyAssignment(declaration))
     ) {
-        if (!ts.isPropertyAccessExpression(declaration)) {
+        if (
+            !ts.isPropertyAccessExpression(declaration) &&
+            !ts.isPropertyAssignment(declaration)
+        ) {
             parameterType = declaration.type;
         }
         setModifiers(symbol, declaration, reflection);
