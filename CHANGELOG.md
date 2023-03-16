@@ -4,6 +4,7 @@
 
 -   Fixed a bug where optional properties were not appropriately marked as optional, #2200.
 -   Fixed shifted navigation pane on devices 1024px wide, #2191.
+-   Add missing `@private` and `@protected` tags to `typedoc/tsdoc.json`, #2187.
 
 ### Thanks!
 
