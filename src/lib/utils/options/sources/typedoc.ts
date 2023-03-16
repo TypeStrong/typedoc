@@ -656,7 +656,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "treatWarningsAsErrors",
-        help: "If set, warnings will be treated as errors.",
+        help: "If set, all warnings will be treated as errors.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
+        name: "treatValidationWarningsAsErrors",
+        help: "If set, warnings emitted during validation will be treated as errors. This option cannot be used to disable treatWarningsAsErrors for validation warnings.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({

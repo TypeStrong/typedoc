@@ -157,6 +157,7 @@ export interface TypeDocOptionMap {
 
     // Validation
     treatWarningsAsErrors: boolean;
+    treatValidationWarningsAsErrors: boolean;
     intentionallyNotExported: string[];
     validation: ValidationOptions;
     requiredToBeDocumented: (keyof typeof ReflectionKind)[];

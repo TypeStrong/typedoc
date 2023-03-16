@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added `--treatValidationWarningsAsErrors` to turn treat only validation warnings as errors without treating all warnings as errors, #2199.
+
 ### Bug Fixes
 
 -   Fixed a bug where optional properties were not appropriately marked as optional, #2200.
