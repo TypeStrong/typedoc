@@ -1021,8 +1021,11 @@ function setModifiers(
     );
     reflection.setFlag(
         ReflectionFlag.Readonly,
-        hasAllFlags(symbol.checkFlags ?? 0, ts.CheckFlags.Readonly) ||
-            hasAllFlags(modifiers, ts.ModifierFlags.Readonly)
+        hasAllFlags(
+            // TS 4.9: symbol.checkFlags, links was introduced in 5.0
+            symbol.checkFlags ?? symbol.links?.checkFlags ?? 0,
+            ts.CheckFlags.Readonly
+        ) || hasAllFlags(modifiers, ts.ModifierFlags.Readonly)
     );
     reflection.setFlag(
         ReflectionFlag.Abstract,

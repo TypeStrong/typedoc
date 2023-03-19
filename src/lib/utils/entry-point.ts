@@ -411,6 +411,8 @@ function getEntryPointsForPackages(
             return;
         }
 
+        const packageName = packageJson["name"] as string;
+
         if (includeVersion && !validate({ version: String }, packageJson)) {
             logger.warn(
                 `--includeVersion was specified, but "${nicePath(
@@ -420,9 +422,7 @@ function getEntryPointsForPackages(
         }
 
         results.push({
-            displayName:
-                typedocPackageConfig?.displayName ??
-                (packageJson["name"] as string),
+            displayName: typedocPackageConfig?.displayName ?? packageName,
             version: includeVersion
                 ? (packageJson["version"] as string | undefined)
                 : void 0,
