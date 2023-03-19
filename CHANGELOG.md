@@ -1,5 +1,12 @@
 # Unreleased
 
+### Features
+
+-   Added support for TypeScript 5.0, #2201.
+    -   `const` type parameters.
+    -   JSDoc `@overload` tag.
+    -   JSDoc `@satisfies` tag.
+
 ## v0.23.27 (2023-03-16)
 
 ### Features
