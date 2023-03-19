@@ -10,16 +10,6 @@ declare module "typescript" {
     }
 
     interface Symbol {
-        // TS before 5.0
-        // https://github.com/microsoft/TypeScript/blob/v4.1.5/src/compiler/types.ts#L4734-L4737
-        checkFlags?: CheckFlags;
-
-        // TS 5.0
-        // https://github.com/microsoft/TypeScript/blob/5.0.2/src/compiler/types.ts#L5891-L5898
-        links?: {
-            checkFlags: CheckFlags;
-        };
-
         // https://github.com/microsoft/TypeScript/blob/v4.7.4/src/compiler/types.ts#L4941
         // https://github.com/microsoft/TypeScript/issues/38344
         parent?: ts.Symbol;
@@ -35,6 +25,8 @@ declare module "typescript" {
         // https://github.com/microsoft/TypeScript/blob/v4.7.2/src/compiler/types.ts#L4188
         getTypeOfSymbol(symbol: Symbol): Type;
     }
+
+    export function getCheckFlags(symbol: ts.Symbol): CheckFlags;
 
     export interface Signature {
         thisParameter?: ts.Symbol;

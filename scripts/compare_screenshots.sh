@@ -4,6 +4,7 @@ test -d ./tmp/output && rm -rf ./tmp/output
 mkdir -p ./tmp/{output,screenshots,baseline}
 
 docker run \
+    --rm \
     --name typedoc-reg-suit \
     -v "$PWD/tmp/screenshots:/new" \
     -v "$PWD/tmp/baseline:/old" \
