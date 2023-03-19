@@ -3,6 +3,7 @@ import { ReflectionKind } from "../../models";
 import { assertNever, Logger } from "../../utils";
 import { CommentStyle } from "../../utils/options/declaration";
 import { nicePath } from "../../utils/paths";
+import { ok } from "assert";
 
 // Note: This does NOT include JSDoc syntax kinds. This is important!
 // Comments from @typedef and @callback tags are handled specially by
@@ -170,6 +171,22 @@ export function discoverSignatureComment(
     const node = declarationToCommentNode(declaration);
     if (!node) {
         return;
+    }
+
+    if (ts.isJSDocSignature(node)) {
+        const comment = node.parent.parent;
+        ok(ts.isJSDoc(comment));
+
+        return [
+            node.getSourceFile(),
+            [
+                {
+                    kind: ts.SyntaxKind.MultiLineCommentTrivia,
+                    pos: comment.pos,
+                    end: comment.end,
+                },
+            ],
+        ];
     }
 
     const text = node.getSourceFile().text;

@@ -21,13 +21,11 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "forceConsistentCasingInFileNames": true,
-        "importsNotUsedAsValues": "error",
         // Library
         "preserveConstEnums": true,
         "declaration": true,
         "sourceMap": true,
         "declarationMap": true,
-        "isolatedModules": true,
         "noImplicitOverride": true,
         "noPropertyAccessFromIndexSignature": true,
         // Output
@@ -36,7 +34,14 @@
         "newLine": "LF",
         "jsx": "react",
         "jsxFactory": "JSX.createElement",
-        "jsxFragmentFactory": "JSX.Fragment"
+        "jsxFragmentFactory": "JSX.Fragment",
+
+        // TS 5 introduced verbatimModuleSyntax and deprecated importsNotUsedAsValues
+        // But that flag is intentionally very unfriendly to projects emitting CommonJS
+        // so for now, we're going to ignore that deprecation.
+        "ignoreDeprecations": "5.0",
+        "importsNotUsedAsValues": "error",
+        "isolatedModules": true
     },
     "include": ["src"],
     "exclude": [

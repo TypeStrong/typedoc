@@ -849,4 +849,13 @@ export const issueTests: {
         equal(def.type?.type, "intrinsic");
         equal(def.type.toString(), "undefined");
     },
+
+    gh2200(project) {
+        const Test = query(project, "Test");
+        equal(Test.type?.type, "reflection" as const);
+        equal(
+            Test.type.declaration.getChildByName("x")?.flags.isOptional,
+            true
+        );
+    },
 };

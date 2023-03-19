@@ -63,18 +63,21 @@ export function extractTypedocConfigFromPackageManifest(
     }
     if (
         hasOwnProperty(packageJson, "typedoc") &&
-        typeof packageJson.typedoc == "object" &&
-        packageJson.typedoc
+        typeof packageJson["typedoc"] == "object" &&
+        packageJson["typedoc"]
     ) {
         if (
-            !validate(typedocPackageManifestConfigSchema, packageJson.typedoc)
+            !validate(
+                typedocPackageManifestConfigSchema,
+                packageJson["typedoc"]
+            )
         ) {
             logger.error(
                 `Typedoc config extracted from package manifest file ${packageJsonPath} is not valid`
             );
             return undefined;
         }
-        return packageJson.typedoc;
+        return packageJson["typedoc"];
     }
     return undefined;
 }

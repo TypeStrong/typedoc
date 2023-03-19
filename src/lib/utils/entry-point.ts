@@ -441,10 +441,9 @@ function getEntryPointsForLegacyPackages(
             return;
         }
 
+        const packageName = packageJson["name"] as string;
         results.push({
-            displayName:
-                typedocPackageConfig?.displayName ??
-                (packageJson["name"] as string),
+            displayName: typedocPackageConfig?.displayName ?? packageName,
             version: includeVersion
                 ? (packageJson["version"] as string | undefined)
                 : void 0,

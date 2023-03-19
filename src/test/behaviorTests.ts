@@ -141,6 +141,13 @@ export const behaviorTests: {
         );
     },
 
+    constTypeParam(project) {
+        const getNamesExactly = query(project, "getNamesExactly");
+        const typeParams = getNamesExactly.signatures?.[0].typeParameters;
+        equal(typeParams?.length, 1);
+        equal(typeParams[0].flags.isConst, true);
+    },
+
     declareGlobal(project) {
         equal(
             project.children?.map((c) => c.name),
@@ -546,6 +553,25 @@ export const behaviorTests: {
             'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.'
         );
         logger.expectNoOtherMessages();
+    },
+
+    overloadTags(project) {
+        const printValue = query(project, "printValue");
+        equal(printValue.signatures?.length, 2);
+
+        const [first, second] = printValue.signatures;
+
+        equal(first.parameters?.length, 1);
+        equal(
+            Comment.combineDisplayParts(first.parameters[0].comment?.summary),
+            "first docs"
+        );
+
+        equal(second.parameters?.length, 2);
+        equal(
+            Comment.combineDisplayParts(second.parameters[0].comment?.summary),
+            "second docs"
+        );
     },
 
     readonlyTag(project) {

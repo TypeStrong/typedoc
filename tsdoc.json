@@ -66,6 +66,22 @@
             "tagName": "@linkplain",
             "syntaxKind": "block",
             "allowMultiple": true
+        },
+        {
+            "tagName": "@private",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@protected",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@satisfies",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@overload",
+            "syntaxKind": "modifier"
         }
     ]
 }

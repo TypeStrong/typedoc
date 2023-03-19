@@ -90,13 +90,17 @@ async function run(app: td.Application) {
         return ExitCodes.CompileError;
     }
 
+    const preValidationWarnCount = app.logger.warningCount;
     app.validate(project);
+    const hadValidationWarnings =
+        app.logger.warningCount !== preValidationWarnCount;
     if (app.logger.hasErrors()) {
         return ExitCodes.ValidationError;
     }
     if (
-        app.options.getValue("treatWarningsAsErrors") &&
-        app.logger.hasWarnings()
+        hadValidationWarnings &&
+        (app.options.getValue("treatWarningsAsErrors") ||
+            app.options.getValue("treatValidationWarningsAsErrors"))
     ) {
         return ExitCodes.ValidationError;
     }

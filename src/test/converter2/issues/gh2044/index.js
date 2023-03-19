@@ -5,7 +5,7 @@ export { other } from "./other";
 
 /**
  * @typedef {import("./other").Generic<T>} Generic
- * @template T
+ * @template {string} T
  */
 
 /**

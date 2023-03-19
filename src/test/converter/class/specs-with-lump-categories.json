@@ -3253,7 +3253,7 @@
               "type": {
                 "type": "reference",
                 "target": {
-                  "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "sourceFileName": "node_modules/typescript/lib/lib.decorators.legacy.d.ts",
                   "qualifiedName": "ClassDecorator"
                 },
                 "name": "ClassDecorator",
@@ -3323,7 +3323,7 @@
               "type": {
                 "type": "reference",
                 "target": {
-                  "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "sourceFileName": "node_modules/typescript/lib/lib.decorators.legacy.d.ts",
                   "qualifiedName": "MethodDecorator"
                 },
                 "name": "MethodDecorator",

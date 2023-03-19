@@ -55,6 +55,31 @@
 
 # Unreleased
 
+## v0.23.28 (2023-03-19)
+
+### Features
+
+-   Added support for TypeScript 5.0, #2201.
+    -   `const` type parameters.
+    -   JSDoc `@overload` tag.
+    -   JSDoc `@satisfies` tag.
+
+## v0.23.27 (2023-03-16)
+
+### Features
+
+-   Added `--treatValidationWarningsAsErrors` to treat only validation warnings as errors without treating all warnings as errors, #2199.
+
+### Bug Fixes
+
+-   Fixed a bug where optional properties were not appropriately marked as optional, #2200.
+-   Fixed shifted navigation pane on devices 1024px wide, #2191.
+-   Add missing `@private` and `@protected` tags to `typedoc/tsdoc.json`, #2187.
+
+### Thanks!
+
+-   @futurGH
+
 ## v0.23.26 (2023-02-26)
 
 ### Features

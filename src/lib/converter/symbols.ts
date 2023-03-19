@@ -420,14 +420,8 @@ function convertFunctionOrMethod(
 
     // Can't use zip here. We might have less declarations than signatures
     // or less signatures than declarations.
-    for (let i = 0; i < signatures.length; i++) {
-        createSignature(
-            scope,
-            ReflectionKind.CallSignature,
-            signatures[i],
-            symbol,
-            declarations[i]
-        );
+    for (const sig of signatures) {
+        createSignature(scope, ReflectionKind.CallSignature, sig, symbol);
     }
 }
 
@@ -634,9 +628,13 @@ function convertProperty(
         (ts.isPropertyDeclaration(declaration) ||
             ts.isPropertySignature(declaration) ||
             ts.isParameter(declaration) ||
-            ts.isPropertyAccessExpression(declaration))
+            ts.isPropertyAccessExpression(declaration) ||
+            ts.isPropertyAssignment(declaration))
     ) {
-        if (!ts.isPropertyAccessExpression(declaration)) {
+        if (
+            !ts.isPropertyAccessExpression(declaration) &&
+            !ts.isPropertyAssignment(declaration)
+        ) {
             parameterType = declaration.type;
         }
         setModifiers(symbol, declaration, reflection);
@@ -1023,8 +1021,11 @@ function setModifiers(
     );
     reflection.setFlag(
         ReflectionFlag.Readonly,
-        hasAllFlags(symbol.checkFlags ?? 0, ts.CheckFlags.Readonly) ||
-            hasAllFlags(modifiers, ts.ModifierFlags.Readonly)
+        hasAllFlags(
+            // TS 4.9: symbol.checkFlags, links was introduced in 5.0
+            symbol.checkFlags ?? symbol.links?.checkFlags ?? 0,
+            ts.CheckFlags.Readonly
+        ) || hasAllFlags(modifiers, ts.ModifierFlags.Readonly)
     );
     reflection.setFlag(
         ReflectionFlag.Abstract,
