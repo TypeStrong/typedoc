@@ -74,6 +74,14 @@
         {
             "tagName": "@protected",
             "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@satisfies",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@overload",
+            "syntaxKind": "modifier"
         }
     ]
 }

@@ -422,13 +422,8 @@ function convertFunctionOrMethod(
 
     // Can't use zip here. We might have less declarations than signatures
     // or less signatures than declarations.
-    for (let i = 0; i < signatures.length; i++) {
-        createSignature(
-            scope,
-            ReflectionKind.CallSignature,
-            signatures[i],
-            declarations[i]
-        );
+    for (const sig of signatures) {
+        createSignature(scope, ReflectionKind.CallSignature, sig);
     }
 }
 

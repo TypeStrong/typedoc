@@ -577,6 +577,25 @@ export const behaviorTests: {
         logger.expectNoOtherMessages();
     },
 
+    overloadTags(project) {
+        const printValue = query(project, "printValue");
+        equal(printValue.signatures?.length, 2);
+
+        const [first, second] = printValue.signatures;
+
+        equal(first.parameters?.length, 1);
+        equal(
+            Comment.combineDisplayParts(first.parameters[0].comment?.summary),
+            "first docs"
+        );
+
+        equal(second.parameters?.length, 2);
+        equal(
+            Comment.combineDisplayParts(second.parameters[0].comment?.summary),
+            "second docs"
+        );
+    },
+
     readonlyTag(project) {
         const title = query(project, "Book.title");
         const author = query(project, "Book.author");

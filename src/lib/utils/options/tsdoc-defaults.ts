@@ -25,6 +25,7 @@ export const blockTags = [
     "@callback",
     "@prop",
     "@property",
+    "@satisfies",
 ] as const;
 
 export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;
@@ -52,4 +53,5 @@ export const modifierTags = [
     "@ignore",
     "@enum",
     "@event",
+    "@overload",
 ] as const;

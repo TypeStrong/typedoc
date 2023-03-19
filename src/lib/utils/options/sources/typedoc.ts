@@ -301,7 +301,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "excludeTags",
         help: "Remove the listed block/modifier tags from doc comments.",
         type: ParameterType.Array,
-        defaultValue: ["@override", "@virtual", "@privateRemarks"],
+        defaultValue: [
+            "@override",
+            "@virtual",
+            "@privateRemarks",
+            "@satisfies",
+        ],
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
