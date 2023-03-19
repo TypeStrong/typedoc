@@ -9,6 +9,7 @@
 -   Removed `--logger` option, to disable all logging, set the `logLevel` option to `none`.
 -   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
 -   Internal links are now only resolved with declaration references.
+-   Added `@overload` to default ignored tags.
 
 ### API Breaking Changes
 

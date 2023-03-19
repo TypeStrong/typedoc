@@ -309,6 +309,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             "@virtual",
             "@privateRemarks",
             "@satisfies",
+            "@overload",
         ],
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
