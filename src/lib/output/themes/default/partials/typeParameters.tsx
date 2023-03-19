@@ -11,6 +11,7 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                     {typeParameters?.map((item) => (
                         <li>
                             <h4>
+                                {item.flags.isConst && "const "}
                                 {item.varianceModifier ? `${item.varianceModifier} ` : ""}
                                 {item.name}
                                 {!!item.type && (

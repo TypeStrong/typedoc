@@ -284,10 +284,10 @@ function convertTypeParameters(
 
         // There's no way to determine directly from a ts.TypeParameter what it's variance modifiers are
         // so unfortunately we have to go back to the node for this...
-        const variance = getVariance(
-            param.getSymbol()?.declarations?.find(ts.isTypeParameterDeclaration)
-                ?.modifiers
-        );
+        const declaration = param
+            .getSymbol()
+            ?.declarations?.find(ts.isTypeParameterDeclaration);
+        const variance = getVariance(declaration?.modifiers);
 
         const paramRefl = new TypeParameterReflection(
             param.symbol.name,
@@ -296,6 +296,16 @@ function convertTypeParameters(
             parent,
             variance
         );
+
+        // No way to determine this from the type parameter itself, need to go back to the declaration
+        if (
+            declaration?.modifiers?.some(
+                (m) => m.kind === ts.SyntaxKind.ConstKeyword
+            )
+        ) {
+            paramRefl.flags.setFlag(ReflectionFlag.Const, true);
+        }
+
         context.registerReflection(paramRefl, param.getSymbol());
         context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl);
 
@@ -329,6 +339,10 @@ export function createTypeParamReflection(
         context.scope,
         getVariance(param.modifiers)
     );
+    if (param.modifiers?.some((m) => m.kind === ts.SyntaxKind.ConstKeyword)) {
+        paramRefl.flags.setFlag(ReflectionFlag.Const, true);
+    }
+
     context.registerReflection(paramRefl, param.symbol);
 
     if (ts.isJSDocTemplateTag(param.parent)) {

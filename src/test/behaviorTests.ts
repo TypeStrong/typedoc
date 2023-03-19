@@ -142,6 +142,13 @@ export const behaviorTests: {
         );
     },
 
+    constTypeParam(project) {
+        const getNamesExactly = query(project, "getNamesExactly");
+        const typeParams = getNamesExactly.signatures?.[0].typeParameters;
+        equal(typeParams?.length, 1);
+        equal(typeParams[0].flags.isConst, true);
+    },
+
     declareGlobal(project) {
         equal(
             project.children?.map((c) => c.name),
