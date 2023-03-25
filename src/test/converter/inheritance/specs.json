@@ -656,9 +656,9 @@
       "sources": [
         {
           "fileName": "inherit-doc.ts",
-          "line": 6,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://inherit-doc.ts#L6"
+          "url": "typedoc://inherit-doc.ts#L1"
         }
       ]
     },

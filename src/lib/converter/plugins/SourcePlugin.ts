@@ -93,6 +93,8 @@ export class SourcePlugin extends ConverterComponent {
                     sourceFile,
                     node.name.getStart()
                 );
+            } else if (ts.isSourceFile(node)) {
+                position = { character: 0, line: 0 };
             } else {
                 position = ts.getLineAndCharacterOfPosition(
                     sourceFile,

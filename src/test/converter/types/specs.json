@@ -936,9 +936,9 @@
       "sources": [
         {
           "fileName": "parens.ts",
-          "line": 3,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://parens.ts#L3"
+          "url": "typedoc://parens.ts#L1"
         }
       ]
     },
@@ -1949,9 +1949,9 @@
       "sources": [
         {
           "fileName": "union-or-intersection.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://union-or-intersection.ts#L4"
+          "url": "typedoc://union-or-intersection.ts#L1"
         }
       ]
     }

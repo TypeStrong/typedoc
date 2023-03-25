@@ -365,9 +365,9 @@
       "sources": [
         {
           "fileName": "array.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://array.ts#L4"
+          "url": "typedoc://array.ts#L1"
         }
       ]
     },
@@ -700,9 +700,9 @@
       "sources": [
         {
           "fileName": "destructuring.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://destructuring.ts#L4"
+          "url": "typedoc://destructuring.ts#L1"
         }
       ]
     },

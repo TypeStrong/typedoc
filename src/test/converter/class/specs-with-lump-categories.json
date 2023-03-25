@@ -475,9 +475,9 @@
       "sources": [
         {
           "fileName": "access.ts",
-          "line": 5,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://access.ts#L5"
+          "url": "typedoc://access.ts#L1"
         }
       ]
     },
@@ -2354,9 +2354,9 @@
       "sources": [
         {
           "fileName": "class.ts",
-          "line": 8,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://class.ts#L8"
+          "url": "typedoc://class.ts#L1"
         }
       ]
     },
@@ -2919,9 +2919,9 @@
       "sources": [
         {
           "fileName": "constructor-properties.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://constructor-properties.ts#L4"
+          "url": "typedoc://constructor-properties.ts#L1"
         }
       ]
     },
@@ -3352,9 +3352,9 @@
       "sources": [
         {
           "fileName": "decorators.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://decorators.ts#L4"
+          "url": "typedoc://decorators.ts#L1"
         }
       ]
     },
@@ -4024,9 +4024,9 @@
       "sources": [
         {
           "fileName": "events-overloads.ts",
-          "line": 6,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://events-overloads.ts#L6"
+          "url": "typedoc://events-overloads.ts#L1"
         }
       ]
     },
@@ -4596,9 +4596,9 @@
       "sources": [
         {
           "fileName": "generic-class.ts",
-          "line": 5,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://generic-class.ts#L5"
+          "url": "typedoc://generic-class.ts#L1"
         }
       ]
     },
@@ -5014,9 +5014,9 @@
       "sources": [
         {
           "fileName": "this.ts",
-          "line": 6,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://this.ts#L6"
+          "url": "typedoc://this.ts#L1"
         }
       ]
     },
@@ -5275,9 +5275,9 @@
       "sources": [
         {
           "fileName": "type-operator.ts",
-          "line": 8,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://type-operator.ts#L8"
+          "url": "typedoc://type-operator.ts#L1"
         }
       ]
     }

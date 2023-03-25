@@ -898,4 +898,9 @@ export const issueTests: {
             true
         );
     },
+
+    gh2207(project) {
+        const mod = query(project, "Mod");
+        equal(mod.sources?.[0].line, 1);
+    },
 };

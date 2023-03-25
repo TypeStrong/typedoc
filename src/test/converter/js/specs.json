@@ -98,9 +98,9 @@
       "sources": [
         {
           "fileName": "export-eq-type.js",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://export-eq-type.js#L4"
+          "url": "typedoc://export-eq-type.js#L1"
         }
       ]
     },
@@ -960,9 +960,9 @@
       "sources": [
         {
           "fileName": "index.js",
-          "line": 55,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://index.js#L55"
+          "url": "typedoc://index.js#L1"
         }
       ]
     }

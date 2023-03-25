@@ -233,9 +233,9 @@
       "sources": [
         {
           "fileName": "mod.ts",
-          "line": 8,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://mod.ts#L8"
+          "url": "typedoc://mod.ts#L1"
         }
       ]
     },
@@ -267,9 +267,9 @@
       "sources": [
         {
           "fileName": "no-doc-members.ts",
-          "line": 6,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://no-doc-members.ts#L6"
+          "url": "typedoc://no-doc-members.ts#L1"
         }
       ]
     }

@@ -205,9 +205,9 @@
       "sources": [
         {
           "fileName": "comment.ts",
-          "line": 5,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://comment.ts#L5"
+          "url": "typedoc://comment.ts#L1"
         }
       ]
     },
@@ -306,9 +306,9 @@
       "sources": [
         {
           "fileName": "comment2.ts",
-          "line": 8,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://comment2.ts#L8"
+          "url": "typedoc://comment2.ts#L1"
         }
       ]
     },
@@ -407,9 +407,9 @@
       "sources": [
         {
           "fileName": "comment3.ts",
-          "line": 8,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://comment3.ts#L8"
+          "url": "typedoc://comment3.ts#L1"
         }
       ]
     },
@@ -504,9 +504,9 @@
       "sources": [
         {
           "fileName": "comment4.ts",
-          "line": 11,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://comment4.ts#L11"
+          "url": "typedoc://comment4.ts#L1"
         }
       ]
     }

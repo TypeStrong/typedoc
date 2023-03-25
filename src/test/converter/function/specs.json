@@ -2577,9 +2577,9 @@
       "sources": [
         {
           "fileName": "function.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://function.ts#L4"
+          "url": "typedoc://function.ts#L1"
         }
       ]
     },
@@ -2897,9 +2897,9 @@
       "sources": [
         {
           "fileName": "generic-function.ts",
-          "line": 7,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://generic-function.ts#L7"
+          "url": "typedoc://generic-function.ts#L1"
         }
       ]
     },

@@ -649,9 +649,9 @@
       "sources": [
         {
           "fileName": "interface-empty.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://interface-empty.ts#L4"
+          "url": "typedoc://interface-empty.ts#L1"
         }
       ]
     },
