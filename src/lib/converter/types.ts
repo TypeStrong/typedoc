@@ -225,7 +225,7 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
             context.scope
         );
         const rc = context.withScope(reflection);
-        rc.setConvertingTypeNode();
+        rc.convertingTypeNode = true;
 
         context.registerReflection(reflection, symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
@@ -557,7 +557,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             context.scope
         );
         const rc = context.withScope(reflection);
-        rc.setConvertingTypeNode();
+        rc.convertingTypeNode = true;
 
         context.registerReflection(reflection, symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);

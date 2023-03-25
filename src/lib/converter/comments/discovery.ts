@@ -30,6 +30,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.PropertySignature,
     ],
     [ReflectionKind.Variable]: [
+        // everything here should also be in ReflectionKind.Property
         ts.SyntaxKind.VariableDeclaration,
         ts.SyntaxKind.BindingElement,
         ts.SyntaxKind.ExportAssignment,
@@ -55,6 +56,11 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.PropertyAssignment,
         // class X { constructor(/** Comment */ readonly z: string) }
         ts.SyntaxKind.Parameter,
+        // Variable values
+        ts.SyntaxKind.VariableDeclaration,
+        ts.SyntaxKind.BindingElement,
+        ts.SyntaxKind.ExportAssignment,
+        ts.SyntaxKind.PropertyAccessExpression,
     ],
     [ReflectionKind.Method]: [
         ts.SyntaxKind.FunctionDeclaration,

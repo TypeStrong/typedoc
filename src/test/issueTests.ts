@@ -832,6 +832,46 @@ export const issueTests: {
         );
     },
 
+    gh2150(project) {
+        const intFn = query(project, "FileInt.intFn");
+        equal(intFn.kind, ReflectionKind.Method, "intFn interface method");
+        equal(
+            Comment.combineDisplayParts(intFn.signatures?.[0].comment?.summary),
+            "intFn doc"
+        );
+
+        const intProp = query(project, "FileInt.intVar");
+        equal(intProp.kind, ReflectionKind.Property, "intVar interface prop");
+        equal(
+            Comment.combineDisplayParts(intProp.comment?.summary),
+            "intVar doc"
+        );
+
+        const constFn = query(project, "FileInt.constFn");
+        equal(constFn.kind, ReflectionKind.Method, "constFn interface method");
+        equal(
+            Comment.combineDisplayParts(
+                constFn.signatures?.[0].comment?.summary
+            ),
+            "constFn doc"
+        );
+
+        const intFn2 = query(project, "FileClass.intFn");
+        equal(intFn2.kind, ReflectionKind.Method, "intFn class method");
+
+        const intProp2 = query(project, "FileClass.intVar");
+        equal(intProp2.kind, ReflectionKind.Property, "intVar class prop");
+
+        const constFn2 = query(project, "FileClass.constFn");
+        equal(constFn2.kind, ReflectionKind.Method, "constFn class method");
+        equal(
+            Comment.combineDisplayParts(
+                constFn2.signatures?.[0].comment?.summary
+            ),
+            "constFn doc"
+        );
+    },
+
     pre2156(app) {
         app.options.setValue("excludeNotDocumented", true);
     },

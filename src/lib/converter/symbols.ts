@@ -447,6 +447,7 @@ function convertClassOrInterface(
     if (classDeclaration) setModifiers(symbol, classDeclaration, reflection);
 
     const reflectionContext = context.withScope(reflection);
+    reflectionContext.convertingClassOrInterface = true;
 
     const instanceType = context.checker.getDeclaredTypeOfSymbol(symbol);
     assert(instanceType.isClassOrInterface());
@@ -643,7 +644,7 @@ function convertProperty(
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
-        (context.isConvertingTypeNode() ? parameterType : void 0) ??
+        (context.convertingTypeNode ? parameterType : void 0) ??
             context.checker.getTypeOfSymbol(symbol)
     );
 

@@ -61,20 +61,9 @@ export class Context {
      */
     readonly scope: Reflection;
 
-    /** @internal */
-    isConvertingTypeNode(): boolean {
-        return this.convertingTypeNode;
-    }
-
-    /** @internal */
-    setConvertingTypeNode() {
-        this.convertingTypeNode = true;
-    }
-
-    /** @internal */
-    shouldBeStatic = false;
-
-    private convertingTypeNode = false;
+    convertingTypeNode = false; // Inherited by withScope
+    convertingClassOrInterface = false; // Not inherited
+    shouldBeStatic = false; // Not inherited
 
     /**
      * Create a new Context instance.
@@ -98,13 +87,6 @@ export class Context {
     /** @internal */
     get logger() {
         return this.converter.application.logger;
-    }
-
-    /**
-     * Return the compiler options.
-     */
-    getCompilerOptions(): ts.CompilerOptions {
-        return this.converter.application.options.getCompilerOptions();
     }
 
     /**
@@ -174,6 +156,15 @@ export class Context {
         const name = getHumanName(
             nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
         );
+
+        if (this.convertingClassOrInterface) {
+            if (kind === ReflectionKind.Function) {
+                kind = ReflectionKind.Method;
+            }
+            if (kind === ReflectionKind.Variable) {
+                kind = ReflectionKind.Property;
+            }
+        }
 
         const reflection = new DeclarationReflection(name, kind, this.scope);
         this.postReflectionCreation(reflection, symbol, exportSymbol);
