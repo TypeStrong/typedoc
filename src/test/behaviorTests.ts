@@ -365,6 +365,25 @@ export const behaviorTests: {
         );
     },
 
+    inheritDocSignature(project) {
+        const test1 = query(project, "SigRef.test1");
+        equal(test1.signatures?.length, 2);
+        equal(
+            Comment.combineDisplayParts(test1.signatures[0].comment?.summary),
+            "A"
+        );
+        equal(
+            Comment.combineDisplayParts(test1.signatures[1].comment?.summary),
+            "B"
+        );
+
+        const test2 = query(project, "SigRef.test2");
+        equal(
+            Comment.combineDisplayParts(test2.signatures?.[0].comment?.summary),
+            "C"
+        );
+    },
+
     inheritDocWarnings(project, logger) {
         const target1 = query(project, "target1");
         equal(Comment.combineDisplayParts(target1.comment?.summary), "Source");

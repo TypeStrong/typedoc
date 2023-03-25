@@ -73,7 +73,8 @@ export class InheritDocPlugin extends ConverterComponent {
                     const index = reflection.parent
                         .getAllSignatures()
                         .indexOf(reflection);
-                    sourceRefl = sourceRefl.getAllSignatures()[index];
+                    sourceRefl =
+                        sourceRefl.getAllSignatures()[index] || sourceRefl;
                 }
             }
 

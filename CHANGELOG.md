@@ -47,6 +47,7 @@
 ### Bug Fixes
 
 -   TypeDoc will now ignore package.json files not containing a `name` field, #2190.
+-   Fixed `@inheritDoc` on signatures (functions, methods, constructors, getters, setters) being unable to inherit from a non-signature.
 
 ### Thanks!
 
