@@ -265,7 +265,7 @@ export class ProjectReflection extends ContainerReflection {
             variant: this.variant,
             packageName: this.packageName,
             packageVersion: this.packageVersion,
-            readme: Comment.serializeDisplayParts(this.readme),
+            readme: Comment.serializeDisplayParts(serializer, this.readme),
             symbolIdMap,
         };
     }

@@ -81,6 +81,10 @@ export class Converter extends ChildableComponent<
     @BindOption("externalSymbolLinkMappings")
     externalSymbolLinkMappings!: Record<string, Record<string, string>>;
 
+    /** @internal */
+    @BindOption("useTsLinkResolution")
+    useTsLinkResolution!: boolean;
+
     private _config?: CommentParserConfig;
     private _externalSymbolResolvers: Array<ExternalSymbolResolver> = [];
 
@@ -300,12 +304,18 @@ export class Converter extends ChildableComponent<
         owner: Reflection
     ): CommentDisplayPart[] | undefined {
         if (comment instanceof Comment) {
-            resolveLinks(comment, owner, (ref, part, refl) =>
-                this.resolveExternalLink(ref, part, refl)
+            resolveLinks(
+                comment,
+                owner,
+                (ref, part, refl) => this.resolveExternalLink(ref, part, refl),
+                this.useTsLinkResolution
             );
         } else {
-            return resolvePartLinks(owner, comment, (ref, part, refl) =>
-                this.resolveExternalLink(ref, part, refl)
+            return resolvePartLinks(
+                owner,
+                comment,
+                (ref, part, refl) => this.resolveExternalLink(ref, part, refl),
+                this.useTsLinkResolution
             );
         }
     }
@@ -365,7 +375,8 @@ export class Converter extends ChildableComponent<
                     context.project.kind,
                     this.config,
                     this.application.logger,
-                    this.commentStyle
+                    this.commentStyle,
+                    context.checker
                 );
             context.trigger(
                 Converter.EVENT_CREATE_DECLARATION,

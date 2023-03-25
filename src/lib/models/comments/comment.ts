@@ -1,5 +1,5 @@
 import { assertNever, removeIf } from "../../utils";
-import type { Reflection } from "../reflections";
+import type { Reflection, ReflectionSymbolId } from "../reflections";
 
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
 
@@ -16,7 +16,7 @@ export interface InlineTagDisplayPart {
     kind: "inline-tag";
     tag: `@${string}`;
     text: string;
-    target?: Reflection | string;
+    target?: Reflection | string | ReflectionSymbolId;
 }
 
 /**
@@ -60,11 +60,11 @@ export class CommentTag {
         return tag;
     }
 
-    toObject(): JSONOutput.CommentTag {
+    toObject(serializer: Serializer): JSONOutput.CommentTag {
         return {
             tag: this.tag,
             name: this.name,
-            content: Comment.serializeDisplayParts(this.content),
+            content: Comment.serializeDisplayParts(serializer, this.content),
         };
     }
 
@@ -134,10 +134,14 @@ export class Comment {
                         case "@linkcode":
                         case "@linkplain": {
                             if (part.target) {
-                                const url =
-                                    typeof part.target === "string"
-                                        ? part.target
-                                        : urlTo(part.target);
+                                let url: string | undefined;
+                                if (typeof part.target === "string") {
+                                    url = part.target;
+                                } else if (part.target && "id" in part.target) {
+                                    // No point in trying to resolve a ReflectionSymbolId at this point, we've already
+                                    // tried and failed during the resolution step.
+                                    url = urlTo(part.target);
+                                }
                                 const text =
                                     part.tag === "@linkcode"
                                         ? `<code>${part.text}</code>`
@@ -176,13 +180,16 @@ export class Comment {
 
     //Since display parts are plain objects, this lives here
     static serializeDisplayParts(
+        serializer: Serializer,
         parts: CommentDisplayPart[]
     ): JSONOutput.CommentDisplayPart[];
     /** @hidden no point in showing this signature in api docs */
     static serializeDisplayParts(
+        serializer: Serializer,
         parts: CommentDisplayPart[] | undefined
     ): JSONOutput.CommentDisplayPart[] | undefined;
     static serializeDisplayParts(
+        serializer: Serializer,
         parts: CommentDisplayPart[] | undefined
     ): JSONOutput.CommentDisplayPart[] | undefined {
         return parts?.map((part) => {
@@ -191,12 +198,19 @@ export class Comment {
                 case "code":
                     return { ...part };
                 case "inline-tag": {
+                    let target: JSONOutput.InlineTagDisplayPart["target"];
+                    if (typeof part.target === "string") {
+                        target = part.target;
+                    } else if (part.target) {
+                        if ("id" in part.target) {
+                            target = part.target.id;
+                        } else {
+                            target = part.target.toObject(serializer);
+                        }
+                    }
                     return {
                         ...part,
-                        target:
-                            typeof part.target === "object"
-                                ? part.target.id
-                                : part.target,
+                        target,
                     };
                 }
             }
@@ -364,7 +378,7 @@ export class Comment {
 
     toObject(serializer: Serializer): JSONOutput.Comment {
         return {
-            summary: Comment.serializeDisplayParts(this.summary),
+            summary: Comment.serializeDisplayParts(serializer, this.summary),
             blockTags: serializer.toObjectsOptional(this.blockTags),
             modifierTags:
                 this.modifierTags.size > 0

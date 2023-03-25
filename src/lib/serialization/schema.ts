@@ -335,19 +335,21 @@ export interface CommentTag extends S<M.CommentTag, "tag" | "name"> {
     content: CommentDisplayPart[];
 }
 
+export type CommentDisplayPart =
+    | { kind: "text"; text: string }
+    | { kind: "code"; text: string }
+    | InlineTagDisplayPart;
+
 /**
  * If `target` is a number, it is a reflection ID. If a string, it is a URL.
  * `target` will only be set for `@link`, `@linkcode`, and `@linkplain` tags.
  */
-export type CommentDisplayPart =
-    | { kind: "text"; text: string }
-    | { kind: "code"; text: string }
-    | {
-          kind: "inline-tag";
-          tag: `@${string}`;
-          text: string;
-          target?: string | number;
-      };
+export interface InlineTagDisplayPart {
+    kind: "inline-tag";
+    tag: `@${string}`;
+    text: string;
+    target?: string | number | ReflectionSymbolId;
+}
 
 export interface SourceReference
     extends S<M.SourceReference, "fileName" | "line" | "character" | "url"> {}

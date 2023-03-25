@@ -3,7 +3,11 @@ import { Comment, ReflectionKind } from "../../models";
 import { assertNever, Logger } from "../../utils";
 import type { CommentStyle } from "../../utils/options/declaration";
 import { lexBlockComment } from "./blockLexer";
-import { discoverComment, discoverSignatureComment } from "./discovery";
+import {
+    DiscoveredComment,
+    discoverComment,
+    discoverSignatureComment,
+} from "./discovery";
 import { lexLineComments } from "./lineLexer";
 import { parseComment } from "./parser";
 
@@ -24,13 +28,14 @@ const jsDocCommentKinds = [
 const commentCache = new WeakMap<ts.SourceFile, Map<number, Comment>>();
 
 function getCommentWithCache(
-    discovered: [ts.SourceFile, ts.CommentRange[]] | undefined,
+    discovered: DiscoveredComment | undefined,
     config: CommentParserConfig,
-    logger: Logger
+    logger: Logger,
+    checker: ts.TypeChecker
 ) {
     if (!discovered) return;
 
-    const [file, ranges] = discovered;
+    const { file, ranges, jsDoc } = discovered;
     const cache = commentCache.get(file) || new Map<number, Comment>();
     if (cache?.has(ranges[0].pos)) {
         return cache.get(ranges[0].pos)!.clone();
@@ -40,7 +45,13 @@ function getCommentWithCache(
     switch (ranges[0].kind) {
         case ts.SyntaxKind.MultiLineCommentTrivia:
             comment = parseComment(
-                lexBlockComment(file.text, ranges[0].pos, ranges[0].end),
+                lexBlockComment(
+                    file.text,
+                    ranges[0].pos,
+                    ranges[0].end,
+                    jsDoc,
+                    checker
+                ),
                 config,
                 file,
                 logger
@@ -65,12 +76,13 @@ function getCommentWithCache(
 }
 
 function getCommentImpl(
-    commentSource: [ts.SourceFile, ts.CommentRange[]] | undefined,
+    commentSource: DiscoveredComment | undefined,
     config: CommentParserConfig,
     logger: Logger,
-    moduleComment: boolean
+    moduleComment: boolean,
+    checker: ts.TypeChecker
 ) {
-    const comment = getCommentWithCache(commentSource, config, logger);
+    const comment = getCommentWithCache(commentSource, config, logger, checker);
 
     if (moduleComment && comment) {
         // Module comment, make sure it is tagged with @packageDocumentation or @module.
@@ -101,7 +113,8 @@ export function getComment(
     kind: ReflectionKind,
     config: CommentParserConfig,
     logger: Logger,
-    commentStyle: CommentStyle
+    commentStyle: CommentStyle,
+    checker: ts.TypeChecker
 ): Comment | undefined {
     const declarations = symbol.declarations || [];
 
@@ -112,7 +125,8 @@ export function getComment(
         return getJsDocComment(
             declarations[0] as ts.JSDocPropertyLikeTag,
             config,
-            logger
+            logger,
+            checker
         );
     }
 
@@ -120,7 +134,8 @@ export function getComment(
         discoverComment(symbol, kind, logger, commentStyle),
         config,
         logger,
-        declarations.some(ts.isSourceFile)
+        declarations.some(ts.isSourceFile),
+        checker
     );
 
     if (!comment && kind === ReflectionKind.Property) {
@@ -128,7 +143,8 @@ export function getComment(
             symbol,
             config,
             logger,
-            commentStyle
+            commentStyle,
+            checker
         );
     }
 
@@ -139,13 +155,20 @@ function getConstructorParamPropertyComment(
     symbol: ts.Symbol,
     config: CommentParserConfig,
     logger: Logger,
-    commentStyle: CommentStyle
+    commentStyle: CommentStyle,
+    checker: ts.TypeChecker
 ): Comment | undefined {
     const decl = symbol.declarations?.find(ts.isParameter);
     if (!decl) return;
 
     const ctor = decl.parent;
-    const comment = getSignatureComment(ctor, config, logger, commentStyle);
+    const comment = getSignatureComment(
+        ctor,
+        config,
+        logger,
+        commentStyle,
+        checker
+    );
 
     const paramTag = comment?.getIdentifiedTag(symbol.name, "@param");
     if (paramTag) {
@@ -157,13 +180,15 @@ export function getSignatureComment(
     declaration: ts.SignatureDeclaration | ts.JSDocSignature,
     config: CommentParserConfig,
     logger: Logger,
-    commentStyle: CommentStyle
+    commentStyle: CommentStyle,
+    checker: ts.TypeChecker
 ): Comment | undefined {
     return getCommentImpl(
         discoverSignatureComment(declaration, commentStyle),
         config,
         logger,
-        false
+        false,
+        checker
     );
 }
 
@@ -175,7 +200,8 @@ export function getJsDocComment(
         | ts.JSDocTemplateTag
         | ts.JSDocEnumTag,
     config: CommentParserConfig,
-    logger: Logger
+    logger: Logger,
+    checker: ts.TypeChecker
 ): Comment | undefined {
     const file = declaration.getSourceFile();
 
@@ -187,18 +213,20 @@ export function getJsDocComment(
 
     // Then parse it.
     const comment = getCommentWithCache(
-        [
+        {
             file,
-            [
+            ranges: [
                 {
                     kind: ts.SyntaxKind.MultiLineCommentTrivia,
                     pos: parent.pos,
                     end: parent.end,
                 },
             ],
-        ],
+            jsDoc: parent,
+        },
         config,
-        logger
+        logger,
+        checker
     )!;
 
     // And pull out the tag we actually care about.

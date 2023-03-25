@@ -75,7 +75,8 @@ export function createSignature(
             declaration,
             context.converter.config,
             context.logger,
-            context.converter.commentStyle
+            context.converter.commentStyle,
+            context.checker
         );
     }
 
@@ -163,7 +164,8 @@ function convertParameters(
             paramRefl.comment = getJsDocComment(
                 declaration,
                 context.converter.config,
-                context.logger
+                context.logger,
+                context.checker
             );
         }
         paramRefl.comment ||= getComment(
@@ -171,7 +173,8 @@ function convertParameters(
             paramRefl.kind,
             context.converter.config,
             context.logger,
-            context.converter.commentStyle
+            context.converter.commentStyle,
+            context.checker
         );
 
         context.registerReflection(paramRefl, param);
@@ -241,7 +244,8 @@ export function convertParameterNodes(
             paramRefl.comment = getJsDocComment(
                 param,
                 context.converter.config,
-                context.logger
+                context.logger,
+                context.checker
             );
         }
         context.registerReflection(
@@ -356,7 +360,8 @@ export function createTypeParamReflection(
         paramRefl.comment = getJsDocComment(
             param.parent,
             context.converter.config,
-            context.logger
+            context.logger,
+            context.checker
         );
     }
 

@@ -1,6 +1,11 @@
 import { ok } from "assert";
 import type { CommentParserConfig } from ".";
-import { Comment, CommentDisplayPart, CommentTag } from "../../models";
+import {
+    Comment,
+    CommentDisplayPart,
+    CommentTag,
+    InlineTagDisplayPart,
+} from "../../models";
 import { assertNever, Logger, removeIf } from "../../utils";
 import type { MinimalSourceFile } from "../../utils/minimalSourceFile";
 import { nicePath } from "../../utils/paths";
@@ -431,9 +436,13 @@ function inlineTag(
         lexer.take(); // Close brace
     }
 
-    block.push({
+    const inlineTag: InlineTagDisplayPart = {
         kind: "inline-tag",
         tag: tagName.text as `@${string}`,
         text: content.join(""),
-    });
+    };
+    if (tagName.linkTarget) {
+        inlineTag.target = tagName.linkTarget;
+    }
+    block.push(inlineTag);
 }

@@ -430,6 +430,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "useTsLinkResolution",
+        help: "Use TypeScript's link resolution when determining where @link tags point. This only applies to JSDoc style comments.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+
+    options.addDeclaration({
         name: "blockTags",
         help: "Block tags which TypeDoc should recognize when parsing comments.",
         type: ParameterType.Array,

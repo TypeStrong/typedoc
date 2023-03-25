@@ -446,8 +446,10 @@ export const behaviorTests: {
 
     _linkResolution(app) {
         app.options.setValue("sort", ["source-order"]);
+        app.options.setValue("useTsLinkResolution", false);
     },
     linkResolution(project) {
+        const BROKEN = Symbol("BROKEN");
         function getLinks(refl: Reflection) {
             ok(refl.comment);
             return filterMap(refl.comment.summary, (p) => {
@@ -461,7 +463,10 @@ export const behaviorTests: {
                             p.target.parent.signatures?.indexOf(p.target),
                         ];
                     }
-                    return [p.target?.kind, p.target?.getFullName()];
+                    if (p.target instanceof Reflection) {
+                        return [p.target?.kind, p.target?.getFullName()];
+                    }
+                    return [BROKEN];
                 }
             });
         }
@@ -485,7 +490,7 @@ export const behaviorTests: {
             [ReflectionKind.Namespace, "Meanings.A"],
             [ReflectionKind.Enum, "Meanings.A"],
 
-            [undefined, undefined],
+            [BROKEN],
             [ReflectionKind.Class, "Meanings.B"],
 
             [ReflectionKind.Interface, "Meanings.C"],
@@ -498,7 +503,7 @@ export const behaviorTests: {
             ["Meanings.B.constructor.new B", 1],
 
             [ReflectionKind.EnumMember, "Meanings.A.A"],
-            [undefined, undefined],
+            [BROKEN],
 
             ["Meanings.E.E", 0],
             ["Meanings.E.E", 1],
@@ -526,11 +531,124 @@ export const behaviorTests: {
         equal(getLinks(query(project, "Navigation")), [
             [ReflectionKind.Method, "Navigation.Child.foo"],
             [ReflectionKind.Property, "Navigation.Child.foo"],
-            [undefined, undefined],
+            [BROKEN],
         ]);
 
         const foo = query(project, "Navigation.Child.foo").signatures![0];
         equal(getLinks(foo), [[ReflectionKind.Method, "Navigation.Child.foo"]]);
+    },
+
+    _linkResolutionTs(app) {
+        app.options.setValue("sort", ["source-order"]);
+    },
+    linkResolutionTs(project) {
+        const BROKEN = Symbol("BROKEN");
+        function getLinks(refl: Reflection) {
+            ok(refl.comment);
+            return filterMap(refl.comment.summary, (p) => {
+                if (p.kind === "inline-tag" && p.tag === "@link") {
+                    if (typeof p.target === "string") {
+                        return p.target;
+                    }
+                    if (p.target instanceof SignatureReflection) {
+                        return [
+                            p.target.getFullName(),
+                            p.target.parent.signatures?.indexOf(p.target),
+                        ];
+                    }
+                    if (p.target instanceof Reflection) {
+                        return [p.target?.kind, p.target?.getFullName()];
+                    }
+                    return [BROKEN];
+                }
+            });
+        }
+
+        for (const [refl, target] of [
+            ["Scoping.abc", "Scoping.abc"],
+            ["Scoping.Foo", "Scoping.Foo.abc"],
+            ["Scoping.Foo.abc", "Scoping.Foo.abc"],
+            ["Scoping.Bar", "Scoping.abc"],
+            ["Scoping.Bar.abc", "Scoping.abc"],
+        ] as const) {
+            equal(
+                getLinks(query(project, refl)).map((x) => x[1]),
+                [query(project, target).getFullName()]
+            );
+        }
+
+        const links = getLinks(query(project, "Meanings"));
+        equal(links, [
+            [ReflectionKind.Namespace, "Meanings"],
+            [ReflectionKind.Namespace, "Meanings"],
+            [ReflectionKind.Namespace, "Meanings"],
+
+            [ReflectionKind.Enum, "Meanings.A"],
+            [ReflectionKind.Class, "Meanings.B"],
+
+            [ReflectionKind.Interface, "Meanings.C"],
+            [ReflectionKind.TypeAlias, "Meanings.D"],
+            [ReflectionKind.Function, "Meanings.E"],
+            [ReflectionKind.Variable, "Meanings.F"],
+
+            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKind.Class, "Meanings.B"],
+
+            [ReflectionKind.EnumMember, "Meanings.A.A"],
+            [ReflectionKind.Property, "Meanings.B.prop"],
+
+            [ReflectionKind.Function, "Meanings.E"],
+            [ReflectionKind.Function, "Meanings.E"],
+
+            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKind.Class, "Meanings.B"],
+
+            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKind.Interface, "Meanings.G"],
+
+            [ReflectionKind.Function, "Meanings.E"],
+            [ReflectionKind.Class, "Meanings.B"],
+        ]);
+
+        equal(getLinks(query(project, "URLS")), [
+            "https://example.com",
+            "ftp://example.com",
+        ]);
+
+        equal(
+            getLinks(query(project, "Globals.A")).map((x) => x[1]),
+            ["URLS", "A", "Globals.A"]
+        );
+
+        equal(getLinks(query(project, "Navigation")), [
+            [ReflectionKind.Namespace, "Navigation"],
+            [ReflectionKind.Property, "Navigation.Child.foo"],
+            [ReflectionKind.Class, "Navigation.Child"],
+        ]);
+
+        const foo = query(project, "Navigation.Child.foo").signatures![0];
+        equal(getLinks(foo), [[ReflectionKind.Method, "Navigation.Child.foo"]]);
+
+        const localSymbolRef = query(project, "localSymbolRef");
+
+        const link = localSymbolRef.comment?.summary[0];
+        equal(link?.kind, "inline-tag");
+        equal(link.text, "A!");
+        ok(link.target instanceof Reflection);
+        equal(link.target.name, "A");
+
+        const link2 = localSymbolRef.comment?.summary[1];
+        equal(link2?.kind, "inline-tag");
+        equal(link2.text, "A2!");
+        ok(link2.target instanceof Reflection);
+        equal(link2.target.name, "A");
+
+        const link3 = localSymbolRef.comment?.summary[2];
+        equal(link3?.kind, "inline-tag");
+        equal(link3.text, "A");
+        ok(link3.target instanceof Reflection);
+        equal(link3.target.name, "A");
     },
 
     mergedDeclarations(project, logger) {

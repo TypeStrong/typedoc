@@ -137,6 +137,7 @@ export interface TypeDocOptionMap {
     sidebarLinks: ManuallyValidatedOption<Record<string, string>>;
 
     commentStyle: typeof CommentStyle;
+    useTsLinkResolution: boolean;
     blockTags: `@${string}`[];
     inlineTags: `@${string}`[];
     modifierTags: `@${string}`[];

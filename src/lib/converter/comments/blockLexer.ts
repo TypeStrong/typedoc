@@ -1,13 +1,24 @@
+import ts from "typescript";
 import { Token, TokenSyntaxKind } from "./lexer";
+import { ReflectionSymbolId } from "../../models/reflections/ReflectionSymbolId";
+import { resolveAliasedSymbol } from "../utils/symbols";
 
 export function* lexBlockComment(
     file: string,
     pos = 0,
-    end = file.length
+    end = file.length,
+    jsDoc: ts.JSDoc | undefined = undefined,
+    checker: ts.TypeChecker | undefined = undefined
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
-    for (const token of lexBlockComment2(file, pos, end)) {
+    for (const token of lexBlockComment2(
+        file,
+        pos,
+        end,
+        getLinkTags(jsDoc),
+        checker
+    )) {
         if (token.kind === TokenSyntaxKind.Text) {
             if (textToken) {
                 textToken.text += token.text;
@@ -29,10 +40,33 @@ export function* lexBlockComment(
     return;
 }
 
+function getLinkTags(
+    jsDoc: ts.JSDoc | undefined
+): ReadonlyArray<ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain> {
+    const result: (ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain)[] = [];
+
+    if (!jsDoc || typeof jsDoc.comment !== "object") return result;
+
+    for (const part of jsDoc.comment) {
+        switch (part.kind) {
+            case ts.SyntaxKind.JSDocLink:
+            case ts.SyntaxKind.JSDocLinkCode:
+            case ts.SyntaxKind.JSDocLinkPlain:
+                result.push(part);
+        }
+    }
+
+    return result;
+}
+
 function* lexBlockComment2(
     file: string,
     pos: number,
-    end: number
+    end: number,
+    linkTags: ReadonlyArray<
+        ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain
+    >,
+    checker: ts.TypeChecker | undefined
 ): Generator<Token, undefined, undefined> {
     pos += 2; // Leading '/*'
     end -= 2; // Trailing '*/'
@@ -57,6 +91,7 @@ function* lexBlockComment2(
 
     let lineStart = true;
     let braceStartsType = false;
+    let linkTagIndex = 0;
 
     for (;;) {
         if (pos >= end) {
@@ -206,7 +241,12 @@ function* lexBlockComment2(
                     (lookahead === end || /\s/.test(file[lookahead]))
                 ) {
                     braceStartsType = true;
-                    yield makeToken(TokenSyntaxKind.Tag, lookahead - pos);
+                    const token = makeToken(
+                        TokenSyntaxKind.Tag,
+                        lookahead - pos
+                    );
+                    attachLinkTagResult(token);
+                    yield token;
                     break;
                 }
             }
@@ -259,6 +299,32 @@ function* lexBlockComment2(
                 };
                 pos = lookahead;
                 break;
+            }
+        }
+    }
+
+    function attachLinkTagResult(token: Token) {
+        // We might need to skip link tags if someone has link tags inside of an example comment
+        // pos-1 for opening brace, TS doesn't allow spaces between opening brace and @ sign as of 5.0.2
+        while (
+            linkTagIndex < linkTags.length &&
+            linkTags[linkTagIndex].pos < token.pos - 1
+        ) {
+            linkTagIndex++;
+        }
+
+        if (
+            linkTagIndex < linkTags.length &&
+            linkTags[linkTagIndex].pos === token.pos - 1
+        ) {
+            const link = linkTags[linkTagIndex];
+            if (link.name) {
+                const tsTarget = checker?.getSymbolAtLocation(link.name);
+                if (tsTarget) {
+                    token.linkTarget = new ReflectionSymbolId(
+                        resolveAliasedSymbol(tsTarget, checker!)
+                    );
+                }
             }
         }
     }

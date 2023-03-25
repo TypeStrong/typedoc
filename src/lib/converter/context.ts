@@ -196,7 +196,8 @@ export class Context {
                 reflection.kind,
                 this.converter.config,
                 this.logger,
-                this.converter.commentStyle
+                this.converter.commentStyle,
+                this.checker
             );
         }
         if (symbol && !reflection.comment) {
@@ -205,7 +206,8 @@ export class Context {
                 reflection.kind,
                 this.converter.config,
                 this.logger,
-                this.converter.commentStyle
+                this.converter.commentStyle,
+                this.checker
             );
         }
 

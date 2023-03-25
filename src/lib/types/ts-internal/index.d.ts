@@ -26,7 +26,14 @@ declare module "typescript" {
         getTypeOfSymbol(symbol: Symbol): Type;
     }
 
+    // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L7432
     export function getCheckFlags(symbol: ts.Symbol): CheckFlags;
+
+    // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L4171
+    export function getJSDocCommentsAndTags(
+        hostNode: Node,
+        noCache?: boolean
+    ): readonly (JSDoc | JSDocTag)[];
 
     export interface Signature {
         thisParameter?: ts.Symbol;

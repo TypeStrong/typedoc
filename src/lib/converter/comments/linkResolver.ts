@@ -5,6 +5,7 @@ import {
     DeclarationReflection,
     InlineTagDisplayPart,
     Reflection,
+    ReflectionSymbolId,
 } from "../../models";
 import {
     DeclarationReference,
@@ -24,18 +25,21 @@ export type ExternalSymbolResolver = (
 export function resolveLinks(
     comment: Comment,
     reflection: Reflection,
-    externalResolver: ExternalSymbolResolver
+    externalResolver: ExternalSymbolResolver,
+    useTsResolution: boolean
 ) {
     comment.summary = resolvePartLinks(
         reflection,
         comment.summary,
-        externalResolver
+        externalResolver,
+        useTsResolution
     );
     for (const tag of comment.blockTags) {
         tag.content = resolvePartLinks(
             reflection,
             tag.content,
-            externalResolver
+            externalResolver,
+            useTsResolution
         );
     }
 
@@ -43,7 +47,8 @@ export function resolveLinks(
         reflection.readme = resolvePartLinks(
             reflection,
             reflection.readme,
-            externalResolver
+            externalResolver,
+            useTsResolution
         );
     }
 }
@@ -51,17 +56,19 @@ export function resolveLinks(
 export function resolvePartLinks(
     reflection: Reflection,
     parts: readonly CommentDisplayPart[],
-    externalResolver: ExternalSymbolResolver
+    externalResolver: ExternalSymbolResolver,
+    useTsResolution: boolean
 ): CommentDisplayPart[] {
     return parts.flatMap((part) =>
-        processPart(reflection, part, externalResolver)
+        processPart(reflection, part, externalResolver, useTsResolution)
     );
 }
 
 function processPart(
     reflection: Reflection,
     part: CommentDisplayPart,
-    externalResolver: ExternalSymbolResolver
+    externalResolver: ExternalSymbolResolver,
+    useTsResolution: boolean
 ): CommentDisplayPart | CommentDisplayPart[] {
     if (part.kind === "inline-tag") {
         if (
@@ -69,7 +76,12 @@ function processPart(
             part.tag === "@linkcode" ||
             part.tag === "@linkplain"
         ) {
-            return resolveLinkTag(reflection, part, externalResolver);
+            return resolveLinkTag(
+                reflection,
+                part,
+                externalResolver,
+                useTsResolution
+            );
         }
     }
 
@@ -79,19 +91,29 @@ function processPart(
 function resolveLinkTag(
     reflection: Reflection,
     part: InlineTagDisplayPart,
-    externalResolver: ExternalSymbolResolver
+    externalResolver: ExternalSymbolResolver,
+    useTsResolution: boolean
 ) {
+    let defaultDisplayText = "";
     let pos = 0;
     const end = part.text.length;
     while (pos < end && ts.isWhiteSpaceLike(part.text.charCodeAt(pos))) {
         pos++;
     }
 
-    // Try to parse one
-    const declRef = parseDeclarationReference(part.text, pos, end);
-
     let target: Reflection | string | undefined;
-    let defaultDisplayText = "";
+    if (useTsResolution && part.target instanceof ReflectionSymbolId) {
+        target = reflection.project.getReflectionFromSymbolId(part.target);
+        if (target) {
+            pos = end;
+            defaultDisplayText =
+                part.text.replace(/^\s*[A-Z_$][\w$]*[ |]*/i, "") || target.name;
+        }
+    }
+
+    // Try to parse a declaration reference if we didn't use the TS symbol for resolution
+    const declRef = !target && parseDeclarationReference(part.text, pos, end);
+
     if (declRef) {
         // Got one, great! Try to resolve the link
         target = resolveDeclarationReference(reflection, declRef[0]);
@@ -121,14 +143,11 @@ function resolveLinkTag(
         }
     }
 
-    if (!target) {
-        if (urlPrefix.test(part.text)) {
-            const wsIndex = part.text.search(/\s/);
-            target =
-                wsIndex === -1 ? part.text : part.text.substring(0, wsIndex);
-            pos = target.length;
-            defaultDisplayText = target;
-        }
+    if (!target && urlPrefix.test(part.text)) {
+        const wsIndex = part.text.search(/\s/);
+        target = wsIndex === -1 ? part.text : part.text.substring(0, wsIndex);
+        pos = target.length;
+        defaultDisplayText = target;
     }
 
     // Remaining text after an optional pipe is the link text, so advance

@@ -85,17 +85,23 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     ],
 };
 
+export interface DiscoveredComment {
+    file: ts.SourceFile;
+    ranges: ts.CommentRange[];
+    jsDoc: ts.JSDoc | undefined;
+}
+
 export function discoverComment(
     symbol: ts.Symbol,
     kind: ReflectionKind,
     logger: Logger,
     commentStyle: CommentStyle
-): [ts.SourceFile, ts.CommentRange[]] | undefined {
+): DiscoveredComment | undefined {
     // For a module comment, we want the first one defined in the file,
     // not the last one, since that will apply to the import or declaration.
     const reverse = !symbol.declarations?.some(ts.isSourceFile);
 
-    const discovered: [ts.SourceFile, ts.CommentRange[]][] = [];
+    const discovered: DiscoveredComment[] = [];
 
     for (const decl of symbol.declarations || []) {
         const text = decl.getSourceFile().text;
@@ -135,7 +141,11 @@ export function discoverComment(
             );
 
             if (selectedDocComment) {
-                discovered.push([decl.getSourceFile(), selectedDocComment]);
+                discovered.push({
+                    file: decl.getSourceFile(),
+                    ranges: selectedDocComment,
+                    jsDoc: findJsDocForComment(node, selectedDocComment),
+                });
             }
         }
     }
@@ -149,9 +159,10 @@ export function discoverComment(
             logger.warn(
                 `${symbol.name} has multiple declarations with a comment. An arbitrary comment will be used.`
             );
-            const locations = discovered.map(([sf, [{ pos }]]) => {
-                const path = nicePath(sf.fileName);
-                const line = ts.getLineAndCharacterOfPosition(sf, pos).line + 1;
+            const locations = discovered.map(({ file, ranges: [{ pos }] }) => {
+                const path = nicePath(file.fileName);
+                const line =
+                    ts.getLineAndCharacterOfPosition(file, pos).line + 1;
                 return `${path}:${line}`;
             });
             logger.info(
@@ -167,7 +178,7 @@ export function discoverComment(
 export function discoverSignatureComment(
     declaration: ts.SignatureDeclaration | ts.JSDocSignature,
     commentStyle: CommentStyle
-): [ts.SourceFile, ts.CommentRange[]] | undefined {
+): DiscoveredComment | undefined {
     const node = declarationToCommentNode(declaration);
     if (!node) {
         return;
@@ -177,16 +188,17 @@ export function discoverSignatureComment(
         const comment = node.parent.parent;
         ok(ts.isJSDoc(comment));
 
-        return [
-            node.getSourceFile(),
-            [
+        return {
+            file: node.getSourceFile(),
+            ranges: [
                 {
                     kind: ts.SyntaxKind.MultiLineCommentTrivia,
                     pos: comment.pos,
                     end: comment.end,
                 },
             ],
-        ];
+            jsDoc: undefined,
+        };
     }
 
     const text = node.getSourceFile().text;
@@ -200,7 +212,24 @@ export function discoverSignatureComment(
         permittedRange(text, ranges, commentStyle)
     );
     if (comment) {
-        return [node.getSourceFile(), comment];
+        return {
+            file: node.getSourceFile(),
+            ranges: comment,
+            jsDoc: findJsDocForComment(node, comment),
+        };
+    }
+}
+
+function findJsDocForComment(
+    node: ts.Node,
+    ranges: ts.CommentRange[]
+): ts.JSDoc | undefined {
+    if (ranges[0].kind === ts.SyntaxKind.MultiLineCommentTrivia) {
+        const jsDocs = ts
+            .getJSDocCommentsAndTags(node)
+            .map((doc) => ts.findAncestor(doc, ts.isJSDoc)) as ts.JSDoc[];
+
+        return jsDocs.find((doc) => doc.pos === ranges[0].pos);
     }
 }
 

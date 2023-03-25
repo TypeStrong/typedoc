@@ -2,6 +2,8 @@
 
 ### Breaking Changes
 
+-   `@link`, `@linkcode` and `@linkplain` tags will now be resolved with TypeScript's link resolution by default. The `useTsLinkResolution` option
+    can be used to turn this behavior off, but be aware that doing so will mean your links will be resolved differently by editor tooling and TypeDoc.
 -   TypeDoc will no longer automatically load plugins from `node_modules`. Specify the `--plugin` option to indicate which modules should be loaded.
 -   The `packages` entry point strategy will now run TypeDoc in each provided package directory and then merge the results together.
     The previous `packages` strategy has been preserved under `legacy-packages` and will be removed in 0.25. If the new strategy does not work
