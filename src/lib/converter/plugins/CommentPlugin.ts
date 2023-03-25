@@ -591,6 +591,8 @@ function movePropertyTags(comment: Comment, container: Reflection) {
     const propTags = comment.blockTags.filter(
         (tag) => tag.tag === "@prop" || tag.tag === "@property"
     );
+    comment.removeTags("@prop");
+    comment.removeTags("@property");
 
     for (const prop of propTags) {
         if (!prop.name) continue;

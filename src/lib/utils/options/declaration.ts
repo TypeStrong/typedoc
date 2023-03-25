@@ -30,6 +30,7 @@ export type CommentStyle = (typeof CommentStyle)[keyof typeof CommentStyle];
  * An interface describing all TypeDoc specific options. Generated from a
  * map which contains more information about each option for better types when
  * defining said options.
+ * @interface
  */
 export type TypeDocOptions = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
@@ -51,6 +52,7 @@ export type TypeDocOptions = {
  * Describes all TypeDoc specific options as returned by {@link Options.getValue}, this is
  * slightly more restrictive than the {@link TypeDocOptions} since it does not allow both
  * keys and values for mapped option types, and does not allow partials of flag values.
+ * @interface
  */
 export type TypeDocOptionValues = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
