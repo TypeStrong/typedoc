@@ -60,11 +60,17 @@ export class DefaultThemeRenderContext {
         this.theme.owner.hooks.emit(name, this);
 
     /** Avoid this in favor of urlTo if possible */
-    relativeURL = (url: string | undefined) => {
-        return url ? this.theme.markedPlugin.getRelativeUrl(url) : url;
+    relativeURL = (url: string, cacheBust = false) => {
+        const result = this.theme.markedPlugin.getRelativeUrl(url);
+        if (cacheBust && this.theme.owner.cacheBust) {
+            return result + `?cache=${this.theme.owner.renderStartTime}`;
+        }
+        return result;
     };
 
-    urlTo = (reflection: Reflection) => this.relativeURL(reflection.url)!;
+    urlTo = (reflection: Reflection) => {
+        return reflection.url ? this.relativeURL(reflection.url) : "";
+    };
 
     markdown = (
         md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>

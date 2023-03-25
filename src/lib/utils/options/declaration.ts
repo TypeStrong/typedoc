@@ -130,6 +130,7 @@ export interface TypeDocOptionMap {
     githubPages: boolean;
     gaID: string;
     hideGenerator: boolean;
+    cacheBust: boolean;
     searchInComments: boolean;
     cleanOutputDir: boolean;
     titleLink: string;

@@ -363,6 +363,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "cacheBust",
+        help: "Include the generation time in links to static assets.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "searchInComments",
         help: "If set, the search index will also include comments. This will greatly increase the size of the search index.",
         type: ParameterType.Boolean,

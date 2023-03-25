@@ -180,12 +180,18 @@ export class Renderer extends ChildableComponent<
     githubPages!: boolean;
 
     /** @internal */
+    @BindOption("cacheBust")
+    cacheBust!: boolean;
+
+    /** @internal */
     @BindOption("lightHighlightTheme")
     lightTheme!: ShikiTheme;
 
     /** @internal */
     @BindOption("darkHighlightTheme")
     darkTheme!: ShikiTheme;
+
+    renderStartTime = -1;
 
     /**
      * Define a new theme that can be used to render output.
@@ -212,10 +218,12 @@ export class Renderer extends ChildableComponent<
         outputDirectory: string
     ): Promise<void> {
         const momento = this.hooks.saveMomento();
-        const start = Date.now();
+        this.renderStartTime = Date.now();
         await loadHighlighter(this.lightTheme, this.darkTheme);
         this.application.logger.verbose(
-            `Renderer: Loading highlighter took ${Date.now() - start}ms`
+            `Renderer: Loading highlighter took ${
+                Date.now() - this.renderStartTime
+            }ms`
         );
         if (
             !this.prepareTheme() ||

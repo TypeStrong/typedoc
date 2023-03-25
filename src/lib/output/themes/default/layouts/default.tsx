@@ -17,12 +17,12 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             <meta name="description" content={"Documentation for " + props.project.name} />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-            <link rel="stylesheet" href={context.relativeURL("assets/style.css")} />
-            <link rel="stylesheet" href={context.relativeURL("assets/highlight.css")} />
+            <link rel="stylesheet" href={context.relativeURL("assets/style.css", true)} />
+            <link rel="stylesheet" href={context.relativeURL("assets/highlight.css", true)} />
             {context.options.getValue("customCss") && (
-                <link rel="stylesheet" href={context.relativeURL("assets/custom.css")} />
+                <link rel="stylesheet" href={context.relativeURL("assets/custom.css", true)} />
             )}
-            <script async src={context.relativeURL("assets/search.js")} id="search-script"></script>
+            <script async src={context.relativeURL("assets/search.js", true)} id="search-script"></script>
             {context.hook("head.end")}
         </head>
         <body>
@@ -49,7 +49,7 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             {context.footer()}
 
             <div class="overlay"></div>
-            <script src={context.relativeURL("assets/main.js")}></script>
+            <script src={context.relativeURL("assets/main.js", true)}></script>
 
             {context.analytics()}
             {context.hook("body.end")}
