@@ -323,6 +323,15 @@ function convertTypeAlias(
     assert(declaration);
 
     if (ts.isTypeAliasDeclaration(declaration)) {
+        if (symbol.getJsDocTags().some((tag) => tag.name === "interface")) {
+            return convertTypeAliasAsInterface(
+                context,
+                symbol,
+                exportSymbol,
+                declaration
+            );
+        }
+
         const reflection = context.createDeclarationReflection(
             ReflectionKind.TypeAlias,
             symbol,
@@ -349,6 +358,48 @@ function convertTypeAlias(
     } else {
         convertJsDocCallback(context, symbol, declaration, exportSymbol);
     }
+}
+
+function convertTypeAliasAsInterface(
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol: ts.Symbol | undefined,
+    declaration: ts.TypeAliasDeclaration
+) {
+    const reflection = context.createDeclarationReflection(
+        ReflectionKind.Interface,
+        symbol,
+        exportSymbol
+    );
+    context.finalizeDeclarationReflection(reflection);
+    const rc = context.withScope(reflection);
+
+    const type = context.checker.getTypeAtLocation(declaration);
+
+    // Interfaces have properties
+    convertSymbols(rc, type.getProperties());
+
+    // And type arguments
+    if (declaration.typeParameters) {
+        reflection.typeParameters = declaration.typeParameters.map((param) => {
+            const declaration = param.symbol?.declarations?.[0];
+            assert(declaration && ts.isTypeParameterDeclaration(declaration));
+            return createTypeParamReflection(declaration, rc);
+        });
+    }
+
+    // And maybe call signatures
+    context.checker
+        .getSignaturesOfType(type, ts.SignatureKind.Call)
+        .forEach((sig) =>
+            createSignature(rc, ReflectionKind.CallSignature, sig, symbol)
+        );
+
+    // And maybe constructor signatures
+    convertConstructSignatures(rc, symbol);
+
+    // And finally, index signatures
+    convertIndexSignature(rc, symbol);
 }
 
 function convertFunctionOrMethod(

@@ -153,6 +153,10 @@ export class CommentPlugin extends ConverterComponent {
             comment.removeModifier("@namespace");
         }
 
+        if (reflection.kindOf(ReflectionKind.Interface)) {
+            comment.removeModifier("@interface");
+        }
+
         if (comment.hasModifier("@private")) {
             reflection.setFlag(ReflectionFlag.Private);
             if (reflection.kindOf(ReflectionKind.CallSignature)) {
@@ -344,6 +348,7 @@ export class CommentPlugin extends ConverterComponent {
             }
 
             mergeSeeTags(reflection.comment);
+            movePropertyTags(reflection.comment, reflection);
         }
 
         if (!(reflection instanceof DeclarationReflection)) {
@@ -580,6 +585,23 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
     };
 
     parameter.type?.visit(visitor);
+}
+
+function movePropertyTags(comment: Comment, container: Reflection) {
+    const propTags = comment.blockTags.filter(
+        (tag) => tag.tag === "@prop" || tag.tag === "@property"
+    );
+
+    for (const prop of propTags) {
+        if (!prop.name) continue;
+
+        const child = container.getChildByName(prop.name);
+        if (child) {
+            child.comment = new Comment(
+                Comment.cloneDisplayParts(prop.content)
+            );
+        }
+    }
 }
 
 function mergeSeeTags(comment: Comment) {

@@ -60,7 +60,10 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.ClassDeclaration,
         ts.SyntaxKind.BindingElement,
     ],
-    [ReflectionKind.Interface]: [ts.SyntaxKind.InterfaceDeclaration],
+    [ReflectionKind.Interface]: [
+        ts.SyntaxKind.InterfaceDeclaration,
+        ts.SyntaxKind.TypeAliasDeclaration,
+    ],
     [ReflectionKind.Constructor]: [ts.SyntaxKind.Constructor],
     [ReflectionKind.Property]: variablePropertyKinds,
     [ReflectionKind.Method]: [

@@ -37,6 +37,8 @@
 
 ### Features
 
+-   Added support for `@interface` on type aliases to tell TypeDoc to convert the fully resolved type as an interface, #1519
+-   Added support for `@prop`/`@property` to specify documentation for a child property of a symbol, intended for use with `@interface`.
 -   Plugins may now return a `Promise<void>` from their `load` function, #185.
 -   TypeDoc now supports plugins written with ESM, #1635.
 -   Added `Renderer.preRenderAsyncJobs` and `Renderer.postRenderAsyncJobs`, which may be used by plugins to perform async processing for rendering, #185.

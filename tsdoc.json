@@ -86,6 +86,10 @@
         {
             "tagName": "@namespace",
             "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@interface",
+            "syntaxKind": "modifier"
         }
     ]
 }

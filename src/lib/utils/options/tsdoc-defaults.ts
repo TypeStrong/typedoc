@@ -55,4 +55,5 @@ export const modifierTags = [
     "@event",
     "@overload",
     "@namespace",
+    "@interface",
 ] as const;

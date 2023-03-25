@@ -743,20 +743,6 @@ export const behaviorTests: {
         );
     },
 
-    seeTags(project) {
-        const foo = query(project, "foo");
-        equal(
-            Comment.combineDisplayParts(foo.comment?.getTag("@see")?.content),
-            " - Double tag\n - Second tag\n"
-        );
-
-        const bar = query(project, "bar");
-        equal(
-            Comment.combineDisplayParts(bar.comment?.getTag("@see")?.content),
-            "Single tag"
-        );
-    },
-
     _searchCategoryBoosts(app) {
         app.options.setValue("searchCategoryBoosts", {
             Cat0: 0,
@@ -802,5 +788,34 @@ export const behaviorTests: {
                 " The unused groups were:\n\tGroupUnused"
         );
         logger.expectNoOtherMessages();
+    },
+
+    seeTags(project) {
+        const foo = query(project, "foo");
+        equal(
+            Comment.combineDisplayParts(foo.comment?.getTag("@see")?.content),
+            " - Double tag\n - Second tag\n"
+        );
+
+        const bar = query(project, "bar");
+        equal(
+            Comment.combineDisplayParts(bar.comment?.getTag("@see")?.content),
+            "Single tag"
+        );
+    },
+
+    typeAliasInterface(project) {
+        const bar = query(project, "Bar");
+        equal(bar.kind, ReflectionKind.Interface);
+        equal(
+            bar.children?.map((c) => c.name),
+            ["a", "b"]
+        );
+
+        const comments = [bar, bar.children[0], bar.children[1]].map((r) =>
+            Comment.combineDisplayParts(r.comment?.summary)
+        );
+
+        equal(comments, ["Bar docs", "Bar.a docs", "Foo.b docs"]);
     },
 };
