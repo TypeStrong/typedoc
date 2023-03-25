@@ -5,6 +5,20 @@ import { CommentStyle } from "../../utils/options/declaration";
 import { nicePath } from "../../utils/paths";
 import { ok } from "assert";
 
+const variablePropertyKinds = [
+    ts.SyntaxKind.PropertyDeclaration,
+    ts.SyntaxKind.PropertySignature,
+    ts.SyntaxKind.BinaryExpression,
+    ts.SyntaxKind.PropertyAssignment,
+    // class X { constructor(/** Comment */ readonly z: string) }
+    ts.SyntaxKind.Parameter,
+    // Variable values
+    ts.SyntaxKind.VariableDeclaration,
+    ts.SyntaxKind.BindingElement,
+    ts.SyntaxKind.ExportAssignment,
+    ts.SyntaxKind.PropertyAccessExpression,
+];
+
 // Note: This does NOT include JSDoc syntax kinds. This is important!
 // Comments from @typedef and @callback tags are handled specially by
 // the JSDoc converter because we only want part of the comment when
@@ -18,6 +32,11 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.BindingElement,
         ts.SyntaxKind.ExportSpecifier,
         ts.SyntaxKind.NamespaceExport,
+        // @namespace support
+        ts.SyntaxKind.VariableDeclaration,
+        ts.SyntaxKind.BindingElement,
+        ts.SyntaxKind.ExportAssignment,
+        ts.SyntaxKind.PropertyAccessExpression,
     ],
     [ReflectionKind.Enum]: [
         ts.SyntaxKind.EnumDeclaration,
@@ -29,13 +48,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.PropertyAssignment,
         ts.SyntaxKind.PropertySignature,
     ],
-    [ReflectionKind.Variable]: [
-        // everything here should also be in ReflectionKind.Property
-        ts.SyntaxKind.VariableDeclaration,
-        ts.SyntaxKind.BindingElement,
-        ts.SyntaxKind.ExportAssignment,
-        ts.SyntaxKind.PropertyAccessExpression,
-    ],
+    [ReflectionKind.Variable]: variablePropertyKinds,
     [ReflectionKind.Function]: [
         ts.SyntaxKind.FunctionDeclaration,
         ts.SyntaxKind.BindingElement,
@@ -49,19 +62,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     ],
     [ReflectionKind.Interface]: [ts.SyntaxKind.InterfaceDeclaration],
     [ReflectionKind.Constructor]: [ts.SyntaxKind.Constructor],
-    [ReflectionKind.Property]: [
-        ts.SyntaxKind.PropertyDeclaration,
-        ts.SyntaxKind.PropertySignature,
-        ts.SyntaxKind.BinaryExpression,
-        ts.SyntaxKind.PropertyAssignment,
-        // class X { constructor(/** Comment */ readonly z: string) }
-        ts.SyntaxKind.Parameter,
-        // Variable values
-        ts.SyntaxKind.VariableDeclaration,
-        ts.SyntaxKind.BindingElement,
-        ts.SyntaxKind.ExportAssignment,
-        ts.SyntaxKind.PropertyAccessExpression,
-    ],
+    [ReflectionKind.Property]: variablePropertyKinds,
     [ReflectionKind.Method]: [
         ts.SyntaxKind.FunctionDeclaration,
         ts.SyntaxKind.MethodDeclaration,

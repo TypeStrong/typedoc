@@ -791,6 +791,10 @@ function convertVariable(
         return convertVariableAsEnum(context, symbol, exportSymbol);
     }
 
+    if (symbol.getJsDocTags().some((tag) => tag.name === "namespace")) {
+        return convertVariableAsNamespace(context, symbol, exportSymbol);
+    }
+
     if (type.getCallSignatures().length) {
         return convertVariableAsFunction(context, symbol, exportSymbol);
     }
@@ -874,6 +878,27 @@ function convertVariableAsEnum(
 
     // Skip converting the type alias, if there is one
     return ts.SymbolFlags.TypeAlias;
+}
+
+function convertVariableAsNamespace(
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol?: ts.Symbol
+) {
+    const reflection = context.createDeclarationReflection(
+        ReflectionKind.Namespace,
+        symbol,
+        exportSymbol
+    );
+    context.finalizeDeclarationReflection(reflection);
+    const rc = context.withScope(reflection);
+
+    const declaration = symbol.declarations![0] as ts.VariableDeclaration;
+    const type = context.checker.getTypeAtLocation(declaration);
+
+    convertSymbols(rc, type.getProperties());
+
+    return ts.SymbolFlags.Property;
 }
 
 function convertVariableAsFunction(

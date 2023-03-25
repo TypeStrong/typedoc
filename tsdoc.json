@@ -82,6 +82,10 @@
         {
             "tagName": "@overload",
             "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@namespace",
+            "syntaxKind": "modifier"
         }
     ]
 }

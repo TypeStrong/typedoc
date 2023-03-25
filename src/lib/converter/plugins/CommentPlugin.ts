@@ -149,6 +149,10 @@ export class CommentPlugin extends ConverterComponent {
      * @param comment  The comment that should be searched for modifiers.
      */
     private applyModifiers(reflection: Reflection, comment: Comment) {
+        if (reflection.kindOf(ReflectionKind.SomeModule)) {
+            comment.removeModifier("@namespace");
+        }
+
         if (comment.hasModifier("@private")) {
             reflection.setFlag(ReflectionFlag.Private);
             if (reflection.kindOf(ReflectionKind.CallSignature)) {

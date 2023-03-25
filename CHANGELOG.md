@@ -46,6 +46,7 @@
 -   TypeDoc options may now be set under the `typedocOptions` key in `package.json`, #2112.
 -   Moved sidebar to left of content for consistency with most other websites, #2189.
 -   Added `--cacheBust` option to tell TypeDoc to include include the generation time in files, #2124.
+-   Added support for `@namespace` on variable declarations to tell TypeDoc to convert the variable as a namespace, #2055.
 
 ### Bug Fixes
 

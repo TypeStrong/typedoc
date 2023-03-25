@@ -325,7 +325,7 @@ export const issueTests: {
             project.children[1].signatures![0].comment?.summary,
         ].map(Comment.combineDisplayParts);
 
-        equal(comments, ["", "metadata", "fn", "bar"]);
+        equal(comments, ["bar", "metadata", "fn", "bar"]);
     },
 
     gh1660(project) {

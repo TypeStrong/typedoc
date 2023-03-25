@@ -141,6 +141,21 @@ export const behaviorTests: {
         );
     },
 
+    constNamespace(project) {
+        const someNs = query(project, "someNs");
+        equal(someNs.kind, ReflectionKind.Namespace);
+        equal(Comment.combineDisplayParts(someNs.comment?.summary), "ns doc");
+
+        const a = query(project, "someNs.a");
+        equal(Comment.combineDisplayParts(a.comment?.summary), "a doc");
+
+        const b = query(project, "someNs.b");
+        equal(
+            Comment.combineDisplayParts(b.signatures?.[0].comment?.summary),
+            "b doc"
+        );
+    },
+
     constTypeParam(project) {
         const getNamesExactly = query(project, "getNamesExactly");
         const typeParams = getNamesExactly.signatures?.[0].typeParameters;
