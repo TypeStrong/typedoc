@@ -17,7 +17,6 @@ import type { Context } from "../context";
 import { ConverterEvents } from "../converter-events";
 import { convertDefaultValue } from "../convert-expression";
 import { removeUndefined } from "../utils/reflections";
-import { getComment, getJsDocComment, getSignatureComment } from "../comments";
 import { ReflectionSymbolId } from "../../models/reflections/ReflectionSymbolId";
 
 export function createSignature(
@@ -71,13 +70,7 @@ export function createSignature(
                 ConversionFlags.VariableOrPropertySource
             ))
     ) {
-        sigRef.comment = getSignatureComment(
-            declaration,
-            context.converter.config,
-            context.logger,
-            context.converter.commentStyle,
-            context.checker
-        );
+        sigRef.comment = context.getSignatureComment(declaration);
     }
 
     sigRef.typeParameters = convertTypeParameters(
@@ -161,21 +154,9 @@ function convertParameters(
             sigRef
         );
         if (declaration && ts.isJSDocParameterTag(declaration)) {
-            paramRefl.comment = getJsDocComment(
-                declaration,
-                context.converter.config,
-                context.logger,
-                context.checker
-            );
+            paramRefl.comment = context.getJsDocComment(declaration);
         }
-        paramRefl.comment ||= getComment(
-            param,
-            paramRefl.kind,
-            context.converter.config,
-            context.logger,
-            context.converter.commentStyle,
-            context.checker
-        );
+        paramRefl.comment ||= context.getComment(param, paramRefl.kind);
 
         context.registerReflection(paramRefl, param);
         context.trigger(ConverterEvents.CREATE_PARAMETER, paramRefl);
@@ -241,12 +222,7 @@ export function convertParameterNodes(
             sigRef
         );
         if (ts.isJSDocParameterTag(param)) {
-            paramRefl.comment = getJsDocComment(
-                param,
-                context.converter.config,
-                context.logger,
-                context.checker
-            );
+            paramRefl.comment = context.getJsDocComment(param);
         }
         context.registerReflection(
             paramRefl,
@@ -357,12 +333,7 @@ export function createTypeParamReflection(
     context.registerReflection(paramRefl, param.symbol);
 
     if (ts.isJSDocTemplateTag(param.parent)) {
-        paramRefl.comment = getJsDocComment(
-            param.parent,
-            context.converter.config,
-            context.logger,
-            context.checker
-        );
+        paramRefl.comment = context.getJsDocComment(param.parent);
     }
 
     context.trigger(ConverterEvents.CREATE_TYPE_PARAMETER, paramRefl, param);

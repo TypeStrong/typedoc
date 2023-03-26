@@ -14,7 +14,7 @@ import type { Converter } from "./converter";
 import { isNamedNode } from "./utils/nodes";
 import { ConverterEvents } from "./converter-events";
 import { resolveAliasedSymbol } from "./utils/symbols";
-import { getComment } from "./comments";
+import { getComment, getJsDocComment, getSignatureComment } from "./comments";
 import { getHumanName } from "../utils/tsutils";
 
 /**
@@ -188,7 +188,7 @@ export class Context {
                 this.converter.config,
                 this.logger,
                 this.converter.commentStyle,
-                this.checker
+                this.converter.useTsLinkResolution ? this.checker : undefined
             );
         }
         if (symbol && !reflection.comment) {
@@ -198,7 +198,7 @@ export class Context {
                 this.converter.config,
                 this.logger,
                 this.converter.commentStyle,
-                this.checker
+                this.converter.useTsLinkResolution ? this.checker : undefined
             );
         }
 
@@ -266,6 +266,45 @@ export class Context {
     /** @internal */
     setActiveProgram(program: ts.Program | undefined) {
         this._program = program;
+    }
+
+    getComment(symbol: ts.Symbol, kind: ReflectionKind) {
+        return getComment(
+            symbol,
+            kind,
+            this.converter.config,
+            this.logger,
+            this.converter.commentStyle,
+            this.converter.useTsLinkResolution ? this.checker : undefined
+        );
+    }
+
+    getJsDocComment(
+        declaration:
+            | ts.JSDocPropertyLikeTag
+            | ts.JSDocCallbackTag
+            | ts.JSDocTypedefTag
+            | ts.JSDocTemplateTag
+            | ts.JSDocEnumTag
+    ) {
+        return getJsDocComment(
+            declaration,
+            this.converter.config,
+            this.logger,
+            this.converter.useTsLinkResolution ? this.checker : undefined
+        );
+    }
+
+    getSignatureComment(
+        declaration: ts.SignatureDeclaration | ts.JSDocSignature
+    ) {
+        return getSignatureComment(
+            declaration,
+            this.converter.config,
+            this.logger,
+            this.converter.commentStyle,
+            this.converter.useTsLinkResolution ? this.checker : undefined
+        );
     }
 
     /**

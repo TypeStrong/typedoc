@@ -441,8 +441,9 @@ function inlineTag(
         tag: tagName.text as `@${string}`,
         text: content.join(""),
     };
-    if (tagName.linkTarget) {
-        inlineTag.target = tagName.linkTarget;
+    if (tagName.tsLinkTarget) {
+        inlineTag.target = tagName.tsLinkTarget;
+        inlineTag.tsLinkText = tagName.tsLinkText;
     }
     block.push(inlineTag);
 }

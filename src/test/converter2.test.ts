@@ -11,6 +11,7 @@ import {
     getConverter2Program,
 } from "./programs";
 import { TestLogger } from "./TestLogger";
+import { clearCommentCache } from "../lib/converter/comments";
 
 const base = getConverter2Base();
 const app = getConverter2App();
@@ -43,6 +44,7 @@ function runTest(
         app.logger = logger;
         pre?.(app);
         app.options.setValue("entryPoints", [entryPoint]);
+        clearCommentCache();
         const project = app.converter.convert([
             {
                 displayName: entry,

@@ -25,13 +25,20 @@ const jsDocCommentKinds = [
     ts.SyntaxKind.JSDocEnumTag,
 ];
 
-const commentCache = new WeakMap<ts.SourceFile, Map<number, Comment>>();
+let commentCache = new WeakMap<ts.SourceFile, Map<number, Comment>>();
+
+// We need to do this for tests so that changing the tsLinkResolution option
+// actually works. Without it, we'd get the old parsed comment which doesn't
+// have the TS symbols attached.
+export function clearCommentCache() {
+    commentCache = new WeakMap();
+}
 
 function getCommentWithCache(
     discovered: DiscoveredComment | undefined,
     config: CommentParserConfig,
     logger: Logger,
-    checker: ts.TypeChecker
+    checker: ts.TypeChecker | undefined
 ) {
     if (!discovered) return;
 
@@ -80,7 +87,7 @@ function getCommentImpl(
     config: CommentParserConfig,
     logger: Logger,
     moduleComment: boolean,
-    checker: ts.TypeChecker
+    checker: ts.TypeChecker | undefined
 ) {
     const comment = getCommentWithCache(commentSource, config, logger, checker);
 
@@ -114,7 +121,7 @@ export function getComment(
     config: CommentParserConfig,
     logger: Logger,
     commentStyle: CommentStyle,
-    checker: ts.TypeChecker
+    checker: ts.TypeChecker | undefined
 ): Comment | undefined {
     const declarations = symbol.declarations || [];
 
@@ -156,7 +163,7 @@ function getConstructorParamPropertyComment(
     config: CommentParserConfig,
     logger: Logger,
     commentStyle: CommentStyle,
-    checker: ts.TypeChecker
+    checker: ts.TypeChecker | undefined
 ): Comment | undefined {
     const decl = symbol.declarations?.find(ts.isParameter);
     if (!decl) return;
@@ -181,7 +188,7 @@ export function getSignatureComment(
     config: CommentParserConfig,
     logger: Logger,
     commentStyle: CommentStyle,
-    checker: ts.TypeChecker
+    checker: ts.TypeChecker | undefined
 ): Comment | undefined {
     return getCommentImpl(
         discoverSignatureComment(declaration, commentStyle),
@@ -201,7 +208,7 @@ export function getJsDocComment(
         | ts.JSDocEnumTag,
     config: CommentParserConfig,
     logger: Logger,
-    checker: ts.TypeChecker
+    checker: ts.TypeChecker | undefined
 ): Comment | undefined {
     const file = declaration.getSourceFile();
 

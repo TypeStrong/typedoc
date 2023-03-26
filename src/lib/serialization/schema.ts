@@ -349,6 +349,7 @@ export interface InlineTagDisplayPart {
     tag: `@${string}`;
     text: string;
     target?: string | number | ReflectionSymbolId;
+    tsLinkText?: string;
 }
 
 export interface SourceReference

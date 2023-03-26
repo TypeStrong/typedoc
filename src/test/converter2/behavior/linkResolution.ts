@@ -28,7 +28,7 @@ export namespace Scoping {
  * {@link Meanings!A:namespace}
  * {@link Meanings!A:enum}
  *
- * {@link A:class} doesn't exist
+ * {@link A:class} doesn't exist, ts links to enum/ns, TypeDoc picks the enum
  * {@link B:class}
  *
  * {@link C:interface}

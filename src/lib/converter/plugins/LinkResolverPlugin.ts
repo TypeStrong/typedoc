@@ -57,7 +57,9 @@ export class LinkResolverPlugin extends ConverterComponent {
             if (!type.reflection) {
                 const resolveResult = this.owner.resolveExternalLink(
                     type.toDeclarationReference(),
-                    owner
+                    owner,
+                    undefined,
+                    type.symbolId
                 );
                 switch (typeof resolveResult) {
                     case "string":

@@ -15,5 +15,8 @@ export interface Token {
     text: string;
 
     pos: number;
-    linkTarget?: ReflectionSymbolId;
+
+    // These come from the compiler for use if useTsLinkResolution is on
+    tsLinkTarget?: ReflectionSymbolId;
+    tsLinkText?: string;
 }

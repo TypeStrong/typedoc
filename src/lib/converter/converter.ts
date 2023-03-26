@@ -7,6 +7,7 @@ import {
     ProjectReflection,
     Reflection,
     ReflectionKind,
+    ReflectionSymbolId,
     SomeType,
 } from "../models/index";
 import { Context } from "./context";
@@ -20,7 +21,7 @@ import { createMinimatch, matchesAny } from "../utils/paths";
 import type { Minimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
-import { CommentParserConfig, getComment } from "./comments";
+import type { CommentParserConfig } from "./comments";
 import type {
     CommentStyle,
     ValidationOptions,
@@ -286,10 +287,11 @@ export class Converter extends ChildableComponent<
     resolveExternalLink(
         ref: DeclarationReference,
         refl: Reflection,
-        part?: CommentDisplayPart
+        part: CommentDisplayPart | undefined,
+        symbolId: ReflectionSymbolId | undefined
     ): ExternalResolveResult | string | undefined {
         for (const resolver of this._externalSymbolResolvers) {
-            const resolved = resolver(ref, refl, part);
+            const resolved = resolver(ref, refl, part, symbolId);
             if (resolved) return resolved;
         }
     }
@@ -304,18 +306,12 @@ export class Converter extends ChildableComponent<
         owner: Reflection
     ): CommentDisplayPart[] | undefined {
         if (comment instanceof Comment) {
-            resolveLinks(
-                comment,
-                owner,
-                (ref, part, refl) => this.resolveExternalLink(ref, part, refl),
-                this.useTsLinkResolution
+            resolveLinks(comment, owner, (ref, part, refl, id) =>
+                this.resolveExternalLink(ref, part, refl, id)
             );
         } else {
-            return resolvePartLinks(
-                owner,
-                comment,
-                (ref, part, refl) => this.resolveExternalLink(ref, part, refl),
-                this.useTsLinkResolution
+            return resolvePartLinks(owner, comment, (ref, part, refl, id) =>
+                this.resolveExternalLink(ref, part, refl, id)
             );
         }
     }
@@ -369,15 +365,7 @@ export class Converter extends ChildableComponent<
             // create modules for each entry. Register the project as this module.
             context.project.registerReflection(context.project, symbol);
             context.project.comment =
-                symbol &&
-                getComment(
-                    symbol,
-                    context.project.kind,
-                    this.config,
-                    this.application.logger,
-                    this.commentStyle,
-                    context.checker
-                );
+                symbol && context.getComment(symbol, context.project.kind);
             context.trigger(
                 Converter.EVENT_CREATE_DECLARATION,
                 context.project

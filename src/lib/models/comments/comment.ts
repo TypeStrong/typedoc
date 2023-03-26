@@ -10,13 +10,16 @@ export type CommentDisplayPart =
 
 /**
  * The `@link`, `@linkcode`, and `@linkplain` tags may have a `target`
- * property set indicating which reflection/url they link to.
+ * property set indicating which reflection/url they link to. They may also
+ * have a `tsLinkText` property which includes the part of the `text` which
+ * TypeScript thinks should be displayed as the link text.
  */
 export interface InlineTagDisplayPart {
     kind: "inline-tag";
     tag: `@${string}`;
     text: string;
     target?: Reflection | string | ReflectionSymbolId;
+    tsLinkText?: string;
 }
 
 /**
@@ -232,6 +235,7 @@ export class Comment {
                 case "inline-tag": {
                     if (typeof part.target !== "number") {
                         // TS isn't quite smart enough here...
+                        // GERRIT this is wrong
                         return { ...part } as CommentDisplayPart;
                     } else {
                         const part2 = {

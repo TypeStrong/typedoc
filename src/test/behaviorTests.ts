@@ -35,6 +35,36 @@ function buildNameTree(
     return tree;
 }
 
+function getLinks(refl: Reflection) {
+    ok(refl.comment);
+    return filterMap(refl.comment.summary, (p) => {
+        if (p.kind === "inline-tag" && p.tag === "@link") {
+            if (typeof p.target === "string") {
+                return p.target;
+            }
+            if (p.target instanceof SignatureReflection) {
+                return [
+                    p.target.getFullName(),
+                    p.target.parent.signatures?.indexOf(p.target),
+                ];
+            }
+            if (p.target instanceof Reflection) {
+                return [p.target?.kind, p.target?.getFullName()];
+            }
+            return [p.target?.qualifiedName];
+        }
+    });
+}
+
+function getLinkTexts(refl: Reflection) {
+    ok(refl.comment);
+    return filterMap(refl.comment.summary, (p) => {
+        if (p.kind === "inline-tag" && p.tag === "@link") {
+            return p.text;
+        }
+    });
+}
+
 type Letters = Chars<"abcdefghijklmnopqrstuvwxyz">;
 
 export const behaviorTests: {
@@ -464,28 +494,6 @@ export const behaviorTests: {
         app.options.setValue("useTsLinkResolution", false);
     },
     linkResolution(project) {
-        const BROKEN = Symbol("BROKEN");
-        function getLinks(refl: Reflection) {
-            ok(refl.comment);
-            return filterMap(refl.comment.summary, (p) => {
-                if (p.kind === "inline-tag" && p.tag === "@link") {
-                    if (typeof p.target === "string") {
-                        return p.target;
-                    }
-                    if (p.target instanceof SignatureReflection) {
-                        return [
-                            p.target.getFullName(),
-                            p.target.parent.signatures?.indexOf(p.target),
-                        ];
-                    }
-                    if (p.target instanceof Reflection) {
-                        return [p.target?.kind, p.target?.getFullName()];
-                    }
-                    return [BROKEN];
-                }
-            });
-        }
-
         for (const [refl, target] of [
             ["Scoping.abc", "Scoping.abc"],
             ["Scoping.Foo", "Scoping.Foo.abc"],
@@ -505,7 +513,7 @@ export const behaviorTests: {
             [ReflectionKind.Namespace, "Meanings.A"],
             [ReflectionKind.Enum, "Meanings.A"],
 
-            [BROKEN],
+            [undefined],
             [ReflectionKind.Class, "Meanings.B"],
 
             [ReflectionKind.Interface, "Meanings.C"],
@@ -518,7 +526,7 @@ export const behaviorTests: {
             ["Meanings.B.constructor.new B", 1],
 
             [ReflectionKind.EnumMember, "Meanings.A.A"],
-            [BROKEN],
+            [undefined],
 
             ["Meanings.E.E", 0],
             ["Meanings.E.E", 1],
@@ -546,7 +554,7 @@ export const behaviorTests: {
         equal(getLinks(query(project, "Navigation")), [
             [ReflectionKind.Method, "Navigation.Child.foo"],
             [ReflectionKind.Property, "Navigation.Child.foo"],
-            [BROKEN],
+            [undefined],
         ]);
 
         const foo = query(project, "Navigation.Child.foo").signatures![0];
@@ -557,28 +565,6 @@ export const behaviorTests: {
         app.options.setValue("sort", ["source-order"]);
     },
     linkResolutionTs(project) {
-        const BROKEN = Symbol("BROKEN");
-        function getLinks(refl: Reflection) {
-            ok(refl.comment);
-            return filterMap(refl.comment.summary, (p) => {
-                if (p.kind === "inline-tag" && p.tag === "@link") {
-                    if (typeof p.target === "string") {
-                        return p.target;
-                    }
-                    if (p.target instanceof SignatureReflection) {
-                        return [
-                            p.target.getFullName(),
-                            p.target.parent.signatures?.indexOf(p.target),
-                        ];
-                    }
-                    if (p.target instanceof Reflection) {
-                        return [p.target?.kind, p.target?.getFullName()];
-                    }
-                    return [BROKEN];
-                }
-            });
-        }
-
         for (const [refl, target] of [
             ["Scoping.abc", "Scoping.abc"],
             ["Scoping.Foo", "Scoping.Foo.abc"],
@@ -647,23 +633,17 @@ export const behaviorTests: {
 
         const localSymbolRef = query(project, "localSymbolRef");
 
-        const link = localSymbolRef.comment?.summary[0];
-        equal(link?.kind, "inline-tag");
-        equal(link.text, "A!");
-        ok(link.target instanceof Reflection);
-        equal(link.target.name, "A");
+        equal(getLinks(localSymbolRef), [
+            [ReflectionKind.Variable, "A"],
+            [ReflectionKind.Variable, "A"],
+            [ReflectionKind.Variable, "A"],
+        ]);
+        equal(getLinkTexts(localSymbolRef), ["A!", "A2!", "A"]);
 
-        const link2 = localSymbolRef.comment?.summary[1];
-        equal(link2?.kind, "inline-tag");
-        equal(link2.text, "A2!");
-        ok(link2.target instanceof Reflection);
-        equal(link2.target.name, "A");
-
-        const link3 = localSymbolRef.comment?.summary[2];
-        equal(link3?.kind, "inline-tag");
-        equal(link3.text, "A");
-        ok(link3.target instanceof Reflection);
-        equal(link3.target.name, "A");
+        equal(getLinks(query(project, "scoped")), [
+            [ReflectionKind.Property, "Meanings.B.prop"],
+        ]);
+        equal(getLinkTexts(query(project, "scoped")), ["p"]);
     },
 
     mergedDeclarations(project, logger) {

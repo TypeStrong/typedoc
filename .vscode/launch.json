@@ -24,6 +24,7 @@
             "name": "Attach",
             "port": 9229,
             "request": "attach",
+            "internalConsoleOptions": "openOnSessionStart",
             "skipFiles": ["<node_internals>/**"],
             "type": "node",
             "sourceMaps": true

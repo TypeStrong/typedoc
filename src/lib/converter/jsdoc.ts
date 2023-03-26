@@ -12,7 +12,6 @@ import {
     SignatureReflection,
 } from "../models";
 import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
-import { getJsDocComment } from "./comments";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
 import {
@@ -52,12 +51,7 @@ export function convertJsDocAlias(
         symbol,
         exportSymbol
     );
-    reflection.comment = getJsDocComment(
-        declaration,
-        context.converter.config,
-        context.logger,
-        context.checker
-    );
+    reflection.comment = context.getJsDocComment(declaration);
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
@@ -83,12 +77,7 @@ export function convertJsDocCallback(
         symbol,
         exportSymbol
     );
-    alias.comment = getJsDocComment(
-        declaration,
-        context.converter.config,
-        context.logger,
-        context.checker
-    );
+    alias.comment = context.getJsDocComment(declaration);
     context.finalizeDeclarationReflection(alias);
 
     const ac = context.withScope(alias);
@@ -108,12 +97,7 @@ function convertJsDocInterface(
         symbol,
         exportSymbol
     );
-    reflection.comment = getJsDocComment(
-        declaration,
-        context.converter.config,
-        context.logger,
-        context.checker
-    );
+    reflection.comment = context.getJsDocComment(declaration);
     context.finalizeDeclarationReflection(reflection);
 
     const rc = context.withScope(reflection);

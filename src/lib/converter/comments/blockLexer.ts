@@ -321,9 +321,10 @@ function* lexBlockComment2(
             if (link.name) {
                 const tsTarget = checker?.getSymbolAtLocation(link.name);
                 if (tsTarget) {
-                    token.linkTarget = new ReflectionSymbolId(
+                    token.tsLinkTarget = new ReflectionSymbolId(
                         resolveAliasedSymbol(tsTarget, checker!)
                     );
+                    token.tsLinkText = link.text.replace(/^\s*\|\s*/, "");
                 }
             }
         }
