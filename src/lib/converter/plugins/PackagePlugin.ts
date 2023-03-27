@@ -136,7 +136,9 @@ export class PackagePlugin extends ConverterComponent {
             }
             if (this.includeVersion) {
                 if (packageInfo.version) {
-                    project.name = `${project.name} - v${packageInfo.version}`;
+                    project.name = `${project.name} - ${
+                        packageInfo.version.slice(0, 1) !== "v" ? "v" : ""
+                    }${packageInfo.version}`;
                 } else {
                     // since not all monorepo specifies a meaningful version to the main package.json
                     // this warning should be optional
