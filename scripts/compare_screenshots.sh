@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 test -d ./tmp/output && rm -rf ./tmp/output
 mkdir -p ./tmp/{output,screenshots,baseline}

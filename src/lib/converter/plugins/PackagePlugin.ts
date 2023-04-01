@@ -150,7 +150,10 @@ export class PackagePlugin extends ConverterComponent {
                 project.name = project.packageName || "Documentation";
             }
             if (this.includeVersion) {
-                project.packageVersion = this.packageJson.version;
+                project.packageVersion = this.packageJson.version?.replace(
+                    /^v/,
+                    ""
+                );
             }
         } else if (!project.name) {
             this.application.logger.warn(
