@@ -445,7 +445,10 @@ function getEntryPointsForLegacyPackages(
         results.push({
             displayName: typedocPackageConfig?.displayName ?? packageName,
             version: includeVersion
-                ? (packageJson["version"] as string | undefined)
+                ? (packageJson["version"] as string | undefined)?.replace(
+                      /^v/,
+                      ""
+                  )
                 : void 0,
             readmeFile: discoverReadmeFile(
                 logger,

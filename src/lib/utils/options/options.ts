@@ -438,6 +438,8 @@ export class Options {
 /**
  * Binds an option to the given property. Does not register the option.
  *
+ * Note: This is a legacy experimental decorator, and will not work with TS 5.0 decorators
+ *
  * @since v0.16.3
  */
 export function BindOption<K extends keyof TypeDocOptionMap>(
@@ -451,6 +453,9 @@ export function BindOption<K extends keyof TypeDocOptionMap>(
 
 /**
  * Binds an option to the given property. Does not register the option.
+ *
+ * Note: This is a legacy experimental decorator, and will not work with TS 5.0 decorators
+ *
  * @since v0.16.3
  *
  * @privateRemarks
