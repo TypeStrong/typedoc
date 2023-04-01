@@ -1,6 +1,3 @@
-import * as fs from "fs";
-import * as path from "path";
-
 import * as ts from "typescript";
 import type { Context } from "../converter";
 import type { Reflection } from "./reflections/abstract";
@@ -10,6 +7,7 @@ import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 import { getQualifiedName } from "../utils/tsutils";
 import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId";
 import type { DeclarationReference } from "../converter/comments/declarationReference";
+import { findPackageForPath } from "../utils/fs";
 
 /**
  * Base class of all type definitions.
@@ -1358,34 +1356,5 @@ export class UnknownType extends Type {
             type: this.type,
             name: this.name,
         };
-    }
-}
-
-const packageJsonLookupCache: Record<string, string> = {};
-
-function findPackageForPath(sourcePath: string): string | undefined {
-    if (packageJsonLookupCache[sourcePath] !== undefined) {
-        return packageJsonLookupCache[sourcePath];
-    }
-    let basePath = sourcePath;
-    for (;;) {
-        const nextPath = path.dirname(basePath);
-        if (nextPath === basePath) {
-            return;
-        }
-        basePath = nextPath;
-        const projectPath = path.join(basePath, "package.json");
-        try {
-            const packageJsonData = fs.readFileSync(projectPath, {
-                encoding: "utf8",
-            });
-            const packageJson = JSON.parse(packageJsonData);
-            if (packageJson.name !== undefined) {
-                packageJsonLookupCache[sourcePath] = packageJson.name;
-            }
-            return packageJson.name;
-        } catch (err) {
-            continue;
-        }
     }
 }

@@ -34,6 +34,7 @@
 -   Removed `Renderer.addExternalSymbolResolver`, use `Converter.addExternalSymbolResolver` instead.
 -   Removed `CallbackLogger`.
 -   Removed `SerializeEventData` from serialization events.
+-   A `PageEvent` is no longer passed to `getRenderContext` by the default theme.
 
 ### Features
 

@@ -226,7 +226,6 @@ export class Converter extends ChildableComponent<
 
         this.trigger(Converter.EVENT_END, context);
 
-        project.forgetTsReferences();
         return project;
     }
 

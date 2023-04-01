@@ -323,7 +323,11 @@ function convertTypeAlias(
     assert(declaration);
 
     if (ts.isTypeAliasDeclaration(declaration)) {
-        if (symbol.getJsDocTags().some((tag) => tag.name === "interface")) {
+        if (
+            context
+                .getComment(symbol, ReflectionKind.TypeAlias)
+                ?.hasModifier("@interface")
+        ) {
             return convertTypeAliasAsInterface(
                 context,
                 symbol,
@@ -833,16 +837,17 @@ function convertVariable(
     const declaration = symbol.getDeclarations()?.[0];
     assert(declaration);
 
+    const comment = context.getComment(symbol, ReflectionKind.Variable);
     const type = context.checker.getTypeOfSymbolAtLocation(symbol, declaration);
 
     if (
         isEnumLike(context.checker, type, declaration) &&
-        symbol.getJsDocTags().some((tag) => tag.name === "enum")
+        comment?.hasModifier("@enum")
     ) {
         return convertVariableAsEnum(context, symbol, exportSymbol);
     }
 
-    if (symbol.getJsDocTags().some((tag) => tag.name === "namespace")) {
+    if (comment?.hasModifier("@namespace")) {
         return convertVariableAsNamespace(context, symbol, exportSymbol);
     }
 

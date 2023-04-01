@@ -283,11 +283,51 @@ export function discoverInParentDir<T extends {}>(
     }
 }
 
+export function discoverInParentDirExactMatch<T extends {}>(
+    name: string,
+    dir: string,
+    read: (content: string) => T | undefined
+): { file: string; content: T } | undefined {
+    if (!isDir(dir)) return;
+
+    const reachedTopDirectory = (dirName: string) =>
+        dirName === resolve(join(dirName, ".."));
+
+    while (!reachedTopDirectory(dir)) {
+        try {
+            const content = read(readFile(join(dir, name)));
+            if (content != null) {
+                return { file: join(dir, name), content };
+            }
+        } catch {
+            // Ignore, file didn't pass validation
+        }
+        dir = resolve(join(dir, ".."));
+    }
+}
+
 export function discoverPackageJson(dir: string) {
-    return discoverInParentDir("package.json", dir, (content) => {
+    return discoverInParentDirExactMatch("package.json", dir, (content) => {
         const pkg: unknown = JSON.parse(content);
         if (validate({ name: String, version: optional(String) }, pkg)) {
             return pkg;
         }
     });
+}
+
+// dir -> package name according to package.json in this or some parent dir
+const packageCache = new Map<string, string>();
+
+export function findPackageForPath(sourcePath: string): string | undefined {
+    const dir = dirname(sourcePath);
+    const cache = packageCache.get(dir);
+    if (cache) {
+        return cache;
+    }
+
+    const packageJson = discoverPackageJson(dir);
+    if (packageJson) {
+        packageCache.set(dir, packageJson.content.name);
+        return packageJson.content.name;
+    }
 }

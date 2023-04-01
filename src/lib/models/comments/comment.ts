@@ -285,7 +285,6 @@ export class Comment {
 
     /**
      * Label associated with this reflection, if any (https://tsdoc.org/pages/tags/label/)
-     * Added by the CommentPlugin during resolution.
      */
     label?: string;
 

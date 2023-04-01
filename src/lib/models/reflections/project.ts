@@ -84,24 +84,6 @@ export class ProjectReflection extends ContainerReflection {
     }
 
     /**
-     * Disassociate this project with all TypeScript created objects, allowing the underlying
-     * `ts.Program` to be garbage collected. This is very important for monorepo projects where
-     * we need to create multiple programs. See #1606 and surrounding discussion.
-     */
-    forgetTsReferences() {
-        // Clear ts.Symbol references
-        this.reflectionIdToSymbolMap.clear();
-
-        // TODO: I think we need to do something like this.
-        // Update local references
-        this.symbolToReflectionIdMap.clear();
-        for (const [k, v] of this.reflectionIdToSymbolIdMap) {
-            v.pos = Infinity;
-            this.symbolToReflectionIdMap.set(v, k);
-        }
-    }
-
-    /**
      * Registers the given reflection so that it can be quickly looked up by helper methods.
      * Should be called for *every* reflection added to the project.
      */
