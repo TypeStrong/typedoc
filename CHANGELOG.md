@@ -55,12 +55,14 @@
 -   TypeDoc will now ignore package.json files not containing a `name` field, #2190.
 -   Fixed `@inheritDoc` on signatures (functions, methods, constructors, getters, setters) being unable to inherit from a non-signature.
 -   Interfaces/classes created via extending a module will no longer contain variables/functions where the member should have been converted as properties/methods, #2150.
+-   TypeDoc will now ignore a leading `v` in versions, #2212.
 
 ### Thanks!
 
 -   @bodil
 -   @futurGH
 -   @jm4rtinez
+-   @muratgozel
 
 # Unreleased
 
