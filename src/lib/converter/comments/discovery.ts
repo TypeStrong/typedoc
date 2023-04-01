@@ -207,7 +207,7 @@ export function discoverSignatureComment(
                     end: comment.end,
                 },
             ],
-            jsDoc: undefined,
+            jsDoc: comment,
         };
     }
 

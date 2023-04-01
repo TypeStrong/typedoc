@@ -54,6 +54,7 @@ export class PackagePlugin extends ConverterComponent {
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
             [Converter.EVENT_END]: () => {
                 delete this.readmeFile;
+                delete this.readmeContents;
                 delete this.packageJson;
             },
         });
@@ -67,6 +68,7 @@ export class PackagePlugin extends ConverterComponent {
         this.addEntries(project);
         delete this.readmeFile;
         delete this.packageJson;
+        delete this.readmeContents;
     }
 
     private onBegin() {

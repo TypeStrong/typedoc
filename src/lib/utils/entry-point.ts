@@ -22,7 +22,7 @@ import { assertNever } from "./general";
  */
 export const EntryPointStrategy = {
     /**
-     * The default behavior in v0.22-v0.23, expects all provided entry points as being part of a single program.
+     * The default behavior in v0.22+, expects all provided entry points as being part of a single program.
      * Any directories included in the entry point list will result in `dir/index.([cm][tj]s|[tj]sx?)` being used.
      */
     Resolve: "resolve",
@@ -32,8 +32,8 @@ export const EntryPointStrategy = {
      */
     Expand: "expand",
     /**
-     * Run TypeDoc in each directory passed as an entry point, and save the json result to `.typedoc/<project>`
-     * Once all have been saved, use the merge option to produce final output.
+     * Run TypeDoc in each directory passed as an entry point. Once all directories have been converted,
+     * use the merge option to produce final output.
      */
     Packages: "packages",
     /**

@@ -182,24 +182,10 @@ export class Context {
             reflection.kind &
                 (ReflectionKind.SomeModule | ReflectionKind.Reference)
         ) {
-            reflection.comment = getComment(
-                exportSymbol,
-                reflection.kind,
-                this.converter.config,
-                this.logger,
-                this.converter.commentStyle,
-                this.converter.useTsLinkResolution ? this.checker : undefined
-            );
+            reflection.comment = this.getComment(exportSymbol, reflection.kind);
         }
         if (symbol && !reflection.comment) {
-            reflection.comment = getComment(
-                symbol,
-                reflection.kind,
-                this.converter.config,
-                this.logger,
-                this.converter.commentStyle,
-                this.converter.useTsLinkResolution ? this.checker : undefined
-            );
+            reflection.comment = this.getComment(symbol, reflection.kind);
         }
 
         if (this.shouldBeStatic) {

@@ -22,7 +22,7 @@ export class Serializer extends EventDispatcher {
     private serializers: SerializerComponent<any>[] = [];
 
     /**
-     * Only set after resolve.
+     * Only set when serializing.
      */
     projectRoot!: string;
 
