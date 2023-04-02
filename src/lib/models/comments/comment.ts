@@ -1,5 +1,5 @@
 import { assertNever, removeIf } from "../../utils";
-import type { Reflection, ReflectionSymbolId } from "../reflections";
+import { Reflection, ReflectionSymbolId } from "../reflections";
 
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
 
@@ -233,18 +233,37 @@ export class Comment {
                 case "code":
                     return { ...part };
                 case "inline-tag": {
-                    if (typeof part.target !== "number") {
-                        // TS isn't quite smart enough here...
-                        // GERRIT this is wrong
-                        return { ...part } as CommentDisplayPart;
-                    } else {
+                    if (typeof part.target === "number") {
                         const part2 = {
                             kind: part.kind,
                             tag: part.tag,
                             text: part.text,
-                        };
+                            target: undefined,
+                            tsLinkText: part.tsLinkText,
+                        } satisfies InlineTagDisplayPart;
                         links.push([part.target, part2]);
                         return part2;
+                    } else if (
+                        typeof part.target === "string" ||
+                        part.target === undefined
+                    ) {
+                        return {
+                            kind: "inline-tag",
+                            tag: part.tag,
+                            text: part.text,
+                            target: part.target,
+                            tsLinkText: part.tsLinkText,
+                        } satisfies InlineTagDisplayPart;
+                    } else if (typeof part.target === "object") {
+                        return {
+                            kind: "inline-tag",
+                            tag: part.tag,
+                            text: part.text,
+                            target: new ReflectionSymbolId(part.target),
+                            tsLinkText: part.tsLinkText,
+                        } satisfies InlineTagDisplayPart;
+                    } else {
+                        assertNever(part.target);
                     }
                 }
             }

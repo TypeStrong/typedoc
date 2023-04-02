@@ -15,17 +15,6 @@ declare module "typescript" {
         parent?: ts.Symbol;
     }
 
-    interface TypeChecker {
-        // https://github.com/microsoft/TypeScript/blob/v4.1.5/src/compiler/types.ts#L4145
-        // https://github.com/microsoft/TypeScript/issues/42118
-        getTypePredicateOfSignature(
-            signature: ts.Signature
-        ): ts.TypePredicate | undefined;
-
-        // https://github.com/microsoft/TypeScript/blob/v4.7.2/src/compiler/types.ts#L4188
-        getTypeOfSymbol(symbol: Symbol): Type;
-    }
-
     // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L7432
     export function getCheckFlags(symbol: ts.Symbol): CheckFlags;
 
