@@ -1,5 +1,6 @@
 import { assertNever, removeIf } from "../../utils";
-import { Reflection, ReflectionSymbolId } from "../reflections";
+import type { Reflection } from "../reflections";
+import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId";
 
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
 
