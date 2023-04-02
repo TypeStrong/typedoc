@@ -35,6 +35,8 @@
 -   Removed `CallbackLogger`.
 -   Removed `SerializeEventData` from serialization events.
 -   A `PageEvent` is no longer passed to `getRenderContext` by the default theme.
+-   Removed `secondaryNavigation` member on `DefaultThemeRenderContext`.
+-   Renamed `navigation` to `sidebar` on `DefaultThemeRenderContext` and `navigation.begin`/`navigation.end` hooks to `sidebar.begin`/`sidebar.end`.
 
 ### Features
 
@@ -50,6 +52,8 @@
 -   Moved sidebar to left of content for consistency with most other websites, #2189.
 -   Added `--cacheBust` option to tell TypeDoc to include include the generation time in files, #2124.
 -   Added support for `@namespace` on variable declarations to tell TypeDoc to convert the variable as a namespace, #2055.
+-   Added `--excludeReferences` option to tell TypeDoc to omit re-exports of a symbol already included from the documentation.
+-   Introduced new render hooks `pageSidebar.begin` and `pageSidebar.end`.
 
 ### Bug Fixes
 

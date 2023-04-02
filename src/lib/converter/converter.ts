@@ -71,6 +71,10 @@ export class Converter extends ChildableComponent<
     excludeProtected!: boolean;
 
     /** @internal */
+    @BindOption("excludeReferences")
+    excludeReferences!: boolean;
+
+    /** @internal */
     @BindOption("commentStyle")
     commentStyle!: CommentStyle;
 
@@ -117,7 +121,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a declaration reflection.
-     * The listener will be given {@link Context} and a {@link DeclarationReflection}.
+     * The listener will be given {@link Context} and a {@link Models.DeclarationReflection}.
      * @event
      */
     static readonly EVENT_CREATE_DECLARATION =
@@ -125,7 +129,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a signature reflection.
-     * The listener will be given {@link Context}, {@link SignatureReflection} | {@link ProjectReflection} the declaration,
+     * The listener will be given {@link Context}, {@link Models.SignatureReflection} | {@link Models.ProjectReflection} the declaration,
      * `ts.SignatureDeclaration | ts.IndexSignatureDeclaration | ts.JSDocSignature | undefined`,
      * and `ts.Signature | undefined`. The signature will be undefined if the created signature is an index signature.
      * @event
@@ -134,14 +138,14 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a parameter reflection.
-     * The listener will be given {@link Context}, {@link ParameterReflection} and a `ts.Node?`
+     * The listener will be given {@link Context}, {@link Models.ParameterReflection} and a `ts.Node?`
      * @event
      */
     static readonly EVENT_CREATE_PARAMETER = ConverterEvents.CREATE_PARAMETER;
 
     /**
      * Triggered when the converter has created a type parameter reflection.
-     * The listener will be given {@link Context} and a {@link TypeParameterReflection}
+     * The listener will be given {@link Context} and a {@link Models.TypeParameterReflection}
      * @event
      */
     static readonly EVENT_CREATE_TYPE_PARAMETER =

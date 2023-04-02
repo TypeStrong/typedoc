@@ -29,9 +29,10 @@ import { memberSources } from "./partials/member.sources";
 import { members } from "./partials/members";
 import { membersGroup } from "./partials/members.group";
 import {
+    sidebar,
+    pageSidebar,
     navigation,
-    primaryNavigation,
-    secondaryNavigation,
+    pageNavigation,
     settings,
     sidebarLinks,
 } from "./partials/navigation";
@@ -121,11 +122,12 @@ export class DefaultThemeRenderContext {
     memberSources = bind(memberSources, this);
     members = bind(members, this);
     membersGroup = bind(membersGroup, this);
-    navigation = bind(navigation, this);
+    sidebar = bind(sidebar, this);
+    pageSidebar = bind(pageSidebar, this);
     sidebarLinks = bind(sidebarLinks, this);
     settings = bind(settings, this);
-    primaryNavigation = bind(primaryNavigation, this);
-    secondaryNavigation = bind(secondaryNavigation, this);
+    navigation = bind(navigation, this);
+    pageNavigation = bind(pageNavigation, this);
     parameter = bind(parameter, this);
     toolbar = bind(toolbar, this);
     type = bind(type, this);

@@ -16,6 +16,7 @@
     "excludeExternals": true,
     "excludeInternal": false,
     "excludePrivate": true,
+    "excludeReferences": true,
     "treatWarningsAsErrors": false,
     "validation": {
         "notExported": true,

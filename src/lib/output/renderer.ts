@@ -63,14 +63,24 @@ export interface RendererHooks {
     "content.end": [DefaultThemeRenderContext];
 
     /**
-     * Applied immediately before calling `context.navigation`.
+     * Applied immediately before calling `context.sidebar`.
      */
-    "navigation.begin": [DefaultThemeRenderContext];
+    "sidebar.begin": [DefaultThemeRenderContext];
 
     /**
-     * Applied immediately after calling `context.navigation`.
+     * Applied immediately after calling `context.sidebar`.
      */
-    "navigation.end": [DefaultThemeRenderContext];
+    "sidebar.end": [DefaultThemeRenderContext];
+
+    /**
+     * Applied immediately before calling `context.pageSidebar`.
+     */
+    "pageSidebar.begin": [DefaultThemeRenderContext];
+
+    /**
+     * Applied immediately after calling `context.pageSidebar`.
+     */
+    "pageSidebar.end": [DefaultThemeRenderContext];
 }
 
 /**

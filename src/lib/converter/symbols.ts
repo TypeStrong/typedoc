@@ -128,7 +128,9 @@ export function convertSymbol(
     const previous = context.project.getReflectionFromSymbol(symbol);
     if (
         previous &&
-        previous.parent?.kindOf(ReflectionKind.Module | ReflectionKind.Project)
+        previous.parent?.kindOf(
+            ReflectionKind.SomeModule | ReflectionKind.Project
+        )
     ) {
         createAlias(previous, context, symbol, exportSymbol);
         return;
@@ -819,6 +821,8 @@ function createAlias(
     symbol: ts.Symbol,
     exportSymbol: ts.Symbol | undefined
 ) {
+    if (context.converter.excludeReferences) return;
+
     // We already have this. Create a reference.
     const ref = new ReferenceReflection(
         exportSymbol?.name ?? symbol.name,

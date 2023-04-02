@@ -154,6 +154,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "excludeReferences",
+        help: "If a symbol is exported multiple times, ignore all but the first export.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "externalSymbolLinkMappings",
         help: "Define custom links for symbols not included in the documentation.",
         type: ParameterType.Mixed,

@@ -1,5 +1,4 @@
 import { Application, registerComponent } from "./typedoc/Application";
-import { MenuHighlight } from "./typedoc/components/MenuHighlight";
 import { initSearch } from "./typedoc/components/Search";
 import { Toggle } from "./typedoc/components/Toggle";
 import { Filter } from "./typedoc/components/Filter";
@@ -8,7 +7,6 @@ import { initTheme } from "./typedoc/Theme";
 
 initSearch();
 
-registerComponent(MenuHighlight, ".menu-highlight");
 registerComponent(Toggle, "a[data-toggle]");
 registerComponent(Accordion, ".tsd-index-accordion");
 registerComponent(Filter, ".tsd-filter-item input[type=checkbox]");
@@ -18,6 +16,6 @@ if (themeChoice) {
     initTheme(themeChoice as HTMLOptionElement);
 }
 
-const app: Application = new Application();
+const app = new Application();
 
 Object.defineProperty(window, "app", { value: app });

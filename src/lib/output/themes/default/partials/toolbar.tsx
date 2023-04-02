@@ -1,6 +1,7 @@
 import type { Reflection } from "../../../../models";
 import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
+import { getDisplayName } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
@@ -28,7 +29,7 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
                 </ul>
 
                 <a href={context.options.getValue("titleLink") || context.relativeURL("index.html")} class="title">
-                    {props.project.name}
+                    {getDisplayName(props.project)}
                 </a>
             </div>
 

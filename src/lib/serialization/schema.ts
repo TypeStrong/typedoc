@@ -26,6 +26,7 @@
  *
  * For documentation on the JSON output properties, view the corresponding model.
  * @module
+ * @internal
  */
 
 import type * as M from "../models";

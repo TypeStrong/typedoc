@@ -1,6 +1,7 @@
 import type { Reflection } from "../../../../models";
 import { JSX, Raw } from "../../../../utils";
 import type { PageEvent } from "../../../events";
+import { getDisplayName } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
@@ -10,9 +11,9 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             {context.hook("head.begin")}
             <meta http-equiv="x-ua-compatible" content="IE=edge" />
             <title>
-                {props.model.name === props.project.name
-                    ? props.project.name
-                    : `${props.model.name} | ${props.project.name}`}
+                {props.model.isProject()
+                    ? getDisplayName(props.model)
+                    : `${getDisplayName(props.model)} | ${getDisplayName(props.project)}`}
             </title>
             <meta name="description" content={"Documentation for " + props.project.name} />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,6 +23,7 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             {context.options.getValue("customCss") && (
                 <link rel="stylesheet" href={context.relativeURL("assets/custom.css", true)} />
             )}
+            <script defer src={context.relativeURL("assets/main.js", true)}></script>
             <script async src={context.relativeURL("assets/search.js", true)} id="search-script"></script>
             {context.hook("head.end")}
         </head>
@@ -33,12 +35,19 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             {context.toolbar(props)}
 
             <div class="container container-main">
-                <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-                    {context.hook("navigation.begin")}
-                    {context.navigation(props)}
-                    {context.hook("navigation.end")}
+                <div class="col-sidebar">
+                    <div class="page-menu">
+                        {context.hook("pageSidebar.begin")}
+                        {context.pageSidebar(props)}
+                        {context.hook("pageSidebar.end")}
+                    </div>
+                    <div class="site-menu">
+                        {context.hook("sidebar.begin")}
+                        {context.sidebar(props)}
+                        {context.hook("sidebar.end")}
+                    </div>
                 </div>
-                <div class="col-8 col-content">
+                <div class="col-content">
                     {context.hook("content.begin")}
                     {context.header(props)}
                     {props.template(props)}
@@ -49,7 +58,6 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             {context.footer()}
 
             <div class="overlay"></div>
-            <script src={context.relativeURL("assets/main.js", true)}></script>
 
             {context.analytics()}
             {context.hook("body.end")}
