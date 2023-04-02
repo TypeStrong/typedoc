@@ -9,8 +9,8 @@ export function membersGroup(context: DefaultThemeRenderContext, group: Reflecti
                 {group.categories.map((item) => (
                     <section class="tsd-panel-group tsd-member-group">
                         <h2>
-                            {!!item.title && <>{item.title} </>}
                             {group.title}
+                            {!!item.title && <> - {item.title}</>}
                         </h2>
                         {item.children.map((item) => !item.hasOwnDocument && context.member(item))}
                     </section>

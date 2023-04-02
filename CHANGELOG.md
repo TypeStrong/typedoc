@@ -57,6 +57,7 @@
 -   Fixed `@inheritDoc` on signatures (functions, methods, constructors, getters, setters) being unable to inherit from a non-signature.
 -   Interfaces/classes created via extending a module will no longer contain variables/functions where the member should have been converted as properties/methods, #2150.
 -   TypeDoc will now ignore a leading `v` in versions, #2212.
+-   Category titles now render with the same format in the page index and heading title, #2196.
 
 ### Thanks!
 
