@@ -620,7 +620,8 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 .tsd-navigation.settings {
     margin: 1rem 0;
 }
-.tsd-navigation a, .tsd-page-navigation a {
+.tsd-navigation a,
+.tsd-page-navigation a {
     display: inline-flex;
     align-items: center;
     padding: 0.25rem 0;
@@ -635,18 +636,22 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     /* why is this different? */
     width: 100%;
 }
-.tsd-navigation a.current, .tsd-page-navigation a.current {
+.tsd-navigation a.current,
+.tsd-page-navigation a.current {
     background: var(--color-accent);
 }
-.tsd-navigation a:hover, .tsd-page-navigation a:hover {
+.tsd-navigation a:hover,
+.tsd-page-navigation a:hover {
     text-decoration: underline;
 }
-.tsd-navigation ul, .tsd-page-navigation ul {
+.tsd-navigation ul,
+.tsd-page-navigation ul {
     margin: 0;
     padding: 0;
     list-style: none;
 }
-.tsd-navigation li, .tsd-page-navigation li {
+.tsd-navigation li,
+.tsd-page-navigation li {
     padding: 0;
     max-width: 100%;
 }
@@ -666,7 +671,6 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     padding-left: 1.75rem;
 }
 
-
 #tsd-sidebar-links a {
     margin-top: 0;
     margin-bottom: 0.5rem;
@@ -683,7 +687,8 @@ a.tsd-index-link {
     display: inline-flex;
     align-items: center;
 }
-.tsd-accordion-summary, .tsd-accordion-summary a {
+.tsd-accordion-summary,
+.tsd-accordion-summary a {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -1058,7 +1063,6 @@ img {
     border: 0.25rem solid var(--color-icon-background);
 }
 
-
 /* mobile */
 @media (max-width: 769px) {
     .tsd-widget.options,
@@ -1191,7 +1195,8 @@ img {
         margin-top: 1rem 0;
     }
 
-    .page-menu, .site-menu {
+    .page-menu,
+    .site-menu {
         max-height: calc(100vh - 2rem - 42px);
         overflow: auto;
         position: sticky;
