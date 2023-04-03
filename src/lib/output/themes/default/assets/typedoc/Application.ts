@@ -75,6 +75,15 @@ export class Application {
             }
             iter = iter.parentElement;
         }
+
+        if (pageLink) {
+            const top =
+                pageLink.getBoundingClientRect().top -
+                document.documentElement.clientHeight / 4;
+            // If we are showing three columns, this will scroll the site menu down to
+            // show the page we just loaded in the navigation.
+            document.querySelector(".site-menu")!.scrollTop = top;
+        }
     }
 
     /**

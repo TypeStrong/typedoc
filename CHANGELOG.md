@@ -34,24 +34,26 @@
 -   Removed `Renderer.addExternalSymbolResolver`, use `Converter.addExternalSymbolResolver` instead.
 -   Removed `CallbackLogger`.
 -   Removed `SerializeEventData` from serialization events.
--   A `PageEvent` is no longer passed to `getRenderContext` by the default theme.
+-   A `PageEvent` is now required for `getRenderContext`. If caching the context object, `page` must be updated when `getRenderContext` is called.
+-   `PageEvent` no longer includes the `template` property. The `Theme.render` method is now expected to take the template to render the page with as its second argument.
 -   Removed `secondaryNavigation` member on `DefaultThemeRenderContext`.
 -   Renamed `navigation` to `sidebar` on `DefaultThemeRenderContext` and `navigation.begin`/`navigation.end` hooks to `sidebar.begin`/`sidebar.end`.
 
 ### Features
 
+-   Added `--useTsLinkResolution` option (on by default) which tells TypeDoc to use TypeScript's `@link` resolution.
+-   Reworked default theme navigation to add support for a page table of contents, #1478, #2189.
 -   Added support for `@interface` on type aliases to tell TypeDoc to convert the fully resolved type as an interface, #1519
+-   Added support for `@namespace` on variable declarations to tell TypeDoc to convert the variable as a namespace, #2055.
 -   Added support for `@prop`/`@property` to specify documentation for a child property of a symbol, intended for use with `@interface`.
+-   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.
+-   TypeDoc will now attempt to guess what option you may have meant if given an invalid option name.
 -   Plugins may now return a `Promise<void>` from their `load` function, #185.
 -   TypeDoc now supports plugins written with ESM, #1635.
 -   Added `Renderer.preRenderAsyncJobs` and `Renderer.postRenderAsyncJobs`, which may be used by plugins to perform async processing for rendering, #185.
     Note: Conversion is still intentionally a synchronous process to ensure stability of converted projects between runs.
--   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.
--   TypeDoc will now attempt to guess what option you may have meant if given an invalid option name.
 -   TypeDoc options may now be set under the `typedocOptions` key in `package.json`, #2112.
--   Moved sidebar to left of content for consistency with most other websites, #2189.
 -   Added `--cacheBust` option to tell TypeDoc to include include the generation time in files, #2124.
--   Added support for `@namespace` on variable declarations to tell TypeDoc to convert the variable as a namespace, #2055.
 -   Added `--excludeReferences` option to tell TypeDoc to omit re-exports of a symbol already included from the documentation.
 -   Introduced new render hooks `pageSidebar.begin` and `pageSidebar.end`.
 

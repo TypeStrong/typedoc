@@ -1,9 +1,9 @@
 import * as Path from "path";
 
 import { Component, AbstractComponent } from "../utils/component";
-import {
+import type {
     ProjectReflection,
-    DeclarationReflection,
+    Reflection,
 } from "../models/reflections/index";
 import type { Renderer } from "./renderer";
 import { RendererEvent, PageEvent } from "./events";
@@ -24,7 +24,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
     /**
      * The reflection that is currently processed.
      */
-    protected reflection?: DeclarationReflection;
+    protected page?: PageEvent<Reflection>;
 
     /**
      * The url of the document that is being currently generated.
@@ -84,11 +84,8 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
      *
      * @param page  An event object describing the current render operation.
      */
-    protected onBeginPage(page: PageEvent) {
+    protected onBeginPage(page: PageEvent<Reflection>) {
         this.location = page.url;
-        this.reflection =
-            page.model instanceof DeclarationReflection
-                ? page.model
-                : undefined;
+        this.page = page;
     }
 }

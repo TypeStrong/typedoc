@@ -1,11 +1,10 @@
-import type { RendererHooks } from "../..";
+import type { PageEvent, RendererHooks } from "../..";
 import {
     Comment,
     CommentDisplayPart,
     DeclarationReflection,
     ReferenceType,
     Reflection,
-    ReflectionKind,
 } from "../../../models";
 import type { NeverIfInternal, Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
@@ -51,7 +50,11 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 export class DefaultThemeRenderContext {
     options: Options;
 
-    constructor(private theme: DefaultTheme, options: Options) {
+    constructor(
+        private theme: DefaultTheme,
+        public page: PageEvent<Reflection>,
+        options: Options
+    ) {
         this.options = options;
     }
 
@@ -78,10 +81,11 @@ export class DefaultThemeRenderContext {
     ) => {
         if (md instanceof Array) {
             return this.theme.markedPlugin.parseMarkdown(
-                Comment.displayPartsToMarkdown(md, this.urlTo)
+                Comment.displayPartsToMarkdown(md, this.urlTo),
+                this.page
             );
         }
-        return md ? this.theme.markedPlugin.parseMarkdown(md) : "";
+        return md ? this.theme.markedPlugin.parseMarkdown(md, this.page) : "";
     };
 
     /**
@@ -93,13 +97,8 @@ export class DefaultThemeRenderContext {
         return (type as ReferenceType).externalUrl;
     };
 
-    getReflectionClasses = (reflection: DeclarationReflection) => {
-        const filters = this.options.getValue("visibilityFilters") as Record<
-            string,
-            boolean
-        >;
-        return getReflectionClasses(reflection, filters);
-    };
+    getReflectionClasses = (refl: DeclarationReflection) =>
+        this.theme.getReflectionClasses(refl);
 
     reflectionTemplate = bind(reflectionTemplate, this);
     indexTemplate = bind(indexTemplate, this);
@@ -133,65 +132,4 @@ export class DefaultThemeRenderContext {
     type = bind(type, this);
     typeAndParent = bind(typeAndParent, this);
     typeParameters = bind(typeParameters, this);
-}
-
-function getReflectionClasses(
-    reflection: DeclarationReflection,
-    filters: Record<string, boolean>
-) {
-    const classes: string[] = [];
-
-    classes.push(toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
-
-    if (
-        reflection.parent &&
-        reflection.parent instanceof DeclarationReflection
-    ) {
-        classes.push(
-            toStyleClass(
-                `tsd-parent-kind-${ReflectionKind[reflection.parent.kind]}`
-            )
-        );
-    }
-
-    // Filter classes should match up with the settings function in
-    // partials/navigation.tsx.
-    for (const key of Object.keys(filters)) {
-        if (key === "inherited") {
-            if (reflection.inheritedFrom) {
-                classes.push("tsd-is-inherited");
-            }
-        } else if (key === "protected") {
-            if (reflection.flags.isProtected) {
-                classes.push("tsd-is-protected");
-            }
-        } else if (key === "private") {
-            if (reflection.flags.isPrivate) {
-                classes.push("tsd-is-private");
-            }
-        } else if (key === "external") {
-            if (reflection.flags.isExternal) {
-                classes.push("tsd-is-external");
-            }
-        } else if (key.startsWith("@")) {
-            if (key === "@deprecated") {
-                if (reflection.isDeprecated()) {
-                    classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
-                }
-            } else if (
-                reflection.comment?.hasModifier(key as `@${string}`) ||
-                reflection.comment?.getTag(key as `@${string}`)
-            ) {
-                classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
-            }
-        }
-    }
-
-    return classes.join(" ");
-}
-
-function toStyleClass(str: string) {
-    return str
-        .replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2)
-        .toLowerCase();
 }

@@ -36,6 +36,6 @@
         "Enumerations": 2.0,
         "Type Aliases": 2.0
     },
-    "searchInComments": true,
+    "includeVersion": true,
     "logLevel": "Verbose"
 }

@@ -44,23 +44,24 @@ export class DefaultTheme extends Theme {
     /** @internal */
     markedPlugin: MarkedPlugin;
 
-    private _renderContext?: DefaultThemeRenderContext;
-    getRenderContext() {
-        if (!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(this, this.application.options);
-        }
-        return this._renderContext;
+    getRenderContext(pageEvent: PageEvent<Reflection>) {
+        return new DefaultThemeRenderContext(this, pageEvent, this.application.options);
     }
 
     reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
-        return this.getRenderContext().reflectionTemplate(pageEvent);
+        return this.getRenderContext(pageEvent).reflectionTemplate(pageEvent);
     };
     indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return this.getRenderContext().indexTemplate(pageEvent);
+        return this.getRenderContext(pageEvent).indexTemplate(pageEvent);
     };
-    defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>) => {
-        return this.getRenderContext().defaultLayout(pageEvent);
+    defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>) => {
+        return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
     };
+
+    getReflectionClasses(reflection: DeclarationReflection) {
+        const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
+        return getReflectionClasses(reflection, filters);
+    }
 
     /**
      * Mappings of reflections kinds to templates used by this theme.
@@ -210,8 +211,8 @@ export class DefaultTheme extends Theme {
         return urls;
     }
 
-    render(page: PageEvent<Reflection>): string {
-        const templateOutput = this.defaultLayoutTemplate(page);
+    render(page: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>): string {
+        const templateOutput = this.defaultLayoutTemplate(page, template);
         return "<!DOCTYPE html>" + JSX.renderElement(templateOutput);
     }
 
@@ -243,4 +244,53 @@ export class DefaultTheme extends Theme {
 
 function hasReadme(readme: string) {
     return !readme.endsWith("none");
+}
+
+function toStyleClass(str: string) {
+    return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();
+}
+
+function getReflectionClasses(reflection: DeclarationReflection, filters: Record<string, boolean>) {
+    const classes: string[] = [];
+
+    classes.push(toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
+
+    if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
+        classes.push(toStyleClass(`tsd-parent-kind-${ReflectionKind[reflection.parent.kind]}`));
+    }
+
+    // Filter classes should match up with the settings function in
+    // partials/navigation.tsx.
+    for (const key of Object.keys(filters)) {
+        if (key === "inherited") {
+            if (reflection.inheritedFrom) {
+                classes.push("tsd-is-inherited");
+            }
+        } else if (key === "protected") {
+            if (reflection.flags.isProtected) {
+                classes.push("tsd-is-protected");
+            }
+        } else if (key === "private") {
+            if (reflection.flags.isPrivate) {
+                classes.push("tsd-is-private");
+            }
+        } else if (key === "external") {
+            if (reflection.flags.isExternal) {
+                classes.push("tsd-is-external");
+            }
+        } else if (key.startsWith("@")) {
+            if (key === "@deprecated") {
+                if (reflection.isDeprecated()) {
+                    classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+                }
+            } else if (
+                reflection.comment?.hasModifier(key as `@${string}`) ||
+                reflection.comment?.getTag(key as `@${string}`)
+            ) {
+                classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+            }
+        }
+    }
+
+    return classes.join(" ");
 }

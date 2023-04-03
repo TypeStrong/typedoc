@@ -3,7 +3,7 @@ import * as Path from "path";
 import { Event } from "../utils/events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
-import type { DeclarationReflection } from "../models";
+import type { DeclarationReflection, ReflectionKind } from "../models";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -61,14 +61,12 @@ export class RendererEvent extends Event {
      */
     public createPageEvent<Model>(
         mapping: UrlMapping<Model>
-    ): PageEvent<Model> {
-        const event = new PageEvent<Model>(PageEvent.BEGIN);
+    ): [RenderTemplate<PageEvent<Model>>, PageEvent<Model>] {
+        const event = new PageEvent<Model>(PageEvent.BEGIN, mapping.model);
         event.project = this.project;
         event.url = mapping.url;
-        event.model = mapping.model;
-        event.template = mapping.template;
         event.filename = Path.join(this.outputDirectory, mapping.url);
-        return event;
+        return [mapping.template, event];
     }
 }
 
@@ -79,7 +77,7 @@ export class RendererEvent extends Event {
  * @see {@link Renderer.EVENT_BEGIN_PAGE}
  * @see {@link Renderer.EVENT_END_PAGE}
  */
-export class PageEvent<Model = unknown> extends Event {
+export class PageEvent<out Model = unknown> extends Event {
     /**
      * The project the renderer is currently processing.
      */
@@ -98,12 +96,7 @@ export class PageEvent<Model = unknown> extends Event {
     /**
      * The model that should be rendered on this page.
      */
-    model!: Model;
-
-    /**
-     * The template that should be used to render this page.
-     */
-    template!: RenderTemplate<this>;
+    readonly model: Model;
 
     /**
      * The final html content of this page.
@@ -111,6 +104,18 @@ export class PageEvent<Model = unknown> extends Event {
      * Should be rendered by layout templates and can be modified by plugins.
      */
     contents?: string;
+
+    /**
+     * Links to content within this page that should be rendered in the page navigation.
+     * This is built when rendering the document content.
+     */
+    pageHeadings: Array<{
+        link: string;
+        text: string;
+        level?: number;
+        kind?: ReflectionKind;
+        classes?: string;
+    }> = [];
 
     /**
      * Triggered before a document will be rendered.
@@ -123,12 +128,17 @@ export class PageEvent<Model = unknown> extends Event {
      * @event
      */
     static readonly END = "endPage";
+
+    constructor(name: string, model: Model) {
+        super(name);
+        this.model = model;
+    }
 }
 
 /**
  * An event emitted when markdown is being parsed. Allows other plugins to manipulate the result.
  *
- * @see {@link PARSE}
+ * @see {@link MarkdownEvent.PARSE}
  */
 export class MarkdownEvent extends Event {
     /**
@@ -142,13 +152,24 @@ export class MarkdownEvent extends Event {
     parsedText: string;
 
     /**
+     * The page that this markdown is being parsed for.
+     */
+    readonly page: PageEvent;
+
+    /**
      * Triggered on the renderer when this plugin parses a markdown string.
      * @event
      */
     static readonly PARSE = "parseMarkdown";
 
-    constructor(name: string, originalText: string, parsedText: string) {
+    constructor(
+        name: string,
+        page: PageEvent,
+        originalText: string,
+        parsedText: string
+    ) {
         super(name);
+        this.page = page;
         this.originalText = originalText;
         this.parsedText = parsedText;
     }

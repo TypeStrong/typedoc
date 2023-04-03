@@ -3,22 +3,10 @@ import * as Path from "path";
 import * as Marked from "marked";
 
 import { Component, ContextAwareRendererComponent } from "../components";
-import { RendererEvent, MarkdownEvent } from "../events";
+import { RendererEvent, MarkdownEvent, PageEvent } from "../events";
 import { BindOption, readFile, copySync, isFile } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { Theme } from "shiki";
-
-const customMarkedRenderer = new Marked.Renderer();
-
-customMarkedRenderer.heading = (text, level, _, slugger) => {
-    const slug = slugger.slug(text);
-
-    return `
-<a href="#${slug}" id="${slug}" style="color: inherit; text-decoration: none;">
-  <h${level}>${text}</h${level}>
-</a>
-`;
-};
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -100,7 +88,7 @@ output file :
      * @param text  The markdown string that should be parsed.
      * @returns The resulting html string.
      */
-    public parseMarkdown(text: string) {
+    public parseMarkdown(text: string, page: PageEvent<any>) {
         if (this.includes) {
             text = text.replace(this.includePattern, (_match, path) => {
                 path = Path.join(this.includes!, path.trim());
@@ -134,7 +122,7 @@ output file :
             );
         }
 
-        const event = new MarkdownEvent(MarkdownEvent.PARSE, text, text);
+        const event = new MarkdownEvent(MarkdownEvent.PARSE, page, text, text);
 
         this.owner.trigger(event);
         return event.parsedText;
@@ -195,7 +183,22 @@ output file :
         // Set some default values if they are not specified via the TypeDoc option
         markedOptions.highlight ??= (text, lang) =>
             this.getHighlighted(text, lang);
-        markedOptions.renderer ??= customMarkedRenderer;
+
+        if (!markedOptions.renderer) {
+            markedOptions.renderer = new Marked.Renderer();
+
+            markedOptions.renderer.heading = (text, level, _, slugger) => {
+                const slug = slugger.slug(text);
+                // Prefix the slug with an extra `$` to prevent conflicts with TypeDoc's anchors.
+                this.page!.pageHeadings.push({
+                    link: `#$${slug}`,
+                    text,
+                    level,
+                });
+                return `<a id="$${slug}" class="tsd-anchor"></a><h${level}><a href="#$${slug}" style="color:inherit;text-decoration:none">${text}</a></h${level}>`;
+            };
+        }
+
         markedOptions.mangle ??= false; // See https://github.com/TypeStrong/typedoc/issues/1395
 
         return markedOptions;

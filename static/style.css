@@ -587,7 +587,7 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 
 .tsd-anchor {
-    position: absolute;
+    position: relative;
     top: -100px;
 }
 
@@ -617,30 +617,36 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     color: var(--color-ts-private);
 }
 
-.tsd-navigation {
+.tsd-navigation.settings {
     margin: 1rem 0;
 }
-.tsd-navigation a {
+.tsd-navigation a, .tsd-page-navigation a {
     display: inline-flex;
     align-items: center;
     padding: 0.25rem 0;
     color: var(--color-text);
     text-decoration: none;
+}
+.tsd-navigation a {
     /* why 3rem? No idea, but it seems to work. */
     width: calc(100% - 3rem);
 }
-.tsd-navigation a.current {
+.tsd-page-navigation a {
+    /* why is this different? */
+    width: 100%;
+}
+.tsd-navigation a.current, .tsd-page-navigation a.current {
     background: var(--color-accent);
 }
-.tsd-navigation a:hover {
+.tsd-navigation a:hover, .tsd-page-navigation a:hover {
     text-decoration: underline;
 }
-.tsd-navigation ul {
+.tsd-navigation ul, .tsd-page-navigation ul {
     margin: 0;
     padding: 0;
     list-style: none;
 }
-.tsd-navigation li {
+.tsd-navigation li, .tsd-page-navigation li {
     padding: 0;
     max-width: 100%;
 }
@@ -655,6 +661,9 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 .tsd-small-nested-navigation > li > details {
     margin-left: 0;
+}
+.tsd-page-navigation ul {
+    padding-left: 1.75rem;
 }
 
 
@@ -1148,17 +1157,21 @@ img {
         grid-area: content;
         padding: 0 1rem;
     }
-
-    .col-sidebar, .col-content {
-        height: calc(100vh - 4rem - 42px);
+}
+@media (min-width: 770px) and (max-width: 1399px) {
+    .col-sidebar {
+        max-height: calc(100vh - 2rem - 42px);
         overflow: auto;
+        position: sticky;
+        top: 42px;
+        padding-top: 1rem;
     }
 }
 
 /* two sidebars */
 @media (min-width: 1200px) {
     .container-main {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr) minmax(0, 15rem);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr) minmax(0, 20rem);
         grid-template-areas: "sidebar content toc";
     }
 
@@ -1174,7 +1187,14 @@ img {
         grid-area: sidebar;
     }
 
-    .page-menu, .site-menu, .col-content {
-        height: calc(100vh - 4rem - 42px);
+    .site-menu {
+        margin-top: 1rem 0;
+    }
+
+    .page-menu, .site-menu {
+        max-height: calc(100vh - 2rem - 42px);
+        overflow: auto;
+        position: sticky;
+        top: 42px;
     }
 }

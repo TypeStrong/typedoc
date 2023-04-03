@@ -13,7 +13,7 @@ import type { Application } from "../application";
 import type { Theme } from "./theme";
 import { RendererEvent, PageEvent, IndexEvent } from "./events";
 import type { ProjectReflection } from "../models/reflections/project";
-import type { UrlMapping } from "./models/UrlMapping";
+import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
 import { writeFileSync } from "../utils/fs";
 import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
@@ -260,7 +260,7 @@ export class Renderer extends ChildableComponent<
             );
             output.urls.forEach((mapping: UrlMapping) => {
                 clearSeenIconCache();
-                this.renderDocument(output.createPageEvent(mapping));
+                this.renderDocument(...output.createPageEvent(mapping));
                 validateStateIsClean(mapping.url);
             });
 
@@ -282,7 +282,10 @@ export class Renderer extends ChildableComponent<
      * @param page An event describing the current page.
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
-    private renderDocument(page: PageEvent) {
+    private renderDocument(
+        template: RenderTemplate<PageEvent<Reflection>>,
+        page: PageEvent<Reflection>
+    ) {
         const momento = this.hooks.saveMomento();
         this.trigger(PageEvent.BEGIN, page);
         if (page.isDefaultPrevented) {
@@ -291,7 +294,7 @@ export class Renderer extends ChildableComponent<
         }
 
         if (page.model instanceof Reflection) {
-            page.contents = this.theme!.render(page as PageEvent<Reflection>);
+            page.contents = this.theme!.render(page, template);
         } else {
             throw new Error("Should be unreachable");
         }

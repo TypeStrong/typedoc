@@ -1,6 +1,6 @@
 import type { Renderer } from "./renderer";
 import type { ProjectReflection } from "../models/reflections/project";
-import type { UrlMapping } from "./models/UrlMapping";
+import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
 import { RendererComponent } from "./components";
 import { Component } from "../utils/component";
 import type { PageEvent } from "./events";
@@ -46,5 +46,8 @@ export abstract class Theme extends RendererComponent {
     /**
      * Renders the provided page to a string, which will be written to disk by the {@link Renderer}
      */
-    abstract render(page: PageEvent<Reflection>): string;
+    abstract render(
+        page: PageEvent<Reflection>,
+        template: RenderTemplate<PageEvent<Reflection>>
+    ): string;
 }

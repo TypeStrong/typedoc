@@ -1,10 +1,15 @@
+import type { RenderTemplate } from "../../..";
 import type { Reflection } from "../../../../models";
 import { JSX, Raw } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { getDisplayName } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
-export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
+export const defaultLayout = (
+    context: DefaultThemeRenderContext,
+    template: RenderTemplate<PageEvent<Reflection>>,
+    props: PageEvent<Reflection>
+) => (
     <html class="default" lang={context.options.getValue("htmlLang")}>
         <head>
             <meta charSet="utf-8" />
@@ -35,6 +40,12 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
             {context.toolbar(props)}
 
             <div class="container container-main">
+                <div class="col-content">
+                    {context.hook("content.begin")}
+                    {context.header(props)}
+                    {template(props)}
+                    {context.hook("content.end")}
+                </div>
                 <div class="col-sidebar">
                     <div class="page-menu">
                         {context.hook("pageSidebar.begin")}
@@ -46,12 +57,6 @@ export const defaultLayout = (context: DefaultThemeRenderContext, props: PageEve
                         {context.sidebar(props)}
                         {context.hook("sidebar.end")}
                     </div>
-                </div>
-                <div class="col-content">
-                    {context.hook("content.begin")}
-                    {context.header(props)}
-                    {props.template(props)}
-                    {context.hook("content.end")}
                 </div>
             </div>
 
