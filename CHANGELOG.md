@@ -10,7 +10,6 @@
     for your use case, please open an issue.
 -   Removed `--logger` option, to disable all logging, set the `logLevel` option to `none`.
 -   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
--   Internal links are now only resolved with declaration references.
 -   Added `@overload` to default ignored tags.
 
 ### API Breaking Changes
@@ -66,6 +65,7 @@
 -   TypeDoc will now ignore a leading `v` in versions, #2212.
 -   Category titles now render with the same format in the page index and heading title, #2196.
 -   Fixed crash when using `typeof` on a reference with type arguments, #2220.
+-   Fixed broken anchor links generated to signatures nested within objects.
 
 ### Thanks!
 
