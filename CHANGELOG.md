@@ -64,6 +64,7 @@
 -   Interfaces/classes created via extending a module will no longer contain variables/functions where the member should have been converted as properties/methods, #2150.
 -   TypeDoc will now ignore a leading `v` in versions, #2212.
 -   Category titles now render with the same format in the page index and heading title, #2196.
+-   Fixed crash when using `typeof` on a reference with type arguments, #2220.
 
 ### Thanks!
 

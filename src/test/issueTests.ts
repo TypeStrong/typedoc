@@ -903,4 +903,12 @@ export const issueTests: {
         const mod = query(project, "Mod");
         equal(mod.sources?.[0].line, 1);
     },
+
+    gh2220(project) {
+        const fn = query(project, "createAssetEmitter");
+        const param = fn.signatures?.[0].parameters?.[0];
+        ok(param);
+        equal(param.type?.type, "query");
+        equal(param.type.queryType.reflection?.name, "TypeEmitter");
+    },
 };

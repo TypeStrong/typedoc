@@ -648,8 +648,9 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
             )
         );
     },
-    convertType(context, type) {
-        const symbol = type.getSymbol();
+    convertType(context, type, node) {
+        const symbol =
+            type.getSymbol() || context.getSymbolAtLocation(node.exprName);
         assert(
             symbol,
             `Query type failed to get a symbol for: ${context.checker.typeToString(
