@@ -19,8 +19,43 @@ import {
     ReferenceReflection,
 } from "../lib/models";
 import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
-import { getConverter2App } from "./programs";
-import type { TestLogger } from "./TestLogger";
+import {
+    getConverter2App,
+    getConverter2Base,
+    getConverter2Program,
+} from "./programs";
+import { TestLogger } from "./TestLogger";
+import { clearCommentCache } from "../lib/converter/comments";
+import { join } from "path";
+import { existsSync } from "fs";
+
+const base = getConverter2Base();
+const app = getConverter2App();
+const program = getConverter2Program();
+
+function doConvert(entry: string) {
+    const entryPoint = [
+        join(base, `issues/${entry}.ts`),
+        join(base, `issues/${entry}.d.ts`),
+        join(base, `issues/${entry}.tsx`),
+        join(base, `issues/${entry}.js`),
+        join(base, "issues", entry, "index.ts"),
+        join(base, "issues", entry, "index.js"),
+    ].find(existsSync);
+
+    ok(entryPoint, `No entry point found for ${entry}`);
+    const sourceFile = program.getSourceFile(entryPoint);
+    ok(sourceFile, `No source file found for ${entryPoint}`);
+
+    app.options.setValue("entryPoints", [entryPoint]);
+    return app.converter.convert([
+        {
+            displayName: entry,
+            program,
+            sourceFile,
+        },
+    ]);
+}
 
 function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
@@ -28,14 +63,26 @@ function query(project: ProjectReflection, name: string) {
     return reflection;
 }
 
-export const issueTests: {
-    [issue: `pre${bigint}${string}`]: (app: Application) => void;
-    [issue: `gh${bigint}${string}`]: (
-        project: ProjectReflection,
-        logger: TestLogger
-    ) => void;
-} = {
-    gh567(project) {
+describe("Issue Tests", () => {
+    let logger: TestLogger;
+    let convert: (name?: string) => ProjectReflection;
+    let optionsSnap: { __optionSnapshot: never };
+
+    beforeEach(function () {
+        app.logger = logger = new TestLogger();
+        optionsSnap = app.options.snapshot();
+        clearCommentCache();
+        const issueNumber = this.currentTest?.title.match(/#(\d+)/)?.[1];
+        ok(issueNumber, "Test name must contain an issue number.");
+        convert = (name = `gh${issueNumber}`) => doConvert(name);
+    });
+
+    afterEach(() => {
+        app.options.restore(optionsSnap);
+    });
+
+    it("#567", () => {
+        const project = convert();
         const foo = query(project, "foo");
         const sig = foo.signatures?.[0];
         ok(sig, "Missing signature");
@@ -46,9 +93,10 @@ export const issueTests: {
             Comment.combineDisplayParts(param.comment?.summary),
             "JSDoc style param name"
         );
-    },
+    });
 
-    gh671(project) {
+    it("#671", () => {
+        const project = convert();
         const toNumber = query(project, "toNumber");
         const sig = toNumber.signatures?.[0];
         ok(sig, "Missing signatures");
@@ -60,9 +108,10 @@ export const issueTests: {
             "the string to parse as a number",
             "whether to parse as an integer or float",
         ]);
-    },
+    });
 
-    gh869(project) {
+    it("#869", () => {
+        const project = convert();
         const classFoo = project.children?.find(
             (r) => r.name === "Foo" && r.kind === ReflectionKind.Class
         );
@@ -77,23 +126,26 @@ export const issueTests: {
         );
         ok(nsFoo instanceof DeclarationReflection);
         ok(nsFoo.children?.find((r) => r.name === "x"));
-    },
+    });
 
-    gh1124(project) {
+    it("#1124", () => {
+        const project = convert();
         equal(
             project.children?.length,
             1,
             "Namespace with type and value converted twice"
         );
-    },
+    });
 
-    gh1150(project) {
+    it("#1150", () => {
+        const project = convert();
         const refl = query(project, "IntersectFirst");
         equal(refl?.kind, ReflectionKind.TypeAlias);
         equal(refl.type?.type, "indexedAccess");
-    },
+    });
 
-    gh1164(project) {
+    it("#1164", () => {
+        const project = convert();
         const refl = query(project, "gh1164");
         equal(
             Comment.combineDisplayParts(
@@ -106,61 +158,70 @@ export const issueTests: {
         );
         ok(tag);
         equal(Comment.combineDisplayParts(tag.content), "Test description.");
-    },
+    });
 
-    gh1215(project) {
+    it("#1215", () => {
+        const project = convert();
         const foo = query(project, "Foo.bar");
         ok(foo.setSignature instanceof SignatureReflection);
         equal(foo.setSignature.type?.toString(), "void");
-    },
+    });
 
-    gh1255(project) {
+    it("#1255", () => {
+        const project = convert();
         const foo = query(project, "C.foo");
         equal(Comment.combineDisplayParts(foo.comment?.summary), "Docs!");
-    },
+    });
 
-    gh1261(project) {
+    it("#1261", () => {
+        const project = convert();
         const prop = query(project, "X.prop");
         equal(
             Comment.combineDisplayParts(prop.comment?.summary),
             "The property of X."
         );
-    },
+    });
 
-    gh1330(project) {
+    it("#1330", () => {
+        const project = convert();
         const example = query(project, "ExampleParam");
         equal(example?.type?.type, "reference");
         equal(example.type.toString(), "Example");
-    },
+    });
 
-    gh1366(project) {
+    it("#1366", () => {
+        const project = convert();
         const foo = query(project, "GH1366.Foo");
         equal(foo.kind, ReflectionKind.Reference);
-    },
+    });
 
-    gh1408(project) {
+    it("#1408", () => {
+        const project = convert();
         const foo = query(project, "foo");
         const type = foo?.signatures?.[0]?.typeParameters?.[0].type;
         equal(type?.type, "array");
         equal(type?.toString(), "unknown[]");
-    },
+    });
 
-    gh1436(project) {
+    it("#1436", () => {
+        const project = convert();
         equal(
             project.children?.map((c) => c.name),
             ["gh1436"]
         );
-    },
+    });
 
-    gh1449(project) {
+    it("#1449", () => {
+        const project = convert();
         const refl = query(project, "gh1449").signatures?.[0];
         equal(
             refl?.typeParameters?.[0].type?.toString(),
             "[foo: any, bar?: any]"
         );
-    },
+    });
 
-    gh1454(project) {
+    it("#1454", () => {
+        const project = convert();
         const foo = query(project, "foo");
         const fooRet = foo?.signatures?.[0]?.type;
         equal(fooRet?.type, "reference");
@@ -170,9 +231,10 @@ export const issueTests: {
         const barRet = bar?.signatures?.[0]?.type;
         equal(barRet?.type, "reference");
         equal(barRet?.toString(), "Bar");
-    },
+    });
 
-    gh1462(project) {
+    it("#1462", () => {
+        const project = convert();
         const prop = query(project, "PROP");
         equal(prop.type?.toString(), "number");
 
@@ -186,18 +248,20 @@ export const issueTests: {
             ),
             "method docs"
         );
-    },
+    });
 
-    gh1481(project) {
+    it("#1481", () => {
+        const project = convert();
         const signature = query(project, "GH1481.static").signatures?.[0];
         equal(
             Comment.combineDisplayParts(signature?.comment?.summary),
             "static docs"
         );
         equal(signature?.type?.toString(), "void");
-    },
+    });
 
-    gh1483(project) {
+    it("#1483", () => {
+        const project = convert();
         equal(
             query(project, "gh1483.namespaceExport").kind,
             ReflectionKind.Function
@@ -206,38 +270,43 @@ export const issueTests: {
             query(project, "gh1483_2.staticMethod").kind,
             ReflectionKind.Method
         );
-    },
+    });
 
-    gh1490(project) {
+    it("#1490", () => {
+        const project = convert();
         const refl = query(project, "GH1490.optionalMethod");
         equal(
             Comment.combineDisplayParts(refl.signatures?.[0]?.comment?.summary),
             "With comment"
         );
-    },
+    });
 
-    gh1509(project) {
+    it("#1509", () => {
+        const project = convert();
         const pFoo = query(project, "PartialFoo.foo");
         equal(pFoo.flags.isOptional, true);
 
         const rFoo = query(project, "ReadonlyFoo.foo");
         equal(rFoo.flags.isReadonly, true);
         equal(rFoo.flags.isOptional, true);
-    },
+    });
 
-    gh1514(project) {
+    it("#1514", () => {
+        const project = convert();
         // Not ideal. Really we want to handle these names nicer...
         query(project, "ComputedUniqueName.[UNIQUE_SYMBOL]");
-    },
+    });
 
-    gh1522(project) {
+    it("#1522", () => {
+        const project = convert();
         equal(
             project.groups?.map((g) => g.categories?.map((c) => c.title)),
             [["cat"]]
         );
-    },
+    });
 
-    gh1524(project) {
+    it("#1524", () => {
+        const project = convert();
         const nullableParam = query(project, "nullable").signatures?.[0]
             ?.parameters?.[0];
         equal(nullableParam?.type?.toString(), "null | string");
@@ -245,39 +314,44 @@ export const issueTests: {
         const nonNullableParam = query(project, "nonNullable").signatures?.[0]
             ?.parameters?.[0];
         equal(nonNullableParam?.type?.toString(), "string");
-    },
+    });
 
-    gh1534(project) {
+    it("#1534", () => {
+        const project = convert();
         const func = query(project, "gh1534");
         equal(
             func.signatures?.[0]?.parameters?.[0]?.type?.toString(),
             "readonly [number, string]"
         );
-    },
+    });
 
-    gh1547(project) {
+    it("#1547", () => {
+        const project = convert();
         equal(
             project.children?.map((c) => c.name),
             ["Test", "ThingA", "ThingB"]
         );
-    },
+    });
 
-    gh1552(project) {
+    it("#1552", () => {
+        const project = convert();
         equal(query(project, "emptyArr").defaultValue, "[]");
         equal(query(project, "nonEmptyArr").defaultValue, "...");
         equal(query(project, "emptyObj").defaultValue, "{}");
         equal(query(project, "nonEmptyObj").defaultValue, "...");
-    },
+    });
 
-    gh1578(project) {
+    it("#1578", () => {
+        const project = convert();
         ok(query(project, "notIgnored"));
         ok(
             !project.getChildByName("ignored"),
             "Symbol re-exported from ignored file is ignored."
         );
-    },
+    });
 
-    gh1580(project) {
+    it("#1580", () => {
+        const project = convert();
         ok(
             query(project, "B.prop").hasComment(),
             "Overwritten property with no comment should be inherited"
@@ -286,9 +360,10 @@ export const issueTests: {
             query(project, "B.run").signatures?.[0]?.hasComment(),
             "Overwritten method with no comment should be inherited"
         );
-    },
+    });
 
-    gh1624(project) {
+    it("#1624", () => {
+        const project = convert();
         // #1637
         equal(query(project, "Bar.baz").kind, ReflectionKind.Property);
 
@@ -299,15 +374,17 @@ export const issueTests: {
             "Some property style doc.",
             "Property methods declared in interface should still allow comment inheritance"
         );
-    },
+    });
 
-    gh1626(project) {
+    it("#1626", () => {
+        const project = convert();
         const ctor = query(project, "Foo.constructor");
         equal(ctor.sources?.[0]?.line, 2);
         equal(ctor.sources?.[0]?.character, 4);
-    },
+    });
 
-    gh1651(project) {
+    it("#1651", () => {
+        const project = convert();
         equal(
             project.children?.map((c) => c.name),
             ["bar", "bar"]
@@ -326,15 +403,17 @@ export const issueTests: {
         ].map(Comment.combineDisplayParts);
 
         equal(comments, ["bar", "metadata", "fn", "bar"]);
-    },
+    });
 
-    gh1660(project) {
+    it("#1660", () => {
+        const project = convert();
         const alias = query(project, "SomeType");
         ok(alias.type instanceof QueryType);
         equal(alias.type.queryType.name, "m.SomeClass.someProp");
-    },
+    });
 
-    gh1733(project) {
+    it("#1733", () => {
+        const project = convert();
         const alias = query(project, "Foo");
         equal(alias.typeParameters?.[0].comment?.summary, [
             { kind: "text", text: "T docs" },
@@ -343,9 +422,10 @@ export const issueTests: {
         equal(cls.typeParameters?.[0].comment?.summary, [
             { kind: "text", text: "T docs" },
         ]);
-    },
+    });
 
-    gh1734(project) {
+    it("#1734", () => {
+        const project = convert();
         const alias = query(project, "Foo");
         const type = alias.type;
         ok(type instanceof ReflectionType);
@@ -357,9 +437,10 @@ export const issueTests: {
             ]),
         ];
         equal(type.declaration.signatures?.[0].comment, expectedComment);
-    },
+    });
 
-    gh1745(project) {
+    it("#1745", () => {
+        const project = convert();
         const Foo = query(project, "Foo");
         ok(Foo.type instanceof ReflectionType, "invalid type");
 
@@ -379,9 +460,10 @@ export const issueTests: {
             ),
             "has cat tag 3"
         );
-    },
+    });
 
-    gh1770(project) {
+    it("#1770", () => {
+        const project = convert();
         const sym1 = query(project, "sym1");
         equal(
             Comment.combineDisplayParts(sym1.signatures?.[0].comment?.summary),
@@ -393,9 +475,10 @@ export const issueTests: {
             Comment.combineDisplayParts(sym2.comment?.summary),
             "Docs for Sym2"
         );
-    },
+    });
 
-    gh1771(project) {
+    it("#1771", () => {
+        const project = convert();
         const check = query(project, "check");
         const tag = check.comment?.summary[0] as
             | InlineTagDisplayPart
@@ -406,27 +489,30 @@ export const issueTests: {
             tag.target === query(project, "Test.method"),
             "Incorrect resolution"
         );
-    },
+    });
 
-    gh1795(project) {
+    it("#1795", () => {
+        const project = convert();
         equal(
             project.children?.map((c) => c.name),
             ["default", "foo"]
         );
         ok(project.children![0].kind === ReflectionKind.Reference);
         ok(project.children![1].kind !== ReflectionKind.Reference);
-    },
+    });
 
-    gh1804(project) {
+    it("#1804", () => {
+        const project = convert();
         const foo = query(project, "foo");
         const sig = foo.signatures?.[0];
         ok(sig);
         const param = sig.parameters?.[0];
         ok(param);
         ok(param.flags.isOptional);
-    },
+    });
 
-    gh1875(project) {
+    it("#1875", () => {
+        const project = convert();
         const test = query(project, "test");
         equal(
             test.signatures?.[0].parameters?.map((p) => p.type?.toString()),
@@ -438,9 +524,10 @@ export const issueTests: {
             test2.signatures?.[0].parameters?.map((p) => p.type?.toString()),
             ["any", "string"]
         );
-    },
+    });
 
-    gh1876(project) {
+    it("#1876", () => {
+        const project = convert();
         const foo = query(project, "foo");
         const fooSig = foo.signatures?.[0].parameters?.[0];
         ok(fooSig);
@@ -474,18 +561,20 @@ export const issueTests: {
             ),
             "Nested"
         );
-    },
+    });
 
-    gh1880(project) {
+    it("#1880", () => {
+        const project = convert();
         const SomeEnum = query(project, "SomeEnum");
         equal(SomeEnum.kind, ReflectionKind.Enum);
         ok(SomeEnum.hasComment(), "Missing @enum variable comment");
 
         const auto = query(project, "SomeEnum.AUTO");
         ok(auto.hasComment(), "Missing @enum member comment");
-    },
+    });
 
-    gh1896(project) {
+    it("#1896", () => {
+        const project = convert();
         const Type1 = query(project, "Type1");
         const Type2 = query(project, "Type2");
         equal(Type1.type?.type, "reflection" as const);
@@ -499,37 +588,41 @@ export const issueTests: {
             Type2.type.declaration.signatures?.[0].comment,
             new Comment([{ kind: "text", text: "Some type 2." }])
         );
-    },
+    });
 
-    gh1898(project, logger) {
-        const app = getConverter2App();
+    it("#1898", () => {
+        const project = convert();
         app.validate(project);
         logger.expectMessage(
             "warn: UnDocFn.__type, defined in */gh1898.ts, does not have any documentation."
         );
         logger.expectNoOtherMessages();
-    },
+    });
 
-    gh1903(project) {
+    it("#1903", () => {
+        const project = convert();
         equal(
             Object.values(project.reflections).map((r) => r.name),
             ["typedoc"]
         );
-    },
+    });
 
-    gh1903b(project) {
+    it("#1903b", () => {
+        const project = convert("gh1903b");
         equal(
             Object.values(project.reflections).map((r) => r.name),
             ["typedoc"]
         );
-    },
+    });
 
-    gh1907(project) {
+    it("#1907", () => {
+        const project = convert();
         // gh2190 - we now skip the first package.json we encounter because it doesn't contain a name field.
         equal(project.packageName, "typedoc");
-    },
+    });
 
-    gh1913(project) {
+    it("#1913", () => {
+        const project = convert();
         const fn = query(project, "fn");
 
         equal(
@@ -539,33 +632,37 @@ export const issueTests: {
                 [new CommentTag("@returns", [{ kind: "text", text: "ret" }])]
             )
         );
-    },
+    });
 
-    gh1927(project) {
+    it("#1927", () => {
+        const project = convert();
         const ref = query(project, "Derived.getter");
 
         equal(
             ref.getSignature?.comment,
             new Comment([{ kind: "text", text: "Base" }])
         );
-    },
+    });
 
-    gh1942(project) {
+    it("#1942", () => {
+        const project = convert();
         equal(query(project, "Foo.A").type, new LiteralType(0));
         equal(query(project, "Foo.B").type, new IntrinsicType("number"));
         equal(query(project, "Bar.C").type, new LiteralType("C"));
-    },
+    });
 
-    gh1961(project) {
+    it("#1961", () => {
+        const project = convert();
         equal(
             Comment.combineDisplayParts(
                 query(project, "WithDocs1").comment?.summary
             ),
             "second"
         );
-    },
+    });
 
-    gh1962(project) {
+    it("#1962", () => {
+        const project = convert();
         const foo = query(project, "foo");
         ok(foo.signatures);
         ok(project.hasComment(), "Missing module comment");
@@ -573,29 +670,33 @@ export const issueTests: {
             !foo.signatures[0].hasComment(),
             "Module comment attached to signature"
         );
-    },
+    });
 
-    gh1963(project) {
+    it("#1963", () => {
+        const project = convert();
         ok(project.hasComment(), "Missing module comment");
-    },
+    });
 
-    gh1967(project) {
+    it("#1967", () => {
+        const project = convert();
         equal(query(project, "abc").comment?.getTag("@example")?.content, [
             {
                 kind: "code",
                 text: "```ts\n\n```",
             },
         ]);
-    },
+    });
 
-    gh1968(project) {
+    it("#1968", () => {
+        const project = convert();
         const comments = ["Bar.x", "Bar.y", "Bar.z"].map((n) =>
             Comment.combineDisplayParts(query(project, n).comment?.summary)
         );
         equal(comments, ["getter", "getter", "setter"]);
-    },
+    });
 
-    gh1973(project) {
+    it("#1973", () => {
+        const project = convert();
         const comments = ["A", "B"].map((n) =>
             Comment.combineDisplayParts(query(project, n).comment?.summary)
         );
@@ -609,9 +710,10 @@ export const issueTests: {
         );
 
         equal(comments2, ["Comment for a", "Comment for b"]);
-    },
+    });
 
-    gh1980(project, logger) {
+    it("#1980", () => {
+        const project = convert();
         const link = query(project, "link");
         equal(
             link.comment?.summary.filter((t) => t.kind === "inline-tag"),
@@ -637,21 +739,21 @@ export const issueTests: {
             ]
         );
         logger.expectNoOtherMessages();
-    },
+    });
 
-    gh1986(project, logger) {
+    it("#1986", () => {
+        const project = convert();
         const a = query(project, "a");
         equal(
             Comment.combineDisplayParts(a.comment?.summary),
             "[[include:file.md]] this is not a link."
         );
         logger.expectNoOtherMessages();
-    },
+    });
 
-    pre1994(app) {
+    it("#1994", () => {
         app.options.setValue("excludeNotDocumented", true);
-    },
-    gh1994(project) {
+        const project = convert();
         for (const exp of ["documented", "documented2", "Docs.x", "Docs.y"]) {
             query(project, exp);
         }
@@ -663,9 +765,10 @@ export const issueTests: {
         equal(y.sources?.length, 1);
         ok(y.getSignature);
         ok(!y.setSignature);
-    },
+    });
 
-    gh1996(project) {
+    it("#1996", () => {
+        const project = convert();
         const a = query(project, "a");
         equal(a.signatures![0].sources?.[0].fileName, "gh1996.ts");
         equal(a.signatures![0].sources?.[0].line, 1);
@@ -674,30 +777,34 @@ export const issueTests: {
         equal(b.signatures![0].sources?.[0].fileName, "gh1996.ts");
         equal(b.signatures![0].sources?.[0].line, 3);
         equal(b.signatures![0].sources?.[0].character, 0);
-    },
+    });
 
-    gh2008(project) {
+    it("#2008", () => {
+        const project = convert();
         const fn = query(project, "myFn").signatures![0];
         equal(Comment.combineDisplayParts(fn.comment?.summary), "Docs");
-    },
+    });
 
-    gh2011(project) {
+    it("#2011", () => {
+        const project = convert();
         const readable = query(project, "Readable").signatures![0];
         const type = readable.type!;
         equal(type.type, "intersection" as const);
         notEqual(type.types[0], "intersection");
         notEqual(type.types[1], "intersection");
-    },
+    });
 
-    gh2012(project) {
+    it("#2012", () => {
+        const project = convert();
         project.hasOwnDocument = true;
         const model = query(project, "model");
         const Model = query(project, "Model");
         equal(model.getAlias(), "model");
         equal(Model.getAlias(), "Model-1");
-    },
+    });
 
-    gh2019(project) {
+    it("#2019", () => {
+        const project = convert();
         const param = query(project, "A.constructor").signatures![0]
             .parameters![0];
         const prop = query(project, "A.property");
@@ -712,9 +819,10 @@ export const issueTests: {
             "Param comment",
             "Property"
         );
-    },
+    });
 
-    gh2020(project) {
+    it("#2020", () => {
+        const project = convert();
         const opt = query(project, "Options");
         equal(Comment.combineDisplayParts(opt.comment?.summary), "Desc");
         equal(
@@ -729,9 +837,10 @@ export const issueTests: {
             ),
             "Desc3"
         );
-    },
+    });
 
-    gh2031(project, logger) {
+    it("#2031", () => {
+        const project = convert();
         const sig = query(project, "MyClass.aMethod").signatures![0];
         const summaryLink = sig.comment?.summary[0];
         ok(summaryLink?.kind === "inline-tag");
@@ -742,9 +851,10 @@ export const issueTests: {
         ok(paramLink.target);
 
         logger.expectNoOtherMessages();
-    },
+    });
 
-    gh2033(project, logger) {
+    it("#2033", () => {
+        const project = convert();
         const cls = project.children!.find(
             (c) => c.name === "Foo" && c.kind === ReflectionKind.Class
         );
@@ -755,9 +865,10 @@ export const issueTests: {
         ok(link.target);
 
         logger.expectNoOtherMessages();
-    },
+    });
 
-    gh2036(project) {
+    it("#2036", () => {
+        const project = convert();
         const SingleSimpleCtor = query(project, "SingleSimpleCtor");
         const MultipleSimpleCtors = query(project, "MultipleSimpleCtors");
         const AnotherCtor = query(project, "AnotherCtor");
@@ -769,9 +880,10 @@ export const issueTests: {
         equal(SingleSimpleCtor.type.declaration.signatures?.length, 1);
         equal(MultipleSimpleCtors.type.declaration.signatures?.length, 2);
         equal(AnotherCtor.type.declaration.signatures?.length, 1);
-    },
+    });
 
-    gh2042(project) {
+    it("#2042", () => {
+        const project = convert();
         for (const [name, docs] of [
             ["built", "inner docs"],
             ["built2", "outer docs"],
@@ -788,9 +900,10 @@ export const issueTests: {
                 name
             );
         }
-    },
+    });
 
-    gh2044(project) {
+    it("#2044", () => {
+        const project = convert();
         for (const [name, ref] of [
             ["Foo", false],
             ["RenamedFoo", true],
@@ -801,27 +914,31 @@ export const issueTests: {
             const decl = query(project, name);
             equal(decl instanceof ReferenceReflection, ref, `${name} = ${ref}`);
         }
-    },
+    });
 
-    gh2064(project) {
+    it("#2064", () => {
+        const project = convert();
         query(project, "PrivateCtorDecl.x");
-    },
+    });
 
-    gh2079(project) {
+    it("#2079", () => {
+        const project = convert();
         const cap = query(project, "capitalize");
         const sig = cap.signatures![0];
         equal(sig.type?.toString(), "Capitalize<T>");
-    },
+    });
 
-    gh2087(project) {
+    it("#2087", () => {
+        const project = convert();
         const x = query(project, "Bar.x");
         equal(
             Comment.combineDisplayParts(x.comment?.summary),
             "Foo type comment"
         );
-    },
+    });
 
-    gh2135(project) {
+    it("#2135", () => {
+        const project = convert();
         const hook = query(project, "Camera.useCameraPermissions");
         equal(hook.type?.type, "reflection" as const);
         equal(
@@ -830,9 +947,10 @@ export const issueTests: {
             ),
             "One"
         );
-    },
+    });
 
-    gh2150(project) {
+    it("#2150", () => {
+        const project = convert();
         const intFn = query(project, "FileInt.intFn");
         equal(intFn.kind, ReflectionKind.Method, "intFn interface method");
         equal(
@@ -870,45 +988,48 @@ export const issueTests: {
             ),
             "constFn doc"
         );
-    },
+    });
 
-    pre2156(app) {
+    it("#2156", () => {
         app.options.setValue("excludeNotDocumented", true);
-    },
-    gh2156(project) {
+        const project = convert();
         const foo = query(project, "foo");
         equal(foo.signatures?.length, 1);
         equal(
             Comment.combineDisplayParts(foo.signatures[0].comment?.summary),
             "Is documented"
         );
-    },
+    });
 
-    gh2175(project) {
+    it("#2175", () => {
+        const project = convert();
         const def = query(project, "default");
         equal(def.type?.type, "intrinsic");
         equal(def.type.toString(), "undefined");
-    },
+    });
 
-    gh2200(project) {
+    it("#2200", () => {
+        const project = convert();
         const Test = query(project, "Test");
         equal(Test.type?.type, "reflection" as const);
         equal(
             Test.type.declaration.getChildByName("x")?.flags.isOptional,
             true
         );
-    },
+    });
 
-    gh2207(project) {
+    it("#2207", () => {
+        const project = convert();
         const mod = query(project, "Mod");
         equal(mod.sources?.[0].line, 1);
-    },
+    });
 
-    gh2220(project) {
+    it("#2220", () => {
+        const project = convert();
         const fn = query(project, "createAssetEmitter");
         const param = fn.signatures?.[0].parameters?.[0];
         ok(param);
         equal(param.type?.type, "query");
         equal(param.type.queryType.reflection?.name, "TypeEmitter");
-    },
-};
+    });
+});
