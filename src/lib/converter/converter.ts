@@ -229,6 +229,7 @@ export class Converter extends ChildableComponent<
         this.resolve(context);
 
         this.trigger(Converter.EVENT_END, context);
+        this._config = undefined;
 
         return project;
     }
@@ -493,6 +494,8 @@ export class Converter extends ChildableComponent<
             modifierTags: new Set(
                 this.application.options.getValue("modifierTags")
             ),
+            jsDocCompatibility:
+                this.application.options.getValue("jsDocCompatibility"),
         };
         return this._config;
     }

@@ -205,8 +205,10 @@ function blockTag(
     const tagName = aliasedTags.get(blockTag.text) || blockTag.text;
 
     let content: CommentDisplayPart[];
-    if (tagName === "@example") {
+    if (tagName === "@example" && config.jsDocCompatibility.exampleTag) {
         content = exampleBlockContent(comment, lexer, config, warning);
+    } else if (tagName === "@default" && config.jsDocCompatibility.defaultTag) {
+        content = defaultBlockContent(comment, lexer, config, warning);
     } else {
         content = blockContent(comment, lexer, config, warning);
     }
@@ -215,8 +217,45 @@ function blockTag(
 }
 
 /**
+ * The `@default` tag gets a special case because otherwise we will produce many warnings
+ * about unescaped/mismatched/missing braces in legacy JSDoc comments
+ */
+function defaultBlockContent(
+    comment: Comment,
+    lexer: LookaheadGenerator<Token>,
+    config: CommentParserConfig,
+    warning: (msg: string, token: Token) => void
+): CommentDisplayPart[] {
+    lexer.mark();
+    const content = blockContent(comment, lexer, config, () => {});
+    const end = lexer.done() || lexer.peek();
+    lexer.release();
+
+    if (content.some((part) => part.kind === "code")) {
+        return blockContent(comment, lexer, config, warning);
+    }
+
+    const tokens: Token[] = [];
+    while ((lexer.done() || lexer.peek()) !== end) {
+        tokens.push(lexer.take());
+    }
+
+    const blockText = tokens
+        .map((tok) => tok.text)
+        .join("")
+        .trim();
+
+    return [
+        {
+            kind: "code",
+            text: makeCodeBlock(blockText),
+        },
+    ];
+}
+
+/**
  * The `@example` tag gets a special case because otherwise we will produce many warnings
- * about unescaped/mismatched/missing braces
+ * about unescaped/mismatched/missing braces in legacy JSDoc comments.
  */
 function exampleBlockContent(
     comment: Comment,

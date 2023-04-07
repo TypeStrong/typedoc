@@ -1,7 +1,10 @@
 import ts from "typescript";
 import { Comment, ReflectionKind } from "../../models";
 import { assertNever, Logger } from "../../utils";
-import type { CommentStyle } from "../../utils/options/declaration";
+import type {
+    CommentStyle,
+    JsDocCompatibility,
+} from "../../utils/options/declaration";
 import { lexBlockComment } from "./blockLexer";
 import {
     DiscoveredComment,
@@ -15,6 +18,7 @@ export interface CommentParserConfig {
     blockTags: Set<string>;
     inlineTags: Set<string>;
     modifierTags: Set<string>;
+    jsDocCompatibility: JsDocCompatibility;
 }
 
 const jsDocCommentKinds = [

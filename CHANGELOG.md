@@ -42,6 +42,7 @@
 ### Features
 
 -   Added `--useTsLinkResolution` option (on by default) which tells TypeDoc to use TypeScript's `@link` resolution.
+-   Added `--jsDocCompatibility` option (on by default) which controls TypeDoc's automatic detection of code blocks in `@example` and `@default` tags.
 -   Reworked default theme navigation to add support for a page table of contents, #1478, #2189.
 -   Added support for `@interface` on type aliases to tell TypeDoc to convert the fully resolved type as an interface, #1519
 -   Added support for `@namespace` on variable declarations to tell TypeDoc to convert the variable as a namespace, #2055.

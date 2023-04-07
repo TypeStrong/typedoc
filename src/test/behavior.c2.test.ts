@@ -76,7 +76,7 @@ const base = getConverter2Base();
 const app = getConverter2App();
 const program = getConverter2Program();
 
-function doConvert(entry: string) {
+function convert(entry: string) {
     const entryPoint = [
         join(base, `behavior/${entry}.ts`),
         join(base, `behavior/${entry}.d.ts`),
@@ -91,6 +91,7 @@ function doConvert(entry: string) {
     ok(sourceFile, `No source file found for ${entryPoint}`);
 
     app.options.setValue("entryPoints", [entryPoint]);
+    clearCommentCache();
     return app.converter.convert([
         {
             displayName: entry,
@@ -102,14 +103,11 @@ function doConvert(entry: string) {
 
 describe("Behavior Tests", () => {
     let logger: TestLogger;
-    let convert: (name: string) => ProjectReflection;
     let optionsSnap: { __optionSnapshot: never };
 
     beforeEach(() => {
         app.logger = logger = new TestLogger();
         optionsSnap = app.options.snapshot();
-        clearCommentCache();
-        convert = (name) => doConvert(name);
     });
 
     afterEach(() => {
@@ -261,7 +259,35 @@ describe("Behavior Tests", () => {
         ]);
     });
 
-    it("Handles example tags", () => {
+    it("Handles @default tags with JSDoc compat turned on", () => {
+        const project = convert("defaultTag");
+        const foo = query(project, "foo");
+        const tags = foo.comment?.blockTags.map((tag) => tag.content);
+
+        equal(tags, [
+            [{ kind: "code", text: "```ts\n\n```" }],
+            [{ kind: "code", text: "```ts\nfn({})\n```" }],
+        ]);
+
+        logger.expectNoOtherMessages();
+    });
+
+    it("Handles @default tags with JSDoc compat turned off", () => {
+        app.options.setValue("jsDocCompatibility", false);
+        const project = convert("defaultTag");
+        const foo = query(project, "foo");
+        const tags = foo.comment?.blockTags.map((tag) => tag.content);
+
+        equal(tags, [[], [{ kind: "text", text: "fn({})" }]]);
+
+        logger.expectMessage(
+            "warn: Encountered an unescaped open brace without an inline tag"
+        );
+        logger.expectMessage("warn: Unmatched closing brace");
+        logger.expectNoOtherMessages();
+    });
+
+    it("Handles @example tags with JSDoc compat turned on", () => {
         const project = convert("exampleTags");
         const foo = query(project, "foo");
         const tags = foo.comment?.blockTags.map((tag) => tag.content);
@@ -285,6 +311,36 @@ describe("Behavior Tests", () => {
             [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
         ]);
 
+        logger.expectNoOtherMessages();
+    });
+
+    it("Warns about example tags containing braces when compat options are off", () => {
+        app.options.setValue("jsDocCompatibility", false);
+        const project = convert("exampleTags");
+        const foo = query(project, "foo");
+        const tags = foo.comment?.blockTags.map((tag) => tag.content);
+
+        equal(tags, [
+            [{ kind: "text", text: "// JSDoc style\ncodeHere();" }],
+            [
+                {
+                    kind: "text",
+                    text: "<caption>JSDoc specialness</caption>\n// JSDoc style\ncodeHere();",
+                },
+            ],
+            [
+                {
+                    kind: "text",
+                    text: "<caption>JSDoc with braces</caption>\nx.map(() => { return 1; })",
+                },
+            ],
+            [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
+        ]);
+
+        logger.expectMessage(
+            "warn: Encountered an unescaped open brace without an inline tag"
+        );
+        logger.expectMessage("warn: Unmatched closing brace");
         logger.expectNoOtherMessages();
     });
 

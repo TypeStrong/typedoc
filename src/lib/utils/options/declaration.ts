@@ -140,6 +140,7 @@ export interface TypeDocOptionMap {
     navigationLinks: ManuallyValidatedOption<Record<string, string>>;
     sidebarLinks: ManuallyValidatedOption<Record<string, string>>;
 
+    jsDocCompatibility: JsDocCompatibility;
     commentStyle: typeof CommentStyle;
     useTsLinkResolution: boolean;
     blockTags: `@${string}`[];
@@ -198,6 +199,19 @@ export type ValidationOptions = {
      * If set, TypeDoc will produce warnings about declarations that do not have doc comments
      */
     notDocumented: boolean;
+};
+
+export type JsDocCompatibility = {
+    /**
+     * If set, TypeDoc will treat `@example` blocks as code unless they contain a code block.
+     * On by default, this is how VSCode renders blocks.
+     */
+    exampleTag: boolean;
+    /**
+     * If set, TypeDoc will treat `@default` blocks as code unless they contain a code block.
+     * On by default, this is how VSCode renders blocks.
+     */
+    defaultTag: boolean;
 };
 
 /**

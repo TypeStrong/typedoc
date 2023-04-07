@@ -1212,6 +1212,7 @@ describe("Comment Parser", () => {
             "@event",
             "@packageDocumentation",
         ]),
+        jsDocCompatibility: { defaultTag: true, exampleTag: true },
     };
 
     it("Should rewrite @inheritdoc to @inheritDoc", () => {

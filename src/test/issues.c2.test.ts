@@ -47,6 +47,7 @@ function doConvert(entry: string) {
     ok(sourceFile, `No source file found for ${entryPoint}`);
 
     app.options.setValue("entryPoints", [entryPoint]);
+    clearCommentCache();
     return app.converter.convert([
         {
             displayName: entry,
@@ -70,7 +71,6 @@ describe("Issue Tests", () => {
     beforeEach(function () {
         app.logger = logger = new TestLogger();
         optionsSnap = app.options.snapshot();
-        clearCommentCache();
         const issueNumber = this.currentTest?.title.match(/#(\d+)/)?.[1];
         ok(issueNumber, "Test name must contain an issue number.");
         convert = (name = `gh${issueNumber}`) => doConvert(name);
@@ -678,12 +678,20 @@ describe("Issue Tests", () => {
 
     it("#1967", () => {
         const project = convert();
-        equal(query(project, "abc").comment?.getTag("@example")?.content, [
-            {
-                kind: "code",
-                text: "```ts\n\n```",
-            },
-        ]);
+        equal(
+            query(project, "abc").comment,
+            new Comment(
+                [],
+                [
+                    new CommentTag("@example", [
+                        {
+                            kind: "code",
+                            text: "```ts\n\n```",
+                        },
+                    ]),
+                ]
+            )
+        );
     });
 
     it("#1968", () => {

@@ -432,6 +432,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     ///////////////////////////
 
     options.addDeclaration({
+        name: "jsDocCompatibility",
+        help: "Sets compatibility options for comment parsing that increase similarity with JSDoc comments.",
+        type: ParameterType.Flags,
+        defaults: {
+            defaultTag: true,
+            exampleTag: true,
+        },
+    });
+
+    options.addDeclaration({
         name: "commentStyle",
         help: "Determines how TypeDoc searches for comments.",
         type: ParameterType.Map,
