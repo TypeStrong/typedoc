@@ -3,7 +3,6 @@ import {
     notDeepStrictEqual as notEqual,
     ok,
 } from "assert";
-import type { Application } from "../lib/application";
 import {
     DeclarationReflection,
     ProjectReflection,
