@@ -87,13 +87,15 @@ export type TypeDocOptionValues = {
  * ```
  */
 export interface TypeDocOptionMap {
+    // Configuration
     options: string;
     tsconfig: string;
     compilerOptions: unknown;
+    plugin: string[];
 
+    // Input
     entryPoints: string[];
     entryPointStrategy: typeof EntryPointStrategy;
-
     exclude: string[];
     externalPattern: string[];
     excludeExternals: boolean;
@@ -103,55 +105,36 @@ export interface TypeDocOptionMap {
     excludePrivate: boolean;
     excludeProtected: boolean;
     excludeReferences: boolean;
-    externalSymbolLinkMappings: ManuallyValidatedOption<
-        Record<string, Record<string, string>>
-    >;
-    media: string;
-    includes: string;
+    name: string;
+    includeVersion: boolean;
+    disableSources: boolean;
+    sourceLinkTemplate: string;
+    gitRevision: string;
+    gitRemote: string;
+    readme: string;
 
+    // Output
     out: string;
     json: string;
     pretty: boolean;
     emit: typeof EmitStrategy;
     theme: string;
-
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     customCss: string;
     markedOptions: unknown;
-    name: string;
-    includeVersion: boolean;
-    disableSources: boolean;
     basePath: string;
-    excludeTags: `@${string}`[];
-    readme: string;
     cname: string;
-    sourceLinkTemplate: string;
-    gitRevision: string;
-    gitRemote: string;
     htmlLang: string;
     githubPages: boolean;
+    cacheBust: boolean;
     gaID: string;
     hideGenerator: boolean;
-    cacheBust: boolean;
     searchInComments: boolean;
     cleanOutputDir: boolean;
     titleLink: string;
     navigationLinks: ManuallyValidatedOption<Record<string, string>>;
     sidebarLinks: ManuallyValidatedOption<Record<string, string>>;
-
-    jsDocCompatibility: JsDocCompatibility;
-    commentStyle: typeof CommentStyle;
-    useTsLinkResolution: boolean;
-    blockTags: `@${string}`[];
-    inlineTags: `@${string}`[];
-    modifierTags: `@${string}`[];
-
-    categorizeByGroup: boolean;
-    defaultCategory: string;
-    categoryOrder: string[];
-    sort: SortStrategy[];
-    kindSortOrder: ReflectionKind.KindString[];
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;
@@ -162,14 +145,26 @@ export interface TypeDocOptionMap {
     searchCategoryBoosts: ManuallyValidatedOption<Record<string, number>>;
     searchGroupBoosts: ManuallyValidatedOption<Record<string, number>>;
 
-    watch: boolean;
-    preserveWatchOutput: boolean;
-    skipErrorChecking: boolean;
-    help: boolean;
-    version: boolean;
-    showConfig: boolean;
-    plugin: string[];
-    logLevel: typeof LogLevel;
+    // Comment
+    commentStyle: typeof CommentStyle;
+    useTsLinkResolution: boolean;
+    jsDocCompatibility: JsDocCompatibility;
+    blockTags: `@${string}`[];
+    inlineTags: `@${string}`[];
+    modifierTags: `@${string}`[];
+    excludeTags: `@${string}`[];
+    externalSymbolLinkMappings: ManuallyValidatedOption<
+        Record<string, Record<string, string>>
+    >;
+    media: string;
+    includes: string;
+
+    // Organization
+    categorizeByGroup: boolean;
+    defaultCategory: string;
+    categoryOrder: string[];
+    sort: SortStrategy[];
+    kindSortOrder: ReflectionKind.KindString[];
 
     // Validation
     treatWarningsAsErrors: boolean;
@@ -177,6 +172,15 @@ export interface TypeDocOptionMap {
     intentionallyNotExported: string[];
     validation: ValidationOptions;
     requiredToBeDocumented: ReflectionKind.KindString[];
+
+    // Other
+    watch: boolean;
+    preserveWatchOutput: boolean;
+    help: boolean;
+    version: boolean;
+    showConfig: boolean;
+    logLevel: typeof LogLevel;
+    skipErrorChecking: boolean;
 }
 
 /**
