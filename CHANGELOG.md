@@ -1,4 +1,4 @@
-# Beta
+# Unreleased
 
 ### Breaking Changes
 
@@ -73,8 +73,6 @@
 -   @futurGH
 -   @jm4rtinez
 -   @muratgozel
-
-# Unreleased
 
 ## v0.23.28 (2023-03-19)
 
