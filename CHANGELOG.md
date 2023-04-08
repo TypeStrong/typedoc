@@ -1,5 +1,7 @@
 # Unreleased
 
+# v0.24.0 (2023-04-08)
+
 ### Breaking Changes
 
 -   `@link`, `@linkcode` and `@linkplain` tags will now be resolved with TypeScript's link resolution by default. The `useTsLinkResolution` option
