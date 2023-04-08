@@ -1,7 +1,9 @@
 //@ts-check
 
+require("ts-node/register");
+
 const fs = require("fs/promises");
-const { copy } = require("../dist/lib/utils/fs");
+const { copy } = require("../src/lib/utils/fs");
 const { join } = require("path");
 
 const expectedDir = join(__dirname, "../tmp/baseline");

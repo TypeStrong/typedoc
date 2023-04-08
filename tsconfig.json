@@ -10,7 +10,7 @@
         // Speed up dev compilation time
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
-        "skipLibCheck": true,
+        // "skipLibCheck": true,
 
         "experimentalDecorators": true,
         "strict": true,
@@ -25,6 +25,7 @@
         "preserveConstEnums": true,
         "declaration": true,
         "sourceMap": true,
+        "declarationMap": true,
         "noImplicitOverride": true,
         "noPropertyAccessFromIndexSignature": true,
         // Output

@@ -1,7 +1,24 @@
 import * as fs from "fs";
 import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
-import { dirname, join, relative } from "path";
+import { dirname, join, relative, resolve } from "path";
+import { optional, validate } from "./validation";
+
+export function isFile(file: string) {
+    try {
+        return fs.statSync(file).isFile();
+    } catch {
+        return false;
+    }
+}
+
+export function isDir(path: string) {
+    try {
+        return fs.statSync(path).isDirectory();
+    } catch {
+        return false;
+    }
+}
 
 /**
  * Get the longest directory path common to all files.
@@ -233,4 +250,84 @@ export function glob(
     }
 
     return result;
+}
+
+export function hasTsExtension(path: string): boolean {
+    return /\.[cm]?ts$|\.tsx$/.test(path);
+}
+
+export function discoverInParentDir<T extends {}>(
+    name: string,
+    dir: string,
+    read: (content: string) => T | undefined
+): { file: string; content: T } | undefined {
+    if (!isDir(dir)) return;
+
+    const reachedTopDirectory = (dirName: string) =>
+        dirName === resolve(join(dirName, ".."));
+
+    while (!reachedTopDirectory(dir)) {
+        for (const file of fs.readdirSync(dir)) {
+            if (file.toLowerCase() !== name.toLowerCase()) continue;
+
+            try {
+                const content = read(readFile(join(dir, file)));
+                if (content != null) {
+                    return { file: join(dir, file), content };
+                }
+            } catch {
+                // Ignore, file didn't pass validation
+            }
+        }
+        dir = resolve(join(dir, ".."));
+    }
+}
+
+export function discoverInParentDirExactMatch<T extends {}>(
+    name: string,
+    dir: string,
+    read: (content: string) => T | undefined
+): { file: string; content: T } | undefined {
+    if (!isDir(dir)) return;
+
+    const reachedTopDirectory = (dirName: string) =>
+        dirName === resolve(join(dirName, ".."));
+
+    while (!reachedTopDirectory(dir)) {
+        try {
+            const content = read(readFile(join(dir, name)));
+            if (content != null) {
+                return { file: join(dir, name), content };
+            }
+        } catch {
+            // Ignore, file didn't pass validation
+        }
+        dir = resolve(join(dir, ".."));
+    }
+}
+
+export function discoverPackageJson(dir: string) {
+    return discoverInParentDirExactMatch("package.json", dir, (content) => {
+        const pkg: unknown = JSON.parse(content);
+        if (validate({ name: String, version: optional(String) }, pkg)) {
+            return pkg;
+        }
+    });
+}
+
+// dir -> package name according to package.json in this or some parent dir
+const packageCache = new Map<string, string>();
+
+export function findPackageForPath(sourcePath: string): string | undefined {
+    const dir = dirname(sourcePath);
+    const cache = packageCache.get(dir);
+    if (cache) {
+        return cache;
+    }
+
+    const packageJson = discoverPackageJson(dir);
+    if (packageJson) {
+        packageCache.set(dir, packageJson.content.name);
+        return packageJson.content.name;
+    }
 }

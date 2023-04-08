@@ -1,7 +1,8 @@
-import type { RendererHooks } from "../..";
+import type { PageEvent, RendererHooks } from "../..";
 import {
     Comment,
     CommentDisplayPart,
+    DeclarationReflection,
     ReferenceType,
     Reflection,
 } from "../../../models";
@@ -27,9 +28,10 @@ import { memberSources } from "./partials/member.sources";
 import { members } from "./partials/members";
 import { membersGroup } from "./partials/members.group";
 import {
+    sidebar,
+    pageSidebar,
     navigation,
-    primaryNavigation,
-    secondaryNavigation,
+    pageNavigation,
     settings,
     sidebarLinks,
 } from "./partials/navigation";
@@ -48,7 +50,11 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 export class DefaultThemeRenderContext {
     options: Options;
 
-    constructor(private theme: DefaultTheme, options: Options) {
+    constructor(
+        private theme: DefaultTheme,
+        public page: PageEvent<Reflection>,
+        options: Options
+    ) {
         this.options = options;
     }
 
@@ -58,21 +64,28 @@ export class DefaultThemeRenderContext {
         this.theme.owner.hooks.emit(name, this);
 
     /** Avoid this in favor of urlTo if possible */
-    relativeURL = (url: string | undefined) => {
-        return url ? this.theme.markedPlugin.getRelativeUrl(url) : url;
+    relativeURL = (url: string, cacheBust = false) => {
+        const result = this.theme.markedPlugin.getRelativeUrl(url);
+        if (cacheBust && this.theme.owner.cacheBust) {
+            return result + `?cache=${this.theme.owner.renderStartTime}`;
+        }
+        return result;
     };
 
-    urlTo = (reflection: Reflection) => this.relativeURL(reflection.url)!;
+    urlTo = (reflection: Reflection) => {
+        return reflection.url ? this.relativeURL(reflection.url) : "";
+    };
 
     markdown = (
         md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>
     ) => {
         if (md instanceof Array) {
             return this.theme.markedPlugin.parseMarkdown(
-                Comment.displayPartsToMarkdown(md, this.urlTo)
+                Comment.displayPartsToMarkdown(md, this.urlTo),
+                this.page
             );
         }
-        return md ? this.theme.markedPlugin.parseMarkdown(md) : "";
+        return md ? this.theme.markedPlugin.parseMarkdown(md, this.page) : "";
     };
 
     /**
@@ -83,6 +96,9 @@ export class DefaultThemeRenderContext {
     attemptExternalResolution = (type: NeverIfInternal<ReferenceType>) => {
         return (type as ReferenceType).externalUrl;
     };
+
+    getReflectionClasses = (refl: DeclarationReflection) =>
+        this.theme.getReflectionClasses(refl);
 
     reflectionTemplate = bind(reflectionTemplate, this);
     indexTemplate = bind(indexTemplate, this);
@@ -105,11 +121,12 @@ export class DefaultThemeRenderContext {
     memberSources = bind(memberSources, this);
     members = bind(members, this);
     membersGroup = bind(membersGroup, this);
-    navigation = bind(navigation, this);
+    sidebar = bind(sidebar, this);
+    pageSidebar = bind(pageSidebar, this);
     sidebarLinks = bind(sidebarLinks, this);
     settings = bind(settings, this);
-    primaryNavigation = bind(primaryNavigation, this);
-    secondaryNavigation = bind(secondaryNavigation, this);
+    navigation = bind(navigation, this);
+    pageNavigation = bind(pageNavigation, this);
     parameter = bind(parameter, this);
     toolbar = bind(toolbar, this);
     type = bind(type, this);

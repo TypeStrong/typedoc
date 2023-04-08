@@ -5,9 +5,7 @@ import {
     Comment,
     DeclarationReflection,
     ProjectReflection,
-    ReflectionKind,
 } from "../../models";
-import { GroupPlugin } from "../../converter/plugins";
 import { Component, RendererComponent } from "../components";
 import { IndexEvent, RendererEvent } from "../events";
 import { BindOption, writeFileSync } from "../../utils";
@@ -55,7 +53,6 @@ export class JavascriptIndexPlugin extends RendererComponent {
         }
 
         const rows: SearchDocument[] = [];
-        const kinds: { [K in ReflectionKind]?: string } = {};
 
         const initialSearchResults = Object.values(
             event.project.reflections
@@ -104,17 +101,11 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 parent = undefined;
             }
 
-            if (!kinds[reflection.kind]) {
-                kinds[reflection.kind] = GroupPlugin.getKindSingular(
-                    reflection.kind
-                );
-            }
-
             const row: SearchDocument = {
                 kind: reflection.kind,
                 name: reflection.name,
                 url: reflection.url,
-                classes: reflection.cssClasses,
+                classes: this.owner.theme.getReflectionClasses(reflection),
             };
 
             if (parent) {
@@ -142,7 +133,6 @@ export class JavascriptIndexPlugin extends RendererComponent {
         );
 
         const jsonData = JSON.stringify({
-            kinds,
             rows,
             index,
         });

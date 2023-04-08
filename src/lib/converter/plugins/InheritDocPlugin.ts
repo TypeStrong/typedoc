@@ -1,6 +1,7 @@
 import {
     Comment,
     DeclarationReflection,
+    ProjectReflection,
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
@@ -13,6 +14,7 @@ import { DefaultMap } from "../../utils";
 import { zip } from "../../utils/array";
 import { parseDeclarationReference } from "../comments/declarationReference";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver";
+import { ApplicationEvents } from "../../application-events";
 
 /**
  * A plugin that handles `@inheritDoc` tags by copying documentation from another API item.
@@ -36,29 +38,25 @@ export class InheritDocPlugin extends ConverterComponent {
      * Create a new InheritDocPlugin instance.
      */
     override initialize() {
-        this.owner.on(
-            Converter.EVENT_RESOLVE_END,
-            this.processInheritDoc,
-            this
+        this.owner.on(Converter.EVENT_RESOLVE_END, (context: Context) =>
+            this.processInheritDoc(context.project)
         );
+        this.owner.on(ApplicationEvents.REVIVE, this.processInheritDoc, this);
     }
 
     /**
      * Traverse through reflection descendant to check for `inheritDoc` tag.
      * If encountered, the parameter of the tag is used to determine a source reflection
      * that will provide actual comment.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently resolved.
      */
-    private processInheritDoc(context: Context) {
-        for (const reflection of Object.values(context.project.reflections)) {
+    private processInheritDoc(project: ProjectReflection) {
+        for (const reflection of Object.values(project.reflections)) {
             const source = extractInheritDocTagReference(reflection);
             if (!source) continue;
 
             const declRef = parseDeclarationReference(source, 0, source.length);
             if (!declRef || /\S/.test(source.substring(declRef[1]))) {
-                context.logger.warn(
+                this.application.logger.warn(
                     `Declaration reference in @inheritDoc for ${reflection.getFriendlyFullName()} was not fully parsed and may resolve incorrectly.`
                 );
             }
@@ -75,7 +73,8 @@ export class InheritDocPlugin extends ConverterComponent {
                     const index = reflection.parent
                         .getAllSignatures()
                         .indexOf(reflection);
-                    sourceRefl = sourceRefl.getAllSignatures()[index];
+                    sourceRefl =
+                        sourceRefl.getAllSignatures()[index] || sourceRefl;
                 }
             }
 

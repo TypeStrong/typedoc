@@ -10,27 +10,19 @@ declare module "typescript" {
     }
 
     interface Symbol {
-        // TS before 5.0
-        // https://github.com/microsoft/TypeScript/blob/v4.1.5/src/compiler/types.ts#L4734-L4737
-        checkFlags?: CheckFlags;
-
-        // TS 5.0
-        // https://github.com/microsoft/TypeScript/blob/5.0.2/src/compiler/types.ts#L5891-L5898
-        links?: {
-            checkFlags: CheckFlags;
-        };
+        // https://github.com/microsoft/TypeScript/blob/v4.7.4/src/compiler/types.ts#L4941
+        // https://github.com/microsoft/TypeScript/issues/38344
+        parent?: ts.Symbol;
     }
 
-    interface TypeChecker {
-        // https://github.com/microsoft/TypeScript/blob/v4.1.5/src/compiler/types.ts#L4145
-        // https://github.com/microsoft/TypeScript/issues/42118
-        getTypePredicateOfSignature(
-            signature: ts.Signature
-        ): ts.TypePredicate | undefined;
+    // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L7432
+    export function getCheckFlags(symbol: ts.Symbol): CheckFlags;
 
-        // https://github.com/microsoft/TypeScript/blob/v4.7.2/src/compiler/types.ts#L4188
-        getTypeOfSymbol(symbol: Symbol): Type;
-    }
+    // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L4171
+    export function getJSDocCommentsAndTags(
+        hostNode: Node,
+        noCache?: boolean
+    ): readonly (JSDoc | JSDocTag)[];
 
     export interface Signature {
         thisParameter?: ts.Symbol;

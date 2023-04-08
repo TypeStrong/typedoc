@@ -1,28 +1,29 @@
 {
   "id": 0,
-  "name": "typedoc",
+  "name": "function",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "function",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 80,
           "name": "merged",
+          "variant": "declaration",
           "kind": 4,
-          "kindString": "Namespace",
           "flags": {},
           "children": [
             {
               "id": 81,
               "name": "nsFn",
+              "variant": "declaration",
               "kind": 64,
-              "kindString": "Function",
               "flags": {},
               "sources": [
                 {
@@ -36,9 +37,17 @@
                 {
                   "id": 82,
                   "name": "nsFn",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 305,
+                      "character": 14,
+                      "url": "typedoc://function.ts#L305"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -73,8 +82,8 @@
         {
           "id": 55,
           "name": "moduleFunction",
+          "variant": "declaration",
           "kind": 4,
-          "kindString": "Namespace",
           "flags": {},
           "comment": {
             "summary": [
@@ -88,8 +97,8 @@
             {
               "id": 60,
               "name": "functionVariable",
+              "variant": "declaration",
               "kind": 32,
-              "kindString": "Variable",
               "flags": {},
               "comment": {
                 "summary": [
@@ -115,8 +124,8 @@
             {
               "id": 56,
               "name": "append",
+              "variant": "declaration",
               "kind": 64,
-              "kindString": "Function",
               "flags": {},
               "sources": [
                 {
@@ -130,8 +139,8 @@
                 {
                   "id": 57,
                   "name": "append",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -141,6 +150,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 269,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L269"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -151,8 +168,8 @@
             {
               "id": 58,
               "name": "prepend",
+              "variant": "declaration",
               "kind": 64,
-              "kindString": "Function",
               "flags": {},
               "sources": [
                 {
@@ -166,8 +183,8 @@
                 {
                   "id": 59,
                   "name": "prepend",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -177,6 +194,14 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 274,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L274"
+                    }
+                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -218,27 +243,28 @@
         {
           "id": 86,
           "name": "Predicates",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "children": [
             {
               "id": 93,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 94,
                   "name": "new Predicates",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 86,
-                    "name": "Predicates"
+                    "target": 86,
+                    "name": "Predicates",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -246,8 +272,8 @@
             {
               "id": 97,
               "name": "assertString",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -261,9 +287,17 @@
                 {
                   "id": 98,
                   "name": "assertString",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 285,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L285"
+                    }
+                  ],
                   "type": {
                     "type": "predicate",
                     "name": "this",
@@ -279,8 +313,8 @@
             {
               "id": 95,
               "name": "isString",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -294,9 +328,17 @@
                 {
                   "id": 96,
                   "name": "isString",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 281,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L281"
+                    }
+                  ],
                   "type": {
                     "type": "predicate",
                     "name": "this",
@@ -312,8 +354,8 @@
             {
               "id": 90,
               "name": "assert",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isStatic": true
               },
@@ -329,15 +371,23 @@
                 {
                   "id": 91,
                   "name": "assert",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 284,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L284"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 92,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "intrinsic",
@@ -356,8 +406,8 @@
             {
               "id": 87,
               "name": "isString",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {
                 "isStatic": true
               },
@@ -373,15 +423,23 @@
                 {
                   "id": 88,
                   "name": "isString",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 278,
+                      "character": 4,
+                      "url": "typedoc://function.ts#L278"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 89,
                       "name": "x",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "intrinsic",
@@ -431,8 +489,8 @@
         {
           "id": 99,
           "name": "all",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -446,8 +504,8 @@
             {
               "id": 100,
               "name": "all",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -457,12 +515,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 294,
+                  "character": 4,
+                  "url": "typedoc://function.ts#L294"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 101,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {}
                 }
               ],
@@ -470,16 +536,16 @@
                 {
                   "id": 102,
                   "name": "fn",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reflection",
                     "declaration": {
                       "id": 103,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "sources": [
                         {
@@ -493,19 +559,27 @@
                         {
                           "id": 104,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
-                          "kindString": "Call signature",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 294,
+                              "character": 12,
+                              "url": "typedoc://function.ts#L294"
+                            }
+                          ],
                           "parameters": [
                             {
                               "id": 105,
                               "name": "item",
+                              "variant": "param",
                               "kind": 32768,
-                              "kindString": "Parameter",
                               "flags": {},
                               "type": {
                                 "type": "reference",
-                                "id": 101,
+                                "target": -1,
                                 "name": "T"
                               }
                             }
@@ -522,20 +596,23 @@
                 {
                   "id": 106,
                   "name": "iterator",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                      "qualifiedName": "Iterable"
+                    },
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 101,
+                        "target": -1,
                         "name": "T"
                       }
                     ],
                     "name": "Iterable",
-                    "qualifiedName": "Iterable",
                     "package": "typescript"
                   }
                 }
@@ -548,8 +625,8 @@
             {
               "id": 107,
               "name": "all",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -559,12 +636,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 295,
+                  "character": 4,
+                  "url": "typedoc://function.ts#L295"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 108,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {}
                 }
               ],
@@ -572,16 +657,16 @@
                 {
                   "id": 109,
                   "name": "fn",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reflection",
                     "declaration": {
                       "id": 110,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "sources": [
                         {
@@ -595,19 +680,27 @@
                         {
                           "id": 111,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
-                          "kindString": "Call signature",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "function.ts",
+                              "line": 295,
+                              "character": 12,
+                              "url": "typedoc://function.ts#L295"
+                            }
+                          ],
                           "parameters": [
                             {
                               "id": 112,
                               "name": "item",
+                              "variant": "param",
                               "kind": 32768,
-                              "kindString": "Parameter",
                               "flags": {},
                               "type": {
                                 "type": "reference",
-                                "id": 108,
+                                "target": -1,
                                 "name": "T"
                               }
                             }
@@ -627,8 +720,8 @@
                 "declaration": {
                   "id": 113,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
-                  "kindString": "Type literal",
                   "flags": {},
                   "sources": [
                     {
@@ -642,27 +735,38 @@
                     {
                       "id": 114,
                       "name": "__type",
+                      "variant": "signature",
                       "kind": 4096,
-                      "kindString": "Call signature",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "function.ts",
+                          "line": 295,
+                          "character": 35,
+                          "url": "typedoc://function.ts#L295"
+                        }
+                      ],
                       "parameters": [
                         {
                           "id": 115,
                           "name": "iterator",
+                          "variant": "param",
                           "kind": 32768,
-                          "kindString": "Parameter",
                           "flags": {},
                           "type": {
                             "type": "reference",
+                            "target": {
+                              "sourceFileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                              "qualifiedName": "Iterable"
+                            },
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "id": 108,
+                                "target": -1,
                                 "name": "T"
                               }
                             ],
                             "name": "Iterable",
-                            "qualifiedName": "Iterable",
                             "package": "typescript"
                           }
                         }
@@ -681,8 +785,8 @@
         {
           "id": 67,
           "name": "assertIsNonNull",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -696,8 +800,8 @@
             {
               "id": 68,
               "name": "assertIsNonNull",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -707,12 +811,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 241,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L241"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 69,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {}
                 }
               ],
@@ -720,8 +832,8 @@
                 {
                   "id": 70,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "union",
@@ -736,7 +848,7 @@
                       },
                       {
                         "type": "reference",
-                        "id": 69,
+                        "target": -1,
                         "name": "T"
                       }
                     ]
@@ -749,7 +861,7 @@
                 "asserts": true,
                 "targetType": {
                   "type": "reference",
-                  "id": 69,
+                  "target": -1,
                   "name": "T"
                 }
               }
@@ -759,8 +871,8 @@
         {
           "id": 61,
           "name": "assertionFunction",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -774,8 +886,8 @@
             {
               "id": 62,
               "name": "assertionFunction",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -785,12 +897,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 227,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L227"
+                }
+              ],
               "parameters": [
                 {
                   "id": 63,
                   "name": "condition",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -817,8 +937,8 @@
         {
           "id": 75,
           "name": "boolOrUndef",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -832,15 +952,23 @@
             {
               "id": 76,
               "name": "boolOrUndef",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 298,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L298"
+                }
+              ],
               "parameters": [
                 {
                   "id": 77,
                   "name": "x",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -867,8 +995,8 @@
         {
           "id": 64,
           "name": "checkerFunction",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -882,8 +1010,8 @@
             {
               "id": 65,
               "name": "checkerFunction",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -893,12 +1021,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 233,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L233"
+                }
+              ],
               "parameters": [
                 {
                   "id": 66,
                   "name": "anything",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -921,8 +1057,8 @@
         {
           "id": 2,
           "name": "exportedFunction",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -936,8 +1072,8 @@
             {
               "id": 3,
               "name": "exportedFunction",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -947,6 +1083,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 4,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L4"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -957,8 +1101,8 @@
         {
           "id": 23,
           "name": "functionWithADestructuredParameter",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -972,8 +1116,8 @@
             {
               "id": 24,
               "name": "functionWithADestructuredParameter",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -994,12 +1138,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 100,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L100"
+                }
+              ],
               "parameters": [
                 {
                   "id": 25,
                   "name": "destructuredParam",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1009,21 +1161,20 @@
                       }
                     ]
                   },
-                  "originalName": "__namedParameters",
                   "type": {
                     "type": "reflection",
                     "declaration": {
                       "id": 26,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 29,
                           "name": "paramA",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "comment": {
                             "summary": [
@@ -1047,16 +1198,19 @@
                           ],
                           "type": {
                             "type": "reference",
+                            "target": {
+                              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "qualifiedName": "Object"
+                            },
                             "name": "Object",
-                            "qualifiedName": "Object",
                             "package": "typescript"
                           }
                         },
                         {
                           "id": 28,
                           "name": "paramG",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "comment": {
                             "summary": [
@@ -1082,8 +1236,8 @@
                         {
                           "id": 27,
                           "name": "paramZ",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "comment": {
                             "summary": [
@@ -1139,8 +1293,8 @@
         {
           "id": 38,
           "name": "functionWithADestructuredParameterAndAnExtraParamDirective",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -1154,8 +1308,8 @@
             {
               "id": 39,
               "name": "functionWithADestructuredParameterAndAnExtraParamDirective",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -1192,27 +1346,35 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 166,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L166"
+                }
+              ],
               "parameters": [
                 {
                   "id": 40,
                   "name": "__namedParameters",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reflection",
                     "declaration": {
                       "id": 41,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 44,
                           "name": "paramA",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -1224,16 +1386,19 @@
                           ],
                           "type": {
                             "type": "reference",
+                            "target": {
+                              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "qualifiedName": "Object"
+                            },
                             "name": "Object",
-                            "qualifiedName": "Object",
                             "package": "typescript"
                           }
                         },
                         {
                           "id": 43,
                           "name": "paramG",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -1251,8 +1416,8 @@
                         {
                           "id": 42,
                           "name": "paramZ",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -1300,8 +1465,8 @@
         {
           "id": 30,
           "name": "functionWithADestructuredParameterAndExtraParameters",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -1315,8 +1480,8 @@
             {
               "id": 31,
               "name": "functionWithADestructuredParameterAndExtraParameters",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -1345,27 +1510,35 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 131,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L131"
+                }
+              ],
               "parameters": [
                 {
                   "id": 32,
                   "name": "__namedParameters",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reflection",
                     "declaration": {
                       "id": 33,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 36,
                           "name": "paramA",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -1377,16 +1550,19 @@
                           ],
                           "type": {
                             "type": "reference",
+                            "target": {
+                              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "qualifiedName": "Object"
+                            },
                             "name": "Object",
-                            "qualifiedName": "Object",
                             "package": "typescript"
                           }
                         },
                         {
                           "id": 35,
                           "name": "paramG",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -1404,8 +1580,8 @@
                         {
                           "id": 34,
                           "name": "paramZ",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -1445,8 +1621,8 @@
                 {
                   "id": 37,
                   "name": "extraParameter",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -1464,8 +1640,8 @@
         {
           "id": 13,
           "name": "functionWithDefaults",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -1479,8 +1655,8 @@
             {
               "id": 14,
               "name": "functionWithDefaults",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -1501,12 +1677,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 62,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L62"
+                }
+              ],
               "parameters": [
                 {
                   "id": 15,
                   "name": "valueA",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1525,8 +1709,8 @@
                 {
                   "id": 16,
                   "name": "valueB",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1545,8 +1729,8 @@
                 {
                   "id": 17,
                   "name": "valueC",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1565,8 +1749,8 @@
                 {
                   "id": 18,
                   "name": "valueD",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1585,8 +1769,8 @@
                 {
                   "id": 19,
                   "name": "valueE",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1613,8 +1797,8 @@
         {
           "id": 9,
           "name": "functionWithOptionalValue",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -1628,8 +1812,8 @@
             {
               "id": 10,
               "name": "functionWithOptionalValue",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -1639,12 +1823,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 47,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L47"
+                }
+              ],
               "parameters": [
                 {
                   "id": 11,
                   "name": "requiredParam",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1662,8 +1854,8 @@
                 {
                   "id": 12,
                   "name": "optionalParam",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {
                     "isOptional": true
                   },
@@ -1691,8 +1883,8 @@
         {
           "id": 4,
           "name": "functionWithParameters",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -1706,8 +1898,8 @@
             {
               "id": 5,
               "name": "functionWithParameters",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -1728,12 +1920,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 23,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L23"
+                }
+              ],
               "parameters": [
                 {
                   "id": 6,
                   "name": "paramZ",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1751,8 +1951,8 @@
                 {
                   "id": 7,
                   "name": "paramG",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1770,8 +1970,8 @@
                 {
                   "id": 8,
                   "name": "paramA",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -1787,8 +1987,11 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                      "qualifiedName": "Object"
+                    },
                     "name": "Object",
-                    "qualifiedName": "Object",
                     "package": "typescript"
                   }
                 }
@@ -1803,8 +2006,8 @@
         {
           "id": 20,
           "name": "functionWithRest",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -1818,8 +2021,8 @@
             {
               "id": 21,
               "name": "functionWithRest",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -1840,12 +2043,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 78,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L78"
+                }
+              ],
               "parameters": [
                 {
                   "id": 22,
                   "name": "rest",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {
                     "isRest": true
                   },
@@ -1876,8 +2087,8 @@
         {
           "id": 71,
           "name": "isNonNull",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -1891,8 +2102,8 @@
             {
               "id": 72,
               "name": "isNonNull",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -1902,12 +2113,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 253,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L253"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 73,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {}
                 }
               ],
@@ -1915,8 +2134,8 @@
                 {
                   "id": 74,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "union",
@@ -1931,7 +2150,7 @@
                       },
                       {
                         "type": "reference",
-                        "id": 73,
+                        "target": -1,
                         "name": "T"
                       }
                     ]
@@ -1944,7 +2163,7 @@
                 "asserts": false,
                 "targetType": {
                   "type": "reference",
-                  "id": 73,
+                  "target": -1,
                   "name": "T"
                 }
               }
@@ -1954,8 +2173,8 @@
         {
           "id": 78,
           "name": "merged",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -1975,9 +2194,17 @@
             {
               "id": 79,
               "name": "merged",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 304,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L304"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -1988,8 +2215,8 @@
         {
           "id": 52,
           "name": "moduleFunction",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2009,8 +2236,8 @@
             {
               "id": 53,
               "name": "moduleFunction",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2020,12 +2247,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 218,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L218"
+                }
+              ],
               "parameters": [
                 {
                   "id": 54,
                   "name": "arg",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2051,8 +2286,8 @@
         {
           "id": 45,
           "name": "multipleSignatures",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2078,8 +2313,8 @@
             {
               "id": 46,
               "name": "multipleSignatures",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2089,12 +2324,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 183,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L183"
+                }
+              ],
               "parameters": [
                 {
                   "id": 47,
                   "name": "value",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2118,8 +2361,8 @@
             {
               "id": 48,
               "name": "multipleSignatures",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2129,12 +2372,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 191,
+                  "character": 0,
+                  "url": "typedoc://function.ts#L191"
+                }
+              ],
               "parameters": [
                 {
                   "id": 49,
                   "name": "value",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2149,15 +2400,15 @@
                     "declaration": {
                       "id": 50,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 51,
                           "name": "name",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "comment": {
                             "summary": [
@@ -2211,8 +2462,8 @@
         {
           "id": 83,
           "name": "variableFunction",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2226,8 +2477,8 @@
             {
               "id": 84,
               "name": "variableFunction",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2248,12 +2499,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 37,
+                  "character": 32,
+                  "url": "typedoc://function.ts#L37"
+                }
+              ],
               "parameters": [
                 {
                   "id": 85,
                   "name": "someParam",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2318,24 +2577,24 @@
       "sources": [
         {
           "fileName": "function.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://function.ts#L4"
+          "url": "typedoc://function.ts#L1"
         }
       ]
     },
     {
       "id": 116,
       "name": "generic-function",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 121,
           "name": "functionWithGenericArrayParameter",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2349,8 +2608,8 @@
             {
               "id": 122,
               "name": "functionWithGenericArrayParameter",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2371,12 +2630,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-function.ts",
+                  "line": 18,
+                  "character": 0,
+                  "url": "typedoc://generic-function.ts#L18"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 123,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {}
                 }
               ],
@@ -2384,8 +2651,8 @@
                 {
                   "id": 124,
                   "name": "param",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2397,15 +2664,15 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 123,
+                    "target": -1,
                     "name": "T"
                   }
                 },
                 {
                   "id": 125,
                   "name": "params",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2419,7 +2686,7 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 123,
+                      "target": -1,
                       "name": "T"
                     }
                   }
@@ -2429,7 +2696,7 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "id": 123,
+                  "target": -1,
                   "name": "T"
                 }
               }
@@ -2439,8 +2706,8 @@
         {
           "id": 126,
           "name": "functionWithTemplate",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2454,15 +2721,23 @@
             {
               "id": 127,
               "name": "functionWithTemplate",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "generic-function.ts",
+                  "line": 29,
+                  "character": 0,
+                  "url": "typedoc://generic-function.ts#L29"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 128,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2478,8 +2753,8 @@
                 {
                   "id": 129,
                   "name": "param",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2491,14 +2766,14 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 128,
+                    "target": -1,
                     "name": "T"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
-                "id": 128,
+                "target": -1,
                 "name": "T"
               }
             }
@@ -2507,8 +2782,8 @@
         {
           "id": 117,
           "name": "genericFunction",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2522,8 +2797,8 @@
             {
               "id": 118,
               "name": "genericFunction",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -2544,12 +2819,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "generic-function.ts",
+                  "line": 7,
+                  "character": 0,
+                  "url": "typedoc://generic-function.ts#L7"
+                }
+              ],
               "typeParameter": [
                 {
                   "id": 119,
                   "name": "T",
+                  "variant": "typeParam",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2561,8 +2844,11 @@
                   },
                   "type": {
                     "type": "reference",
+                    "target": {
+                      "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                      "qualifiedName": "Object"
+                    },
                     "name": "Object",
-                    "qualifiedName": "Object",
                     "package": "typescript"
                   }
                 }
@@ -2571,8 +2857,8 @@
                 {
                   "id": 120,
                   "name": "value",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -2584,14 +2870,14 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 119,
+                    "target": -1,
                     "name": "T"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
-                "id": 119,
+                "target": -1,
                 "name": "T"
               }
             }
@@ -2611,31 +2897,31 @@
       "sources": [
         {
           "fileName": "generic-function.ts",
-          "line": 7,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://generic-function.ts#L7"
+          "url": "typedoc://generic-function.ts#L1"
         }
       ]
     },
     {
       "id": 130,
       "name": "implicit-types",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 139,
           "name": "BreakpointRange",
+          "variant": "declaration",
           "kind": 256,
-          "kindString": "Interface",
           "flags": {},
           "children": [
             {
               "id": 141,
               "name": "end",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -2653,8 +2939,8 @@
             {
               "id": 140,
               "name": "start",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "sources": [
                 {
@@ -2691,8 +2977,8 @@
         {
           "id": 131,
           "name": "getBreakpoints",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -2706,23 +2992,31 @@
             {
               "id": 132,
               "name": "getBreakpoints",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 14,
+                  "character": 0,
+                  "url": "typedoc://implicit-types.ts#L14"
+                }
+              ],
               "type": {
                 "type": "reflection",
                 "declaration": {
                   "id": 133,
                   "name": "__type",
+                  "variant": "declaration",
                   "kind": 65536,
-                  "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
                       "id": 136,
                       "name": "large",
+                      "variant": "declaration",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "sources": [
                         {
@@ -2734,15 +3028,16 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
-                        "name": "BreakpointRange"
+                        "target": 139,
+                        "name": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     },
                     {
                       "id": 135,
                       "name": "medium",
+                      "variant": "declaration",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "sources": [
                         {
@@ -2754,15 +3049,16 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
-                        "name": "BreakpointRange"
+                        "target": 139,
+                        "name": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     },
                     {
                       "id": 134,
                       "name": "small",
+                      "variant": "declaration",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "sources": [
                         {
@@ -2774,15 +3070,16 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
-                        "name": "BreakpointRange"
+                        "target": 139,
+                        "name": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     },
                     {
                       "id": 137,
                       "name": "xlarge",
+                      "variant": "declaration",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "sources": [
                         {
@@ -2794,15 +3091,16 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
-                        "name": "BreakpointRange"
+                        "target": 139,
+                        "name": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     },
                     {
                       "id": 138,
                       "name": "xxlarge",
+                      "variant": "declaration",
                       "kind": 1024,
-                      "kindString": "Property",
                       "flags": {},
                       "sources": [
                         {
@@ -2814,8 +3112,9 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 139,
-                        "name": "BreakpointRange"
+                        "target": 139,
+                        "name": "BreakpointRange",
+                        "package": "typedoc"
                       }
                     }
                   ],
@@ -2878,5 +3177,564 @@
         130
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "exportedFunction"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "exportedFunction"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithParameters"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithParameters"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "paramZ"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "paramG"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "paramA"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithOptionalValue"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithOptionalValue"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "requiredParam"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "optionalParam"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithDefaults"
+    },
+    "14": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithDefaults"
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "valueA"
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "valueB"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "valueC"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "valueD"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "valueE"
+    },
+    "20": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithRest"
+    },
+    "21": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithRest"
+    },
+    "22": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "rest"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithADestructuredParameter"
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithADestructuredParameter"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__0"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "27": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.paramZ"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.paramG"
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.paramA"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithADestructuredParameterAndExtraParameters"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithADestructuredParameterAndExtraParameters"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__0"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.paramZ"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.paramG"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.paramA"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "extraParameter"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithADestructuredParameterAndAnExtraParamDirective"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "functionWithADestructuredParameterAndAnExtraParamDirective"
+    },
+    "40": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__0"
+    },
+    "41": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "42": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.paramZ"
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.paramG"
+    },
+    "44": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.paramA"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "multipleSignatures"
+    },
+    "46": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "multipleSignatures"
+    },
+    "47": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "value"
+    },
+    "48": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "multipleSignatures"
+    },
+    "49": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "value"
+    },
+    "50": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "51": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type.name"
+    },
+    "52": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "moduleFunction"
+    },
+    "53": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "moduleFunction"
+    },
+    "54": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "arg"
+    },
+    "55": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "moduleFunction"
+    },
+    "56": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "moduleFunction.append"
+    },
+    "57": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "moduleFunction.append"
+    },
+    "58": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "moduleFunction.prepend"
+    },
+    "59": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "moduleFunction.prepend"
+    },
+    "60": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "moduleFunction.functionVariable"
+    },
+    "61": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "assertionFunction"
+    },
+    "62": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "assertionFunction"
+    },
+    "63": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "condition"
+    },
+    "64": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "checkerFunction"
+    },
+    "65": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "checkerFunction"
+    },
+    "66": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "anything"
+    },
+    "67": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "assertIsNonNull"
+    },
+    "68": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "assertIsNonNull"
+    },
+    "69": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "T"
+    },
+    "70": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "arg"
+    },
+    "71": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "isNonNull"
+    },
+    "72": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "isNonNull"
+    },
+    "73": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "T"
+    },
+    "74": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "arg"
+    },
+    "75": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "boolOrUndef"
+    },
+    "76": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "boolOrUndef"
+    },
+    "77": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "x"
+    },
+    "78": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "merged"
+    },
+    "79": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "merged"
+    },
+    "80": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "merged"
+    },
+    "81": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "merged.nsFn"
+    },
+    "82": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "merged.nsFn"
+    },
+    "83": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "variableFunction"
+    },
+    "84": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "variableFunction"
+    },
+    "85": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "someParam"
+    },
+    "86": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates"
+    },
+    "87": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates.isString"
+    },
+    "88": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates.isString"
+    },
+    "89": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "x"
+    },
+    "90": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates.assert"
+    },
+    "91": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates.assert"
+    },
+    "92": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "x"
+    },
+    "95": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates.isString"
+    },
+    "96": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates.isString"
+    },
+    "97": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates.assertString"
+    },
+    "98": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates.assertString"
+    },
+    "99": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "all"
+    },
+    "100": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "all"
+    },
+    "101": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "T"
+    },
+    "102": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "fn"
+    },
+    "103": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "104": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "105": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "item"
+    },
+    "106": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "iterator"
+    },
+    "107": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "all"
+    },
+    "108": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "T"
+    },
+    "109": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "fn"
+    },
+    "110": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "111": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "112": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "item"
+    },
+    "113": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "114": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "__type"
+    },
+    "115": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "iterator"
+    },
+    "116": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": ""
+    },
+    "117": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "genericFunction"
+    },
+    "118": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "genericFunction"
+    },
+    "119": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "T"
+    },
+    "120": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "value"
+    },
+    "121": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "functionWithGenericArrayParameter"
+    },
+    "122": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "functionWithGenericArrayParameter"
+    },
+    "123": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "T"
+    },
+    "124": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "param"
+    },
+    "125": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "params"
+    },
+    "126": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "functionWithTemplate"
+    },
+    "127": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "functionWithTemplate"
+    },
+    "128": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "T"
+    },
+    "129": {
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": "param"
+    },
+    "130": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": ""
+    },
+    "131": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "getBreakpoints"
+    },
+    "132": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "getBreakpoints"
+    },
+    "133": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "__type"
+    },
+    "134": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "__type.small"
+    },
+    "135": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "__type.medium"
+    },
+    "136": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "__type.large"
+    },
+    "137": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "__type.xlarge"
+    },
+    "138": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "__type.xxlarge"
+    },
+    "139": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "BreakpointRange"
+    },
+    "140": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "BreakpointRange.start"
+    },
+    "141": {
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": "BreakpointRange.end"
+    }
+  }
 }

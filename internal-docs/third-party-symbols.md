@@ -2,7 +2,7 @@
 
 TypeDoc 0.22 added support for linking to third party sites by associating a symbol name with npm packages.
 
-Since TypeDoc 0.23.13, some mappings can be defined without a plugin by setting `externalSymbolLinkMappings`.
+Since TypeDoc 0.23.13, some mappings can be defined without a plugin by setting [`externalSymbolLinkMappings`][externalSymbolLinkMappings].
 This should be set to an object whose keys are package names, and values are the `.` joined qualified name
 of the third party symbol. If the link was defined with a user created declaration reference, it may also
 have a `:meaning` at the end. TypeDoc will _not_ attempt to perform fuzzy matching to remove the meaning from
@@ -20,6 +20,7 @@ detected as belonging to the `typescript` package rather than the `global` packa
 // typedoc.json
 {
     "externalSymbolLinkMappings": {
+        // For these you should probably install typedoc-plugin-mdn-links instead
         "global": {
             // Handle {@link !Promise}
             "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
@@ -46,7 +47,7 @@ A wildcard can be used to provide a fallback link to any unmapped type.
 }
 ```
 
-Plugins can add support for linking to third party sites by calling `app.converter.addUnknownSymbolResolver`.
+Plugins can add support for linking to third party sites by calling [`app.converter.addUnknownSymbolResolver`][addUnknownSymbolResolver].
 
 If the given symbol is unknown, or does not appear in the documentation site, the resolver may return `undefined`
 and no link will be rendered unless provided by another resolver.
@@ -149,5 +150,12 @@ export function load(app: Application) {
 ```
 
 The unknown symbol resolver will also be passed the reflection containing the link
-and, if the link was defined by the user, the [CommentDisplayPart](https://typedoc.org/api/types/CommentDisplayPart.html)
-which was parsed into the `DeclarationReference` provided as the first argument.
+and, if the link was defined by the user, the [CommentDisplayPart] which was parsed into the [DeclarationReference] provided as the first argument.
+
+If `--useTsLinkResolution` is on (the default), it may also be passed a [ReflectionSymbolId] referencing the symbol that TypeScript resolves the link to.
+
+[externalSymbolLinkMappings]: https://typedoc.org/guides/options/#externalsymbollinkmappings
+[CommentDisplayPart]: https://typedoc.org/api/types/CommentDisplayPart.html
+[DeclarationReference]: https://typedoc.org/api/interfaces/DeclarationReference.html
+[ReflectionSymbolId]: https://typedoc.org/api/classes/Application.html
+[addUnknownSymbolResolver]: https://typedoc.org/api/classes/Converter.html#addUnknownSymbolResolver

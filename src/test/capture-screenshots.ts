@@ -59,7 +59,6 @@ export async function captureRegressionScreenshots() {
     const app = new Application();
     app.options.addReader(new TSConfigReader());
     app.bootstrap({
-        logger: "console",
         readme: join(src, "..", "README.md"),
         name: "typedoc",
         cleanOutputDir: true,

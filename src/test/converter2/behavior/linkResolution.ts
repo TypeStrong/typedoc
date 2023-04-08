@@ -23,11 +23,12 @@ export namespace Scoping {
 }
 
 /**
+ * TS doesn't recognize any of these, and will link them to the namespace
  * {@link Meanings!A}
  * {@link Meanings!A:namespace}
  * {@link Meanings!A:enum}
  *
- * {@link A:class} doesn't exist
+ * {@link A:class} doesn't exist, ts links to enum/ns, TypeDoc picks the enum
  * {@link B:class}
  *
  * {@link C:interface}
@@ -40,7 +41,7 @@ export namespace Scoping {
  * {@link B:constructor(1)}
  *
  * {@link A.A:member}
- * {@link B.prop:event} Don't use this. It doesn't work but is required by the grammar.
+ * {@link B.prop:event} Don't use this. It doesn't work with TSDoc resolution but is required by the grammar.
  *
  * {@link E:call}
  * {@link E:call(1)}

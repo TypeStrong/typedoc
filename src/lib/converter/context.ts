@@ -14,7 +14,8 @@ import type { Converter } from "./converter";
 import { isNamedNode } from "./utils/nodes";
 import { ConverterEvents } from "./converter-events";
 import { resolveAliasedSymbol } from "./utils/symbols";
-import { getComment } from "./comments";
+import { getComment, getJsDocComment, getSignatureComment } from "./comments";
+import { getHumanName } from "../utils/tsutils";
 
 /**
  * The context describes the current state the converter is in.
@@ -60,20 +61,9 @@ export class Context {
      */
     readonly scope: Reflection;
 
-    /** @internal */
-    isConvertingTypeNode(): boolean {
-        return this.convertingTypeNode;
-    }
-
-    /** @internal */
-    setConvertingTypeNode() {
-        this.convertingTypeNode = true;
-    }
-
-    /** @internal */
-    shouldBeStatic = false;
-
-    private convertingTypeNode = false;
+    convertingTypeNode = false; // Inherited by withScope
+    convertingClassOrInterface = false; // Not inherited
+    shouldBeStatic = false; // Not inherited
 
     /**
      * Create a new Context instance.
@@ -97,13 +87,6 @@ export class Context {
     /** @internal */
     get logger() {
         return this.converter.application.logger;
-    }
-
-    /**
-     * Return the compiler options.
-     */
-    getCompilerOptions(): ts.CompilerOptions {
-        return this.converter.application.options.getCompilerOptions();
     }
 
     /**
@@ -174,6 +157,15 @@ export class Context {
             nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
         );
 
+        if (this.convertingClassOrInterface) {
+            if (kind === ReflectionKind.Function) {
+                kind = ReflectionKind.Method;
+            }
+            if (kind === ReflectionKind.Variable) {
+                kind = ReflectionKind.Property;
+            }
+        }
+
         const reflection = new DeclarationReflection(name, kind, this.scope);
         this.postReflectionCreation(reflection, symbol, exportSymbol);
 
@@ -190,22 +182,10 @@ export class Context {
             reflection.kind &
                 (ReflectionKind.SomeModule | ReflectionKind.Reference)
         ) {
-            reflection.comment = getComment(
-                exportSymbol,
-                reflection.kind,
-                this.converter.config,
-                this.logger,
-                this.converter.commentStyle
-            );
+            reflection.comment = this.getComment(exportSymbol, reflection.kind);
         }
         if (symbol && !reflection.comment) {
-            reflection.comment = getComment(
-                symbol,
-                reflection.kind,
-                this.converter.config,
-                this.logger,
-                this.converter.commentStyle
-            );
+            reflection.comment = this.getComment(symbol, reflection.kind);
         }
 
         if (this.shouldBeStatic) {
@@ -274,6 +254,45 @@ export class Context {
         this._program = program;
     }
 
+    getComment(symbol: ts.Symbol, kind: ReflectionKind) {
+        return getComment(
+            symbol,
+            kind,
+            this.converter.config,
+            this.logger,
+            this.converter.commentStyle,
+            this.converter.useTsLinkResolution ? this.checker : undefined
+        );
+    }
+
+    getJsDocComment(
+        declaration:
+            | ts.JSDocPropertyLikeTag
+            | ts.JSDocCallbackTag
+            | ts.JSDocTypedefTag
+            | ts.JSDocTemplateTag
+            | ts.JSDocEnumTag
+    ) {
+        return getJsDocComment(
+            declaration,
+            this.converter.config,
+            this.logger,
+            this.converter.useTsLinkResolution ? this.checker : undefined
+        );
+    }
+
+    getSignatureComment(
+        declaration: ts.SignatureDeclaration | ts.JSDocSignature
+    ) {
+        return getSignatureComment(
+            declaration,
+            this.converter.config,
+            this.logger,
+            this.converter.commentStyle,
+            this.converter.useTsLinkResolution ? this.checker : undefined
+        );
+    }
+
     /**
      * @param callback  The callback function that should be executed with the changed context.
      */
@@ -288,15 +307,4 @@ export class Context {
         context.setActiveProgram(this._program);
         return context;
     }
-}
-
-const uniqueSymbolRegExp = /^__@(.*)@\d+$/;
-
-function getHumanName(name: string) {
-    const match = uniqueSymbolRegExp.exec(name);
-    if (match) {
-        return `[${match[1]}]`;
-    }
-
-    return name;
 }

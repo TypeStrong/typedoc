@@ -2,14 +2,17 @@ import {
     ReflectionKind,
     DeclarationReflection,
     DeclarationHierarchy,
+    ProjectReflection,
+    Reflection,
 } from "../../models/reflections/index";
 import { Type, ReferenceType } from "../../models/types";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
+import { ApplicationEvents } from "../../application-events";
 
 /**
- * A handler that converts all instances of {@link LateResolvingType} to their renderable equivalents.
+ * Responsible for adding `implementedBy` / `implementedFrom`
  */
 @Component({ name: "type" })
 export class TypePlugin extends ConverterComponent {
@@ -24,15 +27,26 @@ export class TypePlugin extends ConverterComponent {
             [Converter.EVENT_RESOLVE_END]: this.onResolveEnd,
             [Converter.EVENT_END]: () => this.reflections.clear(),
         });
+        this.listenTo(this.application, {
+            [ApplicationEvents.REVIVE]: this.onRevive,
+        });
     }
 
-    /**
-     * Triggered when the converter resolves a reflection.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently resolved.
-     */
+    private onRevive(project: ProjectReflection) {
+        for (const refl of Object.values(project.reflections)) {
+            this.resolve(project, refl);
+        }
+        this.finishResolve(project);
+        this.reflections.clear();
+    }
+
     private onResolve(context: Context, reflection: DeclarationReflection) {
+        this.resolve(context.project, reflection);
+    }
+
+    private resolve(project: ProjectReflection, reflection: Reflection) {
+        if (!(reflection instanceof DeclarationReflection)) return;
+
         if (reflection.kindOf(ReflectionKind.ClassOrInterface)) {
             this.postpone(reflection);
 
@@ -45,7 +59,7 @@ export class TypePlugin extends ConverterComponent {
                     ReferenceType.createResolvedReference(
                         reflection.name,
                         reflection,
-                        context.project
+                        project
                     )
                 );
             });
@@ -59,7 +73,7 @@ export class TypePlugin extends ConverterComponent {
                     ReferenceType.createResolvedReference(
                         reflection.name,
                         reflection,
-                        context.project
+                        project
                     )
                 );
             });
@@ -91,10 +105,11 @@ export class TypePlugin extends ConverterComponent {
         this.reflections.add(reflection);
     }
 
-    /**
-     * Triggered when the converter has finished resolving a project.
-     */
     private onResolveEnd(context: Context) {
+        this.finishResolve(context.project);
+    }
+
+    private finishResolve(project: ProjectReflection) {
         this.reflections.forEach((reflection) => {
             if (reflection.implementedBy) {
                 reflection.implementedBy.sort((a, b) => {
@@ -125,7 +140,7 @@ export class TypePlugin extends ConverterComponent {
                 ReferenceType.createResolvedReference(
                     reflection.name,
                     reflection,
-                    context.project
+                    project
                 ),
             ]);
             hierarchy.isTarget = true;

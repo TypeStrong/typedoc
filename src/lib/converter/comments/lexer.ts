@@ -1,3 +1,5 @@
+import type { ReflectionSymbolId } from "../../models";
+
 export enum TokenSyntaxKind {
     Text = "text",
     NewLine = "new_line",
@@ -13,4 +15,8 @@ export interface Token {
     text: string;
 
     pos: number;
+
+    // These come from the compiler for use if useTsLinkResolution is on
+    tsLinkTarget?: ReflectionSymbolId;
+    tsLinkText?: string;
 }

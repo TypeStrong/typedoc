@@ -1,23 +1,12 @@
 import { ok } from "assert";
-import type { SourceReference } from "../sources/file";
-import type { Comment } from "../comments/comment";
+import { Comment } from "../comments/comment";
 import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
 import type { NeverIfInternal } from "../../utils";
 import { ReflectionKind } from "./kind";
-import type { Serializer, JSONOutput } from "../../serialization";
-
-/**
- * Holds all data models used by TypeDoc.
- *
- * The {@link BaseReflection} is base class of all reflection models. The subclass {@link ProjectReflection}
- * serves as the root container for the current project while {@link DeclarationReflection} instances
- * form the structure of the project. Most of the other classes in this namespace are referenced by this
- * two base classes.
- *
- * The models {@link NavigationItem} and {@link UrlMapping} are special as they are only used by the {@link Renderer}
- * while creating the final output.
- */
+import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
+import type { ReflectionVariant } from "./variant";
+import type { DeclarationReflection } from "./declaration";
 
 /**
  * Current reflection id.
@@ -207,6 +196,18 @@ export class ReflectionFlags extends Array<string> {
                 .map((flag) => [flag, true])
         );
     }
+
+    fromObject(obj: JSONOutput.ReflectionFlags) {
+        for (const key of Object.keys(obj)) {
+            const flagName = key.substring(2); // isPublic => Public
+            if (flagName in ReflectionFlag) {
+                this.setFlag(
+                    ReflectionFlag[flagName as keyof typeof ReflectionFlag],
+                    true
+                );
+            }
+        }
+    }
 }
 
 export enum TraverseProperty {
@@ -243,6 +244,11 @@ export interface TraverseCallback {
  */
 export abstract class Reflection {
     /**
+     * Discriminator representing the type of reflection represented by this object.
+     */
+    abstract readonly variant: keyof ReflectionVariant;
+
+    /**
      * Unique id of this reflection.
      */
     id: number;
@@ -253,26 +259,9 @@ export abstract class Reflection {
     name: string;
 
     /**
-     * The original name of the TypeScript declaration.
-     */
-    originalName: string;
-
-    /**
-     * Label associated with this reflection, if any (https://tsdoc.org/pages/tags/label/)
-     * Added by the CommentPlugin during resolution.
-     */
-    label?: string;
-
-    /**
      * The kind of this reflection.
      */
     kind: ReflectionKind;
-
-    /**
-     * The human readable string representation of the kind of this reflection.
-     * Set during the resolution phase by GroupPlugin
-     */
-    kindString?: string;
 
     flags: ReflectionFlags = new ReflectionFlags();
 
@@ -296,11 +285,6 @@ export abstract class Reflection {
     comment?: Comment;
 
     /**
-     * A list of all source files that contributed to this reflection.
-     */
-    sources?: SourceReference[];
-
-    /**
      * The url of this reflection in the generated documentation.
      * TODO: Reflections shouldn't know urls exist. Move this to a serializer.
      */
@@ -321,13 +305,6 @@ export abstract class Reflection {
     hasOwnDocument?: boolean;
 
     /**
-     * A list of generated css classes that should be applied to representations of this
-     * reflection in the generated markup.
-     * TODO: Reflections shouldn't know about CSS. Move this property to the correct serializer.
-     */
-    cssClasses?: string;
-
-    /**
      * Url safe alias for this reflection.
      *
      * @see {@link BaseReflection.getAlias}
@@ -340,7 +317,6 @@ export abstract class Reflection {
         this.id = REFLECTION_ID++;
         this.parent = parent;
         this.name = name;
-        this.originalName = name;
         this.kind = kind;
 
         // If our parent is external, we are too.
@@ -487,9 +463,12 @@ export abstract class Reflection {
     isProject(): this is ProjectReflection {
         return false;
     }
+    isDeclaration(): this is DeclarationReflection {
+        return false;
+    }
 
     /**
-     * Check if this reflection has been marked with the `@deprecated` tag.
+     * Check if this reflection or any of its parents have been marked with the `@deprecated` tag.
      */
     isDeprecated(): boolean {
         if (this.comment?.getTag("@deprecated")) {
@@ -497,27 +476,6 @@ export abstract class Reflection {
         }
 
         return this.parent?.isDeprecated() ?? false;
-    }
-
-    /**
-     * Try to find a reflection by its name.
-     *
-     * @return The found reflection or null.
-     * @deprecated This method not be used, it naively splits the name by a `.` and searches recursively up
-     * the parent tree, which is not how any other name resolver works. If you are currently using this and
-     * need another method, please open an issue. For tests {@link getChildByName} should generally be sufficient.
-     */
-    findReflectionByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg)
-            ? arg
-            : splitUnquotedString(arg, ".");
-
-        const reflection = this.getChildByName(names);
-        if (reflection) {
-            return reflection;
-        } else if (this.parent) {
-            return this.parent.findReflectionByName(names);
-        }
     }
 
     /**
@@ -560,15 +518,27 @@ export abstract class Reflection {
         return {
             id: this.id,
             name: this.name,
+            variant: this.variant,
             kind: this.kind,
-            kindString: this.kindString,
             flags: this.flags.toObject(),
             comment:
                 this.comment && !this.comment.isEmpty()
                     ? serializer.toObject(this.comment)
                     : undefined,
-            originalName:
-                this.originalName !== this.name ? this.originalName : undefined,
         };
+    }
+
+    fromObject(de: Deserializer, obj: JSONOutput.Reflection) {
+        // DO NOT copy id from obj. When deserializing reflections
+        // they should be given new ids since they belong to a different project.
+        this.name = obj.name;
+        // Skip copying variant, we know it's already the correct value because the deserializer
+        // will construct the correct class type.
+        this.kind = obj.kind;
+        this.flags.fromObject(obj.flags);
+        // Parent is set during construction, so we don't need to do it here.
+        this.comment = de.revive(obj.comment, () => new Comment());
+        // url, anchor, hasOwnDocument, _alias, _aliases are set during rendering and only relevant during render.
+        // It doesn't make sense to serialize them to json, or restore them.
     }
 }

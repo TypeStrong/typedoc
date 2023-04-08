@@ -9,7 +9,7 @@ import {
     SignatureReflection,
 } from "../../../models";
 import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
-import { PageEvent, RendererEvent } from "../../events";
+import type { PageEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 import { JSX } from "../../../utils";
@@ -44,12 +44,8 @@ export class DefaultTheme extends Theme {
     /** @internal */
     markedPlugin: MarkedPlugin;
 
-    private _renderContext?: DefaultThemeRenderContext;
-    getRenderContext(_pageEvent: PageEvent<any>) {
-        if (!this._renderContext) {
-            this._renderContext = new DefaultThemeRenderContext(this, this.application.options);
-        }
-        return this._renderContext;
+    getRenderContext(pageEvent: PageEvent<Reflection>) {
+        return new DefaultThemeRenderContext(this, pageEvent, this.application.options);
     }
 
     reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
@@ -58,9 +54,14 @@ export class DefaultTheme extends Theme {
     indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
         return this.getRenderContext(pageEvent).indexTemplate(pageEvent);
     };
-    defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>) => {
-        return this.getRenderContext(pageEvent).defaultLayout(pageEvent);
+    defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>) => {
+        return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
     };
+
+    getReflectionClasses(reflection: DeclarationReflection) {
+        const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
+        return getReflectionClasses(reflection, filters);
+    }
 
     /**
      * Mappings of reflections kinds to templates used by this theme.
@@ -114,7 +115,6 @@ export class DefaultTheme extends Theme {
     constructor(renderer: Renderer) {
         super(renderer);
         this.markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
-        this.listenTo(renderer, RendererEvent.BEGIN, this.onRendererBegin, 1024);
     }
 
     /**
@@ -130,6 +130,11 @@ export class DefaultTheme extends Theme {
         if (false == hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
             urls.push(new UrlMapping<ContainerReflection>("index.html", project, this.reflectionTemplate));
+        } else if (project.children?.every((child) => child.kindOf(ReflectionKind.Module))) {
+            // If there are no non-module children, then there's no point in having a modules page since there
+            // will be nothing on it besides the navigation, so redirect the module page to the readme page
+            project.url = "index.html";
+            urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         } else {
             project.url = "modules.html";
             urls.push(new UrlMapping<ContainerReflection>("modules.html", project, this.reflectionTemplate));
@@ -143,20 +148,6 @@ export class DefaultTheme extends Theme {
         });
 
         return urls;
-    }
-
-    /**
-     * Triggered before the renderer starts rendering a project.
-     *
-     * @param event  An event object describing the current render operation.
-     */
-    private onRendererBegin(event: RendererEvent) {
-        const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
-        for (const reflection of Object.values(event.project.reflections)) {
-            if (reflection instanceof DeclarationReflection) {
-                DefaultTheme.applyReflectionClasses(reflection, filters);
-            }
-        }
     }
 
     /**
@@ -220,8 +211,8 @@ export class DefaultTheme extends Theme {
         return urls;
     }
 
-    render(page: PageEvent<Reflection>): string {
-        const templateOutput = this.defaultLayoutTemplate(page);
+    render(page: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>): string {
+        const templateOutput = this.defaultLayoutTemplate(page, template);
         return "<!DOCTYPE html>" + JSX.renderElement(templateOutput);
     }
 
@@ -249,67 +240,57 @@ export class DefaultTheme extends Theme {
             return true;
         });
     }
-
-    /**
-     * Generate the css classes for the given reflection and apply them to the
-     * {@link DeclarationReflection.cssClasses} property.
-     *
-     * @param reflection  The reflection whose cssClasses property should be generated.
-     */
-    static applyReflectionClasses(reflection: DeclarationReflection, filters: Record<string, boolean>) {
-        const classes: string[] = [];
-
-        classes.push(DefaultTheme.toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
-
-        if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
-            classes.push(DefaultTheme.toStyleClass(`tsd-parent-kind-${ReflectionKind[reflection.parent.kind]}`));
-        }
-
-        // Filter classes should match up with the settings function in
-        // partials/navigation.tsx.
-        for (const key of Object.keys(filters)) {
-            if (key === "inherited") {
-                if (reflection.inheritedFrom) {
-                    classes.push("tsd-is-inherited");
-                }
-            } else if (key === "protected") {
-                if (reflection.flags.isProtected) {
-                    classes.push("tsd-is-protected");
-                }
-            } else if (key === "private") {
-                if (reflection.flags.isPrivate) {
-                    classes.push("tsd-is-private");
-                }
-            } else if (key === "external") {
-                if (reflection.flags.isExternal) {
-                    classes.push("tsd-is-external");
-                }
-            } else if (key.startsWith("@")) {
-                if (key === "@deprecated") {
-                    if (reflection.isDeprecated()) {
-                        classes.push(DefaultTheme.toStyleClass(`tsd-is-${key.substring(1)}`));
-                    }
-                } else if (
-                    reflection.comment?.hasModifier(key as `@${string}`) ||
-                    reflection.comment?.getTag(key as `@${string}`)
-                ) {
-                    classes.push(DefaultTheme.toStyleClass(`tsd-is-${key.substring(1)}`));
-                }
-            }
-        }
-
-        reflection.cssClasses = classes.join(" ");
-    }
-
-    /**
-     * Transform a space separated string into a string suitable to be used as a
-     * css class, e.g. "constructor method" > "constructor-method".
-     */
-    static toStyleClass(str: string) {
-        return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();
-    }
 }
 
 function hasReadme(readme: string) {
     return !readme.endsWith("none");
+}
+
+function toStyleClass(str: string) {
+    return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();
+}
+
+function getReflectionClasses(reflection: DeclarationReflection, filters: Record<string, boolean>) {
+    const classes: string[] = [];
+
+    classes.push(toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
+
+    if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
+        classes.push(toStyleClass(`tsd-parent-kind-${ReflectionKind[reflection.parent.kind]}`));
+    }
+
+    // Filter classes should match up with the settings function in
+    // partials/navigation.tsx.
+    for (const key of Object.keys(filters)) {
+        if (key === "inherited") {
+            if (reflection.inheritedFrom) {
+                classes.push("tsd-is-inherited");
+            }
+        } else if (key === "protected") {
+            if (reflection.flags.isProtected) {
+                classes.push("tsd-is-protected");
+            }
+        } else if (key === "private") {
+            if (reflection.flags.isPrivate) {
+                classes.push("tsd-is-private");
+            }
+        } else if (key === "external") {
+            if (reflection.flags.isExternal) {
+                classes.push("tsd-is-external");
+            }
+        } else if (key.startsWith("@")) {
+            if (key === "@deprecated") {
+                if (reflection.isDeprecated()) {
+                    classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+                }
+            } else if (
+                reflection.comment?.hasModifier(key as `@${string}`) ||
+                reflection.comment?.getTag(key as `@${string}`)
+            ) {
+                classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+            }
+        }
+    }
+
+    return classes.join(" ");
 }

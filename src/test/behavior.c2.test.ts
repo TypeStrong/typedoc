@@ -1,20 +1,26 @@
 import { deepStrictEqual as equal, ok } from "assert";
-import type { Application } from "../lib/application";
 import {
     DeclarationReflection,
     LiteralType,
     ProjectReflection,
     ReflectionKind,
     Comment,
-    CommentDisplayPart,
     CommentTag,
     Reflection,
     SignatureReflection,
     ContainerReflection,
 } from "../lib/models";
-import { Chars, filterMap } from "../lib/utils";
+import { filterMap } from "../lib/utils";
 import { CommentStyle } from "../lib/utils/options/declaration";
-import type { TestLogger } from "./TestLogger";
+import { TestLogger } from "./TestLogger";
+import {
+    getConverter2App,
+    getConverter2Base,
+    getConverter2Program,
+} from "./programs";
+import { join } from "path";
+import { existsSync } from "fs";
+import { clearCommentCache } from "../lib/converter/comments";
 
 function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
@@ -36,16 +42,80 @@ function buildNameTree(
     return tree;
 }
 
-type Letters = Chars<"abcdefghijklmnopqrstuvwxyz">;
+function getLinks(refl: Reflection) {
+    ok(refl.comment);
+    return filterMap(refl.comment.summary, (p) => {
+        if (p.kind === "inline-tag" && p.tag === "@link") {
+            if (typeof p.target === "string") {
+                return p.target;
+            }
+            if (p.target instanceof SignatureReflection) {
+                return [
+                    p.target.getFullName(),
+                    p.target.parent.signatures?.indexOf(p.target),
+                ];
+            }
+            if (p.target instanceof Reflection) {
+                return [p.target?.kind, p.target?.getFullName()];
+            }
+            return [p.target?.qualifiedName];
+        }
+    });
+}
 
-export const behaviorTests: {
-    [issue: `_${string}`]: (app: Application) => void;
-    [issue: `${Letters}${string}`]: (
-        project: ProjectReflection,
-        logger: TestLogger
-    ) => void;
-} = {
-    asConstEnum(project) {
+function getLinkTexts(refl: Reflection) {
+    ok(refl.comment);
+    return filterMap(refl.comment.summary, (p) => {
+        if (p.kind === "inline-tag" && p.tag === "@link") {
+            return p.text;
+        }
+    });
+}
+
+const base = getConverter2Base();
+const app = getConverter2App();
+const program = getConverter2Program();
+
+function convert(entry: string) {
+    const entryPoint = [
+        join(base, `behavior/${entry}.ts`),
+        join(base, `behavior/${entry}.d.ts`),
+        join(base, `behavior/${entry}.tsx`),
+        join(base, `behavior/${entry}.js`),
+        join(base, "behavior", entry, "index.ts"),
+        join(base, "behavior", entry, "index.js"),
+    ].find(existsSync);
+
+    ok(entryPoint, `No entry point found for ${entry}`);
+    const sourceFile = program.getSourceFile(entryPoint);
+    ok(sourceFile, `No source file found for ${entryPoint}`);
+
+    app.options.setValue("entryPoints", [entryPoint]);
+    clearCommentCache();
+    return app.converter.convert([
+        {
+            displayName: entry,
+            program,
+            sourceFile,
+        },
+    ]);
+}
+
+describe("Behavior Tests", () => {
+    let logger: TestLogger;
+    let optionsSnap: { __optionSnapshot: never };
+
+    beforeEach(() => {
+        app.logger = logger = new TestLogger();
+        optionsSnap = app.options.snapshot();
+    });
+
+    afterEach(() => {
+        app.options.restore(optionsSnap);
+    });
+
+    it("Handles 'as const' style enums", () => {
+        const project = convert("asConstEnum");
         const SomeEnumLike = query(project, "SomeEnumLike");
         equal(SomeEnumLike.kind, ReflectionKind.Variable, "SomeEnumLike");
         const SomeEnumLikeTagged = query(project, "SomeEnumLikeTagged");
@@ -126,12 +196,11 @@ export const behaviorTests: {
             ReflectionKind.Enum,
             "WithNumericExpression"
         );
-    },
+    });
 
-    _blockComment(app) {
+    it("Handles non-jsdoc block comments", () => {
         app.options.setValue("commentStyle", CommentStyle.Block);
-    },
-    blockComment(project) {
+        const project = convert("blockComment");
         const a = query(project, "a");
         const b = query(project, "b");
 
@@ -140,48 +209,42 @@ export const behaviorTests: {
             Comment.combineDisplayParts(b.comment?.summary),
             "block, but not jsdoc"
         );
-    },
+    });
 
-    constTypeParam(project) {
+    it("Handles const variable namespace", () => {
+        const project = convert("constNamespace");
+        const someNs = query(project, "someNs");
+        equal(someNs.kind, ReflectionKind.Namespace);
+        equal(Comment.combineDisplayParts(someNs.comment?.summary), "ns doc");
+
+        const a = query(project, "someNs.a");
+        equal(Comment.combineDisplayParts(a.comment?.summary), "a doc");
+
+        const b = query(project, "someNs.b");
+        equal(
+            Comment.combineDisplayParts(b.signatures?.[0].comment?.summary),
+            "b doc"
+        );
+    });
+
+    it("Handles const type parameters", () => {
+        const project = convert("constTypeParam");
         const getNamesExactly = query(project, "getNamesExactly");
         const typeParams = getNamesExactly.signatures?.[0].typeParameters;
         equal(typeParams?.length, 1);
         equal(typeParams[0].flags.isConst, true);
-    },
+    });
 
-    declareGlobal(project) {
+    it("Handles declare global 'modules'", () => {
+        const project = convert("declareGlobal");
         equal(
             project.children?.map((c) => c.name),
             ["DeclareGlobal"]
         );
-    },
+    });
 
-    deprecatedBracketLinks(project, logger) {
-        const a = query(project, "alpha");
-        const b = query(project, "beta");
-
-        const aTag = a.comment?.summary.find((p) => p.kind === "inline-tag") as
-            | Extract<CommentDisplayPart, { kind: "inline-tag" }>
-            | undefined;
-        equal(aTag?.tag, "@link");
-        equal(aTag?.text, "beta");
-        equal(aTag.target, b);
-        logger.expectMessage(
-            "warn: alpha: Comment [[target]] style links are deprecated and will be removed in 0.24"
-        );
-
-        const bTag = b.comment?.summary.find((p) => p.kind === "inline-tag") as
-            | Extract<CommentDisplayPart, { kind: "inline-tag" }>
-            | undefined;
-        equal(bTag?.tag, "@link");
-        equal(bTag?.text, "bracket links");
-        equal(bTag.target, a);
-        logger.expectMessage(
-            "warn: beta: Comment [[target]] style links are deprecated and will be removed in 0.24"
-        );
-    },
-
-    duplicateHeritageClauses(project) {
+    it("Handles duplicate heritage clauses", () => {
+        const project = convert("duplicateHeritageClauses");
         const b = query(project, "B");
         equal(b.extendedTypes?.map(String), ["A"]);
 
@@ -194,9 +257,38 @@ export const behaviorTests: {
             'Record<"a", 1>',
             'Record<"b", 1>',
         ]);
-    },
+    });
 
-    exampleTags(project, logger) {
+    it("Handles @default tags with JSDoc compat turned on", () => {
+        const project = convert("defaultTag");
+        const foo = query(project, "foo");
+        const tags = foo.comment?.blockTags.map((tag) => tag.content);
+
+        equal(tags, [
+            [{ kind: "code", text: "```ts\n\n```" }],
+            [{ kind: "code", text: "```ts\nfn({})\n```" }],
+        ]);
+
+        logger.expectNoOtherMessages();
+    });
+
+    it("Handles @default tags with JSDoc compat turned off", () => {
+        app.options.setValue("jsDocCompatibility", false);
+        const project = convert("defaultTag");
+        const foo = query(project, "foo");
+        const tags = foo.comment?.blockTags.map((tag) => tag.content);
+
+        equal(tags, [[], [{ kind: "text", text: "fn({})" }]]);
+
+        logger.expectMessage(
+            "warn: Encountered an unescaped open brace without an inline tag"
+        );
+        logger.expectMessage("warn: Unmatched closing brace");
+        logger.expectNoOtherMessages();
+    });
+
+    it("Handles @example tags with JSDoc compat turned on", () => {
+        const project = convert("exampleTags");
         const foo = query(project, "foo");
         const tags = foo.comment?.blockTags.map((tag) => tag.content);
 
@@ -219,24 +311,53 @@ export const behaviorTests: {
             [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
         ]);
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
-    },
+    });
 
-    _excludeNotDocumentedKinds(app) {
+    it("Warns about example tags containing braces when compat options are off", () => {
+        app.options.setValue("jsDocCompatibility", false);
+        const project = convert("exampleTags");
+        const foo = query(project, "foo");
+        const tags = foo.comment?.blockTags.map((tag) => tag.content);
+
+        equal(tags, [
+            [{ kind: "text", text: "// JSDoc style\ncodeHere();" }],
+            [
+                {
+                    kind: "text",
+                    text: "<caption>JSDoc specialness</caption>\n// JSDoc style\ncodeHere();",
+                },
+            ],
+            [
+                {
+                    kind: "text",
+                    text: "<caption>JSDoc with braces</caption>\nx.map(() => { return 1; })",
+                },
+            ],
+            [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
+        ]);
+
+        logger.expectMessage(
+            "warn: Encountered an unescaped open brace without an inline tag"
+        );
+        logger.expectMessage("warn: Unmatched closing brace");
+        logger.expectNoOtherMessages();
+    });
+
+    it("Handles excludeNotDocumentedKinds", () => {
         app.options.setValue("excludeNotDocumented", true);
         app.options.setValue("excludeNotDocumentedKinds", ["Property"]);
-    },
-    excludeNotDocumentedKinds(project) {
+        const project = convert("excludeNotDocumentedKinds");
         equal(buildNameTree(project), {
             NotDoc: {
                 prop: {},
             },
             identity: {},
         });
-    },
+    });
 
-    exportComments(project) {
+    it("Handles comments on export declarations", () => {
+        const project = convert("exportComments");
         const abc = query(project, "abc");
         equal(abc.kind, ReflectionKind.Variable);
         equal(Comment.combineDisplayParts(abc.comment?.summary), "abc");
@@ -250,9 +371,9 @@ export const behaviorTests: {
 
         const foo = query(project, "foo");
         equal(Comment.combineDisplayParts(foo.comment?.summary), "export foo");
-    },
+    });
 
-    _externalSymbols(app) {
+    it("Handles user defined external symbol links", () => {
         app.options.setValue("externalSymbolLinkMappings", {
             global: {
                 Promise: "/promise",
@@ -265,8 +386,7 @@ export const behaviorTests: {
                 "*": "https://marked.js.org",
             },
         });
-    },
-    externalSymbols(project) {
+        const project = convert("externalSymbols");
         const p = query(project, "P");
         equal(p.comment?.summary?.[1], {
             kind: "inline-tag",
@@ -285,9 +405,10 @@ export const behaviorTests: {
         const s = query(project, "S");
         equal(s.type?.type, "reference" as const);
         equal(s.type.externalUrl, "https://marked.js.org");
-    },
+    });
 
-    groupTag(project) {
+    it("Handles @group tag", () => {
+        const project = convert("groupTag");
         const A = query(project, "A");
         const B = query(project, "B");
         const C = query(project, "C");
@@ -301,17 +422,19 @@ export const behaviorTests: {
             project.groups.map((g) => g.children),
             [[A, B], [B], [C]]
         );
-    },
+    });
 
-    hiddenAccessor(project) {
+    it("Handles hidden accessors", () => {
+        const project = convert("hiddenAccessor");
         const test = query(project, "Test");
         equal(
             test.children?.map((c) => c.name),
             ["constructor", "auto", "x", "y"]
         );
-    },
+    });
 
-    inheritDocBasic(project) {
+    it("Handles simple @inheritDoc cases", () => {
+        const project = convert("inheritDocBasic");
         const target = query(project, "InterfaceTarget");
         const comment = new Comment(
             [{ kind: "text", text: "Summary" }],
@@ -343,9 +466,10 @@ export const behaviorTests: {
             ]
         );
         equal(meth.signatures?.[0].comment, methodComment);
-    },
+    });
 
-    inheritDocJsdoc(project) {
+    it("Handles more complicated @inheritDoc cases", () => {
+        const project = convert("inheritDocJsdoc");
         const fooComment = query(project, "Foo").comment;
         const fooMemberComment = query(project, "Foo.member").signatures?.[0]
             .comment;
@@ -375,9 +499,10 @@ export const behaviorTests: {
                 `${name} parameter`
             );
         }
-    },
+    });
 
-    inheritDocRecursive(project, logger) {
+    it("Handles recursive @inheritDoc requests", () => {
+        const project = convert("inheritDocRecursive");
         const a = query(project, "A");
         equal(a.comment?.getTag("@inheritDoc")?.name, "B");
 
@@ -390,9 +515,30 @@ export const behaviorTests: {
         logger.expectMessage(
             "warn: @inheritDoc specifies a circular inheritance chain: B -> C -> A -> B"
         );
-    },
+    });
 
-    inheritDocWarnings(project, logger) {
+    it("Handles @inheritDoc on signatures", () => {
+        const project = convert("inheritDocSignature");
+        const test1 = query(project, "SigRef.test1");
+        equal(test1.signatures?.length, 2);
+        equal(
+            Comment.combineDisplayParts(test1.signatures[0].comment?.summary),
+            "A"
+        );
+        equal(
+            Comment.combineDisplayParts(test1.signatures[1].comment?.summary),
+            "B"
+        );
+
+        const test2 = query(project, "SigRef.test2");
+        equal(
+            Comment.combineDisplayParts(test2.signatures?.[0].comment?.summary),
+            "C"
+        );
+    });
+
+    it("Handles @inheritDocs which produce warnings", () => {
+        const project = convert("inheritDocWarnings");
         const target1 = query(project, "target1");
         equal(Comment.combineDisplayParts(target1.comment?.summary), "Source");
         equal(
@@ -433,14 +579,12 @@ export const behaviorTests: {
             "warn: Declaration reference in @inheritDoc for badParse was not fully parsed and may resolve incorrectly."
         );
 
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
-    },
+    });
 
-    _lineComment(app) {
+    it("Handles line comments", () => {
         app.options.setValue("commentStyle", CommentStyle.Line);
-    },
-    lineComment(project) {
+        const project = convert("lineComment");
         const a = query(project, "a");
         const b = query(project, "b");
         const c = query(project, "c");
@@ -451,30 +595,12 @@ export const behaviorTests: {
             "docs\nwith multiple lines"
         );
         equal(Comment.combineDisplayParts(c.comment?.summary), "");
-    },
+    });
 
-    _linkResolution(app) {
+    it("Handles declaration reference link resolution", () => {
         app.options.setValue("sort", ["source-order"]);
-    },
-    linkResolution(project) {
-        function getLinks(refl: Reflection) {
-            ok(refl.comment);
-            return filterMap(refl.comment.summary, (p) => {
-                if (p.kind === "inline-tag" && p.tag === "@link") {
-                    if (typeof p.target === "string") {
-                        return p.target;
-                    }
-                    if (p.target instanceof SignatureReflection) {
-                        return [
-                            p.target.getFullName(),
-                            p.target.parent.signatures?.indexOf(p.target),
-                        ];
-                    }
-                    return [p.target?.kind, p.target?.getFullName()];
-                }
-            });
-        }
-
+        app.options.setValue("useTsLinkResolution", false);
+        const project = convert("linkResolution");
         for (const [refl, target] of [
             ["Scoping.abc", "Scoping.abc"],
             ["Scoping.Foo", "Scoping.Foo.abc"],
@@ -494,7 +620,7 @@ export const behaviorTests: {
             [ReflectionKind.Namespace, "Meanings.A"],
             [ReflectionKind.Enum, "Meanings.A"],
 
-            [undefined, undefined],
+            [undefined],
             [ReflectionKind.Class, "Meanings.B"],
 
             [ReflectionKind.Interface, "Meanings.C"],
@@ -507,7 +633,7 @@ export const behaviorTests: {
             ["Meanings.B.constructor.new B", 1],
 
             [ReflectionKind.EnumMember, "Meanings.A.A"],
-            [undefined, undefined],
+            [undefined],
 
             ["Meanings.E.E", 0],
             ["Meanings.E.E", 1],
@@ -535,14 +661,99 @@ export const behaviorTests: {
         equal(getLinks(query(project, "Navigation")), [
             [ReflectionKind.Method, "Navigation.Child.foo"],
             [ReflectionKind.Property, "Navigation.Child.foo"],
-            [undefined, undefined],
+            [undefined],
         ]);
 
         const foo = query(project, "Navigation.Child.foo").signatures![0];
         equal(getLinks(foo), [[ReflectionKind.Method, "Navigation.Child.foo"]]);
-    },
+    });
 
-    mergedDeclarations(project, logger) {
+    it("Handles TypeScript based link resolution", () => {
+        app.options.setValue("sort", ["source-order"]);
+        const project = convert("linkResolutionTs");
+        for (const [refl, target] of [
+            ["Scoping.abc", "Scoping.abc"],
+            ["Scoping.Foo", "Scoping.Foo.abc"],
+            ["Scoping.Foo.abc", "Scoping.Foo.abc"],
+            ["Scoping.Bar", "Scoping.abc"],
+            ["Scoping.Bar.abc", "Scoping.abc"],
+        ] as const) {
+            equal(
+                getLinks(query(project, refl)).map((x) => x[1]),
+                [query(project, target).getFullName()]
+            );
+        }
+
+        const links = getLinks(query(project, "Meanings"));
+        equal(links, [
+            [ReflectionKind.Namespace, "Meanings"],
+            [ReflectionKind.Namespace, "Meanings"],
+            [ReflectionKind.Namespace, "Meanings"],
+
+            [ReflectionKind.Enum, "Meanings.A"],
+            [ReflectionKind.Class, "Meanings.B"],
+
+            [ReflectionKind.Interface, "Meanings.C"],
+            [ReflectionKind.TypeAlias, "Meanings.D"],
+            [ReflectionKind.Function, "Meanings.E"],
+            [ReflectionKind.Variable, "Meanings.F"],
+
+            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKind.Class, "Meanings.B"],
+
+            [ReflectionKind.EnumMember, "Meanings.A.A"],
+            [ReflectionKind.Property, "Meanings.B.prop"],
+
+            [ReflectionKind.Function, "Meanings.E"],
+            [ReflectionKind.Function, "Meanings.E"],
+
+            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKind.Class, "Meanings.B"],
+
+            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKind.Interface, "Meanings.G"],
+
+            [ReflectionKind.Function, "Meanings.E"],
+            [ReflectionKind.Class, "Meanings.B"],
+        ]);
+
+        equal(getLinks(query(project, "URLS")), [
+            "https://example.com",
+            "ftp://example.com",
+        ]);
+
+        equal(
+            getLinks(query(project, "Globals.A")).map((x) => x[1]),
+            ["URLS", "A", "Globals.A"]
+        );
+
+        equal(getLinks(query(project, "Navigation")), [
+            [ReflectionKind.Namespace, "Navigation"],
+            [ReflectionKind.Property, "Navigation.Child.foo"],
+            [ReflectionKind.Class, "Navigation.Child"],
+        ]);
+
+        const foo = query(project, "Navigation.Child.foo").signatures![0];
+        equal(getLinks(foo), [[ReflectionKind.Method, "Navigation.Child.foo"]]);
+
+        const localSymbolRef = query(project, "localSymbolRef");
+
+        equal(getLinks(localSymbolRef), [
+            [ReflectionKind.Variable, "A"],
+            [ReflectionKind.Variable, "A"],
+            [ReflectionKind.Variable, "A"],
+        ]);
+        equal(getLinkTexts(localSymbolRef), ["A!", "A2!", "A"]);
+
+        equal(getLinks(query(project, "scoped")), [
+            [ReflectionKind.Property, "Meanings.B.prop"],
+        ]);
+        equal(getLinkTexts(query(project, "scoped")), ["p"]);
+    });
+
+    it("Handles merged declarations", () => {
+        const project = convert("mergedDeclarations");
         const a = query(project, "SingleCommentMultiDeclaration");
         equal(
             Comment.combineDisplayParts(a.comment?.summary),
@@ -555,9 +766,10 @@ export const behaviorTests: {
         logger.expectMessage(
             "warn: MultiCommentMultiDeclaration has multiple declarations with a comment. An arbitrary comment will be used."
         );
-    },
+    });
 
-    overloads(project, logger) {
+    it("Handles overloads", () => {
+        const project = convert("overloads");
         const foo = query(project, "foo");
         const fooComments = foo.signatures?.map((sig) =>
             Comment.combineDisplayParts(sig.comment?.summary)
@@ -566,7 +778,7 @@ export const behaviorTests: {
         equal(foo.comment, undefined);
 
         equal(
-            foo.signatures?.map((s) => s.label),
+            foo.signatures?.map((s) => s.comment?.label),
             ["NO_ARGS", "WITH_X"]
         );
 
@@ -580,11 +792,11 @@ export const behaviorTests: {
         logger.expectMessage(
             'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.'
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
-    },
+    });
 
-    overloadTags(project) {
+    it("Handles @overload tags", () => {
+        const project = convert("overloadTags");
         const printValue = query(project, "printValue");
         equal(printValue.signatures?.length, 2);
 
@@ -601,48 +813,35 @@ export const behaviorTests: {
             Comment.combineDisplayParts(second.parameters[0].comment?.summary),
             "second docs"
         );
-    },
+    });
 
-    readonlyTag(project) {
+    it("Handles @readonly tag", () => {
+        const project = convert("readonlyTag");
         const title = query(project, "Book.title");
         const author = query(project, "Book.author");
 
         ok(!title.setSignature);
         ok(author.flags.isReadonly);
-    },
+    });
 
-    removeReflection(project) {
+    it("Removes all children of a reflection when the reflection is removed.", () => {
+        const project = convert("removeReflection");
         const foo = query(project, "foo");
         project.removeReflection(foo);
         equal(
             Object.values(project.reflections).map((r) => r.name),
             ["typedoc"]
         );
-    },
+    });
 
-    seeTags(project) {
-        const foo = query(project, "foo");
-        equal(
-            Comment.combineDisplayParts(foo.comment?.getTag("@see")?.content),
-            " - Double tag\n - Second tag\n"
-        );
-
-        const bar = query(project, "bar");
-        equal(
-            Comment.combineDisplayParts(bar.comment?.getTag("@see")?.content),
-            "Single tag"
-        );
-    },
-
-    _searchCategoryBoosts(app) {
+    it("Handles searchCategoryBoosts", () => {
         app.options.setValue("searchCategoryBoosts", {
             Cat0: 0,
             Cat1: 2.0,
             Cat2: 1.5,
             CatUnused: 999,
         });
-    },
-    searchCategoryBoosts(project, logger) {
+        const project = convert("searchCategoryBoosts");
         const a = query(project, "A");
         const b = query(project, "B");
         const c = query(project, "C");
@@ -653,11 +852,10 @@ export const behaviorTests: {
             "warn: Not all categories specified in searchCategoryBoosts were used in the documentation." +
                 " The unused categories were:\n\tCatUnused"
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
-    },
+    });
 
-    _searchGroupBoosts(app) {
+    it("Handles searchGroupBoosts", () => {
         app.options.setValue("searchGroupBoosts", {
             Group0: 0,
             Group1: 2.0,
@@ -665,8 +863,7 @@ export const behaviorTests: {
             GroupUnused: 999,
             Interfaces: 0.5,
         });
-    },
-    searchGroupBoosts(project, logger) {
+        const project = convert("searchGroupBoosts");
         const a = query(project, "A");
         const b = query(project, "B");
         const c = query(project, "C");
@@ -679,7 +876,37 @@ export const behaviorTests: {
             "warn: Not all groups specified in searchGroupBoosts were used in the documentation." +
                 " The unused groups were:\n\tGroupUnused"
         );
-        logger.discardDebugMessages();
         logger.expectNoOtherMessages();
-    },
-};
+    });
+
+    it("Handles @see tags", () => {
+        const project = convert("seeTags");
+        const foo = query(project, "foo");
+        equal(
+            Comment.combineDisplayParts(foo.comment?.getTag("@see")?.content),
+            " - Double tag\n - Second tag\n"
+        );
+
+        const bar = query(project, "bar");
+        equal(
+            Comment.combineDisplayParts(bar.comment?.getTag("@see")?.content),
+            "Single tag"
+        );
+    });
+
+    it("Handles type aliases marked with @interface", () => {
+        const project = convert("typeAliasInterface");
+        const bar = query(project, "Bar");
+        equal(bar.kind, ReflectionKind.Interface);
+        equal(
+            bar.children?.map((c) => c.name),
+            ["a", "b"]
+        );
+
+        const comments = [bar, bar.children[0], bar.children[1]].map((r) =>
+            Comment.combineDisplayParts(r.comment?.summary)
+        );
+
+        equal(comments, ["Bar docs", "Bar.a docs", "Foo.b docs"]);
+    });
+});

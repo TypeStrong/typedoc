@@ -1,34 +1,35 @@
 {
   "id": 0,
-  "name": "typedoc",
+  "name": "inherit-param-doc",
+  "variant": "project",
   "kind": 1,
-  "kindString": "Project",
   "flags": {},
   "children": [
     {
       "id": 6,
       "name": "Class1",
+      "variant": "declaration",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 7,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "signatures": [
             {
               "id": 8,
               "name": "new Class1",
+              "variant": "signature",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 6,
-                "name": "Class1"
+                "target": 6,
+                "name": "Class1",
+                "package": "typedoc"
               }
             }
           ]
@@ -36,8 +37,8 @@
         {
           "id": 9,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -51,15 +52,23 @@
             {
               "id": 10,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 11,
+                  "character": 4,
+                  "url": "typedoc://inherit-param-doc.ts#L11"
+                }
+              ],
               "parameters": [
                 {
                   "id": 11,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -77,8 +86,8 @@
                 {
                   "id": 12,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -100,14 +109,14 @@
               },
               "implementationOf": {
                 "type": "reference",
-                "id": 3,
+                "target": 3,
                 "name": "Base.method1"
               }
             }
           ],
           "implementationOf": {
             "type": "reference",
-            "id": 2,
+            "target": 2,
             "name": "Base.method1"
           }
         }
@@ -137,35 +146,37 @@
       "implementedTypes": [
         {
           "type": "reference",
-          "id": 1,
-          "name": "Base"
+          "target": 1,
+          "name": "Base",
+          "package": "typedoc"
         }
       ]
     },
     {
       "id": 13,
       "name": "Class2",
+      "variant": "declaration",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 14,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "signatures": [
             {
               "id": 15,
               "name": "new Class2",
+              "variant": "signature",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 13,
-                "name": "Class2"
+                "target": 13,
+                "name": "Class2",
+                "package": "typedoc"
               }
             }
           ]
@@ -173,8 +184,8 @@
         {
           "id": 16,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -188,15 +199,23 @@
             {
               "id": 17,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 20,
+                  "character": 4,
+                  "url": "typedoc://inherit-param-doc.ts#L20"
+                }
+              ],
               "parameters": [
                 {
                   "id": 18,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -214,8 +233,8 @@
                 {
                   "id": 19,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -237,14 +256,14 @@
               },
               "implementationOf": {
                 "type": "reference",
-                "id": 3,
+                "target": 3,
                 "name": "Base.method1"
               }
             }
           ],
           "implementationOf": {
             "type": "reference",
-            "id": 2,
+            "target": 2,
             "name": "Base.method1"
           }
         }
@@ -274,35 +293,37 @@
       "implementedTypes": [
         {
           "type": "reference",
-          "id": 1,
-          "name": "Base"
+          "target": 1,
+          "name": "Base",
+          "package": "typedoc"
         }
       ]
     },
     {
       "id": 20,
       "name": "Class3",
+      "variant": "declaration",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 21,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "signatures": [
             {
               "id": 22,
               "name": "new Class3",
+              "variant": "signature",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 20,
-                "name": "Class3"
+                "target": 20,
+                "name": "Class3",
+                "package": "typedoc"
               }
             }
           ]
@@ -310,8 +331,8 @@
         {
           "id": 23,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -325,15 +346,23 @@
             {
               "id": 24,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 29,
+                  "character": 4,
+                  "url": "typedoc://inherit-param-doc.ts#L29"
+                }
+              ],
               "parameters": [
                 {
                   "id": 25,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -351,8 +380,8 @@
                 {
                   "id": 26,
                   "name": "c",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -374,14 +403,14 @@
               },
               "implementationOf": {
                 "type": "reference",
-                "id": 3,
+                "target": 3,
                 "name": "Base.method1"
               }
             }
           ],
           "implementationOf": {
             "type": "reference",
-            "id": 2,
+            "target": 2,
             "name": "Base.method1"
           }
         }
@@ -411,23 +440,24 @@
       "implementedTypes": [
         {
           "type": "reference",
-          "id": 1,
-          "name": "Base"
+          "target": 1,
+          "name": "Base",
+          "package": "typedoc"
         }
       ]
     },
     {
       "id": 1,
       "name": "Base",
+      "variant": "declaration",
       "kind": 256,
-      "kindString": "Interface",
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "method1",
+          "variant": "declaration",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -441,15 +471,23 @@
             {
               "id": 3,
               "name": "method1",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 6,
+                  "character": 4,
+                  "url": "typedoc://inherit-param-doc.ts#L6"
+                }
+              ],
               "parameters": [
                 {
                   "id": 4,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -467,8 +505,8 @@
                 {
                   "id": 5,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -511,17 +549,17 @@
       "implementedBy": [
         {
           "type": "reference",
-          "id": 6,
+          "target": 6,
           "name": "Class1"
         },
         {
           "type": "reference",
-          "id": 13,
+          "target": 13,
           "name": "Class2"
         },
         {
           "type": "reference",
-          "id": 20,
+          "target": 20,
           "name": "Class3"
         }
       ]
@@ -543,12 +581,91 @@
       ]
     }
   ],
-  "sources": [
-    {
-      "fileName": "inherit-param-doc.ts",
-      "line": 1,
-      "character": 0,
-      "url": "typedoc://inherit-param-doc.ts#L1"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "0": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": ""
+    },
+    "1": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Base"
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Base.method1"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Base.method1"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "a"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "b"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class1"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class1.method1"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class1.method1"
+    },
+    "11": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "a"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "b"
+    },
+    "13": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class2"
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class2.method1"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class2.method1"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "a"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "b"
+    },
+    "20": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class3"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class3.method1"
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "Class3.method1"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "a"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
+      "qualifiedName": "c"
     }
-  ]
+  }
 }

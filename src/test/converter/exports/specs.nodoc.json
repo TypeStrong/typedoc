@@ -1,21 +1,22 @@
 {
   "id": 0,
-  "name": "typedoc",
+  "name": "exports",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 14,
       "name": "export",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 43,
           "name": "Mod2",
+          "variant": "reference",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -38,8 +39,8 @@
         {
           "id": 45,
           "name": "b",
+          "variant": "reference",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -81,15 +82,15 @@
     {
       "id": 29,
       "name": "mod",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 31,
           "name": "b",
+          "variant": "reference",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -112,8 +113,8 @@
         {
           "id": 32,
           "name": "c",
+          "variant": "reference",
           "kind": 8388608,
-          "kindString": "Reference",
           "flags": {},
           "comment": {
             "summary": [
@@ -136,8 +137,8 @@
         {
           "id": 30,
           "name": "a",
+          "variant": "declaration",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -166,8 +167,8 @@
         {
           "id": 36,
           "name": "default",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -181,8 +182,8 @@
             {
               "id": 37,
               "name": "default",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -192,6 +193,14 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "mod.ts",
+                  "line": 23,
+                  "character": 0,
+                  "url": "typedoc://mod.ts#L23"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -224,17 +233,17 @@
       "sources": [
         {
           "fileName": "mod.ts",
-          "line": 8,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://mod.ts#L8"
+          "url": "typedoc://mod.ts#L1"
         }
       ]
     },
     {
       "id": 38,
       "name": "no-doc-members",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "comment": {
         "summary": [
@@ -258,9 +267,9 @@
       "sources": [
         {
           "fileName": "no-doc-members.ts",
-          "line": 6,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://no-doc-members.ts#L6"
+          "url": "typedoc://no-doc-members.ts#L1"
         }
       ]
     }
@@ -274,5 +283,48 @@
         38
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "14": {
+      "sourceFileName": "src/test/converter/exports/export.ts",
+      "qualifiedName": ""
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": ""
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "a"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "b"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "c"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "default"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "default"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
+      "qualifiedName": ""
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/exports/export.ts",
+      "qualifiedName": "Mod2"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/exports/mod.ts",
+      "qualifiedName": "b"
+    }
+  }
 }

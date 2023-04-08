@@ -23,8 +23,11 @@ export function hasAnyFlag(flags: number, check: number): boolean {
 }
 
 // Note: String enums are not handled.
-export function getEnumKeys(Enum: Record<string, string | number>): string[] {
-    return Object.keys(Enum).filter((k) => {
-        return Enum[Enum[k]] === k;
-    });
+export function getEnumKeys(Enum: {}): string[] {
+    const E = Enum as any;
+    return Object.keys(E).filter((k) => E[E[k]] === k);
 }
+
+export type EnumKeys<E extends {}> = keyof {
+    [K in keyof E as number extends E[K] ? K : never]: 1;
+};

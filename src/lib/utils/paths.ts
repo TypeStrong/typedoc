@@ -1,5 +1,5 @@
 import { Minimatch } from "minimatch";
-import { relative } from "path";
+import { isAbsolute, relative } from "path";
 import { normalizePath } from "./fs";
 
 /**
@@ -22,6 +22,8 @@ export function matchesAny(patterns: readonly Minimatch[], path: string) {
 }
 
 export function nicePath(absPath: string) {
+    if (!isAbsolute(absPath)) return absPath;
+
     const relativePath = relative(process.cwd(), absPath);
     if (relativePath.startsWith("..")) {
         return normalizePath(absPath);

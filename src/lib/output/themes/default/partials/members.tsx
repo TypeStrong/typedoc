@@ -1,6 +1,7 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import type { ContainerReflection } from "../../../../models";
+import { ContainerReflection, DeclarationReflection } from "../../../../models";
+import { classNames } from "../../lib";
 
 export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {
     if (props.categories && props.categories.length) {
@@ -9,7 +10,12 @@ export function members(context: DefaultThemeRenderContext, props: ContainerRefl
                 {props.categories.map(
                     (item) =>
                         !item.allChildrenHaveOwnDocument() && (
-                            <section class={"tsd-panel-group tsd-member-group " + props.cssClasses}>
+                            <section
+                                class={classNames(
+                                    { "tsd-panel-group": true, "tsd-member-group": true },
+                                    props instanceof DeclarationReflection ? context.getReflectionClasses(props) : ""
+                                )}
+                            >
                                 <h2>{item.title}</h2>
                                 {item.children.map((item) => !item.hasOwnDocument && context.member(item))}
                             </section>

@@ -30,6 +30,7 @@ export type CommentStyle = (typeof CommentStyle)[keyof typeof CommentStyle];
  * An interface describing all TypeDoc specific options. Generated from a
  * map which contains more information about each option for better types when
  * defining said options.
+ * @interface
  */
 export type TypeDocOptions = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
@@ -51,6 +52,7 @@ export type TypeDocOptions = {
  * Describes all TypeDoc specific options as returned by {@link Options.getValue}, this is
  * slightly more restrictive than the {@link TypeDocOptions} since it does not allow both
  * keys and values for mapped option types, and does not allow partials of flag values.
+ * @interface
  */
 export type TypeDocOptionValues = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
@@ -72,6 +74,17 @@ export type TypeDocOptionValues = {
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
  * External consumers should likely use {@link TypeDocOptions} instead.
+ *
+ * If writing a plugin, you may find it useful to use declaration merging to add your options to this interface
+ * so that you have autocomplete when using `app.options.getValue`.
+ *
+ * ```ts
+ * declare module "typedoc" {
+ *   export interface TypeDocOptionMap {
+ *     pluginOption: string[];
+ *   }
+ * }
+ * ```
  */
 export interface TypeDocOptionMap {
     options: string;
@@ -89,6 +102,7 @@ export interface TypeDocOptionMap {
     excludeInternal: boolean;
     excludePrivate: boolean;
     excludeProtected: boolean;
+    excludeReferences: boolean;
     externalSymbolLinkMappings: ManuallyValidatedOption<
         Record<string, Record<string, string>>
     >;
@@ -119,13 +133,16 @@ export interface TypeDocOptionMap {
     githubPages: boolean;
     gaID: string;
     hideGenerator: boolean;
+    cacheBust: boolean;
     searchInComments: boolean;
     cleanOutputDir: boolean;
     titleLink: string;
     navigationLinks: ManuallyValidatedOption<Record<string, string>>;
     sidebarLinks: ManuallyValidatedOption<Record<string, string>>;
 
+    jsDocCompatibility: JsDocCompatibility;
     commentStyle: typeof CommentStyle;
+    useTsLinkResolution: boolean;
     blockTags: `@${string}`[];
     inlineTags: `@${string}`[];
     modifierTags: `@${string}`[];
@@ -134,7 +151,7 @@ export interface TypeDocOptionMap {
     defaultCategory: string;
     categoryOrder: string[];
     sort: SortStrategy[];
-    kindSortOrder: Array<keyof typeof ReflectionKind>;
+    kindSortOrder: ReflectionKind.KindString[];
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;
@@ -152,7 +169,6 @@ export interface TypeDocOptionMap {
     version: boolean;
     showConfig: boolean;
     plugin: string[];
-    logger: unknown; // string | Function
     logLevel: typeof LogLevel;
 
     // Validation
@@ -160,7 +176,7 @@ export interface TypeDocOptionMap {
     treatValidationWarningsAsErrors: boolean;
     intentionallyNotExported: string[];
     validation: ValidationOptions;
-    requiredToBeDocumented: (keyof typeof ReflectionKind)[];
+    requiredToBeDocumented: ReflectionKind.KindString[];
 }
 
 /**
@@ -183,6 +199,19 @@ export type ValidationOptions = {
      * If set, TypeDoc will produce warnings about declarations that do not have doc comments
      */
     notDocumented: boolean;
+};
+
+export type JsDocCompatibility = {
+    /**
+     * If set, TypeDoc will treat `@example` blocks as code unless they contain a code block.
+     * On by default, this is how VSCode renders blocks.
+     */
+    exampleTag: boolean;
+    /**
+     * If set, TypeDoc will treat `@default` blocks as code unless they contain a code block.
+     * On by default, this is how VSCode renders blocks.
+     */
+    defaultTag: boolean;
 };
 
 /**
@@ -263,6 +292,12 @@ export interface DeclarationOptionBase {
      * If not set, the type will be a string.
      */
     type?: ParameterType;
+
+    /**
+     * If set, this option will be omitted from `--help`, and attempting to specify it on the command
+     * line will produce an error.
+     */
+    configFileOnly?: boolean;
 }
 
 export interface StringDeclarationOption extends DeclarationOptionBase {

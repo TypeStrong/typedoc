@@ -1,42 +1,56 @@
 // @ts-check
 "use strict";
+
+require("ts-node/register");
+
 Error.stackTraceLimit = 50;
 const ts = require("typescript");
 const fs = require("fs");
 const path = require("path");
-const TypeDoc = require("..");
-const { getExpandedEntryPointsForPaths } = require("../dist/lib/utils");
+const td = require("../src");
+const { getExpandedEntryPointsForPaths } = require("../src/lib/utils");
 const { ok } = require("assert");
-const { SourceReference } = require("..");
+const { basename } = require("path");
 
 const base = path.join(__dirname, "../src/test/converter");
 
-const app = new TypeDoc.Application();
-app.options.addReader(new TypeDoc.TSConfigReader());
+const app = new td.Application();
+app.options.addReader(new td.TSConfigReader());
 app.bootstrap({
     name: "typedoc",
     excludeExternals: true,
     disableSources: false,
     tsconfig: path.join(base, "tsconfig.json"),
     externalPattern: ["**/node_modules/**"],
-    entryPointStrategy: TypeDoc.EntryPointStrategy.Expand,
-    logLevel: TypeDoc.LogLevel.Warn,
+    entryPointStrategy: td.EntryPointStrategy.Expand,
+    logLevel: td.LogLevel.Warn,
     gitRevision: "fake",
+    readme: "none",
 });
 app.serializer.addSerializer({
     priority: -1,
     supports(obj) {
-        return obj instanceof SourceReference;
+        return obj instanceof td.SourceReference;
     },
     /**
-     * @param {SourceReference} ref
+     * @param {td.SourceReference} ref
      */
-    toObject(ref, obj, _serializer) {
+    toObject(ref, obj) {
         if (obj.url) {
             obj.url = `typedoc://${obj.url.substring(
                 obj.url.indexOf(ref.fileName)
             )}`;
         }
+        return obj;
+    },
+});
+app.serializer.addSerializer({
+    priority: -1,
+    supports(obj) {
+        return obj instanceof td.ProjectReflection;
+    },
+    toObject(_refl, obj) {
+        delete obj.packageVersion;
         return obj;
     },
 });
@@ -85,7 +99,7 @@ function rebuildConverterTests(dirs) {
         for (const [file, before, after] of conversions) {
             const out = path.join(fullPath, `${file}.json`);
             if (fs.existsSync(out)) {
-                TypeDoc.resetReflectionID();
+                td.resetReflectionID();
                 before();
                 const entry = getExpandedEntryPointsForPaths(
                     app.logger,
@@ -95,7 +109,11 @@ function rebuildConverterTests(dirs) {
                 );
                 ok(entry, "Missing entry point");
                 const result = app.converter.convert(entry);
-                const serialized = app.serializer.toObject(result);
+                result.name = basename(fullPath);
+                const serialized = app.serializer.projectToObject(
+                    result,
+                    process.cwd()
+                );
 
                 const data = JSON.stringify(serialized, null, "  ") + "\n";
                 after();

@@ -1,21 +1,22 @@
 {
   "id": 0,
-  "name": "typedoc",
+  "name": "variables",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "array",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "Array",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -37,15 +38,15 @@
             {
               "id": 6,
               "name": "T",
+              "variant": "typeParam",
               "kind": 131072,
-              "kindString": "Type parameter",
               "flags": {}
             }
           ],
           "extendedBy": [
             {
               "type": "reference",
-              "id": 12,
+              "target": 12,
               "name": "FooList"
             }
           ]
@@ -53,8 +54,8 @@
         {
           "id": 9,
           "name": "Foo",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -76,8 +77,8 @@
         {
           "id": 12,
           "name": "FooList",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -98,23 +99,25 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 2,
+              "target": 2,
               "typeArguments": [
                 {
                   "type": "reference",
-                  "id": 9,
-                  "name": "Foo"
+                  "target": 9,
+                  "name": "Foo",
+                  "package": "typedoc"
                 }
               ],
-              "name": "Array"
+              "name": "Array",
+              "package": "typedoc"
             }
           ]
         },
         {
           "id": 7,
           "name": "complex",
+          "variant": "declaration",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -150,14 +153,15 @@
                           "type": "array",
                           "elementType": {
                             "type": "reference",
-                            "id": 2,
+                            "target": 2,
                             "typeArguments": [
                               {
                                 "type": "intrinsic",
                                 "name": "string"
                               }
                             ],
-                            "name": "Array"
+                            "name": "Array",
+                            "package": "typedoc"
                           }
                         },
                         {
@@ -183,8 +187,8 @@
         {
           "id": 8,
           "name": "custom",
+          "variant": "declaration",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -206,14 +210,15 @@
           ],
           "type": {
             "type": "reference",
-            "id": 2,
+            "target": 2,
             "typeArguments": [
               {
                 "type": "intrinsic",
                 "name": "number"
               }
             ],
-            "name": "Array"
+            "name": "Array",
+            "package": "typedoc"
           },
           "defaultValue": "{}"
         }
@@ -238,24 +243,24 @@
       "sources": [
         {
           "fileName": "array.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://array.ts#L4"
+          "url": "typedoc://array.ts#L1"
         }
       ]
     },
     {
       "id": 15,
       "name": "destructuring",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 16,
           "name": "drawText",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -269,8 +274,8 @@
             {
               "id": 17,
               "name": "drawText",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "comment": {
                 "summary": [
@@ -280,12 +285,20 @@
                   }
                 ]
               },
+              "sources": [
+                {
+                  "fileName": "destructuring.ts",
+                  "line": 38,
+                  "character": 0,
+                  "url": "typedoc://destructuring.ts#L38"
+                }
+              ],
               "parameters": [
                 {
                   "id": 18,
                   "name": "__namedParameters",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -312,24 +325,24 @@
       "sources": [
         {
           "fileName": "destructuring.ts",
-          "line": 4,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://destructuring.ts#L4"
+          "url": "typedoc://destructuring.ts#L1"
         }
       ]
     },
     {
       "id": 30,
       "name": "literal",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 70,
           "name": "objectLiteral",
+          "variant": "declaration",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isConst": true
           },
@@ -354,15 +367,15 @@
             "declaration": {
               "id": 71,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
-              "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
                   "id": 89,
                   "name": "[toStringTag]",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -381,8 +394,8 @@
                 {
                   "id": 90,
                   "name": "literal",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -401,8 +414,8 @@
                 {
                   "id": 91,
                   "name": "literal2",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -421,8 +434,8 @@
                 {
                   "id": 87,
                   "name": "valueA",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -441,8 +454,8 @@
                 {
                   "id": 88,
                   "name": "valueB",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -461,8 +474,8 @@
                 {
                   "id": 76,
                   "name": "valueX",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -477,15 +490,15 @@
                     "declaration": {
                       "id": 77,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 86,
                           "name": "valueA",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -507,8 +520,8 @@
                         {
                           "id": 79,
                           "name": "valueY",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -523,8 +536,8 @@
                             "declaration": {
                               "id": 80,
                               "name": "__type",
+                              "variant": "declaration",
                               "kind": 65536,
-                              "kindString": "Type literal",
                               "flags": {},
                               "sources": [
                                 {
@@ -538,15 +551,23 @@
                                 {
                                   "id": 81,
                                   "name": "__type",
+                                  "variant": "signature",
                                   "kind": 4096,
-                                  "kindString": "Call signature",
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 12,
+                                      "character": 16,
+                                      "url": "typedoc://literal.ts#L12"
+                                    }
+                                  ],
                                   "parameters": [
                                     {
                                       "id": 82,
                                       "name": "z",
+                                      "variant": "param",
                                       "kind": 32768,
-                                      "kindString": "Parameter",
                                       "flags": {},
                                       "type": {
                                         "type": "intrinsic",
@@ -559,15 +580,15 @@
                                     "declaration": {
                                       "id": 83,
                                       "name": "__type",
+                                      "variant": "declaration",
                                       "kind": 65536,
-                                      "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
                                           "id": 84,
                                           "name": "a",
+                                          "variant": "declaration",
                                           "kind": 1024,
-                                          "kindString": "Property",
                                           "flags": {},
                                           "sources": [
                                             {
@@ -586,8 +607,8 @@
                                         {
                                           "id": 85,
                                           "name": "b",
+                                          "variant": "declaration",
                                           "kind": 1024,
-                                          "kindString": "Property",
                                           "flags": {},
                                           "sources": [
                                             {
@@ -632,8 +653,8 @@
                         {
                           "id": 78,
                           "name": "valueZ",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -675,8 +696,8 @@
                 {
                   "id": 73,
                   "name": "valueY",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -691,8 +712,8 @@
                     "declaration": {
                       "id": 74,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "sources": [
                         {
@@ -706,9 +727,17 @@
                         {
                           "id": 75,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
-                          "kindString": "Call signature",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 7,
+                              "character": 12,
+                              "url": "typedoc://literal.ts#L7"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -722,8 +751,8 @@
                 {
                   "id": 72,
                   "name": "valueZ",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -770,8 +799,8 @@
         {
           "id": 31,
           "name": "typeLiteral",
+          "variant": "declaration",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {},
           "comment": {
             "summary": [
@@ -794,15 +823,15 @@
             "declaration": {
               "id": 32,
               "name": "__type",
+              "variant": "declaration",
               "kind": 65536,
-              "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
                   "id": 48,
                   "name": "valueA",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {
                     "isOptional": true
                   },
@@ -822,8 +851,8 @@
                 {
                   "id": 49,
                   "name": "valueB",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {
                     "isOptional": true
                   },
@@ -843,8 +872,8 @@
                 {
                   "id": 37,
                   "name": "valueX",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -859,15 +888,15 @@
                     "declaration": {
                       "id": 38,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
                           "id": 47,
                           "name": "valueA",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -888,8 +917,8 @@
                         {
                           "id": 40,
                           "name": "valueY",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -904,8 +933,8 @@
                             "declaration": {
                               "id": 41,
                               "name": "__type",
+                              "variant": "declaration",
                               "kind": 65536,
-                              "kindString": "Type literal",
                               "flags": {},
                               "sources": [
                                 {
@@ -919,15 +948,23 @@
                                 {
                                   "id": 42,
                                   "name": "__type",
+                                  "variant": "signature",
                                   "kind": 4096,
-                                  "kindString": "Call signature",
                                   "flags": {},
+                                  "sources": [
+                                    {
+                                      "fileName": "literal.ts",
+                                      "line": 32,
+                                      "character": 18,
+                                      "url": "typedoc://literal.ts#L32"
+                                    }
+                                  ],
                                   "parameters": [
                                     {
                                       "id": 43,
                                       "name": "z",
+                                      "variant": "param",
                                       "kind": 32768,
-                                      "kindString": "Parameter",
                                       "flags": {},
                                       "type": {
                                         "type": "intrinsic",
@@ -940,15 +977,15 @@
                                     "declaration": {
                                       "id": 44,
                                       "name": "__type",
+                                      "variant": "declaration",
                                       "kind": 65536,
-                                      "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
                                           "id": 45,
                                           "name": "a",
+                                          "variant": "declaration",
                                           "kind": 1024,
-                                          "kindString": "Property",
                                           "flags": {},
                                           "sources": [
                                             {
@@ -966,8 +1003,8 @@
                                         {
                                           "id": 46,
                                           "name": "b",
+                                          "variant": "declaration",
                                           "kind": 1024,
-                                          "kindString": "Property",
                                           "flags": {},
                                           "sources": [
                                             {
@@ -1010,8 +1047,8 @@
                         {
                           "id": 39,
                           "name": "valueZ",
+                          "variant": "declaration",
                           "kind": 1024,
-                          "kindString": "Property",
                           "flags": {},
                           "sources": [
                             {
@@ -1051,8 +1088,8 @@
                 {
                   "id": 34,
                   "name": "valueY",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -1067,8 +1104,8 @@
                     "declaration": {
                       "id": 35,
                       "name": "__type",
+                      "variant": "declaration",
                       "kind": 65536,
-                      "kindString": "Type literal",
                       "flags": {},
                       "sources": [
                         {
@@ -1082,9 +1119,17 @@
                         {
                           "id": 36,
                           "name": "__type",
+                          "variant": "signature",
                           "kind": 4096,
-                          "kindString": "Call signature",
                           "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal.ts",
+                              "line": 29,
+                              "character": 14,
+                              "url": "typedoc://literal.ts#L29"
+                            }
+                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -1097,8 +1142,8 @@
                 {
                   "id": 33,
                   "name": "valueZ",
+                  "variant": "declaration",
                   "kind": 1024,
-                  "kindString": "Property",
                   "flags": {},
                   "sources": [
                     {
@@ -1166,5 +1211,220 @@
         30
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "Array"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "Array.T"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "complex"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "custom"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "Foo"
+    },
+    "12": {
+      "sourceFileName": "src/test/converter/variables/array.ts",
+      "qualifiedName": "FooList"
+    },
+    "15": {
+      "sourceFileName": "src/test/converter/variables/destructuring.ts",
+      "qualifiedName": ""
+    },
+    "16": {
+      "sourceFileName": "src/test/converter/variables/destructuring.ts",
+      "qualifiedName": "drawText"
+    },
+    "17": {
+      "sourceFileName": "src/test/converter/variables/destructuring.ts",
+      "qualifiedName": "drawText"
+    },
+    "18": {
+      "sourceFileName": "src/test/converter/variables/destructuring.ts",
+      "qualifiedName": "__0"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": ""
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "typeLiteral"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueZ"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueY"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueX"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueZ"
+    },
+    "40": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueY"
+    },
+    "41": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "42": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "43": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "z"
+    },
+    "44": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type"
+    },
+    "45": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.a"
+    },
+    "46": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.b"
+    },
+    "47": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueA"
+    },
+    "48": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueA"
+    },
+    "49": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueB"
+    },
+    "70": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "objectLiteral"
+    },
+    "71": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object"
+    },
+    "72": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueZ"
+    },
+    "73": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueY"
+    },
+    "74": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__function"
+    },
+    "75": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__function"
+    },
+    "76": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueX"
+    },
+    "77": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object"
+    },
+    "78": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueZ"
+    },
+    "79": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueY"
+    },
+    "80": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__function"
+    },
+    "81": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__function"
+    },
+    "82": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "z"
+    },
+    "83": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object"
+    },
+    "84": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.a"
+    },
+    "85": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.b"
+    },
+    "86": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueA"
+    },
+    "87": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueA"
+    },
+    "88": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueB"
+    },
+    "89": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.[toStringTag]"
+    },
+    "90": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.literal"
+    },
+    "91": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.literal2"
+    }
+  }
 }

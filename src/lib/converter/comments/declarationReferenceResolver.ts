@@ -2,6 +2,7 @@ import { ok } from "assert";
 import {
     ContainerReflection,
     DeclarationReflection,
+    ReferenceReflection,
     Reflection,
     ReflectionKind,
 } from "../../models";
@@ -12,6 +13,13 @@ import type {
     Meaning,
     MeaningKeyword,
 } from "./declarationReference";
+
+function resolveReferenceReflection(ref: Reflection): Reflection {
+    if (ref instanceof ReferenceReflection) {
+        return ref.getTargetReflectionDeep();
+    }
+    return ref;
+}
 
 export function resolveDeclarationReference(
     reflection: Reflection,
@@ -76,14 +84,14 @@ export function resolveDeclarationReference(
 
             for (const refl of high2) {
                 const resolved = resolveSymbolReferencePart(refl, part);
-                high.push(...resolved.high);
-                low.push(...resolved.low);
+                high.push(...resolved.high.map(resolveReferenceReflection));
+                low.push(...resolved.low.map(resolveReferenceReflection));
             }
 
             for (const refl of low2) {
                 const resolved = resolveSymbolReferencePart(refl, part);
-                low.push(...resolved.high);
-                low.push(...resolved.low);
+                low.push(...resolved.high.map(resolveReferenceReflection));
+                low.push(...resolved.low.map(resolveReferenceReflection));
             }
         }
 
@@ -103,7 +111,7 @@ function filterMapByMeaning(
     return filterMap(reflections, (refl): Reflection | undefined => {
         const kwResolved = resolveKeyword(refl, meaning.keyword) || [];
         if (meaning.label) {
-            return kwResolved.find((r) => r.label === meaning.label);
+            return kwResolved.find((r) => r.comment?.label === meaning.label);
         }
         return kwResolved[meaning.index || 0];
     });

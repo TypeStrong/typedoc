@@ -49,7 +49,7 @@ export class Toggle extends Component {
         if (this.active) {
             if (
                 (e.target as HTMLElement).closest(
-                    ".col-menu, .tsd-filter-group"
+                    ".col-sidebar, .tsd-filter-group"
                 )
             ) {
                 return;
@@ -62,7 +62,7 @@ export class Toggle extends Component {
     onDocumentPointerUp(e: Event) {
         if (hasPointerMoved) return;
         if (this.active) {
-            if ((e.target as HTMLElement).closest(".col-menu")) {
+            if ((e.target as HTMLElement).closest(".col-sidebar")) {
                 const link = (e.target as HTMLElement).closest("a");
                 if (link) {
                     let href = window.location.href;

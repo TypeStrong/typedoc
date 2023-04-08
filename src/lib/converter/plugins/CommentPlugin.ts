@@ -122,7 +122,7 @@ export class CommentPlugin extends ConverterComponent {
     private get excludeNotDocumentedKinds(): number {
         this._excludeKinds ??= this.application.options
             .getValue("excludeNotDocumentedKinds")
-            .reduce((a, b) => a | ReflectionKind[b], 0);
+            .reduce((a, b) => a | (ReflectionKind[b] as number), 0);
         return this._excludeKinds;
     }
 
@@ -149,6 +149,14 @@ export class CommentPlugin extends ConverterComponent {
      * @param comment  The comment that should be searched for modifiers.
      */
     private applyModifiers(reflection: Reflection, comment: Comment) {
+        if (reflection.kindOf(ReflectionKind.SomeModule)) {
+            comment.removeModifier("@namespace");
+        }
+
+        if (reflection.kindOf(ReflectionKind.Interface)) {
+            comment.removeModifier("@interface");
+        }
+
         if (comment.hasModifier("@private")) {
             reflection.setFlag(ReflectionFlag.Private);
             if (reflection.kindOf(ReflectionKind.CallSignature)) {
@@ -327,17 +335,20 @@ export class CommentPlugin extends ConverterComponent {
      */
     private onResolve(context: Context, reflection: Reflection) {
         if (reflection.comment) {
-            reflection.label = extractLabelTag(reflection.comment);
-            if (reflection.label && !/[A-Z_][A-Z0-9_]/.test(reflection.label)) {
+            if (
+                reflection.comment.label &&
+                !/[A-Z_][A-Z0-9_]/.test(reflection.comment.label)
+            ) {
                 context.logger.warn(
                     `The label "${
-                        reflection.label
+                        reflection.comment.label
                     }" for ${reflection.getFriendlyFullName()} cannot be referenced with a declaration reference. ` +
                         `Labels may only contain A-Z, 0-9, and _, and may not start with a number.`
                 );
             }
 
             mergeSeeTags(reflection.comment);
+            movePropertyTags(reflection.comment, reflection);
         }
 
         if (!(reflection instanceof DeclarationReflection)) {
@@ -576,15 +587,25 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
     parameter.type?.visit(visitor);
 }
 
-function extractLabelTag(comment: Comment): string | undefined {
-    const index = comment.summary.findIndex(
-        (part) => part.kind === "inline-tag" && part.tag === "@label"
+function movePropertyTags(comment: Comment, container: Reflection) {
+    const propTags = comment.blockTags.filter(
+        (tag) => tag.tag === "@prop" || tag.tag === "@property"
     );
+    comment.removeTags("@prop");
+    comment.removeTags("@property");
 
-    if (index !== -1) {
-        return comment.summary.splice(index, 1)[0].text;
+    for (const prop of propTags) {
+        if (!prop.name) continue;
+
+        const child = container.getChildByName(prop.name);
+        if (child) {
+            child.comment = new Comment(
+                Comment.cloneDisplayParts(prop.content)
+            );
+        }
     }
 }
+
 function mergeSeeTags(comment: Comment) {
     const see = comment.getTags("@see");
 

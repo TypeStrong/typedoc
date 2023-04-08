@@ -4,6 +4,8 @@ import ts from "typescript";
 import {
     Application,
     EntryPointStrategy,
+    JSONOutput,
+    ProjectReflection,
     SourceReference,
     TSConfigReader,
 } from "..";
@@ -23,7 +25,6 @@ export function getConverterApp() {
         converterApp = new Application();
         converterApp.options.addReader(new TSConfigReader());
         converterApp.bootstrap({
-            logger: "none",
             name: "typedoc",
             excludeExternals: true,
             disableSources: false,
@@ -32,6 +33,7 @@ export function getConverterApp() {
             plugin: [],
             entryPointStrategy: EntryPointStrategy.Expand,
             gitRevision: "fake",
+            readme: "none",
         });
 
         converterApp.serializer.addSerializer({
@@ -49,6 +51,19 @@ export function getConverterApp() {
                         obj.url.indexOf(ref.fileName)
                     )}`;
                 }
+                return obj;
+            },
+        });
+        converterApp.serializer.addSerializer({
+            priority: -1,
+            supports(obj) {
+                return obj instanceof ProjectReflection;
+            },
+            toObject(
+                _refl: ProjectReflection,
+                obj: JSONOutput.ProjectReflection
+            ) {
+                delete obj.packageVersion;
                 return obj;
             },
         });
@@ -82,7 +97,6 @@ export function getConverter2App() {
         converter2App.bootstrap({
             excludeExternals: true,
             tsconfig: join(getConverter2Base(), "tsconfig.json"),
-            plugin: [],
             validation: true,
         });
     }

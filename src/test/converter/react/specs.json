@@ -1,22 +1,22 @@
 {
   "id": 0,
-  "name": "typedoc",
+  "name": "react",
+  "variant": "project",
   "kind": 1,
-  "kindString": "Project",
   "flags": {},
   "children": [
     {
       "id": 4,
       "name": "Demo",
+      "variant": "declaration",
       "kind": 128,
-      "kindString": "Class",
       "flags": {},
       "children": [
         {
           "id": 5,
           "name": "constructor",
+          "variant": "declaration",
           "kind": 512,
-          "kindString": "Constructor",
           "flags": {},
           "sources": [
             {
@@ -30,27 +30,37 @@
             {
               "id": 6,
               "name": "new Demo",
+              "variant": "signature",
               "kind": 16384,
-              "kindString": "Constructor signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 20,
+                  "character": 4,
+                  "url": "typedoc://react.tsx#L20"
+                }
+              ],
               "parameters": [
                 {
                   "id": 7,
                   "name": "props",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 1,
-                    "name": "DemoProps"
+                    "target": 1,
+                    "name": "DemoProps",
+                    "package": "typedoc"
                   }
                 }
               ],
               "type": {
                 "type": "reference",
-                "id": 4,
-                "name": "Demo"
+                "target": 4,
+                "name": "Demo",
+                "package": "typedoc"
               }
             }
           ]
@@ -58,8 +68,8 @@
         {
           "id": 8,
           "name": "foo",
+          "variant": "declaration",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {
             "isPrivate": true
           },
@@ -79,8 +89,8 @@
         {
           "id": 9,
           "name": "render",
+          "variant": "declaration",
           "kind": 2048,
-          "kindString": "Method",
           "flags": {},
           "sources": [
             {
@@ -94,9 +104,17 @@
             {
               "id": 10,
               "name": "render",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 25,
+                  "character": 4,
+                  "url": "typedoc://react.tsx#L25"
+                }
+              ],
               "type": {
                 "type": "intrinsic",
                 "name": "any"
@@ -137,15 +155,15 @@
     {
       "id": 1,
       "name": "DemoProps",
+      "variant": "declaration",
       "kind": 256,
-      "kindString": "Interface",
       "flags": {},
       "children": [
         {
           "id": 3,
           "name": "age",
+          "variant": "declaration",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -163,8 +181,8 @@
         {
           "id": 2,
           "name": "name",
+          "variant": "declaration",
           "kind": 1024,
-          "kindString": "Property",
           "flags": {},
           "sources": [
             {
@@ -213,12 +231,51 @@
       ]
     }
   ],
-  "sources": [
-    {
-      "fileName": "react.tsx",
-      "line": 2,
-      "character": 0,
-      "url": "typedoc://react.tsx#L2"
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "0": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": ""
+    },
+    "1": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "DemoProps"
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "DemoProps.name"
+    },
+    "3": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "DemoProps.age"
+    },
+    "4": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo.__constructor"
+    },
+    "6": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo"
+    },
+    "7": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "props"
+    },
+    "8": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo.foo"
+    },
+    "9": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo.render"
+    },
+    "10": {
+      "sourceFileName": "src/test/converter/react/react.tsx",
+      "qualifiedName": "Demo.render"
     }
-  ]
+  }
 }

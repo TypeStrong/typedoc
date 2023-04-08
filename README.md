@@ -19,7 +19,7 @@ npm install typedoc --save-dev
 
 ## Usage
 
-To generate documentation TypeDoc needs to know your project entry point, and TypeScript
+To generate documentation TypeDoc needs to know your project entry point and TypeScript
 compiler options. It will automatically try to find your `tsconfig.json` file, so you can
 just specify the entry point of your library:
 
@@ -38,37 +38,10 @@ By default, TypeDoc will search for a file called `index` under the directory.
 
 ### Monorepos / Workspaces
 
-If your codebase is comprised of one or more npm packages, you can pass the paths to these
-packages and TypeDoc will attempt to determine entry points based on `package.json`'s `main`
-property (with default value `index.js`) and if it wasn't found, based on `types` property.
-If any of the packages given are the root of an [npm Workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
-or a [Yarn Workspace](https://classic.yarnpkg.com/en/docs/workspaces/) TypeDoc will find all
-the `workspaces` defined in the `package.json`. In order to find your entry points, TypeDoc requires
-either that you turn on sourcemaps so that it can discover the original TS file, or that you
-specify `"typedocMain": "src/index.ts"` to explicitly state where the package entry point is.
-Supports wildcard paths in the same fashion as those found in npm or Yarn workspaces.
-
-#### Single npm module
-
-```bash
-typedoc --entryPointStrategy packages .
-```
-
-#### Monorepo with npm/Yarn workspace at the root
-
-```bash
-typedoc --entryPointStrategy packages .
-```
-
-#### Monorepo with manually specified sub-packages to document
-
-This can be useful if you do not want all your workspaces to be processed.
-Accepts the same paths as would go in the `package.json`'s workspaces
-
-```bash
-# Note the single quotes prevent shell wildcard expansion, allowing typedoc to do the expansion
-typedoc --entryPointStrategy packages a-package 'some-more-packages/*' 'some-other-packages/*'
-```
+If your codebase is comprised of one or more npm packages, you can build documentation for each of them individually
+and merge the results together into a single site by setting `entryPointStrategy` to `packages`. In this mode TypeDoc
+requires configuration to be present in each directory to specify the entry points. For an example setup, see
+https://github.com/Gerrit0/typedoc-packages-example
 
 ### Arguments
 

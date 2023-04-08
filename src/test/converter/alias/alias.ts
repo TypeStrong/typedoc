@@ -1,3 +1,5 @@
+import { TestClass } from "../class/class";
+
 /**
  * A type that describes a compare function, e.g. for array.sort().
  */
@@ -17,3 +19,8 @@ export type IsString<T> = T extends string ? "string" : "not string";
  * Extracts the type of a promise.
  */
 export type PromiseType<T> = T extends PromiseLike<infer U> ? U : T;
+
+/**
+ * {@link class!class.TestClass}
+ */
+export type MergedCrossReference = TestClass;

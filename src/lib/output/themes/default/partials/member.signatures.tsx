@@ -2,10 +2,11 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import type { DeclarationReflection } from "../../../../models";
 import { anchorIcon } from "./anchor-icon";
+import { classNames } from "../../lib";
 
 export const memberSignatures = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
-        <ul class={"tsd-signatures " + props.cssClasses}>
+        <ul class={classNames({ "tsd-signatures": true }, context.getReflectionClasses(props))}>
             {props.signatures?.map((item) => (
                 <>
                     <li class="tsd-signature tsd-anchor-link" id={item.anchor}>

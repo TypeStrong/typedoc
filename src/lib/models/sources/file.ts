@@ -1,3 +1,4 @@
+import type { Deserializer } from "../../serialization/deserializer";
 import type { SourceReference as JSONSourceReference } from "../../serialization/schema";
 
 /**
@@ -45,5 +46,9 @@ export class SourceReference {
             character: this.character,
             url: this.url,
         };
+    }
+
+    fromObject(_de: Deserializer, obj: JSONSourceReference) {
+        this.url = obj.url;
     }
 }

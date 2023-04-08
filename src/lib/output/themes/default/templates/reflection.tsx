@@ -1,4 +1,4 @@
-import { hasTypeParameters } from "../../lib";
+import { classNames, hasTypeParameters } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import type { PageEvent } from "../../../events";
 import { ContainerReflection, DeclarationReflection, ReflectionKind, ReflectionType } from "../../../../models";
@@ -8,8 +8,10 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
     if (
         [ReflectionKind.TypeAlias, ReflectionKind.Variable].includes(props.model.kind) &&
         props.model instanceof DeclarationReflection
-    )
+    ) {
         return context.memberDeclaration(props.model);
+    }
+
     return (
         <>
             {props.model.hasComment() && (
@@ -45,7 +47,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                         <section class="tsd-panel">{context.memberSignatures(props.model)}</section>
                     )}
                     {!!props.model.indexSignature && (
-                        <section class={"tsd-panel " + props.model.cssClasses}>
+                        <section class={classNames({ "tsd-panel": true }, context.getReflectionClasses(props.model))}>
                             <h4 class="tsd-before-signature">Indexable</h4>
                             <div class="tsd-signature">
                                 <span class="tsd-signature-symbol">[</span>

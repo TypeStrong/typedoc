@@ -6,7 +6,8 @@
         "experimentalDecorators": true,
         "resolveJsonModule": true,
         "rootDir": ".",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "skipLibCheck": true
     },
     "include": ["."]
 }

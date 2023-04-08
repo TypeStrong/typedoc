@@ -7,7 +7,6 @@ import { TestLogger } from "../../../TestLogger";
 
 describe("Options - TypeDocReader", () => {
     const options = new Options(new Logger());
-    options.addDefaultDeclarations();
     options.addReader(new TypeDocReader());
 
     it("Supports comments in json", () => {
@@ -119,7 +118,7 @@ describe("Options - TypeDocReader", () => {
         {
             someOptionThatDoesNotExist: true,
         },
-        "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared."
+        "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared. You may have meant:*"
     );
     testError(
         "Errors if extends results in a loop",
@@ -143,7 +142,6 @@ describe("Options - TypeDocReader", () => {
             }
         })(new Logger());
 
-        options.addDefaultDeclarations();
         options.addReader(new TypeDocReader());
         const logger = new Logger();
         options.read(logger);

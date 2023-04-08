@@ -7,6 +7,7 @@ import {
     ProjectReflection,
     Reflection,
     ReflectionKind,
+    ReflectionSymbolId,
     SomeType,
 } from "../models/index";
 import { Context } from "./context";
@@ -20,7 +21,7 @@ import { createMinimatch, matchesAny } from "../utils/paths";
 import type { Minimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
-import { CommentParserConfig, getComment } from "./comments";
+import type { CommentParserConfig } from "./comments";
 import type {
     CommentStyle,
     ValidationOptions,
@@ -70,6 +71,10 @@ export class Converter extends ChildableComponent<
     excludeProtected!: boolean;
 
     /** @internal */
+    @BindOption("excludeReferences")
+    excludeReferences!: boolean;
+
+    /** @internal */
     @BindOption("commentStyle")
     commentStyle!: CommentStyle;
 
@@ -80,6 +85,10 @@ export class Converter extends ChildableComponent<
     /** @internal */
     @BindOption("externalSymbolLinkMappings")
     externalSymbolLinkMappings!: Record<string, Record<string, string>>;
+
+    /** @internal */
+    @BindOption("useTsLinkResolution")
+    useTsLinkResolution!: boolean;
 
     private _config?: CommentParserConfig;
     private _externalSymbolResolvers: Array<ExternalSymbolResolver> = [];
@@ -112,7 +121,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a declaration reflection.
-     * The listener will be given {@link Context} and a {@link DeclarationReflection}.
+     * The listener will be given {@link Context} and a {@link Models.DeclarationReflection}.
      * @event
      */
     static readonly EVENT_CREATE_DECLARATION =
@@ -120,7 +129,7 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a signature reflection.
-     * The listener will be given {@link Context}, {@link SignatureReflection} | {@link ProjectReflection} the declaration,
+     * The listener will be given {@link Context}, {@link Models.SignatureReflection} | {@link Models.ProjectReflection} the declaration,
      * `ts.SignatureDeclaration | ts.IndexSignatureDeclaration | ts.JSDocSignature | undefined`,
      * and `ts.Signature | undefined`. The signature will be undefined if the created signature is an index signature.
      * @event
@@ -129,14 +138,14 @@ export class Converter extends ChildableComponent<
 
     /**
      * Triggered when the converter has created a parameter reflection.
-     * The listener will be given {@link Context}, {@link ParameterReflection} and a `ts.Node?`
+     * The listener will be given {@link Context}, {@link Models.ParameterReflection} and a `ts.Node?`
      * @event
      */
     static readonly EVENT_CREATE_PARAMETER = ConverterEvents.CREATE_PARAMETER;
 
     /**
      * Triggered when the converter has created a type parameter reflection.
-     * The listener will be given {@link Context} and a {@link TypeParameterReflection}
+     * The listener will be given {@link Context} and a {@link Models.TypeParameterReflection}
      * @event
      */
     static readonly EVENT_CREATE_TYPE_PARAMETER =
@@ -218,10 +227,9 @@ export class Converter extends ChildableComponent<
 
         this.compile(entryPoints, context);
         this.resolve(context);
-        // This should only do anything if a plugin does something bad.
-        project.removeDanglingReferences();
 
         this.trigger(Converter.EVENT_END, context);
+        this._config = undefined;
 
         return project;
     }
@@ -283,10 +291,11 @@ export class Converter extends ChildableComponent<
     resolveExternalLink(
         ref: DeclarationReference,
         refl: Reflection,
-        part?: CommentDisplayPart
+        part: CommentDisplayPart | undefined,
+        symbolId: ReflectionSymbolId | undefined
     ): ExternalResolveResult | string | undefined {
         for (const resolver of this._externalSymbolResolvers) {
-            const resolved = resolver(ref, refl, part);
+            const resolved = resolver(ref, refl, part, symbolId);
             if (resolved) return resolved;
         }
     }
@@ -301,31 +310,12 @@ export class Converter extends ChildableComponent<
         owner: Reflection
     ): CommentDisplayPart[] | undefined {
         if (comment instanceof Comment) {
-            resolveLinks(
-                comment,
-                owner,
-                this.validation,
-                this.owner.logger,
-                (ref, part, refl) => this.resolveExternalLink(ref, part, refl)
+            resolveLinks(comment, owner, (ref, part, refl, id) =>
+                this.resolveExternalLink(ref, part, refl, id)
             );
         } else {
-            let warned = false;
-            const warn = () => {
-                if (!warned) {
-                    warned = true;
-                    this.application.logger.warn(
-                        `${owner.name}: Comment [[target]] style links are deprecated and will be removed in 0.24`
-                    );
-                }
-            };
-
-            return resolvePartLinks(
-                owner,
-                comment,
-                warn,
-                this.validation,
-                this.owner.logger,
-                (ref, part, refl) => this.resolveExternalLink(ref, part, refl)
+            return resolvePartLinks(owner, comment, (ref, part, refl, id) =>
+                this.resolveExternalLink(ref, part, refl, id)
             );
         }
     }
@@ -379,14 +369,7 @@ export class Converter extends ChildableComponent<
             // create modules for each entry. Register the project as this module.
             context.project.registerReflection(context.project, symbol);
             context.project.comment =
-                symbol &&
-                getComment(
-                    symbol,
-                    context.project.kind,
-                    this.config,
-                    this.application.logger,
-                    this.commentStyle
-                );
+                symbol && context.getComment(symbol, context.project.kind);
             context.trigger(
                 Converter.EVENT_CREATE_DECLARATION,
                 context.project
@@ -421,7 +404,7 @@ export class Converter extends ChildableComponent<
                 reflection.readme = comment.summary;
             }
 
-            reflection.version = entryPoint.version;
+            reflection.packageVersion = entryPoint.version;
 
             context.finalizeDeclarationReflection(reflection);
             moduleContext = context.withScope(reflection);
@@ -511,6 +494,8 @@ export class Converter extends ChildableComponent<
             modifierTags: new Set(
                 this.application.options.getValue("modifierTags")
             ),
+            jsDocCompatibility:
+                this.application.options.getValue("jsDocCompatibility"),
         };
         return this._config;
     }

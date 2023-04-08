@@ -1,9 +1,8 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.23.28",
+  "version": "0.24.0-beta.8",
   "homepage": "https://typedoc.org",
-  "main": "./dist/index.js",
   "exports": {
     ".": "./dist/index.js",
     "./tsdoc.json": "./tsdoc.json",
@@ -40,7 +39,7 @@
     "@types/node": "14",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
-    "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#5a9486bc66f6e36988106685768396281f6cbc10",
+    "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#8abd1494280116ff5318dde2c50ad01e1663790c",
     "c8": "^7.13.0",
     "esbuild": "^0.17.12",
     "eslint": "^8.36.0",
@@ -74,7 +73,7 @@
     "build:tsc": "tsc --project .",
     "build:themes": "node scripts/build_themes.js",
     "build:prod": "npm run build:prod:tsc && npm run build:themes",
-    "build:prod:tsc": "tsc --project . --sourceMap false",
+    "build:prod:tsc": "tsc --project . --sourceMap false --declarationMap false",
     "lint": "eslint . && npm run prettier -- --check .",
     "prettier": "prettier --config .config/.prettierrc.json --ignore-path .config/.prettierignore",
     "prepublishOnly": "node scripts/set_strict.js false && npm run build:prod && npm test",

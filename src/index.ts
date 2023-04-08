@@ -3,6 +3,10 @@ export { Application } from "./lib/application";
 export { EventDispatcher, Event } from "./lib/utils/events";
 export { resetReflectionID } from "./lib/models/reflections/abstract";
 export { normalizePath } from "./lib/utils/fs";
+/**
+ * All symbols documented under the Models namespace are also available in the root import.
+ */
+export * as Models from "./lib/models";
 export * from "./lib/models";
 export {
     Converter,
@@ -38,6 +42,7 @@ export {
     LogLevel,
     Logger,
     Options,
+    PackageJsonReader,
     ParameterHint,
     ParameterType,
     TSConfigReader,
@@ -69,6 +74,7 @@ export type {
     ParameterTypeToOptionTypeMap,
     DocumentationEntryPoint,
     ManuallyValidatedOption,
+    EnumKeys,
 } from "./lib/utils";
 
 export type { EventMap, EventCallback } from "./lib/utils/events";
@@ -76,10 +82,12 @@ export type { EventMap, EventCallback } from "./lib/utils/events";
 export {
     JSONOutput,
     Serializer,
+    Deserializer,
+    type Deserializable,
+    type DeserializerComponent,
     type SerializerComponent,
     SerializeEvent,
 } from "./lib/serialization";
-export type { SerializeEventData } from "./lib/serialization";
 
 import TypeScript from "typescript";
 export { TypeScript };

@@ -7,7 +7,7 @@ import type { Logger } from "../../loggers";
 import type { Options } from "../options";
 import { ok } from "assert";
 import { nicePath } from "../../paths";
-import { normalizePath } from "../../fs";
+import { isFile, normalizePath } from "../../fs";
 import { createRequire } from "module";
 
 /**
@@ -18,17 +18,17 @@ export class TypeDocReader implements OptionsReader {
     /**
      * Should run before the tsconfig reader so that it can specify a tsconfig file to read.
      */
-    priority = 100;
+    order = 100;
 
     name = "typedoc-json";
 
+    supportsPackages = true;
+
     /**
      * Read user configuration from a typedoc.json or typedoc.js configuration file.
-     * @param container
-     * @param logger
      */
-    read(container: Options, logger: Logger): void {
-        const path = container.getValue("options");
+    read(container: Options, logger: Logger, cwd: string): void {
+        const path = container.getValue("options") || cwd;
         const file = this.findTypedocFile(path);
 
         if (!file) {
@@ -157,7 +157,7 @@ export class TypeDocReader implements OptionsReader {
             join(path, ".config/typedoc.config.cjs"),
             join(path, ".config/typedoc.js"),
             join(path, ".config/typedoc.cjs"),
-        ].find((path) => FS.existsSync(path) && FS.statSync(path).isFile());
+        ].find(isFile);
     }
 }
 

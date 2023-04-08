@@ -38,7 +38,7 @@ function expectWarning(
     validateExports(project, logger, intentionallyNotExported);
 
     logger.expectMessage(
-        `warn: ${typeName} is referenced by ${referencingName} but not included in the documentation.`
+        `warn: ${typeName}, defined in */${file}, is referenced by ${referencingName} but not included in the documentation.`
     );
 }
 
@@ -65,7 +65,6 @@ function expectNoWarning(
     const logger = new TestLogger();
 
     validateExports(project, logger, intentionallyNotExported);
-    logger.discardDebugMessages();
     logger.expectNoOtherMessages();
 }
 
@@ -172,7 +171,9 @@ describe("validateDocumentation", () => {
         const logger = new TestLogger();
         validateDocumentation(project, logger, ["Function"]);
 
-        logger.expectMessage("warn: bar does not have any documentation.");
+        logger.expectMessage(
+            "warn: bar, defined in */function.ts, does not have any documentation."
+        );
         logger.expectNoOtherMessages();
     });
 
@@ -181,7 +182,9 @@ describe("validateDocumentation", () => {
         const logger = new TestLogger();
         validateDocumentation(project, logger, ["Accessor"]);
 
-        logger.expectMessage("warn: Foo.foo does not have any documentation.");
+        logger.expectMessage(
+            "warn: Foo.foo, defined in */getSignature.ts, does not have any documentation."
+        );
         logger.expectNoOtherMessages();
     });
 
@@ -191,7 +194,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Constructor"]);
 
         logger.expectMessage(
-            "warn: Foo.constructor does not have any documentation."
+            "warn: Foo.constructor, defined in */class.ts, does not have any documentation."
         );
         logger.expectNoOtherMessages();
     });
@@ -202,7 +205,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Method"]);
 
         logger.expectMessage(
-            "warn: Foo.method does not have any documentation."
+            "warn: Foo.method, defined in */interface.ts, does not have any documentation."
         );
         logger.expectNoOtherMessages();
     });

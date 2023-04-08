@@ -2,7 +2,7 @@ import type * as ts from "typescript";
 import { ParameterType } from "./declaration";
 import type { NeverIfInternal } from "..";
 import type { Application } from "../../..";
-import { insertPrioritySorted, unique } from "../array";
+import { insertOrderSorted, unique } from "../array";
 import type { Logger } from "../loggers";
 import {
     convert,
@@ -14,6 +14,7 @@ import {
     TypeDocOptionValues,
 } from "./declaration";
 import { addTypeDocOptions } from "./sources";
+import { getOptionsHelp } from "./help";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the
@@ -21,24 +22,27 @@ import { addTypeDocOptions } from "./sources";
  */
 export interface OptionsReader {
     /**
-     * Readers will be processed according to their priority.
-     * A higher priority indicates that the reader should be called *later* so that
-     * it can override options set by lower priority readers.
+     * Readers will be processed according to their orders.
+     * A higher order indicates that the reader should be called *later*.
      *
      * Note that to preserve expected behavior, the argv reader must have both the lowest
-     * priority so that it may set the location of config files used by other readers and
-     * the highest priority so that it can override settings from lower priority readers.
-     *
-     * Note: In 0.23. `priority` will be renamed to `order`, with the same meaning
+     * order so that it may set the location of config files used by other readers and
+     * the highest order so that it can override settings from lower order readers.
      */
-    priority: number;
+    readonly order: number;
 
     /**
      * The name of this reader so that it may be removed by plugins without the plugin
      * accessing the instance performing the read. Multiple readers may have the same
      * name.
      */
-    name: string;
+    readonly name: string;
+
+    /**
+     * Flag to indicate that this reader should be included in sub-options objects created
+     * to read options for packages mode.
+     */
+    readonly supportsPackages: boolean;
 
     /**
      * Read options from the reader's source and place them in the options parameter.
@@ -46,18 +50,17 @@ export interface OptionsReader {
      * {@link ParameterType.Mixed}. Options which have been declared must be converted to the
      * correct type. As an alternative to doing this conversion in the reader,
      * the reader may use {@link Options.setValue}, which will correctly convert values.
-     * @param options
-     * @param compilerOptions
      * @param container the options container that provides declarations
-     * @param logger
+     * @param logger logger to be used to report errors
+     * @param cwd the directory which should be treated as the current working directory for option file discovery
      */
-    read(container: Options, logger: Logger): void;
+    read(container: Options, logger: Logger, cwd: string): void;
 }
 
 const optionSnapshots = new WeakMap<
     { __optionSnapshot: never },
     {
-        values: Record<string, unknown>;
+        values: string;
         set: Set<string>;
     }
 >();
@@ -94,6 +97,21 @@ export class Options {
 
     constructor(logger: Logger) {
         this._logger = logger;
+        addTypeDocOptions(this);
+    }
+
+    /**
+     * Clones the options, intended for use in packages mode.
+     */
+    copyForPackage(): Options {
+        const options = new Options(this._logger);
+
+        options._readers = this._readers.filter(
+            (reader) => reader.supportsPackages
+        );
+        options._declarations = new Map(this._declarations);
+
+        return options;
     }
 
     /**
@@ -118,7 +136,7 @@ export class Options {
         const key = {} as { __optionSnapshot: never };
 
         optionSnapshots.set(key, {
-            values: { ...this._values },
+            values: JSON.stringify(this._values),
             set: new Set(this._setOptions),
         });
 
@@ -131,7 +149,7 @@ export class Options {
      */
     restore(snapshot: { __optionSnapshot: never }) {
         const data = optionSnapshots.get(snapshot)!;
-        this._values = { ...data.values };
+        this._values = JSON.parse(data.values);
         this._setOptions = new Set(data.set);
     }
 
@@ -141,13 +159,6 @@ export class Options {
      */
     setLogger(logger: Logger) {
         this._logger = logger;
-    }
-
-    /**
-     * Adds the option declarations declared by the TypeDoc and all supported TypeScript declarations.
-     */
-    addDefaultDeclarations() {
-        addTypeDocOptions(this);
     }
 
     /**
@@ -183,12 +194,12 @@ export class Options {
      * @param reader
      */
     addReader(reader: OptionsReader): void {
-        insertPrioritySorted(this._readers, reader);
+        insertOrderSorted(this._readers, reader);
     }
 
-    read(logger: Logger) {
+    read(logger: Logger, cwd = process.cwd()) {
         for (const reader of this._readers) {
-            reader.read(this, logger);
+            reader.read(this, logger, cwd);
         }
     }
 
@@ -265,7 +276,12 @@ export class Options {
     getValue(name: string): unknown {
         const declaration = this.getDeclaration(name);
         if (!declaration) {
-            throw new Error(`Unknown option '${name}'`);
+            const nearNames = this.getSimilarOptions(name);
+            throw new Error(
+                `Unknown option '${name}', you may have meant:\n\t${nearNames.join(
+                    "\n\t"
+                )}`
+            );
         }
 
         return this._values[declaration.name];
@@ -296,8 +312,11 @@ export class Options {
 
         const declaration = this.getDeclaration(name);
         if (!declaration) {
+            const nearNames = this.getSimilarOptions(name);
             throw new Error(
-                `Tried to set an option (${name}) that was not declared.`
+                `Tried to set an option (${name}) that was not declared. You may have meant:\n\t${nearNames.join(
+                    "\n\t"
+                )}`
             );
         }
 
@@ -386,10 +405,40 @@ export class Options {
         this._compilerOptions = { ...options };
         this._projectReferences = projectReferences ?? [];
     }
+
+    /**
+     * Discover similar option names to the given name, for use in error reporting.
+     */
+    getSimilarOptions(missingName: string): string[] {
+        const results: Record<number, string[]> = {};
+        let lowest = Infinity;
+        for (const name of this._declarations.keys()) {
+            const distance = editDistance(missingName, name);
+            lowest = Math.min(lowest, distance);
+            results[distance] ||= [];
+            results[distance].push(name);
+        }
+
+        // Experimenting a bit, it seems an edit distance of 3 is roughly the
+        // right metric for relevant "similar" results without showing obviously wrong suggestions
+        return results[lowest].concat(
+            results[lowest + 1] || [],
+            results[lowest + 2] || []
+        );
+    }
+
+    /**
+     * Get the help message to be displayed to the user if `--help` is passed.
+     */
+    getHelp() {
+        return getOptionsHelp(this);
+    }
 }
 
 /**
  * Binds an option to the given property. Does not register the option.
+ *
+ * Note: This is a legacy experimental decorator, and will not work with TS 5.0 decorators
  *
  * @since v0.16.3
  */
@@ -404,6 +453,9 @@ export function BindOption<K extends keyof TypeDocOptionMap>(
 
 /**
  * Binds an option to the given property. Does not register the option.
+ *
+ * Note: This is a legacy experimental decorator, and will not work with TS 5.0 decorators
+ *
  * @since v0.16.3
  *
  * @privateRemarks
@@ -427,14 +479,42 @@ export function BindOption(name: string) {
                     "options" in this ? this.options : this.application.options;
                 const value = options.getValue(name as keyof TypeDocOptions);
 
-                if (options.isFrozen()) {
-                    Object.defineProperty(this, key, { value });
-                }
-
                 return value;
             },
             enumerable: true,
             configurable: true,
         });
     };
+}
+
+// Based on https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows
+// Slightly modified for improved match results for options
+function editDistance(s: string, t: string): number {
+    if (s.length < t.length) return editDistance(t, s);
+
+    let v0 = Array.from({ length: t.length + 1 }, (_, i) => i);
+    let v1 = Array.from({ length: t.length + 1 }, () => 0);
+
+    for (let i = 0; i < s.length; i++) {
+        v1[0] = i + 1;
+
+        for (let j = 0; j < s.length; j++) {
+            const deletionCost = v0[j + 1] + 1;
+            const insertionCost = v1[j] + 1;
+            let substitutionCost: number;
+            if (s[i] === t[j]) {
+                substitutionCost = v0[j];
+            } else if (s[i]?.toUpperCase() === t[j]?.toUpperCase()) {
+                substitutionCost = v0[j] + 1;
+            } else {
+                substitutionCost = v0[j] + 3;
+            }
+
+            v1[j + 1] = Math.min(deletionCost, insertionCost, substitutionCost);
+        }
+
+        [v0, v1] = [v1, v0];
+    }
+
+    return v0[t.length];
 }

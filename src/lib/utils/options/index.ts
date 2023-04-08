@@ -1,6 +1,11 @@
 export { Options, BindOption } from "./options";
 export type { OptionsReader } from "./options";
-export { ArgumentsReader, TypeDocReader, TSConfigReader } from "./readers";
+export {
+    ArgumentsReader,
+    PackageJsonReader,
+    TypeDocReader,
+    TSConfigReader,
+} from "./readers";
 export {
     CommentStyle,
     EmitStrategy,

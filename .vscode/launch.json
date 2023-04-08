@@ -6,16 +6,16 @@
     "configurations": [
         {
             "args": [
+                "-r",
+                "ts-node/register",
                 "--timeout",
                 "0",
                 "--config",
-                "${workspaceFolder}/.config/mocha.fast.json",
-                "-g",
-                "2200"
+                "${workspaceFolder}/.config/mocha.fast.json"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "name": "Debug Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha.js",
             "request": "launch",
             "skipFiles": ["<node_internals>/**"],
             "type": "node"
@@ -24,6 +24,7 @@
             "name": "Attach",
             "port": 9229,
             "request": "attach",
+            "internalConsoleOptions": "openOnSessionStart",
             "skipFiles": ["<node_internals>/**"],
             "type": "node",
             "sourceMaps": true

@@ -208,24 +208,8 @@ dd {
 }
 
 .container {
-    max-width: 1600px;
+    max-width: 1700px;
     padding: 0 2rem;
-}
-
-@media (min-width: 640px) {
-    .container {
-        padding: 0 4rem;
-    }
-}
-@media (min-width: 1200px) {
-    .container {
-        padding: 0 8rem;
-    }
-}
-@media (min-width: 1600px) {
-    .container {
-        padding: 0 12rem;
-    }
 }
 
 /* Footer */
@@ -243,26 +227,7 @@ dd {
 }
 
 .container-main {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
     margin: 0 auto;
-}
-
-.col-4,
-.col-8 {
-    box-sizing: border-box;
-    float: left;
-    padding: 2rem 1rem;
-}
-
-.col-4 {
-    flex: 0 0 25%;
-}
-.col-8 {
-    flex: 1 0;
-    flex-wrap: wrap;
-    padding-left: 0;
 }
 
 @keyframes fade-in {
@@ -303,22 +268,6 @@ dd {
     }
     100% {
         opacity: 0;
-    }
-}
-@keyframes shift-to-left {
-    from {
-        transform: translate(0, 0);
-    }
-    to {
-        transform: translate(-25%, 0);
-    }
-}
-@keyframes unshift-to-left {
-    from {
-        transform: translate(-25%, 0);
-    }
-    to {
-        transform: translate(0, 0);
     }
 }
 @keyframes pop-in-from-right {
@@ -407,91 +356,6 @@ blockquote {
 .tsd-typography ul,
 .tsd-typography ol {
     margin: 1em 0;
-}
-
-@media (max-width: 1024px) {
-    html .col-content {
-        float: none;
-        max-width: 100%;
-        width: 100%;
-        padding-top: 3rem;
-    }
-    html .col-menu {
-        position: fixed !important;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        z-index: 1024;
-        top: 0 !important;
-        bottom: 0 !important;
-        left: auto !important;
-        right: 0 !important;
-        padding: 1.5rem 1.5rem 0 0;
-        max-width: 25rem;
-        visibility: hidden;
-        background-color: var(--color-background);
-        transform: translate(100%, 0);
-    }
-    html .col-menu > *:last-child {
-        padding-bottom: 20px;
-    }
-    html .overlay {
-        content: "";
-        display: block;
-        position: fixed;
-        z-index: 1023;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.75);
-        visibility: hidden;
-    }
-
-    .to-has-menu .overlay {
-        animation: fade-in 0.4s;
-    }
-
-    .to-has-menu :is(header, footer, .col-content) {
-        animation: shift-to-left 0.4s;
-    }
-
-    .to-has-menu .col-menu {
-        animation: pop-in-from-right 0.4s;
-    }
-
-    .from-has-menu .overlay {
-        animation: fade-out 0.4s;
-    }
-
-    .from-has-menu :is(header, footer, .col-content) {
-        animation: unshift-to-left 0.4s;
-    }
-
-    .from-has-menu .col-menu {
-        animation: pop-out-to-right 0.4s;
-    }
-
-    .has-menu body {
-        overflow: hidden;
-    }
-    .has-menu .overlay {
-        visibility: visible;
-    }
-    .has-menu :is(header, footer, .col-content) {
-        transform: translate(-25%, 0);
-    }
-    .has-menu .col-menu {
-        visibility: visible;
-        transform: translate(0, 0);
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        max-height: 100vh;
-        padding: 1rem 2rem;
-    }
-    .has-menu .tsd-navigation {
-        max-height: 100%;
-    }
 }
 
 .tsd-breadcrumb {
@@ -723,7 +587,7 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 
 .tsd-anchor {
-    position: absolute;
+    position: relative;
     top: -100px;
 }
 
@@ -753,92 +617,58 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     color: var(--color-ts-private);
 }
 
-.tsd-navigation a {
-    display: block;
-    margin: 0.4rem 0;
-    border-left: 2px solid transparent;
+.tsd-navigation.settings {
+    margin: 1rem 0;
+}
+.tsd-navigation a,
+.tsd-page-navigation a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0;
     color: var(--color-text);
     text-decoration: none;
-    transition: border-left-color 0.1s;
 }
-.tsd-navigation a:hover {
+.tsd-navigation a {
+    /* why 3rem? No idea, but it seems to work. */
+    width: calc(100% - 3rem);
+}
+.tsd-page-navigation a {
+    /* why is this different? */
+    width: 100%;
+}
+.tsd-navigation a.current,
+.tsd-page-navigation a.current {
+    background: var(--color-accent);
+}
+.tsd-navigation a:hover,
+.tsd-page-navigation a:hover {
     text-decoration: underline;
 }
-.tsd-navigation ul {
+.tsd-navigation ul,
+.tsd-page-navigation ul {
     margin: 0;
     padding: 0;
     list-style: none;
 }
-.tsd-navigation li {
+.tsd-navigation li,
+.tsd-page-navigation li {
     padding: 0;
+    max-width: 100%;
 }
-
-.tsd-navigation.primary .tsd-accordion-details > ul {
-    margin-top: 0.75rem;
+.tsd-nested-navigation > li > a {
+    margin-left: 3rem;
 }
-.tsd-navigation.primary a {
-    padding: 0.75rem 0.5rem;
-    margin: 0;
-}
-.tsd-navigation.primary ul li a {
-    margin-left: 0.5rem;
-}
-.tsd-navigation.primary ul li li a {
+.tsd-nested-navigation > li > details {
     margin-left: 1.5rem;
 }
-.tsd-navigation.primary ul li li li a {
-    margin-left: 2.5rem;
+.tsd-small-nested-navigation > li > a {
+    margin-left: 1.5rem;
 }
-.tsd-navigation.primary ul li li li li a {
-    margin-left: 3.5rem;
+.tsd-small-nested-navigation > li > details {
+    margin-left: 0;
 }
-.tsd-navigation.primary ul li li li li li a {
-    margin-left: 4.5rem;
-}
-.tsd-navigation.primary ul li li li li li li a {
-    margin-left: 5.5rem;
-}
-.tsd-navigation.primary li.current > a {
-    border-left: 0.15rem var(--color-text) solid;
-}
-.tsd-navigation.primary li.selected > a {
-    font-weight: bold;
-    border-left: 0.2rem var(--color-text) solid;
-}
-.tsd-navigation.primary ul li a:hover {
-    border-left: 0.2rem var(--color-text-aside) solid;
-}
-.tsd-navigation.primary li.globals + li > span,
-.tsd-navigation.primary li.globals + li > a {
-    padding-top: 20px;
-}
-
-.tsd-navigation.secondary.tsd-navigation--toolbar-hide {
-    max-height: calc(100vh - 1rem);
-    top: 0.5rem;
-}
-.tsd-navigation.secondary > ul {
-    display: inline;
-    padding-right: 0.5rem;
-    transition: opacity 0.2s;
-}
-.tsd-navigation.secondary ul li a {
-    padding-left: 0;
-}
-.tsd-navigation.secondary ul li li a {
-    padding-left: 1.1rem;
-}
-.tsd-navigation.secondary ul li li li a {
-    padding-left: 2.2rem;
-}
-.tsd-navigation.secondary ul li li li li a {
-    padding-left: 3.3rem;
-}
-.tsd-navigation.secondary ul li li li li li a {
-    padding-left: 4.4rem;
-}
-.tsd-navigation.secondary ul li li li li li li a {
-    padding-left: 5.5rem;
+.tsd-page-navigation ul {
+    padding-left: 1.75rem;
 }
 
 #tsd-sidebar-links a {
@@ -851,28 +681,21 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 
 a.tsd-index-link {
-    margin: 0.25rem 0;
+    padding: 0.25rem 0 !important;
     font-size: 1rem;
     line-height: 1.25rem;
     display: inline-flex;
     align-items: center;
 }
-.tsd-accordion-summary > h1,
-.tsd-accordion-summary > h2,
-.tsd-accordion-summary > h3,
-.tsd-accordion-summary > h4,
-.tsd-accordion-summary > h5 {
-    display: inline-flex;
-    align-items: center;
-    vertical-align: middle;
-    margin-bottom: 0;
+.tsd-accordion-summary,
+.tsd-accordion-summary a {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-}
-.tsd-accordion-summary {
-    display: block;
+
+    display: flex;
+    align-items: center;
     cursor: pointer;
 }
 .tsd-accordion-summary > * {
@@ -908,34 +731,6 @@ a.tsd-index-link {
 }
 .tsd-signature > .tsd-kind-icon {
     margin-right: 0.8rem;
-}
-
-@media (min-width: 1025px) {
-    .col-content {
-        margin: 2rem auto;
-    }
-
-    .menu-sticky-wrap {
-        position: sticky;
-        height: calc(100vh - 2rem);
-        top: 4rem;
-        right: 0;
-        padding: 0 1.5rem;
-        padding-top: 1rem;
-        margin-top: 3rem;
-        transition: 0.3s ease-in-out;
-        transition-property: top, padding-top, padding, height;
-        overflow-y: auto;
-    }
-    .col-menu {
-        border-left: 1px solid var(--color-accent);
-    }
-    .col-menu--hide {
-        top: 1rem;
-    }
-    .col-menu .tsd-navigation:not(:last-child) {
-        padding-bottom: 1.75rem;
-    }
 }
 
 .tsd-panel {
@@ -1143,7 +938,7 @@ ul.tsd-type-parameter-list h5 {
 }
 
 .tsd-page-toolbar {
-    position: fixed;
+    position: sticky;
     z-index: 1;
     top: 0;
     left: 0;
@@ -1183,10 +978,6 @@ ul.tsd-type-parameter-list h5 {
     padding: 12px 0;
 }
 
-.tsd-page-toolbar--hide {
-    transform: translateY(-100%);
-}
-
 .tsd-widget {
     display: inline-block;
     overflow: hidden;
@@ -1213,12 +1004,6 @@ ul.tsd-type-parameter-list h5 {
 .tsd-widget.options,
 .tsd-widget.menu {
     display: none;
-}
-@media (max-width: 1024px) {
-    .tsd-widget.options,
-    .tsd-widget.menu {
-        display: inline-block;
-    }
 }
 input[type="checkbox"] + .tsd-widget:before {
     background-position: -120px 0;
@@ -1276,4 +1061,145 @@ img {
     background-color: var(--color-accent);
     border-radius: 999rem;
     border: 0.25rem solid var(--color-icon-background);
+}
+
+/* mobile */
+@media (max-width: 769px) {
+    .tsd-widget.options,
+    .tsd-widget.menu {
+        display: inline-block;
+    }
+
+    .container-main {
+        display: flex;
+    }
+    html .col-content {
+        float: none;
+        max-width: 100%;
+        width: 100%;
+    }
+    html .col-sidebar {
+        position: fixed !important;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        z-index: 1024;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: auto !important;
+        right: 0 !important;
+        padding: 1.5rem 1.5rem 0 0;
+        width: 75vw;
+        visibility: hidden;
+        background-color: var(--color-background);
+        transform: translate(100%, 0);
+    }
+    html .col-sidebar > *:last-child {
+        padding-bottom: 20px;
+    }
+    html .overlay {
+        content: "";
+        display: block;
+        position: fixed;
+        z-index: 1023;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.75);
+        visibility: hidden;
+    }
+
+    .to-has-menu .overlay {
+        animation: fade-in 0.4s;
+    }
+
+    .to-has-menu .col-sidebar {
+        animation: pop-in-from-right 0.4s;
+    }
+
+    .from-has-menu .overlay {
+        animation: fade-out 0.4s;
+    }
+
+    .from-has-menu .col-sidebar {
+        animation: pop-out-to-right 0.4s;
+    }
+
+    .has-menu body {
+        overflow: hidden;
+    }
+    .has-menu .overlay {
+        visibility: visible;
+    }
+    .has-menu .col-sidebar {
+        visibility: visible;
+        transform: translate(0, 0);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        max-height: 100vh;
+        padding: 1rem 2rem;
+    }
+    .has-menu .tsd-navigation {
+        max-height: 100%;
+    }
+}
+
+/* one sidebar */
+@media (min-width: 770px) {
+    .container-main {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+        grid-template-areas: "sidebar content";
+        margin: 2rem auto;
+    }
+
+    .col-sidebar {
+        grid-area: sidebar;
+    }
+    .col-content {
+        grid-area: content;
+        padding: 0 1rem;
+    }
+}
+@media (min-width: 770px) and (max-width: 1399px) {
+    .col-sidebar {
+        max-height: calc(100vh - 2rem - 42px);
+        overflow: auto;
+        position: sticky;
+        top: 42px;
+        padding-top: 1rem;
+    }
+}
+
+/* two sidebars */
+@media (min-width: 1200px) {
+    .container-main {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr) minmax(0, 20rem);
+        grid-template-areas: "sidebar content toc";
+    }
+
+    .col-sidebar {
+        display: contents;
+    }
+
+    .page-menu {
+        grid-area: toc;
+        padding-left: 1rem;
+    }
+    .site-menu {
+        grid-area: sidebar;
+    }
+
+    .site-menu {
+        margin-top: 1rem 0;
+    }
+
+    .page-menu,
+    .site-menu {
+        max-height: calc(100vh - 2rem - 42px);
+        overflow: auto;
+        position: sticky;
+        top: 42px;
+    }
 }

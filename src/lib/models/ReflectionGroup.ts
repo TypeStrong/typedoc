@@ -1,6 +1,6 @@
-import type { ReflectionCategory } from "./ReflectionCategory";
+import { ReflectionCategory } from "./ReflectionCategory";
 import type { DeclarationReflection } from ".";
-import type { Serializer, JSONOutput } from "../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -50,5 +50,28 @@ export class ReflectionGroup {
                     : undefined,
             categories: serializer.toObjectsOptional(this.categories),
         };
+    }
+
+    fromObject(de: Deserializer, obj: JSONOutput.ReflectionGroup) {
+        if (obj.categories) {
+            this.categories = obj.categories.map((catObj) => {
+                const cat = new ReflectionCategory(catObj.title);
+                de.fromObject(cat, catObj);
+                return cat;
+            });
+        }
+
+        if (obj.children) {
+            de.defer((project) => {
+                for (const childId of obj.children || []) {
+                    const child = project.getReflectionById(
+                        de.oldIdToNewId[childId] ?? -1
+                    );
+                    if (child?.isDeclaration()) {
+                        this.children.push(child);
+                    }
+                }
+            });
+        }
     }
 }

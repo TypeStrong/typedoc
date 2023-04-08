@@ -1,3 +1,79 @@
+# Beta
+
+### Breaking Changes
+
+-   `@link`, `@linkcode` and `@linkplain` tags will now be resolved with TypeScript's link resolution by default. The `useTsLinkResolution` option
+    can be used to turn this behavior off, but be aware that doing so will mean your links will be resolved differently by editor tooling and TypeDoc.
+-   TypeDoc will no longer automatically load plugins from `node_modules`. Specify the `--plugin` option to indicate which modules should be loaded.
+-   The `packages` entry point strategy will now run TypeDoc in each provided package directory and then merge the results together.
+    The previous `packages` strategy has been preserved under `legacy-packages` and will be removed in 0.25. If the new strategy does not work
+    for your use case, please open an issue.
+-   Removed `--logger` option, to disable all logging, set the `logLevel` option to `none`.
+-   Dropped support for legacy `[[link]]`s, removed deprecated `Reflection.findReflectionByName`.
+-   Added `@overload` to default ignored tags.
+
+### API Breaking Changes
+
+-   The `label` property on `Reflection` has moved to `Comment`.
+-   The default value of the `out` option has been changed from `""` to `"./docs"`, #2195.
+-   Renamed `DeclarationReflection#version` to `DeclarationReflection#projectVersion` to match property on `ProjectReflection`.
+-   Removed unused `Reflection#originalName`.
+-   Removed `Reflection#kindString`, use `ReflectionKind.singularString(reflection.kind)` or `ReflectionKind.pluralString(reflection.kind)` instead.
+-   The `named-tuple-member` and `template-literal` type kind have been replaced with `namedTupleMember` and `templateLiteral`, #2100.
+-   Properties related to rendering are no longer stored on `Reflection`, including `url`, `anchor`, `hasOwnDocument`, and `cssClasses`.
+-   `Application.bootstrap` will no longer load plugins. If you want to load plugins, use `Application.bootstrapWithPlugins` instead, #1635.
+-   The options passed to `Application.bootstrap` will now be applied both before _and_ after reading options files, which may cause a change in configuration
+    if using a custom script to run TypeDoc that includes some options, but other options are set in config files.
+-   Moved `sources` property previously declared on base `Reflection` class to `DeclarationReflection` and `SignatureReflection`.
+-   Moved `relevanceBoost` from `ContainerReflection` to `DeclarationReflection` since setting it on the parent class has no effect.
+-   Removed internal `ReferenceType.getSymbol`, reference types no longer reference the `ts.Symbol` to enable generation from serialized JSON.
+-   `OptionsReader.priority` has been renamed to `OptionsReader.order` to more accurately reflect how it works.
+-   `ReferenceType`s which point to type parameters will now always be intentionally broken since they were never linked and should not be warned about when validating exports.
+-   `ReferenceType`s now longer include an `id` property for their target. They now instead include a `target` property.
+-   Removed `Renderer.addExternalSymbolResolver`, use `Converter.addExternalSymbolResolver` instead.
+-   Removed `CallbackLogger`.
+-   Removed `SerializeEventData` from serialization events.
+-   A `PageEvent` is now required for `getRenderContext`. If caching the context object, `page` must be updated when `getRenderContext` is called.
+-   `PageEvent` no longer includes the `template` property. The `Theme.render` method is now expected to take the template to render the page with as its second argument.
+-   Removed `secondaryNavigation` member on `DefaultThemeRenderContext`.
+-   Renamed `navigation` to `sidebar` on `DefaultThemeRenderContext` and `navigation.begin`/`navigation.end` hooks to `sidebar.begin`/`sidebar.end`.
+
+### Features
+
+-   Added `--useTsLinkResolution` option (on by default) which tells TypeDoc to use TypeScript's `@link` resolution.
+-   Added `--jsDocCompatibility` option (on by default) which controls TypeDoc's automatic detection of code blocks in `@example` and `@default` tags.
+-   Reworked default theme navigation to add support for a page table of contents, #1478, #2189.
+-   Added support for `@interface` on type aliases to tell TypeDoc to convert the fully resolved type as an interface, #1519
+-   Added support for `@namespace` on variable declarations to tell TypeDoc to convert the variable as a namespace, #2055.
+-   Added support for `@prop`/`@property` to specify documentation for a child property of a symbol, intended for use with `@interface`.
+-   TypeDoc will now produce more informative error messages for options which cannot be set from the cli, #2022.
+-   TypeDoc will now attempt to guess what option you may have meant if given an invalid option name.
+-   Plugins may now return a `Promise<void>` from their `load` function, #185.
+-   TypeDoc now supports plugins written with ESM, #1635.
+-   Added `Renderer.preRenderAsyncJobs` and `Renderer.postRenderAsyncJobs`, which may be used by plugins to perform async processing for rendering, #185.
+    Note: Conversion is still intentionally a synchronous process to ensure stability of converted projects between runs.
+-   TypeDoc options may now be set under the `typedocOptions` key in `package.json`, #2112.
+-   Added `--cacheBust` option to tell TypeDoc to include include the generation time in files, #2124.
+-   Added `--excludeReferences` option to tell TypeDoc to omit re-exports of a symbol already included from the documentation.
+-   Introduced new render hooks `pageSidebar.begin` and `pageSidebar.end`.
+
+### Bug Fixes
+
+-   TypeDoc will now ignore package.json files not containing a `name` field, #2190.
+-   Fixed `@inheritDoc` on signatures (functions, methods, constructors, getters, setters) being unable to inherit from a non-signature.
+-   Interfaces/classes created via extending a module will no longer contain variables/functions where the member should have been converted as properties/methods, #2150.
+-   TypeDoc will now ignore a leading `v` in versions, #2212.
+-   Category titles now render with the same format in the page index and heading title, #2196.
+-   Fixed crash when using `typeof` on a reference with type arguments, #2220.
+-   Fixed broken anchor links generated to signatures nested within objects.
+
+### Thanks!
+
+-   @bodil
+-   @futurGH
+-   @jm4rtinez
+-   @muratgozel
+
 # Unreleased
 
 ## v0.23.28 (2023-03-19)

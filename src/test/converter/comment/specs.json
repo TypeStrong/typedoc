@@ -1,21 +1,22 @@
 {
   "id": 0,
-  "name": "typedoc",
+  "name": "comment",
+  "variant": "project",
   "kind": 1,
   "flags": {},
   "children": [
     {
       "id": 1,
       "name": "comment",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "children": [
         {
           "id": 2,
           "name": "CommentedClass",
+          "variant": "declaration",
           "kind": 128,
-          "kindString": "Class",
           "flags": {},
           "comment": {
             "summary": [
@@ -48,20 +49,21 @@
             {
               "id": 3,
               "name": "constructor",
+              "variant": "declaration",
               "kind": 512,
-              "kindString": "Constructor",
               "flags": {},
               "signatures": [
                 {
                   "id": 4,
                   "name": "new CommentedClass",
+                  "variant": "signature",
                   "kind": 16384,
-                  "kindString": "Constructor signature",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 2,
-                    "name": "CommentedClass"
+                    "target": 2,
+                    "name": "CommentedClass",
+                    "package": "typedoc"
                   }
                 }
               ]
@@ -69,8 +71,8 @@
             {
               "id": 5,
               "name": "prop",
+              "variant": "declaration",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {},
               "comment": {
                 "summary": [
@@ -96,8 +98,8 @@
             {
               "id": 19,
               "name": "mixedHidden",
+              "variant": "declaration",
               "kind": 2048,
-              "kindString": "Method",
               "flags": {},
               "sources": [
                 {
@@ -111,8 +113,8 @@
                 {
                   "id": 22,
                   "name": "mixedHidden",
+                  "variant": "signature",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "summary": [
@@ -122,12 +124,20 @@
                       }
                     ]
                   },
+                  "sources": [
+                    {
+                      "fileName": "comment.ts",
+                      "line": 77,
+                      "character": 4,
+                      "url": "typedoc://comment.ts#L77"
+                    }
+                  ],
                   "parameters": [
                     {
                       "id": 23,
                       "name": "arg1",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "intrinsic",
@@ -137,8 +147,8 @@
                     {
                       "id": 24,
                       "name": "arg2",
+                      "variant": "param",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "type": {
                         "type": "intrinsic",
@@ -195,17 +205,17 @@
       "sources": [
         {
           "fileName": "comment.ts",
-          "line": 5,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://comment.ts#L5"
+          "url": "typedoc://comment.ts#L1"
         }
       ]
     },
     {
       "id": 26,
       "name": "comment2",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "comment": {
         "summary": [
@@ -227,8 +237,8 @@
         {
           "id": 27,
           "name": "multiply",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -242,15 +252,23 @@
             {
               "id": 28,
               "name": "multiply",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "comment2.ts",
+                  "line": 8,
+                  "character": 0,
+                  "url": "typedoc://comment2.ts#L8"
+                }
+              ],
               "parameters": [
                 {
                   "id": 29,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -260,8 +278,8 @@
                 {
                   "id": 30,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -288,17 +306,17 @@
       "sources": [
         {
           "fileName": "comment2.ts",
-          "line": 8,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://comment2.ts#L8"
+          "url": "typedoc://comment2.ts#L1"
         }
       ]
     },
     {
       "id": 31,
       "name": "comment3",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "comment": {
         "summary": [
@@ -320,8 +338,8 @@
         {
           "id": 32,
           "name": "multiply",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -335,15 +353,23 @@
             {
               "id": 33,
               "name": "multiply",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "comment3.ts",
+                  "line": 8,
+                  "character": 0,
+                  "url": "typedoc://comment3.ts#L8"
+                }
+              ],
               "parameters": [
                 {
                   "id": 34,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -353,8 +379,8 @@
                 {
                   "id": 35,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -381,17 +407,17 @@
       "sources": [
         {
           "fileName": "comment3.ts",
-          "line": 8,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://comment3.ts#L8"
+          "url": "typedoc://comment3.ts#L1"
         }
       ]
     },
     {
       "id": 36,
       "name": "comment4",
+      "variant": "declaration",
       "kind": 2,
-      "kindString": "Module",
       "flags": {},
       "comment": {
         "summary": [
@@ -409,8 +435,8 @@
         {
           "id": 37,
           "name": "multiply",
+          "variant": "declaration",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "sources": [
             {
@@ -424,15 +450,23 @@
             {
               "id": 38,
               "name": "multiply",
+              "variant": "signature",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "comment4.ts",
+                  "line": 11,
+                  "character": 0,
+                  "url": "typedoc://comment4.ts#L11"
+                }
+              ],
               "parameters": [
                 {
                   "id": 39,
                   "name": "a",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -442,8 +476,8 @@
                 {
                   "id": 40,
                   "name": "b",
+                  "variant": "param",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -470,9 +504,9 @@
       "sources": [
         {
           "fileName": "comment4.ts",
-          "line": 11,
+          "line": 1,
           "character": 0,
-          "url": "typedoc://comment4.ts#L11"
+          "url": "typedoc://comment4.ts#L1"
         }
       ]
     }
@@ -487,5 +521,96 @@
         36
       ]
     }
-  ]
+  ],
+  "packageName": "typedoc",
+  "symbolIdMap": {
+    "1": {
+      "sourceFileName": "src/test/converter/comment/comment.ts",
+      "qualifiedName": ""
+    },
+    "2": {
+      "sourceFileName": "src/test/converter/comment/comment.ts",
+      "qualifiedName": "CommentedClass"
+    },
+    "5": {
+      "sourceFileName": "src/test/converter/comment/comment.ts",
+      "qualifiedName": "CommentedClass.prop"
+    },
+    "19": {
+      "sourceFileName": "src/test/converter/comment/comment.ts",
+      "qualifiedName": "CommentedClass.mixedHidden"
+    },
+    "22": {
+      "sourceFileName": "src/test/converter/comment/comment.ts",
+      "qualifiedName": "CommentedClass.mixedHidden"
+    },
+    "23": {
+      "sourceFileName": "src/test/converter/comment/comment.ts",
+      "qualifiedName": "arg1"
+    },
+    "24": {
+      "sourceFileName": "src/test/converter/comment/comment.ts",
+      "qualifiedName": "arg2"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/comment/comment2.ts",
+      "qualifiedName": ""
+    },
+    "27": {
+      "sourceFileName": "src/test/converter/comment/comment2.ts",
+      "qualifiedName": "multiply"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/comment/comment2.ts",
+      "qualifiedName": "multiply"
+    },
+    "29": {
+      "sourceFileName": "src/test/converter/comment/comment2.ts",
+      "qualifiedName": "a"
+    },
+    "30": {
+      "sourceFileName": "src/test/converter/comment/comment2.ts",
+      "qualifiedName": "b"
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/comment/comment3.ts",
+      "qualifiedName": ""
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/comment/comment3.ts",
+      "qualifiedName": "multiply"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/comment/comment3.ts",
+      "qualifiedName": "multiply"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/comment/comment3.ts",
+      "qualifiedName": "a"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/comment/comment3.ts",
+      "qualifiedName": "b"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/comment/comment4.ts",
+      "qualifiedName": ""
+    },
+    "37": {
+      "sourceFileName": "src/test/converter/comment/comment4.ts",
+      "qualifiedName": "multiply"
+    },
+    "38": {
+      "sourceFileName": "src/test/converter/comment/comment4.ts",
+      "qualifiedName": "multiply"
+    },
+    "39": {
+      "sourceFileName": "src/test/converter/comment/comment4.ts",
+      "qualifiedName": "a"
+    },
+    "40": {
+      "sourceFileName": "src/test/converter/comment/comment4.ts",
+      "qualifiedName": "b"
+    }
+  }
 }

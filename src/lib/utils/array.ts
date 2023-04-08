@@ -3,13 +3,12 @@
  * the item will be inserted later will be placed earlier in the array.
  * @param arr modified by inserting item.
  * @param item
- * @deprecated this is confusing, it sorts with lower priority being placed earlier. Prefer insertOrderSorted, which is nearly the same.
  */
 export function insertPrioritySorted<T extends { priority: number }>(
     arr: T[],
     item: T
 ): T[] {
-    const index = binaryFindPartition(arr, (v) => v.priority >= item.priority);
+    const index = binaryFindPartition(arr, (v) => v.priority <= item.priority);
     arr.splice(index === -1 ? arr.length : index, 0, item);
     return arr;
 }

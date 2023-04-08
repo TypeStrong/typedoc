@@ -15,11 +15,12 @@ const ARRAY_OPTION_TYPES = new Set<ParameterType | undefined>([
  */
 export class ArgumentsReader implements OptionsReader {
     readonly name = "arguments";
-    readonly priority: number;
+    readonly order: number;
+    readonly supportsPackages = false;
     private args: string[];
 
     constructor(priority: number, args = process.argv.slice(2)) {
-        this.priority = priority;
+        this.order = priority;
         this.args = args;
     }
 
@@ -48,6 +49,13 @@ export class ArgumentsReader implements OptionsReader {
                 : options.getDeclaration("entryPoints");
 
             if (decl) {
+                if (decl.configFileOnly) {
+                    logger.error(
+                        `The '${decl.name}' option can only be specified via a config file.`
+                    );
+                    continue;
+                }
+
                 if (seen.has(decl.name) && ARRAY_OPTION_TYPES.has(decl.type)) {
                     trySet(
                         decl.name,
@@ -103,7 +111,11 @@ export class ArgumentsReader implements OptionsReader {
                 }
             }
 
-            logger.error(`Unknown option: ${name}`);
+            logger.error(
+                `Unknown option: ${name}, you may have meant:\n\t${options
+                    .getSimilarOptions(name)
+                    .join("\n\t")}`
+            );
             index++;
         }
     }

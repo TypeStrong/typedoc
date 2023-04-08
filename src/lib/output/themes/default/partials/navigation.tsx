@@ -1,16 +1,14 @@
-import { ContainerReflection, DeclarationReflection, Reflection, ReflectionKind } from "../../../../models";
-import { JSX, partition } from "../../../../utils";
+import { DeclarationReflection, ProjectReflection, Reflection, ReflectionKind } from "../../../../models";
+import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
-import { camelToTitleCase, classNames, renderName, wbr } from "../../lib";
+import { camelToTitleCase, classNames, getDisplayName, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
-export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+export function sidebar(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
         <>
             {context.sidebarLinks()}
-            {context.settings()}
-            {context.primaryNavigation(props)}
-            {context.secondaryNavigation(props)}
+            {context.navigation(props)}
         </>
     );
 }
@@ -72,7 +70,10 @@ export function settings(context: DefaultThemeRenderContext) {
         <div class="tsd-navigation settings">
             <details class="tsd-index-accordion" open={false}>
                 <summary class="tsd-accordion-summary">
-                    <h3>{context.icons.chevronDown()} Settings</h3>
+                    <h3>
+                        {context.icons.chevronDown()}
+                        Settings
+                    </h3>
                 </summary>
                 <div class="tsd-accordion-details">
                     {visibilityOptions.length && (
@@ -97,123 +98,137 @@ export function settings(context: DefaultThemeRenderContext) {
     );
 }
 
-export function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     // Create the navigation for the current page
-
-    const modules = props.model.project.getChildrenByKind(ReflectionKind.SomeModule);
-    const [ext, int] = partition(modules, (m) => m.flags.isExternal);
-
-    const selected = props.model.isProject();
-    const current = selected || int.some((mod) => inPath(mod, props.model));
+    // Recurse to children if the parent is some kind of module
 
     return (
-        <nav class="tsd-navigation primary">
-            <details class="tsd-index-accordion" open={true}>
-                <summary class="tsd-accordion-summary">
-                    <h3>{context.icons.chevronDown()} Modules</h3>
-                </summary>
-                <div class="tsd-accordion-details">
-                    <ul>
-                        <li class={classNames({ current, selected })}>
-                            <a href={context.urlTo(props.model.project)}>{wbr(props.project.name)}</a>
-                            <ul>{int.map(link)}</ul>
-                        </li>
-                        {ext.map(link)}
-                    </ul>
-                </div>
-            </details>
-        </nav>
-    );
-
-    function link(mod: DeclarationReflection) {
-        const current = inPath(mod, props.model);
-        const selected = mod.name === props.model.name;
-        let childNav: JSX.Element | undefined;
-        const childModules = mod.children?.filter((m) => m.kindOf(ReflectionKind.SomeModule));
-        if (childModules?.length) {
-            childNav = <ul>{childModules.map(link)}</ul>;
-        }
-
-        return (
-            <li class={classNames({ current, selected, deprecated: mod.isDeprecated() }, mod.cssClasses)}>
-                <a href={context.urlTo(mod)}>
-                    {wbr(`${mod.name}${mod.version !== undefined ? ` - v${mod.version}` : ""}`)}
-                </a>
-                {childNav}
-            </li>
-        );
-    }
-}
-
-export function secondaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
-    // Multiple entry points, and on main project page.
-    if (props.model.isProject() && props.model.getChildrenByKind(ReflectionKind.Module).length) {
-        return;
-    }
-
-    const effectivePageParent =
-        (props.model instanceof ContainerReflection && props.model.children?.length) || props.model.isProject()
-            ? props.model
-            : props.model.parent!;
-
-    const children = (effectivePageParent as ContainerReflection).children || [];
-
-    const pageNavigation = children
-        .filter((child) => !child.kindOf(ReflectionKind.SomeModule))
-        .map((child) => {
-            return (
-                <li
-                    class={classNames(
-                        { deprecated: child.isDeprecated(), current: props.model === child },
-                        child.cssClasses
-                    )}
-                >
-                    <a href={context.urlTo(child)} class="tsd-index-link">
-                        {context.icons[child.kind]()}
-                        {renderName(child)}
-                    </a>
-                </li>
-            );
-        });
-
-    if (effectivePageParent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
-        return (
-            <nav class="tsd-navigation secondary menu-sticky">
-                {!!pageNavigation.length && <ul>{pageNavigation}</ul>}
-            </nav>
-        );
-    }
-
-    return (
-        <nav class="tsd-navigation secondary menu-sticky">
-            <ul>
-                <li
-                    class={classNames(
-                        {
-                            deprecated: effectivePageParent.isDeprecated(),
-                            current: effectivePageParent === props.model,
-                        },
-                        effectivePageParent.cssClasses
-                    )}
-                >
-                    <a href={context.urlTo(effectivePageParent)} class="tsd-index-link">
-                        {context.icons[effectivePageParent.kind]()}
-                        <span>{renderName(effectivePageParent)}</span>
-                    </a>
-                    {!!pageNavigation.length && <ul>{pageNavigation}</ul>}
-                </li>
+        <nav class="tsd-navigation">
+            {link(props.project)}
+            <ul class="tsd-small-nested-navigation">
+                {props.project.children?.map((c) => (
+                    <li>{links(c)}</li>
+                ))}
             </ul>
         </nav>
     );
+
+    function links(mod: DeclarationReflection) {
+        const children = (mod.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project) && mod.children) || [];
+
+        const nameClasses = classNames(
+            { deprecated: mod.isDeprecated() },
+            mod.isProject() ? void 0 : context.getReflectionClasses(mod)
+        );
+
+        if (!children.length) {
+            return link(mod, nameClasses);
+        }
+
+        return (
+            <details
+                class={classNames({ "tsd-index-accordion": true }, nameClasses)}
+                open={inPath(mod)}
+                data-key={mod.getFullName()}
+            >
+                <summary class="tsd-accordion-summary">
+                    {context.icons.chevronDown()}
+                    {link(mod)}
+                </summary>
+                <div class="tsd-accordion-details">
+                    <ul class="tsd-nested-navigation">
+                        {children.map((c) => (
+                            <li>{links(c)}</li>
+                        ))}
+                    </ul>
+                </div>
+            </details>
+        );
+    }
+
+    function link(child: DeclarationReflection | ProjectReflection, nameClasses?: string) {
+        return (
+            <a href={context.urlTo(child)} class={classNames({ current: child === props.model }, nameClasses)}>
+                {context.icons[child.kind]()}
+                <span>{wbr(getDisplayName(child))}</span>
+            </a>
+        );
+    }
+
+    function inPath(mod: DeclarationReflection | ProjectReflection) {
+        let iter: Reflection | undefined = props.model;
+        do {
+            if (iter == mod) return true;
+            iter = iter.parent;
+        } while (iter);
+        return false;
+    }
 }
 
-function inPath(thisPage: Reflection, toCheck: Reflection | undefined): boolean {
-    while (toCheck) {
-        if (toCheck.isProject()) return false;
+export function pageSidebar(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+    return (
+        <>
+            {context.settings()}
+            {context.pageNavigation(props)}
+        </>
+    );
+}
 
-        if (thisPage === toCheck) return true;
+export function pageNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+    const levels: JSX.Element[][] = [[]];
 
-        toCheck = toCheck.parent;
+    function finalizeLevel() {
+        const built = (
+            <ul>
+                {levels.pop()!.map((l) => (
+                    <li>{l}</li>
+                ))}
+            </ul>
+        );
+        levels[levels.length - 1].push(built);
     }
-    return false;
+
+    for (const heading of props.pageHeadings) {
+        const inferredLevel = heading.level ? heading.level + 1 : 1;
+        while (inferredLevel < levels.length) {
+            finalizeLevel();
+        }
+        if (inferredLevel > levels.length) {
+            // Lower level than before
+            levels.push([]);
+        }
+
+        levels[levels.length - 1].push(
+            <a href={heading.link} class={heading.classes}>
+                {heading.kind && context.icons[heading.kind]()}
+                <span>{wbr(heading.text)}</span>
+            </a>
+        );
+    }
+
+    while (levels.length > 1) {
+        finalizeLevel();
+    }
+
+    if (!levels[0].length) {
+        return <></>;
+    }
+
+    return (
+        <details open={true} class="tsd-index-accordion tsd-page-navigation">
+            <summary class="tsd-accordion-summary">
+                <h3>
+                    {context.icons.chevronDown()}
+                    On This Page
+                </h3>
+            </summary>
+            <div class="tsd-accordion-details">
+                <ul>
+                    {levels[0].map((l) => (
+                        <li>{l}</li>
+                    ))}
+                </ul>
+            </div>
+        </details>
+    );
 }

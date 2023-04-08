@@ -11,7 +11,7 @@ import {
     ReflectionType,
     SignatureReflection,
 } from "../models";
-import { getJsDocComment } from "./comments";
+import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
 import {
@@ -51,11 +51,7 @@ export function convertJsDocAlias(
         symbol,
         exportSymbol
     );
-    reflection.comment = getJsDocComment(
-        declaration,
-        context.converter.config,
-        context.logger
-    );
+    reflection.comment = context.getJsDocComment(declaration);
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
@@ -81,11 +77,7 @@ export function convertJsDocCallback(
         symbol,
         exportSymbol
     );
-    alias.comment = getJsDocComment(
-        declaration,
-        context.converter.config,
-        context.logger
-    );
+    alias.comment = context.getJsDocComment(declaration);
     context.finalizeDeclarationReflection(alias);
 
     const ac = context.withScope(alias);
@@ -105,11 +97,7 @@ function convertJsDocInterface(
         symbol,
         exportSymbol
     );
-    reflection.comment = getJsDocComment(
-        declaration,
-        context.converter.config,
-        context.logger
-    );
+    reflection.comment = context.getJsDocComment(declaration);
     context.finalizeDeclarationReflection(reflection);
 
     const rc = context.withScope(reflection);
@@ -141,6 +129,10 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
         "__type",
         ReflectionKind.CallSignature,
         reflection
+    );
+    context.project.registerSymbolId(
+        signature,
+        new ReflectionSymbolId(symbol, node)
     );
     context.registerReflection(signature, void 0);
     const signatureCtx = context.withScope(signature);

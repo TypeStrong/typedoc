@@ -82,6 +82,14 @@
         {
             "tagName": "@overload",
             "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@namespace",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@interface",
+            "syntaxKind": "modifier"
         }
     ]
 }

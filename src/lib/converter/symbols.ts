@@ -128,7 +128,9 @@ export function convertSymbol(
     const previous = context.project.getReflectionFromSymbol(symbol);
     if (
         previous &&
-        previous.parent?.kindOf(ReflectionKind.Module | ReflectionKind.Project)
+        previous.parent?.kindOf(
+            ReflectionKind.SomeModule | ReflectionKind.Project
+        )
     ) {
         createAlias(previous, context, symbol, exportSymbol);
         return;
@@ -323,6 +325,19 @@ function convertTypeAlias(
     assert(declaration);
 
     if (ts.isTypeAliasDeclaration(declaration)) {
+        if (
+            context
+                .getComment(symbol, ReflectionKind.TypeAlias)
+                ?.hasModifier("@interface")
+        ) {
+            return convertTypeAliasAsInterface(
+                context,
+                symbol,
+                exportSymbol,
+                declaration
+            );
+        }
+
         const reflection = context.createDeclarationReflection(
             ReflectionKind.TypeAlias,
             symbol,
@@ -349,6 +364,48 @@ function convertTypeAlias(
     } else {
         convertJsDocCallback(context, symbol, declaration, exportSymbol);
     }
+}
+
+function convertTypeAliasAsInterface(
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol: ts.Symbol | undefined,
+    declaration: ts.TypeAliasDeclaration
+) {
+    const reflection = context.createDeclarationReflection(
+        ReflectionKind.Interface,
+        symbol,
+        exportSymbol
+    );
+    context.finalizeDeclarationReflection(reflection);
+    const rc = context.withScope(reflection);
+
+    const type = context.checker.getTypeAtLocation(declaration);
+
+    // Interfaces have properties
+    convertSymbols(rc, type.getProperties());
+
+    // And type arguments
+    if (declaration.typeParameters) {
+        reflection.typeParameters = declaration.typeParameters.map((param) => {
+            const declaration = param.symbol?.declarations?.[0];
+            assert(declaration && ts.isTypeParameterDeclaration(declaration));
+            return createTypeParamReflection(declaration, rc);
+        });
+    }
+
+    // And maybe call signatures
+    context.checker
+        .getSignaturesOfType(type, ts.SignatureKind.Call)
+        .forEach((sig) =>
+            createSignature(rc, ReflectionKind.CallSignature, sig, symbol)
+        );
+
+    // And maybe constructor signatures
+    convertConstructSignatures(rc, symbol);
+
+    // And finally, index signatures
+    convertIndexSignature(rc, symbol);
 }
 
 function convertFunctionOrMethod(
@@ -379,15 +436,13 @@ function convertFunctionOrMethod(
         return;
     }
 
-    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
-
     const locationDeclaration =
-        parentSymbol
+        symbol.parent
             ?.getDeclarations()
             ?.find(
                 (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d)
             ) ??
-        parentSymbol?.getDeclarations()?.[0]?.getSourceFile() ??
+        symbol.parent?.getDeclarations()?.[0]?.getSourceFile() ??
         symbol.getDeclarations()?.[0]?.getSourceFile();
     assert(locationDeclaration, "Missing declaration context");
 
@@ -423,7 +478,7 @@ function convertFunctionOrMethod(
     // Can't use zip here. We might have less declarations than signatures
     // or less signatures than declarations.
     for (const sig of signatures) {
-        createSignature(scope, ReflectionKind.CallSignature, sig);
+        createSignature(scope, ReflectionKind.CallSignature, sig, symbol);
     }
 }
 
@@ -449,6 +504,7 @@ function convertClassOrInterface(
     if (classDeclaration) setModifiers(symbol, classDeclaration, reflection);
 
     const reflectionContext = context.withScope(reflection);
+    reflectionContext.convertingClassOrInterface = true;
 
     const instanceType = context.checker.getDeclaredTypeOfSymbol(symbol);
     assert(instanceType.isClassOrInterface());
@@ -521,7 +577,8 @@ function convertClassOrInterface(
             createSignature(
                 constructContext,
                 ReflectionKind.ConstructorSignature,
-                sig
+                sig,
+                symbol
             );
         });
     }
@@ -549,7 +606,8 @@ function convertClassOrInterface(
             createSignature(
                 reflectionContext,
                 ReflectionKind.CallSignature,
-                sig
+                sig,
+                symbol
             )
         );
 
@@ -643,7 +701,7 @@ function convertProperty(
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
-        (context.isConvertingTypeNode() ? parameterType : void 0) ??
+        (context.convertingTypeNode ? parameterType : void 0) ??
             context.checker.getTypeOfSymbol(symbol)
     );
 
@@ -674,7 +732,7 @@ function convertArrowAsMethod(
     const signature = context.checker.getSignatureFromDeclaration(arrow);
     assert(signature);
 
-    createSignature(rc, ReflectionKind.CallSignature, signature, arrow);
+    createSignature(rc, ReflectionKind.CallSignature, signature, symbol, arrow);
 }
 
 function convertConstructor(context: Context, symbol: ts.Symbol) {
@@ -700,7 +758,8 @@ function convertConstructor(context: Context, symbol: ts.Symbol) {
         createSignature(
             reflectionContext,
             ReflectionKind.ConstructorSignature,
-            sig
+            sig,
+            symbol
         );
     }
 }
@@ -729,7 +788,8 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
             createSignature(
                 constructContext,
                 ReflectionKind.ConstructorSignature,
-                sig
+                sig,
+                symbol
             )
         );
     }
@@ -761,6 +821,8 @@ function createAlias(
     symbol: ts.Symbol,
     exportSymbol: ts.Symbol | undefined
 ) {
+    if (context.converter.excludeReferences) return;
+
     // We already have this. Create a reference.
     const ref = new ReferenceReflection(
         exportSymbol?.name ?? symbol.name,
@@ -779,13 +841,18 @@ function convertVariable(
     const declaration = symbol.getDeclarations()?.[0];
     assert(declaration);
 
+    const comment = context.getComment(symbol, ReflectionKind.Variable);
     const type = context.checker.getTypeOfSymbolAtLocation(symbol, declaration);
 
     if (
         isEnumLike(context.checker, type, declaration) &&
-        symbol.getJsDocTags().some((tag) => tag.name === "enum")
+        comment?.hasModifier("@enum")
     ) {
         return convertVariableAsEnum(context, symbol, exportSymbol);
+    }
+
+    if (comment?.hasModifier("@namespace")) {
+        return convertVariableAsNamespace(context, symbol, exportSymbol);
     }
 
     if (type.getCallSignatures().length) {
@@ -873,6 +940,27 @@ function convertVariableAsEnum(
     return ts.SymbolFlags.TypeAlias;
 }
 
+function convertVariableAsNamespace(
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol?: ts.Symbol
+) {
+    const reflection = context.createDeclarationReflection(
+        ReflectionKind.Namespace,
+        symbol,
+        exportSymbol
+    );
+    context.finalizeDeclarationReflection(reflection);
+    const rc = context.withScope(reflection);
+
+    const declaration = symbol.declarations![0] as ts.VariableDeclaration;
+    const type = context.checker.getTypeAtLocation(declaration);
+
+    convertSymbols(rc, type.getProperties());
+
+    return ts.SymbolFlags.Property;
+}
+
 function convertVariableAsFunction(
     context: Context,
     symbol: ts.Symbol,
@@ -904,7 +992,8 @@ function convertVariableAsFunction(
         createSignature(
             reflectionContext,
             ReflectionKind.CallSignature,
-            signature
+            signature,
+            symbol
         );
     }
 
@@ -939,6 +1028,7 @@ function convertAccessor(
                 rc,
                 ReflectionKind.GetSignature,
                 signature,
+                symbol,
                 getDeclaration
             );
         }
@@ -953,6 +1043,7 @@ function convertAccessor(
                 rc,
                 ReflectionKind.SetSignature,
                 signature,
+                symbol,
                 setDeclaration
             );
         }
@@ -1016,11 +1107,8 @@ function setModifiers(
     );
     reflection.setFlag(
         ReflectionFlag.Readonly,
-        hasAllFlags(
-            // TS 4.9: symbol.checkFlags, links was introduced in 5.0
-            symbol.checkFlags ?? symbol.links?.checkFlags ?? 0,
-            ts.CheckFlags.Readonly
-        ) || hasAllFlags(modifiers, ts.ModifierFlags.Readonly)
+        hasAllFlags(ts.getCheckFlags(symbol), ts.CheckFlags.Readonly) ||
+            hasAllFlags(modifiers, ts.ModifierFlags.Readonly)
     );
     reflection.setFlag(
         ReflectionFlag.Abstract,

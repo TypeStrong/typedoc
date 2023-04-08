@@ -54,4 +54,6 @@ export const modifierTags = [
     "@enum",
     "@event",
     "@overload",
+    "@namespace",
+    "@interface",
 ] as const;

@@ -7,8 +7,10 @@ export {
     unique,
 } from "./array";
 export { AbstractComponent, ChildableComponent, Component } from "./component";
+export * from "./enum";
 export { Event, EventDispatcher } from "./events";
 export {
+    isFile,
     copy,
     copySync,
     getCommonDirectory,
@@ -16,16 +18,19 @@ export {
     readFile,
     writeFile,
     writeFileSync,
+    discoverInParentDir,
+    discoverPackageJson,
 } from "./fs";
 export type { IfInternal, NeverIfInternal, Chars } from "./general";
 export { assertNever } from "./general";
-export { CallbackLogger, ConsoleLogger, Logger, LogLevel } from "./loggers";
+export { ConsoleLogger, Logger, LogLevel } from "./loggers";
 export { DefaultMap } from "./map";
 export {
     ArgumentsReader,
     BindOption,
     CommentStyle,
     Options,
+    PackageJsonReader,
     ParameterHint,
     ParameterType,
     TSConfigReader,
@@ -52,7 +57,7 @@ export type {
     ParameterTypeToOptionTypeMap,
     ManuallyValidatedOption,
 } from "./options";
-export { discoverPlugins, loadPlugins } from "./plugins";
+export { loadPlugins } from "./plugins";
 export { getSortFunction } from "./sort";
 export type { SortStrategy } from "./sort";
 

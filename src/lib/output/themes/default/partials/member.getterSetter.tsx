@@ -1,10 +1,18 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
 import type { DeclarationReflection } from "../../../../models";
+import { JSX } from "../../../../utils";
+import { classNames } from "../../lib";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const memberGetterSetter = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
-        <ul class={"tsd-signatures " + props.cssClasses}>
+        <ul
+            class={classNames(
+                {
+                    "tsd-signatures": true,
+                },
+                context.getReflectionClasses(props)
+            )}
+        >
             {!!props.getSignature && (
                 <>
                     <li class="tsd-signature" id={props.getSignature.anchor}>

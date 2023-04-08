@@ -25,19 +25,20 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "options",
         help: "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory.",
         hint: ParameterHint.File,
-        defaultValue: process.cwd(),
+        defaultValue: "",
     });
     options.addDeclaration({
         type: ParameterType.Path,
         name: "tsconfig",
         help: "Specify a TypeScript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
         hint: ParameterHint.File,
-        defaultValue: process.cwd(),
+        defaultValue: "",
     });
     options.addDeclaration({
         name: "compilerOptions",
         help: "Selectively override the TypeScript compiler options used by TypeDoc.",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
@@ -153,6 +154,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "excludeReferences",
+        help: "If a symbol is exported multiple times, ignore all but the first export.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "externalSymbolLinkMappings",
         help: "Define custom links for symbols not included in the documentation.",
         type: ParameterType.Mixed,
@@ -200,6 +206,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Specify the location the documentation should be written to.",
         type: ParameterType.Path,
         hint: ParameterHint.Directory,
+        defaultValue: "./docs",
     });
     options.addDeclaration({
         name: "json",
@@ -270,6 +277,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "markedOptions",
         help: "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
@@ -306,6 +314,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             "@virtual",
             "@privateRemarks",
             "@satisfies",
+            "@overload",
         ],
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
@@ -356,6 +365,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "hideGenerator",
         help: "Do not print the TypeDoc link at the end of the page.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
+        name: "cacheBust",
+        help: "Include the generation time in links to static assets.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
@@ -418,11 +432,28 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     ///////////////////////////
 
     options.addDeclaration({
+        name: "jsDocCompatibility",
+        help: "Sets compatibility options for comment parsing that increase similarity with JSDoc comments.",
+        type: ParameterType.Flags,
+        defaults: {
+            defaultTag: true,
+            exampleTag: true,
+        },
+    });
+
+    options.addDeclaration({
         name: "commentStyle",
         help: "Determines how TypeDoc searches for comments.",
         type: ParameterType.Map,
         map: CommentStyle,
         defaultValue: CommentStyle.JSDoc,
+    });
+
+    options.addDeclaration({
+        name: "useTsLinkResolution",
+        help: "Use TypeScript's link resolution when determining where @link tags point. This only applies to JSDoc style comments.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
     });
 
     options.addDeclaration({
@@ -535,6 +566,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "visibilityFilters",
         help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         defaultValue: {
             protected: false,
             private: false,
@@ -569,6 +601,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "searchCategoryBoosts",
         help: "Configure search to give a relevance boost to selected categories",
         type: ParameterType.Mixed,
+        configFileOnly: true,
         defaultValue: {},
         validate(value) {
             if (!isObject(value)) {
@@ -588,6 +621,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "searchGroupBoosts",
         help: 'Configure search to give a relevance boost to selected kinds (eg "class")',
         type: ParameterType.Mixed,
+        configFileOnly: true,
         defaultValue: {},
         validate(value: unknown) {
             if (!isObject(value)) {
@@ -642,14 +676,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "plugin",
-        help: "Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.",
+        help: "Specify the npm plugins that should be loaded. Omit to load all installed plugins.",
         type: ParameterType.ModuleArray,
-    });
-    options.addDeclaration({
-        name: "logger",
-        help: "Specify the logger that should be used, 'none' or 'console'.",
-        defaultValue: "console",
-        type: ParameterType.Mixed,
     });
     options.addDeclaration({
         name: "logLevel",

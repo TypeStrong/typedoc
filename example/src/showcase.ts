@@ -7,9 +7,8 @@
  *
  * ## Symbol References
  *
- * You can link to other classes, members or functions using double square
- * brackets or an inline link tag. See the [TypeDoc
- * documentation](https://typedoc.org/guides/doccomments/#symbol-references) for
+ * You can link to other classes, members or functions using an inline link tag. See the [TypeDoc
+ * documentation](https://typedoc.org/tags/link/) for
  * details.
  *
  * ## Code in Doc Comments

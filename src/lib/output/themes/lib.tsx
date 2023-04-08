@@ -1,8 +1,10 @@
 import {
     Comment,
     DeclarationReflection,
+    ProjectReflection,
     Reflection,
     ReflectionFlags,
+    ReflectionKind,
     SignatureReflection,
     TypeParameterReflection,
 } from "../../models";
@@ -13,6 +15,15 @@ export function stringify(data: unknown) {
         return data.toString() + "n";
     }
     return JSON.stringify(data);
+}
+
+export function getDisplayName(refl: Reflection) {
+    let version = "";
+    if ((refl instanceof DeclarationReflection || refl instanceof ProjectReflection) && refl.packageVersion) {
+        version = ` - v${refl.packageVersion}`;
+    }
+
+    return `${refl.name}${version}`;
 }
 
 /**
@@ -100,7 +111,7 @@ export function renderTypeParametersSignature(
                         <>
                             {item.flags.isConst && "const "}
                             {item.varianceModifier ? `${item.varianceModifier} ` : ""}
-                            <span class="tsd-signature-type" data-tsd-kind={item.kindString}>
+                            <span class="tsd-signature-type" data-tsd-kind={ReflectionKind.singularString(item.kind)}>
                                 {item.name}
                             </span>
                         </>
@@ -121,7 +132,7 @@ export function camelToTitleCase(text: string) {
  */
 export function renderName(refl: Reflection) {
     if (!refl.name) {
-        return <em>{wbr(refl.kindString!)}</em>;
+        return <em>{wbr(ReflectionKind.singularString(refl.kind))}</em>;
     }
 
     if (refl.flags.isOptional) {

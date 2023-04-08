@@ -3,7 +3,7 @@
 import { dirname, join, resolve } from "path";
 import { existsSync } from "fs";
 
-import { readFile, glob } from "./fs";
+import { readFile, glob, hasTsExtension } from "./fs";
 import type { Logger } from "./loggers";
 import type { Minimatch } from "minimatch";
 import { matchesAny, nicePath } from "./paths";
@@ -280,10 +280,7 @@ export function getTsEntryPointForPackage(
     // Pass an empty `paths` as node_modules locations do not need to be examined
     try {
         entryPointPath = require.resolve(entryPointPath, { paths: [] });
-        if (
-            /\.([cm]?ts|tsx?)$/.test(entryPointPath) &&
-            existsSync(entryPointPath)
-        ) {
+        if (hasTsExtension(entryPointPath) && existsSync(entryPointPath)) {
             return entryPointPath;
         }
     } catch (e: any) {

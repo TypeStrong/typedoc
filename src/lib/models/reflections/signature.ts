@@ -4,9 +4,12 @@ import type { ParameterReflection } from "./parameter";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { DeclarationReflection } from "./declaration";
 import type { ReflectionKind } from "./kind";
-import type { Serializer, JSONOutput } from "../../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
+import { SourceReference } from "../sources/file";
 
 export class SignatureReflection extends Reflection {
+    readonly variant = "signature";
+
     constructor(
         name: string,
         kind: SignatureReflection["kind"],
@@ -23,6 +26,11 @@ export class SignatureReflection extends Reflection {
         | ReflectionKind.ConstructorSignature;
 
     override parent!: DeclarationReflection;
+
+    /**
+     * A list of all source files that contributed to this reflection.
+     */
+    sources?: SourceReference[];
 
     parameters?: ParameterReflection[];
 
@@ -109,6 +117,8 @@ export class SignatureReflection extends Reflection {
     override toObject(serializer: Serializer): JSONOutput.SignatureReflection {
         return {
             ...super.toObject(serializer),
+            variant: this.variant,
+            sources: serializer.toObjectsOptional(this.sources),
             typeParameter: serializer.toObjectsOptional(this.typeParameters),
             parameters: serializer.toObjectsOptional(this.parameters),
             type: serializer.toObject(this.type),
@@ -116,5 +126,27 @@ export class SignatureReflection extends Reflection {
             inheritedFrom: serializer.toObject(this.inheritedFrom),
             implementationOf: serializer.toObject(this.implementationOf),
         };
+    }
+
+    override fromObject(
+        de: Deserializer,
+        obj: JSONOutput.SignatureReflection
+    ): void {
+        super.fromObject(de, obj);
+
+        this.sources = de.reviveMany(
+            obj.sources,
+            (t) => new SourceReference(t.fileName, t.line, t.character)
+        );
+        this.typeParameters = de.reviveMany(obj.typeParameter, (t) =>
+            de.constructReflection(t)
+        );
+        this.parameters = de.reviveMany(obj.parameters, (t) =>
+            de.constructReflection(t)
+        );
+        this.type = de.reviveType(obj.type);
+        this.overwrites = de.reviveType(obj.overwrites);
+        this.inheritedFrom = de.reviveType(obj.inheritedFrom);
+        this.implementationOf = de.reviveType(obj.implementationOf);
     }
 }

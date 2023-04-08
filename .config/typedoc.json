@@ -12,11 +12,11 @@
         "MeaningKeywords"
     ],
     "sort": ["kind", "instance-first", "required-first", "alphabetical"],
-    "entryPoints": ["../src"],
-    "entryPointStrategy": "resolve",
+    "entryPoints": ["../src/index.ts"],
     "excludeExternals": true,
     "excludeInternal": false,
     "excludePrivate": true,
+    "excludeReferences": true,
     "treatWarningsAsErrors": false,
     "validation": {
         "notExported": true,
@@ -36,6 +36,6 @@
         "Enumerations": 2.0,
         "Type Aliases": 2.0
     },
-    "searchInComments": true,
+    "includeVersion": true,
     "logLevel": "Verbose"
 }

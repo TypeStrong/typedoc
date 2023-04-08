@@ -1,9 +1,7 @@
-import type * as ts from "typescript";
-import { Reflection } from "./abstract";
 import { DeclarationReflection } from "./declaration";
 import { ReflectionKind } from "./kind";
-import type { ProjectReflection } from "./project";
-import type { Serializer, JSONOutput } from "../../serialization";
+import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
+import type { Reflection } from "./abstract";
 
 /**
  * Describes a reflection which does not exist at this location, but is referenced. Used for imported reflections.
@@ -19,24 +17,17 @@ import type { Serializer, JSONOutput } from "../../serialization";
  * ```
  */
 export class ReferenceReflection extends DeclarationReflection {
-    private _target: Reflection | ts.Symbol;
-    private _project?: ProjectReflection;
+    override readonly variant = "reference";
+
+    private _target: number;
 
     /**
      * Creates a reference reflection. Should only be used within the factory function.
-     * @param name
-     * @param state
-     * @param parent
-     *
      * @internal
      */
-    constructor(
-        name: string,
-        state: ReferenceReflection["_target"],
-        parent?: Reflection
-    ) {
+    constructor(name: string, reflection: Reflection, parent?: Reflection) {
         super(name, ReflectionKind.Reference, parent);
-        this._target = state;
+        this._target = reflection.id;
     }
 
     /**
@@ -44,13 +35,7 @@ export class ReferenceReflection extends DeclarationReflection {
      * To fully resolve any references, use {@link tryGetTargetReflectionDeep}.
      */
     tryGetTargetReflection(): Reflection | undefined {
-        this._ensureProject();
-        if (this._target instanceof Reflection) {
-            return this._target;
-        }
-        const target = this._project!.getReflectionFromSymbol(this._target);
-        if (target) this._target = target;
-        return target;
+        return this.project.getReflectionById(this._target);
     }
 
     /**
@@ -70,8 +55,6 @@ export class ReferenceReflection extends DeclarationReflection {
      * To fully resolve any references, use {@link getTargetReflectionDeep}.
      */
     getTargetReflection(): Reflection {
-        this._ensureProject();
-
         const target = this.tryGetTargetReflection();
         if (!target) {
             throw new Error("Reference was unresolved.");
@@ -95,28 +78,23 @@ export class ReferenceReflection extends DeclarationReflection {
         return this.getTargetReflection().getChildByName(arg);
     }
 
-    private _ensureProject() {
-        if (this._project) {
-            return;
-        }
-
-        let project = this.parent;
-        while (project && !project.isProject()) {
-            project = project.parent;
-        }
-        this._project = project;
-
-        if (!this._project) {
-            throw new Error(
-                "Reference reflection has no project and is unable to resolve."
-            );
-        }
-    }
-
     override toObject(serializer: Serializer): JSONOutput.ReferenceReflection {
         return {
             ...super.toObject(serializer),
+            variant: this.variant,
             target: this.tryGetTargetReflection()?.id ?? -1,
         };
+    }
+
+    override fromObject(
+        de: Deserializer,
+        obj: JSONOutput.ReferenceReflection
+    ): void {
+        super.fromObject(de, obj);
+        de.defer((project) => {
+            this._target =
+                project.getReflectionById(de.oldIdToNewId[obj.target] ?? -1)
+                    ?.id ?? -1;
+        });
     }
 }

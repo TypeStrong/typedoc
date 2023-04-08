@@ -27,8 +27,7 @@ export const sqrtArrowFunction = (x: number): number => Math.sqrt(x);
 /**
  * A simple generic function that concatenates two arrays.
  *
- * Use [`@typeParam <param
- * name>`](https://typedoc.org/guides/doccomments/#%40typeparam-%3Cparam-name%3E-or-%40template-%3Cparam-name%3E)
+ * Use [`@typeParam <param name>`](https://typedoc.org/tags/typeParam/)
  * to document generic type parameters, e.g.
  *
  * ```text

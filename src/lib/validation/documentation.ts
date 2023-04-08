@@ -4,15 +4,15 @@ import {
     Reflection,
     ReflectionKind,
     ReflectionType,
-    SignatureReflection,
 } from "../models";
 import type { Logger } from "../utils";
 import { removeFlag } from "../utils/enum";
+import { nicePath } from "../utils/paths";
 
 export function validateDocumentation(
     project: ProjectReflection,
     logger: Logger,
-    requiredToBeDocumented: readonly (keyof typeof ReflectionKind)[]
+    requiredToBeDocumented: readonly ReflectionKind.KindString[]
 ): void {
     let kinds = requiredToBeDocumented.reduce(
         (prev, cur) => prev | ReflectionKind[cur],
@@ -72,34 +72,17 @@ export function validateDocumentation(
             }
         }
 
-        let symbol = project.getSymbolFromReflection(ref);
-        let index = 0;
+        const symbolId = project.getSymbolIdFromReflection(ref);
 
-        // Signatures don't have symbols associated with them, so get the parent and then
-        // maybe also adjust the declaration index that we care about.
-        if (!symbol && ref.kindOf(ReflectionKind.SomeSignature)) {
-            symbol = project.getSymbolFromReflection(ref.parent!);
-
-            const parentIndex = (
-                ref.parent as DeclarationReflection
-            ).signatures?.indexOf(ref as SignatureReflection);
-            if (parentIndex) {
-                index = parentIndex;
-            }
-        }
-
-        const decl = symbol?.declarations?.[index];
-
-        if (!ref.hasComment() && decl) {
-            const sourceFile = decl.getSourceFile();
-
-            if (sourceFile.fileName.includes("node_modules")) {
+        if (!ref.hasComment() && symbolId) {
+            if (symbolId.fileName.includes("node_modules")) {
                 continue;
             }
 
             logger.warn(
-                `${ref.getFriendlyFullName()} does not have any documentation.`,
-                decl
+                `${ref.getFriendlyFullName()}, defined in ${nicePath(
+                    symbolId.fileName
+                )}, does not have any documentation.`
             );
         }
     }
