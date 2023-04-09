@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.24.1 (2023-04-09)
+
 ### Bug Fixes
 
 -   Improve detection for legacy JSDoc `@example` tags, #2222.
