@@ -1,5 +1,10 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Improve detection for legacy JSDoc `@example` tags, #2222.
+-   The page footer will now appear at the bottom of the page even if the page is short, #2223.
+
 # v0.24.0 (2023-04-08)
 
 ### Breaking Changes

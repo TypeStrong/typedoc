@@ -268,7 +268,11 @@ function exampleBlockContent(
     const end = lexer.done() || lexer.peek();
     lexer.release();
 
-    if (content.some((part) => part.kind === "code")) {
+    if (
+        content.some(
+            (part) => part.kind === "code" && part.text.startsWith("```")
+        )
+    ) {
         return blockContent(comment, lexer, config, warning);
     }
 

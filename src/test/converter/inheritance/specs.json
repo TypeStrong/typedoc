@@ -528,16 +528,8 @@
                     "tag": "@example",
                     "content": [
                       {
-                        "kind": "text",
-                        "text": "This function inherited commentary from the "
-                      },
-                      {
                         "kind": "code",
-                        "text": "`functionSource`"
-                      },
-                      {
-                        "kind": "text",
-                        "text": " function"
+                        "text": "```ts\nThis function inherited commentary from the `functionSource` function\n```"
                       }
                     ]
                   },

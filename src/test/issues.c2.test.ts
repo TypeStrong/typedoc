@@ -1039,4 +1039,15 @@ describe("Issue Tests", () => {
         equal(param.type?.type, "query");
         equal(param.type.queryType.reflection?.name, "TypeEmitter");
     });
+
+    it("#2222", () => {
+        const project = convert();
+        const example = query(project, "example");
+        equal(
+            Comment.combineDisplayParts(
+                example.comment?.getTag("@example")?.content
+            ),
+            "```ts\nlet x = `str`\n```"
+        );
+    });
 });
