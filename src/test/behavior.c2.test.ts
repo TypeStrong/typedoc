@@ -826,8 +826,8 @@ describe("Behavior Tests", () => {
 
     it("Removes all children of a reflection when the reflection is removed.", () => {
         const project = convert("removeReflection");
-        const foo = query(project, "foo");
-        project.removeReflection(foo);
+        project.removeReflection(query(project, "foo"));
+        project.removeReflection(query(project, "nested"));
         equal(
             Object.values(project.reflections).map((r) => r.name),
             ["typedoc"]

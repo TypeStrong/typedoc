@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed issue where removing a reflection indirectly containing an object/function type would only partially remove the reflection, #2231.
+
 ## v0.24.1 (2023-04-09)
 
 ### Bug Fixes

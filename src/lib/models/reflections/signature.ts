@@ -59,14 +59,6 @@ export class SignatureReflection extends Reflection {
      */
     implementationOf?: ReferenceType;
 
-    /**
-     * Traverse all potential child reflections of this reflection.
-     *
-     * The given callback will be invoked for all children, signatures and type parameters
-     * attached to this reflection.
-     *
-     * @param callback  The callback function that should be applied for each child reflection.
-     */
     override traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
             if (
@@ -90,8 +82,6 @@ export class SignatureReflection extends Reflection {
                 return;
             }
         }
-
-        super.traverse(callback);
     }
 
     /**

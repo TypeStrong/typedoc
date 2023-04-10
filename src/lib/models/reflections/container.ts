@@ -31,14 +31,6 @@ export abstract class ContainerReflection extends Reflection {
         return (this.children || []).filter((child) => child.kindOf(kind));
     }
 
-    /**
-     * Traverse all potential child reflections of this reflection.
-     *
-     * The given callback will be invoked for all children, signatures and type parameters
-     * attached to this reflection.
-     *
-     * @param callback  The callback function that should be applied for each child reflection.
-     */
     override traverse(callback: TraverseCallback) {
         for (const child of this.children?.slice() || []) {
             if (callback(child, TraverseProperty.Children) === false) {

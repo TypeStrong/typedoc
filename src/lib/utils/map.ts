@@ -13,6 +13,10 @@ export class DefaultMap<K, V> extends Map<K, V> {
         this.set(key, created);
         return created;
     }
+
+    getNoInsert(key: K): V | undefined {
+        return super.get(key);
+    }
 }
 
 export class StableKeyMap<K extends { getStableKey(): string }, V>

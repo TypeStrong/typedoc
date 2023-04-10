@@ -1,5 +1,5 @@
 import type { SomeType } from "../types";
-import { Reflection } from "./abstract";
+import { Reflection, TraverseCallback } from "./abstract";
 import type { DeclarationReflection } from "./declaration";
 import { ReflectionKind } from "./kind";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
@@ -57,5 +57,9 @@ export class TypeParameterReflection extends Reflection {
         this.type = de.reviveType(obj.type);
         this.default = de.reviveType(obj.default);
         this.varianceModifier = obj.varianceModifier;
+    }
+
+    override traverse(_callback: TraverseCallback): void {
+        // do nothing, no child reflections.
     }
 }

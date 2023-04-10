@@ -13,7 +13,7 @@ import { Comment, CommentDisplayPart } from "../comments";
 import { ReflectionSymbolId } from "./ReflectionSymbolId";
 import type { Serializer } from "../../serialization/serializer";
 import type { Deserializer, JSONOutput } from "../../serialization/index";
-import { StableKeyMap } from "../../utils/map";
+import { DefaultMap, StableKeyMap } from "../../utils/map";
 
 /**
  * A reflection that represents the root of the project.
@@ -34,6 +34,8 @@ export class ProjectReflection extends ContainerReflection {
 
     // Maps a reflection ID to all references eventually referring to it.
     private referenceGraph?: Map<number, number[]>;
+    // Maps a reflection ID to all reflections with it as their parent.
+    private reflectionChildren = new DefaultMap<number, number[]>(() => []);
 
     /**
      * A list of all reflections within the project. DO NOT MUTATE THIS OBJECT.
@@ -89,6 +91,11 @@ export class ProjectReflection extends ContainerReflection {
      */
     registerReflection(reflection: Reflection, symbol?: ts.Symbol) {
         this.referenceGraph = undefined;
+        if (reflection.parent) {
+            this.reflectionChildren
+                .get(reflection.parent.id)
+                .push(reflection.id);
+        }
         this.reflections[reflection.id] = reflection;
 
         if (symbol) {
@@ -108,17 +115,14 @@ export class ProjectReflection extends ContainerReflection {
      * project.
      */
     removeReflection(reflection: Reflection) {
-        // Remove references
-        for (const id of this.getReferenceGraph().get(reflection.id) ?? []) {
-            const ref = this.getReflectionById(id);
-            if (ref) {
-                this.removeReflection(ref);
-            }
-        }
-        this.getReferenceGraph().delete(reflection.id);
+        // Remove the reflection...
+        this._removeReflection(reflection);
 
-        reflection.traverse((child) => (this.removeReflection(child), true));
-
+        // And now try to remove references to it in the parent reflection.
+        // This might not find anything if someone called removeReflection on a member of a union
+        // but I think that could only be caused by a plugin doing something weird, not by a regular
+        // user... so this is probably good enough for now. Reflections that live on types are
+        // kind of half-real anyways.
         const parent = reflection.parent as DeclarationReflection;
         parent?.traverse((child, property) => {
             if (child !== reflection) {
@@ -157,7 +161,37 @@ export class ProjectReflection extends ContainerReflection {
 
             return false; // Stop iteration
         });
+    }
 
+    /**
+     * Remove a reflection without updating the parent reflection to remove references to the removed reflection.
+     */
+    private _removeReflection(reflection: Reflection) {
+        // Remove references pointing to this reflection
+        const graph = this.getReferenceGraph();
+        for (const id of graph.get(reflection.id) ?? []) {
+            const ref = this.getReflectionById(id);
+            if (ref) {
+                this.removeReflection(ref);
+            }
+        }
+        graph.delete(reflection.id);
+
+        // Remove children of this reflection
+        for (const childId of this.reflectionChildren.getNoInsert(
+            reflection.id
+        ) || []) {
+            const child = this.getReflectionById(childId);
+            // Only remove if the child's parent is still actually this reflection.
+            // This might not be the case if a plugin has moved this reflection to another parent.
+            // (typedoc-plugin-merge-modules)
+            if (child?.parent === reflection) {
+                this._removeReflection(child);
+            }
+        }
+        this.reflectionChildren.delete(reflection.id);
+
+        // Remove references from the TS symbol to this reflection.
         const symbol = this.reflectionIdToSymbolMap.get(reflection.id);
         if (symbol) {
             const id = new ReflectionSymbolId(symbol);

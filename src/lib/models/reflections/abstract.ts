@@ -479,16 +479,17 @@ export abstract class Reflection {
     }
 
     /**
-     * Traverse all potential child reflections of this reflection.
+     * Traverse most potential child reflections of this reflection.
+     *
+     * Note: This may not necessarily traverse child reflections contained within the `type` property
+     * of the reflection, and should not be relied on for this. Support for checking object types will likely be removed in v0.25.
      *
      * The given callback will be invoked for all children, signatures and type parameters
      * attached to this reflection.
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(_callback: TraverseCallback) {
-        // do nothing here, overridden by child classes
-    }
+    abstract traverse(callback: TraverseCallback): void;
 
     /**
      * Return a string representation of this reflection.
