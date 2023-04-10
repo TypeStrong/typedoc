@@ -626,9 +626,10 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 .tsd-page-navigation a {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0;
+    padding: 0.25rem;
     color: var(--color-text);
     text-decoration: none;
+    box-sizing: border-box;
 }
 .tsd-navigation a {
     /* why 3rem? No idea, but it seems to work. */

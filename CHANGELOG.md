@@ -5,6 +5,11 @@
 -   Validation will no longer be skipped for sub packages when running with `--entryPointStrategy packages`.
 -   Fixed issue where removing a reflection indirectly containing an object/function type would only partially remove the reflection, #2231.
 -   Increased padding between sections when one navigation column is displayed, #2225.
+-   Correct padding for navigation elements with a displayed icon, #2229.
+
+### Thanks!
+
+-   @RunDevelopment
 
 ## v0.24.1 (2023-04-09)
 
