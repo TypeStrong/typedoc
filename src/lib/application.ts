@@ -554,6 +554,7 @@ export class Application extends ChildableComponent<
             this.options = opts;
             const project = this.convert();
             if (project) {
+                this.validate(project);
                 projects.push(
                     this.serializer.projectToObject(project, process.cwd())
                 );
