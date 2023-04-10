@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 -   Fixed issue where removing a reflection indirectly containing an object/function type would only partially remove the reflection, #2231.
+-   Increased padding between sections when one navigation column is displayed, #2225.
 
 ## v0.24.1 (2023-04-09)
 
