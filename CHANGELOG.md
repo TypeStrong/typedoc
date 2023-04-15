@@ -21,6 +21,7 @@
 -   Fixed semantic coloring in type and function signatures, #2227.
 -   Fixed issue where removing a reflection indirectly containing an object/function type would only partially remove the reflection, #2231.
 -   Fixed "Implementation of X.y" links if a mixture of methods and property-methods are used, #2233.
+-   "Implementation of" text to symbol-properties not contained in the documentation will now use the resolved name instead of a `__@` symbol name, #2234.
 -   Fix expansion of globs if a single entry point is provided, #2235.
 -   Fixed broken theme toggle if the page contained a member named "theme".
 

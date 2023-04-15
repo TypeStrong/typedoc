@@ -13,6 +13,7 @@ import { filterMap, zip } from "../../utils/array";
 import { Component, ConverterComponent } from "../components";
 import type { Context } from "../context";
 import { Converter } from "../converter";
+import { getHumanName } from "../../utils";
 
 /**
  * A plugin that detects interface implementations of functions and
@@ -405,7 +406,7 @@ function createLink(
     isOverwrite: boolean
 ) {
     const project = context.project;
-    const name = `${expr.expression.getText()}.${symbol.name}`;
+    const name = `${expr.expression.getText()}.${getHumanName(symbol.name)}`;
 
     link(reflection);
     link(reflection.getSignature);

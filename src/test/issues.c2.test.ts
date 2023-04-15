@@ -1079,4 +1079,18 @@ describe("Issue Tests", () => {
             );
         }
     });
+
+    it("Handles implementationOf with symbols #2234", () => {
+        const project = convert();
+        const cm = query(project, "CharMap");
+        equal(
+            cm.children?.map((c) => c.name),
+            ["constructor", "[iterator]", "at"]
+        );
+
+        equal(
+            cm.children[1].implementationOf?.name,
+            "ReadonlyCharMap.[iterator]"
+        );
+    });
 });
