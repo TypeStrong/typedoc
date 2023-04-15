@@ -11,7 +11,7 @@
 
 ### Bug Fixes
 
--   Validation will no longer be skipped for sub packages when running with `--entryPointStrategy packages`.
+-   Fixed `&` showing as `&amp;` and HTML text showing up in page contents navigation, #2224.
 -   Increased padding between sections when one navigation column is displayed, #2225.
 -   Correct padding for navigation elements with a displayed icon, #2229.
 -   Fixed `source-order` sort strategy failing to compare reflections within a file.
@@ -23,6 +23,7 @@
 -   Fixed "Implementation of X.y" links if a mixture of methods and property-methods are used, #2233.
 -   "Implementation of" text to symbol-properties not contained in the documentation will now use the resolved name instead of a `__@` symbol name, #2234.
 -   Fix expansion of globs if a single entry point is provided, #2235.
+-   Validation will no longer be skipped for sub packages when running with `--entryPointStrategy packages`.
 -   Fixed broken theme toggle if the page contained a member named "theme".
 
 ### Thanks!

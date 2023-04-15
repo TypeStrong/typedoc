@@ -7,6 +7,7 @@ import { RendererEvent, MarkdownEvent, PageEvent } from "../events";
 import { BindOption, readFile, copySync, isFile } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { Theme } from "shiki";
+import { getTextContent } from "../../utils/html";
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -192,7 +193,7 @@ output file :
                 // Prefix the slug with an extra `$` to prevent conflicts with TypeDoc's anchors.
                 this.page!.pageHeadings.push({
                     link: `#md:${slug}`,
-                    text,
+                    text: getTextContent(text),
                     level,
                 });
                 return `<a id="md:${slug}" class="tsd-anchor"></a><h${level}><a href="#$${slug}" style="color:inherit;text-decoration:none">${text}</a></h${level}>`;
