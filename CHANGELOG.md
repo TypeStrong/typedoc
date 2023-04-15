@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.24.2 (2023-04-15)
+
 ### Features
 
 -   Added semantic link coloring for reflection names & links, #2227.
