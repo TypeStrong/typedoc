@@ -1,6 +1,5 @@
 import { Minimatch } from "minimatch";
 import { isAbsolute, relative } from "path";
-import { normalizePath } from "./fs";
 
 /**
  * Convert array of glob patterns to array of minimatch instances.
@@ -29,4 +28,14 @@ export function nicePath(absPath: string) {
         return normalizePath(absPath);
     }
     return `./${normalizePath(relativePath)}`;
+}
+
+/**
+ * Normalize the given path.
+ *
+ * @param path  The path that should be normalized.
+ * @returns The normalized path.
+ */
+export function normalizePath(path: string) {
+    return path.replace(/\\/g, "/");
 }

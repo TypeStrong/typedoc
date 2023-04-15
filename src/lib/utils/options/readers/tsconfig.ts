@@ -4,7 +4,7 @@ import ts from "typescript";
 
 import type { Options, OptionsReader } from "../options";
 import type { Logger } from "../../loggers";
-import { normalizePath, isFile } from "../../fs";
+import { isFile } from "../../fs";
 import { ok } from "assert";
 import {
     additionalProperties,
@@ -13,7 +13,7 @@ import {
     optional,
     validate,
 } from "../../validation";
-import { nicePath } from "../../paths";
+import { nicePath, normalizePath } from "../../paths";
 import { createRequire } from "module";
 import {
     tsdocBlockTags,

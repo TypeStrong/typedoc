@@ -30,7 +30,7 @@ import { validateDocumentation } from "./validation/documentation";
 import { validateLinks } from "./validation/links";
 import { ApplicationEvents } from "./application-events";
 import { findTsConfigFile } from "./utils/tsconfig";
-import { getCommonDirectory, glob, readFile } from "./utils/fs";
+import { deriveRootDir, glob, readFile } from "./utils/fs";
 import { resetReflectionID } from "./models/reflections/abstract";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -584,7 +584,7 @@ export class Application extends ChildableComponent<
     private _merge(): ProjectReflection | undefined {
         const start = Date.now();
 
-        const rootDir = getCommonDirectory(this.entryPoints);
+        const rootDir = deriveRootDir(this.entryPoints);
         const entryPoints = this.entryPoints.flatMap((entry) =>
             glob(entry, rootDir)
         );

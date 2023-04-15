@@ -14,13 +14,13 @@ export {
     copy,
     copySync,
     getCommonDirectory,
-    normalizePath,
     readFile,
     writeFile,
     writeFileSync,
     discoverInParentDir,
     discoverPackageJson,
 } from "./fs";
+export { normalizePath } from "./paths";
 export type { IfInternal, NeverIfInternal, Chars } from "./general";
 export { assertNever } from "./general";
 export { ConsoleLogger, Logger, LogLevel } from "./loggers";

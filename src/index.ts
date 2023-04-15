@@ -2,7 +2,6 @@ export { Application } from "./lib/application";
 
 export { EventDispatcher, Event } from "./lib/utils/events";
 export { resetReflectionID } from "./lib/models/reflections/abstract";
-export { normalizePath } from "./lib/utils/fs";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
  */
@@ -50,6 +49,7 @@ export {
     EntryPointStrategy,
     EventHooks,
     MinimalSourceFile,
+    normalizePath,
 } from "./lib/utils";
 
 export type {

@@ -5,9 +5,9 @@ import { Converter } from "../converter";
 import type { Context } from "../context";
 import { BindOption, EntryPointStrategy, readFile } from "../../utils";
 import {
+    deriveRootDir,
     discoverInParentDir,
     discoverPackageJson,
-    getCommonDirectory,
 } from "../../utils/fs";
 import { nicePath } from "../../utils/paths";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile";
@@ -81,7 +81,7 @@ export class PackagePlugin extends ConverterComponent {
                 ? this.entryPoints.map((d) => join(d, "package.json"))
                 : this.entryPoints;
 
-        const dirName = Path.resolve(getCommonDirectory(entryFiles));
+        const dirName = Path.resolve(deriveRootDir(entryFiles));
 
         this.application.logger.verbose(
             `Begin readme.md/package.json search at ${nicePath(dirName)}`

@@ -6,8 +6,8 @@ import type { OptionsReader } from "..";
 import type { Logger } from "../../loggers";
 import type { Options } from "../options";
 import { ok } from "assert";
-import { nicePath } from "../../paths";
-import { isFile, normalizePath } from "../../fs";
+import { nicePath, normalizePath } from "../../paths";
+import { isFile } from "../../fs";
 import { createRequire } from "module";
 
 /**

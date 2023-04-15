@@ -7,9 +7,8 @@ import {
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { BindOption } from "../../utils";
+import { BindOption, normalizePath, getCommonDirectory } from "../../utils";
 import { isNamedNode } from "../utils/nodes";
-import { getCommonDirectory, normalizePath } from "../../utils/fs";
 import { dirname, relative } from "path";
 import { SourceReference } from "../../models";
 import { gitIsInstalled, Repository } from "../utils/repository";

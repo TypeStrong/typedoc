@@ -3,6 +3,8 @@ import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
 import { dirname, join, relative, resolve } from "path";
 import { optional, validate } from "./validation";
+import { createMinimatch, normalizePath } from "./paths";
+import { filterMap } from "./array";
 
 export function isFile(file: string) {
     try {
@@ -18,6 +20,18 @@ export function isDir(path: string) {
     } catch {
         return false;
     }
+}
+
+export function deriveRootDir(globPaths: string[]): string {
+    const globs = createMinimatch(globPaths);
+    const rootPaths = globs.flatMap((glob) =>
+        filterMap(glob.set, (set) => {
+            const stop = set.findIndex((part) => typeof part !== "string");
+            const path = stop === -1 ? set : set.slice(0, stop);
+            return `/${path.join("/").replace(/^\//, "")}`;
+        })
+    );
+    return getCommonDirectory(rootPaths);
 }
 
 /**
@@ -40,16 +54,6 @@ export function getCommonDirectory(files: readonly string[]): string {
     }
 
     return roots[0].slice(0, i).join("/");
-}
-
-/**
- * Normalize the given path.
- *
- * @param path  The path that should be normalized.
- * @returns The normalized path.
- */
-export function normalizePath(path: string) {
-    return path.replace(/\\/g, "/");
 }
 
 /**

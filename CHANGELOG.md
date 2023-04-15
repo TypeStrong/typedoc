@@ -20,6 +20,7 @@
 -   Updated highlight colors for semantic links to meet WCAG AA contrast requirements, #2228.
 -   Type parameters are now highlighted consistently, #2230.
 -   Fixed semantic coloring in type and function signatures, #2227.
+-   Fix expansion of globs if a single entry point is provided, #2235.
 -   Fixed broken theme toggle if the page contained a member named "theme".
 
 ### Thanks!
