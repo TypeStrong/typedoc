@@ -8,15 +8,15 @@
     --light-color-accent: #c5c7c9;
     --light-color-text: #222;
     --light-color-text-aside: #707070;
-    --light-color-link: #4da6ff;
-    --light-color-ts: #db1373;
-    --light-color-ts-interface: #139d2c;
-    --light-color-ts-enum: #9c891a;
-    --light-color-ts-class: #2484e5;
+    --light-color-link: #1f70c2;
+    --light-color-ts: #d51270;
+    --light-color-ts-interface: #108024;
+    --light-color-ts-enum: #7e6f15;
+    --light-color-ts-class: #1f70c2;
     --light-color-ts-function: #572be7;
     --light-color-ts-namespace: #b111c9;
     --light-color-ts-private: #707070;
-    --light-color-ts-variable: #4d68ff;
+    --light-color-ts-variable: #4760ec;
     --light-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23000' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
     --light-color-scheme: light;
 

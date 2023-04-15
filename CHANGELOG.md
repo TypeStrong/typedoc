@@ -8,6 +8,7 @@
 -   Correct padding for navigation elements with a displayed icon, #2229.
 -   Fixed `source-order` sort strategy failing to compare reflections within a file.
 -   Added `enum-member-source-order` specialization of the `source-order` sort strategy which only compares enum members, #2237.
+-   Updated highlight colors for semantic links to meet WCAG AA contrast requirements, #2228.
 
 ### Thanks!
 
