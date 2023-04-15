@@ -141,6 +141,13 @@ export namespace ReflectionKind {
             return getKindString(kind) + "s";
         }
     }
+
+    export function classString(kind: ReflectionKind): string {
+        return `tsd-kind-${ReflectionKind[kind].replace(
+            /(.)([A-Z])/g,
+            (_m, a, b) => `${a}-${b}`.toLowerCase()
+        )}`;
+    }
 }
 
 function getKindString(kind: ReflectionKind): string {

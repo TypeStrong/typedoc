@@ -35,7 +35,7 @@ export function getKindClass(refl: Reflection): string {
     if (refl instanceof ReferenceReflection) {
         return getKindClass(refl.getTargetReflectionDeep());
     }
-    return `tsd-kind-${toStyleClass(ReflectionKind[refl.kind])}`;
+    return ReflectionKind.classString(refl.kind);
 }
 
 /**

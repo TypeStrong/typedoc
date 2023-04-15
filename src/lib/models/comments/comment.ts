@@ -1,9 +1,9 @@
 import { assertNever, removeIf } from "../../utils";
 import type { Reflection } from "../reflections";
+import { ReflectionKind } from "../reflections/kind";
 import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId";
 
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
-import { getKindClass } from "../../output/themes/lib";
 
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
@@ -147,7 +147,9 @@ export class Comment {
                                     // No point in trying to resolve a ReflectionSymbolId at this point, we've already
                                     // tried and failed during the resolution step.
                                     url = urlTo(part.target);
-                                    kindClass = getKindClass(part.target);
+                                    kindClass = ReflectionKind.classString(
+                                        part.target.kind
+                                    );
                                 }
                                 const text =
                                     part.tag === "@linkcode"
