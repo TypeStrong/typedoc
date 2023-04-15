@@ -13,6 +13,7 @@ export const SORT_STRATEGIES = [
     "alphabetical",
     "enum-value-ascending",
     "enum-value-descending",
+    "enum-member-source-order",
     "static-first",
     "instance-first",
     "visibility",
@@ -72,7 +73,7 @@ const sorts: Record<
             }
             if (
                 aSymbol.fileName === bSymbol.fileName &&
-                aSymbol.pos < aSymbol.pos
+                aSymbol.pos < bSymbol.pos
             ) {
                 return true;
             }
@@ -112,6 +113,15 @@ const sorts: Record<
                 b.type instanceof LiteralType ? b.type.value : -Infinity;
 
             return bValue! < aValue!;
+        }
+        return false;
+    },
+    "enum-member-source-order"(a, b, data) {
+        if (
+            a.kind === ReflectionKind.EnumMember &&
+            b.kind === ReflectionKind.EnumMember
+        ) {
+            return sorts["source-order"](a, b, data);
         }
         return false;
     },

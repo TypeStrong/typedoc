@@ -5,6 +5,7 @@ import {
     ProjectReflection,
     ReflectionFlag,
     ReflectionKind,
+    ReflectionSymbolId,
 } from "../../lib/models";
 import { resetReflectionID } from "../../lib/models/reflections/abstract";
 import { Logger, Options } from "../../lib/utils";
@@ -238,6 +239,81 @@ describe("Sort", () => {
         equal(
             arr.map((r) => r.name),
             ["a", "b"]
+        );
+    });
+
+    it("source-order should sort by file, then by position in file", () => {
+        const aId = new ReflectionSymbolId({
+            sourceFileName: "a.ts",
+            qualifiedName: "a",
+        });
+        aId.pos = 1;
+        const bId = new ReflectionSymbolId({
+            sourceFileName: "a.ts",
+            qualifiedName: "b",
+        });
+        bId.pos = 2;
+        const cId = new ReflectionSymbolId({
+            sourceFileName: "b.ts",
+            qualifiedName: "c",
+        });
+        cId.pos = 0;
+
+        const proj = new ProjectReflection("");
+        const a = new DeclarationReflection("a", ReflectionKind.Variable, proj);
+        proj.registerSymbolId(a, aId);
+
+        const b = new DeclarationReflection("b", ReflectionKind.Variable, proj);
+        proj.registerSymbolId(b, bId);
+
+        const c = new DeclarationReflection("c", ReflectionKind.Variable, proj);
+        proj.registerSymbolId(c, cId);
+
+        const arr = [c, b, a];
+
+        sortReflections(arr, ["source-order"]);
+        equal(
+            arr.map((r) => r.name),
+            ["a", "b", "c"]
+        );
+    });
+
+    it("enum-member-source-order should do nothing if not an enum member", () => {
+        const bId = new ReflectionSymbolId({
+            sourceFileName: "a.ts",
+            qualifiedName: "b",
+        });
+        bId.pos = 2;
+        const cId = new ReflectionSymbolId({
+            sourceFileName: "a.ts",
+            qualifiedName: "c",
+        });
+        cId.pos = 1;
+
+        const proj = new ProjectReflection("");
+        const a = new DeclarationReflection("a", ReflectionKind.Variable, proj);
+
+        const b = new DeclarationReflection(
+            "b",
+            ReflectionKind.EnumMember,
+            proj
+        );
+        proj.registerSymbolId(b, bId);
+
+        const c = new DeclarationReflection(
+            "c",
+            ReflectionKind.EnumMember,
+            proj
+        );
+        proj.registerSymbolId(c, cId);
+
+        const d = new DeclarationReflection("d", ReflectionKind.Variable, proj);
+
+        const arr = [d, c, b, a];
+        sortReflections(arr, ["enum-member-source-order", "alphabetical"]);
+        equal(
+            arr.map((r) => r.name),
+            ["a", "c", "b", "d"]
         );
     });
 });

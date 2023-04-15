@@ -6,6 +6,8 @@
 -   Fixed issue where removing a reflection indirectly containing an object/function type would only partially remove the reflection, #2231.
 -   Increased padding between sections when one navigation column is displayed, #2225.
 -   Correct padding for navigation elements with a displayed icon, #2229.
+-   Fixed `source-order` sort strategy failing to compare reflections within a file.
+-   Added `enum-member-source-order` specialization of the `source-order` sort strategy which only compares enum members, #2237.
 
 ### Thanks!
 
