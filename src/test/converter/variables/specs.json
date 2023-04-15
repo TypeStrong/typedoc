@@ -56,7 +56,8 @@
                       {
                         "type": "reference",
                         "target": -1,
-                        "name": "T"
+                        "name": "T",
+                        "refersToTypeParameter": true
                       }
                     ],
                     "name": "Array",

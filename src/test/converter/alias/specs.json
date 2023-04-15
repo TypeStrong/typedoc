@@ -41,7 +41,8 @@
         "checkType": {
           "type": "reference",
           "target": -1,
-          "name": "T"
+          "name": "T",
+          "refersToTypeParameter": true
         },
         "extendsType": {
           "type": "intrinsic",
@@ -126,7 +127,8 @@
         "checkType": {
           "type": "reference",
           "target": -1,
-          "name": "T"
+          "name": "T",
+          "refersToTypeParameter": true
         },
         "extendsType": {
           "type": "reference",
@@ -146,12 +148,14 @@
         "trueType": {
           "type": "reference",
           "target": -1,
-          "name": "U"
+          "name": "U",
+          "refersToTypeParameter": true
         },
         "falseType": {
           "type": "reference",
           "target": -1,
-          "name": "T"
+          "name": "T",
+          "refersToTypeParameter": true
         }
       }
     },
@@ -219,7 +223,8 @@
                   "type": {
                     "type": "reference",
                     "target": -1,
-                    "name": "T"
+                    "name": "T",
+                    "refersToTypeParameter": true
                   }
                 },
                 {
@@ -231,7 +236,8 @@
                   "type": {
                     "type": "reference",
                     "target": -1,
-                    "name": "T"
+                    "name": "T",
+                    "refersToTypeParameter": true
                   }
                 }
               ],

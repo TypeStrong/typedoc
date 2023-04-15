@@ -702,10 +702,12 @@ const referenceConverter: TypeConverter<
         if (!symbol) {
             // This happens when we get a reference to a type parameter
             // created within a mapped type, `K` in: `{ [K in T]: string }`
-            return ReferenceType.createBrokenReference(
+            const ref = ReferenceType.createBrokenReference(
                 context.checker.typeToString(type),
                 context.project
             );
+            ref.refersToTypeParameter = true;
+            return ref;
         }
 
         const ref = ReferenceType.createSymbolReference(

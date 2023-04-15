@@ -2,6 +2,7 @@ import {
     Comment,
     DeclarationReflection,
     ProjectReflection,
+    ReferenceReflection,
     Reflection,
     ReflectionFlags,
     ReflectionKind,
@@ -17,13 +18,24 @@ export function stringify(data: unknown) {
     return JSON.stringify(data);
 }
 
-export function getDisplayName(refl: Reflection) {
+export function getDisplayName(refl: Reflection): string {
     let version = "";
     if ((refl instanceof DeclarationReflection || refl instanceof ProjectReflection) && refl.packageVersion) {
         version = ` - v${refl.packageVersion}`;
     }
 
     return `${refl.name}${version}`;
+}
+
+export function toStyleClass(str: string): string {
+    return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();
+}
+
+export function getKindClass(refl: Reflection): string {
+    if (refl instanceof ReferenceReflection) {
+        return getKindClass(refl.getTargetReflectionDeep());
+    }
+    return `tsd-kind-${toStyleClass(ReflectionKind[refl.kind])}`;
 }
 
 /**
@@ -111,9 +123,7 @@ export function renderTypeParametersSignature(
                         <>
                             {item.flags.isConst && "const "}
                             {item.varianceModifier ? `${item.varianceModifier} ` : ""}
-                            <span class="tsd-signature-type" data-tsd-kind={ReflectionKind.singularString(item.kind)}>
-                                {item.name}
-                            </span>
+                            <span class="tsd-signature-type tsd-kind-type-parameter">{item.name}</span>
                         </>
                     ))}
                     <span class="tsd-signature-symbol">{">"}</span>

@@ -191,11 +191,11 @@ output file :
                 const slug = slugger.slug(text);
                 // Prefix the slug with an extra `$` to prevent conflicts with TypeDoc's anchors.
                 this.page!.pageHeadings.push({
-                    link: `#$${slug}`,
+                    link: `#md:${slug}`,
                     text,
                     level,
                 });
-                return `<a id="$${slug}" class="tsd-anchor"></a><h${level}><a href="#$${slug}" style="color:inherit;text-decoration:none">${text}</a></h${level}>`;
+                return `<a id="md:${slug}" class="tsd-anchor"></a><h${level}><a href="#$${slug}" style="color:inherit;text-decoration:none">${text}</a></h${level}>`;
             };
         }
 

@@ -11,7 +11,7 @@ import {
     TypeKindMap,
 } from "../../../../models";
 import { JSX } from "../../../../utils";
-import { join, stringify } from "../../lib";
+import { getKindClass, join, stringify } from "../../lib";
 import { ok } from "assert";
 
 const EXPORTABLE: ReflectionKind =
@@ -63,11 +63,7 @@ function getNamespacedPath(reflection: Reflection): Reflection[] {
 }
 function renderUniquePath(context: DefaultThemeRenderContext, reflection: Reflection): JSX.Element {
     return join(<span class="tsd-signature-symbol">.</span>, getUniquePath(reflection), (item) => (
-        <a
-            href={context.urlTo(item)}
-            class="tsd-signature-type"
-            data-tsd-kind={ReflectionKind.singularString(item.kind)}
-        >
+        <a href={context.urlTo(item)} class={"tsd-signature-type " + getKindClass(item)}>
             {item.name}
         </a>
     ));
@@ -101,17 +97,23 @@ const typeRenderers: {
         );
     },
     conditional(context, type) {
-        return (
-            <>
-                {renderType(context, type.checkType, TypeContext.conditionalCheck)}
-                <span class="tsd-signature-symbol"> extends </span>
-                {renderType(context, type.extendsType, TypeContext.conditionalExtends)}
-                <span class="tsd-signature-symbol"> ? </span>
-                {renderType(context, type.trueType, TypeContext.conditionalTrue)}
-                <span class="tsd-signature-symbol"> : </span>
-                {renderType(context, type.falseType, TypeContext.conditionalFalse)}
-            </>
-        );
+        indentationDepth++;
+        const parts: JSX.Element[] = [
+            renderType(context, type.checkType, TypeContext.conditionalCheck),
+            <span class="tsd-signature-symbol"> extends </span>,
+            renderType(context, type.extendsType, TypeContext.conditionalExtends),
+            <br />,
+            includeIndentation(),
+            <span class="tsd-signature-symbol">? </span>,
+            renderType(context, type.trueType, TypeContext.conditionalTrue),
+            <br />,
+            includeIndentation(),
+            <span class="tsd-signature-symbol">: </span>,
+            renderType(context, type.falseType, TypeContext.conditionalFalse),
+        ];
+        indentationDepth--;
+
+        return <>{parts}</>;
     },
     indexedAccess(context, type) {
         let indexType: JSX.Element = renderType(context, type.indexType, TypeContext.indexedIndex);
@@ -140,7 +142,8 @@ const typeRenderers: {
     inferred(context, type) {
         return (
             <>
-                <span class="tsd-signature-symbol">infer </span> {type.name}
+                <span class="tsd-signature-symbol">infer </span>{" "}
+                <span class="tsd-kind-type-parameter">{type.name}</span>
                 {type.constraint && (
                     <>
                         <span class="tsd-signature-symbol"> extends </span>
@@ -162,49 +165,54 @@ const typeRenderers: {
         return <span class="tsd-signature-type">{stringify(type.value)}</span>;
     },
     mapped(context, type) {
-        const children: JSX.Element[] = [];
+        indentationDepth++;
+        const parts = [<span class="tsd-signature-symbol">{"{"}</span>, <br />, includeIndentation()];
 
         switch (type.readonlyModifier) {
             case "+":
-                children.push(<span class="tsd-signature-symbol">readonly </span>);
+                parts.push(<span class="tsd-signature-symbol">readonly </span>);
                 break;
             case "-":
-                children.push(<span class="tsd-signature-symbol">-readonly </span>);
+                parts.push(<span class="tsd-signature-symbol">-readonly </span>);
                 break;
         }
 
-        children.push(
-            <span class="tsd-signature-symbol">[ </span>,
-            <span class="tsd-signature-type">{type.parameter}</span>,
+        parts.push(
+            <span class="tsd-signature-symbol">[</span>,
+            <span class="tsd-kind-type-parameter">{type.parameter}</span>,
             <span class="tsd-signature-symbol"> in </span>,
             renderType(context, type.parameterType, TypeContext.mappedParameter)
         );
 
         if (type.nameType) {
-            children.push(
+            parts.push(
                 <span class="tsd-signature-symbol"> as </span>,
                 renderType(context, type.nameType, TypeContext.mappedName)
             );
         }
 
-        children.push(<span class="tsd-signature-symbol">]</span>);
+        parts.push(<span class="tsd-signature-symbol">]</span>);
 
         switch (type.optionalModifier) {
             case "+":
-                children.push(<span class="tsd-signature-symbol">?: </span>);
+                parts.push(<span class="tsd-signature-symbol">?: </span>);
                 break;
             case "-":
-                children.push(<span class="tsd-signature-symbol">-?: </span>);
+                parts.push(<span class="tsd-signature-symbol">-?: </span>);
                 break;
             default:
-                children.push(<span class="tsd-signature-symbol">: </span>);
+                parts.push(<span class="tsd-signature-symbol">: </span>);
         }
 
-        children.push(renderType(context, type.templateType, TypeContext.mappedTemplate));
+        parts.push(renderType(context, type.templateType, TypeContext.mappedTemplate));
+
+        indentationDepth--;
 
         return (
             <>
-                <span class="tsd-signature-symbol">{"{"}</span> {children}{" "}
+                {parts}
+                <br />
+                {includeIndentation()}
                 <span class="tsd-signature-symbol">{"}"}</span>
             </>
         );
@@ -259,12 +267,8 @@ const typeRenderers: {
 
         if (reflection) {
             if (reflection.kindOf(ReflectionKind.TypeParameter)) {
-                // Don't generate a link will always point to this page, but do set the kind.
-                name = (
-                    <span class="tsd-signature-type" data-tsd-kind={ReflectionKind.singularString(reflection.kind)}>
-                        {reflection.name}
-                    </span>
-                );
+                // Don't generate a link as it will always point to this page.
+                name = <span class="tsd-signature-type tsd-kind-type-parameter">{reflection.name}</span>;
             } else {
                 name = renderUniquePath(context, reflection);
             }
@@ -274,8 +278,10 @@ const typeRenderers: {
                     {type.name}
                 </a>
             );
+        } else if (type.refersToTypeParameter) {
+            name = <span class="tsd-signature-type tsd-kind-type-parameter">{type.name}</span>;
         } else {
-            name = <span class="tsd-signature-type">{type.name}</span>;
+            name = <span class="tsd-signature-type ">{type.name}</span>;
         }
 
         if (type.typeArguments?.length) {
@@ -303,7 +309,7 @@ const typeRenderers: {
             if (item.getSignature && item.setSignature) {
                 members.push(
                     <>
-                        {item.name}
+                        <span class={getKindClass(item)}>{item.name}</span>
                         <span class="tsd-signature-symbol">: </span>
                         {renderType(context, item.getSignature.type, TypeContext.none)}
                     </>
@@ -315,7 +321,7 @@ const typeRenderers: {
                 members.push(
                     <>
                         <span class="tsd-signature-symbol">get </span>
-                        {item.name}
+                        <span class={getKindClass(item.getSignature)}>{item.name}</span>
                         <span class="tsd-signature-symbol">(): </span>
                         {renderType(context, item.getSignature.type, TypeContext.none)}
                     </>
@@ -327,7 +333,7 @@ const typeRenderers: {
                 members.push(
                     <>
                         <span class="tsd-signature-symbol">set </span>
-                        {item.name}
+                        <span class={getKindClass(item.setSignature)}>{item.name}</span>
                         <span class="tsd-signature-symbol">(</span>
                         {item.setSignature.parameters?.map((item) => (
                             <>
@@ -346,11 +352,11 @@ const typeRenderers: {
                 for (const sig of item.signatures) {
                     members.push(
                         <>
-                            {item.name}
+                            <span class={getKindClass(sig)}>{item.name}</span>
                             {item.flags.isOptional && <span class="tsd-signature-symbol">?</span>}
                             {context.memberSignatureTitle(sig, {
                                 hideName: true,
-                                arrowStyle: false,
+                                arrowStyle: true,
                             })}
                         </>
                     );
@@ -360,7 +366,7 @@ const typeRenderers: {
 
             members.push(
                 <>
-                    {item.name}
+                    <span class={getKindClass(item)}>{item.name}</span>
                     <span class="tsd-signature-symbol">{item.flags.isOptional ? "?: " : ": "}</span>
                     {renderType(context, item.type, TypeContext.none)}
                 </>
@@ -371,7 +377,8 @@ const typeRenderers: {
             const index = type.declaration.indexSignature;
             members.push(
                 <>
-                    [{index.parameters![0].name}: {renderType(context, index.parameters![0].type, TypeContext.none)}]
+                    [<span class={getKindClass(type.declaration.indexSignature)}>{index.parameters![0].name}</span>:{" "}
+                    {renderType(context, index.parameters![0].type, TypeContext.none)}]
                     <span class="tsd-signature-symbol">: </span>
                     {renderType(context, index.type, TypeContext.none)}
                 </>

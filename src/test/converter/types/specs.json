@@ -88,7 +88,8 @@
             "checkType": {
               "type": "reference",
               "target": -1,
-              "name": "T"
+              "name": "T",
+              "refersToTypeParameter": true
             },
             "extendsType": {
               "type": "tuple",
@@ -116,7 +117,8 @@
             "trueType": {
               "type": "reference",
               "target": -1,
-              "name": "S"
+              "name": "S",
+              "refersToTypeParameter": true
             },
             "falseType": {
               "type": "intrinsic",
@@ -544,7 +546,8 @@
                   "target": {
                     "type": "reference",
                     "target": -1,
-                    "name": "T"
+                    "name": "T",
+                    "refersToTypeParameter": true
                   }
                 },
                 {
@@ -558,12 +561,14 @@
               "indexType": {
                 "type": "reference",
                 "target": -1,
-                "name": "K"
+                "name": "K",
+                "refersToTypeParameter": true
               },
               "objectType": {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             },
             "nameType": {
@@ -574,7 +579,8 @@
                   {
                     "type": "reference",
                     "target": -1,
-                    "name": "K"
+                    "name": "K",
+                    "refersToTypeParameter": true
                   },
                   ""
                 ],
@@ -582,7 +588,8 @@
                   {
                     "type": "reference",
                     "target": -1,
-                    "name": "K"
+                    "name": "K",
+                    "refersToTypeParameter": true
                   },
                   ""
                 ]
@@ -622,7 +629,8 @@
               "target": {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             },
             "templateType": {
@@ -630,12 +638,14 @@
               "indexType": {
                 "type": "reference",
                 "target": -1,
-                "name": "K"
+                "name": "K",
+                "refersToTypeParameter": true
               },
               "objectType": {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             }
           }
@@ -688,7 +698,8 @@
                   "type": {
                     "type": "reference",
                     "target": -1,
-                    "name": "T"
+                    "name": "T",
+                    "refersToTypeParameter": true
                   }
                 }
               ],
@@ -704,12 +715,14 @@
                   "indexType": {
                     "type": "reference",
                     "target": -1,
-                    "name": "K"
+                    "name": "K",
+                    "refersToTypeParameter": true
                   },
                   "objectType": {
                     "type": "reference",
                     "target": -1,
-                    "name": "T"
+                    "name": "T",
+                    "refersToTypeParameter": true
                   }
                 },
                 "nameType": {
@@ -720,7 +733,8 @@
                       {
                         "type": "reference",
                         "target": -1,
-                        "name": "K"
+                        "name": "K",
+                        "refersToTypeParameter": true
                       },
                       ""
                     ],
@@ -728,7 +742,8 @@
                       {
                         "type": "reference",
                         "target": -1,
-                        "name": "K"
+                        "name": "K",
+                        "refersToTypeParameter": true
                       },
                       ""
                     ]
@@ -786,7 +801,8 @@
                   "type": {
                     "type": "reference",
                     "target": -1,
-                    "name": "T"
+                    "name": "T",
+                    "refersToTypeParameter": true
                   }
                 }
               ],

@@ -481,7 +481,8 @@
           "type": {
             "type": "reference",
             "target": -1,
-            "name": "T"
+            "name": "T",
+            "refersToTypeParameter": true
           }
         },
         {
@@ -540,14 +541,16 @@
                       "type": {
                         "type": "reference",
                         "target": -1,
-                        "name": "T"
+                        "name": "T",
+                        "refersToTypeParameter": true
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
                     "target": -1,
-                    "name": "T"
+                    "name": "T",
+                    "refersToTypeParameter": true
                   }
                 }
               ]

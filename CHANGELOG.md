@@ -1,5 +1,14 @@
 # Unreleased
 
+### Features
+
+-   Added semantic link coloring for reflection names & links, #2227.
+    Note: This resulted in function signatures becoming too busy for easy scanning with even slightly
+    complicated signatures as such, TypeDoc now only renders parameter names in the signature title
+    and includes the type in the parameter details as usual. This can be controlled with the new
+    `--hideParameterTypesInTitle` option.
+-   Conditional types will now render their branches on the next line for easier comprehension.
+
 ### Bug Fixes
 
 -   Validation will no longer be skipped for sub packages when running with `--entryPointStrategy packages`.
@@ -9,6 +18,9 @@
 -   Fixed `source-order` sort strategy failing to compare reflections within a file.
 -   Added `enum-member-source-order` specialization of the `source-order` sort strategy which only compares enum members, #2237.
 -   Updated highlight colors for semantic links to meet WCAG AA contrast requirements, #2228.
+-   Type parameters are now highlighted consistently, #2230.
+-   Fixed semantic coloring in type and function signatures, #2227.
+-   Fixed broken theme toggle if the page contained a member named "theme".
 
 ### Thanks!
 

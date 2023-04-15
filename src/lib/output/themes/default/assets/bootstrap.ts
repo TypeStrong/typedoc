@@ -5,17 +5,19 @@ import { Filter } from "./typedoc/components/Filter";
 import { Accordion } from "./typedoc/components/Accordion";
 import { initTheme } from "./typedoc/Theme";
 
-initSearch();
+addEventListener("load", () => {
+    initSearch();
 
-registerComponent(Toggle, "a[data-toggle]");
-registerComponent(Accordion, ".tsd-index-accordion");
-registerComponent(Filter, ".tsd-filter-item input[type=checkbox]");
+    registerComponent(Toggle, "a[data-toggle]");
+    registerComponent(Accordion, ".tsd-index-accordion");
+    registerComponent(Filter, ".tsd-filter-item input[type=checkbox]");
 
-const themeChoice = document.getElementById("theme");
-if (themeChoice) {
-    initTheme(themeChoice as HTMLOptionElement);
-}
+    const themeChoice = document.getElementById("tsd-theme");
+    if (themeChoice) {
+        initTheme(themeChoice as HTMLOptionElement);
+    }
 
-const app = new Application();
+    const app = new Application();
 
-Object.defineProperty(window, "app", { value: app });
+    Object.defineProperty(window, "app", { value: app });
+});

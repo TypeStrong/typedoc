@@ -37,7 +37,7 @@ export function initSearch() {
     if (!searchEl) return;
 
     const searchScript = document.getElementById(
-        "search-script"
+        "tsd-search-script"
     ) as HTMLScriptElement | null;
     searchEl.classList.add("loading");
     if (searchScript) {

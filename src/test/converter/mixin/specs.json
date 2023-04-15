@@ -1304,7 +1304,8 @@
               "type": {
                 "type": "reference",
                 "target": -1,
-                "name": "A"
+                "name": "A",
+                "refersToTypeParameter": true
               }
             }
           ]
@@ -1390,7 +1391,8 @@
               "type": {
                 "type": "reference",
                 "target": -1,
-                "name": "A"
+                "name": "A",
+                "refersToTypeParameter": true
               }
             }
           ]
@@ -1451,7 +1453,8 @@
               {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             ],
             "name": "ReturnType",
@@ -1590,7 +1593,8 @@
               "type": {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             }
           ],
@@ -1682,7 +1686,8 @@
                           {
                             "type": "reference",
                             "target": -1,
-                            "name": "T"
+                            "name": "T",
+                            "refersToTypeParameter": true
                           }
                         ],
                         "name": "Mixin1Class",
@@ -1695,7 +1700,8 @@
               {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             ]
           }
@@ -1783,7 +1789,8 @@
               "type": {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             }
           ],
@@ -1875,7 +1882,8 @@
                           {
                             "type": "reference",
                             "target": -1,
-                            "name": "T"
+                            "name": "T",
+                            "refersToTypeParameter": true
                           }
                         ],
                         "name": "Mixin2",
@@ -1888,7 +1896,8 @@
               {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             ]
           }
@@ -1969,7 +1978,8 @@
               "type": {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             }
           ],
@@ -2061,7 +2071,8 @@
                           {
                             "type": "reference",
                             "target": -1,
-                            "name": "T"
+                            "name": "T",
+                            "refersToTypeParameter": true
                           }
                         ],
                         "name": "Mixin3",
@@ -2074,7 +2085,8 @@
               {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             ]
           }

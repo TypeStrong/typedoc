@@ -13,6 +13,7 @@ import type { PageEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 import { JSX } from "../../../utils";
+import { toStyleClass } from "../lib";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.
@@ -246,18 +247,8 @@ function hasReadme(readme: string) {
     return !readme.endsWith("none");
 }
 
-function toStyleClass(str: string) {
-    return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();
-}
-
 function getReflectionClasses(reflection: DeclarationReflection, filters: Record<string, boolean>) {
     const classes: string[] = [];
-
-    classes.push(toStyleClass("tsd-kind-" + ReflectionKind[reflection.kind]));
-
-    if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
-        classes.push(toStyleClass(`tsd-parent-kind-${ReflectionKind[reflection.parent.kind]}`));
-    }
 
     // Filter classes should match up with the settings function in
     // partials/navigation.tsx.

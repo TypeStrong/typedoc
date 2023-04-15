@@ -795,7 +795,7 @@ export class ReferenceType extends Type {
      * to a reflection. This happens for type parameters and when representing a mapped type.
      */
     isIntentionallyBroken(): boolean {
-        return this._target === -1;
+        return this._target === -1 || this.refersToTypeParameter;
     }
 
     /**
@@ -829,6 +829,13 @@ export class ReferenceType extends Type {
      * points to the url that this type should be linked to.
      */
     externalUrl?: string;
+
+    /**
+     * If set, no warnings about something not being exported should be created
+     * since this may be referring to a type created with `infer X` which will not
+     * be registered on the project.
+     */
+    refersToTypeParameter = false;
 
     private _target: ReflectionSymbolId | number;
     private _project: ProjectReflection | null;
@@ -866,10 +873,12 @@ export class ReferenceType extends Type {
         // Type parameters should never have resolved references because they
         // cannot be linked to, and might be declared within the type with conditional types.
         if (symbol.flags & ts.SymbolFlags.TypeParameter) {
-            return ReferenceType.createBrokenReference(
+            const ref = ReferenceType.createBrokenReference(
                 name ?? symbol.name,
                 context.project
             );
+            ref.refersToTypeParameter = true;
+            return ref;
         }
 
         const ref = new ReferenceType(
@@ -903,7 +912,12 @@ export class ReferenceType extends Type {
         return ref;
     }
 
-    /** @internal this is used for type parameters, which don't actually point to something */
+    /**
+     * This is used for type parameters, which don't actually point to something,
+     * and also for temporary references which will be cleaned up with real references
+     * later during conversion.
+     * @internal
+     */
     static createBrokenReference(name: string, project: ProjectReflection) {
         return new ReferenceType(name, -1, project, name);
     }
@@ -944,6 +958,10 @@ export class ReferenceType extends Type {
             result.qualifiedName = this.qualifiedName;
         }
 
+        if (this.refersToTypeParameter) {
+            result.refersToTypeParameter = true;
+        }
+
         return result;
     }
 
@@ -974,6 +992,7 @@ export class ReferenceType extends Type {
 
         this.qualifiedName = obj.qualifiedName ?? obj.name;
         this.package = obj.package;
+        this.refersToTypeParameter = !!obj.refersToTypeParameter;
     }
 }
 

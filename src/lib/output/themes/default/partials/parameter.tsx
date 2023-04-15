@@ -1,4 +1,4 @@
-import { classNames, renderFlags, wbr } from "../../lib";
+import { classNames, getKindClass, renderFlags, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
@@ -34,7 +34,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                             {props.indexSignature?.parameters?.map((item) => (
                                 <>
                                     {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
-                                    {item.name}
+                                    <span class={getKindClass(item)}>{item.name}</span>
                                     {": "}
                                     {context.type(item.type)}
                                 </>
@@ -54,7 +54,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                         <li class="tsd-parameter">
                             <h5>
                                 {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
-                                {wbr(item.name)}
+                                <span class={getKindClass(item)}>{wbr(item.name)}</span>
                                 <span class="tsd-signature-symbol">{!!item.flags.isOptional && "?"}:</span>
                                 function
                             </h5>
@@ -68,7 +68,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                 <h5>
                                     {renderFlags(item.flags, item.comment)}
                                     {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
-                                    {wbr(item.name)}
+                                    <span class={getKindClass(item)}>{wbr(item.name)}</span>
                                     <span class="tsd-signature-symbol">
                                         {!!item.flags.isOptional && "?"}
                                         {": "}
@@ -90,7 +90,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                         <h5>
                                             {renderFlags(item.getSignature.flags, item.getSignature.comment)}
                                             <span class="tsd-signature-symbol">get </span>
-                                            {wbr(item.name)}
+                                            <span class={getKindClass(item)}>{wbr(item.name)}</span>
                                             <span class="tsd-signature-symbol">(): </span>
                                             {context.type(item.getSignature.type)}
                                         </h5>
@@ -106,7 +106,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                         <h5>
                                             {renderFlags(item.setSignature.flags, item.setSignature.comment)}
                                             <span class="tsd-signature-symbol">set </span>
-                                            {wbr(item.name)}
+                                            <span class={getKindClass(item)}>{wbr(item.name)}</span>
                                             <span class="tsd-signature-symbol">(</span>
                                             {item.setSignature.parameters?.map((item) => (
                                                 <>

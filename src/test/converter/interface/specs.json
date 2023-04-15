@@ -724,7 +724,8 @@
                           {
                             "type": "reference",
                             "target": -1,
-                            "name": "T"
+                            "name": "T",
+                            "refersToTypeParameter": true
                           }
                         ],
                         "name": "EventDispatcher",
@@ -759,7 +760,8 @@
                         {
                           "type": "reference",
                           "target": -1,
-                          "name": "T"
+                          "name": "T",
+                          "refersToTypeParameter": true
                         }
                       ],
                       "name": "SubscriptionInt",
@@ -811,7 +813,8 @@
                               {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "T"
+                                "name": "T",
+                                "refersToTypeParameter": true
                               }
                             ],
                             "name": "EventListener",
@@ -851,7 +854,8 @@
                           {
                             "type": "reference",
                             "target": -1,
-                            "name": "T"
+                            "name": "T",
+                            "refersToTypeParameter": true
                           }
                         ],
                         "name": "SubscriptionInt",
@@ -956,7 +960,8 @@
                           "type": {
                             "type": "reference",
                             "target": -1,
-                            "name": "T"
+                            "name": "T",
+                            "refersToTypeParameter": true
                           }
                         }
                       ],
@@ -1066,7 +1071,8 @@
                               {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "T"
+                                "name": "T",
+                                "refersToTypeParameter": true
                               }
                             ],
                             "name": "SubscriptionInt",
@@ -1142,7 +1148,8 @@
                     {
                       "type": "reference",
                       "target": -1,
-                      "name": "T"
+                      "name": "T",
+                      "refersToTypeParameter": true
                     }
                   ],
                   "name": "EventDispatcherInt",
@@ -1218,7 +1225,8 @@
                               {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "V"
+                                "name": "V",
+                                "refersToTypeParameter": true
                               }
                             ],
                             "name": "EventListener",
@@ -1261,7 +1269,8 @@
                               {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "V"
+                                "name": "V",
+                                "refersToTypeParameter": true
                               }
                             ],
                             "name": "EventDispatcher",
@@ -1277,7 +1286,8 @@
                           {
                             "type": "reference",
                             "target": -1,
-                            "name": "V"
+                            "name": "V",
+                            "refersToTypeParameter": true
                           }
                         ],
                         "name": "Subscription",
@@ -1310,7 +1320,8 @@
                       {
                         "type": "reference",
                         "target": -1,
-                        "name": "V"
+                        "name": "V",
+                        "refersToTypeParameter": true
                       }
                     ],
                     "name": "EventDispatcher",
@@ -1367,7 +1378,8 @@
                       {
                         "type": "reference",
                         "target": -1,
-                        "name": "V"
+                        "name": "V",
+                        "refersToTypeParameter": true
                       }
                     ],
                     "name": "EventListener",
@@ -1509,7 +1521,8 @@
                     {
                       "type": "reference",
                       "target": -1,
-                      "name": "V"
+                      "name": "V",
+                      "refersToTypeParameter": true
                     }
                   ],
                   "name": "SubscriptionInt",
@@ -1576,7 +1589,8 @@
                               {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "U"
+                                "name": "U",
+                                "refersToTypeParameter": true
                               }
                             ],
                             "name": "EventListener",
@@ -1618,7 +1632,8 @@
                           {
                             "type": "reference",
                             "target": -1,
-                            "name": "U"
+                            "name": "U",
+                            "refersToTypeParameter": true
                           }
                         ],
                         "name": "SubscriptionInt",
@@ -1703,7 +1718,8 @@
                           "type": {
                             "type": "reference",
                             "target": -1,
-                            "name": "U"
+                            "name": "U",
+                            "refersToTypeParameter": true
                           }
                         }
                       ],
@@ -1793,7 +1809,8 @@
                               {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "U"
+                                "name": "U",
+                                "refersToTypeParameter": true
                               }
                             ],
                             "name": "SubscriptionInt",
@@ -1903,7 +1920,8 @@
                       "type": {
                         "type": "reference",
                         "target": -1,
-                        "name": "T"
+                        "name": "T",
+                        "refersToTypeParameter": true
                       }
                     }
                   ],
@@ -1969,7 +1987,8 @@
                       {
                         "type": "reference",
                         "target": -1,
-                        "name": "T"
+                        "name": "T",
+                        "refersToTypeParameter": true
                       }
                     ],
                     "name": "EventListener",

@@ -172,7 +172,7 @@ export const icons: Record<
         kindIcon(
             ReflectionKind.TypeAlias,
             <path d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z" fill="var(--color-text)" />,
-            "var(--color-ts)"
+            "var(--color-ts-type-alias)"
         ),
     [ReflectionKind.TypeLiteral]() {
         return this[ReflectionKind.TypeAlias]();

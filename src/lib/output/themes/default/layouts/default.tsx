@@ -29,7 +29,7 @@ export const defaultLayout = (
                 <link rel="stylesheet" href={context.relativeURL("assets/custom.css", true)} />
             )}
             <script defer src={context.relativeURL("assets/main.js", true)}></script>
-            <script async src={context.relativeURL("assets/search.js", true)} id="search-script"></script>
+            <script async src={context.relativeURL("assets/search.js", true)} id="tsd-search-script"></script>
             {context.hook("head.end")}
         </head>
         <body>

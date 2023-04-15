@@ -25,6 +25,7 @@ export enum ReflectionKind {
     Accessor = 0x40000,
     GetSignature = 0x80000,
     SetSignature = 0x100000,
+    /** @deprecated will be removed in v0.25, not used */
     ObjectLiteral = 0x200000,
     TypeAlias = 0x400000,
     Reference = 0x800000,

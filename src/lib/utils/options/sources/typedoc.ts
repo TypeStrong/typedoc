@@ -368,6 +368,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "hideParameterTypesInTitle",
+        help: "Hides parameter types in signature titles for easier scanning.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+    options.addDeclaration({
         name: "cacheBust",
         help: "Include the generation time in links to static assets.",
         type: ParameterType.Boolean,

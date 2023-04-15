@@ -3,6 +3,7 @@ import type { Reflection } from "../reflections";
 import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId";
 
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
+import { getKindClass } from "../../output/themes/lib";
 
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
@@ -139,12 +140,14 @@ export class Comment {
                         case "@linkplain": {
                             if (part.target) {
                                 let url: string | undefined;
+                                let kindClass: string | undefined;
                                 if (typeof part.target === "string") {
                                     url = part.target;
                                 } else if (part.target && "id" in part.target) {
                                     // No point in trying to resolve a ReflectionSymbolId at this point, we've already
                                     // tried and failed during the resolution step.
                                     url = urlTo(part.target);
+                                    kindClass = getKindClass(part.target);
                                 }
                                 const text =
                                     part.tag === "@linkcode"
@@ -152,7 +155,11 @@ export class Comment {
                                         : part.text;
                                 result.push(
                                     url
-                                        ? `<a href="${url}">${text}</a>`
+                                        ? `<a href="${url}"${
+                                              kindClass
+                                                  ? ` class="${kindClass}"`
+                                                  : ""
+                                          }>${text}</a>`
                                         : part.text
                                 );
                             } else {

@@ -13,7 +13,7 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                             <h4>
                                 {item.flags.isConst && "const "}
                                 {item.varianceModifier ? `${item.varianceModifier} ` : ""}
-                                {item.name}
+                                <span class="tsd-kind-type-parameter">{item.name}</span>
                                 {!!item.type && (
                                     <>
                                         <span class="tsd-signature-symbol"> extends </span>

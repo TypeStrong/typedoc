@@ -23,7 +23,7 @@ export const memberSignatureBody = (
                             <h5>
                                 {renderFlags(item.flags, item.comment)}
                                 {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
-                                {item.name}
+                                <span class="tsd-kind-parameter">{item.name}</span>
                                 {": "}
                                 {context.type(item.type)}
                                 {item.defaultValue != null && (

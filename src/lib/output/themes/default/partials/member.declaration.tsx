@@ -1,12 +1,12 @@
 import { DeclarationReflection, ReflectionType } from "../../../../models";
 import { JSX } from "../../../../utils";
-import { hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib";
+import { getKindClass, hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export const memberDeclaration = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
         <div class="tsd-signature">
-            {wbr(props.name)}
+            <span class={getKindClass(props)}>{wbr(props.name)}</span>
             {renderTypeParametersSignature(props.typeParameters)}
             {props.type && (
                 <>

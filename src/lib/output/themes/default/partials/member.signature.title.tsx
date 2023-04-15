@@ -1,46 +1,65 @@
-import { join, renderTypeParametersSignature, wbr } from "../../lib";
+import { getKindClass, join, renderTypeParametersSignature, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import { ReflectionKind, SignatureReflection } from "../../../../models";
+import { ParameterReflection, ReflectionKind, SignatureReflection } from "../../../../models";
 
-export const memberSignatureTitle = (
+function renderParameterWithType(context: DefaultThemeRenderContext, item: ParameterReflection) {
+    return (
+        <>
+            {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
+            <span class="tsd-kind-parameter">{item.name}</span>
+            <span class="tsd-signature-symbol">
+                {!!item.flags.isOptional && "?"}
+                {!!item.defaultValue && "?"}
+                {": "}
+            </span>
+            {context.type(item.type)}
+        </>
+    );
+}
+
+function renderParameterWithoutType(item: ParameterReflection) {
+    return (
+        <>
+            {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
+            <span class="tsd-kind-parameter">{item.name}</span>
+            {(item.flags.isOptional || item.defaultValue) && <span class="tsd-signature-symbol">?</span>}
+        </>
+    );
+}
+
+export function memberSignatureTitle(
     context: DefaultThemeRenderContext,
     props: SignatureReflection,
     { hideName = false, arrowStyle = false }: { hideName?: boolean; arrowStyle?: boolean } = {}
-) => (
-    <>
-        {!hideName ? (
-            wbr(props.name)
-        ) : (
-            <>
-                {props.kind === ReflectionKind.ConstructorSignature && (
-                    <>
-                        {!!props.flags.isAbstract && <span class="tsd-signature-symbol">abstract </span>}
-                        <span class="tsd-signature-symbol">new </span>
-                    </>
-                )}
-            </>
-        )}
-        {renderTypeParametersSignature(props.typeParameters)}
-        <span class="tsd-signature-symbol">(</span>
-        {join(", ", props.parameters ?? [], (item) => (
-            <>
-                {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
-                {item.name}
-                <span class="tsd-signature-symbol">
-                    {!!item.flags.isOptional && "?"}
-                    {!!item.defaultValue && "?"}
-                    {": "}
-                </span>
-                {context.type(item.type)}
-            </>
-        ))}
-        <span class="tsd-signature-symbol">)</span>
-        {!!props.type && (
-            <>
-                <span class="tsd-signature-symbol">{arrowStyle ? " => " : ": "}</span>
-                {context.type(props.type)}
-            </>
-        )}
-    </>
-);
+) {
+    const hideParamTypes = context.options.getValue("hideParameterTypesInTitle");
+    const renderParam = hideParamTypes ? renderParameterWithoutType : renderParameterWithType.bind(null, context);
+
+    return (
+        <>
+            {!hideName ? (
+                <span class={getKindClass(props)}>{wbr(props.name)}</span>
+            ) : (
+                <>
+                    {props.kind === ReflectionKind.ConstructorSignature && (
+                        <>
+                            {!!props.flags.isAbstract && <span class="tsd-signature-symbol">abstract </span>}
+                            <span class="tsd-signature-symbol">new </span>
+                        </>
+                    )}
+                </>
+            )}
+            {renderTypeParametersSignature(props.typeParameters)}
+            <span class="tsd-signature-symbol">(</span>
+            {join(", ", props.parameters ?? [], renderParam)}
+            <span class="tsd-signature-symbol">)</span>
+            {!!props.type && (
+                <>
+                    <span class="tsd-signature-symbol">{arrowStyle ? " => " : ": "}</span>
+                    {context.type(props.type)}
+                </>
+            )}
+        </>
+    );
+}

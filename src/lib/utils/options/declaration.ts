@@ -130,6 +130,7 @@ export interface TypeDocOptionMap {
     cacheBust: boolean;
     gaID: string;
     hideGenerator: boolean;
+    hideParameterTypesInTitle: boolean;
     searchInComments: boolean;
     cleanOutputDir: boolean;
     titleLink: string;

@@ -4116,7 +4116,8 @@
                       "type": {
                         "type": "reference",
                         "target": -1,
-                        "name": "T"
+                        "name": "T",
+                        "refersToTypeParameter": true
                       }
                     }
                   ],
@@ -4127,7 +4128,8 @@
                       {
                         "type": "reference",
                         "target": -1,
-                        "name": "T"
+                        "name": "T",
+                        "refersToTypeParameter": true
                       }
                     ],
                     "name": "GenericClass",
@@ -4163,7 +4165,8 @@
               "type": {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             },
             {
@@ -4195,7 +4198,8 @@
                 "elementType": {
                   "type": "reference",
                   "target": -1,
-                  "name": "T"
+                  "name": "T",
+                  "refersToTypeParameter": true
                 }
               }
             },
@@ -4250,7 +4254,8 @@
                   "type": {
                     "type": "reference",
                     "target": -1,
-                    "name": "T"
+                    "name": "T",
+                    "refersToTypeParameter": true
                   }
                 }
               ]
@@ -5073,7 +5078,8 @@
                       {
                         "type": "reference",
                         "target": -1,
-                        "name": "T"
+                        "name": "T",
+                        "refersToTypeParameter": true
                       }
                     ],
                     "name": "GenericClass",
@@ -5099,7 +5105,8 @@
               "type": {
                 "type": "reference",
                 "target": -1,
-                "name": "T"
+                "name": "T",
+                "refersToTypeParameter": true
               }
             }
           ],
