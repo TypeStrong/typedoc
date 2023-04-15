@@ -1050,4 +1050,33 @@ describe("Issue Tests", () => {
             "```ts\nlet x = `str`\n```"
         );
     });
+
+    it("#2233", () => {
+        const project = convert();
+        const int = query(project, "Int");
+        const cls = query(project, "IntImpl");
+
+        for (const name of ["prop", "prop2", "method", "method2"]) {
+            const intFn = int.getChildByName(name) as DeclarationReflection;
+            const clsFn = cls.getChildByName(name) as DeclarationReflection;
+            equal(
+                clsFn.implementationOf?.reflection?.getFullName(),
+                intFn.getFullName(),
+                `${name} method not properly linked`
+            );
+
+            const intTarget = intFn.signatures?.[0] || intFn;
+            const clsSig =
+                clsFn.signatures?.[0] ||
+                clsFn.type?.visit({
+                    reflection: (r) => r.declaration.signatures?.[0],
+                });
+
+            equal(
+                clsSig!.implementationOf?.reflection?.getFullName(),
+                intTarget!.getFullName(),
+                `${name} signature not properly linked`
+            );
+        }
+    });
 });

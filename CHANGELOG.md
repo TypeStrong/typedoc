@@ -12,7 +12,6 @@
 ### Bug Fixes
 
 -   Validation will no longer be skipped for sub packages when running with `--entryPointStrategy packages`.
--   Fixed issue where removing a reflection indirectly containing an object/function type would only partially remove the reflection, #2231.
 -   Increased padding between sections when one navigation column is displayed, #2225.
 -   Correct padding for navigation elements with a displayed icon, #2229.
 -   Fixed `source-order` sort strategy failing to compare reflections within a file.
@@ -20,6 +19,8 @@
 -   Updated highlight colors for semantic links to meet WCAG AA contrast requirements, #2228.
 -   Type parameters are now highlighted consistently, #2230.
 -   Fixed semantic coloring in type and function signatures, #2227.
+-   Fixed issue where removing a reflection indirectly containing an object/function type would only partially remove the reflection, #2231.
+-   Fixed "Implementation of X.y" links if a mixture of methods and property-methods are used, #2233.
 -   Fix expansion of globs if a single entry point is provided, #2235.
 -   Fixed broken theme toggle if the page contained a member named "theme".
 

@@ -79,20 +79,30 @@ export class ImplementsPlugin extends ConverterComponent {
                     project
                 );
 
-            if (
-                interfaceMember.kindOf(ReflectionKind.FunctionOrMethod) &&
-                interfaceMember.signatures &&
-                classMember.signatures
-            ) {
-                for (const [clsSig, intSig] of zip(
-                    classMember.signatures,
-                    interfaceMember.signatures
-                )) {
+            const intSigs =
+                interfaceMember.signatures ||
+                interfaceMember.type?.visit({
+                    reflection: (r) => r.declaration.signatures,
+                });
+
+            const clsSigs =
+                classMember.signatures ||
+                classMember.type?.visit({
+                    reflection: (r) => r.declaration.signatures,
+                });
+
+            if (intSigs && clsSigs) {
+                for (const [clsSig, intSig] of zip(clsSigs, intSigs)) {
                     if (clsSig.implementationOf) {
+                        const target = intSig.parent.kindOf(
+                            ReflectionKind.FunctionOrMethod
+                        )
+                            ? intSig
+                            : intSig.parent.parent!;
                         clsSig.implementationOf =
                             ReferenceType.createResolvedReference(
                                 clsSig.implementationOf.name,
-                                intSig,
+                                target,
                                 project
                             );
                     }
