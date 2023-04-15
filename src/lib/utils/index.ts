@@ -56,6 +56,7 @@ export type {
     TypeDocOptionValues,
     ParameterTypeToOptionTypeMap,
     ManuallyValidatedOption,
+    JsDocCompatibility,
 } from "./options";
 export { loadPlugins } from "./plugins";
 export { getSortFunction } from "./sort";

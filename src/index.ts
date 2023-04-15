@@ -75,6 +75,7 @@ export type {
     DocumentationEntryPoint,
     ManuallyValidatedOption,
     EnumKeys,
+    JsDocCompatibility,
 } from "./lib/utils";
 
 export type { EventMap, EventCallback } from "./lib/utils/events";

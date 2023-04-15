@@ -32,4 +32,5 @@ export type {
     TypeDocOptionValues,
     ParameterTypeToOptionTypeMap,
     ManuallyValidatedOption,
+    JsDocCompatibility,
 } from "./declaration";
