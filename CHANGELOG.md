@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.24.3 (2023-04-16)
+
 ### Bug Fixes
 
 -   Fixed path expansion on Windows preventing generation, #2243 and #2241.
