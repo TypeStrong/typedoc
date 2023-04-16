@@ -5,7 +5,7 @@ import type { JSONOutput, Serializer } from "../../serialization/index";
 import { readFile } from "../../utils/fs";
 import { getQualifiedName } from "../../utils/tsutils";
 import { optional, validate } from "../../utils/validation";
-import { normalizePath } from "../../utils";
+import { normalizePath } from "../../utils/paths";
 
 /**
  * See {@link ReflectionSymbolId}
