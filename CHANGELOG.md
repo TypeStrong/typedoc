@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed broken semantic coloring, #2247.
+
 ## v0.24.3 (2023-04-16)
 
 ### Bug Fixes

@@ -143,10 +143,9 @@ export namespace ReflectionKind {
     }
 
     export function classString(kind: ReflectionKind): string {
-        return `tsd-kind-${ReflectionKind[kind].replace(
-            /(.)([A-Z])/g,
-            (_m, a, b) => `${a}-${b}`.toLowerCase()
-        )}`;
+        return `tsd-kind-${ReflectionKind[kind]
+            .replace(/(.)([A-Z])/g, (_m, a, b) => `${a}-${b}`)
+            .toLowerCase()}`;
     }
 }
 
