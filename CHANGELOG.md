@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Even more contrast fixes, #2248.
+
 ## v0.24.4 (2023-04-16)
 
 ### Bug Fixes

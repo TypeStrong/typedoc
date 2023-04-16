@@ -51,13 +51,13 @@
     --dark-color-text-aside: #dddddd;
     --dark-color-link: #00aff4;
 
-    --dark-color-ts-project: #e14dff;
+    --dark-color-ts-project: #e358ff;
     --dark-color-ts-module: var(--dark-color-ts-project);
     --dark-color-ts-namespace: var(--dark-color-ts-project);
     --dark-color-ts-enum: #f4d93e;
     --dark-color-ts-enum-member: var(--dark-color-ts-enum);
     --dark-color-ts-variable: #798dff;
-    --dark-color-ts-function: #9772ff;
+    --dark-color-ts-function: #a280ff;
     --dark-color-ts-class: #8ac4ff;
     --dark-color-ts-interface: #6cff87;
     --dark-color-ts-constructor: var(--dark-color-ts-class);
