@@ -242,7 +242,7 @@ const typeRenderers: {
         return (
             <>
                 {!!type.asserts && <span class="tsd-signature-symbol">asserts </span>}
-                <span class="tsd-signature-type">{type.name}</span>
+                <span class="tsd-kind-parameter">{type.name}</span>
                 {!!type.targetType && (
                     <>
                         <span class="tsd-signature-symbol"> is </span>

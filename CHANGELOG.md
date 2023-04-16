@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 -   Even more contrast fixes, #2248.
+-   Fix semantic highlighting for predicate type's parameter references, #2249.
 
 ## v0.24.4 (2023-04-16)
 
