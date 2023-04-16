@@ -54,9 +54,9 @@
     --dark-color-ts-namespace: var(--dark-color-ts-project);
     --dark-color-ts-enum: #f4d93e;
     --dark-color-ts-enum-member: var(--dark-color-ts-enum);
-    --dark-color-ts-variable: #4d68ff;
+    --dark-color-ts-variable: #798dff;
     --dark-color-ts-function: #9772ff;
-    --dark-color-ts-class: #61b0ff;
+    --dark-color-ts-class: #8ac4ff;
     --dark-color-ts-interface: #6cff87;
     --dark-color-ts-constructor: var(--dark-color-ts-class);
     --dark-color-ts-property: var(--dark-color-ts-variable);

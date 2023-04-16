@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 -   Fixed broken semantic coloring, #2247.
+-   Increased contrast for parameter titles in dark mode to meet WCAG AA contrast requirements, #2244.
 
 ## v0.24.3 (2023-04-16)
 
