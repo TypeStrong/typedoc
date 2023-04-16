@@ -25,7 +25,7 @@ describe("Merging projects", () => {
         app.logger = logger;
 
         const project = app.convert();
-        logger.expectNoOtherMessages()
+        logger.expectNoOtherMessages();
 
         equal(project?.name, "typedoc");
         equal(

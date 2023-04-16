@@ -36,7 +36,9 @@ export class ReflectionSymbolId {
     ) {
         if ("name" in symbol) {
             declaration ??= symbol?.declarations?.[0];
-            this.fileName = normalizePath(declaration?.getSourceFile().fileName ?? "\0");
+            this.fileName = normalizePath(
+                declaration?.getSourceFile().fileName ?? "\0"
+            );
             if (symbol.declarations?.some(ts.isSourceFile)) {
                 this.qualifiedName = "";
             } else {
@@ -61,10 +63,12 @@ export class ReflectionSymbolId {
     toObject(serializer: Serializer) {
         return {
             sourceFileName: isAbsolute(this.fileName)
-                ? normalizePath(relative(
-                      serializer.projectRoot,
-                      resolveDeclarationMaps(this.fileName)
-                  ))
+                ? normalizePath(
+                      relative(
+                          serializer.projectRoot,
+                          resolveDeclarationMaps(this.fileName)
+                      )
+                  )
                 : this.fileName,
             qualifiedName: this.qualifiedName,
         };

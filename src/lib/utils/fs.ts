@@ -23,7 +23,7 @@ export function isDir(path: string) {
 }
 
 export function deriveRootDir(globPaths: string[]): string {
-    const normalized = globPaths.map(normalizePath)
+    const normalized = globPaths.map(normalizePath);
     const globs = createMinimatch(normalized);
     const rootPaths = globs.flatMap((glob, i) =>
         filterMap(glob.set, (set) => {
@@ -31,8 +31,11 @@ export function deriveRootDir(globPaths: string[]): string {
             if (stop === -1) {
                 return normalized[i];
             } else {
-                const kept = set.slice(0, stop).join('/')
-                return normalized[i].substring(0, normalized[i].indexOf(kept) + kept.length);
+                const kept = set.slice(0, stop).join("/");
+                return normalized[i].substring(
+                    0,
+                    normalized[i].indexOf(kept) + kept.length
+                );
             }
         })
     );
