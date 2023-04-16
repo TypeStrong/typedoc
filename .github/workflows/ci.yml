@@ -32,3 +32,25 @@ jobs:
               uses: gerrit0/circular-dependency-check@v2
               with:
                   entry: dist/index.js
+    build-windows:
+        runs-on: windows-latest
+        name: Node 18 Windows
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            - name: Set up Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+            - name: Upgrade npm
+              run: npm i -g npm@latest
+            - name: Install
+              run: npm ci
+            - name: Build
+              run: npm run build
+            - name: Test
+              run: npm run test:full
+              env:
+                  SKIP_VISUAL_TEST: true
+            - name: Lint
+              run: npm run lint -- --max-warnings 0
