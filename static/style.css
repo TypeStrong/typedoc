@@ -6,8 +6,9 @@
     --light-color-background-warning: #e6e600;
     --light-color-icon-background: var(--light-color-background);
     --light-color-accent: #c5c7c9;
+    --light-color-active-menu-item: var(--light-color-accent);
     --light-color-text: #222;
-    --light-color-text-aside: #707070;
+    --light-color-text-aside: #6e6e6e;
     --light-color-link: #1f70c2;
 
     --light-color-ts-project: #b111c9;
@@ -45,6 +46,7 @@
     --dark-color-warning-text: #222;
     --dark-color-icon-background: var(--dark-color-background-secondary);
     --dark-color-accent: #9096a2;
+    --dark-color-active-menu-item: #5d5d6a;
     --dark-color-text: #f5f5f5;
     --dark-color-text-aside: #dddddd;
     --dark-color-link: #00aff4;
@@ -86,6 +88,7 @@
         --color-warning-text: var(--light-color-warning-text);
         --color-icon-background: var(--light-color-icon-background);
         --color-accent: var(--light-color-accent);
+        --color-active-menu-item: var(--light-color-active-menu-item);
         --color-text: var(--light-color-text);
         --color-text-aside: var(--light-color-text-aside);
         --color-link: var(--light-color-link);
@@ -126,6 +129,7 @@
         --color-warning-text: var(--dark-color-warning-text);
         --color-icon-background: var(--dark-color-icon-background);
         --color-accent: var(--dark-color-accent);
+        --color-active-menu-item: var(--dark-color-active-menu-item);
         --color-text: var(--dark-color-text);
         --color-text-aside: var(--dark-color-text-aside);
         --color-link: var(--dark-color-link);
@@ -173,6 +177,7 @@ body {
     --color-warning-text: var(--light-color-warning-text);
     --color-icon-background: var(--light-color-icon-background);
     --color-accent: var(--light-color-accent);
+    --color-active-menu-item: var(--light-color-active-menu-item);
     --color-text: var(--light-color-text);
     --color-text-aside: var(--light-color-text-aside);
     --color-link: var(--light-color-link);
@@ -211,6 +216,7 @@ body {
     --color-warning-text: var(--dark-color-warning-text);
     --color-icon-background: var(--dark-color-icon-background);
     --color-accent: var(--dark-color-accent);
+    --color-active-menu-item: var(--dark-color-active-menu-item);
     --color-text: var(--dark-color-text);
     --color-text-aside: var(--dark-color-text-aside);
     --color-link: var(--dark-color-link);
@@ -689,7 +695,7 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 .tsd-navigation a.current,
 .tsd-page-navigation a.current {
-    background: var(--color-accent);
+    background: var(--color-active-menu-item);
 }
 .tsd-navigation a:hover,
 .tsd-page-navigation a:hover {

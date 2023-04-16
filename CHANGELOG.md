@@ -5,6 +5,7 @@
 -   Fixed broken semantic coloring, #2247.
 -   Increased contrast for parameter titles in dark mode to meet WCAG AA contrast requirements, #2244.
 -   Underline color of index links now matches the text color, #2245.
+-   Increased contract for active menu item text in dark mode.
 
 ## v0.24.3 (2023-04-16)
 
