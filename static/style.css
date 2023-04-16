@@ -737,6 +737,7 @@ a.tsd-index-link {
     line-height: 1.25rem;
     display: inline-flex;
     align-items: center;
+    color: var(--color-text);
 }
 .tsd-accordion-summary,
 .tsd-accordion-summary a {
