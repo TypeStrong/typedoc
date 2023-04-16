@@ -26,7 +26,7 @@ describe("Options - PackageJsonReader", () => {
         test: (logger: TestLogger) => void
     ): void {
         it(testTitle, () => {
-            const proj = project(testTitle.replace(/ /g, "_"));
+            const proj = project(testTitle.replace(/[ "]/g, "_"));
             proj.addFile("package.json", pkgJsonContent);
             proj.write();
 

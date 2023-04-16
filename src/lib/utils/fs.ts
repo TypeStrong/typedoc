@@ -23,12 +23,17 @@ export function isDir(path: string) {
 }
 
 export function deriveRootDir(globPaths: string[]): string {
-    const globs = createMinimatch(globPaths);
-    const rootPaths = globs.flatMap((glob) =>
+    const normalized = globPaths.map(normalizePath)
+    const globs = createMinimatch(normalized);
+    const rootPaths = globs.flatMap((glob, i) =>
         filterMap(glob.set, (set) => {
             const stop = set.findIndex((part) => typeof part !== "string");
-            const path = stop === -1 ? set : set.slice(0, stop);
-            return `/${path.join("/").replace(/^\//, "")}`;
+            if (stop === -1) {
+                return normalized[i];
+            } else {
+                const kept = set.slice(0, stop).join('/')
+                return normalized[i].substring(0, normalized[i].indexOf(kept) + kept.length);
+            }
         })
     );
     return getCommonDirectory(rootPaths);

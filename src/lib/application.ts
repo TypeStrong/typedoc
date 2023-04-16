@@ -5,7 +5,7 @@ import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
 import { Deserializer, JSONOutput, Serializer } from "./serialization";
 import type { ProjectReflection } from "./models/index";
-import { Logger, ConsoleLogger, loadPlugins, writeFile } from "./utils/index";
+import { Logger, ConsoleLogger, loadPlugins, writeFile, normalizePath } from "./utils/index";
 
 import {
     AbstractComponent,
@@ -585,6 +585,7 @@ export class Application extends ChildableComponent<
         const start = Date.now();
 
         const rootDir = deriveRootDir(this.entryPoints);
+        this.logger.verbose(`Derived root dir is ${rootDir}, will expand ${this.entryPoints.map(normalizePath).join(", ")}`)
         const entryPoints = this.entryPoints.flatMap((entry) =>
             glob(entry, rootDir)
         );

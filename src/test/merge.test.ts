@@ -18,12 +18,15 @@ describe("Merging projects", () => {
             entryPointStrategy: EntryPointStrategy.Merge,
             entryPoints: [
                 join(base, "alias/specs.json"),
-                join(base, "class/specs.json"),
+                join(base, "class/*specs.json"),
             ],
         });
-        app.logger = new TestLogger();
+        const logger = new TestLogger();
+        app.logger = logger;
 
         const project = app.convert();
+        logger.expectNoOtherMessages()
+
         equal(project?.name, "typedoc");
         equal(
             project.children?.map((c) => c.name),
