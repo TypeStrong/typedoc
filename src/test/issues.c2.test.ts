@@ -1008,6 +1008,14 @@ describe("Issue Tests", () => {
         );
     });
 
+    it("#2165 module comments on global files", () => {
+        const project = convert();
+        equal(
+            Comment.combineDisplayParts(project.comment?.summary),
+            "'module' comment"
+        );
+    });
+
     it("#2175", () => {
         const project = convert();
         const def = query(project, "default");

@@ -368,8 +368,9 @@ export class Converter extends ChildableComponent<
             // Special case for when we're giving a single entry point, we don't need to
             // create modules for each entry. Register the project as this module.
             context.project.registerReflection(context.project, symbol);
-            context.project.comment =
-                symbol && context.getComment(symbol, context.project.kind);
+            context.project.comment = symbol
+                ? context.getComment(symbol, context.project.kind)
+                : context.getFileComment(node);
             context.trigger(
                 Converter.EVENT_CREATE_DECLARATION,
                 context.project
@@ -382,6 +383,10 @@ export class Converter extends ChildableComponent<
                 void 0,
                 entryName
             );
+
+            if (!reflection.comment && !symbol) {
+                reflection.comment = context.getFileComment(node);
+            }
 
             if (entryPoint.readmeFile) {
                 const readme = readFile(entryPoint.readmeFile);

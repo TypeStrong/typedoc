@@ -9,6 +9,7 @@ import { lexBlockComment } from "./blockLexer";
 import {
     DiscoveredComment,
     discoverComment,
+    discoverFileComment,
     discoverSignatureComment,
 } from "./discovery";
 import { lexLineComments } from "./lineLexer";
@@ -160,6 +161,22 @@ export function getComment(
     }
 
     return comment;
+}
+
+export function getFileComment(
+    file: ts.SourceFile,
+    config: CommentParserConfig,
+    logger: Logger,
+    commentStyle: CommentStyle,
+    checker: ts.TypeChecker | undefined
+): Comment | undefined {
+    return getCommentImpl(
+        discoverFileComment(file, commentStyle),
+        config,
+        logger,
+        /* moduleComment */ true,
+        checker
+    );
 }
 
 function getConstructorParamPropertyComment(

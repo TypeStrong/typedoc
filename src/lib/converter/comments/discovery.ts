@@ -101,6 +101,29 @@ export interface DiscoveredComment {
     jsDoc: ts.JSDoc | undefined;
 }
 
+export function discoverFileComment(
+    node: ts.SourceFile,
+    commentStyle: CommentStyle
+) {
+    const text = node.text;
+
+    const comments = collectCommentRanges(
+        ts.getLeadingCommentRanges(text, node.pos)
+    );
+
+    const selectedDocComment = comments.find((ranges) =>
+        permittedRange(text, ranges, commentStyle)
+    );
+
+    if (selectedDocComment) {
+        return {
+            file: node,
+            ranges: selectedDocComment,
+            jsDoc: findJsDocForComment(node, selectedDocComment),
+        };
+    }
+}
+
 export function discoverComment(
     symbol: ts.Symbol,
     kind: ReflectionKind,

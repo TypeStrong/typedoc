@@ -14,7 +14,12 @@ import type { Converter } from "./converter";
 import { isNamedNode } from "./utils/nodes";
 import { ConverterEvents } from "./converter-events";
 import { resolveAliasedSymbol } from "./utils/symbols";
-import { getComment, getJsDocComment, getSignatureComment } from "./comments";
+import {
+    getComment,
+    getFileComment,
+    getJsDocComment,
+    getSignatureComment,
+} from "./comments";
 import { getHumanName } from "../utils/tsutils";
 
 /**
@@ -258,6 +263,16 @@ export class Context {
         return getComment(
             symbol,
             kind,
+            this.converter.config,
+            this.logger,
+            this.converter.commentStyle,
+            this.converter.useTsLinkResolution ? this.checker : undefined
+        );
+    }
+
+    getFileComment(node: ts.SourceFile) {
+        return getFileComment(
+            node,
             this.converter.config,
             this.logger,
             this.converter.commentStyle,

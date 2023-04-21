@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added support for discovering a "module" comment on global files, #2165.
+
 ### Bug Fixes
 
 -   Even more contrast fixes, #2248.
