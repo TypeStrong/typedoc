@@ -3,6 +3,7 @@
 ### Features
 
 -   Added support for discovering a "module" comment on global files, #2165.
+-   Added copy code to clipboard button, #2153.
 -   Function `@returns` blocks will now be rendered with the return type, #2180.
 
 ### Bug Fixes
@@ -10,6 +11,7 @@
 -   Type parameter constraints now respect the `--hideParameterTypesInTitle` option, #2226.
 -   Even more contrast fixes, #2248.
 -   Fix semantic highlighting for predicate type's parameter references, #2249.
+-   Fixed broken links to heading titles.
 -   Fixed inconsistent styling between type parameter lists and parameter lists.
 -   TypeDoc will now warn if more than one `@returns` block is is present in a function, and ignore the duplicate blocks as specified by TSDoc.
 

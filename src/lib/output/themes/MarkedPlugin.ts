@@ -7,7 +7,7 @@ import { RendererEvent, MarkdownEvent, PageEvent } from "../events";
 import { BindOption, readFile, copySync, isFile } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { Theme } from "shiki";
-import { getTextContent } from "../../utils/html";
+import { escapeHtml, getTextContent } from "../../utils/html";
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -190,14 +190,15 @@ output file :
 
             markedOptions.renderer.heading = (text, level, _, slugger) => {
                 const slug = slugger.slug(text);
-                // Prefix the slug with an extra `$` to prevent conflicts with TypeDoc's anchors.
+                // Prefix the slug with an extra `md:` to prevent conflicts with TypeDoc's anchors.
                 this.page!.pageHeadings.push({
                     link: `#md:${slug}`,
                     text: getTextContent(text),
                     level,
                 });
-                return `<a id="md:${slug}" class="tsd-anchor"></a><h${level}><a href="#$${slug}" style="color:inherit;text-decoration:none">${text}</a></h${level}>`;
+                return `<a id="md:${slug}" class="tsd-anchor"></a><h${level}><a href="#md:${slug}">${text}</a></h${level}>`;
             };
+            markedOptions.renderer.code = renderCode;
         }
 
         markedOptions.mangle ??= false; // See https://github.com/TypeStrong/typedoc/issues/1395
@@ -213,4 +214,34 @@ output file :
     onParseMarkdown(event: MarkdownEvent) {
         event.parsedText = Marked.marked(event.parsedText);
     }
+}
+
+// Basically a copy/paste of Marked's code, with the addition of the button
+// https://github.com/markedjs/marked/blob/v4.3.0/src/Renderer.js#L15-L39
+function renderCode(
+    this: Marked.marked.Renderer,
+    code: string,
+    infostring: string | undefined,
+    escaped: boolean
+) {
+    const lang = (infostring || "").match(/\S*/)![0];
+    if (this.options.highlight) {
+        const out = this.options.highlight(code, lang);
+        if (out != null && out !== code) {
+            escaped = true;
+            code = out;
+        }
+    }
+
+    code = code.replace(/\n$/, "") + "\n";
+
+    if (!lang) {
+        return `<pre><code>${
+            escaped ? code : escapeHtml(code)
+        }</code><button>Copy</button></pre>\n`;
+    }
+
+    return `<pre><code class="${this.options.langPrefix + escapeHtml(lang)}">${
+        escaped ? code : escapeHtml(code)
+    }</code><button>Copy</button></pre>\n`;
 }

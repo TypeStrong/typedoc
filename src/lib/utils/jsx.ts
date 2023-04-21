@@ -13,6 +13,7 @@
  * @module
  */
 
+import { escapeHtml } from "./html";
 import type {
     IntrinsicElements,
     JsxElement,
@@ -50,18 +51,6 @@ export function Raw(_props: { html: string }) {
  */
 export declare namespace JSX {
     export { IntrinsicElements, JsxElement as Element };
-}
-
-const htmlEscapes: Record<string, string> = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-};
-
-function escapeHtml(html: string) {
-    return html.replace(/[&<>'"]/g, (c) => htmlEscapes[c as never]);
 }
 
 const voidElements = new Set([

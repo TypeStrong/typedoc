@@ -262,6 +262,16 @@ h6 {
     line-height: 1.2;
 }
 
+h1 > a,
+h2 > a,
+h3 > a,
+h4 > a,
+h5 > a,
+h6 > a {
+    text-decoration: none;
+    color: var(--color-text);
+}
+
 h1 {
     font-size: 1.875rem;
     margin: 0.67rem 0;
@@ -294,12 +304,6 @@ h6 {
 
 .uppercase {
     text-transform: uppercase;
-}
-
-pre {
-    white-space: pre;
-    white-space: pre-wrap;
-    word-wrap: break-word;
 }
 
 dl,
@@ -426,12 +430,28 @@ pre {
 }
 
 pre {
+    position: relative;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
     padding: 10px;
-    border: 0.1em solid var(--color-accent);
+    border: 1px solid var(--color-accent);
 }
 pre code {
     padding: 0;
     font-size: 100%;
+}
+pre > button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.1s;
+    box-sizing: border-box;
+}
+pre:hover > button,
+pre > button.visible {
+    opacity: 1;
 }
 
 blockquote {
