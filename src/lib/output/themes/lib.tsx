@@ -1,3 +1,4 @@
+import type { DefaultThemeRenderContext } from "..";
 import {
     Comment,
     DeclarationReflection,
@@ -112,23 +113,45 @@ export function hasTypeParameters(
 }
 
 export function renderTypeParametersSignature(
+    context: DefaultThemeRenderContext,
     typeParameters: readonly TypeParameterReflection[] | undefined
 ): JSX.Element {
+    if (!typeParameters || typeParameters.length === 0) return <></>;
+    const hideParamTypes = context.options.getValue("hideParameterTypesInTitle");
+
+    if (hideParamTypes) {
+        return (
+            <>
+                <span class="tsd-signature-symbol">{"<"}</span>
+                {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
+                    <>
+                        {item.flags.isConst && "const "}
+                        {item.varianceModifier ? `${item.varianceModifier} ` : ""}
+                        <span class="tsd-signature-type tsd-kind-type-parameter">{item.name}</span>
+                    </>
+                ))}
+                <span class="tsd-signature-symbol">{">"}</span>
+            </>
+        );
+    }
+
     return (
         <>
-            {!!typeParameters && typeParameters.length > 0 && (
+            <span class="tsd-signature-symbol">{"<"}</span>
+            {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
                 <>
-                    <span class="tsd-signature-symbol">{"<"}</span>
-                    {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
+                    {item.flags.isConst && "const "}
+                    {item.varianceModifier ? `${item.varianceModifier} ` : ""}
+                    <span class="tsd-signature-type tsd-kind-type-parameter">{item.name}</span>
+                    {!!item.type && (
                         <>
-                            {item.flags.isConst && "const "}
-                            {item.varianceModifier ? `${item.varianceModifier} ` : ""}
-                            <span class="tsd-signature-type tsd-kind-type-parameter">{item.name}</span>
+                            <span class="tsd-signature-symbol"> extends </span>
+                            {context.type(item.type)}
                         </>
-                    ))}
-                    <span class="tsd-signature-symbol">{">"}</span>
+                    )}
                 </>
-            )}
+            ))}
+            <span class="tsd-signature-symbol">{">"}</span>
         </>
     );
 }

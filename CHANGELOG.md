@@ -6,8 +6,10 @@
 
 ### Bug Fixes
 
+-   Type parameter constraints now respect the `--hideParameterTypesInTitle` option, #2226.
 -   Even more contrast fixes, #2248.
 -   Fix semantic highlighting for predicate type's parameter references, #2249.
+-   Fixed inconsistent styling between type parameter lists and parameter lists.
 
 ## v0.24.4 (2023-04-16)
 

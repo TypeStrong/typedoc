@@ -5,9 +5,9 @@ import { JSX } from "../../../../utils";
 export function typeParameters(context: DefaultThemeRenderContext, typeParameters: TypeParameterReflection[]) {
     return (
         <>
-            <section class="tsd-panel tsd-type-parameters">
+            <section class="tsd-panel">
                 <h4>Type Parameters</h4>
-                <ul class="tsd-type-parameters">
+                <ul class="tsd-type-parameter-list">
                     {typeParameters?.map((item) => (
                         <li>
                             <h4>

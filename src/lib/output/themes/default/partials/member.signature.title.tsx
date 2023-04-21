@@ -50,7 +50,7 @@ export function memberSignatureTitle(
                     )}
                 </>
             )}
-            {renderTypeParametersSignature(props.typeParameters)}
+            {renderTypeParametersSignature(context, props.typeParameters)}
             <span class="tsd-signature-symbol">(</span>
             {join(", ", props.parameters ?? [], renderParam)}
             <span class="tsd-signature-symbol">)</span>

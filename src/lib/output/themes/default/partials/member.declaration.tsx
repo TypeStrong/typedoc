@@ -7,7 +7,7 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
     <>
         <div class="tsd-signature">
             <span class={getKindClass(props)}>{wbr(props.name)}</span>
-            {renderTypeParametersSignature(props.typeParameters)}
+            {renderTypeParametersSignature(context, props.typeParameters)}
             {props.type && (
                 <>
                     <span class="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
