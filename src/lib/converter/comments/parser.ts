@@ -154,6 +154,14 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
         removeIf(comment.blockTags, (tag) => remarks.indexOf(tag) > 0);
     }
 
+    const returns = comment.blockTags.filter((tag) => tag.tag === "@returns");
+    if (remarks.length > 1) {
+        warning(
+            "At most one @returns tag is expected in a comment, ignoring all but the first"
+        );
+        removeIf(comment.blockTags, (tag) => returns.indexOf(tag) > 0);
+    }
+
     const inheritDoc = comment.blockTags.filter(
         (tag) => tag.tag === "@inheritDoc"
     );
