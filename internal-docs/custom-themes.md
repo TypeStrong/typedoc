@@ -31,13 +31,13 @@ class MyThemeContext extends DefaultThemeRenderContext {
         const site = this.options.getValue("gaId");
 
         const script = `
-(function() {
-    var _owa = document.createElement('script'); _owa.type = 'text/javascript';
-    _owa.async = true; _owa.src = '${site}' + '/modules/base/js/owa.tracker-combined-min.js';
-    var _owa_s = document.getElementsByTagName('script')[0]; _owa_s.parentNode.insertBefore(_owa,
-    _owa_s);
-}());
-`.trim();
+            (function() {
+                var _owa = document.createElement('script'); _owa.type = 'text/javascript';
+                _owa.async = true; _owa.src = '${site}' + '/modules/base/js/owa.tracker-combined-min.js';
+                var _owa_s = document.getElementsByTagName('script')[0]; _owa_s.parentNode.insertBefore(_owa,
+                _owa_s);
+            }());
+        `.trim();
 
         return (
             <script>
