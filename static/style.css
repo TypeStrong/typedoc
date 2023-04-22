@@ -720,7 +720,8 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 .tsd-navigation ul,
 .tsd-page-navigation ul {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
     padding: 0;
     list-style: none;
 }
@@ -729,14 +730,24 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     padding: 0;
     max-width: 100%;
 }
+.tsd-nested-navigation {
+    margin-left: 3rem;
+}
+.tsd-nested-navigation > li > details {
+    margin-left: -1.5rem;
+}
+.tsd-small-nested-navigation {
+    margin-left: 1.5rem;
+}
+.tsd-small-nested-navigation > li > details {
+    margin-left: -1.5rem;
+}
+
 .tsd-nested-navigation > li > a,
 .tsd-nested-navigation > li > span {
     width: calc(100% - 1.75rem - 0.5rem);
-    margin-left: 1.75rem;
 }
-.tsd-nested-navigation > li > details {
-    margin-left: 1.75rem;
-}
+
 .tsd-page-navigation ul {
     padding-left: 1.75rem;
 }
@@ -781,8 +792,7 @@ a.tsd-index-link {
     padding-top: 0;
     padding-bottom: 0;
 }
-.tsd-index-accordion .tsd-accordion-summary svg {
-    margin-right: 0.25rem;
+.tsd-index-accordion .tsd-accordion-summary > svg {
     margin-left: 0.25rem;
 }
 .tsd-index-content > :not(:first-child) {

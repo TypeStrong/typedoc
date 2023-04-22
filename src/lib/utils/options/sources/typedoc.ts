@@ -433,6 +433,92 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
 
+    options.addDeclaration({
+        name: "navigation",
+        help: "Determines how the navigation sidebar is organized.",
+        type: ParameterType.Flags,
+        defaults: {
+            includeCategories: false,
+            includeGroups: false,
+        },
+    });
+
+    options.addDeclaration({
+        name: "visibilityFilters",
+        help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
+        type: ParameterType.Mixed,
+        configFileOnly: true,
+        defaultValue: {
+            protected: false,
+            private: false,
+            inherited: true,
+            external: false,
+        },
+        validate(value) {
+            const knownKeys = ["protected", "private", "inherited", "external"];
+            if (!value || typeof value !== "object") {
+                throw new Error("visibilityFilters must be an object.");
+            }
+
+            for (const [key, val] of Object.entries(value)) {
+                if (!key.startsWith("@") && !knownKeys.includes(key)) {
+                    throw new Error(
+                        `visibilityFilters can only include the following non-@ keys: ${knownKeys.join(
+                            ", "
+                        )}`
+                    );
+                }
+
+                if (typeof val !== "boolean") {
+                    throw new Error(
+                        `All values of visibilityFilters must be booleans.`
+                    );
+                }
+            }
+        },
+    });
+
+    options.addDeclaration({
+        name: "searchCategoryBoosts",
+        help: "Configure search to give a relevance boost to selected categories",
+        type: ParameterType.Mixed,
+        configFileOnly: true,
+        defaultValue: {},
+        validate(value) {
+            if (!isObject(value)) {
+                throw new Error(
+                    "The 'searchCategoryBoosts' option must be a non-array object."
+                );
+            }
+
+            if (Object.values(value).some((x) => typeof x !== "number")) {
+                throw new Error(
+                    "All values of 'searchCategoryBoosts' must be numbers."
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "searchGroupBoosts",
+        help: 'Configure search to give a relevance boost to selected kinds (eg "class")',
+        type: ParameterType.Mixed,
+        configFileOnly: true,
+        defaultValue: {},
+        validate(value: unknown) {
+            if (!isObject(value)) {
+                throw new Error(
+                    "The 'searchGroupBoosts' option must be a non-array object."
+                );
+            }
+
+            if (Object.values(value).some((x) => typeof x !== "number")) {
+                throw new Error(
+                    "All values of 'searchGroupBoosts' must be numbers."
+                );
+            }
+        },
+    });
+
     ///////////////////////////
     ///// Comment Options /////
     ///////////////////////////
@@ -510,7 +596,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "categorizeByGroup",
         help: "Specify whether categorization will be done at the group level.",
         type: ParameterType.Boolean,
-        defaultValue: true,
+        defaultValue: true, // 0.25, change this to false.
     });
     options.addDeclaration({
         name: "defaultCategory",
@@ -589,82 +675,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
                     `kindSortOrder may only specify known values, and invalid values were provided (${Array.from(
                         invalid
                     ).join(", ")}). The valid kinds are:\n${valid.join(", ")}`
-                );
-            }
-        },
-    });
-
-    options.addDeclaration({
-        name: "visibilityFilters",
-        help: "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
-        type: ParameterType.Mixed,
-        configFileOnly: true,
-        defaultValue: {
-            protected: false,
-            private: false,
-            inherited: true,
-            external: false,
-        },
-        validate(value) {
-            const knownKeys = ["protected", "private", "inherited", "external"];
-            if (!value || typeof value !== "object") {
-                throw new Error("visibilityFilters must be an object.");
-            }
-
-            for (const [key, val] of Object.entries(value)) {
-                if (!key.startsWith("@") && !knownKeys.includes(key)) {
-                    throw new Error(
-                        `visibilityFilters can only include the following non-@ keys: ${knownKeys.join(
-                            ", "
-                        )}`
-                    );
-                }
-
-                if (typeof val !== "boolean") {
-                    throw new Error(
-                        `All values of visibilityFilters must be booleans.`
-                    );
-                }
-            }
-        },
-    });
-
-    options.addDeclaration({
-        name: "searchCategoryBoosts",
-        help: "Configure search to give a relevance boost to selected categories",
-        type: ParameterType.Mixed,
-        configFileOnly: true,
-        defaultValue: {},
-        validate(value) {
-            if (!isObject(value)) {
-                throw new Error(
-                    "The 'searchCategoryBoosts' option must be a non-array object."
-                );
-            }
-
-            if (Object.values(value).some((x) => typeof x !== "number")) {
-                throw new Error(
-                    "All values of 'searchCategoryBoosts' must be numbers."
-                );
-            }
-        },
-    });
-    options.addDeclaration({
-        name: "searchGroupBoosts",
-        help: 'Configure search to give a relevance boost to selected kinds (eg "class")',
-        type: ParameterType.Mixed,
-        configFileOnly: true,
-        defaultValue: {},
-        validate(value: unknown) {
-            if (!isObject(value)) {
-                throw new Error(
-                    "The 'searchGroupBoosts' option must be a non-array object."
-                );
-            }
-
-            if (Object.values(value).some((x) => typeof x !== "number")) {
-                throw new Error(
-                    "All values of 'searchGroupBoosts' must be numbers."
                 );
             }
         },
