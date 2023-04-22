@@ -24,7 +24,12 @@ export class GroupPlugin extends ConverterComponent {
     @BindOption("searchGroupBoosts")
     boosts!: Record<string, number>;
 
+    @BindOption("groupOrder")
+    groupOrder!: string[];
+
     usedBoosts = new Set<string>();
+
+    static WEIGHTS: string[] = [];
 
     /**
      * Create a new GroupPlugin instance.
@@ -33,6 +38,7 @@ export class GroupPlugin extends ConverterComponent {
         this.listenTo(this.owner, {
             [Converter.EVENT_RESOLVE_BEGIN]: () => {
                 this.sortFunction = getSortFunction(this.application.options);
+                GroupPlugin.WEIGHTS = this.groupOrder;
             },
             [Converter.EVENT_RESOLVE]: this.onResolve,
             [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
@@ -162,6 +168,30 @@ export class GroupPlugin extends ConverterComponent {
             }
         });
 
-        return Array.from(groups.values());
+        return Array.from(groups.values()).sort(GroupPlugin.sortGroupCallback);
+    }
+
+    /**
+     * Callback used to sort groups by name.
+     */
+    static sortGroupCallback(a: ReflectionGroup, b: ReflectionGroup): number {
+        let aWeight = GroupPlugin.WEIGHTS.indexOf(a.title);
+        let bWeight = GroupPlugin.WEIGHTS.indexOf(b.title);
+        if (aWeight === -1 || bWeight === -1) {
+            let asteriskIndex = GroupPlugin.WEIGHTS.indexOf("*");
+            if (asteriskIndex === -1) {
+                asteriskIndex = GroupPlugin.WEIGHTS.length;
+            }
+            if (aWeight === -1) {
+                aWeight = asteriskIndex;
+            }
+            if (bWeight === -1) {
+                bWeight = asteriskIndex;
+            }
+        }
+        if (aWeight === bWeight) {
+            return a.title > b.title ? 1 : -1;
+        }
+        return aWeight - bWeight;
     }
 }

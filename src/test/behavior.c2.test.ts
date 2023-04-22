@@ -412,15 +412,16 @@ describe("Behavior Tests", () => {
         const A = query(project, "A");
         const B = query(project, "B");
         const C = query(project, "C");
+        const D = query(project, "D");
 
         equal(
             project.groups?.map((g) => g.title),
-            ["A", "B", "With Spaces"]
+            ["Variables", "A", "B", "With Spaces"]
         );
 
         equal(
             project.groups.map((g) => g.children),
-            [[A, B], [B], [C]]
+            [[D], [A, B], [B], [C]]
         );
     });
 
@@ -908,5 +909,14 @@ describe("Behavior Tests", () => {
         );
 
         equal(comments, ["Bar docs", "Bar.a docs", "Foo.b docs"]);
+    });
+
+    it("Allows specifying group sort order #2251", () => {
+        app.options.setValue("groupOrder", ["B", "Variables", "A"]);
+        const project = convert("groupTag");
+        equal(
+            project.groups?.map((g) => g.title),
+            ["B", "Variables", "A", "With Spaces"]
+        );
     });
 });

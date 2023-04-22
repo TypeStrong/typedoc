@@ -523,6 +523,32 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Array,
     });
     options.addDeclaration({
+        name: "groupOrder",
+        help: "Specify the order in which groups appear. * indicates the relative order for groups not in the list.",
+        type: ParameterType.Array,
+        // Defaults to the same as the defaultKindSortOrder in sort.ts
+        defaultValue: [
+            ReflectionKind.Reference,
+            // project is never a child so never added to a group
+            ReflectionKind.Module,
+            ReflectionKind.Namespace,
+            ReflectionKind.Enum,
+            ReflectionKind.EnumMember,
+            ReflectionKind.Class,
+            ReflectionKind.Interface,
+            ReflectionKind.TypeAlias,
+
+            ReflectionKind.Constructor,
+            ReflectionKind.Property,
+            ReflectionKind.Variable,
+            ReflectionKind.Function,
+            ReflectionKind.Accessor,
+            ReflectionKind.Method,
+
+            // others are never added to groups
+        ].map(ReflectionKind.pluralString),
+    });
+    options.addDeclaration({
         name: "sort",
         help: "Specify the sort strategy for documented values.",
         type: ParameterType.Array,

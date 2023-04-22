@@ -5,6 +5,7 @@
 -   Added support for discovering a "module" comment on global files, #2165.
 -   Added copy code to clipboard button, #2153.
 -   Function `@returns` blocks will now be rendered with the return type, #2180.
+-   Added `--groupOrder` option to specify the sort order of groups, #2251.
 
 ### Bug Fixes
 

@@ -13,3 +13,6 @@ export const B = 123;
  * @group With Spaces
  */
 export const C = 123;
+
+// no group
+export const D = 123;

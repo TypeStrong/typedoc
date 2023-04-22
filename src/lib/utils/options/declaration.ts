@@ -164,6 +164,7 @@ export interface TypeDocOptionMap {
     categorizeByGroup: boolean;
     defaultCategory: string;
     categoryOrder: string[];
+    groupOrder: string[];
     sort: SortStrategy[];
     kindSortOrder: ReflectionKind.KindString[];
 
