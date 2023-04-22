@@ -21,6 +21,10 @@
 -   Fixed inconsistent styling between type parameter lists and parameter lists.
 -   TypeDoc will now warn if more than one `@returns` block is is present in a function, and ignore the duplicate blocks as specified by TSDoc.
 
+### Thanks!
+
+-   @FlippieCoetser
+
 ## v0.24.4 (2023-04-16)
 
 ### Bug Fixes
