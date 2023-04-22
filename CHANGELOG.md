@@ -2,6 +2,11 @@
 
 ### Features
 
+-   Categories and groups can now be shown in the navigation, added `--navigation.includeCategories`
+    and `--navigation.includeGroups` to control this behavior. The `--categorizeByGroup` option also
+    effects this behavior. If `categorizeByGroup` is set (the default) and `navigation.includeGroups` is
+    _not_ set, the value of `navigation.includeCategories` will be effectively ignored since categories
+    will be created only within groups, #1532.
 -   Added support for discovering a "module" comment on global files, #2165.
 -   Added copy code to clipboard button, #2153.
 -   Function `@returns` blocks will now be rendered with the return type, #2180.
