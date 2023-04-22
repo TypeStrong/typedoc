@@ -348,7 +348,7 @@
 ### Features
 
 -   Added support for defining one-off external link mappings with `externalSymbolLinkMappings` see
-    [the documentation](https://typedoc.org/guides/options/#externalsymbollinkmappings) for usage examples and caveats, #2030.
+    [the documentation](https://typedoc.org/options/comments/#externalsymbollinkmappings) for usage examples and caveats, #2030.
 -   External link resolvers defined with `addUnknownSymbolResolver` will now be checked when resolving `@link` tags, #2030.
     Note: To support this, resolution will now happen during conversion, and as such, `Renderer.addUnknownSymbolResolver` has been
     soft deprecated in favor of `Converter.addUnknownSymbolResolver`. Plugins should update to use the method on `Converter`.
@@ -551,7 +551,7 @@
 -   Node 12 is no longer officially supported as it has gone end of life as of 2022-04-30. It might still work, but may stop working at any time.
 -   Dropped support for TypeScript before 4.6.
 -   `{@link}` tags in comments will now be resolved as declaration references similar to TSDoc's declaration references.
-    For most cases, this will just work. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on how link resolution works.
+    For most cases, this will just work. See [the documentation](https://github.com/TypeStrong/typedoc-site/blob/da9760bccf30ce96210f6e35b9dcc2a4ddeed234/guides/link-resolution.md) for details on how link resolution works.
 -   TypeDoc will now produce warnings for bracketed links (`[[ target ]]`). Use `{@link target}` instead. The `{@link}` syntax will be recognized by [TypeScript 4.3](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#editor-support-for-link-tags) and later and used to provide better intellisense. TypeDoc version 0.24.0 will remove support for `[[ target ]]` style links.
     Support for `` [[`links`]] `` with brackets + code ticks have been dropped.
 -   `extends` in typedoc.json is now resolved using NodeJS module resolution, so a local path must begin with `./`.
@@ -565,7 +565,7 @@
 -   Comments on export declarations will only overrides comments for references and namespaces, #1901.
 -   The deprecated `listInvalidSymbolLinks` option has been removed. Use `validation.invalidLink` instead.
 -   The deprecated `true` and `false` values have been removed from `--emit`, to migrate replace `true` with `"both"` and `false` with `"docs"` (the default).
--   Links are no longer be resolved against a global list of all symbols. See [the documentation](https://typedoc.org/guides/link-resolution/) for details on link resolution.
+-   Links are no longer be resolved against a global list of all symbols. See [the documentation](https://github.com/TypeStrong/typedoc-site/blob/da9760bccf30ce96210f6e35b9dcc2a4ddeed234/guides/link-resolution.md) for details on link resolution.
 -   The `validation.invalidLink` option is now on by default.
 -   `reflection.decorates`, `reflection.decorators`, and their corresponding interfaces have been removed as no code in TypeDoc used them.
 -   The shape of the `Comment` class has changed significantly to support multiple tag kinds.
