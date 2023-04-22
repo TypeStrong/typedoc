@@ -1,4 +1,10 @@
-import { DeclarationReflection, ProjectReflection, Reflection, ReflectionKind } from "../../../../models";
+import {
+    DeclarationReflection,
+    ProjectReflection,
+    Reflection,
+    ReflectionCategory,
+    ReflectionKind,
+} from "../../../../models";
 import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { camelToTitleCase, classNames, getDisplayName, wbr } from "../../lib";
@@ -98,42 +104,60 @@ export function settings(context: DefaultThemeRenderContext) {
     );
 }
 
+type NavigationElement = ReflectionCategory | DeclarationReflection;
+
+function getNavigationElements(parent: NavigationElement | ProjectReflection): NavigationElement[] {
+    if (parent instanceof ReflectionCategory) {
+        return parent.children;
+    }
+
+    if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
+        return [];
+    }
+
+    if (parent.categories) {
+        return parent.categories;
+    }
+
+    return parent.children || [];
+}
+
 export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     // Create the navigation for the current page
     // Recurse to children if the parent is some kind of module
 
     return (
         <nav class="tsd-navigation">
-            {link(props.project)}
-            <ul class="tsd-small-nested-navigation">
-                {props.project.children?.map((c) => (
+            {createNavElement(props.project, false)}
+            <ul class="tsd-nested-navigation">
+                {getNavigationElements(props.project).map((c) => (
                     <li>{links(c)}</li>
                 ))}
             </ul>
         </nav>
     );
 
-    function links(mod: DeclarationReflection) {
-        const children = (mod.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project) && mod.children) || [];
-
+    function links(mod: NavigationElement) {
         const nameClasses = classNames(
-            { deprecated: mod.isDeprecated() },
-            mod.isProject() ? void 0 : context.getReflectionClasses(mod)
+            { deprecated: mod instanceof Reflection && mod.isDeprecated() },
+            !(mod instanceof Reflection) || mod.isProject() ? void 0 : context.getReflectionClasses(mod)
         );
 
+        const children = getNavigationElements(mod);
+
         if (!children.length) {
-            return link(mod, nameClasses);
+            return createNavElement(mod, true, nameClasses);
         }
 
         return (
             <details
                 class={classNames({ "tsd-index-accordion": true }, nameClasses)}
-                open={inPath(mod)}
-                data-key={mod.getFullName()}
+                open={mod instanceof Reflection && inPath(mod)}
+                data-key={mod instanceof Reflection ? mod.getFullName() : mod.title}
             >
                 <summary class="tsd-accordion-summary">
                     {context.icons.chevronDown()}
-                    {link(mod)}
+                    {createNavElement(mod, false)}
                 </summary>
                 <div class="tsd-accordion-details">
                     <ul class="tsd-nested-navigation">
@@ -146,13 +170,17 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
         );
     }
 
-    function link(child: DeclarationReflection | ProjectReflection, nameClasses?: string) {
-        return (
-            <a href={context.urlTo(child)} class={classNames({ current: child === props.model }, nameClasses)}>
-                {context.icons[child.kind]()}
-                <span>{wbr(getDisplayName(child))}</span>
-            </a>
-        );
+    function createNavElement(child: NavigationElement | ProjectReflection, icon: boolean, nameClasses?: string) {
+        if (child instanceof Reflection) {
+            return (
+                <a href={context.urlTo(child)} class={classNames({ current: child === props.model }, nameClasses)}>
+                    {icon && context.icons[child.kind]()}
+                    <span>{wbr(getDisplayName(child))}</span>
+                </a>
+            );
+        }
+
+        return <span>{child.title}</span>;
     }
 
     function inPath(mod: DeclarationReflection | ProjectReflection) {
