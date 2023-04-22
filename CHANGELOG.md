@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.24.5 (2023-04-22)
+
 ### Features
 
 -   Categories and groups can now be shown in the navigation, added `--navigation.includeCategories`
