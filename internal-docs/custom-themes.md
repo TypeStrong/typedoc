@@ -21,7 +21,7 @@ Google Analytics. This could be done with the following theme:
 ```tsx
 import { Application, DefaultTheme, PageEvent, JSX } from "typedoc";
 
-const openWebAnalyticsScript = `
+const script = `
 (function() {
     var _owa = document.createElement('script'); _owa.type = 'text/javascript';
     _owa.async = true; _owa.src = '${site}' + '/modules/base/js/owa.tracker-combined-min.js';
@@ -38,8 +38,6 @@ class MyThemeContext extends DefaultThemeRenderContext {
         if (!this.options.isSet("gaId")) return;
 
         const site = this.options.getValue("gaId");
-
-        const script = openWebAnalyticsScript
 
         return (
             <script>
