@@ -21,6 +21,15 @@ Google Analytics. This could be done with the following theme:
 ```tsx
 import { Application, DefaultTheme, PageEvent, JSX } from "typedoc";
 
+const openWebAnalyticsScript = `
+(function() {
+    var _owa = document.createElement('script'); _owa.type = 'text/javascript';
+    _owa.async = true; _owa.src = '${site}' + '/modules/base/js/owa.tracker-combined-min.js';
+    var _owa_s = document.getElementsByTagName('script')[0]; _owa_s.parentNode.insertBefore(_owa,
+    _owa_s);
+}());
+`.trim();
+
 class MyThemeContext extends DefaultThemeRenderContext {
     // Important: If you use `this`, this function MUST be bound! Template functions are free
     // to destructure the context object to only grab what they care about.
@@ -30,14 +39,7 @@ class MyThemeContext extends DefaultThemeRenderContext {
 
         const site = this.options.getValue("gaId");
 
-        const script = `
-            (function() {
-                var _owa = document.createElement('script'); _owa.type = 'text/javascript';
-                _owa.async = true; _owa.src = '${site}' + '/modules/base/js/owa.tracker-combined-min.js';
-                var _owa_s = document.getElementsByTagName('script')[0]; _owa_s.parentNode.insertBefore(_owa,
-                _owa_s);
-            }());
-        `.trim();
+        const script = openWebAnalyticsScript
 
         return (
             <script>
