@@ -57,7 +57,10 @@ export function getCommonDirectory(files: readonly string[]): string {
 
     let i = 0;
 
-    while (new Set(roots.map((part) => part[i])).size === 1) {
+    while (
+        i < roots[0].length &&
+        new Set(roots.map((part) => part[i])).size === 1
+    ) {
         i++;
     }
 

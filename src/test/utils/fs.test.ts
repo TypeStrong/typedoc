@@ -3,7 +3,7 @@ import { createServer } from "net";
 import { Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { AssertionError, deepStrictEqual as equal } from "assert";
 import { basename, dirname, resolve, normalize } from "path";
-import { glob } from "../../lib/utils/fs";
+import { getCommonDirectory, glob } from "../../lib/utils/fs";
 
 describe("fs.ts", () => {
     let fix: Project;
@@ -13,6 +13,28 @@ describe("fs.ts", () => {
 
     afterEach(() => {
         fix.rm();
+    });
+
+    describe("getCommonDirectory", () => {
+        it("Returns the empty string if no files are provided", () => {
+            equal(getCommonDirectory([]), "");
+        });
+
+        it("Returns the dirname if only one file is provided", () => {
+            equal(getCommonDirectory(["a/b/c.ts"]), "a/b");
+        });
+
+        it("Handles duplicates paths appropriately", () => {
+            const p = "a/b/c";
+            equal(getCommonDirectory([p, p]), p);
+        });
+
+        it("Gets the path common to all files", () => {
+            equal(
+                getCommonDirectory(["/a/b/c", "/a/b/c/d/e", "/a/b/d"]),
+                "/a/b"
+            );
+        });
     });
 
     describe("glob", () => {

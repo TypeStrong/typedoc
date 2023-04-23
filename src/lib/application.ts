@@ -5,13 +5,7 @@ import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
 import { Deserializer, JSONOutput, Serializer } from "./serialization";
 import type { ProjectReflection } from "./models/index";
-import {
-    Logger,
-    ConsoleLogger,
-    loadPlugins,
-    writeFile,
-    normalizePath,
-} from "./utils/index";
+import { Logger, ConsoleLogger, loadPlugins, writeFile } from "./utils/index";
 
 import {
     AbstractComponent,
@@ -591,17 +585,25 @@ export class Application extends ChildableComponent<
         const start = Date.now();
 
         const rootDir = deriveRootDir(this.entryPoints);
-        this.logger.verbose(
-            `Derived root dir is ${rootDir}, will expand ${this.entryPoints
-                .map(normalizePath)
-                .join(", ")}`
-        );
-        const entryPoints = this.entryPoints.flatMap((entry) =>
-            glob(entry, rootDir)
-        );
-        this.logger.verbose(
-            `Merging entry points:\n\t${entryPoints.map(nicePath).join("\n\t")}`
-        );
+        const entryPoints = this.entryPoints.flatMap((entry) => {
+            const result = glob(entry, rootDir);
+
+            if (result.length === 0) {
+                this.logger.warn(
+                    `The entrypoint glob ${nicePath(
+                        entry
+                    )} did not match any files.`
+                );
+            } else {
+                this.logger.verbose(
+                    `Expanded ${nicePath(entry)} to:\n\t${result
+                        .map(nicePath)
+                        .join("\n\t")}`
+                );
+            }
+
+            return result;
+        });
 
         if (entryPoints.length < 1) {
             this.logger.error("No entry points provided to merge.");

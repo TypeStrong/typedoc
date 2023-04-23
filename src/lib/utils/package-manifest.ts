@@ -132,6 +132,21 @@ export function expandPackages(
             resolve(packageJsonDir, workspace, "package.json"),
             resolve(packageJsonDir)
         );
+
+        if (globbedPackageJsonPaths.length === 0) {
+            logger.warn(
+                `The entrypoint glob ${nicePath(
+                    workspace
+                )} did not match any directories containing package.json.`
+            );
+        } else {
+            logger.verbose(
+                `Expanded ${nicePath(
+                    workspace
+                )} to:\n\t${globbedPackageJsonPaths.map(nicePath).join("\n\t")}`
+            );
+        }
+
         return globbedPackageJsonPaths.flatMap((packageJsonPath) => {
             if (matchesAny(exclude, dirname(packageJsonPath))) {
                 return [];

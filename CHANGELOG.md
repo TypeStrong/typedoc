@@ -1,5 +1,18 @@
 # Unreleased
 
+### Features
+
+-   Improved error messaging if a provided entry point could not be converted into a documented module reflection, #2242.
+-   API: Added support for `g`, `circle`, `ellipse`, `polygon`, and `polyline` svg elements, #2259.
+
+### Bug Fixes
+
+-   Fixed an infinite loop if more than one entry point was provided, and all entry points were the same.
+
+### Thanks!
+
+-   @FlippieCoetser
+
 ## v0.24.5 (2023-04-22)
 
 ### Features

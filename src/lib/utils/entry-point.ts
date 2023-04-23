@@ -12,7 +12,7 @@ import {
 import { createMinimatch, matchesAny, nicePath, normalizePath } from "./paths";
 import type { Logger } from "./loggers";
 import type { Options } from "./options";
-import { deriveRootDir, glob } from "./fs";
+import { deriveRootDir, glob, isDir } from "./fs";
 import { assertNever } from "./general";
 
 /**
@@ -64,13 +64,18 @@ export function getEntryPoints(
 ): DocumentationEntryPoint[] | undefined {
     const entryPoints = options.getValue("entryPoints");
 
+    if (entryPoints.length === 0) {
+        logger.error("No entry points were provided.");
+        return;
+    }
+
     let result: DocumentationEntryPoint[] | undefined;
     const strategy = options.getValue("entryPointStrategy");
     switch (strategy) {
         case EntryPointStrategy.Resolve:
             result = getEntryPointsForPaths(
                 logger,
-                expandGlobs(entryPoints),
+                expandGlobs(entryPoints, logger),
                 options
             );
             break;
@@ -78,7 +83,7 @@ export function getEntryPoints(
         case EntryPointStrategy.Expand:
             result = getExpandedEntryPointsForPaths(
                 logger,
-                expandGlobs(entryPoints),
+                expandGlobs(entryPoints, logger),
                 options
             );
             break;
@@ -101,9 +106,7 @@ export function getEntryPoints(
     }
 
     if (result && result.length === 0) {
-        logger.error(
-            "Unable to find any entry points. Make sure TypeDoc can find your tsconfig"
-        );
+        logger.error("Unable to find any entry points. See previous warnings.");
         return;
     }
 
@@ -210,10 +213,14 @@ function getEntryPointsForPaths(
                 }
             }
         }
+
+        const suggestion = isDir(fileOrDir)
+            ? " If you wanted to include files inside this directory, set --entryPointStrategy to expand or specify a glob."
+            : "";
         logger.warn(
             `The entry point ${nicePath(
                 fileOrDir
-            )} does not exist or is not included in the program for your provided tsconfig.`
+            )} is not included in the program for your provided tsconfig.${suggestion}`
         );
     }
 
@@ -234,11 +241,30 @@ export function getExpandedEntryPointsForPaths(
     );
 }
 
-function expandGlobs(inputFiles: string[]) {
+function expandGlobs(inputFiles: string[], logger: Logger) {
     const base = deriveRootDir(inputFiles);
-    const result = inputFiles.flatMap((entry) =>
-        glob(entry, base, { includeDirectories: true, followSymlinks: true })
-    );
+    const result = inputFiles.flatMap((entry) => {
+        const result = glob(entry, base, {
+            includeDirectories: true,
+            followSymlinks: true,
+        });
+
+        if (result.length === 0) {
+            logger.warn(
+                `The entrypoint glob ${nicePath(
+                    entry
+                )} did not match any files.`
+            );
+        } else {
+            logger.verbose(
+                `Expanded ${nicePath(entry)} to:\n\t${result
+                    .map(nicePath)
+                    .join("\n\t")}`
+            );
+        }
+
+        return result;
+    });
     return result;
 }
 
