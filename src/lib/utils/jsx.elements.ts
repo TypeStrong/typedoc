@@ -119,6 +119,7 @@ export interface IntrinsicElements {
     path: JsxPathElementProps;
     rect: JsxRectElementProps;
     circle: JsxCircleElementProps;
+    ellipse: JsxEllipseElementProps;
     use: JsxUseElementProps;
 }
 
@@ -1086,6 +1087,23 @@ export interface JsxCircleElementProps
     cx?: string | number;
     cy?: string | number;
     r?: string | number;
+    pathLength?: number;
+}
+
+/**
+ * Properties permitted on the `<ellipse>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/ellipse
+ */
+export interface JsxEllipseElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    cx?: string | number;
+    cy?: string | number;
+    rx?: string | number;
+    ry?: string | number;
     pathLength?: number;
 }
 
