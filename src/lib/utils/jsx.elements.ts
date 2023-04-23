@@ -115,6 +115,7 @@ export interface IntrinsicElements {
 
     // SVG Elements
     svg: JsxSvgElementProps;
+    g: JsxGElementProps;
     path: JsxPathElementProps;
     rect: JsxRectElementProps;
     use: JsxUseElementProps;
@@ -1026,6 +1027,17 @@ export interface JsxSvgElementProps
     x?: string | number;
     y?: string | number;
 }
+
+/**
+ * Properties permitted on the `<g>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g
+ */
+export interface JsxGElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {}
 
 /**
  * Properties permitted on the `<path>` element.
