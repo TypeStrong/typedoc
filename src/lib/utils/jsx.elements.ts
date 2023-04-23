@@ -120,6 +120,7 @@ export interface IntrinsicElements {
     rect: JsxRectElementProps;
     circle: JsxCircleElementProps;
     ellipse: JsxEllipseElementProps;
+    polygon: JsxPolygonElementProps;
     use: JsxUseElementProps;
 }
 
@@ -1104,6 +1105,20 @@ export interface JsxEllipseElementProps
     cy?: string | number;
     rx?: string | number;
     ry?: string | number;
+    pathLength?: number;
+}
+
+/**
+ * Properties permitted on the `<polygon>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polygon
+ */
+export interface JsxPolygonElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    points?: string;
     pathLength?: number;
 }
 
