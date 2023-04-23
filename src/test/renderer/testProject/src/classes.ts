@@ -216,7 +216,7 @@ export class SubClassA extends BaseClass implements PrintNameInterface {
     public print(value: string): void {}
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public printName(): void {
         this.print(this.getName());

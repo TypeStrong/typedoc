@@ -115,8 +115,13 @@ export interface IntrinsicElements {
 
     // SVG Elements
     svg: JsxSvgElementProps;
+    g: JsxGElementProps;
     path: JsxPathElementProps;
     rect: JsxRectElementProps;
+    circle: JsxCircleElementProps;
+    ellipse: JsxEllipseElementProps;
+    polygon: JsxPolygonElementProps;
+    polyline: JsxPolylineElementProps;
     use: JsxUseElementProps;
 }
 
@@ -1028,6 +1033,17 @@ export interface JsxSvgElementProps
 }
 
 /**
+ * Properties permitted on the `<g>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g
+ */
+export interface JsxGElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {}
+
+/**
  * Properties permitted on the `<path>` element.
  *
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path
@@ -1058,6 +1074,66 @@ export interface JsxRectElementProps
     width?: string | number;
     x?: string | number;
     y?: string | number;
+}
+
+/**
+ * Properties permitted on the `<circle>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle
+ */
+export interface JsxCircleElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    cx?: string | number;
+    cy?: string | number;
+    r?: string | number;
+    pathLength?: number;
+}
+
+/**
+ * Properties permitted on the `<ellipse>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/ellipse
+ */
+export interface JsxEllipseElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    cx?: string | number;
+    cy?: string | number;
+    rx?: string | number;
+    ry?: string | number;
+    pathLength?: number;
+}
+
+/**
+ * Properties permitted on the `<polygon>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polygon
+ */
+export interface JsxPolygonElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    points?: string;
+    pathLength?: number;
+}
+
+/** Properties permitted on the `<polyline>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline
+ */
+export interface JsxPolylineElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    points?: string;
+    pathLength?: number;
 }
 
 /**
