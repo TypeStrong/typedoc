@@ -121,6 +121,7 @@ export interface IntrinsicElements {
     circle: JsxCircleElementProps;
     ellipse: JsxEllipseElementProps;
     polygon: JsxPolygonElementProps;
+    polyline: JsxPolylineElementProps;
     use: JsxUseElementProps;
 }
 
@@ -1114,6 +1115,19 @@ export interface JsxEllipseElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polygon
  */
 export interface JsxPolygonElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    points?: string;
+    pathLength?: number;
+}
+
+/** Properties permitted on the `<polyline>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline
+ */
+export interface JsxPolylineElementProps
     extends JsxSvgCoreProps,
         JsxSvgStyleProps,
         JsxSvgConditionalProcessingProps,
