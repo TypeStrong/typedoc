@@ -118,6 +118,7 @@ export interface IntrinsicElements {
     g: JsxGElementProps;
     path: JsxPathElementProps;
     rect: JsxRectElementProps;
+    circle: JsxCircleElementProps;
     use: JsxUseElementProps;
 }
 
@@ -1070,6 +1071,22 @@ export interface JsxRectElementProps
     width?: string | number;
     x?: string | number;
     y?: string | number;
+}
+
+/**
+ * Properties permitted on the `<circle>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle
+ */
+export interface JsxCircleElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    cx?: string | number;
+    cy?: string | number;
+    r?: string | number;
+    pathLength?: number;
 }
 
 /**
