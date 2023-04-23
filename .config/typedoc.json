@@ -15,8 +15,9 @@
     "entryPoints": ["../src/index.ts"],
     "excludeExternals": true,
     "excludeInternal": false,
-    "excludePrivate": true,
+    // "excludePrivate": true,
     "excludeReferences": true,
+    "jsDocCompatibility": false,
     "treatWarningsAsErrors": false,
     "validation": {
         "notExported": true,
