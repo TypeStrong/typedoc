@@ -342,10 +342,12 @@ function blockContent(
 
             case TokenSyntaxKind.Tag:
                 if (next.text === "@inheritdoc") {
-                    warning(
-                        "The @inheritDoc tag should be properly capitalized",
-                        next
-                    );
+                    if (!config.jsDocCompatibility.inheritDocTag) {
+                        warning(
+                            "The @inheritDoc tag should be properly capitalized",
+                            next
+                        );
+                    }
                     next.text = "@inheritDoc";
                 }
                 if (config.modifierTags.has(next.text)) {
@@ -371,7 +373,9 @@ function blockContent(
 
             case TokenSyntaxKind.CloseBrace:
                 // Unmatched closing brace, generate a warning, and treat it as text.
-                warning(`Unmatched closing brace`, next);
+                if (!config.jsDocCompatibility.ignoreUnescapedBraces) {
+                    warning(`Unmatched closing brace`, next);
+                }
                 content.push({ kind: "text", text: next.text });
                 break;
 
@@ -433,10 +437,12 @@ function inlineTag(
         lexer.done() ||
         ![TokenSyntaxKind.Text, TokenSyntaxKind.Tag].includes(lexer.peek().kind)
     ) {
-        warning(
-            "Encountered an unescaped open brace without an inline tag",
-            openBrace
-        );
+        if (!config.jsDocCompatibility.ignoreUnescapedBraces) {
+            warning(
+                "Encountered an unescaped open brace without an inline tag",
+                openBrace
+            );
+        }
         block.push({ kind: "text", text: openBrace.text });
         return;
     }
@@ -449,10 +455,12 @@ function inlineTag(
             (!/^\s+$/.test(tagName.text) ||
                 lexer.peek().kind != TokenSyntaxKind.Tag))
     ) {
-        warning(
-            "Encountered an unescaped open brace without an inline tag",
-            openBrace
-        );
+        if (!config.jsDocCompatibility.ignoreUnescapedBraces) {
+            warning(
+                "Encountered an unescaped open brace without an inline tag",
+                openBrace
+            );
+        }
         block.push({ kind: "text", text: openBrace.text + tagName.text });
         return;
     }

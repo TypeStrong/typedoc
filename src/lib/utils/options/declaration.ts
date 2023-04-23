@@ -222,6 +222,16 @@ export type JsDocCompatibility = {
      * On by default, this is how VSCode renders blocks.
      */
     defaultTag: boolean;
+    /**
+     * If set, TypeDoc will warn if a `@inheritDoc` tag is spelled without TSDoc capitalization
+     * (i.e. `@inheritdoc`). On by default.
+     */
+    inheritDocTag: boolean;
+    /**
+     * If set, TypeDoc will not emit warnings about unescaped `{` and `}` characters encountered
+     * when parsing a comment. On by default.
+     */
+    ignoreUnescapedBraces: boolean;
 };
 
 /**

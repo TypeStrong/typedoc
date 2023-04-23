@@ -4,6 +4,8 @@
 
 -   Improved error messaging if a provided entry point could not be converted into a documented module reflection, #2242.
 -   API: Added support for `g`, `circle`, `ellipse`, `polygon`, and `polyline` svg elements, #2259.
+-   Extended `jsDocCompatibility` option with `inheritDocTag` to ignore fully lowercase `inheritDoc` tags and
+    `ignoreUnescapedBraces` to disable warnings about unescaped `{` and `}` characters in comments.
 
 ### Bug Fixes
 

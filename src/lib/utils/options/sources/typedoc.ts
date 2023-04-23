@@ -530,6 +530,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaults: {
             defaultTag: true,
             exampleTag: true,
+            inheritDocTag: true,
+            ignoreUnescapedBraces: true,
         },
     });
 
