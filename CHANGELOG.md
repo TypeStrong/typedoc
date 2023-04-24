@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.24.6 (2023-04-24)
+
 ### Features
 
 -   Improved error messaging if a provided entry point could not be converted into a documented module reflection, #2242.
