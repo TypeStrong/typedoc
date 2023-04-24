@@ -39,6 +39,7 @@ export class Application {
         this.createComponents(document.body);
         this.ensureActivePageVisible();
         this.ensureFocusedElementVisible();
+        this.listenForCodeCopies();
         window.addEventListener("hashchange", () =>
             this.ensureFocusedElementVisible()
         );
@@ -66,11 +67,8 @@ export class Application {
         const pageLink = document.querySelector(".tsd-navigation .current");
         let iter = pageLink?.parentElement;
         while (iter && !iter.classList.contains(".tsd-navigation")) {
-            // Expand parent namespaces if collapsed, don't expand current namespace
-            if (
-                iter instanceof HTMLDetailsElement &&
-                pageLink?.parentElement?.parentElement !== iter
-            ) {
+            // Expand parent namespaces if collapsed, and this module
+            if (iter instanceof HTMLDetailsElement) {
                 iter.open = true;
             }
             iter = iter.parentElement;
@@ -124,5 +122,27 @@ export class Application {
 
             reflContainer.prepend(warning);
         }
+    }
+
+    private listenForCodeCopies() {
+        document.querySelectorAll("pre > button").forEach((button) => {
+            let timeout: ReturnType<typeof setTimeout>;
+            button.addEventListener("click", () => {
+                if (button.previousElementSibling instanceof HTMLElement) {
+                    navigator.clipboard.writeText(
+                        button.previousElementSibling.innerText.trim()
+                    );
+                }
+                button.textContent = "Copied!";
+                button.classList.add("visible");
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    button.classList.remove("visible");
+                    timeout = setTimeout(() => {
+                        button.textContent = "Copy";
+                    }, 100);
+                }, 1000);
+            });
+        });
     }
 }

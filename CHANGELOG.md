@@ -9,6 +9,9 @@
 
 ### Bug Fixes
 
+-   `--useTsLinkResolution` is no longer ignored within block tags, #2260.
+-   The current namespace will also be expanded in the navigation on page load, #2260.
+-   Fixed flicker of navigation pane when reloading a page caused by updating expansion state after the page was loaded.
 -   Fixed an infinite loop if more than one entry point was provided, and all entry points were the same.
 
 ### Thanks!

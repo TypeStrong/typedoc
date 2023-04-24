@@ -45,14 +45,27 @@ function getLinkTags(
 ): ReadonlyArray<ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain> {
     const result: (ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain)[] = [];
 
-    if (!jsDoc || typeof jsDoc.comment !== "object") return result;
+    if (jsDoc?.comment && typeof jsDoc.comment !== "string") {
+        for (const part of jsDoc.comment) {
+            switch (part.kind) {
+                case ts.SyntaxKind.JSDocLink:
+                case ts.SyntaxKind.JSDocLinkCode:
+                case ts.SyntaxKind.JSDocLinkPlain:
+                    result.push(part);
+            }
+        }
+    }
 
-    for (const part of jsDoc.comment) {
-        switch (part.kind) {
-            case ts.SyntaxKind.JSDocLink:
-            case ts.SyntaxKind.JSDocLinkCode:
-            case ts.SyntaxKind.JSDocLinkPlain:
-                result.push(part);
+    for (const block of jsDoc?.tags || []) {
+        if (!block.comment || typeof block.comment === "string") continue;
+
+        for (const part of block.comment) {
+            switch (part.kind) {
+                case ts.SyntaxKind.JSDocLink:
+                case ts.SyntaxKind.JSDocLinkCode:
+                case ts.SyntaxKind.JSDocLinkPlain:
+                    result.push(part);
+            }
         }
     }
 
