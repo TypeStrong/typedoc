@@ -9,7 +9,7 @@ describe("Options - TypeDocReader", () => {
     const options = new Options(new Logger());
     options.addReader(new TypeDocReader());
 
-    it("Supports comments in json", () => {
+    it("Supports comments in json", async () => {
         const project = fsProject("jsonc");
         project.addFile("typedoc.json", '//comment\n{"name": "comment"}');
         const logger = new TestLogger();
@@ -17,14 +17,14 @@ describe("Options - TypeDocReader", () => {
         project.write();
         options.reset();
         options.setValue("options", project.cwd);
-        options.read(logger);
+        await options.read(logger);
         project.rm();
 
         logger.expectNoOtherMessages();
         equal(options.getValue("name"), "comment");
     });
 
-    it("Supports extends", () => {
+    it("Supports extends", async () => {
         const project = fsProject("extends");
         project.addJsonFile("typedoc.json", {
             extends: "./other.json",
@@ -38,7 +38,7 @@ describe("Options - TypeDocReader", () => {
         project.write();
         options.reset();
         options.setValue("options", project.cwd);
-        options.read(logger);
+        await options.read(logger);
         project.rm();
 
         logger.expectNoOtherMessages();
@@ -46,7 +46,7 @@ describe("Options - TypeDocReader", () => {
         equal(options.getValue("gitRevision"), "master");
     });
 
-    it("Supports js files", () => {
+    it("Supports js files", async () => {
         const project = fsProject("js");
         project.addFile("typedoc.js", "module.exports = { name: 'js' }");
         const logger = new TestLogger();
@@ -54,18 +54,66 @@ describe("Options - TypeDocReader", () => {
         project.write();
         options.reset();
         options.setValue("options", project.cwd);
-        options.read(logger);
+        await options.read(logger);
         project.rm();
 
         logger.expectNoOtherMessages();
         equal(options.getValue("name"), "js");
     });
 
-    it("Errors if the file cannot be found", () => {
+    it("Supports esm files", async () => {
+        const project = fsProject("js");
+        project.addFile("typedoc.mjs", "export default { name: 'js' }");
+        const logger = new TestLogger();
+
+        project.write();
+        options.reset();
+        options.setValue("options", project.cwd);
+        await options.read(logger);
+        project.rm();
+
+        logger.expectNoOtherMessages();
+        equal(options.getValue("name"), "js");
+    });
+
+    it("Handles configs that are exported as a function that returns the config", async () => {
+        const project = fsProject("js");
+        project.addFile("typedoc.mjs", "export default () => ({ name: 'js' })");
+        const logger = new TestLogger();
+
+        project.write();
+        options.reset();
+        options.setValue("options", project.cwd);
+        await options.read(logger);
+        project.rm();
+
+        logger.expectNoOtherMessages();
+        equal(options.getValue("name"), "js");
+    });
+
+    it("Handles configs that are exported as an async function that returns the config", async () => {
+        const project = fsProject("js");
+        project.addFile(
+            "typedoc.mjs",
+            "export default async () => Promise.resolve({ name: 'js' })"
+        );
+        const logger = new TestLogger();
+
+        project.write();
+        options.reset();
+        options.setValue("options", project.cwd);
+        await options.read(logger);
+        project.rm();
+
+        logger.expectNoOtherMessages();
+        equal(options.getValue("name"), "js");
+    });
+
+    it("Errors if the file cannot be found", async () => {
         options.reset();
         options.setValue("options", "./non-existent-file.json");
         const logger = new TestLogger();
-        options.read(logger);
+        await options.read(logger);
         logger.expectMessage(
             "error: The options file */non-existent-file.json does not exist."
         );
@@ -78,7 +126,7 @@ describe("Options - TypeDocReader", () => {
         message: string,
         json = true
     ) {
-        it(name, () => {
+        it(name, async () => {
             const optionsFile = json ? "typedoc.json" : "typedoc.js";
             const project = fsProject(name.replace(/ /g, "_"));
             if (typeof file === "string") {
@@ -91,7 +139,7 @@ describe("Options - TypeDocReader", () => {
             options.setValue("options", project.cwd);
             const logger = new TestLogger();
             project.write();
-            options.read(logger);
+            await options.read(logger);
             project.rm();
             logger.expectMessage(message);
         });
@@ -135,7 +183,7 @@ describe("Options - TypeDocReader", () => {
         "error: Failed to resolve typedoc/nope to a file in */typedoc.json"
     );
 
-    it("Does not error if the option file cannot be found but was not set.", () => {
+    it("Does not error if the option file cannot be found but was not set.", async () => {
         const options = new (class LyingOptions extends Options {
             override isSet() {
                 return false;
@@ -144,7 +192,7 @@ describe("Options - TypeDocReader", () => {
 
         options.addReader(new TypeDocReader());
         const logger = new Logger();
-        options.read(logger);
+        await options.read(logger);
         equal(logger.hasErrors(), false);
     });
 });

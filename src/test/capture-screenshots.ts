@@ -58,7 +58,7 @@ class PQueue {
 export async function captureRegressionScreenshots() {
     const app = new Application();
     app.options.addReader(new TSConfigReader());
-    app.bootstrap({
+    await app.bootstrap({
         readme: join(src, "..", "README.md"),
         name: "typedoc",
         cleanOutputDir: true,
@@ -67,7 +67,7 @@ export async function captureRegressionScreenshots() {
         entryPoints: [src],
         entryPointStrategy: EntryPointStrategy.Expand,
     });
-    const project = app.convert();
+    const project = await app.convert();
     if (!project) throw new Error("Failed to convert.");
     await fs.promises.rm(outputDirectory, { recursive: true, force: true });
     await app.generateDocs(project, baseDirectory);

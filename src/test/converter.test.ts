@@ -137,12 +137,12 @@ comparisonSerializer.addSerializer({
     },
 });
 
-describe("Converter", function () {
+describe("Converter", async function () {
     const base = getConverterBase();
-    const app = getConverterApp();
+    const app = await getConverterApp();
 
-    it("Compiles", () => {
-        getConverterProgram();
+    it("Compiles", async () => {
+        await getConverterProgram();
     });
 
     const checks: [string, () => void, () => void][] = [
@@ -184,14 +184,14 @@ describe("Converter", function () {
 
                 let result: ProjectReflection | undefined;
 
-                it(`[${file}] converts fixtures`, function () {
+                it(`[${file}] converts fixtures`, async function () {
                     before();
                     resetReflectionID();
                     const entryPoints = getExpandedEntryPointsForPaths(
                         app.logger,
                         [path],
                         app.options,
-                        [getConverterProgram()]
+                        [await getConverterProgram()]
                     );
                     ok(entryPoints, "Failed to get entry points");
                     result = app.converter.convert(entryPoints);

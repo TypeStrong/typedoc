@@ -27,8 +27,8 @@ describe("Entry Points", () => {
     const tsconfig = join(fixture.cwd, "tsconfig.json");
     app.options.addReader(new TSConfigReader());
 
-    it("Supports expanding existing paths", () => {
-        app.bootstrap({
+    it("Supports expanding existing paths", async () => {
+        await app.bootstrap({
             tsconfig,
             entryPoints: [fixture.cwd],
             entryPointStrategy: EntryPointStrategy.Expand,
@@ -43,8 +43,8 @@ describe("Entry Points", () => {
         );
     });
 
-    it("Supports expanding globs in paths", () => {
-        app.bootstrap({
+    it("Supports expanding globs in paths", async () => {
+        await app.bootstrap({
             tsconfig,
             entryPoints: [`${fixture.cwd}/*.ts`],
             entryPointStrategy: EntryPointStrategy.Expand,
@@ -59,8 +59,8 @@ describe("Entry Points", () => {
         );
     });
 
-    it("Supports resolving directories", () => {
-        app.bootstrap({
+    it("Supports resolving directories", async () => {
+        await app.bootstrap({
             tsconfig,
             entryPoints: [fixture.cwd],
             entryPointStrategy: EntryPointStrategy.Resolve,
@@ -75,8 +75,8 @@ describe("Entry Points", () => {
         );
     });
 
-    it("Supports resolving packages", () => {
-        app.bootstrap({
+    it("Supports resolving packages", async () => {
+        await app.bootstrap({
             tsconfig: tsconfig,
             entryPoints: [fixture.cwd],
             entryPointStrategy: EntryPointStrategy.LegacyPackages,
@@ -89,7 +89,7 @@ describe("Entry Points", () => {
         equal(entryPoints[0].readmeFile, void 0);
     });
 
-    it("Supports resolving packages outside of cwd", () => {
+    it("Supports resolving packages outside of cwd", async () => {
         const fixture = tempdirProject({ rootDir: tmpdir() });
         fixture.addJsonFile("tsconfig.json", {
             include: ["."],
@@ -100,7 +100,7 @@ describe("Entry Points", () => {
         fixture.addFile("index.ts", "export function fromIndex() {}");
         fixture.write();
 
-        app.bootstrap({
+        await app.bootstrap({
             tsconfig: tsconfig,
             entryPoints: [fixture.cwd],
             entryPointStrategy: EntryPointStrategy.LegacyPackages,
@@ -113,7 +113,7 @@ describe("Entry Points", () => {
         equal(entryPoints[0].version, void 0);
     });
 
-    it("Supports custom tsconfig files #2061", () => {
+    it("Supports custom tsconfig files #2061", async () => {
         const fixture = tempdirProject({ rootDir: tmpdir() });
         fixture.addJsonFile("tsconfig.lib.json", {
             include: ["."],
@@ -127,7 +127,7 @@ describe("Entry Points", () => {
         fixture.addFile("index.ts", "export function fromIndex() {}");
         fixture.write();
 
-        app.bootstrap({
+        await app.bootstrap({
             tsconfig: tsconfig,
             entryPoints: [fixture.cwd],
             entryPointStrategy: EntryPointStrategy.LegacyPackages,
@@ -139,7 +139,7 @@ describe("Entry Points", () => {
         equal(entryPoints.length, 1);
     });
 
-    it("Supports automatically discovering the readme files", () => {
+    it("Supports automatically discovering the readme files", async () => {
         const fixture = tempdirProject();
         fixture.addJsonFile("tsconfig.json", {
             include: ["."],
@@ -151,7 +151,7 @@ describe("Entry Points", () => {
         fixture.addFile("index.ts", "export function fromIndex() {}");
         fixture.write();
 
-        app.bootstrap({
+        await app.bootstrap({
             tsconfig: tsconfig,
             entryPoints: [fixture.cwd],
             entryPointStrategy: EntryPointStrategy.LegacyPackages,

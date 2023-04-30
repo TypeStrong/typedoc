@@ -27,7 +27,7 @@ export class TypeDocReader implements OptionsReader {
     /**
      * Read user configuration from a typedoc.json or typedoc.js configuration file.
      */
-    read(container: Options, logger: Logger, cwd: string): void {
+    async read(container: Options, logger: Logger, cwd: string): Promise<void> {
         const path = container.getValue("options") || cwd;
         const file = this.findTypedocFile(path);
 
@@ -41,7 +41,7 @@ export class TypeDocReader implements OptionsReader {
         }
 
         const seen = new Set<string>();
-        this.readFile(file, container, logger, seen);
+        await this.readFile(file, container, logger, seen);
     }
 
     /**
@@ -50,7 +50,7 @@ export class TypeDocReader implements OptionsReader {
      * @param container
      * @param logger
      */
-    private readFile(
+    private async readFile(
         file: string,
         container: Options & { setValue(key: string, value: unknown): void },
         logger: Logger,
@@ -83,8 +83,14 @@ export class TypeDocReader implements OptionsReader {
                 fileContent = readResult.config;
             }
         } else {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            fileContent = require(file);
+            fileContent = await import(`file:${file}`);
+            fileContent = fileContent.default;
+            if (typeof fileContent === "function") {
+                fileContent = fileContent();
+                if (fileContent instanceof Promise) {
+                    fileContent = await fileContent;
+                }
+            }
         }
 
         if (typeof fileContent !== "object" || !fileContent) {
@@ -113,7 +119,7 @@ export class TypeDocReader implements OptionsReader {
                     );
                     continue;
                 }
-                this.readFile(resolvedParent, container, logger, seen);
+                await this.readFile(resolvedParent, container, logger, seen);
             }
             delete data["extends"];
         }
@@ -149,14 +155,18 @@ export class TypeDocReader implements OptionsReader {
             join(path, "typedoc.jsonc"),
             join(path, "typedoc.config.js"),
             join(path, "typedoc.config.cjs"),
+            join(path, "typedoc.config.mjs"),
             join(path, "typedoc.js"),
             join(path, "typedoc.cjs"),
+            join(path, "typedoc.mjs"),
             join(path, ".config/typedoc.json"),
             join(path, ".config/typedoc.jsonc"),
             join(path, ".config/typedoc.config.js"),
             join(path, ".config/typedoc.config.cjs"),
+            join(path, ".config/typedoc.config.mjs"),
             join(path, ".config/typedoc.js"),
             join(path, ".config/typedoc.cjs"),
+            join(path, ".config/typedoc.mjs"),
         ].find(isFile);
     }
 }

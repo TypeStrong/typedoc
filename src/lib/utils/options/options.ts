@@ -54,7 +54,7 @@ export interface OptionsReader {
      * @param logger logger to be used to report errors
      * @param cwd the directory which should be treated as the current working directory for option file discovery
      */
-    read(container: Options, logger: Logger, cwd: string): void;
+    read(container: Options, logger: Logger, cwd: string): Promise<void>;
 }
 
 const optionSnapshots = new WeakMap<
@@ -197,9 +197,9 @@ export class Options {
         insertOrderSorted(this._readers, reader);
     }
 
-    read(logger: Logger, cwd = process.cwd()) {
+    async read(logger: Logger, cwd = process.cwd()) {
         for (const reader of this._readers) {
-            reader.read(this, logger, cwd);
+            await reader.read(this, logger, cwd);
         }
     }
 

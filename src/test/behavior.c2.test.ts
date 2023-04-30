@@ -21,6 +21,8 @@ import {
 import { join } from "path";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments";
+import type { Application } from "..";
+import type { Program } from "typescript";
 
 function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
@@ -72,11 +74,12 @@ function getLinkTexts(refl: Reflection) {
     });
 }
 
-const base = getConverter2Base();
-const app = getConverter2App();
-const program = getConverter2Program();
-
-function convert(entry: string) {
+function convert(
+    base: string,
+    app: Application,
+    program: Program,
+    entry: string
+) {
     const entryPoint = [
         join(base, `behavior/${entry}.ts`),
         join(base, `behavior/${entry}.d.ts`),
@@ -104,6 +107,15 @@ function convert(entry: string) {
 describe("Behavior Tests", () => {
     let logger: TestLogger;
     let optionsSnap: { __optionSnapshot: never };
+    let app: Application;
+    let base: string;
+    let program: Program;
+
+    before(async () => {
+        base = getConverter2Base();
+        app = await getConverter2App();
+        program = await getConverter2Program();
+    });
 
     beforeEach(() => {
         app.logger = logger = new TestLogger();
@@ -115,7 +127,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles 'as const' style enums", () => {
-        const project = convert("asConstEnum");
+        const project = convert(base, app, program, "asConstEnum");
         const SomeEnumLike = query(project, "SomeEnumLike");
         equal(SomeEnumLike.kind, ReflectionKind.Variable, "SomeEnumLike");
         const SomeEnumLikeTagged = query(project, "SomeEnumLikeTagged");
@@ -200,7 +212,7 @@ describe("Behavior Tests", () => {
 
     it("Handles non-jsdoc block comments", () => {
         app.options.setValue("commentStyle", CommentStyle.Block);
-        const project = convert("blockComment");
+        const project = convert(base, app, program, "blockComment");
         const a = query(project, "a");
         const b = query(project, "b");
 
@@ -212,7 +224,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles const variable namespace", () => {
-        const project = convert("constNamespace");
+        const project = convert(base, app, program, "constNamespace");
         const someNs = query(project, "someNs");
         equal(someNs.kind, ReflectionKind.Namespace);
         equal(Comment.combineDisplayParts(someNs.comment?.summary), "ns doc");
@@ -228,7 +240,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles const type parameters", () => {
-        const project = convert("constTypeParam");
+        const project = convert(base, app, program, "constTypeParam");
         const getNamesExactly = query(project, "getNamesExactly");
         const typeParams = getNamesExactly.signatures?.[0].typeParameters;
         equal(typeParams?.length, 1);
@@ -236,7 +248,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles declare global 'modules'", () => {
-        const project = convert("declareGlobal");
+        const project = convert(base, app, program, "declareGlobal");
         equal(
             project.children?.map((c) => c.name),
             ["DeclareGlobal"]
@@ -244,7 +256,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles duplicate heritage clauses", () => {
-        const project = convert("duplicateHeritageClauses");
+        const project = convert(base, app, program, "duplicateHeritageClauses");
         const b = query(project, "B");
         equal(b.extendedTypes?.map(String), ["A"]);
 
@@ -260,7 +272,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles @default tags with JSDoc compat turned on", () => {
-        const project = convert("defaultTag");
+        const project = convert(base, app, program, "defaultTag");
         const foo = query(project, "foo");
         const tags = foo.comment?.blockTags.map((tag) => tag.content);
 
@@ -274,7 +286,7 @@ describe("Behavior Tests", () => {
 
     it("Handles @default tags with JSDoc compat turned off", () => {
         app.options.setValue("jsDocCompatibility", false);
-        const project = convert("defaultTag");
+        const project = convert(base, app, program, "defaultTag");
         const foo = query(project, "foo");
         const tags = foo.comment?.blockTags.map((tag) => tag.content);
 
@@ -288,7 +300,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles @example tags with JSDoc compat turned on", () => {
-        const project = convert("exampleTags");
+        const project = convert(base, app, program, "exampleTags");
         const foo = query(project, "foo");
         const tags = foo.comment?.blockTags.map((tag) => tag.content);
 
@@ -316,7 +328,7 @@ describe("Behavior Tests", () => {
 
     it("Warns about example tags containing braces when compat options are off", () => {
         app.options.setValue("jsDocCompatibility", false);
-        const project = convert("exampleTags");
+        const project = convert(base, app, program, "exampleTags");
         const foo = query(project, "foo");
         const tags = foo.comment?.blockTags.map((tag) => tag.content);
 
@@ -347,7 +359,12 @@ describe("Behavior Tests", () => {
     it("Handles excludeNotDocumentedKinds", () => {
         app.options.setValue("excludeNotDocumented", true);
         app.options.setValue("excludeNotDocumentedKinds", ["Property"]);
-        const project = convert("excludeNotDocumentedKinds");
+        const project = convert(
+            base,
+            app,
+            program,
+            "excludeNotDocumentedKinds"
+        );
         equal(buildNameTree(project), {
             NotDoc: {
                 prop: {},
@@ -357,7 +374,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles comments on export declarations", () => {
-        const project = convert("exportComments");
+        const project = convert(base, app, program, "exportComments");
         const abc = query(project, "abc");
         equal(abc.kind, ReflectionKind.Variable);
         equal(Comment.combineDisplayParts(abc.comment?.summary), "abc");
@@ -386,7 +403,7 @@ describe("Behavior Tests", () => {
                 "*": "https://marked.js.org",
             },
         });
-        const project = convert("externalSymbols");
+        const project = convert(base, app, program, "externalSymbols");
         const p = query(project, "P");
         equal(p.comment?.summary?.[1], {
             kind: "inline-tag",
@@ -408,7 +425,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles @group tag", () => {
-        const project = convert("groupTag");
+        const project = convert(base, app, program, "groupTag");
         const A = query(project, "A");
         const B = query(project, "B");
         const C = query(project, "C");
@@ -426,7 +443,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles hidden accessors", () => {
-        const project = convert("hiddenAccessor");
+        const project = convert(base, app, program, "hiddenAccessor");
         const test = query(project, "Test");
         equal(
             test.children?.map((c) => c.name),
@@ -435,7 +452,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles simple @inheritDoc cases", () => {
-        const project = convert("inheritDocBasic");
+        const project = convert(base, app, program, "inheritDocBasic");
         const target = query(project, "InterfaceTarget");
         const comment = new Comment(
             [{ kind: "text", text: "Summary" }],
@@ -470,7 +487,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles more complicated @inheritDoc cases", () => {
-        const project = convert("inheritDocJsdoc");
+        const project = convert(base, app, program, "inheritDocJsdoc");
         const fooComment = query(project, "Foo").comment;
         const fooMemberComment = query(project, "Foo.member").signatures?.[0]
             .comment;
@@ -503,7 +520,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles recursive @inheritDoc requests", () => {
-        const project = convert("inheritDocRecursive");
+        const project = convert(base, app, program, "inheritDocRecursive");
         const a = query(project, "A");
         equal(a.comment?.getTag("@inheritDoc")?.name, "B");
 
@@ -519,7 +536,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles @inheritDoc on signatures", () => {
-        const project = convert("inheritDocSignature");
+        const project = convert(base, app, program, "inheritDocSignature");
         const test1 = query(project, "SigRef.test1");
         equal(test1.signatures?.length, 2);
         equal(
@@ -539,7 +556,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles @inheritDocs which produce warnings", () => {
-        const project = convert("inheritDocWarnings");
+        const project = convert(base, app, program, "inheritDocWarnings");
         const target1 = query(project, "target1");
         equal(Comment.combineDisplayParts(target1.comment?.summary), "Source");
         equal(
@@ -585,7 +602,7 @@ describe("Behavior Tests", () => {
 
     it("Handles line comments", () => {
         app.options.setValue("commentStyle", CommentStyle.Line);
-        const project = convert("lineComment");
+        const project = convert(base, app, program, "lineComment");
         const a = query(project, "a");
         const b = query(project, "b");
         const c = query(project, "c");
@@ -601,7 +618,7 @@ describe("Behavior Tests", () => {
     it("Handles declaration reference link resolution", () => {
         app.options.setValue("sort", ["source-order"]);
         app.options.setValue("useTsLinkResolution", false);
-        const project = convert("linkResolution");
+        const project = convert(base, app, program, "linkResolution");
         for (const [refl, target] of [
             ["Scoping.abc", "Scoping.abc"],
             ["Scoping.Foo", "Scoping.Foo.abc"],
@@ -671,7 +688,7 @@ describe("Behavior Tests", () => {
 
     it("Handles TypeScript based link resolution", () => {
         app.options.setValue("sort", ["source-order"]);
-        const project = convert("linkResolutionTs");
+        const project = convert(base, app, program, "linkResolutionTs");
         for (const [refl, target] of [
             ["Scoping.abc", "Scoping.abc"],
             ["Scoping.Foo", "Scoping.Foo.abc"],
@@ -754,7 +771,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles merged declarations", () => {
-        const project = convert("mergedDeclarations");
+        const project = convert(base, app, program, "mergedDeclarations");
         const a = query(project, "SingleCommentMultiDeclaration");
         equal(
             Comment.combineDisplayParts(a.comment?.summary),
@@ -770,7 +787,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles overloads", () => {
-        const project = convert("overloads");
+        const project = convert(base, app, program, "overloads");
         const foo = query(project, "foo");
         const fooComments = foo.signatures?.map((sig) =>
             Comment.combineDisplayParts(sig.comment?.summary)
@@ -797,7 +814,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles @overload tags", () => {
-        const project = convert("overloadTags");
+        const project = convert(base, app, program, "overloadTags");
         const printValue = query(project, "printValue");
         equal(printValue.signatures?.length, 2);
 
@@ -817,7 +834,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles @readonly tag", () => {
-        const project = convert("readonlyTag");
+        const project = convert(base, app, program, "readonlyTag");
         const title = query(project, "Book.title");
         const author = query(project, "Book.author");
 
@@ -826,7 +843,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Removes all children of a reflection when the reflection is removed.", () => {
-        const project = convert("removeReflection");
+        const project = convert(base, app, program, "removeReflection");
         project.removeReflection(query(project, "foo"));
         project.removeReflection(query(project, "nested"));
         equal(
@@ -842,7 +859,7 @@ describe("Behavior Tests", () => {
             Cat2: 1.5,
             CatUnused: 999,
         });
-        const project = convert("searchCategoryBoosts");
+        const project = convert(base, app, program, "searchCategoryBoosts");
         const a = query(project, "A");
         const b = query(project, "B");
         const c = query(project, "C");
@@ -864,7 +881,7 @@ describe("Behavior Tests", () => {
             GroupUnused: 999,
             Interfaces: 0.5,
         });
-        const project = convert("searchGroupBoosts");
+        const project = convert(base, app, program, "searchGroupBoosts");
         const a = query(project, "A");
         const b = query(project, "B");
         const c = query(project, "C");
@@ -881,7 +898,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles @see tags", () => {
-        const project = convert("seeTags");
+        const project = convert(base, app, program, "seeTags");
         const foo = query(project, "foo");
         equal(
             Comment.combineDisplayParts(foo.comment?.getTag("@see")?.content),
@@ -896,7 +913,7 @@ describe("Behavior Tests", () => {
     });
 
     it("Handles type aliases marked with @interface", () => {
-        const project = convert("typeAliasInterface");
+        const project = convert(base, app, program, "typeAliasInterface");
         const bar = query(project, "Bar");
         equal(bar.kind, ReflectionKind.Interface);
         equal(
@@ -913,7 +930,7 @@ describe("Behavior Tests", () => {
 
     it("Allows specifying group sort order #2251", () => {
         app.options.setValue("groupOrder", ["B", "Variables", "A"]);
-        const project = convert("groupTag");
+        const project = convert(base, app, program, "groupTag");
         equal(
             project.groups?.map((g) => g.title),
             ["B", "Variables", "A", "With Spaces"]

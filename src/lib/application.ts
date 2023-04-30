@@ -143,21 +143,21 @@ export class Application extends ChildableComponent<
     ): Promise<void> {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
-        this.options.read(new Logger());
+        await this.options.read(new Logger());
         this.logger.level = this.options.getValue("logLevel");
 
         await loadPlugins(this, this.options.getValue("plugin"));
 
-        this.bootstrap(options);
+        await this.bootstrap(options);
     }
 
     /**
      * Initialize TypeDoc without loading plugins.
      */
-    bootstrap(options: Partial<TypeDocOptions> = {}): void {
+    async bootstrap(options: Partial<TypeDocOptions> = {}): Promise<void> {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
-        this.options.read(this.logger);
+        await this.options.read(this.logger);
         this.setOptions(options);
         this.logger.level = this.options.getValue("logLevel");
 
@@ -208,7 +208,7 @@ export class Application extends ChildableComponent<
      *
      * @returns An instance of ProjectReflection on success, undefined otherwise.
      */
-    public convert(): ProjectReflection | undefined {
+    public convert(): Promise<ProjectReflection | undefined> {
         const start = Date.now();
         // We freeze here rather than in the Converter class since TypeDoc's tests reuse the Application
         // with a few different settings.
@@ -218,7 +218,7 @@ export class Application extends ChildableComponent<
         );
 
         if (this.entryPointStrategy === EntryPointStrategy.Merge) {
-            return this._merge();
+            return Promise.resolve(this._merge());
         }
 
         if (this.entryPointStrategy === EntryPointStrategy.Packages) {
@@ -241,7 +241,7 @@ export class Application extends ChildableComponent<
 
         if (!entryPoints) {
             // Fatal error already reported.
-            return;
+            return Promise.resolve(undefined);
         }
 
         const programs = unique(entryPoints.map((e) => e.program));
@@ -255,7 +255,7 @@ export class Application extends ChildableComponent<
             );
             if (errors.length) {
                 this.logger.diagnostics(errors);
-                return;
+                return Promise.resolve(undefined);
             }
         }
 
@@ -274,7 +274,7 @@ export class Application extends ChildableComponent<
         this.logger.verbose(
             `Finished conversion in ${Date.now() - startConversion}ms`
         );
-        return project;
+        return Promise.resolve(project);
     }
 
     public convertAndWatch(
@@ -515,7 +515,7 @@ export class Application extends ChildableComponent<
         ].join("\n");
     }
 
-    private _convertPackages(): ProjectReflection | undefined {
+    private async _convertPackages(): Promise<ProjectReflection | undefined> {
         const packageDirs = getPackageDirectories(
             this.logger,
             this.options,
@@ -538,7 +538,7 @@ export class Application extends ChildableComponent<
             const opts = origOptions.copyForPackage();
             // Invalid links should only be reported after everything has been merged.
             opts.setValue("validation", { invalidLink: false });
-            opts.read(this.logger, dir);
+            await opts.read(this.logger, dir);
             if (
                 opts.getValue("entryPointStrategy") ===
                 EntryPointStrategy.Packages
@@ -552,7 +552,7 @@ export class Application extends ChildableComponent<
             }
 
             this.options = opts;
-            const project = this.convert();
+            const project = await this.convert();
             if (project) {
                 this.validate(project);
                 projects.push(

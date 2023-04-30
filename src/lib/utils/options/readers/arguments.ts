@@ -24,7 +24,7 @@ export class ArgumentsReader implements OptionsReader {
         this.args = args;
     }
 
-    read(container: Options, logger: Logger): void {
+    read(container: Options, logger: Logger): Promise<void> {
         // Make container's type more lax, we do the appropriate checks manually.
         const options = container as Options & {
             setValue(name: string, value: unknown): void;
@@ -118,5 +118,6 @@ export class ArgumentsReader implements OptionsReader {
             );
             index++;
         }
+        return Promise.resolve();
     }
 }

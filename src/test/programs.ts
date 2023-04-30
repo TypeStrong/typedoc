@@ -20,11 +20,11 @@ export function getConverterBase() {
     return join(process.cwd(), "src/test/converter");
 }
 
-export function getConverterApp() {
+export async function getConverterApp() {
     if (!converterApp) {
         converterApp = new Application();
         converterApp.options.addReader(new TSConfigReader());
-        converterApp.bootstrap({
+        await converterApp.bootstrap({
             name: "typedoc",
             excludeExternals: true,
             disableSources: false,
@@ -72,9 +72,9 @@ export function getConverterApp() {
     return converterApp;
 }
 
-export function getConverterProgram() {
+export async function getConverterProgram() {
     if (!converterProgram) {
-        const app = getConverterApp();
+        const app = await getConverterApp();
         converterProgram = ts.createProgram(
             app.options.getFileNames(),
             app.options.getCompilerOptions()
@@ -90,11 +90,11 @@ export function getConverter2Base() {
     return join(process.cwd(), "src/test/converter2");
 }
 
-export function getConverter2App() {
+export async function getConverter2App() {
     if (!converter2App) {
         converter2App = new Application();
         converter2App.options.addReader(new TSConfigReader());
-        converter2App.bootstrap({
+        await converter2App.bootstrap({
             excludeExternals: true,
             tsconfig: join(getConverter2Base(), "tsconfig.json"),
             validation: true,
@@ -103,9 +103,9 @@ export function getConverter2App() {
     return converter2App;
 }
 
-export function getConverter2Program() {
+export async function getConverter2Program() {
     if (!converter2Program) {
-        const app = getConverter2App();
+        const app = await getConverter2App();
         converter2Program = ts.createProgram(
             app.options.getFileNames(),
             app.options.getCompilerOptions()

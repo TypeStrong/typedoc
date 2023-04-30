@@ -6,9 +6,9 @@ import { validateExports } from "../lib/validation/exports";
 import { getConverter2App, getConverter2Program } from "./programs";
 import { TestLogger } from "./TestLogger";
 
-function convertValidationFile(file: string) {
-    const app = getConverter2App();
-    const program = getConverter2Program();
+async function convertValidationFile(file: string) {
+    const app = await getConverter2App();
+    const program = await getConverter2Program();
     const sourceFile = program.getSourceFile(
         join(__dirname, "converter2/validation", file)
     );
@@ -26,13 +26,13 @@ function convertValidationFile(file: string) {
     return project;
 }
 
-function expectWarning(
+async function expectWarning(
     typeName: string,
     file: string,
     referencingName: string,
     intentionallyNotExported: readonly string[] = []
 ) {
-    const project = convertValidationFile(file);
+    const project = await convertValidationFile(file);
 
     const logger = new TestLogger();
     validateExports(project, logger, intentionallyNotExported);
@@ -42,12 +42,12 @@ function expectWarning(
     );
 }
 
-function expectNoWarning(
+async function expectNoWarning(
     file: string,
     intentionallyNotExported: readonly string[] = []
 ) {
-    const app = getConverter2App();
-    const program = getConverter2Program();
+    const app = await getConverter2App();
+    const program = await getConverter2Program();
     const sourceFile = program.getSourceFile(
         join(__dirname, "converter2/validation", file)
     );
@@ -69,63 +69,65 @@ function expectNoWarning(
 }
 
 describe("validateExports", () => {
-    it("Should warn if a variable type is missing", () => {
-        expectWarning("Foo", "variable.ts", "foo");
+    it("Should warn if a variable type is missing", async () => {
+        await expectWarning("Foo", "variable.ts", "foo");
     });
 
-    it("Should warn if a type parameter clause is missing", () => {
-        expectWarning("Foo", "typeParameter.ts", "Bar.T");
+    it("Should warn if a type parameter clause is missing", async () => {
+        await expectWarning("Foo", "typeParameter.ts", "Bar.T");
     });
 
-    it("Should warn if an index signature type is missing", () => {
-        expectWarning("Bar", "indexSignature.ts", "Foo.__index");
+    it("Should warn if an index signature type is missing", async () => {
+        await expectWarning("Bar", "indexSignature.ts", "Foo.__index");
     });
 
-    it("Should warn within object types", () => {
-        expectWarning("Foo", "object.ts", "x.__type.foo");
+    it("Should warn within object types", async () => {
+        await expectWarning("Foo", "object.ts", "x.__type.foo");
     });
 
-    it("Should warn if a get signature type is missing", () => {
-        expectWarning("Bar", "getSignature.ts", "Foo.foo.foo");
+    it("Should warn if a get signature type is missing", async () => {
+        await expectWarning("Bar", "getSignature.ts", "Foo.foo.foo");
     });
 
-    it("Should warn if a set signature type is missing", () => {
-        expectWarning("Bar", "setSignature.ts", "Foo.foo.foo._value");
+    it("Should warn if a set signature type is missing", async () => {
+        await expectWarning("Bar", "setSignature.ts", "Foo.foo.foo._value");
     });
 
-    it("Should warn if an implemented type is missing", () => {
-        expectWarning("Bar", "implemented.ts", "Foo");
+    it("Should warn if an implemented type is missing", async () => {
+        await expectWarning("Bar", "implemented.ts", "Foo");
     });
 
-    it("Should warn if a parameter type is missing", () => {
-        expectWarning("Bar", "parameter.ts", "Foo.Foo.x");
+    it("Should warn if a parameter type is missing", async () => {
+        await expectWarning("Bar", "parameter.ts", "Foo.Foo.x");
     });
 
-    it("Should warn if a return type is missing", () => {
-        expectWarning("Bar", "return.ts", "foo.foo");
+    it("Should warn if a return type is missing", async () => {
+        await expectWarning("Bar", "return.ts", "foo.foo");
     });
 
-    it("Should allow filtering warnings by file name", () => {
-        expectNoWarning("variable.ts", ["variable.ts:Foo"]);
-        expectNoWarning("variable.ts", ["validation/variable.ts:Foo"]);
-        expectNoWarning("variable.ts", ["Foo"]);
+    it("Should allow filtering warnings by file name", async () => {
+        await expectNoWarning("variable.ts", ["variable.ts:Foo"]);
+        await expectNoWarning("variable.ts", ["validation/variable.ts:Foo"]);
+        await expectNoWarning("variable.ts", ["Foo"]);
     });
 
-    it("Should not apply warnings filtered by file name to other files", () => {
-        expectWarning("Foo", "variable.ts", "foo", ["notVariable.ts:Foo"]);
+    it("Should not apply warnings filtered by file name to other files", async () => {
+        await expectWarning("Foo", "variable.ts", "foo", [
+            "notVariable.ts:Foo",
+        ]);
     });
 
-    it("Should not produce warnings for types originating in node_modules", () => {
-        expectNoWarning("externalType.ts");
+    it("Should not produce warnings for types originating in node_modules", async () => {
+        await expectNoWarning("externalType.ts");
     });
 
-    it("Should not warn if namespaced name is given to intentionallyNotExported", () => {
-        expectNoWarning("namespace.ts", ["Bar.Baz"]);
+    it("Should not warn if namespaced name is given to intentionallyNotExported", async () => {
+        await expectNoWarning("namespace.ts", ["Bar.Baz"]);
     });
 
-    it("Should warn if intentionallyNotExported contains unused values", () => {
-        const app = getConverter2App();
-        const program = getConverter2Program();
+    it("Should warn if intentionallyNotExported contains unused values", async () => {
+        const app = await getConverter2App();
+        const program = await getConverter2Program();
         const sourceFile = program.getSourceFile(
             join(__dirname, "converter2/validation/variable.ts")
         );
@@ -166,8 +168,8 @@ describe("validateExports", () => {
 });
 
 describe("validateDocumentation", () => {
-    it("Should correctly handle functions", () => {
-        const project = convertValidationFile("function.ts");
+    it("Should correctly handle functions", async () => {
+        const project = await convertValidationFile("function.ts");
         const logger = new TestLogger();
         validateDocumentation(project, logger, ["Function"]);
 
@@ -177,8 +179,8 @@ describe("validateDocumentation", () => {
         logger.expectNoOtherMessages();
     });
 
-    it("Should correctly handle accessors", () => {
-        const project = convertValidationFile("getSignature.ts");
+    it("Should correctly handle accessors", async () => {
+        const project = await convertValidationFile("getSignature.ts");
         const logger = new TestLogger();
         validateDocumentation(project, logger, ["Accessor"]);
 
@@ -188,8 +190,8 @@ describe("validateDocumentation", () => {
         logger.expectNoOtherMessages();
     });
 
-    it("Should correctly handle constructors", () => {
-        const project = convertValidationFile("class.ts");
+    it("Should correctly handle constructors", async () => {
+        const project = await convertValidationFile("class.ts");
         const logger = new TestLogger();
         validateDocumentation(project, logger, ["Constructor"]);
 
@@ -199,8 +201,8 @@ describe("validateDocumentation", () => {
         logger.expectNoOtherMessages();
     });
 
-    it("Should correctly handle interfaces", () => {
-        const project = convertValidationFile("interface.ts");
+    it("Should correctly handle interfaces", async () => {
+        const project = await convertValidationFile("interface.ts");
         const logger = new TestLogger();
         validateDocumentation(project, logger, ["Method"]);
 
@@ -210,8 +212,8 @@ describe("validateDocumentation", () => {
         logger.expectNoOtherMessages();
     });
 
-    it("Should correctly handle callback parameters", () => {
-        const project = convertValidationFile("callbackParameters.ts");
+    it("Should correctly handle callback parameters", async () => {
+        const project = await convertValidationFile("callbackParameters.ts");
         const logger = new TestLogger();
         validateDocumentation(project, logger, ["Parameter", "Property"]);
 

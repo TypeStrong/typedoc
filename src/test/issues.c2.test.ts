@@ -27,12 +27,15 @@ import { TestLogger } from "./TestLogger";
 import { clearCommentCache } from "../lib/converter/comments";
 import { join } from "path";
 import { existsSync } from "fs";
+import type { Application } from "..";
+import type { Program } from "typescript";
 
-const base = getConverter2Base();
-const app = getConverter2App();
-const program = getConverter2Program();
-
-function doConvert(entry: string) {
+function doConvert(
+    base: string,
+    app: Application,
+    program: Program,
+    entry: string
+) {
     const entryPoint = [
         join(base, `issues/${entry}.ts`),
         join(base, `issues/${entry}.d.ts`),
@@ -67,13 +70,23 @@ describe("Issue Tests", () => {
     let logger: TestLogger;
     let convert: (name?: string) => ProjectReflection;
     let optionsSnap: { __optionSnapshot: never };
+    let app: Application;
+    let base: string;
+    let program: Program;
+
+    before(async () => {
+        base = getConverter2Base();
+        app = await getConverter2App();
+        program = await getConverter2Program();
+    });
 
     beforeEach(function () {
         app.logger = logger = new TestLogger();
         optionsSnap = app.options.snapshot();
         const issueNumber = this.currentTest?.title.match(/#(\d+)/)?.[1];
         ok(issueNumber, "Test name must contain an issue number.");
-        convert = (name = `gh${issueNumber}`) => doConvert(name);
+        convert = (name = `gh${issueNumber}`) =>
+            doConvert(base, app, program, name);
     });
 
     afterEach(() => {

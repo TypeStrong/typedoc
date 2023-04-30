@@ -15,11 +15,11 @@ export class PackageJsonReader implements OptionsReader {
 
     name = "package-json";
 
-    read(container: Options, logger: Logger, cwd: string): void {
+    read(container: Options, logger: Logger, cwd: string): Promise<void> {
         const result = discoverPackageJson(cwd);
 
         if (!result) {
-            return;
+            return Promise.resolve();
         }
 
         const { file, content } = result;
@@ -34,7 +34,7 @@ export class PackageJsonReader implements OptionsReader {
 
         const optsKey = "typedocOptions";
         if (!(optsKey in content)) {
-            return;
+            return Promise.resolve();
         }
 
         const opts = content[optsKey];
@@ -44,7 +44,7 @@ export class PackageJsonReader implements OptionsReader {
                     file
                 )}, ensure it exists and contains an object.`
             );
-            return;
+            return Promise.resolve();
         }
 
         for (const [opt, val] of Object.entries(opts)) {
@@ -55,5 +55,6 @@ export class PackageJsonReader implements OptionsReader {
                 logger.error(err.message);
             }
         }
+        return Promise.resolve();
     }
 }

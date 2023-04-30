@@ -71,7 +71,7 @@ export class TSConfigReader implements OptionsReader {
 
     private seenTsdocPaths = new Set<string>();
 
-    read(container: Options, logger: Logger, cwd: string): void {
+    read(container: Options, logger: Logger, cwd: string): Promise<void> {
         const file = container.getValue("tsconfig") || cwd;
 
         let fileToRead = findTsConfigFile(file);
@@ -90,7 +90,7 @@ export class TSConfigReader implements OptionsReader {
                     "No tsconfig file found, this will prevent TypeDoc from finding your entry points."
                 );
             }
-            return;
+            return Promise.resolve();
         }
 
         fileToRead = normalizePath(resolve(fileToRead));
@@ -99,7 +99,7 @@ export class TSConfigReader implements OptionsReader {
 
         const parsed = readTsConfig(fileToRead, logger);
         if (!parsed) {
-            return;
+            return Promise.resolve();
         }
 
         logger.diagnostics(parsed.errors);
@@ -139,6 +139,8 @@ export class TSConfigReader implements OptionsReader {
                 logger.error(error.message);
             }
         }
+
+        return Promise.resolve();
     }
 
     private addTagsFromTsdocJson(

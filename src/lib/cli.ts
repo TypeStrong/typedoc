@@ -79,7 +79,7 @@ async function run(app: td.Application) {
         return ExitCodes.Ok;
     }
 
-    const project = app.convert();
+    const project = await app.convert();
     if (!project) {
         return ExitCodes.CompileError;
     }
