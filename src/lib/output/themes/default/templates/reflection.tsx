@@ -2,7 +2,7 @@ import { classNames, hasTypeParameters } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import type { PageEvent } from "../../../events";
 import { ContainerReflection, DeclarationReflection, ReflectionKind, ReflectionType } from "../../../../models";
-import { JSX } from "../../../../utils";
+import { JSX, Raw } from "../../../../utils";
 
 export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {
     if (
@@ -17,6 +17,14 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
             {props.model.hasComment() && (
                 <section class="tsd-panel tsd-comment">{context.comment(props.model)}</section>
             )}
+
+            {props.model instanceof DeclarationReflection &&
+                props.model.kind === ReflectionKind.Module &&
+                props.model.readme?.length && (
+                    <section class="tsd-panel tsd-typography">
+                        <Raw html={context.markdown(props.model.readme)} />
+                    </section>
+                )}
 
             {hasTypeParameters(props.model) && <> {context.typeParameters(props.model.typeParameters)} </>}
             {props.model instanceof DeclarationReflection && (

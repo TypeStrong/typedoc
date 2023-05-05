@@ -62,11 +62,19 @@ export function getEntryPoints(
     logger: Logger,
     options: Options
 ): DocumentationEntryPoint[] | undefined {
+    if (!options.isSet("entryPoints")) {
+        logger.warn(
+            "No entry points were provided, this is likely a misconfiguration."
+        );
+        return [];
+    }
+
     const entryPoints = options.getValue("entryPoints");
 
+    // May be set explicitly to be an empty array to only include a readme for a package
+    // See #2264
     if (entryPoints.length === 0) {
-        logger.error("No entry points were provided.");
-        return;
+        return [];
     }
 
     let result: DocumentationEntryPoint[] | undefined;
@@ -181,7 +189,7 @@ function getEntryPointsForPaths(
     inputFiles: string[],
     options: Options,
     programs = getEntryPrograms(logger, options)
-): DocumentationEntryPoint[] | undefined {
+): DocumentationEntryPoint[] {
     const baseDir = options.getValue("basePath") || deriveRootDir(inputFiles);
     const entryPoints: DocumentationEntryPoint[] = [];
 
@@ -232,7 +240,7 @@ export function getExpandedEntryPointsForPaths(
     inputFiles: string[],
     options: Options,
     programs = getEntryPrograms(logger, options)
-): DocumentationEntryPoint[] | undefined {
+): DocumentationEntryPoint[] {
     return getEntryPointsForPaths(
         logger,
         expandInputFiles(logger, inputFiles, options),

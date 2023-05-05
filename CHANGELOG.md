@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   TypeDoc will now allow conversion without any entry points to support "readme only" packages, #2264.
+
 ### Bug Fixes
 
 -   Category children are now sorted according to the `sort` option, #2272.

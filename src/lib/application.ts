@@ -516,6 +516,13 @@ export class Application extends ChildableComponent<
     }
 
     private _convertPackages(): ProjectReflection | undefined {
+        if (!this.options.isSet("entryPoints")) {
+            this.logger.error(
+                "No entry points provided to packages mode, documentation cannot be generated."
+            );
+            return;
+        }
+
         const packageDirs = getPackageDirectories(
             this.logger,
             this.options,
@@ -535,7 +542,7 @@ export class Application extends ChildableComponent<
         // Generate a json file for each package
         for (const dir of packageDirs) {
             this.logger.info(`Converting project at ${nicePath(dir)}`);
-            const opts = origOptions.copyForPackage();
+            const opts = origOptions.copyForPackage(dir);
             // Invalid links should only be reported after everything has been merged.
             opts.setValue("validation", { invalidLink: false });
             opts.read(this.logger, dir);
@@ -584,6 +591,11 @@ export class Application extends ChildableComponent<
     private _merge(): ProjectReflection | undefined {
         const start = Date.now();
 
+        if (!this.options.isSet("entryPoints")) {
+            this.logger.error("No entry points provided to merge.");
+            return;
+        }
+
         const rootDir = deriveRootDir(this.entryPoints);
         const entryPoints = this.entryPoints.flatMap((entry) => {
             const result = glob(entry, rootDir);
@@ -604,11 +616,6 @@ export class Application extends ChildableComponent<
 
             return result;
         });
-
-        if (entryPoints.length < 1) {
-            this.logger.error("No entry points provided to merge.");
-            return;
-        }
 
         const jsonProjects = entryPoints.map((path) => {
             try {

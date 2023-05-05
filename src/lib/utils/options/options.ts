@@ -95,6 +95,11 @@ export class Options {
     private _projectReferences: readonly ts.ProjectReference[] = [];
     private _logger: Logger;
 
+    /**
+     * In packages mode, the directory of the package being converted.
+     */
+    packageDir?: string;
+
     constructor(logger: Logger) {
         this._logger = logger;
         addTypeDocOptions(this);
@@ -103,8 +108,9 @@ export class Options {
     /**
      * Clones the options, intended for use in packages mode.
      */
-    copyForPackage(): Options {
+    copyForPackage(packageDir: string): Options {
         const options = new Options(this._logger);
+        options.packageDir = packageDir;
 
         options._readers = this._readers.filter(
             (reader) => reader.supportsPackages
