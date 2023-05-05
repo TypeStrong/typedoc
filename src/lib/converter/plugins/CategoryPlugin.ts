@@ -8,7 +8,7 @@ import { ReflectionCategory } from "../../models";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { BindOption, removeIf } from "../../utils";
+import { BindOption, getSortFunction, removeIf } from "../../utils";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -17,6 +17,8 @@ import { BindOption, removeIf } from "../../utils";
  */
 @Component({ name: "category" })
 export class CategoryPlugin extends ConverterComponent {
+    sortFunction!: (reflections: DeclarationReflection[]) => void;
+
     @BindOption("defaultCategory")
     defaultCategory!: string;
 
@@ -55,6 +57,8 @@ export class CategoryPlugin extends ConverterComponent {
      * Triggered when the converter begins converting a project.
      */
     private onBegin(_context: Context) {
+        this.sortFunction = getSortFunction(this.application.options);
+
         // Set up static properties
         if (this.defaultCategory) {
             CategoryPlugin.defaultCategory = this.defaultCategory;
@@ -156,40 +160,32 @@ export class CategoryPlugin extends ConverterComponent {
     getReflectionCategories(
         reflections: DeclarationReflection[]
     ): ReflectionCategory[] {
-        const categories: ReflectionCategory[] = [];
-        let defaultCat: ReflectionCategory | undefined;
-        reflections.forEach((child) => {
+        const categories = new Map<string, ReflectionCategory>();
+
+        for (const child of reflections) {
             const childCategories = this.getCategories(child);
             if (childCategories.size === 0) {
-                if (!defaultCat) {
-                    defaultCat = categories.find(
-                        (category) =>
-                            category.title === CategoryPlugin.defaultCategory
-                    );
-                    if (!defaultCat) {
-                        defaultCat = new ReflectionCategory(
-                            CategoryPlugin.defaultCategory
-                        );
-                        categories.push(defaultCat);
-                    }
-                }
-
-                defaultCat.children.push(child);
-                return;
+                childCategories.add(CategoryPlugin.defaultCategory);
             }
+
             for (const childCat of childCategories) {
-                let category = categories.find((cat) => cat.title === childCat);
+                const category = categories.get(childCat);
 
                 if (category) {
                     category.children.push(child);
-                    continue;
+                } else {
+                    const cat = new ReflectionCategory(childCat);
+                    cat.children.push(child);
+                    categories.set(childCat, cat);
                 }
-                category = new ReflectionCategory(childCat);
-                category.children.push(child);
-                categories.push(category);
             }
-        });
-        return categories;
+        }
+
+        for (const cat of categories.values()) {
+            this.sortFunction(cat.children);
+        }
+
+        return Array.from(categories.values());
     }
 
     /**

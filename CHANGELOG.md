@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Category children are now sorted according to the `sort` option, #2272.
+
 ## v0.24.6 (2023-04-24)
 
 ### Features
