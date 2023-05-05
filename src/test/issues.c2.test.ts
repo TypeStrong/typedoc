@@ -27,6 +27,7 @@ import { TestLogger } from "./TestLogger";
 import { clearCommentCache } from "../lib/converter/comments";
 import { join } from "path";
 import { existsSync } from "fs";
+import { getLinks, query } from "./utils";
 
 const base = getConverter2Base();
 const app = getConverter2App();
@@ -55,12 +56,6 @@ function doConvert(entry: string) {
             sourceFile,
         },
     ]);
-}
-
-function query(project: ProjectReflection, name: string) {
-    const reflection = project.getChildByName(name);
-    ok(reflection instanceof DeclarationReflection, `Failed to find ${name}`);
-    return reflection;
 }
 
 describe("Issue Tests", () => {
@@ -1100,5 +1095,20 @@ describe("Issue Tests", () => {
             cm.children[1].implementationOf?.name,
             "ReadonlyCharMap.[iterator]"
         );
+    });
+
+    it("Handles http links with TS link resolution #2270", () => {
+        const project = convert();
+        const links = getLinks(query(project, "A"));
+        equal(links, [
+            {
+                display: "Immutable",
+                target: [ReflectionKind.TypeAlias, "Immutable"],
+            },
+            {
+                display: "Immutable Objects",
+                target: "https://en.wikipedia.org/wiki/Immutable_object",
+            },
+        ]);
     });
 });

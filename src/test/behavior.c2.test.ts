@@ -1,8 +1,6 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import {
-    DeclarationReflection,
     LiteralType,
-    ProjectReflection,
     ReflectionKind,
     Comment,
     CommentTag,
@@ -21,12 +19,7 @@ import {
 import { join } from "path";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments";
-
-function query(project: ProjectReflection, name: string) {
-    const reflection = project.getChildByName(name);
-    ok(reflection instanceof DeclarationReflection, `Failed to find ${name}`);
-    return reflection;
-}
+import { query } from "./utils";
 
 type NameTree = { [name: string]: NameTree };
 
