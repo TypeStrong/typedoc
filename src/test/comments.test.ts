@@ -564,6 +564,16 @@ describe("Block Comment Lexer", () => {
             { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 21 },
         ]);
     });
+
+    it("Should allow inline tags directly next to braces", () => {
+        const tokens = lex("/** {@inline} */");
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 4 },
+            { kind: TokenSyntaxKind.Tag, text: "@inline", pos: 5 },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 12 },
+        ]);
+    });
 });
 
 describe("Line Comment Lexer", () => {
@@ -881,6 +891,16 @@ describe("Line Comment Lexer", () => {
             { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 21 },
         ]);
     });
+
+    it("Should allow inline tags directly next to braces", () => {
+        const tokens = lex("// {@inline}");
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 3 },
+            { kind: TokenSyntaxKind.Tag, text: "@inline", pos: 4 },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 11 },
+        ]);
+    });
 });
 
 describe("Raw Lexer", () => {
@@ -1195,6 +1215,16 @@ describe("Raw Lexer", () => {
             { kind: TokenSyntaxKind.Tag, text: "@link", pos: 9 },
             { kind: TokenSyntaxKind.Text, text: " foo", pos: 14 },
             { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 18 },
+        ]);
+    });
+
+    it("Should allow inline tags directly next to braces", () => {
+        const tokens = lex("{@inline}");
+
+        equal(tokens, [
+            { kind: TokenSyntaxKind.OpenBrace, text: "{", pos: 0 },
+            { kind: TokenSyntaxKind.Tag, text: "@inline", pos: 1 },
+            { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 8 },
         ]);
     });
 });

@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 -   Category children are now sorted according to the `sort` option, #2272.
+-   Inline tags no longer require a space after the tag name to be parsed as a tag, #2273.
 
 ## v0.24.6 (2023-04-24)
 

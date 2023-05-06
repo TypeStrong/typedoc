@@ -251,7 +251,7 @@ function* lexBlockComment2(
 
                 if (
                     lookahead !== pos + 1 &&
-                    (lookahead === end || /\s/.test(file[lookahead]))
+                    (lookahead === end || /[\s}]/.test(file[lookahead]))
                 ) {
                     braceStartsType = true;
                     const token = makeToken(
