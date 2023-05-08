@@ -770,9 +770,11 @@ a.tsd-index-link {
     color: var(--color-text);
 }
 .tsd-accordion-summary {
-    list-style-type: none;
-    display: flex;
-    align-items: center;
+    list-style-type: none; /* hide marker on non-safari */
+    outline: none; /* broken on safari, so just hide it */
+}
+.tsd-accordion-summary::-webkit-details-marker {
+    display: none; /* hide marker on safari */
 }
 .tsd-accordion-summary,
 .tsd-accordion-summary a {
@@ -784,7 +786,7 @@ a.tsd-index-link {
     cursor: pointer;
 }
 .tsd-accordion-summary a {
-    flex-grow: 1;
+    width: calc(100% - 1.5rem);
 }
 .tsd-accordion-summary > * {
     margin-top: 0;

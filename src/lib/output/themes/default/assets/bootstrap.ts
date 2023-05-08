@@ -19,3 +19,11 @@ if (themeChoice) {
 const app = new Application();
 
 Object.defineProperty(window, "app", { value: app });
+
+// Safari is broken and doesn't let you click on a link within
+// a <summary> tag, so we have to manually handle clicks there.
+document.querySelectorAll("summary a").forEach((el) => {
+    el.addEventListener("click", () => {
+        location.assign((el as HTMLAnchorElement).href);
+    });
+});

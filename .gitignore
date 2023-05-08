@@ -4,6 +4,7 @@
 .tscache
 .baseDir.js
 .baseDir.ts
+*.swp
 yarn.lock
 .nyc_output
 yarn-error.log
