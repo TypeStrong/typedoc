@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.24.7 (2023-05-08)
+
 ### Features
 
 -   TypeDoc will now allow conversion without any entry points to support "readme only" packages, #2264.
