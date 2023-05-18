@@ -139,6 +139,7 @@ export class PageEvent<out Model = unknown> extends Event {
  * An event emitted when markdown is being parsed. Allows other plugins to manipulate the result.
  *
  * @see {@link MarkdownEvent.PARSE}
+ * @see {@link MarkdownEvent.INCLUDE}
  */
 export class MarkdownEvent extends Event {
     /**
@@ -161,6 +162,12 @@ export class MarkdownEvent extends Event {
      * @event
      */
     static readonly PARSE = "parseMarkdown";
+
+    /**
+     * Triggered on the renderer when this plugin includes a markdown file through a markdown include tag.
+     * @event
+     */
+    static readonly INCLUDE = "includeMarkdown";
 
     constructor(
         name: string,

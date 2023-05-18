@@ -95,7 +95,14 @@ output file :
                 path = Path.join(this.includes!, path.trim());
                 if (isFile(path)) {
                     const contents = readFile(path);
-                    return contents;
+                    const event = new MarkdownEvent(
+                        MarkdownEvent.INCLUDE,
+                        page,
+                        contents,
+                        contents
+                    );
+                    this.owner.trigger(event);
+                    return event.parsedText;
                 } else {
                     this.application.logger.warn(
                         "Could not find file to include: " + path
