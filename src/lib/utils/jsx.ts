@@ -101,6 +101,11 @@ export function createElement(
     return { tag, props, children };
 }
 
+let renderPretty = true;
+export function setRenderSettings(options: { pretty: boolean }) {
+    renderPretty = options.pretty;
+}
+
 export function renderElement(element: JsxElement | null | undefined): string {
     if (!element) {
         return "";
@@ -118,7 +123,7 @@ export function renderElement(element: JsxElement | null | undefined): string {
     const html: string[] = [];
 
     if (tag !== Fragment) {
-        if (blockElements.has(tag)) {
+        if (blockElements.has(tag) && renderPretty) {
             html.push("\n");
         }
         html.push("<", tag);

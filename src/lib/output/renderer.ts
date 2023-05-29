@@ -201,6 +201,10 @@ export class Renderer extends ChildableComponent<
     @BindOption("darkHighlightTheme")
     darkTheme!: ShikiTheme;
 
+    /** @internal */
+    @BindOption("pretty")
+    pretty!: boolean;
+
     renderStartTime = -1;
 
     /**
@@ -227,6 +231,8 @@ export class Renderer extends ChildableComponent<
         project: ProjectReflection,
         outputDirectory: string
     ): Promise<void> {
+        setRenderSettings({ pretty: this.pretty });
+
         const momento = this.hooks.saveMomento();
         this.renderStartTime = Date.now();
         await loadHighlighter(this.lightTheme, this.darkTheme);
@@ -399,3 +405,4 @@ export class Renderer extends ChildableComponent<
 // HACK: THIS HAS TO STAY DOWN HERE
 // if you try to move it up to the top of the file, then you'll run into stuff being used before it has been defined.
 import "./plugins";
+import { setRenderSettings } from "../utils/jsx";

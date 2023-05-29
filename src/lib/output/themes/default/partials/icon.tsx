@@ -23,21 +23,23 @@ function cachedPart(key: string, svgPart: JSX.Element) {
 }
 
 const kindIcon = (kind: ReflectionKind, letterPath: JSX.Element, color: string, circular = false) => (
-    <svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24">
+    <svg class="tsd-kind-icon" viewBox="0 0 24 24">
         {cachedPart(
-            `${kind}-path`,
-            <rect
-                fill="var(--color-icon-background)"
-                stroke={color}
-                stroke-width="1.5"
-                x="1"
-                y="1"
-                width="22"
-                height="22"
-                rx={circular ? "12" : "6"}
-            />
+            `${kind}`,
+            <g>
+                <rect
+                    fill="var(--color-icon-background)"
+                    stroke={color}
+                    stroke-width="1.5"
+                    x="1"
+                    y="1"
+                    width="22"
+                    height="22"
+                    rx={circular ? "12" : "6"}
+                />
+                {letterPath}
+            </g>
         )}
-        {cachedPart(`${kind}-text`, letterPath)}
     </svg>
 );
 
@@ -191,10 +193,13 @@ export const icons: Record<
         ),
     chevronDown: () => (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path
-                d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z"
-                fill="var(--color-text)"
-            />
+            {cachedPart(
+                "chevronDown",
+                <path
+                    d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z"
+                    fill="var(--color-text)"
+                />
+            )}
         </svg>
     ),
     chevronSmall: () => (
@@ -234,18 +239,15 @@ export const icons: Record<
         </svg>
     ),
     anchor: () => (
-        <svg
-            class="icon icon-tabler icon-tabler-link"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            {cachedPart("anchor-a", <path stroke="none" d="M0 0h24v24H0z" fill="none" />)}
-            {cachedPart("anchor-b", <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />)}
-            {cachedPart("anchor-c", <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />)}
+        <svg viewBox="0 0 24 24">
+            {cachedPart(
+                "anchor",
+                <g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+                    <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+                </g>
+            )}
         </svg>
     ),
 };
