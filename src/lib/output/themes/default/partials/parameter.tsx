@@ -42,7 +42,8 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                             <span class="tsd-signature-symbol">{"]: "}</span>
                             {context.type(props.indexSignature.type)}
                         </h5>
-                        {context.comment(props.indexSignature)}
+                        {context.commentSummary(props.indexSignature)}
+                        {context.commentTags(props.indexSignature)}
                         {props.indexSignature.type instanceof ReflectionType &&
                             context.parameter(props.indexSignature.type.declaration)}
                     </li>
@@ -75,7 +76,8 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                     </span>
                                     {context.type(item.type)}
                                 </h5>
-                                {context.comment(item)}
+                                {context.commentSummary(item)}
+                                {context.commentTags(item)}
                                 {!!item.children && context.parameter(item)}
                                 {item.type instanceof ReflectionType && context.parameter(item.type.declaration)}
                             </li>
@@ -95,7 +97,8 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                             {context.type(item.getSignature.type)}
                                         </h5>
 
-                                        {context.comment(item.getSignature)}
+                                        {context.commentSummary(item.getSignature)}
+                                        {context.commentTags(item.getSignature)}
                                     </li>
                                 </>
                             )}
@@ -119,7 +122,8 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                             {context.type(item.setSignature.type)}
                                         </h5>
 
-                                        {context.comment(item.setSignature)}
+                                        {context.commentSummary(item.setSignature)}
+                                        {context.commentTags(item.setSignature)}
                                     </li>
                                 </>
                             )}

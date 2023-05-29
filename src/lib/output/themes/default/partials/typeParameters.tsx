@@ -27,7 +27,8 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                                     </>
                                 )}
                             </h4>
-                            {context.comment(item)}
+                            {context.commentSummary(item)}
+                            {context.commentTags(item)}
                         </li>
                     ))}
                 </ul>

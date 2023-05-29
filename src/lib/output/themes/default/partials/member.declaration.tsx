@@ -24,7 +24,7 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
             )}
         </div>
 
-        {context.comment(props)}
+        {context.commentSummary(props)}
 
         {hasTypeParameters(props) && context.typeParameters(props.typeParameters)}
 
@@ -34,6 +34,8 @@ export const memberDeclaration = (context: DefaultThemeRenderContext, props: Dec
                 {context.parameter(props.type.declaration)}
             </div>
         )}
+
+        {context.commentTags(props)}
 
         {context.memberSources(props)}
     </>

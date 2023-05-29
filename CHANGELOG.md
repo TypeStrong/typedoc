@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+-   When rendering functions/methods, TypeDoc will now render the comment summary above the parameters/return type,
+    and any other block tags in the order they are defined in the comment, #2285.
 -   Comments are no longer removed from classes/interfaces containing call signatures, #2290.
 
 ### Thanks!

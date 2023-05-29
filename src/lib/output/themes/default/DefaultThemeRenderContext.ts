@@ -12,7 +12,7 @@ import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
 import { analytics } from "./partials/analytics";
 import { breadcrumb } from "./partials/breadcrumb";
-import { comment } from "./partials/comment";
+import { comment, commentSummary, commentTags } from "./partials/comment";
 import { footer } from "./partials/footer";
 import { header } from "./partials/header";
 import { hierarchy } from "./partials/hierarchy";
@@ -106,7 +106,10 @@ export class DefaultThemeRenderContext {
 
     analytics = bind(analytics, this);
     breadcrumb = bind(breadcrumb, this);
+    /** @deprecated will be removed in 0.25 */
     comment = bind(comment, this);
+    commentSummary = bind(commentSummary, this);
+    commentTags = bind(commentTags, this);
     footer = bind(footer, this);
     header = bind(header, this);
     hierarchy = bind(hierarchy, this);

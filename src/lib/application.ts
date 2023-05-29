@@ -153,6 +153,15 @@ export class Application extends ChildableComponent<
 
     /**
      * Initialize TypeDoc without loading plugins.
+     *
+     * @example
+     * Initialize the application with pretty-printing output disabled.
+     * ```ts
+     * const app = new Application();
+     * app.bootstrap({ pretty: false });
+     * ```
+     *
+     * @param options - Options to set during initialization
      */
     bootstrap(options: Partial<TypeDocOptions> = {}): void {
         this.options.reset();

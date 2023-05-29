@@ -13,7 +13,7 @@ export function memberSignatureBody(
     return (
         <>
             {renderFlags(props.flags, props.comment)}
-            {context.comment(props)}
+            {context.commentSummary(props)}
 
             {hasTypeParameters(props) && context.typeParameters(props.typeParameters)}
 
@@ -36,7 +36,8 @@ export function memberSignatureBody(
                                         </span>
                                     )}
                                 </h5>
-                                {context.comment(item)}
+                                {context.commentSummary(item)}
+                                {context.commentTags(item)}
                                 {item.type instanceof ReflectionType && context.parameter(item.type.declaration)}
                             </li>
                         ))}
@@ -53,6 +54,9 @@ export function memberSignatureBody(
                     {props.type instanceof ReflectionType && context.parameter(props.type.declaration)}
                 </>
             )}
+
+            {context.commentTags(props)}
+
             {!hideSources && context.memberSources(props)}
         </>
     );

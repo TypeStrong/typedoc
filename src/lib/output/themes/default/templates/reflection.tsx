@@ -15,7 +15,10 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
     return (
         <>
             {props.model.hasComment() && (
-                <section class="tsd-panel tsd-comment">{context.comment(props.model)}</section>
+                <section class="tsd-panel tsd-comment">
+                    {context.commentSummary(props.model)}
+                    {context.commentTags(props.model)}
+                </section>
             )}
 
             {props.model instanceof DeclarationReflection &&
@@ -67,7 +70,8 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                                 <span class="tsd-signature-symbol">]: </span>
                                 {context.type(props.model.indexSignature.type)}
                             </div>
-                            {context.comment(props.model.indexSignature)}
+                            {context.commentSummary(props.model.indexSignature)}
+                            {context.commentTags(props.model.indexSignature)}
                             {props.model.indexSignature?.type instanceof ReflectionType &&
                                 context.parameter(props.model.indexSignature.type.declaration)}
                         </section>

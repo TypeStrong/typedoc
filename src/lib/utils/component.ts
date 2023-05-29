@@ -116,7 +116,7 @@ export abstract class AbstractComponent<O extends ComponentHost>
     private _componentOwner: O;
 
     /**
-     * The name of this component as set by the @Component decorator.
+     * The name of this component as set by the `@Component` decorator.
      */
     public componentName!: string;
 
