@@ -4,6 +4,7 @@
 
 -   TypeDoc's `--pretty` option now also controls whether generated HTML contains line breaks, #2287.
 -   Optimized icon caching to reduce file size in generated HTML documentation, #2287.
+-   Render property description of "roughly top level" object types, #2276.
 -   Added `MarkdownEvent.INCLUDE` for plugins, #2284.
 
 ### Bug Fixes

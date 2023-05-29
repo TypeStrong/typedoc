@@ -1,42 +1,57 @@
-import { DeclarationReflection, ReflectionType } from "../../../../models";
+import type { DeclarationReflection, ReflectionType } from "../../../../models";
 import { JSX } from "../../../../utils";
 import { getKindClass, hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
-export const memberDeclaration = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
-    <>
-        <div class="tsd-signature">
-            <span class={getKindClass(props)}>{wbr(props.name)}</span>
-            {renderTypeParametersSignature(context, props.typeParameters)}
-            {props.type && (
-                <>
-                    <span class="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
-                    {context.type(props.type)}
-                </>
-            )}
-            {!!props.defaultValue && (
-                <>
-                    <span class="tsd-signature-symbol">
-                        {" = "}
-                        {props.defaultValue}
-                    </span>
-                </>
-            )}
-        </div>
-
-        {context.commentSummary(props)}
-
-        {hasTypeParameters(props) && context.typeParameters(props.typeParameters)}
-
-        {props.type instanceof ReflectionType && (
+export function memberDeclaration(context: DefaultThemeRenderContext, props: DeclarationReflection) {
+    function renderTypeDeclaration(type: ReflectionType) {
+        return (
             <div class="tsd-type-declaration">
                 <h4>Type declaration</h4>
-                {context.parameter(props.type.declaration)}
+                {context.parameter(type.declaration)}
             </div>
-        )}
+        );
+    }
 
-        {context.commentTags(props)}
+    const visitor = { reflection: renderTypeDeclaration };
 
-        {context.memberSources(props)}
-    </>
-);
+    return (
+        <>
+            <div class="tsd-signature">
+                <span class={getKindClass(props)}>{wbr(props.name)}</span>
+                {renderTypeParametersSignature(context, props.typeParameters)}
+                {props.type && (
+                    <>
+                        <span class="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
+                        {context.type(props.type)}
+                    </>
+                )}
+                {!!props.defaultValue && (
+                    <>
+                        <span class="tsd-signature-symbol">
+                            {" = "}
+                            {props.defaultValue}
+                        </span>
+                    </>
+                )}
+            </div>
+
+            {context.commentSummary(props)}
+
+            {hasTypeParameters(props) && context.typeParameters(props.typeParameters)}
+
+            {props.type?.visit<JSX.Children>({
+                reflection: renderTypeDeclaration,
+                array: (arr) => arr.elementType.visit(visitor),
+                intersection: (int) => int.types.map((t) => t.visit(visitor)),
+                union: (union) => union.types.map((t) => t.visit(visitor)),
+                reference: (ref) => ref.typeArguments?.map((t) => t.visit(visitor)),
+                tuple: (ref) => ref.elements.map((t) => t.visit(visitor)),
+            })}
+
+            {context.commentTags(props)}
+
+            {context.memberSources(props)}
+        </>
+    );
+}
