@@ -1,5 +1,6 @@
 import { ok } from "assert";
 import {
+    Comment,
     DeclarationReflection,
     ProjectReflection,
     Reflection,
@@ -11,6 +12,10 @@ export function query(project: ProjectReflection, name: string) {
     const reflection = project.getChildByName(name);
     ok(reflection instanceof DeclarationReflection, `Failed to find ${name}`);
     return reflection;
+}
+
+export function getComment(project: ProjectReflection, name: string) {
+    return Comment.combineDisplayParts(query(project, name).comment?.summary);
 }
 
 export function getLinks(refl: Reflection): Array<{

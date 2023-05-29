@@ -376,12 +376,16 @@ export class CommentPlugin extends ConverterComponent {
             return;
         }
 
-        const comment = reflection.comment;
+        const comment = reflection.kindOf(ReflectionKind.ClassOrInterface)
+            ? undefined
+            : reflection.comment;
 
         // Since this reflection has signatures, remove the comment from the parent
         // reflection. This is important so that in type aliases we don't end up with
         // a comment rendered twice.
-        delete reflection.comment;
+        if (!reflection.kindOf(ReflectionKind.ClassOrInterface)) {
+            delete reflection.comment;
+        }
 
         for (const signature of signatures) {
             const childComment = (signature.comment ||= comment?.clone());

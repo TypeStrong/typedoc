@@ -1870,6 +1870,14 @@
               "variant": "declaration",
               "kind": 256,
               "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Function signature of an event listener callback"
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "interface-implementation.ts",

@@ -27,7 +27,7 @@ import { TestLogger } from "./TestLogger";
 import { clearCommentCache } from "../lib/converter/comments";
 import { join } from "path";
 import { existsSync } from "fs";
-import { getLinks, query } from "./utils";
+import { getComment, getLinks, query } from "./utils";
 
 const base = getConverter2Base();
 const app = getConverter2App();
@@ -1110,5 +1110,27 @@ describe("Issue Tests", () => {
                 target: "https://en.wikipedia.org/wiki/Immutable_object",
             },
         ]);
+    });
+
+    it("Handles comments on interfaces with call signatures #2290", () => {
+        const project = convert();
+
+        equal(getComment(project, "CallSignature"), "Int comment");
+        equal(getComment(project, "CallSignature2"), "Int comment");
+        equal(getComment(project, "CallSignature2.prop"), "Prop comment");
+
+        equal(
+            Comment.combineDisplayParts(
+                query(project, "CallSignature").signatures![0].comment?.summary
+            ),
+            "Sig comment"
+        );
+
+        equal(
+            Comment.combineDisplayParts(
+                query(project, "CallSignature2").signatures![0].comment?.summary
+            ),
+            "Sig comment"
+        );
     });
 });

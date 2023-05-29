@@ -6,6 +6,10 @@
 -   Optimized icon caching to reduce file size in generated HTML documentation, #2287.
 -   Added `MarkdownEvent.INCLUDE` for plugins, #2284.
 
+### Bug Fixes
+
+-   Comments are no longer removed from classes/interfaces containing call signatures, #2290.
+
 ### Thanks!
 
 -   @krisztianb
