@@ -440,6 +440,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaults: {
             includeCategories: false,
             includeGroups: false,
+            fullTree: false,
         },
     });
 

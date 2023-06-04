@@ -3,6 +3,8 @@
 ### Features
 
 -   Added support for TypeScript 5.1, #2296.
+-   Added `navigation.fullTree` to control rendering the full navigation tree on each page, #2287.
+    This option will likely be replaced in 0.25 with dynamic loading of the full tree.
 -   TypeDoc's `--pretty` option now also controls whether generated HTML contains line breaks, #2287.
 -   Optimized icon caching to reduce file size in generated HTML documentation, #2287.
 -   Render property description of "roughly top level" object types, #2276.

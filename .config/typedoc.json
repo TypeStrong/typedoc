@@ -37,6 +37,9 @@
         "Enumerations": 2.0,
         "Type Aliases": 2.0
     },
+    "navigation": {
+        "fullTree": true
+    },
     "includeVersion": true,
     "logLevel": "Verbose"
 }

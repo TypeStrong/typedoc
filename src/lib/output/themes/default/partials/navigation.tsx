@@ -156,12 +156,12 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
     function links(mod: NavigationElement, parents: string[]) {
         const nameClasses = classNames(
             { deprecated: mod instanceof Reflection && mod.isDeprecated() },
-            !(mod instanceof Reflection) || mod.isProject() ? void 0 : context.getReflectionClasses(mod)
+            mod instanceof DeclarationReflection ? context.getReflectionClasses(mod) : void 0
         );
 
         const children = getNavigationElements(mod, opts);
 
-        if (!children.length) {
+        if (!children.length || (!opts.fullTree && mod instanceof Reflection && !inPath(mod))) {
             return createNavElement(mod, nameClasses);
         }
 
