@@ -2,6 +2,7 @@
 
 ### Features
 
+-   Added support for TypeScript 5.1, #2296.
 -   TypeDoc's `--pretty` option now also controls whether generated HTML contains line breaks, #2287.
 -   Optimized icon caching to reduce file size in generated HTML documentation, #2287.
 -   Render property description of "roughly top level" object types, #2276.
@@ -16,6 +17,7 @@
 ### Thanks!
 
 -   @krisztianb
+-   @WikiRik
 
 ## v0.24.7 (2023-05-08)
 
