@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.24.8 (2023-06-04)
+
 ### Features
 
 -   Added support for TypeScript 5.1, #2296.
