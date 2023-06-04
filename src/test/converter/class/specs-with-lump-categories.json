@@ -4872,6 +4872,103 @@
               "url": "typedoc://getter-setter.ts#L1"
             }
           ]
+        },
+        {
+          "id": 200,
+          "name": "Ts51UnrelatedAccessorTypes",
+          "variant": "declaration",
+          "kind": 256,
+          "flags": {},
+          "children": [
+            {
+              "id": 201,
+              "name": "prop",
+              "variant": "declaration",
+              "kind": 262144,
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 26,
+                  "character": 8,
+                  "url": "typedoc://getter-setter.ts#L26"
+                },
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 27,
+                  "character": 8,
+                  "url": "typedoc://getter-setter.ts#L27"
+                }
+              ],
+              "getSignature": {
+                "id": 202,
+                "name": "prop",
+                "variant": "signature",
+                "kind": 524288,
+                "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 26,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L26"
+                  }
+                ],
+                "type": {
+                  "type": "literal",
+                  "value": 1
+                }
+              },
+              "setSignature": {
+                "id": 203,
+                "name": "prop",
+                "variant": "signature",
+                "kind": 1048576,
+                "flags": {},
+                "sources": [
+                  {
+                    "fileName": "getter-setter.ts",
+                    "line": 27,
+                    "character": 4,
+                    "url": "typedoc://getter-setter.ts#L27"
+                  }
+                ],
+                "parameters": [
+                  {
+                    "id": 204,
+                    "name": "value",
+                    "variant": "param",
+                    "kind": 32768,
+                    "flags": {},
+                    "type": {
+                      "type": "literal",
+                      "value": 2
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "intrinsic",
+                  "name": "void"
+                }
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Accessors",
+              "children": [
+                201
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "getter-setter.ts",
+              "line": 25,
+              "character": 17,
+              "url": "typedoc://getter-setter.ts#L25"
+            }
+          ]
         }
       ],
       "groups": [
@@ -4879,6 +4976,12 @@
           "title": "Classes",
           "children": [
             186
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "children": [
+            200
           ]
         }
       ],
@@ -4892,14 +4995,14 @@
       ]
     },
     {
-      "id": 200,
+      "id": 205,
       "name": "this",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 201,
+          "id": 206,
           "name": "ChainClass",
           "variant": "declaration",
           "kind": 128,
@@ -4914,21 +5017,21 @@
           },
           "children": [
             {
-              "id": 202,
+              "id": 207,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 203,
+                  "id": 208,
                   "name": "new ChainClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": 201,
+                    "target": 206,
                     "name": "ChainClass",
                     "package": "typedoc"
                   }
@@ -4936,7 +5039,7 @@
               ]
             },
             {
-              "id": 204,
+              "id": 209,
               "name": "chain",
               "variant": "declaration",
               "kind": 2048,
@@ -4953,7 +5056,7 @@
               ],
               "signatures": [
                 {
-                  "id": 205,
+                  "id": 210,
                   "name": "chain",
                   "variant": "signature",
                   "kind": 4096,
@@ -4976,7 +5079,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": 201,
+                    "target": 206,
                     "name": "ChainClass",
                     "package": "typedoc"
                   }
@@ -4988,13 +5091,13 @@
             {
               "title": "Constructors",
               "children": [
-                202
+                207
               ]
             },
             {
               "title": "Methods",
               "children": [
-                204
+                209
               ]
             }
           ],
@@ -5012,7 +5115,7 @@
         {
           "title": "Classes",
           "children": [
-            201
+            206
           ]
         }
       ],
@@ -5026,35 +5129,35 @@
       ]
     },
     {
-      "id": 206,
+      "id": 211,
       "name": "type-operator",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 212,
+          "id": 217,
           "name": "GenericClass",
           "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
-              "id": 213,
+              "id": 218,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 214,
+                  "id": 219,
                   "name": "new GenericClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "typeParameter": [
                     {
-                      "id": 215,
+                      "id": 220,
                       "name": "T",
                       "variant": "typeParam",
                       "kind": 131072,
@@ -5064,7 +5167,7 @@
                         "operator": "keyof",
                         "target": {
                           "type": "reference",
-                          "target": 207,
+                          "target": 212,
                           "name": "TestClass",
                           "package": "typedoc"
                         }
@@ -5073,7 +5176,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": 212,
+                    "target": 217,
                     "typeArguments": [
                       {
                         "type": "reference",
@@ -5089,7 +5192,7 @@
               ]
             },
             {
-              "id": 216,
+              "id": 221,
               "name": "c",
               "variant": "declaration",
               "kind": 1024,
@@ -5114,13 +5217,13 @@
             {
               "title": "Constructors",
               "children": [
-                213
+                218
               ]
             },
             {
               "title": "Properties",
               "children": [
-                216
+                221
               ]
             }
           ],
@@ -5134,7 +5237,7 @@
           ],
           "typeParameters": [
             {
-              "id": 217,
+              "id": 222,
               "name": "T",
               "variant": "typeParam",
               "kind": 131072,
@@ -5144,7 +5247,7 @@
                 "operator": "keyof",
                 "target": {
                   "type": "reference",
-                  "target": 207,
+                  "target": 212,
                   "name": "TestClass",
                   "package": "typedoc"
                 }
@@ -5153,7 +5256,7 @@
           ]
         },
         {
-          "id": 207,
+          "id": 212,
           "name": "TestClass",
           "variant": "declaration",
           "kind": 128,
@@ -5173,7 +5276,7 @@
                     "kind": "inline-tag",
                     "tag": "@link",
                     "text": "TestClass",
-                    "target": 207
+                    "target": 212
                   },
                   {
                     "kind": "text",
@@ -5185,21 +5288,21 @@
           },
           "children": [
             {
-              "id": 208,
+              "id": 213,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 209,
+                  "id": 214,
                   "name": "new TestClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": 207,
+                    "target": 212,
                     "name": "TestClass",
                     "package": "typedoc"
                   }
@@ -5207,7 +5310,7 @@
               ]
             },
             {
-              "id": 210,
+              "id": 215,
               "name": "a",
               "variant": "declaration",
               "kind": 1024,
@@ -5226,7 +5329,7 @@
               }
             },
             {
-              "id": 211,
+              "id": 216,
               "name": "b",
               "variant": "declaration",
               "kind": 1024,
@@ -5249,14 +5352,14 @@
             {
               "title": "Constructors",
               "children": [
-                208
+                213
               ]
             },
             {
               "title": "Properties",
               "children": [
-                210,
-                211
+                215,
+                216
               ]
             }
           ],
@@ -5274,8 +5377,8 @@
         {
           "title": "Classes",
           "children": [
-            212,
-            207
+            217,
+            212
           ]
         }
       ],
@@ -5301,8 +5404,8 @@
         134,
         166,
         185,
-        200,
-        206
+        205,
+        211
       ]
     }
   ],
@@ -6033,50 +6136,70 @@
       "qualifiedName": "GetterSetter.autoAccessor"
     },
     "200": {
-      "sourceFileName": "src/test/converter/class/this.ts",
-      "qualifiedName": ""
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "Ts51UnrelatedAccessorTypes"
     },
     "201": {
-      "sourceFileName": "src/test/converter/class/this.ts",
-      "qualifiedName": "ChainClass"
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "Ts51UnrelatedAccessorTypes.prop"
+    },
+    "202": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "Ts51UnrelatedAccessorTypes.prop"
+    },
+    "203": {
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "Ts51UnrelatedAccessorTypes.prop"
     },
     "204": {
-      "sourceFileName": "src/test/converter/class/this.ts",
-      "qualifiedName": "ChainClass.chain"
+      "sourceFileName": "src/test/converter/class/getter-setter.ts",
+      "qualifiedName": "value"
     },
     "205": {
       "sourceFileName": "src/test/converter/class/this.ts",
-      "qualifiedName": "ChainClass.chain"
-    },
-    "206": {
-      "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": ""
     },
-    "207": {
-      "sourceFileName": "src/test/converter/class/type-operator.ts",
-      "qualifiedName": "TestClass"
+    "206": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": "ChainClass"
+    },
+    "209": {
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": "ChainClass.chain"
     },
     "210": {
-      "sourceFileName": "src/test/converter/class/type-operator.ts",
-      "qualifiedName": "TestClass.a"
+      "sourceFileName": "src/test/converter/class/this.ts",
+      "qualifiedName": "ChainClass.chain"
     },
     "211": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
-      "qualifiedName": "TestClass.b"
+      "qualifiedName": ""
     },
     "212": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
-      "qualifiedName": "GenericClass"
+      "qualifiedName": "TestClass"
     },
     "215": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
-      "qualifiedName": "GenericClass.T"
+      "qualifiedName": "TestClass.a"
     },
     "216": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
-      "qualifiedName": "GenericClass.c"
+      "qualifiedName": "TestClass.b"
     },
     "217": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass"
+    },
+    "220": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass.T"
+    },
+    "221": {
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
+      "qualifiedName": "GenericClass.c"
+    },
+    "222": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": "GenericClass.T"
     }

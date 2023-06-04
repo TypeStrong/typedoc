@@ -22,4 +22,9 @@ export class GetterSetter {
     accessor autoAccessor: string;
 }
 
+export interface Ts51UnrelatedAccessorTypes {
+    get prop(): 1;
+    set prop(value: 2);
+}
+
 export {};
