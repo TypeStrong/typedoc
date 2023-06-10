@@ -328,7 +328,9 @@ export class DeclarationReflection extends ContainerReflection {
         if (obj.variant === "project") {
             this.kind = ReflectionKind.Module;
             this.packageVersion = obj.packageVersion;
-            this.entrypointInfos = EntrypointInfos.fromObject(de, obj.entrypointInfos);
+            this.entrypointInfos = EntrypointInfos.fromObject(
+                obj.entrypointInfos
+            );
             if (obj.readme) {
                 this.readme = Comment.deserializeDisplayParts(de, obj.readme);
             }
@@ -354,7 +356,7 @@ export class DeclarationReflection extends ContainerReflection {
         }
 
         this.packageVersion = obj.packageVersion;
-        this.entrypointInfos = EntrypointInfos.fromObject(de, obj.entrypointInfos);
+        this.entrypointInfos = EntrypointInfos.fromObject(obj.entrypointInfos);
         this.sources = de.reviveMany(
             obj.sources,
             (src) => new SourceReference(src.fileName, src.line, src.character)

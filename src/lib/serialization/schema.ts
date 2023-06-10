@@ -187,7 +187,11 @@ export interface ProjectReflection
     extends Omit<ContainerReflection, "variant">,
         S<
             M.ProjectReflection,
-            "variant" | "packageName" | "packageVersion" | "readme" | "entrypointInfos"
+            | "variant"
+            | "packageName"
+            | "packageVersion"
+            | "readme"
+            | "entrypointInfos"
         > {
     symbolIdMap: Record<number, ReflectionSymbolId>;
 }
@@ -359,5 +363,8 @@ export interface InlineTagDisplayPart {
 export interface SourceReference
     extends S<M.SourceReference, "fileName" | "line" | "character" | "url"> {}
 
-    export interface EntrypointInfos
-        extends S<M.EntrypointInfos, "readmeFile" | "rootDir" | "packageJsonFile" | "entrySourceFilePath"> {}
+export interface EntrypointInfos
+    extends S<
+        M.EntrypointInfos,
+        "readmeFile" | "rootDir" | "packageJsonFile" | "entrySourceFilePath"
+    > {}

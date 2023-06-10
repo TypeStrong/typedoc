@@ -284,7 +284,7 @@ export class ProjectReflection extends ContainerReflection {
             variant: this.variant,
             packageName: this.packageName,
             packageVersion: this.packageVersion,
-            entrypointInfos: this.entrypointInfos?.toObject(serializer),
+            entrypointInfos: this.entrypointInfos?.toObject(),
             readme: Comment.serializeDisplayParts(serializer, this.readme),
             symbolIdMap,
         };
@@ -301,7 +301,7 @@ export class ProjectReflection extends ContainerReflection {
         if (obj.readme) {
             this.readme = Comment.deserializeDisplayParts(de, obj.readme);
         }
-        this.entrypointInfos = EntrypointInfos.fromObject(de, obj.entrypointInfos);
+        this.entrypointInfos = EntrypointInfos.fromObject(obj.entrypointInfos);
 
         de.defer(() => {
             for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {

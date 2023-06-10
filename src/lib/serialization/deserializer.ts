@@ -258,7 +258,7 @@ export class Deserializer {
         }
 
         const project = new ProjectReflection(name);
-        project.entrypointInfos = new EntrypointInfos('.')
+        project.entrypointInfos = new EntrypointInfos(".");
         project.children = [];
         this.project = project;
 

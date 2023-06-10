@@ -54,6 +54,7 @@ function doConvert(entry: string) {
             displayName: entry,
             program,
             sourceFile,
+            rootDir: base,
         },
     ]);
 }

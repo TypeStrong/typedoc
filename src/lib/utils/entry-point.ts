@@ -220,7 +220,7 @@ function getEntryPointsForPaths(
                         displayName: getModuleName(resolve(check), baseDir),
                         sourceFile,
                         program,
-                        rootDir
+                        rootDir,
                     });
                     continue entryLoop;
                 }
@@ -483,7 +483,7 @@ function getEntryPointsForLegacyPackages(
             program,
             sourceFile,
             rootDir: packagePath,
-            packageJsonFile: packageJsonPath
+            packageJsonFile: packageJsonPath,
         });
     }
 

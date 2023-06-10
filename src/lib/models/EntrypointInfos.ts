@@ -1,5 +1,5 @@
 import { DocumentationEntryPoint, normalizePath } from "../utils";
-import type { Deserializer, JSONOutput, Serializer } from "../serialization";
+import type { JSONOutput } from "../serialization";
 import { isAbsolute, relative } from "path";
 
 export class EntrypointInfos {
@@ -13,13 +13,20 @@ export class EntrypointInfos {
         this.entrySourceFilePath = entrySourceFilePath;
     }
 
-    static fromDocumentationEntrypoint(docEntryPoint: DocumentationEntryPoint): EntrypointInfos {
-        const entrypointInfos = new EntrypointInfos(toRelative(docEntryPoint.rootDir), toRelative(docEntryPoint.sourceFile.fileName));
-        if(docEntryPoint.readmeFile){
-            entrypointInfos.readmeFile = toRelative(docEntryPoint.readmeFile)
+    static fromDocumentationEntrypoint(
+        docEntryPoint: DocumentationEntryPoint
+    ): EntrypointInfos {
+        const entrypointInfos = new EntrypointInfos(
+            toRelative(docEntryPoint.rootDir),
+            toRelative(docEntryPoint.sourceFile.fileName)
+        );
+        if (docEntryPoint.readmeFile) {
+            entrypointInfos.readmeFile = toRelative(docEntryPoint.readmeFile);
         }
-        if(docEntryPoint.packageJsonFile){
-            entrypointInfos.packageJsonFile = toRelative(docEntryPoint.packageJsonFile)
+        if (docEntryPoint.packageJsonFile) {
+            entrypointInfos.packageJsonFile = toRelative(
+                docEntryPoint.packageJsonFile
+            );
         }
         return entrypointInfos;
     }
@@ -38,7 +45,7 @@ export class EntrypointInfos {
         return entrypointInfos;
     }
 
-    toObject(serializer: Serializer): JSONOutput.EntrypointInfos {
+    toObject(): JSONOutput.EntrypointInfos {
         return {
             readmeFile: this.readmeFile,
             rootDir: this.rootDir,
@@ -47,29 +54,33 @@ export class EntrypointInfos {
         };
     }
 
-
-    static fromObject(de: Deserializer, obj?: JSONOutput.EntrypointInfos) {
-        if(!obj){
+    static fromObject(obj?: JSONOutput.EntrypointInfos) {
+        if (!obj) {
             return undefined;
         }
-        const entrypointInfos = new EntrypointInfos(obj.rootDir, obj.entrySourceFilePath);
-        entrypointInfos.fromObject(de, obj);
+        const entrypointInfos = new EntrypointInfos(
+            obj.rootDir,
+            obj.entrySourceFilePath
+        );
+        entrypointInfos.fromObject(obj);
         return entrypointInfos;
     }
-    
-    fromObject(de: Deserializer, obj: JSONOutput.EntrypointInfos) {
-        if(obj.readmeFile){
+
+    fromObject(obj: JSONOutput.EntrypointInfos) {
+        if (obj.readmeFile) {
             this.readmeFile = obj.readmeFile;
         }
-        if(obj.packageJsonFile){
+        if (obj.packageJsonFile) {
             this.packageJsonFile = obj.packageJsonFile;
         }
     }
 }
 
 const toRelative = <T extends string | undefined>(path: T): T => {
-    if(path){
-        return normalizePath(isAbsolute(path) ? relative(process.cwd(), path) : path) as T;
+    if (path) {
+        return normalizePath(
+            isAbsolute(path) ? relative(process.cwd(), path) : path
+        ) as T;
     }
     return path;
-}
+};
