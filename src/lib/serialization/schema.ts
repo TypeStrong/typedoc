@@ -76,6 +76,8 @@ type _ModelToObject<T> =
         ? CommentDisplayPart
         : T extends M.SourceReference
         ? SourceReference
+        : T extends M.EntrypointInfos
+        ? EntrypointInfos
         : never;
 
 type Primitive = string | number | undefined | null | boolean;
@@ -155,6 +157,7 @@ export interface DeclarationReflection
             M.DeclarationReflection,
             | "variant"
             | "packageVersion"
+            | "entrypointInfos"
             | "sources"
             | "relevanceBoost"
             | "type"
@@ -184,7 +187,7 @@ export interface ProjectReflection
     extends Omit<ContainerReflection, "variant">,
         S<
             M.ProjectReflection,
-            "variant" | "packageName" | "packageVersion" | "readme"
+            "variant" | "packageName" | "packageVersion" | "readme" | "entrypointInfos"
         > {
     symbolIdMap: Record<number, ReflectionSymbolId>;
 }
@@ -355,3 +358,6 @@ export interface InlineTagDisplayPart {
 
 export interface SourceReference
     extends S<M.SourceReference, "fileName" | "line" | "character" | "url"> {}
+
+    export interface EntrypointInfos
+        extends S<M.EntrypointInfos, "readmeFile" | "rootDir" | "packageJsonFile" | "entrySourceFilePath"> {}

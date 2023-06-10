@@ -2582,6 +2582,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/function",
+        "entrySourceFilePath": "src/test/converter/function/function.ts"
+      },
       "sources": [
         {
           "fileName": "function.ts",
@@ -2909,6 +2913,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/function",
+        "entrySourceFilePath": "src/test/converter/function/generic-function.ts"
+      },
       "sources": [
         {
           "fileName": "generic-function.ts",
@@ -3173,6 +3181,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/function",
+        "entrySourceFilePath": "src/test/converter/function/implicit-types.ts"
+      },
       "sources": [
         {
           "fileName": "implicit-types.ts",

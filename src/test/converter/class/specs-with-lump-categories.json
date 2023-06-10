@@ -472,6 +472,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/access.ts"
+      },
       "sources": [
         {
           "fileName": "access.ts",
@@ -2351,6 +2355,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/class.ts"
+      },
       "sources": [
         {
           "fileName": "class.ts",
@@ -2916,6 +2924,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/constructor-properties.ts"
+      },
       "sources": [
         {
           "fileName": "constructor-properties.ts",
@@ -3349,6 +3361,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/decorators.ts"
+      },
       "sources": [
         {
           "fileName": "decorators.ts",
@@ -3457,6 +3473,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/events.ts"
+      },
       "sources": [
         {
           "fileName": "events.ts",
@@ -4021,6 +4041,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/events-overloads.ts"
+      },
       "sources": [
         {
           "fileName": "events-overloads.ts",
@@ -4598,6 +4622,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/generic-class.ts"
+      },
       "sources": [
         {
           "fileName": "generic-class.ts",
@@ -4985,6 +5013,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/getter-setter.ts"
+      },
       "sources": [
         {
           "fileName": "getter-setter.ts",
@@ -5119,6 +5151,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/this.ts"
+      },
       "sources": [
         {
           "fileName": "this.ts",
@@ -5382,6 +5418,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/class",
+        "entrySourceFilePath": "src/test/converter/class/type-operator.ts"
+      },
       "sources": [
         {
           "fileName": "type-operator.ts",

@@ -212,6 +212,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/interface",
+        "entrySourceFilePath": "src/test/converter/interface/constructor-type.ts"
+      },
       "sources": [
         {
           "fileName": "constructor-type.ts",
@@ -451,6 +455,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/interface",
+        "entrySourceFilePath": "src/test/converter/interface/index-signature.ts"
+      },
       "sources": [
         {
           "fileName": "index-signature.ts",
@@ -646,6 +654,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/interface",
+        "entrySourceFilePath": "src/test/converter/interface/interface-empty.ts"
+      },
       "sources": [
         {
           "fileName": "interface-empty.ts",
@@ -2145,6 +2157,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/interface",
+        "entrySourceFilePath": "src/test/converter/interface/interface-implementation.ts"
+      },
       "sources": [
         {
           "fileName": "interface-implementation.ts",
@@ -2579,6 +2595,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/interface",
+        "entrySourceFilePath": "src/test/converter/interface/merging.ts"
+      },
       "sources": [
         {
           "fileName": "merging.ts",

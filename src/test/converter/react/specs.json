@@ -232,6 +232,10 @@
     }
   ],
   "packageName": "typedoc",
+  "entrypointInfos": {
+    "rootDir": "src/test/converter/react",
+    "entrySourceFilePath": "src/test/converter/react/react.tsx"
+  },
   "symbolIdMap": {
     "0": {
       "sourceFileName": "src/test/converter/react/react.tsx",

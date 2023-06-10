@@ -309,6 +309,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/types",
+        "entrySourceFilePath": "src/test/converter/types/general.ts"
+      },
       "sources": [
         {
           "fileName": "general.ts",
@@ -495,6 +499,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/types",
+        "entrySourceFilePath": "src/test/converter/types/index-signature.ts"
+      },
       "sources": [
         {
           "fileName": "index-signature.ts",
@@ -853,6 +861,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/types",
+        "entrySourceFilePath": "src/test/converter/types/mapped.ts"
+      },
       "sources": [
         {
           "fileName": "mapped.ts",
@@ -949,6 +961,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/types",
+        "entrySourceFilePath": "src/test/converter/types/parens.ts"
+      },
       "sources": [
         {
           "fileName": "parens.ts",
@@ -1026,6 +1042,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/types",
+        "entrySourceFilePath": "src/test/converter/types/query.ts"
+      },
       "sources": [
         {
           "fileName": "query.ts",
@@ -1453,6 +1473,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/types",
+        "entrySourceFilePath": "src/test/converter/types/tuple.ts"
+      },
       "sources": [
         {
           "fileName": "tuple.ts",
@@ -1645,6 +1669,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/types",
+        "entrySourceFilePath": "src/test/converter/types/type-operator.ts"
+      },
       "sources": [
         {
           "fileName": "type-operator.ts",
@@ -1962,6 +1990,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/types",
+        "entrySourceFilePath": "src/test/converter/types/union-or-intersection.ts"
+      },
       "sources": [
         {
           "fileName": "union-or-intersection.ts",

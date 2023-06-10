@@ -4,6 +4,7 @@ import type { Application } from "../application";
 import {
     Comment,
     CommentDisplayPart,
+    EntrypointInfos,
     ProjectReflection,
     Reflection,
     ReflectionKind,
@@ -368,6 +369,7 @@ export class Converter extends ChildableComponent<
             // Special case for when we're giving a single entry point, we don't need to
             // create modules for each entry. Register the project as this module.
             context.project.registerReflection(context.project, symbol);
+            context.project.entrypointInfos = EntrypointInfos.fromDocumentationEntrypoint(entryPoint);
             context.project.comment = symbol
                 ? context.getComment(symbol, context.project.kind)
                 : context.getFileComment(node);
@@ -410,6 +412,7 @@ export class Converter extends ChildableComponent<
             }
 
             reflection.packageVersion = entryPoint.version;
+            reflection.entrypointInfos = EntrypointInfos.fromDocumentationEntrypoint(entryPoint);
 
             context.finalizeDeclarationReflection(reflection);
             moduleContext = context.withScope(reflection);

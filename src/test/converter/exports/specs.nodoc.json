@@ -70,6 +70,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/exports",
+        "entrySourceFilePath": "src/test/converter/exports/export.ts"
+      },
       "sources": [
         {
           "fileName": "export.ts",
@@ -230,6 +234,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/exports",
+        "entrySourceFilePath": "src/test/converter/exports/mod.ts"
+      },
       "sources": [
         {
           "fileName": "mod.ts",
@@ -263,6 +271,10 @@
             ]
           }
         ]
+      },
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/exports",
+        "entrySourceFilePath": "src/test/converter/exports/no-doc-members.ts"
       },
       "sources": [
         {

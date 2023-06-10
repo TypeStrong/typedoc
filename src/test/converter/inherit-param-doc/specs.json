@@ -582,6 +582,10 @@
     }
   ],
   "packageName": "typedoc",
+  "entrypointInfos": {
+    "rootDir": "src/test/converter/inherit-param-doc",
+    "entrySourceFilePath": "src/test/converter/inherit-param-doc/inherit-param-doc.ts"
+  },
   "symbolIdMap": {
     "0": {
       "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",

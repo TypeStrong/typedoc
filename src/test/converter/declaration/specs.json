@@ -120,6 +120,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/declaration",
+        "entrySourceFilePath": "src/test/converter/declaration/declaration.d.ts"
+      },
       "sources": [
         {
           "fileName": "declaration.d.ts",
@@ -240,6 +244,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/declaration",
+        "entrySourceFilePath": "src/test/converter/declaration/export-declaration.d.ts"
+      },
       "sources": [
         {
           "fileName": "export-declaration.d.ts",
@@ -291,6 +299,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/declaration",
+        "entrySourceFilePath": "src/test/converter/declaration/external.d.ts"
+      },
       "sources": [
         {
           "fileName": "external.d.ts",

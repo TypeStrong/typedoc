@@ -300,6 +300,10 @@
     }
   ],
   "packageName": "typedoc",
+  "entrypointInfos": {
+    "rootDir": "src/test/converter/alias",
+    "entrySourceFilePath": "src/test/converter/alias/alias.ts"
+  },
   "symbolIdMap": {
     "0": {
       "sourceFileName": "src/test/converter/alias/alias.ts",

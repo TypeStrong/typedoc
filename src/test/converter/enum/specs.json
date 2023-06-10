@@ -451,6 +451,10 @@
     }
   ],
   "packageName": "typedoc",
+  "entrypointInfos": {
+    "rootDir": "src/test/converter/enum",
+    "entrySourceFilePath": "src/test/converter/enum/enum.ts"
+  },
   "symbolIdMap": {
     "0": {
       "sourceFileName": "src/test/converter/enum/enum.ts",

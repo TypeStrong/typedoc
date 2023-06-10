@@ -240,6 +240,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/variables",
+        "entrySourceFilePath": "src/test/converter/variables/array.ts"
+      },
       "sources": [
         {
           "fileName": "array.ts",
@@ -322,6 +326,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/variables",
+        "entrySourceFilePath": "src/test/converter/variables/destructuring.ts"
+      },
       "sources": [
         {
           "fileName": "destructuring.ts",
@@ -1192,6 +1200,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/variables",
+        "entrySourceFilePath": "src/test/converter/variables/literal.ts"
+      },
       "sources": [
         {
           "fileName": "literal.ts",

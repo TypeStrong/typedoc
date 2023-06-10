@@ -51,6 +51,8 @@ export type EntryPointStrategy =
     (typeof EntryPointStrategy)[keyof typeof EntryPointStrategy];
 
 export interface DocumentationEntryPoint {
+    rootDir: string;
+    packageJsonFile?: string;
     displayName: string;
     readmeFile?: string;
     program: ts.Program;
@@ -195,7 +197,9 @@ function getEntryPointsForPaths(
 
     entryLoop: for (const fileOrDir of inputFiles.map(normalizePath)) {
         const toCheck = [fileOrDir];
+        let rootDir = normalizePath(Path.dirname(fileOrDir));
         if (!/\.([cm][tj]s|[tj]sx?)$/.test(fileOrDir)) {
+            rootDir = fileOrDir;
             toCheck.push(
                 `${fileOrDir}/index.ts`,
                 `${fileOrDir}/index.cts`,
@@ -216,6 +220,7 @@ function getEntryPointsForPaths(
                         displayName: getModuleName(resolve(check), baseDir),
                         sourceFile,
                         program,
+                        rootDir
                     });
                     continue entryLoop;
                 }
@@ -477,6 +482,8 @@ function getEntryPointsForLegacyPackages(
             ),
             program,
             sourceFile,
+            rootDir: packagePath,
+            packageJsonFile: packageJsonPath
         });
     }
 
