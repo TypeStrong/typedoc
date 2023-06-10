@@ -4,6 +4,7 @@ import {
     ArrayType,
     ConditionalType,
     DeclarationReflection,
+    EntrypointInfos,
     IndexedAccessType,
     InferredType,
     IntersectionType,
@@ -257,6 +258,7 @@ export class Deserializer {
         }
 
         const project = new ProjectReflection(name);
+        project.entrypointInfos = new EntrypointInfos('.')
         project.children = [];
         this.project = project;
 

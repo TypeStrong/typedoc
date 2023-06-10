@@ -6,9 +6,9 @@ export class EntrypointInfos {
     readmeFile?: string;
     rootDir: string;
     packageJsonFile?: string;
-    entrySourceFilePath: string;
+    entrySourceFilePath?: string;
 
-    constructor(rootDir: string, entrySourceFilePath: string) {
+    constructor(rootDir: string, entrySourceFilePath?: string) {
         this.rootDir = rootDir;
         this.entrySourceFilePath = entrySourceFilePath;
     }
@@ -58,8 +58,12 @@ export class EntrypointInfos {
     }
     
     fromObject(de: Deserializer, obj: JSONOutput.EntrypointInfos) {
-        this.readmeFile = obj.readmeFile;
-        this.packageJsonFile = obj.packageJsonFile;
+        if(obj.readmeFile){
+            this.readmeFile = obj.readmeFile;
+        }
+        if(obj.packageJsonFile){
+            this.packageJsonFile = obj.packageJsonFile;
+        }
     }
 }
 
