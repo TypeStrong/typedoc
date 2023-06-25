@@ -30,7 +30,8 @@ export class LinkResolverPlugin extends ConverterComponent {
     }
 
     resolveLinks(project: ProjectReflection) {
-        for (const reflection of Object.values(project.reflections)) {
+        for (const id in project.reflections) {
+            const reflection = project.reflections[id];
             if (reflection.comment) {
                 this.owner.resolveLinks(reflection.comment, reflection);
             }

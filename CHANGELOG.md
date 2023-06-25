@@ -1,5 +1,10 @@
 # Unreleased
 
+### Features
+
+-   Implemented several miscellaneous performance improvements to generate docs faster, this took the time to generate TypeDoc's
+    site from ~5.6 seconds to ~5.4 seconds.
+
 ## v0.24.8 (2023-06-04)
 
 ### Features

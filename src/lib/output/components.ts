@@ -59,14 +59,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
         if (this.urlPrefix.test(absolute)) {
             return absolute;
         } else {
-            const relative = Path.relative(
-                Path.dirname(this.location),
-                Path.dirname(absolute)
-            );
-            return Path.join(relative, Path.basename(absolute)).replace(
-                /\\/g,
-                "/"
-            );
+            return Path.posix.relative(this.location, absolute) || ".";
         }
     }
 
@@ -85,7 +78,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
      * @param page  An event object describing the current render operation.
      */
     protected onBeginPage(page: PageEvent<Reflection>) {
-        this.location = page.url;
+        this.location = Path.posix.dirname(page.url);
         this.page = page;
     }
 }

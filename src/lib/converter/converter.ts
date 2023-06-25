@@ -419,7 +419,7 @@ export class Converter extends ChildableComponent<
         for (const exp of allExports.filter((exp) =>
             isDirectExport(context.resolveAliasedSymbol(exp), node)
         )) {
-            convertSymbol(moduleContext, exp);
+            this.convertSymbol(moduleContext, exp);
         }
 
         return moduleContext;
@@ -434,7 +434,7 @@ export class Converter extends ChildableComponent<
             (exp) =>
                 !isDirectExport(moduleContext.resolveAliasedSymbol(exp), node)
         )) {
-            convertSymbol(moduleContext, exp);
+            this.convertSymbol(moduleContext, exp);
         }
     }
 
@@ -448,8 +448,12 @@ export class Converter extends ChildableComponent<
         this.trigger(Converter.EVENT_RESOLVE_BEGIN, context);
         const project = context.project;
 
-        for (const reflection of Object.values(project.reflections)) {
-            this.trigger(Converter.EVENT_RESOLVE, context, reflection);
+        for (const id in project.reflections) {
+            this.trigger(
+                Converter.EVENT_RESOLVE,
+                context,
+                project.reflections[id]
+            );
         }
 
         this.trigger(Converter.EVENT_RESOLVE_END, context);

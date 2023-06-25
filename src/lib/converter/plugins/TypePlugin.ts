@@ -33,8 +33,8 @@ export class TypePlugin extends ConverterComponent {
     }
 
     private onRevive(project: ProjectReflection) {
-        for (const refl of Object.values(project.reflections)) {
-            this.resolve(project, refl);
+        for (const id in project.reflections) {
+            this.resolve(project, project.reflections[id]);
         }
         this.finishResolve(project);
         this.reflections.clear();

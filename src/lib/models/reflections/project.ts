@@ -255,7 +255,8 @@ export class ProjectReflection extends ContainerReflection {
     private getReferenceGraph(): Map<number, number[]> {
         if (!this.referenceGraph) {
             this.referenceGraph = new Map();
-            for (const ref of Object.values(this.reflections)) {
+            for (const id in this.reflections) {
+                const ref = this.reflections[id];
                 if (ref instanceof ReferenceReflection) {
                     const target = ref.tryGetTargetReflection();
                     if (target) {

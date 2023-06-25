@@ -106,7 +106,9 @@ export function setRenderSettings(options: { pretty: boolean }) {
     renderPretty = options.pretty;
 }
 
-export function renderElement(element: JsxElement | null | undefined): string {
+export const renderElement = function renderElement(
+    element: JsxElement | null | undefined
+): string {
     if (!element) {
         return "";
     }
@@ -120,23 +122,28 @@ export function renderElement(element: JsxElement | null | undefined): string {
         return renderElement(tag(Object.assign({ children }, props)));
     }
 
-    const html: string[] = [];
+    let html = "";
 
     if (tag !== Fragment) {
         if (blockElements.has(tag) && renderPretty) {
-            html.push("\n");
+            html += "\n";
         }
-        html.push("<", tag);
+        html += "<";
+        html += tag;
 
         for (const [key, val] of Object.entries(props ?? {})) {
             if (val == null) continue;
 
             if (typeof val == "boolean") {
                 if (val) {
-                    html.push(" ", key);
+                    html += " ";
+                    html += key;
                 }
             } else {
-                html.push(" ", key, "=", JSON.stringify(val));
+                html += " ";
+                html += key;
+                html += "=";
+                html += JSON.stringify(val);
             }
         }
     }
@@ -144,23 +151,27 @@ export function renderElement(element: JsxElement | null | undefined): string {
     let hasChildren = false;
     if (children.length) {
         hasChildren = true;
-        if (tag !== Fragment) html.push(">");
+        if (tag !== Fragment) html += ">";
         renderChildren(children);
     }
 
     if (tag !== Fragment) {
         if (!hasChildren) {
             if (voidElements.has(tag)) {
-                html.push("/>");
+                html += "/>";
             } else {
-                html.push("></", tag, ">");
+                html += "></";
+                html += tag;
+                html += ">";
             }
         } else {
-            html.push("</", tag, ">");
+            html += "</";
+            html += tag;
+            html += ">";
         }
     }
 
-    return html.join("");
+    return html;
 
     function renderChildren(children: JsxChildren[]) {
         for (const child of children) {
@@ -169,10 +180,10 @@ export function renderElement(element: JsxElement | null | undefined): string {
             if (Array.isArray(child)) {
                 renderChildren(child);
             } else if (typeof child === "string" || typeof child === "number") {
-                html.push(escapeHtml(child.toString()));
+                html += escapeHtml(child.toString());
             } else {
-                html.push(renderElement(child));
+                html += renderElement(child);
             }
         }
     }
-}
+};

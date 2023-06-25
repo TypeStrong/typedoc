@@ -169,9 +169,10 @@ export class ImplementsPlugin extends ConverterComponent {
     }
 
     private resolve(project: ProjectReflection) {
-        for (const reflection of Object.values(project.reflections)) {
-            if (reflection instanceof DeclarationReflection) {
-                this.tryResolve(project, reflection);
+        for (const id in project.reflections) {
+            const refl = project.reflections[id];
+            if (refl instanceof DeclarationReflection) {
+                this.tryResolve(project, refl);
             }
         }
     }

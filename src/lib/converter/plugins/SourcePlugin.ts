@@ -148,7 +148,9 @@ export class SourcePlugin extends ConverterComponent {
         const basePath =
             this.basePath || getCommonDirectory([...this.fileNames]);
 
-        for (const refl of Object.values(context.project.reflections)) {
+        for (const id in context.project.reflections) {
+            const refl = context.project.reflections[id];
+
             if (
                 !(
                     refl instanceof DeclarationReflection ||

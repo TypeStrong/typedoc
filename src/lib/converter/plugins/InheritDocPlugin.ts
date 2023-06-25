@@ -50,7 +50,8 @@ export class InheritDocPlugin extends ConverterComponent {
      * that will provide actual comment.
      */
     private processInheritDoc(project: ProjectReflection) {
-        for (const reflection of Object.values(project.reflections)) {
+        for (const id in project.reflections) {
+            const reflection = project.reflections[id];
             const source = extractInheritDocTagReference(reflection);
             if (!source) continue;
 

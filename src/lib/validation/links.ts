@@ -26,7 +26,8 @@ export function validateLinks(
     project: ProjectReflection,
     logger: Logger
 ): void {
-    for (const reflection of Object.values(project.reflections)) {
+    for (const id in project.reflections) {
+        const reflection = project.reflections[id];
         for (const broken of getBrokenLinks(reflection.comment)) {
             logger.warn(
                 `Failed to resolve link to "${broken}" in comment for ${reflection.getFriendlyFullName()}.`

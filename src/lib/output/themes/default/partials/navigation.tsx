@@ -107,10 +107,10 @@ export function settings(context: DefaultThemeRenderContext) {
 
 type NavigationElement = ReflectionCategory | ReflectionGroup | DeclarationReflection;
 
-function getNavigationElements(
+const getNavigationElements = function getNavigationElements(
     parent: NavigationElement | ProjectReflection,
     opts: { includeCategories: boolean; includeGroups: boolean }
-): NavigationElement[] {
+): undefined | readonly NavigationElement[] {
     if (parent instanceof ReflectionCategory) {
         return parent.children;
     }
@@ -123,7 +123,7 @@ function getNavigationElements(
     }
 
     if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
-        return [];
+        return;
     }
 
     if (parent.categories && opts.includeCategories) {
@@ -134,10 +134,10 @@ function getNavigationElements(
         return parent.groups;
     }
 
-    return parent.children || [];
-}
+    return parent.children;
+};
 
-export function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+export const navigation = function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     const opts = context.options.getValue("navigation");
     // Create the navigation for the current page
     // Recurse to children if the parent is some kind of module
@@ -146,7 +146,7 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
         <nav class="tsd-navigation">
             {createNavElement(props.project)}
             <ul class="tsd-small-nested-navigation">
-                {getNavigationElements(props.project, opts).map((c) => (
+                {getNavigationElements(props.project, opts)?.map((c) => (
                     <li>{links(c, [])}</li>
                 ))}
             </ul>
@@ -161,15 +161,17 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
 
         const children = getNavigationElements(mod, opts);
 
-        if (!children.length || (!opts.fullTree && mod instanceof Reflection && !inPath(mod))) {
+        if (!children || (!opts.fullTree && mod instanceof Reflection && !inPath(mod))) {
             return createNavElement(mod, nameClasses);
         }
+
+        const childParents = mod instanceof Reflection ? [mod.getFullName()] : [...parents, mod.title];
 
         return (
             <details
                 class={classNames({ "tsd-index-accordion": true }, nameClasses)}
                 open={mod instanceof Reflection && inPath(mod)}
-                data-key={mod instanceof Reflection ? mod.getFullName() : [...parents, mod.title].join("$")}
+                data-key={childParents.join("$")}
             >
                 <summary class="tsd-accordion-summary">
                     {context.icons.chevronDown()}
@@ -178,9 +180,7 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
                 <div class="tsd-accordion-details">
                     <ul class="tsd-nested-navigation">
                         {children.map((c) => (
-                            <li>
-                                {links(c, mod instanceof Reflection ? [mod.getFullName()] : [...parents, mod.title])}
-                            </li>
+                            <li>{links(c, childParents)}</li>
                         ))}
                     </ul>
                 </div>
@@ -209,7 +209,7 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
         } while (iter);
         return false;
     }
-}
+};
 
 export function pageSidebar(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (

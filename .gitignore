@@ -15,10 +15,12 @@ yarn-error.log
 /coverage/
 /dist/
 /docs
+/docs2
 /td*.json
 
 typedoc*.tgz
 tmp
+/*.0x/
 
 src/test/renderer/specs/assets/*
 src/test/renderer/specs/specs.json
