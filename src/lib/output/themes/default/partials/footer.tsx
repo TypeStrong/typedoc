@@ -8,7 +8,7 @@ export function footer(context: DefaultThemeRenderContext) {
             <div class="tsd-generator">
                 <p>
                     {"Generated using "}
-                    <a href="https://typedoc.org/" target="_blank">
+                    <a href="https://typedoc.org/" rel="noopener" target="_blank">
                         TypeDoc
                     </a>
                 </p>
