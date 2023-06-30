@@ -1133,4 +1133,15 @@ describe("Issue Tests", () => {
             "Sig comment"
         );
     });
+
+    it("Supports TS 5.0 #2296", () => {
+        const project = convert();
+        const names = query(project, "names");
+        equal(names.type?.toString(), 'readonly ["Alice", "Bob", "Eve"]');
+
+        const getNamesExactly = query(project, "getNamesExactly");
+        const sig = getNamesExactly.signatures![0];
+        const tp = sig.typeParameters![0];
+        equal(tp.flags.isConst, true);
+    });
 });
