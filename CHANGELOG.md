@@ -5,6 +5,10 @@
 -   Implemented several miscellaneous performance improvements to generate docs faster, this took the time to generate TypeDoc's
     site from ~5.6 seconds to ~5.4 seconds.
 
+### Bug Fixes
+
+-   Fixed duplicate definitions in type hierarchy when using packages mode, #2327.
+
 ## v0.24.8 (2023-06-04)
 
 ### Features

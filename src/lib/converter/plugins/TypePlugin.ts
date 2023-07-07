@@ -34,7 +34,11 @@ export class TypePlugin extends ConverterComponent {
 
     private onRevive(project: ProjectReflection) {
         for (const id in project.reflections) {
-            this.resolve(project, project.reflections[id]);
+            this.resolve(
+                project,
+                project.reflections[id],
+                /* create links */ false
+            );
         }
         this.finishResolve(project);
         this.reflections.clear();
@@ -44,7 +48,11 @@ export class TypePlugin extends ConverterComponent {
         this.resolve(context.project, reflection);
     }
 
-    private resolve(project: ProjectReflection, reflection: Reflection) {
+    private resolve(
+        project: ProjectReflection,
+        reflection: Reflection,
+        createLinks = true
+    ) {
         if (!(reflection instanceof DeclarationReflection)) return;
 
         if (reflection.kindOf(ReflectionKind.ClassOrInterface)) {
@@ -52,30 +60,31 @@ export class TypePlugin extends ConverterComponent {
 
             walk(reflection.implementedTypes, (target) => {
                 this.postpone(target);
-                if (!target.implementedBy) {
-                    target.implementedBy = [];
+                target.implementedBy ||= [];
+                if (createLinks) {
+                    target.implementedBy.push(
+                        ReferenceType.createResolvedReference(
+                            reflection.name,
+                            reflection,
+                            project
+                        )
+                    );
                 }
-                target.implementedBy.push(
-                    ReferenceType.createResolvedReference(
-                        reflection.name,
-                        reflection,
-                        project
-                    )
-                );
             });
 
             walk(reflection.extendedTypes, (target) => {
                 this.postpone(target);
-                if (!target.extendedBy) {
-                    target.extendedBy = [];
+                target.extendedBy ||= [];
+
+                if (createLinks) {
+                    target.extendedBy.push(
+                        ReferenceType.createResolvedReference(
+                            reflection.name,
+                            reflection,
+                            project
+                        )
+                    );
                 }
-                target.extendedBy.push(
-                    ReferenceType.createResolvedReference(
-                        reflection.name,
-                        reflection,
-                        project
-                    )
-                );
             });
         }
 
