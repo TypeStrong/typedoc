@@ -109,6 +109,7 @@ export interface TypeDocOptionMap {
     includeVersion: boolean;
     disableSources: boolean;
     sourceLinkTemplate: string;
+    disableGit: boolean;
     gitRevision: string;
     gitRemote: string;
     readme: string;
@@ -288,7 +289,7 @@ export enum ParameterType {
      */
     GlobArray,
     /**
-     * An unopinionated object that preserves default settings unless explicitly overridden
+     * An object which partially merges user-set values into the defaults.
      */
     Object,
     /**

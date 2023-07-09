@@ -11,7 +11,12 @@ import { BindOption, normalizePath, getCommonDirectory } from "../../utils";
 import { isNamedNode } from "../utils/nodes";
 import { dirname, relative } from "path";
 import { SourceReference } from "../../models";
-import { gitIsInstalled, Repository } from "../utils/repository";
+import {
+    AssumedRepository,
+    gitIsInstalled,
+    GitRepository,
+    Repository,
+} from "../utils/repository";
 import { BasePath } from "../utils/base-path";
 
 /**
@@ -27,6 +32,9 @@ export class SourcePlugin extends ConverterComponent {
 
     @BindOption("gitRemote")
     readonly gitRemote!: string;
+
+    @BindOption("disableGit")
+    readonly disableGit!: boolean;
 
     @BindOption("sourceLinkTemplate")
     readonly sourceLinkTemplate!: string;
@@ -145,6 +153,22 @@ export class SourcePlugin extends ConverterComponent {
     private onBeginResolve(context: Context) {
         if (this.disableSources) return;
 
+        if (this.disableGit && !this.sourceLinkTemplate) {
+            this.application.logger.error(
+                `disableGit is set, but sourceLinkTemplate is not, so source links cannot be produced. Set a sourceLinkTemplate or disableSources to prevent source tracking.`
+            );
+            return;
+        }
+        if (
+            this.disableGit &&
+            this.sourceLinkTemplate.includes("{gitRevision}") &&
+            !this.gitRevision
+        ) {
+            this.application.logger.warn(
+                `disableGit is set and sourceLinkTemplate contains {gitRevision}, which will be replaced with an empty string as no revision was provided.`
+            );
+        }
+
         const basePath =
             this.basePath || getCommonDirectory([...this.fileNames]);
 
@@ -161,8 +185,11 @@ export class SourcePlugin extends ConverterComponent {
             }
 
             for (const source of refl.sources || []) {
-                if (gitIsInstalled) {
-                    const repo = this.getRepository(source.fullFileName);
+                if (this.disableGit || gitIsInstalled()) {
+                    const repo = this.getRepository(
+                        basePath,
+                        source.fullFileName
+                    );
                     source.url = repo?.getURL(source.fullFileName, source.line);
                 }
 
@@ -179,7 +206,18 @@ export class SourcePlugin extends ConverterComponent {
      * @param fileName  The name of the file a repository should be looked for.
      * @returns The found repository info or undefined.
      */
-    private getRepository(fileName: string): Repository | undefined {
+    private getRepository(
+        basePath: string,
+        fileName: string
+    ): Repository | undefined {
+        if (this.disableGit) {
+            return new AssumedRepository(
+                basePath,
+                this.gitRevision,
+                this.sourceLinkTemplate
+            );
+        }
+
         // Check for known non-repositories
         const dirName = dirname(fileName);
         const segments = dirName.split("/");
@@ -197,7 +235,7 @@ export class SourcePlugin extends ConverterComponent {
         }
 
         // Try to create a new repository
-        const repository = Repository.tryCreateRepository(
+        const repository = GitRepository.tryCreateRepository(
             dirName,
             this.sourceLinkTemplate,
             this.gitRevision,

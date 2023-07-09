@@ -2,7 +2,7 @@ import { spawnSync } from "child_process";
 import type { Logger } from "../../utils";
 import { BasePath } from "../utils/base-path";
 
-const TEN_MEGABYTES: number = 1024 * 10000;
+const TEN_MEGABYTES = 1024 * 10000;
 
 function git(...args: string[]) {
     return spawnSync("git", args, {
@@ -12,12 +12,41 @@ function git(...args: string[]) {
     });
 }
 
-export const gitIsInstalled = git("--version").status === 0;
+let haveGit: boolean;
+export function gitIsInstalled() {
+    haveGit ??= git("--version").status === 0;
+    return haveGit;
+}
+
+export interface Repository {
+    getURL(fileName: string, line: number): string | undefined;
+}
+
+export class AssumedRepository implements Repository {
+    constructor(
+        readonly path: string,
+        readonly gitRevision: string,
+        readonly sourceLinkTemplate: string
+    ) {}
+
+    getURL(fileName: string, line: number): string | undefined {
+        const replacements = {
+            gitRevision: this.gitRevision,
+            path: fileName.substring(this.path.length + 1),
+            line,
+        };
+
+        return this.sourceLinkTemplate.replace(
+            /\{(path|line)\}/g,
+            (_, key) => replacements[key as never]
+        );
+    }
+}
 
 /**
  * Stores data of a repository.
  */
-export class Repository {
+export class GitRepository implements Repository {
     /**
      * The path of this repository on disk.
      */
@@ -78,10 +107,10 @@ export class Repository {
      * Try to create a new repository instance.
      *
      * Checks whether the given path is the root of a valid repository and if so
-     * creates a new instance of {@link Repository}.
+     * creates a new instance of {@link GitRepository}.
      *
      * @param path  The potential repository root.
-     * @returns A new instance of {@link Repository} or undefined.
+     * @returns A new instance of {@link GitRepository} or undefined.
      */
     static tryCreateRepository(
         path: string,
@@ -89,7 +118,7 @@ export class Repository {
         gitRevision: string,
         gitRemote: string,
         logger: Logger
-    ): Repository | undefined {
+    ): GitRepository | undefined {
         const topLevel = git("-C", path, "rev-parse", "--show-toplevel");
         if (topLevel.status !== 0) return;
 
@@ -125,7 +154,7 @@ export class Repository {
 
         if (!urlTemplate) return;
 
-        return new Repository(
+        return new GitRepository(
             BasePath.normalize(topLevel.stdout.replace("\n", "")),
             gitRevision,
             urlTemplate

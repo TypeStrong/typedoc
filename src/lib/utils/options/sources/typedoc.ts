@@ -338,12 +338,17 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: "Specify a link template to be used when generating source urls. If not set, will be automatically created using the git remote. Supports {path}, {line}, {gitRevision} placeholders.",
     });
     options.addDeclaration({
+        name: "disableGit",
+        help: "Assume that all can be linked to with the sourceLinkTemplate, sourceLinkTemplate must be set if this is enabled. {path} will be rooted at basePath",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "gitRevision",
-        help: "Use specified revision instead of the last revision for linking to GitHub/Bitbucket source files.",
+        help: "Use specified revision instead of the last revision for linking to GitHub/Bitbucket source files. Has no effect if disableSources is set.",
     });
     options.addDeclaration({
         name: "gitRemote",
-        help: "Use the specified remote for linking to GitHub/Bitbucket source files.",
+        help: "Use the specified remote for linking to GitHub/Bitbucket source files. Has no effect if disableGit or disableSources is set.",
         defaultValue: "origin",
     });
     options.addDeclaration({
