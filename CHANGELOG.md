@@ -8,6 +8,7 @@
 ### Bug Fixes
 
 -   Fixed duplicate definitions in type hierarchy when using packages mode, #2327.
+-   `@inheritDoc` was not properly resolved across packages in packages mode, #2331.
 
 ## v0.24.8 (2023-06-04)
 

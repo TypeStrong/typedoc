@@ -10,7 +10,7 @@ import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import type { Reflection } from "../../models/reflections/abstract";
-import { DefaultMap } from "../../utils";
+import { BindOption, DefaultMap, ValidationOptions } from "../../utils";
 import { zip } from "../../utils/array";
 import { parseDeclarationReference } from "../comments/declarationReference";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver";
@@ -31,6 +31,9 @@ import { ApplicationEvents } from "../../application-events";
  */
 @Component({ name: "inheritDoc" })
 export class InheritDocPlugin extends ConverterComponent {
+    @BindOption("validation")
+    validation!: ValidationOptions;
+
     // Key is depended on by Values
     private dependencies = new DefaultMap<Reflection, Reflection[]>(() => []);
 
@@ -41,7 +44,11 @@ export class InheritDocPlugin extends ConverterComponent {
         this.owner.on(Converter.EVENT_RESOLVE_END, (context: Context) =>
             this.processInheritDoc(context.project)
         );
-        this.owner.on(ApplicationEvents.REVIVE, this.processInheritDoc, this);
+        this.application.on(
+            ApplicationEvents.REVIVE,
+            this.processInheritDoc,
+            this
+        );
     }
 
     /**
@@ -90,9 +97,11 @@ export class InheritDocPlugin extends ConverterComponent {
             }
 
             if (!sourceRefl) {
-                this.application.logger.warn(
-                    `Failed to find "${source}" to inherit the comment from in the comment for ${reflection.getFullName()}`
-                );
+                if (this.validation.invalidLink) {
+                    this.application.logger.warn(
+                        `Failed to find "${source}" to inherit the comment from in the comment for ${reflection.getFullName()}`
+                    );
+                }
                 continue;
             }
 
