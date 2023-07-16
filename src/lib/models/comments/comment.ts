@@ -5,6 +5,10 @@ import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId";
 
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
 
+/**
+ * Represents a parsed piece of a comment.
+ * @category Comments
+ */
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }
@@ -15,6 +19,7 @@ export type CommentDisplayPart =
  * property set indicating which reflection/url they link to. They may also
  * have a `tsLinkText` property which includes the part of the `text` which
  * TypeScript thinks should be displayed as the link text.
+ * @category Comments
  */
 export interface InlineTagDisplayPart {
     kind: "inline-tag";
@@ -28,6 +33,7 @@ export interface InlineTagDisplayPart {
  * A model that represents a single TypeDoc comment tag.
  *
  * Tags are stored in the {@link Comment.blockTags} property.
+ * @category Comments
  */
 export class CommentTag {
     /**
@@ -85,6 +91,7 @@ export class CommentTag {
  *
  * Instances of this model are created by the CommentPlugin. You can retrieve comments
  * through the {@link DeclarationReflection.comment} property.
+ * @category Comments
  */
 export class Comment {
     /**
@@ -310,7 +317,7 @@ export class Comment {
     /**
      * All modifier tags present on the comment, e.g. `@alpha`, `@beta`.
      */
-    modifierTags: Set<string> = new Set<string>();
+    modifierTags: Set<`@${string}`> = new Set();
 
     /**
      * Label associated with this reflection, if any (https://tsdoc.org/pages/tags/label/)
@@ -323,7 +330,7 @@ export class Comment {
     constructor(
         summary: CommentDisplayPart[] = [],
         blockTags: CommentTag[] = [],
-        modifierTags: Set<string> = new Set()
+        modifierTags: Set<`@${string}`> = new Set()
     ) {
         this.summary = summary;
         this.blockTags = blockTags;

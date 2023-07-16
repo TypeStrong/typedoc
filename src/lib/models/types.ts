@@ -11,6 +11,7 @@ import { findPackageForPath } from "../utils/fs";
 
 /**
  * Base class of all type definitions.
+ * @category Types
  */
 export abstract class Type {
     /**
@@ -55,6 +56,7 @@ export abstract class Type {
     protected abstract getTypeString(): string;
 }
 
+/** @category Types */
 export interface TypeKindMap {
     array: ArrayType;
     conditional: ConditionalType;
@@ -176,8 +178,10 @@ export function makeRecursiveVisitor(
     return recursiveVisitor;
 }
 
+/** @category Types */
 export type TypeKind = keyof TypeKindMap;
 
+/** @category Types */
 export type SomeType = TypeKindMap[keyof TypeKindMap];
 
 /**
@@ -218,6 +222,7 @@ export type TypeContext = (typeof TypeContext)[keyof typeof TypeContext];
  * ```ts
  * let value: string[];
  * ```
+ * @category Types
  */
 export class ArrayType extends Type {
     override readonly type = "array";
@@ -251,6 +256,7 @@ export class ArrayType extends Type {
  * ```ts
  * let value: Check extends Extends ? True : False;
  * ```
+ * @category Types
  */
 export class ConditionalType extends Type {
     override readonly type = "conditional";
@@ -319,6 +325,7 @@ export class ConditionalType extends Type {
 
 /**
  * Represents an indexed access type.
+ * @category Types
  */
 export class IndexedAccessType extends Type {
     override readonly type = "indexedAccess";
@@ -355,6 +362,7 @@ export class IndexedAccessType extends Type {
  * ```ts
  * type Z = Promise<string> extends Promise<infer U> : never
  * ```
+ * @category Types
  */
 export class InferredType extends Type {
     override readonly type = "inferred";
@@ -417,6 +425,7 @@ export class InferredType extends Type {
  * ```ts
  * let value: A & B;
  * ```
+ * @category Types
  */
 export class IntersectionType extends Type {
     override readonly type = "intersection";
@@ -475,6 +484,7 @@ export class IntersectionType extends Type {
  * ```ts
  * let value: number;
  * ```
+ * @category Types
  */
 export class IntrinsicType extends Type {
     override readonly type = "intrinsic";
@@ -506,6 +516,7 @@ export class IntrinsicType extends Type {
  * type A = "A"
  * type B = 1
  * ```
+ * @category Types
  */
 export class LiteralType extends Type {
     override readonly type = "literal";
@@ -552,6 +563,7 @@ export class LiteralType extends Type {
  * ```ts
  * { -readonly [K in Parameter as Name]?: Template }
  * ```
+ * @category Types
  */
 export class MappedType extends Type {
     override readonly type = "mapped";
@@ -626,6 +638,7 @@ export class MappedType extends Type {
  * type Z = [1, 2?]
  * //           ^^
  * ```
+ * @category Types
  */
 export class OptionalType extends Type {
     override readonly type = "optional";
@@ -657,6 +670,7 @@ export class OptionalType extends Type {
  * function isString(x: unknown): x is string {}
  * function assert(condition: boolean): asserts condition {}
  * ```
+ * @category Types
  */
 export class PredicateType extends Type {
     override readonly type = "predicate";
@@ -714,6 +728,7 @@ export class PredicateType extends Type {
  * const x = 1
  * type Z = typeof x // query on reflection for x
  * ```
+ * @category Types
  */
 export class QueryType extends Type {
     override readonly type = "query";
@@ -752,6 +767,7 @@ export class QueryType extends Type {
  * ```ts
  * let value: MyClass<T>;
  * ```
+ * @category Types
  */
 export class ReferenceType extends Type {
     override readonly type = "reference";
@@ -1005,6 +1021,7 @@ export class ReferenceType extends Type {
  * ```ts
  * let value: { a: string, b: number };
  * ```
+ * @category Types
  */
 export class ReflectionType extends Type {
     override readonly type = "reflection";
@@ -1042,6 +1059,7 @@ export class ReflectionType extends Type {
  * type Z = [1, ...2[]]
  * //           ^^^^^^
  * ```
+ * @category Types
  */
 export class RestType extends Type {
     override readonly type = "rest";
@@ -1071,6 +1089,7 @@ export class RestType extends Type {
  * ```ts
  * type Z = `${'a' | 'b'}${'a' | 'b'}`
  * ```
+ * @category Types
  */
 export class TemplateLiteralType extends Type {
     override readonly type = "templateLiteral";
@@ -1117,6 +1136,7 @@ export class TemplateLiteralType extends Type {
  * ```ts
  * let value: [string, boolean];
  * ```
+ * @category Types
  */
 export class TupleType extends Type {
     override readonly type = "tuple";
@@ -1156,6 +1176,7 @@ export class TupleType extends Type {
  * ```ts
  * let value: [name: string];
  * ```
+ * @category Types
  */
 export class NamedTupleMember extends Type {
     override readonly type = "namedTupleMember";
@@ -1198,6 +1219,7 @@ export class NamedTupleMember extends Type {
  * class A {}
  * class B<T extends keyof A> {}
  * ```
+ * @category Types
  */
 export class TypeOperatorType extends Type {
     override readonly type = "typeOperator";
@@ -1260,6 +1282,7 @@ export class TypeOperatorType extends Type {
  * ```ts
  * let value: string | string[];
  * ```
+ * @category Types
  */
 export class UnionType extends Type {
     override readonly type = "union";
@@ -1344,6 +1367,7 @@ export class UnionType extends Type {
 
 /**
  * Represents all unknown types that cannot be converted by TypeDoc.
+ * @category Types
  */
 export class UnknownType extends Type {
     override readonly type = "unknown";

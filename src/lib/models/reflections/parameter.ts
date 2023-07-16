@@ -4,6 +4,9 @@ import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
 import type { SignatureReflection } from "./signature";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 
+/**
+ * @category Reflections
+ */
 export class ParameterReflection extends Reflection {
     readonly variant = "param";
 

@@ -5,6 +5,8 @@
 -   Implemented several miscellaneous performance improvements to generate docs faster, this took the time to generate TypeDoc's
     site from ~5.6 seconds to ~5.4 seconds.
 -   Added `--disableGit` option to prevent TypeDoc from using Git to try to determine if sources can be linked, #2326.
+-   Added support for tags `@showGroups`, `@hideGroups`, `@showCategories`, `@hideCategories` to configure the navigation pane on a
+    per-reflection basis, #2329.
 
 ### Bug Fixes
 

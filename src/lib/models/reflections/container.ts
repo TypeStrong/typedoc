@@ -5,6 +5,9 @@ import type { ReflectionKind } from "./kind";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 import type { DeclarationReflection } from "./declaration";
 
+/**
+ * @category Reflections
+ */
 export abstract class ContainerReflection extends Reflection {
     /**
      * The children of this reflection.
@@ -55,7 +58,7 @@ export abstract class ContainerReflection extends Reflection {
         );
         this.groups = de.reviveMany(
             obj.groups,
-            (group) => new ReflectionGroup(group.title)
+            (group) => new ReflectionGroup(group.title, this)
         );
         this.categories = de.reviveMany(
             obj.categories,

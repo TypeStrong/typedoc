@@ -6,6 +6,10 @@ export { resetReflectionID } from "./lib/models/reflections/abstract";
  * All symbols documented under the Models namespace are also available in the root import.
  */
 export * as Models from "./lib/models";
+/**
+ * All symbols documented under the Configuration namespace are also available in the root import.
+ */
+export * as Configuration from "./lib/utils/options";
 export * from "./lib/models";
 export {
     Converter,

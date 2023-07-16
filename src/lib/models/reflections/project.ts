@@ -20,6 +20,7 @@ import { DefaultMap, StableKeyMap } from "../../utils/map";
  *
  * The project reflection acts as a global index, one may receive all reflections
  * and source files of the processed project through this reflection.
+ * @category Reflections
  */
 export class ProjectReflection extends ContainerReflection {
     readonly variant = "project";

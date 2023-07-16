@@ -113,10 +113,12 @@ export interface ReflectionCategory extends S<M.ReflectionCategory, "title"> {
 
 // Reflections
 
+/** @category Reflections */
 export type SomeReflection = {
     [K in keyof M.ReflectionVariant]: ModelToObject<M.ReflectionVariant[K]>;
 }[keyof M.ReflectionVariant];
 
+/** @category Reflections */
 export interface ReferenceReflection
     extends Omit<DeclarationReflection, "variant">,
         S<M.ReferenceReflection, "variant"> {
@@ -127,6 +129,7 @@ export interface ReferenceReflection
     target: number;
 }
 
+/** @category Reflections */
 export interface SignatureReflection
     extends Omit<Reflection, "variant">,
         S<
@@ -143,12 +146,14 @@ export interface SignatureReflection
     typeParameter?: ModelToObject<M.SignatureReflection["typeParameters"]>;
 }
 
+/** @category Reflections */
 export interface ParameterReflection
     extends Omit<Reflection, "variant">,
         S<M.ParameterReflection, "variant" | "type" | "defaultValue"> {
     variant: "param";
 }
 
+/** @category Reflections */
 export interface DeclarationReflection
     extends Omit<ContainerReflection, "variant">,
         S<
@@ -173,6 +178,7 @@ export interface DeclarationReflection
             | "typeParameters"
         > {}
 
+/** @category Reflections */
 export interface TypeParameterReflection
     extends Omit<Reflection, "variant">,
         S<
@@ -180,6 +186,7 @@ export interface TypeParameterReflection
             "variant" | "type" | "default" | "varianceModifier"
         > {}
 
+/** @category Reflections */
 export interface ProjectReflection
     extends Omit<ContainerReflection, "variant">,
         S<
@@ -189,10 +196,12 @@ export interface ProjectReflection
     symbolIdMap: Record<number, ReflectionSymbolId>;
 }
 
+/** @category Reflections */
 export interface ContainerReflection
     extends Reflection,
         S<M.ContainerReflection, "children" | "groups" | "categories"> {}
 
+/** @category Reflections */
 export interface Reflection
     extends S<M.Reflection, "id" | "variant" | "name" | "kind" | "comment"> {
     flags: ReflectionFlags;
@@ -200,8 +209,10 @@ export interface Reflection
 
 // Types
 
+/** @category Types */
 export type SomeType = ModelToObject<M.SomeType>;
 
+/** @category Types */
 export type TypeKindMap = {
     array: ArrayType;
     conditional: ConditionalType;
@@ -225,10 +236,12 @@ export type TypeKindMap = {
     unknown: UnknownType;
 };
 
+/** @category Types */
 export interface ArrayType
     extends Type,
         S<M.ArrayType, "type" | "elementType"> {}
 
+/** @category Types */
 export interface ConditionalType
     extends Type,
         S<
@@ -236,32 +249,40 @@ export interface ConditionalType
             "type" | "checkType" | "extendsType" | "trueType" | "falseType"
         > {}
 
+/** @category Types */
 export interface IndexedAccessType
     extends Type,
         S<M.IndexedAccessType, "type" | "indexType" | "objectType"> {}
 
+/** @category Types */
 export interface InferredType
     extends Type,
         S<M.InferredType, "type" | "name" | "constraint"> {}
 
+/** @category Types */
 export interface IntersectionType
     extends Type,
         S<M.IntersectionType, "type" | "types"> {}
 
+/** @category Types */
 export interface IntrinsicType
     extends Type,
         S<M.IntrinsicType, "type" | "name"> {}
 
+/** @category Types */
 export interface OptionalType
     extends Type,
         S<M.OptionalType, "type" | "elementType"> {}
 
+/** @category Types */
 export interface PredicateType
     extends Type,
         S<M.PredicateType, "type" | "name" | "asserts" | "targetType"> {}
 
+/** @category Types */
 export interface QueryType extends Type, S<M.QueryType, "type" | "queryType"> {}
 
+/** @category Types */
 export interface ReferenceType
     extends Type,
         S<
@@ -273,28 +294,35 @@ export interface ReferenceType
     refersToTypeParameter?: boolean;
 }
 
+/** @category Types */
 export interface ReflectionType
     extends Type,
         S<M.ReflectionType, "type" | "declaration"> {}
 
+/** @category Types */
 export interface RestType extends Type, S<M.RestType, "type" | "elementType"> {}
 
+/** @category Types */
 export interface LiteralType extends Type, S<M.LiteralType, "type" | "value"> {}
 
+/** @category Types */
 export interface TupleType extends Type, S<M.TupleType, "type"> {
     elements?: ModelToObject<M.TupleType["elements"]>;
 }
 
+/** @category Types */
 export interface NamedTupleMemberType
     extends Type,
         S<M.NamedTupleMember, "type" | "name" | "isOptional" | "element"> {}
 
+/** @category Types */
 export interface TemplateLiteralType
     extends Type,
         S<M.TemplateLiteralType, "type" | "head"> {
     tail: [SomeType, string][];
 }
 
+/** @category Types */
 export interface MappedType
     extends Type,
         S<
@@ -308,14 +336,18 @@ export interface MappedType
             | "nameType"
         > {}
 
+/** @category Types */
 export interface TypeOperatorType
     extends Type,
         S<M.TypeOperatorType, "type" | "operator" | "target"> {}
 
+/** @category Types */
 export interface UnionType extends Type, S<M.UnionType, "type" | "types"> {}
 
+/** @category Types */
 export interface UnknownType extends Type, S<M.UnknownType, "type" | "name"> {}
 
+/** @category Types */
 export interface Type {}
 
 // Miscellaneous
@@ -327,15 +359,18 @@ type BoolKeys<T> = {
 export interface ReflectionFlags
     extends Partial<S<M.ReflectionFlags, BoolKeys<M.ReflectionFlags>>> {}
 
+/** @category Comments */
 export interface Comment extends Partial<S<M.Comment, "blockTags" | "label">> {
     summary: CommentDisplayPart[];
-    modifierTags?: string[];
+    modifierTags?: `@${string}`[];
 }
 
+/** @category Comments */
 export interface CommentTag extends S<M.CommentTag, "tag" | "name"> {
     content: CommentDisplayPart[];
 }
 
+/** @category Comments */
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }
@@ -344,6 +379,7 @@ export type CommentDisplayPart =
 /**
  * If `target` is a number, it is a reflection ID. If a string, it is a URL.
  * `target` will only be set for `@link`, `@linkcode`, and `@linkplain` tags.
+ * @category Comments
  */
 export interface InlineTagDisplayPart {
     kind: "inline-tag";

@@ -1,11 +1,9 @@
 import type { DefaultThemeRenderContext } from "..";
 import {
-    Comment,
     DeclarationReflection,
     ProjectReflection,
     ReferenceReflection,
     Reflection,
-    ReflectionFlags,
     ReflectionKind,
     SignatureReflection,
     TypeParameterReflection,
@@ -73,23 +71,6 @@ export function join<T>(joiner: JSX.Children, list: readonly T[], cb: (x: T) => 
     }
 
     return <>{result}</>;
-}
-
-export function renderFlags(flags: ReflectionFlags, comment: Comment | undefined) {
-    const allFlags = [...flags];
-    if (comment) {
-        allFlags.push(...Array.from(comment.modifierTags, (tag) => tag.replace(/@([a-z])/, (x) => x[1].toUpperCase())));
-    }
-
-    return (
-        <>
-            {allFlags.map((item) => (
-                <>
-                    <code class={"tsd-tag ts-flag" + item}>{item}</code>{" "}
-                </>
-            ))}
-        </>
-    );
 }
 
 export function classNames(names: Record<string, boolean | null | undefined>, extraCss?: string) {

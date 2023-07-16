@@ -241,6 +241,7 @@ export interface TraverseCallback {
  * This base class exposes the basic properties one may use to traverse the reflection tree.
  * You can use the {@link ContainerReflection.children} and {@link parent} properties to walk the tree. The {@link ContainerReflection.groups} property
  * contains a list of all children grouped and sorted for rendering.
+ * @category Reflections
  */
 export abstract class Reflection {
     /**

@@ -90,6 +90,22 @@
         {
             "tagName": "@interface",
             "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@showCategories",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@hideCategories",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@showGroups",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@hideGroups",
+            "syntaxKind": "modifier"
         }
     ]
 }

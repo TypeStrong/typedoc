@@ -7,6 +7,9 @@ import type { ReflectionKind } from "./kind";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 import { SourceReference } from "../sources/file";
 
+/**
+ * @category Reflections
+ */
 export class SignatureReflection extends Reflection {
     readonly variant = "signature";
 

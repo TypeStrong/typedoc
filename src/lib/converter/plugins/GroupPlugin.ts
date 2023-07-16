@@ -160,7 +160,7 @@ export class GroupPlugin extends ConverterComponent {
             for (const name of this.getGroups(child)) {
                 let group = groups.get(name);
                 if (!group) {
-                    group = new ReflectionGroup(name);
+                    group = new ReflectionGroup(name, child);
                     groups.set(name, group);
                 }
 

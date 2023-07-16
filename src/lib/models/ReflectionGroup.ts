@@ -1,5 +1,5 @@
 import { ReflectionCategory } from "./ReflectionCategory";
-import type { DeclarationReflection } from ".";
+import type { DeclarationReflection, Reflection } from ".";
 import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 
 /**
@@ -29,8 +29,9 @@ export class ReflectionGroup {
      * Create a new ReflectionGroup instance.
      *
      * @param title The title of this group.
+     * @param owningReflection The reflection containing this group, useful for changing rendering based on a comment on a reflection.
      */
-    constructor(title: string) {
+    constructor(title: string, readonly owningReflection: Reflection) {
         this.title = title;
     }
 

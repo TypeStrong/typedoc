@@ -53,3 +53,26 @@ export function commentTags({ markdown }: DefaultThemeRenderContext, props: Refl
         </div>
     );
 }
+
+const flagsNotRendered: `@${string}`[] = ["@showCategories", "@showGroups", "@hideCategories", "@hideGroups"];
+
+export function reflectionFlags(_context: DefaultThemeRenderContext, props: Reflection) {
+    const allFlags = [...props.flags];
+    if (props.comment) {
+        for (const tag of props.comment.modifierTags) {
+            if (!flagsNotRendered.includes(tag)) {
+                allFlags.push(camelToTitleCase(tag.substring(1)));
+            }
+        }
+    }
+
+    return (
+        <>
+            {allFlags.map((item) => (
+                <>
+                    <code class={"tsd-tag ts-flag" + item}>{item}</code>{" "}
+                </>
+            ))}
+        </>
+    );
+}

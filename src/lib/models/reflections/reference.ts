@@ -15,6 +15,7 @@ import type { Reflection } from "./abstract";
  * // of copying the reflection.
  * export { a };
  * ```
+ * @category Reflections
  */
 export class ReferenceReflection extends DeclarationReflection {
     override readonly variant = "reference";

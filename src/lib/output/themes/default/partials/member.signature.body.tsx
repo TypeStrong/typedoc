@@ -1,7 +1,7 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
 import { ReflectionType, SignatureReflection } from "../../../../models";
-import { hasTypeParameters, renderFlags } from "../../lib";
+import { hasTypeParameters } from "../../lib";
 
 export function memberSignatureBody(
     context: DefaultThemeRenderContext,
@@ -12,7 +12,7 @@ export function memberSignatureBody(
 
     return (
         <>
-            {renderFlags(props.flags, props.comment)}
+            {context.reflectionFlags(props)}
             {context.commentSummary(props)}
 
             {hasTypeParameters(props) && context.typeParameters(props.typeParameters)}
@@ -24,7 +24,7 @@ export function memberSignatureBody(
                         {props.parameters.map((item) => (
                             <li>
                                 <h5>
-                                    {renderFlags(item.flags, item.comment)}
+                                    {context.reflectionFlags(item)}
                                     {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                     <span class="tsd-kind-parameter">{item.name}</span>
                                     {": "}
@@ -37,7 +37,7 @@ export function memberSignatureBody(
                                     )}
                                 </h5>
                                 {context.commentSummary(item)}
-                                {context.commentTags(item)}
+                                {context.reflectionFlags(item)}
                                 {item.type instanceof ReflectionType && context.parameter(item.type.declaration)}
                             </li>
                         ))}

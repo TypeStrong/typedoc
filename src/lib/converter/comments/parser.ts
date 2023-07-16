@@ -351,11 +351,11 @@ function blockContent(
                     next.text = "@inheritDoc";
                 }
                 if (config.modifierTags.has(next.text)) {
-                    comment.modifierTags.add(next.text);
+                    comment.modifierTags.add(next.text as `@${string}`);
                     break;
                 } else if (!atNewLine && !config.blockTags.has(next.text)) {
                     // Treat unknown tag as a modifier, but warn about it.
-                    comment.modifierTags.add(next.text);
+                    comment.modifierTags.add(next.text as `@${string}`);
                     warning(
                         `Treating unrecognized tag "${next.text}" as a modifier tag`,
                         next

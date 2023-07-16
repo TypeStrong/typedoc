@@ -19,6 +19,8 @@
     "excludeReferences": true,
     "jsDocCompatibility": false,
     "treatWarningsAsErrors": false,
+    "categorizeByGroup": false,
+    "categoryOrder": ["Reflections", "Types", "Comments", "*"],
     "validation": {
         "notExported": true,
         "invalidLink": true,
@@ -38,7 +40,9 @@
         "Type Aliases": 2.0
     },
     "navigation": {
-        "fullTree": true
+        "fullTree": true,
+        "includeCategories": true,
+        "includeGroups": false
     },
     "includeVersion": true,
     "logLevel": "Verbose"

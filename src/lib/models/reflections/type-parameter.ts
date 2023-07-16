@@ -17,6 +17,9 @@ export const VarianceModifier = {
 export type VarianceModifier =
     (typeof VarianceModifier)[keyof typeof VarianceModifier];
 
+/**
+ * @category Reflections
+ */
 export class TypeParameterReflection extends Reflection {
     readonly variant = "typeParam";
 

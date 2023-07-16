@@ -45,6 +45,7 @@ export enum ConversionFlags {
  *
  * All parts of a project are represented by DeclarationReflection instances. The actual
  * kind of a reflection is stored in its ´kind´ member.
+ * @category Reflections
  */
 export class DeclarationReflection extends ContainerReflection {
     readonly variant = "declaration" as "declaration" | "reference";

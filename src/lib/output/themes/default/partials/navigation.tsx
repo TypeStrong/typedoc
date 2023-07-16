@@ -107,6 +107,20 @@ export function settings(context: DefaultThemeRenderContext) {
 
 type NavigationElement = ReflectionCategory | ReflectionGroup | DeclarationReflection;
 
+function shouldShowCategories(reflection: Reflection, opts: { includeCategories: boolean; includeGroups: boolean }) {
+    if (opts.includeCategories) {
+        return !reflection.comment?.hasModifier("@hideCategories");
+    }
+    return reflection.comment?.hasModifier("@showCategories") === true;
+}
+
+function shouldShowGroups(reflection: Reflection, opts: { includeCategories: boolean; includeGroups: boolean }) {
+    if (opts.includeGroups) {
+        return !reflection.comment?.hasModifier("@hideGroups");
+    }
+    return reflection.comment?.hasModifier("@showGroups") === true;
+}
+
 const getNavigationElements = function getNavigationElements(
     parent: NavigationElement | ProjectReflection,
     opts: { includeCategories: boolean; includeGroups: boolean }
@@ -116,7 +130,7 @@ const getNavigationElements = function getNavigationElements(
     }
 
     if (parent instanceof ReflectionGroup) {
-        if (opts.includeCategories && parent.categories) {
+        if (shouldShowCategories(parent.owningReflection, opts) && parent.categories) {
             return parent.categories;
         }
         return parent.children;
@@ -126,11 +140,11 @@ const getNavigationElements = function getNavigationElements(
         return;
     }
 
-    if (parent.categories && opts.includeCategories) {
+    if (parent.categories && shouldShowCategories(parent, opts)) {
         return parent.categories;
     }
 
-    if (parent.groups && opts.includeGroups) {
+    if (parent.groups && shouldShowGroups(parent, opts)) {
         return parent.groups;
     }
 

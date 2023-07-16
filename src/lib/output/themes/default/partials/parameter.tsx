@@ -1,4 +1,4 @@
-import { classNames, getKindClass, renderFlags, wbr } from "../../lib";
+import { classNames, getKindClass, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
 import { DeclarationReflection, ReflectionType } from "../../../../models";
@@ -67,7 +67,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                             {/* standard type */}
                             <li class="tsd-parameter">
                                 <h5>
-                                    {renderFlags(item.flags, item.comment)}
+                                    {context.reflectionFlags(item)}
                                     {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                     <span class={getKindClass(item)}>{wbr(item.name)}</span>
                                     <span class="tsd-signature-symbol">
@@ -90,7 +90,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                     {/* getter */}
                                     <li class="tsd-parameter">
                                         <h5>
-                                            {renderFlags(item.getSignature.flags, item.getSignature.comment)}
+                                            {context.reflectionFlags(item.getSignature)}
                                             <span class="tsd-signature-symbol">get </span>
                                             <span class={getKindClass(item)}>{wbr(item.name)}</span>
                                             <span class="tsd-signature-symbol">(): </span>
@@ -107,7 +107,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                     {/* setter */}
                                     <li class="tsd-parameter">
                                         <h5>
-                                            {renderFlags(item.setSignature.flags, item.setSignature.comment)}
+                                            {context.reflectionFlags(item.setSignature)}
                                             <span class="tsd-signature-symbol">set </span>
                                             <span class={getKindClass(item)}>{wbr(item.name)}</span>
                                             <span class="tsd-signature-symbol">(</span>

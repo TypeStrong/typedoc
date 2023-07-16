@@ -1,4 +1,4 @@
-import { getDisplayName, hasTypeParameters, join, renderFlags } from "../../lib";
+import { getDisplayName, hasTypeParameters, join } from "../../lib";
 import { JSX } from "../../../../utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import type { PageEvent } from "../../../events";
@@ -19,7 +19,7 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
                         {">"}
                     </>
                 )}
-                {renderFlags(props.model.flags, props.model.comment)}
+                {context.reflectionFlags(props.model)}
             </HeadingLevel>
         </div>
     );

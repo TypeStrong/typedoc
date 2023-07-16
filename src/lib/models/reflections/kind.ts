@@ -2,6 +2,7 @@ import type { EnumKeys } from "../../utils";
 
 /**
  * Defines the available reflection kinds.
+ * @category Reflections
  */
 export enum ReflectionKind {
     Project = 0x1,
@@ -31,6 +32,7 @@ export enum ReflectionKind {
     Reference = 0x800000,
 }
 
+/** @category Reflections */
 export namespace ReflectionKind {
     export type KindString = EnumKeys<typeof ReflectionKind>;
 

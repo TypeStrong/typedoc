@@ -56,4 +56,8 @@ export const modifierTags = [
     "@overload",
     "@namespace",
     "@interface",
+    "@showCategories",
+    "@hideCategories",
+    "@showGroups",
+    "@hideGroups",
 ] as const;
