@@ -909,8 +909,8 @@ a.tsd-index-link {
 #tsd-search .results li.state {
     display: none;
 }
-#tsd-search .results li.current,
-#tsd-search .results li:hover {
+#tsd-search .results li.current:not(.no-results),
+#tsd-search .results li:hover:not(.no-results) {
     background-color: var(--color-accent);
 }
 #tsd-search .results a {
