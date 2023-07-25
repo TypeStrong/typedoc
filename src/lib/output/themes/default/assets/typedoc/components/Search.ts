@@ -174,6 +174,17 @@ function updateResults(
         item.score *= boost;
     }
 
+    if (res.length === 0) {
+        let item = document.createElement("li");
+        item.classList.add("no-results");
+
+        let anchor = document.createElement("span");
+        anchor.textContent = "No results found";
+
+        item.appendChild(anchor);
+        results.appendChild(item);
+    }
+
     res.sort((a, b) => b.score - a.score);
 
     for (let i = 0, c = Math.min(10, res.length); i < c; i++) {
