@@ -46,7 +46,7 @@ https://github.com/Gerrit0/typedoc-packages-example
 ### Arguments
 
 For a complete list of the command line arguments run `typedoc --help` or visit
-[our website](https://typedoc.org/guides/options/).
+[our website](https://typedoc.org/options/).
 
 -   `--out <path/to/documentation/>`<br>
     Specifies the location the documentation should be written to. Defaults to `./docs`
