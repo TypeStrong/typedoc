@@ -39,7 +39,7 @@ describe("Events", function () {
         Assert.equal(
             obj.counter,
             5,
-            "counter should be incremented five times."
+            "counter should be incremented five times.",
         );
     });
 
@@ -79,7 +79,7 @@ describe("Events", function () {
                 b: increment,
                 c: increment,
             },
-            obj
+            obj,
         );
 
         obj.trigger("a");
@@ -96,7 +96,7 @@ describe("Events", function () {
                 a: increment,
                 c: increment,
             },
-            obj
+            obj,
         );
         obj.trigger("a b c");
         Assert.equal(obj.counter, 5);
@@ -141,11 +141,11 @@ describe("Events", function () {
                     Assert.strictEqual(
                         this,
                         context,
-                        "defaults `context` to `callback` param"
+                        "defaults `context` to `callback` param",
                     );
                 },
             },
-            context
+            context,
         ).trigger("a");
 
         obj.off()
@@ -155,12 +155,12 @@ describe("Events", function () {
                         Assert.strictEqual(
                             this,
                             context,
-                            "will not override explicit `context` param"
+                            "will not override explicit `context` param",
                         );
                     },
                 },
                 this,
-                context
+                context,
             )
             .trigger("a");
     });
@@ -237,12 +237,12 @@ describe("Events", function () {
         Assert.equal(
             obj.counterA,
             1,
-            "counterA should have only been incremented once."
+            "counterA should have only been incremented once.",
         );
         Assert.equal(
             obj.counterB,
             1,
-            "counterB should have only been incremented once."
+            "counterB should have only been incremented once.",
         );
     });
 
@@ -499,7 +499,7 @@ describe("Events", function () {
         Assert.equal(
             obj.counter,
             1,
-            "counter should have only been incremented once."
+            "counter should have only been incremented once.",
         );
     });
 
@@ -520,12 +520,12 @@ describe("Events", function () {
         Assert.equal(
             obj.counterA,
             1,
-            "counterA should have only been incremented once."
+            "counterA should have only been incremented once.",
         );
         Assert.equal(
             obj.counterB,
             2,
-            "counterB should have been incremented twice."
+            "counterB should have been incremented twice.",
         );
     });
 
@@ -563,12 +563,12 @@ describe("Events", function () {
         Assert.equal(
             obj.counterA,
             1,
-            "counterA should have only been incremented once."
+            "counterA should have only been incremented once.",
         );
         Assert.equal(
             obj.counterB,
             1,
-            "counterB should have only been incremented once."
+            "counterB should have only been incremented once.",
         );
     });
 
@@ -585,7 +585,7 @@ describe("Events", function () {
             function (this: TestClass) {
                 this.assertTrue();
             },
-            new TestClass()
+            new TestClass(),
         );
         obj.trigger("event");
     });
@@ -607,7 +607,7 @@ describe("Events", function () {
         Assert.equal(
             obj.counter,
             3,
-            "counter should have been incremented three times"
+            "counter should have been incremented three times",
         );
     });
 
@@ -666,7 +666,7 @@ describe("Events", function () {
             function () {
                 Assert(false);
             },
-            obj
+            obj,
         );
         obj.off(undefined, undefined, obj);
         obj.trigger("x y");
@@ -693,14 +693,14 @@ describe("Events", function () {
             function () {
                 Assert(false);
             },
-            obj
+            obj,
         );
         obj.on(
             "event",
             function () {
                 Assert(false);
             },
-            obj
+            obj,
         );
         obj.off(undefined, undefined, obj);
         obj.trigger("event");
@@ -725,12 +725,12 @@ describe("Events", function () {
         Assert.equal(
             obj.counterA,
             1,
-            "counterA should have only been incremented once."
+            "counterA should have only been incremented once.",
         );
         Assert.equal(
             obj.counterB,
             1,
-            "counterB should have only been incremented once."
+            "counterB should have only been incremented once.",
         );
     });
 
@@ -787,7 +787,7 @@ describe("Events", function () {
                 b: increment,
                 c: increment,
             },
-            obj
+            obj,
         );
 
         obj.trigger("a");
@@ -811,7 +811,7 @@ describe("Events", function () {
             function () {
                 Assert(false);
             },
-            context
+            context,
         );
         obj.off(undefined, undefined, context);
         obj.trigger("event");
@@ -940,7 +940,7 @@ describe("Events (customized)", function () {
                 count++;
             },
             void 0,
-            0
+            0,
         );
         events.on(
             "myEvent",
@@ -949,7 +949,7 @@ describe("Events (customized)", function () {
                 count++;
             },
             void 0,
-            100
+            100,
         );
         events.trigger("myEvent");
         Assert.equal(count, 2);

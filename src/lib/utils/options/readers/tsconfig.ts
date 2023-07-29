@@ -80,14 +80,14 @@ export class TSConfigReader implements OptionsReader {
             // If the user didn't give us this option, we shouldn't complain about not being able to find it.
             if (container.isSet("tsconfig")) {
                 logger.error(
-                    `The tsconfig file ${nicePath(file)} does not exist`
+                    `The tsconfig file ${nicePath(file)} does not exist`,
                 );
             } else if (
                 container.getValue("entryPointStrategy") !==
                 EntryPointStrategy.Packages
             ) {
                 logger.warn(
-                    "No tsconfig file found, this will prevent TypeDoc from finding your entry points."
+                    "No tsconfig file found, this will prevent TypeDoc from finding your entry points.",
                 );
             }
             return;
@@ -110,13 +110,13 @@ export class TSConfigReader implements OptionsReader {
                 [
                     "typedocOptions in tsconfig file specifies an option file to read but the option",
                     "file has already been read. This is likely a misconfiguration.",
-                ].join(" ")
+                ].join(" "),
             );
             delete typedocOptions.options;
         }
         if (typedocOptions.tsconfig) {
             logger.error(
-                "typedocOptions in tsconfig file may not specify a tsconfig file to read"
+                "typedocOptions in tsconfig file may not specify a tsconfig file to read",
             );
             delete typedocOptions.tsconfig;
         }
@@ -124,7 +124,7 @@ export class TSConfigReader implements OptionsReader {
         container.setCompilerOptions(
             parsed.fileNames,
             parsed.options,
-            parsed.projectReferences
+            parsed.projectReferences,
         );
         for (const [key, val] of Object.entries(typedocOptions || {})) {
             try {
@@ -132,7 +132,7 @@ export class TSConfigReader implements OptionsReader {
                 container.setValue(
                     key as never,
                     val as never,
-                    join(fileToRead, "..")
+                    join(fileToRead, ".."),
                 );
             } catch (error) {
                 ok(error instanceof Error);
@@ -144,7 +144,7 @@ export class TSConfigReader implements OptionsReader {
     private addTagsFromTsdocJson(
         container: Options,
         logger: Logger,
-        tsconfig: string
+        tsconfig: string,
     ) {
         this.seenTsdocPaths.clear();
         const tsdoc = join(dirname(tsconfig), "tsdoc.json");
@@ -158,7 +158,7 @@ export class TSConfigReader implements OptionsReader {
         if (overwritten.length) {
             logger.warn(
                 `The ${overwritten.join(", ")} defined in typedoc.json will ` +
-                    "be overwritten by configuration in tsdoc.json."
+                    "be overwritten by configuration in tsdoc.json.",
             );
         }
 
@@ -182,7 +182,7 @@ export class TSConfigReader implements OptionsReader {
         }
 
         for (const { tagName, syntaxKind } of config.tagDefinitions?.filter(
-            supported
+            supported,
         ) || []) {
             const arr = {
                 block: blockTags,
@@ -201,8 +201,8 @@ export class TSConfigReader implements OptionsReader {
         if (this.seenTsdocPaths.has(path)) {
             logger.error(
                 `Circular reference encountered for "extends" field of ${nicePath(
-                    path
-                )}`
+                    path,
+                )}`,
             );
             return;
         }
@@ -210,19 +210,19 @@ export class TSConfigReader implements OptionsReader {
 
         const { config, error } = ts.readConfigFile(
             normalizePath(path),
-            ts.sys.readFile
+            ts.sys.readFile,
         );
 
         if (error) {
             logger.error(
-                `Failed to read tsdoc.json file at ${nicePath(path)}.`
+                `Failed to read tsdoc.json file at ${nicePath(path)}.`,
             );
             return;
         }
 
         if (!validate(tsDocSchema, config)) {
             logger.error(
-                `The file ${nicePath(path)} is not a valid tsdoc.json file.`
+                `The file ${nicePath(path)} is not a valid tsdoc.json file.`,
             );
             return;
         }
@@ -238,8 +238,8 @@ export class TSConfigReader implements OptionsReader {
                 } catch {
                     logger.error(
                         `Failed to resolve ${extendedPath} to a file in ${nicePath(
-                            path
-                        )}`
+                            path,
+                        )}`,
                     );
                     return;
                 }

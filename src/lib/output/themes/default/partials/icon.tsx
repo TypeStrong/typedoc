@@ -38,7 +38,7 @@ const kindIcon = (kind: ReflectionKind, letterPath: JSX.Element, color: string, 
                     rx={circular ? "12" : "6"}
                 />
                 {letterPath}
-            </g>
+            </g>,
         )}
     </svg>
 );
@@ -55,7 +55,7 @@ export const icons: Record<
                 fill="var(--color-text)"
             />,
             "#FF4D4D",
-            true
+            true,
         ),
     [ReflectionKind.CallSignature]() {
         return this[ReflectionKind.Function]();
@@ -67,7 +67,7 @@ export const icons: Record<
                 d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z"
                 fill="var(--color-text)"
             />,
-            "var(--color-ts-class)"
+            "var(--color-ts-class)",
         ),
     [ReflectionKind.Constructor]: () =>
         kindIcon(
@@ -77,7 +77,7 @@ export const icons: Record<
                 fill="var(--color-text)"
             />,
             "#4D7FFF",
-            true
+            true,
         ),
     [ReflectionKind.ConstructorSignature]() {
         return this[ReflectionKind.Constructor]();
@@ -89,7 +89,7 @@ export const icons: Record<
                 d="M9.45 16V7.24H14.49V8.224H10.518V10.936H14.07V11.908H10.518V15.016H14.49V16H9.45Z"
                 fill="var(--color-text)"
             />,
-            "var(--color-ts-enum)"
+            "var(--color-ts-enum)",
         ),
     [ReflectionKind.EnumMember]() {
         return this[ReflectionKind.Property]();
@@ -98,7 +98,7 @@ export const icons: Record<
         kindIcon(
             ReflectionKind.Function,
             <path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)" />,
-            "var(--color-ts-function)"
+            "var(--color-ts-function)",
         ),
     [ReflectionKind.GetSignature]() {
         return this[ReflectionKind.Accessor]();
@@ -113,7 +113,7 @@ export const icons: Record<
                 d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z"
                 fill="var(--color-text)"
             />,
-            "var(--color-ts-interface)"
+            "var(--color-ts-interface)",
         ),
     [ReflectionKind.Method]: () =>
         kindIcon(
@@ -123,7 +123,7 @@ export const icons: Record<
                 fill="var(--color-text)"
             />,
             "#FF4DB8",
-            true
+            true,
         ),
     [ReflectionKind.Module]() {
         return this[ReflectionKind.Namespace]();
@@ -136,7 +136,7 @@ export const icons: Record<
                 d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z"
                 fill="var(--color-text)"
             />,
-            "var(--color-ts-namespace)"
+            "var(--color-ts-namespace)",
         ),
     [ReflectionKind.ObjectLiteral]() {
         return this[ReflectionKind.Interface]();
@@ -155,7 +155,7 @@ export const icons: Record<
                 fill="var(--color-text)"
             />,
             "#FF984D",
-            true
+            true,
         ),
     [ReflectionKind.Reference]: () =>
         kindIcon(
@@ -165,7 +165,7 @@ export const icons: Record<
                 fill="var(--color-text)"
             />,
             "#FF4D82", // extract into a CSS variable potentially?
-            true
+            true,
         ),
     [ReflectionKind.SetSignature]() {
         return this[ReflectionKind.Accessor]();
@@ -174,7 +174,7 @@ export const icons: Record<
         kindIcon(
             ReflectionKind.TypeAlias,
             <path d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z" fill="var(--color-text)" />,
-            "var(--color-ts-type-alias)"
+            "var(--color-ts-type-alias)",
         ),
     [ReflectionKind.TypeLiteral]() {
         return this[ReflectionKind.TypeAlias]();
@@ -189,7 +189,7 @@ export const icons: Record<
                 d="M11.106 16L8.85 7.24H9.966L11.454 13.192C11.558 13.608 11.646 13.996 11.718 14.356C11.79 14.708 11.842 14.976 11.874 15.16C11.906 14.976 11.954 14.708 12.018 14.356C12.09 13.996 12.178 13.608 12.282 13.192L13.758 7.24H14.85L12.582 16H11.106Z"
                 fill="var(--color-text)"
             />,
-            "var(--color-ts-variable)"
+            "var(--color-ts-variable)",
         ),
     chevronDown: () => (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -198,7 +198,7 @@ export const icons: Record<
                 <path
                     d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z"
                     fill="var(--color-text)"
-                />
+                />,
             )}
         </svg>
     ),
@@ -246,7 +246,7 @@ export const icons: Record<
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
                     <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
-                </g>
+                </g>,
             )}
         </svg>
     ),

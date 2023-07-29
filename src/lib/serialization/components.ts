@@ -27,6 +27,6 @@ export interface SerializerComponent<T> {
     toObject(
         item: T,
         obj: Partial<ModelToObject<T>>,
-        serializer: Serializer
+        serializer: Serializer,
     ): Partial<ModelToObject<T>>;
 }

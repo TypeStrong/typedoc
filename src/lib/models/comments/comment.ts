@@ -63,7 +63,7 @@ export class CommentTag {
     clone(): CommentTag {
         const tag = new CommentTag(
             this.tag,
-            Comment.cloneDisplayParts(this.content)
+            Comment.cloneDisplayParts(this.content),
         );
         if (this.name) {
             tag.name = this.name;
@@ -99,7 +99,7 @@ export class Comment {
      * rendering, but can be useful in tests.
      */
     static combineDisplayParts(
-        parts: readonly CommentDisplayPart[] | undefined
+        parts: readonly CommentDisplayPart[] | undefined,
     ): string {
         let result = "";
 
@@ -127,7 +127,7 @@ export class Comment {
      */
     static displayPartsToMarkdown(
         parts: readonly CommentDisplayPart[],
-        urlTo: (ref: Reflection) => string
+        urlTo: (ref: Reflection) => string,
     ) {
         const result: string[] = [];
 
@@ -155,7 +155,7 @@ export class Comment {
                                     // tried and failed during the resolution step.
                                     url = urlTo(part.target);
                                     kindClass = ReflectionKind.classString(
-                                        part.target.kind
+                                        part.target.kind,
                                     );
                                 }
                                 const text =
@@ -169,7 +169,7 @@ export class Comment {
                                                   ? ` class="${kindClass}"`
                                                   : ""
                                           }>${text}</a>`
-                                        : part.text
+                                        : part.text,
                                 );
                             } else {
                                 result.push(part.text);
@@ -201,16 +201,16 @@ export class Comment {
     //Since display parts are plain objects, this lives here
     static serializeDisplayParts(
         serializer: Serializer,
-        parts: CommentDisplayPart[]
+        parts: CommentDisplayPart[],
     ): JSONOutput.CommentDisplayPart[];
     /** @hidden no point in showing this signature in api docs */
     static serializeDisplayParts(
         serializer: Serializer,
-        parts: CommentDisplayPart[] | undefined
+        parts: CommentDisplayPart[] | undefined,
     ): JSONOutput.CommentDisplayPart[] | undefined;
     static serializeDisplayParts(
         serializer: Serializer,
-        parts: CommentDisplayPart[] | undefined
+        parts: CommentDisplayPart[] | undefined,
     ): JSONOutput.CommentDisplayPart[] | undefined {
         return parts?.map((part) => {
             switch (part.kind) {
@@ -240,7 +240,7 @@ export class Comment {
     //Since display parts are plain objects, this lives here
     static deserializeDisplayParts(
         de: Deserializer,
-        parts: JSONOutput.CommentDisplayPart[]
+        parts: JSONOutput.CommentDisplayPart[],
     ): CommentDisplayPart[] {
         const links: [number, InlineTagDisplayPart][] = [];
 
@@ -290,11 +290,11 @@ export class Comment {
             de.defer((project) => {
                 for (const [oldId, part] of links) {
                     part.target = project.getReflectionById(
-                        de.oldIdToNewId[oldId] ?? -1
+                        de.oldIdToNewId[oldId] ?? -1,
                     );
                     if (!part.target) {
                         de.logger.warn(
-                            `Serialized project contained a link to ${oldId} (${part.text}), which was not a part of the project.`
+                            `Serialized project contained a link to ${oldId} (${part.text}), which was not a part of the project.`,
                         );
                     }
                 }
@@ -330,7 +330,7 @@ export class Comment {
     constructor(
         summary: CommentDisplayPart[] = [],
         blockTags: CommentTag[] = [],
-        modifierTags: Set<`@${string}`> = new Set()
+        modifierTags: Set<`@${string}`> = new Set(),
     ) {
         this.summary = summary;
         this.blockTags = blockTags;
@@ -345,7 +345,7 @@ export class Comment {
         return new Comment(
             Comment.cloneDisplayParts(this.summary),
             this.blockTags.map((tag) => tag.clone()),
-            new Set(this.modifierTags)
+            new Set(this.modifierTags),
         );
     }
 
@@ -403,7 +403,7 @@ export class Comment {
 
     getIdentifiedTag(identifier: string, tagName: `@${string}`) {
         return this.blockTags.find(
-            (tag) => tag.tag === tagName && tag.name === identifier
+            (tag) => tag.tag === tagName && tag.name === identifier,
         );
     }
 
@@ -442,7 +442,7 @@ export class Comment {
 
 function extractLabelTag(comment: Comment) {
     const index = comment.summary.findIndex(
-        (part) => part.kind === "inline-tag" && part.tag === "@label"
+        (part) => part.kind === "inline-tag" && part.tag === "@label",
     );
 
     if (index !== -1) {

@@ -51,7 +51,7 @@ export class ArgumentsReader implements OptionsReader {
             if (decl) {
                 if (decl.configFileOnly) {
                     logger.error(
-                        `The '${decl.name}' option can only be specified via a config file.`
+                        `The '${decl.name}' option can only be specified via a config file.`,
                     );
                     continue;
                 }
@@ -60,8 +60,8 @@ export class ArgumentsReader implements OptionsReader {
                     trySet(
                         decl.name,
                         (options.getValue(decl.name) as string[]).concat(
-                            this.args[index]
-                        )
+                            this.args[index],
+                        ),
                     );
                 } else if (
                     decl.type === ParameterType.Boolean ||
@@ -80,7 +80,7 @@ export class ArgumentsReader implements OptionsReader {
                     if (index === this.args.length) {
                         // Only boolean values have optional values.
                         logger.warn(
-                            `--${decl.name} expected a value, but none was given as an argument`
+                            `--${decl.name} expected a value, but none was given as an argument`,
                         );
                     }
                     trySet(decl.name, this.args[index]);
@@ -114,7 +114,7 @@ export class ArgumentsReader implements OptionsReader {
             logger.error(
                 `Unknown option: ${name}, you may have meant:\n\t${options
                     .getSimilarOptions(name)
-                    .join("\n\t")}`
+                    .join("\n\t")}`,
             );
             index++;
         }

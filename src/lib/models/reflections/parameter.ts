@@ -21,7 +21,7 @@ export class ParameterReflection extends Reflection {
             if (
                 callback(
                     this.type.declaration,
-                    TraverseProperty.TypeLiteral
+                    TraverseProperty.TypeLiteral,
                 ) === false
             ) {
                 return;
@@ -47,7 +47,7 @@ export class ParameterReflection extends Reflection {
 
     override fromObject(
         de: Deserializer,
-        obj: JSONOutput.ParameterReflection
+        obj: JSONOutput.ParameterReflection,
     ): void {
         super.fromObject(de, obj);
         this.type = de.reviveType(obj.type);

@@ -12,7 +12,7 @@ import {
 
 export function discoverAllReferenceTypes(
     project: ProjectReflection,
-    forExportValidation: boolean
+    forExportValidation: boolean,
 ): { type: ReferenceType; owner: Reflection }[] {
     let current: Reflection | undefined = project;
     const queue: Reflection[] = [];

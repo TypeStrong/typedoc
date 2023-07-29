@@ -6,7 +6,7 @@ import { nicePath } from "./paths";
 
 export async function loadPlugins(
     app: Application,
-    plugins: readonly string[]
+    plugins: readonly string[],
 ) {
     for (const plugin of plugins) {
         const pluginDisplay = getPluginDisplayName(plugin);
@@ -35,12 +35,12 @@ export async function loadPlugins(
                 app.logger.info(`Loaded plugin ${pluginDisplay}`);
             } else {
                 app.logger.error(
-                    `Invalid structure in plugin ${pluginDisplay}, no load function found.`
+                    `Invalid structure in plugin ${pluginDisplay}, no load function found.`,
                 );
             }
         } catch (error) {
             app.logger.error(
-                `The plugin ${pluginDisplay} could not be loaded.`
+                `The plugin ${pluginDisplay} could not be loaded.`,
             );
             if (error instanceof Error && error.stack) {
                 app.logger.error(error.stack);

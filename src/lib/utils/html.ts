@@ -15,11 +15,11 @@ function unescapeEntities(html: string) {
                 return String.fromCharCode(
                     n[1] === "x" || n[1] === "X"
                         ? parseInt(n.substring(2), 16)
-                        : parseInt(n.substring(1), 10)
+                        : parseInt(n.substring(1), 10),
                 );
             }
             return htmlEntities[n as never] || "";
-        }
+        },
     );
 }
 

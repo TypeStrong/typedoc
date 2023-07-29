@@ -31,7 +31,7 @@ export class AssetsPlugin extends RendererComponent {
                         copySync(this.customCss, join(dest, "custom.css"));
                     } else {
                         this.application.logger.error(
-                            `Custom CSS file at ${this.customCss} does not exist.`
+                            `Custom CSS file at ${this.customCss} does not exist.`,
                         );
                         event.preventDefault();
                     }

@@ -93,18 +93,18 @@ describe("Array utils", () => {
         it("works with more items", () => {
             equal(
                 binaryFindPartition([1, 2, 3], (n) => n > 2),
-                2
+                2,
             );
             equal(
                 binaryFindPartition([1, 2, 3, 4, 5, 6, 7], (n) => n > 5),
-                5
+                5,
             );
         });
 
         it("works with no partition", () => {
             equal(
                 binaryFindPartition([1, 2, 3], () => false),
-                -1
+                -1,
             );
         });
 
@@ -116,7 +116,7 @@ describe("Array utils", () => {
 
             equal(
                 binaryFindPartition(arr, (v) => v === 1),
-                index
+                index,
             );
         });
     });

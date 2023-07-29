@@ -99,13 +99,13 @@ output file :
                         MarkdownEvent.INCLUDE,
                         page,
                         contents,
-                        contents
+                        contents,
                     );
                     this.owner.trigger(event);
                     return event.parsedText;
                 } else {
                     this.application.logger.warn(
-                        "Could not find file to include: " + path
+                        "Could not find file to include: " + path,
                     );
                     return "";
                 }
@@ -122,11 +122,11 @@ output file :
                         return this.getRelativeUrl("media") + "/" + path;
                     } else {
                         this.application.logger.warn(
-                            "Could not find media file: " + fileName
+                            "Could not find media file: " + fileName,
                         );
                         return match;
                     }
-                }
+                },
             );
         }
 
@@ -156,7 +156,7 @@ output file :
             } else {
                 this.application.logger.warn(
                     "Could not find provided includes directory: " +
-                        this.includeSource
+                        this.includeSource,
                 );
             }
         }
@@ -172,7 +172,7 @@ output file :
                 this.mediaDirectory = undefined;
                 this.application.logger.warn(
                     "Could not find provided media directory: " +
-                        this.mediaSource
+                        this.mediaSource,
                 );
             }
         }
@@ -185,7 +185,7 @@ output file :
      */
     private createMarkedOptions(): Marked.marked.MarkedOptions {
         const markedOptions = (this.application.options.getValue(
-            "markedOptions"
+            "markedOptions",
         ) ?? {}) as Marked.marked.MarkedOptions;
 
         // Set some default values if they are not specified via the TypeDoc option
@@ -229,7 +229,7 @@ function renderCode(
     this: Marked.marked.Renderer,
     code: string,
     infostring: string | undefined,
-    escaped: boolean
+    escaped: boolean,
 ) {
     const lang = (infostring || "").match(/\S*/)![0];
     if (this.options.highlight) {

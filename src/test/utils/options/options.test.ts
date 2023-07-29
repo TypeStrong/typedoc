@@ -90,13 +90,13 @@ describe("Options", () => {
         throws(() => options.setValue("validation", "bad" as never));
         throws(() => options.setValue("validation", void 0 as never));
         throws(() =>
-            options.setValue("validation", { notExported: "bad" } as never)
+            options.setValue("validation", { notExported: "bad" } as never),
         );
     });
 
     it("Errors if setting a flag which does not exist", () => {
         throws(() =>
-            options.setValue("validation", { doesNotExist: true } as never)
+            options.setValue("validation", { doesNotExist: true } as never),
         );
     });
 

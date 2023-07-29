@@ -59,7 +59,7 @@ export function settings(context: DefaultThemeRenderContext) {
                 .toLowerCase();
 
             visibilityOptions.push(
-                buildFilterItem(context, filterName, camelToTitleCase(key.substring(1)), defaultFilters[key])
+                buildFilterItem(context, filterName, camelToTitleCase(key.substring(1)), defaultFilters[key]),
             );
         } else if (
             (key === "protected" && !context.options.getValue("excludeProtected")) ||
@@ -123,7 +123,7 @@ function shouldShowGroups(reflection: Reflection, opts: { includeCategories: boo
 
 const getNavigationElements = function getNavigationElements(
     parent: NavigationElement | ProjectReflection,
-    opts: { includeCategories: boolean; includeGroups: boolean }
+    opts: { includeCategories: boolean; includeGroups: boolean },
 ): undefined | readonly NavigationElement[] {
     if (parent instanceof ReflectionCategory) {
         return parent.children;
@@ -160,9 +160,7 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
         <nav class="tsd-navigation">
             {createNavElement(props.project)}
             <ul class="tsd-small-nested-navigation">
-                {getNavigationElements(props.project, opts)?.map((c) => (
-                    <li>{links(c, [])}</li>
-                ))}
+                {getNavigationElements(props.project, opts)?.map((c) => <li>{links(c, [])}</li>)}
             </ul>
         </nav>
     );
@@ -170,7 +168,7 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
     function links(mod: NavigationElement, parents: string[]) {
         const nameClasses = classNames(
             { deprecated: mod instanceof Reflection && mod.isDeprecated() },
-            mod instanceof DeclarationReflection ? context.getReflectionClasses(mod) : void 0
+            mod instanceof DeclarationReflection ? context.getReflectionClasses(mod) : void 0,
         );
 
         const children = getNavigationElements(mod, opts);
@@ -262,7 +260,7 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
             <a href={heading.link} class={heading.classes}>
                 {heading.kind && context.icons[heading.kind]()}
                 <span>{wbr(heading.text)}</span>
-            </a>
+            </a>,
         );
     }
 

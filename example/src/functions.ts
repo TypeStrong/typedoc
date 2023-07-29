@@ -63,7 +63,7 @@ export interface MakeHttpCallAOptions {
  * TypeDoc will not document the options.
  */
 export function makeHttpCallA(
-    options: MakeHttpCallAOptions
+    options: MakeHttpCallAOptions,
 ): Promise<Response> {
     const { url, method, headers, body, mode } = options;
 

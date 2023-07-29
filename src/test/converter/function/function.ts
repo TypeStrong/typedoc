@@ -23,7 +23,7 @@ export function exportedFunction(): void {}
 export function functionWithParameters(
     paramZ: string,
     paramG: any,
-    paramA: Object
+    paramA: Object,
 ): number {
     return 0;
 }
@@ -46,7 +46,7 @@ export const variableFunction = function (someParam: number): number {
  */
 export function functionWithOptionalValue(
     requiredParam: string,
-    optionalParam?: string
+    optionalParam?: string,
 ) {}
 
 /**
@@ -64,7 +64,7 @@ export function functionWithDefaults(
     valueB: number = 100,
     valueC: number = Number.NaN,
     valueD: boolean = true,
-    valueE: boolean = null!
+    valueE: boolean = null!,
 ): string {
     return valueA;
 }
@@ -138,7 +138,7 @@ export function functionWithADestructuredParameterAndExtraParameters(
         paramG: any;
         paramA: Object;
     },
-    extraParameter: string
+    extraParameter: string,
 ): number {
     return 0;
 }
@@ -239,7 +239,7 @@ export function checkerFunction(anything: any): anything is string {
  * @param arg
  */
 export function assertIsNonNull<T>(
-    arg: T | null | undefined
+    arg: T | null | undefined,
 ): asserts arg is T {
     if (arg == null) {
         throw new Error("Was nullable");

@@ -23,7 +23,7 @@ export function convertJsDocAlias(
     context: Context,
     symbol: ts.Symbol,
     declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     if (
         declaration.typeExpression &&
@@ -41,7 +41,7 @@ export function convertJsDocAlias(
         context.converter.convertSymbol(
             context,
             aliasedSymbol,
-            exportSymbol ?? symbol
+            exportSymbol ?? symbol,
         );
         return;
     }
@@ -49,18 +49,18 @@ export function convertJsDocAlias(
     const reflection = context.createDeclarationReflection(
         ReflectionKind.TypeAlias,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     reflection.comment = context.getJsDocComment(declaration);
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
-        declaration.typeExpression?.type
+        declaration.typeExpression?.type,
     );
 
     convertTemplateParameters(
         context.withScope(reflection),
-        declaration.parent
+        declaration.parent,
     );
 
     context.finalizeDeclarationReflection(reflection);
@@ -70,12 +70,12 @@ export function convertJsDocCallback(
     context: Context,
     symbol: ts.Symbol,
     declaration: ts.JSDocCallbackTag,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const alias = context.createDeclarationReflection(
         ReflectionKind.TypeAlias,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     alias.comment = context.getJsDocComment(declaration);
     context.finalizeDeclarationReflection(alias);
@@ -90,12 +90,12 @@ function convertJsDocInterface(
     context: Context,
     declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Interface,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     reflection.comment = context.getJsDocComment(declaration);
     context.finalizeDeclarationReflection(reflection);
@@ -120,7 +120,7 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
     const reflection = new DeclarationReflection(
         "__type",
         ReflectionKind.TypeLiteral,
-        context.scope
+        context.scope,
     );
     context.registerReflection(reflection, symbol);
     context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
@@ -128,11 +128,11 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
     const signature = new SignatureReflection(
         "__type",
         ReflectionKind.CallSignature,
-        reflection
+        reflection,
     );
     context.project.registerSymbolId(
         signature,
-        new ReflectionSymbolId(symbol, node)
+        new ReflectionSymbolId(symbol, node),
     );
     context.registerReflection(signature, void 0);
     const signatureCtx = context.withScope(signature);
@@ -140,16 +140,16 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
     reflection.signatures = [signature];
     signature.type = context.converter.convertType(
         signatureCtx,
-        node.type?.typeExpression?.type
+        node.type?.typeExpression?.type,
     );
     signature.parameters = convertParameterNodes(
         signatureCtx,
         signature,
-        node.parameters
+        node.parameters,
     );
     signature.typeParameters = convertTemplateParameterNodes(
         context.withScope(reflection),
-        node.typeParameters
+        node.typeParameters,
     );
 
     return new ReflectionType(reflection);
@@ -159,13 +159,13 @@ function convertTemplateParameters(context: Context, node: ts.JSDoc) {
     ok(context.scope instanceof DeclarationReflection);
     context.scope.typeParameters = convertTemplateParameterNodes(
         context,
-        node.tags?.filter(ts.isJSDocTemplateTag)
+        node.tags?.filter(ts.isJSDocTemplateTag),
     );
 }
 
 function convertTemplateParameterNodes(
     context: Context,
-    nodes: readonly ts.JSDocTemplateTag[] | undefined
+    nodes: readonly ts.JSDocTemplateTag[] | undefined,
 ) {
     const params = (nodes ?? []).flatMap((tag) => tag.typeParameters);
     return convertTypeParameterNodes(context, params);
@@ -173,7 +173,7 @@ function convertTemplateParameterNodes(
 
 function getTypedefReExportTarget(
     context: Context,
-    declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag
+    declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
 ): ts.Symbol | undefined {
     const typeExpression = declaration.typeExpression;
     if (
@@ -188,7 +188,7 @@ function getTypedefReExportTarget(
     }
 
     const targetSymbol = context.expectSymbolAtLocation(
-        typeExpression.type.qualifier
+        typeExpression.type.qualifier,
     );
     const decl = targetSymbol.declarations?.[0];
 
@@ -217,7 +217,7 @@ function getTypedefReExportTarget(
                 !ts.isTypeReferenceNode(arg) ||
                 !ts.isIdentifier(arg.typeName) ||
                 arg.typeArguments ||
-                localParams[i]?.name.text !== arg.typeName.text
+                localParams[i]?.name.text !== arg.typeName.text,
         )
     ) {
         return;

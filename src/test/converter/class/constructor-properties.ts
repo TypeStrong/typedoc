@@ -7,7 +7,11 @@ export class Vector2 {
      * @param y  Y component of the Vector
      * @param name Vector name
      */
-    constructor(public x: number, public y: number, readonly name: string) {}
+    constructor(
+        public x: number,
+        public y: number,
+        readonly name: string,
+    ) {}
 }
 
 /**
@@ -24,7 +28,7 @@ export class Vector3 extends Vector2 {
         x: number,
         public y: number,
         public z: number,
-        readonly name: string
+        readonly name: string,
     ) {
         super(x, y, name);
     }

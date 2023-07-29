@@ -21,7 +21,7 @@ export class LinkResolverPlugin extends ConverterComponent {
             ApplicationEvents.REVIVE,
             this.resolveLinks,
             this,
-            -300
+            -300,
         );
     }
 
@@ -42,7 +42,7 @@ export class LinkResolverPlugin extends ConverterComponent {
             ) {
                 reflection.readme = this.owner.resolveLinks(
                     reflection.readme,
-                    reflection
+                    reflection,
                 );
             }
         }
@@ -53,14 +53,14 @@ export class LinkResolverPlugin extends ConverterComponent {
 
         for (const { type, owner } of discoverAllReferenceTypes(
             project,
-            false
+            false,
         )) {
             if (!type.reflection) {
                 const resolveResult = this.owner.resolveExternalLink(
                     type.toDeclarationReference(),
                     owner,
                     undefined,
-                    type.symbolId
+                    type.symbolId,
                 );
                 switch (typeof resolveResult) {
                     case "string":

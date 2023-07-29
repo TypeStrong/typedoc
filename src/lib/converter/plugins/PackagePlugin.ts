@@ -86,7 +86,7 @@ export class PackagePlugin extends ConverterComponent {
             Path.resolve(deriveRootDir(entryFiles));
 
         this.application.logger.verbose(
-            `Begin readme.md/package.json search at ${nicePath(dirName)}`
+            `Begin readme.md/package.json search at ${nicePath(dirName)}`,
         );
 
         this.packageJson = discoverPackageJson(dirName)?.content;
@@ -104,8 +104,8 @@ export class PackagePlugin extends ConverterComponent {
             } catch {
                 this.application.logger.error(
                     `Provided README path, ${nicePath(
-                        this.readme
-                    )} could not be read.`
+                        this.readme,
+                    )} could not be read.`,
                 );
             }
         } else {
@@ -113,7 +113,7 @@ export class PackagePlugin extends ConverterComponent {
             const result = discoverInParentDir(
                 "readme.md",
                 dirName,
-                (content) => content
+                (content) => content,
             );
 
             if (result) {
@@ -130,7 +130,7 @@ export class PackagePlugin extends ConverterComponent {
     private addEntries(project: ProjectReflection) {
         if (this.readmeFile && this.readmeContents) {
             const comment = this.application.converter.parseRawComment(
-                new MinimalSourceFile(this.readmeContents, this.readmeFile)
+                new MinimalSourceFile(this.readmeContents, this.readmeFile),
             );
 
             if (comment.blockTags.length || comment.modifierTags.size) {
@@ -140,8 +140,8 @@ export class PackagePlugin extends ConverterComponent {
                 ];
                 this.application.logger.warn(
                     `Block and modifier tags will be ignored within the readme:\n\t${ignored.join(
-                        "\n\t"
-                    )}`
+                        "\n\t",
+                    )}`,
                 );
             }
 
@@ -156,12 +156,12 @@ export class PackagePlugin extends ConverterComponent {
             if (this.includeVersion) {
                 project.packageVersion = this.packageJson.version?.replace(
                     /^v/,
-                    ""
+                    "",
                 );
             }
         } else if (!project.name) {
             this.application.logger.warn(
-                'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".'
+                'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".',
             );
             project.name = "Documentation";
         }

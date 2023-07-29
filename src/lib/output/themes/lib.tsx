@@ -84,7 +84,7 @@ export function classNames(names: Record<string, boolean | null | undefined>, ex
 }
 
 export function hasTypeParameters(
-    reflection: Reflection
+    reflection: Reflection,
 ): reflection is Reflection & { typeParameters: TypeParameterReflection[] } {
     return (
         (reflection instanceof DeclarationReflection || reflection instanceof SignatureReflection) &&
@@ -95,7 +95,7 @@ export function hasTypeParameters(
 
 export function renderTypeParametersSignature(
     context: DefaultThemeRenderContext,
-    typeParameters: readonly TypeParameterReflection[] | undefined
+    typeParameters: readonly TypeParameterReflection[] | undefined,
 ): JSX.Element {
     if (!typeParameters || typeParameters.length === 0) return <></>;
     const hideParamTypes = context.options.getValue("hideParameterTypesInTitle");

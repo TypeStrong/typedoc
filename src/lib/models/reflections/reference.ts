@@ -89,7 +89,7 @@ export class ReferenceReflection extends DeclarationReflection {
 
     override fromObject(
         de: Deserializer,
-        obj: JSONOutput.ReferenceReflection
+        obj: JSONOutput.ReferenceReflection,
     ): void {
         super.fromObject(de, obj);
         de.defer((project) => {

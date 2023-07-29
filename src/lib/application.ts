@@ -139,7 +139,7 @@ export class Application extends ChildableComponent<
      * Initialize TypeDoc, loading plugins if applicable.
      */
     async bootstrapWithPlugins(
-        options: Partial<TypeDocOptions> = {}
+        options: Partial<TypeDocOptions> = {},
     ): Promise<void> {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
@@ -173,8 +173,8 @@ export class Application extends ChildableComponent<
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
                 `TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. The loaded paths are:\n\t${getLoadedPaths().join(
-                    "\n\t"
-                )}`
+                    "\n\t",
+                )}`,
             );
         }
         this.trigger(ApplicationEvents.BOOTSTRAP_END, this);
@@ -223,7 +223,7 @@ export class Application extends ChildableComponent<
         // with a few different settings.
         this.options.freeze();
         this.logger.verbose(
-            `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`
+            `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`,
         );
 
         if (this.entryPointStrategy === EntryPointStrategy.Merge) {
@@ -236,13 +236,13 @@ export class Application extends ChildableComponent<
 
         if (
             !supportedVersionMajorMinor.some(
-                (version) => version == ts.versionMajorMinor
+                (version) => version == ts.versionMajorMinor,
             )
         ) {
             this.logger.warn(
                 `You are running with an unsupported TypeScript version! If TypeDoc crashes, this is why. TypeDoc supports ${supportedVersionMajorMinor.join(
-                    ", "
-                )}`
+                    ", ",
+                )}`,
             );
         }
 
@@ -255,12 +255,12 @@ export class Application extends ChildableComponent<
 
         const programs = unique(entryPoints.map((e) => e.program));
         this.logger.verbose(
-            `Converting with ${programs.length} programs ${entryPoints.length} entry points`
+            `Converting with ${programs.length} programs ${entryPoints.length} entry points`,
         );
 
         if (this.skipErrorChecking === false) {
             const errors = programs.flatMap((program) =>
-                ts.getPreEmitDiagnostics(program)
+                ts.getPreEmitDiagnostics(program),
             );
             if (errors.length) {
                 this.logger.diagnostics(errors);
@@ -276,18 +276,18 @@ export class Application extends ChildableComponent<
 
         const startConversion = Date.now();
         this.logger.verbose(
-            `Finished getting entry points in ${Date.now() - start}ms`
+            `Finished getting entry points in ${Date.now() - start}ms`,
         );
 
         const project = this.converter.convert(entryPoints);
         this.logger.verbose(
-            `Finished conversion in ${Date.now() - startConversion}ms`
+            `Finished conversion in ${Date.now() - startConversion}ms`,
         );
         return project;
     }
 
     public convertAndWatch(
-        success: (project: ProjectReflection) => Promise<void>
+        success: (project: ProjectReflection) => Promise<void>,
     ): void {
         this.options.freeze();
         if (
@@ -298,24 +298,24 @@ export class Application extends ChildableComponent<
         }
 
         this.logger.verbose(
-            `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`
+            `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`,
         );
 
         if (
             !supportedVersionMajorMinor.some(
-                (version) => version == ts.versionMajorMinor
+                (version) => version == ts.versionMajorMinor,
             )
         ) {
             this.logger.warn(
                 `You are running with an unsupported TypeScript version! TypeDoc supports ${supportedVersionMajorMinor.join(
-                    ", "
-                )}`
+                    ", ",
+                )}`,
             );
         }
 
         if (Object.keys(this.options.getCompilerOptions()).length === 0) {
             this.logger.warn(
-                `No compiler options set. This likely means that TypeDoc did not find your tsconfig.json. Generated documentation will probably be empty.`
+                `No compiler options set. This likely means that TypeDoc did not find your tsconfig.json. Generated documentation will probably be empty.`,
             );
         }
 
@@ -323,7 +323,7 @@ export class Application extends ChildableComponent<
         // have reported in the first time... just error out for now. I'm not convinced anyone will actually notice.
         if (this.options.getFileNames().length === 0) {
             this.logger.error(
-                "The provided tsconfig file looks like a solution style tsconfig, which is not supported in watch mode."
+                "The provided tsconfig file looks like a solution style tsconfig, which is not supported in watch mode.",
             );
             return;
         }
@@ -334,7 +334,7 @@ export class Application extends ChildableComponent<
             this.entryPointStrategy !== EntryPointStrategy.Expand
         ) {
             this.logger.error(
-                "entryPointStrategy must be set to either resolve or expand for watch mode."
+                "entryPointStrategy must be set to either resolve or expand for watch mode.",
             );
             return;
         }
@@ -364,9 +364,12 @@ export class Application extends ChildableComponent<
                 }
                 firstStatusReport = false;
                 this.logger.info(
-                    ts.flattenDiagnosticMessageText(status.messageText, newLine)
+                    ts.flattenDiagnosticMessageText(
+                        status.messageText,
+                        newLine,
+                    ),
                 );
-            }
+            },
         );
 
         let successFinished = true;
@@ -387,7 +390,7 @@ export class Application extends ChildableComponent<
                 const entryPoints = getWatchEntryPoints(
                     this.logger,
                     this.options,
-                    currentProgram
+                    currentProgram,
                 );
                 if (!entryPoints) {
                     return;
@@ -409,7 +412,7 @@ export class Application extends ChildableComponent<
             host,
             oldProgram,
             configDiagnostics,
-            references
+            references,
         ) => {
             // If we always do this, we'll get a crash the second time a program is created.
             if (rootNames !== undefined) {
@@ -422,7 +425,7 @@ export class Application extends ChildableComponent<
                 host,
                 oldProgram,
                 configDiagnostics,
-                references
+                references,
             );
         };
 
@@ -451,7 +454,7 @@ export class Application extends ChildableComponent<
             validateExports(
                 project,
                 this.logger,
-                this.options.getValue("intentionallyNotExported")
+                this.options.getValue("intentionallyNotExported"),
             );
         }
 
@@ -459,7 +462,7 @@ export class Application extends ChildableComponent<
             validateDocumentation(
                 project,
                 this.logger,
-                this.options.getValue("requiredToBeDocumented")
+                this.options.getValue("requiredToBeDocumented"),
             );
         }
 
@@ -477,14 +480,14 @@ export class Application extends ChildableComponent<
      */
     public async generateDocs(
         project: ProjectReflection,
-        out: string
+        out: string,
     ): Promise<void> {
         const start = Date.now();
         out = Path.resolve(out);
         await this.renderer.render(project, out);
         if (this.logger.hasErrors()) {
             this.logger.error(
-                "Documentation could not be generated due to the errors above."
+                "Documentation could not be generated due to the errors above.",
             );
         } else {
             this.logger.info(`Documentation generated at ${nicePath(out)}`);
@@ -500,7 +503,7 @@ export class Application extends ChildableComponent<
      */
     public async generateJson(
         project: ProjectReflection,
-        out: string
+        out: string,
     ): Promise<void> {
         const start = Date.now();
         out = Path.resolve(out);
@@ -527,7 +530,7 @@ export class Application extends ChildableComponent<
     private _convertPackages(): ProjectReflection | undefined {
         if (!this.options.isSet("entryPoints")) {
             this.logger.error(
-                "No entry points provided to packages mode, documentation cannot be generated."
+                "No entry points provided to packages mode, documentation cannot be generated.",
             );
             return;
         }
@@ -535,12 +538,12 @@ export class Application extends ChildableComponent<
         const packageDirs = getPackageDirectories(
             this.logger,
             this.options,
-            this.options.getValue("entryPoints")
+            this.options.getValue("entryPoints"),
         );
 
         if (packageDirs.length === 0) {
             this.logger.error(
-                "Failed to find any packages, ensure you have provided at least one directory as an entry point containing package.json"
+                "Failed to find any packages, ensure you have provided at least one directory as an entry point containing package.json",
             );
             return;
         }
@@ -561,8 +564,8 @@ export class Application extends ChildableComponent<
             ) {
                 this.logger.error(
                     `Project at ${nicePath(
-                        dir
-                    )} has entryPointStrategy set to packages, but nested packages are not supported.`
+                        dir,
+                    )} has entryPointStrategy set to packages, but nested packages are not supported.`,
                 );
                 continue;
             }
@@ -572,7 +575,7 @@ export class Application extends ChildableComponent<
             if (project) {
                 this.validate(project);
                 projects.push(
-                    this.serializer.projectToObject(project, process.cwd())
+                    this.serializer.projectToObject(project, process.cwd()),
                 );
             }
 
@@ -584,14 +587,14 @@ export class Application extends ChildableComponent<
         this.logger.info(`Merging converted projects`);
         if (projects.length !== packageDirs.length) {
             this.logger.error(
-                "Failed to convert one or more packages, result will not be merged together."
+                "Failed to convert one or more packages, result will not be merged together.",
             );
             return;
         }
 
         const result = this.deserializer.reviveProjects(
             this.options.getValue("name") || "Documentation",
-            projects
+            projects,
         );
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;
@@ -612,14 +615,14 @@ export class Application extends ChildableComponent<
             if (result.length === 0) {
                 this.logger.warn(
                     `The entrypoint glob ${nicePath(
-                        entry
-                    )} did not match any files.`
+                        entry,
+                    )} did not match any files.`,
                 );
             } else {
                 this.logger.verbose(
                     `Expanded ${nicePath(entry)} to:\n\t${result
                         .map(nicePath)
-                        .join("\n\t")}`
+                        .join("\n\t")}`,
                 );
             }
 
@@ -631,7 +634,7 @@ export class Application extends ChildableComponent<
                 return JSON.parse(readFile(path));
             } catch {
                 this.logger.error(
-                    `Failed to parse file at ${nicePath(path)} as json.`
+                    `Failed to parse file at ${nicePath(path)} as json.`,
                 );
                 return null;
             }
@@ -640,7 +643,7 @@ export class Application extends ChildableComponent<
 
         const result = this.deserializer.reviveProjects(
             this.options.getValue("name"),
-            jsonProjects
+            jsonProjects,
         );
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
 

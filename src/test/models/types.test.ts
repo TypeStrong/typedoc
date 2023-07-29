@@ -33,7 +33,7 @@ describe("Type.toString", () => {
                     new T.LiteralType(1),
                     new T.LiteralType(2),
                     new T.LiteralType(3),
-                    new T.LiteralType(4)
+                    new T.LiteralType(4),
                 ),
                 new T.LiteralType(5),
             ]);
@@ -66,7 +66,7 @@ describe("Type.toString", () => {
                     new T.LiteralType(1),
                     new T.LiteralType(2),
                     new T.LiteralType(3),
-                    new T.LiteralType(4)
+                    new T.LiteralType(4),
                 ),
                 new T.LiteralType(5),
             ]);
@@ -81,7 +81,7 @@ describe("Type.toString", () => {
                 new T.UnionType([new T.LiteralType(1), new T.LiteralType(2)]),
                 new T.LiteralType("ext"),
                 new T.LiteralType("true"),
-                new T.LiteralType("false")
+                new T.LiteralType("false"),
             );
             equal(type.toString(), '(1 | 2) extends "ext" ? "true" : "false"');
         });
@@ -94,7 +94,7 @@ describe("Type.toString", () => {
                 ]),
                 new T.LiteralType("ext"),
                 new T.LiteralType("true"),
-                new T.LiteralType("false")
+                new T.LiteralType("false"),
             );
             equal(type.toString(), '(1 & 2) extends "ext" ? "true" : "false"');
         });
@@ -103,14 +103,14 @@ describe("Type.toString", () => {
     describe("Array types", () => {
         it("Does not wrap other array types", () => {
             const type = new T.ArrayType(
-                new T.ArrayType(new T.IntrinsicType("string"))
+                new T.ArrayType(new T.IntrinsicType("string")),
             );
             equal(type.toString(), "string[][]");
         });
 
         it("Wraps union types", () => {
             const type = new T.ArrayType(
-                new T.UnionType([new T.LiteralType(1), new T.LiteralType(2)])
+                new T.UnionType([new T.LiteralType(1), new T.LiteralType(2)]),
             );
             equal(type.toString(), "(1 | 2)[]");
         });
@@ -120,7 +120,7 @@ describe("Type.toString", () => {
                 new T.IntersectionType([
                     new T.LiteralType(1),
                     new T.LiteralType(2),
-                ])
+                ]),
             );
             equal(type.toString(), "(1 & 2)[]");
         });
@@ -149,7 +149,7 @@ describe("Type.toString", () => {
         it("Renders", () => {
             const type = new T.IndexedAccessType(
                 new T.IntrinsicType("string"),
-                new T.LiteralType("length")
+                new T.LiteralType("length"),
             );
 
             equal(type.toString(), 'string["length"]');
@@ -176,7 +176,7 @@ describe("Type.toString", () => {
                 new T.LiteralType(2),
                 undefined,
                 undefined,
-                undefined
+                undefined,
             );
             equal(type.toString(), "{ [K in 1]: 2 }");
         });
@@ -188,7 +188,7 @@ describe("Type.toString", () => {
                 new T.LiteralType(2),
                 "+",
                 undefined,
-                undefined
+                undefined,
             );
             equal(type.toString(), "{ readonly [K in 1]: 2 }");
 
@@ -198,7 +198,7 @@ describe("Type.toString", () => {
                 new T.LiteralType(2),
                 "-",
                 undefined,
-                undefined
+                undefined,
             );
             equal(type2.toString(), "{ -readonly [K in 1]: 2 }");
         });
@@ -210,7 +210,7 @@ describe("Type.toString", () => {
                 new T.LiteralType(2),
                 undefined,
                 "+",
-                undefined
+                undefined,
             );
             equal(type.toString(), "{ [K in 1]?: 2 }");
 
@@ -220,7 +220,7 @@ describe("Type.toString", () => {
                 new T.LiteralType(2),
                 undefined,
                 "-",
-                undefined
+                undefined,
             );
             equal(type2.toString(), "{ [K in 1]-?: 2 }");
         });
@@ -232,7 +232,7 @@ describe("Type.toString", () => {
                 new T.LiteralType(2),
                 undefined,
                 undefined,
-                new T.LiteralType(3)
+                new T.LiteralType(3),
             );
             equal(type.toString(), "{ [K in 1 as 3]: 2 }");
         });
@@ -249,14 +249,14 @@ describe("Type.toString", () => {
                 new T.IntersectionType([
                     new T.LiteralType(1),
                     new T.LiteralType(2),
-                ])
+                ]),
             );
             equal(type.toString(), "(1 & 2)?");
         });
 
         it("Wraps type operators", () => {
             const type = new T.OptionalType(
-                new T.TypeOperatorType(new T.LiteralType(1), "keyof")
+                new T.TypeOperatorType(new T.LiteralType(1), "keyof"),
             );
             equal(type.toString(), "(keyof 1)?");
         });
@@ -265,8 +265,8 @@ describe("Type.toString", () => {
             const project = new ProjectReflection("test");
             const type = new T.OptionalType(
                 new T.QueryType(
-                    T.ReferenceType.createResolvedReference("X", -1, project)
-                )
+                    T.ReferenceType.createResolvedReference("X", -1, project),
+                ),
             );
             equal(type.toString(), "typeof X?");
         });
@@ -286,9 +286,9 @@ describe("Type.toString", () => {
             const project = new ProjectReflection("test");
             const type = new T.TypeOperatorType(
                 new T.QueryType(
-                    T.ReferenceType.createResolvedReference("X", -1, project)
+                    T.ReferenceType.createResolvedReference("X", -1, project),
                 ),
-                "keyof"
+                "keyof",
             );
             equal(type.toString(), "keyof typeof X");
         });

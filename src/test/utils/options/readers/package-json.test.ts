@@ -23,7 +23,7 @@ describe("Options - PackageJsonReader", () => {
     function testLogs(
         testTitle: string,
         pkgJsonContent: string,
-        test: (logger: TestLogger) => void
+        test: (logger: TestLogger) => void,
     ): void {
         it(testTitle, () => {
             const proj = project(testTitle.replace(/[ "]/g, "_"));
@@ -42,7 +42,7 @@ describe("Options - PackageJsonReader", () => {
     testLogs(
         `Does not error if typedocOptions is not present`,
         `{ "name": "x" }`,
-        () => {}
+        () => {},
     );
 
     testLogs(
@@ -50,8 +50,8 @@ describe("Options - PackageJsonReader", () => {
         `{ "name": "x", "typedocOptions": 123 }`,
         (l) =>
             l.expectMessage(
-                `error: Failed to parse the "typedocOptions" field in */package.json, ensure it exists and contains an object.`
-            )
+                `error: Failed to parse the "typedocOptions" field in */package.json, ensure it exists and contains an object.`,
+            ),
     );
 
     testLogs(
@@ -59,8 +59,8 @@ describe("Options - PackageJsonReader", () => {
         `{ "name": "x", "typedocOptions": { "someOptionThatDoesNotExist": true } }`,
         (l) =>
             l.expectMessage(
-                "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared.*"
-            )
+                "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared.*",
+            ),
     );
 
     testLogs(
@@ -68,7 +68,7 @@ describe("Options - PackageJsonReader", () => {
         `{ "name": "x", "typedoc": {} }`,
         (l) =>
             l.expectMessage(
-                "warn: The 'typedoc' key in */package.json was used by the legacy-packages entryPointStrategy and will be ignored."
-            )
+                "warn: The 'typedoc' key in */package.json was used by the legacy-packages entryPointStrategy and will be ignored.",
+            ),
     );
 });

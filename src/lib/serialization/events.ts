@@ -20,7 +20,7 @@ export class SerializeEvent extends Event {
     constructor(
         name: string,
         project: ProjectReflection,
-        output?: JSONProjectReflection
+        output?: JSONProjectReflection,
     ) {
         super(name);
         this.project = project;

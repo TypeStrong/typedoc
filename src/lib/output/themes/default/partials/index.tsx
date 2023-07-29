@@ -6,7 +6,7 @@ import type { ContainerReflection, ReflectionCategory } from "../../../../models
 function renderCategory(
     { urlTo, icons, getReflectionClasses }: DefaultThemeRenderContext,
     item: ReflectionCategory,
-    prependName = ""
+    prependName = "",
 ) {
     return (
         <section class="tsd-index-section">
@@ -18,7 +18,7 @@ function renderCategory(
                             href={urlTo(item)}
                             class={classNames(
                                 { "tsd-index-link": true, deprecated: item.isDeprecated() },
-                                getReflectionClasses(item)
+                                getReflectionClasses(item),
                             )}
                         >
                             {icons[item.kind]()}
@@ -41,14 +41,14 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
         content = props.groups.flatMap((item) =>
             item.categories
                 ? item.categories.map((item2) => renderCategory(context, item2, item.title))
-                : renderCategory(context, item)
+                : renderCategory(context, item),
         );
     }
 
     // Accordion is only needed if any children don't have their own document.
     if (
         [...(props.groups ?? []), ...(props.categories ?? [])].some(
-            (category) => !category.allChildrenHaveOwnDocument()
+            (category) => !category.allChildrenHaveOwnDocument(),
         )
     ) {
         content = (

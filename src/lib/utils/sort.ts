@@ -58,7 +58,7 @@ const sorts: Record<
     (
         a: DeclarationReflection,
         b: DeclarationReflection,
-        data: { kindSortOrder: ReflectionKind[] }
+        data: { kindSortOrder: ReflectionKind[] },
     ) => boolean
 > = {
     "source-order"(a, b) {

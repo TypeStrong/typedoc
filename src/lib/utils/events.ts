@@ -93,7 +93,7 @@ function eventsApi<T extends {}, U>(
     events: U,
     name: EventMap | string | undefined,
     callback: EventCallback | undefined,
-    options: T
+    options: T,
 ): U {
     let i = 0,
         names: string[];
@@ -116,7 +116,7 @@ function eventsApi<T extends {}, U>(
                 events,
                 names[i],
                 name[names[i]],
-                options
+                options,
             );
         }
     } else if (name && typeof name === "string" && eventSplitter.test(name)) {
@@ -139,7 +139,7 @@ function onApi(
     events: EventHandlers,
     name: string,
     callback: EventCallback | undefined,
-    options: OnApiOptions
+    options: OnApiOptions,
 ): EventHandlers {
     if (callback) {
         const handlers = (events[name] ||= []);
@@ -172,7 +172,7 @@ function offApi(
     events: EventHandlers | undefined,
     name: string,
     callback: EventCallback | undefined,
-    options: OffApiOptions
+    options: OffApiOptions,
 ): EventHandlers | undefined {
     if (!events) {
         return;
@@ -245,7 +245,7 @@ function onceMap(
     map: EventMap,
     name: string,
     callback: EventCallback | undefined,
-    offer: Function
+    offer: Function,
 ): EventMap {
     if (callback) {
         const listener: EventCallback = (map[name] = once(function (
@@ -270,7 +270,7 @@ function triggerApi(
     name: string,
     _callback: Function | undefined,
     args: any[],
-    triggerer: EventTriggerer = triggerEvents
+    triggerer: EventTriggerer = triggerEvents,
 ): EventHandlers {
     if (objEvents) {
         const events = objEvents[name];
@@ -431,19 +431,19 @@ export class EventDispatcher {
         eventMap: EventMap,
         callback?: EventCallback,
         context?: any,
-        priority?: number
+        priority?: number,
     ): this;
     on(
         name: string,
         callback: EventCallback,
         context?: any,
-        priority?: number
+        priority?: number,
     ): this;
     on(
         nameOrMap: EventMap | string,
         callback: EventCallback,
         context?: any,
-        priority?: number
+        priority?: number,
     ) {
         this.internalOn(nameOrMap, callback, context, priority);
         return this;
@@ -457,7 +457,7 @@ export class EventDispatcher {
         callback: EventCallback | undefined,
         context?: any,
         priority = 0,
-        listening?: EventListener
+        listening?: EventListener,
     ) {
         this._events = eventsApi(
             onApi,
@@ -469,7 +469,7 @@ export class EventDispatcher {
                 ctx: this,
                 listening: listening,
                 priority: priority,
-            }
+            },
         );
 
         if (listening) {
@@ -489,13 +489,13 @@ export class EventDispatcher {
         name: string,
         callback: EventCallback,
         context?: any,
-        priority?: any
+        priority?: any,
     ): this;
     once(
         name: EventMap | string,
         callback?: EventCallback,
         context?: any,
-        priority?: number
+        priority?: number,
     ) {
         // Map the event into a `{event: once}` object.
         const events = eventsApi(
@@ -503,7 +503,7 @@ export class EventDispatcher {
             <EventMap>{},
             name,
             callback,
-            this.off.bind(this)
+            this.off.bind(this),
         );
         return this.on(events, void 0, context, priority);
     }
@@ -519,7 +519,7 @@ export class EventDispatcher {
     off(
         name: string | undefined,
         callback?: EventCallback,
-        context?: any
+        context?: any,
     ): this;
     off(name?: EventMap | string, callback?: EventCallback, context?: any) {
         if (!this._events) {
@@ -543,7 +543,7 @@ export class EventDispatcher {
         obj: EventDispatcher,
         name: EventMap | string,
         callback?: EventCallback,
-        priority?: number
+        priority?: number,
     ) {
         if (!obj) {
             return this;
@@ -578,13 +578,13 @@ export class EventDispatcher {
         obj: EventDispatcher,
         name: string,
         callback: EventCallback,
-        priority?: number
+        priority?: number,
     ): this;
     listenToOnce(
         obj: EventDispatcher,
         name: EventMap | string,
         callback?: EventCallback,
-        priority?: number
+        priority?: number,
     ) {
         // Map the event into a `{event: once}` object.
         const events = eventsApi(
@@ -592,7 +592,7 @@ export class EventDispatcher {
             <EventMap>{},
             name,
             callback,
-            this.stopListening.bind(this, obj)
+            this.stopListening.bind(this, obj),
         );
         return this.listenTo(obj, events, void 0, priority);
     }
@@ -604,7 +604,7 @@ export class EventDispatcher {
     stopListening(
         obj?: EventDispatcher,
         name?: EventMap | string,
-        callback?: EventCallback
+        callback?: EventCallback,
     ) {
         const listeningTo = this._listeningTo;
         if (!listeningTo) {
@@ -659,7 +659,7 @@ export class EventDispatcher {
                         ev = events[i];
                         ev.callback.apply(ev.ctx, args);
                     }
-                }
+                },
             );
         } else {
             eventsApi(triggerApi, this._events, name, void 0, args);

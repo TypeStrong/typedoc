@@ -7,7 +7,7 @@
 export function gh2154(
     data: unknown,
     equals: (a: 1, b: 2) => boolean,
-    hashCode: (data: 3) => number
+    hashCode: (data: 3) => number,
 ) {}
 
 export class AnotherTest {

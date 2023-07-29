@@ -85,7 +85,7 @@ describe("Issue Tests", () => {
         equal(param?.name, "x");
         equal(
             Comment.combineDisplayParts(param.comment?.summary),
-            "JSDoc style param name"
+            "JSDoc style param name",
         );
     });
 
@@ -96,7 +96,7 @@ describe("Issue Tests", () => {
         ok(sig, "Missing signatures");
 
         const paramComments = sig.parameters?.map((param) =>
-            Comment.combineDisplayParts(param.comment?.summary)
+            Comment.combineDisplayParts(param.comment?.summary),
         );
         equal(paramComments, [
             "the string to parse as a number",
@@ -107,16 +107,13 @@ describe("Issue Tests", () => {
     it("#869", () => {
         const project = convert();
         const classFoo = project.children?.find(
-            (r) => r.name === "Foo" && r.kind === ReflectionKind.Class
+            (r) => r.name === "Foo" && r.kind === ReflectionKind.Class,
         );
         ok(classFoo instanceof DeclarationReflection);
-        equal(
-            classFoo.children?.find((r) => r.name === "x"),
-            undefined
-        );
+        equal(classFoo.children?.find((r) => r.name === "x"), undefined);
 
         const nsFoo = project.children?.find(
-            (r) => r.name === "Foo" && r.kind === ReflectionKind.Namespace
+            (r) => r.name === "Foo" && r.kind === ReflectionKind.Namespace,
         );
         ok(nsFoo instanceof DeclarationReflection);
         ok(nsFoo.children?.find((r) => r.name === "x"));
@@ -127,7 +124,7 @@ describe("Issue Tests", () => {
         equal(
             project.children?.length,
             1,
-            "Namespace with type and value converted twice"
+            "Namespace with type and value converted twice",
         );
     });
 
@@ -143,12 +140,12 @@ describe("Issue Tests", () => {
         const refl = query(project, "gh1164");
         equal(
             Comment.combineDisplayParts(
-                refl.signatures?.[0]?.parameters?.[0]?.comment?.summary
+                refl.signatures?.[0]?.parameters?.[0]?.comment?.summary,
             ),
-            "{@link CommentedClass} Test description."
+            "{@link CommentedClass} Test description.",
         );
         const tag = refl.signatures?.[0]?.comment?.blockTags.find(
-            (x) => x.tag === "@returns"
+            (x) => x.tag === "@returns",
         );
         ok(tag);
         equal(Comment.combineDisplayParts(tag.content), "Test description.");
@@ -172,7 +169,7 @@ describe("Issue Tests", () => {
         const prop = query(project, "X.prop");
         equal(
             Comment.combineDisplayParts(prop.comment?.summary),
-            "The property of X."
+            "The property of X.",
         );
     });
 
@@ -199,10 +196,7 @@ describe("Issue Tests", () => {
 
     it("#1436", () => {
         const project = convert();
-        equal(
-            project.children?.map((c) => c.name),
-            ["gh1436"]
-        );
+        equal(project.children?.map((c) => c.name), ["gh1436"]);
     });
 
     it("#1449", () => {
@@ -210,7 +204,7 @@ describe("Issue Tests", () => {
         const refl = query(project, "gh1449").signatures?.[0];
         equal(
             refl?.typeParameters?.[0].type?.toString(),
-            "[foo: any, bar?: any]"
+            "[foo: any, bar?: any]",
         );
     });
 
@@ -238,9 +232,9 @@ describe("Issue Tests", () => {
         const method = query(project, "METHOD");
         equal(
             Comment.combineDisplayParts(
-                method.signatures?.[0].comment?.summary
+                method.signatures?.[0].comment?.summary,
             ),
-            "method docs"
+            "method docs",
         );
     });
 
@@ -249,7 +243,7 @@ describe("Issue Tests", () => {
         const signature = query(project, "GH1481.static").signatures?.[0];
         equal(
             Comment.combineDisplayParts(signature?.comment?.summary),
-            "static docs"
+            "static docs",
         );
         equal(signature?.type?.toString(), "void");
     });
@@ -258,11 +252,11 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(
             query(project, "gh1483.namespaceExport").kind,
-            ReflectionKind.Function
+            ReflectionKind.Function,
         );
         equal(
             query(project, "gh1483_2.staticMethod").kind,
-            ReflectionKind.Method
+            ReflectionKind.Method,
         );
     });
 
@@ -271,7 +265,7 @@ describe("Issue Tests", () => {
         const refl = query(project, "GH1490.optionalMethod");
         equal(
             Comment.combineDisplayParts(refl.signatures?.[0]?.comment?.summary),
-            "With comment"
+            "With comment",
         );
     });
 
@@ -293,10 +287,9 @@ describe("Issue Tests", () => {
 
     it("#1522", () => {
         const project = convert();
-        equal(
-            project.groups?.map((g) => g.categories?.map((c) => c.title)),
-            [["cat"]]
-        );
+        equal(project.groups?.map((g) => g.categories?.map((c) => c.title)), [
+            ["cat"],
+        ]);
     });
 
     it("#1524", () => {
@@ -315,16 +308,17 @@ describe("Issue Tests", () => {
         const func = query(project, "gh1534");
         equal(
             func.signatures?.[0]?.parameters?.[0]?.type?.toString(),
-            "readonly [number, string]"
+            "readonly [number, string]",
         );
     });
 
     it("#1547", () => {
         const project = convert();
-        equal(
-            project.children?.map((c) => c.name),
-            ["Test", "ThingA", "ThingB"]
-        );
+        equal(project.children?.map((c) => c.name), [
+            "Test",
+            "ThingA",
+            "ThingB",
+        ]);
     });
 
     it("#1552", () => {
@@ -340,7 +334,7 @@ describe("Issue Tests", () => {
         ok(query(project, "notIgnored"));
         ok(
             !project.getChildByName("ignored"),
-            "Symbol re-exported from ignored file is ignored."
+            "Symbol re-exported from ignored file is ignored.",
         );
     });
 
@@ -348,11 +342,11 @@ describe("Issue Tests", () => {
         const project = convert();
         ok(
             query(project, "B.prop").hasComment(),
-            "Overwritten property with no comment should be inherited"
+            "Overwritten property with no comment should be inherited",
         );
         ok(
             query(project, "B.run").signatures?.[0]?.hasComment(),
-            "Overwritten method with no comment should be inherited"
+            "Overwritten method with no comment should be inherited",
         );
     });
 
@@ -363,10 +357,10 @@ describe("Issue Tests", () => {
 
         equal(
             Comment.combineDisplayParts(
-                query(project, "Foo.baz").signatures?.[0]?.comment?.summary
+                query(project, "Foo.baz").signatures?.[0]?.comment?.summary,
             ),
             "Some property style doc.",
-            "Property methods declared in interface should still allow comment inheritance"
+            "Property methods declared in interface should still allow comment inheritance",
         );
     });
 
@@ -379,15 +373,12 @@ describe("Issue Tests", () => {
 
     it("#1651", () => {
         const project = convert();
-        equal(
-            project.children?.map((c) => c.name),
-            ["bar", "bar"]
-        );
+        equal(project.children?.map((c) => c.name), ["bar", "bar"]);
 
-        equal(
-            project.children[0].children?.map((c) => c.name),
-            ["metadata", "fn"]
-        );
+        equal(project.children[0].children?.map((c) => c.name), [
+            "metadata",
+            "fn",
+        ]);
 
         const comments = [
             project.children[0].comment?.summary,
@@ -441,7 +432,7 @@ describe("Issue Tests", () => {
         const group = project.groups?.find((g) => g.title === "Type Aliases");
         ok(group, "missing group");
         const cat = group.categories?.find(
-            (cat) => cat.title === "My category"
+            (cat) => cat.title === "My category",
         );
         ok(cat, "missing cat");
 
@@ -449,10 +440,10 @@ describe("Issue Tests", () => {
         ok(!Foo.comment?.getTag("@category"), "has cat tag");
         ok(!Foo.type.declaration.comment?.getTag("@category"), "has cat tag 2");
         ok(
-            !Foo.type.declaration.signatures?.some((s) =>
-                s.comment?.getTag("@category")
+            !Foo.type.declaration.signatures?.some(
+                (s) => s.comment?.getTag("@category"),
             ),
-            "has cat tag 3"
+            "has cat tag 3",
         );
     });
 
@@ -461,13 +452,13 @@ describe("Issue Tests", () => {
         const sym1 = query(project, "sym1");
         equal(
             Comment.combineDisplayParts(sym1.signatures?.[0].comment?.summary),
-            "Docs for Sym1"
+            "Docs for Sym1",
         );
 
         const sym2 = query(project, "sym2");
         equal(
             Comment.combineDisplayParts(sym2.comment?.summary),
-            "Docs for Sym2"
+            "Docs for Sym2",
         );
     });
 
@@ -481,16 +472,13 @@ describe("Issue Tests", () => {
         equal(tag.text, "method");
         ok(
             tag.target === query(project, "Test.method"),
-            "Incorrect resolution"
+            "Incorrect resolution",
         );
     });
 
     it("#1795", () => {
         const project = convert();
-        equal(
-            project.children?.map((c) => c.name),
-            ["default", "foo"]
-        );
+        equal(project.children?.map((c) => c.name), ["default", "foo"]);
         ok(project.children![0].kind === ReflectionKind.Reference);
         ok(project.children![1].kind !== ReflectionKind.Reference);
     });
@@ -508,15 +496,15 @@ describe("Issue Tests", () => {
     it("#1875", () => {
         const project = convert();
         const test = query(project, "test");
-        equal(
-            test.signatures?.[0].parameters?.map((p) => p.type?.toString()),
-            ["typeof globalThis", "string"]
-        );
+        equal(test.signatures?.[0].parameters?.map((p) => p.type?.toString()), [
+            "typeof globalThis",
+            "string",
+        ]);
 
         const test2 = query(project, "test2");
         equal(
             test2.signatures?.[0].parameters?.map((p) => p.type?.toString()),
-            ["any", "string"]
+            ["any", "string"],
         );
     });
 
@@ -530,9 +518,9 @@ describe("Issue Tests", () => {
         equal(
             Comment.combineDisplayParts(
                 fooSig.type.types[1].declaration.getChildByName("min")?.comment
-                    ?.summary
+                    ?.summary,
             ),
-            "Nested"
+            "Nested",
         );
 
         const bar = query(project, "bar");
@@ -544,16 +532,16 @@ describe("Issue Tests", () => {
         equal(
             Comment.combineDisplayParts(
                 barSig.type.types[0].declaration.getChildByName("min")?.comment
-                    ?.summary
+                    ?.summary,
             ),
-            "Nested"
+            "Nested",
         );
         equal(
             Comment.combineDisplayParts(
                 barSig.type.types[1].declaration.getChildByName("min")?.comment
-                    ?.summary
+                    ?.summary,
             ),
-            "Nested"
+            "Nested",
         );
     });
 
@@ -576,11 +564,11 @@ describe("Issue Tests", () => {
 
         equal(
             Type1.type.declaration.signatures?.[0].comment,
-            new Comment([{ kind: "text", text: "On Tag" }])
+            new Comment([{ kind: "text", text: "On Tag" }]),
         );
         equal(
             Type2.type.declaration.signatures?.[0].comment,
-            new Comment([{ kind: "text", text: "Some type 2." }])
+            new Comment([{ kind: "text", text: "Some type 2." }]),
         );
     });
 
@@ -588,7 +576,7 @@ describe("Issue Tests", () => {
         const project = convert();
         app.validate(project);
         logger.expectMessage(
-            "warn: UnDocFn.__type, defined in */gh1898.ts, does not have any documentation."
+            "warn: UnDocFn.__type, defined in */gh1898.ts, does not have any documentation.",
         );
         logger.expectNoOtherMessages();
     });
@@ -597,7 +585,7 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(
             Object.values(project.reflections).map((r) => r.name),
-            ["typedoc"]
+            ["typedoc"],
         );
     });
 
@@ -605,7 +593,7 @@ describe("Issue Tests", () => {
         const project = convert("gh1903b");
         equal(
             Object.values(project.reflections).map((r) => r.name),
-            ["typedoc"]
+            ["typedoc"],
         );
     });
 
@@ -623,8 +611,8 @@ describe("Issue Tests", () => {
             fn.signatures?.[0].comment,
             new Comment(
                 [],
-                [new CommentTag("@returns", [{ kind: "text", text: "ret" }])]
-            )
+                [new CommentTag("@returns", [{ kind: "text", text: "ret" }])],
+            ),
         );
     });
 
@@ -634,7 +622,7 @@ describe("Issue Tests", () => {
 
         equal(
             ref.getSignature?.comment,
-            new Comment([{ kind: "text", text: "Base" }])
+            new Comment([{ kind: "text", text: "Base" }]),
         );
     });
 
@@ -649,9 +637,9 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(
             Comment.combineDisplayParts(
-                query(project, "WithDocs1").comment?.summary
+                query(project, "WithDocs1").comment?.summary,
             ),
-            "second"
+            "second",
         );
     });
 
@@ -662,7 +650,7 @@ describe("Issue Tests", () => {
         ok(project.hasComment(), "Missing module comment");
         ok(
             !foo.signatures[0].hasComment(),
-            "Module comment attached to signature"
+            "Module comment attached to signature",
         );
     });
 
@@ -684,15 +672,15 @@ describe("Issue Tests", () => {
                             text: "```ts\n\n```",
                         },
                     ]),
-                ]
-            )
+                ],
+            ),
         );
     });
 
     it("#1968", () => {
         const project = convert();
         const comments = ["Bar.x", "Bar.y", "Bar.z"].map((n) =>
-            Comment.combineDisplayParts(query(project, n).comment?.summary)
+            Comment.combineDisplayParts(query(project, n).comment?.summary),
         );
         equal(comments, ["getter", "getter", "setter"]);
     });
@@ -700,15 +688,15 @@ describe("Issue Tests", () => {
     it("#1973", () => {
         const project = convert();
         const comments = ["A", "B"].map((n) =>
-            Comment.combineDisplayParts(query(project, n).comment?.summary)
+            Comment.combineDisplayParts(query(project, n).comment?.summary),
         );
 
         equal(comments, ["A override", "B module"]);
 
         const comments2 = ["A.a", "B.b"].map((n) =>
             Comment.combineDisplayParts(
-                query(project, n).signatures![0].comment?.summary
-            )
+                query(project, n).signatures![0].comment?.summary,
+            ),
         );
 
         equal(comments2, ["Comment for a", "Comment for b"]);
@@ -717,29 +705,26 @@ describe("Issue Tests", () => {
     it("#1980", () => {
         const project = convert();
         const link = query(project, "link");
-        equal(
-            link.comment?.summary.filter((t) => t.kind === "inline-tag"),
-            [
-                {
-                    kind: "inline-tag",
-                    tag: "@link",
-                    target: "http://example.com",
-                    text: "http://example.com",
-                },
-                {
-                    kind: "inline-tag",
-                    tag: "@link",
-                    target: "http://example.com",
-                    text: "with text",
-                },
-                {
-                    kind: "inline-tag",
-                    tag: "@link",
-                    target: "http://example.com",
-                    text: "jsdoc support",
-                },
-            ]
-        );
+        equal(link.comment?.summary.filter((t) => t.kind === "inline-tag"), [
+            {
+                kind: "inline-tag",
+                tag: "@link",
+                target: "http://example.com",
+                text: "http://example.com",
+            },
+            {
+                kind: "inline-tag",
+                tag: "@link",
+                target: "http://example.com",
+                text: "with text",
+            },
+            {
+                kind: "inline-tag",
+                tag: "@link",
+                target: "http://example.com",
+                text: "jsdoc support",
+            },
+        ]);
         logger.expectNoOtherMessages();
     });
 
@@ -748,7 +733,7 @@ describe("Issue Tests", () => {
         const a = query(project, "a");
         equal(
             Comment.combineDisplayParts(a.comment?.summary),
-            "[[include:file.md]] this is not a link."
+            "[[include:file.md]] this is not a link.",
         );
         logger.expectNoOtherMessages();
     });
@@ -814,12 +799,12 @@ describe("Issue Tests", () => {
         equal(
             Comment.combineDisplayParts(param.comment?.summary),
             "Param comment",
-            "Constructor parameter"
+            "Constructor parameter",
         );
         equal(
             Comment.combineDisplayParts(prop.comment?.summary),
             "Param comment",
-            "Property"
+            "Property",
         );
     });
 
@@ -829,15 +814,15 @@ describe("Issue Tests", () => {
         equal(Comment.combineDisplayParts(opt.comment?.summary), "Desc");
         equal(
             Comment.combineDisplayParts(
-                opt.getChildByName("url")?.comment?.summary
+                opt.getChildByName("url")?.comment?.summary,
             ),
-            "Desc2"
+            "Desc2",
         );
         equal(
             Comment.combineDisplayParts(
-                opt.getChildByName("apiKey")?.comment?.summary
+                opt.getChildByName("apiKey")?.comment?.summary,
             ),
-            "Desc3"
+            "Desc3",
         );
     });
 
@@ -858,7 +843,7 @@ describe("Issue Tests", () => {
     it("#2033", () => {
         const project = convert();
         const cls = project.children!.find(
-            (c) => c.name === "Foo" && c.kind === ReflectionKind.Class
+            (c) => c.name === "Foo" && c.kind === ReflectionKind.Class,
         );
         ok(cls);
 
@@ -896,10 +881,10 @@ describe("Issue Tests", () => {
             ok(refl.signatures?.[0]);
             equal(
                 Comment.combineDisplayParts(
-                    refl.signatures[0].comment?.summary
+                    refl.signatures[0].comment?.summary,
                 ),
                 docs,
-                name
+                name,
             );
         }
     });
@@ -935,7 +920,7 @@ describe("Issue Tests", () => {
         const x = query(project, "Bar.x");
         equal(
             Comment.combineDisplayParts(x.comment?.summary),
-            "Foo type comment"
+            "Foo type comment",
         );
     });
 
@@ -945,9 +930,9 @@ describe("Issue Tests", () => {
         equal(hook.type?.type, "reflection" as const);
         equal(
             Comment.combineDisplayParts(
-                hook.type.declaration.signatures![0].comment?.summary
+                hook.type.declaration.signatures![0].comment?.summary,
             ),
-            "One"
+            "One",
         );
     });
 
@@ -957,23 +942,23 @@ describe("Issue Tests", () => {
         equal(intFn.kind, ReflectionKind.Method, "intFn interface method");
         equal(
             Comment.combineDisplayParts(intFn.signatures?.[0].comment?.summary),
-            "intFn doc"
+            "intFn doc",
         );
 
         const intProp = query(project, "FileInt.intVar");
         equal(intProp.kind, ReflectionKind.Property, "intVar interface prop");
         equal(
             Comment.combineDisplayParts(intProp.comment?.summary),
-            "intVar doc"
+            "intVar doc",
         );
 
         const constFn = query(project, "FileInt.constFn");
         equal(constFn.kind, ReflectionKind.Method, "constFn interface method");
         equal(
             Comment.combineDisplayParts(
-                constFn.signatures?.[0].comment?.summary
+                constFn.signatures?.[0].comment?.summary,
             ),
-            "constFn doc"
+            "constFn doc",
         );
 
         const intFn2 = query(project, "FileClass.intFn");
@@ -986,9 +971,9 @@ describe("Issue Tests", () => {
         equal(constFn2.kind, ReflectionKind.Method, "constFn class method");
         equal(
             Comment.combineDisplayParts(
-                constFn2.signatures?.[0].comment?.summary
+                constFn2.signatures?.[0].comment?.summary,
             ),
-            "constFn doc"
+            "constFn doc",
         );
     });
 
@@ -999,7 +984,7 @@ describe("Issue Tests", () => {
         equal(foo.signatures?.length, 1);
         equal(
             Comment.combineDisplayParts(foo.signatures[0].comment?.summary),
-            "Is documented"
+            "Is documented",
         );
     });
 
@@ -1007,7 +992,7 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(
             Comment.combineDisplayParts(project.comment?.summary),
-            "'module' comment"
+            "'module' comment",
         );
     });
 
@@ -1024,7 +1009,7 @@ describe("Issue Tests", () => {
         equal(Test.type?.type, "reflection" as const);
         equal(
             Test.type.declaration.getChildByName("x")?.flags.isOptional,
-            true
+            true,
         );
     });
 
@@ -1048,9 +1033,9 @@ describe("Issue Tests", () => {
         const example = query(project, "example");
         equal(
             Comment.combineDisplayParts(
-                example.comment?.getTag("@example")?.content
+                example.comment?.getTag("@example")?.content,
             ),
-            "```ts\nlet x = `str`\n```"
+            "```ts\nlet x = `str`\n```",
         );
     });
 
@@ -1065,7 +1050,7 @@ describe("Issue Tests", () => {
             equal(
                 clsFn.implementationOf?.reflection?.getFullName(),
                 intFn.getFullName(),
-                `${name} method not properly linked`
+                `${name} method not properly linked`,
             );
 
             const intTarget = intFn.signatures?.[0] || intFn;
@@ -1078,7 +1063,7 @@ describe("Issue Tests", () => {
             equal(
                 clsSig!.implementationOf?.reflection?.getFullName(),
                 intTarget!.getFullName(),
-                `${name} signature not properly linked`
+                `${name} signature not properly linked`,
             );
         }
     });
@@ -1086,14 +1071,15 @@ describe("Issue Tests", () => {
     it("Handles implementationOf with symbols #2234", () => {
         const project = convert();
         const cm = query(project, "CharMap");
-        equal(
-            cm.children?.map((c) => c.name),
-            ["constructor", "[iterator]", "at"]
-        );
+        equal(cm.children?.map((c) => c.name), [
+            "constructor",
+            "[iterator]",
+            "at",
+        ]);
 
         equal(
             cm.children[1].implementationOf?.name,
-            "ReadonlyCharMap.[iterator]"
+            "ReadonlyCharMap.[iterator]",
         );
     });
 
@@ -1121,16 +1107,17 @@ describe("Issue Tests", () => {
 
         equal(
             Comment.combineDisplayParts(
-                query(project, "CallSignature").signatures![0].comment?.summary
+                query(project, "CallSignature").signatures![0].comment?.summary,
             ),
-            "Sig comment"
+            "Sig comment",
         );
 
         equal(
             Comment.combineDisplayParts(
-                query(project, "CallSignature2").signatures![0].comment?.summary
+                query(project, "CallSignature2").signatures![0].comment
+                    ?.summary,
             ),
-            "Sig comment"
+            "Sig comment",
         );
     });
 

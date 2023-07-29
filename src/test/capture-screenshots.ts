@@ -77,7 +77,7 @@ export async function captureRegressionScreenshots() {
 
 export async function captureScreenshots(
     baseDirectory: string,
-    outputDirectory: string
+    outputDirectory: string,
 ) {
     const browser = await puppeteer.launch({
         args:
@@ -92,7 +92,7 @@ export async function captureScreenshots(
             const absPath = resolve(baseDirectory, file);
             const outputPath = resolve(
                 outputDirectory,
-                relative(baseDirectory, file).replace(".html", "")
+                relative(baseDirectory, file).replace(".html", ""),
             );
             fs.mkdirSync(dirname(outputPath), { recursive: true });
 

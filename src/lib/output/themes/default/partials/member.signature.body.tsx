@@ -6,7 +6,7 @@ import { hasTypeParameters } from "../../lib";
 export function memberSignatureBody(
     context: DefaultThemeRenderContext,
     props: SignatureReflection,
-    { hideSources = false }: { hideSources?: boolean } = {}
+    { hideSources = false }: { hideSources?: boolean } = {},
 ) {
     const returnsTag = props.comment?.getTag("@returns");
 

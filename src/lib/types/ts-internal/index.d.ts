@@ -21,7 +21,7 @@ declare module "typescript" {
     // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L4171
     export function getJSDocCommentsAndTags(
         hostNode: Node,
-        noCache?: boolean
+        noCache?: boolean,
     ): readonly (JSDoc | JSDocTag)[];
 
     export interface Signature {

@@ -82,7 +82,7 @@ export class ProjectReflection extends ContainerReflection {
      */
     getReflectionsByKind(kind: ReflectionKind): Reflection[] {
         return Object.values(this.reflections).filter((reflection) =>
-            reflection.kindOf(kind)
+            reflection.kindOf(kind),
         );
     }
 
@@ -103,7 +103,7 @@ export class ProjectReflection extends ContainerReflection {
             const id = new ReflectionSymbolId(symbol);
             this.symbolToReflectionIdMap.set(
                 id,
-                this.symbolToReflectionIdMap.get(id) ?? reflection.id
+                this.symbolToReflectionIdMap.get(id) ?? reflection.id,
             );
             this.reflectionIdToSymbolIdMap.set(reflection.id, id);
             this.reflectionIdToSymbolMap.set(reflection.id, symbol);
@@ -133,7 +133,7 @@ export class ProjectReflection extends ContainerReflection {
             if (property === TraverseProperty.Children) {
                 removeIfPresent(
                     parent.children,
-                    reflection as DeclarationReflection
+                    reflection as DeclarationReflection,
                 );
             } else if (property === TraverseProperty.GetSignature) {
                 delete parent.getSignature;
@@ -142,21 +142,21 @@ export class ProjectReflection extends ContainerReflection {
             } else if (property === TraverseProperty.Parameters) {
                 removeIfPresent(
                     (reflection.parent as SignatureReflection).parameters,
-                    reflection as ParameterReflection
+                    reflection as ParameterReflection,
                 );
             } else if (property === TraverseProperty.SetSignature) {
                 delete parent.setSignature;
             } else if (property === TraverseProperty.Signatures) {
                 removeIfPresent(
                     parent.signatures,
-                    reflection as SignatureReflection
+                    reflection as SignatureReflection,
                 );
             } else if (property === TraverseProperty.TypeLiteral) {
                 parent.type = new IntrinsicType("Object");
             } else if (property === TraverseProperty.TypeParameter) {
                 removeIfPresent(
                     parent.typeParameters,
-                    reflection as TypeParameterReflection
+                    reflection as TypeParameterReflection,
                 );
             }
 
@@ -180,7 +180,7 @@ export class ProjectReflection extends ContainerReflection {
 
         // Remove children of this reflection
         for (const childId of this.reflectionChildren.getNoInsert(
-            reflection.id
+            reflection.id,
         ) || []) {
             const child = this.getReflectionById(childId);
             // Only remove if the child's parent is still actually this reflection.
@@ -290,7 +290,7 @@ export class ProjectReflection extends ContainerReflection {
 
     override fromObject(
         de: Deserializer,
-        obj: JSONOutput.ProjectReflection
+        obj: JSONOutput.ProjectReflection,
     ): void {
         super.fromObject(de, obj);
         // If updating this, also check the block in DeclarationReflection.fromObject.
@@ -307,7 +307,7 @@ export class ProjectReflection extends ContainerReflection {
                     this.registerSymbolId(refl, new ReflectionSymbolId(sid));
                 } else {
                     de.logger.warn(
-                        `Serialized project contained a reflection with id ${id} but it was not present in deserialized project.`
+                        `Serialized project contained a reflection with id ${id} but it was not present in deserialized project.`,
                     );
                 }
             }

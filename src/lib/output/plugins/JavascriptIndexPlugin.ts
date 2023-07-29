@@ -55,7 +55,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
         const rows: SearchDocument[] = [];
 
         const initialSearchResults = Object.values(
-            event.project.reflections
+            event.project.reflections,
         ).filter((refl) => {
             return (
                 refl instanceof DeclarationReflection &&
@@ -67,7 +67,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
 
         const indexEvent = new IndexEvent(
             IndexEvent.PREPARE_INDEX,
-            initialSearchResults
+            initialSearchResults,
         );
 
         this.owner.trigger(indexEvent);
@@ -81,7 +81,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
 
         builder.ref("id");
         for (const [key, boost] of Object.entries(
-            indexEvent.searchFieldWeights
+            indexEvent.searchFieldWeights,
         )) {
             builder.field(key, { boost });
         }
@@ -119,7 +119,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
                     ...indexEvent.searchFields[rows.length],
                     id: rows.length,
                 },
-                { boost }
+                { boost },
             );
             rows.push(row);
         }
@@ -129,7 +129,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
         const jsonFileName = Path.join(
             event.outputDirectory,
             "assets",
-            "search.js"
+            "search.js",
         );
 
         const jsonData = JSON.stringify({
@@ -139,7 +139,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
 
         writeFileSync(
             jsonFileName,
-            `window.searchData = JSON.parse(${JSON.stringify(jsonData)});`
+            `window.searchData = JSON.parse(${JSON.stringify(jsonData)});`,
         );
     }
 
@@ -149,7 +149,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
         const comments: Comment[] = [];
         if (reflection.comment) comments.push(reflection.comment);
         reflection.signatures?.forEach(
-            (s) => s.comment && comments.push(s.comment)
+            (s) => s.comment && comments.push(s.comment),
         );
         reflection.getSignature?.comment &&
             comments.push(reflection.getSignature.comment);

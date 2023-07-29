@@ -8,7 +8,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 export const defaultLayout = (
     context: DefaultThemeRenderContext,
     template: RenderTemplate<PageEvent<Reflection>>,
-    props: PageEvent<Reflection>
+    props: PageEvent<Reflection>,
 ) => (
     <html class="default" lang={context.options.getValue("htmlLang")}>
         <head>

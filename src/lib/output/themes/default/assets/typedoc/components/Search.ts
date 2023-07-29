@@ -37,7 +37,7 @@ export function initSearch() {
     if (!searchEl) return;
 
     const searchScript = document.getElementById(
-        "tsd-search-script"
+        "tsd-search-script",
     ) as HTMLScriptElement | null;
     searchEl.classList.add("loading");
     if (searchScript) {
@@ -59,7 +59,7 @@ export function initSearch() {
 
     if (!field || !results) {
         throw new Error(
-            "The input field or the result list wrapper was not found"
+            "The input field or the result list wrapper was not found",
         );
     }
 
@@ -89,13 +89,13 @@ function bindEvents(
     searchEl: HTMLElement,
     results: HTMLElement,
     field: HTMLInputElement,
-    state: SearchState
+    state: SearchState,
 ) {
     field.addEventListener(
         "input",
         debounce(() => {
             updateResults(searchEl, results, field, state);
-        }, 200)
+        }, 200),
     );
 
     let preventPress = false;
@@ -144,7 +144,7 @@ function updateResults(
     searchEl: HTMLElement,
     results: HTMLElement,
     query: HTMLInputElement,
-    state: SearchState
+    state: SearchState,
 ) {
     checkIndex(state, searchEl);
     // Don't clear results if loading state is not ready,
@@ -187,7 +187,7 @@ function updateResults(
         if (row.parent) {
             name = `<span class="parent">${boldMatches(
                 row.parent,
-                searchText
+                searchText,
             )}.</span>${name}`;
         }
 
@@ -210,7 +210,7 @@ function setCurrentResult(results: HTMLElement, dir: number) {
     let current = results.querySelector(".current");
     if (!current) {
         current = results.querySelector(
-            dir == 1 ? "li:first-child" : "li:last-child"
+            dir == 1 ? "li:first-child" : "li:last-child",
         );
         if (current) {
             current.classList.add("current");
@@ -270,8 +270,8 @@ function boldMatches(text: string, search: string) {
         parts.push(
             escapeHtml(text.substring(lastIndex, index)),
             `<b>${escapeHtml(
-                text.substring(index, index + lowerSearch.length)
-            )}</b>`
+                text.substring(index, index + lowerSearch.length),
+            )}</b>`,
         );
 
         lastIndex = index + lowerSearch.length;
@@ -294,6 +294,6 @@ const SPECIAL_HTML = {
 function escapeHtml(text: string) {
     return text.replace(
         /[&<>"'"]/g,
-        (match) => SPECIAL_HTML[match as keyof typeof SPECIAL_HTML]
+        (match) => SPECIAL_HTML[match as keyof typeof SPECIAL_HTML],
     );
 }

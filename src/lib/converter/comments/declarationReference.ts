@@ -92,7 +92,7 @@ const SingleEscapeChars: Record<Chars<typeof SingleEscapeCharacter>, string> = {
 function parseEscapeSequence(
     source: string,
     pos: number,
-    end: number
+    end: number,
 ): [string, number] | undefined {
     // SingleEscapeCharacter
     if (SingleEscapeCharacter.includes(source[pos])) {
@@ -122,7 +122,7 @@ function parseEscapeSequence(
     ) {
         return [
             String.fromCharCode(
-                parseInt(source.substring(pos + 1, pos + 3), 16)
+                parseInt(source.substring(pos + 1, pos + 3), 16),
             ),
             pos + 3,
         ];
@@ -138,7 +138,7 @@ function parseEscapeSequence(
 function parseUnicodeEscapeSequence(
     source: string,
     pos: number,
-    end: number
+    end: number,
 ): [string, number] | undefined {
     if (source[pos] !== "u" || pos + 1 >= end) {
         return;
@@ -156,7 +156,7 @@ function parseUnicodeEscapeSequence(
 
         return [
             String.fromCharCode(
-                parseInt(source.substring(pos + 1, pos + 5), 16)
+                parseInt(source.substring(pos + 1, pos + 5), 16),
             ),
             pos + 5,
         ];
@@ -190,7 +190,7 @@ function parseUnicodeEscapeSequence(
 export function parseString(
     source: string,
     pos: number,
-    end: number
+    end: number,
 ): [string, number] | undefined {
     let result = "";
 
@@ -220,7 +220,7 @@ export function parseString(
 export function parseModuleSource(
     source: string,
     pos: number,
-    end: number
+    end: number,
 ): [string, number] | undefined {
     if (pos >= end) return;
 
@@ -247,7 +247,7 @@ export function parseModuleSource(
 export function parseSymbolReference(
     source: string,
     pos: number,
-    end: number
+    end: number,
 ): [SymbolReference, number] | undefined {
     const path = parseComponentPath(source, pos, end);
     pos = path?.[1] ?? pos;
@@ -267,7 +267,7 @@ export function parseSymbolReference(
 export function parseComponent(
     source: string,
     pos: number,
-    end: number
+    end: number,
 ): [string, number] | undefined {
     if (pos < end && source[pos] === '"') {
         return parseString(source, pos, end);
@@ -334,12 +334,12 @@ export function parseComponentPath(source: string, pos: number, end: number) {
 export function parseMeaning(
     source: string,
     pos: number,
-    end: number
+    end: number,
 ): [Meaning, number] | undefined {
     if (source[pos++] !== ":") return;
 
     const keyword = MeaningKeywords.find(
-        (kw) => pos + kw.length <= end && source.startsWith(kw, pos)
+        (kw) => pos + kw.length <= end && source.startsWith(kw, pos),
     );
 
     if (keyword) {
@@ -414,7 +414,7 @@ export function parseMeaning(
 export function parseDeclarationReference(
     source: string,
     pos: number,
-    end: number
+    end: number,
 ): [DeclarationReference, number] | undefined {
     let moduleSource: string | undefined;
     let symbolReference: SymbolReference | undefined;

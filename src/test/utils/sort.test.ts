@@ -14,7 +14,7 @@ import { getSortFunction, SortStrategy } from "../../lib/utils/sort";
 describe("Sort", () => {
     function sortReflections(
         arr: DeclarationReflection[],
-        strategies: SortStrategy[]
+        strategies: SortStrategy[],
     ) {
         const opts = new Options(new Logger());
         opts.setValue("sort", strategies);
@@ -31,7 +31,7 @@ describe("Sort", () => {
         sortReflections(arr, ["alphabetical"]);
         equal(
             arr.map((r) => r.name),
-            ["a", "b", "c"]
+            ["a", "b", "c"],
         );
     });
 
@@ -48,7 +48,7 @@ describe("Sort", () => {
         sortReflections(arr, ["enum-value-ascending"]);
         equal(
             arr.map((r) => r.name),
-            ["c", "b", "a"]
+            ["c", "b", "a"],
         );
     });
 
@@ -65,7 +65,7 @@ describe("Sort", () => {
         sortReflections(arr, ["enum-value-ascending"]);
         equal(
             arr.map((r) => r.name),
-            ["a", "c", "b"]
+            ["a", "c", "b"],
         );
     });
 
@@ -82,7 +82,7 @@ describe("Sort", () => {
         sortReflections(arr, ["enum-value-descending"]);
         equal(
             arr.map((r) => r.name),
-            ["a", "b", "c"]
+            ["a", "b", "c"],
         );
     });
 
@@ -99,7 +99,7 @@ describe("Sort", () => {
         sortReflections(arr, ["enum-value-descending"]);
         equal(
             arr.map((r) => r.name),
-            ["c", "b", "a"]
+            ["c", "b", "a"],
         );
     });
 
@@ -116,7 +116,7 @@ describe("Sort", () => {
         sortReflections(arr, ["static-first"]);
         equal(
             arr.map((r) => r.name),
-            ["a", "c", "b"]
+            ["a", "c", "b"],
         );
     });
 
@@ -133,7 +133,7 @@ describe("Sort", () => {
         sortReflections(arr, ["instance-first"]);
         equal(
             arr.map((r) => r.name),
-            ["b", "a", "c"]
+            ["b", "a", "c"],
         );
     });
 
@@ -153,7 +153,7 @@ describe("Sort", () => {
         sortReflections(arr, ["visibility"]);
         equal(
             arr.map((r) => r.name),
-            ["c", "d", "a", "b"]
+            ["c", "d", "a", "b"],
         );
     });
 
@@ -168,7 +168,7 @@ describe("Sort", () => {
         sortReflections(arr, ["required-first"]);
         equal(
             arr.map((r) => r.name),
-            ["b", "a"]
+            ["b", "a"],
         );
     });
 
@@ -198,7 +198,7 @@ describe("Sort", () => {
             new DeclarationReflection("7", ReflectionKind.Class),
             new DeclarationReflection(
                 "21",
-                ReflectionKind.ConstructorSignature
+                ReflectionKind.ConstructorSignature,
             ),
             new DeclarationReflection("22", ReflectionKind.IndexSignature),
         ];
@@ -206,7 +206,7 @@ describe("Sort", () => {
         sortReflections(arr, ["kind"]);
         equal(
             arr.map((r) => r.name),
-            Array.from({ length: arr.length }, (_, i) => (i + 1).toString())
+            Array.from({ length: arr.length }, (_, i) => (i + 1).toString()),
         );
     });
 
@@ -224,7 +224,7 @@ describe("Sort", () => {
         sortReflections(arr, ["required-first", "alphabetical"]);
         equal(
             arr.map((r) => r.id),
-            [1, 3, 0, 2]
+            [1, 3, 0, 2],
         );
     });
 
@@ -238,7 +238,7 @@ describe("Sort", () => {
         sortReflections(arr, ["source-order", "alphabetical"]);
         equal(
             arr.map((r) => r.name),
-            ["a", "b"]
+            ["a", "b"],
         );
     });
 
@@ -274,7 +274,7 @@ describe("Sort", () => {
         sortReflections(arr, ["source-order"]);
         equal(
             arr.map((r) => r.name),
-            ["a", "b", "c"]
+            ["a", "b", "c"],
         );
     });
 
@@ -296,14 +296,14 @@ describe("Sort", () => {
         const b = new DeclarationReflection(
             "b",
             ReflectionKind.EnumMember,
-            proj
+            proj,
         );
         proj.registerSymbolId(b, bId);
 
         const c = new DeclarationReflection(
             "c",
             ReflectionKind.EnumMember,
-            proj
+            proj,
         );
         proj.registerSymbolId(c, cId);
 
@@ -313,7 +313,7 @@ describe("Sort", () => {
         sortReflections(arr, ["enum-member-source-order", "alphabetical"]);
         equal(
             arr.map((r) => r.name),
-            ["a", "c", "b", "d"]
+            ["a", "c", "b", "d"],
         );
     });
 });

@@ -16,7 +16,7 @@ export class SignatureReflection extends Reflection {
     constructor(
         name: string,
         kind: SignatureReflection["kind"],
-        parent: DeclarationReflection
+        parent: DeclarationReflection,
     ) {
         super(name, kind, parent);
     }
@@ -67,7 +67,7 @@ export class SignatureReflection extends Reflection {
             if (
                 callback(
                     this.type.declaration,
-                    TraverseProperty.TypeLiteral
+                    TraverseProperty.TypeLiteral,
                 ) === false
             ) {
                 return;
@@ -95,7 +95,7 @@ export class SignatureReflection extends Reflection {
 
         if (this.typeParameters) {
             const parameters: string[] = this.typeParameters.map(
-                (parameter) => parameter.name
+                (parameter) => parameter.name,
             );
             result += "<" + parameters.join(", ") + ">";
         }
@@ -123,19 +123,19 @@ export class SignatureReflection extends Reflection {
 
     override fromObject(
         de: Deserializer,
-        obj: JSONOutput.SignatureReflection
+        obj: JSONOutput.SignatureReflection,
     ): void {
         super.fromObject(de, obj);
 
         this.sources = de.reviveMany(
             obj.sources,
-            (t) => new SourceReference(t.fileName, t.line, t.character)
+            (t) => new SourceReference(t.fileName, t.line, t.character),
         );
         this.typeParameters = de.reviveMany(obj.typeParameter, (t) =>
-            de.constructReflection(t)
+            de.constructReflection(t),
         );
         this.parameters = de.reviveMany(obj.parameters, (t) =>
-            de.constructReflection(t)
+            de.constructReflection(t),
         );
         this.type = de.reviveType(obj.type);
         this.overwrites = de.reviveType(obj.overwrites);

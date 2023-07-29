@@ -15,9 +15,9 @@ fs.readFile(file, { encoding: "utf-8" })
             file,
             text.replace(
                 /type InternalOnly =.*/,
-                `type InternalOnly = ${isStrict};`
-            )
-        )
+                `type InternalOnly = ${isStrict};`,
+            ),
+        ),
     )
     .catch((reason) => {
         console.error(reason);

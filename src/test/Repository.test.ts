@@ -8,7 +8,7 @@ describe("Repository", function () {
 
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://github.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+                "https://github.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}",
             );
         });
 
@@ -17,7 +17,7 @@ describe("Repository", function () {
 
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://github.com/TypeStrong/typedoc/blob/{gitRevision}/{path}#L{line}"
+                "https://github.com/TypeStrong/typedoc/blob/{gitRevision}/{path}#L{line}",
             );
         });
 
@@ -25,7 +25,7 @@ describe("Repository", function () {
             const mockRemotes = ["git@github.acme.com:joebloggs/foobar.git"];
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://github.acme.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+                "https://github.acme.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}",
             );
         });
 
@@ -35,7 +35,7 @@ describe("Repository", function () {
             ];
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://bigcompany.githubprivate.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+                "https://bigcompany.githubprivate.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}",
             );
         });
 
@@ -45,7 +45,7 @@ describe("Repository", function () {
             ];
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://bigcompany.ghe.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+                "https://bigcompany.ghe.com/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}",
             );
         });
 
@@ -56,7 +56,7 @@ describe("Repository", function () {
 
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://bigcompany.github.us/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}"
+                "https://bigcompany.github.us/joebloggs/foobar/blob/{gitRevision}/{path}#L{line}",
             );
         });
 
@@ -66,7 +66,7 @@ describe("Repository", function () {
             ];
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://bitbucket.org/joebloggs/foobar/src/{gitRevision}/{path}#lines-{line}"
+                "https://bitbucket.org/joebloggs/foobar/src/{gitRevision}/{path}#lines-{line}",
             );
         });
 
@@ -74,7 +74,7 @@ describe("Repository", function () {
             const mockRemotes = ["git@bitbucket.org:joebloggs/foobar.git"];
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://bitbucket.org/joebloggs/foobar/src/{gitRevision}/{path}#lines-{line}"
+                "https://bitbucket.org/joebloggs/foobar/src/{gitRevision}/{path}#lines-{line}",
             );
         });
 
@@ -82,7 +82,7 @@ describe("Repository", function () {
             const mockRemotes = ["https://gitlab.com/joebloggs/foobar.git"];
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://gitlab.com/joebloggs/foobar/-/blob/{gitRevision}/{path}#L{line}"
+                "https://gitlab.com/joebloggs/foobar/-/blob/{gitRevision}/{path}#L{line}",
             );
         });
 
@@ -90,7 +90,7 @@ describe("Repository", function () {
             const mockRemotes = ["git@gitlab.com:joebloggs/foobar.git"];
             equal(
                 guessSourceUrlTemplate(mockRemotes),
-                "https://gitlab.com/joebloggs/foobar/-/blob/{gitRevision}/{path}#L{line}"
+                "https://gitlab.com/joebloggs/foobar/-/blob/{gitRevision}/{path}#L{line}",
             );
         });
 

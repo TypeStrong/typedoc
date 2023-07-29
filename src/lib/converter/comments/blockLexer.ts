@@ -8,7 +8,7 @@ export function* lexBlockComment(
     pos = 0,
     end = file.length,
     jsDoc: ts.JSDoc | undefined = undefined,
-    checker: ts.TypeChecker | undefined = undefined
+    checker: ts.TypeChecker | undefined = undefined,
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
@@ -17,7 +17,7 @@ export function* lexBlockComment(
         pos,
         end,
         getLinkTags(jsDoc),
-        checker
+        checker,
     )) {
         if (token.kind === TokenSyntaxKind.Text) {
             if (textToken) {
@@ -41,7 +41,7 @@ export function* lexBlockComment(
 }
 
 function getLinkTags(
-    jsDoc: ts.JSDoc | undefined
+    jsDoc: ts.JSDoc | undefined,
 ): ReadonlyArray<ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain> {
     const result: (ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain)[] = [];
 
@@ -79,7 +79,7 @@ function* lexBlockComment2(
     linkTags: ReadonlyArray<
         ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain
     >,
-    checker: ts.TypeChecker | undefined
+    checker: ts.TypeChecker | undefined,
 ): Generator<Token, undefined, undefined> {
     pos += 2; // Leading '/*'
     end -= 2; // Trailing '*/'
@@ -132,7 +132,7 @@ function* lexBlockComment2(
                 if (braceStartsType && nextNonWs(pos + 1) !== "@") {
                     yield makeToken(
                         TokenSyntaxKind.TypeAnnotation,
-                        findEndOfType(pos) - pos
+                        findEndOfType(pos) - pos,
                     );
                     braceStartsType = false;
                 } else {
@@ -167,7 +167,7 @@ function* lexBlockComment2(
                     if (lookaheadExactlyNTicks(lookahead, tickCount)) {
                         lookahead += tickCount;
                         codeText.push(
-                            file.substring(lookaheadStart, lookahead)
+                            file.substring(lookaheadStart, lookahead),
                         );
                         yield {
                             kind: TokenSyntaxKind.Code,
@@ -186,7 +186,7 @@ function* lexBlockComment2(
                         file[lookahead + 1] === "/"
                     ) {
                         codeText.push(
-                            file.substring(lookaheadStart, lookahead)
+                            file.substring(lookaheadStart, lookahead),
                         );
                         lookaheadStart = lookahead + 1;
                         lookahead += 2;
@@ -199,7 +199,7 @@ function* lexBlockComment2(
                     } else if (file[lookahead] === "\n") {
                         lookahead++;
                         codeText.push(
-                            file.substring(lookaheadStart, lookahead)
+                            file.substring(lookaheadStart, lookahead),
                         );
                         lookahead = skipIndent(lookahead);
                         if (commentHasStars && file[lookahead] === "*") {
@@ -256,7 +256,7 @@ function* lexBlockComment2(
                     braceStartsType = true;
                     const token = makeToken(
                         TokenSyntaxKind.Tag,
-                        lookahead - pos
+                        lookahead - pos,
                     );
                     attachLinkTagResult(token);
                     yield token;
@@ -289,7 +289,7 @@ function* lexBlockComment2(
                     ) {
                         textParts.push(
                             file.substring(lookaheadStart, lookahead),
-                            file[lookahead + 1]
+                            file[lookahead + 1],
                         );
                         lookahead++;
                         lookaheadStart = lookahead + 1;
@@ -335,7 +335,7 @@ function* lexBlockComment2(
                 const tsTarget = checker?.getSymbolAtLocation(link.name);
                 if (tsTarget) {
                     token.tsLinkTarget = new ReflectionSymbolId(
-                        resolveAliasedSymbol(tsTarget, checker!)
+                        resolveAliasedSymbol(tsTarget, checker!),
                     );
                     token.tsLinkText = link.text.replace(/^\s*\|\s*/, "");
                 }
@@ -441,7 +441,7 @@ function* lexBlockComment2(
 function discoverIndent(
     file: string,
     pos: number,
-    end: number
+    end: number,
 ): [boolean, number] {
     let indent = 0;
 

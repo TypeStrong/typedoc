@@ -38,7 +38,7 @@ app.serializer.addSerializer({
     toObject(ref, obj) {
         if (obj.url) {
             obj.url = `typedoc://${obj.url.substring(
-                obj.url.indexOf(ref.fileName)
+                obj.url.indexOf(ref.fileName),
             )}`;
         }
         return obj;
@@ -105,14 +105,14 @@ function rebuildConverterTests(dirs) {
                     app.logger,
                     [fullPath],
                     app.options,
-                    [program]
+                    [program],
                 );
                 ok(entry, "Missing entry point");
                 const result = app.converter.convert(entry);
                 result.name = basename(fullPath);
                 const serialized = app.serializer.projectToObject(
                     result,
-                    process.cwd()
+                    process.cwd(),
                 );
 
                 const data = JSON.stringify(serialized, null, "  ") + "\n";
@@ -133,7 +133,7 @@ async function main(filter = "") {
                 if (!dir.isDirectory()) return false;
                 return dir.name.endsWith(filter);
             })
-            .map((dir) => path.join(base, dir.name))
+            .map((dir) => path.join(base, dir.name)),
     );
 }
 

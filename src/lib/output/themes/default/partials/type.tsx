@@ -77,7 +77,7 @@ function includeIndentation(): JSX.Element {
 export function validateStateIsClean(page: string) {
     ok(
         indentationDepth === 0,
-        `Rendering ${page}: Indentation depth increment/decrement not matched: ${indentationDepth}`
+        `Rendering ${page}: Indentation depth increment/decrement not matched: ${indentationDepth}`,
     );
 }
 
@@ -155,7 +155,7 @@ const typeRenderers: {
     },
     intersection(context, type) {
         return join(<span class="tsd-signature-symbol"> &amp; </span>, type.types, (item) =>
-            renderType(context, item, TypeContext.intersectionElement)
+            renderType(context, item, TypeContext.intersectionElement),
         );
     },
     intrinsic(_context, type) {
@@ -181,13 +181,13 @@ const typeRenderers: {
             <span class="tsd-signature-symbol">[</span>,
             <span class="tsd-kind-type-parameter">{type.parameter}</span>,
             <span class="tsd-signature-symbol"> in </span>,
-            renderType(context, type.parameterType, TypeContext.mappedParameter)
+            renderType(context, type.parameterType, TypeContext.mappedParameter),
         );
 
         if (type.nameType) {
             parts.push(
                 <span class="tsd-signature-symbol"> as </span>,
-                renderType(context, type.nameType, TypeContext.mappedName)
+                renderType(context, type.nameType, TypeContext.mappedName),
             );
         }
 
@@ -290,7 +290,7 @@ const typeRenderers: {
                     {name}
                     <span class="tsd-signature-symbol">{"<"}</span>
                     {join(<span class="tsd-signature-symbol">, </span>, type.typeArguments, (item) =>
-                        renderType(context, item, TypeContext.referenceTypeArgument)
+                        renderType(context, item, TypeContext.referenceTypeArgument),
                     )}
                     <span class="tsd-signature-symbol">{">"}</span>
                 </>
@@ -312,7 +312,7 @@ const typeRenderers: {
                         <span class={getKindClass(item)}>{item.name}</span>
                         <span class="tsd-signature-symbol">: </span>
                         {renderType(context, item.getSignature.type, TypeContext.none)}
-                    </>
+                    </>,
                 );
                 continue;
             }
@@ -324,7 +324,7 @@ const typeRenderers: {
                         <span class={getKindClass(item.getSignature)}>{item.name}</span>
                         <span class="tsd-signature-symbol">(): </span>
                         {renderType(context, item.getSignature.type, TypeContext.none)}
-                    </>
+                    </>,
                 );
                 continue;
             }
@@ -343,7 +343,7 @@ const typeRenderers: {
                             </>
                         ))}
                         <span class="tsd-signature-symbol">)</span>
-                    </>
+                    </>,
                 );
                 continue;
             }
@@ -358,7 +358,7 @@ const typeRenderers: {
                                 hideName: true,
                                 arrowStyle: true,
                             })}
-                        </>
+                        </>,
                     );
                 }
                 continue;
@@ -369,7 +369,7 @@ const typeRenderers: {
                     <span class={getKindClass(item)}>{item.name}</span>
                     <span class="tsd-signature-symbol">{item.flags.isOptional ? "?: " : ": "}</span>
                     {renderType(context, item.type, TypeContext.none)}
-                </>
+                </>,
             );
         }
 
@@ -381,7 +381,7 @@ const typeRenderers: {
                     {renderType(context, index.parameters![0].type, TypeContext.none)}]
                     <span class="tsd-signature-symbol">: </span>
                     {renderType(context, index.type, TypeContext.none)}
-                </>
+                </>,
             );
         }
 
@@ -459,7 +459,7 @@ const typeRenderers: {
             <>
                 <span class="tsd-signature-symbol">[</span>
                 {join(<span class="tsd-signature-symbol">, </span>, type.elements, (item) =>
-                    renderType(context, item, TypeContext.tupleElement)
+                    renderType(context, item, TypeContext.tupleElement),
                 )}
                 <span class="tsd-signature-symbol">]</span>
             </>
@@ -475,7 +475,7 @@ const typeRenderers: {
     },
     union(context, type) {
         return join(<span class="tsd-signature-symbol"> | </span>, type.types, (item) =>
-            renderType(context, item, TypeContext.unionElement)
+            renderType(context, item, TypeContext.unionElement),
         );
     },
     unknown(_context, type) {

@@ -34,14 +34,14 @@ export class TypeParameterReflection extends Reflection {
     constructor(
         name: string,
         parent: Reflection,
-        varianceModifier: VarianceModifier | undefined
+        varianceModifier: VarianceModifier | undefined,
     ) {
         super(name, ReflectionKind.TypeParameter, parent);
         this.varianceModifier = varianceModifier;
     }
 
     override toObject(
-        serializer: Serializer
+        serializer: Serializer,
     ): JSONOutput.TypeParameterReflection {
         return {
             ...super.toObject(serializer),
@@ -54,7 +54,7 @@ export class TypeParameterReflection extends Reflection {
 
     override fromObject(
         de: Deserializer,
-        obj: JSONOutput.TypeParameterReflection
+        obj: JSONOutput.TypeParameterReflection,
     ): void {
         super.fromObject(de, obj);
         this.type = de.reviveType(obj.type);

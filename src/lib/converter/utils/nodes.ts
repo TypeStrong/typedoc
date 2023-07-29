@@ -9,14 +9,14 @@ export function isNamedNode(node: ts.Node): node is ts.Node & {
 
 export function getHeritageTypes(
     declarations: readonly (ts.ClassDeclaration | ts.InterfaceDeclaration)[],
-    kind: ts.SyntaxKind.ImplementsKeyword | ts.SyntaxKind.ExtendsKeyword
+    kind: ts.SyntaxKind.ImplementsKeyword | ts.SyntaxKind.ExtendsKeyword,
 ): ts.ExpressionWithTypeArguments[] {
     const exprs = declarations.flatMap((d) =>
         (d.heritageClauses ?? [])
             .filter((hc) => hc.token === kind)
             .flatMap(
-                (hc) => hc.types as readonly ts.ExpressionWithTypeArguments[]
-            )
+                (hc) => hc.types as readonly ts.ExpressionWithTypeArguments[],
+            ),
     );
 
     const seenTexts = new Set<string>();

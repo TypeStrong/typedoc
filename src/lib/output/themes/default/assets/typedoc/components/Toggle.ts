@@ -13,10 +13,10 @@ export class Toggle extends Component {
         this.el.addEventListener(pointerUp, (e) => this.onPointerUp(e));
         this.el.addEventListener("click", (e) => e.preventDefault());
         document.addEventListener(pointerDown, (e) =>
-            this.onDocumentPointerDown(e)
+            this.onDocumentPointerDown(e),
         );
         document.addEventListener(pointerUp, (e) =>
-            this.onDocumentPointerUp(e)
+            this.onDocumentPointerUp(e),
         );
     }
 
@@ -26,7 +26,7 @@ export class Toggle extends Component {
 
         document.documentElement.classList.toggle(
             "has-" + this.className,
-            value
+            value,
         );
         this.el.classList.toggle("active", value);
 
@@ -35,7 +35,7 @@ export class Toggle extends Component {
         document.documentElement.classList.add(transition);
         setTimeout(
             () => document.documentElement.classList.remove(transition),
-            500
+            500,
         );
     }
 
@@ -49,7 +49,7 @@ export class Toggle extends Component {
         if (this.active) {
             if (
                 (e.target as HTMLElement).closest(
-                    ".col-sidebar, .tsd-filter-group"
+                    ".col-sidebar, .tsd-filter-group",
                 )
             ) {
                 return;

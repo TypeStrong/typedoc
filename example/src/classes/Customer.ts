@@ -99,7 +99,7 @@ export class DeliveryCustomer extends Customer {
         id: number,
         name: string,
         nextOrderNumber: string | number,
-        subscriptionType: "basic" | "enterprise"
+        subscriptionType: "basic" | "enterprise",
     ) {
         super(id, name, nextOrderNumber);
         this.subscriptionType = subscriptionType;

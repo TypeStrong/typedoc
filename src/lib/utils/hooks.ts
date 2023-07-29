@@ -42,7 +42,7 @@ export class EventHooks<T extends Record<keyof T, unknown[]>, R> {
     on<K extends keyof T>(
         event: K,
         listener: (...args: T[K]) => R,
-        order = 0
+        order = 0,
     ): void {
         const list = (this._listeners.get(event) || []).slice();
         insertOrderSorted(list, { listener, order });
@@ -58,7 +58,7 @@ export class EventHooks<T extends Record<keyof T, unknown[]>, R> {
     once<K extends keyof T>(
         event: K,
         listener: (...args: T[K]) => R,
-        order = 0
+        order = 0,
     ): void {
         const list = (this._listeners.get(event) || []).slice();
         insertOrderSorted(list, { listener, once: true, order });
@@ -89,7 +89,7 @@ export class EventHooks<T extends Record<keyof T, unknown[]>, R> {
         const listeners = this._listeners.get(event)?.slice() || [];
         this._listeners.set(
             event,
-            listeners.filter(({ once }) => !once)
+            listeners.filter(({ once }) => !once),
         );
         return listeners.map(({ listener }) => listener(...args));
     }

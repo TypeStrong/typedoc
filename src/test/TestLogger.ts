@@ -26,7 +26,7 @@ export class TestLogger extends Logger {
         if (index === -1) {
             const messages = this.messages.join("\n\t") || "(none logged)";
             fail(
-                `Expected "${message}" to be logged. The logged messages were:\n\t${messages}`
+                `Expected "${message}" to be logged. The logged messages were:\n\t${messages}`,
             );
         }
         this.messages.splice(index, 1);
@@ -40,8 +40,8 @@ export class TestLogger extends Logger {
         ok(
             messages.length === 0,
             `Expected no other messages to be logged. The logged messages were:\n\t${this.messages.join(
-                "\n\t"
-            )}`
+                "\n\t",
+            )}`,
         );
     }
 
@@ -76,6 +76,6 @@ function createRegex(s: string) {
             "^",
             s.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[\\s\\S]*"),
             "$",
-        ].join("")
+        ].join(""),
     );
 }

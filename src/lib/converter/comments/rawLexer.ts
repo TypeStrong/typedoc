@@ -1,7 +1,7 @@
 import { Token, TokenSyntaxKind } from "./lexer";
 
 export function* lexCommentString(
-    file: string
+    file: string,
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
@@ -28,7 +28,7 @@ export function* lexCommentString(
 }
 
 function* lexCommentString2(
-    file: string
+    file: string,
 ): Generator<Token, undefined, undefined> {
     let pos = 0;
     let end = file.length;
@@ -65,7 +65,7 @@ function* lexCommentString2(
                 if (braceStartsType && nextNonWs(pos + 1) !== "@") {
                     yield makeToken(
                         TokenSyntaxKind.TypeAnnotation,
-                        findEndOfType(pos) - pos
+                        findEndOfType(pos) - pos,
                     );
                     braceStartsType = false;
                 } else {
@@ -100,7 +100,7 @@ function* lexCommentString2(
                     if (lookaheadExactlyNTicks(lookahead, tickCount)) {
                         lookahead += tickCount;
                         codeText.push(
-                            file.substring(lookaheadStart, lookahead)
+                            file.substring(lookaheadStart, lookahead),
                         );
                         yield {
                             kind: TokenSyntaxKind.Code,
@@ -122,7 +122,7 @@ function* lexCommentString2(
                     } else if (file[lookahead] === "\n") {
                         lookahead++;
                         codeText.push(
-                            file.substring(lookaheadStart, lookahead)
+                            file.substring(lookaheadStart, lookahead),
                         );
                         lookaheadStart = lookahead;
                     } else {
@@ -200,7 +200,7 @@ function* lexCommentString2(
                     ) {
                         textParts.push(
                             file.substring(lookaheadStart, lookahead),
-                            file[lookahead + 1]
+                            file[lookahead + 1],
                         );
                         lookahead++;
                         lookaheadStart = lookahead + 1;

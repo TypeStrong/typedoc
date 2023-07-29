@@ -113,7 +113,7 @@ export class Options {
         options.packageDir = packageDir;
 
         options._readers = this._readers.filter(
-            (reader) => reader.supportsPackages
+            (reader) => reader.supportsPackages,
         );
         options._declarations = new Map(this._declarations);
 
@@ -178,7 +178,7 @@ export class Options {
             const declaration = this.getDeclaration(name);
             if (!declaration) {
                 throw new Error(
-                    "Cannot reset an option which has not been declared."
+                    "Cannot reset an option which has not been declared.",
                 );
             }
 
@@ -215,7 +215,7 @@ export class Options {
      * @param declaration The option declaration that should be added.
      */
     addDeclaration<K extends keyof TypeDocOptions>(
-        declaration: { name: K } & KeyToDeclaration<K>
+        declaration: { name: K } & KeyToDeclaration<K>,
     ): void;
 
     /**
@@ -223,13 +223,13 @@ export class Options {
      * @param declaration The option declaration that should be added.
      */
     addDeclaration(
-        declaration: NeverIfInternal<Readonly<DeclarationOption>>
+        declaration: NeverIfInternal<Readonly<DeclarationOption>>,
     ): void;
     addDeclaration(declaration: Readonly<DeclarationOption>): void {
         const decl = this.getDeclaration(declaration.name);
         if (decl) {
             this._logger.error(
-                `The option ${declaration.name} has already been registered`
+                `The option ${declaration.name} has already been registered`,
             );
         } else {
             this._declarations.set(declaration.name, declaration);
@@ -285,8 +285,8 @@ export class Options {
             const nearNames = this.getSimilarOptions(name);
             throw new Error(
                 `Unknown option '${name}', you may have meant:\n\t${nearNames.join(
-                    "\n\t"
-                )}`
+                    "\n\t",
+                )}`,
             );
         }
 
@@ -302,17 +302,17 @@ export class Options {
     setValue<K extends keyof TypeDocOptions>(
         name: K,
         value: TypeDocOptions[K],
-        configPath?: string
+        configPath?: string,
     ): void;
     setValue(
         name: NeverIfInternal<string>,
         value: NeverIfInternal<unknown>,
-        configPath?: NeverIfInternal<string>
+        configPath?: NeverIfInternal<string>,
     ): void;
     setValue(name: string, value: unknown, configPath?: string): void {
         if (this.isFrozen()) {
             throw new Error(
-                "Tried to modify an option value after options have been frozen."
+                "Tried to modify an option value after options have been frozen.",
             );
         }
 
@@ -321,8 +321,8 @@ export class Options {
             const nearNames = this.getSimilarOptions(name);
             throw new Error(
                 `Tried to set an option (${name}) that was not declared. You may have meant:\n\t${nearNames.join(
-                    "\n\t"
-                )}`
+                    "\n\t",
+                )}`,
             );
         }
 
@@ -334,7 +334,7 @@ export class Options {
             value,
             declaration,
             configPath ?? process.cwd(),
-            oldValue
+            oldValue,
         );
 
         if (declaration.type === ParameterType.Flags) {
@@ -354,7 +354,7 @@ export class Options {
 
     /** @internal */
     fixCompilerOptions(
-        options: Readonly<ts.CompilerOptions>
+        options: Readonly<ts.CompilerOptions>,
     ): ts.CompilerOptions {
         const overrides = this.getValue("compilerOptions");
         const result = { ...options };
@@ -391,11 +391,11 @@ export class Options {
     setCompilerOptions(
         fileNames: readonly string[],
         options: ts.CompilerOptions,
-        projectReferences: readonly ts.ProjectReference[] | undefined
+        projectReferences: readonly ts.ProjectReference[] | undefined,
     ) {
         if (this.isFrozen()) {
             throw new Error(
-                "Tried to modify an option value after options have been sealed."
+                "Tried to modify an option value after options have been sealed.",
             );
         }
 
@@ -429,7 +429,7 @@ export class Options {
         // right metric for relevant "similar" results without showing obviously wrong suggestions
         return results[lowest].concat(
             results[lowest + 1] || [],
-            results[lowest + 2] || []
+            results[lowest + 2] || [],
         );
     }
 
@@ -449,12 +449,12 @@ export class Options {
  * @since v0.16.3
  */
 export function BindOption<K extends keyof TypeDocOptionMap>(
-    name: K
+    name: K,
 ): <IK extends PropertyKey>(
     target: ({ application: Application } | { options: Options }) & {
         [K2 in IK]: TypeDocOptionValues[K];
     },
-    key: IK
+    key: IK,
 ) => void;
 
 /**
@@ -468,16 +468,16 @@ export function BindOption<K extends keyof TypeDocOptionMap>(
  * This overload is intended for plugin use only with looser type checks. Do not use internally.
  */
 export function BindOption(
-    name: NeverIfInternal<string>
+    name: NeverIfInternal<string>,
 ): (
     target: { application: Application } | { options: Options },
-    key: PropertyKey
+    key: PropertyKey,
 ) => void;
 
 export function BindOption(name: string) {
     return function (
         target: { application: Application } | { options: Options },
-        key: PropertyKey
+        key: PropertyKey,
     ) {
         Object.defineProperty(target, key, {
             get(this: { application: Application } | { options: Options }) {

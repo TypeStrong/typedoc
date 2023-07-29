@@ -49,7 +49,7 @@ export class CategoryPlugin extends ConverterComponent {
                 [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
             },
             undefined,
-            -200
+            -200,
         );
     }
 
@@ -99,8 +99,8 @@ export class CategoryPlugin extends ConverterComponent {
             context.logger.warn(
                 `Not all categories specified in searchCategoryBoosts were used in the documentation.` +
                     ` The unused categories were:\n\t${Array.from(
-                        unusedBoosts
-                    ).join("\n\t")}`
+                        unusedBoosts,
+                    ).join("\n\t")}`,
             );
         }
     }
@@ -158,7 +158,7 @@ export class CategoryPlugin extends ConverterComponent {
      * @returns An array containing all children of the given reflection categorized
      */
     getReflectionCategories(
-        reflections: DeclarationReflection[]
+        reflections: DeclarationReflection[],
     ): ReflectionCategory[] {
         const categories = new Map<string, ReflectionCategory>();
 
@@ -204,7 +204,7 @@ export class CategoryPlugin extends ConverterComponent {
             removeIf(comment.blockTags, (tag) => {
                 if (tag.tag === "@category") {
                     categories.add(
-                        Comment.combineDisplayParts(tag.content).trim()
+                        Comment.combineDisplayParts(tag.content).trim(),
                     );
 
                     return true;
@@ -247,7 +247,7 @@ export class CategoryPlugin extends ConverterComponent {
      */
     static sortCatCallback(
         a: ReflectionCategory,
-        b: ReflectionCategory
+        b: ReflectionCategory,
     ): number {
         let aWeight = CategoryPlugin.WEIGHTS.indexOf(a.title);
         let bWeight = CategoryPlugin.WEIGHTS.indexOf(b.title);

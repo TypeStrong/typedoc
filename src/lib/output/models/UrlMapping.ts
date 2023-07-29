@@ -11,7 +11,7 @@ export class UrlMapping<Model = any> {
     constructor(
         url: string,
         model: Model,
-        template: RenderTemplate<PageEvent<Model>>
+        template: RenderTemplate<PageEvent<Model>>,
     ) {
         this.url = url;
         this.model = model;

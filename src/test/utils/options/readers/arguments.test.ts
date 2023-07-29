@@ -20,12 +20,12 @@ describe("Options - ArgumentsReader", () => {
         addDeclaration(
             declaration: Readonly<NumberDeclarationOption> & {
                 name: "numOption";
-            }
+            },
         ): void;
         addDeclaration(
             declaration: Readonly<MapDeclarationOption<number>> & {
                 name: "mapped";
-            }
+            },
         ): void;
         getValue(name: "numOption"): number;
         getValue(name: "mapped"): number;
@@ -82,7 +82,7 @@ describe("Options - ArgumentsReader", () => {
         () => {
             equal(options.getValue("includeVersion"), true);
             equal(options.getValue("entryPoints"), []);
-        }
+        },
     );
 
     test(
@@ -91,7 +91,7 @@ describe("Options - ArgumentsReader", () => {
         () => {
             equal(options.getValue("includeVersion"), false);
             equal(options.getValue("entryPoints"), []);
-        }
+        },
     );
 
     test(
@@ -102,7 +102,7 @@ describe("Options - ArgumentsReader", () => {
             equal(options.getValue("entryPoints"), [
                 join(process.cwd(), "foo"),
             ]);
-        }
+        },
     );
 
     test("Works with map options", ["--mapped", "b"], () => {
@@ -118,7 +118,7 @@ describe("Options - ArgumentsReader", () => {
         ["--exclude", "a", "--exclude", "b"],
         () => {
             equal(options.getValue("exclude"), [resolve("a"), resolve("b")]);
-        }
+        },
     );
 
     it("Errors if given an unknown option", () => {
@@ -129,8 +129,8 @@ describe("Options - ArgumentsReader", () => {
         options.read(logger);
         logger.expectMessage(
             `error: Unknown option: --badOption, you may have meant:\n\t${similarOptions.join(
-                "\n\t"
-            )}`
+                "\n\t",
+            )}`,
         );
     });
 
@@ -161,7 +161,7 @@ describe("Options - ArgumentsReader", () => {
                 notDocumented: false,
                 invalidLink: true,
             });
-        }
+        },
     );
 
     test(
@@ -180,7 +180,7 @@ describe("Options - ArgumentsReader", () => {
                 notDocumented: false,
                 invalidLink: true,
             });
-        }
+        },
     );
 
     test(
@@ -194,7 +194,7 @@ describe("Options - ArgumentsReader", () => {
                 notDocumented: true,
                 invalidLink: true,
             });
-        }
+        },
     );
 
     test(
@@ -208,7 +208,7 @@ describe("Options - ArgumentsReader", () => {
                 notDocumented: true,
                 invalidLink: true,
             });
-        }
+        },
     );
 
     test(
@@ -222,6 +222,6 @@ describe("Options - ArgumentsReader", () => {
                 notDocumented: false,
                 invalidLink: false,
             });
-        }
+        },
     );
 });

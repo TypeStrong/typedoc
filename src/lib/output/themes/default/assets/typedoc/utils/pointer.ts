@@ -51,7 +51,7 @@ export let hasPointerMoved: boolean = false;
  */
 export const isMobile: boolean =
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
+        navigator.userAgent,
     );
 document.documentElement.classList.add(isMobile ? "is-mobile" : "not-mobile");
 

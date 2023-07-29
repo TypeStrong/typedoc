@@ -261,7 +261,7 @@ export class ConsoleLogger extends Logger {
                 message,
                 level,
                 args[0].getStart(args[0].getSourceFile(), false),
-                args[0].getSourceFile()
+                args[0].getSourceFile(),
             );
         }
 
@@ -272,7 +272,7 @@ export class ConsoleLogger extends Logger {
 
         const location = `${color(path, "cyan")}:${color(
             `${line + 1}`,
-            "yellow"
+            "yellow",
         )}:${color(`${character}`, "yellow")}`;
 
         const start = file.text.lastIndexOf("\n", pos) + 1;
@@ -282,7 +282,7 @@ export class ConsoleLogger extends Logger {
         const prefix = `${location} - ${messagePrefixes[level]}`;
         const context = `${color(
             `${line + 1}`,
-            "black"
+            "black",
         )}    ${file.text.substring(start, end)}`;
 
         return `${prefix} ${message}\n\n${context}\n`;

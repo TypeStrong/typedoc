@@ -85,7 +85,7 @@ export type TypeVisitor<T = void> = {
 };
 
 export function makeRecursiveVisitor(
-    visitor: Partial<TypeVisitor>
+    visitor: Partial<TypeVisitor>,
 ): TypeVisitor {
     const recursiveVisitor: TypeVisitor = {
         namedTupleMember(type) {
@@ -265,7 +265,7 @@ export class ConditionalType extends Type {
         public checkType: SomeType,
         public extendsType: SomeType,
         public trueType: SomeType,
-        public falseType: SomeType
+        public falseType: SomeType,
     ) {
         super();
     }
@@ -330,7 +330,10 @@ export class ConditionalType extends Type {
 export class IndexedAccessType extends Type {
     override readonly type = "indexedAccess";
 
-    constructor(public objectType: SomeType, public indexType: SomeType) {
+    constructor(
+        public objectType: SomeType,
+        public indexType: SomeType,
+    ) {
         super();
     }
 
@@ -367,14 +370,17 @@ export class IndexedAccessType extends Type {
 export class InferredType extends Type {
     override readonly type = "inferred";
 
-    constructor(public name: string, public constraint?: SomeType) {
+    constructor(
+        public name: string,
+        public constraint?: SomeType,
+    ) {
         super();
     }
 
     protected override getTypeString() {
         if (this.constraint) {
             return `infer ${this.name} extends ${this.constraint.stringify(
-                TypeContext.inferredConstraint
+                TypeContext.inferredConstraint,
             )}`;
         }
         return `infer ${this.name}`;
@@ -574,7 +580,7 @@ export class MappedType extends Type {
         public templateType: SomeType,
         public readonlyModifier?: "+" | "-",
         public optionalModifier?: "+" | "-",
-        public nameType?: SomeType
+        public nameType?: SomeType,
     ) {
         super();
     }
@@ -610,7 +616,7 @@ export class MappedType extends Type {
             opt,
             ": ",
             this.templateType.stringify(TypeContext.mappedTemplate),
-            " }"
+            " }",
         );
         return parts.join("");
     }
@@ -688,7 +694,7 @@ export class PredicateType extends Type {
     constructor(
         public name: string,
         public asserts: boolean,
-        public targetType?: SomeType
+        public targetType?: SomeType,
     ) {
         super();
     }
@@ -701,7 +707,7 @@ export class PredicateType extends Type {
         if (this.targetType) {
             out.push(
                 "is",
-                this.targetType.stringify(TypeContext.predicateTarget)
+                this.targetType.stringify(TypeContext.predicateTarget),
             );
         }
 
@@ -739,7 +745,7 @@ export class QueryType extends Type {
 
     protected override getTypeString() {
         return `typeof ${this.queryType.stringify(
-            TypeContext.queryTypeTarget
+            TypeContext.queryTypeTarget,
         )}`;
     }
 
@@ -860,7 +866,7 @@ export class ReferenceType extends Type {
         name: string,
         target: ReflectionSymbolId | Reflection | number,
         project: ProjectReflection | null,
-        qualifiedName: string
+        qualifiedName: string,
     ) {
         super();
         this.name = name;
@@ -876,7 +882,7 @@ export class ReferenceType extends Type {
     static createResolvedReference(
         name: string,
         target: Reflection | number,
-        project: ProjectReflection | null
+        project: ProjectReflection | null,
     ) {
         return new ReferenceType(name, target, project, name);
     }
@@ -884,14 +890,14 @@ export class ReferenceType extends Type {
     static createSymbolReference(
         symbol: ts.Symbol,
         context: Context,
-        name?: string
+        name?: string,
     ) {
         // Type parameters should never have resolved references because they
         // cannot be linked to, and might be declared within the type with conditional types.
         if (symbol.flags & ts.SymbolFlags.TypeParameter) {
             const ref = ReferenceType.createBrokenReference(
                 name ?? symbol.name,
-                context.project
+                context.project,
             );
             ref.refersToTypeParameter = true;
             return ref;
@@ -901,7 +907,7 @@ export class ReferenceType extends Type {
             name ?? symbol.name,
             new ReflectionSymbolId(symbol),
             context.project,
-            getQualifiedName(symbol, name ?? symbol.name)
+            getQualifiedName(symbol, name ?? symbol.name),
         );
 
         const symbolPath = symbol?.declarations?.[0]
@@ -983,19 +989,19 @@ export class ReferenceType extends Type {
 
     override fromObject(de: Deserializer, obj: JSONOutput.ReferenceType): void {
         this.typeArguments = de.reviveMany(obj.typeArguments, (t) =>
-            de.constructType(t)
+            de.constructType(t),
         );
         if (typeof obj.target === "number" && obj.target !== -1) {
             de.defer((project) => {
                 const target = project.getReflectionById(
-                    de.oldIdToNewId[obj.target as number] ?? -1
+                    de.oldIdToNewId[obj.target as number] ?? -1,
                 );
                 if (target) {
                     this._project = project;
                     this._target = target.id;
                 } else {
                     de.logger.warn(
-                        `Serialized project contained a reference to ${obj.target} (${this.qualifiedName}), which was not a part of the project.`
+                        `Serialized project contained a reference to ${obj.target} (${this.qualifiedName}), which was not a part of the project.`,
                     );
                 }
             });
@@ -1094,7 +1100,10 @@ export class RestType extends Type {
 export class TemplateLiteralType extends Type {
     override readonly type = "templateLiteral";
 
-    constructor(public head: string, public tail: [SomeType, string][]) {
+    constructor(
+        public head: string,
+        public tail: [SomeType, string][],
+    ) {
         super();
     }
 
@@ -1184,7 +1193,7 @@ export class NamedTupleMember extends Type {
     constructor(
         public name: string,
         public isOptional: boolean,
-        public element: SomeType
+        public element: SomeType,
     ) {
         super();
     }
@@ -1226,14 +1235,14 @@ export class TypeOperatorType extends Type {
 
     constructor(
         public target: SomeType,
-        public operator: "keyof" | "unique" | "readonly"
+        public operator: "keyof" | "unique" | "readonly",
     ) {
         super();
     }
 
     protected override getTypeString() {
         return `${this.operator} ${this.target.stringify(
-            TypeContext.typeOperatorTarget
+            TypeContext.typeOperatorTarget,
         )}`;
     }
 
@@ -1352,7 +1361,7 @@ export class UnionType extends Type {
             this.types.splice(
                 Math.min(trueIndex, falseIndex),
                 1,
-                new IntrinsicType("boolean")
+                new IntrinsicType("boolean"),
             );
         }
     }

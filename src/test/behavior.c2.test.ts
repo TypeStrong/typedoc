@@ -25,7 +25,7 @@ type NameTree = { [name: string]: NameTree };
 
 function buildNameTree(
     refl: ContainerReflection,
-    tree: NameTree = {}
+    tree: NameTree = {},
 ): NameTree {
     for (const child of refl.children || []) {
         tree[child.name] ||= {};
@@ -115,7 +115,7 @@ describe("Behavior Tests", () => {
         equal(
             SomeEnumLikeTagged.kind,
             ReflectionKind.Enum,
-            "SomeEnumLikeTagged"
+            "SomeEnumLikeTagged",
         );
         const A = query(project, "SomeEnumLikeTagged.a");
         equal(A.type, new LiteralType("a"));
@@ -128,7 +128,7 @@ describe("Behavior Tests", () => {
         equal(
             ManualWithoutHelper.kind,
             ReflectionKind.Enum,
-            "ManualEnumHelper"
+            "ManualEnumHelper",
         );
 
         const WithoutReadonly = query(project, "WithoutReadonly");
@@ -138,16 +138,16 @@ describe("Behavior Tests", () => {
         equal(
             SomeEnumLikeNumeric.kind,
             ReflectionKind.Variable,
-            "SomeEnumLikeNumeric"
+            "SomeEnumLikeNumeric",
         );
         const SomeEnumLikeTaggedNumeric = query(
             project,
-            "SomeEnumLikeTaggedNumeric"
+            "SomeEnumLikeTaggedNumeric",
         );
         equal(
             SomeEnumLikeTaggedNumeric.kind,
             ReflectionKind.Enum,
-            "SomeEnumLikeTaggedNumeric"
+            "SomeEnumLikeTaggedNumeric",
         );
         const B = query(project, "SomeEnumLikeTaggedNumeric.b");
         equal(B.type, new LiteralType(1));
@@ -158,36 +158,36 @@ describe("Behavior Tests", () => {
 
         const ManualWithoutHelperNumeric = query(
             project,
-            "ManualEnumHelperNumeric"
+            "ManualEnumHelperNumeric",
         );
         equal(
             ManualWithoutHelperNumeric.kind,
             ReflectionKind.Enum,
-            "ManualEnumHelperNumeric"
+            "ManualEnumHelperNumeric",
         );
 
         const WithoutReadonlyNumeric = query(project, "WithoutReadonlyNumeric");
         equal(
             WithoutReadonlyNumeric.kind,
             ReflectionKind.Enum,
-            "WithoutReadonlyNumeric"
+            "WithoutReadonlyNumeric",
         );
 
         const WithInvalidTypeUnionMember = query(
             project,
-            "WithInvalidTypeUnionMember"
+            "WithInvalidTypeUnionMember",
         );
         equal(
             WithInvalidTypeUnionMember.kind,
             ReflectionKind.Variable,
-            "WithInvalidTypeUnionMember"
+            "WithInvalidTypeUnionMember",
         );
 
         const WithNumericExpression = query(project, "WithNumericExpression");
         equal(
             WithNumericExpression.kind,
             ReflectionKind.Enum,
-            "WithNumericExpression"
+            "WithNumericExpression",
         );
     });
 
@@ -200,7 +200,7 @@ describe("Behavior Tests", () => {
         equal(Comment.combineDisplayParts(a.comment?.summary), "jsdoc block");
         equal(
             Comment.combineDisplayParts(b.comment?.summary),
-            "block, but not jsdoc"
+            "block, but not jsdoc",
         );
     });
 
@@ -216,7 +216,7 @@ describe("Behavior Tests", () => {
         const b = query(project, "someNs.b");
         equal(
             Comment.combineDisplayParts(b.signatures?.[0].comment?.summary),
-            "b doc"
+            "b doc",
         );
     });
 
@@ -230,10 +230,7 @@ describe("Behavior Tests", () => {
 
     it("Handles declare global 'modules'", () => {
         const project = convert("declareGlobal");
-        equal(
-            project.children?.map((c) => c.name),
-            ["DeclareGlobal"]
-        );
+        equal(project.children?.map((c) => c.name), ["DeclareGlobal"]);
     });
 
     it("Handles duplicate heritage clauses", () => {
@@ -274,7 +271,7 @@ describe("Behavior Tests", () => {
         equal(tags, [[], [{ kind: "text", text: "fn({})" }]]);
 
         logger.expectMessage(
-            "warn: Encountered an unescaped open brace without an inline tag"
+            "warn: Encountered an unescaped open brace without an inline tag",
         );
         logger.expectMessage("warn: Unmatched closing brace");
         logger.expectNoOtherMessages();
@@ -331,7 +328,7 @@ describe("Behavior Tests", () => {
         ]);
 
         logger.expectMessage(
-            "warn: Encountered an unescaped open brace without an inline tag"
+            "warn: Encountered an unescaped open brace without an inline tag",
         );
         logger.expectMessage("warn: Unmatched closing brace");
         logger.expectNoOtherMessages();
@@ -359,7 +356,7 @@ describe("Behavior Tests", () => {
         equal(abcRef.kind, ReflectionKind.Reference);
         equal(
             Comment.combineDisplayParts(abcRef.comment?.summary),
-            "export abc"
+            "export abc",
         );
 
         const foo = query(project, "foo");
@@ -407,24 +404,28 @@ describe("Behavior Tests", () => {
         const C = query(project, "C");
         const D = query(project, "D");
 
-        equal(
-            project.groups?.map((g) => g.title),
-            ["Variables", "A", "B", "With Spaces"]
-        );
+        equal(project.groups?.map((g) => g.title), [
+            "Variables",
+            "A",
+            "B",
+            "With Spaces",
+        ]);
 
         equal(
             project.groups.map((g) => g.children),
-            [[D], [A, B], [B], [C]]
+            [[D], [A, B], [B], [C]],
         );
     });
 
     it("Handles hidden accessors", () => {
         const project = convert("hiddenAccessor");
         const test = query(project, "Test");
-        equal(
-            test.children?.map((c) => c.name),
-            ["constructor", "auto", "x", "y"]
-        );
+        equal(test.children?.map((c) => c.name), [
+            "constructor",
+            "auto",
+            "x",
+            "y",
+        ]);
     });
 
     it("Handles simple @inheritDoc cases", () => {
@@ -432,21 +433,21 @@ describe("Behavior Tests", () => {
         const target = query(project, "InterfaceTarget");
         const comment = new Comment(
             [{ kind: "text", text: "Summary" }],
-            [new CommentTag("@remarks", [{ kind: "text", text: "Remarks" }])]
+            [new CommentTag("@remarks", [{ kind: "text", text: "Remarks" }])],
         );
         equal(target.comment, comment);
 
         equal(
             Comment.combineDisplayParts(
-                target.typeParameters?.[0].comment?.summary
+                target.typeParameters?.[0].comment?.summary,
             ),
-            "Type parameter"
+            "Type parameter",
         );
 
         const prop = query(project, "InterfaceTarget.property");
         equal(
             Comment.combineDisplayParts(prop.comment?.summary),
-            "Property description"
+            "Property description",
         );
 
         const meth = query(project, "InterfaceTarget.someMethod");
@@ -457,7 +458,7 @@ describe("Behavior Tests", () => {
                     { kind: "text", text: "This should still be present\n" },
                     { kind: "code", text: "```ts\nsomeMethod(123)\n```" },
                 ]),
-            ]
+            ],
         );
         equal(meth.signatures?.[0].comment, methodComment);
     });
@@ -485,12 +486,12 @@ describe("Behavior Tests", () => {
             equal(
                 refl.signatures[0].comment,
                 fooMemberComment,
-                `${name} signature`
+                `${name} signature`,
             );
             equal(
                 refl.signatures[0].parameters?.[0].comment,
                 xComment,
-                `${name} parameter`
+                `${name} parameter`,
             );
         }
     });
@@ -507,7 +508,7 @@ describe("Behavior Tests", () => {
         equal(c.comment?.getTag("@inheritDoc")?.name, "A");
 
         logger.expectMessage(
-            "warn: @inheritDoc specifies a circular inheritance chain: B -> C -> A -> B"
+            "warn: @inheritDoc specifies a circular inheritance chain: B -> C -> A -> B",
         );
     });
 
@@ -517,17 +518,17 @@ describe("Behavior Tests", () => {
         equal(test1.signatures?.length, 2);
         equal(
             Comment.combineDisplayParts(test1.signatures[0].comment?.summary),
-            "A"
+            "A",
         );
         equal(
             Comment.combineDisplayParts(test1.signatures[1].comment?.summary),
-            "B"
+            "B",
         );
 
         const test2 = query(project, "SigRef.test2");
         equal(
             Comment.combineDisplayParts(test2.signatures?.[0].comment?.summary),
-            "C"
+            "C",
         );
     });
 
@@ -537,40 +538,40 @@ describe("Behavior Tests", () => {
         equal(Comment.combineDisplayParts(target1.comment?.summary), "Source");
         equal(
             Comment.combineDisplayParts(
-                target1.comment?.getTag("@remarks")?.content
+                target1.comment?.getTag("@remarks")?.content,
             ),
-            "Remarks"
+            "Remarks",
         );
         logger.expectMessage(
-            "warn: Content in the summary section will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:10"
+            "warn: Content in the summary section will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:10",
         );
 
         const target2 = query(project, "target2");
         equal(Comment.combineDisplayParts(target2.comment?.summary), "Source");
         equal(
             Comment.combineDisplayParts(
-                target2.comment?.getTag("@remarks")?.content
+                target2.comment?.getTag("@remarks")?.content,
             ),
-            "Remarks"
+            "Remarks",
         );
         logger.expectMessage(
-            "warn: Content in the @remarks block will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:16"
+            "warn: Content in the @remarks block will be overwritten by the @inheritDoc tag in comment at ./src/test/converter2/behavior/inheritDocWarnings.ts:16",
         );
 
         const target3 = query(project, "target3");
         ok(target3.comment?.getTag("@inheritDoc"));
         logger.expectMessage(
-            'warn: Failed to find "doesNotExist" to inherit the comment from in the comment for target3'
+            'warn: Failed to find "doesNotExist" to inherit the comment from in the comment for target3',
         );
 
         const target4 = query(project, "target4");
         ok(target4.comment?.getTag("@inheritDoc"));
         logger.expectMessage(
-            "warn: target4 tried to copy a comment from source2 with @inheritDoc, but the source has no associated comment."
+            "warn: target4 tried to copy a comment from source2 with @inheritDoc, but the source has no associated comment.",
         );
 
         logger.expectMessage(
-            "warn: Declaration reference in @inheritDoc for badParse was not fully parsed and may resolve incorrectly."
+            "warn: Declaration reference in @inheritDoc for badParse was not fully parsed and may resolve incorrectly.",
         );
 
         logger.expectNoOtherMessages();
@@ -586,7 +587,7 @@ describe("Behavior Tests", () => {
         equal(Comment.combineDisplayParts(a.comment?.summary), "docs");
         equal(
             Comment.combineDisplayParts(b.comment?.summary),
-            "docs\nwith multiple lines"
+            "docs\nwith multiple lines",
         );
         equal(Comment.combineDisplayParts(c.comment?.summary), "");
     });
@@ -604,7 +605,7 @@ describe("Behavior Tests", () => {
         ] as const) {
             equal(
                 getLinks(query(project, refl)).map((x) => x[1]),
-                [query(project, target).getFullName()]
+                [query(project, target).getFullName()],
             );
         }
 
@@ -649,7 +650,7 @@ describe("Behavior Tests", () => {
 
         equal(
             getLinks(query(project, "Globals.A")).map((x) => x[1]),
-            ["URLS", "A", "Globals.A"]
+            ["URLS", "A", "Globals.A"],
         );
 
         equal(getLinks(query(project, "Navigation")), [
@@ -674,7 +675,7 @@ describe("Behavior Tests", () => {
         ] as const) {
             equal(
                 getLinks(query(project, refl)).map((x) => x[1]),
-                [query(project, target).getFullName()]
+                [query(project, target).getFullName()],
             );
         }
 
@@ -719,7 +720,7 @@ describe("Behavior Tests", () => {
 
         equal(
             getLinks(query(project, "Globals.A")).map((x) => x[1]),
-            ["URLS", "A", "Globals.A"]
+            ["URLS", "A", "Globals.A"],
         );
 
         equal(getLinks(query(project, "Navigation")), [
@@ -751,14 +752,14 @@ describe("Behavior Tests", () => {
         const a = query(project, "SingleCommentMultiDeclaration");
         equal(
             Comment.combineDisplayParts(a.comment?.summary),
-            "Comment on second declaration"
+            "Comment on second declaration",
         );
 
         const b = query(project, "MultiCommentMultiDeclaration");
         equal(Comment.combineDisplayParts(b.comment?.summary), "Comment 1");
 
         logger.expectMessage(
-            "warn: MultiCommentMultiDeclaration has multiple declarations with a comment. An arbitrary comment will be used."
+            "warn: MultiCommentMultiDeclaration has multiple declarations with a comment. An arbitrary comment will be used.",
         );
     });
 
@@ -766,25 +767,25 @@ describe("Behavior Tests", () => {
         const project = convert("overloads");
         const foo = query(project, "foo");
         const fooComments = foo.signatures?.map((sig) =>
-            Comment.combineDisplayParts(sig.comment?.summary)
+            Comment.combineDisplayParts(sig.comment?.summary),
         );
         equal(fooComments, ["No arg comment\n", "No arg comment\n"]);
         equal(foo.comment, undefined);
 
-        equal(
-            foo.signatures?.map((s) => s.comment?.label),
-            ["NO_ARGS", "WITH_X"]
-        );
+        equal(foo.signatures?.map((s) => s.comment?.label), [
+            "NO_ARGS",
+            "WITH_X",
+        ]);
 
         const bar = query(project, "bar");
         const barComments = bar.signatures?.map((sig) =>
-            Comment.combineDisplayParts(sig.comment?.summary)
+            Comment.combineDisplayParts(sig.comment?.summary),
         );
         equal(barComments, ["Implementation comment", "Custom comment"]);
         equal(bar.comment, undefined);
 
         logger.expectMessage(
-            'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.'
+            'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.',
         );
         logger.expectNoOtherMessages();
     });
@@ -799,13 +800,13 @@ describe("Behavior Tests", () => {
         equal(first.parameters?.length, 1);
         equal(
             Comment.combineDisplayParts(first.parameters[0].comment?.summary),
-            "first docs"
+            "first docs",
         );
 
         equal(second.parameters?.length, 2);
         equal(
             Comment.combineDisplayParts(second.parameters[0].comment?.summary),
-            "second docs"
+            "second docs",
         );
     });
 
@@ -824,7 +825,7 @@ describe("Behavior Tests", () => {
         project.removeReflection(query(project, "nested"));
         equal(
             Object.values(project.reflections).map((r) => r.name),
-            ["typedoc"]
+            ["typedoc"],
         );
     });
 
@@ -844,7 +845,7 @@ describe("Behavior Tests", () => {
         equal(c.relevanceBoost, 2.0);
         logger.expectMessage(
             "warn: Not all categories specified in searchCategoryBoosts were used in the documentation." +
-                " The unused categories were:\n\tCatUnused"
+                " The unused categories were:\n\tCatUnused",
         );
         logger.expectNoOtherMessages();
     });
@@ -868,7 +869,7 @@ describe("Behavior Tests", () => {
         equal(d.relevanceBoost, 0.5);
         logger.expectMessage(
             "warn: Not all groups specified in searchGroupBoosts were used in the documentation." +
-                " The unused groups were:\n\tGroupUnused"
+                " The unused groups were:\n\tGroupUnused",
         );
         logger.expectNoOtherMessages();
     });
@@ -878,13 +879,13 @@ describe("Behavior Tests", () => {
         const foo = query(project, "foo");
         equal(
             Comment.combineDisplayParts(foo.comment?.getTag("@see")?.content),
-            " - Double tag\n - Second tag\n"
+            " - Double tag\n - Second tag\n",
         );
 
         const bar = query(project, "bar");
         equal(
             Comment.combineDisplayParts(bar.comment?.getTag("@see")?.content),
-            "Single tag"
+            "Single tag",
         );
     });
 
@@ -892,13 +893,10 @@ describe("Behavior Tests", () => {
         const project = convert("typeAliasInterface");
         const bar = query(project, "Bar");
         equal(bar.kind, ReflectionKind.Interface);
-        equal(
-            bar.children?.map((c) => c.name),
-            ["a", "b"]
-        );
+        equal(bar.children?.map((c) => c.name), ["a", "b"]);
 
         const comments = [bar, bar.children[0], bar.children[1]].map((r) =>
-            Comment.combineDisplayParts(r.comment?.summary)
+            Comment.combineDisplayParts(r.comment?.summary),
         );
 
         equal(comments, ["Bar docs", "Bar.a docs", "Foo.b docs"]);
@@ -907,9 +905,11 @@ describe("Behavior Tests", () => {
     it("Allows specifying group sort order #2251", () => {
         app.options.setValue("groupOrder", ["B", "Variables", "A"]);
         const project = convert("groupTag");
-        equal(
-            project.groups?.map((g) => g.title),
-            ["B", "Variables", "A", "With Spaces"]
-        );
+        equal(project.groups?.map((g) => g.title), [
+            "B",
+            "Variables",
+            "A",
+            "With Spaces",
+        ]);
     });
 });

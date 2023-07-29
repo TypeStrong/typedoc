@@ -45,7 +45,7 @@ describe("Packages support", () => {
         // Bar, types entry point
         project.addFile(
             "packages/bar/index.d.ts",
-            "export function bar(): void;"
+            "export function bar(): void;",
         );
         project.addJsonFile("packages/bar/package.json", {
             name: "typedoc-multi-package-bar",
@@ -92,7 +92,7 @@ describe("Packages support", () => {
             logger,
             project.cwd,
             [project.cwd],
-            createMinimatch(["**/ign"])
+            createMinimatch(["**/ign"]),
         );
 
         equal(
@@ -101,7 +101,7 @@ describe("Packages support", () => {
                 join(project.cwd, "packages/bar"),
                 join(project.cwd, "packages/bay"),
                 join(project.cwd, "packages/baz"),
-            ].map(normalizePath)
+            ].map(normalizePath),
         );
 
         const entries = packages.map((p) => {
@@ -109,7 +109,7 @@ describe("Packages support", () => {
             return getTsEntryPointForPackage(
                 logger,
                 packageJson,
-                JSON.parse(readFileSync(packageJson, "utf-8"))
+                JSON.parse(readFileSync(packageJson, "utf-8")),
             );
         });
 
@@ -159,7 +159,7 @@ describe("Packages support", () => {
             logger,
             project.cwd,
             [project.cwd],
-            createMinimatch(["**/ign"])
+            createMinimatch(["**/ign"]),
         );
 
         equal(packages, [join(project.cwd, "packages/foo")].map(normalizePath));
@@ -169,7 +169,7 @@ describe("Packages support", () => {
             return getTsEntryPointForPackage(
                 logger,
                 packageJson,
-                JSON.parse(readFileSync(packageJson, "utf-8"))
+                JSON.parse(readFileSync(packageJson, "utf-8")),
             );
         });
 
@@ -177,8 +177,8 @@ describe("Packages support", () => {
 
         logger.expectMessage(
             `warn: Legacy typedoc entry point config (using "typedocMain" field) found for "${nicePath(
-                join(project.cwd, "/packages/foo/package.json")
-            )}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`
+                join(project.cwd, "/packages/foo/package.json"),
+            )}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`,
         );
     });
 
@@ -206,7 +206,7 @@ describe("Packages support", () => {
         });
         project.addFile(
             "src/index.ts",
-            `export function helloWorld() { return "Hello World!"; }`
+            `export function helloWorld() { return "Hello World!"; }`,
         );
         project.write();
 
@@ -241,7 +241,7 @@ describe("Packages support", () => {
         });
         project.addFile(
             "src/index.cts",
-            `export function helloWorld() { return "Hello World!"; }`
+            `export function helloWorld() { return "Hello World!"; }`,
         );
         project.write();
 
@@ -272,7 +272,7 @@ describe("Packages support", () => {
         const entry = getTsEntryPointForPackage(
             logger,
             join(project.cwd, "package.json"),
-            packageJson
+            packageJson,
         );
 
         logger.expectNoOtherMessages();

@@ -19,7 +19,7 @@ export class DecoratedClass {
 export function decoratorAtom(
     target: Object,
     propertyKey: string | symbol,
-    descriptor: TypedPropertyDescriptor<any>
+    descriptor: TypedPropertyDescriptor<any>,
 ) {
     target[propertyKey].writable = true;
 }
@@ -33,7 +33,7 @@ export function decoratorWithParam(value: boolean): MethodDecorator {
     return function (
         target: Object,
         propertyKey: string | symbol,
-        descriptor: TypedPropertyDescriptor<any>
+        descriptor: TypedPropertyDescriptor<any>,
     ) {
         target[propertyKey].enumerable = value;
     };

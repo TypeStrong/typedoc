@@ -84,7 +84,7 @@ export class SourcePlugin extends ConverterComponent {
      */
     private onDeclaration(
         _context: Context,
-        reflection: DeclarationReflection
+        reflection: DeclarationReflection,
     ) {
         if (this.disableSources) return;
 
@@ -98,14 +98,14 @@ export class SourcePlugin extends ConverterComponent {
             if (isNamedNode(node)) {
                 position = ts.getLineAndCharacterOfPosition(
                     sourceFile,
-                    node.name.getStart()
+                    node.name.getStart(),
                 );
             } else if (ts.isSourceFile(node)) {
                 position = { character: 0, line: 0 };
             } else {
                 position = ts.getLineAndCharacterOfPosition(
                     sourceFile,
-                    node.getStart()
+                    node.getStart(),
                 );
             }
 
@@ -114,8 +114,8 @@ export class SourcePlugin extends ConverterComponent {
                 new SourceReference(
                     fileName,
                     position.line + 1,
-                    position.character
-                )
+                    position.character,
+                ),
             );
         }
     }
@@ -126,7 +126,7 @@ export class SourcePlugin extends ConverterComponent {
         sig?:
             | ts.SignatureDeclaration
             | ts.IndexSignatureDeclaration
-            | ts.JSDocSignature
+            | ts.JSDocSignature,
     ) {
         if (this.disableSources || !sig) return;
 
@@ -136,12 +136,16 @@ export class SourcePlugin extends ConverterComponent {
 
         const position = ts.getLineAndCharacterOfPosition(
             sourceFile,
-            sig.getStart()
+            sig.getStart(),
         );
 
         reflection.sources ||= [];
         reflection.sources.push(
-            new SourceReference(fileName, position.line + 1, position.character)
+            new SourceReference(
+                fileName,
+                position.line + 1,
+                position.character,
+            ),
         );
     }
 
@@ -155,7 +159,7 @@ export class SourcePlugin extends ConverterComponent {
 
         if (this.disableGit && !this.sourceLinkTemplate) {
             this.application.logger.error(
-                `disableGit is set, but sourceLinkTemplate is not, so source links cannot be produced. Set a sourceLinkTemplate or disableSources to prevent source tracking.`
+                `disableGit is set, but sourceLinkTemplate is not, so source links cannot be produced. Set a sourceLinkTemplate or disableSources to prevent source tracking.`,
             );
             return;
         }
@@ -165,7 +169,7 @@ export class SourcePlugin extends ConverterComponent {
             !this.gitRevision
         ) {
             this.application.logger.warn(
-                `disableGit is set and sourceLinkTemplate contains {gitRevision}, which will be replaced with an empty string as no revision was provided.`
+                `disableGit is set and sourceLinkTemplate contains {gitRevision}, which will be replaced with an empty string as no revision was provided.`,
             );
         }
 
@@ -188,13 +192,13 @@ export class SourcePlugin extends ConverterComponent {
                 if (this.disableGit || gitIsInstalled()) {
                     const repo = this.getRepository(
                         basePath,
-                        source.fullFileName
+                        source.fullFileName,
                     );
                     source.url = repo?.getURL(source.fullFileName, source.line);
                 }
 
                 source.fileName = normalizePath(
-                    relative(basePath, source.fullFileName)
+                    relative(basePath, source.fullFileName),
                 );
             }
         }
@@ -208,13 +212,13 @@ export class SourcePlugin extends ConverterComponent {
      */
     private getRepository(
         basePath: string,
-        fileName: string
+        fileName: string,
     ): Repository | undefined {
         if (this.disableGit) {
             return new AssumedRepository(
                 basePath,
                 this.gitRevision,
-                this.sourceLinkTemplate
+                this.sourceLinkTemplate,
             );
         }
 
@@ -240,7 +244,7 @@ export class SourcePlugin extends ConverterComponent {
             this.sourceLinkTemplate,
             this.gitRevision,
             this.gitRemote,
-            this.application.logger
+            this.application.logger,
         );
         if (repository) {
             this.repositories[repository.path.toLowerCase()] = repository;

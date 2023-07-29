@@ -67,7 +67,7 @@ export class Filter extends Component {
             .forEach((el) => {
                 el.style.display = "block";
                 const allChildrenHidden = Array.from(
-                    el.querySelectorAll<HTMLElement>(".tsd-index-link")
+                    el.querySelectorAll<HTMLElement>(".tsd-index-link"),
                 ).every((child) => child.offsetParent == null);
 
                 el.style.display = allChildrenHidden ? "none" : "block";

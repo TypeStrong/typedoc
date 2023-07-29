@@ -23,7 +23,7 @@ function resolveReferenceReflection(ref: Reflection): Reflection {
 
 export function resolveDeclarationReference(
     reflection: Reflection,
-    ref: DeclarationReference
+    ref: DeclarationReference,
 ): Reflection | undefined {
     let high: Reflection[] = [];
     let low: Reflection[] = [];
@@ -33,7 +33,7 @@ export function resolveDeclarationReference(
             reflection.project.children?.filter(
                 (c) =>
                     c.kindOf(ReflectionKind.SomeModule) &&
-                    c.name === ref.moduleSource
+                    c.name === ref.moduleSource,
             ) || [];
     } else if (ref.resolutionStart === "global") {
         high.push(reflection.project);
@@ -66,8 +66,8 @@ export function resolveDeclarationReference(
             if (reflection.parent instanceof ContainerReflection) {
                 high.push(
                     ...(reflection.parent.children?.filter(
-                        (c) => c.name === reflection.name
-                    ) || [])
+                        (c) => c.name === reflection.name,
+                    ) || []),
                 );
             } else {
                 high.push(reflection);
@@ -106,7 +106,7 @@ export function resolveDeclarationReference(
 
 function filterMapByMeaning(
     reflections: Reflection[],
-    meaning: Meaning
+    meaning: Meaning,
 ): Reflection[] {
     return filterMap(reflections, (refl): Reflection | undefined => {
         const kwResolved = resolveKeyword(refl, meaning.keyword) || [];
@@ -119,7 +119,7 @@ function filterMapByMeaning(
 
 function resolveKeyword(
     refl: Reflection,
-    kw: MeaningKeyword | undefined
+    kw: MeaningKeyword | undefined,
 ): Reflection[] | undefined {
     switch (kw) {
         case undefined:
@@ -154,11 +154,12 @@ function resolveKeyword(
         case "constructor":
             if (
                 refl.kindOf(
-                    ReflectionKind.ClassOrInterface | ReflectionKind.TypeLiteral
+                    ReflectionKind.ClassOrInterface |
+                        ReflectionKind.TypeLiteral,
                 )
             ) {
                 const ctor = (refl as ContainerReflection).children?.find((c) =>
-                    c.kindOf(ReflectionKind.Constructor)
+                    c.kindOf(ReflectionKind.Constructor),
                 );
                 return (ctor as DeclarationReflection)?.signatures;
             }
@@ -204,7 +205,7 @@ function resolveKeyword(
 
 function resolveSymbolReferencePart(
     refl: Reflection,
-    path: ComponentPath
+    path: ComponentPath,
 ): { high: Reflection[]; low: Reflection[] } {
     let high: Reflection[] = [];
     let low: Reflection[] = [];
@@ -222,12 +223,12 @@ function resolveSymbolReferencePart(
             high = refl.children.filter(
                 (r) =>
                     r.name === path.path &&
-                    (r.kindOf(ReflectionKind.SomeExport) || r.flags.isStatic)
+                    (r.kindOf(ReflectionKind.SomeExport) || r.flags.isStatic),
             );
             low = refl.children.filter(
                 (r) =>
                     r.name === path.path &&
-                    (!r.kindOf(ReflectionKind.SomeExport) || !r.flags.isStatic)
+                    (!r.kindOf(ReflectionKind.SomeExport) || !r.flags.isStatic),
             );
             break;
 

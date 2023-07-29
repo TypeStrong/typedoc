@@ -17,7 +17,7 @@ import { additionalProperties, Infer, optional, validate } from "./validation";
  */
 function hasOwnProperty<K extends PropertyKey>(
     obj: object,
-    prop: K
+    prop: K,
 ): obj is Record<K, unknown> {
     return Object.prototype.hasOwnProperty.call(obj, prop);
 }
@@ -27,7 +27,7 @@ function hasOwnProperty<K extends PropertyKey>(
  */
 export function loadPackageManifest(
     logger: Logger,
-    packageJsonPath: string
+    packageJsonPath: string,
 ): Record<string, unknown> | undefined {
     const packageJson: unknown = JSON.parse(readFile(packageJsonPath));
     if (typeof packageJson !== "object" || !packageJson) {
@@ -55,7 +55,7 @@ export type TypedocPackageManifestConfig = Infer<
  */
 export function extractTypedocConfigFromPackageManifest(
     logger: Logger,
-    packageJsonPath: string
+    packageJsonPath: string,
 ): TypedocPackageManifestConfig | undefined {
     const packageJson = loadPackageManifest(logger, packageJsonPath);
     if (!packageJson) {
@@ -69,11 +69,11 @@ export function extractTypedocConfigFromPackageManifest(
         if (
             !validate(
                 typedocPackageManifestConfigSchema,
-                packageJson["typedoc"]
+                packageJson["typedoc"],
             )
         ) {
             logger.error(
-                `Typedoc config extracted from package manifest file ${packageJsonPath} is not valid`
+                `Typedoc config extracted from package manifest file ${packageJsonPath} is not valid`,
             );
             return undefined;
         }
@@ -88,7 +88,7 @@ export function extractTypedocConfigFromPackageManifest(
  * @param packageJSON the package json object
  */
 function getPackagePaths(
-    packageJSON: Record<string, unknown>
+    packageJSON: Record<string, unknown>,
 ): string[] | undefined {
     if (
         Array.isArray(packageJSON["workspaces"]) &&
@@ -120,7 +120,7 @@ export function expandPackages(
     logger: Logger,
     packageJsonDir: string,
     workspaces: string[],
-    exclude: Minimatch[]
+    exclude: Minimatch[],
 ): string[] {
     // Technically npm and Yarn workspaces don't support recursive nesting,
     // however we support the passing of paths to either packages or
@@ -130,20 +130,22 @@ export function expandPackages(
     return workspaces.flatMap((workspace) => {
         const globbedPackageJsonPaths = glob(
             resolve(packageJsonDir, workspace, "package.json"),
-            resolve(packageJsonDir)
+            resolve(packageJsonDir),
         );
 
         if (globbedPackageJsonPaths.length === 0) {
             logger.warn(
                 `The entrypoint glob ${nicePath(
-                    workspace
-                )} did not match any directories containing package.json.`
+                    workspace,
+                )} did not match any directories containing package.json.`,
             );
         } else {
             logger.verbose(
                 `Expanded ${nicePath(
-                    workspace
-                )} to:\n\t${globbedPackageJsonPaths.map(nicePath).join("\n\t")}`
+                    workspace,
+                )} to:\n\t${globbedPackageJsonPaths
+                    .map(nicePath)
+                    .join("\n\t")}`,
             );
         }
 
@@ -167,7 +169,7 @@ export function expandPackages(
                 logger,
                 dirname(packageJsonPath),
                 packagePaths,
-                exclude
+                exclude,
             );
         });
     });
@@ -179,14 +181,14 @@ export function expandPackages(
  */
 function getTsSourceFromJsSource(
     logger: Logger,
-    jsPath: string
+    jsPath: string,
 ): string | undefined {
     const contents = readFile(jsPath);
     const sourceMapPrefix = "\n//# sourceMappingURL=";
     const indexOfSourceMapPrefix = contents.indexOf(sourceMapPrefix);
     if (indexOfSourceMapPrefix === -1) {
         logger.verbose(
-            `The file ${jsPath} does not contain a sourceMappingURL`
+            `The file ${jsPath} does not contain a sourceMappingURL`,
         );
         return jsPath;
     }
@@ -195,7 +197,7 @@ function getTsSourceFromJsSource(
     const newLineIndex = contents.indexOf("\n", endOfSourceMapPrefix);
     const sourceMapURL = contents.slice(
         endOfSourceMapPrefix,
-        newLineIndex === -1 ? undefined : newLineIndex
+        newLineIndex === -1 ? undefined : newLineIndex,
     );
 
     let resolvedSourceMapURL: string;
@@ -205,8 +207,8 @@ function getTsSourceFromJsSource(
         sourceMap = JSON.parse(
             Buffer.from(
                 sourceMapURL.substring(sourceMapURL.indexOf(",") + 1),
-                "base64"
-            ).toString()
+                "base64",
+            ).toString(),
         );
     } else {
         resolvedSourceMapURL = resolve(jsPath, "..", sourceMapURL);
@@ -215,7 +217,7 @@ function getTsSourceFromJsSource(
 
     if (typeof sourceMap !== "object" || !sourceMap) {
         logger.error(
-            `The source map file ${resolvedSourceMapURL} is not an object.`
+            `The source map file ${resolvedSourceMapURL} is not an object.`,
         );
         return undefined;
     }
@@ -224,7 +226,7 @@ function getTsSourceFromJsSource(
         !Array.isArray(sourceMap.sources)
     ) {
         logger.error(
-            `The source map ${resolvedSourceMapURL} does not contain "sources".`
+            `The source map ${resolvedSourceMapURL} does not contain "sources".`,
         );
         return undefined;
     }
@@ -264,21 +266,21 @@ export const ignorePackage = Symbol("ignorePackage");
 export function getTsEntryPointForPackage(
     logger: Logger,
     packageJsonPath: string,
-    packageJson: Record<string, unknown>
+    packageJson: Record<string, unknown>,
 ): string | undefined | typeof ignorePackage {
     let packageMain = "index.js"; // The default, per the npm docs.
     let packageTypes = null;
     const typedocPackageConfig = extractTypedocConfigFromPackageManifest(
         logger,
-        packageJsonPath
+        packageJsonPath,
     );
     if (typedocPackageConfig?.entryPoint) {
         packageMain = typedocPackageConfig.entryPoint;
     } else if (validate({ typedocMain: String }, packageJson)) {
         logger.warn(
             `Legacy typedoc entry point config (using "typedocMain" field) found for "${nicePath(
-                packageJsonPath
-            )}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`
+                packageJsonPath,
+            )}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`,
         );
         packageMain = packageJson.typedocMain;
     } else if (validate({ main: String }, packageJson)) {
@@ -305,7 +307,7 @@ export function getTsEntryPointForPackage(
             entryPointPath = resolve(
                 packageJsonPath,
                 "..",
-                packageTypes ?? packageMain
+                packageTypes ?? packageMain,
             );
             if (
                 /\.([cm]?[tj]s|tsx?)$/.test(entryPointPath) &&
@@ -314,7 +316,7 @@ export function getTsEntryPointForPackage(
                 return entryPointPath;
             } else {
                 logger.warn(
-                    `Could not determine the entry point for "${packageJsonPath}". Package will be ignored.`
+                    `Could not determine the entry point for "${packageJsonPath}". Package will be ignored.`,
                 );
                 logger.verbose(e.message);
                 return ignorePackage;

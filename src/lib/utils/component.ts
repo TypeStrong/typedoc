@@ -12,7 +12,7 @@ export interface Component extends AbstractComponent<ComponentHost> {}
 
 export interface ComponentClass<
     T extends Component,
-    O extends ComponentHost = ComponentHost
+    O extends ComponentHost = ComponentHost,
 > extends Function {
     new (owner: O): T;
 }
@@ -40,14 +40,14 @@ export function Component(options: ComponentOptions): ClassDecorator {
         const proto = target.prototype;
         if (!(proto instanceof AbstractComponent)) {
             throw new Error(
-                "The `Component` decorator can only be used with a subclass of `AbstractComponent`."
+                "The `Component` decorator can only be used with a subclass of `AbstractComponent`.",
             );
         }
 
         if (options.childClass) {
             if (!(proto instanceof ChildableComponent)) {
                 throw new Error(
-                    "The `Component` decorator accepts the parameter `childClass` only when used with a subclass of `ChildableComponent`."
+                    "The `Component` decorator accepts the parameter `childClass` only when used with a subclass of `ChildableComponent`.",
                 );
             }
 
@@ -92,7 +92,7 @@ export class ComponentEvent extends Event {
     constructor(
         name: string,
         owner: ComponentHost,
-        component: AbstractComponent<ComponentHost>
+        component: AbstractComponent<ComponentHost>,
     ) {
         super(name);
         this.owner = owner;
@@ -177,7 +177,7 @@ export abstract class AbstractComponent<O extends ComponentHost>
  */
 export abstract class ChildableComponent<
     O extends ComponentHost,
-    C extends Component
+    C extends Component,
 > extends AbstractComponent<O> {
     /**
      *
@@ -195,7 +195,7 @@ export abstract class ChildableComponent<
         Object.entries(this._defaultComponents || {}).forEach(
             ([name, component]) => {
                 this.addComponent(name, component);
-            }
+            },
         );
     }
 
@@ -218,7 +218,7 @@ export abstract class ChildableComponent<
 
     addComponent<T extends C>(
         name: string,
-        componentClass: T | ComponentClass<T, O>
+        componentClass: T | ComponentClass<T, O>,
     ): T {
         if (!this._componentChildren) {
             this._componentChildren = {};
@@ -237,7 +237,7 @@ export abstract class ChildableComponent<
             const event = new ComponentEvent(
                 ComponentEvent.ADDED,
                 this,
-                component
+                component,
             );
 
             this.bubble(event);
@@ -253,7 +253,7 @@ export abstract class ChildableComponent<
             delete this._componentChildren![name];
             component.stopListening();
             this.bubble(
-                new ComponentEvent(ComponentEvent.REMOVED, this, component)
+                new ComponentEvent(ComponentEvent.REMOVED, this, component),
             );
             return component;
         }

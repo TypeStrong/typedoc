@@ -77,7 +77,12 @@ export class TestSubClass extends TestClass {
      * @param p3 Public number property
      * @param p4 Public implicit any property
      */
-    constructor(p1, private p2: string, public p3: number, public p4) {
+    constructor(
+        p1,
+        private p2: string,
+        public p3: number,
+        public p4,
+    ) {
         super();
     }
 }

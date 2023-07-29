@@ -31,7 +31,7 @@ function renderParameterWithoutType(item: ParameterReflection) {
 export function memberSignatureTitle(
     context: DefaultThemeRenderContext,
     props: SignatureReflection,
-    { hideName = false, arrowStyle = false }: { hideName?: boolean; arrowStyle?: boolean } = {}
+    { hideName = false, arrowStyle = false }: { hideName?: boolean; arrowStyle?: boolean } = {},
 ) {
     const hideParamTypes = context.options.getValue("hideParameterTypesInTitle");
     const renderParam = hideParamTypes ? renderParameterWithoutType : renderParameterWithType.bind(null, context);

@@ -60,11 +60,11 @@ export interface DocumentationEntryPoint {
 
 export function getEntryPoints(
     logger: Logger,
-    options: Options
+    options: Options,
 ): DocumentationEntryPoint[] | undefined {
     if (!options.isSet("entryPoints")) {
         logger.warn(
-            "No entry points were provided, this is likely a misconfiguration."
+            "No entry points were provided, this is likely a misconfiguration.",
         );
         return [];
     }
@@ -84,7 +84,7 @@ export function getEntryPoints(
             result = getEntryPointsForPaths(
                 logger,
                 expandGlobs(entryPoints, logger),
-                options
+                options,
             );
             break;
 
@@ -92,7 +92,7 @@ export function getEntryPoints(
             result = getExpandedEntryPointsForPaths(
                 logger,
                 expandGlobs(entryPoints, logger),
-                options
+                options,
             );
             break;
 
@@ -100,7 +100,7 @@ export function getEntryPoints(
             result = getEntryPointsForLegacyPackages(
                 logger,
                 entryPoints,
-                options
+                options,
             );
             break;
 
@@ -124,7 +124,7 @@ export function getEntryPoints(
 export function getWatchEntryPoints(
     logger: Logger,
     options: Options,
-    program: ts.Program
+    program: ts.Program,
 ): DocumentationEntryPoint[] | undefined {
     let result: DocumentationEntryPoint[] | undefined;
 
@@ -141,13 +141,13 @@ export function getWatchEntryPoints(
                 logger,
                 entryPoints,
                 options,
-                [program]
+                [program],
             );
             break;
 
         case EntryPointStrategy.Packages:
             logger.error(
-                "Watch mode does not support 'packages' style entry points."
+                "Watch mode does not support 'packages' style entry points.",
             );
             break;
     }
@@ -163,7 +163,7 @@ export function getWatchEntryPoints(
 export function getPackageDirectories(
     logger: Logger,
     options: Options,
-    packageGlobPaths: string[]
+    packageGlobPaths: string[],
 ) {
     const exclude = createMinimatch(options.getValue("exclude"));
     const rootDir = deriveRootDir(packageGlobPaths);
@@ -176,7 +176,7 @@ export function getPackageDirectories(
 function getModuleName(fileName: string, baseDir: string) {
     return normalizePath(relative(baseDir, fileName)).replace(
         /(\/index)?(\.d)?\.([cm][tj]s|[tj]sx?)$/,
-        ""
+        "",
     );
 }
 
@@ -188,7 +188,7 @@ function getEntryPointsForPaths(
     logger: Logger,
     inputFiles: string[],
     options: Options,
-    programs = getEntryPrograms(logger, options)
+    programs = getEntryPrograms(logger, options),
 ): DocumentationEntryPoint[] {
     const baseDir = options.getValue("basePath") || deriveRootDir(inputFiles);
     const entryPoints: DocumentationEntryPoint[] = [];
@@ -204,7 +204,7 @@ function getEntryPointsForPaths(
                 `${fileOrDir}/index.js`,
                 `${fileOrDir}/index.cjs`,
                 `${fileOrDir}/index.mjs`,
-                `${fileOrDir}/index.jsx`
+                `${fileOrDir}/index.jsx`,
             );
         }
 
@@ -227,8 +227,8 @@ function getEntryPointsForPaths(
             : "";
         logger.warn(
             `The entry point ${nicePath(
-                fileOrDir
-            )} is not included in the program for your provided tsconfig.${suggestion}`
+                fileOrDir,
+            )} is not included in the program for your provided tsconfig.${suggestion}`,
         );
     }
 
@@ -239,13 +239,13 @@ export function getExpandedEntryPointsForPaths(
     logger: Logger,
     inputFiles: string[],
     options: Options,
-    programs = getEntryPrograms(logger, options)
+    programs = getEntryPrograms(logger, options),
 ): DocumentationEntryPoint[] {
     return getEntryPointsForPaths(
         logger,
         expandInputFiles(logger, inputFiles, options),
         options,
-        programs
+        programs,
     );
 }
 
@@ -260,14 +260,14 @@ function expandGlobs(inputFiles: string[], logger: Logger) {
         if (result.length === 0) {
             logger.warn(
                 `The entrypoint glob ${nicePath(
-                    entry
-                )} did not match any files.`
+                    entry,
+                )} did not match any files.`,
             );
         } else {
             logger.verbose(
                 `Expanded ${nicePath(entry)} to:\n\t${result
                     .map(nicePath)
-                    .join("\n\t")}`
+                    .join("\n\t")}`,
             );
         }
 
@@ -288,7 +288,7 @@ function getEntryPrograms(logger: Logger, options: Options) {
     // reference so that the converter can look through each of these.
     if (rootProgram.getRootFileNames().length === 0) {
         logger.verbose(
-            "tsconfig appears to be a solution style tsconfig - creating programs for references"
+            "tsconfig appears to be a solution style tsconfig - creating programs for references",
         );
         const resolvedReferences = rootProgram.getResolvedProjectReferences();
         for (const ref of resolvedReferences ?? []) {
@@ -297,11 +297,11 @@ function getEntryPrograms(logger: Logger, options: Options) {
             programs.push(
                 ts.createProgram({
                     options: options.fixCompilerOptions(
-                        ref.commandLine.options
+                        ref.commandLine.options,
                     ),
                     rootNames: ref.commandLine.fileNames,
                     projectReferences: ref.commandLine.projectReferences,
-                })
+                }),
             );
         }
     }
@@ -322,7 +322,7 @@ function getEntryPrograms(logger: Logger, options: Options) {
 function expandInputFiles(
     logger: Logger,
     entryPoints: string[],
-    options: Options
+    options: Options,
 ): string[] {
     const files: string[] = [];
 
@@ -362,7 +362,7 @@ function expandInputFiles(
         const resolved = resolve(file);
         if (!FS.existsSync(resolved)) {
             logger.warn(
-                `Provided entry point ${file} does not exist and will not be included in the docs.`
+                `Provided entry point ${file} does not exist and will not be included in the docs.`,
             );
             return;
         }
@@ -383,14 +383,14 @@ function expandInputFiles(
 function getEntryPointsForLegacyPackages(
     logger: Logger,
     packageGlobPaths: string[],
-    options: Options
+    options: Options,
 ): DocumentationEntryPoint[] | undefined {
     const results: DocumentationEntryPoint[] = [];
 
     for (const packagePath of getPackageDirectories(
         logger,
         options,
-        packageGlobPaths
+        packageGlobPaths,
     )) {
         const packageJsonPath = resolve(packagePath, "package.json");
         const packageJson = loadPackageManifest(logger, packageJsonPath);
@@ -405,11 +405,11 @@ function getEntryPointsForLegacyPackages(
         const packageEntryPoint = getTsEntryPointForPackage(
             logger,
             packageJsonPath,
-            packageJson
+            packageJson,
         );
         if (packageEntryPoint === undefined) {
             logger.error(
-                `Could not determine TS entry point for package ${packageJsonPath}`
+                `Could not determine TS entry point for package ${packageJsonPath}`,
             );
             return;
         }
@@ -419,11 +419,11 @@ function getEntryPointsForLegacyPackages(
         const tsconfigFile = ts.findConfigFile(
             packageEntryPoint,
             ts.sys.fileExists,
-            typedocPackageConfig?.tsconfig
+            typedocPackageConfig?.tsconfig,
         );
         if (tsconfigFile === undefined) {
             logger.error(
-                `Could not determine tsconfig.json for source file ${packageEntryPoint} (it must be on an ancestor path)`
+                `Could not determine tsconfig.json for source file ${packageEntryPoint} (it must be on an ancestor path)`,
             );
             return;
         }
@@ -438,7 +438,7 @@ function getEntryPointsForLegacyPackages(
                     logger.diagnostic(error);
                     fatalError = true;
                 },
-            }
+            },
         );
         if (!parsedCommandLine) {
             return;
@@ -456,7 +456,7 @@ function getEntryPointsForLegacyPackages(
         const sourceFile = program.getSourceFile(packageEntryPoint);
         if (sourceFile === undefined) {
             logger.error(
-                `Entry point "${packageEntryPoint}" does not appear to be built by/included in the tsconfig found at "${tsconfigFile}"`
+                `Entry point "${packageEntryPoint}" does not appear to be built by/included in the tsconfig found at "${tsconfigFile}"`,
             );
             return;
         }
@@ -467,13 +467,13 @@ function getEntryPointsForLegacyPackages(
             version: includeVersion
                 ? (packageJson["version"] as string | undefined)?.replace(
                       /^v/,
-                      ""
+                      "",
                   )
                 : void 0,
             readmeFile: discoverReadmeFile(
                 logger,
                 Path.join(packageJsonPath, ".."),
-                typedocPackageConfig?.readmeFile
+                typedocPackageConfig?.readmeFile,
             ),
             program,
             sourceFile,
@@ -486,7 +486,7 @@ function getEntryPointsForLegacyPackages(
 function discoverReadmeFile(
     logger: Logger,
     packageDir: string,
-    userReadme: string | undefined
+    userReadme: string | undefined,
 ): string | undefined {
     if (userReadme?.endsWith("none")) {
         return;
@@ -495,7 +495,7 @@ function discoverReadmeFile(
     if (userReadme) {
         if (!FS.existsSync(Path.join(packageDir, userReadme))) {
             logger.warn(
-                `Failed to find ${userReadme} in ${nicePath(packageDir)}`
+                `Failed to find ${userReadme} in ${nicePath(packageDir)}`,
             );
             return;
         }

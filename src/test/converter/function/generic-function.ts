@@ -17,7 +17,7 @@ export function genericFunction<T extends Object>(value: T): T {
  */
 export function functionWithGenericArrayParameter<T>(
     param: T,
-    params: T[]
+    params: T[],
 ): T[] {
     return params;
 }

@@ -60,7 +60,7 @@ export class Deserializer {
     reflectionBuilders: {
         [K in keyof ReflectionVariant]: (
             parent: NonNullable<ReflectionVariant[K]["parent"]>,
-            obj: JSONOutput.ModelToObject<ReflectionVariant[K]>
+            obj: JSONOutput.ModelToObject<ReflectionVariant[K]>,
         ) => ReflectionVariant[K];
     } = {
         declaration(parent, obj) {
@@ -71,7 +71,7 @@ export class Deserializer {
         },
         project() {
             throw new Error(
-                "Not supported, use Deserializer.reviveProject(s) instead."
+                "Not supported, use Deserializer.reviveProject(s) instead.",
             );
         },
         reference(parent, obj): ReferenceReflection {
@@ -79,14 +79,14 @@ export class Deserializer {
             return new ReferenceReflection(
                 obj.name,
                 /* target */ parent,
-                parent
+                parent,
             );
         },
         signature(parent, obj) {
             return new SignatureReflection(
                 obj.name,
                 obj.kind as SignatureReflection["kind"],
-                parent
+                parent,
             );
         },
         typeParam(parent, obj) {
@@ -97,7 +97,7 @@ export class Deserializer {
     typeBuilders: {
         [K in keyof TypeKindMap]: (
             obj: JSONOutput.ModelToObject<TypeKindMap[K]>,
-            de: Deserializer
+            de: Deserializer,
         ) => TypeKindMap[K];
     } = {
         array(obj, de) {
@@ -108,13 +108,13 @@ export class Deserializer {
                 de.reviveType(obj.checkType),
                 de.reviveType(obj.extendsType),
                 de.reviveType(obj.trueType),
-                de.reviveType(obj.falseType)
+                de.reviveType(obj.falseType),
             );
         },
         indexedAccess(obj, de) {
             return new IndexedAccessType(
                 de.reviveType(obj.objectType),
-                de.reviveType(obj.indexType)
+                de.reviveType(obj.indexType),
             );
         },
         inferred(obj, de) {
@@ -129,7 +129,9 @@ export class Deserializer {
         literal(obj) {
             if (obj.value && typeof obj.value === "object") {
                 return new LiteralType(
-                    BigInt(`${obj.value.negative ? "-" : ""}${obj.value.value}`)
+                    BigInt(
+                        `${obj.value.negative ? "-" : ""}${obj.value.value}`,
+                    ),
                 );
             }
             return new LiteralType(obj.value);
@@ -141,7 +143,7 @@ export class Deserializer {
                 de.reviveType(obj.templateType),
                 obj.readonlyModifier,
                 obj.optionalModifier,
-                de.reviveType(obj.nameType)
+                de.reviveType(obj.nameType),
             );
         },
         optional(obj, de) {
@@ -151,7 +153,7 @@ export class Deserializer {
             return new PredicateType(
                 obj.name,
                 obj.asserts,
-                de.reviveType(obj.targetType)
+                de.reviveType(obj.targetType),
             );
         },
         query(obj, de) {
@@ -163,7 +165,7 @@ export class Deserializer {
         },
         reflection(obj, de) {
             return new ReflectionType(
-                de.revive(obj.declaration, (o) => de.constructReflection(o))
+                de.revive(obj.declaration, (o) => de.constructReflection(o)),
             );
         },
         rest(obj, de) {
@@ -172,25 +174,25 @@ export class Deserializer {
         templateLiteral(obj, de) {
             return new TemplateLiteralType(
                 obj.head,
-                obj.tail.map(([t, s]) => [de.reviveType(t), s])
+                obj.tail.map(([t, s]) => [de.reviveType(t), s]),
             );
         },
         tuple(obj, de) {
             return new TupleType(
-                obj.elements?.map((t) => de.reviveType(t)) || []
+                obj.elements?.map((t) => de.reviveType(t)) || [],
             );
         },
         namedTupleMember(obj, de) {
             return new NamedTupleMember(
                 obj.name,
                 obj.isOptional,
-                de.reviveType(obj.element)
+                de.reviveType(obj.element),
             );
         },
         typeOperator(obj, de) {
             return new TypeOperatorType(
                 de.reviveType(obj.target),
-                obj.operator
+                obj.operator,
             );
         },
         union(obj, de) {
@@ -215,11 +217,11 @@ export class Deserializer {
      */
     reviveProject(
         projectObj: JSONOutput.ProjectReflection,
-        name?: string
+        name?: string,
     ): ProjectReflection {
         ok(
             this.deferred.length === 0,
-            "Deserializer.defer was called when not deserializing"
+            "Deserializer.defer was called when not deserializing",
         );
         const project = new ProjectReflection(name || projectObj.name);
         project.registerReflection(project);
@@ -235,12 +237,12 @@ export class Deserializer {
 
         ok(
             this.deferred.length === 0,
-            "Work may not be double deferred when deserializing."
+            "Work may not be double deferred when deserializing.",
         );
 
         ok(
             this.activeReflection.length === 0,
-            "Imbalanced reflection deserialization"
+            "Imbalanced reflection deserialization",
         );
 
         this.project = undefined;
@@ -250,7 +252,7 @@ export class Deserializer {
 
     reviveProjects(
         name: string,
-        projects: readonly JSONOutput.ProjectReflection[]
+        projects: readonly JSONOutput.ProjectReflection[],
     ): ProjectReflection {
         if (projects.length === 1) {
             return this.reviveProject(projects[0], name);
@@ -263,13 +265,13 @@ export class Deserializer {
         for (const proj of projects) {
             ok(
                 this.deferred.length === 0,
-                "Deserializer.defer was called when not deserializing"
+                "Deserializer.defer was called when not deserializing",
             );
 
             const projModule = new DeclarationReflection(
                 proj.name,
                 ReflectionKind.Module,
-                project
+                project,
             );
             project.registerReflection(projModule);
             project.children.push(projModule);
@@ -283,12 +285,12 @@ export class Deserializer {
             }
             ok(
                 this.deferred.length === 0,
-                "Work may not be double deferred when deserializing."
+                "Work may not be double deferred when deserializing.",
             );
 
             ok(
                 this.activeReflection.length === 0,
-                "Imbalanced reflection deserialization"
+                "Imbalanced reflection deserialization",
             );
         }
 
@@ -299,15 +301,15 @@ export class Deserializer {
 
     revive<T, U extends Deserializable<T>>(
         source: NonNullable<T>,
-        creator: (obj: T) => U
+        creator: (obj: T) => U,
     ): U;
     revive<T, U extends Deserializable<T>>(
         source: T | undefined,
-        creator: (obj: T) => U
+        creator: (obj: T) => U,
     ): U | undefined;
     revive<T, U extends Deserializable<T>>(
         source: T | undefined,
-        creator: (obj: T) => U
+        creator: (obj: T) => U,
     ): U | undefined {
         if (source) {
             const revived = creator(source);
@@ -318,15 +320,15 @@ export class Deserializer {
 
     reviveMany<T, U extends Deserializable<T>>(
         sourceArray: T[],
-        creator: (obj: T) => U
+        creator: (obj: T) => U,
     ): U[];
     reviveMany<T, U extends Deserializable<T>>(
         sourceArray: T[] | undefined,
-        creator: (obj: T) => U
+        creator: (obj: T) => U,
     ): U[] | undefined;
     reviveMany<T, U extends Deserializable<T>>(
         sourceArray: T[] | undefined,
-        creator: (obj: T) => U
+        creator: (obj: T) => U,
     ): U[] | undefined {
         if (sourceArray) {
             return sourceArray.map((item) => {
@@ -339,19 +341,19 @@ export class Deserializer {
 
     reviveType<T extends JSONOutput.SomeType>(obj: T): TypeKindMap[T["type"]];
     reviveType<T extends JSONOutput.SomeType>(
-        obj: T | undefined
+        obj: T | undefined,
     ): TypeKindMap[T["type"]] | undefined;
     reviveType(obj: JSONOutput.SomeType | undefined): SomeType | undefined {
         return this.revive(obj, (o) => this.constructType(o));
     }
 
     constructReflection<T extends JSONOutput.SomeReflection>(
-        obj: T
+        obj: T,
     ): ReflectionVariant[T["variant"]] {
         ok(this.activeReflection.length > 0);
         const result = this.reflectionBuilders[obj.variant](
             this.activeReflection[this.activeReflection.length - 1] as never,
-            obj as never
+            obj as never,
         );
         this.oldIdToNewId[obj.id] = result.id;
         this.project!.registerReflection(result);
@@ -360,7 +362,7 @@ export class Deserializer {
     }
 
     constructType<T extends JSONOutput.SomeType>(
-        obj: T
+        obj: T,
     ): TypeKindMap[T["type"]] {
         const result = this.typeBuilders[obj.type](obj as never, this);
         return result as any;
@@ -368,7 +370,7 @@ export class Deserializer {
 
     fromObject<T>(
         receiver: { fromObject(d: Deserializer, o: T): void },
-        obj: T
+        obj: T,
     ) {
         if (receiver instanceof Reflection) {
             this.activeReflection.push(receiver);

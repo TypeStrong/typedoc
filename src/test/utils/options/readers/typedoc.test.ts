@@ -67,7 +67,7 @@ describe("Options - TypeDocReader", () => {
         const logger = new TestLogger();
         options.read(logger);
         logger.expectMessage(
-            "error: The options file */non-existent-file.json does not exist."
+            "error: The options file */non-existent-file.json does not exist.",
         );
         logger.expectNoOtherMessages();
     });
@@ -76,7 +76,7 @@ describe("Options - TypeDocReader", () => {
         name: string,
         file: unknown,
         message: string,
-        json = true
+        json = true,
     ) {
         it(name, () => {
             const optionsFile = json ? "typedoc.json" : "typedoc.js";
@@ -100,39 +100,39 @@ describe("Options - TypeDocReader", () => {
     testError(
         "Errors if the data is invalid",
         "Not valid json {}",
-        "error: Failed to parse */typedoc.json, ensure it exists and contains an object."
+        "error: Failed to parse */typedoc.json, ensure it exists and contains an object.",
     );
     testError(
         "Errors if the data is not an object in a json file",
         123,
-        "error: Failed to parse */typedoc.json, ensure it exists and contains an object."
+        "error: Failed to parse */typedoc.json, ensure it exists and contains an object.",
     );
     testError(
         "Errors if the data is not an object in a js file",
         "module.exports = 123",
         "error: The root value of */typedoc.js is not an object.",
-        false
+        false,
     );
     testError(
         "Errors if any set option errors",
         {
             someOptionThatDoesNotExist: true,
         },
-        "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared. You may have meant:*"
+        "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared. You may have meant:*",
     );
     testError(
         "Errors if extends results in a loop",
         {
             extends: "./typedoc.json",
         },
-        "error: Tried to load the options file */typedoc.json multiple times."
+        "error: Tried to load the options file */typedoc.json multiple times.",
     );
     testError(
         "Errors if the extended path cannot be found",
         {
             extends: "typedoc/nope",
         },
-        "error: Failed to resolve typedoc/nope to a file in */typedoc.json"
+        "error: Failed to resolve typedoc/nope to a file in */typedoc.json",
     );
 
     it("Does not error if the option file cannot be found but was not set.", () => {

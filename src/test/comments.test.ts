@@ -23,7 +23,7 @@ function dedent(text: string) {
     const minIndent = lines.reduce(
         (indent, line) =>
             line.length ? Math.min(indent, line.search(/\S/)) : indent,
-        Infinity
+        Infinity,
     );
 
     return lines.map((line) => line.substring(minIndent)).join("\n");
@@ -39,7 +39,7 @@ describe("Dedent test helper", () => {
             dedent(`
             Text here
         `),
-            "Text here"
+            "Text here",
         );
     });
 
@@ -49,7 +49,7 @@ describe("Dedent test helper", () => {
             Text here
                 More indented
         `),
-            "Text here\n    More indented"
+            "Text here\n    More indented",
         );
     });
 });
@@ -121,7 +121,7 @@ describe("Block Comment Lexer", () => {
              Comment start
               * This is a list item
             */
-        `)
+        `),
         );
 
         equal(tokens, [
@@ -142,7 +142,7 @@ describe("Block Comment Lexer", () => {
              A
         B
             */
-        `)
+        `),
         );
 
         equal(tokens, [
@@ -159,7 +159,7 @@ describe("Block Comment Lexer", () => {
              * A
              *B
              */
-            `)
+            `),
         );
 
         equal(tokens, [
@@ -200,7 +200,7 @@ describe("Block Comment Lexer", () => {
              * /* inner block comment *\\/
              * \`\`\`
              */
-            `)
+            `),
         );
 
         equal(tokens, [
@@ -309,7 +309,7 @@ describe("Block Comment Lexer", () => {
              * \`\`\`ts
              *   test()
              * \`\`\`
-             */`)
+             */`),
         );
 
         equal(tokens, [
@@ -328,7 +328,7 @@ describe("Block Comment Lexer", () => {
             \`\`\`ts
               test()
             \`\`\`
-            */`)
+            */`),
         );
 
         equal(tokens, [
@@ -354,7 +354,7 @@ describe("Block Comment Lexer", () => {
                  * Text
                  * \`\`\`ts
                  * foo();
-                 */`)
+                 */`),
         );
         equal(tokens, [
             { kind: TokenSyntaxKind.Text, text: "Text", pos: 6 },
@@ -370,7 +370,7 @@ describe("Block Comment Lexer", () => {
                  * Text
                  * code? \`\` fake
                  * @blockTag text
-                 */`)
+                 */`),
         );
         equal(tokens, [
             { kind: TokenSyntaxKind.Text, text: "Text", pos: 6 },
@@ -387,7 +387,7 @@ describe("Block Comment Lexer", () => {
             dedent(`
                 /* Text
                  * Text2
-                 */`)
+                 */`),
         );
         equal(tokens, [
             { kind: TokenSyntaxKind.Text, text: "Text", pos: 3 },
@@ -399,7 +399,7 @@ describe("Block Comment Lexer", () => {
             dedent(`
                 /** Text
                  * Text2
-                 */`)
+                 */`),
         );
         equal(tokens, [
             { kind: TokenSyntaxKind.Text, text: "Text", pos: 4 },
@@ -418,7 +418,7 @@ describe("Block Comment Lexer", () => {
              * Detailed text here with a {@link Inline | inline link}
              *
              * @alpha @beta
-             */`)
+             */`),
         );
 
         equal(tokens, [
@@ -455,7 +455,7 @@ describe("Block Comment Lexer", () => {
              *Text
              *\`\`\`
              *Text
-             */`)
+             */`),
         );
 
         equal(tokens, [
@@ -470,7 +470,7 @@ describe("Block Comment Lexer", () => {
             dedent(`
             /**
              * @param {string} foo
-             */`)
+             */`),
         );
 
         equal(tokens, [
@@ -490,7 +490,7 @@ describe("Block Comment Lexer", () => {
              * @param {"text\\"more {}"}
              * @param {'{'}
              * EOF
-             */`)
+             */`),
         );
 
         const expectedAnnotations = [
@@ -510,7 +510,7 @@ describe("Block Comment Lexer", () => {
 
         equal(
             tokens.map((tok) => ({ kind: tok.kind, text: tok.text })),
-            expectedTokens
+            expectedTokens,
         );
     });
 
@@ -521,7 +521,7 @@ describe("Block Comment Lexer", () => {
              * @param {{ a: string }}
              * @param {{ a: string; b: { c: { d: string }} }}
              * EOF
-             */`)
+             */`),
         );
 
         const expectedAnnotations = [
@@ -539,7 +539,7 @@ describe("Block Comment Lexer", () => {
 
         equal(
             tokens.map((tok) => ({ kind: tok.kind, text: tok.text })),
-            expectedTokens
+            expectedTokens,
         );
     });
 
@@ -585,7 +585,7 @@ describe("Line Comment Lexer", () => {
                     pos: 0,
                     end: text.length,
                 },
-            ])
+            ]),
         );
     }
 
@@ -734,7 +734,7 @@ describe("Line Comment Lexer", () => {
             // Text
             // code? \`\` fake
             // @blockTag text
-        `)
+        `),
         );
         equal(tokens, [
             { kind: TokenSyntaxKind.Text, text: "Text", pos: 3 },
@@ -755,7 +755,7 @@ describe("Line Comment Lexer", () => {
             // Detailed text here with a {@link Inline | inline link}
             //
             // @alpha @beta
-            `)
+            `),
         );
 
         equal(
@@ -779,7 +779,7 @@ describe("Line Comment Lexer", () => {
                 { kind: TokenSyntaxKind.Tag, text: "@alpha" },
                 { kind: TokenSyntaxKind.Text, text: " " },
                 { kind: TokenSyntaxKind.Tag, text: "@beta" },
-            ]
+            ],
         );
     });
 
@@ -788,7 +788,7 @@ describe("Line Comment Lexer", () => {
             dedent(`
             // Text
             // \`\`\`
-            // Text`)
+            // Text`),
         );
 
         equal(tokens, [
@@ -817,7 +817,7 @@ describe("Line Comment Lexer", () => {
             // @param {"text\\"more {}"}
             // @param {'{'}
             // EOF
-            `)
+            `),
         );
 
         const expectedAnnotations = [
@@ -837,7 +837,7 @@ describe("Line Comment Lexer", () => {
 
         equal(
             tokens.map((tok) => ({ kind: tok.kind, text: tok.text })),
-            expectedTokens
+            expectedTokens,
         );
     });
 
@@ -847,7 +847,7 @@ describe("Line Comment Lexer", () => {
             // @param {{ a: string }}
             // @param {{ a: string; b: { c: { d: string }} }}
             // EOF
-            `)
+            `),
         );
 
         const expectedAnnotations = [
@@ -865,7 +865,7 @@ describe("Line Comment Lexer", () => {
 
         equal(
             tokens.map((tok) => ({ kind: tok.kind, text: tok.text })),
-            expectedTokens
+            expectedTokens,
         );
     });
 
@@ -1066,7 +1066,7 @@ describe("Raw Lexer", () => {
             Text
             code? \`\` fake
             @blockTag text
-        `)
+        `),
         );
         equal(tokens, [
             { kind: TokenSyntaxKind.Text, text: "Text", pos: 0 },
@@ -1087,7 +1087,7 @@ describe("Raw Lexer", () => {
             Detailed text here with a {@link Inline | inline link}
 
             @alpha @beta
-            `)
+            `),
         ).map((t) => ({ kind: t.kind, text: t.text }));
 
         equal(tokens, [
@@ -1114,7 +1114,7 @@ describe("Raw Lexer", () => {
             dedent(`
             Text
             \`\`\`
-            Text`)
+            Text`),
         );
 
         equal(tokens, [
@@ -1143,7 +1143,7 @@ describe("Raw Lexer", () => {
             @param {"text\\"more {}"}
             @param {'{'}
             EOF
-            `)
+            `),
         );
 
         const expectedAnnotations = [
@@ -1163,7 +1163,7 @@ describe("Raw Lexer", () => {
 
         equal(
             tokens.map((t) => ({ kind: t.kind, text: t.text })),
-            expectedTokens
+            expectedTokens,
         );
     });
 
@@ -1173,7 +1173,7 @@ describe("Raw Lexer", () => {
             @param {{ a: string }}
             @param {{ a: string; b: { c: { d: string }} }}
             EOF
-            `)
+            `),
         );
 
         const expectedAnnotations = [
@@ -1191,7 +1191,7 @@ describe("Raw Lexer", () => {
 
         equal(
             tokens.map((t) => ({ kind: t.kind, text: t.text })),
-            expectedTokens
+            expectedTokens,
         );
     });
 
@@ -1258,11 +1258,11 @@ describe("Comment Parser", () => {
             content,
             config,
             new MinimalSourceFile(file, "<memory>"),
-            logger
+            logger,
         );
 
         logger.expectMessage(
-            "warn: The @inheritDoc tag should be properly capitalized"
+            "warn: The @inheritDoc tag should be properly capitalized",
         );
         logger.expectNoOtherMessages();
         equal(comment, new Comment([], [new CommentTag("@inheritDoc", [])]));
@@ -1276,7 +1276,7 @@ describe("Comment Parser", () => {
                 content,
                 config,
                 new MinimalSourceFile(text, "<memory>"),
-                logger
+                logger,
             );
             logger.expectNoOtherMessages();
             cb(comment);
@@ -1301,7 +1301,7 @@ describe("Comment Parser", () => {
                 new CommentTag("@remarks", [{ kind: "text", text: "Remarks" }]),
             ]);
             equal(comment.modifierTags, new Set());
-        }
+        },
     );
 
     test(
@@ -1316,7 +1316,7 @@ describe("Comment Parser", () => {
 
             equal(comment.blockTags, [tag]);
             equal(comment.modifierTags, new Set());
-        }
+        },
     );
 
     test(
@@ -1334,7 +1334,7 @@ describe("Comment Parser", () => {
 
             equal(comment.blockTags, [tag]);
             equal(comment.modifierTags, new Set());
-        }
+        },
     );
 
     test(
@@ -1350,7 +1350,7 @@ describe("Comment Parser", () => {
 
             equal(comment.blockTags, [tag]);
             equal(comment.modifierTags, new Set());
-        }
+        },
     );
 
     test(
@@ -1368,7 +1368,7 @@ describe("Comment Parser", () => {
 
             equal(comment.blockTags, [tag]);
             equal(comment.modifierTags, new Set());
-        }
+        },
     );
 
     test(
@@ -1386,6 +1386,6 @@ describe("Comment Parser", () => {
 
             equal(comment.blockTags, [tag]);
             equal(comment.modifierTags, new Set());
-        }
+        },
     );
 });

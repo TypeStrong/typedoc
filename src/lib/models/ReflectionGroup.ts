@@ -31,7 +31,10 @@ export class ReflectionGroup {
      * @param title The title of this group.
      * @param owningReflection The reflection containing this group, useful for changing rendering based on a comment on a reflection.
      */
-    constructor(title: string, readonly owningReflection: Reflection) {
+    constructor(
+        title: string,
+        readonly owningReflection: Reflection,
+    ) {
         this.title = title;
     }
 
@@ -66,7 +69,7 @@ export class ReflectionGroup {
             de.defer((project) => {
                 for (const childId of obj.children || []) {
                     const child = project.getReflectionById(
-                        de.oldIdToNewId[childId] ?? -1
+                        de.oldIdToNewId[childId] ?? -1,
                     );
                     if (child?.isDeclaration()) {
                         this.children.push(child);

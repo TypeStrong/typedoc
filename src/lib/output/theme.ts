@@ -48,6 +48,6 @@ export abstract class Theme extends RendererComponent {
      */
     abstract render(
         page: PageEvent<Reflection>,
-        template: RenderTemplate<PageEvent<Reflection>>
+        template: RenderTemplate<PageEvent<Reflection>>,
     ): string;
 }

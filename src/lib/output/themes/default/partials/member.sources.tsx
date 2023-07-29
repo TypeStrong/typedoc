@@ -4,7 +4,7 @@ import type { DeclarationReflection, SignatureReflection } from "../../../../mod
 
 export const memberSources = (
     context: DefaultThemeRenderContext,
-    props: SignatureReflection | DeclarationReflection
+    props: SignatureReflection | DeclarationReflection,
 ) => {
     const sources: JSX.Element[] = [];
 
@@ -13,7 +13,7 @@ export const memberSources = (
             <p>
                 {"Implementation of "}
                 {context.typeAndParent(props.implementationOf)}
-            </p>
+            </p>,
         );
     }
     if (props.inheritedFrom) {
@@ -21,7 +21,7 @@ export const memberSources = (
             <p>
                 {"Inherited from "}
                 {context.typeAndParent(props.inheritedFrom)}
-            </p>
+            </p>,
         );
     }
     if (props.overwrites) {
@@ -29,7 +29,7 @@ export const memberSources = (
             <p>
                 {"Overrides "}
                 {context.typeAndParent(props.overwrites)}
-            </p>
+            </p>,
         );
     }
     if (props.sources) {
@@ -47,9 +47,9 @@ export const memberSources = (
                         <li>
                             Defined in {item.fileName}:{item.line}
                         </li>
-                    )
+                    ),
                 )}
-            </ul>
+            </ul>,
         );
     }
 

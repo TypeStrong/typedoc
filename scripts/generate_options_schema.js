@@ -79,7 +79,7 @@ addTypeDocOptions({
                         : Object.keys(map)
                               .filter((key) => isNaN(+key))
                               .map((key) =>
-                                  typeof map[key] === "number" ? key : map[key]
+                                  typeof map[key] === "number" ? key : map[key],
                               );
                 data.default =
                     /** @type {import("../src").MapDeclarationOption} */ (
@@ -138,7 +138,7 @@ schema.properties.visibilityFilters.properties = Object.fromEntries(
     Object.keys(schema.properties.visibilityFilters.default).map((x) => [
         x,
         { type: "boolean" },
-    ])
+    ]),
 );
 schema.properties.visibilityFilters.patternProperties = {
     "^@": { type: "boolean" },

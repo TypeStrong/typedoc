@@ -42,12 +42,12 @@ export class InheritDocPlugin extends ConverterComponent {
      */
     override initialize() {
         this.owner.on(Converter.EVENT_RESOLVE_END, (context: Context) =>
-            this.processInheritDoc(context.project)
+            this.processInheritDoc(context.project),
         );
         this.application.on(
             ApplicationEvents.REVIVE,
             this.processInheritDoc,
-            this
+            this,
         );
     }
 
@@ -65,7 +65,7 @@ export class InheritDocPlugin extends ConverterComponent {
             const declRef = parseDeclarationReference(source, 0, source.length);
             if (!declRef || /\S/.test(source.substring(declRef[1]))) {
                 this.application.logger.warn(
-                    `Declaration reference in @inheritDoc for ${reflection.getFriendlyFullName()} was not fully parsed and may resolve incorrectly.`
+                    `Declaration reference in @inheritDoc for ${reflection.getFriendlyFullName()} was not fully parsed and may resolve incorrectly.`,
                 );
             }
             let sourceRefl =
@@ -99,7 +99,7 @@ export class InheritDocPlugin extends ConverterComponent {
             if (!sourceRefl) {
                 if (this.validation.invalidLink) {
                     this.application.logger.warn(
-                        `Failed to find "${source}" to inherit the comment from in the comment for ${reflection.getFullName()}`
+                        `Failed to find "${source}" to inherit the comment from in the comment for ${reflection.getFullName()}`,
                     );
                 }
                 continue;
@@ -134,7 +134,7 @@ export class InheritDocPlugin extends ConverterComponent {
 
         if (!source.comment) {
             this.application.logger.warn(
-                `${target.getFullName()} tried to copy a comment from ${source.getFullName()} with @inheritDoc, but the source has no associated comment.`
+                `${target.getFullName()} tried to copy a comment from ${source.getFullName()} with @inheritDoc, but the source has no associated comment.`,
             );
             return;
         }
@@ -148,7 +148,7 @@ export class InheritDocPlugin extends ConverterComponent {
 
         target.comment.removeTags("@inheritDoc");
         target.comment.summary = Comment.cloneDisplayParts(
-            source.comment.summary
+            source.comment.summary,
         );
         const remarks = source.comment.getTag("@remarks");
         if (remarks) {
@@ -198,7 +198,7 @@ export class InheritDocPlugin extends ConverterComponent {
             this.application.logger.warn(
                 `@inheritDoc specifies a circular inheritance chain: ${parts
                     .reverse()
-                    .join(" -> ")}`
+                    .join(" -> ")}`,
             );
         };
 
@@ -212,7 +212,7 @@ export class InheritDocPlugin extends ConverterComponent {
 
 function copySummaries(
     source: Reflection[] | undefined,
-    target: Reflection[] | undefined
+    target: Reflection[] | undefined,
 ) {
     for (const [s, t] of zip(source || [], target || [])) {
         t.comment = new Comment(s.comment?.summary);
@@ -220,7 +220,7 @@ function copySummaries(
 }
 
 function extractInheritDocTagReference(
-    reflection: Reflection
+    reflection: Reflection,
 ): string | undefined {
     const comment = reflection.comment;
     if (!comment) return;
@@ -232,7 +232,7 @@ function extractInheritDocTagReference(
     }
 
     const inlineTag = comment.summary.find(
-        (part) => part.kind === "inline-tag" && part.tag === "@inheritDoc"
+        (part) => part.kind === "inline-tag" && part.tag === "@inheritDoc",
     );
 
     if (inlineTag) {

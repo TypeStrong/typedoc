@@ -43,7 +43,7 @@ function getCommentWithCache(
     discovered: DiscoveredComment | undefined,
     config: CommentParserConfig,
     logger: Logger,
-    checker: ts.TypeChecker | undefined
+    checker: ts.TypeChecker | undefined,
 ) {
     if (!discovered) return;
 
@@ -62,11 +62,11 @@ function getCommentWithCache(
                     ranges[0].pos,
                     ranges[0].end,
                     jsDoc,
-                    checker
+                    checker,
                 ),
                 config,
                 file,
-                logger
+                logger,
             );
             break;
         case ts.SyntaxKind.SingleLineCommentTrivia:
@@ -74,7 +74,7 @@ function getCommentWithCache(
                 lexLineComments(file.text, ranges),
                 config,
                 file,
-                logger
+                logger,
             );
             break;
         default:
@@ -92,7 +92,7 @@ function getCommentImpl(
     config: CommentParserConfig,
     logger: Logger,
     moduleComment: boolean,
-    checker: ts.TypeChecker | undefined
+    checker: ts.TypeChecker | undefined,
 ) {
     const comment = getCommentWithCache(commentSource, config, logger, checker);
 
@@ -126,7 +126,7 @@ export function getComment(
     config: CommentParserConfig,
     logger: Logger,
     commentStyle: CommentStyle,
-    checker: ts.TypeChecker | undefined
+    checker: ts.TypeChecker | undefined,
 ): Comment | undefined {
     const declarations = symbol.declarations || [];
 
@@ -138,7 +138,7 @@ export function getComment(
             declarations[0] as ts.JSDocPropertyLikeTag,
             config,
             logger,
-            checker
+            checker,
         );
     }
 
@@ -147,7 +147,7 @@ export function getComment(
         config,
         logger,
         declarations.some(ts.isSourceFile),
-        checker
+        checker,
     );
 
     if (!comment && kind === ReflectionKind.Property) {
@@ -156,7 +156,7 @@ export function getComment(
             config,
             logger,
             commentStyle,
-            checker
+            checker,
         );
     }
 
@@ -168,14 +168,14 @@ export function getFileComment(
     config: CommentParserConfig,
     logger: Logger,
     commentStyle: CommentStyle,
-    checker: ts.TypeChecker | undefined
+    checker: ts.TypeChecker | undefined,
 ): Comment | undefined {
     return getCommentImpl(
         discoverFileComment(file, commentStyle),
         config,
         logger,
         /* moduleComment */ true,
-        checker
+        checker,
     );
 }
 
@@ -184,7 +184,7 @@ function getConstructorParamPropertyComment(
     config: CommentParserConfig,
     logger: Logger,
     commentStyle: CommentStyle,
-    checker: ts.TypeChecker | undefined
+    checker: ts.TypeChecker | undefined,
 ): Comment | undefined {
     const decl = symbol.declarations?.find(ts.isParameter);
     if (!decl) return;
@@ -195,7 +195,7 @@ function getConstructorParamPropertyComment(
         config,
         logger,
         commentStyle,
-        checker
+        checker,
     );
 
     const paramTag = comment?.getIdentifiedTag(symbol.name, "@param");
@@ -209,14 +209,14 @@ export function getSignatureComment(
     config: CommentParserConfig,
     logger: Logger,
     commentStyle: CommentStyle,
-    checker: ts.TypeChecker | undefined
+    checker: ts.TypeChecker | undefined,
 ): Comment | undefined {
     return getCommentImpl(
         discoverSignatureComment(declaration, commentStyle),
         config,
         logger,
         false,
-        checker
+        checker,
     );
 }
 
@@ -229,7 +229,7 @@ export function getJsDocComment(
         | ts.JSDocEnumTag,
     config: CommentParserConfig,
     logger: Logger,
-    checker: ts.TypeChecker | undefined
+    checker: ts.TypeChecker | undefined,
 ): Comment | undefined {
     const file = declaration.getSourceFile();
 
@@ -254,7 +254,7 @@ export function getJsDocComment(
         },
         config,
         logger,
-        checker
+        checker,
     )!;
 
     // And pull out the tag we actually care about.
@@ -272,7 +272,7 @@ export function getJsDocComment(
         // which feels horribly hacky.
         logger.warn(
             `TypeDoc does not support multiple type parameters defined in a single @template tag with a comment.`,
-            declaration
+            declaration,
         );
         return;
     }
@@ -294,7 +294,7 @@ export function getJsDocComment(
     if (!tag) {
         logger.error(
             `Failed to find JSDoc tag for ${name} after parsing comment, please file a bug report.`,
-            declaration
+            declaration,
         );
     } else {
         return new Comment(Comment.cloneDisplayParts(tag.content));

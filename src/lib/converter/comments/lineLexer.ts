@@ -3,14 +3,14 @@ import { Token, TokenSyntaxKind } from "./lexer";
 
 export function* lexLineComments(
     file: string,
-    ranges: ts.CommentRange[]
+    ranges: ts.CommentRange[],
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
     for (const token of lexLineComments2(
         file,
         ranges[0].pos,
-        ranges[ranges.length - 1].end
+        ranges[ranges.length - 1].end,
     )) {
         if (token.kind === TokenSyntaxKind.Text) {
             if (textToken) {
@@ -36,7 +36,7 @@ export function* lexLineComments(
 function* lexLineComments2(
     file: string,
     pos: number,
-    end: number
+    end: number,
 ): Generator<Token, undefined, undefined> {
     // Trailing whitespace
     while (pos < end && /\s/.test(file[end - 1])) {
@@ -66,7 +66,7 @@ function* lexLineComments2(
                 if (braceStartsType && nextNonWs(pos + 1) !== "@") {
                     yield makeToken(
                         TokenSyntaxKind.TypeAnnotation,
-                        findEndOfType(pos) - pos
+                        findEndOfType(pos) - pos,
                     );
                     braceStartsType = false;
                 } else {
@@ -101,7 +101,7 @@ function* lexLineComments2(
                     if (lookaheadExactlyNTicks(lookahead, tickCount)) {
                         lookahead += tickCount;
                         codeText.push(
-                            file.substring(lookaheadStart, lookahead)
+                            file.substring(lookaheadStart, lookahead),
                         );
                         yield {
                             kind: TokenSyntaxKind.Code,
@@ -123,7 +123,7 @@ function* lexLineComments2(
                     } else if (file[lookahead] === "\n") {
                         lookahead++;
                         codeText.push(
-                            file.substring(lookaheadStart, lookahead)
+                            file.substring(lookaheadStart, lookahead),
                         );
                         lookahead = skipLeadingLineTrivia(lookahead);
                         lookaheadStart = lookahead;
@@ -202,7 +202,7 @@ function* lexLineComments2(
                     ) {
                         textParts.push(
                             file.substring(lookaheadStart, lookahead),
-                            file[lookahead + 1]
+                            file[lookahead + 1],
                         );
                         lookahead++;
                         lookaheadStart = lookahead + 1;

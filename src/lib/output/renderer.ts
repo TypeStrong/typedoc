@@ -230,7 +230,7 @@ export class Renderer extends ChildableComponent<
      */
     async render(
         project: ProjectReflection,
-        outputDirectory: string
+        outputDirectory: string,
     ): Promise<void> {
         setRenderSettings({ pretty: this.pretty });
 
@@ -240,7 +240,7 @@ export class Renderer extends ChildableComponent<
         this.application.logger.verbose(
             `Renderer: Loading highlighter took ${
                 Date.now() - this.renderStartTime
-            }ms`
+            }ms`,
         );
         if (
             !this.prepareTheme() ||
@@ -252,7 +252,7 @@ export class Renderer extends ChildableComponent<
         const output = new RendererEvent(
             RendererEvent.BEGIN,
             outputDirectory,
-            project
+            project,
         );
         output.urls = this.theme!.getUrls(project);
 
@@ -263,7 +263,7 @@ export class Renderer extends ChildableComponent<
 
         if (!output.isDefaultPrevented) {
             this.application.logger.verbose(
-                `There are ${output.urls.length} pages to write.`
+                `There are ${output.urls.length} pages to write.`,
             );
             output.urls.forEach((mapping: UrlMapping) => {
                 clearSeenIconCache();
@@ -272,7 +272,7 @@ export class Renderer extends ChildableComponent<
             });
 
             await Promise.all(
-                this.postRenderAsyncJobs.map((job) => job(output))
+                this.postRenderAsyncJobs.map((job) => job(output)),
             );
             this.postRenderAsyncJobs = [];
 
@@ -291,7 +291,7 @@ export class Renderer extends ChildableComponent<
      */
     private renderDocument(
         template: RenderTemplate<PageEvent<Reflection>>,
-        page: PageEvent<Reflection>
+        page: PageEvent<Reflection>,
     ) {
         const momento = this.hooks.saveMomento();
         this.trigger(PageEvent.BEGIN, page);
@@ -337,7 +337,7 @@ export class Renderer extends ChildableComponent<
                         this.themeName
                     }' is not defined. The available themes are: ${[
                         ...this.themes.keys(),
-                    ].join(", ")}`
+                    ].join(", ")}`,
                 );
                 return false;
             } else {
@@ -364,7 +364,7 @@ export class Renderer extends ChildableComponent<
                 });
             } catch (error) {
                 this.application.logger.warn(
-                    "Could not empty the output directory."
+                    "Could not empty the output directory.",
                 );
                 return false;
             }
@@ -374,7 +374,7 @@ export class Renderer extends ChildableComponent<
             fs.mkdirSync(directory, { recursive: true });
         } catch (error) {
             this.application.logger.error(
-                `Could not create output directory ${directory}.`
+                `Could not create output directory ${directory}.`,
             );
             return false;
         }
@@ -389,7 +389,7 @@ export class Renderer extends ChildableComponent<
                 fs.writeFileSync(path.join(directory, ".nojekyll"), text);
             } catch (error) {
                 this.application.logger.warn(
-                    "Could not create .nojekyll file."
+                    "Could not create .nojekyll file.",
                 );
                 return false;
             }

@@ -7,7 +7,7 @@ import { discoverAllReferenceTypes } from "../utils/reflections";
 function makeIntentionallyExportedHelper(
     project: ProjectReflection,
     intentional: readonly string[],
-    logger: Logger
+    logger: Logger,
 ) {
     const used = new Set<number>();
     const processed: [string, string][] = intentional.map((v) => {
@@ -32,7 +32,7 @@ function makeIntentionallyExportedHelper(
             // so that we can possibly improve this in the future.
             if (!type.package) {
                 logger.verbose(
-                    `The type ${type.qualifiedName} has no declarations, implicitly allowing missing export.`
+                    `The type ${type.qualifiedName} has no declarations, implicitly allowing missing export.`,
                 );
                 return true;
             }
@@ -63,12 +63,12 @@ function makeIntentionallyExportedHelper(
 export function validateExports(
     project: ProjectReflection,
     logger: Logger,
-    intentionallyNotExported: readonly string[]
+    intentionallyNotExported: readonly string[],
 ) {
     const intentional = makeIntentionallyExportedHelper(
         project,
         intentionallyNotExported,
-        logger
+        logger,
     );
     const warned = new Set<string>();
 
@@ -86,8 +86,8 @@ export function validateExports(
 
             logger.warn(
                 `${type.qualifiedName}, defined in ${nicePath(
-                    type.symbolId!.fileName
-                )}, is referenced by ${owner.getFullName()} but not included in the documentation.`
+                    type.symbolId!.fileName,
+                )}, is referenced by ${owner.getFullName()} but not included in the documentation.`,
             );
         }
     }
@@ -96,7 +96,7 @@ export function validateExports(
     if (unusedIntentional.length) {
         logger.warn(
             "The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:\n\t" +
-                unusedIntentional.join("\n\t")
+                unusedIntentional.join("\n\t"),
         );
     }
 }

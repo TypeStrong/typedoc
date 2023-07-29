@@ -20,7 +20,7 @@ describe("Options - conversions", () => {
             defaultValue: undefined,
             name: "test",
             help: "",
-        } as DeclarationOption);
+        }) as DeclarationOption;
 
     it("Converts to numbers", () => {
         equal(convert("123", optionWithType(ParameterType.Number), ""), 123);
@@ -51,7 +51,7 @@ describe("Options - conversions", () => {
         };
         throws(
             () => convert(0, declaration, ""),
-            new Error("test must be between 1 and 10")
+            new Error("test must be between 1 and 10"),
         );
     });
 
@@ -65,7 +65,7 @@ describe("Options - conversions", () => {
         };
         throws(
             () => convert(0, declaration, ""),
-            new Error("test must be >= 1")
+            new Error("test must be >= 1"),
         );
     });
 
@@ -79,7 +79,7 @@ describe("Options - conversions", () => {
         };
         throws(
             () => convert(11, declaration, ""),
-            new Error("test must be <= 10")
+            new Error("test must be <= 10"),
         );
     });
 
@@ -106,7 +106,7 @@ describe("Options - conversions", () => {
         };
         throws(
             () => convert(11, declaration, ""),
-            new Error("test must be between 1 and 10")
+            new Error("test must be between 1 and 10"),
         );
     });
 
@@ -126,7 +126,7 @@ describe("Options - conversions", () => {
         equal(convert(4, declaration, ""), 4);
         throws(
             () => convert(1, declaration, ""),
-            new Error("test must be even")
+            new Error("test must be even"),
         );
     });
 
@@ -135,7 +135,7 @@ describe("Options - conversions", () => {
         equal(convert(123, optionWithType(ParameterType.String), ""), "123");
         equal(
             convert(["1", "2"], optionWithType(ParameterType.String), ""),
-            "1,2"
+            "1,2",
         );
         equal(convert(null, optionWithType(ParameterType.String), ""), "");
         equal(convert(void 0, optionWithType(ParameterType.String), ""), "");
@@ -155,7 +155,7 @@ describe("Options - conversions", () => {
         equal(convert("TOASTY", declaration, ""), "TOASTY");
         throws(
             () => convert("toasty", declaration, ""),
-            new Error("test must be upper case")
+            new Error("test must be upper case"),
         );
     });
 
@@ -194,7 +194,7 @@ describe("Options - conversions", () => {
     it("ModuleArray is resolved if relative", () => {
         equal(
             convert(["./foo"], optionWithType(ParameterType.ModuleArray), ""),
-            [join(process.cwd(), "foo")]
+            [join(process.cwd(), "foo")],
         );
     });
 
@@ -213,7 +213,7 @@ describe("Options - conversions", () => {
         equal(convert(["1", "2"], declaration, ""), ["1", "2"]);
         throws(
             () => convert([], declaration, ""),
-            new Error("test must not be empty")
+            new Error("test must not be empty"),
         );
     });
 
@@ -260,7 +260,7 @@ describe("Options - conversions", () => {
         };
         throws(
             () => convert("a", declaration, ""),
-            new Error(declaration.mapError)
+            new Error(declaration.mapError),
         );
     });
 
@@ -277,7 +277,7 @@ describe("Options - conversions", () => {
         };
         throws(
             () => convert("c", declaration, ""),
-            new Error("test must be one of a, b")
+            new Error("test must be one of a, b"),
         );
     });
 
@@ -295,7 +295,7 @@ describe("Options - conversions", () => {
         } as const;
         throws(
             () => convert("c", declaration, ""),
-            new Error("test must be one of a, b")
+            new Error("test must be one of a, b"),
         );
     });
 
@@ -319,7 +319,7 @@ describe("Options - conversions", () => {
         equal(convert("text", declaration, ""), "text");
         throws(
             () => convert(1, declaration, ""),
-            new Error("test must not be a number")
+            new Error("test must not be a number"),
         );
     });
     it("Passes through object", () => {
@@ -342,7 +342,7 @@ describe("Options - conversions", () => {
         equal(convert({}, declaration, ""), {});
         throws(
             () => convert(1, declaration, ""),
-            new Error("test must be an object")
+            new Error("test must be an object"),
         );
     });
 
@@ -363,7 +363,7 @@ describe("Options - conversions", () => {
 describe("Options - default values", () => {
     function getDeclaration(
         type: ParameterType,
-        defaultValue: unknown
+        defaultValue: unknown,
     ): DeclarationOption {
         return {
             type,
@@ -376,11 +376,11 @@ describe("Options - default values", () => {
     it("String", () => {
         equal(
             getDefaultValue(getDeclaration(ParameterType.String, void 0)),
-            ""
+            "",
         );
         equal(
             getDefaultValue(getDeclaration(ParameterType.String, "foo")),
-            "foo"
+            "foo",
         );
     });
 
@@ -388,7 +388,7 @@ describe("Options - default values", () => {
         equal(getDefaultValue(getDeclaration(ParameterType.Path, void 0)), "");
         equal(
             getDefaultValue(getDeclaration(ParameterType.Path, "foo")),
-            resolve("foo")
+            resolve("foo"),
         );
     });
 
@@ -397,26 +397,26 @@ describe("Options - default values", () => {
         equal(getDefaultValue(getDeclaration(ParameterType.Number, 123)), 123);
         ok(
             Number.isNaN(
-                getDefaultValue(getDeclaration(ParameterType.Number, NaN))
-            )
+                getDefaultValue(getDeclaration(ParameterType.Number, NaN)),
+            ),
         );
     });
 
     it("Boolean", () => {
         equal(
             getDefaultValue(getDeclaration(ParameterType.Boolean, void 0)),
-            false
+            false,
         );
         equal(
             getDefaultValue(getDeclaration(ParameterType.Boolean, true)),
-            true
+            true,
         );
     });
 
     it("Map", () => {
         equal(
             getDefaultValue(getDeclaration(ParameterType.Map, void 0)),
-            void 0
+            void 0,
         );
         const def = {};
         ok(getDefaultValue(getDeclaration(ParameterType.Map, def)) === def);
@@ -425,7 +425,7 @@ describe("Options - default values", () => {
     it("Mixed", () => {
         equal(
             getDefaultValue(getDeclaration(ParameterType.Mixed, void 0)),
-            void 0
+            void 0,
         );
         const def = {};
         ok(getDefaultValue(getDeclaration(ParameterType.Mixed, def)) === def);
@@ -441,47 +441,47 @@ describe("Options - default values", () => {
     it("PathArray", () => {
         equal(
             getDefaultValue(getDeclaration(ParameterType.PathArray, void 0)),
-            []
+            [],
         );
         equal(getDefaultValue(getDeclaration(ParameterType.PathArray, ["a"])), [
             resolve("a"),
         ]);
         equal(
             getDefaultValue(getDeclaration(ParameterType.PathArray, ["/a"])),
-            [resolve("/a")]
+            [resolve("/a")],
         );
     });
 
     it("ModuleArray", () => {
         equal(
             getDefaultValue(getDeclaration(ParameterType.ModuleArray, void 0)),
-            []
+            [],
         );
         equal(
             getDefaultValue(getDeclaration(ParameterType.ModuleArray, ["a"])),
-            ["a"]
+            ["a"],
         );
         equal(
             getDefaultValue(getDeclaration(ParameterType.ModuleArray, ["./a"])),
-            [resolve("./a")]
+            [resolve("./a")],
         );
     });
 
     it("GlobArray", () => {
         equal(
             getDefaultValue(getDeclaration(ParameterType.GlobArray, void 0)),
-            []
+            [],
         );
         equal(getDefaultValue(getDeclaration(ParameterType.GlobArray, ["a"])), [
             resolve("a"),
         ]);
         equal(
             getDefaultValue(getDeclaration(ParameterType.GlobArray, ["**a"])),
-            ["**a"]
+            ["**a"],
         );
         equal(
             getDefaultValue(getDeclaration(ParameterType.GlobArray, ["#!a"])),
-            ["#!" + resolve("a")]
+            ["#!" + resolve("a")],
         );
     });
 });

@@ -15,7 +15,11 @@ const supportedLanguages = unique(["text", ...aliases.keys(), ...BUNDLED_LANGUAG
 class DoubleHighlighter {
     private schemes = new Map<string, string>();
 
-    constructor(private highlighter: Highlighter, private light: Theme, private dark: Theme) {}
+    constructor(
+        private highlighter: Highlighter,
+        private light: Theme,
+        private dark: Theme,
+    ) {}
 
     highlight(code: string, lang: string) {
         const lightTokens = this.highlighter.codeToThemedTokens(code, lang, this.light, { includeExplanation: false });
@@ -35,7 +39,9 @@ class DoubleHighlighter {
                 // Simple case, same token.
                 if (lightLine[0].content === darkLine[0].content) {
                     docEls.push(
-                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{lightLine[0].content}</span>
+                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>
+                            {lightLine[0].content}
+                        </span>,
                     );
                     lightLine.shift();
                     darkLine.shift();
@@ -44,7 +50,9 @@ class DoubleHighlighter {
 
                 if (lightLine[0].content.length < darkLine[0].content.length) {
                     docEls.push(
-                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{lightLine[0].content}</span>
+                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>
+                            {lightLine[0].content}
+                        </span>,
                     );
                     darkLine[0].content = darkLine[0].content.substring(lightLine[0].content.length);
                     lightLine.shift();
@@ -52,7 +60,7 @@ class DoubleHighlighter {
                 }
 
                 docEls.push(
-                    <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{darkLine[0].content}</span>
+                    <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{darkLine[0].content}</span>,
                 );
                 lightLine[0].content = lightLine[0].content.substring(darkLine[0].content.length);
                 darkLine.shift();

@@ -26,7 +26,7 @@ export class AssumedRepository implements Repository {
     constructor(
         readonly path: string,
         readonly gitRevision: string,
-        readonly sourceLinkTemplate: string
+        readonly sourceLinkTemplate: string,
     ) {}
 
     getURL(fileName: string, line: number): string | undefined {
@@ -38,7 +38,7 @@ export class AssumedRepository implements Repository {
 
         return this.sourceLinkTemplate.replace(
             /\{(path|line)\}/g,
-            (_, key) => replacements[key as never]
+            (_, key) => replacements[key as never],
         );
     }
 }
@@ -99,7 +99,7 @@ export class GitRepository implements Repository {
 
         return this.urlTemplate.replace(
             /\{(gitRevision|path|line)\}/g,
-            (_, key) => replacements[key as never]
+            (_, key) => replacements[key as never],
         );
     }
 
@@ -117,7 +117,7 @@ export class GitRepository implements Repository {
         sourceLinkTemplate: string,
         gitRevision: string,
         gitRemote: string,
-        logger: Logger
+        logger: Logger,
     ): GitRepository | undefined {
         const topLevel = git("-C", path, "rev-parse", "--show-toplevel");
         if (topLevel.status !== 0) return;
@@ -127,7 +127,7 @@ export class GitRepository implements Repository {
             path,
             "rev-parse",
             "--short",
-            "HEAD"
+            "HEAD",
         ).stdout.trim();
         if (!gitRevision) return; // Will only happen in a repo with no commits.
 
@@ -136,18 +136,18 @@ export class GitRepository implements Repository {
             urlTemplate = sourceLinkTemplate;
         } else if (/^https?:\/\//.test(gitRemote)) {
             logger.warn(
-                "Using a link as the gitRemote is deprecated and will be removed in 0.24."
+                "Using a link as the gitRemote is deprecated and will be removed in 0.24.",
             );
             urlTemplate = `${gitRemote}/{gitRevision}`;
         } else {
             const remotesOut = git("-C", path, "remote", "get-url", gitRemote);
             if (remotesOut.status === 0) {
                 urlTemplate = guessSourceUrlTemplate(
-                    remotesOut.stdout.split("\n")
+                    remotesOut.stdout.split("\n"),
                 );
             } else {
                 logger.warn(
-                    `The provided git remote "${gitRemote}" was not valid. Source links will be broken.`
+                    `The provided git remote "${gitRemote}" was not valid. Source links will be broken.`,
                 );
             }
         }
@@ -157,7 +157,7 @@ export class GitRepository implements Repository {
         return new GitRepository(
             BasePath.normalize(topLevel.stdout.replace("\n", "")),
             gitRevision,
-            urlTemplate
+            urlTemplate,
         );
     }
 }

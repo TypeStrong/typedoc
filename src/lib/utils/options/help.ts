@@ -15,7 +15,7 @@ export interface ParameterHelp {
 }
 
 function hasHint(
-    parameter: DeclarationOption
+    parameter: DeclarationOption,
 ): parameter is StringDeclarationOption & { hint: ParameterHint } {
     return (
         (parameter.type ?? ParameterType.String) === ParameterType.String &&
@@ -32,7 +32,7 @@ function hasHint(
 function getParameterHelp(options: Options): ParameterHelp {
     const parameters = options.getDeclarations();
     parameters.sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+        a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
     );
 
     const names: string[] = [];
@@ -92,13 +92,13 @@ export function getOptionsHelp(options: Options): string {
     output.push(
         "",
         "Supported highlighting languages:",
-        ...toEvenColumns(getSupportedLanguages(), 80)
+        ...toEvenColumns(getSupportedLanguages(), 80),
     );
 
     output.push(
         "",
         "Supported highlighting themes:",
-        ...toEvenColumns(BUNDLED_THEMES, 80)
+        ...toEvenColumns(BUNDLED_THEMES, 80),
     );
 
     return output.join("\n");

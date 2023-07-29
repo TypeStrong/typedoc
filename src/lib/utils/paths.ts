@@ -11,7 +11,7 @@ export function createMinimatch(patterns: string[]): Minimatch[] {
         (pattern) =>
             new Minimatch(normalizePath(pattern).replace(/^\w:\//, ""), {
                 dot: true,
-            })
+            }),
     );
 }
 

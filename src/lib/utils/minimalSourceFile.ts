@@ -7,7 +7,10 @@ import { binaryFindPartition } from "./array";
 const lineStarts = new WeakMap<MinimalSourceFile, number[]>();
 
 export class MinimalSourceFile implements SourceFileLike {
-    constructor(readonly text: string, readonly fileName: string) {
+    constructor(
+        readonly text: string,
+        readonly fileName: string,
+    ) {
         lineStarts.set(this, [0]);
     }
 
@@ -20,7 +23,7 @@ export class MinimalSourceFile implements SourceFileLike {
         while (pos >= starts[starts.length - 1]) {
             const nextStart = this.text.indexOf(
                 "\n",
-                starts[starts.length - 1] + 1
+                starts[starts.length - 1] + 1,
             );
 
             if (nextStart === -1) {

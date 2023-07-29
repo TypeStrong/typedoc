@@ -3,6 +3,6 @@ export class A {
         /**
          * Param comment
          */
-        readonly property: string
+        readonly property: string,
     ) {}
 }

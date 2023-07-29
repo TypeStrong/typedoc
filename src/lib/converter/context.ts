@@ -45,7 +45,7 @@ export class Context {
     get program(): ts.Program {
         assert(
             this._program,
-            "Tried to access Context.program when not converting a source file"
+            "Tried to access Context.program when not converting a source file",
         );
         return this._program;
     }
@@ -80,7 +80,7 @@ export class Context {
         converter: Converter,
         programs: readonly ts.Program[],
         project: ProjectReflection,
-        scope: Context["scope"] = project
+        scope: Context["scope"] = project,
     ) {
         this.converter = converter;
         this.programs = programs;
@@ -112,11 +112,11 @@ export class Context {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(node.symbol);
             } else if (node.parent?.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(
-                    node.parent.symbol
+                    node.parent.symbol,
                 );
             } else if (node.parent?.parent?.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(
-                    node.parent.parent.symbol
+                    node.parent.parent.symbol,
                 );
             }
         }
@@ -136,12 +136,12 @@ export class Context {
         if (!symbol) {
             const { line } = ts.getLineAndCharacterOfPosition(
                 node.getSourceFile(),
-                node.pos
+                node.pos,
             );
             throw new Error(
                 `Expected a symbol for node with kind ${
                     ts.SyntaxKind[node.kind]
-                } at ${node.getSourceFile().fileName}:${line + 1}`
+                } at ${node.getSourceFile().fileName}:${line + 1}`,
             );
         }
         return symbol;
@@ -156,10 +156,10 @@ export class Context {
         symbol: ts.Symbol | undefined,
         exportSymbol: ts.Symbol | undefined,
         // We need this because modules don't always have symbols.
-        nameOverride?: string
+        nameOverride?: string,
     ) {
         const name = getHumanName(
-            nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown"
+            nameOverride ?? exportSymbol?.name ?? symbol?.name ?? "unknown",
         );
 
         if (this.convertingClassOrInterface) {
@@ -180,7 +180,7 @@ export class Context {
     postReflectionCreation(
         reflection: Reflection,
         symbol: ts.Symbol | undefined,
-        exportSymbol: ts.Symbol | undefined
+        exportSymbol: ts.Symbol | undefined,
     ) {
         if (
             exportSymbol &&
@@ -215,7 +215,7 @@ export class Context {
         this.converter.trigger(
             ConverterEvents.CREATE_DECLARATION,
             this,
-            reflection
+            reflection,
         );
     }
 
@@ -266,7 +266,7 @@ export class Context {
             this.converter.config,
             this.logger,
             this.converter.commentStyle,
-            this.converter.useTsLinkResolution ? this.checker : undefined
+            this.converter.useTsLinkResolution ? this.checker : undefined,
         );
     }
 
@@ -276,7 +276,7 @@ export class Context {
             this.converter.config,
             this.logger,
             this.converter.commentStyle,
-            this.converter.useTsLinkResolution ? this.checker : undefined
+            this.converter.useTsLinkResolution ? this.checker : undefined,
         );
     }
 
@@ -286,25 +286,25 @@ export class Context {
             | ts.JSDocCallbackTag
             | ts.JSDocTypedefTag
             | ts.JSDocTemplateTag
-            | ts.JSDocEnumTag
+            | ts.JSDocEnumTag,
     ) {
         return getJsDocComment(
             declaration,
             this.converter.config,
             this.logger,
-            this.converter.useTsLinkResolution ? this.checker : undefined
+            this.converter.useTsLinkResolution ? this.checker : undefined,
         );
     }
 
     getSignatureComment(
-        declaration: ts.SignatureDeclaration | ts.JSDocSignature
+        declaration: ts.SignatureDeclaration | ts.JSDocSignature,
     ) {
         return getSignatureComment(
             declaration,
             this.converter.config,
             this.logger,
             this.converter.commentStyle,
-            this.converter.useTsLinkResolution ? this.checker : undefined
+            this.converter.useTsLinkResolution ? this.checker : undefined,
         );
     }
 
@@ -316,7 +316,7 @@ export class Context {
             this.converter,
             this.programs,
             this.project,
-            scope
+            scope,
         );
         context.convertingTypeNode = this.convertingTypeNode;
         context.setActiveProgram(this._program);

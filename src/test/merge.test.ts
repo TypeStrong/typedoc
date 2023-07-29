@@ -28,13 +28,10 @@ describe("Merging projects", () => {
         logger.expectNoOtherMessages();
 
         equal(project?.name, "typedoc");
-        equal(
-            project.children?.map((c) => c.name),
-            ["alias", "class"]
-        );
+        equal(project.children?.map((c) => c.name), ["alias", "class"]);
 
         const crossRef = project.getChildByName(
-            "alias.MergedCrossReference"
+            "alias.MergedCrossReference",
         ) as DeclarationReflection;
         const testClass = project.getChildByName("class.class.TestClass");
         ok(testClass, "Missing test class");
@@ -43,7 +40,7 @@ describe("Merging projects", () => {
 
         ok(
             testClass === crossRef.type.reflection,
-            "Cross project reference did not work"
+            "Cross project reference did not work",
         );
         const link = crossRef.comment?.summary[0];
         equal(link?.kind, "inline-tag" as const);

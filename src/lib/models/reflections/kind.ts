@@ -154,6 +154,6 @@ export namespace ReflectionKind {
 function getKindString(kind: ReflectionKind): string {
     return ReflectionKind[kind].replace(
         /(.)([A-Z])/g,
-        (_m, a, b) => a + " " + b.toLowerCase()
+        (_m, a, b) => a + " " + b.toLowerCase(),
     );
 }

@@ -44,11 +44,11 @@ export function getConverterApp() {
             toObject(
                 ref: SourceReference,
                 obj: ModelToObject<SourceReference>,
-                _serializer
+                _serializer,
             ) {
                 if (obj.url) {
                     obj.url = `typedoc://${obj.url.substring(
-                        obj.url.indexOf(ref.fileName)
+                        obj.url.indexOf(ref.fileName),
                     )}`;
                 }
                 return obj;
@@ -61,7 +61,7 @@ export function getConverterApp() {
             },
             toObject(
                 _refl: ProjectReflection,
-                obj: JSONOutput.ProjectReflection
+                obj: JSONOutput.ProjectReflection,
             ) {
                 delete obj.packageVersion;
                 return obj;
@@ -77,7 +77,7 @@ export function getConverterProgram() {
         const app = getConverterApp();
         converterProgram = ts.createProgram(
             app.options.getFileNames(),
-            app.options.getCompilerOptions()
+            app.options.getCompilerOptions(),
         );
 
         const errors = ts.getPreEmitDiagnostics(converterProgram);
@@ -108,7 +108,7 @@ export function getConverter2Program() {
         const app = getConverter2App();
         converter2Program = ts.createProgram(
             app.options.getFileNames(),
-            app.options.getCompilerOptions()
+            app.options.getCompilerOptions(),
         );
 
         const errors = ts.getPreEmitDiagnostics(converter2Program);

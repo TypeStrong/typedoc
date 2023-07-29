@@ -78,8 +78,8 @@ export class GroupPlugin extends ConverterComponent {
             context.logger.warn(
                 `Not all groups specified in searchGroupBoosts were used in the documentation.` +
                     ` The unused groups were:\n\t${Array.from(
-                        unusedBoosts
-                    ).join("\n\t")}`
+                        unusedBoosts,
+                    ).join("\n\t")}`,
             );
         }
     }
@@ -152,7 +152,7 @@ export class GroupPlugin extends ConverterComponent {
      * @returns An array containing all children of the given reflection grouped by their kind.
      */
     getReflectionGroups(
-        reflections: DeclarationReflection[]
+        reflections: DeclarationReflection[],
     ): ReflectionGroup[] {
         const groups = new Map<string, ReflectionGroup>();
 

@@ -19,29 +19,30 @@ export function convertIndexSignature(context: Context, symbol: ts.Symbol) {
         // will be misrepresented.
         const indexDeclaration = indexSymbol.getDeclarations()?.[0];
         assert(
-            indexDeclaration && ts.isIndexSignatureDeclaration(indexDeclaration)
+            indexDeclaration &&
+                ts.isIndexSignatureDeclaration(indexDeclaration),
         );
         const param = indexDeclaration.parameters[0];
         assert(param && ts.isParameter(param));
         const index = new SignatureReflection(
             "__index",
             ReflectionKind.IndexSignature,
-            context.scope
+            context.scope,
         );
         index.parameters = [
             new ParameterReflection(
                 param.name.getText(),
                 ReflectionKind.Parameter,
-                index
+                index,
             ),
         ];
         index.parameters[0].type = context.converter.convertType(
             context.withScope(index.parameters[0]),
-            param.type
+            param.type,
         );
         index.type = context.converter.convertType(
             context.withScope(index),
-            indexDeclaration.type
+            indexDeclaration.type,
         );
         context.registerReflection(index, indexSymbol);
         context.scope.indexSignature = index;
@@ -49,7 +50,7 @@ export function convertIndexSignature(context: Context, symbol: ts.Symbol) {
         context.trigger(
             ConverterEvents.CREATE_SIGNATURE,
             index,
-            indexDeclaration
+            indexDeclaration,
         );
     }
 }

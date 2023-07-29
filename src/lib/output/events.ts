@@ -45,7 +45,7 @@ export class RendererEvent extends Event {
     constructor(
         name: string,
         outputDirectory: string,
-        project: ProjectReflection
+        project: ProjectReflection,
     ) {
         super(name);
         this.outputDirectory = outputDirectory;
@@ -60,7 +60,7 @@ export class RendererEvent extends Event {
      * @returns A newly created {@link PageEvent} instance.
      */
     public createPageEvent<Model>(
-        mapping: UrlMapping<Model>
+        mapping: UrlMapping<Model>,
     ): [RenderTemplate<PageEvent<Model>>, PageEvent<Model>] {
         const event = new PageEvent<Model>(PageEvent.BEGIN, mapping.model);
         event.project = this.project;
@@ -173,7 +173,7 @@ export class MarkdownEvent extends Event {
         name: string,
         page: PageEvent,
         originalText: string,
-        parsedText: string
+        parsedText: string,
     ) {
         super(name);
         this.page = page;
@@ -238,7 +238,7 @@ export class IndexEvent extends Event {
         this.searchResults = searchResults;
         this.searchFields = Array.from(
             { length: this.searchResults.length },
-            () => ({})
+            () => ({}),
         );
     }
 }

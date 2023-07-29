@@ -29,7 +29,7 @@ describe("Options - TSConfigReader", () => {
 
         options.setValue(
             "tsconfig",
-            join(tmpdir(), "typedoc/does-not-exist.json")
+            join(tmpdir(), "typedoc/does-not-exist.json"),
         );
         options.read(logger);
         logger.expectMessage("error: *");
@@ -84,7 +84,7 @@ describe("Options - TSConfigReader", () => {
 
         options.setValue(
             "tsconfig",
-            join(__dirname, "data/does_not_exist.json")
+            join(__dirname, "data/does_not_exist.json"),
         );
         options.addReader(new TSConfigReader());
         options.read(logger);
@@ -106,7 +106,7 @@ describe("Options - TSConfigReader", () => {
         });
         equal(
             options.getFileNames().map((f) => basename(f)),
-            ["file.ts"]
+            ["file.ts"],
         );
     });
 
@@ -154,7 +154,7 @@ describe("Options - TSConfigReader", () => {
     it("Handles failed tsdoc reads", () => {
         testTsdoc([], () => {
             logger.expectMessage(
-                "error: Failed to read tsdoc.json file at */tsdoc.json."
+                "error: Failed to read tsdoc.json file at */tsdoc.json.",
             );
         });
     });
@@ -166,9 +166,9 @@ describe("Options - TSConfigReader", () => {
             },
             () => {
                 logger.expectMessage(
-                    `error: The file */tsdoc.json is not a valid tsdoc.json file.`
+                    `error: The file */tsdoc.json is not a valid tsdoc.json file.`,
                 );
-            }
+            },
         );
     });
 
@@ -181,10 +181,10 @@ describe("Options - TSConfigReader", () => {
             () => {
                 logger.expectMessage(
                     "warn: The blockTags, modifierTags defined in typedoc.json " +
-                        "will be overwritten by configuration in tsdoc.json."
+                        "will be overwritten by configuration in tsdoc.json.",
                 );
             },
-            false
+            false,
         );
     });
 
@@ -266,9 +266,9 @@ describe("Options - TSConfigReader", () => {
             },
             () => {
                 logger.expectMessage(
-                    'error: Circular reference encountered for "extends" field of */tsdoc.json'
+                    'error: Circular reference encountered for "extends" field of */tsdoc.json',
                 );
-            }
+            },
         );
     });
 
@@ -279,9 +279,9 @@ describe("Options - TSConfigReader", () => {
             },
             () => {
                 logger.expectMessage(
-                    "error: Failed to resolve typedoc/nope to a file in */tsdoc.json"
+                    "error: Failed to resolve typedoc/nope to a file in */tsdoc.json",
                 );
-            }
+            },
         );
     });
 });

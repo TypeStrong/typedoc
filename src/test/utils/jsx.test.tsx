@@ -60,9 +60,9 @@ describe("JSX", () => {
                 <>
                     <div>A</div>
                     <div>B</div>
-                </>
+                </>,
             ),
-            "<div>A</div><div>B</div>"
+            "<div>A</div><div>B</div>",
         );
     });
 
@@ -75,11 +75,11 @@ describe("JSX", () => {
             renderElement(
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <path d="M 10,30" />
-                </svg>
+                </svg>,
             ),
             `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <path d="M 10,30"></path>
-            </svg>`.replace(/^\s*|\r?\n/gm, "")
+            </svg>`.replace(/^\s*|\r?\n/gm, ""),
         );
     });
 });

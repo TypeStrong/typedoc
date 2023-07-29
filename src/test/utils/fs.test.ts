@@ -32,7 +32,7 @@ describe("fs.ts", () => {
         it("Gets the path common to all files", () => {
             equal(
                 getCommonDirectory(["/a/b/c", "/a/b/c/d/e", "/a/b/d"]),
-                "/a/b"
+                "/a/b",
             );
         });
     });
@@ -54,11 +54,11 @@ describe("fs.ts", () => {
 
             equal(
                 glob(`${fix.cwd}/*.ts`, fix.cwd).map((f) => basename(f)),
-                ["a.ts", "test.ts", "test2.ts"]
+                ["a.ts", "test.ts", "test2.ts"],
             );
             equal(
                 glob(`**/test*.ts`, fix.cwd).map((f) => basename(f)),
-                ["test.ts", "test2.ts"]
+                ["test.ts", "test2.ts"],
             );
         });
 
@@ -71,7 +71,7 @@ describe("fs.ts", () => {
                     glob(`${fix.cwd}/b/*.ts`, fix.cwd, {
                         followSymlinks: true,
                     }).map((f) => basename(f)),
-                    ["test.ts"]
+                    ["test.ts"],
                 );
             });
 
@@ -81,13 +81,13 @@ describe("fs.ts", () => {
                 fs.symlinkSync(
                     fix.cwd,
                     resolve(fix.cwd, "recursive"),
-                    "junction"
+                    "junction",
                 );
                 equal(
                     glob(`${fix.cwd}/**/*.ts`, fix.cwd, {
                         followSymlinks: true,
                     }).map((f) => basename(f)),
-                    ["test.ts", "test.ts"]
+                    ["test.ts", "test.ts"],
                 );
             });
 
@@ -98,7 +98,7 @@ describe("fs.ts", () => {
                     fs.symlinkSync(
                         path,
                         resolve(dirname(path), "test-2.ts"),
-                        "file"
+                        "file",
                     );
                 } catch (err) {
                     // on windows, you need elevated permissions to create a file symlink.
@@ -114,7 +114,7 @@ describe("fs.ts", () => {
                     glob(`${fix.cwd}/**/*.ts`, fix.cwd, {
                         followSymlinks: true,
                     }).map((f) => basename(f)),
-                    ["test-2.ts", "test.ts"]
+                    ["test-2.ts", "test.ts"],
                 );
             });
         });
@@ -125,9 +125,9 @@ describe("fs.ts", () => {
                 fix.write();
                 equal(
                     glob(`${fix.cwd}/node_modules/test.ts`, fix.cwd).map((f) =>
-                        basename(f)
+                        basename(f),
                     ),
-                    ["test.ts"]
+                    ["test.ts"],
                 );
             });
         });
@@ -138,9 +138,9 @@ describe("fs.ts", () => {
                 fix.write();
                 equal(
                     glob(`${fix.cwd}/**/test.ts`, fix.cwd).map((f) =>
-                        basename(f)
+                        basename(f),
                     ),
-                    []
+                    [],
                 );
             });
         });

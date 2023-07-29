@@ -34,7 +34,7 @@ export class TypeDocReader implements OptionsReader {
         if (!file) {
             if (container.isSet("options")) {
                 logger.error(
-                    `The options file ${nicePath(path)} does not exist.`
+                    `The options file ${nicePath(path)} does not exist.`,
                 );
             }
             return;
@@ -54,13 +54,13 @@ export class TypeDocReader implements OptionsReader {
         file: string,
         container: Options & { setValue(key: string, value: unknown): void },
         logger: Logger,
-        seen: Set<string>
+        seen: Set<string>,
     ) {
         if (seen.has(file)) {
             logger.error(
                 `Tried to load the options file ${nicePath(
-                    file
-                )} multiple times.`
+                    file,
+                )} multiple times.`,
             );
             return;
         }
@@ -69,14 +69,14 @@ export class TypeDocReader implements OptionsReader {
         let fileContent: any;
         if (file.endsWith(".json")) {
             const readResult = ts.readConfigFile(normalizePath(file), (path) =>
-                FS.readFileSync(path, "utf-8")
+                FS.readFileSync(path, "utf-8"),
             );
 
             if (readResult.error) {
                 logger.error(
                     `Failed to parse ${nicePath(
-                        file
-                    )}, ensure it exists and contains an object.`
+                        file,
+                    )}, ensure it exists and contains an object.`,
                 );
                 return;
             } else {
@@ -89,7 +89,7 @@ export class TypeDocReader implements OptionsReader {
 
         if (typeof fileContent !== "object" || !fileContent) {
             logger.error(
-                `The root value of ${nicePath(file)} is not an object.`
+                `The root value of ${nicePath(file)} is not an object.`,
             );
             return;
         }
@@ -108,8 +108,8 @@ export class TypeDocReader implements OptionsReader {
                 } catch {
                     logger.error(
                         `Failed to resolve ${extendedFile} to a file in ${nicePath(
-                            file
-                        )}`
+                            file,
+                        )}`,
                     );
                     continue;
                 }
@@ -123,7 +123,7 @@ export class TypeDocReader implements OptionsReader {
                 container.setValue(
                     key as never,
                     val as never,
-                    resolve(dirname(file))
+                    resolve(dirname(file)),
                 );
             } catch (error) {
                 ok(error instanceof Error);

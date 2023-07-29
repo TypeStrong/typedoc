@@ -32,12 +32,12 @@ export class ReflectionSymbolId {
     constructor(json: JSONOutput.ReflectionSymbolId);
     constructor(
         symbol: ts.Symbol | JSONOutput.ReflectionSymbolId,
-        declaration?: ts.Declaration
+        declaration?: ts.Declaration,
     ) {
         if ("name" in symbol) {
             declaration ??= symbol?.declarations?.[0];
             this.fileName = normalizePath(
-                declaration?.getSourceFile().fileName ?? "\0"
+                declaration?.getSourceFile().fileName ?? "\0",
             );
             if (symbol.declarations?.some(ts.isSourceFile)) {
                 this.qualifiedName = "";
@@ -66,8 +66,8 @@ export class ReflectionSymbolId {
                 ? normalizePath(
                       relative(
                           serializer.projectRoot,
-                          resolveDeclarationMaps(this.fileName)
-                      )
+                          resolveDeclarationMaps(this.fileName),
+                      ),
                   )
                 : this.fileName,
             qualifiedName: this.qualifiedName,
@@ -101,7 +101,7 @@ function resolveDeclarationMaps(file: string): string {
                 sourceRoot: optional(String),
                 sources: [Array, String],
             },
-            sourceMap
+            sourceMap,
         )
     ) {
         // There's a pretty large assumption in here that we only have

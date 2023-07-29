@@ -18,7 +18,7 @@ const components: IComponent[] = [];
  */
 export function registerComponent(
     constructor: IComponent["constructor"],
-    selector: string
+    selector: string,
 ) {
     components.push({
         selector: selector,
@@ -41,7 +41,7 @@ export class Application {
         this.ensureFocusedElementVisible();
         this.listenForCodeCopies();
         window.addEventListener("hashchange", () =>
-            this.ensureFocusedElementVisible()
+            this.ensureFocusedElementVisible(),
         );
     }
 
@@ -130,7 +130,7 @@ export class Application {
             button.addEventListener("click", () => {
                 if (button.previousElementSibling instanceof HTMLElement) {
                     navigator.clipboard.writeText(
-                        button.previousElementSibling.innerText.trim()
+                        button.previousElementSibling.innerText.trim(),
                     );
                 }
                 button.textContent = "Copied!";

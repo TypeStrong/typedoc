@@ -42,7 +42,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
-                    "The 'compilerOptions' option must be a non-array object."
+                    "The 'compilerOptions' option must be a non-array object.",
                 );
             }
         },
@@ -109,10 +109,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             if (invalid.size !== 0) {
                 throw new Error(
                     `excludeNotDocumentedKinds may only specify known values, and invalid values were provided (${Array.from(
-                        invalid
+                        invalid,
                     ).join(", ")}). The valid kinds are:\n${Array.from(
-                        valid
-                    ).join(", ")}`
+                        valid,
+                    ).join(", ")}`,
                 );
             }
         },
@@ -246,8 +246,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
                 throw new Error(
                     `lightHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
-                        ", "
-                    )}`
+                        ", ",
+                    )}`,
                 );
             }
         },
@@ -261,8 +261,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
                 throw new Error(
                     `darkHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
-                        ", "
-                    )}`
+                        ", ",
+                    )}`,
                 );
             }
         },
@@ -281,7 +281,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
-                    "The 'markedOptions' option must be a non-array object."
+                    "The 'markedOptions' option must be a non-array object.",
                 );
             }
         },
@@ -319,7 +319,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
-                    `excludeTags must be an array of valid tag names.`
+                    `excludeTags must be an array of valid tag names.`,
                 );
             }
         },
@@ -407,13 +407,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value) {
             if (!isObject(value)) {
                 throw new Error(
-                    `navigationLinks must be an object with string labels as keys and URL values.`
+                    `navigationLinks must be an object with string labels as keys and URL values.`,
                 );
             }
 
             if (Object.values(value).some((x) => typeof x !== "string")) {
                 throw new Error(
-                    `All values of navigationLinks must be string URLs.`
+                    `All values of navigationLinks must be string URLs.`,
                 );
             }
         },
@@ -426,13 +426,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value) {
             if (!isObject(value)) {
                 throw new Error(
-                    `sidebarLinks must be an object with string labels as keys and URL values.`
+                    `sidebarLinks must be an object with string labels as keys and URL values.`,
                 );
             }
 
             if (Object.values(value).some((x) => typeof x !== "string")) {
                 throw new Error(
-                    `All values of sidebarLinks must be string URLs.`
+                    `All values of sidebarLinks must be string URLs.`,
                 );
             }
         },
@@ -470,14 +470,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
                 if (!key.startsWith("@") && !knownKeys.includes(key)) {
                     throw new Error(
                         `visibilityFilters can only include the following non-@ keys: ${knownKeys.join(
-                            ", "
-                        )}`
+                            ", ",
+                        )}`,
                     );
                 }
 
                 if (typeof val !== "boolean") {
                     throw new Error(
-                        `All values of visibilityFilters must be booleans.`
+                        `All values of visibilityFilters must be booleans.`,
                     );
                 }
             }
@@ -493,13 +493,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value) {
             if (!isObject(value)) {
                 throw new Error(
-                    "The 'searchCategoryBoosts' option must be a non-array object."
+                    "The 'searchCategoryBoosts' option must be a non-array object.",
                 );
             }
 
             if (Object.values(value).some((x) => typeof x !== "number")) {
                 throw new Error(
-                    "All values of 'searchCategoryBoosts' must be numbers."
+                    "All values of 'searchCategoryBoosts' must be numbers.",
                 );
             }
         },
@@ -513,13 +513,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value: unknown) {
             if (!isObject(value)) {
                 throw new Error(
-                    "The 'searchGroupBoosts' option must be a non-array object."
+                    "The 'searchGroupBoosts' option must be a non-array object.",
                 );
             }
 
             if (Object.values(value).some((x) => typeof x !== "number")) {
                 throw new Error(
-                    "All values of 'searchGroupBoosts' must be numbers."
+                    "All values of 'searchGroupBoosts' must be numbers.",
                 );
             }
         },
@@ -564,7 +564,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
-                    `blockTags must be an array of valid tag names.`
+                    `blockTags must be an array of valid tag names.`,
                 );
             }
         },
@@ -577,7 +577,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
-                    `inlineTags must be an array of valid tag names.`
+                    `inlineTags must be an array of valid tag names.`,
                 );
             }
         },
@@ -590,7 +590,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
-                    `modifierTags must be an array of valid tag names.`
+                    `modifierTags must be an array of valid tag names.`,
                 );
             }
         },
@@ -656,12 +656,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             if (invalid.size !== 0) {
                 throw new Error(
                     `sort may only specify known values, and invalid values were provided (${Array.from(
-                        invalid
+                        invalid,
                     ).join(
-                        ", "
+                        ", ",
                     )}). The valid sort strategies are:\n${SORT_STRATEGIES.join(
-                        ", "
-                    )}`
+                        ", ",
+                    )}`,
                 );
             }
         },
@@ -681,8 +681,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             if (invalid.size !== 0) {
                 throw new Error(
                     `kindSortOrder may only specify known values, and invalid values were provided (${Array.from(
-                        invalid
-                    ).join(", ")}). The valid kinds are:\n${valid.join(", ")}`
+                        invalid,
+                    ).join(", ")}). The valid kinds are:\n${valid.join(", ")}`,
                 );
             }
         },
@@ -764,8 +764,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
                 if (!validValues.includes(kind)) {
                     throw new Error(
                         `'${kind}' is an invalid value for 'requiredToBeDocumented'. Must be one of: ${validValues.join(
-                            ", "
-                        )}`
+                            ", ",
+                        )}`,
                     );
                 }
             }

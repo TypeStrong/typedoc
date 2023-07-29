@@ -1070,7 +1070,9 @@ ul.tsd-type-parameter-list h5 {
     overflow: hidden;
     opacity: 0.8;
     height: 40px;
-    transition: opacity 0.1s, background-color 0.2s;
+    transition:
+        opacity 0.1s,
+        background-color 0.2s;
     vertical-align: bottom;
     cursor: pointer;
 }

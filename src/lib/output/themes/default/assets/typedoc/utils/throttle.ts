@@ -1,6 +1,6 @@
 export const throttle = <A extends any[]>(
     fn: (...args: A) => void,
-    wait = 100
+    wait = 100,
 ) => {
     let time = Date.now();
     return (...args: A) => {

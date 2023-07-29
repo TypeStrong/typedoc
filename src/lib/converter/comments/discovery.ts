@@ -103,16 +103,16 @@ export interface DiscoveredComment {
 
 export function discoverFileComment(
     node: ts.SourceFile,
-    commentStyle: CommentStyle
+    commentStyle: CommentStyle,
 ) {
     const text = node.text;
 
     const comments = collectCommentRanges(
-        ts.getLeadingCommentRanges(text, node.pos)
+        ts.getLeadingCommentRanges(text, node.pos),
     );
 
     const selectedDocComment = comments.find((ranges) =>
-        permittedRange(text, ranges, commentStyle)
+        permittedRange(text, ranges, commentStyle),
     );
 
     if (selectedDocComment) {
@@ -128,7 +128,7 @@ export function discoverComment(
     symbol: ts.Symbol,
     kind: ReflectionKind,
     logger: Logger,
-    commentStyle: CommentStyle
+    commentStyle: CommentStyle,
 ): DiscoveredComment | undefined {
     // For a module comment, we want the first one defined in the file,
     // not the last one, since that will apply to the import or declaration.
@@ -162,7 +162,7 @@ export function discoverComment(
             }
 
             const comments = collectCommentRanges(
-                ts.getLeadingCommentRanges(text, node.pos)
+                ts.getLeadingCommentRanges(text, node.pos),
             );
 
             if (reverse) {
@@ -170,7 +170,7 @@ export function discoverComment(
             }
 
             const selectedDocComment = comments.find((ranges) =>
-                permittedRange(text, ranges, commentStyle)
+                permittedRange(text, ranges, commentStyle),
             );
 
             if (selectedDocComment) {
@@ -190,7 +190,7 @@ export function discoverComment(
             return discovered[0];
         default: {
             logger.warn(
-                `${symbol.name} has multiple declarations with a comment. An arbitrary comment will be used.`
+                `${symbol.name} has multiple declarations with a comment. An arbitrary comment will be used.`,
             );
             const locations = discovered.map(({ file, ranges: [{ pos }] }) => {
                 const path = nicePath(file.fileName);
@@ -201,7 +201,7 @@ export function discoverComment(
             logger.info(
                 `The comments for ${
                     symbol.name
-                } are declared at:\n\t${locations.join("\n\t")}`
+                } are declared at:\n\t${locations.join("\n\t")}`,
             );
             return discovered[0];
         }
@@ -210,7 +210,7 @@ export function discoverComment(
 
 export function discoverSignatureComment(
     declaration: ts.SignatureDeclaration | ts.JSDocSignature,
-    commentStyle: CommentStyle
+    commentStyle: CommentStyle,
 ): DiscoveredComment | undefined {
     const node = declarationToCommentNode(declaration);
     if (!node) {
@@ -237,12 +237,12 @@ export function discoverSignatureComment(
     const text = node.getSourceFile().text;
 
     const comments = collectCommentRanges(
-        ts.getLeadingCommentRanges(text, node.pos)
+        ts.getLeadingCommentRanges(text, node.pos),
     );
     comments.reverse();
 
     const comment = comments.find((ranges) =>
-        permittedRange(text, ranges, commentStyle)
+        permittedRange(text, ranges, commentStyle),
     );
     if (comment) {
         return {
@@ -255,7 +255,7 @@ export function discoverSignatureComment(
 
 function findJsDocForComment(
     node: ts.Node,
-    ranges: ts.CommentRange[]
+    ranges: ts.CommentRange[],
 ): ts.JSDoc | undefined {
     if (ranges[0].kind === ts.SyntaxKind.MultiLineCommentTrivia) {
         const jsDocs = ts
@@ -355,7 +355,7 @@ function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
 
     if (
         [ts.SyntaxKind.NamespaceExport, ts.SyntaxKind.FunctionType].includes(
-            node.kind
+            node.kind,
         )
     ) {
         return node.parent;
@@ -369,7 +369,7 @@ function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
  * and each block comment is left on its own.
  */
 function collectCommentRanges(
-    ranges: ts.CommentRange[] | undefined
+    ranges: ts.CommentRange[] | undefined,
 ): ts.CommentRange[][] {
     const result: ts.CommentRange[][] = [];
 
@@ -404,7 +404,7 @@ function collectCommentRanges(
 function permittedRange(
     text: string,
     ranges: ts.CommentRange[],
-    commentStyle: CommentStyle
+    commentStyle: CommentStyle,
 ): boolean {
     switch (commentStyle) {
         case CommentStyle.All:

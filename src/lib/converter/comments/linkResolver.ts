@@ -29,24 +29,24 @@ export type ExternalSymbolResolver = (
     ref: DeclarationReference,
     refl: Reflection,
     part: Readonly<CommentDisplayPart> | undefined,
-    symbolId: ReflectionSymbolId | undefined
+    symbolId: ReflectionSymbolId | undefined,
 ) => ExternalResolveResult | string | undefined;
 
 export function resolveLinks(
     comment: Comment,
     reflection: Reflection,
-    externalResolver: ExternalSymbolResolver
+    externalResolver: ExternalSymbolResolver,
 ) {
     comment.summary = resolvePartLinks(
         reflection,
         comment.summary,
-        externalResolver
+        externalResolver,
     );
     for (const tag of comment.blockTags) {
         tag.content = resolvePartLinks(
             reflection,
             tag.content,
-            externalResolver
+            externalResolver,
         );
     }
 
@@ -54,7 +54,7 @@ export function resolveLinks(
         reflection.readme = resolvePartLinks(
             reflection,
             reflection.readme,
-            externalResolver
+            externalResolver,
         );
     }
 }
@@ -62,17 +62,17 @@ export function resolveLinks(
 export function resolvePartLinks(
     reflection: Reflection,
     parts: readonly CommentDisplayPart[],
-    externalResolver: ExternalSymbolResolver
+    externalResolver: ExternalSymbolResolver,
 ): CommentDisplayPart[] {
     return parts.flatMap((part) =>
-        processPart(reflection, part, externalResolver)
+        processPart(reflection, part, externalResolver),
     );
 }
 
 function processPart(
     reflection: Reflection,
     part: CommentDisplayPart,
-    externalResolver: ExternalSymbolResolver
+    externalResolver: ExternalSymbolResolver,
 ): CommentDisplayPart | CommentDisplayPart[] {
     if (part.kind === "inline-tag") {
         if (
@@ -90,7 +90,7 @@ function processPart(
 function resolveLinkTag(
     reflection: Reflection,
     part: InlineTagDisplayPart,
-    externalResolver: ExternalSymbolResolver
+    externalResolver: ExternalSymbolResolver,
 ): InlineTagDisplayPart {
     let defaultDisplayText = "";
     let pos = 0;
@@ -106,7 +106,7 @@ function resolveLinkTag(
     // Might already know where it should go if useTsLinkResolution is turned on
     if (part.target instanceof ReflectionSymbolId) {
         const tsTarget = reflection.project.getReflectionFromSymbolId(
-            part.target
+            part.target,
         );
 
         if (tsTarget) {
@@ -124,7 +124,7 @@ function resolveLinkTag(
                 part,
                 part.target instanceof ReflectionSymbolId
                     ? part.target
-                    : undefined
+                    : undefined,
             );
 
             defaultDisplayText = part.text.substring(0, pos);
@@ -156,7 +156,7 @@ function resolveLinkTag(
                 part,
                 part.target instanceof ReflectionSymbolId
                     ? part.target
-                    : undefined
+                    : undefined,
             );
 
             defaultDisplayText = part.text.substring(0, pos);

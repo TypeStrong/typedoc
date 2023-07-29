@@ -7,7 +7,7 @@ import ts from "typescript";
  * @returns The default value as a string.
  */
 export function convertDefaultValue(
-    node: ts.Declaration | undefined
+    node: ts.Declaration | undefined,
 ): string | undefined {
     const anyNode = node as any;
     if (anyNode?.initializer) {

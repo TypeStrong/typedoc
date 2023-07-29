@@ -12,11 +12,11 @@ import { nicePath } from "../utils/paths";
 export function validateDocumentation(
     project: ProjectReflection,
     logger: Logger,
-    requiredToBeDocumented: readonly ReflectionKind.KindString[]
+    requiredToBeDocumented: readonly ReflectionKind.KindString[],
 ): void {
     let kinds = requiredToBeDocumented.reduce(
         (prev, cur) => prev | ReflectionKind[cur],
-        0
+        0,
     );
 
     // Functions, Constructors, and Accessors never have comments directly on them.
@@ -81,8 +81,8 @@ export function validateDocumentation(
 
             logger.warn(
                 `${ref.getFriendlyFullName()}, defined in ${nicePath(
-                    symbolId.fileName
-                )}, does not have any documentation.`
+                    symbolId.fileName,
+                )}, does not have any documentation.`,
             );
         }
     }

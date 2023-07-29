@@ -10,7 +10,7 @@ export const memberGetterSetter = (context: DefaultThemeRenderContext, props: De
                 {
                     "tsd-signatures": true,
                 },
-                context.getReflectionClasses(props)
+                context.getReflectionClasses(props),
             )}
         >
             {!!props.getSignature && (

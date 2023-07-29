@@ -88,7 +88,7 @@ describe("Declaration References", () => {
                 equal(
                     meaning[1],
                     s.length,
-                    "Parse did not consume full string"
+                    "Parse did not consume full string",
                 );
             }
             return meaning?.[0];

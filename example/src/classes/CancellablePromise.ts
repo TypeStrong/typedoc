@@ -100,7 +100,7 @@ export class CancellablePromise<T> {
         onRejected?:
             | ((reason: any) => TResult2 | PromiseLike<TResult2>)
             | undefined
-            | null
+            | null,
     ): CancellablePromise<TResult1 | TResult2> {
         let fulfill;
         let reject;
@@ -147,7 +147,7 @@ export class CancellablePromise<T> {
         onRejected?:
             | ((reason: any) => TResult | PromiseLike<TResult>)
             | undefined
-            | null
+            | null,
     ): CancellablePromise<T | TResult> {
         return this.then(undefined, onRejected);
     }
@@ -161,11 +161,11 @@ export class CancellablePromise<T> {
      * @returns A Promise for the completion of the callback.
      */
     finally(
-        onFinally?: (() => void) | undefined | null
+        onFinally?: (() => void) | undefined | null,
     ): CancellablePromise<T> {
         return new CancellablePromise(
             this.promise.finally(onFinally),
-            this.cancel
+            this.cancel,
         );
     }
 
@@ -207,8 +207,8 @@ export class CancellablePromise<T> {
             T7 | PromiseLike<T7>,
             T8 | PromiseLike<T8>,
             T9 | PromiseLike<T9>,
-            T10 | PromiseLike<T10>
-        ]
+            T10 | PromiseLike<T10>,
+        ],
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10]>;
 
     static all<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
@@ -221,8 +221,8 @@ export class CancellablePromise<T> {
             T6 | PromiseLike<T6>,
             T7 | PromiseLike<T7>,
             T8 | PromiseLike<T8>,
-            T9 | PromiseLike<T9>
-        ]
+            T9 | PromiseLike<T9>,
+        ],
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6, T7, T8, T9]>;
 
     static all<T1, T2, T3, T4, T5, T6, T7, T8>(
@@ -234,8 +234,8 @@ export class CancellablePromise<T> {
             T5 | PromiseLike<T5>,
             T6 | PromiseLike<T6>,
             T7 | PromiseLike<T7>,
-            T8 | PromiseLike<T8>
-        ]
+            T8 | PromiseLike<T8>,
+        ],
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6, T7, T8]>;
 
     static all<T1, T2, T3, T4, T5, T6, T7>(
@@ -246,8 +246,8 @@ export class CancellablePromise<T> {
             T4 | PromiseLike<T4>,
             T5 | PromiseLike<T5>,
             T6 | PromiseLike<T6>,
-            T7 | PromiseLike<T7>
-        ]
+            T7 | PromiseLike<T7>,
+        ],
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6, T7]>;
 
     static all<T1, T2, T3, T4, T5, T6>(
@@ -257,8 +257,8 @@ export class CancellablePromise<T> {
             T3 | PromiseLike<T3>,
             T4 | PromiseLike<T4>,
             T5 | PromiseLike<T5>,
-            T6 | PromiseLike<T6>
-        ]
+            T6 | PromiseLike<T6>,
+        ],
     ): CancellablePromise<[T1, T2, T3, T4, T5, T6]>;
 
     static all<T1, T2, T3, T4, T5>(
@@ -267,8 +267,8 @@ export class CancellablePromise<T> {
             T2 | PromiseLike<T2>,
             T3 | PromiseLike<T3>,
             T4 | PromiseLike<T4>,
-            T5 | PromiseLike<T5>
-        ]
+            T5 | PromiseLike<T5>,
+        ],
     ): CancellablePromise<[T1, T2, T3, T4, T5]>;
 
     static all<T1, T2, T3, T4>(
@@ -276,24 +276,24 @@ export class CancellablePromise<T> {
             T1 | PromiseLike<T1>,
             T2 | PromiseLike<T2>,
             T3 | PromiseLike<T3>,
-            T4 | PromiseLike<T4>
-        ]
+            T4 | PromiseLike<T4>,
+        ],
     ): CancellablePromise<[T1, T2, T3, T4]>;
 
     static all<T1, T2, T3>(
         values: readonly [
             T1 | PromiseLike<T1>,
             T2 | PromiseLike<T2>,
-            T3 | PromiseLike<T3>
-        ]
+            T3 | PromiseLike<T3>,
+        ],
     ): CancellablePromise<[T1, T2, T3]>;
 
     static all<T1, T2>(
-        values: readonly [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>]
+        values: readonly [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>],
     ): CancellablePromise<[T1, T2]>;
 
     static all<T>(
-        values: readonly (T | PromiseLike<T>)[]
+        values: readonly (T | PromiseLike<T>)[],
     ): CancellablePromise<T[]>;
 
     /**
@@ -319,7 +319,7 @@ export class CancellablePromise<T> {
      * @returns A new `CancellablePromise`.
      */
     static allSettled<T extends readonly unknown[] | readonly [unknown]>(
-        values: T
+        values: T,
     ): CancellablePromise<{
         -readonly [P in keyof T]: PromiseSettledResult<
             T[P] extends PromiseLike<infer U> ? U : T[P]
@@ -335,7 +335,7 @@ export class CancellablePromise<T> {
      * promises.
      */
     static allSettled<T>(
-        values: Iterable<T>
+        values: Iterable<T>,
     ): CancellablePromise<
         PromiseSettledResult<T extends PromiseLike<infer U> ? U : T>[]
     >;

@@ -39,7 +39,7 @@ describe("Entry Points", () => {
         equal(
             entryPoints.length,
             2,
-            "There are two files, so both should be expanded"
+            "There are two files, so both should be expanded",
         );
     });
 
@@ -55,7 +55,7 @@ describe("Entry Points", () => {
         equal(
             entryPoints.length,
             2,
-            "There are two files, so both should be expanded"
+            "There are two files, so both should be expanded",
         );
     });
 
@@ -71,7 +71,7 @@ describe("Entry Points", () => {
         equal(
             entryPoints.length,
             1,
-            "entry-points/index.ts should have been the sole entry point"
+            "entry-points/index.ts should have been the sole entry point",
         );
     });
 

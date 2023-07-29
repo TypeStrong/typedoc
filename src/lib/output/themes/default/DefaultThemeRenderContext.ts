@@ -58,7 +58,7 @@ export class DefaultThemeRenderContext {
     constructor(
         private theme: DefaultTheme,
         public page: PageEvent<Reflection>,
-        options: Options
+        options: Options,
     ) {
         this.options = options;
     }
@@ -82,12 +82,12 @@ export class DefaultThemeRenderContext {
     };
 
     markdown = (
-        md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>
+        md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>,
     ) => {
         if (md instanceof Array) {
             return this.theme.markedPlugin.parseMarkdown(
                 Comment.displayPartsToMarkdown(md, this.urlTo),
-                this.page
+                this.page,
             );
         }
         return md ? this.theme.markedPlugin.parseMarkdown(md, this.page) : "";

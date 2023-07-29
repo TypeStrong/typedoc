@@ -31,7 +31,7 @@ const symbolConverters: {
     [K in ts.SymbolFlags]?: (
         context: Context,
         symbol: ts.Symbol,
-        exportSymbol?: ts.Symbol
+        exportSymbol?: ts.Symbol,
     ) => void | ts.SymbolFlags;
 } = {
     [ts.SymbolFlags.RegularEnum]: convertEnum,
@@ -56,7 +56,7 @@ const symbolConverters: {
 
 const allConverterFlags = Object.keys(symbolConverters).reduce(
     (v, k) => v | +k,
-    0
+    0,
 );
 
 // This is kind of a hack, born of resolving references by symbols instead
@@ -95,7 +95,7 @@ for (const key of Object.keys(symbolConverters)) {
         throw new Error(
             `Symbol converter for key ${
                 ts.SymbolFlags[+key]
-            } does not specify a valid flag value.`
+            } does not specify a valid flag value.`,
         );
     }
 
@@ -103,21 +103,21 @@ for (const key of Object.keys(symbolConverters)) {
         throw new Error(
             `Symbol converter for key ${
                 ts.SymbolFlags[+key]
-            } is not specified in conversionOrder`
+            } is not specified in conversionOrder`,
         );
     }
 }
 
 if (conversionOrder.reduce((a, b) => a | b, 0) !== allConverterFlags) {
     throw new Error(
-        "conversionOrder contains a symbol flag that converters do not."
+        "conversionOrder contains a symbol flag that converters do not.",
     );
 }
 
 export function convertSymbol(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ): void {
     if (context.shouldIgnore(symbol)) {
         return;
@@ -129,7 +129,7 @@ export function convertSymbol(
     if (
         previous &&
         previous.parent?.kindOf(
-            ReflectionKind.SomeModule | ReflectionKind.Project
+            ReflectionKind.SomeModule | ReflectionKind.Project,
         )
     ) {
         createAlias(previous, context, symbol, exportSymbol);
@@ -141,7 +141,7 @@ export function convertSymbol(
         ts.SymbolFlags.Transient |
             ts.SymbolFlags.Assignment |
             ts.SymbolFlags.Optional |
-            ts.SymbolFlags.Prototype
+            ts.SymbolFlags.Prototype,
     );
 
     // Declaration merging - the only type (excluding enum/enum, ns/ns, etc)
@@ -150,7 +150,7 @@ export function convertSymbol(
     if (hasAllFlags(symbol.flags, ts.SymbolFlags.Class)) {
         flags = removeFlag(
             flags,
-            ts.SymbolFlags.Interface | ts.SymbolFlags.Function
+            ts.SymbolFlags.Interface | ts.SymbolFlags.Function,
         );
     }
 
@@ -170,7 +170,7 @@ export function convertSymbol(
             ts.SymbolFlags.Method |
                 ts.SymbolFlags.Interface |
                 ts.SymbolFlags.Class |
-                ts.SymbolFlags.Variable
+                ts.SymbolFlags.Variable,
         )
     ) {
         // This happens when someone declares an object with methods:
@@ -193,7 +193,7 @@ export function convertSymbol(
     for (const flag of getEnumFlags(flags ^ allConverterFlags)) {
         if (!(flag & allConverterFlags)) {
             context.logger.verbose(
-                `Missing converter for symbol: ${symbol.name} with flag ${ts.SymbolFlags[flag]}`
+                `Missing converter for symbol: ${symbol.name} with flag ${ts.SymbolFlags[flag]}`,
             );
         }
     }
@@ -218,12 +218,12 @@ function convertSymbols(context: Context, symbols: readonly ts.Symbol[]) {
 function convertEnum(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Enum,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
 
     if (symbol.flags & ts.SymbolFlags.ConstEnum) {
@@ -236,23 +236,23 @@ function convertEnum(
         context.withScope(reflection),
         context.checker
             .getExportsOfModule(symbol)
-            .filter((s) => s.flags & ts.SymbolFlags.EnumMember)
+            .filter((s) => s.flags & ts.SymbolFlags.EnumMember),
     );
 }
 
 function convertEnumMember(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.EnumMember,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
 
     const defaultValue = context.checker.getConstantValue(
-        symbol.getDeclarations()![0] as ts.EnumMember
+        symbol.getDeclarations()![0] as ts.EnumMember,
     );
 
     if (defaultValue !== undefined) {
@@ -269,7 +269,7 @@ function convertEnumMember(
 function convertNamespace(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     let exportFlags = ts.SymbolFlags.ModuleMember;
 
@@ -290,7 +290,7 @@ function convertNamespace(
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Namespace,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     context.finalizeDeclarationReflection(reflection);
 
@@ -298,20 +298,20 @@ function convertNamespace(
         context.withScope(reflection),
         context.checker
             .getExportsOfModule(symbol)
-            .filter((s) => s.flags & exportFlags)
+            .filter((s) => s.flags & exportFlags),
     );
 }
 
 function convertTypeAlias(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const declaration = symbol
         ?.getDeclarations()
         ?.find(
             (
-                d
+                d,
             ): d is
                 | ts.TypeAliasDeclaration
                 | ts.JSDocTypedefTag
@@ -320,7 +320,7 @@ function convertTypeAlias(
                 ts.isTypeAliasDeclaration(d) ||
                 ts.isJSDocTypedefTag(d) ||
                 ts.isJSDocCallbackTag(d) ||
-                ts.isJSDocEnumTag(d)
+                ts.isJSDocEnumTag(d),
         );
     assert(declaration);
 
@@ -334,19 +334,19 @@ function convertTypeAlias(
                 context,
                 symbol,
                 exportSymbol,
-                declaration
+                declaration,
             );
         }
 
         const reflection = context.createDeclarationReflection(
             ReflectionKind.TypeAlias,
             symbol,
-            exportSymbol
+            exportSymbol,
         );
 
         reflection.type = context.converter.convertType(
             context.withScope(reflection),
-            declaration.type
+            declaration.type,
         );
 
         context.finalizeDeclarationReflection(reflection);
@@ -354,7 +354,7 @@ function convertTypeAlias(
         // Do this after finalization so that the CommentPlugin can get @typeParam tags
         // from the parent comment. Ugly, but works for now. Should be cleaned up eventually.
         reflection.typeParameters = declaration.typeParameters?.map((param) =>
-            createTypeParamReflection(param, context.withScope(reflection))
+            createTypeParamReflection(param, context.withScope(reflection)),
         );
     } else if (
         ts.isJSDocTypedefTag(declaration) ||
@@ -370,12 +370,12 @@ function convertTypeAliasAsInterface(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol: ts.Symbol | undefined,
-    declaration: ts.TypeAliasDeclaration
+    declaration: ts.TypeAliasDeclaration,
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Interface,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     context.finalizeDeclarationReflection(reflection);
     const rc = context.withScope(reflection);
@@ -398,7 +398,7 @@ function convertTypeAliasAsInterface(
     context.checker
         .getSignaturesOfType(type, ts.SignatureKind.Call)
         .forEach((sig) =>
-            createSignature(rc, ReflectionKind.CallSignature, sig, symbol)
+            createSignature(rc, ReflectionKind.CallSignature, sig, symbol),
         );
 
     // And maybe constructor signatures
@@ -411,7 +411,7 @@ function convertTypeAliasAsInterface(
 function convertFunctionOrMethod(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     // Can't just check method flag because this might be called for properties as well
     // This will *NOT* be called for variables that look like functions, they need a special case.
@@ -430,7 +430,7 @@ function convertFunctionOrMethod(
         declarations.length > 0 &&
         hasAllFlags(
             ts.getCombinedModifierFlags(declarations[0]),
-            ts.ModifierFlags.Private
+            ts.ModifierFlags.Private,
         )
     ) {
         return;
@@ -440,7 +440,7 @@ function convertFunctionOrMethod(
         symbol.parent
             ?.getDeclarations()
             ?.find(
-                (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d)
+                (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d),
             ) ??
         symbol.parent?.getDeclarations()?.[0]?.getSourceFile() ??
         symbol.getDeclarations()?.[0]?.getSourceFile();
@@ -448,7 +448,7 @@ function convertFunctionOrMethod(
 
     const type = context.checker.getTypeOfSymbolAtLocation(
         symbol,
-        locationDeclaration
+        locationDeclaration,
     );
     // Need to get the non nullable type because interface methods might be declared
     // with a question token. See GH1490.
@@ -458,13 +458,13 @@ function convertFunctionOrMethod(
         context.scope.kindOf(
             ReflectionKind.ClassOrInterface |
                 ReflectionKind.VariableOrProperty |
-                ReflectionKind.TypeLiteral
+                ReflectionKind.TypeLiteral,
         )
             ? ReflectionKind.Method
             : ReflectionKind.Function,
         symbol,
         exportSymbol,
-        void 0
+        void 0,
     );
 
     if (symbol.declarations?.length && isMethod) {
@@ -487,7 +487,7 @@ function convertFunctionOrMethod(
 function convertClassOrInterface(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.createDeclarationReflection(
         ts.SymbolFlags.Class & symbol.flags
@@ -495,7 +495,7 @@ function convertClassOrInterface(
             : ReflectionKind.Interface,
         symbol,
         exportSymbol,
-        void 0
+        void 0,
     );
 
     const classDeclaration = symbol
@@ -515,12 +515,12 @@ function convertClassOrInterface(
             .getDeclarations()
             ?.filter(
                 (d): d is ts.InterfaceDeclaration | ts.ClassDeclaration =>
-                    ts.isInterfaceDeclaration(d) || ts.isClassDeclaration(d)
+                    ts.isInterfaceDeclaration(d) || ts.isClassDeclaration(d),
             ) ?? [];
 
     const extendedTypes = getHeritageTypes(
         declarations,
-        ts.SyntaxKind.ExtendsKeyword
+        ts.SyntaxKind.ExtendsKeyword,
     ).map((t) => context.converter.convertType(reflectionContext, t));
     if (extendedTypes.length) {
         reflection.extendedTypes = extendedTypes;
@@ -528,7 +528,7 @@ function convertClassOrInterface(
 
     const implementedTypes = getHeritageTypes(
         declarations,
-        ts.SyntaxKind.ImplementsKeyword
+        ts.SyntaxKind.ImplementsKeyword,
     ).map((t) => context.converter.convertType(reflectionContext, t));
     if (implementedTypes.length) {
         reflection.implementedTypes = implementedTypes;
@@ -540,7 +540,7 @@ function convertClassOrInterface(
         // Classes can have static props
         const staticType = context.checker.getTypeOfSymbolAtLocation(
             symbol,
-            classDeclaration
+            classDeclaration,
         );
 
         reflectionContext.shouldBeStatic = true;
@@ -561,7 +561,7 @@ function convertClassOrInterface(
             ReflectionKind.Constructor,
             ctors?.[0]?.declaration?.symbol,
             void 0,
-            "constructor"
+            "constructor",
         );
 
         // Modifiers are the same for all constructors
@@ -578,7 +578,7 @@ function convertClassOrInterface(
                 constructContext,
                 ReflectionKind.ConstructorSignature,
                 sig,
-                symbol
+                symbol,
             );
         });
     }
@@ -586,7 +586,7 @@ function convertClassOrInterface(
     // Classes/interfaces usually just have properties...
     convertSymbols(
         reflectionContext,
-        context.checker.getPropertiesOfType(instanceType)
+        context.checker.getPropertiesOfType(instanceType),
     );
 
     // And type arguments
@@ -607,8 +607,8 @@ function convertClassOrInterface(
                 reflectionContext,
                 ReflectionKind.CallSignature,
                 sig,
-                symbol
-            )
+                symbol,
+            ),
         );
 
     // We also might have constructor signatures
@@ -623,7 +623,7 @@ function convertClassOrInterface(
 function convertProperty(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const declarations = symbol.getDeclarations() ?? [];
 
@@ -633,7 +633,7 @@ function convertProperty(
         declarations.length > 0 &&
         hasAllFlags(
             ts.getCombinedModifierFlags(declarations[0]),
-            ts.ModifierFlags.Private
+            ts.ModifierFlags.Private,
         )
     ) {
         return;
@@ -644,7 +644,8 @@ function convertProperty(
     if (
         declarations.length &&
         declarations.every(
-            (decl) => ts.isMethodSignature(decl) || ts.isMethodDeclaration(decl)
+            (decl) =>
+                ts.isMethodSignature(decl) || ts.isMethodDeclaration(decl),
         )
     ) {
         return convertFunctionOrMethod(context, symbol, exportSymbol);
@@ -664,7 +665,7 @@ function convertProperty(
                 context,
                 symbol,
                 declaration.initializer,
-                exportSymbol
+                exportSymbol,
             );
         }
     }
@@ -674,7 +675,7 @@ function convertProperty(
             ? ReflectionKind.Variable
             : ReflectionKind.Property,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
 
@@ -702,7 +703,7 @@ function convertProperty(
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
         (context.convertingTypeNode ? parameterType : void 0) ??
-            context.checker.getTypeOfSymbol(symbol)
+            context.checker.getTypeOfSymbol(symbol),
     );
 
     if (reflection.flags.isOptional) {
@@ -716,13 +717,13 @@ function convertArrowAsMethod(
     context: Context,
     symbol: ts.Symbol,
     arrow: ts.ArrowFunction,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Method,
         symbol,
         exportSymbol,
-        void 0
+        void 0,
     );
     setModifiers(symbol, arrow.parent as ts.PropertyDeclaration, reflection);
     context.finalizeDeclarationReflection(reflection);
@@ -740,7 +741,7 @@ function convertConstructor(context: Context, symbol: ts.Symbol) {
         ReflectionKind.Constructor,
         symbol,
         void 0,
-        "constructor"
+        "constructor",
     );
     context.finalizeDeclarationReflection(reflection);
 
@@ -759,7 +760,7 @@ function convertConstructor(context: Context, symbol: ts.Symbol) {
             reflectionContext,
             ReflectionKind.ConstructorSignature,
             sig,
-            symbol
+            symbol,
         );
     }
 }
@@ -771,13 +772,13 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
     // has complained yet. We really ought to have a constructSignatures property on the reflection instead.
     const constructSignatures = context.checker.getSignaturesOfType(
         type,
-        ts.SignatureKind.Construct
+        ts.SignatureKind.Construct,
     );
     if (constructSignatures.length) {
         const constructMember = new DeclarationReflection(
             "constructor",
             ReflectionKind.Constructor,
-            context.scope
+            context.scope,
         );
         context.postReflectionCreation(constructMember, symbol, void 0);
         context.finalizeDeclarationReflection(constructMember);
@@ -789,8 +790,8 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
                 constructContext,
                 ReflectionKind.ConstructorSignature,
                 sig,
-                symbol
-            )
+                symbol,
+            ),
         );
     }
 }
@@ -798,17 +799,17 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
 function convertAlias(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.project.getReflectionFromSymbol(
-        context.resolveAliasedSymbol(symbol)
+        context.resolveAliasedSymbol(symbol),
     );
     if (!reflection) {
         // We don't have this, convert it.
         convertSymbol(
             context,
             context.resolveAliasedSymbol(symbol),
-            exportSymbol ?? symbol
+            exportSymbol ?? symbol,
         );
     } else {
         createAlias(reflection, context, symbol, exportSymbol);
@@ -819,7 +820,7 @@ function createAlias(
     target: Reflection,
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol: ts.Symbol | undefined
+    exportSymbol: ts.Symbol | undefined,
 ) {
     if (context.converter.excludeReferences) return;
 
@@ -827,7 +828,7 @@ function createAlias(
     const ref = new ReferenceReflection(
         exportSymbol?.name ?? symbol.name,
         target,
-        context.scope
+        context.scope,
     );
     context.postReflectionCreation(ref, symbol, exportSymbol);
     context.finalizeDeclarationReflection(ref);
@@ -836,7 +837,7 @@ function createAlias(
 function convertVariable(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const declaration = symbol.getDeclarations()?.[0];
     assert(declaration);
@@ -862,7 +863,7 @@ function convertVariable(
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Variable,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
 
     let typeNode: ts.TypeNode | undefined;
@@ -873,7 +874,7 @@ function convertVariable(
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
-        typeNode ?? type
+        typeNode ?? type,
     );
 
     setModifiers(symbol, declaration, reflection);
@@ -899,19 +900,19 @@ function isEnumLike(checker: ts.TypeChecker, type: ts.Type, location: ts.Node) {
 function isValidEnumProperty(type: ts.Type) {
     return hasAnyFlag(
         type.flags,
-        ts.TypeFlags.NumberLike | ts.TypeFlags.StringLike
+        ts.TypeFlags.NumberLike | ts.TypeFlags.StringLike,
     );
 }
 
 function convertVariableAsEnum(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Enum,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     context.finalizeDeclarationReflection(reflection);
     const rc = context.withScope(reflection);
@@ -923,12 +924,12 @@ function convertVariableAsEnum(
         const reflection = rc.createDeclarationReflection(
             ReflectionKind.EnumMember,
             prop,
-            void 0
+            void 0,
         );
 
         const propType = context.checker.getTypeOfSymbolAtLocation(
             prop,
-            declaration
+            declaration,
         );
 
         reflection.type = context.converter.convertType(context, propType);
@@ -943,12 +944,12 @@ function convertVariableAsEnum(
 function convertVariableAsNamespace(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Namespace,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     context.finalizeDeclarationReflection(reflection);
     const rc = context.withScope(reflection);
@@ -964,7 +965,7 @@ function convertVariableAsNamespace(
 function convertVariableAsFunction(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const declaration = symbol
         .getDeclarations()
@@ -979,7 +980,7 @@ function convertVariableAsFunction(
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Function,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     setModifiers(symbol, accessDeclaration, reflection);
     reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
@@ -993,7 +994,7 @@ function convertVariableAsFunction(
             reflectionContext,
             ReflectionKind.CallSignature,
             signature,
-            symbol
+            symbol,
         );
     }
 
@@ -1003,12 +1004,12 @@ function convertVariableAsFunction(
 function convertAccessor(
     context: Context,
     symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol
+    exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Accessor,
         symbol,
-        exportSymbol
+        exportSymbol,
     );
     const rc = context.withScope(reflection);
 
@@ -1029,7 +1030,7 @@ function convertAccessor(
                 ReflectionKind.GetSignature,
                 signature,
                 symbol,
-                getDeclaration
+                getDeclaration,
             );
         }
     }
@@ -1044,7 +1045,7 @@ function convertAccessor(
                 ReflectionKind.SetSignature,
                 signature,
                 symbol,
-                setDeclaration
+                setDeclaration,
             );
         }
     }
@@ -1054,20 +1055,20 @@ function isInherited(context: Context, symbol: ts.Symbol) {
     const parentSymbol = context.project.getSymbolFromReflection(context.scope);
     assert(
         parentSymbol,
-        `No parent symbol found for ${symbol.name} in ${context.scope.name}`
+        `No parent symbol found for ${symbol.name} in ${context.scope.name}`,
     );
 
     const parents = parentSymbol.declarations?.slice() || [];
     const constructorDecls = parents.flatMap((parent) =>
         ts.isClassDeclaration(parent)
             ? parent.members.filter(ts.isConstructorDeclaration)
-            : []
+            : [],
     );
     parents.push(...constructorDecls);
 
     return (
-        parents.some((d) =>
-            symbol.getDeclarations()?.some((d2) => d2.parent === d)
+        parents.some(
+            (d) => symbol.getDeclarations()?.some((d2) => d2.parent === d),
         ) === false
     );
 }
@@ -1075,7 +1076,7 @@ function isInherited(context: Context, symbol: ts.Symbol) {
 function setModifiers(
     symbol: ts.Symbol,
     declaration: ts.Declaration | undefined,
-    reflection: Reflection
+    reflection: Reflection,
 ) {
     if (!declaration) {
         return;
@@ -1103,16 +1104,16 @@ function setModifiers(
     }
     reflection.setFlag(
         ReflectionFlag.Optional,
-        hasAllFlags(symbol.flags, ts.SymbolFlags.Optional)
+        hasAllFlags(symbol.flags, ts.SymbolFlags.Optional),
     );
     reflection.setFlag(
         ReflectionFlag.Readonly,
         hasAllFlags(ts.getCheckFlags(symbol), ts.CheckFlags.Readonly) ||
-            hasAllFlags(modifiers, ts.ModifierFlags.Readonly)
+            hasAllFlags(modifiers, ts.ModifierFlags.Readonly),
     );
     reflection.setFlag(
         ReflectionFlag.Abstract,
-        hasAllFlags(modifiers, ts.ModifierFlags.Abstract)
+        hasAllFlags(modifiers, ts.ModifierFlags.Abstract),
     );
 
     if (
@@ -1121,7 +1122,7 @@ function setModifiers(
     ) {
         reflection.setFlag(
             ReflectionFlag.Const,
-            hasAllFlags(declaration.parent.flags, ts.NodeFlags.Const)
+            hasAllFlags(declaration.parent.flags, ts.NodeFlags.Const),
         );
     }
 

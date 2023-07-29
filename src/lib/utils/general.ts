@@ -49,8 +49,8 @@ export type Chars<T extends string> = T extends `${infer C}${infer R}`
 export function assertNever(x: never): never {
     throw new Error(
         `Expected handling to cover all possible cases, but it didn't cover: ${Util.inspect(
-            x
-        )}`
+            x,
+        )}`,
     );
 }
 

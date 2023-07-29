@@ -499,7 +499,7 @@ const converters: {
         value: unknown,
         option: DeclarationOption & { type: K },
         configPath: string,
-        oldValue: unknown
+        oldValue: unknown,
     ) => ParameterTypeToOptionTypeMap[K];
 } = {
     [ParameterType.String](value, option) {
@@ -517,7 +517,7 @@ const converters: {
         const numValue = parseInt(String(value), 10) || 0;
         if (!valueIsWithinBounds(numValue, option.minValue, option.maxValue)) {
             throw new Error(
-                getBoundsError(option.name, option.minValue, option.maxValue)
+                getBoundsError(option.name, option.minValue, option.maxValue),
             );
         }
         option.validate?.(numValue);
@@ -586,7 +586,7 @@ const converters: {
             return value;
         }
         throw new Error(
-            option.mapError ?? getMapError(option.map, option.name)
+            option.mapError ?? getMapError(option.map, option.name),
         );
     },
     [ParameterType.Mixed](value, option) {
@@ -602,13 +602,13 @@ const converters: {
     [ParameterType.Flags](value, option) {
         if (typeof value === "boolean") {
             value = Object.fromEntries(
-                Object.keys(option.defaults).map((key) => [key, value])
+                Object.keys(option.defaults).map((key) => [key, value]),
             );
         }
 
         if (typeof value !== "object" || value == null) {
             throw new Error(
-                `Expected an object with flag values for ${option.name} or true/false`
+                `Expected an object with flag values for ${option.name} or true/false`,
             );
         }
         const obj = { ...value } as Record<string, unknown>;
@@ -619,8 +619,8 @@ const converters: {
                     `The flag '${key}' is not valid for ${
                         option.name
                     }, expected one of: ${Object.keys(option.defaults).join(
-                        ", "
-                    )}`
+                        ", ",
+                    )}`,
                 );
             }
 
@@ -630,7 +630,7 @@ const converters: {
                     obj[key] = option.defaults[key];
                 } else {
                     throw new Error(
-                        `Flag values for ${option.name} must be a boolean.`
+                        `Flag values for ${option.name} must be a boolean.`,
                     );
                 }
             }
@@ -651,7 +651,7 @@ export function convert(
     value: unknown,
     option: DeclarationOption,
     configPath: string,
-    oldValue?: unknown
+    oldValue?: unknown,
 ): unknown {
     const _converters = converters as Record<
         ParameterType,
@@ -661,13 +661,13 @@ export function convert(
         value,
         option,
         configPath,
-        oldValue
+        oldValue,
     );
 }
 
 const defaultGetters: {
     [K in ParameterType]: (
-        option: DeclarationOption & { type: K }
+        option: DeclarationOption & { type: K },
     ) => ParameterTypeToOptionTypeMap[K];
 } = {
     [ParameterType.String](option) {
@@ -703,14 +703,14 @@ const defaultGetters: {
     [ParameterType.PathArray](option) {
         return (
             option.defaultValue?.map((value) =>
-                resolve(process.cwd(), value)
+                resolve(process.cwd(), value),
             ) ?? []
         );
     },
     [ParameterType.ModuleArray](option) {
         return (
             option.defaultValue?.map((value) =>
-                value.startsWith(".") ? resolve(process.cwd(), value) : value
+                value.startsWith(".") ? resolve(process.cwd(), value) : value,
             ) ?? []
         );
     },
@@ -762,7 +762,7 @@ function isTsNumericEnum(map: Record<string, any>) {
  */
 function getMapError(
     map: MapDeclarationOption<unknown>["map"],
-    name: string
+    name: string,
 ): string {
     let keys = map instanceof Map ? [...map.keys()] : Object.keys(map);
 
@@ -786,7 +786,7 @@ function getMapError(
 function getBoundsError(
     name: string,
     minValue?: number,
-    maxValue?: number
+    maxValue?: number,
 ): string {
     if (isFiniteNumber(minValue) && isFiniteNumber(maxValue)) {
         return `${name} must be between ${minValue} and ${maxValue}`;
@@ -816,7 +816,7 @@ function isFiniteNumber(value: unknown): value is number {
 function valueIsWithinBounds(
     value: number,
     minValue?: number,
-    maxValue?: number
+    maxValue?: number,
 ): boolean {
     if (isFiniteNumber(minValue) && isFiniteNumber(maxValue)) {
         return minValue <= value && value <= maxValue;

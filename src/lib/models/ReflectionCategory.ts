@@ -50,7 +50,7 @@ export class ReflectionCategory {
             de.defer((project) => {
                 for (const childId of obj.children || []) {
                     const child = project.getReflectionById(
-                        de.oldIdToNewId[childId] ?? -1
+                        de.oldIdToNewId[childId] ?? -1,
                     );
                     if (child?.isDeclaration()) {
                         this.children.push(child);

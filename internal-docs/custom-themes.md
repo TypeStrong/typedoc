@@ -52,7 +52,7 @@ class MyTheme extends DefaultTheme {
     override getRenderContext() {
         this._contextCache ||= new MyThemeContext(
             this._markedPlugin,
-            this.application.options
+            this.application.options,
         );
         return this._contextCache;
     }
@@ -96,7 +96,7 @@ import { Application, RendererEvent } from "typedoc";
 export function load(app: Application) {
     app.renderer.preRenderAsyncJobs.push(async (output: RendererEvent) => {
         app.logger.info(
-            "Pre render, no docs written to " + output.outputDirectory + " yet"
+            "Pre render, no docs written to " + output.outputDirectory + " yet",
         );
         // Slow down rendering by 1 second
         await new Promise((r) => setTimeout(r, 1000));
@@ -104,7 +104,7 @@ export function load(app: Application) {
 
     app.renderer.postRenderAsyncJobs.push(async (output: RendererEvent) => {
         app.logger.info(
-            "Post render, all docs written to " + output.outputDirectory
+            "Post render, all docs written to " + output.outputDirectory,
         );
     });
 }

@@ -6,7 +6,7 @@
  */
 export function insertPrioritySorted<T extends { priority: number }>(
     arr: T[],
-    item: T
+    item: T,
 ): T[] {
     const index = binaryFindPartition(arr, (v) => v.priority <= item.priority);
     arr.splice(index === -1 ? arr.length : index, 0, item);
@@ -22,7 +22,7 @@ export function insertPrioritySorted<T extends { priority: number }>(
  */
 export function insertOrderSorted<T extends { order: number }>(
     arr: T[],
-    item: T
+    item: T,
 ): T[] {
     const index = binaryFindPartition(arr, (v) => v.order > item.order);
     arr.splice(index === -1 ? arr.length : index, 0, item);
@@ -38,7 +38,7 @@ export function insertOrderSorted<T extends { order: number }>(
  */
 export function binaryFindPartition<T>(
     arr: readonly T[],
-    partition: (item: T) => boolean
+    partition: (item: T) => boolean,
 ): number {
     if (arr.length === 0) {
         return -1;
@@ -99,7 +99,7 @@ export function unique<T>(arr: Iterable<T> | undefined): T[] {
 
 export function partition<T>(
     iter: Iterable<T>,
-    predicate: (item: T) => boolean
+    predicate: (item: T) => boolean,
 ): [T[], T[]] {
     const left: T[] = [];
     const right: T[] = [];
@@ -131,7 +131,7 @@ export function* zip<T extends Iterable<any>[]>(
 
 export function filterMap<T, U>(
     iter: Iterable<T>,
-    fn: (item: T) => U | undefined
+    fn: (item: T) => U | undefined,
 ): U[] {
     const result: U[] = [];
 

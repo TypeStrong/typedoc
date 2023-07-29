@@ -26,7 +26,7 @@ export module Forms {
             public listener: EventListener<V>,
             public filter: any,
             public priority: number,
-            public dispatcher: EventDispatcher<V>
+            public dispatcher: EventDispatcher<V>,
         ) {}
 
         unsubscribe(): void {}
@@ -41,7 +41,7 @@ export module Forms {
         add(
             listener: EventListener<U>,
             filter?: any,
-            priority?: number
+            priority?: number,
         ): SubscriptionInt<U>;
         remove(subscription: SubscriptionInt<U>): void;
         dispatch(parameter: U): boolean;
@@ -59,7 +59,7 @@ export module Forms {
         add(
             listener: EventListener<T>,
             filter: any = null,
-            priority: number = 0
+            priority: number = 0,
         ): SubscriptionInt<T> {
             return new Subscription<T>(listener, filter, priority, this);
         }

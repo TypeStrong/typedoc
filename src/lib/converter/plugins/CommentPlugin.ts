@@ -194,7 +194,7 @@ export class CommentPlugin extends ConverterComponent {
             comment.hasModifier("@eventProperty")
         ) {
             comment.blockTags.push(
-                new CommentTag("@group", [{ kind: "text", text: "Events" }])
+                new CommentTag("@group", [{ kind: "text", text: "Events" }]),
             );
             comment.removeModifier("@event");
             comment.removeModifier("@eventProperty");
@@ -202,7 +202,7 @@ export class CommentPlugin extends ConverterComponent {
 
         if (
             reflection.kindOf(
-                ReflectionKind.Module | ReflectionKind.Namespace
+                ReflectionKind.Module | ReflectionKind.Namespace,
             ) ||
             reflection.kind === ReflectionKind.Project
         ) {
@@ -219,7 +219,7 @@ export class CommentPlugin extends ConverterComponent {
      */
     private onCreateTypeParameter(
         _context: Context,
-        reflection: TypeParameterReflection
+        reflection: TypeParameterReflection,
     ) {
         const comment = reflection.parent?.comment;
         if (comment) {
@@ -230,7 +230,7 @@ export class CommentPlugin extends ConverterComponent {
             if (!tag) {
                 tag = comment.getIdentifiedTag(
                     `<${reflection.name}>`,
-                    "@param"
+                    "@param",
                 );
             }
             if (!tag) {
@@ -306,10 +306,10 @@ export class CommentPlugin extends ConverterComponent {
                 filterMap(hidden, (reflection) =>
                     reflection.parent?.kindOf(ReflectionKind.SignatureContainer)
                         ? reflection.parent
-                        : void 0
-                ) as DeclarationReflection[]
+                        : void 0,
+                ) as DeclarationReflection[],
             ),
-            (method) => method.getNonIndexSignatures().length === 0
+            (method) => method.getNonIndexSignatures().length === 0,
         );
         allRemoved.forEach((reflection) => {
             project.removeReflection(reflection);
@@ -343,7 +343,7 @@ export class CommentPlugin extends ConverterComponent {
                     `The label "${
                         reflection.comment.label
                     }" for ${reflection.getFriendlyFullName()} cannot be referenced with a declaration reference. ` +
-                        `Labels may only contain A-Z, 0-9, and _, and may not start with a number.`
+                        `Labels may only contain A-Z, 0-9, and _, and may not start with a number.`,
                 );
             }
 
@@ -358,19 +358,19 @@ export class CommentPlugin extends ConverterComponent {
         if (reflection.type instanceof ReflectionType) {
             this.moveCommentToSignatures(
                 reflection,
-                reflection.type.declaration.getNonIndexSignatures()
+                reflection.type.declaration.getNonIndexSignatures(),
             );
         } else {
             this.moveCommentToSignatures(
                 reflection,
-                reflection.getNonIndexSignatures()
+                reflection.getNonIndexSignatures(),
             );
         }
     }
 
     private moveCommentToSignatures(
         reflection: DeclarationReflection,
-        signatures: SignatureReflection[]
+        signatures: SignatureReflection[],
     ) {
         if (!signatures.length) {
             return;
@@ -395,7 +395,7 @@ export class CommentPlugin extends ConverterComponent {
                 if (parameter.name === "__namedParameters") {
                     const commentParams = childComment.blockTags.filter(
                         (tag) =>
-                            tag.tag === "@param" && !tag.name?.includes(".")
+                            tag.tag === "@param" && !tag.name?.includes("."),
                     );
                     if (
                         signature.parameters?.length === commentParams.length &&
@@ -408,12 +408,12 @@ export class CommentPlugin extends ConverterComponent {
                 moveNestedParamTags(childComment, parameter);
                 const tag = childComment.getIdentifiedTag(
                     parameter.name,
-                    "@param"
+                    "@param",
                 );
 
                 if (tag) {
                     parameter.comment = new Comment(
-                        Comment.cloneDisplayParts(tag.content)
+                        Comment.cloneDisplayParts(tag.content),
                     );
                 }
             });
@@ -422,19 +422,19 @@ export class CommentPlugin extends ConverterComponent {
                 const tag =
                     childComment.getIdentifiedTag(
                         parameter.name,
-                        "@typeParam"
+                        "@typeParam",
                     ) ||
                     childComment.getIdentifiedTag(
                         parameter.name,
-                        "@template"
+                        "@template",
                     ) ||
                     childComment.getIdentifiedTag(
                         `<${parameter.name}>`,
-                        "@param"
+                        "@param",
                     );
                 if (tag) {
                     parameter.comment = new Comment(
-                        Comment.cloneDisplayParts(tag.content)
+                        Comment.cloneDisplayParts(tag.content),
                     );
                 }
             }
@@ -484,7 +484,7 @@ export class CommentPlugin extends ConverterComponent {
             if (
                 reflection.kindOf(
                     ReflectionKind.CallSignature |
-                        ReflectionKind.ConstructorSignature
+                        ReflectionKind.ConstructorSignature,
                 ) &&
                 reflection.parent?.comment
             ) {
@@ -564,7 +564,7 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
             const tags = comment.blockTags.filter(
                 (t) =>
                     t.tag === "@param" &&
-                    t.name?.startsWith(`${parameter.name}.`)
+                    t.name?.startsWith(`${parameter.name}.`),
             );
 
             for (const tag of tags) {
@@ -574,7 +574,7 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
 
                 if (child && !child.comment) {
                     child.comment = new Comment(
-                        Comment.cloneDisplayParts(tag.content)
+                        Comment.cloneDisplayParts(tag.content),
                     );
                 }
             }
@@ -593,7 +593,7 @@ function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
 
 function movePropertyTags(comment: Comment, container: Reflection) {
     const propTags = comment.blockTags.filter(
-        (tag) => tag.tag === "@prop" || tag.tag === "@property"
+        (tag) => tag.tag === "@prop" || tag.tag === "@property",
     );
     comment.removeTags("@prop");
     comment.removeTags("@property");
@@ -604,7 +604,7 @@ function movePropertyTags(comment: Comment, container: Reflection) {
         const child = container.getChildByName(prop.name);
         if (child) {
             child.comment = new Comment(
-                Comment.cloneDisplayParts(prop.content)
+                Comment.cloneDisplayParts(prop.content),
             );
         }
     }

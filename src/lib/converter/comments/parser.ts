@@ -21,7 +21,7 @@ interface LookaheadGenerator<T> {
 }
 
 function makeLookaheadGenerator<T>(
-    gen: Generator<T, void>
+    gen: Generator<T, void>,
 ): LookaheadGenerator<T> {
     let trackHistory = false;
     const history: IteratorResult<T>[] = [];
@@ -47,7 +47,7 @@ function makeLookaheadGenerator<T>(
         mark() {
             ok(
                 !trackHistory,
-                "Can only mark one location for backtracking at a time"
+                "Can only mark one location for backtracking at a time",
             );
             trackHistory = true;
         },
@@ -63,7 +63,7 @@ export function parseComment(
     tokens: Generator<Token, undefined, undefined>,
     config: CommentParserConfig,
     file: MinimalSourceFile,
-    logger: Logger
+    logger: Logger,
 ): Comment {
     const lexer = makeLookaheadGenerator(tokens);
     const tok = lexer.done() || lexer.peek();
@@ -80,7 +80,7 @@ export function parseComment(
         logger.warn(
             `${message} in comment at ${nicePath(file.fileName)}:${
                 file.getLineAndCharacterOfPosition(tok.pos).line + 1
-            }`
+            }`,
         );
     });
 
@@ -137,11 +137,11 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
         if (
             tag.content.some(
                 (part) =>
-                    part.kind === "inline-tag" && part.tag === "@inheritDoc"
+                    part.kind === "inline-tag" && part.tag === "@inheritDoc",
             )
         ) {
             warning(
-                "An inline @inheritDoc tag should not appear within a block tag as it will not be processed"
+                "An inline @inheritDoc tag should not appear within a block tag as it will not be processed",
             );
         }
     }
@@ -149,7 +149,7 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
     const remarks = comment.blockTags.filter((tag) => tag.tag === "@remarks");
     if (remarks.length > 1) {
         warning(
-            "At most one @remarks tag is expected in a comment, ignoring all but the first"
+            "At most one @remarks tag is expected in a comment, ignoring all but the first",
         );
         removeIf(comment.blockTags, (tag) => remarks.indexOf(tag) > 0);
     }
@@ -157,21 +157,21 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
     const returns = comment.blockTags.filter((tag) => tag.tag === "@returns");
     if (remarks.length > 1) {
         warning(
-            "At most one @returns tag is expected in a comment, ignoring all but the first"
+            "At most one @returns tag is expected in a comment, ignoring all but the first",
         );
         removeIf(comment.blockTags, (tag) => returns.indexOf(tag) > 0);
     }
 
     const inheritDoc = comment.blockTags.filter(
-        (tag) => tag.tag === "@inheritDoc"
+        (tag) => tag.tag === "@inheritDoc",
     );
     const inlineInheritDoc = comment.summary.filter(
-        (part) => part.kind === "inline-tag" && part.tag === "@inheritDoc"
+        (part) => part.kind === "inline-tag" && part.tag === "@inheritDoc",
     );
 
     if (inlineInheritDoc.length + inheritDoc.length > 1) {
         warning(
-            "At most one @inheritDoc tag is expected in a comment, ignoring all but the first"
+            "At most one @inheritDoc tag is expected in a comment, ignoring all but the first",
         );
         const allInheritTags = [...inlineInheritDoc, ...inheritDoc];
         removeIf(comment.summary, (part) => allInheritTags.indexOf(part) > 0);
@@ -181,17 +181,17 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
     if (
         (inlineInheritDoc.length || inheritDoc.length) &&
         comment.summary.some(
-            (part) => part.kind !== "inline-tag" && /\S/.test(part.text)
+            (part) => part.kind !== "inline-tag" && /\S/.test(part.text),
         )
     ) {
         warning(
-            "Content in the summary section will be overwritten by the @inheritDoc tag"
+            "Content in the summary section will be overwritten by the @inheritDoc tag",
         );
     }
 
     if ((inlineInheritDoc.length || inheritDoc.length) && remarks.length) {
         warning(
-            "Content in the @remarks block will be overwritten by the @inheritDoc tag"
+            "Content in the @remarks block will be overwritten by the @inheritDoc tag",
         );
     }
 }
@@ -202,12 +202,12 @@ function blockTag(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void
+    warning: (msg: string, token: Token) => void,
 ): CommentTag {
     const blockTag = lexer.take();
     ok(
         blockTag.kind === TokenSyntaxKind.Tag,
-        "blockTag called not at the start of a block tag."
+        "blockTag called not at the start of a block tag.",
     ); // blockContent is broken if this fails.
 
     const tagName = aliasedTags.get(blockTag.text) || blockTag.text;
@@ -232,7 +232,7 @@ function defaultBlockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void
+    warning: (msg: string, token: Token) => void,
 ): CommentDisplayPart[] {
     lexer.mark();
     const content = blockContent(comment, lexer, config, () => {});
@@ -269,7 +269,7 @@ function exampleBlockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void
+    warning: (msg: string, token: Token) => void,
 ): CommentDisplayPart[] {
     lexer.mark();
     const content = blockContent(comment, lexer, config, () => {});
@@ -278,7 +278,7 @@ function exampleBlockContent(
 
     if (
         content.some(
-            (part) => part.kind === "code" && part.text.startsWith("```")
+            (part) => part.kind === "code" && part.text.startsWith("```"),
         )
     ) {
         return blockContent(comment, lexer, config, warning);
@@ -321,7 +321,7 @@ function blockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void
+    warning: (msg: string, token: Token) => void,
 ): CommentDisplayPart[] {
     const content: CommentDisplayPart[] = [];
     let atNewLine = true;
@@ -345,7 +345,7 @@ function blockContent(
                     if (!config.jsDocCompatibility.inheritDocTag) {
                         warning(
                             "The @inheritDoc tag should be properly capitalized",
-                            next
+                            next,
                         );
                     }
                     next.text = "@inheritDoc";
@@ -358,7 +358,7 @@ function blockContent(
                     comment.modifierTags.add(next.text as `@${string}`);
                     warning(
                         `Treating unrecognized tag "${next.text}" as a modifier tag`,
-                        next
+                        next,
                     );
                     break;
                 } else {
@@ -426,7 +426,7 @@ function inlineTag(
     lexer: LookaheadGenerator<Token>,
     block: CommentDisplayPart[],
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void
+    warning: (msg: string, token: Token) => void,
 ) {
     const openBrace = lexer.take();
 
@@ -440,7 +440,7 @@ function inlineTag(
         if (!config.jsDocCompatibility.ignoreUnescapedBraces) {
             warning(
                 "Encountered an unescaped open brace without an inline tag",
-                openBrace
+                openBrace,
             );
         }
         block.push({ kind: "text", text: openBrace.text });
@@ -458,7 +458,7 @@ function inlineTag(
         if (!config.jsDocCompatibility.ignoreUnescapedBraces) {
             warning(
                 "Encountered an unescaped open brace without an inline tag",
-                openBrace
+                openBrace,
             );
         }
         block.push({ kind: "text", text: openBrace.text + tagName.text });
@@ -482,7 +482,7 @@ function inlineTag(
         if (token.kind === TokenSyntaxKind.OpenBrace) {
             warning(
                 "Encountered an open brace within an inline tag, this is likely a mistake",
-                token
+                token,
             );
         }
 

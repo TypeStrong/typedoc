@@ -27,8 +27,8 @@ export class PackageJsonReader implements OptionsReader {
         if ("typedoc" in content) {
             logger.warn(
                 `The 'typedoc' key in ${nicePath(
-                    file
-                )} was used by the legacy-packages entryPointStrategy and will be ignored.`
+                    file,
+                )} was used by the legacy-packages entryPointStrategy and will be ignored.`,
             );
         }
 
@@ -41,8 +41,8 @@ export class PackageJsonReader implements OptionsReader {
         if (opts === null || typeof opts !== "object") {
             logger.error(
                 `Failed to parse the "typedocOptions" field in ${nicePath(
-                    file
-                )}, ensure it exists and contains an object.`
+                    file,
+                )}, ensure it exists and contains an object.`,
             );
             return;
         }

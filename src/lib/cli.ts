@@ -25,7 +25,7 @@ void run(app)
         console.error(error);
         if (app.options.getValue("skipErrorChecking")) {
             console.error(
-                "Try turning off --skipErrorChecking. If TypeDoc still crashes, please report a bug."
+                "Try turning off --skipErrorChecking. If TypeDoc still crashes, please report a bug.",
             );
         }
         return ExitCodes.ExceptionThrown;

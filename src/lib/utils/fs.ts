@@ -34,10 +34,10 @@ export function deriveRootDir(globPaths: string[]): string {
                 const kept = set.slice(0, stop).join("/");
                 return normalized[i].substring(
                     0,
-                    normalized[i].indexOf(kept) + kept.length
+                    normalized[i].indexOf(kept) + kept.length,
                 );
             }
-        })
+        }),
     );
     return getCommonDirectory(rootPaths);
 }
@@ -139,7 +139,7 @@ export async function copy(src: string, dest: string): Promise<void> {
     if (stat.isDirectory()) {
         const contained = await fsp.readdir(src);
         await Promise.all(
-            contained.map((file) => copy(join(src, file), join(dest, file)))
+            contained.map((file) => copy(join(src, file), join(dest, file))),
         );
     } else if (stat.isFile()) {
         await fsp.mkdir(dirname(dest), { recursive: true });
@@ -155,7 +155,7 @@ export function copySync(src: string, dest: string): void {
     if (stat.isDirectory()) {
         const contained = fs.readdirSync(src);
         contained.forEach((file) =>
-            copySync(join(src, file), join(dest, file))
+            copySync(join(src, file), join(dest, file)),
         );
     } else if (stat.isFile()) {
         fs.mkdirSync(dirname(dest), { recursive: true });
@@ -171,7 +171,7 @@ export function copySync(src: string, dest: string): void {
 export function glob(
     pattern: string,
     root: string,
-    options: { includeDirectories?: boolean; followSymlinks?: boolean } = {}
+    options: { includeDirectories?: boolean; followSymlinks?: boolean } = {},
 ): string[] {
     const result: string[] = [];
     const mini = new Minimatch(normalizePath(pattern));
@@ -199,7 +199,7 @@ export function glob(
         const childPath = [...dir!, path];
         if (
             mini.set.some((row) =>
-                mini.matchOne(childPath, row, /* partial */ true)
+                mini.matchOne(childPath, row, /* partial */ true),
             )
         ) {
             dirs.push(childPath);
@@ -274,7 +274,7 @@ export function hasTsExtension(path: string): boolean {
 export function discoverInParentDir<T extends {}>(
     name: string,
     dir: string,
-    read: (content: string) => T | undefined
+    read: (content: string) => T | undefined,
 ): { file: string; content: T } | undefined {
     if (!isDir(dir)) return;
 
@@ -301,7 +301,7 @@ export function discoverInParentDir<T extends {}>(
 export function discoverInParentDirExactMatch<T extends {}>(
     name: string,
     dir: string,
-    read: (content: string) => T | undefined
+    read: (content: string) => T | undefined,
 ): { file: string; content: T } | undefined {
     if (!isDir(dir)) return;
 

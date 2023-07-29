@@ -107,7 +107,7 @@ export function setRenderSettings(options: { pretty: boolean }) {
 }
 
 export const renderElement = function renderElement(
-    element: JsxElement | null | undefined
+    element: JsxElement | null | undefined,
 ): string {
     if (!element) {
         return "";

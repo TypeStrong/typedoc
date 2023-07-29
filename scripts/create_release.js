@@ -117,7 +117,7 @@ async function main() {
     await exec(`git tag -d ${currentVersion}`).catch(() => void 0);
     await exec(`git tag ${currentVersion}`);
     await exec(
-        `git push ${REMOTE} refs/tags/${currentVersion} --quiet --force`
+        `git push ${REMOTE} refs/tags/${currentVersion} --quiet --force`,
     );
 
     await createGitHubRelease({

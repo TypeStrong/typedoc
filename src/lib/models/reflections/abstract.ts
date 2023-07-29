@@ -160,7 +160,7 @@ export class ReflectionFlags extends Array<string> {
     private setSingleFlag(flag: ReflectionFlag, set: boolean) {
         const name = ReflectionFlag[flag].replace(
             /(.)([A-Z])/g,
-            (_m, a, b) => a + " " + b.toLowerCase()
+            (_m, a, b) => a + " " + b.toLowerCase(),
         );
         if (!set && this.hasFlag(flag)) {
             if (relevantFlags.includes(flag)) {
@@ -193,7 +193,7 @@ export class ReflectionFlags extends Array<string> {
         return Object.fromEntries(
             ReflectionFlags.serializedFlags
                 .filter((flag) => this[flag])
-                .map((flag) => [flag, true])
+                .map((flag) => [flag, true]),
         );
     }
 
@@ -203,7 +203,7 @@ export class ReflectionFlags extends Array<string> {
             if (flagName in ReflectionFlag) {
                 this.setFlag(
                     ReflectionFlag[flagName as keyof typeof ReflectionFlag],
-                    true
+                    true,
                 );
             }
         }
@@ -226,9 +226,10 @@ export interface TraverseCallback {
      * May return false to bail out of any further iteration. To preserve backwards compatibility, if
      * a function returns undefined, iteration must continue.
      */
-    (reflection: Reflection, property: TraverseProperty):
-        | boolean
-        | NeverIfInternal<void>;
+    (
+        reflection: Reflection,
+        property: TraverseProperty,
+    ): boolean | NeverIfInternal<void>;
 }
 
 /**
@@ -275,7 +276,7 @@ export abstract class Reflection {
         if (this.isProject()) return this;
         ok(
             this.parent,
-            "Tried to get the project on a reflection not in a project"
+            "Tried to get the project on a reflection not in a project",
         );
         return this.parent.project;
     }
@@ -362,7 +363,7 @@ export abstract class Reflection {
                     ReflectionKind.ConstructorSignature |
                         ReflectionKind.CallSignature |
                         ReflectionKind.GetSignature |
-                        ReflectionKind.SetSignature
+                        ReflectionKind.SetSignature,
                 )
             ) {
                 return this.parent.getFriendlyFullName();

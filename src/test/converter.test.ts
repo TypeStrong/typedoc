@@ -68,7 +68,7 @@ comparisonSerializer.addSerializer({
                 ) {
                     part.target = tag.content[i].target.getFullName();
                 }
-            }
+            },
         );
         return obj;
     },
@@ -111,11 +111,11 @@ comparisonSerializer.addSerializer({
     toObject(
         ref: SourceReference,
         obj: ModelToObject<SourceReference>,
-        _serializer
+        _serializer,
     ) {
         if (obj.url) {
             obj.url = `typedoc://${obj.url.substring(
-                obj.url.indexOf(ref.fileName)
+                obj.url.indexOf(ref.fileName),
             )}`;
         }
         return obj;
@@ -191,7 +191,7 @@ describe("Converter", function () {
                         app.logger,
                         [path],
                         app.options,
-                        [getConverterProgram()]
+                        [getConverterProgram()],
                     );
                     ok(entryPoints, "Failed to get entry points");
                     result = app.converter.convert(entryPoints);
@@ -205,9 +205,9 @@ describe("Converter", function () {
                         JSON.stringify(
                             app.serializer.projectToObject(
                                 result!,
-                                process.cwd()
-                            )
-                        )
+                                process.cwd(),
+                            ),
+                        ),
                     );
                     delete data.symbolIdMap;
                     const specCopy = { ...specs };
@@ -222,9 +222,9 @@ describe("Converter", function () {
                         JSON.stringify(
                             comparisonSerializer.projectToObject(
                                 revived,
-                                process.cwd()
-                            )
-                        )
+                                process.cwd(),
+                            ),
+                        ),
                     );
 
                     // Pass data through a parse/stringify to get rid of undefined properties
@@ -232,9 +232,9 @@ describe("Converter", function () {
                         JSON.stringify(
                             comparisonSerializer.projectToObject(
                                 result!,
-                                process.cwd()
-                            )
-                        )
+                                process.cwd(),
+                            ),
+                        ),
                     );
 
                     equal(data, specs2);

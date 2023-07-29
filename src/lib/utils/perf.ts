@@ -33,7 +33,7 @@ export function bench<T extends Function>(fn: T, name = fn.name): T {
                 },
                 () => {
                     end();
-                }
+                },
             );
         } else {
             end();
@@ -74,7 +74,7 @@ process.on("beforeExit", () => {
     const width = benchmarks.reduce((a, b) => Math.max(a, b.name.length), 11);
     console.log("=".repeat(width + 35));
     console.log(
-        `${"Benchmarked".padEnd(width)} | Calls | Time (ms) | Average (ms)`
+        `${"Benchmarked".padEnd(width)} | Calls | Time (ms) | Average (ms)`,
     );
     console.log("=".repeat(width + 35));
 
@@ -82,7 +82,7 @@ process.on("beforeExit", () => {
         console.log(
             `${name.padEnd(width)} | ${calls.toString().padEnd(5)} | ${time
                 .toFixed(2)
-                .padEnd(9)} | ${(time / calls).toFixed(2)}`
+                .padEnd(9)} | ${(time / calls).toFixed(2)}`,
         );
     }
 

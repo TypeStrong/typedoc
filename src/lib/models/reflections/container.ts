@@ -54,15 +54,15 @@ export abstract class ContainerReflection extends Reflection {
     override fromObject(de: Deserializer, obj: JSONOutput.ContainerReflection) {
         super.fromObject(de, obj);
         this.children = de.reviveMany(obj.children, (child) =>
-            de.constructReflection(child)
+            de.constructReflection(child),
         );
         this.groups = de.reviveMany(
             obj.groups,
-            (group) => new ReflectionGroup(group.title, this)
+            (group) => new ReflectionGroup(group.title, this),
         );
         this.categories = de.reviveMany(
             obj.categories,
-            (cat) => new ReflectionCategory(cat.title)
+            (cat) => new ReflectionCategory(cat.title),
         );
     }
 }

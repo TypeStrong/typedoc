@@ -8,16 +8,16 @@ describe("Default Options", () => {
     describe("Highlighting theme", () => {
         it("Errors if an invalid theme is provided", () => {
             throws(() =>
-                opts.setValue("lightHighlightTheme", "randomTheme" as never)
+                opts.setValue("lightHighlightTheme", "randomTheme" as never),
             );
             opts.setValue("lightHighlightTheme", BUNDLED_THEMES[0]);
             strictEqual(
                 opts.getValue("lightHighlightTheme"),
-                BUNDLED_THEMES[0]
+                BUNDLED_THEMES[0],
             );
 
             throws(() =>
-                opts.setValue("darkHighlightTheme", "randomTheme" as never)
+                opts.setValue("darkHighlightTheme", "randomTheme" as never),
             );
             opts.setValue("darkHighlightTheme", BUNDLED_THEMES[0]);
             strictEqual(opts.getValue("darkHighlightTheme"), BUNDLED_THEMES[0]);
@@ -27,7 +27,7 @@ describe("Default Options", () => {
     describe("sort", () => {
         it("Errors if an invalid sort version is provided", () => {
             throws(() =>
-                opts.setValue("sort", ["random", "alphabetical"] as never)
+                opts.setValue("sort", ["random", "alphabetical"] as never),
             );
         });
 
@@ -65,13 +65,13 @@ describe("Default Options", () => {
     describe("requiredToBeDocumented", () => {
         it("Works with valid values", () => {
             doesNotThrow(() =>
-                opts.setValue("requiredToBeDocumented", ["Enum"])
+                opts.setValue("requiredToBeDocumented", ["Enum"]),
             );
         });
 
         it("Throws on invalid values", () => {
             throws(() =>
-                opts.setValue("requiredToBeDocumented", ["Enum2" as never])
+                opts.setValue("requiredToBeDocumented", ["Enum2" as never]),
             );
         });
     });
@@ -85,7 +85,7 @@ describe("Default Options", () => {
             throws(() =>
                 opts.setValue("searchCategoryBoosts", {
                     cat: true as any as number,
-                })
+                }),
             );
         });
     });
@@ -99,7 +99,7 @@ describe("Default Options", () => {
             throws(() =>
                 opts.setValue("searchGroupBoosts", {
                     Enum: true as any as number,
-                })
+                }),
             );
         });
 
@@ -117,7 +117,7 @@ describe("Default Options", () => {
             throws(() =>
                 opts.setValue("navigationLinks", {
                     Home: true as any as string,
-                })
+                }),
             );
         });
     });
@@ -131,7 +131,7 @@ describe("Default Options", () => {
             throws(() =>
                 opts.setValue("sidebarLinks", {
                     Home: true as any as string,
-                })
+                }),
             );
         });
     });

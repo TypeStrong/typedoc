@@ -19,7 +19,7 @@ const tsConfigCache: Record<string, ts.ParsedCommandLine> = {};
 
 export function readTsConfig(
     path: string,
-    logger: Logger
+    logger: Logger,
 ): ts.ParsedCommandLine | undefined {
     if (tsConfigCache[path]) {
         return tsConfigCache[path];
@@ -31,7 +31,7 @@ export function readTsConfig(
         {
             ...ts.sys,
             onUnRecoverableConfigFileDiagnostic: logger.diagnostic.bind(logger),
-        }
+        },
     );
 
     if (!parsed) {

@@ -10,7 +10,7 @@ function convertValidationFile(file: string) {
     const app = getConverter2App();
     const program = getConverter2Program();
     const sourceFile = program.getSourceFile(
-        join(__dirname, "converter2/validation", file)
+        join(__dirname, "converter2/validation", file),
     );
 
     ok(sourceFile, "Specified source file does not exist.");
@@ -30,7 +30,7 @@ function expectWarning(
     typeName: string,
     file: string,
     referencingName: string,
-    intentionallyNotExported: readonly string[] = []
+    intentionallyNotExported: readonly string[] = [],
 ) {
     const project = convertValidationFile(file);
 
@@ -38,18 +38,18 @@ function expectWarning(
     validateExports(project, logger, intentionallyNotExported);
 
     logger.expectMessage(
-        `warn: ${typeName}, defined in */${file}, is referenced by ${referencingName} but not included in the documentation.`
+        `warn: ${typeName}, defined in */${file}, is referenced by ${referencingName} but not included in the documentation.`,
     );
 }
 
 function expectNoWarning(
     file: string,
-    intentionallyNotExported: readonly string[] = []
+    intentionallyNotExported: readonly string[] = [],
 ) {
     const app = getConverter2App();
     const program = getConverter2Program();
     const sourceFile = program.getSourceFile(
-        join(__dirname, "converter2/validation", file)
+        join(__dirname, "converter2/validation", file),
     );
 
     ok(sourceFile, "Specified source file does not exist.");
@@ -127,7 +127,7 @@ describe("validateExports", () => {
         const app = getConverter2App();
         const program = getConverter2Program();
         const sourceFile = program.getSourceFile(
-            join(__dirname, "converter2/validation/variable.ts")
+            join(__dirname, "converter2/validation/variable.ts"),
         );
 
         ok(sourceFile, "Specified source file does not exist.");
@@ -150,11 +150,11 @@ describe("validateExports", () => {
                     sawWarning = true;
                     ok(
                         message.includes("notDefined"),
-                        "Should have included a warning about notDefined"
+                        "Should have included a warning about notDefined",
                     );
                     ok(
                         !message.includes("Foo"),
-                        "Should not include a warn about Foo"
+                        "Should not include a warn about Foo",
                     );
                 }
             }
@@ -172,7 +172,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Function"]);
 
         logger.expectMessage(
-            "warn: bar, defined in */function.ts, does not have any documentation."
+            "warn: bar, defined in */function.ts, does not have any documentation.",
         );
         logger.expectNoOtherMessages();
     });
@@ -183,7 +183,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Accessor"]);
 
         logger.expectMessage(
-            "warn: Foo.foo, defined in */getSignature.ts, does not have any documentation."
+            "warn: Foo.foo, defined in */getSignature.ts, does not have any documentation.",
         );
         logger.expectNoOtherMessages();
     });
@@ -194,7 +194,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Constructor"]);
 
         logger.expectMessage(
-            "warn: Foo.constructor, defined in */class.ts, does not have any documentation."
+            "warn: Foo.constructor, defined in */class.ts, does not have any documentation.",
         );
         logger.expectNoOtherMessages();
     });
@@ -205,7 +205,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Method"]);
 
         logger.expectMessage(
-            "warn: Foo.method, defined in */interface.ts, does not have any documentation."
+            "warn: Foo.method, defined in */interface.ts, does not have any documentation.",
         );
         logger.expectNoOtherMessages();
     });

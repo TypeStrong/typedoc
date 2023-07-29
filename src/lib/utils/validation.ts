@@ -64,7 +64,7 @@ export type Schema =
  */
 export function validate<T extends Schema>(
     schema: T,
-    obj: unknown
+    obj: unknown,
 ): obj is Infer<T>;
 export function validate(schema: Schema, obj: any): boolean {
     let type: any = schema;
@@ -116,7 +116,7 @@ export function validate(schema: Schema, obj: any): boolean {
         typeof obj === "object" &&
         !Array.isArray(obj) &&
         Object.entries<Schema>(type).every(([key, prop]) =>
-            validate(prop, obj[key])
+            validate(prop, obj[key]),
         )
     );
 }

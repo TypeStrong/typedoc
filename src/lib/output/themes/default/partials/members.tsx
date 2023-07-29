@@ -13,13 +13,13 @@ export function members(context: DefaultThemeRenderContext, props: ContainerRefl
                             <section
                                 class={classNames(
                                     { "tsd-panel-group": true, "tsd-member-group": true },
-                                    props instanceof DeclarationReflection ? context.getReflectionClasses(props) : ""
+                                    props instanceof DeclarationReflection ? context.getReflectionClasses(props) : "",
                                 )}
                             >
                                 <h2>{item.title}</h2>
                                 {item.children.map((item) => !item.hasOwnDocument && context.member(item))}
                             </section>
-                        )
+                        ),
                 )}
             </>
         );

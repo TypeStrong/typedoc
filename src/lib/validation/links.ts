@@ -24,13 +24,13 @@ function getBrokenLinks(comment: Comment | undefined) {
 
 export function validateLinks(
     project: ProjectReflection,
-    logger: Logger
+    logger: Logger,
 ): void {
     for (const id in project.reflections) {
         const reflection = project.reflections[id];
         for (const broken of getBrokenLinks(reflection.comment)) {
             logger.warn(
-                `Failed to resolve link to "${broken}" in comment for ${reflection.getFriendlyFullName()}.`
+                `Failed to resolve link to "${broken}" in comment for ${reflection.getFriendlyFullName()}.`,
             );
         }
     }

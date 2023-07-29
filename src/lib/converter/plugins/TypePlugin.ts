@@ -37,7 +37,7 @@ export class TypePlugin extends ConverterComponent {
             this.resolve(
                 project,
                 project.reflections[id],
-                /* create links */ false
+                /* create links */ false,
             );
         }
         this.finishResolve(project);
@@ -51,7 +51,7 @@ export class TypePlugin extends ConverterComponent {
     private resolve(
         project: ProjectReflection,
         reflection: Reflection,
-        createLinks = true
+        createLinks = true,
     ) {
         if (!(reflection instanceof DeclarationReflection)) return;
 
@@ -66,8 +66,8 @@ export class TypePlugin extends ConverterComponent {
                         ReferenceType.createResolvedReference(
                             reflection.name,
                             reflection,
-                            project
-                        )
+                            project,
+                        ),
                     );
                 }
             });
@@ -81,8 +81,8 @@ export class TypePlugin extends ConverterComponent {
                         ReferenceType.createResolvedReference(
                             reflection.name,
                             reflection,
-                            project
-                        )
+                            project,
+                        ),
                     );
                 }
             });
@@ -90,7 +90,7 @@ export class TypePlugin extends ConverterComponent {
 
         function walk(
             types: Type[] | undefined,
-            callback: { (declaration: DeclarationReflection): void }
+            callback: { (declaration: DeclarationReflection): void },
         ) {
             if (!types) {
                 return;
@@ -149,7 +149,7 @@ export class TypePlugin extends ConverterComponent {
                 ReferenceType.createResolvedReference(
                     reflection.name,
                     reflection,
-                    project
+                    project,
                 ),
             ]);
             hierarchy.isTarget = true;
