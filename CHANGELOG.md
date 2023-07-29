@@ -2,6 +2,7 @@
 
 ### Features
 
+-   Added a no-results placeholder when no search results are available, #2347.
 -   Implemented several miscellaneous performance improvements to generate docs faster, this took the time to generate TypeDoc's
     site from ~5.6 seconds to ~5.4 seconds.
 -   Added `--disableGit` option to prevent TypeDoc from using Git to try to determine if sources can be linked, #2326.
@@ -12,6 +13,10 @@
 
 -   Fixed duplicate definitions in type hierarchy when using packages mode, #2327.
 -   `@inheritDoc` was not properly resolved across packages in packages mode, #2331.
+
+### Thanks!
+
+-   @camc314
 
 ## v0.24.8 (2023-06-04)
 
