@@ -41,7 +41,7 @@ export abstract class Theme extends RendererComponent {
      * @returns A list of {@link UrlMapping} instances defining which models
      * should be rendered to which files.
      */
-    abstract getUrls(project: ProjectReflection): UrlMapping[];
+    abstract getUrls(project: ProjectReflection): UrlMapping<Reflection>[];
 
     /**
      * Renders the provided page to a string, which will be written to disk by the {@link Renderer}

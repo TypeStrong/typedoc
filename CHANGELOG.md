@@ -13,6 +13,7 @@
 
 -   Fixed duplicate definitions in type hierarchy when using packages mode, #2327.
 -   `@inheritDoc` was not properly resolved across packages in packages mode, #2331.
+-   Fixed misleading type annotation on `Theme.getUrls`, #2318.
 
 ### Thanks!
 

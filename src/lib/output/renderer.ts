@@ -13,7 +13,7 @@ import type { Application } from "../application";
 import type { Theme } from "./theme";
 import { RendererEvent, PageEvent, IndexEvent } from "./events";
 import type { ProjectReflection } from "../models/reflections/project";
-import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
+import type { RenderTemplate } from "./models/UrlMapping";
 import { writeFileSync } from "../utils/fs";
 import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
@@ -265,7 +265,7 @@ export class Renderer extends ChildableComponent<
             this.application.logger.verbose(
                 `There are ${output.urls.length} pages to write.`,
             );
-            output.urls.forEach((mapping: UrlMapping) => {
+            output.urls.forEach((mapping) => {
                 clearSeenIconCache();
                 this.renderDocument(...output.createPageEvent(mapping));
                 validateStateIsClean(mapping.url);

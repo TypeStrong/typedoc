@@ -3,7 +3,11 @@ import * as Path from "path";
 import { Event } from "../utils/events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
-import type { DeclarationReflection, ReflectionKind } from "../models";
+import type {
+    DeclarationReflection,
+    Reflection,
+    ReflectionKind,
+} from "../models";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -28,7 +32,7 @@ export class RendererEvent extends Event {
      *
      * This list can be altered during the {@link Renderer.EVENT_BEGIN} event.
      */
-    urls?: UrlMapping[];
+    urls?: UrlMapping<Reflection>[];
 
     /**
      * Triggered before the renderer starts rendering a project.
