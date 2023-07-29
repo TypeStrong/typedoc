@@ -504,9 +504,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 108,
+                  "line": 113,
                   "character": 20,
-                  "url": "typedoc://class.ts#L108"
+                  "url": "typedoc://class.ts#L113"
                 }
               ],
               "signatures": [
@@ -527,9 +527,9 @@
                   "sources": [
                     {
                       "fileName": "class.ts",
-                      "line": 108,
+                      "line": 113,
                       "character": 4,
-                      "url": "typedoc://class.ts#L108"
+                      "url": "typedoc://class.ts#L113"
                     }
                   ],
                   "type": {
@@ -557,15 +557,15 @@
             },
             {
               "fileName": "class.ts",
-              "line": 97,
+              "line": 102,
               "character": 17,
-              "url": "typedoc://class.ts#L97"
+              "url": "typedoc://class.ts#L102"
             },
             {
               "fileName": "class.ts",
-              "line": 104,
+              "line": 109,
               "character": 14,
-              "url": "typedoc://class.ts#L104"
+              "url": "typedoc://class.ts#L109"
             }
           ]
         },
@@ -611,9 +611,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 126,
+                  "line": 131,
                   "character": 13,
-                  "url": "typedoc://class.ts#L126"
+                  "url": "typedoc://class.ts#L131"
                 }
               ],
               "signatures": [
@@ -626,9 +626,9 @@
                   "sources": [
                     {
                       "fileName": "class.ts",
-                      "line": 126,
+                      "line": 131,
                       "character": 4,
-                      "url": "typedoc://class.ts#L126"
+                      "url": "typedoc://class.ts#L131"
                     }
                   ],
                   "type": {
@@ -656,9 +656,9 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 125,
+              "line": 130,
               "character": 22,
-              "url": "typedoc://class.ts#L125"
+              "url": "typedoc://class.ts#L130"
             }
           ]
         },
@@ -700,9 +700,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 114,
+                  "line": 119,
                   "character": 4,
-                  "url": "typedoc://class.ts#L114"
+                  "url": "typedoc://class.ts#L119"
                 }
               ],
               "type": {
@@ -720,9 +720,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 115,
+                  "line": 120,
                   "character": 4,
-                  "url": "typedoc://class.ts#L115"
+                  "url": "typedoc://class.ts#L120"
                 }
               ],
               "type": {
@@ -740,9 +740,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 116,
+                  "line": 121,
                   "character": 4,
-                  "url": "typedoc://class.ts#L116"
+                  "url": "typedoc://class.ts#L121"
                 }
               ],
               "type": {
@@ -760,9 +760,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 117,
+                  "line": 122,
                   "character": 4,
-                  "url": "typedoc://class.ts#L117"
+                  "url": "typedoc://class.ts#L122"
                 }
               ],
               "type": {
@@ -792,9 +792,9 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 113,
+              "line": 118,
               "character": 13,
-              "url": "typedoc://class.ts#L113"
+              "url": "typedoc://class.ts#L118"
             }
           ]
         },
@@ -840,9 +840,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 86,
+                  "line": 91,
                   "character": 13,
-                  "url": "typedoc://class.ts#L86"
+                  "url": "typedoc://class.ts#L91"
                 }
               ],
               "type": {
@@ -862,9 +862,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 88,
+                  "line": 93,
                   "character": 23,
-                  "url": "typedoc://class.ts#L88"
+                  "url": "typedoc://class.ts#L93"
                 }
               ],
               "signatures": [
@@ -877,9 +877,9 @@
                   "sources": [
                     {
                       "fileName": "class.ts",
-                      "line": 88,
+                      "line": 93,
                       "character": 4,
-                      "url": "typedoc://class.ts#L88"
+                      "url": "typedoc://class.ts#L93"
                     }
                   ],
                   "type": {
@@ -913,9 +913,9 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 85,
+              "line": 90,
               "character": 22,
-              "url": "typedoc://class.ts#L85"
+              "url": "typedoc://class.ts#L90"
             }
           ],
           "extendedBy": [
@@ -974,9 +974,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 92,
+                  "line": 97,
                   "character": 4,
-                  "url": "typedoc://class.ts#L92"
+                  "url": "typedoc://class.ts#L97"
                 }
               ],
               "type": {
@@ -1000,9 +1000,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 94,
+                  "line": 99,
                   "character": 14,
-                  "url": "typedoc://class.ts#L94"
+                  "url": "typedoc://class.ts#L99"
                 }
               ],
               "signatures": [
@@ -1015,9 +1015,9 @@
                   "sources": [
                     {
                       "fileName": "class.ts",
-                      "line": 94,
+                      "line": 99,
                       "character": 4,
-                      "url": "typedoc://class.ts#L94"
+                      "url": "typedoc://class.ts#L99"
                     }
                   ],
                   "type": {
@@ -1061,9 +1061,9 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 91,
+              "line": 96,
               "character": 13,
-              "url": "typedoc://class.ts#L91"
+              "url": "typedoc://class.ts#L96"
             }
           ],
           "extendedTypes": [
@@ -1725,9 +1725,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 80,
-                  "character": 28,
-                  "url": "typedoc://class.ts#L80"
+                  "line": 82,
+                  "character": 16,
+                  "url": "typedoc://class.ts#L82"
                 }
               ],
               "type": {
@@ -1754,9 +1754,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 80,
-                  "character": 47,
-                  "url": "typedoc://class.ts#L80"
+                  "line": 83,
+                  "character": 15,
+                  "url": "typedoc://class.ts#L83"
                 }
               ],
               "type": {
@@ -1783,9 +1783,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 80,
-                  "character": 66,
-                  "url": "typedoc://class.ts#L80"
+                  "line": 84,
+                  "character": 15,
+                  "url": "typedoc://class.ts#L84"
                 }
               ],
               "type": {
@@ -1926,9 +1926,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 101,
+                  "line": 106,
                   "character": 4,
-                  "url": "typedoc://class.ts#L101"
+                  "url": "typedoc://class.ts#L106"
                 }
               ],
               "signatures": [
@@ -1949,9 +1949,9 @@
                   "sources": [
                     {
                       "fileName": "class.ts",
-                      "line": 101,
+                      "line": 106,
                       "character": 4,
-                      "url": "typedoc://class.ts#L101"
+                      "url": "typedoc://class.ts#L106"
                     }
                   ],
                   "type": {
@@ -2167,15 +2167,15 @@
             },
             {
               "fileName": "class.ts",
-              "line": 97,
+              "line": 102,
               "character": 17,
-              "url": "typedoc://class.ts#L97"
+              "url": "typedoc://class.ts#L102"
             },
             {
               "fileName": "class.ts",
-              "line": 104,
+              "line": 109,
               "character": 14,
-              "url": "typedoc://class.ts#L104"
+              "url": "typedoc://class.ts#L109"
             }
           ],
           "extendedTypes": [
@@ -2235,9 +2235,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 122,
+                  "line": 127,
                   "character": 4,
-                  "url": "typedoc://class.ts#L122"
+                  "url": "typedoc://class.ts#L127"
                 }
               ],
               "type": {
@@ -2264,9 +2264,9 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 120,
+              "line": 125,
               "character": 13,
-              "url": "typedoc://class.ts#L120"
+              "url": "typedoc://class.ts#L125"
             }
           ]
         },
@@ -2279,9 +2279,9 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 130,
+              "line": 135,
               "character": 12,
-              "url": "typedoc://class.ts#L130"
+              "url": "typedoc://class.ts#L135"
             }
           ],
           "type": {
@@ -2295,9 +2295,9 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 130,
+                  "line": 135,
                   "character": 25,
-                  "url": "typedoc://class.ts#L130"
+                  "url": "typedoc://class.ts#L135"
                 }
               ],
               "signatures": [
@@ -2494,9 +2494,9 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 10,
-                  "character": 61,
-                  "url": "typedoc://constructor-properties.ts#L10"
+                  "line": 13,
+                  "character": 17,
+                  "url": "typedoc://constructor-properties.ts#L13"
                 }
               ],
               "type": {
@@ -2523,9 +2523,9 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 10,
-                  "character": 23,
-                  "url": "typedoc://constructor-properties.ts#L10"
+                  "line": 11,
+                  "character": 15,
+                  "url": "typedoc://constructor-properties.ts#L11"
                 }
               ],
               "type": {
@@ -2552,9 +2552,9 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 10,
-                  "character": 41,
-                  "url": "typedoc://constructor-properties.ts#L10"
+                  "line": 12,
+                  "character": 15,
+                  "url": "typedoc://constructor-properties.ts#L12"
                 }
               ],
               "type": {
@@ -2619,9 +2619,9 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 23,
+                  "line": 27,
                   "character": 4,
-                  "url": "typedoc://constructor-properties.ts#L23"
+                  "url": "typedoc://constructor-properties.ts#L27"
                 }
               ],
               "signatures": [
@@ -2634,9 +2634,9 @@
                   "sources": [
                     {
                       "fileName": "constructor-properties.ts",
-                      "line": 23,
+                      "line": 27,
                       "character": 4,
-                      "url": "typedoc://constructor-properties.ts#L23"
+                      "url": "typedoc://constructor-properties.ts#L27"
                     }
                   ],
                   "parameters": [
@@ -2755,9 +2755,9 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 27,
+                  "line": 31,
                   "character": 17,
-                  "url": "typedoc://constructor-properties.ts#L27"
+                  "url": "typedoc://constructor-properties.ts#L31"
                 }
               ],
               "type": {
@@ -2789,9 +2789,9 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 10,
-                  "character": 23,
-                  "url": "typedoc://constructor-properties.ts#L10"
+                  "line": 11,
+                  "character": 15,
+                  "url": "typedoc://constructor-properties.ts#L11"
                 }
               ],
               "type": {
@@ -2823,9 +2823,9 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 25,
+                  "line": 29,
                   "character": 15,
-                  "url": "typedoc://constructor-properties.ts#L25"
+                  "url": "typedoc://constructor-properties.ts#L29"
                 }
               ],
               "type": {
@@ -2857,9 +2857,9 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 26,
+                  "line": 30,
                   "character": 15,
-                  "url": "typedoc://constructor-properties.ts#L26"
+                  "url": "typedoc://constructor-properties.ts#L30"
                 }
               ],
               "type": {
@@ -2888,9 +2888,9 @@
           "sources": [
             {
               "fileName": "constructor-properties.ts",
-              "line": 16,
+              "line": 20,
               "character": 13,
-              "url": "typedoc://constructor-properties.ts#L16"
+              "url": "typedoc://constructor-properties.ts#L20"
             }
           ],
           "extendedTypes": [
