@@ -134,10 +134,20 @@ export function discoverComment(
     // not the last one, since that will apply to the import or declaration.
     const reverse = !symbol.declarations?.some(ts.isSourceFile);
 
+    const seenLocations = new Set<string>();
     const discovered: DiscoveredComment[] = [];
 
     for (const decl of symbol.declarations || []) {
-        const text = decl.getSourceFile().text;
+        const file = decl.getSourceFile();
+        const text = file.text;
+        const location = `${file.fileName}:${decl.pos}`;
+
+        if (seenLocations.has(location)) {
+            continue;
+        } else {
+            seenLocations.add(location);
+        }
+
         if (wantedKinds[kind].includes(decl.kind)) {
             const node = declarationToCommentNode(decl);
             if (!node) {
@@ -175,7 +185,7 @@ export function discoverComment(
 
             if (selectedDocComment) {
                 discovered.push({
-                    file: decl.getSourceFile(),
+                    file,
                     ranges: selectedDocComment,
                     jsDoc: findJsDocForComment(node, selectedDocComment),
                 });
