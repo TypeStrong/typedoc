@@ -382,6 +382,13 @@ function convertTypeAliasAsInterface(
 
     const type = context.checker.getTypeAtLocation(declaration);
 
+    if (type.getFlags() & ts.TypeFlags.Union) {
+        context.logger.warn(
+            `Using @interface on a union type will discard properties not present on all branches of the union. TypeDoc's output may not accurately describe your source code.`,
+            declaration,
+        );
+    }
+
     // Interfaces have properties
     convertSymbols(rc, type.getProperties());
 
