@@ -675,7 +675,7 @@
                 {
                   "fileName": "mapped.ts",
                   "line": 9,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://mapped.ts#L9"
                 }
               ],
@@ -778,7 +778,7 @@
                 {
                   "fileName": "mapped.ts",
                   "line": 1,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://mapped.ts#L1"
                 }
               ],

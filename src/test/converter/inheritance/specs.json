@@ -374,7 +374,7 @@
                 {
                   "fileName": "inherit-doc.ts",
                   "line": 58,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://inherit-doc.ts#L58"
                 }
               ],
@@ -481,7 +481,7 @@
                 {
                   "fileName": "inherit-doc.ts",
                   "line": 68,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://inherit-doc.ts#L68"
                 }
               ],
@@ -563,7 +563,7 @@
                 {
                   "fileName": "inherit-doc.ts",
                   "line": 85,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://inherit-doc.ts#L85"
                 }
               ],

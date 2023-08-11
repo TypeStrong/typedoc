@@ -259,7 +259,7 @@
                 {
                   "fileName": "comment2.ts",
                   "line": 8,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://comment2.ts#L8"
                 }
               ],
@@ -360,7 +360,7 @@
                 {
                   "fileName": "comment3.ts",
                   "line": 8,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://comment3.ts#L8"
                 }
               ],
@@ -457,7 +457,7 @@
                 {
                   "fileName": "comment4.ts",
                   "line": 11,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://comment4.ts#L11"
                 }
               ],

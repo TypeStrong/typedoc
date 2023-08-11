@@ -14,6 +14,7 @@ export class SourceReference {
 
     /**
      * The absolute filename of the source file.
+     * @internal
      */
     fullFileName: string;
 
@@ -37,6 +38,14 @@ export class SourceReference {
         this.fullFileName = fileName;
         this.line = line;
         this.character = character;
+    }
+
+    equals(other: SourceReference) {
+        return (
+            this.fullFileName == other.fullFileName &&
+            this.line === other.line &&
+            this.character === other.character
+        );
     }
 
     toObject(): JSONSourceReference {

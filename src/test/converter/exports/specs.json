@@ -330,7 +330,7 @@
                 {
                   "fileName": "export.ts",
                   "line": 7,
-                  "character": 0,
+                  "character": 9,
                   "url": "typedoc://export.ts#L7"
                 }
               ],
@@ -484,7 +484,7 @@
                 {
                   "fileName": "export-assignment.ts",
                   "line": 1,
-                  "character": 0,
+                  "character": 9,
                   "url": "typedoc://export-assignment.ts#L1"
                 }
               ],
@@ -638,7 +638,7 @@
                 {
                   "fileName": "export-with-local.ts",
                   "line": 6,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://export-with-local.ts#L6"
                 }
               ],

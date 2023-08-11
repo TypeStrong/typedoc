@@ -114,7 +114,7 @@
                   {
                     "fileName": "access.ts",
                     "line": 59,
-                    "character": 4,
+                    "character": 23,
                     "url": "typedoc://access.ts#L59"
                   }
                 ],
@@ -390,7 +390,7 @@
                 {
                   "fileName": "access.ts",
                   "line": 17,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://access.ts#L17"
                 }
               ],
@@ -438,7 +438,7 @@
                 {
                   "fileName": "access.ts",
                   "line": 23,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://access.ts#L23"
                 }
               ],
@@ -528,7 +528,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 113,
-                      "character": 4,
+                      "character": 20,
                       "url": "typedoc://class.ts#L113"
                     }
                   ],
@@ -627,7 +627,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 131,
-                      "character": 4,
+                      "character": 13,
                       "url": "typedoc://class.ts#L131"
                     }
                   ],
@@ -878,7 +878,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 93,
-                      "character": 4,
+                      "character": 23,
                       "url": "typedoc://class.ts#L93"
                     }
                   ],
@@ -1016,7 +1016,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 99,
-                      "character": 4,
+                      "character": 14,
                       "url": "typedoc://class.ts#L99"
                     }
                   ],
@@ -1324,7 +1324,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 48,
-                      "character": 4,
+                      "character": 12,
                       "url": "typedoc://class.ts#L48"
                     }
                   ],
@@ -1370,7 +1370,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 41,
-                      "character": 4,
+                      "character": 14,
                       "url": "typedoc://class.ts#L41"
                     }
                   ],
@@ -1416,7 +1416,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 34,
-                      "character": 4,
+                      "character": 11,
                       "url": "typedoc://class.ts#L34"
                     }
                   ],
@@ -1462,7 +1462,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 53,
-                      "character": 4,
+                      "character": 11,
                       "url": "typedoc://class.ts#L53"
                     }
                   ],
@@ -2000,7 +2000,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 70,
-                      "character": 4,
+                      "character": 14,
                       "url": "typedoc://class.ts#L70"
                     }
                   ],
@@ -2056,7 +2056,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 65,
-                      "character": 4,
+                      "character": 11,
                       "url": "typedoc://class.ts#L65"
                     }
                   ],
@@ -2112,7 +2112,7 @@
                     {
                       "fileName": "class.ts",
                       "line": 53,
-                      "character": 4,
+                      "character": 11,
                       "url": "typedoc://class.ts#L53"
                     }
                   ],
@@ -3001,9 +3001,9 @@
                   "sources": [
                     {
                       "fileName": "decorators.ts",
-                      "line": 11,
+                      "line": 13,
                       "character": 4,
-                      "url": "typedoc://decorators.ts#L11"
+                      "url": "typedoc://decorators.ts#L13"
                     }
                   ],
                   "type": {
@@ -3070,7 +3070,7 @@
                 {
                   "fileName": "decorators.ts",
                   "line": 19,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://decorators.ts#L19"
                 }
               ],
@@ -3174,7 +3174,7 @@
                 {
                   "fileName": "decorators.ts",
                   "line": 48,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://decorators.ts#L48"
                 }
               ],
@@ -3295,7 +3295,7 @@
                 {
                   "fileName": "decorators.ts",
                   "line": 32,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://decorators.ts#L32"
                 }
               ],
@@ -4717,7 +4717,7 @@
                   {
                     "fileName": "getter-setter.ts",
                     "line": 4,
-                    "character": 4,
+                    "character": 8,
                     "url": "typedoc://getter-setter.ts#L4"
                   }
                 ],
@@ -4736,7 +4736,7 @@
                   {
                     "fileName": "getter-setter.ts",
                     "line": 7,
-                    "character": 4,
+                    "character": 8,
                     "url": "typedoc://getter-setter.ts#L7"
                   }
                 ],
@@ -4783,7 +4783,7 @@
                   {
                     "fileName": "getter-setter.ts",
                     "line": 11,
-                    "character": 4,
+                    "character": 8,
                     "url": "typedoc://getter-setter.ts#L11"
                   }
                 ],
@@ -4817,7 +4817,7 @@
                   {
                     "fileName": "getter-setter.ts",
                     "line": 15,
-                    "character": 4,
+                    "character": 8,
                     "url": "typedoc://getter-setter.ts#L15"
                   }
                 ],
@@ -4910,7 +4910,7 @@
                   {
                     "fileName": "getter-setter.ts",
                     "line": 26,
-                    "character": 4,
+                    "character": 8,
                     "url": "typedoc://getter-setter.ts#L26"
                   }
                 ],
@@ -4929,7 +4929,7 @@
                   {
                     "fileName": "getter-setter.ts",
                     "line": 27,
-                    "character": 4,
+                    "character": 8,
                     "url": "typedoc://getter-setter.ts#L27"
                   }
                 ],
@@ -5073,7 +5073,7 @@
                     {
                       "fileName": "this.ts",
                       "line": 10,
-                      "character": 4,
+                      "character": 11,
                       "url": "typedoc://this.ts#L10"
                     }
                   ],

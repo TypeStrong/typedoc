@@ -1,7 +1,10 @@
 import ts from "typescript";
 
-export function isNamedNode(node: ts.Node): node is ts.Node & {
-    name: ts.Identifier | ts.PrivateIdentifier | ts.ComputedPropertyName;
+export function isNamedNode(node: unknown): node is {
+    readonly name:
+        | ts.Identifier
+        | ts.PrivateIdentifier
+        | ts.ComputedPropertyName;
 } {
     const name: ts.Node | undefined = (node as any).name;
     return !!name && (ts.isMemberName(name) || ts.isComputedPropertyName(name));

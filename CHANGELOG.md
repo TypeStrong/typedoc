@@ -19,6 +19,7 @@
 -   `@inheritDoc` was not properly resolved across packages in packages mode, #2331.
 -   Added warning for attempted `@interface` use on union types, #2352.
 -   Fixed misleading type annotation on `Theme.getUrls`, #2318.
+-   Symbol locations for signatures on `reflection.sources` now considers the node's name like non-signature location discovery does.
 
 ### Thanks!
 

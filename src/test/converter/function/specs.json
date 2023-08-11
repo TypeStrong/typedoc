@@ -154,7 +154,7 @@
                     {
                       "fileName": "function.ts",
                       "line": 269,
-                      "character": 4,
+                      "character": 20,
                       "url": "typedoc://function.ts#L269"
                     }
                   ],
@@ -198,7 +198,7 @@
                     {
                       "fileName": "function.ts",
                       "line": 274,
-                      "character": 4,
+                      "character": 20,
                       "url": "typedoc://function.ts#L274"
                     }
                   ],
@@ -378,7 +378,7 @@
                     {
                       "fileName": "function.ts",
                       "line": 284,
-                      "character": 4,
+                      "character": 11,
                       "url": "typedoc://function.ts#L284"
                     }
                   ],
@@ -430,7 +430,7 @@
                     {
                       "fileName": "function.ts",
                       "line": 278,
-                      "character": 4,
+                      "character": 11,
                       "url": "typedoc://function.ts#L278"
                     }
                   ],
@@ -819,7 +819,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 241,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L241"
                 }
               ],
@@ -907,7 +907,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 227,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L227"
                 }
               ],
@@ -965,7 +965,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 298,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L298"
                 }
               ],
@@ -1031,7 +1031,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 233,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L233"
                 }
               ],
@@ -1093,7 +1093,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 4,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L4"
                 }
               ],
@@ -1148,7 +1148,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 100,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L100"
                 }
               ],
@@ -1356,7 +1356,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 166,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L166"
                 }
               ],
@@ -1520,7 +1520,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 131,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L131"
                 }
               ],
@@ -1687,7 +1687,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 62,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L62"
                 }
               ],
@@ -1833,7 +1833,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 47,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L47"
                 }
               ],
@@ -1930,7 +1930,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 23,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L23"
                 }
               ],
@@ -2053,7 +2053,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 78,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L78"
                 }
               ],
@@ -2123,7 +2123,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 253,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L253"
                 }
               ],
@@ -2209,7 +2209,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 304,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L304"
                 }
               ],
@@ -2259,7 +2259,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 218,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L218"
                 }
               ],
@@ -2336,7 +2336,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 183,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L183"
                 }
               ],
@@ -2384,7 +2384,7 @@
                 {
                   "fileName": "function.ts",
                   "line": 191,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://function.ts#L191"
                 }
               ],
@@ -2642,7 +2642,7 @@
                 {
                   "fileName": "generic-function.ts",
                   "line": 18,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://generic-function.ts#L18"
                 }
               ],
@@ -2739,7 +2739,7 @@
                 {
                   "fileName": "generic-function.ts",
                   "line": 29,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://generic-function.ts#L29"
                 }
               ],
@@ -2836,7 +2836,7 @@
                 {
                   "fileName": "generic-function.ts",
                   "line": 7,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://generic-function.ts#L7"
                 }
               ],
@@ -3014,7 +3014,7 @@
                 {
                   "fileName": "implicit-types.ts",
                   "line": 14,
-                  "character": 0,
+                  "character": 16,
                   "url": "typedoc://implicit-types.ts#L14"
                 }
               ],

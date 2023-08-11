@@ -95,17 +95,12 @@ export class SourcePlugin extends ConverterComponent {
             this.fileNames.add(fileName);
 
             let position: ts.LineAndCharacter;
-            if (isNamedNode(node)) {
-                position = ts.getLineAndCharacterOfPosition(
-                    sourceFile,
-                    node.name.getStart(),
-                );
-            } else if (ts.isSourceFile(node)) {
+            if (ts.isSourceFile(node)) {
                 position = { character: 0, line: 0 };
             } else {
                 position = ts.getLineAndCharacterOfPosition(
                     sourceFile,
-                    node.getStart(),
+                    getLocationNode(node).getStart(),
                 );
             }
 
@@ -136,7 +131,7 @@ export class SourcePlugin extends ConverterComponent {
 
         const position = ts.getLineAndCharacterOfPosition(
             sourceFile,
-            sig.getStart(),
+            getLocationNode(sig).getStart(),
         );
 
         reflection.sources ||= [];
@@ -254,4 +249,9 @@ export class SourcePlugin extends ConverterComponent {
         // No repository found, add path to ignored paths
         this.ignoredPaths.add(dirName);
     }
+}
+
+function getLocationNode(node: ts.Node) {
+    if (isNamedNode(node)) return node.name;
+    return node;
 }

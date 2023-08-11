@@ -552,7 +552,7 @@
                     {
                       "fileName": "interface-empty.ts",
                       "line": 11,
-                      "character": 4,
+                      "character": 11,
                       "url": "typedoc://interface-empty.ts#L11"
                     }
                   ],
