@@ -1,5 +1,9 @@
 # Unreleased
 
+### Breaking Changes
+
+-   Bump minimum Node version to 16.
+
 ### Features
 
 -   Added a no-results placeholder when no search results are available, #2347.
