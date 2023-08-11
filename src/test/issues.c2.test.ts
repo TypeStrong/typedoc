@@ -763,7 +763,7 @@ describe("Issue Tests", () => {
         const b = query(project, "b");
         equal(b.signatures![0].sources?.[0].fileName, "gh1996.ts");
         equal(b.signatures![0].sources?.[0].line, 3);
-        equal(b.signatures![0].sources?.[0].character, 0);
+        equal(b.signatures![0].sources?.[0].character, 16);
     });
 
     it("#2008", () => {
@@ -1130,5 +1130,12 @@ describe("Issue Tests", () => {
         const sig = getNamesExactly.signatures![0];
         const tp = sig.typeParameters![0];
         equal(tp.flags.isConst, true);
+    });
+
+    it("Handles duplicate declarations with @namespace #2364", () => {
+        const project = convert();
+        equal(project.children?.map((c) => c.name), ["NS"]);
+        const ns = query(project, "NS");
+        equal(ns.children?.map((c) => c.name), ["T", "property"]);
     });
 });

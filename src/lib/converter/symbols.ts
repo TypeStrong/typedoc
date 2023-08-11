@@ -287,12 +287,22 @@ function convertNamespace(
         }
     }
 
-    const reflection = context.createDeclarationReflection(
-        ReflectionKind.Namespace,
-        symbol,
-        exportSymbol,
+    // #2364, @namespace on a variable might be merged with a namespace containing types.
+    const existingReflection = context.project.getReflectionFromSymbol(
+        exportSymbol || symbol,
     );
-    context.finalizeDeclarationReflection(reflection);
+
+    let reflection: DeclarationReflection;
+    if (existingReflection?.kind === ReflectionKind.Namespace) {
+        reflection = existingReflection as DeclarationReflection;
+    } else {
+        reflection = context.createDeclarationReflection(
+            ReflectionKind.Namespace,
+            symbol,
+            exportSymbol,
+        );
+        context.finalizeDeclarationReflection(reflection);
+    }
 
     convertSymbols(
         context.withScope(reflection),
