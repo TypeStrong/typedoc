@@ -971,7 +971,8 @@ function convertVariableAsNamespace(
     context.finalizeDeclarationReflection(reflection);
     const rc = context.withScope(reflection);
 
-    const declaration = symbol.declarations![0] as ts.VariableDeclaration;
+    const declaration = symbol.declarations?.find(ts.isVariableDeclaration);
+    assert(declaration, "Missing variable declaration");
     const type = context.checker.getTypeAtLocation(declaration);
 
     convertSymbols(rc, type.getProperties());

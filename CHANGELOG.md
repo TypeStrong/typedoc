@@ -20,6 +20,7 @@
 -   Added warning for attempted `@interface` use on union types, #2352.
 -   Fixed misleading type annotation on `Theme.getUrls`, #2318.
 -   Fixed duplicate namespace in documentation if `@namespace` is used on a variable with an associated namespace, #2364.
+-   Fixed `@namespace` property discovery if merged with a type and the type was declared first #2364.
 -   Symbol locations for signatures on `reflection.sources` now considers the node's name like non-signature location discovery does.
 
 ### Thanks!

@@ -1134,8 +1134,16 @@ describe("Issue Tests", () => {
 
     it("Handles duplicate declarations with @namespace #2364", () => {
         const project = convert();
-        equal(project.children?.map((c) => c.name), ["NS"]);
+        equal(project.children?.map((c) => c.name), ["NS", "NS2", "NS2"]);
         const ns = query(project, "NS");
         equal(ns.children?.map((c) => c.name), ["T", "property"]);
+    });
+
+    it("Gets properties when types/variables are merged with @namespace #2364", () => {
+        const project = convert();
+        const ns = project.children?.find(
+            (c) => c.name == "NS2" && c.kind == ReflectionKind.Namespace,
+        );
+        equal(ns?.children?.map((c) => c.name), ["property"]);
     });
 });
