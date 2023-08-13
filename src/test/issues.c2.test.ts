@@ -1132,6 +1132,14 @@ describe("Issue Tests", () => {
         equal(tp.flags.isConst, true);
     });
 
+    it("Supports nested paths with tsLinkResolution #2360", () => {
+        const project = convert();
+        const x = query(project, "x");
+        const link = x.comment?.summary[0];
+        equal(link?.kind, "inline-tag");
+        equal(link.target, query(project, "Foo.bar"));
+    });
+
     it("Handles duplicate declarations with @namespace #2364", () => {
         const project = convert();
         equal(project.children?.map((c) => c.name), ["NS", "NS2", "NS2"]);

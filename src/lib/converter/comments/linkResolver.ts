@@ -99,6 +99,10 @@ function resolveLinkTag(
         pos++;
     }
 
+    if (part.text.trim() === "TestBase#timeout") {
+        debugger;
+    }
+
     let target: Reflection | string | undefined;
     // Try to parse a declaration reference if we didn't use the TS symbol for resolution
     const declRef = parseDeclarationReference(part.text, pos, end);

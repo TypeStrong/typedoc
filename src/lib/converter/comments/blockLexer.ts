@@ -332,7 +332,9 @@ function* lexBlockComment2(
         ) {
             const link = linkTags[linkTagIndex];
             if (link.name) {
-                const tsTarget = checker?.getSymbolAtLocation(link.name);
+                const tsTarget = checker?.getSymbolAtLocation(
+                    getRightmostName(link.name),
+                );
                 if (tsTarget) {
                     token.tsLinkTarget = new ReflectionSymbolId(
                         resolveAliasedSymbol(tsTarget, checker!),
@@ -464,4 +466,15 @@ function discoverIndent(
     const commentHasStars = pos < end && file[pos] === "*";
 
     return [commentHasStars, indent];
+}
+
+function getRightmostName(name: ts.EntityName | ts.JSDocMemberName) {
+    if (ts.isJSDocMemberName(name)) {
+        return name.right;
+    }
+    if (ts.isQualifiedName(name)) {
+        return name.right;
+    }
+
+    return name;
 }
