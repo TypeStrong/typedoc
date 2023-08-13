@@ -218,7 +218,6 @@ export class Comment {
                 case "code":
                     return { ...part };
                 case "inline-tag": {
-                    if (part.text === "TestBase#timeout") debugger;
                     let target: JSONOutput.InlineTagDisplayPart["target"];
                     if (typeof part.target === "string") {
                         target = part.target;
@@ -251,7 +250,6 @@ export class Comment {
                 case "code":
                     return { ...part };
                 case "inline-tag": {
-                    if (part.text === "TestBase#timeout") debugger;
                     if (typeof part.target === "number") {
                         const part2 = {
                             kind: part.kind,
