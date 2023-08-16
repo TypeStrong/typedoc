@@ -16,6 +16,7 @@
 ### Bug Fixes
 
 -   Fixed link discovery if nested (`Foo#bar`) links were used and `--useTsLinkResolution` is enabled in some cases, #2360.
+-   Links with invalid declaration references will no longer silently link to the wrong page in some cases, #2360.
 -   Fixed duplicate definitions in type hierarchy when using packages mode, #2327.
 -   `@inheritDoc` was not properly resolved across packages in packages mode, #2331.
 -   Added warning for attempted `@interface` use on union types, #2352.

@@ -442,6 +442,8 @@ export function parseDeclarationReference(
         pos = ref[1];
     }
 
+    if (!moduleSource && !symbolReference) return;
+
     return [
         {
             moduleSource,

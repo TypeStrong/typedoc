@@ -211,12 +211,9 @@ describe("Declaration References", () => {
             });
         });
 
-        it("Doesn't crash with an empty reference", () => {
-            equal(parse(""), {
-                moduleSource: undefined,
-                resolutionStart: "local",
-                symbolReference: undefined,
-            });
+        it("Doesn't crash with an empty/invalid reference", () => {
+            equal(parse(""), undefined);
+            equal(parse("@test/foo"), undefined);
         });
     });
 });

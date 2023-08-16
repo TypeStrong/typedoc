@@ -29,8 +29,18 @@ export function validateLinks(
     for (const id in project.reflections) {
         const reflection = project.reflections[id];
         for (const broken of getBrokenLinks(reflection.comment)) {
+            // #2360, "@" is a future reserved character in TSDoc component paths
+            // If a link starts with it, and doesn't include a module source indicator "!"
+            // then the user probably is trying to link to a package containing "@" with an absolute link.
+            let extra = "";
+            if (broken.startsWith("@") && !broken.includes("!")) {
+                extra = `\n\tYou may have wanted "${broken.replace(
+                    /[.#~]/,
+                    "!",
+                )}"`;
+            }
             logger.warn(
-                `Failed to resolve link to "${broken}" in comment for ${reflection.getFriendlyFullName()}.`,
+                `Failed to resolve link to "${broken}" in comment for ${reflection.getFriendlyFullName()}.${extra}`,
             );
         }
     }
