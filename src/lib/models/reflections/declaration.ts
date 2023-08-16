@@ -9,6 +9,7 @@ import { Comment, CommentDisplayPart } from "../comments";
 import { SourceReference } from "../sources/file";
 import { ReflectionSymbolId } from "./ReflectionSymbolId";
 import { ReflectionKind } from "./kind";
+import { EntrypointInfos } from "../EntrypointInfos";
 
 /**
  * Stores hierarchical type data.
@@ -158,14 +159,16 @@ export class DeclarationReflection extends ContainerReflection {
     typeHierarchy?: DeclarationHierarchy;
 
     /**
+     * The version of the module when found.
+     */
+    packageVersion?: string;
+
+    /**
      * The contents of the readme file of the module when found.
      */
     readme?: CommentDisplayPart[];
 
-    /**
-     * The version of the module when found.
-     */
-    packageVersion?: string;
+    entrypointInfos?: EntrypointInfos;
 
     /**
      * Flags for information about a reflection which is needed solely during conversion.
@@ -292,6 +295,7 @@ export class DeclarationReflection extends ContainerReflection {
             ...super.toObject(serializer),
             variant: this.variant,
             packageVersion: this.packageVersion,
+            entrypointInfos: this.entrypointInfos,
             sources: serializer.toObjectsOptional(this.sources),
             relevanceBoost:
                 this.relevanceBoost === 1 ? undefined : this.relevanceBoost,
@@ -325,6 +329,9 @@ export class DeclarationReflection extends ContainerReflection {
         if (obj.variant === "project") {
             this.kind = ReflectionKind.Module;
             this.packageVersion = obj.packageVersion;
+            this.entrypointInfos = EntrypointInfos.fromObject(
+                obj.entrypointInfos
+            );
             if (obj.readme) {
                 this.readme = Comment.deserializeDisplayParts(de, obj.readme);
             }
@@ -350,6 +357,7 @@ export class DeclarationReflection extends ContainerReflection {
         }
 
         this.packageVersion = obj.packageVersion;
+        this.entrypointInfos = EntrypointInfos.fromObject(obj.entrypointInfos);
         this.sources = de.reviveMany(
             obj.sources,
             (src) => new SourceReference(src.fileName, src.line, src.character),

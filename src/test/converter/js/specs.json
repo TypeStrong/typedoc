@@ -95,6 +95,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/js",
+        "entrySourceFilePath": "src/test/converter/js/export-eq-type.js"
+      },
       "sources": [
         {
           "fileName": "export-eq-type.js",
@@ -960,6 +964,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/js",
+        "entrySourceFilePath": "src/test/converter/js/index.js"
+      },
       "sources": [
         {
           "fileName": "index.js",

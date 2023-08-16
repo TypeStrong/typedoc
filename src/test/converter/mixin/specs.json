@@ -2128,6 +2128,10 @@
     }
   ],
   "packageName": "typedoc",
+  "entrypointInfos": {
+    "rootDir": "src/test/converter/mixin",
+    "entrySourceFilePath": "src/test/converter/mixin/mixin.ts"
+  },
   "symbolIdMap": {
     "0": {
       "sourceFileName": "src/test/converter/mixin/mixin.ts",

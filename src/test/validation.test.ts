@@ -20,6 +20,7 @@ function convertValidationFile(file: string) {
             displayName: "validation",
             program,
             sourceFile,
+            rootDir: __dirname,
         },
     ]);
 
@@ -59,6 +60,7 @@ function expectNoWarning(
             displayName: "validation",
             program,
             sourceFile,
+            rootDir: __dirname,
         },
     ]);
 
@@ -137,6 +139,7 @@ describe("validateExports", () => {
                 displayName: "validation",
                 program,
                 sourceFile,
+                rootDir: __dirname,
             },
         ]);
 

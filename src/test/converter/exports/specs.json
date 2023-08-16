@@ -443,6 +443,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/exports",
+        "entrySourceFilePath": "src/test/converter/exports/export.ts"
+      },
       "sources": [
         {
           "fileName": "export.ts",
@@ -528,6 +532,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/exports",
+        "entrySourceFilePath": "src/test/converter/exports/export-assignment.ts"
+      },
       "sources": [
         {
           "fileName": "export-assignment.ts",
@@ -575,6 +583,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/exports",
+        "entrySourceFilePath": "src/test/converter/exports/export-default.ts"
+      },
       "sources": [
         {
           "fileName": "export-default.ts",
@@ -688,6 +700,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/exports",
+        "entrySourceFilePath": "src/test/converter/exports/export-with-local.ts"
+      },
       "sources": [
         {
           "fileName": "export-with-local.ts",
@@ -890,6 +906,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/exports",
+        "entrySourceFilePath": "src/test/converter/exports/mod.ts"
+      },
       "sources": [
         {
           "fileName": "mod.ts",
@@ -956,6 +976,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/exports",
+        "entrySourceFilePath": "src/test/converter/exports/no-doc-members.ts"
+      },
       "sources": [
         {
           "fileName": "no-doc-members.ts",

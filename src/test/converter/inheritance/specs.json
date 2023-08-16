@@ -653,6 +653,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/inheritance",
+        "entrySourceFilePath": "src/test/converter/inheritance/inherit-doc.ts"
+      },
       "sources": [
         {
           "fileName": "inherit-doc.ts",
@@ -1001,6 +1005,10 @@
           ]
         }
       ],
+      "entrypointInfos": {
+        "rootDir": "src/test/converter/inheritance",
+        "entrySourceFilePath": "src/test/converter/inheritance/mergable-class.ts"
+      },
       "sources": [
         {
           "fileName": "mergable-class.ts",

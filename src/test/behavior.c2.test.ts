@@ -90,6 +90,7 @@ function convert(entry: string) {
             displayName: entry,
             program,
             sourceFile,
+            rootDir: base,
         },
     ]);
 }
