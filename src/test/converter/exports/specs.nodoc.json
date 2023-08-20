@@ -16,7 +16,7 @@
           "id": 43,
           "name": "Mod2",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "comment": {
             "summary": [
@@ -40,7 +40,7 @@
           "id": 45,
           "name": "b",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "comment": {
             "summary": [
@@ -90,7 +90,7 @@
           "id": 31,
           "name": "b",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "comment": {
             "summary": [
@@ -114,7 +114,7 @@
           "id": 32,
           "name": "c",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "comment": {
             "summary": [

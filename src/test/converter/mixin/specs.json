@@ -1229,7 +1229,7 @@
       "id": 6,
       "name": "AnyConstructor",
       "variant": "declaration",
-      "kind": 4194304,
+      "kind": 2097152,
       "flags": {},
       "sources": [
         {
@@ -1316,7 +1316,7 @@
       "id": 1,
       "name": "AnyFunction",
       "variant": "declaration",
-      "kind": 4194304,
+      "kind": 2097152,
       "flags": {},
       "sources": [
         {
@@ -1403,7 +1403,7 @@
       "id": 11,
       "name": "Mixin",
       "variant": "declaration",
-      "kind": 4194304,
+      "kind": 2097152,
       "flags": {},
       "comment": {
         "summary": [
@@ -1481,7 +1481,7 @@
       "id": 63,
       "name": "Mixin3",
       "variant": "declaration",
-      "kind": 4194304,
+      "kind": 2097152,
       "flags": {},
       "comment": {
         "summary": [

@@ -134,11 +134,6 @@ export class GitRepository implements Repository {
         let urlTemplate: string | undefined;
         if (sourceLinkTemplate) {
             urlTemplate = sourceLinkTemplate;
-        } else if (/^https?:\/\//.test(gitRemote)) {
-            logger.warn(
-                "Using a link as the gitRemote is deprecated and will be removed in 0.24.",
-            );
-            urlTemplate = `${gitRemote}/{gitRevision}`;
         } else {
             const remotesOut = git("-C", path, "remote", "get-url", gitRemote);
             if (remotesOut.status === 0) {

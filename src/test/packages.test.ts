@@ -1,15 +1,11 @@
 import { deepStrictEqual as equal } from "assert";
-import { readFileSync } from "fs";
 import { join } from "path";
 import { normalizePath } from "../lib/utils";
-import {
-    expandPackages,
-    getTsEntryPointForPackage,
-} from "../lib/utils/package-manifest";
+import { expandPackages } from "../lib/utils/package-manifest";
 
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import { TestLogger } from "./TestLogger";
-import { createMinimatch, nicePath } from "../lib/utils/paths";
+import { createMinimatch } from "../lib/utils/paths";
 
 describe("Packages support", () => {
     let project: ReturnType<typeof tempdirProject>;
@@ -104,82 +100,7 @@ describe("Packages support", () => {
             ].map(normalizePath),
         );
 
-        const entries = packages.map((p) => {
-            const packageJson = join(p, "package.json");
-            return getTsEntryPointForPackage(
-                logger,
-                packageJson,
-                JSON.parse(readFileSync(packageJson, "utf-8")),
-            );
-        });
-
-        equal(entries, [
-            join(project.cwd, "packages/bar/index.d.ts"),
-            join(project.cwd, "packages/bay/index.ts"),
-            join(project.cwd, "packages/baz/index.ts"),
-        ]);
-
         logger.expectNoOtherMessages();
-    });
-
-    it("handles monorepos with legacy configuration", () => {
-        project.addJsonFile("tsconfig.json", {
-            compilerOptions: {
-                strict: true,
-                sourceMap: true,
-            },
-            exclude: ["node_modules", "dist"],
-        });
-        const childTsconfig = {
-            extends: "../../tsconfig.json",
-            compilerOptions: {
-                outDir: "dist",
-            },
-        };
-        project.addJsonFile("package.json", {
-            name: "typedoc-multi-package-example",
-            main: "dist/index.js",
-            workspaces: ["packages/*"],
-        });
-
-        // Foo, entry point with "typedocMain"
-        project.addFile("packages/foo/dist/index.js", "module.exports = 123");
-        project.addFile("packages/foo/index.ts", "export function foo() {}");
-        project.addJsonFile("packages/foo/package.json", {
-            name: "typedoc-multi-package-foo",
-            version: "1.0.0",
-            main: "dist/index",
-            typedocMain: "index.ts",
-        });
-        project.addJsonFile("packages/foo/tsconfig.json", childTsconfig);
-
-        project.write();
-        const logger = new TestLogger();
-        const packages = expandPackages(
-            logger,
-            project.cwd,
-            [project.cwd],
-            createMinimatch(["**/ign"]),
-        );
-
-        equal(packages, [join(project.cwd, "packages/foo")].map(normalizePath));
-
-        const entries = packages.map((p) => {
-            const packageJson = join(p, "package.json");
-            return getTsEntryPointForPackage(
-                logger,
-                packageJson,
-                JSON.parse(readFileSync(packageJson, "utf-8")),
-            );
-        });
-
-        equal(entries, [join(project.cwd, "packages/foo/index.ts")]);
-
-        logger.expectMessage(
-            `warn: Legacy typedoc entry point config (using "typedocMain" field) found for "${nicePath(
-                join(project.cwd, "/packages/foo/package.json"),
-            )}". Please update to use "typedoc": { "entryPoint": "..." } instead. In future upgrade, "typedocMain" field will be ignored.`,
-        );
     });
 
     it("handles single packages", () => {
@@ -250,32 +171,5 @@ describe("Packages support", () => {
 
         logger.expectNoOtherMessages();
         equal(packages, [normalizePath(project.cwd)]);
-    });
-
-    it("Handles js entry points (#2037)", () => {
-        project.addJsonFile("tsconfig.json", {
-            compilerOptions: {
-                strict: true,
-                checkJs: true,
-            },
-            include: ["src"],
-        });
-        const packageJson = {
-            name: "typedoc-js-package",
-            main: "src/index.js",
-        };
-        project.addJsonFile("package.json", packageJson);
-        project.addFile("src/index.js", `exports.foo = 123;`);
-        project.write();
-
-        const logger = new TestLogger();
-        const entry = getTsEntryPointForPackage(
-            logger,
-            join(project.cwd, "package.json"),
-            packageJson,
-        );
-
-        logger.expectNoOtherMessages();
-        equal(entry, join(project.cwd, "src/index.js"));
     });
 });

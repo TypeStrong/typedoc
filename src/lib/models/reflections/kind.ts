@@ -26,10 +26,8 @@ export enum ReflectionKind {
     Accessor = 0x40000,
     GetSignature = 0x80000,
     SetSignature = 0x100000,
-    /** @deprecated will be removed in v0.25, not used */
-    ObjectLiteral = 0x200000,
-    TypeAlias = 0x400000,
-    Reference = 0x800000,
+    TypeAlias = 0x200000,
+    Reference = 0x400000,
 }
 
 /** @category Reflections */
@@ -69,10 +67,7 @@ export namespace ReflectionKind {
         ReflectionKind.TypeParameter |
         ReflectionKind.TypeAlias;
     /** @internal */
-    export const SomeValue =
-        ReflectionKind.Variable |
-        ReflectionKind.Function |
-        ReflectionKind.ObjectLiteral;
+    export const SomeValue = ReflectionKind.Variable | ReflectionKind.Function;
     /** @internal */
     export const SomeMember =
         ReflectionKind.EnumMember |

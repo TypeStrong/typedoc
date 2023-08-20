@@ -3,6 +3,11 @@
 ### Breaking Changes
 
 -   Bump minimum Node version to 16.
+-   Removed `legacy-packages` option for `--entryPointStrategy`.
+-   Changed default value of `--categorizeByGroup` to `false`.
+-   Specifying a link as the `gitRemote` is no longer supported.
+-   Removed `ReflectionKind.ObjectLiteral` that was never used by TypeDoc.
+-   Removed deprecated members `DefaultThemeRenderContext.comment` and `DefaultThemeRenderContext.attemptExternalResolution`.
 
 ### Features
 

@@ -3,7 +3,6 @@ import {
     Comment,
     CommentDisplayPart,
     DeclarationReflection,
-    ReferenceType,
     Reflection,
 } from "../../../models";
 import type { NeverIfInternal, Options } from "../../../utils";
@@ -13,7 +12,6 @@ import { index } from "./partials";
 import { analytics } from "./partials/analytics";
 import { breadcrumb } from "./partials/breadcrumb";
 import {
-    comment,
     commentSummary,
     commentTags,
     reflectionFlags,
@@ -93,15 +91,6 @@ export class DefaultThemeRenderContext {
         return md ? this.theme.markedPlugin.parseMarkdown(md, this.page) : "";
     };
 
-    /**
-     * Using this method will repeat work already done, instead of calling it, use `type.externalUrl`.
-     * @deprecated
-     * Will be removed in 0.24.
-     */
-    attemptExternalResolution = (type: NeverIfInternal<ReferenceType>) => {
-        return (type as ReferenceType).externalUrl;
-    };
-
     getReflectionClasses = (refl: DeclarationReflection) =>
         this.theme.getReflectionClasses(refl);
 
@@ -111,8 +100,6 @@ export class DefaultThemeRenderContext {
 
     analytics = bind(analytics, this);
     breadcrumb = bind(breadcrumb, this);
-    /** @deprecated will be removed in 0.25 */
-    comment = bind(comment, this);
     commentSummary = bind(commentSummary, this);
     commentTags = bind(commentTags, this);
     reflectionFlags = bind(reflectionFlags, this);

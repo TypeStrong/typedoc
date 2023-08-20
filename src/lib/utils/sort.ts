@@ -40,7 +40,6 @@ const defaultKindSortOrder = [
     ReflectionKind.Function,
     ReflectionKind.Accessor,
     ReflectionKind.Method,
-    ReflectionKind.ObjectLiteral,
 
     ReflectionKind.Parameter,
     ReflectionKind.TypeParameter,

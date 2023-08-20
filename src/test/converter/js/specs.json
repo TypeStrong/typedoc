@@ -16,7 +16,7 @@
           "id": 5,
           "name": "Foo",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -333,7 +333,7 @@
           "id": 42,
           "name": "Foo",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -397,7 +397,7 @@
           "id": 28,
           "name": "HasReturnTag",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -443,7 +443,7 @@
           "id": 40,
           "name": "Identity",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "comment": {
             "summary": [
@@ -489,7 +489,7 @@
           "id": 31,
           "name": "IdentityFn",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -561,7 +561,7 @@
           "id": 20,
           "name": "IntersectionType",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "comment": {
             "summary": [
@@ -683,7 +683,7 @@
           "id": 25,
           "name": "NoReturnTag",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -737,7 +737,7 @@
           "id": 18,
           "name": "ObjectAlias",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "comment": {
             "summary": [
@@ -769,7 +769,7 @@
           "id": 36,
           "name": "OptionalArg",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -838,7 +838,7 @@
           "id": 19,
           "name": "UnionType",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "comment": {
             "summary": [

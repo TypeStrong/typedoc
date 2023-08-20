@@ -286,6 +286,7 @@ describe("Issue Tests", () => {
     });
 
     it("#1522", () => {
+        app.options.setValue("categorizeByGroup", true);
         const project = convert();
         equal(project.groups?.map((g) => g.categories?.map((c) => c.title)), [
             ["cat"],
@@ -425,6 +426,7 @@ describe("Issue Tests", () => {
     });
 
     it("#1745", () => {
+        app.options.setValue("categorizeByGroup", true);
         const project = convert();
         const Foo = query(project, "Foo");
         ok(Foo.type instanceof ReflectionType, "invalid type");

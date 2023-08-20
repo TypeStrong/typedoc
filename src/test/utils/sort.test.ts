@@ -175,7 +175,7 @@ describe("Sort", () => {
     it("Should sort by kind", () => {
         const arr = [
             new DeclarationReflection("1", ReflectionKind.Reference),
-            new DeclarationReflection("24", ReflectionKind.SetSignature),
+            new DeclarationReflection("23", ReflectionKind.SetSignature),
             new DeclarationReflection("3", ReflectionKind.Module),
             new DeclarationReflection("4", ReflectionKind.Namespace),
             new DeclarationReflection("5", ReflectionKind.Enum),
@@ -185,22 +185,21 @@ describe("Sort", () => {
             new DeclarationReflection("9", ReflectionKind.TypeAlias),
             new DeclarationReflection("10", ReflectionKind.Constructor),
             new DeclarationReflection("2", ReflectionKind.Project),
-            new DeclarationReflection("23", ReflectionKind.GetSignature),
+            new DeclarationReflection("22", ReflectionKind.GetSignature),
             new DeclarationReflection("12", ReflectionKind.Variable),
             new DeclarationReflection("13", ReflectionKind.Function),
             new DeclarationReflection("14", ReflectionKind.Accessor),
             new DeclarationReflection("11", ReflectionKind.Property),
-            new DeclarationReflection("19", ReflectionKind.TypeLiteral),
-            new DeclarationReflection("16", ReflectionKind.ObjectLiteral),
-            new DeclarationReflection("17", ReflectionKind.Parameter),
-            new DeclarationReflection("18", ReflectionKind.TypeParameter),
-            new DeclarationReflection("20", ReflectionKind.CallSignature),
+            new DeclarationReflection("18", ReflectionKind.TypeLiteral),
+            new DeclarationReflection("16", ReflectionKind.Parameter),
+            new DeclarationReflection("17", ReflectionKind.TypeParameter),
+            new DeclarationReflection("19", ReflectionKind.CallSignature),
             new DeclarationReflection("7", ReflectionKind.Class),
             new DeclarationReflection(
-                "21",
+                "20",
                 ReflectionKind.ConstructorSignature,
             ),
-            new DeclarationReflection("22", ReflectionKind.IndexSignature),
+            new DeclarationReflection("21", ReflectionKind.IndexSignature),
         ];
 
         sortReflections(arr, ["kind"]);

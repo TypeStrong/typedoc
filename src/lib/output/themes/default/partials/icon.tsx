@@ -138,9 +138,6 @@ export const icons: Record<
             />,
             "var(--color-ts-namespace)",
         ),
-    [ReflectionKind.ObjectLiteral]() {
-        return this[ReflectionKind.Interface]();
-    },
     [ReflectionKind.Parameter]() {
         return this[ReflectionKind.Property]();
     },

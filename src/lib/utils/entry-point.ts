@@ -1,14 +1,7 @@
 import { join, relative, resolve } from "path";
 import ts from "typescript";
 import * as FS from "fs";
-import * as Path from "path";
-import {
-    expandPackages,
-    extractTypedocConfigFromPackageManifest,
-    getTsEntryPointForPackage,
-    ignorePackage,
-    loadPackageManifest,
-} from "./package-manifest";
+import { expandPackages } from "./package-manifest";
 import { createMinimatch, matchesAny, nicePath, normalizePath } from "./paths";
 import type { Logger } from "./loggers";
 import type { Options } from "./options";
@@ -35,12 +28,6 @@ export const EntryPointStrategy = {
      * use the merge option to produce final output.
      */
     Packages: "packages",
-    /**
-     * Will be removed in 0.25, this was called packages mode in 0.24.
-     * Alternative resolution mode useful for monorepos. With this mode, TypeDoc will look for a package.json
-     * and tsconfig.json under each provided entry point. The `main` field of each package will be documented.
-     */
-    LegacyPackages: "legacy-packages",
     /**
      * Merges multiple previously generated output from TypeDoc's --json output together into a single project.
      */
@@ -92,14 +79,6 @@ export function getEntryPoints(
             result = getExpandedEntryPointsForPaths(
                 logger,
                 expandGlobs(entryPoints, logger),
-                options,
-            );
-            break;
-
-        case EntryPointStrategy.LegacyPackages:
-            result = getEntryPointsForLegacyPackages(
-                logger,
-                entryPoints,
                 options,
             );
             break;
@@ -371,140 +350,4 @@ function expandInputFiles(
     });
 
     return files;
-}
-
-/**
- * Expand the provided packages configuration paths, determining the entry points
- * and creating the ts.Programs for any which are found.
- * @param logger
- * @param packageGlobPaths
- * @returns The information about the discovered programs, undefined if an error occurs.
- */
-function getEntryPointsForLegacyPackages(
-    logger: Logger,
-    packageGlobPaths: string[],
-    options: Options,
-): DocumentationEntryPoint[] | undefined {
-    const results: DocumentationEntryPoint[] = [];
-
-    for (const packagePath of getPackageDirectories(
-        logger,
-        options,
-        packageGlobPaths,
-    )) {
-        const packageJsonPath = resolve(packagePath, "package.json");
-        const packageJson = loadPackageManifest(logger, packageJsonPath);
-        const includeVersion = options.getValue("includeVersion");
-        const typedocPackageConfig = packageJson
-            ? extractTypedocConfigFromPackageManifest(logger, packageJsonPath)
-            : undefined;
-        if (packageJson === undefined) {
-            logger.error(`Could not load package manifest ${packageJsonPath}`);
-            return;
-        }
-        const packageEntryPoint = getTsEntryPointForPackage(
-            logger,
-            packageJsonPath,
-            packageJson,
-        );
-        if (packageEntryPoint === undefined) {
-            logger.error(
-                `Could not determine TS entry point for package ${packageJsonPath}`,
-            );
-            return;
-        }
-        if (packageEntryPoint === ignorePackage) {
-            continue;
-        }
-        const tsconfigFile = ts.findConfigFile(
-            packageEntryPoint,
-            ts.sys.fileExists,
-            typedocPackageConfig?.tsconfig,
-        );
-        if (tsconfigFile === undefined) {
-            logger.error(
-                `Could not determine tsconfig.json for source file ${packageEntryPoint} (it must be on an ancestor path)`,
-            );
-            return;
-        }
-        // Consider deduplicating this with similar code in src/lib/utils/options/readers/tsconfig.ts
-        let fatalError = false;
-        const parsedCommandLine = ts.getParsedCommandLineOfConfigFile(
-            tsconfigFile,
-            {},
-            {
-                ...ts.sys,
-                onUnRecoverableConfigFileDiagnostic: (error) => {
-                    logger.diagnostic(error);
-                    fatalError = true;
-                },
-            },
-        );
-        if (!parsedCommandLine) {
-            return;
-        }
-        logger.diagnostics(parsedCommandLine.errors);
-        if (fatalError) {
-            return;
-        }
-
-        const program = ts.createProgram({
-            rootNames: parsedCommandLine.fileNames,
-            options: options.fixCompilerOptions(parsedCommandLine.options),
-            projectReferences: parsedCommandLine.projectReferences,
-        });
-        const sourceFile = program.getSourceFile(packageEntryPoint);
-        if (sourceFile === undefined) {
-            logger.error(
-                `Entry point "${packageEntryPoint}" does not appear to be built by/included in the tsconfig found at "${tsconfigFile}"`,
-            );
-            return;
-        }
-
-        const packageName = packageJson["name"] as string;
-        results.push({
-            displayName: typedocPackageConfig?.displayName ?? packageName,
-            version: includeVersion
-                ? (packageJson["version"] as string | undefined)?.replace(
-                      /^v/,
-                      "",
-                  )
-                : void 0,
-            readmeFile: discoverReadmeFile(
-                logger,
-                Path.join(packageJsonPath, ".."),
-                typedocPackageConfig?.readmeFile,
-            ),
-            program,
-            sourceFile,
-        });
-    }
-
-    return results;
-}
-
-function discoverReadmeFile(
-    logger: Logger,
-    packageDir: string,
-    userReadme: string | undefined,
-): string | undefined {
-    if (userReadme?.endsWith("none")) {
-        return;
-    }
-
-    if (userReadme) {
-        if (!FS.existsSync(Path.join(packageDir, userReadme))) {
-            logger.warn(
-                `Failed to find ${userReadme} in ${nicePath(packageDir)}`,
-            );
-            return;
-        }
-        return Path.resolve(Path.join(packageDir, userReadme));
-    }
-
-    for (const file of FS.readdirSync(packageDir)) {
-        if (file.toLowerCase() === "readme.md") {
-            return Path.resolve(Path.join(packageDir, file));
-        }
-    }
 }

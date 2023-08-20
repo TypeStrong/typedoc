@@ -16,7 +16,7 @@
           "id": 48,
           "name": "GH1453Helper",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "sources": [
             {
@@ -32,7 +32,7 @@
           "id": 41,
           "name": "Mod",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "sources": [
             {
@@ -48,7 +48,7 @@
           "id": 43,
           "name": "Mod2",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "comment": {
             "summary": [
@@ -72,7 +72,7 @@
           "id": 42,
           "name": "ModDefault",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "sources": [
             {
@@ -88,7 +88,7 @@
           "id": 47,
           "name": "ThisModule",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "sources": [
             {
@@ -104,7 +104,7 @@
           "id": 44,
           "name": "a",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "sources": [
             {
@@ -120,7 +120,7 @@
           "id": 45,
           "name": "b",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "comment": {
             "summary": [
@@ -144,7 +144,7 @@
           "id": 40,
           "name": "c",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "sources": [
             {
@@ -167,7 +167,7 @@
               "id": 25,
               "name": "Foo",
               "variant": "declaration",
-              "kind": 4194304,
+              "kind": 2097152,
               "flags": {},
               "sources": [
                 {
@@ -708,7 +708,7 @@
           "id": 34,
           "name": "ThisModule",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "sources": [
             {
@@ -724,7 +724,7 @@
           "id": 31,
           "name": "b",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "comment": {
             "summary": [
@@ -748,7 +748,7 @@
           "id": 32,
           "name": "c",
           "variant": "reference",
-          "kind": 8388608,
+          "kind": 4194304,
           "flags": {},
           "comment": {
             "summary": [
@@ -772,7 +772,7 @@
           "id": 35,
           "name": "GH1453Helper",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {

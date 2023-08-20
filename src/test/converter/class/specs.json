@@ -1497,30 +1497,34 @@
                 32,
                 30,
                 24
-              ],
-              "categories": [
-                {
-                  "title": "AnotherTest",
-                  "children": [
-                    34,
-                    32,
-                    30
-                  ]
-                },
-                {
-                  "title": "Other",
-                  "children": [
-                    36,
-                    24
-                  ]
-                },
-                {
-                  "title": "Test",
-                  "children": [
-                    32,
-                    30
-                  ]
-                }
+              ]
+            }
+          ],
+          "categories": [
+            {
+              "title": "AnotherTest",
+              "children": [
+                34,
+                32,
+                30
+              ]
+            },
+            {
+              "title": "Other",
+              "children": [
+                26,
+                29,
+                28,
+                23,
+                36,
+                24
+              ]
+            },
+            {
+              "title": "Test",
+              "children": [
+                32,
+                30
               ]
             }
           ],
@@ -2274,7 +2278,7 @@
           "id": 91,
           "name": "AbstractMe",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {

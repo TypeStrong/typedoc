@@ -87,7 +87,6 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.Accessor]: [ts.SyntaxKind.PropertyDeclaration],
     [ReflectionKind.GetSignature]: [ts.SyntaxKind.GetAccessor],
     [ReflectionKind.SetSignature]: [ts.SyntaxKind.SetAccessor],
-    [ReflectionKind.ObjectLiteral]: [ts.SyntaxKind.ObjectLiteralExpression],
     [ReflectionKind.TypeAlias]: [ts.SyntaxKind.TypeAliasDeclaration],
     [ReflectionKind.Reference]: [
         ts.SyntaxKind.NamespaceExport,

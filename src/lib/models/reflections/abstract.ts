@@ -484,7 +484,7 @@ export abstract class Reflection {
      * Traverse most potential child reflections of this reflection.
      *
      * Note: This may not necessarily traverse child reflections contained within the `type` property
-     * of the reflection, and should not be relied on for this. Support for checking object types will likely be removed in v0.25.
+     * of the reflection, and should not be relied on for this. Support for checking object types will likely be removed in v0.26.
      *
      * The given callback will be invoked for all children, signatures and type parameters
      * attached to this reflection.

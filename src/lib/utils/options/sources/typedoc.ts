@@ -98,7 +98,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
                 ReflectionKind.TypeLiteral,
                 ReflectionKind.TypeParameter,
                 ReflectionKind.Parameter,
-                ReflectionKind.ObjectLiteral,
             ]) {
                 valid.delete(ReflectionKind[notPermitted]);
             }
@@ -604,7 +603,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "categorizeByGroup",
         help: "Specify whether categorization will be done at the group level.",
         type: ParameterType.Boolean,
-        defaultValue: true, // 0.25, change this to false.
+        defaultValue: false,
     });
     options.addDeclaration({
         name: "defaultCategory",

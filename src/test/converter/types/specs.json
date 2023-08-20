@@ -16,7 +16,7 @@
           "id": 8,
           "name": "BigIntAlias",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -35,7 +35,7 @@
           "id": 2,
           "name": "BigIntLiteral",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -57,7 +57,7 @@
           "id": 11,
           "name": "FirstIfString",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -130,7 +130,7 @@
           "id": 4,
           "name": "NegativeBigIntLiteral",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -152,7 +152,7 @@
           "id": 9,
           "name": "NegativeOne",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -171,7 +171,7 @@
           "id": 6,
           "name": "NumArray",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -515,7 +515,7 @@
           "id": 34,
           "name": "DoubleKey",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -601,7 +601,7 @@
           "id": 32,
           "name": "Mappy",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -873,7 +873,7 @@
           "id": 37,
           "name": "ZZ",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -969,7 +969,7 @@
           "id": 42,
           "name": "TypeOfX",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -1046,7 +1046,7 @@
           "id": 52,
           "name": "LeadingRest",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -1080,7 +1080,7 @@
           "id": 44,
           "name": "NamedTuple",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -1118,7 +1118,7 @@
           "id": 50,
           "name": "WithOptionalElements",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -1156,7 +1156,7 @@
           "id": 46,
           "name": "WithRestType",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -1190,7 +1190,7 @@
           "id": 48,
           "name": "WithRestTypeNames",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -1473,7 +1473,7 @@
           "id": 56,
           "name": "B",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -1499,7 +1499,7 @@
           "id": 57,
           "name": "C",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {
@@ -1581,7 +1581,7 @@
           "id": 61,
           "name": "D",
           "variant": "declaration",
-          "kind": 4194304,
+          "kind": 2097152,
           "flags": {},
           "sources": [
             {

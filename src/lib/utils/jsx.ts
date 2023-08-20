@@ -22,7 +22,6 @@ import type {
 } from "./jsx.elements";
 import { JsxFragment as Fragment } from "./jsx.elements";
 
-// Backwards compatibility until 0.24
 export type {
     JsxElement as Element,
     JsxChildren as Children,
