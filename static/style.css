@@ -487,11 +487,13 @@ blockquote {
     border-collapse: collapse;
     border: none;
 }
-.tsd-typography td, .tsd-typography th {
+.tsd-typography td,
+.tsd-typography th {
     padding: 6px 13px;
     border: 1px solid var(--color-accent);
 }
-.tsd-typography thead, .tsd-typography tr:nth-child(even) {
+.tsd-typography thead,
+.tsd-typography tr:nth-child(even) {
     background-color: var(--color-background-secondary);
 }
 
