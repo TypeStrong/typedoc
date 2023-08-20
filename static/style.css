@@ -32,7 +32,6 @@
     --light-color-ts-accessor: var(--light-color-ts-property);
     --light-color-ts-get-signature: var(--light-color-ts-accessor);
     --light-color-ts-set-signature: var(--light-color-ts-accessor);
-    /* object literal not included as it is not used and will be removed in 0.25 */
     --light-color-ts-type-alias: #d51270;
     /* reference not included as links will be colored with the kind that it points to */
 
@@ -72,7 +71,6 @@
     --dark-color-ts-accessor: var(--dark-color-ts-property);
     --dark-color-ts-get-signature: var(--dark-color-ts-accessor);
     --dark-color-ts-set-signature: var(--dark-color-ts-accessor);
-    /* object literal not included as it is not used and will be removed in 0.25 */
     --dark-color-ts-type-alias: #ff6492;
     /* reference not included as links will be colored with the kind that it points to */
 
@@ -484,6 +482,17 @@ blockquote {
 .tsd-typography ul,
 .tsd-typography ol {
     margin: 1em 0;
+}
+.tsd-typography table {
+    border-collapse: collapse;
+    border: none;
+}
+.tsd-typography td, .tsd-typography th {
+    padding: 6px 13px;
+    border: 1px solid var(--color-accent);
+}
+.tsd-typography thead, .tsd-typography tr:nth-child(even) {
+    background-color: var(--color-background-secondary);
 }
 
 .tsd-breadcrumb {
