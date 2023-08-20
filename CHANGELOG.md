@@ -30,6 +30,7 @@
 -   Fixed `@namespace` property discovery if merged with a type and the type was declared first #2364.
 -   Tables in markdown are now styled, #2366.
 -   Sidebar links no longer open in a new tab, #2353.
+-   Headers now include some padding before rendering text, #2316.
 -   Symbol locations for signatures on `reflection.sources` now considers the node's name like non-signature location discovery does.
 
 ### Thanks!

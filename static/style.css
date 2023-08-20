@@ -466,13 +466,12 @@ blockquote {
     padding: 0 0 0 20px;
     margin: 0;
 }
-.tsd-typography h4,
 .tsd-typography .tsd-index-panel h3,
 .tsd-index-panel .tsd-typography h3,
+.tsd-typography h4,
 .tsd-typography h5,
 .tsd-typography h6 {
     font-size: 1em;
-    margin: 0;
 }
 .tsd-typography h5,
 .tsd-typography h6 {
