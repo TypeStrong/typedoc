@@ -215,7 +215,7 @@ function blockTag(
     let content: CommentDisplayPart[];
     if (tagName === "@example" && config.jsDocCompatibility.exampleTag) {
         content = exampleBlockContent(comment, lexer, config, warning);
-    } else if (tagName === "@default" && config.jsDocCompatibility.defaultTag) {
+    } else if ((tagName === "@default" && config.jsDocCompatibility.defaultTag) || tagName === "@defaultValue") {
         content = defaultBlockContent(comment, lexer, config, warning);
     } else {
         content = blockContent(comment, lexer, config, warning);
