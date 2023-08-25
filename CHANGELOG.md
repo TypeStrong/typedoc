@@ -1,5 +1,7 @@
 # Unreleased
 
+# v0.25.0 (2023-08-25)
+
 ### Breaking Changes
 
 -   Bump minimum Node version to 16.
