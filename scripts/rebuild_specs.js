@@ -15,19 +15,20 @@ const { basename } = require("path");
 const base = path.join(__dirname, "../src/test/converter");
 
 async function getApp() {
-    const app = new td.Application();
-    app.options.addReader(new td.TSConfigReader());
-    await app.bootstrap({
-        name: "typedoc",
-        excludeExternals: true,
-        disableSources: false,
-        tsconfig: path.join(base, "tsconfig.json"),
-        externalPattern: ["**/node_modules/**"],
-        entryPointStrategy: td.EntryPointStrategy.Expand,
-        logLevel: td.LogLevel.Warn,
-        gitRevision: "fake",
-        readme: "none",
-    });
+    const app = await td.Application.bootstrap(
+        {
+            name: "typedoc",
+            excludeExternals: true,
+            disableSources: false,
+            tsconfig: path.join(base, "tsconfig.json"),
+            externalPattern: ["**/node_modules/**"],
+            entryPointStrategy: td.EntryPointStrategy.Expand,
+            logLevel: td.LogLevel.Warn,
+            gitRevision: "fake",
+            readme: "none",
+        },
+        [new td.TSConfigReader()],
+    );
     app.serializer.addSerializer({
         priority: -1,
         supports(obj) {

@@ -921,14 +921,16 @@ const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference> = {
 
         if (type.target.labeledElementDeclarations) {
             const namedDeclarations = type.target.labeledElementDeclarations;
-            elements = elements?.map(
-                (el, i) =>
-                    new NamedTupleMember(
-                        namedDeclarations[i].name.getText(),
-                        !!namedDeclarations[i].questionToken,
-                        removeUndefined(el),
-                    ),
-            );
+            elements = elements?.map((el, i) => {
+                const namedDecl = namedDeclarations[i];
+                return namedDecl
+                    ? new NamedTupleMember(
+                          namedDecl.name.getText(),
+                          !!namedDecl.questionToken,
+                          removeUndefined(el),
+                      )
+                    : el;
+            });
         }
 
         elements = elements?.map((el, i) => {

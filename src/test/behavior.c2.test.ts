@@ -763,6 +763,27 @@ describe("Behavior Tests", () => {
         );
     });
 
+    it("Handles named tuple declarations", () => {
+        const project = convert("namedTupleMembers");
+
+        equal(
+            query(project, "PartiallyNamedTuple").type?.toString(),
+            "[name: string, number]",
+        );
+        equal(
+            query(project, "PartiallyNamedTuple2").type?.toString(),
+            "[name?: string, number?]",
+        );
+        equal(
+            query(project, "PartiallyNamedTupleRest").type?.toString(),
+            "[name?: string, ...number[]]",
+        );
+        equal(
+            query(project, "partiallyNamedTupleRest").type?.toString(),
+            "[name?: string, ...number[]]",
+        );
+    });
+
     it("Handles overloads", () => {
         const project = convert("overloads");
         const foo = query(project, "foo");
