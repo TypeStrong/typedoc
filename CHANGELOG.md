@@ -17,6 +17,7 @@
 -   Added `--disableGit` option to prevent TypeDoc from using Git to try to determine if sources can be linked, #2326.
 -   Added support for tags `@showGroups`, `@hideGroups`, `@showCategories`, `@hideCategories` to configure the navigation pane on a
     per-reflection basis, #2329.
+-   Added support for TypeScript 5.2, #2296.
 
 ### Bug Fixes
 
