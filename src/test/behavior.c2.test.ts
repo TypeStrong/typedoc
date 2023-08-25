@@ -277,6 +277,19 @@ describe("Behavior Tests", () => {
         logger.expectNoOtherMessages();
     });
 
+    it("Handles @defaultValue tags", () => {
+        const project = convert("defaultValueTag");
+        const foo = query(project, "foo");
+        const tags = foo.comment?.blockTags.map((tag) => tag.content);
+
+        equal(tags, [
+            [{ kind: "code", text: "```ts\n\n```" }],
+            [{ kind: "code", text: "```ts\nfn({})\n```" }],
+        ]);
+
+        logger.expectNoOtherMessages();
+    });
+
     it("Handles @example tags with JSDoc compat turned on", () => {
         const project = convert("exampleTags");
         const foo = query(project, "foo");
