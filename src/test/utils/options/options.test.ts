@@ -1,4 +1,4 @@
-import { Logger, LogLevel, Options, ParameterType } from "../../../lib/utils";
+import { LogLevel, Options, ParameterType } from "../../../lib/utils";
 import {
     BindOption,
     MapDeclarationOption,
@@ -11,14 +11,13 @@ import type {
 } from "../../../lib/utils/options";
 
 describe("Options", () => {
-    const logger = new Logger();
     let options: Options & {
         addDeclaration(declaration: Readonly<DeclarationOption>): void;
         getValue(name: string): unknown;
     };
 
     beforeEach(() => {
-        options = new Options(logger);
+        options = new Options();
         options.addDeclaration({
             name: "mapped",
             type: ParameterType.Map,
@@ -29,13 +28,18 @@ describe("Options", () => {
     });
 
     it("Errors on duplicate declarations", () => {
-        logger.resetErrors();
-        options.addDeclaration({
-            name: "help",
-            help: "",
-            type: ParameterType.Boolean,
-        });
-        equal(logger.hasErrors(), true);
+        let threw = false;
+        try {
+            options.addDeclaration({
+                name: "help",
+                help: "",
+                type: ParameterType.Boolean,
+            });
+        } catch {
+            threw = true;
+        }
+
+        equal(threw, true);
     });
 
     it("Does not throw if number declaration has no min and max values", () => {
@@ -117,7 +121,7 @@ describe("Options", () => {
     });
 
     it("Resets a flag to the default if set to null", () => {
-        const options = new Options(new Logger());
+        const options = new Options();
 
         options.setValue("validation", { notExported: true });
         options.setValue("validation", { notExported: null! });
@@ -129,7 +133,7 @@ describe("Options", () => {
     });
 
     it("Handles mapped enums properly", () => {
-        const options = new Options(new Logger());
+        const options = new Options();
 
         equal(options.getValue("logLevel"), LogLevel.Info);
         options.setValue("logLevel", LogLevel.Error);
@@ -143,7 +147,7 @@ describe("Options", () => {
     });
 
     it("Supports checking if an option is set", () => {
-        const options = new Options(new Logger());
+        const options = new Options();
         equal(options.isSet("excludePrivate"), false);
         options.setValue("excludePrivate", false);
         equal(options.isSet("excludePrivate"), true);
@@ -154,7 +158,7 @@ describe("Options", () => {
     });
 
     it("Throws if frozen and a value is set", () => {
-        const options = new Options(new Logger());
+        const options = new Options();
         options.freeze();
 
         throws(() => options.setValue("categorizeByGroup", true));
@@ -162,7 +166,7 @@ describe("Options", () => {
     });
 
     it("Supports resetting values", () => {
-        const options = new Options(new Logger());
+        const options = new Options();
 
         options.setValue("entryPoints", ["x"]);
         const oldExcludeTags = options.getValue("excludeTags");
@@ -174,7 +178,7 @@ describe("Options", () => {
     });
 
     it("Supports resetting a single value", () => {
-        const options = new Options(new Logger());
+        const options = new Options();
 
         options.setValue("name", "test");
         const originalExclude = options.getValue("excludeTags");
@@ -186,7 +190,7 @@ describe("Options", () => {
     });
 
     it("Throws if resetting a single value which does not exist", () => {
-        const options = new Options(new Logger());
+        const options = new Options();
 
         throws(() => options.reset("thisOptionDoesNotExist" as never));
     });
@@ -201,14 +205,14 @@ describe("BindOption", () => {
     }
 
     it("Supports fetching options", () => {
-        const options = new Options(new Logger());
+        const options = new Options();
 
         const container = new Container(options);
         equal(container.emit, "docs");
     });
 
     it("Updates as option values change", () => {
-        const options = new Options(new Logger());
+        const options = new Options();
 
         const container = new Container(options);
         equal(container.emit, "docs");

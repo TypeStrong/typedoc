@@ -54,7 +54,7 @@ export interface OptionsReader {
      * @param logger logger to be used to report errors
      * @param cwd the directory which should be treated as the current working directory for option file discovery
      */
-    read(container: Options, logger: Logger, cwd: string): void;
+    read(container: Options, logger: Logger, cwd: string): void | Promise<void>;
 }
 
 const optionSnapshots = new WeakMap<
@@ -93,15 +93,13 @@ export class Options {
     private _compilerOptions: ts.CompilerOptions = {};
     private _fileNames: readonly string[] = [];
     private _projectReferences: readonly ts.ProjectReference[] = [];
-    private _logger: Logger;
 
     /**
      * In packages mode, the directory of the package being converted.
      */
     packageDir?: string;
 
-    constructor(logger: Logger) {
-        this._logger = logger;
+    constructor() {
         addTypeDocOptions(this);
     }
 
@@ -109,7 +107,7 @@ export class Options {
      * Clones the options, intended for use in packages mode.
      */
     copyForPackage(packageDir: string): Options {
-        const options = new Options(this._logger);
+        const options = new Options();
         options.packageDir = packageDir;
 
         options._readers = this._readers.filter(
@@ -160,14 +158,6 @@ export class Options {
     }
 
     /**
-     * Sets the logger used when an option declaration fails to be added.
-     * @param logger
-     */
-    setLogger(logger: Logger) {
-        this._logger = logger;
-    }
-
-    /**
      * Resets the option bag to all default values.
      * If a name is provided, will only reset that name.
      */
@@ -203,9 +193,9 @@ export class Options {
         insertOrderSorted(this._readers, reader);
     }
 
-    read(logger: Logger, cwd = process.cwd()) {
+    async read(logger: Logger, cwd = process.cwd()) {
         for (const reader of this._readers) {
-            reader.read(this, logger, cwd);
+            await reader.read(this, logger, cwd);
         }
     }
 
@@ -228,7 +218,7 @@ export class Options {
     addDeclaration(declaration: Readonly<DeclarationOption>): void {
         const decl = this.getDeclaration(declaration.name);
         if (decl) {
-            this._logger.error(
+            throw new Error(
                 `The option ${declaration.name} has already been registered`,
             );
         } else {

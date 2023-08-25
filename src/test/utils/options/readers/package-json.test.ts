@@ -1,7 +1,7 @@
 import { project } from "@typestrong/fs-fixture-builder";
 
 import { PackageJsonReader } from "../../../../lib/utils/options/readers";
-import { Logger, Options } from "../../../../lib/utils";
+import { Options } from "../../../../lib/utils";
 import { TestLogger } from "../../../TestLogger";
 
 describe("Options - PackageJsonReader", () => {
@@ -9,14 +9,14 @@ describe("Options - PackageJsonReader", () => {
     let testLogger: TestLogger;
 
     beforeEach(() => {
-        optsContainer = new Options(new Logger());
+        optsContainer = new Options();
         testLogger = new TestLogger();
 
         optsContainer.addReader(new PackageJsonReader());
     });
 
-    it("Does not error if no package.json file is found", () => {
-        optsContainer.read(testLogger, "/does-not-exist");
+    it("Does not error if no package.json file is found", async () => {
+        await optsContainer.read(testLogger, "/does-not-exist");
         testLogger.expectNoOtherMessages();
     });
 
@@ -25,12 +25,12 @@ describe("Options - PackageJsonReader", () => {
         pkgJsonContent: string,
         test: (logger: TestLogger) => void,
     ): void {
-        it(testTitle, () => {
+        it(testTitle, async () => {
             const proj = project(testTitle.replace(/[ "]/g, "_"));
             proj.addFile("package.json", pkgJsonContent);
             proj.write();
 
-            optsContainer.read(testLogger, proj.cwd);
+            await optsContainer.read(testLogger, proj.cwd);
 
             proj.rm();
 

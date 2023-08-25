@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { platform } from "os";
 import { resolve, join, dirname, relative } from "path";
-import { Application, TSConfigReader, EntryPointStrategy } from "..";
+import { Application, EntryPointStrategy } from "..";
 import { glob } from "../lib/utils/fs";
 
 // The @types package plays badly with non-dom packages.
@@ -56,9 +56,7 @@ class PQueue {
 }
 
 export async function captureRegressionScreenshots() {
-    const app = new Application();
-    app.options.addReader(new TSConfigReader());
-    app.bootstrap({
+    const app = await Application.bootstrap({
         readme: join(src, "..", "README.md"),
         name: "typedoc",
         cleanOutputDir: true,
@@ -67,7 +65,7 @@ export async function captureRegressionScreenshots() {
         entryPoints: [src],
         entryPointStrategy: EntryPointStrategy.Expand,
     });
-    const project = app.convert();
+    const project = await app.convert();
     if (!project) throw new Error("Failed to convert.");
     await fs.promises.rm(outputDirectory, { recursive: true, force: true });
     await app.generateDocs(project, baseDirectory);

@@ -8,7 +8,7 @@ import {
     ReflectionSymbolId,
 } from "../../lib/models";
 import { resetReflectionID } from "../../lib/models/reflections/abstract";
-import { Logger, Options } from "../../lib/utils";
+import { Options } from "../../lib/utils";
 import { getSortFunction, SortStrategy } from "../../lib/utils/sort";
 
 describe("Sort", () => {
@@ -16,7 +16,7 @@ describe("Sort", () => {
         arr: DeclarationReflection[],
         strategies: SortStrategy[],
     ) {
-        const opts = new Options(new Logger());
+        const opts = new Options();
         opts.setValue("sort", strategies);
         getSortFunction(opts)(arr);
     }

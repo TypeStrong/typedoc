@@ -14,48 +14,52 @@ const { basename } = require("path");
 
 const base = path.join(__dirname, "../src/test/converter");
 
-const app = new td.Application();
-app.options.addReader(new td.TSConfigReader());
-app.bootstrap({
-    name: "typedoc",
-    excludeExternals: true,
-    disableSources: false,
-    tsconfig: path.join(base, "tsconfig.json"),
-    externalPattern: ["**/node_modules/**"],
-    entryPointStrategy: td.EntryPointStrategy.Expand,
-    logLevel: td.LogLevel.Warn,
-    gitRevision: "fake",
-    readme: "none",
-});
-app.serializer.addSerializer({
-    priority: -1,
-    supports(obj) {
-        return obj instanceof td.SourceReference;
-    },
-    /**
-     * @param {td.SourceReference} ref
-     */
-    toObject(ref, obj) {
-        if (obj.url) {
-            obj.url = `typedoc://${obj.url.substring(
-                obj.url.indexOf(ref.fileName),
-            )}`;
-        }
-        return obj;
-    },
-});
-app.serializer.addSerializer({
-    priority: -1,
-    supports(obj) {
-        return obj instanceof td.ProjectReflection;
-    },
-    toObject(_refl, obj) {
-        delete obj.packageVersion;
-        return obj;
-    },
-});
+async function getApp() {
+    const app = new td.Application();
+    app.options.addReader(new td.TSConfigReader());
+    await app.bootstrap({
+        name: "typedoc",
+        excludeExternals: true,
+        disableSources: false,
+        tsconfig: path.join(base, "tsconfig.json"),
+        externalPattern: ["**/node_modules/**"],
+        entryPointStrategy: td.EntryPointStrategy.Expand,
+        logLevel: td.LogLevel.Warn,
+        gitRevision: "fake",
+        readme: "none",
+    });
+    app.serializer.addSerializer({
+        priority: -1,
+        supports(obj) {
+            return obj instanceof td.SourceReference;
+        },
+        /**
+         * @param {td.SourceReference} ref
+         */
+        toObject(ref, obj) {
+            if (obj.url) {
+                obj.url = `typedoc://${obj.url.substring(
+                    obj.url.indexOf(ref.fileName),
+                )}`;
+            }
+            return obj;
+        },
+    });
+    app.serializer.addSerializer({
+        priority: -1,
+        supports(obj) {
+            return obj instanceof td.ProjectReflection;
+        },
+        toObject(_refl, obj) {
+            delete obj.packageVersion;
+            return obj;
+        },
+    });
 
-/** @type {[string, () => void, () => void][]} */
+    return app;
+}
+
+/** @type {[string, (app: td.Application) => void, (app: td.Application) => void][]} */
 const conversions = [
     [
         "specs",
@@ -68,21 +72,22 @@ const conversions = [
     ],
     [
         "specs-with-lump-categories",
-        () => app.options.setValue("categorizeByGroup", false),
-        () => app.options.setValue("categorizeByGroup", true),
+        (app) => app.options.setValue("categorizeByGroup", false),
+        (app) => app.options.setValue("categorizeByGroup", true),
     ],
     [
         "specs.nodoc",
-        () => app.options.setValue("excludeNotDocumented", true),
-        () => app.options.setValue("excludeNotDocumented", false),
+        (app) => app.options.setValue("excludeNotDocumented", true),
+        (app) => app.options.setValue("excludeNotDocumented", false),
     ],
 ];
 
 /**
  * Rebuilds the converter specs for the provided dirs.
+ * @param {td.Application} app
  * @param {string[]} dirs
  */
-function rebuildConverterTests(dirs) {
+function rebuildConverterTests(app, dirs) {
     const program = ts.createProgram(app.options.getFileNames(), {
         ...app.options.getCompilerOptions(),
         noEmit: true,
@@ -100,7 +105,7 @@ function rebuildConverterTests(dirs) {
             const out = path.join(fullPath, `${file}.json`);
             if (fs.existsSync(out)) {
                 td.resetReflectionID();
-                before();
+                before(app);
                 const entry = getExpandedEntryPointsForPaths(
                     app.logger,
                     [fullPath],
@@ -116,7 +121,7 @@ function rebuildConverterTests(dirs) {
                 );
 
                 const data = JSON.stringify(serialized, null, "  ") + "\n";
-                after();
+                after(app);
                 fs.writeFileSync(out, data);
             }
         }
@@ -126,8 +131,10 @@ function rebuildConverterTests(dirs) {
 async function main(filter = "") {
     console.log("Base directory is", base);
     const dirs = await fs.promises.readdir(base, { withFileTypes: true });
+    const app = await getApp();
 
     await rebuildConverterTests(
+        app,
         dirs
             .filter((dir) => {
                 if (!dir.isDirectory()) return false;

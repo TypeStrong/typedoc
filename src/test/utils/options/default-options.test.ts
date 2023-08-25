@@ -1,9 +1,9 @@
 import { ok, throws, strictEqual, doesNotThrow } from "assert";
 import { BUNDLED_THEMES } from "shiki";
-import { Logger, Options } from "../../../lib/utils";
+import { Options } from "../../../lib/utils";
 
 describe("Default Options", () => {
-    const opts = new Options(new Logger());
+    const opts = new Options();
 
     describe("Highlighting theme", () => {
         it("Errors if an invalid theme is provided", () => {

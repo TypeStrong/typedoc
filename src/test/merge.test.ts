@@ -12,9 +12,8 @@ import { TestLogger } from "./TestLogger";
 const base = getConverterBase();
 
 describe("Merging projects", () => {
-    it("Handles multiple projects", () => {
-        const app = new Application();
-        app.bootstrap({
+    it("Handles multiple projects", async () => {
+        const app = await Application.bootstrap({
             entryPointStrategy: EntryPointStrategy.Merge,
             entryPoints: [
                 join(base, "alias/specs.json"),
@@ -24,7 +23,7 @@ describe("Merging projects", () => {
         const logger = new TestLogger();
         app.logger = logger;
 
-        const project = app.convert();
+        const project = await app.convert();
         logger.expectNoOtherMessages();
 
         equal(project?.name, "typedoc");

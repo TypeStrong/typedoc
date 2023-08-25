@@ -9,10 +9,13 @@ import { ok } from "assert";
 import { nicePath, normalizePath } from "../../paths";
 import { isFile } from "../../fs";
 import { createRequire } from "module";
+import { pathToFileURL } from "url";
 
 /**
  * Obtains option values from typedoc.json
- * or typedoc.js (discouraged since ~0.14, don't fully deprecate until API has stabilized)
+ *
+ * Changes need to happen here at some point. I think we should follow ESLint's new config
+ * system eventually: https://eslint.org/blog/2022/08/new-config-system-part-1/
  */
 export class TypeDocReader implements OptionsReader {
     /**
@@ -27,7 +30,7 @@ export class TypeDocReader implements OptionsReader {
     /**
      * Read user configuration from a typedoc.json or typedoc.js configuration file.
      */
-    read(container: Options, logger: Logger, cwd: string): void {
+    async read(container: Options, logger: Logger, cwd: string): Promise<void> {
         const path = container.getValue("options") || cwd;
         const file = this.findTypedocFile(path);
 
@@ -41,7 +44,7 @@ export class TypeDocReader implements OptionsReader {
         }
 
         const seen = new Set<string>();
-        this.readFile(file, container, logger, seen);
+        await this.readFile(file, container, logger, seen);
     }
 
     /**
@@ -50,7 +53,7 @@ export class TypeDocReader implements OptionsReader {
      * @param container
      * @param logger
      */
-    private readFile(
+    private async readFile(
         file: string,
         container: Options & { setValue(key: string, value: unknown): void },
         logger: Logger,
@@ -83,8 +86,28 @@ export class TypeDocReader implements OptionsReader {
                 fileContent = readResult.config;
             }
         } else {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            fileContent = require(file);
+            try {
+                try {
+                    // eslint-disable-next-line @typescript-eslint/no-var-requires
+                    fileContent = require(file);
+                } catch (error: any) {
+                    if (error?.code === "ERR_REQUIRE_ESM") {
+                        // On Windows, we need to ensure this path is a file path.
+                        // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
+                        const esmPath = pathToFileURL(file).toString();
+                        fileContent = (await import(esmPath)).default;
+                    } else {
+                        throw error;
+                    }
+                }
+            } catch (error) {
+                logger.error(
+                    `Failed to read ${nicePath(file)}: ${
+                        error instanceof Error ? error.message : error
+                    }`,
+                );
+                return;
+            }
         }
 
         if (typeof fileContent !== "object" || !fileContent) {
@@ -113,7 +136,7 @@ export class TypeDocReader implements OptionsReader {
                     );
                     continue;
                 }
-                this.readFile(resolvedParent, container, logger, seen);
+                await this.readFile(resolvedParent, container, logger, seen);
             }
             delete data["extends"];
         }
@@ -149,14 +172,18 @@ export class TypeDocReader implements OptionsReader {
             join(path, "typedoc.jsonc"),
             join(path, "typedoc.config.js"),
             join(path, "typedoc.config.cjs"),
+            join(path, "typedoc.config.mjs"),
             join(path, "typedoc.js"),
             join(path, "typedoc.cjs"),
+            join(path, "typedoc.mjs"),
             join(path, ".config/typedoc.json"),
             join(path, ".config/typedoc.jsonc"),
             join(path, ".config/typedoc.config.js"),
             join(path, ".config/typedoc.config.cjs"),
+            join(path, ".config/typedoc.config.mjs"),
             join(path, ".config/typedoc.js"),
             join(path, ".config/typedoc.cjs"),
+            join(path, ".config/typedoc.mjs"),
         ].find(isFile);
     }
 }

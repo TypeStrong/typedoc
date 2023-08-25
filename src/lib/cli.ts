@@ -11,34 +11,38 @@ const ExitCodes = {
 
 import * as td from "typedoc";
 
-const app = new td.Application();
+void main();
 
-app.options.addReader(new td.ArgumentsReader(0));
-app.options.addReader(new td.TypeDocReader());
-app.options.addReader(new td.PackageJsonReader());
-app.options.addReader(new td.TSConfigReader());
-app.options.addReader(new td.ArgumentsReader(300));
+async function main() {
+    let app: td.Application | undefined;
 
-void run(app)
-    .catch((error) => {
+    try {
+        const start = Date.now();
+
+        app = await td.Application.bootstrapWithPlugins({}, [
+            new td.ArgumentsReader(0),
+            new td.TypeDocReader(),
+            new td.PackageJsonReader(),
+            new td.TSConfigReader(),
+            new td.ArgumentsReader(300),
+        ]);
+
+        const exitCode = await run(app);
+        app.logger.verbose(`Full run took ${Date.now() - start}ms`);
+        process.exit(exitCode);
+    } catch (error) {
         console.error("TypeDoc exiting with unexpected error:");
         console.error(error);
-        if (app.options.getValue("skipErrorChecking")) {
+        if (app?.options.getValue("skipErrorChecking")) {
             console.error(
                 "Try turning off --skipErrorChecking. If TypeDoc still crashes, please report a bug.",
             );
         }
-        return ExitCodes.ExceptionThrown;
-    })
-    .then((exitCode) => {
-        process.exitCode = exitCode;
-    });
+        process.exit(ExitCodes.ExceptionThrown);
+    }
+}
 
 async function run(app: td.Application) {
-    const start = Date.now();
-
-    await app.bootstrapWithPlugins();
-
     if (app.options.getValue("version")) {
         console.log(app.toString());
         return ExitCodes.Ok;
@@ -79,7 +83,7 @@ async function run(app: td.Application) {
         return ExitCodes.Ok;
     }
 
-    const project = app.convert();
+    const project = await app.convert();
     if (!project) {
         return ExitCodes.CompileError;
     }
@@ -126,6 +130,5 @@ async function run(app: td.Application) {
         }
     }
 
-    app.logger.verbose(`Full run took ${Date.now() - start}ms`);
     return ExitCodes.Ok;
 }

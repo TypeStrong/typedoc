@@ -5,7 +5,16 @@ import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
 import { Deserializer, JSONOutput, Serializer } from "./serialization";
 import type { ProjectReflection } from "./models/index";
-import { Logger, ConsoleLogger, loadPlugins, writeFile } from "./utils/index";
+import {
+    Logger,
+    ConsoleLogger,
+    loadPlugins,
+    writeFile,
+    OptionsReader,
+    TSConfigReader,
+    TypeDocReader,
+    PackageJsonReader,
+} from "./utils/index";
 
 import {
     AbstractComponent,
@@ -42,6 +51,19 @@ const packageInfo = require("../../package.json") as {
 const supportedVersionMajorMinor = packageInfo.peerDependencies.typescript
     .split("||")
     .map((version) => version.replace(/^\s*|\.x\s*$/g, ""));
+
+const DETECTOR = Symbol();
+
+export function createAppForTesting(): Application {
+    // @ts-expect-error private constructor
+    return new Application(DETECTOR);
+}
+
+const DEFAULT_READERS = [
+    new TypeDocReader(),
+    new PackageJsonReader(),
+    new TSConfigReader(),
+];
 
 /**
  * The default TypeDoc main application class.
@@ -84,9 +106,9 @@ export class Application extends ChildableComponent<
     /**
      * The logger that should be used to output messages.
      */
-    logger: Logger;
+    logger: Logger = new ConsoleLogger();
 
-    options: Options;
+    options = new Options();
 
     /** @internal */
     @BindOption("skipErrorChecking")
@@ -126,11 +148,14 @@ export class Application extends ChildableComponent<
     /**
      * Create a new TypeDoc application instance.
      */
-    constructor() {
+    private constructor(detector: typeof DETECTOR) {
+        if (detector !== DETECTOR) {
+            throw new Error(
+                "An application handle must be retrieved with Application.bootstrap or Application.bootstrapWithPlugins",
+            );
+        }
         super(null!); // We own ourselves
 
-        this.logger = new ConsoleLogger();
-        this.options = new Options(this.logger);
         this.converter = this.addComponent<Converter>("converter", Converter);
         this.renderer = this.addComponent<Renderer>("renderer", Renderer);
     }
@@ -138,17 +163,21 @@ export class Application extends ChildableComponent<
     /**
      * Initialize TypeDoc, loading plugins if applicable.
      */
-    async bootstrapWithPlugins(
+    static async bootstrapWithPlugins(
         options: Partial<TypeDocOptions> = {},
-    ): Promise<void> {
-        this.options.reset();
-        this.setOptions(options, /* reportErrors */ false);
-        this.options.read(new Logger());
-        this.logger.level = this.options.getValue("logLevel");
+        readers: readonly OptionsReader[] = DEFAULT_READERS,
+    ): Promise<Application> {
+        const app = new Application(DETECTOR);
+        readers.forEach((r) => app.options.addReader(r));
+        app.options.reset();
+        app.setOptions(options, /* reportErrors */ false);
+        await app.options.read(new Logger());
+        app.logger.level = app.options.getValue("logLevel");
 
-        await loadPlugins(this, this.options.getValue("plugin"));
+        await loadPlugins(app, app.options.getValue("plugin"));
 
-        this.bootstrap(options);
+        await app._bootstrap(options);
+        return app;
     }
 
     /**
@@ -157,16 +186,26 @@ export class Application extends ChildableComponent<
      * @example
      * Initialize the application with pretty-printing output disabled.
      * ```ts
-     * const app = new Application();
-     * app.bootstrap({ pretty: false });
+     * const app = Application.bootstrap({ pretty: false });
      * ```
      *
-     * @param options - Options to set during initialization
+     * @param options Options to set during initialization
+     * @param readers Option readers to use to discover options from config files.
      */
-    bootstrap(options: Partial<TypeDocOptions> = {}): void {
+    static async bootstrap(
+        options: Partial<TypeDocOptions> = {},
+        readers: readonly OptionsReader[] = DEFAULT_READERS,
+    ): Promise<Application> {
+        const app = new Application(DETECTOR);
+        readers.forEach((r) => app.options.addReader(r));
+        await app._bootstrap(options);
+        return app;
+    }
+
+    private async _bootstrap(options: Partial<TypeDocOptions>) {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
-        this.options.read(this.logger);
+        await this.options.read(this.logger);
         this.setOptions(options);
         this.logger.level = this.options.getValue("logLevel");
 
@@ -217,7 +256,7 @@ export class Application extends ChildableComponent<
      *
      * @returns An instance of ProjectReflection on success, undefined otherwise.
      */
-    public convert(): ProjectReflection | undefined {
+    public async convert(): Promise<ProjectReflection | undefined> {
         const start = Date.now();
         // We freeze here rather than in the Converter class since TypeDoc's tests reuse the Application
         // with a few different settings.
@@ -527,7 +566,7 @@ export class Application extends ChildableComponent<
         ].join("\n");
     }
 
-    private _convertPackages(): ProjectReflection | undefined {
+    private async _convertPackages(): Promise<ProjectReflection | undefined> {
         if (!this.options.isSet("entryPoints")) {
             this.logger.error(
                 "No entry points provided to packages mode, documentation cannot be generated.",
@@ -557,7 +596,7 @@ export class Application extends ChildableComponent<
             const opts = origOptions.copyForPackage(dir);
             // Invalid links should only be reported after everything has been merged.
             opts.setValue("validation", { invalidLink: false });
-            opts.read(this.logger, dir);
+            await opts.read(this.logger, dir);
             if (
                 opts.getValue("entryPointStrategy") ===
                 EntryPointStrategy.Packages
@@ -571,7 +610,7 @@ export class Application extends ChildableComponent<
             }
 
             this.options = opts;
-            const project = this.convert();
+            const project = await this.convert();
             if (project) {
                 this.validate(project);
                 projects.push(

@@ -6,11 +6,13 @@
 -   Removed `legacy-packages` option for `--entryPointStrategy`.
 -   Changed default value of `--categorizeByGroup` to `false`.
 -   Specifying a link as the `gitRemote` is no longer supported.
+-   An `Application` instance must now be retrieved via `Application.bootstrap` or `Application.bootstrapWithPlugins`, #2268.
 -   Removed `ReflectionKind.ObjectLiteral` that was never used by TypeDoc.
 -   Removed deprecated members `DefaultThemeRenderContext.comment` and `DefaultThemeRenderContext.attemptExternalResolution`.
 
 ### Features
 
+-   TypeDoc config files now support options default-exported from an ESM config file, #2268.
 -   Added a no-results placeholder when no search results are available, #2347.
 -   Implemented several miscellaneous performance improvements to generate docs faster, this took the time to generate TypeDoc's
     site from ~5.6 seconds to ~5.4 seconds.
@@ -36,6 +38,7 @@
 ### Thanks!
 
 -   @camc314
+-   @cprussin
 
 ## v0.24.8 (2023-06-04)
 

@@ -8,22 +8,22 @@ import { tempdirProject, Project } from "@typestrong/fs-fixture-builder";
 import { tmpdir } from "os";
 
 describe("Options - TSConfigReader", () => {
-    const options = new Options(new Logger());
+    const options = new Options();
     options.addReader(new TSConfigReader());
     const logger = new TestLogger();
 
-    function readWithProject(project: Project, reset = true) {
+    async function readWithProject(project: Project, reset = true) {
         if (reset) {
             options.reset();
         }
         logger.reset();
         options.setValue("tsconfig", project.cwd);
         project.write();
-        options.read(logger);
+        await options.read(logger);
         project.rm();
     }
 
-    it("Errors if the file cannot be found", () => {
+    it("Errors if the file cannot be found", async () => {
         options.reset();
         logger.reset();
 
@@ -31,15 +31,15 @@ describe("Options - TSConfigReader", () => {
             "tsconfig",
             join(tmpdir(), "typedoc/does-not-exist.json"),
         );
-        options.read(logger);
+        await options.read(logger);
         logger.expectMessage("error: *");
     });
 
     function testError(name: string, file: object) {
-        it(name, () => {
+        it(name, async () => {
             const project = tempdirProject();
             project.addJsonFile("tsconfig.json", file);
-            readWithProject(project);
+            await readWithProject(project);
             equal(logger.hasErrors(), true, "No error was logged");
         });
     }
@@ -66,42 +66,42 @@ describe("Options - TSConfigReader", () => {
         },
     });
 
-    it("Errors if a tsconfig file cannot be parsed", () => {
+    it("Errors if a tsconfig file cannot be parsed", async () => {
         const project = tempdirProject();
         project.addFile("tsconfig.json", '{"test}');
-        readWithProject(project);
+        await readWithProject(project);
         logger.expectMessage("error: *");
     });
 
-    it("Does not error if the option file cannot be found but was not set.", () => {
+    it("Does not error if the option file cannot be found but was not set.", async () => {
         const logger = new Logger();
 
         const options = new (class LyingOptions extends Options {
             override isSet() {
                 return false;
             }
-        })(logger);
+        })();
 
         options.setValue(
             "tsconfig",
             join(__dirname, "data/does_not_exist.json"),
         );
         options.addReader(new TSConfigReader());
-        options.read(logger);
+        await options.read(logger);
         equal(logger.hasErrors(), false);
     });
 
-    function readTsconfig(tsconfig: object) {
+    async function readTsconfig(tsconfig: object) {
         const project = tempdirProject();
         project.addFile("file.ts", "export const abc = 123");
         project.addJsonFile("tsconfig.json", tsconfig);
 
-        readWithProject(project);
+        await readWithProject(project);
         logger.expectNoOtherMessages();
     }
 
-    it("Sets files for the program", () => {
-        readTsconfig({
+    it("Sets files for the program", async () => {
+        await readTsconfig({
             files: ["./file.ts"],
         });
         equal(
@@ -110,8 +110,8 @@ describe("Options - TSConfigReader", () => {
         );
     });
 
-    it("Allows stripInternal to set excludeInternal", () => {
-        readTsconfig({
+    it("Allows stripInternal to set excludeInternal", async () => {
+        await readTsconfig({
             compilerOptions: {
                 stripInternal: true,
             },
@@ -119,7 +119,7 @@ describe("Options - TSConfigReader", () => {
         equal(options.getValue("excludeInternal"), true);
     });
 
-    it("Does not set excludeInternal by stripInternal if already set", () => {
+    it("Does not set excludeInternal by stripInternal if already set", async () => {
         const project = tempdirProject();
         project.addJsonFile("tsconfig.json", {
             compilerOptions: { stripInternal: true },
@@ -127,40 +127,40 @@ describe("Options - TSConfigReader", () => {
 
         options.reset();
         options.setValue("excludeInternal", false);
-        readWithProject(project, false);
+        await readWithProject(project, false);
         equal(options.getValue("excludeInternal"), false);
     });
 
-    it("Correctly handles folder names ending with .json (#1712)", () => {
+    it("Correctly handles folder names ending with .json (#1712)", async () => {
         const project = tempdirProject();
         project.addJsonFile("tsconfig.json", {
             compilerOptions: { strict: true },
         });
-        readWithProject(project);
+        await readWithProject(project);
         equal(options.getCompilerOptions().strict, true);
     });
 
-    function testTsdoc(tsdoc: object, cb?: () => void, reset = true) {
+    async function testTsdoc(tsdoc: object, cb?: () => void, reset = true) {
         const project = tempdirProject();
         project.addFile("file.ts", "export const abc = 123");
         project.addJsonFile("tsconfig.json", {});
         project.addJsonFile("tsdoc.json", tsdoc);
 
-        readWithProject(project, reset);
+        await readWithProject(project, reset);
         cb?.();
         logger.expectNoOtherMessages();
     }
 
-    it("Handles failed tsdoc reads", () => {
-        testTsdoc([], () => {
+    it("Handles failed tsdoc reads", async () => {
+        await testTsdoc([], () => {
             logger.expectMessage(
                 "error: Failed to read tsdoc.json file at */tsdoc.json.",
             );
         });
     });
 
-    it("Handles invalid tsdoc files", () => {
-        testTsdoc(
+    it("Handles invalid tsdoc files", async () => {
+        await testTsdoc(
             {
                 doesNotMatchSchema: true,
             },
@@ -172,11 +172,11 @@ describe("Options - TSConfigReader", () => {
         );
     });
 
-    it("Warns if an option will be overwritten", () => {
+    it("Warns if an option will be overwritten", async () => {
         options.reset();
         options.setValue("blockTags", []);
         options.setValue("modifierTags", []);
-        testTsdoc(
+        await testTsdoc(
             {},
             () => {
                 logger.expectMessage(
@@ -188,8 +188,8 @@ describe("Options - TSConfigReader", () => {
         );
     });
 
-    it("Reads tsdoc.json", () => {
-        testTsdoc({
+    it("Reads tsdoc.json", async () => {
+        await testTsdoc({
             noStandardTags: true,
             tagDefinitions: [
                 {
@@ -212,7 +212,7 @@ describe("Options - TSConfigReader", () => {
         equal(options.getValue("modifierTags"), ["@tag3"]);
     });
 
-    it("Handles extends in tsdoc.json", () => {
+    it("Handles extends in tsdoc.json", async () => {
         const project = tempdirProject();
         project.addFile("file.ts", "export const abc = 123");
         project.addJsonFile("tsconfig.json", {});
@@ -227,13 +227,13 @@ describe("Options - TSConfigReader", () => {
             ],
         });
 
-        readWithProject(project);
+        await readWithProject(project);
         equal(options.getValue("blockTags"), ["@tag"]);
         logger.expectNoOtherMessages();
     });
 
-    it("Handles supportForTags in tsdoc.json", () => {
-        testTsdoc({
+    it("Handles supportForTags in tsdoc.json", async () => {
+        await testTsdoc({
             noStandardTags: true,
             tagDefinitions: [
                 {
@@ -259,8 +259,8 @@ describe("Options - TSConfigReader", () => {
         equal(options.getValue("modifierTags"), []);
     });
 
-    it("Handles circular extends", () => {
-        testTsdoc(
+    it("Handles circular extends", async () => {
+        await testTsdoc(
             {
                 extends: ["./tsdoc.json"],
             },
@@ -272,8 +272,8 @@ describe("Options - TSConfigReader", () => {
         );
     });
 
-    it("Handles extends which reference invalid files", () => {
-        testTsdoc(
+    it("Handles extends which reference invalid files", async () => {
+        await testTsdoc(
             {
                 extends: ["typedoc/nope"],
             },

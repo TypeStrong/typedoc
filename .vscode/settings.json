@@ -45,6 +45,7 @@
         "githubprivate",
         "linkcode",
         "linkplain",
+        "nodoc",
         "shiki",
         "tsbuildinfo",
         "tsdoc",

@@ -32,7 +32,7 @@ describe("Options - ArgumentsReader", () => {
     };
 
     beforeEach(() => {
-        options = new Options(logger);
+        options = new Options();
         options.addDeclaration({
             name: "numOption",
             help: "",
@@ -48,11 +48,11 @@ describe("Options - ArgumentsReader", () => {
     });
 
     function test(name: string, args: string[], cb: () => void) {
-        it(name, () => {
+        it(name, async () => {
             const reader = new ArgumentsReader(1, args);
             options.reset();
             options.addReader(reader);
-            options.read(logger);
+            await options.read(logger);
             cb();
         });
     }
@@ -121,12 +121,12 @@ describe("Options - ArgumentsReader", () => {
         },
     );
 
-    it("Errors if given an unknown option", () => {
+    it("Errors if given an unknown option", async () => {
         const similarOptions = options.getSimilarOptions("badOption");
         const reader = new ArgumentsReader(1, ["--badOption"]);
         options.reset();
         options.addReader(reader);
-        options.read(logger);
+        await options.read(logger);
         logger.expectMessage(
             `error: Unknown option: --badOption, you may have meant:\n\t${similarOptions.join(
                 "\n\t",
@@ -134,7 +134,7 @@ describe("Options - ArgumentsReader", () => {
         );
     });
 
-    it("Warns if option is expecting a value but no value is provided", () => {
+    it("Warns if option is expecting a value but no value is provided", async () => {
         let check = false;
         class TestLogger extends Logger {
             override warn(msg: string) {
@@ -146,7 +146,7 @@ describe("Options - ArgumentsReader", () => {
         const reader = new ArgumentsReader(1, ["--out"]);
         options.reset();
         options.addReader(reader);
-        options.read(new TestLogger());
+        await options.read(new TestLogger());
         equal(check, true, "Reader did not report an error.");
     });
 

@@ -10,6 +10,7 @@ import {
     TSConfigReader,
 } from "..";
 import type { ModelToObject } from "../lib/serialization/schema";
+import { createAppForTesting } from "../lib/application";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -22,9 +23,8 @@ export function getConverterBase() {
 
 export function getConverterApp() {
     if (!converterApp) {
-        converterApp = new Application();
-        converterApp.options.addReader(new TSConfigReader());
-        converterApp.bootstrap({
+        converterApp = createAppForTesting();
+        for (const [name, value] of Object.entries({
             name: "typedoc",
             excludeExternals: true,
             disableSources: false,
@@ -34,7 +34,14 @@ export function getConverterApp() {
             entryPointStrategy: EntryPointStrategy.Expand,
             gitRevision: "fake",
             readme: "none",
-        });
+        })) {
+            converterApp.options.setValue(name as never, value as never);
+        }
+        new TSConfigReader().read(
+            converterApp.options,
+            converterApp.logger,
+            process.cwd(),
+        );
 
         converterApp.serializer.addSerializer({
             priority: -1,
@@ -92,13 +99,19 @@ export function getConverter2Base() {
 
 export function getConverter2App() {
     if (!converter2App) {
-        converter2App = new Application();
-        converter2App.options.addReader(new TSConfigReader());
-        converter2App.bootstrap({
+        converter2App = createAppForTesting();
+        for (const [name, value] of Object.entries({
             excludeExternals: true,
             tsconfig: join(getConverter2Base(), "tsconfig.json"),
             validation: true,
-        });
+        })) {
+            converter2App.options.setValue(name as never, value as never);
+        }
+        new TSConfigReader().read(
+            converter2App.options,
+            converter2App.logger,
+            process.cwd(),
+        );
     }
     return converter2App;
 }
