@@ -19,6 +19,7 @@
 -   Added `--disableGit` option to prevent TypeDoc from using Git to try to determine if sources can be linked, #2326.
 -   Added support for tags `@showGroups`, `@hideGroups`, `@showCategories`, `@hideCategories` to configure the navigation pane on a
     per-reflection basis, #2329.
+-   With `--jsDocCompatibility.defaultTags` set, `@defaultValue` is now implicitly a code block if the text contains no code, #2370.
 
 ### Bug Fixes
 
@@ -39,6 +40,7 @@
 
 -   @camc314
 -   @cprussin
+-   @roggervalf
 -   @Th3S4mur41
 
 ## v0.24.8 (2023-06-04)

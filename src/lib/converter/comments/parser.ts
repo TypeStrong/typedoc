@@ -216,8 +216,8 @@ function blockTag(
     if (tagName === "@example" && config.jsDocCompatibility.exampleTag) {
         content = exampleBlockContent(comment, lexer, config, warning);
     } else if (
-        (tagName === "@default" && config.jsDocCompatibility.defaultTag) ||
-        tagName === "@defaultValue"
+        ["@default", "@defaultValue"].includes(tagName) &&
+        config.jsDocCompatibility.defaultTag
     ) {
         content = defaultBlockContent(comment, lexer, config, warning);
     } else {
