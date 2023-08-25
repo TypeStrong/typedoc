@@ -554,6 +554,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
         defaultValue: true,
     });
+    options.addDeclaration({
+        name: "preserveLinkText",
+        help: "If set, @link tags without link text will use the text content as the link. If not set, will use the target reflection name.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
 
     options.addDeclaration({
         name: "blockTags",

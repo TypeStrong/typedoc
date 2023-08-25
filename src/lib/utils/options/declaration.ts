@@ -155,6 +155,7 @@ export interface TypeDocOptionMap {
     // Comment
     commentStyle: typeof CommentStyle;
     useTsLinkResolution: boolean;
+    preserveLinkText: boolean;
     jsDocCompatibility: JsDocCompatibility;
     blockTags: `@${string}`[];
     inlineTags: `@${string}`[];

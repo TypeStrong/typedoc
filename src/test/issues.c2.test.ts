@@ -471,7 +471,7 @@ describe("Issue Tests", () => {
             | InlineTagDisplayPart
             | undefined;
         equal(tag?.kind, "inline-tag");
-        equal(tag.text, "method");
+        equal(tag.text, "Test2.method");
         ok(
             tag.target === query(project, "Test.method"),
             "Incorrect resolution",

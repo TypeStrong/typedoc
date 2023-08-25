@@ -90,6 +90,10 @@ export class Converter extends ChildableComponent<
     @BindOption("useTsLinkResolution")
     useTsLinkResolution!: boolean;
 
+    /** @internal */
+    @BindOption("preserveLinkText")
+    preserveLinkText!: boolean;
+
     private _config?: CommentParserConfig;
     private _externalSymbolResolvers: Array<ExternalSymbolResolver> = [];
 
@@ -310,12 +314,20 @@ export class Converter extends ChildableComponent<
         owner: Reflection,
     ): CommentDisplayPart[] | undefined {
         if (comment instanceof Comment) {
-            resolveLinks(comment, owner, (ref, part, refl, id) =>
-                this.resolveExternalLink(ref, part, refl, id),
+            resolveLinks(
+                comment,
+                owner,
+                (ref, part, refl, id) =>
+                    this.resolveExternalLink(ref, part, refl, id),
+                { preserveLinkText: this.preserveLinkText },
             );
         } else {
-            return resolvePartLinks(owner, comment, (ref, part, refl, id) =>
-                this.resolveExternalLink(ref, part, refl, id),
+            return resolvePartLinks(
+                owner,
+                comment,
+                (ref, part, refl, id) =>
+                    this.resolveExternalLink(ref, part, refl, id),
+                { preserveLinkText: this.preserveLinkText },
             );
         }
     }

@@ -752,7 +752,7 @@ describe("Behavior Tests", () => {
             [ReflectionKind.Variable, "A"],
             [ReflectionKind.Variable, "A"],
         ]);
-        equal(getLinkTexts(localSymbolRef), ["A!", "A2!", "A"]);
+        equal(getLinkTexts(localSymbolRef), ["A!", "A2!", "AnotherName"]);
 
         equal(getLinks(query(project, "scoped")), [
             [ReflectionKind.Property, "Meanings.B.prop"],

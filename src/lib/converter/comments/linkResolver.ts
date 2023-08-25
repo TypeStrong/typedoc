@@ -32,21 +32,28 @@ export type ExternalSymbolResolver = (
     symbolId: ReflectionSymbolId | undefined,
 ) => ExternalResolveResult | string | undefined;
 
+export type LinkResolverOptions = {
+    preserveLinkText: boolean;
+};
+
 export function resolveLinks(
     comment: Comment,
     reflection: Reflection,
     externalResolver: ExternalSymbolResolver,
+    options: LinkResolverOptions,
 ) {
     comment.summary = resolvePartLinks(
         reflection,
         comment.summary,
         externalResolver,
+        options,
     );
     for (const tag of comment.blockTags) {
         tag.content = resolvePartLinks(
             reflection,
             tag.content,
             externalResolver,
+            options,
         );
     }
 
@@ -55,6 +62,7 @@ export function resolveLinks(
             reflection,
             reflection.readme,
             externalResolver,
+            options,
         );
     }
 }
@@ -63,9 +71,10 @@ export function resolvePartLinks(
     reflection: Reflection,
     parts: readonly CommentDisplayPart[],
     externalResolver: ExternalSymbolResolver,
+    options: LinkResolverOptions,
 ): CommentDisplayPart[] {
     return parts.flatMap((part) =>
-        processPart(reflection, part, externalResolver),
+        processPart(reflection, part, externalResolver, options),
     );
 }
 
@@ -73,6 +82,7 @@ function processPart(
     reflection: Reflection,
     part: CommentDisplayPart,
     externalResolver: ExternalSymbolResolver,
+    options: LinkResolverOptions,
 ): CommentDisplayPart | CommentDisplayPart[] {
     if (part.kind === "inline-tag") {
         if (
@@ -80,7 +90,7 @@ function processPart(
             part.tag === "@linkcode" ||
             part.tag === "@linkplain"
         ) {
-            return resolveLinkTag(reflection, part, externalResolver);
+            return resolveLinkTag(reflection, part, externalResolver, options);
         }
     }
 
@@ -91,6 +101,7 @@ function resolveLinkTag(
     reflection: Reflection,
     part: InlineTagDisplayPart,
     externalResolver: ExternalSymbolResolver,
+    options: LinkResolverOptions,
 ): InlineTagDisplayPart {
     let defaultDisplayText = "";
     let pos = 0;
@@ -112,7 +123,9 @@ function resolveLinkTag(
         if (tsTarget) {
             target = tsTarget;
             pos = end;
-            defaultDisplayText = part.tsLinkText || target.name;
+            defaultDisplayText =
+                part.tsLinkText ||
+                (options.preserveLinkText ? part.text : target.name);
         } else if (declRef) {
             // If we didn't find a target, we might be pointing to a symbol in another project that will be merged in
             // or some external symbol, so ask external resolvers to try resolution. Don't use regular declaration ref
@@ -127,7 +140,9 @@ function resolveLinkTag(
                     : undefined,
             );
 
-            defaultDisplayText = part.text.substring(0, pos);
+            defaultDisplayText = options.preserveLinkText
+                ? part.text
+                : part.text.substring(0, pos);
 
             switch (typeof externalResolveResult) {
                 case "string":
@@ -147,7 +162,9 @@ function resolveLinkTag(
         pos = declRef[1];
 
         if (target) {
-            defaultDisplayText = target.name;
+            defaultDisplayText = options.preserveLinkText
+                ? part.text
+                : target.name;
         } else {
             // If we didn't find a link, it might be a @link tag to an external symbol, check that next.
             const externalResolveResult = externalResolver(
@@ -159,7 +176,9 @@ function resolveLinkTag(
                     : undefined,
             );
 
-            defaultDisplayText = part.text.substring(0, pos);
+            defaultDisplayText = options.preserveLinkText
+                ? part.text
+                : part.text.substring(0, pos);
 
             switch (typeof externalResolveResult) {
                 case "string":

@@ -89,13 +89,13 @@ export class TypeDocReader implements OptionsReader {
             try {
                 try {
                     // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    fileContent = require(file);
+                    fileContent = await require(file);
                 } catch (error: any) {
                     if (error?.code === "ERR_REQUIRE_ESM") {
                         // On Windows, we need to ensure this path is a file path.
                         // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
                         const esmPath = pathToFileURL(file).toString();
-                        fileContent = (await import(esmPath)).default;
+                        fileContent = await (await import(esmPath)).default;
                     } else {
                         throw error;
                     }

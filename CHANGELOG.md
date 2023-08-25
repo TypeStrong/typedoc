@@ -13,6 +13,9 @@
 ### Features
 
 -   TypeDoc config files now support options default-exported from an ESM config file, #2268.
+-   TypeDoc config files may now export a promise containing configuration, #2268.
+-   Added `--preserveLinkText` option (defaults to true) which determines whether the reflection name or full link text is included
+    in the output when no override is specified, #2355.
 -   Added a no-results placeholder when no search results are available, #2347.
 -   Implemented several miscellaneous performance improvements to generate docs faster, this took the time to generate TypeDoc's
     site from ~5.6 seconds to ~5.4 seconds.
