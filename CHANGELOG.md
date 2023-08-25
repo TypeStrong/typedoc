@@ -14,6 +14,7 @@
 
 ### Features
 
+-   Added support for TypeScript 5.2, #2373.
 -   TypeDoc config files now support options default-exported from an ESM config file, #2268.
 -   TypeDoc config files may now export a promise containing configuration, #2268.
 -   Added `--preserveLinkText` option (defaults to true) which determines whether the reflection name or full link text is included
