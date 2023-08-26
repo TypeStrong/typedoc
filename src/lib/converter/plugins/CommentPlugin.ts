@@ -606,6 +606,14 @@ function movePropertyTags(comment: Comment, container: Reflection) {
             child.comment = new Comment(
                 Comment.cloneDisplayParts(prop.content),
             );
+
+            if (child instanceof DeclarationReflection && child.signatures) {
+                for (const sig of child.signatures) {
+                    sig.comment = new Comment(
+                        Comment.cloneDisplayParts(prop.content),
+                    );
+                }
+            }
         }
     }
 }

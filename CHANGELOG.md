@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   `@property` now works as expected if used to override a method's documentation.
+
 # v0.25.0 (2023-08-25)
 
 ### Breaking Changes
