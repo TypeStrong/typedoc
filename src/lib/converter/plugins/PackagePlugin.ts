@@ -24,6 +24,9 @@ export class PackagePlugin extends ConverterComponent {
     @BindOption("readme")
     readme!: string;
 
+    @BindOption("stripYamlFrontmatter")
+    stripYamlFrontmatter!: boolean;
+
     @BindOption("entryPointStrategy")
     entryPointStrategy!: EntryPointStrategy;
 
@@ -99,7 +102,9 @@ export class PackagePlugin extends ConverterComponent {
         if (this.readme) {
             // Readme path provided, read only that file.
             try {
-                this.readmeContents = readFile(this.readme);
+                this.readmeContents = this.processReadmeContents(
+                    readFile(this.readme),
+                );
                 this.readmeFile = this.readme;
             } catch {
                 this.application.logger.error(
@@ -118,9 +123,21 @@ export class PackagePlugin extends ConverterComponent {
 
             if (result) {
                 this.readmeFile = result.file;
-                this.readmeContents = result.content;
+                this.readmeContents = this.processReadmeContents(
+                    result.content,
+                );
             }
         }
+    }
+
+    private processReadmeContents(contents: string) {
+        if (this.stripYamlFrontmatter) {
+            return contents.replace(
+                /^[\r\n\s]*---\r?\n[\s\S]*?\r?\n---[\r\n\s]+/,
+                "",
+            );
+        }
+        return contents;
     }
 
     private onBeginResolve(context: Context) {

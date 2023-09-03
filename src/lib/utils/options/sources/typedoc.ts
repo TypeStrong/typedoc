@@ -329,6 +329,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Path,
     });
     options.addDeclaration({
+        name: "stripYamlFrontmatter",
+        help: "Strip YAML frontmatter from markdown files.",
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "cname",
         help: "Set the CNAME file text, it's useful for custom domains on GitHub Pages.",
     });

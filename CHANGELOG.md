@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added `stripYamlFrontmatter` config option, #2381.
+
 ### Bug Fixes
 
 -   `@property` now works as expected if used to override a method's documentation.
