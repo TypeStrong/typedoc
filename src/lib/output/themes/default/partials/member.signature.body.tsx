@@ -37,7 +37,7 @@ export function memberSignatureBody(
                                     )}
                                 </h5>
                                 {context.commentSummary(item)}
-                                {context.reflectionFlags(item)}
+                                {context.commentTags(item)}
                                 {item.type instanceof ReflectionType && context.parameter(item.type.declaration)}
                             </li>
                         ))}
