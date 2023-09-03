@@ -1,7 +1,7 @@
 import { Component, ConverterComponent } from "../components";
 import type { Context, ExternalResolveResult } from "../../converter";
 import { ConverterEvents } from "../converter-events";
-import { BindOption, ValidationOptions } from "../../utils";
+import { Option, ValidationOptions } from "../../utils";
 import { DeclarationReflection, ProjectReflection } from "../../models";
 import { discoverAllReferenceTypes } from "../../utils/reflections";
 import { ApplicationEvents } from "../../application-events";
@@ -11,8 +11,8 @@ import { ApplicationEvents } from "../../application-events";
  */
 @Component({ name: "link-resolver" })
 export class LinkResolverPlugin extends ConverterComponent {
-    @BindOption("validation")
-    validation!: ValidationOptions;
+    @Option("validation")
+    accessor validation!: ValidationOptions;
 
     override initialize() {
         super.initialize();

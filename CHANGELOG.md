@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 -   `@property` now works as expected if used to override a method's documentation.
+-   Deprecated functions/methods are now correctly rendered with a struck-out name.
 -   `--watch` mode works again, #2378.
 -   Improved support for optional names within JSDoc types, #2384.
 -   Fixed duplicate rendering of reflection flags on signature parameters, #2385.

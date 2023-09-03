@@ -18,7 +18,7 @@ import { writeFileSync } from "../utils/fs";
 import { DefaultTheme } from "./themes/default/DefaultTheme";
 import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
-import { BindOption, EventHooks } from "../utils";
+import { Option, EventHooks } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
 import type { Theme as ShikiTheme } from "shiki";
 import { Reflection } from "../models";
@@ -175,36 +175,36 @@ export class Renderer extends ChildableComponent<
     hooks = new EventHooks<RendererHooks, JsxElement>();
 
     /** @internal */
-    @BindOption("theme")
-    themeName!: string;
+    @Option("theme")
+    accessor themeName!: string;
 
     /** @internal */
-    @BindOption("cleanOutputDir")
-    cleanOutputDir!: boolean;
+    @Option("cleanOutputDir")
+    accessor cleanOutputDir!: boolean;
 
     /** @internal */
-    @BindOption("cname")
-    cname!: string;
+    @Option("cname")
+    accessor cname!: string;
 
     /** @internal */
-    @BindOption("githubPages")
-    githubPages!: boolean;
+    @Option("githubPages")
+    accessor githubPages!: boolean;
 
     /** @internal */
-    @BindOption("cacheBust")
-    cacheBust!: boolean;
+    @Option("cacheBust")
+    accessor cacheBust!: boolean;
 
     /** @internal */
-    @BindOption("lightHighlightTheme")
-    lightTheme!: ShikiTheme;
+    @Option("lightHighlightTheme")
+    accessor lightTheme!: ShikiTheme;
 
     /** @internal */
-    @BindOption("darkHighlightTheme")
-    darkTheme!: ShikiTheme;
+    @Option("darkHighlightTheme")
+    accessor darkTheme!: ShikiTheme;
 
     /** @internal */
-    @BindOption("pretty")
-    pretty!: boolean;
+    @Option("pretty")
+    accessor pretty!: boolean;
 
     renderStartTime = -1;
 

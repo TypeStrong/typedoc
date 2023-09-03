@@ -3,7 +3,7 @@ import * as Path from "path";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { BindOption, EntryPointStrategy, readFile } from "../../utils";
+import { Option, EntryPointStrategy, readFile } from "../../utils";
 import {
     deriveRootDir,
     discoverInParentDir,
@@ -21,17 +21,17 @@ import { join } from "path";
  */
 @Component({ name: "package" })
 export class PackagePlugin extends ConverterComponent {
-    @BindOption("readme")
-    readme!: string;
+    @Option("readme")
+    accessor readme!: string;
 
-    @BindOption("entryPointStrategy")
-    entryPointStrategy!: EntryPointStrategy;
+    @Option("entryPointStrategy")
+    accessor entryPointStrategy!: EntryPointStrategy;
 
-    @BindOption("entryPoints")
-    entryPoints!: string[];
+    @Option("entryPoints")
+    accessor entryPoints!: string[];
 
-    @BindOption("includeVersion")
-    includeVersion!: boolean;
+    @Option("includeVersion")
+    accessor includeVersion!: boolean;
 
     /**
      * The file name of the found readme.md file.

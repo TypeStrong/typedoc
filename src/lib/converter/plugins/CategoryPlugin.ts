@@ -8,7 +8,7 @@ import { ReflectionCategory } from "../../models";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { BindOption, getSortFunction, removeIf } from "../../utils";
+import { Option, getSortFunction, removeIf } from "../../utils";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -19,17 +19,17 @@ import { BindOption, getSortFunction, removeIf } from "../../utils";
 export class CategoryPlugin extends ConverterComponent {
     sortFunction!: (reflections: DeclarationReflection[]) => void;
 
-    @BindOption("defaultCategory")
-    defaultCategory!: string;
+    @Option("defaultCategory")
+    accessor defaultCategory!: string;
 
-    @BindOption("categoryOrder")
-    categoryOrder!: string[];
+    @Option("categoryOrder")
+    accessor categoryOrder!: string[];
 
-    @BindOption("categorizeByGroup")
-    categorizeByGroup!: boolean;
+    @Option("categorizeByGroup")
+    accessor categorizeByGroup!: boolean;
 
-    @BindOption("searchCategoryBoosts")
-    boosts!: Record<string, number>;
+    @Option("searchCategoryBoosts")
+    accessor boosts!: Record<string, number>;
 
     usedBoosts = new Set<string>();
 

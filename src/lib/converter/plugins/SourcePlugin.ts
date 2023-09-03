@@ -7,7 +7,7 @@ import {
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { BindOption, normalizePath, getCommonDirectory } from "../../utils";
+import { Option, normalizePath, getCommonDirectory } from "../../utils";
 import { isNamedNode } from "../utils/nodes";
 import { dirname, relative } from "path";
 import { SourceReference } from "../../models";
@@ -24,23 +24,23 @@ import { BasePath } from "../utils/base-path";
  */
 @Component({ name: "source" })
 export class SourcePlugin extends ConverterComponent {
-    @BindOption("disableSources")
-    readonly disableSources!: boolean;
+    @Option("disableSources")
+    accessor disableSources!: boolean;
 
-    @BindOption("gitRevision")
-    readonly gitRevision!: string;
+    @Option("gitRevision")
+    accessor gitRevision!: string;
 
-    @BindOption("gitRemote")
-    readonly gitRemote!: string;
+    @Option("gitRemote")
+    accessor gitRemote!: string;
 
-    @BindOption("disableGit")
-    readonly disableGit!: boolean;
+    @Option("disableGit")
+    accessor disableGit!: boolean;
 
-    @BindOption("sourceLinkTemplate")
-    readonly sourceLinkTemplate!: string;
+    @Option("sourceLinkTemplate")
+    accessor sourceLinkTemplate!: string;
 
-    @BindOption("basePath")
-    readonly basePath!: string;
+    @Option("basePath")
+    accessor basePath!: string;
 
     /**
      * All file names to find the base path from.

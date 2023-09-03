@@ -232,6 +232,10 @@ export interface TraverseCallback {
     ): boolean | NeverIfInternal<void>;
 }
 
+export type ReflectionVisitor = {
+    [K in keyof ReflectionVariant]?: (refl: ReflectionVariant[K]) => void;
+};
+
 /**
  * Base class for all reflection classes.
  *
@@ -473,7 +477,21 @@ export abstract class Reflection {
      * Check if this reflection or any of its parents have been marked with the `@deprecated` tag.
      */
     isDeprecated(): boolean {
-        if (this.comment?.getTag("@deprecated")) {
+        let signaturesDeprecated = false;
+        this.visit({
+            declaration(decl) {
+                if (
+                    decl.signatures &&
+                    decl.signatures.every(
+                        (sig) => sig.comment?.getTag("@deprecated"),
+                    )
+                ) {
+                    signaturesDeprecated = true;
+                }
+            },
+        });
+
+        if (signaturesDeprecated || this.comment?.getTag("@deprecated")) {
             return true;
         }
 
@@ -492,6 +510,10 @@ export abstract class Reflection {
      * @param callback  The callback function that should be applied for each child reflection.
      */
     abstract traverse(callback: TraverseCallback): void;
+
+    visit(visitor: ReflectionVisitor) {
+        visitor[this.variant]?.(this as never);
+    }
 
     /**
      * Return a string representation of this reflection.

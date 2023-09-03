@@ -10,7 +10,7 @@ import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import type { Reflection } from "../../models/reflections/abstract";
-import { BindOption, DefaultMap, ValidationOptions } from "../../utils";
+import { Option, DefaultMap, ValidationOptions } from "../../utils";
 import { zip } from "../../utils/array";
 import { parseDeclarationReference } from "../comments/declarationReference";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver";
@@ -31,8 +31,8 @@ import { ApplicationEvents } from "../../application-events";
  */
 @Component({ name: "inheritDoc" })
 export class InheritDocPlugin extends ConverterComponent {
-    @BindOption("validation")
-    validation!: ValidationOptions;
+    @Option("validation")
+    accessor validation!: ValidationOptions;
 
     // Key is depended on by Values
     private dependencies = new DefaultMap<Reflection, Reflection[]>(() => []);

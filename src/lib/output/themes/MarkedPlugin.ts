@@ -4,7 +4,7 @@ import * as Marked from "marked";
 
 import { Component, ContextAwareRendererComponent } from "../components";
 import { RendererEvent, MarkdownEvent, PageEvent } from "../events";
-import { BindOption, readFile, copySync, isFile } from "../../utils";
+import { Option, readFile, copySync, isFile } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { Theme } from "shiki";
 import { escapeHtml, getTextContent } from "../../utils/html";
@@ -15,17 +15,17 @@ import { escapeHtml, getTextContent } from "../../utils/html";
  */
 @Component({ name: "marked" })
 export class MarkedPlugin extends ContextAwareRendererComponent {
-    @BindOption("includes")
-    includeSource!: string;
+    @Option("includes")
+    accessor includeSource!: string;
 
-    @BindOption("media")
-    mediaSource!: string;
+    @Option("media")
+    accessor mediaSource!: string;
 
-    @BindOption("lightHighlightTheme")
-    lightTheme!: Theme;
+    @Option("lightHighlightTheme")
+    accessor lightTheme!: Theme;
 
-    @BindOption("darkHighlightTheme")
-    darkTheme!: Theme;
+    @Option("darkHighlightTheme")
+    accessor darkTheme!: Theme;
 
     /**
      * The path referenced files are located in.

@@ -16,7 +16,7 @@ import {
     CommentTag,
 } from "../../models";
 import {
-    BindOption,
+    Option,
     filterMap,
     removeIfPresent,
     unique,
@@ -103,20 +103,20 @@ const NEVER_RENDERED = [
  */
 @Component({ name: "comment" })
 export class CommentPlugin extends ConverterComponent {
-    @BindOption("excludeTags")
-    excludeTags!: `@${string}`[];
+    @Option("excludeTags")
+    accessor excludeTags!: `@${string}`[];
 
-    @BindOption("excludeInternal")
-    excludeInternal!: boolean;
+    @Option("excludeInternal")
+    accessor excludeInternal!: boolean;
 
-    @BindOption("excludePrivate")
-    excludePrivate!: boolean;
+    @Option("excludePrivate")
+    accessor excludePrivate!: boolean;
 
-    @BindOption("excludeProtected")
-    excludeProtected!: boolean;
+    @Option("excludeProtected")
+    accessor excludeProtected!: boolean;
 
-    @BindOption("excludeNotDocumented")
-    excludeNotDocumented!: boolean;
+    @Option("excludeNotDocumented")
+    accessor excludeNotDocumented!: boolean;
 
     private _excludeKinds: number | undefined;
     private get excludeNotDocumentedKinds(): number {

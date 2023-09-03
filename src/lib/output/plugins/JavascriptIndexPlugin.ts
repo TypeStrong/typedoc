@@ -8,7 +8,7 @@ import {
 } from "../../models";
 import { Component, RendererComponent } from "../components";
 import { IndexEvent, RendererEvent } from "../events";
-import { BindOption, writeFileSync } from "../../utils";
+import { Option, writeFileSync } from "../../utils";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
 
 /**
@@ -29,8 +29,8 @@ interface SearchDocument {
  */
 @Component({ name: "javascript-index" })
 export class JavascriptIndexPlugin extends RendererComponent {
-    @BindOption("searchInComments")
-    searchComments!: boolean;
+    @Option("searchInComments")
+    accessor searchComments!: boolean;
 
     /**
      * Create a new JavascriptIndexPlugin instance.
