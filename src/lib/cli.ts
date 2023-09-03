@@ -7,6 +7,7 @@ const ExitCodes = {
     ValidationError: 4,
     OutputError: 5,
     ExceptionThrown: 6,
+    Watching: 7,
 };
 
 import * as td from "typedoc";
@@ -28,8 +29,10 @@ async function main() {
         ]);
 
         const exitCode = await run(app);
-        app.logger.verbose(`Full run took ${Date.now() - start}ms`);
-        process.exit(exitCode);
+        if (exitCode !== ExitCodes.Watching) {
+            app.logger.verbose(`Full run took ${Date.now() - start}ms`);
+            process.exit(exitCode);
+        }
     } catch (error) {
         console.error("TypeDoc exiting with unexpected error:");
         console.error(error);
@@ -80,7 +83,7 @@ async function run(app: td.Application) {
                 await app.generateJson(project, json);
             }
         });
-        return ExitCodes.Ok;
+        return ExitCodes.Watching;
     }
 
     const project = await app.convert();
