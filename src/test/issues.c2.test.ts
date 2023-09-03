@@ -73,6 +73,7 @@ describe("Issue Tests", () => {
 
     afterEach(() => {
         app.options.restore(optionsSnap);
+        logger.expectNoOtherMessages();
     });
 
     it("#567", () => {
@@ -580,7 +581,6 @@ describe("Issue Tests", () => {
         logger.expectMessage(
             "warn: UnDocFn.__type, defined in */gh1898.ts, does not have any documentation.",
         );
-        logger.expectNoOtherMessages();
     });
 
     it("#1903", () => {
@@ -727,7 +727,6 @@ describe("Issue Tests", () => {
                 text: "jsdoc support",
             },
         ]);
-        logger.expectNoOtherMessages();
     });
 
     it("#1986", () => {
@@ -737,7 +736,6 @@ describe("Issue Tests", () => {
             Comment.combineDisplayParts(a.comment?.summary),
             "[[include:file.md]] this is not a link.",
         );
-        logger.expectNoOtherMessages();
     });
 
     it("#1994", () => {
@@ -838,8 +836,6 @@ describe("Issue Tests", () => {
         const paramLink = sig.parameters![0].comment?.summary[0];
         ok(paramLink?.kind === "inline-tag");
         ok(paramLink.target);
-
-        logger.expectNoOtherMessages();
     });
 
     it("#2033", () => {
@@ -852,8 +848,6 @@ describe("Issue Tests", () => {
         const link = cls.comment?.summary[0];
         ok(link?.kind === "inline-tag");
         ok(link.target);
-
-        logger.expectNoOtherMessages();
     });
 
     it("#2036", () => {
@@ -1155,5 +1149,17 @@ describe("Issue Tests", () => {
             (c) => c.name == "NS2" && c.kind == ReflectionKind.Namespace,
         );
         equal(ns?.children?.map((c) => c.name), ["property"]);
+    });
+
+    it("Handles spaces in JSDoc default parameter names #2384", () => {
+        const project = convert();
+        const Typed = query(project, "Typed");
+        equal(Typed.typeParameters?.length, 1);
+        equal(
+            Comment.combineDisplayParts(
+                Typed.typeParameters[0].comment?.summary,
+            ),
+            "desc",
+        );
     });
 });

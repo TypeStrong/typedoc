@@ -4,6 +4,7 @@
 
 -   `@property` now works as expected if used to override a method's documentation.
 -   `--watch` mode works again, #2378.
+-   Improved support for optional names within JSDoc types, #2384.
 
 ### Thanks!
 

@@ -10,6 +10,7 @@ import { assertNever, Logger, removeIf } from "../../utils";
 import type { MinimalSourceFile } from "../../utils/minimalSourceFile";
 import { nicePath } from "../../utils/paths";
 import { Token, TokenSyntaxKind } from "./lexer";
+import { extractTagName } from "./tagName";
 
 interface LookaheadGenerator<T> {
     done(): boolean;
@@ -115,18 +116,10 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
         if (HAS_USER_IDENTIFIER.includes(tag.tag) && tag.content.length) {
             const first = tag.content[0];
             if (first.kind === "text") {
-                let end = first.text.search(/\s/);
-                if (end === -1) end = first.text.length;
-
-                tag.name = first.text.substring(0, end);
-                if (tag.name.startsWith("[") && tag.name.endsWith("]")) {
-                    tag.name = tag.name.slice(1, tag.name.indexOf("="));
-                }
-
-                first.text = first.text.substring(end);
-                const endOfTrivia = first.text.search(/[^\-\s]/);
-                if (endOfTrivia !== -1) {
-                    first.text = first.text.substring(endOfTrivia);
+                const { name, newText } = extractTagName(first.text);
+                tag.name = name;
+                if (newText) {
+                    first.text = newText;
                 } else {
                     // Remove this token, no real text in it.
                     tag.content.shift();
