@@ -24,8 +24,8 @@ export class PackagePlugin extends ConverterComponent {
     @Option("readme")
     accessor readme!: string;
 
-    @BindOption("stripYamlFrontmatter")
-    stripYamlFrontmatter!: boolean;
+    @Option("stripYamlFrontmatter")
+    accessor stripYamlFrontmatter!: boolean;
 
     @Option("entryPointStrategy")
     accessor entryPointStrategy!: EntryPointStrategy;
