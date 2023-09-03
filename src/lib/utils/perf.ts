@@ -4,7 +4,7 @@ import { performance } from "perf_hooks";
 
 const benchmarks: { name: string; calls: number; time: number }[] = [];
 
-export function bench<T extends Function>(fn: T, name = fn.name): T {
+export function bench<T extends Function>(fn: T, name: string = fn.name): T {
     const matching = benchmarks.find((b) => b.name === name);
     const timer = matching || {
         name,
@@ -43,11 +43,17 @@ export function bench<T extends Function>(fn: T, name = fn.name): T {
     } as any;
 }
 
-export function Bench(): MethodDecorator {
-    return function (target: any, key, descriptor) {
-        const rawMethod = descriptor.value as unknown as Function;
-        const name = `${target.name ?? target.constructor.name}.${String(key)}`;
-        descriptor.value = bench(rawMethod, name) as any;
+export function Bench<T extends Function>(
+    value: T,
+    context: ClassMethodDecoratorContext,
+) {
+    let runner: T | undefined;
+    return function (this: any, ...args: any) {
+        if (!runner) {
+            const className = Object.getPrototypeOf(this).constructor.name;
+            runner = bench(value, `${className}.${String(context.name)}`);
+        }
+        return runner.apply(this, args);
     };
 }
 
@@ -68,7 +74,7 @@ export function measure<T>(cb: () => T): T {
     return result;
 }
 
-process.on("beforeExit", () => {
+process.on("exit", () => {
     if (!benchmarks.length) return;
 
     const width = benchmarks.reduce((a, b) => Math.max(a, b.name.length), 11);

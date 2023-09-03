@@ -432,11 +432,42 @@ export class Options {
 }
 
 /**
+ * Binds an option to an accessor. Does not register the option.
+ *
+ * Note: This is a standard ES decorator. It will not work with pre-TS 5.0 experimental decorators enabled.
+ */
+export function Option<K extends keyof TypeDocOptionMap>(name: K) {
+    return (
+        _: unknown,
+        _context: ClassAccessorDecoratorContext<
+            { application: Application } | { options: Options },
+            TypeDocOptionValues[K]
+        >,
+    ) => {
+        return {
+            get(this: { application: Application } | { options: Options }) {
+                const options =
+                    "options" in this ? this.options : this.application.options;
+                const value = options.getValue(name as keyof TypeDocOptions);
+
+                return value as TypeDocOptionValues[K];
+            },
+            set(_value: never) {
+                throw new Error(
+                    "Options may not be set via the Option decorator",
+                );
+            },
+        };
+    };
+}
+
+/**
  * Binds an option to the given property. Does not register the option.
  *
  * Note: This is a legacy experimental decorator, and will not work with TS 5.0 decorators
  *
  * @since v0.16.3
+ * @deprecated Will be removed in 0.26, use {@link Option | `@Option`} instead.
  */
 export function BindOption<K extends keyof TypeDocOptionMap>(
     name: K,
@@ -453,6 +484,7 @@ export function BindOption<K extends keyof TypeDocOptionMap>(
  * Note: This is a legacy experimental decorator, and will not work with TS 5.0 decorators
  *
  * @since v0.16.3
+ * @deprecated Will be removed in 0.26, use {@link Option | `@Option`} instead
  *
  * @privateRemarks
  * This overload is intended for plugin use only with looser type checks. Do not use internally.

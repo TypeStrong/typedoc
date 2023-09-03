@@ -39,6 +39,7 @@ export type { RenderTemplate, RendererHooks } from "./lib/output";
 
 export {
     ArgumentsReader,
+    Option,
     BindOption,
     CommentStyle,
     JSX,

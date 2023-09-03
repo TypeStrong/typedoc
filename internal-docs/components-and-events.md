@@ -27,7 +27,7 @@ Components are slowly being removed from TypeDoc.
 `isPropagationStopped`
 `isDefaultPrevented`
 
-## `@BindOption`
+## `@Option`
 
-`@BindOption` decorator can be placed on any class which has `application` or `options` fields.
-It turns the field into a getter which gets the value from `this.options` or `this.application.options`
+`@Option` decorator can be placed on any class which has `application` or `options` accessor.
+It turns the accessor into a getter which gets the value from `this.options` or `this.application.options`

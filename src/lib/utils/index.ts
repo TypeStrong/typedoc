@@ -27,6 +27,7 @@ export { ConsoleLogger, Logger, LogLevel } from "./loggers";
 export { DefaultMap } from "./map";
 export {
     ArgumentsReader,
+    Option,
     BindOption,
     CommentStyle,
     Options,

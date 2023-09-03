@@ -21,7 +21,7 @@ import {
     ChildableComponent,
     Component,
 } from "./utils/component";
-import { Options, BindOption } from "./utils";
+import { Options, Option } from "./utils";
 import type { TypeDocOptions } from "./utils/options/declaration";
 import { unique } from "./utils/array";
 import { ok } from "assert";
@@ -111,16 +111,16 @@ export class Application extends ChildableComponent<
     options = new Options();
 
     /** @internal */
-    @BindOption("skipErrorChecking")
-    readonly skipErrorChecking!: boolean;
+    @Option("skipErrorChecking")
+    accessor skipErrorChecking!: boolean;
 
     /** @internal */
-    @BindOption("entryPointStrategy")
-    readonly entryPointStrategy!: EntryPointStrategy;
+    @Option("entryPointStrategy")
+    accessor entryPointStrategy!: EntryPointStrategy;
 
     /** @internal */
-    @BindOption("entryPoints")
-    readonly entryPoints!: string[];
+    @Option("entryPoints")
+    accessor entryPoints!: string[];
 
     /**
      * The version number of TypeDoc.

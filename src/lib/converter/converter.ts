@@ -13,7 +13,7 @@ import {
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
-import { BindOption, MinimalSourceFile, readFile } from "../utils";
+import { Option, MinimalSourceFile, readFile } from "../utils";
 import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
 import { convertSymbol } from "./symbols";
@@ -49,50 +49,53 @@ export class Converter extends ChildableComponent<
     ConverterComponent
 > {
     /** @internal */
-    @BindOption("externalPattern")
-    externalPattern!: string[];
+    @Option("externalPattern")
+    accessor externalPattern!: string[];
     private externalPatternCache?: Minimatch[];
     private excludeCache?: Minimatch[];
 
     /** @internal */
-    @BindOption("excludeExternals")
-    excludeExternals!: boolean;
+    @Option("excludeExternals")
+    accessor excludeExternals!: boolean;
 
     /** @internal */
-    @BindOption("excludeNotDocumented")
-    excludeNotDocumented!: boolean;
+    @Option("excludeNotDocumented")
+    accessor excludeNotDocumented!: boolean;
 
     /** @internal */
-    @BindOption("excludePrivate")
-    excludePrivate!: boolean;
+    @Option("excludePrivate")
+    accessor excludePrivate!: boolean;
 
     /** @internal */
-    @BindOption("excludeProtected")
-    excludeProtected!: boolean;
+    @Option("excludeProtected")
+    accessor excludeProtected!: boolean;
 
     /** @internal */
-    @BindOption("excludeReferences")
-    excludeReferences!: boolean;
+    @Option("excludeReferences")
+    accessor excludeReferences!: boolean;
 
     /** @internal */
-    @BindOption("commentStyle")
-    commentStyle!: CommentStyle;
+    @Option("commentStyle")
+    accessor commentStyle!: CommentStyle;
 
     /** @internal */
-    @BindOption("validation")
-    validation!: ValidationOptions;
+    @Option("validation")
+    accessor validation!: ValidationOptions;
 
     /** @internal */
-    @BindOption("externalSymbolLinkMappings")
-    externalSymbolLinkMappings!: Record<string, Record<string, string>>;
+    @Option("externalSymbolLinkMappings")
+    accessor externalSymbolLinkMappings!: Record<
+        string,
+        Record<string, string>
+    >;
 
     /** @internal */
-    @BindOption("useTsLinkResolution")
-    useTsLinkResolution!: boolean;
+    @Option("useTsLinkResolution")
+    accessor useTsLinkResolution!: boolean;
 
     /** @internal */
-    @BindOption("preserveLinkText")
-    preserveLinkText!: boolean;
+    @Option("preserveLinkText")
+    accessor preserveLinkText!: boolean;
 
     private _config?: CommentParserConfig;
     private _externalSymbolResolvers: Array<ExternalSymbolResolver> = [];

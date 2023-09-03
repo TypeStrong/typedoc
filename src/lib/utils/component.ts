@@ -35,8 +35,10 @@ const childMappings: {
 /**
  * Class decorator applied to Components
  */
-export function Component(options: ComponentOptions): ClassDecorator {
-    return (target: Function) => {
+export function Component(options: ComponentOptions) {
+    // _context is ClassDecoratorContext, but that then requires a public constructor
+    // which Application does not have.
+    return (target: Function, _context: unknown) => {
         const proto = target.prototype;
         if (!(proto instanceof AbstractComponent)) {
             throw new Error(

@@ -9,7 +9,7 @@ import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import { getSortFunction } from "../../utils/sort";
-import { BindOption, removeIf } from "../../utils";
+import { Option, removeIf } from "../../utils";
 import { Comment } from "../../models";
 
 /**
@@ -21,11 +21,11 @@ import { Comment } from "../../models";
 export class GroupPlugin extends ConverterComponent {
     sortFunction!: (reflections: DeclarationReflection[]) => void;
 
-    @BindOption("searchGroupBoosts")
-    boosts!: Record<string, number>;
+    @Option("searchGroupBoosts")
+    accessor boosts!: Record<string, number>;
 
-    @BindOption("groupOrder")
-    groupOrder!: string[];
+    @Option("groupOrder")
+    accessor groupOrder!: string[];
 
     usedBoosts = new Set<string>();
 

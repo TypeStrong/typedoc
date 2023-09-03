@@ -3,7 +3,7 @@ import { RendererEvent } from "../events";
 import { copySync, writeFileSync } from "../../utils/fs";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
 import { getStyles } from "../../utils/highlighter";
-import { BindOption } from "../../utils";
+import { Option } from "../../utils";
 import { existsSync } from "fs";
 import { join } from "path";
 
@@ -14,8 +14,8 @@ import { join } from "path";
 @Component({ name: "assets" })
 export class AssetsPlugin extends RendererComponent {
     /** @internal */
-    @BindOption("customCss")
-    customCss!: string;
+    @Option("customCss")
+    accessor customCss!: string;
 
     /**
      * Create a new AssetsPlugin instance.

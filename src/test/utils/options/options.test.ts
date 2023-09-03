@@ -1,9 +1,9 @@
 import { LogLevel, Options, ParameterType } from "../../../lib/utils";
 import {
-    BindOption,
+    Option,
     MapDeclarationOption,
     NumberDeclarationOption,
-} from "../../../lib/utils/options";
+} from "../../../lib/utils";
 import { deepStrictEqual as equal, throws } from "assert";
 import type {
     DeclarationOption,
@@ -196,12 +196,12 @@ describe("Options", () => {
     });
 });
 
-describe("BindOption", () => {
+describe("Option", () => {
     class Container {
         constructor(public options: Options) {}
 
-        @BindOption("emit")
-        emit!: EmitStrategy;
+        @Option("emit")
+        accessor emit!: EmitStrategy;
     }
 
     it("Supports fetching options", () => {
