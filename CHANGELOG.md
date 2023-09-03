@@ -3,6 +3,11 @@
 ### Bug Fixes
 
 -   `@property` now works as expected if used to override a method's documentation.
+-   `--watch` mode works again, #2378.
+
+### Thanks!
+
+-   @HemalPatil
 
 # v0.25.0 (2023-08-25)
 
