@@ -1,15 +1,11 @@
-import {
-    DeclarationReflection,
-    ProjectReflection,
-    Reflection,
-    ReflectionCategory,
-    ReflectionGroup,
-    ReflectionKind,
-} from "../../../../models";
+import { Reflection, ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { camelToTitleCase, classNames, getDisplayName, wbr } from "../../lib";
+import type { NavigationElement } from "../DefaultTheme";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+
+const MAX_EMBEDDED_NAV_SIZE = 20;
 
 export function sidebar(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
@@ -103,122 +99,70 @@ export function settings(context: DefaultThemeRenderContext) {
     );
 }
 
-type NavigationElement = ReflectionCategory | ReflectionGroup | DeclarationReflection;
-
-function shouldShowCategories(reflection: Reflection, opts: { includeCategories: boolean; includeGroups: boolean }) {
-    if (opts.includeCategories) {
-        return !reflection.comment?.hasModifier("@hideCategories");
-    }
-    return reflection.comment?.hasModifier("@showCategories") === true;
-}
-
-function shouldShowGroups(reflection: Reflection, opts: { includeCategories: boolean; includeGroups: boolean }) {
-    if (opts.includeGroups) {
-        return !reflection.comment?.hasModifier("@hideGroups");
-    }
-    return reflection.comment?.hasModifier("@showGroups") === true;
-}
-
-const getNavigationElements = function getNavigationElements(
-    parent: NavigationElement | ProjectReflection,
-    opts: { includeCategories: boolean; includeGroups: boolean },
-): undefined | readonly NavigationElement[] {
-    if (parent instanceof ReflectionCategory) {
-        return parent.children;
-    }
-
-    if (parent instanceof ReflectionGroup) {
-        if (shouldShowCategories(parent.owningReflection, opts) && parent.categories) {
-            return parent.categories;
-        }
-        return parent.children;
-    }
-
-    if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
-        return;
-    }
-
-    if (parent.categories && shouldShowCategories(parent, opts)) {
-        return parent.categories;
-    }
-
-    if (parent.groups && shouldShowGroups(parent, opts)) {
-        return parent.groups;
-    }
-
-    return parent.children;
-};
-
 export const navigation = function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
-    const opts = context.options.getValue("navigation");
-    // Create the navigation for the current page
-    // Recurse to children if the parent is some kind of module
+    const nav = context.getNavigation();
 
-    return (
-        <nav class="tsd-navigation">
-            {createNavElement(props.project)}
-            <ul class="tsd-small-nested-navigation">
-                {getNavigationElements(props.project, opts)?.map((c) => <li>{links(c, [])}</li>)}
-            </ul>
-        </nav>
-    );
-
-    function links(mod: NavigationElement, parents: string[]) {
-        const nameClasses = classNames(
-            { deprecated: mod instanceof Reflection && mod.isDeprecated() },
-            mod instanceof DeclarationReflection ? context.getReflectionClasses(mod) : void 0,
-        );
-
-        const children = getNavigationElements(mod, opts);
-
-        if (!children || (!opts.fullTree && mod instanceof Reflection && !inPath(mod))) {
-            return createNavElement(mod, nameClasses);
+    let elements = 0;
+    function link(el: NavigationElement, path: string[] = []) {
+        if (elements > MAX_EMBEDDED_NAV_SIZE) {
+            return <></>;
         }
 
-        const childParents = mod instanceof Reflection ? [mod.getFullName()] : [...parents, mod.title];
-
-        return (
-            <details
-                class={classNames({ "tsd-index-accordion": true }, nameClasses)}
-                open={mod instanceof Reflection && inPath(mod)}
-                data-key={childParents.join("$")}
-            >
-                <summary class="tsd-accordion-summary">
-                    {context.icons.chevronDown()}
-                    {createNavElement(mod)}
-                </summary>
-                <div class="tsd-accordion-details">
-                    <ul class="tsd-nested-navigation">
-                        {children.map((c) => (
-                            <li>{links(c, childParents)}</li>
-                        ))}
-                    </ul>
-                </div>
-            </details>
-        );
-    }
-
-    function createNavElement(child: NavigationElement | ProjectReflection, nameClasses?: string) {
-        if (child instanceof Reflection) {
+        if (el.path) {
+            ++elements;
             return (
-                <a href={context.urlTo(child)} class={classNames({ current: child === props.model }, nameClasses)}>
-                    {context.icons[child.kind]()}
-                    <span>{wbr(getDisplayName(child))}</span>
-                </a>
+                <li>
+                    <a
+                        href={context.relativeURL(el.path)}
+                        class={classNames({ current: props.model.url === el.path }, el.class)}
+                    >
+                        {el.kind && context.icons[el.kind]()}
+                        {el.text}
+                    </a>
+                </li>
             );
         }
 
-        return <span>{child.title}</span>;
+        // Top level element is a group/category, recurse so that we don't have a half-broken
+        // navigation tree for people with JS turned off.
+        if (el.children) {
+            ++elements;
+            const fullPath = [...path, el.text];
+
+            return (
+                <details class={classNames({ "tsd-index-accordion": true }, el.class)} data-key={fullPath.join("$")}>
+                    <summary class="tsd-accordion-summary">
+                        {context.icons.chevronDown()}
+                        <span>{el.text}</span>
+                    </summary>
+                    <div class="tsd-accordion-details">
+                        <ul class="tsd-nested-navigation">{el.children.map((c) => link(c, fullPath))}</ul>
+                    </div>
+                </details>
+            );
+        }
+
+        return (
+            <li>
+                <span>{el.text}</span>
+            </li>
+        );
     }
 
-    function inPath(mod: DeclarationReflection | ProjectReflection) {
-        let iter: Reflection | undefined = props.model;
-        do {
-            if (iter == mod) return true;
-            iter = iter.parent;
-        } while (iter);
-        return false;
-    }
+    const navEl = nav.map((el) => link(el));
+
+    return (
+        <nav class="tsd-navigation">
+            <a href={context.urlTo(props.project)} class={classNames({ current: props.project === props.model })}>
+                {context.icons[ReflectionKind.Project]()}
+                <span>{getDisplayName(props.project)}</span>
+            </a>
+            <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base={context.relativeURL("./")}>
+                {navEl}
+                {elements < MAX_EMBEDDED_NAV_SIZE || <li>Loading...</li>}
+            </ul>
+        </nav>
+    );
 };
 
 export function pageSidebar(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {

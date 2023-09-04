@@ -1,5 +1,16 @@
 # Unreleased
 
+### Features
+
+-   Navigation is now written to a JS file and built dynamically, which significantly decreases document generation time
+    with large projects and also provides large space benefits. Themes may now override `DefaultTheme.buildNavigation`
+    to customize the displayed navigation tree, #2287.
+    Note: This change renders `navigation.fullTree` obsolete. If you set it, TypeDoc will warn that it is being ignored.
+    It will be removed in v0.26.
+-   TypeDoc will now attempt to cache icons when `DefaultThemeRenderContext.icons` is overwritten by a custom theme.
+    Note: To perform this optimization, TypeDoc relies on `DefaultThemeRenderContext.iconCache` being rendered within
+    each page. TypeDoc does it in the `defaultLayout` template.
+
 ### Bug Fixes
 
 -   `@property` now works as expected if used to override a method's documentation.
@@ -7,10 +18,12 @@
 -   `--watch` mode works again, #2378.
 -   Improved support for optional names within JSDoc types, #2384.
 -   Fixed duplicate rendering of reflection flags on signature parameters, #2385.
+-   TypeDoc now handles the `intrinsic` keyword if TS intrinsic types are included in documentation.
 
 ### Thanks!
 
 -   @HemalPatil
+-   @typhonrt
 
 # v0.25.0 (2023-08-25)
 

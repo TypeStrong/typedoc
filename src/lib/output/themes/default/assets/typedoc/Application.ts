@@ -48,7 +48,7 @@ export class Application {
     /**
      * Create all components beneath the given element.
      */
-    private createComponents(context: HTMLElement) {
+    public createComponents(context: HTMLElement) {
         components.forEach((c) => {
             context.querySelectorAll<HTMLElement>(c.selector).forEach((el) => {
                 if (!el.dataset["hasInstance"]) {
@@ -63,7 +63,7 @@ export class Application {
         this.ensureFocusedElementVisible();
     }
 
-    private ensureActivePageVisible() {
+    public ensureActivePageVisible() {
         const pageLink = document.querySelector(".tsd-navigation .current");
         let iter = pageLink?.parentElement;
         while (iter && !iter.classList.contains(".tsd-navigation")) {

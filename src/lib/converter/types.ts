@@ -67,6 +67,7 @@ export function loadConverters() {
         indexedAccessConverter,
         inferredConverter,
         intersectionConverter,
+        intrinsicConverter,
         jsDocVariadicTypeConverter,
         keywordConverter,
         optionalConverter,
@@ -457,6 +458,19 @@ const intersectionConverter: TypeConverter<
         return new IntersectionType(
             type.types.map((type) => convertType(context, type)),
         );
+    },
+};
+
+const intrinsicConverter: TypeConverter<
+    ts.KeywordTypeNode<ts.SyntaxKind.IntrinsicKeyword>,
+    ts.Type
+> = {
+    kind: [ts.SyntaxKind.IntrinsicKeyword],
+    convert() {
+        return new IntrinsicType("intrinsic");
+    },
+    convertType() {
+        return new IntrinsicType("intrinsic");
     },
 };
 
