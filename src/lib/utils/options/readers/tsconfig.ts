@@ -21,7 +21,6 @@ import {
     tsdocModifierTags,
 } from "../tsdoc-defaults";
 import { unique } from "../../array";
-import { EntryPointStrategy } from "../../entry-point";
 import { findTsConfigFile, readTsConfig } from "../../tsconfig";
 
 function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
@@ -81,13 +80,6 @@ export class TSConfigReader implements OptionsReader {
             if (container.isSet("tsconfig")) {
                 logger.error(
                     `The tsconfig file ${nicePath(file)} does not exist`,
-                );
-            } else if (
-                container.getValue("entryPointStrategy") !==
-                EntryPointStrategy.Packages
-            ) {
-                logger.warn(
-                    "No tsconfig file found, this will prevent TypeDoc from finding your entry points.",
                 );
             }
             return;

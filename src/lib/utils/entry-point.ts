@@ -183,7 +183,7 @@ function getEntryPointsForPaths(
     logger: Logger,
     inputFiles: string[],
     options: Options,
-    programs = getEntryPrograms(logger, options),
+    programs = getEntryPrograms(inputFiles, logger, options),
 ): DocumentationEntryPoint[] {
     const baseDir = options.getValue("basePath") || deriveRootDir(inputFiles);
     const entryPoints: DocumentationEntryPoint[] = [];
@@ -234,7 +234,7 @@ export function getExpandedEntryPointsForPaths(
     logger: Logger,
     inputFiles: string[],
     options: Options,
-    programs = getEntryPrograms(logger, options),
+    programs = getEntryPrograms(inputFiles, logger, options),
 ): DocumentationEntryPoint[] {
     return getEntryPointsForPaths(
         logger,
@@ -284,9 +284,15 @@ function expandGlobs(inputFiles: string[], exclude: string[], logger: Logger) {
     return result;
 }
 
-function getEntryPrograms(logger: Logger, options: Options) {
+function getEntryPrograms(
+    inputFiles: string[],
+    logger: Logger,
+    options: Options,
+) {
     const rootProgram = ts.createProgram({
-        rootNames: options.getFileNames(),
+        rootNames: options.getFileNames().length
+            ? options.getFileNames()
+            : inputFiles,
         options: options.getCompilerOptions(),
         projectReferences: options.getProjectReferences(),
     });
