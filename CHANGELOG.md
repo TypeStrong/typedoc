@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.1 (2023-09-04)
+
 ### Features
 
 -   Added `stripYamlFrontmatter` config option to remove YAML frontmatter from README.md, #2381.
