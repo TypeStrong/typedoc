@@ -35,7 +35,11 @@ export {
     MarkdownEvent,
     IndexEvent,
 } from "./lib/output";
-export type { RenderTemplate, RendererHooks } from "./lib/output";
+export type {
+    RenderTemplate,
+    RendererHooks,
+    NavigationElement,
+} from "./lib/output";
 
 export {
     ArgumentsReader,

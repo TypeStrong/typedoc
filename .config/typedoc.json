@@ -40,7 +40,6 @@
         "Type Aliases": 2.0
     },
     "navigation": {
-        "fullTree": true,
         "includeCategories": true,
         "includeGroups": false
     },

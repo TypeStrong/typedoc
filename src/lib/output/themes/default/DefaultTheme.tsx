@@ -7,13 +7,15 @@ import {
     ContainerReflection,
     DeclarationReflection,
     SignatureReflection,
+    ReflectionCategory,
+    ReflectionGroup,
 } from "../../../models";
 import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import type { PageEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 import { JSX } from "../../../utils";
-import { toStyleClass } from "../lib";
+import { classNames, getDisplayName, toStyleClass } from "../lib";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.
@@ -35,6 +37,14 @@ interface TemplateMapping {
      * The name of the template that should be used to render the reflection.
      */
     template: RenderTemplate<PageEvent<any>>;
+}
+
+export interface NavigationElement {
+    text: string;
+    path?: string;
+    kind?: ReflectionKind;
+    class?: string;
+    children?: NavigationElement[];
 }
 
 /**
@@ -215,6 +225,103 @@ export class DefaultTheme extends Theme {
     render(page: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>): string {
         const templateOutput = this.defaultLayoutTemplate(page, template);
         return "<!DOCTYPE html>" + JSX.renderElement(templateOutput);
+    }
+
+    private _navigationCache: NavigationElement[] | undefined;
+
+    /**
+     * If implementing a custom theme, it is recommended to override {@link buildNavigation} instead.
+     */
+    getNavigation(project: ProjectReflection): NavigationElement[] {
+        // This is ok because currently TypeDoc wipes out the theme after each render.
+        // Might need to change in the future, but it's fine for now.
+        if (this._navigationCache) {
+            return this._navigationCache;
+        }
+
+        return (this._navigationCache = this.buildNavigation(project));
+    }
+
+    buildNavigation(project: ProjectReflection): NavigationElement[] {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const theme = this;
+        const opts = this.application.options.getValue("navigation");
+
+        if (opts.fullTree) {
+            this.application.logger.warn(
+                `The navigation.fullTree option no longer has any affect and will be removed in v0.26`,
+            );
+        }
+
+        return getNavigationElements(project) || [];
+
+        function toNavigation(
+            element: ReflectionCategory | ReflectionGroup | DeclarationReflection,
+        ): NavigationElement {
+            if (element instanceof ReflectionCategory || element instanceof ReflectionGroup) {
+                return {
+                    text: element.title,
+                    children: getNavigationElements(element),
+                };
+            }
+
+            return {
+                text: getDisplayName(element),
+                path: element.url,
+                kind: element.kind,
+                class: classNames({ deprecated: element.isDeprecated() }, theme.getReflectionClasses(element)),
+                children: getNavigationElements(element),
+            };
+        }
+
+        function getNavigationElements(
+            parent: ReflectionCategory | ReflectionGroup | DeclarationReflection | ProjectReflection,
+        ): undefined | NavigationElement[] {
+            if (parent instanceof ReflectionCategory) {
+                return parent.children.map(toNavigation);
+            }
+
+            if (parent instanceof ReflectionGroup) {
+                if (shouldShowCategories(parent.owningReflection, opts) && parent.categories) {
+                    return parent.categories.map(toNavigation);
+                }
+                return parent.children.map(toNavigation);
+            }
+
+            if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
+                return;
+            }
+
+            if (parent.categories && shouldShowCategories(parent, opts)) {
+                return parent.categories.map(toNavigation);
+            }
+
+            if (parent.groups && shouldShowGroups(parent, opts)) {
+                return parent.groups.map(toNavigation);
+            }
+
+            return parent.children?.map(toNavigation);
+        }
+
+        function shouldShowCategories(
+            reflection: Reflection,
+            opts: { includeCategories: boolean; includeGroups: boolean },
+        ) {
+            if (opts.includeCategories) {
+                return !reflection.comment?.hasModifier("@hideCategories");
+            }
+            return reflection.comment?.hasModifier("@showCategories") === true;
+        }
+
+        function shouldShowGroups(
+            reflection: Reflection,
+            opts: { includeCategories: boolean; includeGroups: boolean },
+        ) {
+            if (opts.includeGroups) {
+                return !reflection.comment?.hasModifier("@hideGroups");
+            }
+            return reflection.comment?.hasModifier("@showGroups") === true;
+        }
     }
 
     /**

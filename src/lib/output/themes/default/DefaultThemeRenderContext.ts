@@ -5,7 +5,7 @@ import {
     DeclarationReflection,
     Reflection,
 } from "../../../models";
-import type { NeverIfInternal, Options } from "../../../utils";
+import type { JSX, NeverIfInternal, Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
@@ -19,7 +19,7 @@ import {
 import { footer } from "./partials/footer";
 import { header } from "./partials/header";
 import { hierarchy } from "./partials/hierarchy";
-import { icons } from "./partials/icon";
+import { buildRefIcons, icons } from "./partials/icon";
 import { member } from "./partials/member";
 import { memberDeclaration } from "./partials/member.declaration";
 import { memberGetterSetter } from "./partials/member.getterSetter";
@@ -51,6 +51,8 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 }
 
 export class DefaultThemeRenderContext {
+    private _iconsCache: JSX.Element;
+    private _refIcons: typeof icons;
     options: Options;
 
     constructor(
@@ -59,9 +61,24 @@ export class DefaultThemeRenderContext {
         options: Options,
     ) {
         this.options = options;
+
+        const { refs, cache } = buildRefIcons(icons);
+        this._refIcons = refs;
+        this._iconsCache = cache;
     }
 
-    icons = icons;
+    iconsCache(): JSX.Element {
+        return this._iconsCache;
+    }
+
+    get icons(): Readonly<typeof icons> {
+        return this._refIcons;
+    }
+    set icons(value: Readonly<typeof icons>) {
+        const { refs, cache } = buildRefIcons(value);
+        this._refIcons = refs;
+        this._iconsCache = cache;
+    }
 
     hook = (name: keyof RendererHooks) =>
         this.theme.owner.hooks.emit(name, this);
@@ -90,6 +107,8 @@ export class DefaultThemeRenderContext {
         }
         return md ? this.theme.markedPlugin.parseMarkdown(md, this.page) : "";
     };
+
+    getNavigation = () => this.theme.getNavigation(this.page.project);
 
     getReflectionClasses = (refl: DeclarationReflection) =>
         this.theme.getReflectionClasses(refl);

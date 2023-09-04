@@ -37,6 +37,15 @@ export class Accordion extends Component {
 
         this.el.addEventListener("toggle", () => this.update());
 
+        // Safari is broken and doesn't let you click on a link within
+        // a <summary> tag, so we have to manually handle clicks there.
+        const link = this.summary.querySelector("a");
+        if (link) {
+            link.addEventListener("click", () => {
+                location.assign(link.href);
+            });
+        }
+
         this.update();
     }
 

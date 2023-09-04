@@ -24,7 +24,6 @@ import type { Theme as ShikiTheme } from "shiki";
 import { Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
-import { clearSeenIconCache } from "./themes/default/partials/icon";
 import { validateStateIsClean } from "./themes/default/partials/type";
 import { setRenderSettings } from "../utils/jsx";
 
@@ -266,7 +265,6 @@ export class Renderer extends ChildableComponent<
                 `There are ${output.urls.length} pages to write.`,
             );
             output.urls.forEach((mapping) => {
-                clearSeenIconCache();
                 this.renderDocument(...output.createPageEvent(mapping));
                 validateStateIsClean(mapping.url);
             });
