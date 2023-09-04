@@ -24,6 +24,7 @@
 ### Thanks!
 
 -   @HemalPatil
+-   @hrueger
 -   @typhonrt
 
 # v0.25.0 (2023-08-25)
