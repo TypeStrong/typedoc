@@ -22,6 +22,7 @@
 -   Improved support for optional names within JSDoc types, #2384.
 -   Fixed duplicate rendering of reflection flags on signature parameters, #2385.
 -   TypeDoc now handles the `intrinsic` keyword if TS intrinsic types are included in documentation.
+-   `--exclude` is now respected when expanding globs in entry points, #2376.
 
 ### Thanks!
 

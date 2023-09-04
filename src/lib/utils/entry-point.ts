@@ -57,6 +57,7 @@ export function getEntryPoints(
     }
 
     const entryPoints = options.getValue("entryPoints");
+    const exclude = options.getValue("exclude");
 
     // May be set explicitly to be an empty array to only include a readme for a package
     // See #2264
@@ -70,7 +71,7 @@ export function getEntryPoints(
         case EntryPointStrategy.Resolve:
             result = getEntryPointsForPaths(
                 logger,
-                expandGlobs(entryPoints, logger),
+                expandGlobs(entryPoints, exclude, logger),
                 options,
             );
             break;
@@ -78,7 +79,7 @@ export function getEntryPoints(
         case EntryPointStrategy.Expand:
             result = getExpandedEntryPointsForPaths(
                 logger,
-                expandGlobs(entryPoints, logger),
+                expandGlobs(entryPoints, exclude, logger),
                 options,
             );
             break;
@@ -108,17 +109,23 @@ export function getWatchEntryPoints(
     let result: DocumentationEntryPoint[] | undefined;
 
     const entryPoints = options.getValue("entryPoints");
-    switch (options.getValue("entryPointStrategy")) {
+    const exclude = options.getValue("exclude");
+    const strategy = options.getValue("entryPointStrategy");
+
+    switch (strategy) {
         case EntryPointStrategy.Resolve:
-            result = getEntryPointsForPaths(logger, entryPoints, options, [
-                program,
-            ]);
+            result = getEntryPointsForPaths(
+                logger,
+                expandGlobs(entryPoints, exclude, logger),
+                options,
+                [program],
+            );
             break;
 
         case EntryPointStrategy.Expand:
             result = getExpandedEntryPointsForPaths(
                 logger,
-                entryPoints,
+                expandGlobs(entryPoints, exclude, logger),
                 options,
                 [program],
             );
@@ -129,6 +136,15 @@ export function getWatchEntryPoints(
                 "Watch mode does not support 'packages' style entry points.",
             );
             break;
+
+        case EntryPointStrategy.Merge:
+            logger.error(
+                "Watch mode does not support 'merge' style entry points.",
+            );
+            break;
+
+        default:
+            assertNever(strategy);
     }
 
     if (result && result.length === 0) {
@@ -228,7 +244,9 @@ export function getExpandedEntryPointsForPaths(
     );
 }
 
-function expandGlobs(inputFiles: string[], logger: Logger) {
+function expandGlobs(inputFiles: string[], exclude: string[], logger: Logger) {
+    const excludePatterns = createMinimatch(exclude);
+
     const base = deriveRootDir(inputFiles);
     const result = inputFiles.flatMap((entry) => {
         const result = glob(entry, base, {
@@ -236,22 +254,33 @@ function expandGlobs(inputFiles: string[], logger: Logger) {
             followSymlinks: true,
         });
 
+        const filtered = result.filter(
+            (file) => file === entry || !matchesAny(excludePatterns, file),
+        );
+
         if (result.length === 0) {
             logger.warn(
                 `The entrypoint glob ${nicePath(
                     entry,
                 )} did not match any files.`,
             );
+        } else if (filtered.length === 0) {
+            logger.warn(
+                `The entrypoint glob ${nicePath(
+                    entry,
+                )} did not match any files after applying exclude patterns.`,
+            );
         } else {
             logger.verbose(
-                `Expanded ${nicePath(entry)} to:\n\t${result
+                `Expanded ${nicePath(entry)} to:\n\t${filtered
                     .map(nicePath)
                     .join("\n\t")}`,
             );
         }
 
-        return result;
+        return filtered;
     });
+
     return result;
 }
 
