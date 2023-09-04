@@ -2,7 +2,8 @@
 
 ### Features
 
--   Added `stripYamlFrontmatter` config option, #2381.
+-   Added `stripYamlFrontmatter` config option to remove YAML frontmatter from README.md, #2381.
+-   Added `--excludeCategories` config option to remove reflections present in any excluded category, #1407.
 -   Navigation is now written to a JS file and built dynamically, which significantly decreases document generation time
     with large projects and also provides large space benefits. Themes may now override `DefaultTheme.buildNavigation`
     to customize the displayed navigation tree, #2287.

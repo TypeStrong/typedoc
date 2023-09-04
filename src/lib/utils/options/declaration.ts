@@ -105,6 +105,7 @@ export interface TypeDocOptionMap {
     excludePrivate: boolean;
     excludeProtected: boolean;
     excludeReferences: boolean;
+    excludeCategories: string[];
     name: string;
     includeVersion: boolean;
     disableSources: boolean;

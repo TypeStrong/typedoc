@@ -143,6 +143,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "excludeCategories",
+        help: "Exclude symbols within this category from the documentation.",
+        type: ParameterType.Array,
+        defaultValue: [],
+    });
+    options.addDeclaration({
         name: "excludePrivate",
         help: "Ignore private variables and methods.",
         type: ParameterType.Boolean,

@@ -99,7 +99,7 @@ export class GroupPlugin extends ConverterComponent {
      * Extracts the groups for a given reflection.
      *
      * @privateRemarks
-     * If you change this, also update getCategories in CategoryPlugin accordingly.
+     * If you change this, also update extractCategories in CategoryPlugin accordingly.
      */
     getGroups(reflection: DeclarationReflection) {
         const groups = new Set<string>();

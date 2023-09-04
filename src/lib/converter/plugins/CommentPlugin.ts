@@ -22,6 +22,7 @@ import {
     unique,
     partition,
 } from "../../utils";
+import { CategoryPlugin } from "./CategoryPlugin";
 
 /**
  * These tags are not useful to display in the generated documentation.
@@ -117,6 +118,12 @@ export class CommentPlugin extends ConverterComponent {
 
     @Option("excludeNotDocumented")
     accessor excludeNotDocumented!: boolean;
+
+    @Option("excludeCategories")
+    accessor excludeCategories!: string[];
+
+    @Option("defaultCategory")
+    accessor defaultCategory!: string;
 
     private _excludeKinds: number | undefined;
     private get excludeNotDocumentedKinds(): number {
@@ -478,6 +485,10 @@ export class CommentPlugin extends ConverterComponent {
             return true;
         }
 
+        if (this.excludedByCategory(reflection)) {
+            return true;
+        }
+
         if (!comment) {
             // We haven't moved comments from the parent for signatures without a direct
             // comment, so don't exclude those due to not being documented.
@@ -544,6 +555,26 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         return isHidden;
+    }
+
+    private excludedByCategory(reflection: Reflection): boolean {
+        const excludeCategories = this.excludeCategories;
+
+        let target: DeclarationReflection | undefined;
+        if (reflection instanceof DeclarationReflection) {
+            target = reflection;
+        } else if (reflection instanceof SignatureReflection) {
+            target = reflection.parent;
+        }
+
+        if (!target || !excludeCategories.length) return false;
+
+        const categories = CategoryPlugin.getCategories(target);
+        if (categories.size === 0) {
+            categories.add(this.defaultCategory);
+        }
+
+        return excludeCategories.some((cat) => categories.has(cat));
     }
 }
 

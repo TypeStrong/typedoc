@@ -8,7 +8,7 @@ import { ReflectionCategory } from "../../models";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { Option, getSortFunction, removeIf } from "../../utils";
+import { Option, getSortFunction } from "../../utils";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -157,13 +157,13 @@ export class CategoryPlugin extends ConverterComponent {
      *   relevance boost to be used when searching
      * @returns An array containing all children of the given reflection categorized
      */
-    getReflectionCategories(
+    private getReflectionCategories(
         reflections: DeclarationReflection[],
     ): ReflectionCategory[] {
         const categories = new Map<string, ReflectionCategory>();
 
         for (const child of reflections) {
-            const childCategories = this.getCategories(child);
+            const childCategories = this.extractCategories(child);
             if (childCategories.size === 0) {
                 childCategories.add(CategoryPlugin.defaultCategory);
             }
@@ -197,31 +197,18 @@ export class CategoryPlugin extends ConverterComponent {
      * @privateRemarks
      * If you change this, also update getGroups in GroupPlugin accordingly.
      */
-    getCategories(reflection: DeclarationReflection) {
-        const categories = new Set<string>();
-        function extractCategoryTags(comment: Comment | undefined) {
-            if (!comment) return;
-            removeIf(comment.blockTags, (tag) => {
-                if (tag.tag === "@category") {
-                    categories.add(
-                        Comment.combineDisplayParts(tag.content).trim(),
-                    );
+    private extractCategories(reflection: DeclarationReflection) {
+        const categories = CategoryPlugin.getCategories(reflection);
 
-                    return true;
-                }
-                return false;
-            });
-        }
-
-        extractCategoryTags(reflection.comment);
+        reflection.comment?.removeTags("@category");
         for (const sig of reflection.getNonIndexSignatures()) {
-            extractCategoryTags(sig.comment);
+            sig.comment?.removeTags("@category");
         }
 
         if (reflection.type?.type === "reflection") {
-            extractCategoryTags(reflection.type.declaration.comment);
+            reflection.type.declaration.comment?.removeTags("@category");
             for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
-                extractCategoryTags(sig.comment);
+                sig.comment?.removeTags("@category");
             }
         }
 
@@ -245,7 +232,7 @@ export class CategoryPlugin extends ConverterComponent {
      * @param b The right reflection to sort.
      * @returns The sorting weight.
      */
-    static sortCatCallback(
+    private static sortCatCallback(
         a: ReflectionCategory,
         b: ReflectionCategory,
     ): number {
@@ -267,5 +254,35 @@ export class CategoryPlugin extends ConverterComponent {
             return a.title > b.title ? 1 : -1;
         }
         return aWeight - bWeight;
+    }
+
+    static getCategories(reflection: DeclarationReflection) {
+        const categories = new Set<string>();
+        function discoverCategories(comment: Comment | undefined) {
+            if (!comment) return;
+            for (const tag of comment.blockTags) {
+                if (tag.tag === "@category") {
+                    categories.add(
+                        Comment.combineDisplayParts(tag.content).trim(),
+                    );
+                }
+            }
+        }
+
+        discoverCategories(reflection.comment);
+        for (const sig of reflection.getNonIndexSignatures()) {
+            discoverCategories(sig.comment);
+        }
+
+        if (reflection.type?.type === "reflection") {
+            discoverCategories(reflection.type.declaration.comment);
+            for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+                discoverCategories(sig.comment);
+            }
+        }
+
+        categories.delete("");
+
+        return categories;
     }
 }
