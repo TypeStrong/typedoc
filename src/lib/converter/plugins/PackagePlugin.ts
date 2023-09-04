@@ -133,7 +133,7 @@ export class PackagePlugin extends ConverterComponent {
     private processReadmeContents(contents: string) {
         if (this.stripYamlFrontmatter) {
             return contents.replace(
-                /^[\r\n\s]*---\r?\n[\s\S]*?\r?\n---[\r\n\s]+/,
+                /^\s*---\r?\n[\s\S]*?\r?\n---\s*?\r?\n\s*/,
                 "",
             );
         }
