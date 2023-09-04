@@ -46,8 +46,11 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
         this.listenTo(this.owner, {
             [RendererEvent.BEGIN]: this.onBeginRenderer,
             [PageEvent.BEGIN]: this.onBeginPage,
+            [RendererEvent.END]: () => this.absoluteToRelativePathMap.clear(),
         });
     }
+
+    private absoluteToRelativePathMap = new Map<string, string>();
 
     /**
      * Transform the given absolute path into a relative path.
@@ -59,7 +62,12 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
         if (this.urlPrefix.test(absolute)) {
             return absolute;
         } else {
-            return Path.posix.relative(this.location, absolute) || ".";
+            const key = `${this.location}:${absolute}`;
+            let path = this.absoluteToRelativePathMap.get(key);
+            if (path) return path;
+            path = Path.posix.relative(this.location, absolute) || ".";
+            this.absoluteToRelativePathMap.set(key, path);
+            return path;
         }
     }
 

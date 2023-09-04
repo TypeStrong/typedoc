@@ -12,6 +12,7 @@
 -   TypeDoc will now attempt to cache icons when `DefaultThemeRenderContext.icons` is overwritten by a custom theme.
     Note: To perform this optimization, TypeDoc relies on `DefaultThemeRenderContext.iconCache` being rendered within
     each page. TypeDoc does it in the `defaultLayout` template.
+-   Cache URL derivation during generation, #2386.
 
 ### Bug Fixes
 
@@ -24,6 +25,7 @@
 
 ### Thanks!
 
+-   @ajesshope
 -   @HemalPatil
 -   @hrueger
 -   @typhonrt
