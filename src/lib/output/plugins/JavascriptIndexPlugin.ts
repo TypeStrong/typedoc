@@ -8,8 +8,12 @@ import {
 } from "../../models";
 import { Component, RendererComponent } from "../components";
 import { IndexEvent, RendererEvent } from "../events";
-import { Option, writeFileSync } from "../../utils";
+import { Option, writeFile } from "../../utils";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
+import { gzip } from "zlib";
+import { promisify } from "util";
+
+const gzipP = promisify(gzip);
 
 /**
  * Keep this in sync with the interface in src/lib/output/themes/default/assets/typedoc/components/Search.ts
@@ -51,6 +55,14 @@ export class JavascriptIndexPlugin extends RendererComponent {
         if (event.isDefaultPrevented) {
             return;
         }
+
+        this.owner.preRenderAsyncJobs.push((event) =>
+            this.buildSearchIndex(event),
+        );
+    }
+
+    private async buildSearchIndex(event: RendererEvent) {
+        const theme = this.owner.theme as DefaultTheme;
 
         const rows: SearchDocument[] = [];
 
@@ -105,7 +117,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 kind: reflection.kind,
                 name: reflection.name,
                 url: reflection.url,
-                classes: this.owner.theme.getReflectionClasses(reflection),
+                classes: theme.getReflectionClasses(reflection),
             };
 
             if (parent) {
@@ -136,10 +148,13 @@ export class JavascriptIndexPlugin extends RendererComponent {
             rows,
             index,
         });
+        const data = await gzipP(Buffer.from(jsonData));
 
-        writeFileSync(
+        await writeFile(
             jsonFileName,
-            `window.searchData = JSON.parse(${JSON.stringify(jsonData)});`,
+            `window.searchData = "data:application/octet-stream;base64,${data.toString(
+                "base64",
+            )}";`,
         );
     }
 

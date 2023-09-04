@@ -235,12 +235,7 @@ export class Renderer extends ChildableComponent<
 
         const momento = this.hooks.saveMomento();
         this.renderStartTime = Date.now();
-        await loadHighlighter(this.lightTheme, this.darkTheme);
-        this.application.logger.verbose(
-            `Renderer: Loading highlighter took ${
-                Date.now() - this.renderStartTime
-            }ms`,
-        );
+
         if (
             !this.prepareTheme() ||
             !(await this.prepareOutputDirectory(outputDirectory))
@@ -256,9 +251,7 @@ export class Renderer extends ChildableComponent<
         output.urls = this.theme!.getUrls(project);
 
         this.trigger(output);
-
-        await Promise.all(this.preRenderAsyncJobs.map((job) => job(output)));
-        this.preRenderAsyncJobs = [];
+        await this.runPreRenderJobs(output);
 
         if (!output.isDefaultPrevented) {
             this.application.logger.verbose(
@@ -279,6 +272,22 @@ export class Renderer extends ChildableComponent<
 
         this.theme = void 0;
         this.hooks.restoreMomento(momento);
+    }
+
+    private async runPreRenderJobs(output: RendererEvent) {
+        const start = Date.now();
+
+        this.preRenderAsyncJobs.push(this.loadHighlighter.bind(this));
+        await Promise.all(this.preRenderAsyncJobs.map((job) => job(output)));
+        this.preRenderAsyncJobs = [];
+
+        this.application.logger.verbose(
+            `Pre render async jobs took ${Date.now() - start}ms`,
+        );
+    }
+
+    private async loadHighlighter() {
+        await loadHighlighter(this.lightTheme, this.darkTheme);
     }
 
     /**

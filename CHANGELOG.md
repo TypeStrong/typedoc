@@ -8,6 +8,7 @@
     to customize the displayed navigation tree, #2287.
     Note: This change renders `navigation.fullTree` obsolete. If you set it, TypeDoc will warn that it is being ignored.
     It will be removed in v0.26.
+-   The search index is now compressed before writing, which reduces most search index sizes by ~5-10x.
 -   TypeDoc will now attempt to cache icons when `DefaultThemeRenderContext.icons` is overwritten by a custom theme.
     Note: To perform this optimization, TypeDoc relies on `DefaultThemeRenderContext.iconCache` being rendered within
     each page. TypeDoc does it in the `defaultLayout` template.

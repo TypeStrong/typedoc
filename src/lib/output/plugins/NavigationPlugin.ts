@@ -1,9 +1,12 @@
 import * as Path from "path";
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
-import { writeFileSync } from "../../utils";
+import { writeFile } from "../../utils";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
-import { gzipSync } from "zlib";
+import { gzip } from "zlib";
+import { promisify } from "util";
+
+const gzipP = promisify(gzip);
 
 @Component({ name: "navigation-tree" })
 export class NavigationPlugin extends RendererComponent {
@@ -19,16 +22,24 @@ export class NavigationPlugin extends RendererComponent {
             return;
         }
 
+        this.owner.preRenderAsyncJobs.push((event) =>
+            this.buildNavigationIndex(event),
+        );
+    }
+
+    private async buildNavigationIndex(event: RendererEvent) {
         const navigationJs = Path.join(
             event.outputDirectory,
             "assets",
             "navigation.js",
         );
 
-        const nav = this.owner.theme.getNavigation(event.project);
-        const gz = gzipSync(Buffer.from(JSON.stringify(nav)));
+        const nav = (this.owner.theme as DefaultTheme).getNavigation(
+            event.project,
+        );
+        const gz = await gzipP(Buffer.from(JSON.stringify(nav)));
 
-        writeFileSync(
+        await writeFile(
             navigationJs,
             `window.navigationData = "data:application/octet-stream;base64,${gz.toString(
                 "base64",

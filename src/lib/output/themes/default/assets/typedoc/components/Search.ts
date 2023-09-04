@@ -22,7 +22,7 @@ interface IData {
 
 declare global {
     interface Window {
-        searchData?: IData;
+        searchData?: string;
     }
 }
 
@@ -32,9 +32,29 @@ interface SearchState {
     index?: Index;
 }
 
+async function updateIndex(state: SearchState, searchEl: HTMLElement) {
+    if (!window.searchData) return;
+
+    const res = await fetch(window.searchData);
+    const json = new Blob([await res.arrayBuffer()])
+        .stream()
+        .pipeThrough(new DecompressionStream("gzip"));
+    const data: IData = await new Response(json).json();
+
+    state.data = data;
+    state.index = Index.load(data.index);
+
+    searchEl.classList.remove("loading");
+    searchEl.classList.add("ready");
+}
+
 export function initSearch() {
     const searchEl = document.getElementById("tsd-search");
     if (!searchEl) return;
+
+    const state: SearchState = {
+        base: searchEl.dataset["base"] + "/",
+    };
 
     const searchScript = document.getElementById(
         "tsd-search-script",
@@ -46,12 +66,9 @@ export function initSearch() {
             searchEl.classList.add("failure");
         });
         searchScript.addEventListener("load", () => {
-            searchEl.classList.remove("loading");
-            searchEl.classList.add("ready");
+            updateIndex(state, searchEl);
         });
-        if (window.searchData) {
-            searchEl.classList.remove("loading");
-        }
+        updateIndex(state, searchEl);
     }
 
     const field = document.querySelector<HTMLInputElement>("#tsd-search input");
@@ -77,10 +94,6 @@ export function initSearch() {
             searchEl.classList.remove("has-focus");
         }
     });
-
-    const state: SearchState = {
-        base: searchEl.dataset["base"] + "/",
-    };
 
     bindEvents(searchEl, results, field, state);
 }
@@ -129,24 +142,12 @@ function bindEvents(
     });
 }
 
-function checkIndex(state: SearchState, searchEl: HTMLElement) {
-    if (state.index) return;
-
-    if (window.searchData) {
-        searchEl.classList.remove("loading");
-        searchEl.classList.add("ready");
-        state.data = window.searchData;
-        state.index = Index.load(window.searchData.index);
-    }
-}
-
 function updateResults(
     searchEl: HTMLElement,
     results: HTMLElement,
     query: HTMLInputElement,
     state: SearchState,
 ) {
-    checkIndex(state, searchEl);
     // Don't clear results if loading state is not ready,
     // because loading or error message can be removed.
     if (!state.index || !state.data) return;
@@ -189,6 +190,7 @@ function updateResults(
 
     for (let i = 0, c = Math.min(10, res.length); i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
+        const icon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${row.kind}"></use></svg>`;
 
         // Bold the matched part of the query in the search results
         let name = boldMatches(row.name, searchText);
@@ -196,10 +198,8 @@ function updateResults(
             name += ` (score: ${res[i].score.toFixed(2)})`;
         }
         if (row.parent) {
-            name = `<span class="parent">${boldMatches(
-                row.parent,
-                searchText,
-            )}.</span>${name}`;
+            name = `<span class="parent">
+                ${boldMatches(row.parent, searchText)}.</span>${name}`;
         }
 
         const item = document.createElement("li");
@@ -207,7 +207,7 @@ function updateResults(
 
         const anchor = document.createElement("a");
         anchor.href = state.base + row.url;
-        anchor.innerHTML = name;
+        anchor.innerHTML = icon + name;
         item.append(anchor);
 
         results.appendChild(item);

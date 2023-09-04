@@ -57,21 +57,8 @@ export function Bench<T extends Function>(
     };
 }
 
-const anon = { name: "measure()", calls: 0, time: 0 };
 export function measure<T>(cb: () => T): T {
-    if (anon.calls === 0) {
-        benchmarks.unshift(anon);
-    }
-
-    anon.calls++;
-    const start = performance.now();
-    let result: T;
-    try {
-        result = cb();
-    } finally {
-        anon.time += performance.now() - start;
-    }
-    return result;
+    return bench(cb, "measure()")();
 }
 
 process.on("exit", () => {
