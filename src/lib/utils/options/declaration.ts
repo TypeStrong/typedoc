@@ -113,6 +113,7 @@ export interface TypeDocOptionMap {
     gitRevision: string;
     gitRemote: string;
     readme: string;
+    stripYamlFrontmatter: boolean;
 
     // Output
     out: string;

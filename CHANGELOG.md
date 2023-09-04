@@ -2,6 +2,7 @@
 
 ### Features
 
+-   Added `stripYamlFrontmatter` config option, #2381.
 -   Navigation is now written to a JS file and built dynamically, which significantly decreases document generation time
     with large projects and also provides large space benefits. Themes may now override `DefaultTheme.buildNavigation`
     to customize the displayed navigation tree, #2287.
