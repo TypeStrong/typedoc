@@ -157,9 +157,22 @@ function updateResults(
     const searchText = query.value.trim();
 
     // Perform a wildcard search
-    // Set empty `res` to prevent getting random results with wildcard search
-    // when the `searchText` is empty.
-    let res = searchText ? state.index.search(`*${searchText}*`) : [];
+    let res: Index.Result[];
+    if (searchText) {
+        // Create a wildcard out of space-separated words in the query,
+        // ignoring any extra spaces
+        const searchWithWildcards = searchText
+            .split(" ")
+            .map((x) => {
+                return x.length ? `*${x}*` : "";
+            })
+            .join(" ");
+        res = state.index.search(searchWithWildcards);
+    } else {
+        // Set empty `res` to prevent getting random results with wildcard search
+        // when the `searchText` is empty.
+        res = [];
+    }
 
     for (let i = 0; i < res.length; i++) {
         const item = res[i];
