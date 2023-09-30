@@ -77,7 +77,7 @@ export class DefaultTheme extends Theme {
     /**
      * Mappings of reflections kinds to templates used by this theme.
      */
-    private mappings: TemplateMapping[] = [
+    mappings: TemplateMapping[] = [
         {
             kind: [ReflectionKind.Class],
             directory: "classes",
@@ -185,7 +185,7 @@ export class DefaultTheme extends Theme {
      * @param reflection  The reflection whose mapping should be resolved.
      * @returns           The found mapping or undefined if no mapping could be found.
      */
-    private getMapping(reflection: DeclarationReflection): TemplateMapping | undefined {
+    getMapping(reflection: DeclarationReflection): TemplateMapping | undefined {
         return this.mappings.find((mapping) => reflection.kindOf(mapping.kind));
     }
 
