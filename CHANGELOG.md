@@ -10,6 +10,7 @@
 -   Invalid link validation is now correctly suppressed before all projects have been converted in packages mode, #2403.
 -   Fixed tsconfig handling for projects using a solution-style tsconfig, #2406.
 -   Fixed broken settings icons caused by icon caching introduced in 0.25.1, #2408.
+-   Corrected module comment handling on declaration files containing a single `declare module "foo"`, #2401.
 
 ### Thanks!
 

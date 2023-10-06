@@ -142,11 +142,19 @@ export function getComment(
         );
     }
 
+    const isModule = declarations.some((decl) => {
+        if (ts.isSourceFile(decl)) return true;
+        if (ts.isModuleDeclaration(decl) && ts.isStringLiteral(decl.name)) {
+            return true;
+        }
+        return false;
+    });
+
     const comment = getCommentImpl(
         discoverComment(symbol, kind, logger, commentStyle),
         config,
         logger,
-        declarations.some(ts.isSourceFile),
+        isModule,
         checker,
     );
 

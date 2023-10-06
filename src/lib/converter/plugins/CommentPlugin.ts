@@ -263,7 +263,7 @@ export class CommentPlugin extends ConverterComponent {
         const comment = reflection.comment;
         if (!comment) return;
 
-        if (reflection.kindOf(ReflectionKind.Module)) {
+        if (reflection.kindOf(ReflectionKind.SomeModule)) {
             const tag = comment.getTag("@module");
             if (tag) {
                 // If no name is specified, this is a flag to mark a comment as a module comment

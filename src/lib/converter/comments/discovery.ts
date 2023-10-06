@@ -24,8 +24,14 @@ const variablePropertyKinds = [
 // the JSDoc converter because we only want part of the comment when
 // getting them.
 const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
-    [ReflectionKind.Project]: [ts.SyntaxKind.SourceFile],
-    [ReflectionKind.Module]: [ts.SyntaxKind.SourceFile],
+    [ReflectionKind.Project]: [
+        ts.SyntaxKind.SourceFile,
+        ts.SyntaxKind.ModuleDeclaration,
+    ],
+    [ReflectionKind.Module]: [
+        ts.SyntaxKind.SourceFile,
+        ts.SyntaxKind.ModuleDeclaration,
+    ],
     [ReflectionKind.Namespace]: [
         ts.SyntaxKind.ModuleDeclaration,
         ts.SyntaxKind.SourceFile,

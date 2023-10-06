@@ -1162,4 +1162,16 @@ describe("Issue Tests", () => {
             "desc",
         );
     });
+
+    // This is rather unfortunate, we need to do this so that files which include only
+    // a single declare module can still have a comment on them, but it looks really
+    // weird and wrong if there are multiple declare module statements in a file...
+    // there's probably some nicer way of doing this that I'm not seeing right now.
+    it("Uses module comment discovery on 'declare module \"foo\"' #2401", () => {
+        const project = convert();
+        equal(
+            Comment.combineDisplayParts(project.comment?.summary),
+            "Comment for module",
+        );
+    });
 });
