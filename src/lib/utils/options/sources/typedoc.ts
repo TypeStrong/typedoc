@@ -447,7 +447,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
-
+    options.addDeclaration({
+        name: "navigationLeaves",
+        help: "Branches of the navigation tree which should not be expanded.",
+        type: ParameterType.Array,
+    });
     options.addDeclaration({
         name: "navigation",
         help: "Determines how the navigation sidebar is organized.",

@@ -246,6 +246,7 @@ export class DefaultTheme extends Theme {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const theme = this;
         const opts = this.application.options.getValue("navigation");
+        const leaves = this.application.options.getValue("navigationLeaves");
 
         if (opts.fullTree) {
             this.application.logger.warn(
@@ -286,6 +287,10 @@ export class DefaultTheme extends Theme {
                     return parent.categories.map(toNavigation);
                 }
                 return parent.children.map(toNavigation);
+            }
+
+            if (leaves.includes(parent.getFullName())) {
+                return;
             }
 
             if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {

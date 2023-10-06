@@ -139,6 +139,7 @@ export interface TypeDocOptionMap {
     titleLink: string;
     navigationLinks: ManuallyValidatedOption<Record<string, string>>;
     sidebarLinks: ManuallyValidatedOption<Record<string, string>>;
+    navigationLeaves: string[];
     navigation: {
         includeCategories: boolean;
         includeGroups: boolean;

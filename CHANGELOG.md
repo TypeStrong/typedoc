@@ -2,6 +2,7 @@
 
 ### Features
 
+-   Added `navigationLeaves` option to remove branches from the navigation tree, #2382.
 -   Improved support for multi-word searches, #2400.
 
 ### Bug Fixes
