@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+-   Fixed tsconfig handling for projects using a solution-style tsconfig, #2406.
 -   Fixed broken settings icons caused by icon caching introduced in 0.25.1, #2408.
 
 ### Thanks!

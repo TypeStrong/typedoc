@@ -289,13 +289,20 @@ function getEntryPrograms(
     logger: Logger,
     options: Options,
 ) {
-    const rootProgram = ts.createProgram({
-        rootNames: options.getFileNames().length
-            ? options.getFileNames()
-            : inputFiles,
-        options: options.getCompilerOptions(),
-        projectReferences: options.getProjectReferences(),
-    });
+    const noTsConfigFound =
+        options.getFileNames().length === 0 &&
+        options.getProjectReferences().length === 0;
+
+    const rootProgram = noTsConfigFound
+        ? ts.createProgram({
+              rootNames: inputFiles,
+              options: options.getCompilerOptions(),
+          })
+        : ts.createProgram({
+              rootNames: options.getFileNames(),
+              options: options.getCompilerOptions(),
+              projectReferences: options.getProjectReferences(),
+          });
 
     const programs = [rootProgram];
     // This might be a solution style tsconfig, in which case we need to add a program for each
