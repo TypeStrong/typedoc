@@ -594,9 +594,9 @@ export class Application extends ChildableComponent<
         for (const dir of packageDirs) {
             this.logger.info(`Converting project at ${nicePath(dir)}`);
             const opts = origOptions.copyForPackage(dir);
+            await opts.read(this.logger, dir);
             // Invalid links should only be reported after everything has been merged.
             opts.setValue("validation", { invalidLink: false });
-            await opts.read(this.logger, dir);
             if (
                 opts.getValue("entryPointStrategy") ===
                 EntryPointStrategy.Packages
