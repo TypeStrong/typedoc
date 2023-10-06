@@ -1,5 +1,17 @@
 # Unreleased
 
+### Features
+
+-   Improved support for multi-word searches, #2400.
+
+### Bug Fixes
+
+-   Fixed broken settings icons caused by icon caching introduced in 0.25.1, #2408.
+
+### Thanks!
+
+-   @schiem
+
 ## v0.25.1 (2023-09-04)
 
 ### Features

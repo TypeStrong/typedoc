@@ -25,6 +25,12 @@ export function buildRefIcons<T extends Record<string, () => JSX.Element>>(icons
     for (const [name, builder] of Object.entries(icons)) {
         const jsx = builder.call(icons);
         assert(jsx.tag === "svg", "TypeDoc's frontend assumes that icons are written as svg elements");
+        // This one cannot be cached because the CSS selector depends on targeting SVG elements
+        // within it. Ick. Surely there's a nicer way?
+        if (name === "checkbox") {
+            refs[name] = () => jsx;
+            continue;
+        }
 
         children.push(<g id={`icon-${name}`}>{jsx.children}</g>);
         const ref = (
