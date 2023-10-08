@@ -687,6 +687,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
     options.addDeclaration({
+        name: "sortEntryPoints",
+        help: "If set, entry points will be subject to the same sorting rules as other reflections.",
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+    options.addDeclaration({
         name: "kindSortOrder",
         help: "Specify the sort order for reflections when 'kind' is specified.",
         type: ParameterType.Array,

@@ -69,29 +69,30 @@ const base = getConverter2Base();
 const app = getConverter2App();
 const program = getConverter2Program();
 
-function convert(entry: string) {
-    const entryPoint = [
-        join(base, `behavior/${entry}.ts`),
-        join(base, `behavior/${entry}.d.ts`),
-        join(base, `behavior/${entry}.tsx`),
-        join(base, `behavior/${entry}.js`),
-        join(base, "behavior", entry, "index.ts"),
-        join(base, "behavior", entry, "index.js"),
-    ].find(existsSync);
+function convert(...entries: [string, ...string[]]) {
+    const entryPoints = entries.map((entry) => {
+        const entryPoint = [
+            join(base, `behavior/${entry}.ts`),
+            join(base, `behavior/${entry}.d.ts`),
+            join(base, `behavior/${entry}.tsx`),
+            join(base, `behavior/${entry}.js`),
+            join(base, "behavior", entry, "index.ts"),
+            join(base, "behavior", entry, "index.js"),
+        ].find(existsSync);
 
-    ok(entryPoint, `No entry point found for ${entry}`);
-    const sourceFile = program.getSourceFile(entryPoint);
-    ok(sourceFile, `No source file found for ${entryPoint}`);
+        ok(entryPoint, `No entry point found for ${entry}`);
+        const sourceFile = program.getSourceFile(entryPoint);
+        ok(sourceFile, `No source file found for ${entryPoint}`);
 
-    app.options.setValue("entryPoints", [entryPoint]);
+        return { displayName: entry, program, sourceFile, entryPoint };
+    });
+
+    app.options.setValue(
+        "entryPoints",
+        entryPoints.map((e) => e.entryPoint),
+    );
     clearCommentCache();
-    return app.converter.convert([
-        {
-            displayName: entry,
-            program,
-            sourceFile,
-        },
-    ]);
+    return app.converter.convert(entryPoints);
 }
 
 describe("Behavior Tests", () => {
@@ -951,6 +952,22 @@ describe("Behavior Tests", () => {
             "Variables",
             "A",
             "With Spaces",
+        ]);
+    });
+
+    it("Supports disabling sorting of entry points #2393", () => {
+        app.options.setValue("sort", ["alphabetical"]);
+        const project = convert("blockComment", "asConstEnum");
+        equal(project.children?.map((c) => c.name), [
+            "asConstEnum",
+            "blockComment",
+        ]);
+
+        app.options.setValue("sortEntryPoints", false);
+        const project2 = convert("blockComment", "asConstEnum");
+        equal(project2.children?.map((c) => c.name), [
+            "blockComment",
+            "asConstEnum",
         ]);
     });
 });

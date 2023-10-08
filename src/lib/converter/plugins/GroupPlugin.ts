@@ -27,6 +27,9 @@ export class GroupPlugin extends ConverterComponent {
     @Option("groupOrder")
     accessor groupOrder!: string[];
 
+    @Option("sortEntryPoints")
+    accessor sortEntryPoints!: boolean;
+
     usedBoosts = new Set<string>();
 
     static WEIGHTS: string[] = [];
@@ -90,7 +93,14 @@ export class GroupPlugin extends ConverterComponent {
             reflection.children.length > 0 &&
             !reflection.groups
         ) {
-            this.sortFunction(reflection.children);
+            if (
+                this.sortEntryPoints ||
+                !reflection.children.some((c) =>
+                    c.kindOf(ReflectionKind.Module),
+                )
+            ) {
+                this.sortFunction(reflection.children);
+            }
             reflection.groups = this.getReflectionGroups(reflection.children);
         }
     }

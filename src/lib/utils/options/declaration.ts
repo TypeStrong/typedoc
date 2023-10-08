@@ -176,6 +176,7 @@ export interface TypeDocOptionMap {
     categoryOrder: string[];
     groupOrder: string[];
     sort: SortStrategy[];
+    sortEntryPoints: boolean;
     kindSortOrder: ReflectionKind.KindString[];
 
     // Validation
