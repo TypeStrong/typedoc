@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.2 (2023-10-08)
+
 ### Features
 
 -   Added `navigationLeaves` option to remove branches from the navigation tree, #2382.
