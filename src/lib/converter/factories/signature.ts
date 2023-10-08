@@ -340,6 +340,54 @@ export function createTypeParamReflection(
     return paramRefl;
 }
 
+export function convertTemplateParameterNodes(
+    context: Context,
+    nodes: readonly ts.JSDocTemplateTag[] | undefined,
+) {
+    return nodes?.flatMap((node) => {
+        return node.typeParameters.map((param, index) => {
+            const paramRefl = new TypeParameterReflection(
+                param.name.text,
+                context.scope,
+                getVariance(param.modifiers),
+            );
+            const paramScope = context.withScope(paramRefl);
+            paramRefl.type =
+                index || !node.constraint
+                    ? void 0
+                    : context.converter.convertType(
+                          paramScope,
+                          node.constraint.type,
+                      );
+            paramRefl.default = param.default
+                ? context.converter.convertType(paramScope, param.default)
+                : void 0;
+            if (
+                param.modifiers?.some(
+                    (m) => m.kind === ts.SyntaxKind.ConstKeyword,
+                )
+            ) {
+                paramRefl.flags.setFlag(ReflectionFlag.Const, true);
+            }
+
+            context.registerReflection(paramRefl, param.symbol);
+
+            if (ts.isJSDocTemplateTag(param.parent)) {
+                paramRefl.comment = context.getJsDocComment(param.parent);
+            }
+
+            context.trigger(
+                ConverterEvents.CREATE_TYPE_PARAMETER,
+                paramRefl,
+                param,
+            );
+            return paramRefl;
+        });
+    });
+    const params = (nodes ?? []).flatMap((tag) => tag.typeParameters);
+    return convertTypeParameterNodes(context, params);
+}
+
 function getVariance(
     modifiers: ts.ModifiersArray | undefined,
 ): VarianceModifier | undefined {

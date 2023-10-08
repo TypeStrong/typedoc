@@ -1163,6 +1163,17 @@ describe("Issue Tests", () => {
         );
     });
 
+    it("Handles @template parameter constraints correctly, #2389", () => {
+        const project = convert();
+        const foo = query(project, "foo");
+        equal(foo.signatures?.length, 1);
+        equal(foo.signatures[0].typeParameters?.length, 2);
+
+        const [T, U] = foo.signatures[0].typeParameters;
+        equal(T.type?.toString(), "string");
+        equal(U.type?.toString(), undefined);
+    });
+
     // This is rather unfortunate, we need to do this so that files which include only
     // a single declare module can still have a comment on them, but it looks really
     // weird and wrong if there are multiple declare module statements in a file...

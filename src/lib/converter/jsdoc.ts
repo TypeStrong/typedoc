@@ -16,7 +16,7 @@ import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
 import {
     convertParameterNodes,
-    convertTypeParameterNodes,
+    convertTemplateParameterNodes,
 } from "./factories/signature";
 
 export function convertJsDocAlias(
@@ -161,14 +161,6 @@ function convertTemplateParameters(context: Context, node: ts.JSDoc) {
         context,
         node.tags?.filter(ts.isJSDocTemplateTag),
     );
-}
-
-function convertTemplateParameterNodes(
-    context: Context,
-    nodes: readonly ts.JSDocTemplateTag[] | undefined,
-) {
-    const params = (nodes ?? []).flatMap((tag) => tag.typeParameters);
-    return convertTypeParameterNodes(context, params);
 }
 
 function getTypedefReExportTarget(
