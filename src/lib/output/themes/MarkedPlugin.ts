@@ -195,6 +195,19 @@ output file :
         if (!markedOptions.renderer) {
             markedOptions.renderer = new Marked.Renderer();
 
+            markedOptions.renderer.link = (href, title, text) => {
+                // Prefix the #anchor links `#md:`.
+                href =
+                    href
+                        ?.replace(/^#(?:md:)?(.+)/, "#md:$1")
+                        .replace(/"/g, "&quot;") || "";
+                let html = `<a href="${href}"`;
+                if (title != null)
+                    html += ` title="${title.replace(/"/g, "&quot;")}"`;
+                html += `>${text}</a>`;
+                return html;
+            };
+
             markedOptions.renderer.heading = (text, level, _, slugger) => {
                 const slug = slugger.slug(text);
                 // Prefix the slug with an extra `md:` to prevent conflicts with TypeDoc's anchors.
