@@ -1185,4 +1185,15 @@ describe("Issue Tests", () => {
             "Comment for module",
         );
     });
+
+    it("Includes index signature comments #2414", () => {
+        const project = convert();
+        equal(
+            Comment.combineDisplayParts(
+                query(project, "ObjectWithIndexSignature").indexSignature
+                    ?.comment?.summary,
+            ),
+            "Index comment.",
+        );
+    });
 });
