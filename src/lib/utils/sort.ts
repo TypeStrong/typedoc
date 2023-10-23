@@ -19,6 +19,7 @@ export const SORT_STRATEGIES = [
     "visibility",
     "required-first",
     "kind",
+    "internal-first",
 ] as const;
 
 export type SortStrategy = (typeof SORT_STRATEGIES)[number];
@@ -150,6 +151,9 @@ const sorts: Record<
     },
     kind(a, b, { kindSortOrder }) {
         return kindSortOrder.indexOf(a.kind) < kindSortOrder.indexOf(b.kind);
+    },
+    "internal-first"(a, b) {
+        return !a.flags.isExternal && b.flags.isExternal;
     },
 };
 

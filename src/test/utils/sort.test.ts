@@ -209,6 +209,23 @@ describe("Sort", () => {
         );
     });
 
+    it("Should sort by internal first", () => {
+        const arr = [
+            new DeclarationReflection("a", ReflectionKind.Function),
+            new DeclarationReflection("b", ReflectionKind.Function),
+            new DeclarationReflection("c", ReflectionKind.Function),
+        ];
+        arr[0].setFlag(ReflectionFlag.External, true);
+        arr[1].setFlag(ReflectionFlag.External, false);
+        arr[2].setFlag(ReflectionFlag.External, true);
+
+        sortReflections(arr, ["internal-first"]);
+        equal(
+            arr.map((r) => r.name),
+            ["b", "a", "c"],
+        );
+    });
+
     it("Should sort with multiple strategies", () => {
         resetReflectionID();
         const arr = [
