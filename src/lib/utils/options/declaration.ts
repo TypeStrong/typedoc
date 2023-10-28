@@ -110,6 +110,7 @@ export interface TypeDocOptionMap {
     includeVersion: boolean;
     disableSources: boolean;
     sourceLinkTemplate: string;
+    sourceLinkExternal: boolean;
     disableGit: boolean;
     gitRevision: string;
     gitRemote: string;
