@@ -3,6 +3,7 @@
 ### Features
 
 -   Added `--sourceLinkExternal` option to render source code links as external, #2415.
+-   Added `external-last` option for the `--sort` option, #2418.
 
 ### Bug Fixes
 
@@ -13,6 +14,7 @@
 ### Thanks!
 
 -   @mogelbrod
+-   @rsanchez
 
 ## v0.25.2 (2023-10-08)
 
