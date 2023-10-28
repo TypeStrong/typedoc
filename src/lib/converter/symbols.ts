@@ -1071,10 +1071,9 @@ function convertAccessor(
 
 function isInherited(context: Context, symbol: ts.Symbol) {
     const parentSymbol = context.project.getSymbolFromReflection(context.scope);
-    assert(
-        parentSymbol,
-        `No parent symbol found for ${symbol.name} in ${context.scope.name}`,
-    );
+    // It'd be nice to be able to assert that this is true, but sometimes object
+    // types don't get symbols if they are inferred.
+    if (!parentSymbol) return false;
 
     const parents = parentSymbol.declarations?.slice() || [];
     const constructorDecls = parents.flatMap((parent) =>

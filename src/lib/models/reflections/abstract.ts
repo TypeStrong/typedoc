@@ -7,6 +7,7 @@ import { ReflectionKind } from "./kind";
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
 import type { ReflectionVariant } from "./variant";
 import type { DeclarationReflection } from "./declaration";
+import { NonEnumerable } from "../../utils/general";
 
 /**
  * Current reflection id.
@@ -274,6 +275,7 @@ export abstract class Reflection {
     /**
      * The reflection this reflection is a child of.
      */
+    @NonEnumerable // So that it doesn't show up in console.log
     parent?: Reflection;
 
     get project(): ProjectReflection {

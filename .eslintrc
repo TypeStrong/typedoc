@@ -70,6 +70,10 @@
             {
                 "selector": "ImportDeclaration[source.value=/.*perf$/]",
                 "message": "Benchmark calls must be removed before committing."
+            },
+            {
+                "selector": "MemberExpression[object.name=type][property.name=symbol]",
+                "message": "Use type.getSymbol() instead, Type.symbol is not properly typed."
             }
         ]
     },

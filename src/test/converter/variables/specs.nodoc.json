@@ -301,8 +301,95 @@
                   "kind": 32768,
                   "flags": {},
                   "type": {
-                    "type": "intrinsic",
-                    "name": "Object"
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 19,
+                      "name": "__type",
+                      "variant": "declaration",
+                      "kind": 65536,
+                      "flags": {},
+                      "children": [
+                        {
+                          "id": 22,
+                          "name": "bold",
+                          "variant": "declaration",
+                          "kind": 1024,
+                          "flags": {},
+                          "type": {
+                            "type": "union",
+                            "types": [
+                              {
+                                "type": "intrinsic",
+                                "name": "undefined"
+                              },
+                              {
+                                "type": "intrinsic",
+                                "name": "boolean"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "id": 21,
+                          "name": "location",
+                          "variant": "declaration",
+                          "kind": 1024,
+                          "flags": {},
+                          "type": {
+                            "type": "union",
+                            "types": [
+                              {
+                                "type": "intrinsic",
+                                "name": "undefined"
+                              },
+                              {
+                                "type": "tuple",
+                                "elements": [
+                                  {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  },
+                                  {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "id": 20,
+                          "name": "text",
+                          "variant": "declaration",
+                          "kind": 1024,
+                          "flags": {},
+                          "type": {
+                            "type": "union",
+                            "types": [
+                              {
+                                "type": "intrinsic",
+                                "name": "undefined"
+                              },
+                              {
+                                "type": "intrinsic",
+                                "name": "string"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Properties",
+                          "children": [
+                            22,
+                            21,
+                            20
+                          ]
+                        }
+                      ]
+                    }
                   }
                 }
               ],
@@ -332,14 +419,14 @@
       ]
     },
     {
-      "id": 30,
+      "id": 34,
       "name": "literal",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 70,
+          "id": 74,
           "name": "objectLiteral",
           "variant": "declaration",
           "kind": 32,
@@ -365,14 +452,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 71,
+              "id": 75,
               "name": "__type",
               "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "children": [
                 {
-                  "id": 89,
+                  "id": 93,
                   "name": "[toStringTag]",
                   "variant": "declaration",
                   "kind": 1024,
@@ -392,7 +479,7 @@
                   "defaultValue": "\"computed\""
                 },
                 {
-                  "id": 90,
+                  "id": 94,
                   "name": "literal",
                   "variant": "declaration",
                   "kind": 1024,
@@ -412,7 +499,7 @@
                   "defaultValue": "true"
                 },
                 {
-                  "id": 91,
+                  "id": 95,
                   "name": "literal2",
                   "variant": "declaration",
                   "kind": 1024,
@@ -432,7 +519,7 @@
                   "defaultValue": "true"
                 },
                 {
-                  "id": 87,
+                  "id": 91,
                   "name": "valueA",
                   "variant": "declaration",
                   "kind": 1024,
@@ -452,7 +539,7 @@
                   "defaultValue": "100"
                 },
                 {
-                  "id": 88,
+                  "id": 92,
                   "name": "valueB",
                   "variant": "declaration",
                   "kind": 1024,
@@ -472,7 +559,7 @@
                   "defaultValue": "true"
                 },
                 {
-                  "id": 76,
+                  "id": 80,
                   "name": "valueX",
                   "variant": "declaration",
                   "kind": 1024,
@@ -488,14 +575,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 77,
+                      "id": 81,
                       "name": "__type",
                       "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
-                          "id": 86,
+                          "id": 90,
                           "name": "valueA",
                           "variant": "declaration",
                           "kind": 1024,
@@ -518,7 +605,7 @@
                           "defaultValue": "..."
                         },
                         {
-                          "id": 79,
+                          "id": 83,
                           "name": "valueY",
                           "variant": "declaration",
                           "kind": 1024,
@@ -534,7 +621,7 @@
                           "type": {
                             "type": "reflection",
                             "declaration": {
-                              "id": 80,
+                              "id": 84,
                               "name": "__type",
                               "variant": "declaration",
                               "kind": 65536,
@@ -549,7 +636,7 @@
                               ],
                               "signatures": [
                                 {
-                                  "id": 81,
+                                  "id": 85,
                                   "name": "__type",
                                   "variant": "signature",
                                   "kind": 4096,
@@ -564,7 +651,7 @@
                                   ],
                                   "parameters": [
                                     {
-                                      "id": 82,
+                                      "id": 86,
                                       "name": "z",
                                       "variant": "param",
                                       "kind": 32768,
@@ -578,14 +665,14 @@
                                   "type": {
                                     "type": "reflection",
                                     "declaration": {
-                                      "id": 83,
+                                      "id": 87,
                                       "name": "__type",
                                       "variant": "declaration",
                                       "kind": 65536,
                                       "flags": {},
                                       "children": [
                                         {
-                                          "id": 84,
+                                          "id": 88,
                                           "name": "a",
                                           "variant": "declaration",
                                           "kind": 1024,
@@ -605,7 +692,7 @@
                                           "defaultValue": "\"test\""
                                         },
                                         {
-                                          "id": 85,
+                                          "id": 89,
                                           "name": "b",
                                           "variant": "declaration",
                                           "kind": 1024,
@@ -629,8 +716,8 @@
                                         {
                                           "title": "Properties",
                                           "children": [
-                                            84,
-                                            85
+                                            88,
+                                            89
                                           ]
                                         }
                                       ],
@@ -651,7 +738,7 @@
                           "defaultValue": "..."
                         },
                         {
-                          "id": 78,
+                          "id": 82,
                           "name": "valueZ",
                           "variant": "declaration",
                           "kind": 1024,
@@ -675,9 +762,9 @@
                         {
                           "title": "Properties",
                           "children": [
-                            86,
-                            79,
-                            78
+                            90,
+                            83,
+                            82
                           ]
                         }
                       ],
@@ -694,7 +781,7 @@
                   "defaultValue": "..."
                 },
                 {
-                  "id": 73,
+                  "id": 77,
                   "name": "valueY",
                   "variant": "declaration",
                   "kind": 1024,
@@ -710,7 +797,7 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 74,
+                      "id": 78,
                       "name": "__type",
                       "variant": "declaration",
                       "kind": 65536,
@@ -725,7 +812,7 @@
                       ],
                       "signatures": [
                         {
-                          "id": 75,
+                          "id": 79,
                           "name": "__type",
                           "variant": "signature",
                           "kind": 4096,
@@ -749,7 +836,7 @@
                   "defaultValue": "..."
                 },
                 {
-                  "id": 72,
+                  "id": 76,
                   "name": "valueZ",
                   "variant": "declaration",
                   "kind": 1024,
@@ -773,14 +860,14 @@
                 {
                   "title": "Properties",
                   "children": [
-                    89,
-                    90,
+                    93,
+                    94,
+                    95,
                     91,
-                    87,
-                    88,
-                    76,
-                    73,
-                    72
+                    92,
+                    80,
+                    77,
+                    76
                   ]
                 }
               ],
@@ -797,7 +884,7 @@
           "defaultValue": "..."
         },
         {
-          "id": 31,
+          "id": 35,
           "name": "typeLiteral",
           "variant": "declaration",
           "kind": 32,
@@ -821,14 +908,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 32,
+              "id": 36,
               "name": "__type",
               "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "children": [
                 {
-                  "id": 48,
+                  "id": 52,
                   "name": "valueA",
                   "variant": "declaration",
                   "kind": 1024,
@@ -849,7 +936,7 @@
                   }
                 },
                 {
-                  "id": 49,
+                  "id": 53,
                   "name": "valueB",
                   "variant": "declaration",
                   "kind": 1024,
@@ -870,7 +957,7 @@
                   }
                 },
                 {
-                  "id": 37,
+                  "id": 41,
                   "name": "valueX",
                   "variant": "declaration",
                   "kind": 1024,
@@ -886,14 +973,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 38,
+                      "id": 42,
                       "name": "__type",
                       "variant": "declaration",
                       "kind": 65536,
                       "flags": {},
                       "children": [
                         {
-                          "id": 47,
+                          "id": 51,
                           "name": "valueA",
                           "variant": "declaration",
                           "kind": 1024,
@@ -915,7 +1002,7 @@
                           }
                         },
                         {
-                          "id": 40,
+                          "id": 44,
                           "name": "valueY",
                           "variant": "declaration",
                           "kind": 1024,
@@ -931,7 +1018,7 @@
                           "type": {
                             "type": "reflection",
                             "declaration": {
-                              "id": 41,
+                              "id": 45,
                               "name": "__type",
                               "variant": "declaration",
                               "kind": 65536,
@@ -946,7 +1033,7 @@
                               ],
                               "signatures": [
                                 {
-                                  "id": 42,
+                                  "id": 46,
                                   "name": "__type",
                                   "variant": "signature",
                                   "kind": 4096,
@@ -961,7 +1048,7 @@
                                   ],
                                   "parameters": [
                                     {
-                                      "id": 43,
+                                      "id": 47,
                                       "name": "z",
                                       "variant": "param",
                                       "kind": 32768,
@@ -975,14 +1062,14 @@
                                   "type": {
                                     "type": "reflection",
                                     "declaration": {
-                                      "id": 44,
+                                      "id": 48,
                                       "name": "__type",
                                       "variant": "declaration",
                                       "kind": 65536,
                                       "flags": {},
                                       "children": [
                                         {
-                                          "id": 45,
+                                          "id": 49,
                                           "name": "a",
                                           "variant": "declaration",
                                           "kind": 1024,
@@ -1001,7 +1088,7 @@
                                           }
                                         },
                                         {
-                                          "id": 46,
+                                          "id": 50,
                                           "name": "b",
                                           "variant": "declaration",
                                           "kind": 1024,
@@ -1024,8 +1111,8 @@
                                         {
                                           "title": "Properties",
                                           "children": [
-                                            45,
-                                            46
+                                            49,
+                                            50
                                           ]
                                         }
                                       ],
@@ -1045,7 +1132,7 @@
                           }
                         },
                         {
-                          "id": 39,
+                          "id": 43,
                           "name": "valueZ",
                           "variant": "declaration",
                           "kind": 1024,
@@ -1068,9 +1155,9 @@
                         {
                           "title": "Properties",
                           "children": [
-                            47,
-                            40,
-                            39
+                            51,
+                            44,
+                            43
                           ]
                         }
                       ],
@@ -1086,7 +1173,7 @@
                   }
                 },
                 {
-                  "id": 34,
+                  "id": 38,
                   "name": "valueY",
                   "variant": "declaration",
                   "kind": 1024,
@@ -1102,7 +1189,7 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 35,
+                      "id": 39,
                       "name": "__type",
                       "variant": "declaration",
                       "kind": 65536,
@@ -1117,7 +1204,7 @@
                       ],
                       "signatures": [
                         {
-                          "id": 36,
+                          "id": 40,
                           "name": "__type",
                           "variant": "signature",
                           "kind": 4096,
@@ -1140,7 +1227,7 @@
                   }
                 },
                 {
-                  "id": 33,
+                  "id": 37,
                   "name": "valueZ",
                   "variant": "declaration",
                   "kind": 1024,
@@ -1163,11 +1250,11 @@
                 {
                   "title": "Properties",
                   "children": [
-                    48,
-                    49,
-                    37,
-                    34,
-                    33
+                    52,
+                    53,
+                    41,
+                    38,
+                    37
                   ]
                 }
               ],
@@ -1187,8 +1274,8 @@
         {
           "title": "Variables",
           "children": [
-            70,
-            31
+            74,
+            35
           ]
         }
       ],
@@ -1208,7 +1295,7 @@
       "children": [
         1,
         15,
-        30
+        34
       ]
     }
   ],
@@ -1258,29 +1345,25 @@
       "sourceFileName": "src/test/converter/variables/destructuring.ts",
       "qualifiedName": "__0"
     },
-    "30": {
-      "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": ""
+    "20": {
+      "sourceFileName": "",
+      "qualifiedName": "text"
     },
-    "31": {
-      "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "typeLiteral"
+    "21": {
+      "sourceFileName": "",
+      "qualifiedName": "location"
     },
-    "32": {
-      "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type"
-    },
-    "33": {
-      "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type.valueZ"
+    "22": {
+      "sourceFileName": "",
+      "qualifiedName": "bold"
     },
     "34": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type.valueY"
+      "qualifiedName": ""
     },
     "35": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type"
+      "qualifiedName": "typeLiteral"
     },
     "36": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
@@ -1288,23 +1371,23 @@
     },
     "37": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type.valueX"
+      "qualifiedName": "__type.valueZ"
     },
     "38": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type"
+      "qualifiedName": "__type.valueY"
     },
     "39": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type.valueZ"
+      "qualifiedName": "__type"
     },
     "40": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type.valueY"
+      "qualifiedName": "__type"
     },
     "41": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type"
+      "qualifiedName": "__type.valueX"
     },
     "42": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
@@ -1312,117 +1395,133 @@
     },
     "43": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "z"
+      "qualifiedName": "__type.valueZ"
     },
     "44": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type"
+      "qualifiedName": "__type.valueY"
     },
     "45": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type.a"
+      "qualifiedName": "__type"
     },
     "46": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type.b"
+      "qualifiedName": "__type"
     },
     "47": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type.valueA"
+      "qualifiedName": "z"
     },
     "48": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__type.valueA"
+      "qualifiedName": "__type"
     },
     "49": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.a"
+    },
+    "50": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.b"
+    },
+    "51": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueA"
+    },
+    "52": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__type.valueA"
+    },
+    "53": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
       "qualifiedName": "__type.valueB"
-    },
-    "70": {
-      "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "objectLiteral"
-    },
-    "71": {
-      "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object"
-    },
-    "72": {
-      "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.valueZ"
-    },
-    "73": {
-      "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.valueY"
     },
     "74": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__function"
+      "qualifiedName": "objectLiteral"
     },
     "75": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__function"
+      "qualifiedName": "__object"
     },
     "76": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.valueX"
+      "qualifiedName": "__object.valueZ"
     },
     "77": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object"
+      "qualifiedName": "__object.valueY"
     },
     "78": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.valueZ"
+      "qualifiedName": "__function"
     },
     "79": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.valueY"
+      "qualifiedName": "__function"
     },
     "80": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__function"
+      "qualifiedName": "__object.valueX"
     },
     "81": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__function"
+      "qualifiedName": "__object"
     },
     "82": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "z"
+      "qualifiedName": "__object.valueZ"
     },
     "83": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object"
+      "qualifiedName": "__object.valueY"
     },
     "84": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.a"
+      "qualifiedName": "__function"
     },
     "85": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.b"
+      "qualifiedName": "__function"
     },
     "86": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.valueA"
+      "qualifiedName": "z"
     },
     "87": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.valueA"
+      "qualifiedName": "__object"
     },
     "88": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.valueB"
+      "qualifiedName": "__object.a"
     },
     "89": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.[toStringTag]"
+      "qualifiedName": "__object.b"
     },
     "90": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
-      "qualifiedName": "__object.literal"
+      "qualifiedName": "__object.valueA"
     },
     "91": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueA"
+    },
+    "92": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.valueB"
+    },
+    "93": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.[toStringTag]"
+    },
+    "94": {
+      "sourceFileName": "src/test/converter/variables/literal.ts",
+      "qualifiedName": "__object.literal"
+    },
+    "95": {
       "sourceFileName": "src/test/converter/variables/literal.ts",
       "qualifiedName": "__object.literal2"
     }

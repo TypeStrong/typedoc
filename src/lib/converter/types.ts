@@ -268,7 +268,8 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
         return new ReflectionType(reflection);
     },
     convertType(context, type) {
-        if (!type.symbol) {
+        const symbol = type.getSymbol();
+        if (!symbol) {
             return new IntrinsicType("Function");
         }
 
@@ -277,14 +278,14 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
             ReflectionKind.Constructor,
             context.scope,
         );
-        context.registerReflection(reflection, type.symbol);
+        context.registerReflection(reflection, symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
         createSignature(
             context.withScope(reflection),
             ReflectionKind.ConstructorSignature,
             type.getConstructSignatures()[0],
-            type.symbol,
+            symbol,
         );
 
         return new ReflectionType(reflection);
@@ -363,7 +364,8 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
         return new ReflectionType(reflection);
     },
     convertType(context, type) {
-        if (!type.symbol) {
+        const symbol = type.getSymbol();
+        if (!symbol) {
             return new IntrinsicType("Function");
         }
 
@@ -372,7 +374,7 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
             ReflectionKind.TypeLiteral,
             context.scope,
         );
-        context.registerReflection(reflection, type.symbol);
+        context.registerReflection(reflection, symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
         createSignature(
@@ -438,7 +440,7 @@ const inferredConverter: TypeConverter<ts.InferTypeNode> = {
     },
     convertType(context, type) {
         return new InferredType(
-            type.symbol.name,
+            type.getSymbol()!.name,
             maybeConvertType(context, type.getConstraint()),
         );
     },
@@ -601,16 +603,13 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
         return new ReflectionType(reflection);
     },
     convertType(context, type) {
-        if (!type.symbol) {
-            return new IntrinsicType("Object");
-        }
-
+        const symbol = type.getSymbol();
         const reflection = new DeclarationReflection(
             "__type",
             ReflectionKind.TypeLiteral,
             context.scope,
         );
-        context.registerReflection(reflection, type.symbol);
+        context.registerReflection(reflection, symbol);
         context.trigger(ConverterEvents.CREATE_DECLARATION, reflection);
 
         for (const prop of context.checker.getPropertiesOfType(type)) {
@@ -621,7 +620,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
                 context.withScope(reflection),
                 ReflectionKind.CallSignature,
                 signature,
-                type.symbol,
+                symbol,
             );
         }
         for (const signature of type.getConstructSignatures()) {
@@ -629,11 +628,13 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
                 context.withScope(reflection),
                 ReflectionKind.ConstructorSignature,
                 signature,
-                type.symbol,
+                symbol,
             );
         }
 
-        convertIndexSignature(context.withScope(reflection), type.symbol);
+        if (symbol) {
+            convertIndexSignature(context.withScope(reflection), symbol);
+        }
 
         return new ReflectionType(reflection);
     },

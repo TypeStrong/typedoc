@@ -54,6 +54,19 @@ export function assertNever(x: never): never {
     );
 }
 
+export function NonEnumerable(
+    _cls: unknown,
+    context: ClassFieldDecoratorContext,
+) {
+    context.addInitializer(function () {
+        Object.defineProperty(this, context.name, {
+            enumerable: false,
+            configurable: true,
+            writable: true,
+        });
+    });
+}
+
 /**
  * This is a hack to make it possible to detect and warn about installation setups
  * which result in TypeDoc being installed multiple times. If TypeDoc has been loaded
