@@ -4,6 +4,16 @@
 
 -   Added `--sourceLinkExternal` option to render source code links as external, #2415.
 
+### Bug Fixes
+
+-   TypeDoc now attempts to correct local anchor links in readme files which are broken by its deconfliction logic, #2413.
+-   TypeDoc now finds comments on index signatures again, #2414.
+-   TypeDoc now does a better job of detecting properties when destructured function arguments are used.
+
+### Thanks!
+
+-   @mogelbrod
+
 ## v0.25.2 (2023-10-08)
 
 ### Features
