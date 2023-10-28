@@ -209,7 +209,7 @@ describe("Sort", () => {
         );
     });
 
-    it("Should sort by internal first", () => {
+    it("Should sort by external last", () => {
         const arr = [
             new DeclarationReflection("a", ReflectionKind.Function),
             new DeclarationReflection("b", ReflectionKind.Function),
@@ -219,7 +219,7 @@ describe("Sort", () => {
         arr[1].setFlag(ReflectionFlag.External, false);
         arr[2].setFlag(ReflectionFlag.External, true);
 
-        sortReflections(arr, ["internal-first"]);
+        sortReflections(arr, ["external-last"]);
         equal(
             arr.map((r) => r.name),
             ["b", "a", "c"],
