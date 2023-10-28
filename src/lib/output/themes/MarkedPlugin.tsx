@@ -4,7 +4,7 @@ import * as Marked from "marked";
 
 import { Component, ContextAwareRendererComponent } from "../components";
 import { RendererEvent, MarkdownEvent, PageEvent } from "../events";
-import { Option, readFile, copySync, isFile } from "../../utils";
+import { Option, readFile, copySync, isFile, JSX, renderElement } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { Theme } from "shiki";
 import { escapeHtml, getTextContent } from "../../utils/html";
@@ -95,39 +95,27 @@ output file :
                 path = Path.join(this.includes!, path.trim());
                 if (isFile(path)) {
                     const contents = readFile(path);
-                    const event = new MarkdownEvent(
-                        MarkdownEvent.INCLUDE,
-                        page,
-                        contents,
-                        contents,
-                    );
+                    const event = new MarkdownEvent(MarkdownEvent.INCLUDE, page, contents, contents);
                     this.owner.trigger(event);
                     return event.parsedText;
                 } else {
-                    this.application.logger.warn(
-                        "Could not find file to include: " + path,
-                    );
+                    this.application.logger.warn("Could not find file to include: " + path);
                     return "";
                 }
             });
         }
 
         if (this.mediaDirectory) {
-            text = text.replace(
-                this.mediaPattern,
-                (match: string, path: string) => {
-                    const fileName = Path.join(this.mediaDirectory!, path);
+            text = text.replace(this.mediaPattern, (match: string, path: string) => {
+                const fileName = Path.join(this.mediaDirectory!, path);
 
-                    if (isFile(fileName)) {
-                        return this.getRelativeUrl("media") + "/" + path;
-                    } else {
-                        this.application.logger.warn(
-                            "Could not find media file: " + fileName,
-                        );
-                        return match;
-                    }
-                },
-            );
+                if (isFile(fileName)) {
+                    return this.getRelativeUrl("media") + "/" + path;
+                } else {
+                    this.application.logger.warn("Could not find media file: " + fileName);
+                    return match;
+                }
+            });
         }
 
         const event = new MarkdownEvent(MarkdownEvent.PARSE, page, text, text);
@@ -148,32 +136,20 @@ output file :
 
         delete this.includes;
         if (this.includeSource) {
-            if (
-                fs.existsSync(this.includeSource) &&
-                fs.statSync(this.includeSource).isDirectory()
-            ) {
+            if (fs.existsSync(this.includeSource) && fs.statSync(this.includeSource).isDirectory()) {
                 this.includes = this.includeSource;
             } else {
-                this.application.logger.warn(
-                    "Could not find provided includes directory: " +
-                        this.includeSource,
-                );
+                this.application.logger.warn("Could not find provided includes directory: " + this.includeSource);
             }
         }
 
         if (this.mediaSource) {
-            if (
-                fs.existsSync(this.mediaSource) &&
-                fs.statSync(this.mediaSource).isDirectory()
-            ) {
+            if (fs.existsSync(this.mediaSource) && fs.statSync(this.mediaSource).isDirectory()) {
                 this.mediaDirectory = Path.join(event.outputDirectory, "media");
                 copySync(this.mediaSource, this.mediaDirectory);
             } else {
                 this.mediaDirectory = undefined;
-                this.application.logger.warn(
-                    "Could not find provided media directory: " +
-                        this.mediaSource,
-                );
+                this.application.logger.warn("Could not find provided media directory: " + this.mediaSource);
             }
         }
     }
@@ -184,28 +160,22 @@ output file :
      * @returns The options object for the markdown parser.
      */
     private createMarkedOptions(): Marked.marked.MarkedOptions {
-        const markedOptions = (this.application.options.getValue(
-            "markedOptions",
-        ) ?? {}) as Marked.marked.MarkedOptions;
+        const markedOptions = (this.application.options.getValue("markedOptions") ?? {}) as Marked.marked.MarkedOptions;
 
         // Set some default values if they are not specified via the TypeDoc option
-        markedOptions.highlight ??= (text, lang) =>
-            this.getHighlighted(text, lang);
+        markedOptions.highlight ??= (text, lang) => this.getHighlighted(text, lang);
 
         if (!markedOptions.renderer) {
             markedOptions.renderer = new Marked.Renderer();
 
             markedOptions.renderer.link = (href, title, text) => {
                 // Prefix the #anchor links `#md:`.
-                href =
-                    href
-                        ?.replace(/^#(?:md:)?(.+)/, "#md:$1")
-                        .replace(/"/g, "&quot;") || "";
-                let html = `<a href="${href}"`;
-                if (title != null)
-                    html += ` title="${title.replace(/"/g, "&quot;")}"`;
-                html += `>${text}</a>`;
-                return html;
+                const target = href?.replace(/^#(?:md:)?(.+)/, "#md:$1") || undefined;
+                return renderElement(
+                    <a href={target} title={title || undefined}>
+                        <JSX.Raw html={text} />
+                    </a>,
+                );
             };
 
             markedOptions.renderer.heading = (text, level, _, slugger) => {
@@ -216,7 +186,17 @@ output file :
                     text: getTextContent(text),
                     level,
                 });
-                return `<a id="md:${slug}" class="tsd-anchor"></a><h${level}><a href="#md:${slug}">${text}</a></h${level}>`;
+                const H = `h${level}`;
+                return renderElement(
+                    <>
+                        <a id={`md:${slug}`} class="tsd-anchor" />
+                        <H>
+                            <a href={`#md:${slug}`}>
+                                <JSX.Raw html={text} />
+                            </a>
+                        </H>
+                    </>,
+                );
             };
             markedOptions.renderer.code = renderCode;
         }
@@ -238,12 +218,7 @@ output file :
 
 // Basically a copy/paste of Marked's code, with the addition of the button
 // https://github.com/markedjs/marked/blob/v4.3.0/src/Renderer.js#L15-L39
-function renderCode(
-    this: Marked.marked.Renderer,
-    code: string,
-    infostring: string | undefined,
-    escaped: boolean,
-) {
+function renderCode(this: Marked.marked.Renderer, code: string, infostring: string | undefined, escaped: boolean) {
     const lang = (infostring || "").match(/\S*/)![0];
     if (this.options.highlight) {
         const out = this.options.highlight(code, lang);
@@ -256,9 +231,7 @@ function renderCode(
     code = code.replace(/\n$/, "") + "\n";
 
     if (!lang) {
-        return `<pre><code>${
-            escaped ? code : escapeHtml(code)
-        }</code><button>Copy</button></pre>\n`;
+        return `<pre><code>${escaped ? code : escapeHtml(code)}</code><button>Copy</button></pre>\n`;
     }
 
     return `<pre><code class="${this.options.langPrefix + escapeHtml(lang)}">${
