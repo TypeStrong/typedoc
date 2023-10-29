@@ -2,7 +2,7 @@ import { existsSync } from "fs";
 import { isAbsolute, join, relative, resolve } from "path";
 import ts from "typescript";
 import type { JSONOutput, Serializer } from "../../serialization/index";
-import { readFile } from "../../utils/fs";
+import { getCommonDirectory, readFile } from "../../utils/fs";
 import { getQualifiedName } from "../../utils/tsutils";
 import { optional, validate } from "../../utils/validation";
 import { normalizePath } from "../../utils/paths";
@@ -61,15 +61,17 @@ export class ReflectionSymbolId {
     }
 
     toObject(serializer: Serializer) {
+        const sourceFileName = isAbsolute(this.fileName)
+            ? normalizePath(
+                  relative(
+                      serializer.projectRoot,
+                      resolveDeclarationMaps(this.fileName),
+                  ),
+              )
+            : this.fileName;
+
         return {
-            sourceFileName: isAbsolute(this.fileName)
-                ? normalizePath(
-                      relative(
-                          serializer.projectRoot,
-                          resolveDeclarationMaps(this.fileName),
-                      ),
-                  )
-                : this.fileName,
+            sourceFileName,
             qualifiedName: this.qualifiedName,
         };
     }
@@ -77,11 +79,8 @@ export class ReflectionSymbolId {
 
 const declarationMapCache = new Map<string, string>();
 
-/**
- * See also getTsSourceFromJsSource in package-manifest.ts.
- */
 function resolveDeclarationMaps(file: string): string {
-    if (!file.endsWith(".d.ts")) return file;
+    if (!/\.d\.[cm]?ts$/.test(file)) return file;
     if (declarationMapCache.has(file)) return declarationMapCache.get(file)!;
 
     const mapFile = file + ".map";
@@ -122,4 +121,20 @@ function resolveDeclarationMaps(file: string): string {
     }
 
     return file;
+}
+
+export function addInferredDeclarationMapPaths(
+    opts: ts.CompilerOptions,
+    files: readonly string[],
+) {
+    const rootDir = opts.rootDir || getCommonDirectory(files);
+    const declDir = opts.declarationDir || opts.outDir || rootDir;
+
+    for (const file of files) {
+        const mapFile = resolve(declDir, relative(rootDir, file)).replace(
+            /\.([cm]?[tj]s)x?$/,
+            ".d.$1",
+        );
+        declarationMapCache.set(mapFile, file);
+    }
 }

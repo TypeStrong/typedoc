@@ -41,6 +41,7 @@ import { ApplicationEvents } from "./application-events";
 import { findTsConfigFile } from "./utils/tsconfig";
 import { deriveRootDir, glob, readFile } from "./utils/fs";
 import { resetReflectionID } from "./models/reflections/abstract";
+import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -590,9 +591,10 @@ export class Application extends ChildableComponent<
         const origOptions = this.options;
         const projects: JSONOutput.ProjectReflection[] = [];
 
+        const projectsToConvert: { dir: string; options: Options }[] = [];
         // Generate a json file for each package
         for (const dir of packageDirs) {
-            this.logger.info(`Converting project at ${nicePath(dir)}`);
+            this.logger.verbose(`Reading project at ${nicePath(dir)}`);
             const opts = origOptions.copyForPackage(dir);
             await opts.read(this.logger, dir);
             // Invalid links should only be reported after everything has been merged.
@@ -609,7 +611,17 @@ export class Application extends ChildableComponent<
                 continue;
             }
 
-            this.options = opts;
+            addInferredDeclarationMapPaths(
+                opts.getCompilerOptions(),
+                opts.getFileNames(),
+            );
+
+            projectsToConvert.push({ dir, options: opts });
+        }
+
+        for (const { dir, options } of projectsToConvert) {
+            this.logger.info(`Converting project at ${nicePath(dir)}`);
+            this.options = options;
             const project = await this.convert();
             if (project) {
                 this.validate(project);

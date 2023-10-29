@@ -3,6 +3,7 @@
 ### Features
 
 -   Added `--sourceLinkExternal` option to render source code links as external, #2415.
+-   TypeDoc no longer requires the `declarationMap` option to be set to true to handle cross-package links in packages mode, #2416.
 -   Added `external-last` option for the `--sort` option, #2418.
 
 ### Bug Fixes
