@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.3 (2023-10-29)
+
 ### Features
 
 -   Added `--sourceLinkExternal` option to render source code links as external, #2415.
