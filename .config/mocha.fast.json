@@ -3,7 +3,7 @@
     "exclude": ["src/test/packages/**", "src/test/slow/**"],
     "extension": ["ts", "tsx"],
     "require": ["ts-node/register"],
-    "spec": ["src/test/**/*.test.ts"],
+    "spec": ["src/test/**/*.test.ts", "src/test/**/*.test.tsx"],
     "timeout": 5000,
-    "watch-files": ["src/**/*.ts"]
+    "watch-files": ["src/**/*.ts", "src/**/*.tsx"]
 }

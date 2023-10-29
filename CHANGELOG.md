@@ -11,6 +11,7 @@
 -   TypeDoc now attempts to correct local anchor links in readme files which are broken by its deconfliction logic, #2413.
 -   TypeDoc now finds comments on index signatures again, #2414.
 -   TypeDoc now does a better job of detecting properties when destructured function arguments are used.
+-   Quotes will now be properly escaped in HTML attribute values.
 
 ### Thanks!
 

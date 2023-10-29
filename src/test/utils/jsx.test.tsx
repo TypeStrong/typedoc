@@ -82,4 +82,9 @@ describe("JSX", () => {
             </svg>`.replace(/^\s*|\r?\n/gm, ""),
         );
     });
+
+    it("Properly escapes quotes in html attributes", () => {
+        const quot = `test"quote`;
+        equal(renderElement(<div data-foo={quot} />), `<div data-foo="test&quot;quote"></div>`);
+    });
 });

@@ -124,7 +124,7 @@ export const renderElement = function renderElement(
     let html = "";
 
     if (tag !== Fragment) {
-        if (blockElements.has(tag) && renderPretty) {
+        if (blockElements.has(tag) && renderPretty && html) {
             html += "\n";
         }
         html += "<";
@@ -141,8 +141,11 @@ export const renderElement = function renderElement(
             } else {
                 html += " ";
                 html += key;
-                html += "=";
-                html += JSON.stringify(val);
+                html += '="';
+                html += (
+                    typeof val === "string" ? val : JSON.stringify(val)
+                ).replaceAll('"', "&quot;");
+                html += '"';
             }
         }
     }

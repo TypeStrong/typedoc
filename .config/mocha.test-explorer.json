@@ -5,7 +5,7 @@
     "package": "./package.json",
     "require": "ts-node/register",
     "slow": 500,
-    "spec": ["src/**/*.test.ts"],
+    "spec": ["src/**/*.test.ts", "src/**/*.test.tsx"],
     "timeout": 0,
-    "watch-files": ["src/**/*.ts"]
+    "watch-files": ["src/**/*.ts", "src/**/*.tsx"]
 }
