@@ -128,7 +128,7 @@ export class TSConfigReader implements OptionsReader {
                 );
             } catch (error) {
                 ok(error instanceof Error);
-                logger.error(error.message);
+                logger.error(`Failed to set option ${key}: ${error.message}`);
             }
         }
     }

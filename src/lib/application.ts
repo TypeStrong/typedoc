@@ -227,7 +227,7 @@ export class Application extends ChildableComponent<
             } catch (error) {
                 ok(error instanceof Error);
                 if (reportErrors) {
-                    this.logger.error(error.message);
+                    this.logger.error(`Failed to set option ${key}: ${error.message}`);
                 }
             }
         }

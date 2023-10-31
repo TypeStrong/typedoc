@@ -328,7 +328,7 @@ export class Options {
         );
 
         if (declaration.type === ParameterType.Flags) {
-            Object.assign(this._values[declaration.name] as any, converted);
+            Object.assign(this._values[declaration.name] || {}, converted);
         } else {
             this._values[declaration.name] = converted;
         }
