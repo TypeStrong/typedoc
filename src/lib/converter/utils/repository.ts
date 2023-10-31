@@ -37,7 +37,7 @@ export class AssumedRepository implements Repository {
         };
 
         return this.sourceLinkTemplate.replace(
-            /\{(path|line)\}/g,
+            /\{(gitRevision|path|line)\}/g,
             (_, key) => replacements[key as never],
         );
     }
