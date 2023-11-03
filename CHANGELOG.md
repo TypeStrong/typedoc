@@ -1,5 +1,14 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed an infinite loop when `skipLibCheck` is used to ignore some compiler errors, #2438.
+-   `gitRevision` will now be replaced in `sourceLinkTemplate`, #2434.
+
+### Thanks!
+
+-   @swarnpallav
+
 ## v0.25.3 (2023-10-29)
 
 ### Features

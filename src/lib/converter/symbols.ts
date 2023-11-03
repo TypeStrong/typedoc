@@ -635,6 +635,9 @@ function convertClassOrInterface(
 
     // And finally, index signatures
     convertIndexSignature(reflectionContext, symbol);
+
+    // Normally this shouldn't matter, unless someone did something with skipLibCheck off.
+    return ts.SymbolFlags.Alias;
 }
 
 function convertProperty(

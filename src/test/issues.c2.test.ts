@@ -1196,4 +1196,9 @@ describe("Issue Tests", () => {
             "Index comment.",
         );
     });
+
+    it("Handles recursive aliases without looping infinitely #2438", () => {
+        const bad = query(convert(), "Bad");
+        equal(bad.kind, ReflectionKind.Interface);
+    });
 });
