@@ -2,11 +2,13 @@
 
 ### Bug Fixes
 
--   Fixed an infinite loop when `skipLibCheck` is used to ignore some compiler errors, #2438.
+-   Fixed default option values on options declared by plugins in packages mode, #2433.
 -   `gitRevision` will now be replaced in `sourceLinkTemplate`, #2434.
+-   Fixed an infinite loop when `skipLibCheck` is used to ignore some compiler errors, #2438.
 
 ### Thanks!
 
+-   @ocavue
 -   @swarnpallav
 
 ## v0.25.3 (2023-10-29)

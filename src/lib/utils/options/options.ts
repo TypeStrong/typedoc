@@ -114,6 +114,7 @@ export class Options {
             (reader) => reader.supportsPackages,
         );
         options._declarations = new Map(this._declarations);
+        options.reset();
 
         return options;
     }
@@ -168,7 +169,7 @@ export class Options {
             const declaration = this.getDeclaration(name);
             if (!declaration) {
                 throw new Error(
-                    "Cannot reset an option which has not been declared.",
+                    `Cannot reset an option (${name}) which has not been declared.`,
                 );
             }
 
@@ -251,7 +252,9 @@ export class Options {
     isSet(name: NeverIfInternal<string>): boolean;
     isSet(name: string): boolean {
         if (!this._declarations.has(name)) {
-            throw new Error("Tried to check if an undefined option was set");
+            throw new Error(
+                `Tried to check if an undefined option (${name}) was set`,
+            );
         }
         return this._setOptions.has(name);
     }
@@ -302,7 +305,7 @@ export class Options {
     setValue(name: string, value: unknown, configPath?: string): void {
         if (this.isFrozen()) {
             throw new Error(
-                "Tried to modify an option value after options have been frozen.",
+                `Tried to modify an option (${name}) value after options have been frozen.`,
             );
         }
 
@@ -385,7 +388,7 @@ export class Options {
     ) {
         if (this.isFrozen()) {
             throw new Error(
-                "Tried to modify an option value after options have been sealed.",
+                "Tried to modify compiler options after options have been frozen.",
             );
         }
 
@@ -454,7 +457,7 @@ export function Option<K extends keyof TypeDocOptionMap>(name: K) {
             },
             set(_value: never) {
                 throw new Error(
-                    "Options may not be set via the Option decorator",
+                    `Options may not be set via the Option decorator when setting ${name}`,
                 );
             },
         };
