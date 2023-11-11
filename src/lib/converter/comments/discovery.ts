@@ -140,14 +140,16 @@ export function discoverComment(
     const reverse = !symbol.declarations?.some(ts.isSourceFile);
 
     const discovered: DiscoveredComment[] = [];
+    const seen = new Set<ts.Node>();
 
     for (const decl of symbol.declarations || []) {
         const text = decl.getSourceFile().text;
         if (wantedKinds[kind].includes(decl.kind)) {
             const node = declarationToCommentNode(decl);
-            if (!node) {
+            if (!node || seen.has(node)) {
                 continue;
             }
+            seen.add(node);
 
             // Special behavior here! We temporarily put the implementation comment
             // on the reflection which contains all the signatures. This lets us pull

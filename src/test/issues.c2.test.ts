@@ -1213,6 +1213,11 @@ describe("Issue Tests", () => {
         );
     });
 
+    it("Does not warn due to the diamond problem in comment discovery #2437", () => {
+        convert();
+        logger.expectNoOtherMessages();
+    });
+
     it("Handles recursive aliases without looping infinitely #2438", () => {
         const bad = query(convert(), "Bad");
         equal(bad.kind, ReflectionKind.Interface);

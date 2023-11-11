@@ -856,10 +856,11 @@ function convertVariable(
     exportSymbol?: ts.Symbol,
 ) {
     const declaration = symbol.getDeclarations()?.[0];
-    assert(declaration);
 
     const comment = context.getComment(symbol, ReflectionKind.Variable);
-    const type = context.checker.getTypeOfSymbolAtLocation(symbol, declaration);
+    const type = declaration
+        ? context.checker.getTypeOfSymbolAtLocation(symbol, declaration)
+        : context.checker.getTypeOfSymbol(symbol);
 
     if (
         isEnumLike(context.checker, type, declaration) &&
@@ -883,7 +884,7 @@ function convertVariable(
     );
 
     let typeNode: ts.TypeNode | undefined;
-    if (ts.isVariableDeclaration(declaration)) {
+    if (declaration && ts.isVariableDeclaration(declaration)) {
         // Otherwise we might have destructuring
         typeNode = declaration.type;
     }
@@ -902,8 +903,12 @@ function convertVariable(
     return ts.SymbolFlags.Property;
 }
 
-function isEnumLike(checker: ts.TypeChecker, type: ts.Type, location: ts.Node) {
-    if (!hasAllFlags(type.flags, ts.TypeFlags.Object)) {
+function isEnumLike(
+    checker: ts.TypeChecker,
+    type: ts.Type,
+    location?: ts.Node,
+) {
+    if (!location || !hasAllFlags(type.flags, ts.TypeFlags.Object)) {
         return false;
     }
 

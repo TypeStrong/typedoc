@@ -49,7 +49,11 @@ async function main() {
     const tokens = lexer.lex(data.body);
 
     const code = /** @type {marked.marked.Tokens.Code} */ (
-        tokens.find((tok) => tok.type === "code")
+        tokens.find(
+            (tok) =>
+                tok.type === "code" &&
+                ["ts", "tsx", "js", "jsx"].includes(tok.lang || ""),
+        ) || tokens.find((tok) => tok.type === "code")
     );
     if (!code) {
         console.log("No codeblock found");

@@ -5,10 +5,12 @@
 -   Fixed default option values on options declared by plugins in packages mode, #2433.
 -   `gitRevision` will now be replaced in `sourceLinkTemplate`, #2434.
 -   Improved handling of function-modules created with `Object.assign`, #2436.
+-   TypeDoc will no longer warn about duplicate comments with warnings which point to a single comment, #2437
 -   Fixed an infinite loop when `skipLibCheck` is used to ignore some compiler errors, #2438.
 
 ### Thanks!
 
+-   @Nokel81
 -   @ocavue
 -   @swarnpallav
 
