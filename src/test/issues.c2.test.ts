@@ -1197,6 +1197,22 @@ describe("Issue Tests", () => {
         );
     });
 
+    it("Handles function-namespaces created with Object.assign #2436", () => {
+        const project = convert();
+        equal(project.children?.map((c) => c.kind), [
+            ReflectionKind.Namespace,
+            ReflectionKind.Function,
+        ]);
+        equal(
+            project.children[0].getChildByName("bar")?.kind,
+            ReflectionKind.Variable,
+        );
+        equal(
+            project.children[0].getChildByName("foo")?.kind,
+            ReflectionKind.Function,
+        );
+    });
+
     it("Handles recursive aliases without looping infinitely #2438", () => {
         const bad = query(convert(), "Bad");
         equal(bad.kind, ReflectionKind.Interface);

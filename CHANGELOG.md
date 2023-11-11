@@ -4,6 +4,7 @@
 
 -   Fixed default option values on options declared by plugins in packages mode, #2433.
 -   `gitRevision` will now be replaced in `sourceLinkTemplate`, #2434.
+-   Improved handling of function-modules created with `Object.assign`, #2436.
 -   Fixed an infinite loop when `skipLibCheck` is used to ignore some compiler errors, #2438.
 
 ### Thanks!

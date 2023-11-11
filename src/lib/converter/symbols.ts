@@ -178,18 +178,6 @@ export function convertSymbol(
         flags = removeFlag(flags, ts.SymbolFlags.Property);
     }
 
-    // A default exported function with no associated variable is a property, but
-    // we should really convert it as a variable for documentation purposes
-    // export default () => {}
-    // export default 123
-    if (
-        flags === ts.SymbolFlags.Property &&
-        symbol.name === "default" &&
-        context.scope.kindOf(ReflectionKind.Module | ReflectionKind.Project)
-    ) {
-        flags = ts.SymbolFlags.BlockScopedVariable;
-    }
-
     for (const flag of getEnumFlags(flags ^ allConverterFlags)) {
         if (!(flag & allConverterFlags)) {
             context.logger.verbose(
@@ -645,6 +633,14 @@ function convertProperty(
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
 ) {
+    // This might happen if we're converting a function-module created with Object.assign
+    // or `export default () => {}`
+    if (
+        context.scope.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)
+    ) {
+        return convertVariable(context, symbol, exportSymbol);
+    }
+
     const declarations = symbol.getDeclarations() ?? [];
 
     // Don't do anything if we inherited this property and it is private.
@@ -1017,6 +1013,24 @@ function convertVariableAsFunction(
             signature,
             symbol,
         );
+    }
+
+    // #2436: Functions created with Object.assign on a function won't have a namespace flag
+    // but likely have properties that we should put into a namespace.
+    if (
+        type.getProperties().length &&
+        !hasAnyFlag(
+            symbol.flags,
+            ts.SymbolFlags.NamespaceModule | ts.SymbolFlags.ValueModule,
+        )
+    ) {
+        const ns = context.createDeclarationReflection(
+            ReflectionKind.Namespace,
+            symbol,
+            exportSymbol,
+        );
+        context.finalizeDeclarationReflection(ns);
+        convertSymbols(context.withScope(ns), type.getProperties());
     }
 
     return ts.SymbolFlags.Property;
