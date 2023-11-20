@@ -47,7 +47,7 @@
     "prettier": "3.0.3",
     "puppeteer": "^13.5.2",
     "ts-node": "^10.9.1",
-    "typescript": "^5.3.2"
+    "typescript": "5.3.2"
   },
   "files": [
     "/bin",
