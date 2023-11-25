@@ -3,9 +3,9 @@ import { isAbsolute, join, relative, resolve } from "path";
 import ts from "typescript";
 import type { JSONOutput, Serializer } from "../../serialization/index";
 import { getCommonDirectory, readFile } from "../../utils/fs";
+import { normalizePath } from "../../utils/paths";
 import { getQualifiedName } from "../../utils/tsutils";
 import { optional, validate } from "../../utils/validation";
-import { normalizePath } from "../../utils/paths";
 
 /**
  * See {@link ReflectionSymbolId}
@@ -13,6 +13,9 @@ import { normalizePath } from "../../utils/paths";
 export type ReflectionSymbolIdString = string & {
     readonly __reflectionSymbolId: unique symbol;
 };
+
+let transientCount = 0;
+const transientIds = new WeakMap<ts.Symbol, number>();
 
 /**
  * This exists so that TypeDoc can store a unique identifier for a `ts.Symbol` without
@@ -25,8 +28,16 @@ export class ReflectionSymbolId {
     /**
      * Note: This is **not** serialized. It exists for sorting by declaration order, but
      * should not be needed when deserializing from JSON.
+     * Will be set to `Infinity` if the ID was deserialized from JSON.
      */
     pos: number;
+    /**
+     * Note: This is **not** serialized. It exists to support detection of the differences between
+     * symbols which share declarations, but are instantiated with different type parameters.
+     * This will be `NaN` if the symbol reference is not transient.
+     * Note: This can only be non-NaN if {@link pos} is finite.
+     */
+    transientId: number;
 
     constructor(symbol: ts.Symbol, declaration?: ts.Declaration);
     constructor(json: JSONOutput.ReflectionSymbolId);
@@ -45,16 +56,23 @@ export class ReflectionSymbolId {
                 this.qualifiedName = getQualifiedName(symbol, symbol.name);
             }
             this.pos = declaration?.pos ?? Infinity;
+            if (symbol.flags & ts.SymbolFlags.Transient) {
+                this.transientId = transientIds.get(symbol) ?? ++transientCount;
+                transientIds.set(symbol, this.transientId);
+            } else {
+                this.transientId = NaN;
+            }
         } else {
             this.fileName = symbol.sourceFileName;
             this.qualifiedName = symbol.qualifiedName;
             this.pos = Infinity;
+            this.transientId = NaN;
         }
     }
 
     getStableKey(): ReflectionSymbolIdString {
         if (Number.isFinite(this.pos)) {
-            return `${this.fileName}\0${this.qualifiedName}\0${this.pos}` as ReflectionSymbolIdString;
+            return `${this.fileName}\0${this.qualifiedName}\0${this.pos}\0${this.transientId}` as ReflectionSymbolIdString;
         } else {
             return `${this.fileName}\0${this.qualifiedName}` as ReflectionSymbolIdString;
         }

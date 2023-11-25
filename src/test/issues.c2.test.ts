@@ -3,19 +3,22 @@ import {
     notDeepStrictEqual as notEqual,
     ok,
 } from "assert";
+import { existsSync } from "fs";
+import { join } from "path";
+import { clearCommentCache } from "../lib/converter/comments";
 import {
-    DeclarationReflection,
-    ProjectReflection,
-    QueryType,
-    ReflectionKind,
-    SignatureReflection,
-    ReflectionType,
     Comment,
     CommentTag,
-    UnionType,
-    LiteralType,
+    DeclarationReflection,
     IntrinsicType,
+    LiteralType,
+    ProjectReflection,
+    QueryType,
     ReferenceReflection,
+    ReflectionKind,
+    ReflectionType,
+    SignatureReflection,
+    UnionType,
 } from "../lib/models";
 import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
 import {
@@ -24,9 +27,6 @@ import {
     getConverter2Program,
 } from "./programs";
 import { TestLogger } from "./TestLogger";
-import { clearCommentCache } from "../lib/converter/comments";
-import { join } from "path";
-import { existsSync } from "fs";
 import { getComment, getLinks, query } from "./utils";
 
 const base = getConverter2Base();
@@ -1221,5 +1221,13 @@ describe("Issue Tests", () => {
     it("Handles recursive aliases without looping infinitely #2438", () => {
         const bad = query(convert(), "Bad");
         equal(bad.kind, ReflectionKind.Interface);
+    });
+
+    it("Handles transient symbols correctly, #2444", () => {
+        const project = convert();
+        const boolEq = query(project, "Boolean.equal");
+        const numEq = query(project, "Number.equal");
+        equal(boolEq.signatures![0].parameters![0].type?.toString(), "boolean");
+        equal(numEq.signatures![0].parameters![0].type?.toString(), "number");
     });
 });
