@@ -125,7 +125,8 @@ export function getConverter2Program() {
         );
 
         const errors = ts.getPreEmitDiagnostics(converter2Program);
-        equal(errors, []);
+        app.logger.diagnostics(errors);
+        equal(errors.length, 0);
     }
 
     return converter2Program;

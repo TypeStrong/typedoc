@@ -12,6 +12,7 @@ yarn-error.log
 /src/test/renderer/*/doc
 /src/test/renderer/testProject/json.json
 **/node_modules/
+!src/test/converter2/behavior/node_modules/
 /coverage/
 /dist/
 /docs
