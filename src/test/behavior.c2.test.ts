@@ -970,4 +970,10 @@ describe("Behavior Tests", () => {
             "asConstEnum",
         ]);
     });
+
+    it("Respects resolution-mode when resolving types", () => {
+        app.options.setValue("excludeExternals", false);
+        const MergedType = query(convert("resolutionMode"), "MergedType");
+        equal(MergedType.children?.map((child) => child.name), ["cjs", "esm"]);
+    });
 });

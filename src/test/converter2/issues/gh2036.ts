@@ -1,10 +1,10 @@
-declare const SingleSimpleCtor: {
+export declare const SingleSimpleCtor: {
     new (a: string, b: string): Array<string>;
 };
 
-declare const MultipleSimpleCtors: {
+export declare const MultipleSimpleCtors: {
     new (a: string, b: string): Array<string>;
     new (a: string, b: number): Array<string | number>;
 };
 
-const AnotherCtor = null! as new (a: string) => Object;
+export const AnotherCtor = null! as new (a: string) => Object;

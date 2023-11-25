@@ -30,7 +30,7 @@
     "shiki": "^0.14.1"
   },
   "peerDependencies": {
-    "typescript": "4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x"
+    "typescript": "4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x"
   },
   "devDependencies": {
     "@types/lunr": "^2.3.5",
@@ -47,7 +47,7 @@
     "prettier": "3.0.3",
     "puppeteer": "^13.5.2",
     "ts-node": "^10.9.1",
-    "typescript": "5.2.2"
+    "typescript": "5.3.2"
   },
   "files": [
     "/bin",
