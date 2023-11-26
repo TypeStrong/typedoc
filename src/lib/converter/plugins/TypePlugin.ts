@@ -158,7 +158,10 @@ export class TypePlugin extends ConverterComponent {
                 push(reflection.extendedBy);
             }
 
-            reflection.typeHierarchy = root;
+            // No point setting up a hierarchy if there is no hierarchy to display
+            if (root.next) {
+                reflection.typeHierarchy = root;
+            }
         });
     }
 }

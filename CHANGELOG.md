@@ -10,6 +10,7 @@
 -   Fixed an infinite loop when `skipLibCheck` is used to ignore some compiler errors, #2438.
 -   `@example` tag titles will now be rendered in the example heading, #2440.
 -   Correctly handle transient symbols in `@namespace`-created namespaces, #2444.
+-   TypeDoc no longer displays the "Hierarchy" section if there is no inheritance hierarchy to display.
 
 ### Thanks!
 
