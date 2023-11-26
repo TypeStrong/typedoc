@@ -149,9 +149,11 @@ export function addInferredDeclarationMapPaths(
     const declDir = opts.declarationDir || opts.outDir || rootDir;
 
     for (const file of files) {
-        const mapFile = resolve(declDir, relative(rootDir, file)).replace(
-            /\.([cm]?[tj]s)x?$/,
-            ".d.$1",
+        const mapFile = normalizePath(
+            resolve(declDir, relative(rootDir, file)).replace(
+                /\.([cm]?[tj]s)x?$/,
+                ".d.$1",
+            ),
         );
         declarationMapCache.set(mapFile, file);
     }

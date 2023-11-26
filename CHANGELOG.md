@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 
+-   Fixed automatic declaration file resolution on Windows, #2416.
 -   Fixed default option values on options declared by plugins in packages mode, #2433.
 -   `gitRevision` will now be replaced in `sourceLinkTemplate`, #2434.
 -   Improved handling of function-modules created with `Object.assign`, #2436.
