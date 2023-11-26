@@ -13,6 +13,7 @@
 
 ### Thanks!
 
+-   @li-jia-nan
 -   @Nokel81
 -   @ocavue
 -   @swarnpallav
