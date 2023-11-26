@@ -9,7 +9,8 @@ export const memberSignatures = (context: DefaultThemeRenderContext, props: Decl
         <ul class={classNames({ "tsd-signatures": true }, context.getReflectionClasses(props))}>
             {props.signatures?.map((item) => (
                 <>
-                    <li class="tsd-signature tsd-anchor-link" id={item.anchor}>
+                    <li class="tsd-signature tsd-anchor-link">
+                        <a id={item.anchor} class="tsd-anchor"></a>
                         {context.memberSignatureTitle(item)}
                         {anchorIcon(context, item.anchor)}
                     </li>

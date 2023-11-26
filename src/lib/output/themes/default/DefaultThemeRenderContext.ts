@@ -39,6 +39,7 @@ import {
     sidebarLinks,
 } from "./partials/navigation";
 import { parameter } from "./partials/parameter";
+import { reflectionPreview } from "./partials/reflectionPreview";
 import { toolbar } from "./partials/toolbar";
 import { type } from "./partials/type";
 import { typeAndParent } from "./partials/typeAndParent";
@@ -116,6 +117,16 @@ export class DefaultThemeRenderContext {
     reflectionTemplate = bind(reflectionTemplate, this);
     indexTemplate = bind(indexTemplate, this);
     defaultLayout = bind(defaultLayout, this);
+
+    /**
+     * Rendered just after the description for a reflection.
+     * This can be used to render a shortened type display of a reflection that the
+     * rest of the page expands on.
+     *
+     * Note: Will not be called for variables/type aliases, as they are summarized
+     * by their type declaration, which is already rendered by {@link DefaultThemeRenderContext.memberDeclaration}
+     */
+    reflectionPreview = bind(reflectionPreview, this);
 
     analytics = bind(analytics, this);
     breadcrumb = bind(breadcrumb, this);

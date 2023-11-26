@@ -86,7 +86,11 @@ export function validateStateIsClean(page: string) {
 // 1 | 2[] !== (1 | 2)[]
 // () => 1 | 2 !== (() => 1) | 2
 const typeRenderers: {
-    [K in keyof TypeKindMap]: (context: DefaultThemeRenderContext, type: TypeKindMap[K]) => JSX.Element;
+    [K in keyof TypeKindMap]: (
+        context: DefaultThemeRenderContext,
+        type: TypeKindMap[K],
+        options: { topLevelLinks: boolean },
+    ) => JSX.Element;
 } = {
     array(context, type) {
         return (
@@ -100,7 +104,7 @@ const typeRenderers: {
         indentationDepth++;
         const parts: JSX.Element[] = [
             renderType(context, type.checkType, TypeContext.conditionalCheck),
-            <span class="tsd-signature-symbol"> extends </span>,
+            <span class="tsd-signature-keyword"> extends </span>,
             renderType(context, type.extendsType, TypeContext.conditionalExtends),
             <br />,
             includeIndentation(),
@@ -142,11 +146,11 @@ const typeRenderers: {
     inferred(context, type) {
         return (
             <>
-                <span class="tsd-signature-symbol">infer </span>{" "}
+                <span class="tsd-signature-keyword">infer </span>{" "}
                 <span class="tsd-kind-type-parameter">{type.name}</span>
                 {type.constraint && (
                     <>
-                        <span class="tsd-signature-symbol"> extends </span>
+                        <span class="tsd-signature-keyword"> extends </span>
                         {renderType(context, type.constraint, TypeContext.inferredConstraint)}
                     </>
                 )}
@@ -170,23 +174,28 @@ const typeRenderers: {
 
         switch (type.readonlyModifier) {
             case "+":
-                parts.push(<span class="tsd-signature-symbol">readonly </span>);
+                parts.push(<span class="tsd-signature-keyword">readonly </span>);
                 break;
             case "-":
-                parts.push(<span class="tsd-signature-symbol">-readonly </span>);
+                parts.push(
+                    <>
+                        <span class="tsd-signature-symbol">-</span>
+                        <span class="tsd-signature-keyword">readonly </span>
+                    </>,
+                );
                 break;
         }
 
         parts.push(
             <span class="tsd-signature-symbol">[</span>,
             <span class="tsd-kind-type-parameter">{type.parameter}</span>,
-            <span class="tsd-signature-symbol"> in </span>,
+            <span class="tsd-signature-keyword"> in </span>,
             renderType(context, type.parameterType, TypeContext.mappedParameter),
         );
 
         if (type.nameType) {
             parts.push(
-                <span class="tsd-signature-symbol"> as </span>,
+                <span class="tsd-signature-keyword"> as </span>,
                 renderType(context, type.nameType, TypeContext.mappedName),
             );
         }
@@ -241,11 +250,11 @@ const typeRenderers: {
     predicate(context, type) {
         return (
             <>
-                {!!type.asserts && <span class="tsd-signature-symbol">asserts </span>}
+                {!!type.asserts && <span class="tsd-signature-keyword">asserts </span>}
                 <span class="tsd-kind-parameter">{type.name}</span>
                 {!!type.targetType && (
                     <>
-                        <span class="tsd-signature-symbol"> is </span>
+                        <span class="tsd-signature-keyword"> is </span>
                         {renderType(context, type.targetType, TypeContext.predicateTarget)}
                     </>
                 )}
@@ -255,7 +264,7 @@ const typeRenderers: {
     query(context, type) {
         return (
             <>
-                <span class="tsd-signature-symbol">typeof </span>
+                <span class="tsd-signature-keyword">typeof </span>
                 {renderType(context, type.queryType, TypeContext.queryTypeTarget)}
             </>
         );
@@ -299,17 +308,26 @@ const typeRenderers: {
 
         return name;
     },
-    reflection(context, type) {
+    reflection(context, type, { topLevelLinks }) {
         const members: JSX.Element[] = [];
         const children: DeclarationReflection[] = type.declaration.children || [];
 
         indentationDepth++;
 
+        const renderName = (named: Reflection) =>
+            topLevelLinks ? (
+                <a class={getKindClass(named)} href={context.urlTo(named)}>
+                    {named.name}
+                </a>
+            ) : (
+                <span class={getKindClass(named)}>{named.name}</span>
+            );
+
         for (const item of children) {
             if (item.getSignature && item.setSignature) {
                 members.push(
                     <>
-                        <span class={getKindClass(item)}>{item.name}</span>
+                        {renderName(item)}
                         <span class="tsd-signature-symbol">: </span>
                         {renderType(context, item.getSignature.type, TypeContext.none)}
                     </>,
@@ -320,8 +338,8 @@ const typeRenderers: {
             if (item.getSignature) {
                 members.push(
                     <>
-                        <span class="tsd-signature-symbol">get </span>
-                        <span class={getKindClass(item.getSignature)}>{item.name}</span>
+                        <span class="tsd-signature-keyword">get </span>
+                        {renderName(item.getSignature)}
                         <span class="tsd-signature-symbol">(): </span>
                         {renderType(context, item.getSignature.type, TypeContext.none)}
                     </>,
@@ -332,8 +350,8 @@ const typeRenderers: {
             if (item.setSignature) {
                 members.push(
                     <>
-                        <span class="tsd-signature-symbol">set </span>
-                        <span class={getKindClass(item.setSignature)}>{item.name}</span>
+                        <span class="tsd-signature-keyword">set </span>
+                        {renderName(item.setSignature)}
                         <span class="tsd-signature-symbol">(</span>
                         {item.setSignature.parameters?.map((item) => (
                             <>
@@ -352,11 +370,11 @@ const typeRenderers: {
                 for (const sig of item.signatures) {
                     members.push(
                         <>
-                            <span class={getKindClass(sig)}>{item.name}</span>
+                            {renderName(sig)}
                             {item.flags.isOptional && <span class="tsd-signature-symbol">?</span>}
                             {context.memberSignatureTitle(sig, {
                                 hideName: true,
-                                arrowStyle: true,
+                                arrowStyle: false,
                             })}
                         </>,
                     );
@@ -366,7 +384,7 @@ const typeRenderers: {
 
             members.push(
                 <>
-                    <span class={getKindClass(item)}>{item.name}</span>
+                    {renderName(item)}
                     <span class="tsd-signature-symbol">{item.flags.isOptional ? "?: " : ": "}</span>
                     {renderType(context, item.type, TypeContext.none)}
                 </>,
@@ -468,7 +486,7 @@ const typeRenderers: {
     typeOperator(context, type) {
         return (
             <>
-                <span class="tsd-signature-symbol">{type.operator} </span>
+                <span class="tsd-signature-keyword">{type.operator} </span>
                 {renderType(context, type.target, TypeContext.typeOperatorTarget)}
             </>
         );
@@ -483,13 +501,18 @@ const typeRenderers: {
     },
 };
 
-function renderType(context: DefaultThemeRenderContext, type: Type | undefined, where: TypeContext) {
+function renderType(
+    context: DefaultThemeRenderContext,
+    type: Type | undefined,
+    where: TypeContext,
+    options: { topLevelLinks: boolean } = { topLevelLinks: false },
+) {
     if (!type) {
         return <span class="tsd-signature-type">any</span>;
     }
 
     const renderFn = typeRenderers[type.type];
-    const rendered = renderFn(context, type as never);
+    const rendered = renderFn(context, type as never, options);
 
     if (type.needsParenthesis(where)) {
         return (
@@ -504,6 +527,10 @@ function renderType(context: DefaultThemeRenderContext, type: Type | undefined, 
     return rendered;
 }
 
-export function type(context: DefaultThemeRenderContext, type: Type | undefined) {
-    return renderType(context, type, TypeContext.none);
+export function type(
+    context: DefaultThemeRenderContext,
+    type: Type | undefined,
+    options: { topLevelLinks: boolean } = { topLevelLinks: false },
+) {
+    return renderType(context, type, TypeContext.none, options);
 }

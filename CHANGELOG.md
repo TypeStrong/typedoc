@@ -1,5 +1,12 @@
 # Unreleased
 
+### Features
+
+-   Added support for TypeScript 5.3, #2446.
+-   TypeDoc will now render interfaces as code at the top of the page describing interfaces, #2449.
+    This can be controlled through the new `DefaultThemeRenderContext.reflectionPreview` helper.
+-   Improved type rendering to highlight keywords differently than symbols.
+
 ### Bug Fixes
 
 -   Fixed automatic declaration file resolution on Windows, #2416.
@@ -11,6 +18,7 @@
 -   `@example` tag titles will now be rendered in the example heading, #2440.
 -   Correctly handle transient symbols in `@namespace`-created namespaces, #2444.
 -   TypeDoc no longer displays the "Hierarchy" section if there is no inheritance hierarchy to display.
+-   Direct links to individual signatures no longer results in the signature being partially scrolled off the screen.
 
 ### Thanks!
 

@@ -66,6 +66,7 @@
     "doc:c": "node bin/typedoc --tsconfig src/test/converter/tsconfig.json",
     "doc:c2": "node bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
     "doc:c2d": "node --inspect-brk bin/typedoc --tsconfig src/test/converter2/tsconfig.json",
+    "example": "cd example && node ../bin/typedoc",
     "test:full": "c8 mocha --config .config/mocha.full.json",
     "test:visual": "ts-node ./src/test/capture-screenshots.ts && ./scripts/compare_screenshots.sh",
     "test:visual:accept": "node scripts/accept_visual_regression.js",

@@ -6,7 +6,7 @@ import { JSX, Raw } from "../../../../utils";
 
 export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {
     if (
-        [ReflectionKind.TypeAlias, ReflectionKind.Variable].includes(props.model.kind) &&
+        props.model.kindOf(ReflectionKind.TypeAlias | ReflectionKind.Variable) &&
         props.model instanceof DeclarationReflection
     ) {
         return context.memberDeclaration(props.model);
@@ -20,7 +20,6 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                     {context.commentTags(props.model)}
                 </section>
             )}
-
             {props.model instanceof DeclarationReflection &&
                 props.model.kind === ReflectionKind.Module &&
                 props.model.readme?.length && (
@@ -28,6 +27,8 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                         <Raw html={context.markdown(props.model.readme)} />
                     </section>
                 )}
+
+            {context.reflectionPreview(props.model)}
 
             {hasTypeParameters(props.model) && <> {context.typeParameters(props.model.typeParameters)} </>}
             {props.model instanceof DeclarationReflection && (
