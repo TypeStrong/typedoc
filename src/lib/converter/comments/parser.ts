@@ -206,8 +206,8 @@ function blockTag(
     const tagName = aliasedTags.get(blockTag.text) || blockTag.text;
 
     let content: CommentDisplayPart[];
-    if (tagName === "@example" && config.jsDocCompatibility.exampleTag) {
-        content = exampleBlockContent(comment, lexer, config, warning);
+    if (tagName === "@example") {
+        return exampleBlock(comment, lexer, config, warning);
     } else if (
         ["@default", "@defaultValue"].includes(tagName) &&
         config.jsDocCompatibility.defaultTag
@@ -260,24 +260,73 @@ function defaultBlockContent(
 /**
  * The `@example` tag gets a special case because otherwise we will produce many warnings
  * about unescaped/mismatched/missing braces in legacy JSDoc comments.
+ *
+ * In TSDoc, we also want to treat the first line of the block as the example name.
  */
-function exampleBlockContent(
+function exampleBlock(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
     warning: (msg: string, token: Token) => void,
-): CommentDisplayPart[] {
+): CommentTag {
     lexer.mark();
     const content = blockContent(comment, lexer, config, () => {});
     const end = lexer.done() || lexer.peek();
     lexer.release();
 
     if (
+        !config.jsDocCompatibility.exampleTag ||
         content.some(
             (part) => part.kind === "code" && part.text.startsWith("```"),
         )
     ) {
-        return blockContent(comment, lexer, config, warning);
+        let exampleName = "";
+
+        // First line of @example block is the example name.
+        let warnedAboutRichNameContent = false;
+        outer: while ((lexer.done() || lexer.peek()) !== end) {
+            const next = lexer.peek();
+            switch (next.kind) {
+                case TokenSyntaxKind.NewLine:
+                    lexer.take();
+                    break outer;
+                case TokenSyntaxKind.Text: {
+                    const newline = next.text.indexOf("\n");
+                    if (newline !== -1) {
+                        exampleName += next.text.substring(0, newline);
+                        next.pos += newline + 1;
+                        break outer;
+                    } else {
+                        exampleName += lexer.take().text;
+                    }
+                    break;
+                }
+                case TokenSyntaxKind.Code:
+                case TokenSyntaxKind.Tag:
+                case TokenSyntaxKind.TypeAnnotation:
+                case TokenSyntaxKind.CloseBrace:
+                case TokenSyntaxKind.OpenBrace:
+                    if (!warnedAboutRichNameContent) {
+                        warning(
+                            "The first line of an example tag will be taken literally as" +
+                                " the example name, and should only contain text.",
+                            lexer.peek(),
+                        );
+                        warnedAboutRichNameContent = true;
+                    }
+                    exampleName += lexer.take().text;
+                    break;
+                default:
+                    assertNever(next.kind);
+            }
+        }
+
+        const content = blockContent(comment, lexer, config, warning);
+        const tag = new CommentTag("@example", content);
+        if (exampleName.trim()) {
+            tag.name = exampleName.trim();
+        }
+        return tag;
     }
 
     const tokens: Token[] = [];
@@ -293,23 +342,21 @@ function exampleBlockContent(
     const caption = blockText.match(/^\s*<caption>(.*?)<\/caption>\s*(\n|$)/);
 
     if (caption) {
-        return [
-            {
-                kind: "text",
-                text: caption[1] + "\n",
-            },
+        const tag = new CommentTag("@example", [
             {
                 kind: "code",
                 text: makeCodeBlock(blockText.slice(caption[0].length)),
             },
-        ];
+        ]);
+        tag.name = caption[1];
+        return tag;
     } else {
-        return [
+        return new CommentTag("@example", [
             {
                 kind: "code",
                 text: makeCodeBlock(blockText),
             },
-        ];
+        ]);
     }
 }
 

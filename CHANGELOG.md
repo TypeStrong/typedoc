@@ -7,6 +7,7 @@
 -   Improved handling of function-modules created with `Object.assign`, #2436.
 -   TypeDoc will no longer warn about duplicate comments with warnings which point to a single comment, #2437
 -   Fixed an infinite loop when `skipLibCheck` is used to ignore some compiler errors, #2438.
+-   `@example` tag titles will now be rendered in the example heading, #2440.
 -   Correctly handle transient symbols in `@namespace`-created namespaces, #2444.
 
 ### Thanks!

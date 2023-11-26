@@ -24,12 +24,18 @@ export function commentTags({ markdown }: DefaultThemeRenderContext, props: Refl
 
     return (
         <div class="tsd-comment tsd-typography">
-            {tags.map((item) => (
-                <>
-                    <h4>{camelToTitleCase(item.tag.substring(1))}</h4>
-                    <Raw html={markdown(item.content)} />
-                </>
-            ))}
+            {tags.map((item) => {
+                const name = item.name
+                    ? `${camelToTitleCase(item.tag.substring(1))}: ${item.name}`
+                    : camelToTitleCase(item.tag.substring(1));
+
+                return (
+                    <>
+                        <h4>{name}</h4>
+                        <Raw html={markdown(item.content)} />
+                    </>
+                );
+            })}
         </div>
     );
 }

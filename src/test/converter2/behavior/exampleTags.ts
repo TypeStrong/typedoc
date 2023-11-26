@@ -20,5 +20,16 @@
  * // TSDoc style
  * codeHere();
  * ```
+ *
+ * @example TSDoc name
+ * ```ts
+ * // TSDoc style
+ * codeHere();
+ * ```
+ *
+ * @example Bad {@link} name
+ * ```ts
+ * oops();
+ * ```
  */
 export const foo = 123;

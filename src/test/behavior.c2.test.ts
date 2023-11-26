@@ -295,26 +295,39 @@ describe("Behavior Tests", () => {
         const project = convert("exampleTags");
         const foo = query(project, "foo");
         const tags = foo.comment?.blockTags.map((tag) => tag.content);
+        const names = foo.comment?.blockTags.map((tag) => tag.name);
 
         equal(tags, [
             [{ kind: "code", text: "```ts\n// JSDoc style\ncodeHere();\n```" }],
             [
-                { kind: "text", text: "JSDoc specialness\n" },
                 {
                     kind: "code",
                     text: "```ts\n// JSDoc style\ncodeHere();\n```",
                 },
             ],
             [
-                { kind: "text", text: "JSDoc with braces\n" },
                 {
                     kind: "code",
                     text: "```ts\nx.map(() => { return 1; })\n```",
                 },
             ],
             [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
+            [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
+            [{ kind: "code", text: "```ts\noops();\n```" }],
         ]);
 
+        equal(names, [
+            undefined,
+            "JSDoc specialness",
+            "JSDoc with braces",
+            undefined,
+            "TSDoc name",
+            "Bad {@link} name",
+        ]);
+
+        logger.expectMessage(
+            "warn: The first line of an example tag will be taken literally as the example name, and should only contain text.",
+        );
         logger.expectNoOtherMessages();
     });
 
@@ -323,28 +336,43 @@ describe("Behavior Tests", () => {
         const project = convert("exampleTags");
         const foo = query(project, "foo");
         const tags = foo.comment?.blockTags.map((tag) => tag.content);
+        const names = foo.comment?.blockTags.map((tag) => tag.name);
 
         equal(tags, [
             [{ kind: "text", text: "// JSDoc style\ncodeHere();" }],
             [
                 {
                     kind: "text",
-                    text: "<caption>JSDoc specialness</caption>\n// JSDoc style\ncodeHere();",
+                    text: "// JSDoc style\ncodeHere();",
                 },
             ],
             [
                 {
                     kind: "text",
-                    text: "<caption>JSDoc with braces</caption>\nx.map(() => { return 1; })",
+                    text: "x.map(() => { return 1; })",
                 },
             ],
             [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
+            [{ kind: "code", text: "```ts\n// TSDoc style\ncodeHere();\n```" }],
+            [{ kind: "code", text: "```ts\noops();\n```" }],
+        ]);
+
+        equal(names, [
+            undefined,
+            "<caption>JSDoc specialness</caption>",
+            "<caption>JSDoc with braces</caption>",
+            undefined,
+            "TSDoc name",
+            "Bad {@link} name",
         ]);
 
         logger.expectMessage(
             "warn: Encountered an unescaped open brace without an inline tag",
         );
         logger.expectMessage("warn: Unmatched closing brace");
+        logger.expectMessage(
+            "warn: The first line of an example tag will be taken literally as the example name, and should only contain text.",
+        );
         logger.expectNoOtherMessages();
     });
 
@@ -472,14 +500,14 @@ describe("Behavior Tests", () => {
         );
 
         const meth = query(project, "InterfaceTarget.someMethod");
+        const example = new CommentTag("@example", [
+            { kind: "code", text: "```ts\nsomeMethod(123)\n```" },
+        ]);
+        example.name = `This should still be present`;
+
         const methodComment = new Comment(
             [{ kind: "text", text: "Method description" }],
-            [
-                new CommentTag("@example", [
-                    { kind: "text", text: "This should still be present\n" },
-                    { kind: "code", text: "```ts\nsomeMethod(123)\n```" },
-                ]),
-            ],
+            [example],
         );
         equal(meth.signatures?.[0].comment, methodComment);
     });
