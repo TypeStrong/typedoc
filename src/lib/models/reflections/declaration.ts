@@ -279,7 +279,7 @@ export class DeclarationReflection extends ContainerReflection {
         }
 
         if (this.type) {
-            result += ":" + this.type.toString();
+            result += ": " + this.type.toString();
         }
 
         return result;

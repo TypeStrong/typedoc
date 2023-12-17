@@ -96,6 +96,8 @@ export function createSignature(
         sigRef.type = convertPredicate(predicate, sigRefCtx);
     } else if (kind == ReflectionKind.SetSignature) {
         sigRef.type = new IntrinsicType("void");
+    } else if (declaration?.type?.kind === ts.SyntaxKind.ThisType) {
+        sigRef.type = new IntrinsicType("this");
     } else {
         sigRef.type = context.converter.convertType(
             sigRefCtx,
@@ -171,10 +173,18 @@ function convertParameters(
             type = param.type;
         }
 
-        paramRefl.type = context.converter.convertType(
-            context.withScope(paramRefl),
-            type,
-        );
+        if (
+            declaration &&
+            ts.isParameter(declaration) &&
+            declaration.type?.kind === ts.SyntaxKind.ThisType
+        ) {
+            paramRefl.type = new IntrinsicType("this");
+        } else {
+            paramRefl.type = context.converter.convertType(
+                context.withScope(paramRefl),
+                type,
+            );
+        }
 
         let isOptional = false;
         if (declaration) {
@@ -384,8 +394,6 @@ export function convertTemplateParameterNodes(
             return paramRefl;
         });
     });
-    const params = (nodes ?? []).flatMap((tag) => tag.typeParameters);
-    return convertTypeParameterNodes(context, params);
 }
 
 function getVariance(

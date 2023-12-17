@@ -19,7 +19,7 @@ import {
 import { join } from "path";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments";
-import { query } from "./utils";
+import { query, querySig } from "./utils";
 
 type NameTree = { [name: string]: NameTree };
 
@@ -1003,5 +1003,26 @@ describe("Behavior Tests", () => {
         app.options.setValue("excludeExternals", false);
         const MergedType = query(convert("resolutionMode"), "MergedType");
         equal(MergedType.children?.map((child) => child.name), ["cjs", "esm"]);
+    });
+
+    it("Special cases some `this` type occurrences", () => {
+        const project = convert("thisType");
+        equal(query(project, "ThisClass.prop").type?.toString(), "ThisClass"); // Not special cased
+        equal(
+            querySig(project, "ThisClass.returnThisImplicit").type?.toString(),
+            "ThisClass",
+        ); // Not special cased
+
+        equal(
+            querySig(project, "ThisClass.returnThis").type?.toString(),
+            "this",
+        );
+        equal(
+            querySig(
+                project,
+                "ThisClass.paramThis",
+            ).parameters?.[0].type?.toString(),
+            "this",
+        );
     });
 });

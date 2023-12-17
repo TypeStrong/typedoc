@@ -5,13 +5,30 @@ import {
     ProjectReflection,
     Reflection,
     ReflectionKind,
+    SignatureReflection,
 } from "..";
 import { filterMap } from "../lib/utils";
 
-export function query(project: ProjectReflection, name: string) {
+export function query(
+    project: ProjectReflection,
+    name: string,
+): DeclarationReflection {
     const reflection = project.getChildByName(name);
     ok(reflection instanceof DeclarationReflection, `Failed to find ${name}`);
     return reflection;
+}
+
+export function querySig(
+    project: ProjectReflection,
+    name: string,
+    index = 0,
+): SignatureReflection {
+    const decl = query(project, name);
+    ok(
+        decl.signatures?.length ?? 0 > index,
+        `Reflection "${name}" does not contain signature`,
+    );
+    return decl.signatures![index];
 }
 
 export function getComment(project: ProjectReflection, name: string) {

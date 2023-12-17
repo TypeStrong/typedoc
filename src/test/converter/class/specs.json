@@ -4996,168 +4996,34 @@
     },
     {
       "id": 205,
-      "name": "this",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 206,
-          "name": "ChainClass",
-          "variant": "declaration",
-          "kind": 128,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "ChainClass comment short text.\n\nChainClass comment text."
-              }
-            ]
-          },
-          "children": [
-            {
-              "id": 207,
-              "name": "constructor",
-              "variant": "declaration",
-              "kind": 512,
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 208,
-                  "name": "new ChainClass",
-                  "variant": "signature",
-                  "kind": 16384,
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "target": 206,
-                    "name": "ChainClass",
-                    "package": "typedoc"
-                  }
-                }
-              ]
-            },
-            {
-              "id": 209,
-              "name": "chain",
-              "variant": "declaration",
-              "kind": 2048,
-              "flags": {
-                "isPublic": true
-              },
-              "sources": [
-                {
-                  "fileName": "this.ts",
-                  "line": 10,
-                  "character": 11,
-                  "url": "typedoc://this.ts#L10"
-                }
-              ],
-              "signatures": [
-                {
-                  "id": 210,
-                  "name": "chain",
-                  "variant": "signature",
-                  "kind": 4096,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Chain method that returns this."
-                      }
-                    ]
-                  },
-                  "sources": [
-                    {
-                      "fileName": "this.ts",
-                      "line": 10,
-                      "character": 11,
-                      "url": "typedoc://this.ts#L10"
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "target": 206,
-                    "name": "ChainClass",
-                    "package": "typedoc"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "children": [
-                207
-              ]
-            },
-            {
-              "title": "Methods",
-              "children": [
-                209
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "this.ts",
-              "line": 6,
-              "character": 13,
-              "url": "typedoc://this.ts#L6"
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Classes",
-          "children": [
-            206
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "this.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://this.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 211,
       "name": "type-operator",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 217,
+          "id": 211,
           "name": "GenericClass",
           "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
-              "id": 218,
+              "id": 212,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 219,
+                  "id": 213,
                   "name": "new GenericClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "typeParameter": [
                     {
-                      "id": 220,
+                      "id": 214,
                       "name": "T",
                       "variant": "typeParam",
                       "kind": 131072,
@@ -5167,7 +5033,7 @@
                         "operator": "keyof",
                         "target": {
                           "type": "reference",
-                          "target": 212,
+                          "target": 206,
                           "name": "TestClass",
                           "package": "typedoc"
                         }
@@ -5176,7 +5042,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": 217,
+                    "target": 211,
                     "typeArguments": [
                       {
                         "type": "reference",
@@ -5192,7 +5058,7 @@
               ]
             },
             {
-              "id": 221,
+              "id": 215,
               "name": "c",
               "variant": "declaration",
               "kind": 1024,
@@ -5217,13 +5083,13 @@
             {
               "title": "Constructors",
               "children": [
-                218
+                212
               ]
             },
             {
               "title": "Properties",
               "children": [
-                221
+                215
               ]
             }
           ],
@@ -5237,7 +5103,7 @@
           ],
           "typeParameters": [
             {
-              "id": 222,
+              "id": 216,
               "name": "T",
               "variant": "typeParam",
               "kind": 131072,
@@ -5247,7 +5113,7 @@
                 "operator": "keyof",
                 "target": {
                   "type": "reference",
-                  "target": 212,
+                  "target": 206,
                   "name": "TestClass",
                   "package": "typedoc"
                 }
@@ -5256,7 +5122,7 @@
           ]
         },
         {
-          "id": 212,
+          "id": 206,
           "name": "TestClass",
           "variant": "declaration",
           "kind": 128,
@@ -5276,7 +5142,7 @@
                     "kind": "inline-tag",
                     "tag": "@link",
                     "text": "TestClass",
-                    "target": 212
+                    "target": 206
                   },
                   {
                     "kind": "text",
@@ -5288,21 +5154,21 @@
           },
           "children": [
             {
-              "id": 213,
+              "id": 207,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 214,
+                  "id": 208,
                   "name": "new TestClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": 212,
+                    "target": 206,
                     "name": "TestClass",
                     "package": "typedoc"
                   }
@@ -5310,7 +5176,7 @@
               ]
             },
             {
-              "id": 215,
+              "id": 209,
               "name": "a",
               "variant": "declaration",
               "kind": 1024,
@@ -5329,7 +5195,7 @@
               }
             },
             {
-              "id": 216,
+              "id": 210,
               "name": "b",
               "variant": "declaration",
               "kind": 1024,
@@ -5352,14 +5218,14 @@
             {
               "title": "Constructors",
               "children": [
-                213
+                207
               ]
             },
             {
               "title": "Properties",
               "children": [
-                215,
-                216
+                209,
+                210
               ]
             }
           ],
@@ -5377,8 +5243,8 @@
         {
           "title": "Classes",
           "children": [
-            217,
-            212
+            211,
+            206
           ]
         }
       ],
@@ -5404,8 +5270,7 @@
         134,
         166,
         185,
-        205,
-        211
+        205
       ]
     }
   ],
@@ -6156,50 +6021,34 @@
       "qualifiedName": "value"
     },
     "205": {
-      "sourceFileName": "src/test/converter/class/this.ts",
+      "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": ""
     },
     "206": {
-      "sourceFileName": "src/test/converter/class/this.ts",
-      "qualifiedName": "ChainClass"
-    },
-    "209": {
-      "sourceFileName": "src/test/converter/class/this.ts",
-      "qualifiedName": "ChainClass.chain"
-    },
-    "210": {
-      "sourceFileName": "src/test/converter/class/this.ts",
-      "qualifiedName": "ChainClass.chain"
-    },
-    "211": {
-      "sourceFileName": "src/test/converter/class/type-operator.ts",
-      "qualifiedName": ""
-    },
-    "212": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": "TestClass"
     },
-    "215": {
+    "209": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": "TestClass.a"
     },
-    "216": {
+    "210": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": "TestClass.b"
     },
-    "217": {
+    "211": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": "GenericClass"
     },
-    "220": {
+    "214": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": "GenericClass.T"
     },
-    "221": {
+    "215": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": "GenericClass.c"
     },
-    "222": {
+    "216": {
       "sourceFileName": "src/test/converter/class/type-operator.ts",
       "qualifiedName": "GenericClass.T"
     }

@@ -527,6 +527,8 @@ export abstract class Reflection {
     /**
      * Return a string representation of this reflection and all of its children.
      *
+     * Note: This is intended as a debug tool only, output may change between patch versions.
+     *
      * @param indent  Used internally to indent child reflections.
      */
     toStringHierarchy(indent = "") {

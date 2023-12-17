@@ -101,7 +101,7 @@ export class SignatureReflection extends Reflection {
         }
 
         if (this.type) {
-            result += ":" + this.type.toString();
+            result += ": " + this.type.toString();
         }
 
         return result;

@@ -33,7 +33,9 @@ export class ParameterReflection extends Reflection {
      * Return a string representation of this reflection.
      */
     override toString() {
-        return super.toString() + (this.type ? ":" + this.type.toString() : "");
+        return (
+            super.toString() + (this.type ? ": " + this.type.toString() : "")
+        );
     }
 
     override toObject(serializer: Serializer): JSONOutput.ParameterReflection {
