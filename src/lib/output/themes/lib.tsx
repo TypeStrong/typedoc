@@ -106,7 +106,7 @@ export function renderTypeParametersSignature(
                 <span class="tsd-signature-symbol">{"<"}</span>
                 {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
                     <>
-                        {item.flags.isConst && "const "}
+                        {item.flags.isConst && <span class="tsd-signature-keyword">const </span>}
                         {item.varianceModifier ? `${item.varianceModifier} ` : ""}
                         <span class="tsd-signature-type tsd-kind-type-parameter">{item.name}</span>
                     </>
@@ -126,7 +126,7 @@ export function renderTypeParametersSignature(
                     <span class="tsd-signature-type tsd-kind-type-parameter">{item.name}</span>
                     {!!item.type && (
                         <>
-                            <span class="tsd-signature-symbol"> extends </span>
+                            <span class="tsd-signature-keyword"> extends </span>
                             {context.type(item.type)}
                         </>
                     )}

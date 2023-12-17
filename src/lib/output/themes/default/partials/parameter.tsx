@@ -91,7 +91,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                     <li class="tsd-parameter">
                                         <h5>
                                             {context.reflectionFlags(item.getSignature)}
-                                            <span class="tsd-signature-symbol">get </span>
+                                            <span class="tsd-signature-keyword">get </span>
                                             <span class={getKindClass(item)}>{wbr(item.name)}</span>
                                             <span class="tsd-signature-symbol">(): </span>
                                             {context.type(item.getSignature.type)}
@@ -108,7 +108,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                                     <li class="tsd-parameter">
                                         <h5>
                                             {context.reflectionFlags(item.setSignature)}
-                                            <span class="tsd-signature-symbol">set </span>
+                                            <span class="tsd-signature-keyword">set </span>
                                             <span class={getKindClass(item)}>{wbr(item.name)}</span>
                                             <span class="tsd-signature-symbol">(</span>
                                             {item.setSignature.parameters?.map((item) => (

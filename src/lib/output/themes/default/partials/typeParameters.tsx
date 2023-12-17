@@ -16,7 +16,7 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                                 <span class="tsd-kind-type-parameter">{item.name}</span>
                                 {!!item.type && (
                                     <>
-                                        <span class="tsd-signature-symbol"> extends </span>
+                                        <span class="tsd-signature-keyword"> extends </span>
                                         {context.type(item.type)}
                                     </>
                                 )}

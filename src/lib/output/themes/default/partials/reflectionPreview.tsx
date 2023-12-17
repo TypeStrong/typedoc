@@ -1,6 +1,6 @@
 import { DeclarationReflection, ReflectionKind, type Reflection, ReflectionType } from "../../../../models";
 import { JSX } from "../../../../utils";
-import { getKindClass } from "../../lib";
+import { getKindClass, renderTypeParametersSignature } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export function reflectionPreview(context: DefaultThemeRenderContext, props: Reflection) {
@@ -12,7 +12,8 @@ export function reflectionPreview(context: DefaultThemeRenderContext, props: Ref
         return (
             <div class="tsd-signature">
                 <span class="tsd-signature-keyword">interface </span>
-                <span class={getKindClass(props)}>{props.name} </span>
+                <span class={getKindClass(props)}>{props.name}</span>
+                {renderTypeParametersSignature(context, props.typeParameters)}{" "}
                 {context.type(new ReflectionType(props), { topLevelLinks: true })}
             </div>
         );

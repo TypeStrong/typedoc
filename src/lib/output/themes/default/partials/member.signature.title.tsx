@@ -44,8 +44,8 @@ export function memberSignatureTitle(
                 <>
                     {props.kind === ReflectionKind.ConstructorSignature && (
                         <>
-                            {!!props.flags.isAbstract && <span class="tsd-signature-symbol">abstract </span>}
-                            <span class="tsd-signature-symbol">new </span>
+                            {!!props.flags.isAbstract && <span class="tsd-signature-keyword">abstract </span>}
+                            <span class="tsd-signature-keyword">new </span>
                         </>
                     )}
                 </>
