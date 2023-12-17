@@ -10,6 +10,7 @@
 ### Bug Fixes
 
 -   Navigation triangle markers should no longer display on a separate line with some font settings, #2457.
+-   `@group` and `@category` organization is now applied later to allow inherited comments to create groups/categories, #2459.
 -   Keyword syntax highlighting introduced in 0.25.4 was not always applied to keywords.
 
 ## v0.25.4 (2023-11-26)

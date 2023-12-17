@@ -466,6 +466,27 @@ describe("Behavior Tests", () => {
         );
     });
 
+    it("Inherits @group tag if comment is not redefined", () => {
+        const project = convert("groupInheritance");
+        const cls = query(project, "Cls");
+        equal(cls.groups?.map((g) => g.title), ["Constructors", "Group"]);
+        equal(
+            cls.groups.map((g) => g.children),
+            [[query(project, "Cls.constructor")], [query(project, "Cls.prop")]],
+        );
+    });
+
+    it("Inherits @category tag if comment is not redefined", () => {
+        app.options.setValue("categorizeByGroup", false);
+        const project = convert("categoryInheritance");
+        const cls = query(project, "Cls");
+        equal(cls.categories?.map((g) => g.title), ["Cat", "Other"]);
+        equal(
+            cls.categories.map((g) => g.children),
+            [[query(project, "Cls.prop")], [query(project, "Cls.constructor")]],
+        );
+    });
+
     it("Handles hidden accessors", () => {
         const project = convert("hiddenAccessor");
         const test = query(project, "Test");

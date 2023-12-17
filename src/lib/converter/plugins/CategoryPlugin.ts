@@ -1,5 +1,4 @@
 import {
-    Reflection,
     ContainerReflection,
     DeclarationReflection,
     Comment,
@@ -45,7 +44,6 @@ export class CategoryPlugin extends ConverterComponent {
             this.owner,
             {
                 [Converter.EVENT_BEGIN]: this.onBegin,
-                [Converter.EVENT_RESOLVE]: this.onResolve,
                 [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
             },
             undefined,
@@ -69,18 +67,6 @@ export class CategoryPlugin extends ConverterComponent {
     }
 
     /**
-     * Triggered when the converter resolves a reflection.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently resolved.
-     */
-    private onResolve(_context: Context, reflection: Reflection) {
-        if (reflection instanceof ContainerReflection) {
-            this.categorize(reflection);
-        }
-    }
-
-    /**
      * Triggered when the converter has finished resolving a project.
      *
      * @param context  The context object describing the current state the converter is in.
@@ -88,6 +74,13 @@ export class CategoryPlugin extends ConverterComponent {
     private onEndResolve(context: Context) {
         const project = context.project;
         this.categorize(project);
+
+        for (const id in project.reflections) {
+            const reflection = project.reflections[id];
+            if (reflection instanceof ContainerReflection) {
+                this.categorize(reflection);
+            }
+        }
 
         const unusedBoosts = new Set(Object.keys(this.boosts));
         for (const boost of this.usedBoosts) {

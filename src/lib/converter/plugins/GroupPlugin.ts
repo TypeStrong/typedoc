@@ -1,5 +1,4 @@
 import {
-    Reflection,
     ReflectionKind,
     ContainerReflection,
     DeclarationReflection,
@@ -38,26 +37,20 @@ export class GroupPlugin extends ConverterComponent {
      * Create a new GroupPlugin instance.
      */
     override initialize() {
-        this.listenTo(this.owner, {
-            [Converter.EVENT_RESOLVE_BEGIN]: () => {
-                this.sortFunction = getSortFunction(this.application.options);
-                GroupPlugin.WEIGHTS = this.groupOrder;
+        this.listenTo(
+            this.owner,
+            {
+                [Converter.EVENT_RESOLVE_BEGIN]: () => {
+                    this.sortFunction = getSortFunction(
+                        this.application.options,
+                    );
+                    GroupPlugin.WEIGHTS = this.groupOrder;
+                },
+                [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
             },
-            [Converter.EVENT_RESOLVE]: this.onResolve,
-            [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
-        });
-    }
-
-    /**
-     * Triggered when the converter resolves a reflection.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently resolved.
-     */
-    private onResolve(_context: Context, reflection: Reflection) {
-        if (reflection instanceof ContainerReflection) {
-            this.group(reflection);
-        }
+            undefined,
+            -100,
+        );
     }
 
     /**
@@ -67,6 +60,13 @@ export class GroupPlugin extends ConverterComponent {
      */
     private onEndResolve(context: Context) {
         this.group(context.project);
+
+        for (const id in context.project.reflections) {
+            const reflection = context.project.reflections[id];
+            if (reflection instanceof ContainerReflection) {
+                this.group(reflection);
+            }
+        }
 
         const unusedBoosts = new Set(Object.keys(this.boosts));
         for (const boost of this.usedBoosts) {
