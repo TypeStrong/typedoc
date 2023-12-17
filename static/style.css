@@ -714,12 +714,15 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 .tsd-navigation > a,
 .tsd-navigation .tsd-accordion-summary {
-    width: calc(100% - 0.5rem);
+    width: calc(100% - 0.25rem);
+    display: flex;
+    align-items: center;
 }
 .tsd-navigation a,
 .tsd-navigation summary > span,
 .tsd-page-navigation a {
-    display: inline-flex;
+    display: flex;
+    width: calc(100% - 0.25rem);
     align-items: center;
     padding: 0.25rem;
     color: var(--color-text);
@@ -757,11 +760,6 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 }
 .tsd-small-nested-navigation > li > details {
     margin-left: -1.5rem;
-}
-
-.tsd-nested-navigation > li > a,
-.tsd-nested-navigation > li > span {
-    width: calc(100% - 1.75rem - 0.5rem);
 }
 
 .tsd-page-navigation ul {

@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Navigation triangle markers should no longer display on a separate line with some font settings, #2457.
+
 ## v0.25.4 (2023-11-26)
 
 ### Features
