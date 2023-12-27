@@ -57,6 +57,8 @@ async function main() {
     );
     if (!code) {
         console.log("No codeblock found");
+        const file = `src/test/converter2/issues/gh${issue}.ts`;
+        await exec(`code ${file}`);
         return;
     }
 

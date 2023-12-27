@@ -27,7 +27,7 @@ import {
     getConverter2Program,
 } from "./programs";
 import { TestLogger } from "./TestLogger";
-import { getComment, getLinks, query } from "./utils";
+import { getComment, getLinks, query, querySig } from "./utils";
 
 const base = getConverter2Base();
 const app = getConverter2App();
@@ -1224,5 +1224,12 @@ describe("Issue Tests", () => {
         const numEq = query(project, "Number.equal");
         equal(boolEq.signatures![0].parameters![0].type?.toString(), "boolean");
         equal(numEq.signatures![0].parameters![0].type?.toString(), "number");
+    });
+
+    it("Handles unions created due to union within intersection, #2451", () => {
+        const project = convert();
+
+        const is = querySig(project, "FooA.is");
+        equal(is.type?.toString(), "this is Foo & Object");
     });
 });

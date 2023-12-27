@@ -132,6 +132,17 @@ export function convertType(
         return requestBugReport(context, typeOrNode);
     }
 
+    // TS 4.2 added this to enable better tracking of type aliases.
+    // We need to check it here, not just in the union checker, because typeToTypeNode
+    // will use the origin when serializing
+    if (
+        typeOrNode.isUnion() &&
+        typeOrNode.origin &&
+        !typeOrNode.origin.isUnion()
+    ) {
+        return convertType(context, typeOrNode.origin);
+    }
+
     // IgnoreErrors is important, without it, we can't assert that we will get a node.
     const node = context.checker.typeToTypeNode(
         typeOrNode,
@@ -1011,11 +1022,6 @@ const typeOperatorConverter: TypeConverter<ts.TypeOperatorNode> = {
         // keyof will only show up with generic functions, otherwise it gets eagerly
         // resolved to a union of strings.
         if (node.operator === ts.SyntaxKind.KeyOfKeyword) {
-            // TS 4.2 added this to enable better tracking of type aliases.
-            if (type.isUnion() && type.origin) {
-                return convertType(context, type.origin);
-            }
-
             // There's probably an interface for this somewhere... I couldn't find it.
             const targetType = (type as ts.Type & { type: ts.Type }).type;
             return new TypeOperatorType(
@@ -1038,11 +1044,6 @@ const unionConverter: TypeConverter<ts.UnionTypeNode, ts.UnionType> = {
         );
     },
     convertType(context, type) {
-        // TS 4.2 added this to enable better tracking of type aliases.
-        if (type.origin) {
-            return convertType(context, type.origin);
-        }
-
         return new UnionType(
             type.types.map((type) => convertType(context, type)),
         );

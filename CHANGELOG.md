@@ -13,6 +13,7 @@
 
 ### Bug Fixes
 
+-   Fix crash when converting some complicated union/intersection types, #2451.
 -   Navigation triangle markers should no longer display on a separate line with some font settings, #2457.
 -   `@group` and `@category` organization is now applied later to allow inherited comments to create groups/categories, #2459.
 -   Keyword syntax highlighting introduced in 0.25.4 was not always applied to keywords.
