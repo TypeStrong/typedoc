@@ -1128,6 +1128,21 @@ describe("Issue Tests", () => {
         equal(tp.flags.isConst, true);
     });
 
+    it("Handles comments with nested methods #2336", () => {
+        const project = convert();
+
+        const outer = querySig(project, "ClassVersion.outer");
+        equal(Comment.combineDisplayParts(outer.comment?.summary), "Outer");
+
+        equal(outer.type?.type, "reflection");
+        equal(
+            Comment.combineDisplayParts(
+                outer.type.declaration.signatures![0].comment?.summary,
+            ),
+            "",
+        );
+    });
+
     it("Supports nested paths with tsLinkResolution #2360", () => {
         const project = convert();
         const x = query(project, "x");

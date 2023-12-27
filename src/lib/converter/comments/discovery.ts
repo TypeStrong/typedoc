@@ -360,11 +360,7 @@ function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
         return node.parent.parent;
     }
 
-    if (
-        [ts.SyntaxKind.NamespaceExport, ts.SyntaxKind.FunctionType].includes(
-            node.kind,
-        )
-    ) {
+    if (ts.SyntaxKind.NamespaceExport === node.kind) {
         return node.parent;
     }
 

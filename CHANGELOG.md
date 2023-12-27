@@ -13,6 +13,7 @@
 
 ### Bug Fixes
 
+-   Methods which return function types no longer have duplicated comments, #2336.
 -   Fix crash when converting some complicated union/intersection types, #2451.
 -   Navigation triangle markers should no longer display on a separate line with some font settings, #2457.
 -   `@group` and `@category` organization is now applied later to allow inherited comments to create groups/categories, #2459.
