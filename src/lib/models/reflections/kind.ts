@@ -110,6 +110,14 @@ export namespace ReflectionKind {
     export const SignatureContainer =
         ContainsCallSignatures | ReflectionKind.Accessor;
 
+    export const VariableContainer = SomeModule | ReflectionKind.Project;
+
+    export const MethodContainer =
+        ClassOrInterface |
+        VariableOrProperty |
+        FunctionOrMethod |
+        ReflectionKind.TypeLiteral;
+
     const SINGULARS = {
         [ReflectionKind.Enum]: "Enumeration",
         [ReflectionKind.EnumMember]: "Enumeration Member",

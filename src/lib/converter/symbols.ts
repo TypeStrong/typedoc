@@ -74,7 +74,7 @@ const conversionOrder = [
     ts.SymbolFlags.ExportValue,
 
     ts.SymbolFlags.TypeAlias,
-    ts.SymbolFlags.Function,
+    ts.SymbolFlags.Function, // Before NamespaceModule
     ts.SymbolFlags.Method,
     ts.SymbolFlags.Interface,
     ts.SymbolFlags.Property,
@@ -161,6 +161,10 @@ export function convertSymbol(
 
     if (hasAllFlags(symbol.flags, ts.SymbolFlags.NamespaceModule)) {
         // This might be here if a namespace is declared several times.
+        // Or if it's a namespace-like thing defined on a function
+        // In the function case, it's important to remove ValueModule so that
+        // if we convert the children as properties of the function rather than as
+        // a separate namespace, we skip creating the namespace.
         flags = removeFlag(flags, ts.SymbolFlags.ValueModule);
     }
 
@@ -460,11 +464,7 @@ function convertFunctionOrMethod(
     const signatures = type.getNonNullableType().getCallSignatures();
 
     const reflection = context.createDeclarationReflection(
-        context.scope.kindOf(
-            ReflectionKind.ClassOrInterface |
-                ReflectionKind.VariableOrProperty |
-                ReflectionKind.TypeLiteral,
-        )
+        context.scope.kindOf(ReflectionKind.MethodContainer)
             ? ReflectionKind.Method
             : ReflectionKind.Function,
         symbol,
@@ -485,6 +485,10 @@ function convertFunctionOrMethod(
     for (const sig of signatures) {
         createSignature(scope, ReflectionKind.CallSignature, sig, symbol);
     }
+
+    convertFunctionProperties(scope, symbol, type);
+
+    return ts.SymbolFlags.NamespaceModule;
 }
 
 // getDeclaredTypeOfSymbol gets the INSTANCE type
@@ -635,9 +639,7 @@ function convertProperty(
 ) {
     // This might happen if we're converting a function-module created with Object.assign
     // or `export default () => {}`
-    if (
-        context.scope.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)
-    ) {
+    if (context.scope.kindOf(ReflectionKind.VariableContainer)) {
         return convertVariable(context, symbol, exportSymbol);
     }
 
@@ -687,7 +689,7 @@ function convertProperty(
     }
 
     const reflection = context.createDeclarationReflection(
-        context.scope.kindOf(ReflectionKind.Namespace)
+        context.scope.kindOf(ReflectionKind.VariableContainer)
             ? ReflectionKind.Variable
             : ReflectionKind.Property,
         symbol,
@@ -878,7 +880,9 @@ function convertVariable(
     }
 
     const reflection = context.createDeclarationReflection(
-        ReflectionKind.Variable,
+        context.scope.kindOf(ReflectionKind.VariableContainer)
+            ? ReflectionKind.Variable
+            : ReflectionKind.Property,
         symbol,
         exportSymbol,
     );
@@ -1000,7 +1004,9 @@ function convertVariableAsFunction(
         : context.checker.getDeclaredTypeOfSymbol(symbol);
 
     const reflection = context.createDeclarationReflection(
-        ReflectionKind.Function,
+        context.scope.kindOf(ReflectionKind.MethodContainer)
+            ? ReflectionKind.Method
+            : ReflectionKind.Function,
         symbol,
         exportSymbol,
     );
@@ -1020,25 +1026,31 @@ function convertVariableAsFunction(
         );
     }
 
-    // #2436: Functions created with Object.assign on a function won't have a namespace flag
-    // but likely have properties that we should put into a namespace.
+    convertFunctionProperties(context.withScope(reflection), symbol, type);
+
+    return ts.SymbolFlags.Property | ts.SymbolFlags.NamespaceModule;
+}
+
+function convertFunctionProperties(
+    context: Context,
+    symbol: ts.Symbol,
+    type: ts.Type,
+) {
+    // #2436/#2461: Functions created with Object.assign on a function likely have properties
+    // that we should document. We also add properties to the function if they are defined like:
+    //   function f() {}
+    //   f.x = 123;
+    // rather than creating a separate namespace.
+    // In the expando case, we'll have both namespace flags.
+    // In the Object.assign case, we'll have no namespace flags.
+    const nsFlags = ts.SymbolFlags.ValueModule | ts.SymbolFlags.NamespaceModule;
     if (
         type.getProperties().length &&
-        !hasAnyFlag(
-            symbol.flags,
-            ts.SymbolFlags.NamespaceModule | ts.SymbolFlags.ValueModule,
-        )
+        (hasAllFlags(symbol.flags, nsFlags) ||
+            !hasAnyFlag(symbol.flags, nsFlags))
     ) {
-        const ns = context.createDeclarationReflection(
-            ReflectionKind.Namespace,
-            symbol,
-            exportSymbol,
-        );
-        context.finalizeDeclarationReflection(ns);
-        convertSymbols(context.withScope(ns), type.getProperties());
+        convertSymbols(context, type.getProperties());
     }
-
-    return ts.SymbolFlags.Property;
 }
 
 function convertAccessor(

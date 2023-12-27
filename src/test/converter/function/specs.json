@@ -13,73 +13,6 @@
       "flags": {},
       "children": [
         {
-          "id": 80,
-          "name": "merged",
-          "variant": "declaration",
-          "kind": 4,
-          "flags": {},
-          "children": [
-            {
-              "id": 81,
-              "name": "nsFn",
-              "variant": "declaration",
-              "kind": 64,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "function.ts",
-                  "line": 305,
-                  "character": 7,
-                  "url": "typedoc://function.ts#L305"
-                }
-              ],
-              "signatures": [
-                {
-                  "id": 82,
-                  "name": "nsFn",
-                  "variant": "signature",
-                  "kind": 4096,
-                  "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "function.ts",
-                      "line": 305,
-                      "character": 14,
-                      "url": "typedoc://function.ts#L305"
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Functions",
-              "children": [
-                81
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 304,
-              "character": 16,
-              "url": "typedoc://function.ts#L304"
-            },
-            {
-              "fileName": "function.ts",
-              "line": 305,
-              "character": 0,
-              "url": "typedoc://function.ts#L305"
-            }
-          ]
-        },
-        {
           "id": 55,
           "name": "moduleFunction",
           "variant": "declaration",
@@ -241,28 +174,28 @@
           ]
         },
         {
-          "id": 86,
+          "id": 85,
           "name": "Predicates",
           "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
-              "id": 93,
+              "id": 92,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 94,
+                  "id": 93,
                   "name": "new Predicates",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": 86,
+                    "target": 85,
                     "name": "Predicates",
                     "package": "typedoc"
                   }
@@ -270,7 +203,7 @@
               ]
             },
             {
-              "id": 97,
+              "id": 96,
               "name": "assertString",
               "variant": "declaration",
               "kind": 2048,
@@ -285,7 +218,7 @@
               ],
               "signatures": [
                 {
-                  "id": 98,
+                  "id": 97,
                   "name": "assertString",
                   "variant": "signature",
                   "kind": 4096,
@@ -311,7 +244,7 @@
               ]
             },
             {
-              "id": 95,
+              "id": 94,
               "name": "isString",
               "variant": "declaration",
               "kind": 2048,
@@ -326,7 +259,7 @@
               ],
               "signatures": [
                 {
-                  "id": 96,
+                  "id": 95,
                   "name": "isString",
                   "variant": "signature",
                   "kind": 4096,
@@ -352,7 +285,7 @@
               ]
             },
             {
-              "id": 90,
+              "id": 89,
               "name": "assert",
               "variant": "declaration",
               "kind": 2048,
@@ -369,7 +302,7 @@
               ],
               "signatures": [
                 {
-                  "id": 91,
+                  "id": 90,
                   "name": "assert",
                   "variant": "signature",
                   "kind": 4096,
@@ -384,7 +317,7 @@
                   ],
                   "parameters": [
                     {
-                      "id": 92,
+                      "id": 91,
                       "name": "x",
                       "variant": "param",
                       "kind": 32768,
@@ -404,7 +337,7 @@
               ]
             },
             {
-              "id": 87,
+              "id": 86,
               "name": "isString",
               "variant": "declaration",
               "kind": 2048,
@@ -421,7 +354,7 @@
               ],
               "signatures": [
                 {
-                  "id": 88,
+                  "id": 87,
                   "name": "isString",
                   "variant": "signature",
                   "kind": 4096,
@@ -436,7 +369,7 @@
                   ],
                   "parameters": [
                     {
-                      "id": 89,
+                      "id": 88,
                       "name": "x",
                       "variant": "param",
                       "kind": 32768,
@@ -464,16 +397,16 @@
             {
               "title": "Constructors",
               "children": [
-                93
+                92
               ]
             },
             {
               "title": "Methods",
               "children": [
-                97,
-                95,
-                90,
-                87
+                96,
+                94,
+                89,
+                86
               ]
             }
           ],
@@ -487,7 +420,7 @@
           ]
         },
         {
-          "id": 99,
+          "id": 98,
           "name": "all",
           "variant": "declaration",
           "kind": 64,
@@ -502,7 +435,7 @@
           ],
           "signatures": [
             {
-              "id": 100,
+              "id": 99,
               "name": "all",
               "variant": "signature",
               "kind": 4096,
@@ -525,7 +458,7 @@
               ],
               "typeParameter": [
                 {
-                  "id": 101,
+                  "id": 100,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -534,7 +467,7 @@
               ],
               "parameters": [
                 {
-                  "id": 102,
+                  "id": 101,
                   "name": "fn",
                   "variant": "param",
                   "kind": 32768,
@@ -542,7 +475,7 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 103,
+                      "id": 102,
                       "name": "__type",
                       "variant": "declaration",
                       "kind": 65536,
@@ -557,7 +490,7 @@
                       ],
                       "signatures": [
                         {
-                          "id": 104,
+                          "id": 103,
                           "name": "__type",
                           "variant": "signature",
                           "kind": 4096,
@@ -572,7 +505,7 @@
                           ],
                           "parameters": [
                             {
-                              "id": 105,
+                              "id": 104,
                               "name": "item",
                               "variant": "param",
                               "kind": 32768,
@@ -595,7 +528,7 @@
                   }
                 },
                 {
-                  "id": 106,
+                  "id": 105,
                   "name": "iterator",
                   "variant": "param",
                   "kind": 32768,
@@ -625,7 +558,7 @@
               }
             },
             {
-              "id": 107,
+              "id": 106,
               "name": "all",
               "variant": "signature",
               "kind": 4096,
@@ -648,7 +581,7 @@
               ],
               "typeParameter": [
                 {
-                  "id": 108,
+                  "id": 107,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -657,7 +590,7 @@
               ],
               "parameters": [
                 {
-                  "id": 109,
+                  "id": 108,
                   "name": "fn",
                   "variant": "param",
                   "kind": 32768,
@@ -665,7 +598,7 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 110,
+                      "id": 109,
                       "name": "__type",
                       "variant": "declaration",
                       "kind": 65536,
@@ -680,7 +613,7 @@
                       ],
                       "signatures": [
                         {
-                          "id": 111,
+                          "id": 110,
                           "name": "__type",
                           "variant": "signature",
                           "kind": 4096,
@@ -695,7 +628,7 @@
                           ],
                           "parameters": [
                             {
-                              "id": 112,
+                              "id": 111,
                               "name": "item",
                               "variant": "param",
                               "kind": 32768,
@@ -721,7 +654,7 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 113,
+                  "id": 112,
                   "name": "__type",
                   "variant": "declaration",
                   "kind": 65536,
@@ -736,7 +669,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 114,
+                      "id": 113,
                       "name": "__type",
                       "variant": "signature",
                       "kind": 4096,
@@ -751,7 +684,7 @@
                       ],
                       "parameters": [
                         {
-                          "id": 115,
+                          "id": 114,
                           "name": "iterator",
                           "variant": "param",
                           "kind": 32768,
@@ -2184,6 +2117,52 @@
           "variant": "declaration",
           "kind": 64,
           "flags": {},
+          "children": [
+            {
+              "id": 80,
+              "name": "nsFn",
+              "variant": "declaration",
+              "kind": 2048,
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 305,
+                  "character": 7,
+                  "url": "typedoc://function.ts#L305"
+                }
+              ],
+              "signatures": [
+                {
+                  "id": 81,
+                  "name": "nsFn",
+                  "variant": "signature",
+                  "kind": 4096,
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "function.ts",
+                      "line": 305,
+                      "character": 14,
+                      "url": "typedoc://function.ts#L305"
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "children": [
+                80
+              ]
+            }
+          ],
           "sources": [
             {
               "fileName": "function.ts",
@@ -2468,7 +2447,7 @@
           ]
         },
         {
-          "id": 83,
+          "id": 82,
           "name": "variableFunction",
           "variant": "declaration",
           "kind": 64,
@@ -2483,7 +2462,7 @@
           ],
           "signatures": [
             {
-              "id": 84,
+              "id": 83,
               "name": "variableFunction",
               "variant": "signature",
               "kind": 4096,
@@ -2517,7 +2496,7 @@
               ],
               "parameters": [
                 {
-                  "id": 85,
+                  "id": 84,
                   "name": "someParam",
                   "variant": "param",
                   "kind": 32768,
@@ -2548,20 +2527,19 @@
         {
           "title": "Namespaces",
           "children": [
-            80,
             55
           ]
         },
         {
           "title": "Classes",
           "children": [
-            86
+            85
           ]
         },
         {
           "title": "Functions",
           "children": [
-            99,
+            98,
             67,
             61,
             75,
@@ -2578,7 +2556,7 @@
             78,
             52,
             45,
-            83
+            82
           ]
         }
       ],
@@ -2592,14 +2570,14 @@
       ]
     },
     {
-      "id": 116,
+      "id": 115,
       "name": "generic-function",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 121,
+          "id": 120,
           "name": "functionWithGenericArrayParameter",
           "variant": "declaration",
           "kind": 64,
@@ -2614,7 +2592,7 @@
           ],
           "signatures": [
             {
-              "id": 122,
+              "id": 121,
               "name": "functionWithGenericArrayParameter",
               "variant": "signature",
               "kind": 4096,
@@ -2648,7 +2626,7 @@
               ],
               "typeParameter": [
                 {
-                  "id": 123,
+                  "id": 122,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -2657,7 +2635,7 @@
               ],
               "parameters": [
                 {
-                  "id": 124,
+                  "id": 123,
                   "name": "param",
                   "variant": "param",
                   "kind": 32768,
@@ -2678,7 +2656,7 @@
                   }
                 },
                 {
-                  "id": 125,
+                  "id": 124,
                   "name": "params",
                   "variant": "param",
                   "kind": 32768,
@@ -2715,7 +2693,7 @@
           ]
         },
         {
-          "id": 126,
+          "id": 125,
           "name": "functionWithTemplate",
           "variant": "declaration",
           "kind": 64,
@@ -2730,7 +2708,7 @@
           ],
           "signatures": [
             {
-              "id": 127,
+              "id": 126,
               "name": "functionWithTemplate",
               "variant": "signature",
               "kind": 4096,
@@ -2745,7 +2723,7 @@
               ],
               "typeParameter": [
                 {
-                  "id": 128,
+                  "id": 127,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -2762,7 +2740,7 @@
               ],
               "parameters": [
                 {
-                  "id": 129,
+                  "id": 128,
                   "name": "param",
                   "variant": "param",
                   "kind": 32768,
@@ -2793,7 +2771,7 @@
           ]
         },
         {
-          "id": 117,
+          "id": 116,
           "name": "genericFunction",
           "variant": "declaration",
           "kind": 64,
@@ -2808,7 +2786,7 @@
           ],
           "signatures": [
             {
-              "id": 118,
+              "id": 117,
               "name": "genericFunction",
               "variant": "signature",
               "kind": 4096,
@@ -2842,7 +2820,7 @@
               ],
               "typeParameter": [
                 {
-                  "id": 119,
+                  "id": 118,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -2868,7 +2846,7 @@
               ],
               "parameters": [
                 {
-                  "id": 120,
+                  "id": 119,
                   "name": "value",
                   "variant": "param",
                   "kind": 32768,
@@ -2903,9 +2881,9 @@
         {
           "title": "Functions",
           "children": [
-            121,
-            126,
-            117
+            120,
+            125,
+            116
           ]
         }
       ],
@@ -2919,21 +2897,21 @@
       ]
     },
     {
-      "id": 130,
+      "id": 129,
       "name": "implicit-types",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 139,
+          "id": 138,
           "name": "BreakpointRange",
           "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
-              "id": 141,
+              "id": 140,
               "name": "end",
               "variant": "declaration",
               "kind": 1024,
@@ -2952,7 +2930,7 @@
               }
             },
             {
-              "id": 140,
+              "id": 139,
               "name": "start",
               "variant": "declaration",
               "kind": 1024,
@@ -2975,8 +2953,8 @@
             {
               "title": "Properties",
               "children": [
-                141,
-                140
+                140,
+                139
               ]
             }
           ],
@@ -2990,7 +2968,7 @@
           ]
         },
         {
-          "id": 131,
+          "id": 130,
           "name": "getBreakpoints",
           "variant": "declaration",
           "kind": 64,
@@ -3005,7 +2983,7 @@
           ],
           "signatures": [
             {
-              "id": 132,
+              "id": 131,
               "name": "getBreakpoints",
               "variant": "signature",
               "kind": 4096,
@@ -3021,14 +2999,14 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 133,
+                  "id": 132,
                   "name": "__type",
                   "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "children": [
                     {
-                      "id": 136,
+                      "id": 135,
                       "name": "large",
                       "variant": "declaration",
                       "kind": 1024,
@@ -3043,13 +3021,13 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "target": 139,
+                        "target": 138,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }
                     },
                     {
-                      "id": 135,
+                      "id": 134,
                       "name": "medium",
                       "variant": "declaration",
                       "kind": 1024,
@@ -3064,13 +3042,13 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "target": 139,
+                        "target": 138,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }
                     },
                     {
-                      "id": 134,
+                      "id": 133,
                       "name": "small",
                       "variant": "declaration",
                       "kind": 1024,
@@ -3085,13 +3063,13 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "target": 139,
+                        "target": 138,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }
                     },
                     {
-                      "id": 137,
+                      "id": 136,
                       "name": "xlarge",
                       "variant": "declaration",
                       "kind": 1024,
@@ -3106,13 +3084,13 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "target": 139,
+                        "target": 138,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }
                     },
                     {
-                      "id": 138,
+                      "id": 137,
                       "name": "xxlarge",
                       "variant": "declaration",
                       "kind": 1024,
@@ -3127,7 +3105,7 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "target": 139,
+                        "target": 138,
                         "name": "BreakpointRange",
                         "package": "typedoc"
                       }
@@ -3137,11 +3115,11 @@
                     {
                       "title": "Properties",
                       "children": [
-                        136,
                         135,
                         134,
-                        137,
-                        138
+                        133,
+                        136,
+                        137
                       ]
                     }
                   ],
@@ -3163,13 +3141,13 @@
         {
           "title": "Interfaces",
           "children": [
-            139
+            138
           ]
         },
         {
           "title": "Functions",
           "children": [
-            131
+            130
           ]
         }
       ],
@@ -3188,8 +3166,8 @@
       "title": "Modules",
       "children": [
         1,
-        116,
-        130
+        115,
+        129
       ]
     }
   ],
@@ -3513,7 +3491,7 @@
     },
     "80": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "merged"
+      "qualifiedName": "merged.nsFn"
     },
     "81": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3521,7 +3499,7 @@
     },
     "82": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "merged.nsFn"
+      "qualifiedName": "variableFunction"
     },
     "83": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3529,15 +3507,15 @@
     },
     "84": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "variableFunction"
+      "qualifiedName": "someParam"
     },
     "85": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "someParam"
+      "qualifiedName": "Predicates"
     },
     "86": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "Predicates"
+      "qualifiedName": "Predicates.isString"
     },
     "87": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3545,11 +3523,11 @@
     },
     "88": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "Predicates.isString"
+      "qualifiedName": "x"
     },
     "89": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "x"
+      "qualifiedName": "Predicates.assert"
     },
     "90": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3557,11 +3535,11 @@
     },
     "91": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "Predicates.assert"
-    },
-    "92": {
-      "sourceFileName": "src/test/converter/function/function.ts",
       "qualifiedName": "x"
+    },
+    "94": {
+      "sourceFileName": "src/test/converter/function/function.ts",
+      "qualifiedName": "Predicates.isString"
     },
     "95": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3569,7 +3547,7 @@
     },
     "96": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "Predicates.isString"
+      "qualifiedName": "Predicates.assertString"
     },
     "97": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3577,7 +3555,7 @@
     },
     "98": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "Predicates.assertString"
+      "qualifiedName": "all"
     },
     "99": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3585,15 +3563,15 @@
     },
     "100": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "all"
+      "qualifiedName": "T"
     },
     "101": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "T"
+      "qualifiedName": "fn"
     },
     "102": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "fn"
+      "qualifiedName": "__type"
     },
     "103": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3601,27 +3579,27 @@
     },
     "104": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "__type"
+      "qualifiedName": "item"
     },
     "105": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "item"
+      "qualifiedName": "iterator"
     },
     "106": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "iterator"
+      "qualifiedName": "all"
     },
     "107": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "all"
+      "qualifiedName": "T"
     },
     "108": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "T"
+      "qualifiedName": "fn"
     },
     "109": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "fn"
+      "qualifiedName": "__type"
     },
     "110": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3629,11 +3607,11 @@
     },
     "111": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "__type"
+      "qualifiedName": "item"
     },
     "112": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "item"
+      "qualifiedName": "__type"
     },
     "113": {
       "sourceFileName": "src/test/converter/function/function.ts",
@@ -3641,15 +3619,15 @@
     },
     "114": {
       "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "__type"
+      "qualifiedName": "iterator"
     },
     "115": {
-      "sourceFileName": "src/test/converter/function/function.ts",
-      "qualifiedName": "iterator"
+      "sourceFileName": "src/test/converter/function/generic-function.ts",
+      "qualifiedName": ""
     },
     "116": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": ""
+      "qualifiedName": "genericFunction"
     },
     "117": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
@@ -3657,15 +3635,15 @@
     },
     "118": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "genericFunction"
+      "qualifiedName": "T"
     },
     "119": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "T"
+      "qualifiedName": "value"
     },
     "120": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "value"
+      "qualifiedName": "functionWithGenericArrayParameter"
     },
     "121": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
@@ -3673,19 +3651,19 @@
     },
     "122": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "functionWithGenericArrayParameter"
+      "qualifiedName": "T"
     },
     "123": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "T"
+      "qualifiedName": "param"
     },
     "124": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "param"
+      "qualifiedName": "params"
     },
     "125": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "params"
+      "qualifiedName": "functionWithTemplate"
     },
     "126": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
@@ -3693,19 +3671,19 @@
     },
     "127": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "functionWithTemplate"
+      "qualifiedName": "T"
     },
     "128": {
       "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "T"
+      "qualifiedName": "param"
     },
     "129": {
-      "sourceFileName": "src/test/converter/function/generic-function.ts",
-      "qualifiedName": "param"
+      "sourceFileName": "src/test/converter/function/implicit-types.ts",
+      "qualifiedName": ""
     },
     "130": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
-      "qualifiedName": ""
+      "qualifiedName": "getBreakpoints"
     },
     "131": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
@@ -3713,41 +3691,37 @@
     },
     "132": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
-      "qualifiedName": "getBreakpoints"
+      "qualifiedName": "__type"
     },
     "133": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
-      "qualifiedName": "__type"
+      "qualifiedName": "__type.small"
     },
     "134": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
-      "qualifiedName": "__type.small"
+      "qualifiedName": "__type.medium"
     },
     "135": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
-      "qualifiedName": "__type.medium"
+      "qualifiedName": "__type.large"
     },
     "136": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
-      "qualifiedName": "__type.large"
+      "qualifiedName": "__type.xlarge"
     },
     "137": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
-      "qualifiedName": "__type.xlarge"
+      "qualifiedName": "__type.xxlarge"
     },
     "138": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
-      "qualifiedName": "__type.xxlarge"
+      "qualifiedName": "BreakpointRange"
     },
     "139": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
-      "qualifiedName": "BreakpointRange"
-    },
-    "140": {
-      "sourceFileName": "src/test/converter/function/implicit-types.ts",
       "qualifiedName": "BreakpointRange.start"
     },
-    "141": {
+    "140": {
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
       "qualifiedName": "BreakpointRange.end"
     }

@@ -6,12 +6,17 @@
 -   Added special cases for converting methods which are documented as returning `this` or accepting `this` as a parameter, #2458.
     Note: This will only happen if a method is declared as `method(): this`, it will not happen if the method implicitly returns `this`
     as the compiler strips that information when creating types for a class instance.
+-   Improved handling of functions with properties. Previous TypeDoc versions would always create a separate
+    namespace for properties, now, TypeDoc will create a separate namespace if the function is declaration merged
+    with a namespace. If the properties are added via `Object.assign` or via property assignment on the function
+    TypeDoc will now instead add the properties to the function's page, #2461.
 
 ### Bug Fixes
 
 -   Navigation triangle markers should no longer display on a separate line with some font settings, #2457.
 -   `@group` and `@category` organization is now applied later to allow inherited comments to create groups/categories, #2459.
 -   Keyword syntax highlighting introduced in 0.25.4 was not always applied to keywords.
+-   If all members in a group are hidden from the page, the group will be hidden in the page index on page load.
 
 ## v0.25.4 (2023-11-26)
 

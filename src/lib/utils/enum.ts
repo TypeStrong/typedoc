@@ -22,6 +22,12 @@ export function hasAnyFlag(flags: number, check: number): boolean {
     return (flags & check) !== 0;
 }
 
+export function debugFlags(Enum: {}, flags: number): string[] {
+    return getEnumKeys(Enum).filter(
+        (key) => ((Enum as any)[key] & flags) === (Enum as any)[key],
+    );
+}
+
 // Note: String enums are not handled.
 export function getEnumKeys(Enum: {}): string[] {
     const E = Enum as any;

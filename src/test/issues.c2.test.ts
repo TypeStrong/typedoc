@@ -253,7 +253,7 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(
             query(project, "gh1483.namespaceExport").kind,
-            ReflectionKind.Function,
+            ReflectionKind.Method,
         );
         equal(
             query(project, "gh1483_2.staticMethod").kind,
@@ -373,9 +373,9 @@ describe("Issue Tests", () => {
         equal(ctor.sources?.[0]?.character, 4);
     });
 
-    it("#1651", () => {
+    it("Handles comment discovery with expando functions #1651", () => {
         const project = convert();
-        equal(project.children?.map((c) => c.name), ["bar", "bar"]);
+        equal(project.children?.map((c) => c.name), ["bar"]);
 
         equal(project.children[0].children?.map((c) => c.name), [
             "metadata",
@@ -386,10 +386,10 @@ describe("Issue Tests", () => {
             project.children[0].comment?.summary,
             project.children[0].children[0].comment?.summary,
             project.children[0].children[1].signatures![0].comment?.summary,
-            project.children[1].signatures![0].comment?.summary,
+            project.children[0].signatures![0].comment?.summary,
         ].map(Comment.combineDisplayParts);
 
-        equal(comments, ["bar", "metadata", "fn", "bar"]);
+        equal(comments, ["", "metadata", "fn", "bar"]);
     });
 
     it("#1660", () => {
@@ -1199,18 +1199,13 @@ describe("Issue Tests", () => {
 
     it("Handles function-namespaces created with Object.assign #2436", () => {
         const project = convert();
-        equal(project.children?.map((c) => c.kind), [
-            ReflectionKind.Namespace,
-            ReflectionKind.Function,
-        ]);
-        equal(
-            project.children[0].getChildByName("bar")?.kind,
-            ReflectionKind.Variable,
-        );
-        equal(
-            project.children[0].getChildByName("foo")?.kind,
-            ReflectionKind.Function,
-        );
+        equal(query(project, "bug").kind, ReflectionKind.Function);
+        const foo = query(project, "bug.foo");
+        const bar = query(project, "bug.bar");
+        // It'd be kind of nice if foo became a method, but the symbol only has
+        // a Property flag, and there are other nicer ways to formulate this that do.
+        equal(foo.kind, ReflectionKind.Property, "method");
+        equal(bar.kind, ReflectionKind.Property, "property");
     });
 
     it("Does not warn due to the diamond problem in comment discovery #2437", () => {

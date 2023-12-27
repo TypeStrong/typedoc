@@ -30,6 +30,7 @@ export class Filter extends Component {
         this.setLocalStorage(this.fromLocalStorage());
 
         style.innerHTML += `html:not(.${this.key}) .tsd-is-${this.el.name} { display: none; }\n`;
+        this.handleValueChange();
     }
 
     /**
