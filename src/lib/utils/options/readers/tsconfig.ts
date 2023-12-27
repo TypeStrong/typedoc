@@ -21,7 +21,11 @@ import {
     tsdocModifierTags,
 } from "../tsdoc-defaults";
 import { unique } from "../../array";
-import { findTsConfigFile, readTsConfig } from "../../tsconfig";
+import {
+    findTsConfigFile,
+    getTypeDocOptionsFromTsConfig,
+    readTsConfig,
+} from "../../tsconfig";
 
 function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
     return (
@@ -95,8 +99,11 @@ export class TSConfigReader implements OptionsReader {
         }
 
         logger.diagnostics(parsed.errors);
+        if (parsed.errors.length) {
+            return;
+        }
 
-        const typedocOptions = parsed.raw?.typedocOptions ?? {};
+        const typedocOptions = getTypeDocOptionsFromTsConfig(fileToRead);
         if (typedocOptions.options) {
             logger.error(
                 [

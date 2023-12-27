@@ -14,6 +14,7 @@
 ### Bug Fixes
 
 -   Type parameters will now be resolved for arrow-methods on classes like regular class methods, #2320.
+-   TypeDoc now inherits `typedocOptions` fields from extended tsconfig files, #2334.
 -   Methods which return function types no longer have duplicated comments, #2336.
 -   Comments on function-like type aliases will now show up under the type alias, rather than nested within the type declaration, #2372.
 -   Fix crash when converting some complicated union/intersection types, #2451.

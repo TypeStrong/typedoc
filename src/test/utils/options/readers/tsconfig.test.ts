@@ -91,6 +91,24 @@ describe("Options - TSConfigReader", () => {
         equal(logger.hasErrors(), false);
     });
 
+    it("Reads typedocOptions from extended tsconfig files", async () => {
+        const project = tempdirProject();
+        project.addFile("file.ts", "export const abc = 123");
+        project.addJsonFile("tsconfig.json", {
+            extends: ["./base.tsconfig.json"],
+            files: ["./file.ts"],
+            typedocOptions: { plugin: ["a"] },
+        });
+        project.addJsonFile("base.tsconfig.json", {
+            typedocOptions: { name: "a", plugin: ["b"] },
+        });
+
+        await readWithProject(project);
+        logger.expectNoOtherMessages();
+        equal(options.getValue("name"), "a");
+        equal(options.getValue("plugin"), ["a"]);
+    });
+
     async function readTsconfig(tsconfig: object) {
         const project = tempdirProject();
         project.addFile("file.ts", "export const abc = 123");

@@ -8,7 +8,6 @@
 
         "noImplicitAny": false,
 
-        // See #1524. We might force this to false eventually.
         "skipLibCheck": true
     },
     "typedocOptions": {
