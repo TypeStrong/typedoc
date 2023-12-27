@@ -120,6 +120,19 @@ describe("Issue Tests", () => {
         ok(nsFoo.children?.find((r) => r.name === "x"));
     });
 
+    it("Supports computed names #941", () => {
+        const project = convert();
+        const obj = query(project, "Obj");
+        equal(
+            obj.type?.visit({
+                reflection(r) {
+                    return r.declaration.children?.map((c) => c.name);
+                },
+            }),
+            ["[propertyName2]", "p1"],
+        );
+    });
+
     it("#1124", () => {
         const project = convert();
         equal(
