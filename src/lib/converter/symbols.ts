@@ -748,10 +748,31 @@ function convertArrowAsMethod(
 
     const rc = context.withScope(reflection);
 
-    const signature = context.checker.getSignatureFromDeclaration(arrow);
-    assert(signature);
+    const locationDeclaration =
+        symbol.parent
+            ?.getDeclarations()
+            ?.find(
+                (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d),
+            ) ??
+        symbol.parent?.getDeclarations()?.[0]?.getSourceFile() ??
+        symbol.getDeclarations()?.[0]?.getSourceFile();
+    assert(locationDeclaration, "Missing declaration context");
 
-    createSignature(rc, ReflectionKind.CallSignature, signature, symbol, arrow);
+    const type = context.checker.getTypeOfSymbolAtLocation(
+        symbol,
+        locationDeclaration,
+    );
+
+    const signatures = type.getNonNullableType().getCallSignatures();
+    assert(signatures.length, "Missing signatures");
+
+    createSignature(
+        rc,
+        ReflectionKind.CallSignature,
+        signatures[0],
+        symbol,
+        arrow,
+    );
 }
 
 function convertConstructor(context: Context, symbol: ts.Symbol) {

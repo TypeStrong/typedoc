@@ -1123,6 +1123,13 @@ describe("Issue Tests", () => {
         equal(tp.flags.isConst, true);
     });
 
+    it("Uses type parameters from parent class in arrow-methods, #2320", () => {
+        const project = convert();
+        const arrow = querySig(project, "ResolvedSubclass.arrowFunction");
+
+        equal(arrow.typeParameters![0].type?.toString(), '"one" | "two"');
+    });
+
     it("Handles comments with nested methods #2336", () => {
         const project = convert();
 
