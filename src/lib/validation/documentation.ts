@@ -56,6 +56,24 @@ export function validateDocumentation(
             }
         }
 
+        // Type aliases own their comments, even if they're function-likes.
+        // So if we're a type literal owned by a type alias, don't do anything.
+        if (
+            ref.kindOf(ReflectionKind.TypeLiteral) &&
+            ref.parent?.kindOf(ReflectionKind.TypeAlias)
+        ) {
+            toProcess.push(ref.parent);
+            continue;
+        }
+        // Ditto for signatures on type aliases.
+        if (
+            ref.kindOf(ReflectionKind.CallSignature) &&
+            ref.parent?.parent?.kindOf(ReflectionKind.TypeAlias)
+        ) {
+            toProcess.push(ref.parent.parent);
+            continue;
+        }
+
         if (ref instanceof DeclarationReflection) {
             const signatures =
                 ref.type instanceof ReflectionType
@@ -63,12 +81,10 @@ export function validateDocumentation(
                     : ref.getNonIndexSignatures();
 
             if (signatures.length) {
-                // We maybe used to have a comment, but the comment plugin has removed it.
-                // See CommentPlugin.onResolve. We've been asked to validate this reflection,
-                // (it's probably a type alias) so we should validate that signatures all have
-                // comments, but we shouldn't produce a warning here.
+                // We've been asked to validate this reflection, so we should validate that
+                // signatures all have comments, but we'll still have a comment here because
+                // type aliases always have their own comment.
                 toProcess.push(...signatures);
-                continue;
             }
         }
 
@@ -80,7 +96,9 @@ export function validateDocumentation(
             }
 
             logger.warn(
-                `${ref.getFriendlyFullName()}, defined in ${nicePath(
+                `${ref.getFriendlyFullName()} (${
+                    ReflectionKind[ref.kind]
+                }), defined in ${nicePath(
                     symbolId.fileName,
                 )}, does not have any documentation.`,
             );

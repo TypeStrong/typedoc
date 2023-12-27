@@ -414,8 +414,6 @@ describe("Issue Tests", () => {
     it("#1734", () => {
         const project = convert();
         const alias = query(project, "Foo");
-        const type = alias.type;
-        ok(type instanceof ReflectionType);
 
         const expectedComment = new Comment();
         expectedComment.blockTags = [
@@ -423,7 +421,7 @@ describe("Issue Tests", () => {
                 { kind: "text", text: "Some example text" },
             ]),
         ];
-        equal(type.declaration.signatures?.[0].comment, expectedComment);
+        equal(alias.comment, expectedComment);
     });
 
     it("#1745", () => {
@@ -565,12 +563,9 @@ describe("Issue Tests", () => {
         equal(Type1.type?.type, "reflection" as const);
         equal(Type2.type?.type, "reflection" as const);
 
+        equal(Type1.comment, new Comment([{ kind: "text", text: "On Tag" }]));
         equal(
-            Type1.type.declaration.signatures?.[0].comment,
-            new Comment([{ kind: "text", text: "On Tag" }]),
-        );
-        equal(
-            Type2.type.declaration.signatures?.[0].comment,
+            Type2.comment,
             new Comment([{ kind: "text", text: "Some type 2." }]),
         );
     });
@@ -579,7 +574,7 @@ describe("Issue Tests", () => {
         const project = convert();
         app.validate(project);
         logger.expectMessage(
-            "warn: UnDocFn.__type, defined in */gh1898.ts, does not have any documentation.",
+            "warn: UnDocFn (TypeAlias), defined in */gh1898.ts, does not have any documentation.",
         );
     });
 
@@ -1164,6 +1159,22 @@ describe("Issue Tests", () => {
             (c) => c.name == "NS2" && c.kind == ReflectionKind.Namespace,
         );
         equal(ns?.children?.map((c) => c.name), ["property"]);
+    });
+
+    it("Puts delegate type alias comments on the type alias #2372", () => {
+        const project = convert();
+        equal(
+            getComment(project, "EventHandler"),
+            "The signature for a function acting as an event handler.",
+        );
+
+        const typeSig = query(project, "EventHandler").type?.visit({
+            reflection(r) {
+                return r.declaration.signatures![0];
+            },
+        });
+
+        equal(Comment.combineDisplayParts(typeSig?.comment?.summary), "");
     });
 
     it("Handles spaces in JSDoc default parameter names #2384", () => {

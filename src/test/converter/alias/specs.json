@@ -165,6 +165,14 @@
       "variant": "declaration",
       "kind": 2097152,
       "flags": {},
+      "comment": {
+        "summary": [
+          {
+            "kind": "text",
+            "text": "A type that describes a compare function, e.g. for array.sort()."
+          }
+        ]
+      },
       "sources": [
         {
           "fileName": "alias.ts",
@@ -205,14 +213,6 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "A type that describes a compare function, e.g. for array.sort()."
-                  }
-                ]
-              },
               "parameters": [
                 {
                   "id": 4,

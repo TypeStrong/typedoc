@@ -387,13 +387,6 @@ export class CommentPlugin extends ConverterComponent {
             ? undefined
             : reflection.comment;
 
-        // Since this reflection has signatures, remove the comment from the parent
-        // reflection. This is important so that in type aliases we don't end up with
-        // a comment rendered twice.
-        if (!reflection.kindOf(ReflectionKind.ClassOrInterface)) {
-            delete reflection.comment;
-        }
-
         for (const signature of signatures) {
             const childComment = (signature.comment ||= comment?.clone());
             if (!childComment) continue;
@@ -449,6 +442,27 @@ export class CommentPlugin extends ConverterComponent {
             childComment?.removeTags("@param");
             childComment?.removeTags("@typeParam");
             childComment?.removeTags("@template");
+        }
+
+        // Since this reflection has signatures, we need to remove the comment from the non-primary
+        // declaration location. For functions, this means removing it from the Function reflection.
+        // For type aliases, this means removing it from reflection.type.declaration.
+        // This is important so that in type aliases we don't end up with a comment rendered twice.
+        if (
+            reflection.kindOf(
+                ReflectionKind.FunctionOrMethod | ReflectionKind.Constructor,
+            )
+        ) {
+            delete reflection.comment;
+        }
+        if (reflection.kindOf(ReflectionKind.TypeAlias)) {
+            reflection.comment?.removeTags("@param");
+            reflection.comment?.removeTags("@typeParam");
+            reflection.comment?.removeTags("@template");
+
+            for (const sig of signatures) {
+                delete sig.comment;
+            }
         }
     }
 

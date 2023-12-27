@@ -1231,6 +1231,14 @@
       "variant": "declaration",
       "kind": 2097152,
       "flags": {},
+      "comment": {
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Any constructor function"
+          }
+        ]
+      },
       "sources": [
         {
           "fileName": "mixin.ts",
@@ -1275,14 +1283,6 @@
               "variant": "signature",
               "kind": 16384,
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Any constructor function"
-                  }
-                ]
-              },
               "parameters": [
                 {
                   "id": 9,
@@ -1318,6 +1318,14 @@
       "variant": "declaration",
       "kind": 2097152,
       "flags": {},
+      "comment": {
+        "summary": [
+          {
+            "kind": "text",
+            "text": "Any function"
+          }
+        ]
+      },
       "sources": [
         {
           "fileName": "mixin.ts",
@@ -1362,14 +1370,6 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Any function"
-                  }
-                ]
-              },
               "parameters": [
                 {
                   "id": 4,

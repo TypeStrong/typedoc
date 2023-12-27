@@ -172,7 +172,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Function"]);
 
         logger.expectMessage(
-            "warn: bar, defined in */function.ts, does not have any documentation.",
+            "warn: bar (CallSignature), defined in */function.ts, does not have any documentation.",
         );
         logger.expectNoOtherMessages();
     });
@@ -183,7 +183,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Accessor"]);
 
         logger.expectMessage(
-            "warn: Foo.foo, defined in */getSignature.ts, does not have any documentation.",
+            "warn: Foo.foo (GetSignature), defined in */getSignature.ts, does not have any documentation.",
         );
         logger.expectNoOtherMessages();
     });
@@ -194,7 +194,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Constructor"]);
 
         logger.expectMessage(
-            "warn: Foo.constructor, defined in */class.ts, does not have any documentation.",
+            "warn: Foo.constructor (ConstructorSignature), defined in */class.ts, does not have any documentation.",
         );
         logger.expectNoOtherMessages();
     });
@@ -205,7 +205,7 @@ describe("validateDocumentation", () => {
         validateDocumentation(project, logger, ["Method"]);
 
         logger.expectMessage(
-            "warn: Foo.method, defined in */interface.ts, does not have any documentation.",
+            "warn: Foo.method (CallSignature), defined in */interface.ts, does not have any documentation.",
         );
         logger.expectNoOtherMessages();
     });

@@ -685,6 +685,14 @@
           "variant": "declaration",
           "kind": 2097152,
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "even though in the same comment block"
+              }
+            ]
+          },
           "sources": [
             {
               "fileName": "index.js",
@@ -716,14 +724,6 @@
                   "variant": "signature",
                   "kind": 4096,
                   "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "even though in the same comment block"
-                      }
-                    ]
-                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
