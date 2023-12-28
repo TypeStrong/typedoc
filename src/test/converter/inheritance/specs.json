@@ -744,7 +744,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "target": -1,
+                "target": 33,
                 "name": "My.instanceProp"
               }
             },
@@ -801,7 +801,7 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "target": 31,
+              "target": 32,
               "name": "My",
               "package": "typedoc"
             }
@@ -855,6 +855,13 @@
               "character": 21,
               "url": "typedoc://mergable-class.ts#L10"
             }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "target": 34,
+              "name": "MySubClass"
+            }
           ]
         },
         {
@@ -895,7 +902,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": 31,
+                    "target": 32,
                     "name": "My",
                     "package": "typedoc"
                   }
@@ -970,14 +977,7 @@
             "target": 27,
             "name": "MyCtor",
             "package": "typedoc"
-          },
-          "extendedBy": [
-            {
-              "type": "reference",
-              "target": 34,
-              "name": "MySubClass"
-            }
-          ]
+          }
         }
       ],
       "groups": [

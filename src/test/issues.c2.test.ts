@@ -928,6 +928,17 @@ describe("Issue Tests", () => {
         );
     });
 
+    it("Handles types/values with same name #2106", () => {
+        const project = convert();
+        const balance = querySig(project, "balance");
+        equal(balance.type?.type, "reference");
+        equal(balance.type.reflection?.kind, ReflectionKind.Interface);
+
+        const TypeOf = query(project, "TypeOf");
+        equal(TypeOf.type?.type, "query");
+        equal(TypeOf.type.queryType.reflection?.kind, ReflectionKind.Variable);
+    });
+
     it("#2135", () => {
         const project = convert();
         const hook = query(project, "Camera.useCameraPermissions");

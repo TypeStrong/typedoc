@@ -8,6 +8,7 @@ import { getQualifiedName } from "../utils/tsutils";
 import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId";
 import type { DeclarationReference } from "../converter/comments/declarationReference";
 import { findPackageForPath } from "../utils/fs";
+import { ReflectionKind } from "./reflections/kind";
 
 /**
  * Base class of all type definitions.
@@ -798,8 +799,21 @@ export class ReferenceType extends Type {
         if (typeof this._target === "number") {
             return this._project?.getReflectionById(this._target);
         }
-        const resolved = this._project?.getReflectionFromSymbolId(this._target);
-        if (resolved) this._target = resolved.id;
+        const resolvePotential = this._project?.getReflectionsFromSymbolId(
+            this._target,
+        );
+        if (!resolvePotential?.length) {
+            return;
+        }
+
+        const kind = this.preferValues
+            ? ReflectionKind.ValueReferenceTarget
+            : ReflectionKind.TypeReferenceTarget;
+
+        const resolved =
+            resolvePotential.find((refl) => refl.kindOf(kind)) ||
+            resolvePotential.find((refl) => refl.kindOf(~kind))!;
+        this._target = resolved.id;
         return resolved;
     }
 
@@ -858,6 +872,12 @@ export class ReferenceType extends Type {
      * be registered on the project.
      */
     refersToTypeParameter = false;
+
+    /**
+     * If set, will prefer reflections with {@link ReflectionKind | ReflectionKinds} which represent
+     * values rather than those which represent types.
+     */
+    preferValues = false;
 
     private _target: ReflectionSymbolId | number;
     private _project: ProjectReflection | null;
@@ -984,6 +1004,10 @@ export class ReferenceType extends Type {
             result.refersToTypeParameter = true;
         }
 
+        if (typeof this._target !== "number" && this.preferValues) {
+            result.preferValues = true;
+        }
+
         return result;
     }
 
@@ -1015,6 +1039,7 @@ export class ReferenceType extends Type {
         this.qualifiedName = obj.qualifiedName ?? obj.name;
         this.package = obj.package;
         this.refersToTypeParameter = !!obj.refersToTypeParameter;
+        this.preferValues = !!obj.preferValues;
     }
 }
 

@@ -292,6 +292,7 @@ export interface ReferenceType
     target: number | ReflectionSymbolId;
     qualifiedName?: string;
     refersToTypeParameter?: boolean;
+    preferValues?: boolean;
 }
 
 /** @category Types */

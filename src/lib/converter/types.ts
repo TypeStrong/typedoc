@@ -666,13 +666,13 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
             );
         }
 
-        return new QueryType(
-            ReferenceType.createSymbolReference(
-                context.resolveAliasedSymbol(querySymbol),
-                context,
-                node.exprName.getText(),
-            ),
+        const ref = ReferenceType.createSymbolReference(
+            context.resolveAliasedSymbol(querySymbol),
+            context,
+            node.exprName.getText(),
         );
+        ref.preferValues = true;
+        return new QueryType(ref);
     },
     convertType(context, type, node) {
         const symbol =
@@ -683,12 +683,12 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
                 type,
             )}. This is a bug.`,
         );
-        return new QueryType(
-            ReferenceType.createSymbolReference(
-                context.resolveAliasedSymbol(symbol),
-                context,
-            ),
+        const ref = ReferenceType.createSymbolReference(
+            context.resolveAliasedSymbol(symbol),
+            context,
         );
+        ref.preferValues = true;
+        return new QueryType(ref);
     },
 };
 

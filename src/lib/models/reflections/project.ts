@@ -26,8 +26,10 @@ export class ProjectReflection extends ContainerReflection {
     readonly variant = "project";
 
     // Used to resolve references.
-    private symbolToReflectionIdMap: Map<ReflectionSymbolId, number> =
-        new StableKeyMap();
+    private symbolToReflectionIdMap: Map<
+        ReflectionSymbolId,
+        number | number[]
+    > = new StableKeyMap();
 
     private reflectionIdToSymbolIdMap = new Map<number, ReflectionSymbolId>();
 
@@ -100,13 +102,8 @@ export class ProjectReflection extends ContainerReflection {
         this.reflections[reflection.id] = reflection;
 
         if (symbol) {
-            const id = new ReflectionSymbolId(symbol);
-            this.symbolToReflectionIdMap.set(
-                id,
-                this.symbolToReflectionIdMap.get(id) ?? reflection.id,
-            );
-            this.reflectionIdToSymbolIdMap.set(reflection.id, id);
             this.reflectionIdToSymbolMap.set(reflection.id, symbol);
+            this.registerSymbolId(reflection, new ReflectionSymbolId(symbol));
         }
     }
 
@@ -212,8 +209,11 @@ export class ProjectReflection extends ContainerReflection {
         const symbol = this.reflectionIdToSymbolMap.get(reflection.id);
         if (symbol) {
             const id = new ReflectionSymbolId(symbol);
-            if (this.symbolToReflectionIdMap.get(id) === reflection.id) {
+            const saved = this.symbolToReflectionIdMap.get(id);
+            if (saved === reflection.id) {
                 this.symbolToReflectionIdMap.delete(id);
+            } else if (typeof saved === "object") {
+                removeIfPresent(saved, reflection.id);
             }
         }
 
@@ -239,13 +239,25 @@ export class ProjectReflection extends ContainerReflection {
 
     /**
      * Gets the reflection associated with the given symbol id, if it exists.
+     * If there are multiple reflections associated with this symbol, gets the first one.
      * @internal
      */
-    getReflectionFromSymbolId(symbolId: ReflectionSymbolId) {
+    getReflectionFromSymbolId(
+        symbolId: ReflectionSymbolId,
+    ): Reflection | undefined {
+        return this.getReflectionsFromSymbolId(symbolId)[0];
+    }
+
+    /** @internal */
+    getReflectionsFromSymbolId(symbolId: ReflectionSymbolId) {
         const id = this.symbolToReflectionIdMap.get(symbolId);
         if (typeof id === "number") {
-            return this.getReflectionById(id);
+            return [this.getReflectionById(id)!];
+        } else if (typeof id === "object") {
+            return id.map((id) => this.getReflectionById(id)!);
         }
+
+        return [];
     }
 
     /** @internal */
@@ -256,7 +268,15 @@ export class ProjectReflection extends ContainerReflection {
     /** @internal */
     registerSymbolId(reflection: Reflection, id: ReflectionSymbolId) {
         this.reflectionIdToSymbolIdMap.set(reflection.id, id);
-        if (!this.symbolToReflectionIdMap.has(id)) {
+
+        const previous = this.symbolToReflectionIdMap.get(id);
+        if (previous) {
+            if (typeof previous === "number") {
+                this.symbolToReflectionIdMap.set(id, [previous, reflection.id]);
+            } else {
+                previous.push(reflection.id);
+            }
+        } else {
             this.symbolToReflectionIdMap.set(id, reflection.id);
         }
     }

@@ -103,6 +103,21 @@ export namespace ReflectionKind {
         ReflectionKind.Function |
         ReflectionKind.Method;
 
+    // The differences between Type/Value here only really matter for
+    // possibly merged declarations where we have multiple reflections.
+    /** @internal */
+    export const TypeReferenceTarget =
+        ReflectionKind.Interface |
+        ReflectionKind.TypeAlias |
+        ReflectionKind.Class |
+        ReflectionKind.Enum;
+    /** @internal */
+    export const ValueReferenceTarget =
+        ReflectionKind.Module |
+        ReflectionKind.Namespace |
+        ReflectionKind.Variable |
+        ReflectionKind.Function;
+
     /**
      * Note: This does not include Class/Interface, even though they technically could contain index signatures
      * @internal
