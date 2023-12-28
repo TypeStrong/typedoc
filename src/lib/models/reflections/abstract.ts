@@ -483,7 +483,7 @@ export abstract class Reflection {
         this.visit({
             declaration(decl) {
                 if (
-                    decl.signatures &&
+                    decl.signatures?.length &&
                     decl.signatures.every(
                         (sig) => sig.comment?.getTag("@deprecated"),
                     )

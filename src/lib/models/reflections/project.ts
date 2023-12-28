@@ -135,6 +135,9 @@ export class ProjectReflection extends ContainerReflection {
                     parent.children,
                     reflection as DeclarationReflection,
                 );
+                if (!parent.children?.length) {
+                    delete parent.children;
+                }
             } else if (property === TraverseProperty.GetSignature) {
                 delete parent.getSignature;
             } else if (property === TraverseProperty.IndexSignature) {
@@ -144,6 +147,13 @@ export class ProjectReflection extends ContainerReflection {
                     (reflection.parent as SignatureReflection).parameters,
                     reflection as ParameterReflection,
                 );
+                if (
+                    !(reflection.parent as SignatureReflection).parameters
+                        ?.length
+                ) {
+                    delete (reflection.parent as SignatureReflection)
+                        .parameters;
+                }
             } else if (property === TraverseProperty.SetSignature) {
                 delete parent.setSignature;
             } else if (property === TraverseProperty.Signatures) {
@@ -151,6 +161,9 @@ export class ProjectReflection extends ContainerReflection {
                     parent.signatures,
                     reflection as SignatureReflection,
                 );
+                if (!parent.signatures?.length) {
+                    delete parent.signatures;
+                }
             } else if (property === TraverseProperty.TypeLiteral) {
                 parent.type = new IntrinsicType("Object");
             } else if (property === TraverseProperty.TypeParameter) {
@@ -158,6 +171,9 @@ export class ProjectReflection extends ContainerReflection {
                     parent.typeParameters,
                     reflection as TypeParameterReflection,
                 );
+                if (!parent.typeParameters?.length) {
+                    delete parent.typeParameters;
+                }
             }
 
             return false; // Stop iteration
