@@ -14,6 +14,7 @@
 ### Bug Fixes
 
 -   `notDocumented` validation will no longer require documentation for data within parameters that cannot be documented via `@param`, #2291.
+-   "defined in" locations for signatures will now always be contained within the function declaration's location. This prevents defined in sometimes pointing to node_modules, #2307.
 -   Type parameters will now be resolved for arrow-methods on classes like regular class methods, #2320.
 -   TypeDoc now inherits `typedocOptions` fields from extended tsconfig files, #2334.
 -   Methods which return function types no longer have duplicated comments, #2336.

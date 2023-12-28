@@ -585,9 +585,9 @@
                             "sources": [
                               {
                                 "fileName": "mixin.ts",
-                                "line": 9,
-                                "character": 41,
-                                "url": "typedoc://mixin.ts#L9"
+                                "line": 34,
+                                "character": 10,
+                                "url": "typedoc://mixin.ts#L34"
                               }
                             ],
                             "parameters": [
@@ -1656,9 +1656,9 @@
                       "sources": [
                         {
                           "fileName": "mixin.ts",
-                          "line": 9,
-                          "character": 41,
-                          "url": "typedoc://mixin.ts#L9"
+                          "line": 34,
+                          "character": 10,
+                          "url": "typedoc://mixin.ts#L34"
                         }
                       ],
                       "parameters": [
@@ -1852,9 +1852,9 @@
                       "sources": [
                         {
                           "fileName": "mixin.ts",
-                          "line": 9,
-                          "character": 41,
-                          "url": "typedoc://mixin.ts#L9"
+                          "line": 54,
+                          "character": 10,
+                          "url": "typedoc://mixin.ts#L54"
                         }
                       ],
                       "parameters": [
@@ -2041,9 +2041,9 @@
                       "sources": [
                         {
                           "fileName": "mixin.ts",
-                          "line": 9,
-                          "character": 41,
-                          "url": "typedoc://mixin.ts#L9"
+                          "line": 74,
+                          "character": 10,
+                          "url": "typedoc://mixin.ts#L74"
                         }
                       ],
                       "parameters": [

@@ -1143,6 +1143,21 @@ describe("Issue Tests", () => {
         equal(tp.flags.isConst, true);
     });
 
+    it("Detects source locations coming from types and prefers value declarations, #2307", () => {
+        const project = convert();
+
+        const getLines = (name: string) => {
+            const refl = query(project, name);
+            return refl.signatures?.flatMap((sig) =>
+                sig.sources!.map((src) => src.line),
+            );
+        };
+
+        equal(getLines("double"), [3]);
+        equal(getLines("foo"), [5]);
+        equal(getLines("all"), [8, 9]);
+    });
+
     it("Uses type parameters from parent class in arrow-methods, #2320", () => {
         const project = convert();
         const arrow = querySig(project, "ResolvedSubclass.arrowFunction");

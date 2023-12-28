@@ -183,6 +183,10 @@ export class SourcePlugin extends ConverterComponent {
                 continue;
             }
 
+            if (replaceSourcesWithParentSources(refl)) {
+                refl.sources = (refl.parent as DeclarationReflection).sources;
+            }
+
             for (const source of refl.sources || []) {
                 if (this.disableGit || gitIsInstalled()) {
                     const repo = this.getRepository(
@@ -254,4 +258,40 @@ export class SourcePlugin extends ConverterComponent {
 function getLocationNode(node: ts.Node) {
     if (isNamedNode(node)) return node.name;
     return node;
+}
+
+function replaceSourcesWithParentSources(
+    refl: SignatureReflection | DeclarationReflection,
+) {
+    if (refl instanceof DeclarationReflection || !refl.sources) {
+        return false;
+    }
+
+    if (refl.name === "privateArrow") {
+        console.log("privateArrow");
+    }
+
+    const symbol = refl.project.getSymbolFromReflection(refl.parent);
+    if (!symbol?.declarations) {
+        return false;
+    }
+
+    for (const decl of symbol.declarations) {
+        const file = decl.getSourceFile();
+        const pos = file.getLineAndCharacterOfPosition(decl.pos);
+        const end = file.getLineAndCharacterOfPosition(decl.end);
+
+        if (
+            refl.sources.some(
+                (src) =>
+                    src.fullFileName === file.fileName &&
+                    pos.line <= src.line - 1 &&
+                    src.line - 1 <= end.line,
+            )
+        ) {
+            return false;
+        }
+    }
+
+    return true;
 }

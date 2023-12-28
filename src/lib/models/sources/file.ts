@@ -19,7 +19,7 @@ export class SourceReference {
     fullFileName: string;
 
     /**
-     * The number of the line that emitted the declaration.
+     * The one based number of the line that emitted the declaration.
      */
     line: number;
 

@@ -894,9 +894,9 @@
               "sources": [
                 {
                   "fileName": "index.js",
-                  "line": 49,
-                  "character": 3,
-                  "url": "typedoc://index.js#L49"
+                  "line": 55,
+                  "character": 13,
+                  "url": "typedoc://index.js#L55"
                 }
               ],
               "parameters": [
