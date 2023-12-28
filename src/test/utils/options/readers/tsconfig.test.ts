@@ -12,14 +12,22 @@ describe("Options - TSConfigReader", () => {
     options.addReader(new TSConfigReader());
     const logger = new TestLogger();
 
-    async function readWithProject(project: Project, reset = true) {
+    async function readWithProject(
+        project: Project,
+        reset = true,
+        noErrors = true,
+    ) {
         if (reset) {
             options.reset();
         }
         logger.reset();
         options.setValue("tsconfig", project.cwd);
+        project.addFile("temp.ts", "export {}");
         project.write();
         await options.read(logger);
+        if (noErrors) {
+            logger.expectNoOtherMessages();
+        }
         project.rm();
     }
 
@@ -39,7 +47,7 @@ describe("Options - TSConfigReader", () => {
         it(name, async () => {
             const project = tempdirProject();
             project.addJsonFile("tsconfig.json", file);
-            await readWithProject(project);
+            await readWithProject(project, true, false);
             equal(logger.hasErrors(), true, "No error was logged");
         });
     }
@@ -69,7 +77,7 @@ describe("Options - TSConfigReader", () => {
     it("Errors if a tsconfig file cannot be parsed", async () => {
         const project = tempdirProject();
         project.addFile("tsconfig.json", '{"test}');
-        await readWithProject(project);
+        await readWithProject(project, true, false);
         logger.expectMessage("error: *");
     });
 
@@ -164,7 +172,7 @@ describe("Options - TSConfigReader", () => {
         project.addJsonFile("tsconfig.json", {});
         project.addJsonFile("tsdoc.json", tsdoc);
 
-        await readWithProject(project, reset);
+        await readWithProject(project, reset, false);
         cb?.();
         logger.expectNoOtherMessages();
     }

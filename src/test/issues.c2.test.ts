@@ -1125,6 +1125,13 @@ describe("Issue Tests", () => {
         );
     });
 
+    it("Does not warn on notDocumented edge case #2291", () => {
+        app.options.setValue("validation", { notDocumented: true });
+        const project = convert();
+        app.validate(project);
+        logger.expectNoOtherMessages();
+    });
+
     it("Supports TS 5.0 #2296", () => {
         const project = convert();
         const names = query(project, "names");

@@ -43,17 +43,13 @@ export function validateDocumentation(
         if (seen.has(ref)) continue;
         seen.add(ref);
 
-        // If there is a parameter inside another parameter, this is probably a callback function.
-        // TypeDoc doesn't support adding comments with @param to nested parameters, so it seems
-        // silly to warn about these.
-        if (ref.kindOf(ReflectionKind.Parameter)) {
-            let r: Reflection | undefined = ref.parent;
-            while (r) {
-                if (r.kindOf(ReflectionKind.Parameter)) {
-                    continue outer;
-                }
-                r = r.parent;
+        // If we're a non-parameter inside a parameter, we shouldn't care. Parameters don't get deeply documented
+        let r: Reflection | undefined = ref.parent;
+        while (r) {
+            if (r.kindOf(ReflectionKind.Parameter)) {
+                continue outer;
             }
+            r = r.parent;
         }
 
         // Type aliases own their comments, even if they're function-likes.
