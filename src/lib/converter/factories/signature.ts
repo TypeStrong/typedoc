@@ -214,6 +214,7 @@ function convertParameters(
         }
 
         paramRefl.setFlag(ReflectionFlag.Rest, isRest);
+        checkForDestructuredParameterDefaults(paramRefl, parameterNodes?.[i]);
         return paramRefl;
     });
 }
@@ -261,8 +262,29 @@ export function convertParameterNodes(
                 : !!param.typeExpression &&
                       ts.isJSDocVariadicType(param.typeExpression.type),
         );
+        checkForDestructuredParameterDefaults(paramRefl, param);
         return paramRefl;
     });
+}
+
+function checkForDestructuredParameterDefaults(
+    param: ParameterReflection,
+    decl: ts.ParameterDeclaration | ts.JSDocParameterTag | undefined,
+) {
+    if (!decl || !ts.isParameter(decl)) return;
+    if (param.name !== "__namedParameters") return;
+    if (!ts.isObjectBindingPattern(decl.name)) return;
+    if (param.type?.type !== "reflection") return;
+
+    for (const child of param.type.declaration.children || []) {
+        const tsChild = decl.name.elements.find(
+            (el) => (el.propertyName || el.name).getText() === child.name,
+        );
+
+        if (tsChild) {
+            child.defaultValue = convertDefaultValue(tsChild);
+        }
+    }
 }
 
 function convertTypeParameters(

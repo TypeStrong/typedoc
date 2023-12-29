@@ -1276,6 +1276,25 @@ describe("Issue Tests", () => {
         );
     });
 
+    it("Handles destructured object parameter defaults, #2430", () => {
+        const project = convert();
+        const Checkbox = querySig(project, "Checkbox");
+        equal(Checkbox.parameters?.length, 1);
+        equal(Checkbox.parameters[0].name, "props");
+        const type = Checkbox.parameters[0].type;
+        equal(type?.type, "reflection");
+        equal(type.declaration.children?.map((c) => c.name), [
+            "falseValue",
+            "trueValue",
+            "value",
+        ]);
+        equal(type.declaration.children?.map((c) => c.defaultValue), [
+            "false",
+            "true",
+            undefined,
+        ]);
+    });
+
     it("Handles function-namespaces created with Object.assign #2436", () => {
         const project = convert();
         equal(query(project, "bug").kind, ReflectionKind.Function);

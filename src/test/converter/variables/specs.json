@@ -687,7 +687,8 @@
                                 "name": "boolean"
                               }
                             ]
-                          }
+                          },
+                          "defaultValue": "false"
                         },
                         {
                           "id": 21,
@@ -716,7 +717,8 @@
                                 ]
                               }
                             ]
-                          }
+                          },
+                          "defaultValue": "..."
                         },
                         {
                           "id": 20,
@@ -736,7 +738,8 @@
                                 "name": "string"
                               }
                             ]
-                          }
+                          },
+                          "defaultValue": "\"\""
                         }
                       ],
                       "groups": [

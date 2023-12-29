@@ -20,6 +20,7 @@
 -   TypeDoc now inherits `typedocOptions` fields from extended tsconfig files, #2334.
 -   Methods which return function types no longer have duplicated comments, #2336.
 -   Comments on function-like type aliases will now show up under the type alias, rather than nested within the type declaration, #2372.
+-   Improved detection of default values for parameters with destructured values, #2430.
 -   Fix crash when converting some complicated union/intersection types, #2451.
 -   Navigation triangle markers should no longer display on a separate line with some font settings, #2457.
 -   `@group` and `@category` organization is now applied later to allow inherited comments to create groups/categories, #2459.
