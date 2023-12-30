@@ -21,6 +21,7 @@ import {
     removeIfPresent,
     unique,
     partition,
+    removeIf,
 } from "../../utils";
 import { CategoryPlugin } from "./CategoryPlugin";
 
@@ -388,6 +389,7 @@ export class CommentPlugin extends ConverterComponent {
             : reflection.comment;
 
         for (const signature of signatures) {
+            const signatureHadOwnComment = !!signature.comment;
             const childComment = (signature.comment ||= comment?.clone());
             if (!childComment) continue;
 
@@ -405,7 +407,6 @@ export class CommentPlugin extends ConverterComponent {
                     }
                 }
 
-                moveNestedParamTags(childComment, parameter);
                 const tag = childComment.getIdentifiedTag(
                     parameter.name,
                     "@param",
@@ -438,6 +439,13 @@ export class CommentPlugin extends ConverterComponent {
                     );
                 }
             }
+
+            this.validateParamTags(
+                signature,
+                childComment,
+                signature.parameters || [],
+                signatureHadOwnComment,
+            );
 
             childComment?.removeTags("@param");
             childComment?.removeTags("@typeParam");
@@ -590,6 +598,33 @@ export class CommentPlugin extends ConverterComponent {
 
         return excludeCategories.some((cat) => categories.has(cat));
     }
+
+    private validateParamTags(
+        signature: SignatureReflection,
+        comment: Comment,
+        params: ParameterReflection[],
+        signatureHadOwnComment: boolean,
+    ) {
+        const paramTags = comment.blockTags.filter(
+            (tag) => tag.tag === "@param",
+        );
+
+        removeIf(paramTags, (tag) =>
+            params.some((param) => param.name === tag.name),
+        );
+
+        moveNestedParamTags(/* in-out */ paramTags, params);
+
+        if (signatureHadOwnComment && paramTags.length) {
+            for (const tag of paramTags) {
+                this.application.logger.warn(
+                    `The signature ${signature.getFriendlyFullName()} has an @param with name "${
+                        tag.name
+                    }", which was not used.`,
+                );
+            }
+        }
+    }
 }
 
 function inTypeLiteral(refl: Reflection | undefined) {
@@ -603,37 +638,51 @@ function inTypeLiteral(refl: Reflection | undefined) {
 }
 
 // Moves tags like `@param foo.bar docs for bar` into the `bar` property of the `foo` parameter.
-function moveNestedParamTags(comment: Comment, parameter: ParameterReflection) {
-    const visitor: Partial<TypeVisitor> = {
-        reflection(target) {
-            const tags = comment.blockTags.filter(
-                (t) =>
-                    t.tag === "@param" &&
-                    t.name?.startsWith(`${parameter.name}.`),
-            );
+function moveNestedParamTags(
+    /* in-out */ paramTags: CommentTag[],
+    parameters: ParameterReflection[],
+) {
+    const used = new Set<number>();
 
-            for (const tag of tags) {
-                const path = tag.name!.split(".");
-                path.shift();
-                const child = target.declaration.getChildByName(path);
+    for (const param of parameters) {
+        const visitor: Partial<TypeVisitor> = {
+            reflection(target) {
+                const tags = paramTags.filter(
+                    (t) => t.name?.startsWith(`${param.name}.`),
+                );
 
-                if (child && !child.comment) {
-                    child.comment = new Comment(
-                        Comment.cloneDisplayParts(tag.content),
-                    );
+                for (const tag of tags) {
+                    const path = tag.name!.split(".");
+                    path.shift();
+                    const child = target.declaration.getChildByName(path);
+
+                    if (child && !child.comment) {
+                        child.comment = new Comment(
+                            Comment.cloneDisplayParts(tag.content),
+                        );
+                        used.add(paramTags.indexOf(tag));
+                    }
                 }
-            }
-        },
-        // #1876, also do this for unions/intersections.
-        union(u) {
-            u.types.forEach((t) => t.visit(visitor));
-        },
-        intersection(i) {
-            i.types.forEach((t) => t.visit(visitor));
-        },
-    };
+            },
+            // #1876, also do this for unions/intersections.
+            union(u) {
+                u.types.forEach((t) => t.visit(visitor));
+            },
+            intersection(i) {
+                i.types.forEach((t) => t.visit(visitor));
+            },
+        };
 
-    parameter.type?.visit(visitor);
+        param.type?.visit(visitor);
+    }
+
+    const toRemove = Array.from(used)
+        .sort((a, b) => a - b)
+        .reverse();
+
+    for (const index of toRemove) {
+        paramTags.splice(index, 1);
+    }
 }
 
 function movePropertyTags(comment: Comment, container: Reflection) {

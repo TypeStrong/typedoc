@@ -2,6 +2,7 @@
 
 ## Features
 
+-   TypeDoc now provides warnings if a signature comment is directly specified on a signature and contains `@param` tags which do not apply, #2368.
 -   Extended reflection preview view for interfaces to include type parameters, #2455.
 -   Added special cases for converting methods which are documented as returning `this` or accepting `this` as a parameter, #2458.
     Note: This will only happen if a method is declared as `method(): this`, it will not happen if the method implicitly returns `this`

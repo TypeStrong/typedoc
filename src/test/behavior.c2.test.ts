@@ -1046,4 +1046,43 @@ describe("Behavior Tests", () => {
             "this",
         );
     });
+
+    it("Handles renaming of destructured parameters via @param tag name inference", () => {
+        const project = convert("destructuredParamRenames");
+
+        const params = (name: string) =>
+            querySig(project, name).parameters?.map((p) => p.name);
+
+        equal(params("functionWithADestructuredParameter"), [
+            "destructuredParam",
+        ]);
+
+        equal(params("functionWithADestructuredParameterAndExtraParameters"), [
+            "__namedParameters",
+            "extraParameter",
+        ]);
+
+        equal(
+            params(
+                "functionWithADestructuredParameterAndAnExtraParamDirective",
+            ),
+            ["__namedParameters"],
+        );
+
+        const logs = [
+            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam", which was not used.',
+            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam.paramZ", which was not used.',
+            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam.paramG", which was not used.',
+            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam.paramA", which was not used.',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "fakeParameter", which was not used.',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam", which was not used.',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam.paramZ", which was not used.',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam.paramG", which was not used.',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam.paramA", which was not used.',
+        ];
+        for (const log of logs) {
+            logger.expectMessage(log);
+        }
+        logger.expectNoOtherMessages();
+    });
 });
