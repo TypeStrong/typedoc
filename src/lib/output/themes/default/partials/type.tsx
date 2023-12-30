@@ -276,8 +276,11 @@ const typeRenderers: {
 
         if (reflection) {
             if (reflection.kindOf(ReflectionKind.TypeParameter)) {
-                // Don't generate a link as it will always point to this page.
-                name = <span class="tsd-signature-type tsd-kind-type-parameter">{reflection.name}</span>;
+                name = (
+                    <a class="tsd-signature-type tsd-kind-type-parameter" href={context.urlTo(reflection)}>
+                        {reflection.name}
+                    </a>
+                );
             } else {
                 name = renderUniquePath(context, reflection);
             }
@@ -290,7 +293,7 @@ const typeRenderers: {
         } else if (type.refersToTypeParameter) {
             name = <span class="tsd-signature-type tsd-kind-type-parameter">{type.name}</span>;
         } else {
-            name = <span class="tsd-signature-type ">{type.name}</span>;
+            name = <span class="tsd-signature-type">{type.name}</span>;
         }
 
         if (type.typeArguments?.length) {

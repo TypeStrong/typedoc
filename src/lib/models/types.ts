@@ -912,22 +912,14 @@ export class ReferenceType extends Type {
         context: Context,
         name?: string,
     ) {
-        // Type parameters should never have resolved references because they
-        // cannot be linked to, and might be declared within the type with conditional types.
-        if (symbol.flags & ts.SymbolFlags.TypeParameter) {
-            const ref = ReferenceType.createBrokenReference(
-                name ?? symbol.name,
-                context.project,
-            );
-            ref.refersToTypeParameter = true;
-            return ref;
-        }
-
         const ref = new ReferenceType(
             name ?? symbol.name,
             new ReflectionSymbolId(symbol),
             context.project,
             getQualifiedName(symbol, name ?? symbol.name),
+        );
+        ref.refersToTypeParameter = !!(
+            symbol.flags & ts.SymbolFlags.TypeParameter
         );
 
         const symbolPath = symbol?.declarations?.[0]

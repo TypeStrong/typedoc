@@ -308,9 +308,6 @@ export class Context {
         );
     }
 
-    /**
-     * @param callback  The callback function that should be executed with the changed context.
-     */
     public withScope(scope: Reflection): Context {
         const context = new Context(
             this.converter,

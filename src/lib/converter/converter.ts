@@ -254,7 +254,6 @@ export class Converter extends ChildableComponent<
      * Convert the given TypeScript type into its TypeDoc type reflection.
      *
      * @param context  The context object describing the current state the converter is in.
-     * @param referenceTarget The target to be used to attempt to resolve reference types
      * @returns The TypeDoc type reflection representing the given node and type.
      * @internal
      */

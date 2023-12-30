@@ -480,8 +480,9 @@
           ],
           "type": {
             "type": "reference",
-            "target": -1,
+            "target": 41,
             "name": "T",
+            "package": "typedoc",
             "refersToTypeParameter": true
           }
         },
@@ -540,16 +541,18 @@
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "target": -1,
+                        "target": 35,
                         "name": "T",
+                        "package": "typedoc",
                         "refersToTypeParameter": true
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 35,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 }

@@ -40,8 +40,9 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
-          "target": -1,
+          "target": 9,
           "name": "T",
+          "package": "typedoc",
           "refersToTypeParameter": true
         },
         "extendsType": {
@@ -126,8 +127,9 @@
         "type": "conditional",
         "checkType": {
           "type": "reference",
-          "target": -1,
+          "target": 11,
           "name": "T",
+          "package": "typedoc",
           "refersToTypeParameter": true
         },
         "extendsType": {
@@ -147,14 +149,19 @@
         },
         "trueType": {
           "type": "reference",
-          "target": -1,
+          "target": {
+            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "qualifiedName": "U"
+          },
           "name": "U",
+          "package": "typedoc",
           "refersToTypeParameter": true
         },
         "falseType": {
           "type": "reference",
-          "target": -1,
+          "target": 11,
           "name": "T",
+          "package": "typedoc",
           "refersToTypeParameter": true
         }
       }
@@ -222,8 +229,9 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 6,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 },
@@ -235,8 +243,9 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 6,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 }

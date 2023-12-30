@@ -63,8 +63,10 @@
               ],
               "type": {
                 "type": "reference",
-                "target": -1,
+                "target": 17,
                 "name": "T",
+                "package": "typedoc",
+                "qualifiedName": "InterfaceSource.T",
                 "refersToTypeParameter": true
               }
             },
@@ -120,8 +122,10 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 17,
                     "name": "T",
+                    "package": "typedoc",
+                    "qualifiedName": "InterfaceSource.T",
                     "refersToTypeParameter": true
                   }
                 }
@@ -207,8 +211,10 @@
               ],
               "type": {
                 "type": "reference",
-                "target": -1,
+                "target": 23,
                 "name": "T",
+                "package": "typedoc",
+                "qualifiedName": "InterfaceTarget.T",
                 "refersToTypeParameter": true
               }
             },
@@ -264,8 +270,10 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 23,
                     "name": "T",
+                    "package": "typedoc",
+                    "qualifiedName": "InterfaceTarget.T",
                     "refersToTypeParameter": true
                   }
                 }
@@ -412,8 +420,9 @@
                   },
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 4,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 },
@@ -433,8 +442,9 @@
                   },
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 4,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 }
@@ -555,8 +565,9 @@
                   },
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 9,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 },
@@ -576,8 +587,9 @@
                   },
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 9,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 }

@@ -64,7 +64,6 @@ export class Serializer extends EventDispatcher {
     /**
      * Same as toObject but emits {@link Serializer.EVENT_BEGIN} and {@link Serializer.EVENT_END} events.
      * @param value
-     * @param eventData Partial information to set in the event
      */
     projectToObject(
         value: ProjectReflection,

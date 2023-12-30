@@ -512,8 +512,9 @@
                               "flags": {},
                               "type": {
                                 "type": "reference",
-                                "target": -1,
+                                "target": 78,
                                 "name": "T",
+                                "package": "typedoc",
                                 "refersToTypeParameter": true
                               }
                             }
@@ -542,8 +543,9 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": 78,
                         "name": "T",
+                        "package": "typedoc",
                         "refersToTypeParameter": true
                       }
                     ],
@@ -635,8 +637,9 @@
                               "flags": {},
                               "type": {
                                 "type": "reference",
-                                "target": -1,
+                                "target": 85,
                                 "name": "T",
+                                "package": "typedoc",
                                 "refersToTypeParameter": true
                               }
                             }
@@ -698,8 +701,9 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": -1,
+                                "target": 85,
                                 "name": "T",
+                                "package": "typedoc",
                                 "refersToTypeParameter": true
                               }
                             ],
@@ -785,8 +789,9 @@
                       },
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": 47,
                         "name": "T",
+                        "package": "typedoc",
                         "refersToTypeParameter": true
                       }
                     ]
@@ -799,8 +804,9 @@
                 "asserts": true,
                 "targetType": {
                   "type": "reference",
-                  "target": -1,
+                  "target": 47,
                   "name": "T",
+                  "package": "typedoc",
                   "refersToTypeParameter": true
                 }
               }
@@ -1550,8 +1556,9 @@
                       },
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": 51,
                         "name": "T",
+                        "package": "typedoc",
                         "refersToTypeParameter": true
                       }
                     ]
@@ -1564,8 +1571,9 @@
                 "asserts": false,
                 "targetType": {
                   "type": "reference",
-                  "target": -1,
+                  "target": 51,
                   "name": "T",
+                  "package": "typedoc",
                   "refersToTypeParameter": true
                 }
               }
@@ -2108,8 +2116,9 @@
                   },
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 100,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 },
@@ -2131,8 +2140,9 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "target": -1,
+                      "target": 100,
                       "name": "T",
+                      "package": "typedoc",
                       "refersToTypeParameter": true
                     }
                   }
@@ -2142,8 +2152,9 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "target": -1,
+                  "target": 100,
                   "name": "T",
+                  "package": "typedoc",
                   "refersToTypeParameter": true
                 }
               }
@@ -2213,16 +2224,18 @@
                   },
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 105,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 }
               ],
               "type": {
                 "type": "reference",
-                "target": -1,
+                "target": 105,
                 "name": "T",
+                "package": "typedoc",
                 "refersToTypeParameter": true
               }
             }
@@ -2319,16 +2332,18 @@
                   },
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 96,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 }
               ],
               "type": {
                 "type": "reference",
-                "target": -1,
+                "target": 96,
                 "name": "T",
+                "package": "typedoc",
                 "refersToTypeParameter": true
               }
             }

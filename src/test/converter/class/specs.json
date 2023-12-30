@@ -4115,8 +4115,10 @@
                       },
                       "type": {
                         "type": "reference",
-                        "target": -1,
+                        "target": 170,
                         "name": "T",
+                        "package": "typedoc",
+                        "qualifiedName": "GenericClass.T",
                         "refersToTypeParameter": true
                       }
                     }
@@ -4127,8 +4129,10 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": 170,
                         "name": "T",
+                        "package": "typedoc",
+                        "qualifiedName": "GenericClass.T",
                         "refersToTypeParameter": true
                       }
                     ],
@@ -4164,8 +4168,10 @@
               ],
               "type": {
                 "type": "reference",
-                "target": -1,
+                "target": 170,
                 "name": "T",
+                "package": "typedoc",
+                "qualifiedName": "GenericClass.T",
                 "refersToTypeParameter": true
               }
             },
@@ -4197,8 +4203,10 @@
                 "type": "array",
                 "elementType": {
                   "type": "reference",
-                  "target": -1,
+                  "target": 170,
                   "name": "T",
+                  "package": "typedoc",
+                  "qualifiedName": "GenericClass.T",
                   "refersToTypeParameter": true
                 }
               }
@@ -4253,8 +4261,10 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 170,
                     "name": "T",
+                    "package": "typedoc",
+                    "qualifiedName": "GenericClass.T",
                     "refersToTypeParameter": true
                   }
                 }
@@ -5046,8 +5056,10 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": 214,
                         "name": "T",
+                        "package": "typedoc",
+                        "qualifiedName": "GenericClass.T",
                         "refersToTypeParameter": true
                       }
                     ],
@@ -5073,8 +5085,10 @@
               ],
               "type": {
                 "type": "reference",
-                "target": -1,
+                "target": 214,
                 "name": "T",
+                "package": "typedoc",
+                "qualifiedName": "GenericClass.T",
                 "refersToTypeParameter": true
               }
             }

@@ -108,7 +108,9 @@ export function renderTypeParametersSignature(
                     <>
                         {item.flags.isConst && <span class="tsd-signature-keyword">const </span>}
                         {item.varianceModifier ? `${item.varianceModifier} ` : ""}
-                        <span class="tsd-signature-type tsd-kind-type-parameter">{item.name}</span>
+                        <a class="tsd-signature-type tsd-kind-type-parameter" href={context.urlTo(item)}>
+                            {item.name}
+                        </a>
                     </>
                 ))}
                 <span class="tsd-signature-symbol">{">"}</span>

@@ -9,6 +9,7 @@ import {
     SignatureReflection,
     ReflectionCategory,
     ReflectionGroup,
+    TypeParameterReflection,
 } from "../../../models";
 import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import type { PageEvent } from "../../events";
@@ -121,7 +122,6 @@ export class DefaultTheme extends Theme {
      * Create a new DefaultTheme instance.
      *
      * @param renderer  The renderer this theme is attached to.
-     * @param basePath  The base path of this theme.
      */
     constructor(renderer: Renderer) {
         super(renderer);
@@ -336,7 +336,11 @@ export class DefaultTheme extends Theme {
      * @param container   The nearest reflection having an own document.
      */
     static applyAnchorUrl(reflection: Reflection, container: Reflection) {
-        if (!(reflection instanceof DeclarationReflection) && !(reflection instanceof SignatureReflection)) {
+        if (
+            !(reflection instanceof DeclarationReflection) &&
+            !(reflection instanceof SignatureReflection) &&
+            !(reflection instanceof TypeParameterReflection)
+        ) {
             return;
         }
 

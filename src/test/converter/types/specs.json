@@ -87,8 +87,9 @@
             "type": "conditional",
             "checkType": {
               "type": "reference",
-              "target": -1,
+              "target": 12,
               "name": "T",
+              "package": "typedoc",
               "refersToTypeParameter": true
             },
             "extendsType": {
@@ -116,8 +117,12 @@
             },
             "trueType": {
               "type": "reference",
-              "target": -1,
+              "target": {
+                "sourceFileName": "src/test/converter/types/general.ts",
+                "qualifiedName": "S"
+              },
               "name": "S",
+              "package": "typedoc",
               "refersToTypeParameter": true
             },
             "falseType": {
@@ -545,8 +550,9 @@
                   "operator": "keyof",
                   "target": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 35,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 },
@@ -560,14 +566,19 @@
               "type": "indexedAccess",
               "indexType": {
                 "type": "reference",
-                "target": -1,
+                "target": {
+                  "sourceFileName": "src/test/converter/types/mapped.ts",
+                  "qualifiedName": "K"
+                },
                 "name": "K",
+                "package": "typedoc",
                 "refersToTypeParameter": true
               },
               "objectType": {
                 "type": "reference",
-                "target": -1,
+                "target": 35,
                 "name": "T",
+                "package": "typedoc",
                 "refersToTypeParameter": true
               }
             },
@@ -578,8 +589,12 @@
                 [
                   {
                     "type": "reference",
-                    "target": -1,
+                    "target": {
+                      "sourceFileName": "src/test/converter/types/mapped.ts",
+                      "qualifiedName": "K"
+                    },
                     "name": "K",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   },
                   ""
@@ -587,8 +602,12 @@
                 [
                   {
                     "type": "reference",
-                    "target": -1,
+                    "target": {
+                      "sourceFileName": "src/test/converter/types/mapped.ts",
+                      "qualifiedName": "K"
+                    },
                     "name": "K",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   },
                   ""
@@ -628,8 +647,9 @@
               "operator": "keyof",
               "target": {
                 "type": "reference",
-                "target": -1,
+                "target": 33,
                 "name": "T",
+                "package": "typedoc",
                 "refersToTypeParameter": true
               }
             },
@@ -637,14 +657,19 @@
               "type": "indexedAccess",
               "indexType": {
                 "type": "reference",
-                "target": -1,
+                "target": {
+                  "sourceFileName": "src/test/converter/types/mapped.ts",
+                  "qualifiedName": "K"
+                },
                 "name": "K",
+                "package": "typedoc",
                 "refersToTypeParameter": true
               },
               "objectType": {
                 "type": "reference",
-                "target": -1,
+                "target": 33,
                 "name": "T",
+                "package": "typedoc",
                 "refersToTypeParameter": true
               }
             }
@@ -697,8 +722,9 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 30,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 }
@@ -714,14 +740,19 @@
                   "type": "indexedAccess",
                   "indexType": {
                     "type": "reference",
-                    "target": -1,
+                    "target": {
+                      "sourceFileName": "src/test/converter/types/mapped.ts",
+                      "qualifiedName": "K"
+                    },
                     "name": "K",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   },
                   "objectType": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 30,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 },
@@ -732,8 +763,12 @@
                     [
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": {
+                          "sourceFileName": "src/test/converter/types/mapped.ts",
+                          "qualifiedName": "K"
+                        },
                         "name": "K",
+                        "package": "typedoc",
                         "refersToTypeParameter": true
                       },
                       ""
@@ -741,8 +776,12 @@
                     [
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": {
+                          "sourceFileName": "src/test/converter/types/mapped.ts",
+                          "qualifiedName": "K"
+                        },
                         "name": "K",
+                        "package": "typedoc",
                         "refersToTypeParameter": true
                       },
                       ""
@@ -800,8 +839,9 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": -1,
+                    "target": 26,
                     "name": "T",
+                    "package": "typedoc",
                     "refersToTypeParameter": true
                   }
                 }

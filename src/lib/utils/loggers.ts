@@ -100,7 +100,6 @@ export class Logger {
      * Log the given verbose message.
      *
      * @param text  The message that should be logged.
-     * @param args  The arguments that should be printed into the given message.
      */
     verbose(text: string) {
         this.log(this.addContext(text, LogLevel.Verbose), LogLevel.Verbose);
@@ -115,7 +114,6 @@ export class Logger {
      * Log the given warning.
      *
      * @param text  The warning that should be logged.
-     * @param args  The arguments that should be printed into the given warning.
      */
     warn(text: string, node?: ts.Node): void;
     warn(text: string, pos: number, file: MinimalSourceFile): void;
@@ -130,7 +128,6 @@ export class Logger {
      * Log the given error.
      *
      * @param text  The error that should be logged.
-     * @param args  The arguments that should be printed into the given error.
      */
     error(text: string, node?: ts.Node): void;
     error(text: string, pos: number, file: MinimalSourceFile): void;

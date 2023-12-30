@@ -723,8 +723,10 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "target": -1,
+                            "target": 84,
                             "name": "T",
+                            "package": "typedoc",
+                            "qualifiedName": "Forms.EventDispatcher.T",
                             "refersToTypeParameter": true
                           }
                         ],
@@ -759,8 +761,10 @@
                       "typeArguments": [
                         {
                           "type": "reference",
-                          "target": -1,
+                          "target": 84,
                           "name": "T",
+                          "package": "typedoc",
+                          "qualifiedName": "Forms.EventDispatcher.T",
                           "refersToTypeParameter": true
                         }
                       ],
@@ -812,8 +816,10 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": -1,
+                                "target": 84,
                                 "name": "T",
+                                "package": "typedoc",
+                                "qualifiedName": "Forms.EventDispatcher.T",
                                 "refersToTypeParameter": true
                               }
                             ],
@@ -853,8 +859,10 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "target": -1,
+                            "target": 84,
                             "name": "T",
+                            "package": "typedoc",
+                            "qualifiedName": "Forms.EventDispatcher.T",
                             "refersToTypeParameter": true
                           }
                         ],
@@ -959,8 +967,10 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": -1,
+                            "target": 84,
                             "name": "T",
+                            "package": "typedoc",
+                            "qualifiedName": "Forms.EventDispatcher.T",
                             "refersToTypeParameter": true
                           }
                         }
@@ -1070,8 +1080,10 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": -1,
+                                "target": 84,
                                 "name": "T",
+                                "package": "typedoc",
+                                "qualifiedName": "Forms.EventDispatcher.T",
                                 "refersToTypeParameter": true
                               }
                             ],
@@ -1147,8 +1159,10 @@
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "target": -1,
+                      "target": 84,
                       "name": "T",
+                      "package": "typedoc",
+                      "qualifiedName": "Forms.EventDispatcher.T",
                       "refersToTypeParameter": true
                     }
                   ],
@@ -1224,8 +1238,10 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": -1,
+                                "target": 52,
                                 "name": "V",
+                                "package": "typedoc",
+                                "qualifiedName": "Forms.Subscription.V",
                                 "refersToTypeParameter": true
                               }
                             ],
@@ -1268,8 +1284,10 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": -1,
+                                "target": 52,
                                 "name": "V",
+                                "package": "typedoc",
+                                "qualifiedName": "Forms.Subscription.V",
                                 "refersToTypeParameter": true
                               }
                             ],
@@ -1285,8 +1303,10 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "target": -1,
+                            "target": 52,
                             "name": "V",
+                            "package": "typedoc",
+                            "qualifiedName": "Forms.Subscription.V",
                             "refersToTypeParameter": true
                           }
                         ],
@@ -1319,8 +1339,10 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": 52,
                         "name": "V",
+                        "package": "typedoc",
+                        "qualifiedName": "Forms.Subscription.V",
                         "refersToTypeParameter": true
                       }
                     ],
@@ -1377,8 +1399,10 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": 52,
                         "name": "V",
+                        "package": "typedoc",
+                        "qualifiedName": "Forms.Subscription.V",
                         "refersToTypeParameter": true
                       }
                     ],
@@ -1520,8 +1544,10 @@
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "target": -1,
+                      "target": 52,
                       "name": "V",
+                      "package": "typedoc",
+                      "qualifiedName": "Forms.Subscription.V",
                       "refersToTypeParameter": true
                     }
                   ],
@@ -1588,8 +1614,10 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": -1,
+                                "target": 80,
                                 "name": "U",
+                                "package": "typedoc",
+                                "qualifiedName": "Forms.EventDispatcherInt.U",
                                 "refersToTypeParameter": true
                               }
                             ],
@@ -1631,8 +1659,10 @@
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "target": -1,
+                            "target": 80,
                             "name": "U",
+                            "package": "typedoc",
+                            "qualifiedName": "Forms.EventDispatcherInt.U",
                             "refersToTypeParameter": true
                           }
                         ],
@@ -1717,8 +1747,10 @@
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": -1,
+                            "target": 80,
                             "name": "U",
+                            "package": "typedoc",
+                            "qualifiedName": "Forms.EventDispatcherInt.U",
                             "refersToTypeParameter": true
                           }
                         }
@@ -1808,8 +1840,10 @@
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": -1,
+                                "target": 80,
                                 "name": "U",
+                                "package": "typedoc",
+                                "qualifiedName": "Forms.EventDispatcherInt.U",
                                 "refersToTypeParameter": true
                               }
                             ],
@@ -1927,8 +1961,10 @@
                       },
                       "type": {
                         "type": "reference",
-                        "target": -1,
+                        "target": 39,
                         "name": "T",
+                        "package": "typedoc",
+                        "qualifiedName": "Forms.EventListener.T",
                         "refersToTypeParameter": true
                       }
                     }
@@ -1994,8 +2030,10 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": 48,
                         "name": "T",
+                        "package": "typedoc",
+                        "qualifiedName": "Forms.SubscriptionInt.T",
                         "refersToTypeParameter": true
                       }
                     ],

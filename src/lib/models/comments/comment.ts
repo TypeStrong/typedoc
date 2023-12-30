@@ -387,7 +387,6 @@ export class Comment {
      * Return the first tag with the given name.
      *
      * @param tagName  The name of the tag to look for.
-     * @param paramName  An optional parameter name to look for.
      * @returns The found tag or undefined.
      */
     getTag(tagName: `@${string}`): CommentTag | undefined {

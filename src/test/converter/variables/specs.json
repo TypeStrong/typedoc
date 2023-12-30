@@ -55,8 +55,10 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": -1,
+                        "target": 5,
                         "name": "T",
+                        "package": "typedoc",
+                        "qualifiedName": "Array.T",
                         "refersToTypeParameter": true
                       }
                     ],

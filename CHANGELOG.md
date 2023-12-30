@@ -2,6 +2,8 @@
 
 ## Features
 
+-   Type parameters on functions/classes can will now link to the "Type Parameters" section, #2322.
+    Type parameters have also been changed to have a distinct color from type aliases when rendering, which can be changed with custom CSS.
 -   TypeDoc now provides warnings if a signature comment is directly specified on a signature and contains `@param` tags which do not apply, #2368.
 -   Extended reflection preview view for interfaces to include type parameters, #2455.
 -   Added special cases for converting methods which are documented as returning `this` or accepting `this` as a parameter, #2458.

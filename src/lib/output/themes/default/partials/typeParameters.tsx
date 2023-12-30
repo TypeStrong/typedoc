@@ -11,8 +11,11 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                     {typeParameters?.map((item) => (
                         <li>
                             <h4>
-                                {item.flags.isConst && "const "}
-                                {item.varianceModifier ? `${item.varianceModifier} ` : ""}
+                                <a id={item.anchor} class="tsd-anchor"></a>
+                                {item.flags.isConst && <span class="tsd-signature-keyword">const </span>}
+                                {item.varianceModifier && (
+                                    <span class="tsd-signature-keyword">{item.varianceModifier} </span>
+                                )}
                                 <span class="tsd-kind-type-parameter">{item.name}</span>
                                 {!!item.type && (
                                     <>

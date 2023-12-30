@@ -440,7 +440,7 @@ export abstract class Reflection {
     /**
      * Return a child by its name.
      *
-     * @param names The name hierarchy of the child to look for.
+     * @param arg The name hierarchy of the child to look for.
      * @returns The found child or undefined.
      */
     getChildByName(arg: string | string[]): Reflection | undefined {
