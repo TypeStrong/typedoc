@@ -267,10 +267,6 @@ function replaceSourcesWithParentSources(
         return false;
     }
 
-    if (refl.name === "privateArrow") {
-        console.log("privateArrow");
-    }
-
     const symbol = refl.project.getSymbolFromReflection(refl.parent);
     if (!symbol?.declarations) {
         return false;

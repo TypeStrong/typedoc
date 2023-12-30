@@ -63,13 +63,6 @@ export function functionSource<T>(arg1: T, arg2: T): string {
 }
 
 /**
- * @inheritDoc SubClassA.printName
- */
-export function functionTargetGlobal() {
-    return "";
-}
-
-/**
  * @inheritDoc functionSource
  *
  * @example

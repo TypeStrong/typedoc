@@ -13,7 +13,7 @@
       "flags": {},
       "children": [
         {
-          "id": 14,
+          "id": 12,
           "name": "InterfaceSource",
           "variant": "declaration",
           "kind": 256,
@@ -28,7 +28,7 @@
           },
           "children": [
             {
-              "id": 15,
+              "id": 13,
               "name": "property",
               "variant": "declaration",
               "kind": 1024,
@@ -69,7 +69,7 @@
               }
             },
             {
-              "id": 16,
+              "id": 14,
               "name": "someMethod",
               "variant": "declaration",
               "kind": 2048,
@@ -84,7 +84,7 @@
               ],
               "signatures": [
                 {
-                  "id": 17,
+                  "id": 15,
                   "name": "someMethod",
                   "variant": "signature",
                   "kind": 4096,
@@ -107,7 +107,7 @@
                   ],
                   "parameters": [
                     {
-                      "id": 18,
+                      "id": 16,
                       "name": "arg",
                       "variant": "param",
                       "kind": 32768,
@@ -132,13 +132,13 @@
             {
               "title": "Properties",
               "children": [
-                15
+                13
               ]
             },
             {
               "title": "Methods",
               "children": [
-                16
+                14
               ]
             }
           ],
@@ -152,7 +152,7 @@
           ],
           "typeParameters": [
             {
-              "id": 19,
+              "id": 17,
               "name": "T",
               "variant": "typeParam",
               "kind": 131072,
@@ -169,7 +169,7 @@
           ]
         },
         {
-          "id": 20,
+          "id": 18,
           "name": "InterfaceTarget",
           "variant": "declaration",
           "kind": 256,
@@ -184,7 +184,7 @@
           },
           "children": [
             {
-              "id": 21,
+              "id": 19,
               "name": "property",
               "variant": "declaration",
               "kind": 1024,
@@ -213,7 +213,7 @@
               }
             },
             {
-              "id": 22,
+              "id": 20,
               "name": "someMethod",
               "variant": "declaration",
               "kind": 2048,
@@ -228,7 +228,7 @@
               ],
               "signatures": [
                 {
-                  "id": 23,
+                  "id": 21,
                   "name": "someMethod",
                   "variant": "signature",
                   "kind": 4096,
@@ -251,7 +251,7 @@
                   ],
                   "parameters": [
                     {
-                      "id": 24,
+                      "id": 22,
                       "name": "arg",
                       "variant": "param",
                       "kind": 32768,
@@ -276,13 +276,13 @@
             {
               "title": "Properties",
               "children": [
-                21
+                19
               ]
             },
             {
               "title": "Methods",
               "children": [
-                22
+                20
               ]
             }
           ],
@@ -296,7 +296,7 @@
           ],
           "typeParameters": [
             {
-              "id": 25,
+              "id": 23,
               "name": "T",
               "variant": "typeParam",
               "kind": 131072,
@@ -448,52 +448,6 @@
         },
         {
           "id": 7,
-          "name": "functionTargetGlobal",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "inherit-doc.ts",
-              "line": 68,
-              "character": 16,
-              "url": "typedoc://inherit-doc.ts#L68"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 8,
-              "name": "functionTargetGlobal",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "comment": {
-                "summary": [],
-                "blockTags": [
-                  {
-                    "tag": "@inheritDoc",
-                    "name": "SubClassA.printName",
-                    "content": []
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "inherit-doc.ts",
-                  "line": 68,
-                  "character": 16,
-                  "url": "typedoc://inherit-doc.ts#L68"
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ]
-        },
-        {
-          "id": 9,
           "name": "functionTargetLocal",
           "variant": "declaration",
           "kind": 64,
@@ -501,14 +455,14 @@
           "sources": [
             {
               "fileName": "inherit-doc.ts",
-              "line": 85,
+              "line": 78,
               "character": 16,
-              "url": "typedoc://inherit-doc.ts#L85"
+              "url": "typedoc://inherit-doc.ts#L78"
             }
           ],
           "signatures": [
             {
-              "id": 10,
+              "id": 8,
               "name": "functionTargetLocal",
               "variant": "signature",
               "kind": 4096,
@@ -562,14 +516,14 @@
               "sources": [
                 {
                   "fileName": "inherit-doc.ts",
-                  "line": 85,
+                  "line": 78,
                   "character": 16,
-                  "url": "typedoc://inherit-doc.ts#L85"
+                  "url": "typedoc://inherit-doc.ts#L78"
                 }
               ],
               "typeParameter": [
                 {
-                  "id": 11,
+                  "id": 9,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -586,7 +540,7 @@
               ],
               "parameters": [
                 {
-                  "id": 12,
+                  "id": 10,
                   "name": "arg1",
                   "variant": "param",
                   "kind": 32768,
@@ -607,7 +561,7 @@
                   }
                 },
                 {
-                  "id": 13,
+                  "id": 11,
                   "name": "arg2",
                   "variant": "param",
                   "kind": 32768,
@@ -640,16 +594,15 @@
         {
           "title": "Interfaces",
           "children": [
-            14,
-            20
+            12,
+            18
           ]
         },
         {
           "title": "Functions",
           "children": [
             2,
-            7,
-            9
+            7
           ]
         }
       ],
@@ -663,21 +616,21 @@
       ]
     },
     {
-      "id": 26,
+      "id": 24,
       "name": "mergable-class",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 34,
+          "id": 32,
           "name": "MySubClass",
           "variant": "declaration",
           "kind": 128,
           "flags": {},
           "children": [
             {
-              "id": 36,
+              "id": 34,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
@@ -692,7 +645,7 @@
               ],
               "signatures": [
                 {
-                  "id": 37,
+                  "id": 35,
                   "name": "new MySubClass",
                   "variant": "signature",
                   "kind": 16384,
@@ -707,7 +660,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": 34,
+                    "target": 32,
                     "name": "MySubClass",
                     "package": "typedoc"
                   },
@@ -725,7 +678,7 @@
               }
             },
             {
-              "id": 38,
+              "id": 36,
               "name": "instanceProp",
               "variant": "declaration",
               "kind": 1024,
@@ -744,12 +697,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "target": 33,
+                "target": 31,
                 "name": "My.instanceProp"
               }
             },
             {
-              "id": 35,
+              "id": 33,
               "name": "staticProp",
               "variant": "declaration",
               "kind": 1024,
@@ -779,14 +732,14 @@
             {
               "title": "Constructors",
               "children": [
-                36
+                34
               ]
             },
             {
               "title": "Properties",
               "children": [
-                38,
-                35
+                36,
+                33
               ]
             }
           ],
@@ -801,21 +754,21 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "target": 32,
+              "target": 30,
               "name": "My",
               "package": "typedoc"
             }
           ]
         },
         {
-          "id": 32,
+          "id": 30,
           "name": "My",
           "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
-              "id": 33,
+              "id": 31,
               "name": "instanceProp",
               "variant": "declaration",
               "kind": 1024,
@@ -838,7 +791,7 @@
             {
               "title": "Properties",
               "children": [
-                33
+                31
               ]
             }
           ],
@@ -859,20 +812,20 @@
           "extendedBy": [
             {
               "type": "reference",
-              "target": 34,
+              "target": 32,
               "name": "MySubClass"
             }
           ]
         },
         {
-          "id": 27,
+          "id": 25,
           "name": "MyCtor",
           "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
-              "id": 29,
+              "id": 27,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
@@ -887,7 +840,7 @@
               ],
               "signatures": [
                 {
-                  "id": 30,
+                  "id": 28,
                   "name": "new MyCtor",
                   "variant": "signature",
                   "kind": 16384,
@@ -902,7 +855,7 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": 32,
+                    "target": 30,
                     "name": "My",
                     "package": "typedoc"
                   }
@@ -910,7 +863,7 @@
               ]
             },
             {
-              "id": 28,
+              "id": 26,
               "name": "staticProp",
               "variant": "declaration",
               "kind": 1024,
@@ -933,13 +886,13 @@
             {
               "title": "Constructors",
               "children": [
-                29
+                27
               ]
             },
             {
               "title": "Properties",
               "children": [
-                28
+                26
               ]
             }
           ],
@@ -953,7 +906,7 @@
           ]
         },
         {
-          "id": 31,
+          "id": 29,
           "name": "My",
           "variant": "declaration",
           "kind": 32,
@@ -974,7 +927,7 @@
           ],
           "type": {
             "type": "reference",
-            "target": 27,
+            "target": 25,
             "name": "MyCtor",
             "package": "typedoc"
           }
@@ -984,20 +937,20 @@
         {
           "title": "Classes",
           "children": [
-            34
+            32
           ]
         },
         {
           "title": "Interfaces",
           "children": [
-            32,
-            27
+            30,
+            25
           ]
         },
         {
           "title": "Variables",
           "children": [
-            31
+            29
           ]
         }
       ],
@@ -1016,7 +969,7 @@
       "title": "Modules",
       "children": [
         1,
-        26
+        24
       ]
     }
   ],
@@ -1048,83 +1001,83 @@
     },
     "7": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "functionTargetGlobal"
+      "qualifiedName": "functionTargetLocal"
     },
     "8": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "functionTargetGlobal"
+      "qualifiedName": "functionTargetLocal"
     },
     "9": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "functionTargetLocal"
+      "qualifiedName": "T"
     },
     "10": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "functionTargetLocal"
+      "qualifiedName": "arg1"
     },
     "11": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "T"
+      "qualifiedName": "arg2"
     },
     "12": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg1"
+      "qualifiedName": "InterfaceSource"
     },
     "13": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg2"
+      "qualifiedName": "InterfaceSource.property"
     },
     "14": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource"
+      "qualifiedName": "InterfaceSource.someMethod"
     },
     "15": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource.property"
+      "qualifiedName": "InterfaceSource.someMethod"
     },
     "16": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource.someMethod"
+      "qualifiedName": "arg"
     },
     "17": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource.someMethod"
+      "qualifiedName": "InterfaceSource.T"
     },
     "18": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg"
+      "qualifiedName": "InterfaceTarget"
     },
     "19": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource.T"
+      "qualifiedName": "InterfaceTarget.property"
     },
     "20": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget"
+      "qualifiedName": "InterfaceTarget.someMethod"
     },
     "21": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget.property"
+      "qualifiedName": "InterfaceTarget.someMethod"
     },
     "22": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget.someMethod"
+      "qualifiedName": "arg"
     },
     "23": {
       "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget.someMethod"
+      "qualifiedName": "InterfaceTarget.T"
     },
     "24": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg"
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": ""
     },
     "25": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget.T"
+      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+      "qualifiedName": "MyCtor"
     },
     "26": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": ""
+      "qualifiedName": "MyCtor.staticProp"
     },
     "27": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
@@ -1132,45 +1085,37 @@
     },
     "28": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor.staticProp"
+      "qualifiedName": "MyCtor"
     },
     "29": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor"
+      "qualifiedName": "My"
     },
     "30": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor"
+      "qualifiedName": "My"
     },
     "31": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "My"
+      "qualifiedName": "My.instanceProp"
     },
     "32": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "My"
+      "qualifiedName": "MySubClass"
     },
     "33": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "My.instanceProp"
+      "qualifiedName": "MyCtor.staticProp"
     },
     "34": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MySubClass"
+      "qualifiedName": "MyCtor.__new"
     },
     "35": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor.staticProp"
-    },
-    "36": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor.__new"
-    },
-    "37": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
       "qualifiedName": "MySubClass"
     },
-    "38": {
+    "36": {
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
       "qualifiedName": "My.instanceProp"
     }
