@@ -6,7 +6,7 @@ import type { SignatureReflection } from "./signature";
 import type { ParameterReflection } from "./parameter";
 import { IntrinsicType } from "../types";
 import type { TypeParameterReflection } from "./type-parameter";
-import { removeIfPresent } from "../../utils";
+import { removeIf, removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
 import { Comment, CommentDisplayPart } from "../comments";
@@ -103,7 +103,37 @@ export class ProjectReflection extends ContainerReflection {
 
         if (symbol) {
             this.reflectionIdToSymbolMap.set(reflection.id, symbol);
-            this.registerSymbolId(reflection, new ReflectionSymbolId(symbol));
+            const id = new ReflectionSymbolId(symbol);
+            this.registerSymbolId(reflection, id);
+
+            // #2466
+            // If we just registered a member of a class or interface, then we need to check if
+            // we've registered this symbol before under the wrong parent reflection.
+            // This can happen because the compiler API will use non-dependently-typed symbols
+            // for properties of classes/interfaces which inherit them, so we can't rely on the
+            // property being unique for each class.
+            if (
+                reflection.parent?.kindOf(ReflectionKind.ClassOrInterface) &&
+                reflection.kindOf(ReflectionKind.SomeMember)
+            ) {
+                const saved = this.symbolToReflectionIdMap.get(id);
+                const parentSymbolReflection =
+                    symbol.parent &&
+                    this.getReflectionFromSymbol(symbol.parent);
+
+                if (
+                    typeof saved === "object" &&
+                    saved.length > 1 &&
+                    parentSymbolReflection
+                ) {
+                    removeIf(
+                        saved,
+                        (item) =>
+                            this.getReflectionById(item)?.parent !==
+                            parentSymbolReflection,
+                    );
+                }
+            }
         }
     }
 

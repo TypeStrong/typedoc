@@ -1330,4 +1330,24 @@ describe("Issue Tests", () => {
         const is = querySig(project, "FooA.is");
         equal(is.type?.toString(), "this is Foo & Object");
     });
+
+    it("Does not care about conversion order for @link resolution, #2466", () => {
+        const project = convert();
+
+        const Two = query(project, "Two");
+        equal(getLinks(Two), [
+            {
+                display: "method1",
+                target: [ReflectionKind.Method, "Two.method1"],
+            },
+        ]);
+
+        const Three = query(project, "Three");
+        equal(getLinks(Three), [
+            {
+                display: "method2",
+                target: [ReflectionKind.Method, "Three.method2"],
+            },
+        ]);
+    });
 });

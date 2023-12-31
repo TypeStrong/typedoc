@@ -182,12 +182,10 @@ export function convertSymbol(
         flags = removeFlag(flags, ts.SymbolFlags.Property);
     }
 
-    for (const flag of getEnumFlags(flags ^ allConverterFlags)) {
-        if (!(flag & allConverterFlags)) {
-            context.logger.verbose(
-                `Missing converter for symbol: ${symbol.name} with flag ${ts.SymbolFlags[flag]}`,
-            );
-        }
+    for (const flag of getEnumFlags(flags & ~allConverterFlags)) {
+        context.logger.verbose(
+            `Missing converter for symbol: ${symbol.name} with flag ${ts.SymbolFlags[flag]}`,
+        );
     }
 
     // Note: This method does not allow skipping earlier converters.
@@ -628,7 +626,7 @@ function convertClassOrInterface(
     // And finally, index signatures
     convertIndexSignature(reflectionContext, symbol);
 
-    // Normally this shouldn't matter, unless someone did something with skipLibCheck off.
+    // Normally this shouldn't matter, unless someone did something with skipLibCheck on.
     return ts.SymbolFlags.Alias;
 }
 
