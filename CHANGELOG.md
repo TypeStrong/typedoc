@@ -2,6 +2,7 @@
 
 ## Features
 
+-   Added a `--navigation.includeFolders` (default: `true`) option to create nested navigation for projects which include many entry points, #2388.
 -   Type parameters on functions/classes can will now link to the "Type Parameters" section, #2322.
     Type parameters have also been changed to have a distinct color from type aliases when rendering, which can be changed with custom CSS.
 -   TypeDoc now provides warnings if a signature comment is directly specified on a signature and contains `@param` tags which do not apply, #2368.
@@ -29,6 +30,8 @@
 -   `@group` and `@category` organization is now applied later to allow inherited comments to create groups/categories, #2459.
 -   Conversion order should no longer affect link resolution for classes with properties whose type does not rely on `this`, #2466.
 -   Keyword syntax highlighting introduced in 0.25.4 was not always applied to keywords.
+-   Module reflections now have a custom `M` icon rather than sharing with the namespace icon.
+    Note: The default CSS still colors both modules and namespaces the same, as it is generally uncommon to have both in a generated site.
 -   If all members in a group are hidden from the page, the group will be hidden in the page index on page load.
 
 ## v0.25.4 (2023-11-26)

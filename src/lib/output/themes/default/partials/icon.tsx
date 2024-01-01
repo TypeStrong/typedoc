@@ -123,9 +123,14 @@ export const icons: Record<
             true,
         ),
     [ReflectionKind.Module]() {
-        return this[ReflectionKind.Namespace]();
+        return kindIcon(
+            <path
+                d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z"
+                fill="var(--color-text)"
+            />,
+            "var(--color-ts-module)",
+        );
     },
-
     [ReflectionKind.Namespace]: () =>
         kindIcon(
             <path
@@ -138,7 +143,7 @@ export const icons: Record<
         return this[ReflectionKind.Property]();
     },
     [ReflectionKind.Project]() {
-        return this[ReflectionKind.Namespace]();
+        return this[ReflectionKind.Module]();
     },
     [ReflectionKind.Property]: () =>
         kindIcon(

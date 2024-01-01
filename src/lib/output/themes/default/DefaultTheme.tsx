@@ -305,27 +305,70 @@ export class DefaultTheme extends Theme {
                 return parent.groups.map(toNavigation);
             }
 
+            if (
+                opts.includeFolders &&
+                parent.children?.every((child) => child.kindOf(ReflectionKind.Module)) &&
+                parent.children.some((child) => child.name.includes("/"))
+            ) {
+                return deriveModuleFolders(parent.children);
+            }
+
             return parent.children?.map(toNavigation);
         }
 
-        function shouldShowCategories(
-            reflection: Reflection,
-            opts: { includeCategories: boolean; includeGroups: boolean },
-        ) {
-            if (opts.includeCategories) {
-                return !reflection.comment?.hasModifier("@hideCategories");
-            }
-            return reflection.comment?.hasModifier("@showCategories") === true;
-        }
+        function deriveModuleFolders(children: DeclarationReflection[]) {
+            const result: NavigationElement[] = [];
 
-        function shouldShowGroups(
-            reflection: Reflection,
-            opts: { includeCategories: boolean; includeGroups: boolean },
-        ) {
-            if (opts.includeGroups) {
-                return !reflection.comment?.hasModifier("@hideGroups");
+            const resolveOrCreateParents = (
+                path: string[],
+                root: NavigationElement[] = result,
+            ): NavigationElement[] => {
+                if (path.length > 1) {
+                    const inner = root.find((el) => el.text === path[0]);
+                    if (inner) {
+                        inner.children ||= [];
+                        return resolveOrCreateParents(path.slice(1), inner.children);
+                    } else {
+                        root.push({
+                            text: path[0],
+                            children: [],
+                        });
+                        return resolveOrCreateParents(path.slice(1), root[root.length - 1].children);
+                    }
+                }
+
+                return root;
+            };
+
+            // Note: This might end up putting a module within another module if we document
+            // both foo/index.ts and foo/bar.ts.
+            for (const child of children) {
+                const parts = child.name.split("/");
+                const collection = resolveOrCreateParents(parts);
+                const nav = toNavigation(child);
+                nav.text = parts[parts.length - 1];
+                collection.push(nav);
             }
-            return reflection.comment?.hasModifier("@showGroups") === true;
+
+            // Now merge single-possible-paths together so we don't have folders in our navigation
+            // which contain only another single folder.
+            const queue = [...result];
+            while (queue.length) {
+                const review = queue.shift()!;
+                queue.push(...(review.children || []));
+                if (review.kind || review.path) continue;
+
+                if (review.children?.length === 1) {
+                    const copyFrom = review.children[0];
+                    const fullName = `${review.text}/${copyFrom.text}`;
+                    delete review.children;
+                    Object.assign(review, copyFrom);
+                    review.text = fullName;
+                    queue.push(review);
+                }
+            }
+
+            return result;
         }
     }
 
@@ -400,4 +443,18 @@ function getReflectionClasses(reflection: DeclarationReflection, filters: Record
     }
 
     return classes.join(" ");
+}
+
+function shouldShowCategories(reflection: Reflection, opts: { includeCategories: boolean; includeGroups: boolean }) {
+    if (opts.includeCategories) {
+        return !reflection.comment?.hasModifier("@hideCategories");
+    }
+    return reflection.comment?.hasModifier("@showCategories") === true;
+}
+
+function shouldShowGroups(reflection: Reflection, opts: { includeCategories: boolean; includeGroups: boolean }) {
+    if (opts.includeGroups) {
+        return !reflection.comment?.hasModifier("@hideGroups");
+    }
+    return reflection.comment?.hasModifier("@showGroups") === true;
 }
