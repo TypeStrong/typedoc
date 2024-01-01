@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.5 (2024-01-01)
+
 ## Features
 
 -   Added a new hierarchy.html page to HTML output which displays the full inheritance hierarchy for classes included in the documentation, #182.
