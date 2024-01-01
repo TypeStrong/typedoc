@@ -45,6 +45,7 @@ import { type } from "./partials/type";
 import { typeAndParent } from "./partials/typeAndParent";
 import { typeParameters } from "./partials/typeParameters";
 import { indexTemplate } from "./templates";
+import { hierarchyTemplate } from "./templates/hierarchy";
 import { reflectionTemplate } from "./templates/reflection";
 
 function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
@@ -116,6 +117,7 @@ export class DefaultThemeRenderContext {
 
     reflectionTemplate = bind(reflectionTemplate, this);
     indexTemplate = bind(indexTemplate, this);
+    hierarchyTemplate = bind(hierarchyTemplate, this);
     defaultLayout = bind(defaultLayout, this);
 
     /**

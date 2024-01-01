@@ -1,13 +1,39 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import type { DeclarationHierarchy } from "../../../../models";
+import type { DeclarationHierarchy, Type } from "../../../../models";
+
+const isLinkedReferenceType = (type: Type) =>
+    type.visit({
+        reference: (ref) => ref.reflection !== undefined,
+    }) ?? false;
+
+function hasAnyLinkedReferenceType(h: DeclarationHierarchy | undefined): boolean {
+    if (!h) return false;
+
+    if (!h.isTarget && h.types.some(isLinkedReferenceType)) return true;
+
+    return hasAnyLinkedReferenceType(h.next);
+}
 
 export function hierarchy(context: DefaultThemeRenderContext, props: DeclarationHierarchy | undefined) {
     if (!props) return;
 
+    const fullLink = hasAnyLinkedReferenceType(props) ? (
+        <>
+            {" "}
+            (
+            <a class="link" href={context.relativeURL("hierarchy.html") + "#" + context.page.model.getFullName()}>
+                view full
+            </a>
+            )
+        </>
+    ) : (
+        <></>
+    );
+
     return (
         <section class="tsd-panel tsd-hierarchy">
-            <h4>Hierarchy</h4>
+            <h4>Hierarchy{fullLink}</h4>
             {hierarchyList(context, props)}
         </section>
     );

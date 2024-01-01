@@ -2,6 +2,7 @@
 
 ## Features
 
+-   Added a new hierarchy.html page to HTML output which displays the full inheritance hierarchy for classes included in the documentation, #182.
 -   Added a `--navigation.includeFolders` (default: `true`) option to create nested navigation for projects which include many entry points, #2388.
 -   Type parameters on functions/classes can will now link to the "Type Parameters" section, #2322.
     Type parameters have also been changed to have a distinct color from type aliases when rendering, which can be changed with custom CSS.

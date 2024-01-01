@@ -66,6 +66,9 @@ export class DefaultTheme extends Theme {
     indexTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
         return this.getRenderContext(pageEvent).indexTemplate(pageEvent);
     };
+    hierarchyTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
+        return this.getRenderContext(pageEvent).hierarchyTemplate(pageEvent);
+    };
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>) => {
         return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
     };
@@ -148,8 +151,12 @@ export class DefaultTheme extends Theme {
             urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         } else {
             project.url = "modules.html";
-            urls.push(new UrlMapping<ContainerReflection>("modules.html", project, this.reflectionTemplate));
+            urls.push(new UrlMapping("modules.html", project, this.reflectionTemplate));
             urls.push(new UrlMapping("index.html", project, this.indexTemplate));
+        }
+
+        if (includeHierarchyPage(project)) {
+            urls.push(new UrlMapping("hierarchy.html", project, this.hierarchyTemplate));
         }
 
         project.children?.forEach((child: Reflection) => {
@@ -457,4 +464,18 @@ function shouldShowGroups(reflection: Reflection, opts: { includeCategories: boo
         return !reflection.comment?.hasModifier("@hideGroups");
     }
     return reflection.comment?.hasModifier("@showGroups") === true;
+}
+
+function includeHierarchyPage(project: ProjectReflection) {
+    for (const id in project.reflections) {
+        const refl = project.reflections[id] as DeclarationReflection;
+
+        if (refl.kindOf(ReflectionKind.ClassOrInterface)) {
+            // Keep this condition in sync with the one in hierarchy.tsx for determining roots
+            if (!(refl.implementedTypes || refl.extendedTypes) && (refl.implementedBy || refl.extendedBy)) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
