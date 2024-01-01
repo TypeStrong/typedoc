@@ -102,7 +102,7 @@ export function loadConverters() {
 
 // This ought not be necessary, but we need some way to discover recursively
 // typed symbols which do not have type nodes. See the `recursive` symbol in the variables test.
-const seenTypeSymbols = new Set<ts.Symbol>();
+const seenTypes = new Set<number>();
 
 function maybeConvertType(
     context: Context,
@@ -153,20 +153,12 @@ export function convertType(
     );
     assert(node); // According to the TS source of typeToString, this is a bug if it does not hold.
 
-    const symbol = typeOrNode.getSymbol();
-    if (symbol) {
-        if (
-            node.kind !== ts.SyntaxKind.TypeReference &&
-            node.kind !== ts.SyntaxKind.ArrayType &&
-            seenTypeSymbols.has(symbol)
-        ) {
-            const typeString = context.checker.typeToString(typeOrNode);
-            context.logger.verbose(
-                `Refusing to recurse when converting type: ${typeString}`,
-            );
-            return new UnknownType(typeString);
-        }
-        seenTypeSymbols.add(symbol);
+    if (seenTypes.has(typeOrNode.id)) {
+        const typeString = context.checker.typeToString(typeOrNode);
+        context.logger.verbose(
+            `Refusing to recurse when converting type: ${typeString}`,
+        );
+        return new UnknownType(typeString);
     }
 
     let converter = converters.get(node.kind);
@@ -179,8 +171,9 @@ export function convertType(
             converter = typeLiteralConverter;
         }
 
+        seenTypes.add(typeOrNode.id);
         const result = converter.convertType(context, typeOrNode, node);
-        if (symbol) seenTypeSymbols.delete(symbol);
+        seenTypes.delete(typeOrNode.id);
         return result;
     }
 

@@ -160,7 +160,6 @@ export class TypeDocReader implements OptionsReader {
      *
      * @param  path Path to the typedoc.(js|json) file. If path is a directory
      *   typedoc file will be attempted to be found at the root of this path
-     * @param logger
      * @return the typedoc.(js|json) file path or undefined
      */
     private findTypedocFile(path: string): string | undefined {

@@ -1085,4 +1085,13 @@ describe("Behavior Tests", () => {
         }
         logger.expectNoOtherMessages();
     });
+
+    it("Should not produce warnings when processing an object type twice due to intersection", () => {
+        const project = convert("refusingToRecurse");
+        const schemaTypeBased = query(project, "schemaTypeBased");
+        equal(schemaTypeBased.type?.toString(), "Object & Object");
+
+        logger.expectMessage("debug: Begin readme.md*");
+        logger.expectNoOtherMessages({ ignoreDebug: false });
+    });
 });

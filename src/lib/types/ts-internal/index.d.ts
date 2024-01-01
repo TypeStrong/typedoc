@@ -15,6 +15,10 @@ declare module "typescript" {
         parent?: ts.Symbol;
     }
 
+    interface Type {
+        id: number;
+    }
+
     // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L7432
     export function getCheckFlags(symbol: ts.Symbol): CheckFlags;
 
