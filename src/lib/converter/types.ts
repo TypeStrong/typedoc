@@ -135,10 +135,12 @@ export function convertType(
     // TS 4.2 added this to enable better tracking of type aliases.
     // We need to check it here, not just in the union checker, because typeToTypeNode
     // will use the origin when serializing
+    // aliasSymbol check is important - #2468
     if (
         typeOrNode.isUnion() &&
         typeOrNode.origin &&
-        !typeOrNode.origin.isUnion()
+        !typeOrNode.origin.isUnion() &&
+        !typeOrNode.aliasSymbol
     ) {
         return convertType(context, typeOrNode.origin);
     }

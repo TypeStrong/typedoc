@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed infinite loop caused by a fix for some complicated union/intersection types, #2468.
+
 ## v0.25.5 (2024-01-01)
 
 ## Features
