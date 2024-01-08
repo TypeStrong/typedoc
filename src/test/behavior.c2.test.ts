@@ -1086,12 +1086,15 @@ describe("Behavior Tests", () => {
         logger.expectNoOtherMessages();
     });
 
-    it("Should not produce warnings when processing an object type twice due to intersection", () => {
+    it("Should not warn about recursive types", () => {
         const project = convert("refusingToRecurse");
         const schemaTypeBased = query(project, "schemaTypeBased");
         equal(schemaTypeBased.type?.toString(), "Object & Object");
+        equal(
+            querySig(project, "Map.getFilter").type?.toString(),
+            "void | ExpressionSpecification",
+        );
 
-        logger.expectMessage("debug: Begin readme.md*");
-        logger.expectNoOtherMessages({ ignoreDebug: false });
+        logger.expectNoMessage("debug: Refusing to recurse*");
     });
 });

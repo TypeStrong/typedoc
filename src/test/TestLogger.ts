@@ -32,6 +32,17 @@ export class TestLogger extends Logger {
         this.messages.splice(index, 1);
     }
 
+    expectNoMessage(message: string) {
+        const regex = createRegex(message);
+        const index = this.messages.findIndex((m) => regex.test(m));
+        if (index !== -1) {
+            const messages = this.messages.join("\n\t");
+            fail(
+                `Expected "${message}" to not be logged. The logged messages were:\n\t${messages}`,
+            );
+        }
+    }
+
     expectNoOtherMessages({ ignoreDebug } = { ignoreDebug: true }) {
         const messages = ignoreDebug
             ? this.messages.filter((msg) => !msg.startsWith("debug"))

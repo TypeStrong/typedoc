@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 -   Fixed an issue where a namespace would not be created for merged function-namespaces only containing types, #2476.
+-   Fixed an infinite loop when converting a union type which directly contained another union type which refers to itself, #2469.
 
 ## v0.25.6 (2024-01-01)
 

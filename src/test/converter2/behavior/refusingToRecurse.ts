@@ -27,3 +27,17 @@ export const schema = {
 export type Schema = FromSchema<typeof schema>;
 
 export const schemaTypeBased = null! as Schema;
+
+export type ExpressionSpecification =
+    | ["array", unknown | ExpressionSpecification]
+    | [
+          "array",
+          string | ExpressionSpecification,
+          unknown | ExpressionSpecification,
+      ];
+
+export class Map {
+    getFilter(layerId: string): ExpressionSpecification | void {
+        return;
+    }
+}
