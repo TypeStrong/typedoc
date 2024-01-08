@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.7 (2024-01-08)
+
 ### Bug Fixes
 
 -   Fixed an issue where a namespace would not be created for merged function-namespaces only containing types, #2476.
