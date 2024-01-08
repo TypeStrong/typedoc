@@ -1350,4 +1350,15 @@ describe("Issue Tests", () => {
             },
         ]);
     });
+
+    it("Creates a separate namespace for `declare namespace` case #2476", () => {
+        const project = convert();
+
+        equal(project.children?.map((c) => [c.name, c.kind]), [
+            ["test", ReflectionKind.Namespace],
+            ["test", ReflectionKind.Function],
+        ]);
+
+        equal(project.children[0].children?.map((c) => c.name), ["Options"]);
+    });
 });

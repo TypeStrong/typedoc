@@ -484,9 +484,7 @@ function convertFunctionOrMethod(
         createSignature(scope, ReflectionKind.CallSignature, sig, symbol);
     }
 
-    convertFunctionProperties(scope, symbol, type);
-
-    return ts.SymbolFlags.NamespaceModule;
+    return convertFunctionProperties(scope, symbol, type);
 }
 
 // getDeclaredTypeOfSymbol gets the INSTANCE type
@@ -1069,6 +1067,8 @@ function convertFunctionProperties(
             !hasAnyFlag(symbol.flags, nsFlags))
     ) {
         convertSymbols(context, type.getProperties());
+
+        return ts.SymbolFlags.NamespaceModule;
     }
 }
 
