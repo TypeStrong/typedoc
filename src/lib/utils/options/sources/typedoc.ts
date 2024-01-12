@@ -373,6 +373,17 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: true,
     });
     options.addDeclaration({
+        name: "sitemapBaseUrl",
+        help: "Specify a base URL to be used in generating a sitemap.xml in our output folder. If not specified, no sitemap will be generated.",
+        validate(value) {
+            if (!/https?:\/\//.test(value)) {
+                throw new Error(
+                    "sitemapBaseUrl must start with http:// or https://",
+                );
+            }
+        },
+    });
+    options.addDeclaration({
         name: "htmlLang",
         help: "Sets the lang attribute in the generated html tag.",
         type: ParameterType.String,

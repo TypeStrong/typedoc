@@ -131,6 +131,7 @@ export interface TypeDocOptionMap {
     cname: string;
     htmlLang: string;
     githubPages: boolean;
+    sitemapBaseUrl: string;
     cacheBust: boolean;
     gaID: string;
     hideGenerator: boolean;
