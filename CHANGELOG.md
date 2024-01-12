@@ -4,6 +4,10 @@
 
 -   Added a new `--sitemapBaseUrl` option. When specified, TypeDoc will generate a `sitemap.xml` in your output folder that describes the site, #2480.
 
+## Bug Fixes
+
+-   Fixed an issue where a namespace would not be created for merged function-namespaces which are declared as variables, #2478.
+
 ## v0.25.7 (2024-01-08)
 
 ### Bug Fixes

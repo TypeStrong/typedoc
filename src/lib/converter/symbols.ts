@@ -1043,9 +1043,10 @@ function convertVariableAsFunction(
         );
     }
 
-    convertFunctionProperties(context.withScope(reflection), symbol, type);
-
-    return ts.SymbolFlags.Property | ts.SymbolFlags.NamespaceModule;
+    return (
+        convertFunctionProperties(context.withScope(reflection), symbol, type) |
+        ts.SymbolFlags.Property
+    );
 }
 
 function convertFunctionProperties(
@@ -1070,6 +1071,8 @@ function convertFunctionProperties(
 
         return ts.SymbolFlags.NamespaceModule;
     }
+
+    return ts.SymbolFlags.None;
 }
 
 function convertAccessor(
