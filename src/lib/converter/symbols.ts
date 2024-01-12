@@ -20,6 +20,7 @@ import type { Context } from "./context";
 import { convertDefaultValue } from "./convert-expression";
 import { convertIndexSignature } from "./factories/index-signature";
 import {
+    createConstructSignatureWithType,
     createSignature,
     createTypeParamReflection,
 } from "./factories/signature";
@@ -72,9 +73,9 @@ const conversionOrder = [
     ts.SymbolFlags.BlockScopedVariable,
     ts.SymbolFlags.FunctionScopedVariable,
     ts.SymbolFlags.ExportValue,
+    ts.SymbolFlags.Function, // Before NamespaceModule
 
     ts.SymbolFlags.TypeAlias,
-    ts.SymbolFlags.Function, // Before NamespaceModule
     ts.SymbolFlags.Method,
     ts.SymbolFlags.Interface,
     ts.SymbolFlags.Property,
@@ -426,6 +427,13 @@ function convertFunctionOrMethod(
         symbol.flags &
         (ts.SymbolFlags.Property | ts.SymbolFlags.Method)
     );
+
+    if (!isMethod) {
+        const comment = context.getComment(symbol, ReflectionKind.Function);
+        if (comment?.hasModifier("@class")) {
+            return convertSymbolAsClass(context, symbol, exportSymbol);
+        }
+    }
 
     const declarations =
         symbol.getDeclarations()?.filter(ts.isFunctionLike) ?? [];
@@ -892,7 +900,14 @@ function convertVariable(
         return convertVariableAsNamespace(context, symbol, exportSymbol);
     }
 
-    if (type.getCallSignatures().length) {
+    if (comment?.hasModifier("@class")) {
+        return convertSymbolAsClass(context, symbol, exportSymbol);
+    }
+
+    if (
+        type.getCallSignatures().length &&
+        !type.getConstructSignatures().length
+    ) {
         return convertVariableAsFunction(context, symbol, exportSymbol);
     }
 
@@ -1073,6 +1088,88 @@ function convertFunctionProperties(
     }
 
     return ts.SymbolFlags.None;
+}
+
+function convertSymbolAsClass(
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol?: ts.Symbol,
+) {
+    const reflection = context.createDeclarationReflection(
+        ReflectionKind.Class,
+        symbol,
+        exportSymbol,
+    );
+    const rc = context.withScope(reflection);
+
+    context.finalizeDeclarationReflection(reflection);
+
+    if (!symbol.valueDeclaration) {
+        context.logger.error(
+            `No value declaration found when converting ${symbol.name} as a class`,
+            symbol.declarations?.[0],
+        );
+        return;
+    }
+
+    const type = context.checker.getTypeOfSymbolAtLocation(
+        symbol,
+        symbol.valueDeclaration,
+    );
+
+    rc.shouldBeStatic = true;
+    convertSymbols(
+        rc,
+        // Prototype is implicitly this class, don't document it.
+        type.getProperties().filter((prop) => prop.name !== "prototype"),
+    );
+
+    for (const sig of type.getCallSignatures()) {
+        createSignature(rc, ReflectionKind.CallSignature, sig, undefined);
+    }
+
+    rc.shouldBeStatic = false;
+
+    const ctors = type.getConstructSignatures();
+    if (ctors.length) {
+        const constructMember = rc.createDeclarationReflection(
+            ReflectionKind.Constructor,
+            ctors?.[0]?.declaration?.symbol,
+            void 0,
+            "constructor",
+        );
+
+        // Modifiers are the same for all constructors
+        if (ctors.length && ctors[0].declaration) {
+            setModifiers(symbol, ctors[0].declaration, constructMember);
+        }
+
+        context.finalizeDeclarationReflection(constructMember);
+
+        const constructContext = rc.withScope(constructMember);
+
+        for (const sig of ctors) {
+            createConstructSignatureWithType(constructContext, sig, reflection);
+        }
+
+        const instType = ctors[0].getReturnType();
+        convertSymbols(rc, instType.getProperties());
+
+        for (const sig of instType.getCallSignatures()) {
+            createSignature(rc, ReflectionKind.CallSignature, sig, undefined);
+        }
+    } else {
+        context.logger.warn(
+            `${reflection.getFriendlyFullName()} is being converted as a class, but does not have any construct signatures`,
+            symbol.valueDeclaration,
+        );
+    }
+
+    return (
+        ts.SymbolFlags.TypeAlias |
+        ts.SymbolFlags.Interface |
+        ts.SymbolFlags.Namespace
+    );
 }
 
 function convertAccessor(

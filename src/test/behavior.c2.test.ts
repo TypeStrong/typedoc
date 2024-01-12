@@ -19,7 +19,7 @@ import {
 import { join } from "path";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments";
-import { query, querySig } from "./utils";
+import { getComment, query, querySig } from "./utils";
 
 type NameTree = { [name: string]: NameTree };
 
@@ -106,6 +106,7 @@ describe("Behavior Tests", () => {
 
     afterEach(() => {
         app.options.restore(optionsSnap);
+        logger.expectNoOtherMessages();
     });
 
     it("Handles 'as const' style enums", () => {
@@ -219,6 +220,63 @@ describe("Behavior Tests", () => {
             Comment.combineDisplayParts(b.signatures?.[0].comment?.summary),
             "b doc",
         );
+    });
+
+    it("Should allow the user to mark a variable or function as a class with @class", () => {
+        const project = convert("classTag");
+        logger.expectMessage(
+            `warn: BadClass is being converted as a class, but does not have any construct signatures`,
+        );
+
+        const CallableClass = query(project, "CallableClass");
+        equal(CallableClass.signatures?.length, 2);
+        equal(
+            CallableClass.signatures.map((sig) => sig.type?.toString()),
+            ["number", "string"],
+        );
+        equal(
+            CallableClass.signatures.map((sig) => sig.flags.isStatic),
+            [true, false],
+        );
+        equal(
+            CallableClass.children?.map((child) => [
+                child.name,
+                ReflectionKind.singularString(child.kind),
+            ]),
+            [
+                [
+                    "constructor",
+                    ReflectionKind.singularString(ReflectionKind.Constructor),
+                ],
+                [
+                    "inst",
+                    ReflectionKind.singularString(ReflectionKind.Property),
+                ],
+                [
+                    "stat",
+                    ReflectionKind.singularString(ReflectionKind.Property),
+                ],
+                [
+                    "method",
+                    ReflectionKind.singularString(ReflectionKind.Method),
+                ],
+            ],
+        );
+
+        equal(query(project, "CallableClass.stat").flags.isStatic, true);
+
+        equal(
+            ["VariableClass", "VariableClass.stat", "VariableClass.inst"].map(
+                (name) => getComment(project, name),
+            ),
+            ["Variable class", "Stat docs", "Inst docs"],
+        );
+
+        equal(project.children?.map((c) => c.name), [
+            "BadClass",
+            "CallableClass",
+            "VariableClass",
+        ]);
     });
 
     it("Handles const type parameters", () => {
@@ -830,6 +888,9 @@ describe("Behavior Tests", () => {
 
         logger.expectMessage(
             "warn: MultiCommentMultiDeclaration has multiple declarations with a comment. An arbitrary comment will be used.",
+        );
+        logger.expectMessage(
+            "info: The comments for MultiCommentMultiDeclaration are declared at*",
         );
     });
 

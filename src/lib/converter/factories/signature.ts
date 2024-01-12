@@ -6,6 +6,7 @@ import {
     IntrinsicType,
     ParameterReflection,
     PredicateType,
+    ReferenceType,
     Reflection,
     ReflectionFlag,
     ReflectionKind,
@@ -43,6 +44,11 @@ export function createSignature(
         kind,
         context.scope,
     );
+    // This feels awful, but we need some way to tell if callable signatures on classes
+    // are "static" (e.g. `Foo()`) or not (e.g. `(new Foo())()`)
+    if (context.shouldBeStatic) {
+        sigRef.setFlag(ReflectionFlag.Static);
+    }
     const sigRefCtx = context.withScope(sigRef);
     if (symbol && declaration) {
         context.project.registerSymbolId(
@@ -122,6 +128,57 @@ export function createSignature(
             context.scope.signatures.push(sigRef);
             break;
     }
+
+    context.converter.trigger(
+        ConverterEvents.CREATE_SIGNATURE,
+        context,
+        sigRef,
+        declaration,
+        signature,
+    );
+}
+
+/**
+ * Special cased constructor factory for functions tagged with `@class`
+ */
+export function createConstructSignatureWithType(
+    context: Context,
+    signature: ts.Signature,
+    classType: Reflection,
+) {
+    assert(context.scope instanceof DeclarationReflection);
+
+    const declaration = signature.getDeclaration() as
+        | ts.SignatureDeclaration
+        | undefined;
+
+    const sigRef = new SignatureReflection(
+        `new ${context.scope.parent!.name}`,
+        ReflectionKind.ConstructorSignature,
+        context.scope,
+    );
+    const sigRefCtx = context.withScope(sigRef);
+
+    if (declaration) {
+        sigRef.comment = context.getSignatureComment(declaration);
+    }
+
+    sigRef.typeParameters = convertTypeParameters(
+        sigRefCtx,
+        sigRef,
+        signature.typeParameters,
+    );
+
+    sigRef.type = ReferenceType.createResolvedReference(
+        context.scope.parent!.name,
+        classType,
+        context.project,
+    );
+
+    context.registerReflection(sigRef, undefined);
+
+    context.scope.signatures ??= [];
+    context.scope.signatures.push(sigRef);
 
     context.converter.trigger(
         ConverterEvents.CREATE_SIGNATURE,

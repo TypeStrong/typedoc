@@ -51,6 +51,7 @@ export const modifierTags = [
     ...tsdocModifierTags,
     "@hidden",
     "@ignore",
+    "@class",
     "@enum",
     "@event",
     "@overload",
