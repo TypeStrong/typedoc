@@ -7,6 +7,7 @@
 ## Bug Fixes
 
 -   Fixed an issue where a namespace would not be created for merged function-namespaces which are declared as variables, #2478.
+-   Fixed an issue where, if the index section was collapsed when loading the page, all content within it would be hidden until expanded, and a member visibility checkbox was changed.
 
 ## v0.25.7 (2024-01-08)
 

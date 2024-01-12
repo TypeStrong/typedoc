@@ -30,7 +30,7 @@ export class Filter extends Component {
         this.setLocalStorage(this.fromLocalStorage());
 
         style.innerHTML += `html:not(.${this.key}) .tsd-is-${this.el.name} { display: none; }\n`;
-        this.handleValueChange();
+        this.updateIndexHeadingVisibility();
     }
 
     /**
@@ -60,6 +60,16 @@ export class Filter extends Component {
         document.documentElement.classList.toggle(this.key, this.value);
 
         this.app.filterChanged();
+        this.updateIndexHeadingVisibility();
+    }
+
+    private updateIndexHeadingVisibility() {
+        const indexAccordion =
+            document.querySelector<HTMLDetailsElement>(".tsd-index-content");
+        const oldOpen = indexAccordion?.open;
+        if (indexAccordion) {
+            indexAccordion.open = true;
+        }
 
         // Hide index headings where all index items are hidden.
         // offsetParent == null checks for display: none
@@ -73,5 +83,9 @@ export class Filter extends Component {
 
                 el.style.display = allChildrenHidden ? "none" : "block";
             });
+
+        if (indexAccordion) {
+            indexAccordion.open = oldOpen!;
+        }
     }
 }
