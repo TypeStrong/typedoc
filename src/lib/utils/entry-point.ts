@@ -223,7 +223,7 @@ function getEntryPointsForPaths(
         logger.warn(
             `The entry point ${nicePath(
                 fileOrDir,
-            )} is not included in the program for your provided tsconfig.${suggestion}`,
+            )} is not referenced by the 'files' or 'include' option in your tsconfig.${suggestion}`,
         );
     }
 
