@@ -42,6 +42,7 @@ import { findTsConfigFile } from "./utils/tsconfig";
 import { deriveRootDir, glob, readFile } from "./utils/fs";
 import { resetReflectionID } from "./models/reflections/abstract";
 import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId";
+import { Internationalization } from "./internationalization/internationalization";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -109,7 +110,22 @@ export class Application extends ChildableComponent<
      */
     logger: Logger = new ConsoleLogger();
 
+    /**
+     * Internationalization module which supports translating according to
+     * the `lang` option.
+     */
+    internationalization = new Internationalization(this);
+
+    /**
+     * Proxy based shortcuts for internationalization keys.
+     */
+    i18n = this.internationalization.createProxy();
+
     options = new Options();
+
+    /** @internal */
+    @Option("htmlLang")
+    accessor lang!: string;
 
     /** @internal */
     @Option("skipErrorChecking")
@@ -212,9 +228,9 @@ export class Application extends ChildableComponent<
 
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
-                `TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. The loaded paths are:\n\t${getLoadedPaths().join(
-                    "\n\t",
-                )}`,
+                this.i18n.loaded_multiple_times_0(
+                    getLoadedPaths().join("\n\t"),
+                ),
             );
         }
         this.trigger(ApplicationEvents.BOOTSTRAP_END, this);
@@ -280,9 +296,9 @@ export class Application extends ChildableComponent<
             )
         ) {
             this.logger.warn(
-                `You are running with an unsupported TypeScript version! If TypeDoc crashes, this is why. TypeDoc supports ${supportedVersionMajorMinor.join(
-                    ", ",
-                )}`,
+                this.i18n.unsupported_ts_version_0(
+                    supportedVersionMajorMinor.join(", "),
+                ),
             );
         }
 
@@ -347,24 +363,20 @@ export class Application extends ChildableComponent<
             )
         ) {
             this.logger.warn(
-                `You are running with an unsupported TypeScript version! TypeDoc supports ${supportedVersionMajorMinor.join(
-                    ", ",
-                )}`,
+                this.i18n.unsupported_ts_version_0(
+                    supportedVersionMajorMinor.join(", "),
+                ),
             );
         }
 
         if (Object.keys(this.options.getCompilerOptions()).length === 0) {
-            this.logger.warn(
-                `No compiler options set. This likely means that TypeDoc did not find your tsconfig.json. Generated documentation will probably be empty.`,
-            );
+            this.logger.warn(this.i18n.no_compiler_options_set());
         }
 
         // Doing this is considerably more complicated, we'd need to manage an array of programs, not convert until all programs
         // have reported in the first time... just error out for now. I'm not convinced anyone will actually notice.
         if (this.options.getFileNames().length === 0) {
-            this.logger.error(
-                "The provided tsconfig file looks like a solution style tsconfig, which is not supported in watch mode.",
-            );
+            this.logger.error(this.i18n.solution_not_supported_in_watch_mode());
             return;
         }
 
@@ -373,9 +385,7 @@ export class Application extends ChildableComponent<
             this.entryPointStrategy !== EntryPointStrategy.Resolve &&
             this.entryPointStrategy !== EntryPointStrategy.Expand
         ) {
-            this.logger.error(
-                "entryPointStrategy must be set to either resolve or expand for watch mode.",
-            );
+            this.logger.error(this.i18n.strategy_not_supported_in_watch_mode());
             return;
         }
 
@@ -526,11 +536,9 @@ export class Application extends ChildableComponent<
         out = Path.resolve(out);
         await this.renderer.render(project, out);
         if (this.logger.hasErrors()) {
-            this.logger.error(
-                "Documentation could not be generated due to the errors above.",
-            );
+            this.logger.error(this.i18n.docs_could_not_be_generated());
         } else {
-            this.logger.info(`Documentation generated at ${nicePath(out)}`);
+            this.logger.info(this.i18n.docs_generated_at_0(nicePath(out)));
             this.logger.verbose(`HTML rendering took ${Date.now() - start}ms`);
         }
     }
@@ -551,7 +559,7 @@ export class Application extends ChildableComponent<
 
         const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
-        this.logger.info(`JSON written to ${nicePath(out)}`);
+        this.logger.info(this.i18n.json_written_to_0(nicePath(out)));
         this.logger.verbose(`JSON rendering took ${Date.now() - start}ms`);
     }
 
@@ -569,9 +577,7 @@ export class Application extends ChildableComponent<
 
     private async _convertPackages(): Promise<ProjectReflection | undefined> {
         if (!this.options.isSet("entryPoints")) {
-            this.logger.error(
-                "No entry points provided to packages mode, documentation cannot be generated.",
-            );
+            this.logger.error(this.i18n.no_entry_points_for_packages());
             return;
         }
 
@@ -582,9 +588,7 @@ export class Application extends ChildableComponent<
         );
 
         if (packageDirs.length === 0) {
-            this.logger.error(
-                "Failed to find any packages, ensure you have provided at least one directory as an entry point containing package.json",
-            );
+            this.logger.error(this.i18n.failed_to_find_packages());
             return;
         }
 
@@ -604,9 +608,7 @@ export class Application extends ChildableComponent<
                 EntryPointStrategy.Packages
             ) {
                 this.logger.error(
-                    `Project at ${nicePath(
-                        dir,
-                    )} has entryPointStrategy set to packages, but nested packages are not supported.`,
+                    this.i18n.nested_packages_unsupported_0(nicePath(dir)),
                 );
                 continue;
             }
@@ -620,7 +622,7 @@ export class Application extends ChildableComponent<
         }
 
         for (const { dir, options } of projectsToConvert) {
-            this.logger.info(`Converting project at ${nicePath(dir)}`);
+            this.logger.info(this.i18n.converting_project_at_0(nicePath(dir)));
             this.options = options;
             const project = await this.convert();
             if (project) {
@@ -635,14 +637,12 @@ export class Application extends ChildableComponent<
 
         this.options = origOptions;
 
-        this.logger.info(`Merging converted projects`);
         if (projects.length !== packageDirs.length) {
-            this.logger.error(
-                "Failed to convert one or more packages, result will not be merged together.",
-            );
+            this.logger.error(this.i18n.failed_to_convert_packages());
             return;
         }
 
+        this.logger.info(this.i18n.merging_converted_projects());
         const result = this.deserializer.reviveProjects(
             this.options.getValue("name") || "Documentation",
             projects,
@@ -655,7 +655,7 @@ export class Application extends ChildableComponent<
         const start = Date.now();
 
         if (!this.options.isSet("entryPoints")) {
-            this.logger.error("No entry points provided to merge.");
+            this.logger.error(this.i18n.no_entry_points_to_merge());
             return;
         }
 
@@ -665,9 +665,7 @@ export class Application extends ChildableComponent<
 
             if (result.length === 0) {
                 this.logger.warn(
-                    `The entrypoint glob ${nicePath(
-                        entry,
-                    )} did not match any files.`,
+                    this.i18n.entrypoint_did_not_match_files_0(nicePath(entry)),
                 );
             } else {
                 this.logger.verbose(
@@ -685,7 +683,7 @@ export class Application extends ChildableComponent<
                 return JSON.parse(readFile(path));
             } catch {
                 this.logger.error(
-                    `Failed to parse file at ${nicePath(path)} as json.`,
+                    this.i18n.failed_to_parse_json_0(nicePath(path)),
                 );
                 return null;
             }
