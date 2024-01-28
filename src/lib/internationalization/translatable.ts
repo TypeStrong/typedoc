@@ -1,3 +1,15 @@
+export function buildTranslation<
+    T extends BuiltinTranslatableStringConstraints,
+>(translations: T) {
+    return translations;
+}
+
+export function buildIncompleteTranslation<
+    T extends Partial<BuiltinTranslatableStringConstraints>,
+>(translations: T) {
+    return translations;
+}
+
 export const translatable = {
     loaded_multiple_times_0:
         "TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. The loaded paths are:\n\t{0}",
@@ -33,20 +45,7 @@ export const translatable = {
     failed_to_parse_json_0: `Failed to parse file at {0} as json.`,
 } as const;
 
-// TODO: Need automated check to check for unused translations
-// Can do this by finding all references on properties above.
-
-// Compiler errors here which says a property is missing indicates that the key on translatable
-// is not a literal string. It should be so that TypeDoc's placeholder replacement detection
-// can validate that all placeholders have been specified.
-const _validateLiteralStrings: {
-    [K in keyof typeof translatable as string extends (typeof translatable)[K]
-        ? K
-        : never]: never;
-} = {};
-_validateLiteralStrings;
-
-export type BuiltinTranslatableStrings = {
+export type BuiltinTranslatableStringArgs = {
     [K in keyof typeof translatable]: BuildTranslationArguments<
         (typeof translatable)[K]
     >;
@@ -58,3 +57,23 @@ type BuildTranslationArguments<
 > = T extends `${string}{${bigint}}${infer R}`
     ? BuildTranslationArguments<R, [...Acc, string]>
     : Acc;
+
+export type BuiltinTranslatableStringConstraints = {
+    [K in keyof BuiltinTranslatableStringArgs]: TranslationConstraint[BuiltinTranslatableStringArgs[K]["length"]];
+};
+
+type TranslationConstraint = [
+    string,
+    `${string}{0}${string}`,
+    `${string}{0}${string}{1}${string}` | `${string}{1}${string}{0}${string}`,
+];
+
+// Compiler errors here which says a property is missing indicates that the key on translatable
+// is not a literal string. It should be so that TypeDoc's placeholder replacement detection
+// can validate that all placeholders have been specified.
+const _validateLiteralStrings: {
+    [K in keyof typeof translatable as string extends (typeof translatable)[K]
+        ? K
+        : never]: never;
+} = {};
+_validateLiteralStrings;

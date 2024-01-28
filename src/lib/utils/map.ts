@@ -1,5 +1,5 @@
 export class DefaultMap<K, V> extends Map<K, V> {
-    constructor(private creator: () => V) {
+    constructor(private creator: (key: K) => V) {
         super();
     }
 
@@ -9,7 +9,7 @@ export class DefaultMap<K, V> extends Map<K, V> {
             return saved;
         }
 
-        const created = this.creator();
+        const created = this.creator(key);
         this.set(key, created);
         return created;
     }

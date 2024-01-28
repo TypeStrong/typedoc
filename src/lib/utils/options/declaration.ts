@@ -92,6 +92,7 @@ export interface TypeDocOptionMap {
     tsconfig: string;
     compilerOptions: unknown;
     plugin: string[];
+    lang: string;
 
     // Input
     entryPoints: string[];
@@ -129,7 +130,6 @@ export interface TypeDocOptionMap {
     markedOptions: unknown;
     basePath: string;
     cname: string;
-    htmlLang: string;
     githubPages: boolean;
     sitemapBaseUrl: string;
     cacheBust: boolean;

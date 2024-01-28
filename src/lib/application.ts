@@ -124,7 +124,7 @@ export class Application extends ChildableComponent<
     options = new Options();
 
     /** @internal */
-    @Option("htmlLang")
+    @Option("lang")
     accessor lang!: string;
 
     /** @internal */
@@ -234,6 +234,22 @@ export class Application extends ChildableComponent<
             );
         }
         this.trigger(ApplicationEvents.BOOTSTRAP_END, this);
+
+        if (!this.internationalization.hasTranslations(this.lang)) {
+            // Not internationalized as by definition we don't know what to include here.
+            this.logger.warn(
+                `Options specified "${this.lang}" as the language to use, but TypeDoc does not support it.`,
+            );
+            this.logger.info(
+                "The supported languages are:\n\t" +
+                    this.internationalization
+                        .getSupportedLanguages()
+                        .join("\n\t"),
+            );
+            this.logger.info(
+                "You can define/override local locales with the `locales` option, or contribute them to TypeDoc!",
+            );
+        }
     }
 
     private setOptions(options: Partial<TypeDocOptions>, reportErrors = true) {

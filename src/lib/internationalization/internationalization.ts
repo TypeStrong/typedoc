@@ -1,6 +1,12 @@
+import { ok } from "assert";
 import type { Application } from "../application";
-import { DefaultMap } from "../utils";
-import { translatable, type BuiltinTranslatableStrings } from "./translatable";
+import { DefaultMap, unique } from "../utils";
+import {
+    translatable,
+    type BuiltinTranslatableStringArgs,
+} from "./translatable";
+import { readdirSync } from "fs";
+import { join } from "path";
 
 /**
  * ### What is translatable?
@@ -36,7 +42,7 @@ import { translatable, type BuiltinTranslatableStrings } from "./translatable";
  * }
  * ```
  */
-export interface TranslatableStrings extends BuiltinTranslatableStrings {}
+export interface TranslatableStrings extends BuiltinTranslatableStringArgs {}
 
 /**
  * Dynamic proxy type built from {@link TranslatableStrings}
@@ -47,6 +53,12 @@ export type TranslationProxy = {
     ) => string;
 };
 
+// If we're running in ts-node, then we need the TS source rather than
+// the compiled file.
+const ext = process[Symbol.for("ts-node.register.instance") as never]
+    ? "cts"
+    : "cjs";
+
 /**
  * Simple internationalization module which supports placeholders.
  * See {@link TranslatableStrings} for a description of how this module works and how
@@ -54,9 +66,23 @@ export type TranslationProxy = {
  */
 export class Internationalization {
     private allTranslations = new DefaultMap<string, Map<string, string>>(
-        () => new Map(),
+        (lang) => {
+            // Make sure this isn't abused to load some random file by mistake
+            ok(
+                /^[A-Za-z\-]+$/.test(lang),
+                "Locale names may only contain letters and dashes",
+            );
+            try {
+                return new Map(
+                    Object.entries(require(`./locales/${lang}.${ext}`)),
+                );
+            } catch {
+                return new Map();
+            }
+        },
     );
 
+    /** @internal */
     constructor(private application: Application) {}
 
     /**
@@ -68,7 +94,7 @@ export class Internationalization {
         ...args: TranslatableStrings[T]
     ): string {
         return (
-            this.allTranslations.getNoInsert(this.application.lang)?.get(key) ??
+            this.allTranslations.get(this.application.lang).get(key) ??
             translatable[key] ??
             key
         ).replace(/\{(\d+)\}/g, (_, index) => {
@@ -90,6 +116,25 @@ export class Internationalization {
                 target.set(key, val);
             }
         }
+    }
+
+    /**
+     * Checks if we have any translations in the specified language.
+     */
+    hasTranslations(lang: string): boolean {
+        return this.allTranslations.get(lang).size > 0;
+    }
+
+    /**
+     * Gets a list of all languages with at least one translation.
+     */
+    getSupportedLanguages(): string[] {
+        return unique([
+            ...readdirSync(join(__dirname, "locales")).map((x) =>
+                x.substring(0, x.indexOf(".")),
+            ),
+            ...this.allTranslations.keys(),
+        ]).sort();
     }
 
     /**

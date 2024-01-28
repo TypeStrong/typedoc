@@ -384,8 +384,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
     options.addDeclaration({
-        name: "htmlLang",
-        help: "Sets the lang attribute in the generated html tag.",
+        name: "lang",
+        help: "Sets the language to be used in generation and in TypeDoc's messages.",
         type: ParameterType.String,
         defaultValue: "en",
     });

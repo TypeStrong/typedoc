@@ -10,7 +10,7 @@ export const defaultLayout = (
     template: RenderTemplate<PageEvent<Reflection>>,
     props: PageEvent<Reflection>,
 ) => (
-    <html class="default" lang={context.options.getValue("htmlLang")}>
+    <html class="default" lang={context.options.getValue("lang")}>
         <head>
             <meta charSet="utf-8" />
             {context.hook("head.begin")}
