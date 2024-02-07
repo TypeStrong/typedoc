@@ -3,7 +3,14 @@ import type { PageEvent } from "../../../events";
 import { JSX } from "../../../../utils";
 import { ReflectionKind, type ProjectReflection, DeclarationReflection } from "../../../../models";
 
-function fullHierarchy(context: DefaultThemeRenderContext, root: DeclarationReflection) {
+function fullHierarchy(
+    context: DefaultThemeRenderContext,
+    root: DeclarationReflection,
+    seen = new Set<DeclarationReflection>(),
+) {
+    if (seen.has(root)) return;
+    seen.add(root);
+
     // Note: We don't use root.anchor for the anchor, because those are built on a per page basis.
     // And classes/interfaces get their own page, so all the anchors will be empty anyways.
     // Full name should be safe here, since this list only includes classes/interfaces.
@@ -16,10 +23,10 @@ function fullHierarchy(context: DefaultThemeRenderContext, root: DeclarationRefl
             </a>
             <ul>
                 {root.implementedBy?.map((child) => {
-                    return child.reflection && fullHierarchy(context, child.reflection as DeclarationReflection);
+                    return child.reflection && fullHierarchy(context, child.reflection as DeclarationReflection, seen);
                 })}
                 {root.extendedBy?.map((child) => {
-                    return child.reflection && fullHierarchy(context, child.reflection as DeclarationReflection);
+                    return child.reflection && fullHierarchy(context, child.reflection as DeclarationReflection, seen);
                 })}
             </ul>
         </li>

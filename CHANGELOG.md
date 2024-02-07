@@ -9,6 +9,7 @@
 ## Bug Fixes
 
 -   Fixed an issue where a namespace would not be created for merged function-namespaces which are declared as variables, #2478.
+-   A class which implements itself will no longer cause a crash when rendering HTML, #2495.
 -   Variable functions which have construct signatures will no longer be converted as functions, ignoring the construct signatures.
 -   Fixed an issue where, if the index section was collapsed when loading the page, all content within it would be hidden until expanded, and a member visibility checkbox was changed.
 
