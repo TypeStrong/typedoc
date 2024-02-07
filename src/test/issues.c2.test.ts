@@ -28,6 +28,7 @@ import {
 } from "./programs";
 import { TestLogger } from "./TestLogger";
 import { getComment, getLinks, query, querySig } from "./utils";
+import { DefaultTheme, PageEvent } from "..";
 
 const base = getConverter2Base();
 const app = getConverter2App();
@@ -1371,5 +1372,15 @@ describe("Issue Tests", () => {
         ]);
 
         equal(project.children[0].children?.map((c) => c.name), ["Options"]);
+    });
+
+    it("Does not crash when rendering recursive hierarchy, #2495", () => {
+        const project = convert();
+
+        const theme = new DefaultTheme(app.renderer);
+        const page = new PageEvent("hierarchy", project);
+        page.project = project;
+        const context = theme.getRenderContext(page);
+        context.hierarchyTemplate(page);
     });
 });
