@@ -1,10 +1,6 @@
 import { ReflectionCategory } from "./ReflectionCategory";
-import {
-    Comment,
-    type CommentDisplayPart,
-    type DeclarationReflection,
-    type Reflection,
-} from ".";
+import { Comment } from "./comments";
+import type { CommentDisplayPart, DeclarationReflection, Reflection } from ".";
 import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 
 /**

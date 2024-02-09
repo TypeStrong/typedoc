@@ -1,8 +1,5 @@
-import {
-    Comment,
-    type CommentDisplayPart,
-    type DeclarationReflection,
-} from ".";
+import { Comment } from "./comments";
+import type { CommentDisplayPart, DeclarationReflection } from ".";
 import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 
 /**
