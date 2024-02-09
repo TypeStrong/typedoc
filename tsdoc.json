@@ -32,7 +32,17 @@
             "allowMultiple": true
         },
         {
+            "tagName": "@groupDescription",
+            "syntaxKind": "block",
+            "allowMultiple": true
+        },
+        {
             "tagName": "@category",
+            "syntaxKind": "block",
+            "allowMultiple": true
+        },
+        {
+            "tagName": "@categoryDescription",
             "syntaxKind": "block",
             "allowMultiple": true
         },

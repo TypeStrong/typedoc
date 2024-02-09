@@ -101,7 +101,10 @@ export class GroupPlugin extends ConverterComponent {
             ) {
                 this.sortFunction(reflection.children);
             }
-            reflection.groups = this.getReflectionGroups(reflection.children);
+            reflection.groups = this.getReflectionGroups(
+                reflection,
+                reflection.children,
+            );
         }
     }
 
@@ -162,6 +165,7 @@ export class GroupPlugin extends ConverterComponent {
      * @returns An array containing all children of the given reflection grouped by their kind.
      */
     getReflectionGroups(
+        parent: ContainerReflection,
         reflections: DeclarationReflection[],
     ): ReflectionGroup[] {
         const groups = new Map<string, ReflectionGroup>();
@@ -177,6 +181,27 @@ export class GroupPlugin extends ConverterComponent {
                 group.children.push(child);
             }
         });
+
+        if (parent.comment) {
+            removeIf(parent.comment.blockTags, (tag) => {
+                if (tag.tag === "@groupDescription") {
+                    const { header, body } = Comment.splitPartsToHeaderAndBody(
+                        tag.content,
+                    );
+                    const cat = groups.get(header);
+                    if (cat) {
+                        cat.description = body;
+                    } else {
+                        this.application.logger.warn(
+                            `Comment for ${parent.getFriendlyFullName()} includes @groupDescription for "${header}", but no child is placed in that group.`,
+                        );
+                    }
+
+                    return true;
+                }
+                return false;
+            });
+        }
 
         return Array.from(groups.values()).sort(GroupPlugin.sortGroupCallback);
     }

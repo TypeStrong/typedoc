@@ -7,6 +7,8 @@
 // The Events object is a typesafe conversion of Backbones Events object:
 // https://github.com/jashkenas/backbone/blob/05fde9e201f7e2137796663081105cd6dad12a98/backbone.js#L119-L374
 
+// Priority: Higher number makes the listener be called earlier.
+
 const uniqueId = (function () {
     const prefixes: Record<string, number | undefined> = Object.create(null);
     return function (prefix: string) {

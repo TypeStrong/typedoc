@@ -4,6 +4,13 @@ export { EventDispatcher, Event } from "./lib/utils/events";
 export { resetReflectionID } from "./lib/models/reflections/abstract";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
+ *
+ * @categoryDescription Types
+ * Describes a TypeScript type.
+ *
+ * @categoryDescription Reflections
+ * Describes a documentation entry. The root entry is a {@link ProjectReflection}
+ * and contains {@link DeclarationReflection} instances.
  */
 export * as Models from "./lib/models";
 /**

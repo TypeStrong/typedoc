@@ -1,4 +1,8 @@
-import type { DeclarationReflection } from ".";
+import {
+    Comment,
+    type CommentDisplayPart,
+    type DeclarationReflection,
+} from ".";
 import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 
 /**
@@ -13,6 +17,11 @@ export class ReflectionCategory {
      * The title, a string representation of this category.
      */
     title: string;
+
+    /**
+     * The user specified description, if any, set with `@categoryDescription`
+     */
+    description?: CommentDisplayPart[];
 
     /**
      * All reflections of this category.
@@ -35,9 +44,12 @@ export class ReflectionCategory {
         return this.children.every((child) => child.hasOwnDocument);
     }
 
-    toObject(_serializer: Serializer): JSONOutput.ReflectionCategory {
+    toObject(serializer: Serializer): JSONOutput.ReflectionCategory {
         return {
             title: this.title,
+            description: this.description
+                ? Comment.serializeDisplayParts(serializer, this.description)
+                : undefined,
             children:
                 this.children.length > 0
                     ? this.children.map((child) => child.id)
@@ -46,6 +58,13 @@ export class ReflectionCategory {
     }
 
     fromObject(de: Deserializer, obj: JSONOutput.ReflectionCategory) {
+        if (obj.description) {
+            this.description = Comment.deserializeDisplayParts(
+                de,
+                obj.description,
+            );
+        }
+
         if (obj.children) {
             de.defer((project) => {
                 for (const childId of obj.children || []) {
