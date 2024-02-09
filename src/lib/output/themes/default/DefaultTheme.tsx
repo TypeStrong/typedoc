@@ -16,7 +16,7 @@ import type { PageEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 import { JSX } from "../../../utils";
-import { classNames, getDisplayName, toStyleClass } from "../lib";
+import { classNames, getDisplayName, getHierarchyRoots, toStyleClass } from "../lib";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.
@@ -155,7 +155,7 @@ export class DefaultTheme extends Theme {
             urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         }
 
-        if (includeHierarchyPage(project)) {
+        if (getHierarchyRoots(project).length) {
             urls.push(new UrlMapping("hierarchy.html", project, this.hierarchyTemplate));
         }
 
@@ -464,18 +464,4 @@ function shouldShowGroups(reflection: Reflection, opts: { includeCategories: boo
         return !reflection.comment?.hasModifier("@hideGroups");
     }
     return reflection.comment?.hasModifier("@showGroups") === true;
-}
-
-function includeHierarchyPage(project: ProjectReflection) {
-    for (const id in project.reflections) {
-        const refl = project.reflections[id] as DeclarationReflection;
-
-        if (refl.kindOf(ReflectionKind.ClassOrInterface)) {
-            // Keep this condition in sync with the one in hierarchy.tsx for determining roots
-            if (!(refl.implementedTypes || refl.extendedTypes) && (refl.implementedBy || refl.extendedBy)) {
-                return true;
-            }
-        }
-    }
-    return false;
 }

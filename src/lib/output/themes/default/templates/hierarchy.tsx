@@ -1,7 +1,8 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import type { PageEvent } from "../../../events";
 import { JSX } from "../../../../utils";
-import { ReflectionKind, type ProjectReflection, DeclarationReflection } from "../../../../models";
+import { getHierarchyRoots } from "../../lib";
+import type { DeclarationReflection, ProjectReflection } from "../../../../models";
 
 function fullHierarchy(
     context: DefaultThemeRenderContext,
@@ -34,15 +35,10 @@ function fullHierarchy(
 }
 
 export function hierarchyTemplate(context: DefaultThemeRenderContext, props: PageEvent<ProjectReflection>) {
-    // Keep this condition in sync with the one in DefaultTheme.tsx
-    const roots = (props.project.getReflectionsByKind(ReflectionKind.ClassOrInterface) as DeclarationReflection[])
-        .filter((refl) => !(refl.implementedTypes || refl.extendedTypes) && (refl.implementedBy || refl.extendedBy))
-        .sort((a, b) => a.name.localeCompare(b.name));
-
     return (
         <>
             <h2>Class Hierarchy</h2>
-            {roots.map((root) => (
+            {getHierarchyRoots(props.project).map((root) => (
                 <ul class="tsd-full-hierarchy">{fullHierarchy(context, root)}</ul>
             ))}
         </>

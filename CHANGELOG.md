@@ -6,15 +6,16 @@
 -   Added support for the `@class` tag. When added to a comment on a variable or function, TypeDoc will convert the member as a class, #2479.
     Note: This should only be used on symbols which actually represent a class, but are not declared as a class for some reason.
 -   Added support for `@groupDescription` and `@categoryDescription` to provide a description of groups and categories, #2494.
--   Exposed `Context.getNodeComment` for plugin use, #2498.
+-   API: Exposed `Context.getNodeComment` for plugin use, #2498.
 
 ## Bug Fixes
 
 -   Fixed an issue where a namespace would not be created for merged function-namespaces which are declared as variables, #2478.
 -   A class which implements itself will no longer cause a crash when rendering HTML, #2495.
 -   Variable functions which have construct signatures will no longer be converted as functions, ignoring the construct signatures.
+-   The class hierarchy page will now include classes whose base class is not included in the documentation, #2486.
 -   Fixed an issue where, if the index section was collapsed when loading the page, all content within it would be hidden until expanded, and a member visibility checkbox was changed.
--   `Context.programs` will no longer contain duplicates, #2498.
+-   API: `Context.programs` will no longer contain duplicates, #2498.
 
 ## v0.25.7 (2024-01-08)
 
