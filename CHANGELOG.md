@@ -5,10 +5,8 @@
 -   Added a new `--sitemapBaseUrl` option. When specified, TypeDoc will generate a `sitemap.xml` in your output folder that describes the site, #2480.
 -   Added support for the `@class` tag. When added to a comment on a variable or function, TypeDoc will convert the member as a class, #2479.
     Note: This should only be used on symbols which actually represent a class, but are not declared as a class for some reason.
-
-## Features
-
 -   Added support for `@groupDescription` and `@categoryDescription` to provide a description of groups and categories, #2494.
+-   Exposed `Context.getNodeComment` for plugin use, #2498.
 
 ## Bug Fixes
 

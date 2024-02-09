@@ -18,6 +18,7 @@ import {
     getComment,
     getFileComment,
     getJsDocComment,
+    getNodeComment,
     getSignatureComment,
 } from "./comments";
 import { getHumanName } from "../utils/tsutils";
@@ -262,6 +263,17 @@ export class Context {
     getComment(symbol: ts.Symbol, kind: ReflectionKind) {
         return getComment(
             symbol,
+            kind,
+            this.converter.config,
+            this.logger,
+            this.converter.commentStyle,
+            this.converter.useTsLinkResolution ? this.checker : undefined,
+        );
+    }
+
+    getNodeComment(node: ts.Node, kind: ReflectionKind) {
+        return getNodeComment(
+            node,
             kind,
             this.converter.config,
             this.logger,
