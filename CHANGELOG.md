@@ -14,6 +14,7 @@
 -   A class which implements itself will no longer cause a crash when rendering HTML, #2495.
 -   Variable functions which have construct signatures will no longer be converted as functions, ignoring the construct signatures.
 -   Fixed an issue where, if the index section was collapsed when loading the page, all content within it would be hidden until expanded, and a member visibility checkbox was changed.
+-   `Context.programs` will no longer contain duplicates, #2498.
 
 ## v0.25.7 (2024-01-08)
 
