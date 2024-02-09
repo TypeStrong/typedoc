@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.8 (2024-02-09)
+
 ## Features
 
 -   Added a new `--sitemapBaseUrl` option. When specified, TypeDoc will generate a `sitemap.xml` in your output folder that describes the site, #2480.
