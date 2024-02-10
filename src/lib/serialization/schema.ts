@@ -177,6 +177,7 @@ export interface DeclarationReflection
             | "getSignature"
             | "setSignature"
             | "typeParameters"
+            | "readme"
         > {}
 
 /** @category Reflections */

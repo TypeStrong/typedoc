@@ -311,6 +311,7 @@ export class DeclarationReflection extends ContainerReflection {
                 this.implementedTypes,
             ),
             implementedBy: serializer.toObjectsOptional(this.implementedBy),
+            readme: Comment.serializeDisplayParts(serializer, this.readme),
         };
     }
 
