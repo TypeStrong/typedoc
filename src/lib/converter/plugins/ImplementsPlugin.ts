@@ -14,6 +14,7 @@ import { Component, ConverterComponent } from "../components";
 import type { Context } from "../context";
 import { Converter } from "../converter";
 import { getHumanName } from "../../utils";
+import type { TranslatedString } from "../../internationalization/internationalization";
 
 /**
  * A plugin that detects interface implementations of functions and
@@ -318,7 +319,7 @@ export class ImplementsPlugin extends ConverterComponent {
                 } member "${
                     reflection.escapedName ?? reflection.name
                 }" of "${reflection.parent
-                    ?.name}" for inheritance analysis. Please report a bug.`,
+                    ?.name}" for inheritance analysis. Please report a bug.` as TranslatedString,
             );
             return;
         }

@@ -476,7 +476,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             includeCategories: false,
             includeGroups: false,
             includeFolders: true,
-            fullTree: false,
         },
     });
 

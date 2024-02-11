@@ -154,7 +154,7 @@ export class SourcePlugin extends ConverterComponent {
 
         if (this.disableGit && !this.sourceLinkTemplate) {
             this.application.logger.error(
-                `disableGit is set, but sourceLinkTemplate is not, so source links cannot be produced. Set a sourceLinkTemplate or disableSources to prevent source tracking.`,
+                context.i18n.disable_git_set_but_not_source_link_template(),
             );
             return;
         }
@@ -164,7 +164,7 @@ export class SourcePlugin extends ConverterComponent {
             !this.gitRevision
         ) {
             this.application.logger.warn(
-                `disableGit is set and sourceLinkTemplate contains {gitRevision}, which will be replaced with an empty string as no revision was provided.`,
+                context.i18n.disable_git_set_and_git_revision_used(),
             );
         }
 

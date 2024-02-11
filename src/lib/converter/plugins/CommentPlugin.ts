@@ -348,10 +348,10 @@ export class CommentPlugin extends ConverterComponent {
                 !/[A-Z_][A-Z0-9_]/.test(reflection.comment.label)
             ) {
                 context.logger.warn(
-                    `The label "${
-                        reflection.comment.label
-                    }" for ${reflection.getFriendlyFullName()} cannot be referenced with a declaration reference. ` +
-                        `Labels may only contain A-Z, 0-9, and _, and may not start with a number.`,
+                    context.i18n.label_0_for_1_cannot_be_referenced(
+                        reflection.comment.label,
+                        reflection.getFriendlyFullName(),
+                    ),
                 );
             }
 
@@ -618,9 +618,10 @@ export class CommentPlugin extends ConverterComponent {
         if (signatureHadOwnComment && paramTags.length) {
             for (const tag of paramTags) {
                 this.application.logger.warn(
-                    `The signature ${signature.getFriendlyFullName()} has an @param with name "${
-                        tag.name
-                    }", which was not used.`,
+                    this.application.i18n.signature_0_has_unused_param_with_name_1(
+                        signature.getFriendlyFullName(),
+                        tag.name ?? "(missing)",
+                    ),
                 );
             }
         }

@@ -13,7 +13,8 @@ import { join } from "path";
  * TypeDoc includes a lot of literal strings. By convention, messages which are displayed
  * to the user at the INFO level or above should be present in this object to be available
  * for translation. Messages at the VERBOSE level need not be translated as they are primarily
- * intended for debugging.
+ * intended for debugging. ERROR/WARNING deprecation messages related to TypeDoc's API, or
+ * requesting users submit a bug report need not be translated.
  *
  * Errors thrown by TypeDoc are generally *not* considered translatable as they are not
  * displayed to the user. An exception to this is errors thrown by the `validate` method
@@ -44,13 +45,16 @@ import { join } from "path";
  */
 export interface TranslatableStrings extends BuiltinTranslatableStringArgs {}
 
+declare const TranslatedString: unique symbol;
+export type TranslatedString = string & { [TranslatedString]: true };
+
 /**
  * Dynamic proxy type built from {@link TranslatableStrings}
  */
 export type TranslationProxy = {
     [K in keyof TranslatableStrings]: (
         ...args: TranslatableStrings[K]
-    ) => string;
+    ) => TranslatedString;
 };
 
 // If we're running in ts-node, then we need the TS source rather than
@@ -82,8 +86,12 @@ export class Internationalization {
         },
     );
 
-    /** @internal */
-    constructor(private application: Application) {}
+    /**
+     * If constructed without an application, will use the default language.
+     * Intended for use in unit tests only.
+     * @internal
+     */
+    constructor(private application: Application | null) {}
 
     /**
      * Get the translation of the specified key, replacing placeholders
@@ -92,14 +100,14 @@ export class Internationalization {
     translate<T extends keyof TranslatableStrings>(
         key: T,
         ...args: TranslatableStrings[T]
-    ): string {
+    ): TranslatedString {
         return (
-            this.allTranslations.get(this.application.lang).get(key) ??
+            this.allTranslations.get(this.application?.lang ?? "en").get(key) ??
             translatable[key] ??
             key
         ).replace(/\{(\d+)\}/g, (_, index) => {
             return args[+index] ?? "(no placeholder)";
-        });
+        }) as TranslatedString;
     }
 
     /**

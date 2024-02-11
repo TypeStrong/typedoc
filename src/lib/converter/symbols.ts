@@ -385,7 +385,7 @@ function convertTypeAliasAsInterface(
 
     if (type.getFlags() & ts.TypeFlags.Union) {
         context.logger.warn(
-            `Using @interface on a union type will discard properties not present on all branches of the union. TypeDoc's output may not accurately describe your source code.`,
+            context.i18n.converting_union_as_interface(),
             declaration,
         );
     }
@@ -1106,7 +1106,9 @@ function convertSymbolAsClass(
 
     if (!symbol.valueDeclaration) {
         context.logger.error(
-            `No value declaration found when converting ${symbol.name} as a class`,
+            context.i18n.converting_0_as_class_requires_value_declaration(
+                symbol.name,
+            ),
             symbol.declarations?.[0],
         );
         return;
@@ -1160,7 +1162,9 @@ function convertSymbolAsClass(
         }
     } else {
         context.logger.warn(
-            `${reflection.getFriendlyFullName()} is being converted as a class, but does not have any construct signatures`,
+            context.i18n.converting_0_as_class_without_construct_signatures(
+                reflection.getFriendlyFullName(),
+            ),
             symbol.valueDeclaration,
         );
     }

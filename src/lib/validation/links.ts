@@ -40,7 +40,10 @@ export function validateLinks(
                 )}"`;
             }
             logger.warn(
-                `Failed to resolve link to "${broken}" in comment for ${reflection.getFriendlyFullName()}.${extra}`,
+                logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1(
+                    broken,
+                    `${reflection.getFriendlyFullName()}.${extra}`,
+                ),
             );
         }
     }

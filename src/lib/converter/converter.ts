@@ -414,9 +414,9 @@ export class Converter extends ChildableComponent<
                         ...comment.modifierTags,
                     ];
                     context.logger.warn(
-                        `Block and modifier tags will be ignored within the readme:\n\t${ignored.join(
-                            "\n\t",
-                        )}`,
+                        this.application.i18n.block_and_modifier_tags_ignored_within_readme_0(
+                            ignored.join("\n\t"),
+                        ),
                     );
                 }
 

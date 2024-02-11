@@ -47,9 +47,6 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      */
     private mediaPattern = /media:\/\/([^ ")\]}]+)/g;
 
-    private sources?: { fileName: string; line: number }[];
-    private outputFileName?: string;
-
     /**
      * Create a new MarkedPlugin instance.
      */
@@ -69,14 +66,12 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         lang = lang || "typescript";
         lang = lang.toLowerCase();
         if (!isSupportedLanguage(lang)) {
-            // Extra newline because of the progress bar
-            this.application.logger.warn(`
-Unsupported highlight language "${lang}" will not be highlighted. Run typedoc --help for a list of supported languages.
-target code block :
-\t${text.split("\n").join("\n\t")}
-source files :${this.sources?.map((source) => `\n\t${source.fileName}`).join()}
-output file :
-\t${this.outputFileName}`);
+            this.application.logger.warn(
+                this.application.i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
+                    lang,
+                    this.page?.model.getFriendlyFullName() ?? "(unknown)",
+                ),
+            );
             return text;
         }
 
@@ -99,7 +94,7 @@ output file :
                     this.owner.trigger(event);
                     return event.parsedText;
                 } else {
-                    this.application.logger.warn("Could not find file to include: " + path);
+                    this.application.logger.warn(this.application.i18n.could_not_find_file_to_include_0(path));
                     return "";
                 }
             });
@@ -112,7 +107,7 @@ output file :
                 if (isFile(fileName)) {
                     return this.getRelativeUrl("media") + "/" + path;
                 } else {
-                    this.application.logger.warn("Could not find media file: " + fileName);
+                    this.application.logger.warn(this.application.i18n.could_not_find_media_file_0(fileName));
                     return match;
                 }
             });
@@ -139,7 +134,9 @@ output file :
             if (fs.existsSync(this.includeSource) && fs.statSync(this.includeSource).isDirectory()) {
                 this.includes = this.includeSource;
             } else {
-                this.application.logger.warn("Could not find provided includes directory: " + this.includeSource);
+                this.application.logger.warn(
+                    this.application.i18n.could_not_find_includes_directory(this.includeSource),
+                );
             }
         }
 
@@ -149,7 +146,7 @@ output file :
                 copySync(this.mediaSource, this.mediaDirectory);
             } else {
                 this.mediaDirectory = undefined;
-                this.application.logger.warn("Could not find provided media directory: " + this.mediaSource);
+                this.application.logger.warn(this.application.i18n.could_not_find_media_directory(this.mediaSource));
             }
         }
     }

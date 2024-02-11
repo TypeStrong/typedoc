@@ -323,7 +323,9 @@ export class Renderer extends ChildableComponent<
         try {
             writeFileSync(page.filename, page.contents);
         } catch (error) {
-            this.application.logger.error(`Could not write ${page.filename}`);
+            this.application.logger.error(
+                this.application.i18n.could_not_write_0(page.filename),
+            );
         }
     }
 
@@ -340,11 +342,10 @@ export class Renderer extends ChildableComponent<
             const ctor = this.themes.get(this.themeName);
             if (!ctor) {
                 this.application.logger.error(
-                    `The theme '${
-                        this.themeName
-                    }' is not defined. The available themes are: ${[
-                        ...this.themes.keys(),
-                    ].join(", ")}`,
+                    this.application.i18n.theme_0_is_not_defined_available_are_1(
+                        this.themeName,
+                        [...this.themes.keys()].join(", "),
+                    ),
                 );
                 return false;
             } else {
@@ -371,7 +372,9 @@ export class Renderer extends ChildableComponent<
                 });
             } catch (error) {
                 this.application.logger.warn(
-                    "Could not empty the output directory.",
+                    this.application.i18n.could_not_empty_output_directory_0(
+                        directory,
+                    ),
                 );
                 return false;
             }
@@ -381,7 +384,9 @@ export class Renderer extends ChildableComponent<
             fs.mkdirSync(directory, { recursive: true });
         } catch (error) {
             this.application.logger.error(
-                `Could not create output directory ${directory}.`,
+                this.application.i18n.could_not_create_output_directory_0(
+                    directory,
+                ),
             );
             return false;
         }
@@ -396,7 +401,9 @@ export class Renderer extends ChildableComponent<
                 fs.writeFileSync(path.join(directory, ".nojekyll"), text);
             } catch (error) {
                 this.application.logger.warn(
-                    "Could not create .nojekyll file.",
+                    this.application.i18n.could_not_write_0(
+                        path.join(directory, ".nojekyll"),
+                    ),
                 );
                 return false;
             }

@@ -201,7 +201,9 @@ export function discoverComment(
             return discovered[0];
         default: {
             logger.warn(
-                `${symbol.name} has multiple declarations with a comment. An arbitrary comment will be used.`,
+                logger.i18n.symbol_0_has_multiple_declarations_with_comment(
+                    symbol.name,
+                ),
             );
             const locations = discovered.map(({ file, ranges: [{ pos }] }) => {
                 const path = nicePath(file.fileName);
@@ -210,9 +212,10 @@ export function discoverComment(
                 return `${path}:${line}`;
             });
             logger.info(
-                `The comments for ${
-                    symbol.name
-                } are declared at:\n\t${locations.join("\n\t")}`,
+                logger.i18n.comments_for_0_are_declared_at_1(
+                    symbol.name,
+                    locations.join("\n\t"),
+                ),
             );
             return discovered[0];
         }

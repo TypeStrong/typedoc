@@ -50,9 +50,7 @@ export function getEntryPoints(
     options: Options,
 ): DocumentationEntryPoint[] | undefined {
     if (!options.isSet("entryPoints")) {
-        logger.warn(
-            "No entry points were provided, this is likely a misconfiguration.",
-        );
+        logger.warn(logger.i18n.no_entry_points_provided());
         return [];
     }
 
@@ -94,7 +92,7 @@ export function getEntryPoints(
     }
 
     if (result && result.length === 0) {
-        logger.error("Unable to find any entry points. See previous warnings.");
+        logger.error(logger.i18n.unable_to_find_any_entry_points());
         return;
     }
 
@@ -132,15 +130,11 @@ export function getWatchEntryPoints(
             break;
 
         case EntryPointStrategy.Packages:
-            logger.error(
-                "Watch mode does not support 'packages' style entry points.",
-            );
+            logger.error(logger.i18n.watch_does_not_support_packages_mode());
             break;
 
         case EntryPointStrategy.Merge:
-            logger.error(
-                "Watch mode does not support 'merge' style entry points.",
-            );
+            logger.error(logger.i18n.watch_does_not_support_merge_mode());
             break;
 
         default:
@@ -148,7 +142,7 @@ export function getWatchEntryPoints(
     }
 
     if (result && result.length === 0) {
-        logger.error("Unable to find any entry points.");
+        logger.error(logger.i18n.unable_to_find_any_entry_points());
         return;
     }
 
@@ -187,6 +181,7 @@ function getEntryPointsForPaths(
 ): DocumentationEntryPoint[] {
     const baseDir = options.getValue("basePath") || deriveRootDir(inputFiles);
     const entryPoints: DocumentationEntryPoint[] = [];
+    let expandSuggestion = true;
 
     entryLoop: for (const fileOrDir of inputFiles.map(normalizePath)) {
         const toCheck = [fileOrDir];
@@ -217,14 +212,13 @@ function getEntryPointsForPaths(
             }
         }
 
-        const suggestion = isDir(fileOrDir)
-            ? " If you wanted to include files inside this directory, set --entryPointStrategy to expand or specify a glob."
-            : "";
         logger.warn(
-            `The entry point ${nicePath(
-                fileOrDir,
-            )} is not referenced by the 'files' or 'include' option in your tsconfig.${suggestion}`,
+            logger.i18n.entry_point_0_not_in_program(nicePath(fileOrDir)),
         );
+        if (expandSuggestion && isDir(fileOrDir)) {
+            expandSuggestion = false;
+            logger.info(logger.i18n.use_expand_or_glob_for_files_in_dir());
+        }
     }
 
     return entryPoints;
@@ -260,15 +254,15 @@ function expandGlobs(inputFiles: string[], exclude: string[], logger: Logger) {
 
         if (result.length === 0) {
             logger.warn(
-                `The entrypoint glob ${nicePath(
-                    entry,
-                )} did not match any files.`,
+                logger.i18n.entry_point_0_did_not_match_any_files(
+                    nicePath(entry),
+                ),
             );
         } else if (filtered.length === 0) {
             logger.warn(
-                `The entrypoint glob ${nicePath(
-                    entry,
-                )} did not match any files after applying exclude patterns.`,
+                logger.i18n.entry_point_0_did_not_match_any_files_after_exclude(
+                    nicePath(entry),
+                ),
             );
         } else {
             logger.verbose(
@@ -382,9 +376,7 @@ function expandInputFiles(
     entryPoints.forEach((file) => {
         const resolved = resolve(file);
         if (!FS.existsSync(resolved)) {
-            logger.warn(
-                `Provided entry point ${file} does not exist and will not be included in the docs.`,
-            );
+            logger.warn(logger.i18n.entry_point_0_did_not_exist(file));
             return;
         }
 

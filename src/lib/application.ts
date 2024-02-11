@@ -42,7 +42,10 @@ import { findTsConfigFile } from "./utils/tsconfig";
 import { deriveRootDir, glob, readFile } from "./utils/fs";
 import { resetReflectionID } from "./models/reflections/abstract";
 import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId";
-import { Internationalization } from "./internationalization/internationalization";
+import {
+    Internationalization,
+    TranslatedString,
+} from "./internationalization/internationalization";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -175,6 +178,7 @@ export class Application extends ChildableComponent<
 
         this.converter = this.addComponent<Converter>("converter", Converter);
         this.renderer = this.addComponent<Renderer>("renderer", Renderer);
+        this.logger.i18n = this.i18n;
     }
 
     /**
@@ -235,19 +239,20 @@ export class Application extends ChildableComponent<
         }
         this.trigger(ApplicationEvents.BOOTSTRAP_END, this);
 
+        // GERRIT: Add locales to i18n here.
         if (!this.internationalization.hasTranslations(this.lang)) {
             // Not internationalized as by definition we don't know what to include here.
             this.logger.warn(
-                `Options specified "${this.lang}" as the language to use, but TypeDoc does not support it.`,
+                `Options specified "${this.lang}" as the language to use, but TypeDoc does not support it.` as TranslatedString,
             );
             this.logger.info(
-                "The supported languages are:\n\t" +
+                ("The supported languages are:\n\t" +
                     this.internationalization
                         .getSupportedLanguages()
-                        .join("\n\t"),
+                        .join("\n\t")) as TranslatedString,
             );
             this.logger.info(
-                "You can define/override local locales with the `locales` option, or contribute them to TypeDoc!",
+                "You can define/override local locales with the `locales` option, or contribute them to TypeDoc!" as TranslatedString,
             );
         }
     }
@@ -259,7 +264,7 @@ export class Application extends ChildableComponent<
             } catch (error) {
                 ok(error instanceof Error);
                 if (reportErrors) {
-                    this.logger.error(error.message);
+                    this.logger.error(error.message as TranslatedString); // GERRIT review
                 }
             }
         }
@@ -433,7 +438,7 @@ export class Application extends ChildableComponent<
                     ts.flattenDiagnosticMessageText(
                         status.messageText,
                         newLine,
-                    ),
+                    ) as TranslatedString,
                 );
             },
         );

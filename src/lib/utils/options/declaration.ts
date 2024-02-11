@@ -146,7 +146,6 @@ export interface TypeDocOptionMap {
         includeCategories: boolean;
         includeGroups: boolean;
         includeFolders: boolean;
-        fullTree: boolean;
     };
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;

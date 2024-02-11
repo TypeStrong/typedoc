@@ -341,7 +341,9 @@ export class DeclarationReflection extends ContainerReflection {
                         );
                     } else {
                         de.logger.warn(
-                            `Serialized project contained a reflection with id ${id} but it was not present in deserialized project.`,
+                            de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                                id.toString(),
+                            ),
                         );
                     }
                 }

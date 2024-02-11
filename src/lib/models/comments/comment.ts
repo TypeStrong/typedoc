@@ -294,7 +294,9 @@ export class Comment {
                     );
                     if (!part.target) {
                         de.logger.warn(
-                            `Serialized project contained a link to ${oldId} (${part.text}), which was not a part of the project.`,
+                            de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                                oldId.toString(),
+                            ),
                         );
                     }
                 }

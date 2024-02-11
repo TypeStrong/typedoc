@@ -108,9 +108,9 @@ export class PackagePlugin extends ConverterComponent {
                 this.readmeFile = this.readme;
             } catch {
                 this.application.logger.error(
-                    `Provided README path, ${nicePath(
-                        this.readme,
-                    )} could not be read.`,
+                    this.application.i18n.provided_readme_at_0_could_not_be_read(
+                        nicePath(this.readme),
+                    ),
                 );
             }
         } else {
@@ -156,9 +156,9 @@ export class PackagePlugin extends ConverterComponent {
                     ...comment.modifierTags,
                 ];
                 this.application.logger.warn(
-                    `Block and modifier tags will be ignored within the readme:\n\t${ignored.join(
-                        "\n\t",
-                    )}`,
+                    this.application.i18n.block_and_modifier_tags_ignored_within_readme_0(
+                        ignored.join("\n\t"),
+                    ),
                 );
             }
 
@@ -178,7 +178,7 @@ export class PackagePlugin extends ConverterComponent {
             }
         } else if (!project.name) {
             this.application.logger.warn(
-                'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".',
+                this.application.i18n.defaulting_project_name(),
             );
             project.name = "Documentation";
         }

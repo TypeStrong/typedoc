@@ -255,12 +255,6 @@ export class DefaultTheme extends Theme {
         const opts = this.application.options.getValue("navigation");
         const leaves = this.application.options.getValue("navigationLeaves");
 
-        if (opts.fullTree) {
-            this.application.logger.warn(
-                `The navigation.fullTree option no longer has any affect and will be removed in v0.26`,
-            );
-        }
-
         return getNavigationElements(project) || [];
 
         function toNavigation(

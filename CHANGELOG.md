@@ -1,3 +1,9 @@
+# Beta
+
+## Breaking Changes
+
+-   Removed deprecated `navigation.fullTree` option.
+
 # Unreleased
 
 ## Features

@@ -79,10 +79,9 @@ export class GroupPlugin extends ConverterComponent {
             this.application.options.isSet("searchGroupBoosts")
         ) {
             context.logger.warn(
-                `Not all groups specified in searchGroupBoosts were used in the documentation.` +
-                    ` The unused groups were:\n\t${Array.from(
-                        unusedBoosts,
-                    ).join("\n\t")}`,
+                context.i18n.not_all_search_group_boosts_used_0(
+                    Array.from(unusedBoosts).join("\n\t"),
+                ),
             );
         }
     }

@@ -26,6 +26,7 @@ import {
     getTypeDocOptionsFromTsConfig,
     readTsConfig,
 } from "../../tsconfig";
+import type { TranslatedString } from "../../../internationalization/internationalization";
 
 function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
     return (
@@ -83,7 +84,7 @@ export class TSConfigReader implements OptionsReader {
             // If the user didn't give us this option, we shouldn't complain about not being able to find it.
             if (container.isSet("tsconfig")) {
                 logger.error(
-                    `The tsconfig file ${nicePath(file)} does not exist`,
+                    logger.i18n.tsconfig_file_0_does_not_exist(nicePath(file)),
                 );
             }
             return;
@@ -105,18 +106,11 @@ export class TSConfigReader implements OptionsReader {
 
         const typedocOptions = getTypeDocOptionsFromTsConfig(fileToRead);
         if (typedocOptions.options) {
-            logger.error(
-                [
-                    "typedocOptions in tsconfig file specifies an option file to read but the option",
-                    "file has already been read. This is likely a misconfiguration.",
-                ].join(" "),
-            );
+            logger.error(logger.i18n.tsconfig_file_specifies_options_file());
             delete typedocOptions.options;
         }
         if (typedocOptions.tsconfig) {
-            logger.error(
-                "typedocOptions in tsconfig file may not specify a tsconfig file to read",
-            );
+            logger.error(logger.i18n.tsconfig_file_specifies_tsconfig_file());
             delete typedocOptions.tsconfig;
         }
 
@@ -135,7 +129,7 @@ export class TSConfigReader implements OptionsReader {
                 );
             } catch (error) {
                 ok(error instanceof Error);
-                logger.error(error.message);
+                logger.error(error.message as TranslatedString);
             }
         }
     }
@@ -156,8 +150,9 @@ export class TSConfigReader implements OptionsReader {
         ).filter((opt) => container.isSet(opt));
         if (overwritten.length) {
             logger.warn(
-                `The ${overwritten.join(", ")} defined in typedoc.json will ` +
-                    "be overwritten by configuration in tsdoc.json.",
+                logger.i18n.tags_0_defined_in_typedoc_json_overwritten_by_tsdoc_json(
+                    overwritten.join(", "),
+                ),
             );
         }
 
@@ -199,9 +194,7 @@ export class TSConfigReader implements OptionsReader {
     private readTsDoc(logger: Logger, path: string): TsDocSchema | undefined {
         if (this.seenTsdocPaths.has(path)) {
             logger.error(
-                `Circular reference encountered for "extends" field of ${nicePath(
-                    path,
-                )}`,
+                logger.i18n.circular_reference_extends_0(nicePath(path)),
             );
             return;
         }
@@ -213,16 +206,12 @@ export class TSConfigReader implements OptionsReader {
         );
 
         if (error) {
-            logger.error(
-                `Failed to read tsdoc.json file at ${nicePath(path)}.`,
-            );
+            logger.error(logger.i18n.failed_read_tsdoc_json_0(nicePath(path)));
             return;
         }
 
         if (!validate(tsDocSchema, config)) {
-            logger.error(
-                `The file ${nicePath(path)} is not a valid tsdoc.json file.`,
-            );
+            logger.error(logger.i18n.invalid_tsdoc_json_0(nicePath(path)));
             return;
         }
 
@@ -236,9 +225,10 @@ export class TSConfigReader implements OptionsReader {
                     resolvedPath = resolver.resolve(extendedPath);
                 } catch {
                     logger.error(
-                        `Failed to resolve ${extendedPath} to a file in ${nicePath(
-                            path,
-                        )}`,
+                        logger.i18n.failed_resolve_0_to_file_in_1(
+                            extendedPath,
+                            nicePath(path),
+                        ),
                     );
                     return;
                 }

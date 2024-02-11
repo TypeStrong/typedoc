@@ -92,11 +92,11 @@ export function validateDocumentation(
             }
 
             logger.warn(
-                `${ref.getFriendlyFullName()} (${
-                    ReflectionKind[ref.kind]
-                }), defined in ${nicePath(
-                    symbolId.fileName,
-                )}, does not have any documentation.`,
+                logger.i18n.reflection_0_kind_1_defined_in_2_does_not_have_any_documentation(
+                    ref.getFriendlyFullName(),
+                    ReflectionKind[ref.kind],
+                    nicePath(symbolId.fileName),
+                ),
             );
         }
     }

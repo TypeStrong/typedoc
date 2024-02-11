@@ -90,10 +90,9 @@ export class CategoryPlugin extends ConverterComponent {
 
         if (unusedBoosts.size) {
             context.logger.warn(
-                `Not all categories specified in searchCategoryBoosts were used in the documentation.` +
-                    ` The unused categories were:\n\t${Array.from(
-                        unusedBoosts,
-                    ).join("\n\t")}`,
+                context.i18n.not_all_search_category_boosts_used_0(
+                    Array.from(unusedBoosts).join("\n\t"),
+                ),
             );
         }
     }

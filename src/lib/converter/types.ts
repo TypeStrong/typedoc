@@ -40,6 +40,7 @@ import {
 import { convertSymbol } from "./symbols";
 import { isObjectType } from "./utils/nodes";
 import { removeUndefined } from "./utils/reflections";
+import type { TranslatedString } from "../internationalization/internationalization";
 
 export interface TypeConverter<
     TNode extends ts.TypeNode = ts.TypeNode,
@@ -1065,14 +1066,14 @@ function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
     if ("kind" in nodeOrType) {
         const kindName = ts.SyntaxKind[nodeOrType.kind];
         context.logger.warn(
-            `Failed to convert type node with kind: ${kindName} and text ${nodeOrType.getText()}. Please report a bug.`,
+            `Failed to convert type node with kind: ${kindName} and text ${nodeOrType.getText()}. Please report a bug.` as TranslatedString,
             nodeOrType,
         );
         return new UnknownType(nodeOrType.getText());
     } else {
         const typeString = context.checker.typeToString(nodeOrType);
         context.logger.warn(
-            `Failed to convert type: ${typeString} when converting ${context.scope.getFullName()}. Please report a bug.`,
+            `Failed to convert type: ${typeString} when converting ${context.scope.getFullName()}. Please report a bug.` as TranslatedString,
         );
         return new UnknownType(typeString);
     }

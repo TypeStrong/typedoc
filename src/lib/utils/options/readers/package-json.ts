@@ -5,6 +5,7 @@ import { ok } from "assert";
 import { nicePath } from "../../paths";
 import { discoverPackageJson } from "../../fs";
 import { dirname } from "path";
+import type { TranslatedString } from "../../../internationalization/internationalization";
 
 export class PackageJsonReader implements OptionsReader {
     // Should run after the TypeDoc config reader but before the TS config
@@ -25,11 +26,7 @@ export class PackageJsonReader implements OptionsReader {
         const { file, content } = result;
 
         if ("typedoc" in content) {
-            logger.warn(
-                `The 'typedoc' key in ${nicePath(
-                    file,
-                )} was used by the legacy-packages entryPointStrategy and will be ignored.`,
-            );
+            logger.warn(logger.i18n.typedoc_key_in_0_ignored(nicePath(file)));
         }
 
         const optsKey = "typedocOptions";
@@ -40,9 +37,7 @@ export class PackageJsonReader implements OptionsReader {
         const opts = content[optsKey];
         if (opts === null || typeof opts !== "object") {
             logger.error(
-                `Failed to parse the "typedocOptions" field in ${nicePath(
-                    file,
-                )}, ensure it exists and contains an object.`,
+                logger.i18n.typedoc_options_must_be_object_in_0(nicePath(file)),
             );
             return;
         }
@@ -52,7 +47,7 @@ export class PackageJsonReader implements OptionsReader {
                 container.setValue(opt as never, val as never, dirname(file));
             } catch (err) {
                 ok(err instanceof Error);
-                logger.error(err.message);
+                logger.error(err.message as TranslatedString);
             }
         }
     }

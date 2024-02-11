@@ -2,6 +2,7 @@ import { ok } from "assert";
 import type { OptionsReader, Options } from "..";
 import type { Logger } from "../../loggers";
 import { ParameterType } from "../declaration";
+import type { TranslatedString } from "../../../internationalization/internationalization";
 
 const ARRAY_OPTION_TYPES = new Set<ParameterType | undefined>([
     ParameterType.Array,
@@ -38,7 +39,7 @@ export class ArgumentsReader implements OptionsReader {
                 options.setValue(name, value);
             } catch (err) {
                 ok(err instanceof Error);
-                logger.error(err.message);
+                logger.error(err.message as TranslatedString);
             }
         };
 
@@ -51,7 +52,9 @@ export class ArgumentsReader implements OptionsReader {
             if (decl) {
                 if (decl.configFileOnly) {
                     logger.error(
-                        `The '${decl.name}' option can only be specified via a config file.`,
+                        logger.i18n.option_0_can_only_be_specified_by_config_file(
+                            decl.name,
+                        ),
                     );
                     continue;
                 }
@@ -80,7 +83,9 @@ export class ArgumentsReader implements OptionsReader {
                     if (index === this.args.length) {
                         // Only boolean values have optional values.
                         logger.warn(
-                            `--${decl.name} expected a value, but none was given as an argument`,
+                            logger.i18n.option_0_expected_a_value_but_none_provided(
+                                decl.name,
+                            ),
                         );
                     }
                     trySet(decl.name, this.args[index]);
@@ -112,9 +117,10 @@ export class ArgumentsReader implements OptionsReader {
             }
 
             logger.error(
-                `Unknown option: ${name}, you may have meant:\n\t${options
-                    .getSimilarOptions(name)
-                    .join("\n\t")}`,
+                logger.i18n.unknown_option_0_may_have_meant_1(
+                    name,
+                    options.getSimilarOptions(name).join("\n\t"),
+                ),
             );
             index++;
         }
