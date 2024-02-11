@@ -321,14 +321,15 @@ export class DeclarationReflection extends ContainerReflection {
     ): void {
         super.fromObject(de, obj);
 
+        if (obj.readme) {
+            this.readme = Comment.deserializeDisplayParts(de, obj.readme);
+        }
+
         // This happens when merging multiple projects together.
         // If updating this, also check ProjectReflection.fromObject.
         if (obj.variant === "project") {
             this.kind = ReflectionKind.Module;
             this.packageVersion = obj.packageVersion;
-            if (obj.readme) {
-                this.readme = Comment.deserializeDisplayParts(de, obj.readme);
-            }
 
             de.defer(() => {
                 for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {
