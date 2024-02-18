@@ -23,7 +23,7 @@ export function hierarchy(context: DefaultThemeRenderContext, props: Declaration
             {" "}
             (
             <a class="link" href={context.relativeURL("hierarchy.html") + "#" + context.page.model.getFullName()}>
-                view full
+                {context.i18n.theme_hierarchy_view_full()}
             </a>
             )
         </>
@@ -33,7 +33,10 @@ export function hierarchy(context: DefaultThemeRenderContext, props: Declaration
 
     return (
         <section class="tsd-panel tsd-hierarchy">
-            <h4>Hierarchy{fullLink}</h4>
+            <h4>
+                {context.i18n.theme_hierarchy()}
+                {fullLink}
+            </h4>
             {hierarchyList(context, props)}
         </section>
     );

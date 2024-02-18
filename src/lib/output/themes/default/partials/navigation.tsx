@@ -73,24 +73,24 @@ export function settings(context: DefaultThemeRenderContext) {
                 <summary class="tsd-accordion-summary">
                     <h3>
                         {context.icons.chevronDown()}
-                        Settings
+                        {context.i18n.theme_settings()}
                     </h3>
                 </summary>
                 <div class="tsd-accordion-details">
                     {visibilityOptions.length && (
                         <div class="tsd-filter-visibility">
-                            <h4 class="uppercase">Member Visibility</h4>
+                            <h4 class="uppercase">{context.i18n.theme_member_visibility()}</h4>
                             <form>
                                 <ul id="tsd-filter-options">{...visibilityOptions}</ul>
                             </form>
                         </div>
                     )}
                     <div class="tsd-theme-toggle">
-                        <h4 class="uppercase">Theme</h4>
+                        <h4 class="uppercase">{context.i18n.theme_theme()}</h4>
                         <select id="tsd-theme">
-                            <option value="os">OS</option>
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
+                            <option value="os">{context.i18n.theme_os()}</option>
+                            <option value="light">{context.i18n.theme_light()}</option>
+                            <option value="dark">{context.i18n.theme_dark()}</option>
                         </select>
                     </div>
                 </div>
@@ -219,7 +219,7 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
             <summary class="tsd-accordion-summary">
                 <h3>
                     {context.icons.chevronDown()}
-                    On This Page
+                    {context.i18n.theme_on_this_page()}
                 </h3>
             </summary>
             <div class="tsd-accordion-details">

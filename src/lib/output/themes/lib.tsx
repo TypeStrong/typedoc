@@ -147,10 +147,6 @@ export function camelToTitleCase(text: string) {
  * Renders the reflection name with an additional `?` if optional.
  */
 export function renderName(refl: Reflection) {
-    if (!refl.name) {
-        return <em>{wbr(ReflectionKind.singularString(refl.kind))}</em>;
-    }
-
     if (refl.flags.isOptional) {
         return <>{wbr(refl.name)}?</>;
     }

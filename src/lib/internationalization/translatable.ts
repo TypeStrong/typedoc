@@ -363,6 +363,42 @@ export const translatable = {
     kind_plural_set_signature: "Set Signatures",
     kind_plural_type_alias: "Type Aliases",
     kind_plural_reference: "References",
+
+    // ==================================================================
+    // Strings that show up in the default theme
+    // ==================================================================
+    // Page headings/labels
+    theme_implements: "Implements",
+    theme_indexable: "Indexable",
+    theme_type_declaration: "Type declaration",
+    theme_index: "Index",
+    theme_hierarchy: "Hierarchy",
+    theme_hierarchy_view_full: "view full",
+    theme_implemented_by: "Implemented by",
+    theme_defined_in: "Defined in",
+    theme_implementation_of: "Implementation of",
+    theme_inherited_from: "Inherited from",
+    theme_overrides: "Overrides",
+    theme_returns: "Returns",
+    theme_re_exports: "Re-exports",
+    theme_renames_and_re_exports: "Renames and re-exports",
+    theme_generated_using_typedoc: "Generated using TypeDoc", // If this includes "TypeDoc", theme will insert a link at that location.
+    // Search
+    theme_preparing_search_index: "Preparing search index...",
+    theme_search_index_not_available: "The search index is not available",
+    // Right nav bar
+    theme_settings: "Settings",
+    theme_member_visibility: "Member Visibility",
+    theme_theme: "Theme",
+    theme_os: "OS",
+    theme_light: "Light",
+    theme_dark: "Dark",
+    theme_on_this_page: "On This Page",
+
+    // aria-label
+    theme_search: "Search",
+    theme_menu: "Menu",
+    theme_permalink: "Permalink",
 } as const;
 
 export type BuiltinTranslatableStringArgs = {

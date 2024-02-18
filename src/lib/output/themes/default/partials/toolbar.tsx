@@ -12,7 +12,7 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
                     <label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption">
                         {context.icons.search()}
                     </label>
-                    <input type="text" id="tsd-search-field" aria-label="Search" />
+                    <input type="text" id="tsd-search-field" aria-label={context.i18n.theme_search()} />
                 </div>
 
                 <div class="field">
@@ -24,8 +24,8 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
                 </div>
 
                 <ul class="results">
-                    <li class="state loading">Preparing search index...</li>
-                    <li class="state failure">The search index is not available</li>
+                    <li class="state loading">{context.i18n.theme_preparing_search_index()}</li>
+                    <li class="state failure">{context.i18n.theme_search_index_not_available()}</li>
                 </ul>
 
                 <a href={context.options.getValue("titleLink") || context.relativeURL("index.html")} class="title">
@@ -34,7 +34,12 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
             </div>
 
             <div class="table-cell" id="tsd-widgets">
-                <a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu">
+                <a
+                    href="#"
+                    class="tsd-widget tsd-toolbar-icon menu no-caption"
+                    data-toggle="menu"
+                    aria-label={context.i18n.theme_menu()}
+                >
                     {context.icons.menu()}
                 </a>
             </div>

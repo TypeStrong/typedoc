@@ -37,7 +37,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
 
                     {!!props.model.implementedTypes && (
                         <section class="tsd-panel">
-                            <h4>Implements</h4>
+                            <h4>{context.i18n.theme_implements()}</h4>
                             <ul class="tsd-hierarchy">
                                 {props.model.implementedTypes.map((item) => (
                                     <li>{context.type(item)}</li>
@@ -47,7 +47,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                     )}
                     {!!props.model.implementedBy && (
                         <section class="tsd-panel">
-                            <h4>Implemented by</h4>
+                            <h4>{context.i18n.theme_implemented_by()}</h4>
                             <ul class="tsd-hierarchy">
                                 {props.model.implementedBy.map((item) => (
                                     <li>{context.type(item)}</li>
@@ -60,7 +60,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                     )}
                     {!!props.model.indexSignature && (
                         <section class={classNames({ "tsd-panel": true }, context.getReflectionClasses(props.model))}>
-                            <h4 class="tsd-before-signature">Indexable</h4>
+                            <h4 class="tsd-before-signature">{context.i18n.theme_indexable()}</h4>
                             <div class="tsd-signature">
                                 <span class="tsd-signature-symbol">[</span>
                                 {props.model.indexSignature.parameters!.map((item) => (
