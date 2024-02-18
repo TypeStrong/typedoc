@@ -44,7 +44,6 @@ export type {
 export {
     ArgumentsReader,
     Option,
-    BindOption,
     CommentStyle,
     JSX,
     LogLevel,

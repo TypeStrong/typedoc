@@ -9,6 +9,7 @@ import {
 } from "../../../../lib/utils/options";
 import { join, resolve } from "path";
 import { TestLogger } from "../../../TestLogger";
+import { Internationalization } from "../../../../lib/internationalization/internationalization";
 
 const emptyHelp = () => "";
 
@@ -34,7 +35,7 @@ describe("Options - ArgumentsReader", () => {
     };
 
     beforeEach(() => {
-        options = new Options();
+        options = new Options(new Internationalization(null).proxy);
         options.addDeclaration({
             name: "numOption",
             help: emptyHelp,

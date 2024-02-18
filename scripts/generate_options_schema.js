@@ -21,7 +21,7 @@ const schema = {
     allowTrailingCommas: true,
 };
 
-const i18n = new Internationalization(null).createProxy();
+const i18n = new Internationalization(null).proxy;
 
 addTypeDocOptions({
     /** @param {import("../src").DeclarationOption} option */

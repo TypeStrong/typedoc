@@ -5,9 +5,10 @@ import { TypeDocReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
 import { TestLogger } from "../../../TestLogger";
 import { join } from "path";
+import { Internationalization } from "../../../../lib/internationalization/internationalization";
 
 describe("Options - TypeDocReader", () => {
-    const options = new Options();
+    const options = new Options(new Internationalization(null).proxy);
     options.addReader(new TypeDocReader());
 
     it("Supports comments in json", async () => {
@@ -141,7 +142,7 @@ describe("Options - TypeDocReader", () => {
             override isSet() {
                 return false;
             }
-        })();
+        })(new Internationalization(null).proxy);
 
         options.addReader(new TypeDocReader());
         const logger = new Logger();
@@ -158,7 +159,7 @@ describe("Options - TypeDocReader", () => {
         project.write();
 
         const logger = new TestLogger();
-        const options = new Options();
+        const options = new Options(new Internationalization(null).proxy);
         options.setValue("options", join(project.cwd, "typedoc.config.mjs"));
         options.addReader(new TypeDocReader());
         await options.read(logger);
@@ -173,7 +174,7 @@ describe("Options - TypeDocReader", () => {
         project.write();
 
         const logger = new TestLogger();
-        const options = new Options();
+        const options = new Options(new Internationalization(null).proxy);
         options.setValue("options", join(project.cwd, "typedoc.config.mjs"));
         options.addReader(new TypeDocReader());
         await options.read(logger);
@@ -191,7 +192,7 @@ describe("Options - TypeDocReader", () => {
         project.write();
 
         const logger = new TestLogger();
-        const options = new Options();
+        const options = new Options(new Internationalization(null).proxy);
         options.setValue("options", join(project.cwd, "typedoc.config.cjs"));
         options.addReader(new TypeDocReader());
         await options.read(logger);

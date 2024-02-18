@@ -3,6 +3,8 @@
 ## Breaking Changes
 
 -   Removed deprecated `navigation.fullTree` option.
+-   API: `MapOptionDeclaration.mapError` has been removed.
+-   API: Deprecated `BindOption` decorator has been removed.
 
 # Unreleased
 

@@ -6,7 +6,7 @@ import { Internationalization } from "../../../lib/internationalization/internat
 
 describe("Options - help", () => {
     const i18n = new Internationalization(null).proxy;
-    const options = new Options();
+    const options = new Options(new Internationalization(null).proxy);
     for (const decl of [
         { name: "td-option", help: "help", type: ParameterType.String },
         { name: "td-option2", help: "help" },

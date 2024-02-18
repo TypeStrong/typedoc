@@ -3,10 +3,11 @@ import { ok } from "assert/strict";
 import { Logger, Options, TSConfigReader } from "../..";
 import { join } from "path";
 import { existsSync, readFileSync } from "fs";
+import { Internationalization } from "../../lib/internationalization/internationalization";
 
 describe("Internationalization", () => {
     it("Does not include strings in translatable object which are unused", () => {
-        const options = new Options();
+        const options = new Options(new Internationalization(null).proxy);
         const tsconfigReader = new TSConfigReader();
         tsconfigReader.read(options, new Logger(), process.cwd());
 

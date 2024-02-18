@@ -94,13 +94,15 @@ export class Options {
     private _compilerOptions: ts.CompilerOptions = {};
     private _fileNames: readonly string[] = [];
     private _projectReferences: readonly ts.ProjectReference[] = [];
+    private _i18n: TranslationProxy;
 
     /**
      * In packages mode, the directory of the package being converted.
      */
     packageDir?: string;
 
-    constructor() {
+    constructor(i18n: TranslationProxy) {
+        this._i18n = i18n;
         addTypeDocOptions(this);
     }
 
@@ -108,7 +110,7 @@ export class Options {
      * Clones the options, intended for use in packages mode.
      */
     copyForPackage(packageDir: string): Options {
-        const options = new Options();
+        const options = new Options(this._i18n);
         options.packageDir = packageDir;
 
         options._readers = this._readers.filter(
@@ -278,9 +280,10 @@ export class Options {
         if (!declaration) {
             const nearNames = this.getSimilarOptions(name);
             throw new Error(
-                `Unknown option '${name}', you may have meant:\n\t${nearNames.join(
-                    "\n\t",
-                )}`,
+                this._i18n.unknown_option_0_you_may_have_meant_1(
+                    name,
+                    nearNames.join("\n\t"),
+                ),
             );
         }
 
@@ -314,9 +317,10 @@ export class Options {
         if (!declaration) {
             const nearNames = this.getSimilarOptions(name);
             throw new Error(
-                `Tried to set an option (${name}) that was not declared. You may have meant:\n\t${nearNames.join(
-                    "\n\t",
-                )}`,
+                this._i18n.unknown_option_0_you_may_have_meant_1(
+                    name,
+                    nearNames.join("\n\t"),
+                ),
             );
         }
 
@@ -327,6 +331,7 @@ export class Options {
         const converted = convert(
             value,
             declaration,
+            this._i18n,
             configPath ?? process.cwd(),
             oldValue,
         );
@@ -462,60 +467,6 @@ export function Option<K extends keyof TypeDocOptionMap>(name: K) {
                 );
             },
         };
-    };
-}
-
-/**
- * Binds an option to the given property. Does not register the option.
- *
- * Note: This is a legacy experimental decorator, and will not work with TS 5.0 decorators
- *
- * @since v0.16.3
- * @deprecated Will be removed in 0.26, use {@link Option | `@Option`} instead.
- */
-export function BindOption<K extends keyof TypeDocOptionMap>(
-    name: K,
-): <IK extends PropertyKey>(
-    target: ({ application: Application } | { options: Options }) & {
-        [K2 in IK]: TypeDocOptionValues[K];
-    },
-    key: IK,
-) => void;
-
-/**
- * Binds an option to the given property. Does not register the option.
- *
- * Note: This is a legacy experimental decorator, and will not work with TS 5.0 decorators
- *
- * @since v0.16.3
- * @deprecated Will be removed in 0.26, use {@link Option | `@Option`} instead
- *
- * @privateRemarks
- * This overload is intended for plugin use only with looser type checks. Do not use internally.
- */
-export function BindOption(
-    name: NeverIfInternal<string>,
-): (
-    target: { application: Application } | { options: Options },
-    key: PropertyKey,
-) => void;
-
-export function BindOption(name: string) {
-    return function (
-        target: { application: Application } | { options: Options },
-        key: PropertyKey,
-    ) {
-        Object.defineProperty(target, key, {
-            get(this: { application: Application } | { options: Options }) {
-                const options =
-                    "options" in this ? this.options : this.application.options;
-                const value = options.getValue(name as keyof TypeDocOptions);
-
-                return value;
-            },
-            enumerable: true,
-            configurable: true,
-        });
     };
 }
 

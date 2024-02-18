@@ -1,9 +1,10 @@
 import { ok, throws, strictEqual, doesNotThrow } from "assert";
 import { BUNDLED_THEMES } from "shiki";
 import { Options } from "../../../lib/utils";
+import { Internationalization } from "../../../lib/internationalization/internationalization";
 
 describe("Default Options", () => {
-    const opts = new Options();
+    const opts = new Options(new Internationalization(null).proxy);
 
     describe("Highlighting theme", () => {
         it("Errors if an invalid theme is provided", () => {

@@ -3,13 +3,14 @@ import { project } from "@typestrong/fs-fixture-builder";
 import { PackageJsonReader } from "../../../../lib/utils/options/readers";
 import { Options } from "../../../../lib/utils";
 import { TestLogger } from "../../../TestLogger";
+import { Internationalization } from "../../../../lib/internationalization/internationalization";
 
 describe("Options - PackageJsonReader", () => {
     let optsContainer: Options;
     let testLogger: TestLogger;
 
     beforeEach(() => {
-        optsContainer = new Options();
+        optsContainer = new Options(new Internationalization(null).proxy);
         testLogger = new TestLogger();
 
         optsContainer.addReader(new PackageJsonReader());

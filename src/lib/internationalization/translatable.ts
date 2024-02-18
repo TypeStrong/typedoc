@@ -172,6 +172,11 @@ export const translatable = {
         "Specify a TypeScript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
     help_compilerOptions:
         "Selectively override the TypeScript compiler options used by TypeDoc.",
+    help_lang:
+        "Sets the language to be used in generation and in TypeDoc's messages.",
+    help_locales:
+        "Add translations for a specified locale. This option is primarily intended to be used as a stopgap while waiting for official locale support to be added to TypeDoc.",
+
     help_entryPoints: "The entry points of your documentation.",
     help_entryPointStrategy:
         "The strategy to be used to convert entry points into documentation modules.",
@@ -241,8 +246,6 @@ export const translatable = {
         "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`.",
     help_sitemapBaseUrl:
         "Specify a base URL to be used in generating a sitemap.xml in our output folder. If not specified, no sitemap will be generated.",
-    help_lang:
-        "Sets the language to be used in generation and in TypeDoc's messages.",
     help_gaID:
         "Set the Google Analytics tracking ID and activate tracking code.",
     help_hideGenerator: "Do not print the TypeDoc link at the end of the page.",
@@ -313,6 +316,39 @@ export const translatable = {
         "A list of reflection kinds that must be documented",
     help_validation:
         "Specify which validation steps TypeDoc should perform on your generated documentation.",
+
+    // ==================================================================
+    // Option validation
+    // ==================================================================
+    unknown_option_0_you_may_have_meant_1: `Unknown option '{0}' You may have meant:\n\t{1}`,
+    option_0_must_be_between_1_and_2: "{0} must be between {1} and {2}",
+    option_0_must_be_equal_to_or_greater_than_1:
+        "{0} must be equal to or greater than {1}",
+    option_0_must_be_less_than_or_equal_to_1:
+        "{0} must be equal to or greater than {1}",
+    option_0_must_be_one_of_1: "{0} must be one of {1}",
+    flag_0_is_not_valid_for_1_expected_2:
+        "The flag '{0}' is not valid for {1}, expected one of {2}",
+    expected_object_with_flag_values_for_0:
+        "Expected an object with flag values for {0} or true/false",
+    flag_values_for_0_must_be_booleans:
+        "Flag values for {0} must be a boolean.",
+    locales_must_be_an_object:
+        "The 'locales' option must be set to an object which resembles: { en: { theme_implements: \"Implements\" }}",
+    exclude_not_documented_specified_0_valid_values_are_1: `excludeNotDocumentedKinds may only specify known values, and invalid values were provided ({0}). The valid kinds are:\n{1}`,
+    external_symbol_link_mappings_must_be_object:
+        "externalSymbolLinkMappings must be a Record<package name, Record<symbol name, link>>",
+    highlight_theme_0_must_be_one_of_1: "{0} must be one of the following: {1}",
+    sitemap_must_start_with_http:
+        "sitemapBaseUrl must start with http:// or https://",
+    option_0_must_be_an_object: "The '{0}' option must be a non-array object.",
+    option_0_must_be_object_with_urls: `{0} must be an object with string labels as keys and URL values.`,
+    visibility_filters_only_include_0: `visibilityFilters can only include the following non-@ keys: {0}`,
+    visibility_filters_must_be_booleans: `All values of visibilityFilters must be booleans.`,
+    option_0_values_must_be_numbers: "All values of {0} must be numbers",
+    option_0_values_must_be_array_of_tags:
+        "{0} must be an array of valid tag names.",
+    option_0_specified_1_but_only_2_is_valid: `{0} may only specify known values, and invalid values were provided ({0}). The valid sort strategies are:\n{1}`,
 
     // ReflectionKind singular translations
     kind_project: "Project",

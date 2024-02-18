@@ -124,7 +124,7 @@ export class Application extends ChildableComponent<
      */
     i18n = this.internationalization.proxy;
 
-    options = new Options();
+    options = new Options(this.i18n);
 
     /** @internal */
     @Option("lang")
@@ -229,6 +229,11 @@ export class Application extends ChildableComponent<
         await this.options.read(this.logger);
         this.setOptions(options);
         this.logger.level = this.options.getValue("logLevel");
+        for (const [lang, locales] of Object.entries(
+            this.options.getValue("locales"),
+        )) {
+            this.internationalization.addTranslations(lang, locales);
+        }
 
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
@@ -239,7 +244,6 @@ export class Application extends ChildableComponent<
         }
         this.trigger(ApplicationEvents.BOOTSTRAP_END, this);
 
-        // GERRIT: Add locales to i18n here.
         if (!this.internationalization.hasTranslations(this.lang)) {
             // Not internationalized as by definition we don't know what to include here.
             this.logger.warn(

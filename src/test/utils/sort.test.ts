@@ -10,13 +10,14 @@ import {
 import { resetReflectionID } from "../../lib/models/reflections/abstract";
 import { Options } from "../../lib/utils";
 import { getSortFunction, SortStrategy } from "../../lib/utils/sort";
+import { Internationalization } from "../../lib/internationalization/internationalization";
 
 describe("Sort", () => {
     function sortReflections(
         arr: DeclarationReflection[],
         strategies: SortStrategy[],
     ) {
-        const opts = new Options();
+        const opts = new Options(new Internationalization(null).proxy);
         opts.setValue("sort", strategies);
         getSortFunction(opts)(arr);
     }

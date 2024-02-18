@@ -39,11 +39,41 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_compilerOptions(),
         type: ParameterType.Mixed,
         configFileOnly: true,
-        validate(value) {
+        validate(value, i18n) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
-                    "The 'compilerOptions' option must be a non-array object.",
+                    i18n.option_0_must_be_an_object("compilerOptions"),
                 );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "lang",
+        help: (i18n) => i18n.help_lang(),
+        type: ParameterType.String,
+        defaultValue: "en",
+    });
+    options.addDeclaration({
+        name: "locales",
+        help: (i18n) => i18n.help_locales(),
+        type: ParameterType.Mixed,
+        configFileOnly: true,
+        defaultValue: {},
+        validate(value, i18n) {
+            if (typeof value !== "object" || !value) {
+                throw new Error(i18n.locales_must_be_an_object());
+            }
+
+            for (const val of Object.values(value)) {
+                if (typeof val !== "object" || !val) {
+                    throw new Error(i18n.locales_must_be_an_object());
+                }
+
+                for (const val2 of Object.values(val)) {
+                    if (typeof val2 !== "string") {
+                        throw new Error(i18n.locales_must_be_an_object());
+                    }
+                }
             }
         },
     });
@@ -90,7 +120,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "excludeNotDocumentedKinds",
         help: (i18n) => i18n.help_excludeNotDocumentedKinds(),
         type: ParameterType.Array,
-        validate(value) {
+        validate(value, i18n) {
             const invalid = new Set(value);
             const valid = new Set(getEnumKeys(ReflectionKind));
             for (const notPermitted of [
@@ -107,11 +137,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
             if (invalid.size !== 0) {
                 throw new Error(
-                    `excludeNotDocumentedKinds may only specify known values, and invalid values were provided (${Array.from(
-                        invalid,
-                    ).join(", ")}). The valid kinds are:\n${Array.from(
-                        valid,
-                    ).join(", ")}`,
+                    i18n.exclude_not_documented_specified_0_valid_values_are_1(
+                        Array.from(invalid).join(", "),
+                        Array.from(valid).join(", "),
+                    ),
                 );
             }
         },
@@ -168,22 +197,25 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_externalSymbolLinkMappings(),
         type: ParameterType.Mixed,
         defaultValue: {},
-        validate(value) {
-            const error =
-                "externalSymbolLinkMappings must be a Record<package name, Record<symbol name, link>>";
-
+        validate(value, i18n) {
             if (!Validation.validate({}, value)) {
-                throw new Error(error);
+                throw new Error(
+                    i18n.external_symbol_link_mappings_must_be_object(),
+                );
             }
 
             for (const mappings of Object.values(value)) {
                 if (!Validation.validate({}, mappings)) {
-                    throw new Error(error);
+                    throw new Error(
+                        i18n.external_symbol_link_mappings_must_be_object(),
+                    );
                 }
 
                 for (const link of Object.values(mappings)) {
                     if (typeof link !== "string") {
-                        throw new Error(error);
+                        throw new Error(
+                            i18n.external_symbol_link_mappings_must_be_object(),
+                        );
                     }
                 }
             }
@@ -247,12 +279,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_lightHighlightTheme(),
         type: ParameterType.String,
         defaultValue: defaultLightTheme,
-        validate(value) {
+        validate(value, i18n) {
             if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
                 throw new Error(
-                    `lightHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
-                        ", ",
-                    )}`,
+                    i18n.highlight_theme_0_must_be_one_of_1(
+                        "lightHighlightTheme",
+                        BUNDLED_THEMES.join(", "),
+                    ),
                 );
             }
         },
@@ -262,12 +295,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_darkHighlightTheme(),
         type: ParameterType.String,
         defaultValue: defaultDarkTheme,
-        validate(value) {
+        validate(value, i18n) {
             if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
                 throw new Error(
-                    `darkHighlightTheme must be one of the following: ${BUNDLED_THEMES.join(
-                        ", ",
-                    )}`,
+                    i18n.highlight_theme_0_must_be_one_of_1(
+                        "darkHighlightTheme",
+                        BUNDLED_THEMES.join(", "),
+                    ),
                 );
             }
         },
@@ -283,10 +317,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_markedOptions(),
         type: ParameterType.Mixed,
         configFileOnly: true,
-        validate(value) {
+        validate(value, i18n) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
-                    "The 'markedOptions' option must be a non-array object.",
+                    i18n.option_0_must_be_an_object("markedOptions"),
                 );
             }
         },
@@ -339,10 +373,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             "@satisfies",
             "@overload",
         ],
-        validate(value) {
+        validate(value, i18n) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
-                    `excludeTags must be an array of valid tag names.`,
+                    i18n.option_0_values_must_be_array_of_tags("excludeTags"),
                 );
             }
         },
@@ -375,19 +409,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "sitemapBaseUrl",
         help: (i18n) => i18n.help_sitemapBaseUrl(),
-        validate(value) {
+        validate(value, i18n) {
             if (!/https?:\/\//.test(value)) {
-                throw new Error(
-                    "sitemapBaseUrl must start with http:// or https://",
-                );
+                throw new Error(i18n.sitemap_must_start_with_http());
             }
         },
-    });
-    options.addDeclaration({
-        name: "lang",
-        help: (i18n) => i18n.help_lang(),
-        type: ParameterType.String,
-        defaultValue: "en",
     });
     options.addDeclaration({
         name: "gaID",
@@ -430,16 +456,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_navigationLinks(),
         type: ParameterType.Mixed,
         defaultValue: {},
-        validate(value) {
+        validate(value, i18n) {
             if (!isObject(value)) {
                 throw new Error(
-                    `navigationLinks must be an object with string labels as keys and URL values.`,
+                    i18n.option_0_must_be_object_with_urls("navigationLinks"),
                 );
             }
 
             if (Object.values(value).some((x) => typeof x !== "string")) {
                 throw new Error(
-                    `All values of navigationLinks must be string URLs.`,
+                    i18n.option_0_must_be_object_with_urls("navigationLinks"),
                 );
             }
         },
@@ -449,16 +475,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_sidebarLinks(),
         type: ParameterType.Mixed,
         defaultValue: {},
-        validate(value) {
+        validate(value, i18n) {
             if (!isObject(value)) {
                 throw new Error(
-                    `sidebarLinks must be an object with string labels as keys and URL values.`,
+                    i18n.option_0_must_be_object_with_urls("sidebarLinks"),
                 );
             }
 
             if (Object.values(value).some((x) => typeof x !== "string")) {
                 throw new Error(
-                    `All values of sidebarLinks must be string URLs.`,
+                    i18n.option_0_must_be_object_with_urls("sidebarLinks"),
                 );
             }
         },
@@ -490,25 +516,25 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             inherited: true,
             external: false,
         },
-        validate(value) {
+        validate(value, i18n) {
             const knownKeys = ["protected", "private", "inherited", "external"];
             if (!value || typeof value !== "object") {
-                throw new Error("visibilityFilters must be an object.");
+                throw new Error(
+                    i18n.option_0_must_be_an_object("visibilityFilters"),
+                );
             }
 
             for (const [key, val] of Object.entries(value)) {
                 if (!key.startsWith("@") && !knownKeys.includes(key)) {
                     throw new Error(
-                        `visibilityFilters can only include the following non-@ keys: ${knownKeys.join(
-                            ", ",
-                        )}`,
+                        i18n.visibility_filters_only_include_0(
+                            knownKeys.join(", "),
+                        ),
                     );
                 }
 
                 if (typeof val !== "boolean") {
-                    throw new Error(
-                        `All values of visibilityFilters must be booleans.`,
-                    );
+                    throw new Error(i18n.visibility_filters_must_be_booleans());
                 }
             }
         },
@@ -520,16 +546,18 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: {},
-        validate(value) {
+        validate(value, i18n) {
             if (!isObject(value)) {
                 throw new Error(
-                    "The 'searchCategoryBoosts' option must be a non-array object.",
+                    i18n.option_0_must_be_an_object("searchCategoryBoosts"),
                 );
             }
 
             if (Object.values(value).some((x) => typeof x !== "number")) {
                 throw new Error(
-                    "All values of 'searchCategoryBoosts' must be numbers.",
+                    i18n.option_0_values_must_be_numbers(
+                        "searchCategoryBoosts",
+                    ),
                 );
             }
         },
@@ -540,16 +568,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: {},
-        validate(value: unknown) {
+        validate(value, i18n) {
             if (!isObject(value)) {
                 throw new Error(
-                    "The 'searchGroupBoosts' option must be a non-array object.",
+                    i18n.option_0_must_be_an_object("searchGroupBoosts"),
                 );
             }
 
             if (Object.values(value).some((x) => typeof x !== "number")) {
                 throw new Error(
-                    "All values of 'searchGroupBoosts' must be numbers.",
+                    i18n.option_0_values_must_be_numbers("searchGroupBoosts"),
                 );
             }
         },
@@ -597,10 +625,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_blockTags(),
         type: ParameterType.Array,
         defaultValue: blockTags,
-        validate(value) {
+        validate(value, i18n) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
-                    `blockTags must be an array of valid tag names.`,
+                    i18n.option_0_values_must_be_array_of_tags("blockTags"),
                 );
             }
         },
@@ -610,10 +638,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_inlineTags(),
         type: ParameterType.Array,
         defaultValue: inlineTags,
-        validate(value) {
+        validate(value, i18n) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
-                    `inlineTags must be an array of valid tag names.`,
+                    i18n.option_0_values_must_be_array_of_tags("inlineTags"),
                 );
             }
         },
@@ -623,10 +651,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_modifierTags(),
         type: ParameterType.Array,
         defaultValue: modifierTags,
-        validate(value) {
+        validate(value, i18n) {
             if (!Validation.validate([Array, Validation.isTagString], value)) {
                 throw new Error(
-                    `modifierTags must be an array of valid tag names.`,
+                    i18n.option_0_values_must_be_array_of_tags("modifierTags"),
                 );
             }
         },
@@ -663,7 +691,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_sort(),
         type: ParameterType.Array,
         defaultValue: ["kind", "instance-first", "alphabetical"],
-        validate(value) {
+        validate(value, i18n) {
             const invalid = new Set(value);
             for (const v of SORT_STRATEGIES) {
                 invalid.delete(v);
@@ -671,13 +699,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
             if (invalid.size !== 0) {
                 throw new Error(
-                    `sort may only specify known values, and invalid values were provided (${Array.from(
-                        invalid,
-                    ).join(
-                        ", ",
-                    )}). The valid sort strategies are:\n${SORT_STRATEGIES.join(
-                        ", ",
-                    )}`,
+                    i18n.option_0_specified_1_but_only_2_is_valid(
+                        "sort",
+                        Array.from(invalid).join(", "),
+                        SORT_STRATEGIES.join(", "),
+                    ),
                 );
             }
         },
@@ -693,7 +719,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_kindSortOrder(),
         type: ParameterType.Array,
         defaultValue: [],
-        validate(value) {
+        validate(value, i18n) {
             const invalid = new Set(value);
             const valid = getEnumKeys(ReflectionKind);
             for (const v of valid) {
@@ -702,9 +728,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
             if (invalid.size !== 0) {
                 throw new Error(
-                    `kindSortOrder may only specify known values, and invalid values were provided (${Array.from(
-                        invalid,
-                    ).join(", ")}). The valid kinds are:\n${valid.join(", ")}`,
+                    i18n.option_0_specified_1_but_only_2_is_valid(
+                        `kindSortOrder`,
+                        Array.from(invalid).join(", "),
+                        valid.join(", "),
+                    ),
                 );
             }
         },
@@ -778,16 +806,18 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "requiredToBeDocumented",
         help: (i18n) => i18n.help_requiredToBeDocumented(),
         type: ParameterType.Array,
-        validate(values) {
+        validate(values, i18n) {
             // this is good enough because the values of the ReflectionKind enum are all numbers
             const validValues = getEnumKeys(ReflectionKind);
 
             for (const kind of values) {
                 if (!validValues.includes(kind)) {
                     throw new Error(
-                        `'${kind}' is an invalid value for 'requiredToBeDocumented'. Must be one of: ${validValues.join(
-                            ", ",
-                        )}`,
+                        i18n.option_0_specified_1_but_only_2_is_valid(
+                            "requiredToBeDocumented",
+                            kind,
+                            validValues.join(", "),
+                        ),
                     );
                 }
             }
