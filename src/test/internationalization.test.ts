@@ -38,6 +38,7 @@ describe("Locales", () => {
 
     for (const locale of readdirSync(localeRoot)) {
         it(`${locale} defines a valid locale`, () => {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             const translations = require(join(localeRoot, locale)) as Record<
                 string,
                 string

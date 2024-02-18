@@ -47,7 +47,7 @@ const messagePrefixes = {
 const dummyTranslationProxy: TranslationProxy = new Proxy(
     {} as TranslationProxy,
     {
-        get: ({}, key) => {
+        get: (_target, key) => {
             return (...args: string[]) =>
                 String(key).replace(/\{(\d+)\}/g, (_, index) => {
                     return args[+index] ?? "(no placeholder)";

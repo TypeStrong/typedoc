@@ -39,7 +39,7 @@ import { ReflectionKind } from "../models/reflections/kind";
  *         // Define a translatable string with no arguments
  *         plugin_msg: [];
  *         // Define a translatable string requiring one argument
- *         plugin_msg_1: [string];
+ *         plugin_msg_0: [string];
  *     }
  * }
  * ```
@@ -74,11 +74,12 @@ export class Internationalization {
         (lang) => {
             // Make sure this isn't abused to load some random file by mistake
             ok(
-                /^[A-Za-z\-]+$/.test(lang),
+                /^[A-Za-z-]+$/.test(lang),
                 "Locale names may only contain letters and dashes",
             );
             try {
                 return new Map(
+                    // eslint-disable-next-line @typescript-eslint/no-var-requires
                     Object.entries(require(`./locales/${lang}.${ext}`)),
                 );
             } catch {
@@ -86,6 +87,22 @@ export class Internationalization {
             }
         },
     );
+
+    /**
+     * Proxy object which supports dynamically translating
+     * all supported keys. This is generally used rather than the translate
+     * method so that renaming a key on the `translatable` object that contains
+     * all of the default translations will automatically update usage locations.
+     */
+    proxy: TranslationProxy = new Proxy(this, {
+        get(internationalization, key) {
+            return (...args: string[]) =>
+                internationalization.translate(
+                    key as never,
+                    ...(args as never),
+                );
+        },
+    }) as never as TranslationProxy;
 
     /**
      * If constructed without an application, will use the default language.
@@ -247,17 +264,4 @@ export class Internationalization {
             ...this.allTranslations.keys(),
         ]).sort();
     }
-
-    /**
-     * Creates a proxy object which supports dynamically translating
-     * all supported keys. This is generally used rather than the translate
-     * method so that renaming a key on the `translatable` object that contains
-     * all of the default translations will automatically update usage locations.
-     */
-    proxy: TranslationProxy = new Proxy({} as TranslationProxy, {
-        get: ({}, key) => {
-            return (...args: string[]) =>
-                this.translate(key as never, ...(args as never));
-        },
-    });
 }
