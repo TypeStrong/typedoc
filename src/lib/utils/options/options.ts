@@ -15,6 +15,7 @@ import {
 } from "./declaration";
 import { addTypeDocOptions } from "./sources";
 import { getOptionsHelp } from "./help";
+import type { TranslationProxy } from "../../internationalization/internationalization";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the
@@ -429,8 +430,8 @@ export class Options {
     /**
      * Get the help message to be displayed to the user if `--help` is passed.
      */
-    getHelp() {
-        return getOptionsHelp(this);
+    getHelp(i18n: TranslationProxy) {
+        return getOptionsHelp(this, i18n);
     }
 }
 

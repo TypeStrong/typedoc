@@ -23,7 +23,7 @@ describe("Options", () => {
             type: ParameterType.Map,
             map: { a: 1 },
             defaultValue: 2,
-            help: "",
+            help: () => "",
         });
     });
 
@@ -32,7 +32,7 @@ describe("Options", () => {
         try {
             options.addDeclaration({
                 name: "help",
-                help: "",
+                help: () => "",
                 type: ParameterType.Boolean,
             });
         } catch {
@@ -45,7 +45,7 @@ describe("Options", () => {
     it("Does not throw if number declaration has no min and max values", () => {
         const declaration: NumberDeclarationOption = {
             name: "test-number-declaration",
-            help: "",
+            help: () => "",
             type: ParameterType.Number,
             defaultValue: 1,
         };
@@ -55,7 +55,7 @@ describe("Options", () => {
     it("Does not throw if default value is out of range for number declaration", () => {
         const declaration: NumberDeclarationOption = {
             name: "test-number-declaration",
-            help: "",
+            help: () => "",
             type: ParameterType.Number,
             minValue: 1,
             maxValue: 10,
@@ -67,7 +67,7 @@ describe("Options", () => {
     it("Does not throw if a map declaration has a default value that is not part of the map of possible values", () => {
         const declaration: MapDeclarationOption<number> = {
             name: "testMapDeclarationWithForeignDefaultValue",
-            help: "",
+            help: () => "",
             type: ParameterType.Map,
             map: new Map([
                 ["a", 1],

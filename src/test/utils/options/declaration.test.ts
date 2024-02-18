@@ -13,13 +13,15 @@ import {
     StringDeclarationOption,
 } from "../../../lib/utils/options/declaration";
 
+const emptyHelp = () => "";
+
 describe("Options - conversions", () => {
     const optionWithType = (type: ParameterType) =>
         ({
             type,
             defaultValue: undefined,
             name: "test",
-            help: "",
+            help: emptyHelp,
         }) as DeclarationOption;
 
     it("Converts to numbers", () => {
@@ -31,7 +33,7 @@ describe("Options - conversions", () => {
     it("Converts to number if value is the lowest allowed value for a number option", () => {
         const declaration: NumberDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Number,
             minValue: 1,
             maxValue: 10,
@@ -43,7 +45,7 @@ describe("Options - conversions", () => {
     it("Generates an error if value is too low for a number option", () => {
         const declaration: NumberDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Number,
             minValue: 1,
             maxValue: 10,
@@ -58,7 +60,7 @@ describe("Options - conversions", () => {
     it("Generates an error if value is too low for a number option with no max", () => {
         const declaration: NumberDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Number,
             minValue: 1,
             defaultValue: 1,
@@ -72,7 +74,7 @@ describe("Options - conversions", () => {
     it("Generates an error if value is too high for a number option with no min", () => {
         const declaration: NumberDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Number,
             maxValue: 10,
             defaultValue: 1,
@@ -86,7 +88,7 @@ describe("Options - conversions", () => {
     it("Converts to number if value is the highest allowed value for a number option", () => {
         const declaration: NumberDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Number,
             minValue: 1,
             maxValue: 10,
@@ -98,7 +100,7 @@ describe("Options - conversions", () => {
     it("Generates an error if value is too high for a number option", () => {
         const declaration: NumberDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Number,
             minValue: 1,
             maxValue: 10,
@@ -113,7 +115,7 @@ describe("Options - conversions", () => {
     it("Validates number options", () => {
         const declaration: NumberDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Number,
             validate: (value: number) => {
                 if (value % 2 !== 0) {
@@ -144,7 +146,7 @@ describe("Options - conversions", () => {
     it("Validates string options", () => {
         const declaration: StringDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.String,
             validate: (value: string) => {
                 if (value !== value.toUpperCase()) {
@@ -201,7 +203,7 @@ describe("Options - conversions", () => {
     it("Validates array options", () => {
         const declaration: ArrayDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Array,
             validate: (value: string[]) => {
                 if (value.length === 0) {
@@ -220,7 +222,7 @@ describe("Options - conversions", () => {
     it("Converts to mapped types", () => {
         const declaration: MapDeclarationOption<number> = {
             name: "",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Map,
             map: {
                 a: 1,
@@ -236,7 +238,7 @@ describe("Options - conversions", () => {
     it("Converts to mapped types with a map", () => {
         const declaration: MapDeclarationOption<number> = {
             name: "",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Map,
             map: new Map([
                 ["a", 1],
@@ -252,7 +254,7 @@ describe("Options - conversions", () => {
     it("Uses the mapError if provided for errors", () => {
         const declaration: MapDeclarationOption<number> = {
             name: "",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Map,
             map: {},
             defaultValue: 1,
@@ -267,7 +269,7 @@ describe("Options - conversions", () => {
     it("Generates a nice error if no mapError is provided", () => {
         const declaration: MapDeclarationOption<number> = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Map,
             map: new Map([
                 ["a", 1],
@@ -288,7 +290,7 @@ describe("Options - conversions", () => {
         }
         const declaration = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Map,
             map: Enum,
             defaultValue: Enum.a,
@@ -307,7 +309,7 @@ describe("Options - conversions", () => {
     it("Validates mixed options", () => {
         const declaration: MixedDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Mixed,
             defaultValue: "default",
             validate: (value: unknown) => {
@@ -330,7 +332,7 @@ describe("Options - conversions", () => {
     it("Validates object options", () => {
         const declaration: ObjectDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Object,
             defaultValue: "default",
             validate: (value: unknown) => {
@@ -349,7 +351,7 @@ describe("Options - conversions", () => {
     it("Converts object options", () => {
         const declaration: ObjectDeclarationOption = {
             name: "test",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Object,
             defaultValue: { a: 1, b: 2 },
         };
@@ -369,7 +371,7 @@ describe("Options - default values", () => {
             type,
             defaultValue,
             name: "test",
-            help: "",
+            help: emptyHelp,
         } as DeclarationOption;
     }
 

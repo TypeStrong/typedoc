@@ -4,6 +4,8 @@ import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point";
 import type { ReflectionKind } from "../../models/reflections/kind";
+import type { NeverIfInternal } from "..";
+import type { TranslationProxy } from "../../internationalization/internationalization";
 
 /** @enum */
 export const EmitStrategy = {
@@ -313,8 +315,12 @@ export interface DeclarationOptionBase {
 
     /**
      * The help text to be displayed to the user when --help is passed.
+     *
+     * This may be a string, which will be presented directly, or a function,
+     * which will be called with an {@link TranslationProxy} so that option help
+     * can be translated into the user specified locale.
      */
-    help: string;
+    help: NeverIfInternal<string> | ((i18n: TranslationProxy) => string);
 
     /**
      * The parameter type, used to convert user configuration values into the expected type.

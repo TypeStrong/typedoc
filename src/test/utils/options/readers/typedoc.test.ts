@@ -101,17 +101,17 @@ describe("Options - TypeDocReader", () => {
     testError(
         "Errors if the data is invalid",
         "Not valid json {}",
-        "error: Failed to parse */typedoc.json, ensure it exists and contains an object.",
+        "error: Failed to parse */typedoc.json, ensure it exists and exports an object.",
     );
     testError(
         "Errors if the data is not an object in a json file",
         123,
-        "error: Failed to parse */typedoc.json, ensure it exists and contains an object.",
+        "error: Failed to parse */typedoc.json, ensure it exists and exports an object.",
     );
     testError(
         "Errors if the data is not an object in a js file",
         "module.exports = 123",
-        "error: The root value of */typedoc.js is not an object.",
+        "error: Failed to parse */typedoc.js, ensure it exists and exports an object.",
         false,
     );
     testError(
@@ -126,7 +126,7 @@ describe("Options - TypeDocReader", () => {
         {
             extends: "./typedoc.json",
         },
-        "error: Tried to load the options file */typedoc.json multiple times.",
+        'error: Circular reference encountered for "extends" field of *',
     );
     testError(
         "Errors if the extended path cannot be found",
@@ -179,7 +179,10 @@ describe("Options - TypeDocReader", () => {
         await options.read(logger);
 
         project.rm();
-        logger.expectMessage("error: Failed to read */typedoc.config.mjs: hi");
+        logger.expectMessage(
+            "error: Failed to parse */typedoc.config.mjs, ensure it exists and exports an object.",
+        );
+        logger.expectMessage("error: hi");
     });
 
     it("Handles non-Error throws when reading config files", async () => {
@@ -194,6 +197,9 @@ describe("Options - TypeDocReader", () => {
         await options.read(logger);
 
         project.rm();
-        logger.expectMessage("error: Failed to read */typedoc.config.cjs: 123");
+        logger.expectMessage(
+            "error: Failed to parse */typedoc.config.cjs, ensure it exists and exports an object.",
+        );
+        logger.expectMessage("error: 123");
     });
 });

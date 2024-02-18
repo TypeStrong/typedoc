@@ -135,7 +135,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 this.includes = this.includeSource;
             } else {
                 this.application.logger.warn(
-                    this.application.i18n.could_not_find_includes_directory(this.includeSource),
+                    this.application.i18n.could_not_find_includes_directory_0(this.includeSource),
                 );
             }
         }
@@ -146,7 +146,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 copySync(this.mediaSource, this.mediaDirectory);
             } else {
                 this.mediaDirectory = undefined;
-                this.application.logger.warn(this.application.i18n.could_not_find_media_directory(this.mediaSource));
+                this.application.logger.warn(this.application.i18n.could_not_find_media_directory_0(this.mediaSource));
             }
         }
     }

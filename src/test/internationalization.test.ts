@@ -49,7 +49,7 @@ describe("Locales", () => {
                     (m) => m[1] || m[2],
                 );
 
-                for (const placeholder of translation.matchAll(/\{(.*?)\}/g)) {
+                for (const placeholder of translation.matchAll(/\{(\d+?)\}/g)) {
                     ok(
                         validPlaceholders.includes(placeholder[1]),
                         `${key} translation references "${placeholder[0]}" which will not be available at runtime.`,

@@ -103,7 +103,6 @@ export const translatable = {
         'The --name option was not specified, and no package.json was found. Defaulting project name to "Documentation".',
     disable_git_set_but_not_source_link_template: `disableGit is set, but sourceLinkTemplate is not, so source links cannot be produced. Set a sourceLinkTemplate or disableSources to prevent source tracking.`,
     disable_git_set_and_git_revision_used: `disableGit is set and sourceLinkTemplate contains {gitRevision}, which will be replaced with an empty string as no revision was provided.`,
-    provided_git_remote_0_was_invalid: `The provided git remote "{0}" was not valid. Source links will be broken.`,
     git_remote_0_not_valid: `The provided git remote "{0}" was not valid. Source links will be broken.`,
 
     // output plugins
@@ -111,9 +110,9 @@ export const translatable = {
     unsupported_highlight_language_0_not_highlighted_in_comment_for_1: `Unsupported highlight language {0} will not be highlighted in comment for {1}.`,
     could_not_find_file_to_include_0: `Could not find file to include: {0}`,
     could_not_find_media_file_0: `Could not find media file: {0}`,
-    could_not_find_includes_directory:
+    could_not_find_includes_directory_0:
         "Could not find provided includes directory: {0}",
-    could_not_find_media_directory:
+    could_not_find_media_directory_0:
         "Could not find provided media directory: {0}",
 
     // renderer
@@ -147,7 +146,7 @@ export const translatable = {
     failed_resolve_0_to_file_in_1: `Failed to resolve {0} to a file in {1}`,
 
     option_0_can_only_be_specified_by_config_file: `The '{0}' option can only be specified via a config file.`,
-    option_0_expected_a_value_but_none_provided: `--{0} expected a value, but none was given as an argument`,
+    option_0_expected_a_value_but_none_provided: `--{0} expected a value, but none was given as an argument.`,
     unknown_option_0_may_have_meant_1: `Unknown option: {0}, you may have meant:\n\t{1}`,
 
     typedoc_key_in_0_ignored: `The 'typedoc' key in {0} was used by the legacy-packages entryPointStrategy and will be ignored.`,
@@ -165,6 +164,155 @@ export const translatable = {
     // plugins
     invalid_plugin_0_missing_load_function: `Invalid structure in plugin {0}, no load function found.`,
     plugin_0_could_not_be_loaded: `The plugin {0} could not be loaded.`,
+
+    // option declarations help
+    help_options:
+        "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory.",
+    help_tsconfig:
+        "Specify a TypeScript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
+    help_compilerOptions:
+        "Selectively override the TypeScript compiler options used by TypeDoc.",
+    help_entryPoints: "The entry points of your documentation.",
+    help_entryPointStrategy:
+        "The strategy to be used to convert entry points into documentation modules.",
+    help_exclude:
+        "Define patterns to be excluded when expanding a directory that was specified as an entry point.",
+    help_externalPattern:
+        "Define patterns for files that should be considered being external.",
+    help_excludeExternals:
+        "Prevent externally resolved symbols from being documented.",
+    help_excludeNotDocumented:
+        "Prevent symbols that are not explicitly documented from appearing in the results.",
+    help_excludeNotDocumentedKinds:
+        "Specify the type of reflections that can be removed by excludeNotDocumented.",
+    help_excludeInternal:
+        "Prevent symbols that are marked with @internal from being documented.",
+    help_excludeCategories:
+        "Exclude symbols within this category from the documentation.",
+    help_excludePrivate: "Ignore private variables and methods.",
+    help_excludeProtected: "Ignore protected variables and methods.",
+    help_excludeReferences:
+        "If a symbol is exported multiple times, ignore all but the first export.",
+    help_externalSymbolLinkMappings:
+        "Define custom links for symbols not included in the documentation.",
+    help_media:
+        "Specify the location with media files that should be copied to the output directory.",
+    help_includes:
+        "Specify the location to look for included documents (use [[include:FILENAME]] in comments).",
+    help_out: "Specify the location the documentation should be written to.",
+    help_json:
+        "Specify the location and filename a JSON file describing the project is written to.",
+    help_pretty:
+        "Specify whether the output JSON should be formatted with tabs.",
+    help_emit: "Specify what TypeDoc should emit, 'docs', 'both', or 'none'.",
+    help_theme: "Specify the theme name to render the documentation with",
+    help_lightHighlightTheme:
+        "Specify the code highlighting theme in light mode.",
+    help_darkHighlightTheme:
+        "Specify the code highlighting theme in dark mode.",
+    help_customCss: "Path to a custom CSS file to for the theme to import.",
+    help_markedOptions:
+        "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
+    help_name:
+        "Set the name of the project that will be used in the header of the template.",
+    help_includeVersion: "Add the package version to the project name.",
+    help_disableSources:
+        "Disable setting the source of a reflection when documenting it.",
+    help_sourceLinkTemplate:
+        "Specify a link template to be used when generating source urls. If not set, will be automatically created using the git remote. Supports {path}, {line}, {gitRevision} placeholders.",
+    help_gitRevision:
+        "Use specified revision instead of the last revision for linking to GitHub/Bitbucket source files. Has no effect if disableSources is set.",
+    help_gitRemote:
+        "Use the specified remote for linking to GitHub/Bitbucket source files. Has no effect if disableGit or disableSources is set.",
+    help_disableGit:
+        "Assume that all can be linked to with the sourceLinkTemplate, sourceLinkTemplate must be set if this is enabled. {path} will be rooted at basePath",
+    help_basePath:
+        "Specifies the base path to be used when displaying file paths.",
+    help_excludeTags:
+        "Remove the listed block/modifier tags from doc comments.",
+    help_readme:
+        "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.",
+    help_stripYamlFrontmatter: "Strip YAML frontmatter from markdown files.",
+    help_cname:
+        "Set the CNAME file text, it's useful for custom domains on GitHub Pages.",
+    help_sourceLinkExternal:
+        "Specifies that source links should be treated as external links to be opened in a new tab.",
+    help_githubPages:
+        "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`.",
+    help_sitemapBaseUrl:
+        "Specify a base URL to be used in generating a sitemap.xml in our output folder. If not specified, no sitemap will be generated.",
+    help_lang:
+        "Sets the language to be used in generation and in TypeDoc's messages.",
+    help_gaID:
+        "Set the Google Analytics tracking ID and activate tracking code.",
+    help_hideGenerator: "Do not print the TypeDoc link at the end of the page.",
+    help_hideParameterTypesInTitle:
+        "Hides parameter types in signature titles for easier scanning.",
+    help_cacheBust: "Include the generation time in links to static assets.",
+    help_searchInComments:
+        "If set, the search index will also include comments. This will greatly increase the size of the search index.",
+    help_cleanOutputDir:
+        "If set, TypeDoc will remove the output directory before writing output.",
+    help_titleLink:
+        "Set the link the title in the header points to. Defaults to the documentation homepage.",
+    help_navigationLinks: "Defines links to be included in the header.",
+    help_sidebarLinks: "Defines links to be included in the sidebar.",
+    help_navigationLeaves:
+        "Branches of the navigation tree which should not be expanded.",
+    help_navigation: "Determines how the navigation sidebar is organized.",
+    help_visibilityFilters:
+        "Specify the default visibility for builtin filters and additional filters according to modifier tags.",
+    help_searchCategoryBoosts:
+        "Configure search to give a relevance boost to selected categories",
+    help_searchGroupBoosts:
+        'Configure search to give a relevance boost to selected kinds (eg "class")',
+    help_jsDocCompatibility:
+        "Sets compatibility options for comment parsing that increase similarity with JSDoc comments.",
+    help_commentStyle: "Determines how TypeDoc searches for comments.",
+    help_useTsLinkResolution:
+        "Use TypeScript's link resolution when determining where @link tags point. This only applies to JSDoc style comments.",
+    help_preserveLinkText:
+        "If set, @link tags without link text will use the text content as the link. If not set, will use the target reflection name.",
+    help_blockTags:
+        "Block tags which TypeDoc should recognize when parsing comments.",
+    help_inlineTags:
+        "Inline tags which TypeDoc should recognize when parsing comments.",
+    help_modifierTags:
+        "Modifier tags which TypeDoc should recognize when parsing comments.",
+    help_categorizeByGroup:
+        "Specify whether categorization will be done at the group level.",
+    help_defaultCategory:
+        "Specify the default category for reflections without a category.",
+    help_categoryOrder:
+        "Specify the order in which categories appear. * indicates the relative order for categories not in the list.",
+    help_groupOrder:
+        "Specify the order in which groups appear. * indicates the relative order for groups not in the list.",
+    help_sort: "Specify the sort strategy for documented values.",
+    help_sortEntryPoints:
+        "If set, entry points will be subject to the same sorting rules as other reflections.",
+    help_kindSortOrder:
+        "Specify the sort order for reflections when 'kind' is specified.",
+    help_watch: "Watch files for changes and rebuild docs on change.",
+    help_preserveWatchOutput:
+        "If set, TypeDoc will not clear the screen between compilation runs.",
+    help_skipErrorChecking:
+        "Do not run TypeScript's type checking before generating docs.",
+    help_help: "Print this message.",
+    help_version: "Print TypeDoc's version.",
+    help_showConfig: "Print the resolved configuration and exit.",
+    help_plugin:
+        "Specify the npm plugins that should be loaded. Omit to load all installed plugins.",
+    help_logLevel: "Specify what level of logging should be used.",
+    help_treatWarningsAsErrors:
+        "If set, all warnings will be treated as errors.",
+    help_treatValidationWarningsAsErrors:
+        "If set, warnings emitted during validation will be treated as errors. This option cannot be used to disable treatWarningsAsErrors for validation warnings.",
+    help_intentionallyNotExported:
+        "A list of types which should not produce 'referenced but not documented' warnings.",
+    help_requiredToBeDocumented:
+        "A list of reflection kinds that must be documented",
+    help_validation:
+        "Specify which validation steps TypeDoc should perform on your generated documentation.",
 } as const;
 
 export type BuiltinTranslatableStringArgs = {

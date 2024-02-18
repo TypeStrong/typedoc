@@ -330,9 +330,9 @@ describe("Behavior Tests", () => {
         equal(tags, [[], [{ kind: "text", text: "fn({})" }]]);
 
         logger.expectMessage(
-            "warn: Encountered an unescaped open brace without an inline tag",
+            "warn: Encountered an unescaped open brace without an inline tag.",
         );
-        logger.expectMessage("warn: Unmatched closing brace");
+        logger.expectMessage("warn: Unmatched closing brace.");
         logger.expectNoOtherMessages();
     });
 
@@ -425,9 +425,9 @@ describe("Behavior Tests", () => {
         ]);
 
         logger.expectMessage(
-            "warn: Encountered an unescaped open brace without an inline tag",
+            "warn: Encountered an unescaped open brace without an inline tag.",
         );
-        logger.expectMessage("warn: Unmatched closing brace");
+        logger.expectMessage("warn: Unmatched closing brace.");
         logger.expectMessage(
             "warn: The first line of an example tag will be taken literally as the example name, and should only contain text.",
         );

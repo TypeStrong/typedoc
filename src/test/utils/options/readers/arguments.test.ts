@@ -1,6 +1,6 @@
-import { deepStrictEqual as equal, ok } from "assert";
+import { deepStrictEqual as equal } from "assert";
 
-import { Options, Logger } from "../../../../lib/utils";
+import { Options } from "../../../../lib/utils";
 import { ArgumentsReader } from "../../../../lib/utils/options/readers";
 import {
     ParameterType,
@@ -9,6 +9,8 @@ import {
 } from "../../../../lib/utils/options";
 import { join, resolve } from "path";
 import { TestLogger } from "../../../TestLogger";
+
+const emptyHelp = () => "";
 
 describe("Options - ArgumentsReader", () => {
     const logger = new TestLogger();
@@ -35,13 +37,13 @@ describe("Options - ArgumentsReader", () => {
         options = new Options();
         options.addDeclaration({
             name: "numOption",
-            help: "",
+            help: emptyHelp,
             type: ParameterType.Number,
         });
         options.addDeclaration({
             name: "mapped",
             type: ParameterType.Map,
-            help: "",
+            help: emptyHelp,
             map: { a: 1, b: 2 },
             defaultValue: 3,
         });
@@ -135,19 +137,15 @@ describe("Options - ArgumentsReader", () => {
     });
 
     it("Warns if option is expecting a value but no value is provided", async () => {
-        let check = false;
-        class TestLogger extends Logger {
-            override warn(msg: string) {
-                ok(msg.includes("--out"));
-                check = true;
-            }
-        }
-
         const reader = new ArgumentsReader(1, ["--out"]);
         options.reset();
         options.addReader(reader);
-        await options.read(new TestLogger());
-        equal(check, true, "Reader did not report an error.");
+        const logger = new TestLogger();
+        await options.read(logger);
+        logger.expectMessage(
+            "warn: --out expected a value, but none was given as an argument.",
+        );
+        logger.expectNoOtherMessages();
     });
 
     test(
