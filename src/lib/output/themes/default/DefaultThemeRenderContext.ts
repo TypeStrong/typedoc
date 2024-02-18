@@ -1,4 +1,8 @@
 import type { PageEvent, RendererHooks } from "../..";
+import type {
+    Internationalization,
+    TranslationProxy,
+} from "../../../internationalization/internationalization";
 import {
     Comment,
     CommentDisplayPart,
@@ -56,6 +60,8 @@ export class DefaultThemeRenderContext {
     private _iconsCache: JSX.Element;
     private _refIcons: typeof icons;
     options: Options;
+    internationalization: Internationalization;
+    i18n: TranslationProxy;
 
     constructor(
         private theme: DefaultTheme,
@@ -63,6 +69,8 @@ export class DefaultThemeRenderContext {
         options: Options,
     ) {
         this.options = options;
+        this.internationalization = theme.application.internationalization;
+        this.i18n = this.internationalization.proxy;
 
         const { refs, cache } = buildRefIcons(icons);
         this._refIcons = refs;

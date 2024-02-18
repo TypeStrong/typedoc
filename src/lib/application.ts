@@ -122,7 +122,7 @@ export class Application extends ChildableComponent<
     /**
      * Proxy based shortcuts for internationalization keys.
      */
-    i18n = this.internationalization.createProxy();
+    i18n = this.internationalization.proxy;
 
     options = new Options();
 

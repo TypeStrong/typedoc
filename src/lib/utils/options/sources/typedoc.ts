@@ -656,27 +656,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "groupOrder",
         help: (i18n) => i18n.help_groupOrder(),
         type: ParameterType.Array,
-        // Defaults to the same as the defaultKindSortOrder in sort.ts
-        defaultValue: [
-            ReflectionKind.Reference,
-            // project is never a child so never added to a group
-            ReflectionKind.Module,
-            ReflectionKind.Namespace,
-            ReflectionKind.Enum,
-            ReflectionKind.EnumMember,
-            ReflectionKind.Class,
-            ReflectionKind.Interface,
-            ReflectionKind.TypeAlias,
-
-            ReflectionKind.Constructor,
-            ReflectionKind.Property,
-            ReflectionKind.Variable,
-            ReflectionKind.Function,
-            ReflectionKind.Accessor,
-            ReflectionKind.Method,
-
-            // others are never added to groups
-        ].map(ReflectionKind.pluralString),
+        // default order specified in GroupPlugin to correctly handle localization.
     });
     options.addDeclaration({
         name: "sort",

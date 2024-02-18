@@ -7,6 +7,7 @@ import {
 } from "./translatable";
 import { readdirSync } from "fs";
 import { join } from "path";
+import { ReflectionKind } from "../models/reflections/kind";
 
 /**
  * ### What is translatable?
@@ -110,6 +111,108 @@ export class Internationalization {
         }) as TranslatedString;
     }
 
+    kindSingularString(kind: ReflectionKind): TranslatedString {
+        switch (kind) {
+            case ReflectionKind.Project:
+                return this.proxy.kind_project();
+            case ReflectionKind.Module:
+                return this.proxy.kind_module();
+            case ReflectionKind.Namespace:
+                return this.proxy.kind_namespace();
+            case ReflectionKind.Enum:
+                return this.proxy.kind_enum();
+            case ReflectionKind.EnumMember:
+                return this.proxy.kind_enum_member();
+            case ReflectionKind.Variable:
+                return this.proxy.kind_variable();
+            case ReflectionKind.Function:
+                return this.proxy.kind_function();
+            case ReflectionKind.Class:
+                return this.proxy.kind_class();
+            case ReflectionKind.Interface:
+                return this.proxy.kind_interface();
+            case ReflectionKind.Constructor:
+                return this.proxy.kind_constructor();
+            case ReflectionKind.Property:
+                return this.proxy.kind_property();
+            case ReflectionKind.Method:
+                return this.proxy.kind_method();
+            case ReflectionKind.CallSignature:
+                return this.proxy.kind_call_signature();
+            case ReflectionKind.IndexSignature:
+                return this.proxy.kind_index_signature();
+            case ReflectionKind.ConstructorSignature:
+                return this.proxy.kind_constructor_signature();
+            case ReflectionKind.Parameter:
+                return this.proxy.kind_parameter();
+            case ReflectionKind.TypeLiteral:
+                return this.proxy.kind_type_literal();
+            case ReflectionKind.TypeParameter:
+                return this.proxy.kind_type_parameter();
+            case ReflectionKind.Accessor:
+                return this.proxy.kind_accessor();
+            case ReflectionKind.GetSignature:
+                return this.proxy.kind_get_signature();
+            case ReflectionKind.SetSignature:
+                return this.proxy.kind_set_signature();
+            case ReflectionKind.TypeAlias:
+                return this.proxy.kind_type_alias();
+            case ReflectionKind.Reference:
+                return this.proxy.kind_reference();
+        }
+    }
+
+    kindPluralString(kind: ReflectionKind): TranslatedString {
+        switch (kind) {
+            case ReflectionKind.Project:
+                return this.proxy.kind_plural_project();
+            case ReflectionKind.Module:
+                return this.proxy.kind_plural_module();
+            case ReflectionKind.Namespace:
+                return this.proxy.kind_plural_namespace();
+            case ReflectionKind.Enum:
+                return this.proxy.kind_plural_enum();
+            case ReflectionKind.EnumMember:
+                return this.proxy.kind_plural_enum_member();
+            case ReflectionKind.Variable:
+                return this.proxy.kind_plural_variable();
+            case ReflectionKind.Function:
+                return this.proxy.kind_plural_function();
+            case ReflectionKind.Class:
+                return this.proxy.kind_plural_class();
+            case ReflectionKind.Interface:
+                return this.proxy.kind_plural_interface();
+            case ReflectionKind.Constructor:
+                return this.proxy.kind_plural_constructor();
+            case ReflectionKind.Property:
+                return this.proxy.kind_plural_property();
+            case ReflectionKind.Method:
+                return this.proxy.kind_plural_method();
+            case ReflectionKind.CallSignature:
+                return this.proxy.kind_plural_call_signature();
+            case ReflectionKind.IndexSignature:
+                return this.proxy.kind_plural_index_signature();
+            case ReflectionKind.ConstructorSignature:
+                return this.proxy.kind_plural_constructor_signature();
+            case ReflectionKind.Parameter:
+                return this.proxy.kind_plural_parameter();
+            case ReflectionKind.TypeLiteral:
+                return this.proxy.kind_plural_type_literal();
+            case ReflectionKind.TypeParameter:
+                return this.proxy.kind_plural_type_parameter();
+            case ReflectionKind.Accessor:
+                return this.proxy.kind_plural_accessor();
+            case ReflectionKind.GetSignature:
+                return this.proxy.kind_plural_get_signature();
+            case ReflectionKind.SetSignature:
+                return this.proxy.kind_plural_set_signature();
+            case ReflectionKind.TypeAlias:
+                return this.proxy.kind_plural_type_alias();
+            case ReflectionKind.Reference:
+                return this.proxy.kind_plural_reference();
+        }
+    }
+
     /**
      * Add translations for a string which will be displayed to the user.
      */
@@ -151,12 +254,10 @@ export class Internationalization {
      * method so that renaming a key on the `translatable` object that contains
      * all of the default translations will automatically update usage locations.
      */
-    createProxy(): TranslationProxy {
-        return new Proxy({} as TranslationProxy, {
-            get: ({}, key) => {
-                return (...args: string[]) =>
-                    this.translate(key as never, ...(args as never));
-            },
-        });
-    }
+    proxy: TranslationProxy = new Proxy({} as TranslationProxy, {
+        get: ({}, key) => {
+            return (...args: string[]) =>
+                this.translate(key as never, ...(args as never));
+        },
+    });
 }

@@ -11,6 +11,28 @@ import { getSortFunction } from "../../utils/sort";
 import { Option, removeIf } from "../../utils";
 import { Comment } from "../../models";
 
+// Same as the defaultKindSortOrder in sort.ts
+const defaultGroupOrder = [
+    ReflectionKind.Reference,
+    // project is never a child so never added to a group
+    ReflectionKind.Module,
+    ReflectionKind.Namespace,
+    ReflectionKind.Enum,
+    ReflectionKind.EnumMember,
+    ReflectionKind.Class,
+    ReflectionKind.Interface,
+    ReflectionKind.TypeAlias,
+
+    ReflectionKind.Constructor,
+    ReflectionKind.Property,
+    ReflectionKind.Variable,
+    ReflectionKind.Function,
+    ReflectionKind.Accessor,
+    ReflectionKind.Method,
+
+    // others are never added to groups
+];
+
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.
  *
@@ -45,6 +67,13 @@ export class GroupPlugin extends ConverterComponent {
                         this.application.options,
                     );
                     GroupPlugin.WEIGHTS = this.groupOrder;
+                    if (GroupPlugin.WEIGHTS.length === 0) {
+                        GroupPlugin.WEIGHTS = defaultGroupOrder.map((kind) =>
+                            this.application.internationalization.kindPluralString(
+                                kind,
+                            ),
+                        );
+                    }
                 },
                 [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
             },
@@ -138,7 +167,11 @@ export class GroupPlugin extends ConverterComponent {
 
         groups.delete("");
         if (groups.size === 0) {
-            groups.add(ReflectionKind.pluralString(reflection.kind));
+            groups.add(
+                this.application.internationalization.kindPluralString(
+                    reflection.kind,
+                ),
+            );
         }
 
         for (const group of groups) {

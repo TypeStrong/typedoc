@@ -9,7 +9,7 @@ describe("loadPlugins", () => {
     let project: Project;
     let logger: TestLogger;
     const fakeApp = {
-        i18n: new Internationalization(null).createProxy(),
+        i18n: new Internationalization(null).proxy,
     } as any as Application;
     beforeEach(() => {
         project = tempdirProject();

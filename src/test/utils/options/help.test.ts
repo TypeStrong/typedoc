@@ -5,7 +5,7 @@ import { getOptionsHelp } from "../../../lib/utils/options/help";
 import { Internationalization } from "../../../lib/internationalization/internationalization";
 
 describe("Options - help", () => {
-    const i18n = new Internationalization(null).createProxy();
+    const i18n = new Internationalization(null).proxy;
     const options = new Options();
     for (const decl of [
         { name: "td-option", help: "help", type: ParameterType.String },

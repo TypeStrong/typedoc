@@ -17,9 +17,7 @@ const levelMap: Record<LogLevel, string> = {
 
 export class TestLogger extends Logger {
     messages: string[] = [];
-    override i18n: TranslationProxy = new Internationalization(
-        null,
-    ).createProxy();
+    override i18n: TranslationProxy = new Internationalization(null).proxy;
 
     reset() {
         this.resetErrors();
