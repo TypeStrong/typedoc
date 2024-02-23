@@ -12,6 +12,7 @@
 
 ## Bug Fixes
 
+-   Fixed crash when `--excludeNotDocumented` was used and the project contained a reference to a removed signature, #2496.
 -   Fixed an issue where a namespace would not be created for merged function-namespaces which are declared as variables, #2478.
 -   A class which implements itself will no longer cause a crash when rendering HTML, #2495.
 -   Variable functions which have construct signatures will no longer be converted as functions, ignoring the construct signatures.

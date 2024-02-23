@@ -1383,4 +1383,9 @@ describe("Issue Tests", () => {
         const context = theme.getRenderContext(page);
         context.hierarchyTemplate(page);
     });
+
+    it("Correctly cleans up references to functions #2496", () => {
+        app.options.setValue("excludeNotDocumented", true);
+        convert();
+    });
 });

@@ -236,17 +236,17 @@ export class ProjectReflection extends ContainerReflection {
         this.reflectionChildren.delete(reflection.id);
 
         // Remove references from the TS symbol to this reflection.
-        const symbol = this.reflectionIdToSymbolMap.get(reflection.id);
-        if (symbol) {
-            const id = new ReflectionSymbolId(symbol);
-            const saved = this.symbolToReflectionIdMap.get(id);
+        const symbolId = this.reflectionIdToSymbolIdMap.get(reflection.id);
+        if (symbolId) {
+            const saved = this.symbolToReflectionIdMap.get(symbolId);
             if (saved === reflection.id) {
-                this.symbolToReflectionIdMap.delete(id);
+                this.symbolToReflectionIdMap.delete(symbolId);
             } else if (typeof saved === "object") {
                 removeIfPresent(saved, reflection.id);
             }
         }
 
+        this.reflectionIdToSymbolMap.delete(reflection.id);
         this.reflectionIdToSymbolIdMap.delete(reflection.id);
         delete this.reflections[reflection.id];
     }
