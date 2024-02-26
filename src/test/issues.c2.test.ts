@@ -1389,6 +1389,12 @@ describe("Issue Tests", () => {
         convert();
     });
 
+    it("Sorts literal numeric unions when converting a type, #2502", () => {
+        const project = convert();
+        const refl = query(project, "Test");
+        equal(refl.type?.toString(), "1 | 2 | 3");
+    });
+
     it("Handles an infinitely recursive type, #2507", () => {
         const project = convert();
         const type = querySig(project, "fromPartial").typeParameters![0].type;

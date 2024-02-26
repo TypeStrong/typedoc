@@ -1045,9 +1045,10 @@ const unionConverter: TypeConverter<ts.UnionTypeNode, ts.UnionType> = {
         );
     },
     convertType(context, type) {
-        return new UnionType(
-            type.types.map((type) => convertType(context, type)),
-        );
+        const types = type.types.map((type) => convertType(context, type));
+        sortLiteralUnion(types);
+
+        return new UnionType(types);
     },
 };
 
@@ -1114,4 +1115,19 @@ function kindToModifier(
         default:
             return undefined;
     }
+}
+
+function sortLiteralUnion(types: SomeType[]) {
+    if (
+        types.some((t) => t.type !== "literal" || typeof t.value !== "number")
+    ) {
+        return;
+    }
+
+    types.sort((a, b) => {
+        const aLit = a as LiteralType;
+        const bLit = b as LiteralType;
+
+        return (aLit.value as number) - (bLit.value as number);
+    });
 }

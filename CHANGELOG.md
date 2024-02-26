@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Literal numeric unions will now be sorted during conversion, #2502.
+
 ### Bug Fixes
 
 -   Module readmes will now be included in JSON output, #2500.
