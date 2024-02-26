@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.9 (2024-02-26)
+
 ### Features
 
 -   Literal numeric unions will now be sorted during conversion, #2502.
