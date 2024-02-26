@@ -1388,4 +1388,22 @@ describe("Issue Tests", () => {
         app.options.setValue("excludeNotDocumented", true);
         convert();
     });
+
+    it("Handles an infinitely recursive type, #2507", () => {
+        const project = convert();
+        const type = querySig(project, "fromPartial").typeParameters![0].type;
+
+        // function fromPartial<I extends Value & {
+        //     values: Value[] & (Value & {
+        //         values: Value[] & (Value & {
+        //             values: Value[] & (Value & {
+        //                 values: Value[] & (Value & {
+        //                     ...;
+        //                 })[];
+        //             })[];
+        //         })[];
+        //     })[];
+        // }>(object: I): void
+        equal(type?.toString(), "Value & Object");
+    });
 });

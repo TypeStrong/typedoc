@@ -10,7 +10,7 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                 <ul class="tsd-type-parameter-list">
                     {typeParameters?.map((item) => (
                         <li>
-                            <h4>
+                            <span>
                                 <a id={item.anchor} class="tsd-anchor"></a>
                                 {item.flags.isConst && <span class="tsd-signature-keyword">const </span>}
                                 {item.varianceModifier && (
@@ -29,7 +29,7 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                                         {context.type(item.default)}
                                     </>
                                 )}
-                            </h4>
+                            </span>
                             {context.commentSummary(item)}
                             {context.commentTags(item)}
                         </li>

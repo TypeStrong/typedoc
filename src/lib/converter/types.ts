@@ -115,6 +115,7 @@ function maybeConvertType(
     return convertType(context, typeOrNode);
 }
 
+let typeConversionDepth = 0;
 export function convertType(
     context: Context,
     typeOrNode: ts.Type | ts.TypeNode | undefined,
@@ -123,11 +124,18 @@ export function convertType(
         return new IntrinsicType("any");
     }
 
+    if (typeConversionDepth > context.converter.maxTypeConversionDepth) {
+        return new UnknownType("...");
+    }
+
     loadConverters();
     if ("kind" in typeOrNode) {
         const converter = converters.get(typeOrNode.kind);
         if (converter) {
-            return converter.convert(context, typeOrNode);
+            ++typeConversionDepth;
+            const result = converter.convert(context, typeOrNode);
+            --typeConversionDepth;
+            return result;
         }
         return requestBugReport(context, typeOrNode);
     }
@@ -137,6 +145,7 @@ export function convertType(
     // will use the origin when serializing
     // aliasSymbol check is important - #2468
     if (typeOrNode.isUnion() && typeOrNode.origin && !typeOrNode.aliasSymbol) {
+        // Don't increment typeConversionDepth as this is a transparent step to the user.
         return convertType(context, typeOrNode.origin);
     }
 
@@ -167,7 +176,9 @@ export function convertType(
         }
 
         seenTypes.add(typeOrNode.id);
+        ++typeConversionDepth;
         const result = converter.convertType(context, typeOrNode, node);
+        --typeConversionDepth;
         seenTypes.delete(typeOrNode.id);
         return result;
     }

@@ -1,8 +1,19 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Module readmes will now be included in JSON output, #2500.
+-   Fixed crash when `--excludeNotDocumented` was used and the project contained a reference to a removed signature, #2496.
+-   Fixed crash when converting an infinitely recursive type via a new `--maxTypeConversionDepth` option, #2507.
+-   Type links in "Parameters" and "Type Parameters" sections of the page will now be correctly colored.
+
+### Thanks!
+
+-   @JMBeresford
+
 ## v0.25.8 (2024-02-09)
 
-## Features
+### Features
 
 -   Added a new `--sitemapBaseUrl` option. When specified, TypeDoc will generate a `sitemap.xml` in your output folder that describes the site, #2480.
 -   Added support for the `@class` tag. When added to a comment on a variable or function, TypeDoc will convert the member as a class, #2479.
@@ -10,9 +21,8 @@
 -   Added support for `@groupDescription` and `@categoryDescription` to provide a description of groups and categories, #2494.
 -   API: Exposed `Context.getNodeComment` for plugin use, #2498.
 
-## Bug Fixes
+### Bug Fixes
 
--   Fixed crash when `--excludeNotDocumented` was used and the project contained a reference to a removed signature, #2496.
 -   Fixed an issue where a namespace would not be created for merged function-namespaces which are declared as variables, #2478.
 -   A class which implements itself will no longer cause a crash when rendering HTML, #2495.
 -   Variable functions which have construct signatures will no longer be converted as functions, ignoring the construct signatures.

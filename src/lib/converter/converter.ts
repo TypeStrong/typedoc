@@ -97,6 +97,10 @@ export class Converter extends ChildableComponent<
     @Option("preserveLinkText")
     accessor preserveLinkText!: boolean;
 
+    /** @internal */
+    @Option("maxTypeConversionDepth")
+    accessor maxTypeConversionDepth!: number;
+
     private _config?: CommentParserConfig;
     private _externalSymbolResolvers: Array<ExternalSymbolResolver> = [];
 

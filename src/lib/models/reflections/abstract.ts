@@ -1,4 +1,3 @@
-import { ok } from "assert";
 import { Comment } from "../comments/comment";
 import { splitUnquotedString } from "./utils";
 import type { ProjectReflection } from "./project";
@@ -278,14 +277,8 @@ export abstract class Reflection {
     @NonEnumerable // So that it doesn't show up in console.log
     parent?: Reflection;
 
-    get project(): ProjectReflection {
-        if (this.isProject()) return this;
-        ok(
-            this.parent,
-            "Tried to get the project on a reflection not in a project",
-        );
-        return this.parent.project;
-    }
+    @NonEnumerable
+    project: ProjectReflection;
 
     /**
      * The parsed documentation comment attached to this reflection.
@@ -322,6 +315,7 @@ export abstract class Reflection {
     constructor(name: string, kind: ReflectionKind, parent?: Reflection) {
         this.id = REFLECTION_ID++;
         this.parent = parent;
+        this.project = parent?.project || (this as any as ProjectReflection);
         this.name = name;
         this.kind = kind;
 

@@ -292,6 +292,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
     options.addDeclaration({
+        name: "maxTypeConversionDepth",
+        help: "Set the maximum depth of types to be converted.",
+        defaultValue: 10,
+        type: ParameterType.Number,
+    });
+    options.addDeclaration({
         name: "name",
         help: "Set the name of the project that will be used in the header of the template.",
     });
