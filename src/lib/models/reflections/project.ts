@@ -284,7 +284,8 @@ export class ProjectReflection extends ContainerReflection {
         if (typeof id === "number") {
             return [this.getReflectionById(id)!];
         } else if (typeof id === "object") {
-            return id.map((id) => this.getReflectionById(id)!);
+            return id.map((id) => this.getReflectionById(id))
+              .filter(reflection => reflection !== undefined);
         }
 
         return [];
