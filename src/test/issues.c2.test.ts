@@ -1412,4 +1412,12 @@ describe("Issue Tests", () => {
         // }>(object: I): void
         equal(type?.toString(), "Value & Object");
     });
+
+    it("Handles constructed references to enumeration types, #2508", () => {
+        const project = convert();
+        const refl = query(project, "Bar.color");
+        equal(refl.type?.type, "reference");
+        equal(refl.type.toString(), "Color");
+        equal(refl.type.reflection?.id, query(project, "Color").id);
+    });
 });

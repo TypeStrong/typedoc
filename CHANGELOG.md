@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Constructed references to enum types will be properly linked with `@interface`, #2508.
+
 ## v0.25.9 (2024-02-26)
 
 ### Features

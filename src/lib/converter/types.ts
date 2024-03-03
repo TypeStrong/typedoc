@@ -724,8 +724,12 @@ const referenceConverter: TypeConverter<
         );
         return type;
     },
-    convertType(context, type) {
-        const symbol = type.aliasSymbol ?? type.getSymbol();
+    convertType(context, type, node) {
+        // typeName.symbol handles the case where this is a union which happens to refer
+        // to an enumeration. TS doesn't put the symbol on the type for some reason, but
+        // does add it to the constructed type node.
+        const symbol =
+            type.aliasSymbol ?? type.getSymbol() ?? node.typeName.symbol;
         if (!symbol) {
             // This happens when we get a reference to a type parameter
             // created within a mapped type, `K` in: `{ [K in T]: string }`
