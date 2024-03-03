@@ -61,12 +61,13 @@ export function validateDocumentation(
             toProcess.push(ref.parent);
             continue;
         }
-        // Ditto for signatures on type aliases.
+        // Call signatures are considered documented if they have a comment directly, or their
+        // container has a comment and they are directly within a type literal belonging to that container.
         if (
             ref.kindOf(ReflectionKind.CallSignature) &&
-            ref.parent?.parent?.kindOf(ReflectionKind.TypeAlias)
+            ref.parent?.kindOf(ReflectionKind.TypeLiteral)
         ) {
-            toProcess.push(ref.parent.parent);
+            toProcess.push(ref.parent.parent!);
             continue;
         }
 
@@ -78,9 +79,13 @@ export function validateDocumentation(
 
             if (signatures.length) {
                 // We've been asked to validate this reflection, so we should validate that
-                // signatures all have comments, but we'll still have a comment here because
-                // type aliases always have their own comment.
+                // signatures all have comments
                 toProcess.push(...signatures);
+
+                if (ref.kindOf(ReflectionKind.SignatureContainer)) {
+                    // Comments belong to each signature, and will not be included on this object.
+                    continue;
+                }
             }
         }
 

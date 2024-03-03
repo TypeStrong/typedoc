@@ -373,7 +373,7 @@ describe("Issue Tests", () => {
 
         equal(
             Comment.combineDisplayParts(
-                query(project, "Foo.baz").signatures?.[0]?.comment?.summary,
+                query(project, "Foo.baz").comment?.summary,
             ),
             "Some property style doc.",
             "Property methods declared in interface should still allow comment inheritance",
@@ -944,12 +944,7 @@ describe("Issue Tests", () => {
         const project = convert();
         const hook = query(project, "Camera.useCameraPermissions");
         equal(hook.type?.type, "reflection" as const);
-        equal(
-            Comment.combineDisplayParts(
-                hook.type.declaration.signatures![0].comment?.summary,
-            ),
-            "One",
-        );
+        equal(Comment.combineDisplayParts(hook.comment?.summary), "One");
     });
 
     it("#2150", () => {
@@ -1419,5 +1414,20 @@ describe("Issue Tests", () => {
         equal(refl.type?.type, "reference");
         equal(refl.type.toString(), "Color");
         equal(refl.type.reflection?.id, query(project, "Color").id);
+    });
+
+    it("Does not duplicate comments due to signatures being present, #2509", () => {
+        const project = convert();
+        const cb = query(project, "Int.cb");
+        equal(Comment.combineDisplayParts(cb.comment?.summary), "Cb");
+        equal(cb.type?.type, "reflection");
+        equal(cb.type.declaration.signatures![0].comment, undefined);
+
+        const nested = query(project, "Int.nested");
+        equal(nested.type?.type, "reflection");
+        const cb2 = nested.type.declaration.children![0];
+        equal(Comment.combineDisplayParts(cb2.comment?.summary), "Cb2");
+        equal(cb2.type?.type, "reflection");
+        equal(cb2.type.declaration.signatures![0].comment, undefined);
     });
 });
