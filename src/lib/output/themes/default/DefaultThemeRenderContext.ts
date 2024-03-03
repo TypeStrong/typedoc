@@ -5,7 +5,7 @@ import {
     DeclarationReflection,
     Reflection,
 } from "../../../models";
-import type { JSX, NeverIfInternal, Options } from "../../../utils";
+import { JSX, NeverIfInternal, Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
@@ -53,7 +53,6 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 }
 
 export class DefaultThemeRenderContext {
-    private _iconsCache: JSX.Element;
     private _refIcons: typeof icons;
     options: Options;
 
@@ -63,23 +62,24 @@ export class DefaultThemeRenderContext {
         options: Options,
     ) {
         this.options = options;
-
-        const { refs, cache } = buildRefIcons(icons);
-        this._refIcons = refs;
-        this._iconsCache = cache;
+        this._refIcons = buildRefIcons(icons, this);
     }
 
+    /**
+     * @deprecated Will be removed in 0.26, no longer required.
+     */
     iconsCache(): JSX.Element {
-        return this._iconsCache;
+        return JSX.createElement(JSX.Fragment, null);
     }
 
+    /**
+     * Icons available for use within the page.
+     *
+     * Note: This creates a reference to icons declared by {@link DefaultTheme.icons},
+     * to customize icons, that object must be modified instead.
+     */
     get icons(): Readonly<typeof icons> {
         return this._refIcons;
-    }
-    set icons(value: Readonly<typeof icons>) {
-        const { refs, cache } = buildRefIcons(value);
-        this._refIcons = refs;
-        this._iconsCache = cache;
     }
 
     hook = (name: keyof RendererHooks) =>

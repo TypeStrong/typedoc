@@ -1,6 +1,7 @@
 import assert from "assert";
 import { ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 const kindIcon = (letterPath: JSX.Element, color: string, circular = false) => (
     <svg class="tsd-kind-icon" viewBox="0 0 24 24">
@@ -18,9 +19,11 @@ const kindIcon = (letterPath: JSX.Element, color: string, circular = false) => (
     </svg>
 );
 
-export function buildRefIcons<T extends Record<string, () => JSX.Element>>(icons: T): { refs: T; cache: JSX.Element } {
+export function buildRefIcons<T extends Record<string, () => JSX.Element>>(
+    icons: T,
+    context: DefaultThemeRenderContext,
+): T {
     const refs: Record<string, () => JSX.Element> = {};
-    const children: JSX.Element[] = [];
 
     for (const [name, builder] of Object.entries(icons)) {
         const jsx = builder.call(icons);
@@ -32,19 +35,15 @@ export function buildRefIcons<T extends Record<string, () => JSX.Element>>(icons
             continue;
         }
 
-        children.push(<g id={`icon-${name}`}>{jsx.children}</g>);
         const ref = (
             <svg {...jsx.props} id={undefined}>
-                <use href={`#icon-${name}`} />
+                <use href={`${context.relativeURL("assets/icons.svg")}#icon-${name}`} />
             </svg>
         );
         refs[name] = () => ref;
     }
 
-    return {
-        refs: refs as T,
-        cache: <svg style={"display: none"}>{children}</svg>,
-    };
+    return refs as T;
 }
 
 export const icons: Record<

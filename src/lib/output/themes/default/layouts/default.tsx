@@ -29,6 +29,7 @@ export const defaultLayout = (
                 <link rel="stylesheet" href={context.relativeURL("assets/custom.css", true)} />
             )}
             <script defer src={context.relativeURL("assets/main.js", true)}></script>
+            <script async src={context.relativeURL("assets/icons.js", true)} id="tsd-icons-script"></script>
             <script async src={context.relativeURL("assets/search.js", true)} id="tsd-search-script"></script>
             <script async src={context.relativeURL("assets/navigation.js", true)} id="tsd-nav-script"></script>
             {context.hook("head.end")}
@@ -36,7 +37,14 @@ export const defaultLayout = (
         <body>
             {context.hook("body.begin")}
             <script>
-                <Raw html='document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"' />
+                <Raw html='document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";' />
+                {/* Hide the entire page for up to 0.5 seconds so that if navigating between pages on a fast */}
+                {/* device the navigation pane doesn't appear to flash if it loads just after the page displays. */}
+                {/* This could still happen if we're unlucky, but from experimenting with Firefox's throttling */}
+                {/* settings, this appears to be a reasonable tradeoff between displaying page content without the */}
+                {/* navigation on exceptionally slow connections and not having the navigation obviously repaint. */}
+                <Raw html='document.body.style.display="none";' />
+                <Raw html='setTimeout(() => document.body.style.removeProperty("display"),500)' />
             </script>
             {context.toolbar(props)}
 
@@ -66,7 +74,6 @@ export const defaultLayout = (
             <div class="overlay"></div>
 
             {context.analytics()}
-            {context.iconsCache()}
             {context.hook("body.end")}
         </body>
     </html>

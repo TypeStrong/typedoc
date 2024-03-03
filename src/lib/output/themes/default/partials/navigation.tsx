@@ -2,10 +2,7 @@ import { Reflection, ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { camelToTitleCase, classNames, getDisplayName, wbr } from "../../lib";
-import type { NavigationElement } from "../DefaultTheme";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-
-const MAX_EMBEDDED_NAV_SIZE = 20;
 
 export function sidebar(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
@@ -100,57 +97,6 @@ export function settings(context: DefaultThemeRenderContext) {
 }
 
 export const navigation = function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
-    const nav = context.getNavigation();
-
-    let elements = 0;
-    function link(el: NavigationElement, path: string[] = []) {
-        if (elements > MAX_EMBEDDED_NAV_SIZE) {
-            return <></>;
-        }
-
-        if (el.path) {
-            ++elements;
-            return (
-                <li>
-                    <a
-                        href={context.relativeURL(el.path)}
-                        class={classNames({ current: props.model.url === el.path }, el.class)}
-                    >
-                        {el.kind && context.icons[el.kind]()}
-                        {el.text}
-                    </a>
-                </li>
-            );
-        }
-
-        // Top level element is a group/category, recurse so that we don't have a half-broken
-        // navigation tree for people with JS turned off.
-        if (el.children) {
-            ++elements;
-            const fullPath = [...path, el.text];
-
-            return (
-                <details class={classNames({ "tsd-index-accordion": true }, el.class)} data-key={fullPath.join("$")}>
-                    <summary class="tsd-accordion-summary">
-                        {context.icons.chevronDown()}
-                        <span>{el.text}</span>
-                    </summary>
-                    <div class="tsd-accordion-details">
-                        <ul class="tsd-nested-navigation">{el.children.map((c) => link(c, fullPath))}</ul>
-                    </div>
-                </details>
-            );
-        }
-
-        return (
-            <li>
-                <span>{el.text}</span>
-            </li>
-        );
-    }
-
-    const navEl = nav.map((el) => link(el));
-
     return (
         <nav class="tsd-navigation">
             <a href={context.urlTo(props.project)} class={classNames({ current: props.project === props.model })}>
@@ -158,8 +104,7 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
                 <span>{getDisplayName(props.project)}</span>
             </a>
             <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base={context.relativeURL("./")}>
-                {navEl}
-                {elements < MAX_EMBEDDED_NAV_SIZE || <li>Loading...</li>}
+                <li>Loading...</li>
             </ul>
         </nav>
     );

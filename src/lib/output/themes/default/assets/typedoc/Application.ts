@@ -31,18 +31,18 @@ export function registerComponent(
  */
 export class Application {
     alwaysVisibleMember: HTMLElement | null = null;
-
-    /**
-     * Create a new Application instance.
-     */
     constructor() {
         this.createComponents(document.body);
-        this.ensureActivePageVisible();
         this.ensureFocusedElementVisible();
         this.listenForCodeCopies();
         window.addEventListener("hashchange", () =>
             this.ensureFocusedElementVisible(),
         );
+
+        // We're on a *really* slow network connection.
+        if (!document.body.style.display) {
+            this.scrollToHash();
+        }
     }
 
     /**
@@ -63,6 +63,24 @@ export class Application {
         this.ensureFocusedElementVisible();
     }
 
+    public showPage() {
+        if (!document.body.style.display) return;
+        document.body.style.removeProperty("display");
+        this.scrollToHash();
+    }
+
+    public scrollToHash() {
+        // Because we hid the entire page until the navigation loaded or we hit a timeout,
+        // we have to manually resolve the url hash here.
+        if (location.hash) {
+            const reflAnchor = document.getElementById(
+                location.hash.substring(1),
+            );
+            if (!reflAnchor) return;
+            reflAnchor.scrollIntoView({ behavior: "instant", block: "start" });
+        }
+    }
+
     public ensureActivePageVisible() {
         const pageLink = document.querySelector(".tsd-navigation .current");
         let iter = pageLink?.parentElement;
@@ -74,7 +92,7 @@ export class Application {
             iter = iter.parentElement;
         }
 
-        if (pageLink) {
+        if (pageLink && !pageLink.checkVisibility()) {
             const top =
                 pageLink.getBoundingClientRect().top -
                 document.documentElement.clientHeight / 4;

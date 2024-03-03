@@ -3,6 +3,10 @@
 ### Bug Fixes
 
 -   Constructed references to enum types will be properly linked with `@interface`, #2508.
+-   Reduced rendered docs size by writing icons to a referenced SVG asset, #2505.
+    For TypeDoc's docs, this reduced the rendered documentation size by ~30%.
+-   The HTML docs now attempt to reduce repaints caused by dynamically loading the navigation, #2491.
+-   When navigating to a link that contains an anchor, the page will now be properly highlighted in the page navigation.
 
 ## v0.25.9 (2024-02-26)
 

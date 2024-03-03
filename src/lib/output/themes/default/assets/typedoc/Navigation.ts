@@ -41,6 +41,7 @@ async function buildNav() {
     }
 
     window.app.createComponents(container);
+    window.app.showPage();
     window.app.ensureActivePageVisible();
 }
 
@@ -93,7 +94,7 @@ function addNavText(
         if (classes) {
             a.className = classes;
         }
-        if (location.href === a.href) {
+        if (location.pathname === a.pathname) {
             a.classList.add("current");
         }
         if (el.kind) {
