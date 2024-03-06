@@ -122,10 +122,16 @@ export function pageSidebar(context: DefaultThemeRenderContext, props: PageEvent
 export function pageNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     const levels: JSX.Element[][] = [[]];
 
-    function finalizeLevel() {
+    function finalizeLevel(finishedHandlingHeadings: boolean) {
+        const level = levels.pop()!;
+        if (levels[levels.length - 1].length === 0 && finishedHandlingHeadings) {
+            levels[levels.length - 1] = level;
+            return;
+        }
+
         const built = (
             <ul>
-                {levels.pop()!.map((l) => (
+                {level.map((l) => (
                     <li>{l}</li>
                 ))}
             </ul>
@@ -136,9 +142,9 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
     for (const heading of props.pageHeadings) {
         const inferredLevel = heading.level ? heading.level + 1 : 1;
         while (inferredLevel < levels.length) {
-            finalizeLevel();
+            finalizeLevel(false);
         }
-        if (inferredLevel > levels.length) {
+        while (inferredLevel > levels.length) {
             // Lower level than before
             levels.push([]);
         }
@@ -152,12 +158,15 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
     }
 
     while (levels.length > 1) {
-        finalizeLevel();
+        finalizeLevel(true);
     }
 
     if (!levels[0].length) {
         return <></>;
     }
+
+    levels.unshift([]);
+    finalizeLevel(true);
 
     return (
         <details open={true} class="tsd-index-accordion tsd-page-navigation">
@@ -167,13 +176,7 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
                     On This Page
                 </h3>
             </summary>
-            <div class="tsd-accordion-details">
-                <ul>
-                    {levels[0].map((l) => (
-                        <li>{l}</li>
-                    ))}
-                </ul>
-            </div>
+            <div class="tsd-accordion-details">{levels[0]}</div>
         </details>
     );
 }

@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 -   Fixed an issue introduced with 0.25.10 which causes the page index to initially render empty, #2514.
+-   "On This Page" section is now smarter when handling page headings which do not follow the normal `h1>h2>h3` process, #2515.
 
 ## v0.25.10 (2024-03-03)
 
