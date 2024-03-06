@@ -21,7 +21,6 @@
     "treatWarningsAsErrors": false,
     "categorizeByGroup": false,
     "categoryOrder": ["Reflections", "Types", "Comments", "*"],
-    "sitemapBaseUrl": "https://typedoc.org/api/",
     "validation": {
         "notExported": true,
         "invalidLink": true,
