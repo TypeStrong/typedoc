@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.11 (2024-03-06)
+
 ### Bug Fixes
 
 -   Fixed an issue introduced with 0.25.10 which causes the page index to initially render empty, #2514.
