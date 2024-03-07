@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
 :root {
     /* Light */
     --light-color-background: #f2f4f8;
@@ -405,7 +407,7 @@ dd {
 }
 body {
     background: var(--color-background);
-    font-family: "Segoe UI", sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-size: 16px;
     color: var(--color-text);
 }
