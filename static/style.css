@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-
 :root {
     /* Light */
     --light-color-background: #f2f4f8;
@@ -407,7 +405,7 @@ dd {
 }
 body {
     background: var(--color-background);
-    font-family: "Open Sans", sans-serif;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"
     font-size: 16px;
     color: var(--color-text);
 }
