@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.12 (2024-03-10)
+
 ### Bug Fixes
 
 -   Updated page font to work around issues with Mac rendering, #2518
