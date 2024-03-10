@@ -1,5 +1,13 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Updated page font to work around issues with Mac rendering, #2518
+
+### Thanks!
+
+-   @docmattman
+
 ## v0.25.11 (2024-03-06)
 
 ### Bug Fixes
