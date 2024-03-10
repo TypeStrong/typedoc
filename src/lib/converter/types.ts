@@ -676,8 +676,10 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
         return new QueryType(ref);
     },
     convertType(context, type, node) {
+        // Order matters here - check the node location first so that if the typeof is targeting
+        // an instantiation expression we get the user's exprName.
         const symbol =
-            type.getSymbol() || context.getSymbolAtLocation(node.exprName);
+            context.getSymbolAtLocation(node.exprName) || type.getSymbol();
         assert(
             symbol,
             `Query type failed to get a symbol for: ${context.checker.typeToString(
