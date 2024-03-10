@@ -1,5 +1,6 @@
 import { ReflectionCategory } from "./ReflectionCategory";
-import type { DeclarationReflection, Reflection } from ".";
+import { Comment } from "./comments";
+import type { CommentDisplayPart, DeclarationReflection, Reflection } from ".";
 import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 
 /**
@@ -14,6 +15,11 @@ export class ReflectionGroup {
      * The title, a string representation of the typescript kind, of this group.
      */
     title: string;
+
+    /**
+     * User specified description via `@groupDescription`, if specified.
+     */
+    description?: CommentDisplayPart[];
 
     /**
      * All reflections of this group.
@@ -48,6 +54,9 @@ export class ReflectionGroup {
     toObject(serializer: Serializer): JSONOutput.ReflectionGroup {
         return {
             title: this.title,
+            description: this.description
+                ? Comment.serializeDisplayParts(serializer, this.description)
+                : undefined,
             children:
                 this.children.length > 0
                     ? this.children.map((child) => child.id)
@@ -57,6 +66,13 @@ export class ReflectionGroup {
     }
 
     fromObject(de: Deserializer, obj: JSONOutput.ReflectionGroup) {
+        if (obj.description) {
+            this.description = Comment.deserializeDisplayParts(
+                de,
+                obj.description,
+            );
+        }
+
         if (obj.categories) {
             this.categories = obj.categories.map((catObj) => {
                 const cat = new ReflectionCategory(catObj.title);

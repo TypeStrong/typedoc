@@ -519,6 +519,13 @@ describe("Behavior Tests", () => {
         ]);
 
         equal(
+            project.groups?.map((g) =>
+                Comment.combineDisplayParts(g.description),
+            ),
+            ["Variables desc", "A description", "", "With spaces desc"],
+        );
+
+        equal(
             project.groups.map((g) => g.children),
             [[D], [A, B], [B], [C]],
         );
@@ -539,6 +546,12 @@ describe("Behavior Tests", () => {
         const project = convert("categoryInheritance");
         const cls = query(project, "Cls");
         equal(cls.categories?.map((g) => g.title), ["Cat", "Other"]);
+        equal(
+            cls.categories?.map((g) =>
+                Comment.combineDisplayParts(g.description),
+            ),
+            ["Cat desc", ""],
+        );
         equal(
             cls.categories.map((g) => g.children),
             [[query(project, "Cls.prop")], [query(project, "Cls.constructor")]],
@@ -1157,5 +1170,13 @@ describe("Behavior Tests", () => {
         );
 
         logger.expectNoMessage("debug: Refusing to recurse*");
+    });
+
+    it("Handles NoInfer intrinsic type", () => {
+        const project = convert("noInfer");
+        const sig = querySig(project, "createStreetLight");
+        equal(sig.parameters?.length, 2);
+        equal(sig.parameters[0].type?.toString(), "C[]");
+        equal(sig.parameters[1].type?.toString(), "NoInfer");
     });
 });

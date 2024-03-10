@@ -194,7 +194,7 @@ export class Comment {
     /**
      * Helper utility to clone {@link Comment.summary} or {@link CommentTag.content}
      */
-    static cloneDisplayParts(parts: CommentDisplayPart[]) {
+    static cloneDisplayParts(parts: readonly CommentDisplayPart[]) {
         return parts.map((p) => ({ ...p }));
     }
 
@@ -304,6 +304,61 @@ export class Comment {
         }
 
         return result;
+    }
+
+    /**
+     * Splits the provided parts into a header (first line, as a string)
+     * and body (remaining lines). If the header line contains inline tags
+     * they will be serialized to a string.
+     */
+    static splitPartsToHeaderAndBody(parts: readonly CommentDisplayPart[]): {
+        header: string;
+        body: CommentDisplayPart[];
+    } {
+        let index = parts.findIndex((part): boolean => {
+            switch (part.kind) {
+                case "text":
+                case "code":
+                    return part.text.includes("\n");
+                case "inline-tag":
+                    return false;
+            }
+        });
+
+        if (index === -1) {
+            return {
+                header: Comment.combineDisplayParts(parts),
+                body: [],
+            };
+        }
+
+        // Do not split a code block, stop the header at the end of the previous block
+        if (parts[index].kind === "code") {
+            --index;
+        }
+
+        if (index === -1) {
+            return { header: "", body: Comment.cloneDisplayParts(parts) };
+        }
+
+        let header = Comment.combineDisplayParts(parts.slice(0, index));
+        const split = parts[index].text.indexOf("\n");
+
+        let body: CommentDisplayPart[];
+        if (split === -1) {
+            header += parts[index].text;
+            body = Comment.cloneDisplayParts(parts.slice(index + 1));
+        } else {
+            header += parts[index].text.substring(0, split);
+            body = Comment.cloneDisplayParts(parts.slice(index));
+            body[0].text = body[0].text.substring(split + 1);
+        }
+
+        if (!body[0].text) {
+            body.shift();
+        }
+
+        return { header: header.trim(), body };
     }
 
     /**

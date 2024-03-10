@@ -31,18 +31,20 @@ export function registerComponent(
  */
 export class Application {
     alwaysVisibleMember: HTMLElement | null = null;
-
-    /**
-     * Create a new Application instance.
-     */
     constructor() {
         this.createComponents(document.body);
-        this.ensureActivePageVisible();
         this.ensureFocusedElementVisible();
         this.listenForCodeCopies();
         window.addEventListener("hashchange", () =>
             this.ensureFocusedElementVisible(),
         );
+
+        // We're on a *really* slow network connection and the inline JS
+        // has already made the page display.
+        if (!document.body.style.display) {
+            this.scrollToHash();
+            this.updateIndexVisibility();
+        }
     }
 
     /**
@@ -63,6 +65,25 @@ export class Application {
         this.ensureFocusedElementVisible();
     }
 
+    public showPage() {
+        if (!document.body.style.display) return;
+        document.body.style.removeProperty("display");
+        this.scrollToHash();
+        this.updateIndexVisibility();
+    }
+
+    public scrollToHash() {
+        // Because we hid the entire page until the navigation loaded or we hit a timeout,
+        // we have to manually resolve the url hash here.
+        if (location.hash) {
+            const reflAnchor = document.getElementById(
+                location.hash.substring(1),
+            );
+            if (!reflAnchor) return;
+            reflAnchor.scrollIntoView({ behavior: "instant", block: "start" });
+        }
+    }
+
     public ensureActivePageVisible() {
         const pageLink = document.querySelector(".tsd-navigation .current");
         let iter = pageLink?.parentElement;
@@ -74,13 +95,39 @@ export class Application {
             iter = iter.parentElement;
         }
 
-        if (pageLink) {
+        if (pageLink && !pageLink.checkVisibility()) {
             const top =
                 pageLink.getBoundingClientRect().top -
                 document.documentElement.clientHeight / 4;
             // If we are showing three columns, this will scroll the site menu down to
             // show the page we just loaded in the navigation.
             document.querySelector(".site-menu")!.scrollTop = top;
+        }
+    }
+
+    public updateIndexVisibility() {
+        const indexAccordion =
+            document.querySelector<HTMLDetailsElement>(".tsd-index-content");
+        const oldOpen = indexAccordion?.open;
+        if (indexAccordion) {
+            indexAccordion.open = true;
+        }
+
+        // Hide index headings where all index items are hidden.
+        // offsetParent == null checks for display: none
+        document
+            .querySelectorAll<HTMLElement>(".tsd-index-section")
+            .forEach((el) => {
+                el.style.display = "block";
+                const allChildrenHidden = Array.from(
+                    el.querySelectorAll<HTMLElement>(".tsd-index-link"),
+                ).every((child) => child.offsetParent == null);
+
+                el.style.display = allChildrenHidden ? "none" : "block";
+            });
+
+        if (indexAccordion) {
+            indexAccordion.open = oldOpen!;
         }
     }
 

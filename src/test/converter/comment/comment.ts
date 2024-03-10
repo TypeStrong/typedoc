@@ -28,6 +28,9 @@ import "./comment2";
  * @todo something
  *
  * @type {Data<object>} will also be removed
+ *
+ * @groupDescription Methods
+ * Methods description!
  */
 export class CommentedClass {
     /**

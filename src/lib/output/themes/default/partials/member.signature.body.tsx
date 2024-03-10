@@ -23,7 +23,7 @@ export function memberSignatureBody(
                     <ul class="tsd-parameter-list">
                         {props.parameters.map((item) => (
                             <li>
-                                <h5>
+                                <span>
                                     {context.reflectionFlags(item)}
                                     {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                     <span class="tsd-kind-parameter">{item.name}</span>
@@ -35,7 +35,7 @@ export function memberSignatureBody(
                                             {item.defaultValue}
                                         </span>
                                     )}
-                                </h5>
+                                </span>
                                 {context.commentSummary(item)}
                                 {context.commentTags(item)}
                                 {item.type instanceof ReflectionType && context.parameter(item.type.declaration)}

@@ -28,6 +28,7 @@ import {
 } from "./programs";
 import { TestLogger } from "./TestLogger";
 import { getComment, getLinks, query, querySig } from "./utils";
+import { DefaultTheme, PageEvent } from "..";
 
 const base = getConverter2Base();
 const app = getConverter2App();
@@ -372,7 +373,7 @@ describe("Issue Tests", () => {
 
         equal(
             Comment.combineDisplayParts(
-                query(project, "Foo.baz").signatures?.[0]?.comment?.summary,
+                query(project, "Foo.baz").comment?.summary,
             ),
             "Some property style doc.",
             "Property methods declared in interface should still allow comment inheritance",
@@ -943,12 +944,7 @@ describe("Issue Tests", () => {
         const project = convert();
         const hook = query(project, "Camera.useCameraPermissions");
         equal(hook.type?.type, "reflection" as const);
-        equal(
-            Comment.combineDisplayParts(
-                hook.type.declaration.signatures![0].comment?.summary,
-            ),
-            "One",
-        );
+        equal(Comment.combineDisplayParts(hook.comment?.summary), "One");
     });
 
     it("#2150", () => {
@@ -1371,5 +1367,67 @@ describe("Issue Tests", () => {
         ]);
 
         equal(project.children[0].children?.map((c) => c.name), ["Options"]);
+    });
+
+    it("Does not crash when rendering recursive hierarchy, #2495", () => {
+        const project = convert();
+
+        const theme = new DefaultTheme(app.renderer);
+        const page = new PageEvent("hierarchy", project);
+        page.project = project;
+        const context = theme.getRenderContext(page);
+        context.hierarchyTemplate(page);
+    });
+
+    it("Correctly cleans up references to functions #2496", () => {
+        app.options.setValue("excludeNotDocumented", true);
+        convert();
+    });
+
+    it("Sorts literal numeric unions when converting a type, #2502", () => {
+        const project = convert();
+        const refl = query(project, "Test");
+        equal(refl.type?.toString(), "1 | 2 | 3");
+    });
+
+    it("Handles an infinitely recursive type, #2507", () => {
+        const project = convert();
+        const type = querySig(project, "fromPartial").typeParameters![0].type;
+
+        // function fromPartial<I extends Value & {
+        //     values: Value[] & (Value & {
+        //         values: Value[] & (Value & {
+        //             values: Value[] & (Value & {
+        //                 values: Value[] & (Value & {
+        //                     ...;
+        //                 })[];
+        //             })[];
+        //         })[];
+        //     })[];
+        // }>(object: I): void
+        equal(type?.toString(), "Value & Object");
+    });
+
+    it("Handles constructed references to enumeration types, #2508", () => {
+        const project = convert();
+        const refl = query(project, "Bar.color");
+        equal(refl.type?.type, "reference");
+        equal(refl.type.toString(), "Color");
+        equal(refl.type.reflection?.id, query(project, "Color").id);
+    });
+
+    it("Does not duplicate comments due to signatures being present, #2509", () => {
+        const project = convert();
+        const cb = query(project, "Int.cb");
+        equal(Comment.combineDisplayParts(cb.comment?.summary), "Cb");
+        equal(cb.type?.type, "reflection");
+        equal(cb.type.declaration.signatures![0].comment, undefined);
+
+        const nested = query(project, "Int.nested");
+        equal(nested.type?.type, "reflection");
+        const cb2 = nested.type.declaration.children![0];
+        equal(Comment.combineDisplayParts(cb2.comment?.summary), "Cb2");
+        equal(cb2.type?.type, "reflection");
+        equal(cb2.type.declaration.signatures![0].comment, undefined);
     });
 });

@@ -60,7 +60,7 @@ describe("Options - PackageJsonReader", () => {
         `{ "name": "x", "typedocOptions": { "someOptionThatDoesNotExist": true } }`,
         (l) =>
             l.expectMessage(
-                "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared.*",
+                "error: Unknown option 'someOptionThatDoesNotExist' You may have meant:*",
             ),
     );
 

@@ -1,16 +1,21 @@
 import { classNames, renderName } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
-import type { ContainerReflection, ReflectionCategory } from "../../../../models";
+import { JSX, Raw } from "../../../../utils";
+import type { ContainerReflection, ReflectionCategory, ReflectionGroup } from "../../../../models";
 
 function renderCategory(
-    { urlTo, icons, getReflectionClasses }: DefaultThemeRenderContext,
-    item: ReflectionCategory,
+    { urlTo, icons, getReflectionClasses, markdown }: DefaultThemeRenderContext,
+    item: ReflectionCategory | ReflectionGroup,
     prependName = "",
 ) {
     return (
         <section class="tsd-index-section">
             <h3 class="tsd-index-heading">{prependName ? `${prependName} - ${item.title}` : item.title}</h3>
+            {item.description && (
+                <div class="tsd-comment tsd-typography">
+                    <Raw html={markdown(item.description)} />
+                </div>
+            )}
             <div class="tsd-index-list">
                 {item.children.map((item) => (
                     <>

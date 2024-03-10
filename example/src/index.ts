@@ -1,3 +1,9 @@
+/**
+ * @packageDocumentation
+ * @categoryDescription Component
+ * React Components -- This description is added with the `@categoryDescription` tag
+ * on the entry point in src/index.ts
+ */
 export * from "./functions";
 export * from "./variables";
 export * from "./types";

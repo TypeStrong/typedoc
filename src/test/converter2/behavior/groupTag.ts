@@ -1,4 +1,14 @@
 /**
+ * @groupDescription Variables
+ * Variables desc
+ * @groupDescription A
+ * A description
+ * @groupDescription With Spaces
+ * With spaces desc
+ * @module
+ */
+
+/**
  * @group A
  */
 export const A = 123;

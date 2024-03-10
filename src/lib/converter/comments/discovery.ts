@@ -133,6 +133,29 @@ export function discoverFileComment(
     }
 }
 
+export function discoverNodeComment(
+    node: ts.Node,
+    commentStyle: CommentStyle,
+): DiscoveredComment | undefined {
+    const text = node.getSourceFile().text;
+    const comments = collectCommentRanges(
+        ts.getLeadingCommentRanges(text, node.pos),
+    );
+    comments.reverse();
+
+    const selectedDocComment = comments.find((ranges) =>
+        permittedRange(text, ranges, commentStyle),
+    );
+
+    if (selectedDocComment) {
+        return {
+            file: node.getSourceFile(),
+            ranges: selectedDocComment,
+            jsDoc: findJsDocForComment(node, selectedDocComment),
+        };
+    }
+}
+
 export function discoverComment(
     symbol: ts.Symbol,
     kind: ReflectionKind,

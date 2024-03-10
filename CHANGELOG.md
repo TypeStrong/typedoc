@@ -8,17 +8,69 @@
 
 # Unreleased
 
-## Features
+## v0.25.12 (2024-03-10)
+
+### Bug Fixes
+
+-   Updated page font to work around issues with Mac rendering, #2518
+
+### Thanks!
+
+-   @docmattman
+
+## v0.25.11 (2024-03-06)
+
+### Bug Fixes
+
+-   Fixed an issue introduced with 0.25.10 which causes the page index to initially render empty, #2514.
+-   "On This Page" section is now smarter when handling page headings which do not follow the normal `h1>h2>h3` process, #2515.
+
+## v0.25.10 (2024-03-03)
+
+### Bug Fixes
+
+-   Constructed references to enum types will be properly linked with `@interface`, #2508.
+-   Comments on property-methods will no longer be duplicated in generated documentation, #2509.
+-   Reduced rendered docs size by writing icons to a referenced SVG asset, #2505.
+    For TypeDoc's docs, this reduced the rendered documentation size by ~30%.
+-   The HTML docs now attempt to reduce repaints caused by dynamically loading the navigation, #2491.
+-   When navigating to a link that contains an anchor, the page will now be properly highlighted in the page navigation.
+
+## v0.25.9 (2024-02-26)
+
+### Features
+
+-   Literal numeric unions will now be sorted during conversion, #2502.
+
+### Bug Fixes
+
+-   Module readmes will now be included in JSON output, #2500.
+-   Fixed crash when `--excludeNotDocumented` was used and the project contained a reference to a removed signature, #2496.
+-   Fixed crash when converting an infinitely recursive type via a new `--maxTypeConversionDepth` option, #2507.
+-   Type links in "Parameters" and "Type Parameters" sections of the page will now be correctly colored.
+
+### Thanks!
+
+-   @JMBeresford
+
+## v0.25.8 (2024-02-09)
+
+### Features
 
 -   Added a new `--sitemapBaseUrl` option. When specified, TypeDoc will generate a `sitemap.xml` in your output folder that describes the site, #2480.
 -   Added support for the `@class` tag. When added to a comment on a variable or function, TypeDoc will convert the member as a class, #2479.
     Note: This should only be used on symbols which actually represent a class, but are not declared as a class for some reason.
+-   Added support for `@groupDescription` and `@categoryDescription` to provide a description of groups and categories, #2494.
+-   API: Exposed `Context.getNodeComment` for plugin use, #2498.
 
-## Bug Fixes
+### Bug Fixes
 
 -   Fixed an issue where a namespace would not be created for merged function-namespaces which are declared as variables, #2478.
+-   A class which implements itself will no longer cause a crash when rendering HTML, #2495.
 -   Variable functions which have construct signatures will no longer be converted as functions, ignoring the construct signatures.
+-   The class hierarchy page will now include classes whose base class is not included in the documentation, #2486.
 -   Fixed an issue where, if the index section was collapsed when loading the page, all content within it would be hidden until expanded, and a member visibility checkbox was changed.
+-   API: `Context.programs` will no longer contain duplicates, #2498.
 
 ## v0.25.7 (2024-01-08)
 

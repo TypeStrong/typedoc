@@ -1,4 +1,4 @@
-// If updating these lists, also see .config/typedoc-default.tsdoc.json
+// If updating these lists, also update tsdoc.json
 
 export const tsdocBlockTags = [
     "@deprecated",
@@ -16,7 +16,9 @@ export const blockTags = [
     "@module",
     "@inheritDoc",
     "@group",
+    "@groupDescription",
     "@category",
+    "@categoryDescription",
     // Alias for @typeParam
     "@template",
     // Because TypeScript is important!

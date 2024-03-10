@@ -326,6 +326,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
     options.addDeclaration({
+        name: "maxTypeConversionDepth",
+        help: (i18n) => i18n.help_maxTypeConversionDepth(),
+        defaultValue: 10,
+        type: ParameterType.Number,
+    });
+    options.addDeclaration({
         name: "name",
         help: (i18n) => i18n.help_name(),
     });

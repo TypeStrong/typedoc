@@ -153,3 +153,34 @@ export function renderName(refl: Reflection) {
 
     return wbr(refl.name);
 }
+
+export function getHierarchyRoots(project: ProjectReflection): DeclarationReflection[] {
+    const allClasses = project.getReflectionsByKind(ReflectionKind.ClassOrInterface) as DeclarationReflection[];
+
+    const roots = allClasses.filter((refl) => {
+        // If nobody extends this class, there's no possible hierarchy to display.
+        if (!refl.implementedBy && !refl.extendedBy) {
+            return false;
+        }
+
+        // If we don't extend anything, then we are a root
+        if (!refl.implementedTypes && !refl.extendedTypes) {
+            return true;
+        }
+
+        // We might still be a root, if our extended/implemented types are not included
+        // in the documentation.
+        const types = [...(refl.implementedTypes || []), ...(refl.extendedTypes || [])];
+
+        return types.every(
+            (type) =>
+                !type.visit({
+                    reference(ref) {
+                        return ref.reflection !== undefined;
+                    },
+                }),
+        );
+    });
+
+    return roots.sort((a, b) => a.name.localeCompare(b.name));
+}

@@ -405,7 +405,8 @@ dd {
 }
 body {
     background: var(--color-background);
-    font-family: "Segoe UI", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+        Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-size: 16px;
     color: var(--color-text);
 }

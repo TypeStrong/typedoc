@@ -42,6 +42,12 @@ function isPromiseWithCancel<T>(value: unknown): value is PromiseWithCancel<T> {
  * [real-cancellable-promise](https://github.com/srmagura/real-cancellable-promise).
  *
  * @typeParam T what the `CancellablePromise` resolves to
+ *
+ * @groupDescription Methods
+ * Descriptions can be added for groups with `@groupDescription`, which will show up in
+ * the index where groups are listed. This works for both manually created groups which
+ * are created with `@group`, and implicit groups like the `Methods` group that this
+ * description is attached to.
  */
 export class CancellablePromise<T> {
     /**

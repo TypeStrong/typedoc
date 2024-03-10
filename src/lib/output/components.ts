@@ -29,8 +29,10 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
     /**
      * The url of the document that is being currently generated.
      * Set when a page begins rendering.
+     *
+     * Defaulted to '.' so that tests don't have to set up events.
      */
-    private location!: string;
+    private location = ".";
 
     /**
      * Regular expression to test if a string looks like an external url.

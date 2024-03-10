@@ -19,7 +19,7 @@ TypeDoc's default analytics helper with one that uses [Open Web Analytics](https
 Google Analytics. This could be done with the following theme:
 
 ```tsx
-import { Application, DefaultTheme, PageEvent, JSX } from "typedoc";
+import { Application, DefaultTheme, PageEvent, JSX, Reflection } from "typedoc";
 
 const script = `
 (function() {
@@ -48,13 +48,8 @@ class MyThemeContext extends DefaultThemeRenderContext {
 }
 
 class MyTheme extends DefaultTheme {
-    private _contextCache?: MyThemeContext;
-    override getRenderContext() {
-        this._contextCache ||= new MyThemeContext(
-            this._markedPlugin,
-            this.application.options,
-        );
-        return this._contextCache;
+    getRenderContext(pageEvent: PageEvent<Reflection>) {
+        return new MyThemeContext(this, pageEvent, this.application.options);
     }
 }
 

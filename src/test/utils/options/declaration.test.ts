@@ -72,7 +72,7 @@ describe("Options - conversions", () => {
         };
         throws(
             () => convert(0, declaration, i18n, ""),
-            new Error("test must be >= 1"),
+            new Error("test must be equal to or greater than 1"),
         );
     });
 
@@ -86,7 +86,7 @@ describe("Options - conversions", () => {
         };
         throws(
             () => convert(11, declaration, i18n, ""),
-            new Error("test must be <= 10"),
+            new Error("test must be less than or equal to 10"),
         );
     });
 
@@ -152,12 +152,10 @@ describe("Options - conversions", () => {
         );
         equal(
             convert(null, optionWithType(ParameterType.String), i18n, ""),
-            i18n,
             "",
         );
         equal(
             convert(void 0, optionWithType(ParameterType.String), i18n, ""),
-            i18n,
             "",
         );
     });

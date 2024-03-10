@@ -1,3 +1,7 @@
+/**
+ * @categoryDescription Cat
+ * Cat desc
+ */
 export interface Int {
     /** @category Cat */
     prop: string;

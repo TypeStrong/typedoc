@@ -2,7 +2,13 @@ import { Component, ConverterComponent } from "../components";
 import type { Context, ExternalResolveResult } from "../../converter";
 import { ConverterEvents } from "../converter-events";
 import { Option, ValidationOptions } from "../../utils";
-import { DeclarationReflection, ProjectReflection } from "../../models";
+import {
+    ContainerReflection,
+    DeclarationReflection,
+    ProjectReflection,
+    Reflection,
+    ReflectionCategory,
+} from "../../models";
 import { discoverAllReferenceTypes } from "../../utils/reflections";
 import { ApplicationEvents } from "../../application-events";
 
@@ -45,6 +51,31 @@ export class LinkResolverPlugin extends ConverterComponent {
                     reflection,
                 );
             }
+
+            if (reflection instanceof ContainerReflection) {
+                if (reflection.groups) {
+                    for (const group of reflection.groups) {
+                        if (group.description) {
+                            group.description = this.owner.resolveLinks(
+                                group.description,
+                                reflection,
+                            );
+                        }
+
+                        if (group.categories) {
+                            for (const cat of group.categories) {
+                                this.resolveCategoryLinks(cat, reflection);
+                            }
+                        }
+                    }
+                }
+
+                if (reflection.categories) {
+                    for (const cat of reflection.categories) {
+                        this.resolveCategoryLinks(cat, reflection);
+                    }
+                }
+            }
         }
 
         if (project.readme) {
@@ -73,6 +104,18 @@ export class LinkResolverPlugin extends ConverterComponent {
                         break;
                 }
             }
+        }
+    }
+
+    private resolveCategoryLinks(
+        category: ReflectionCategory,
+        owner: Reflection,
+    ) {
+        if (category.description) {
+            category.description = this.owner.resolveLinks(
+                category.description,
+                owner,
+            );
         }
     }
 }

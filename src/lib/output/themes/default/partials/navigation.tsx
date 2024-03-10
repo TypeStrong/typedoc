@@ -2,10 +2,7 @@ import { Reflection, ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { camelToTitleCase, classNames, getDisplayName, wbr } from "../../lib";
-import type { NavigationElement } from "../DefaultTheme";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-
-const MAX_EMBEDDED_NAV_SIZE = 20;
 
 export function sidebar(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
@@ -100,57 +97,6 @@ export function settings(context: DefaultThemeRenderContext) {
 }
 
 export const navigation = function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
-    const nav = context.getNavigation();
-
-    let elements = 0;
-    function link(el: NavigationElement, path: string[] = []) {
-        if (elements > MAX_EMBEDDED_NAV_SIZE) {
-            return <></>;
-        }
-
-        if (el.path) {
-            ++elements;
-            return (
-                <li>
-                    <a
-                        href={context.relativeURL(el.path)}
-                        class={classNames({ current: props.model.url === el.path }, el.class)}
-                    >
-                        {el.kind && context.icons[el.kind]()}
-                        {el.text}
-                    </a>
-                </li>
-            );
-        }
-
-        // Top level element is a group/category, recurse so that we don't have a half-broken
-        // navigation tree for people with JS turned off.
-        if (el.children) {
-            ++elements;
-            const fullPath = [...path, el.text];
-
-            return (
-                <details class={classNames({ "tsd-index-accordion": true }, el.class)} data-key={fullPath.join("$")}>
-                    <summary class="tsd-accordion-summary">
-                        {context.icons.chevronDown()}
-                        <span>{el.text}</span>
-                    </summary>
-                    <div class="tsd-accordion-details">
-                        <ul class="tsd-nested-navigation">{el.children.map((c) => link(c, fullPath))}</ul>
-                    </div>
-                </details>
-            );
-        }
-
-        return (
-            <li>
-                <span>{el.text}</span>
-            </li>
-        );
-    }
-
-    const navEl = nav.map((el) => link(el));
-
     return (
         <nav class="tsd-navigation">
             <a href={context.urlTo(props.project)} class={classNames({ current: props.project === props.model })}>
@@ -158,8 +104,7 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
                 <span>{getDisplayName(props.project)}</span>
             </a>
             <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base={context.relativeURL("./")}>
-                {navEl}
-                {elements < MAX_EMBEDDED_NAV_SIZE || <li>Loading...</li>}
+                <li>Loading...</li>
             </ul>
         </nav>
     );
@@ -177,10 +122,16 @@ export function pageSidebar(context: DefaultThemeRenderContext, props: PageEvent
 export function pageNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     const levels: JSX.Element[][] = [[]];
 
-    function finalizeLevel() {
+    function finalizeLevel(finishedHandlingHeadings: boolean) {
+        const level = levels.pop()!;
+        if (levels[levels.length - 1].length === 0 && finishedHandlingHeadings) {
+            levels[levels.length - 1] = level;
+            return;
+        }
+
         const built = (
             <ul>
-                {levels.pop()!.map((l) => (
+                {level.map((l) => (
                     <li>{l}</li>
                 ))}
             </ul>
@@ -191,9 +142,9 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
     for (const heading of props.pageHeadings) {
         const inferredLevel = heading.level ? heading.level + 1 : 1;
         while (inferredLevel < levels.length) {
-            finalizeLevel();
+            finalizeLevel(false);
         }
-        if (inferredLevel > levels.length) {
+        while (inferredLevel > levels.length) {
             // Lower level than before
             levels.push([]);
         }
@@ -207,12 +158,15 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
     }
 
     while (levels.length > 1) {
-        finalizeLevel();
+        finalizeLevel(true);
     }
 
     if (!levels[0].length) {
         return <></>;
     }
+
+    levels.unshift([]);
+    finalizeLevel(true);
 
     return (
         <details open={true} class="tsd-index-accordion tsd-page-navigation">
@@ -222,13 +176,7 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
                     {context.i18n.theme_on_this_page()}
                 </h3>
             </summary>
-            <div class="tsd-accordion-details">
-                <ul>
-                    {levels[0].map((l) => (
-                        <li>{l}</li>
-                    ))}
-                </ul>
-            </div>
+            <div class="tsd-accordion-details">{levels[0]}</div>
         </details>
     );
 }

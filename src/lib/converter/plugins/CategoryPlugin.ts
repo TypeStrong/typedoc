@@ -7,7 +7,7 @@ import { ReflectionCategory } from "../../models";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
-import { Option, getSortFunction } from "../../utils";
+import { Option, getSortFunction, removeIf } from "../../utils";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -112,7 +112,10 @@ export class CategoryPlugin extends ConverterComponent {
         obj.groups.forEach((group) => {
             if (group.categories) return;
 
-            group.categories = this.getReflectionCategories(group.children);
+            group.categories = this.getReflectionCategories(
+                obj,
+                group.children,
+            );
             if (group.categories && group.categories.length > 1) {
                 group.categories.sort(CategoryPlugin.sortCatCallback);
             } else if (
@@ -129,7 +132,7 @@ export class CategoryPlugin extends ConverterComponent {
         if (!obj.children || obj.children.length === 0 || obj.categories) {
             return;
         }
-        obj.categories = this.getReflectionCategories(obj.children);
+        obj.categories = this.getReflectionCategories(obj, obj.children);
         if (obj.categories && obj.categories.length > 1) {
             obj.categories.sort(CategoryPlugin.sortCatCallback);
         } else if (
@@ -150,6 +153,7 @@ export class CategoryPlugin extends ConverterComponent {
      * @returns An array containing all children of the given reflection categorized
      */
     private getReflectionCategories(
+        parent: ContainerReflection,
         reflections: DeclarationReflection[],
     ): ReflectionCategory[] {
         const categories = new Map<string, ReflectionCategory>();
@@ -171,6 +175,30 @@ export class CategoryPlugin extends ConverterComponent {
                     categories.set(childCat, cat);
                 }
             }
+        }
+
+        if (parent.comment) {
+            removeIf(parent.comment.blockTags, (tag) => {
+                if (tag.tag === "@categoryDescription") {
+                    const { header, body } = Comment.splitPartsToHeaderAndBody(
+                        tag.content,
+                    );
+                    const cat = categories.get(header);
+                    if (cat) {
+                        cat.description = body;
+                    } else {
+                        this.application.logger.warn(
+                            this.application.i18n.comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group(
+                                parent.getFriendlyFullName(),
+                                header,
+                            ),
+                        );
+                    }
+
+                    return true;
+                }
+                return false;
+            });
         }
 
         for (const cat of categories.values()) {

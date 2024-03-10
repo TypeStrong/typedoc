@@ -13,7 +13,7 @@ import {
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
-import { Option, MinimalSourceFile, readFile } from "../utils";
+import { Option, MinimalSourceFile, readFile, unique } from "../utils";
 import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
 import { convertSymbol } from "./symbols";
@@ -96,6 +96,10 @@ export class Converter extends ChildableComponent<
     /** @internal */
     @Option("preserveLinkText")
     accessor preserveLinkText!: boolean;
+
+    /** @internal */
+    @Option("maxTypeConversionDepth")
+    accessor maxTypeConversionDepth!: number;
 
     private _config?: CommentParserConfig;
     private _externalSymbolResolvers: Array<ExternalSymbolResolver> = [];
@@ -222,7 +226,7 @@ export class Converter extends ChildableComponent<
     convert(
         entryPoints: readonly DocumentationEntryPoint[],
     ): ProjectReflection {
-        const programs = entryPoints.map((e) => e.program);
+        const programs = unique(entryPoints.map((e) => e.program));
         this.externalPatternCache = void 0;
 
         const project = new ProjectReflection(

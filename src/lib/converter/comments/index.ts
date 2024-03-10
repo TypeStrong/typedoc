@@ -10,6 +10,7 @@ import {
     DiscoveredComment,
     discoverComment,
     discoverFileComment,
+    discoverNodeComment,
     discoverSignatureComment,
 } from "./discovery";
 import { lexLineComments } from "./lineLexer";
@@ -169,6 +170,23 @@ export function getComment(
     }
 
     return comment;
+}
+
+export function getNodeComment(
+    node: ts.Node,
+    kind: ReflectionKind,
+    config: CommentParserConfig,
+    logger: Logger,
+    commentStyle: CommentStyle,
+    checker: ts.TypeChecker | undefined,
+) {
+    return getCommentImpl(
+        discoverNodeComment(node, commentStyle),
+        config,
+        logger,
+        kind === ReflectionKind.Module,
+        checker,
+    );
 }
 
 export function getFileComment(

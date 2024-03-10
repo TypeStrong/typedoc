@@ -116,6 +116,7 @@ function maybeConvertType(
     return convertType(context, typeOrNode);
 }
 
+let typeConversionDepth = 0;
 export function convertType(
     context: Context,
     typeOrNode: ts.Type | ts.TypeNode | undefined,
@@ -124,11 +125,18 @@ export function convertType(
         return new IntrinsicType("any");
     }
 
+    if (typeConversionDepth > context.converter.maxTypeConversionDepth) {
+        return new UnknownType("...");
+    }
+
     loadConverters();
     if ("kind" in typeOrNode) {
         const converter = converters.get(typeOrNode.kind);
         if (converter) {
-            return converter.convert(context, typeOrNode);
+            ++typeConversionDepth;
+            const result = converter.convert(context, typeOrNode);
+            --typeConversionDepth;
+            return result;
         }
         return requestBugReport(context, typeOrNode);
     }
@@ -138,6 +146,7 @@ export function convertType(
     // will use the origin when serializing
     // aliasSymbol check is important - #2468
     if (typeOrNode.isUnion() && typeOrNode.origin && !typeOrNode.aliasSymbol) {
+        // Don't increment typeConversionDepth as this is a transparent step to the user.
         return convertType(context, typeOrNode.origin);
     }
 
@@ -168,7 +177,9 @@ export function convertType(
         }
 
         seenTypes.add(typeOrNode.id);
+        ++typeConversionDepth;
         const result = converter.convertType(context, typeOrNode, node);
+        --typeConversionDepth;
         seenTypes.delete(typeOrNode.id);
         return result;
     }
@@ -666,8 +677,10 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
         return new QueryType(ref);
     },
     convertType(context, type, node) {
+        // Order matters here - check the node location first so that if the typeof is targeting
+        // an instantiation expression we get the user's exprName.
         const symbol =
-            type.getSymbol() || context.getSymbolAtLocation(node.exprName);
+            context.getSymbolAtLocation(node.exprName) || type.getSymbol();
         assert(
             symbol,
             `Query type failed to get a symbol for: ${context.checker.typeToString(
@@ -714,8 +727,12 @@ const referenceConverter: TypeConverter<
         );
         return type;
     },
-    convertType(context, type) {
-        const symbol = type.aliasSymbol ?? type.getSymbol();
+    convertType(context, type, node) {
+        // typeName.symbol handles the case where this is a union which happens to refer
+        // to an enumeration. TS doesn't put the symbol on the type for some reason, but
+        // does add it to the constructed type node.
+        const symbol =
+            type.aliasSymbol ?? type.getSymbol() ?? node.typeName.symbol;
         if (!symbol) {
             // This happens when we get a reference to a type parameter
             // created within a mapped type, `K` in: `{ [K in T]: string }`
@@ -1035,9 +1052,10 @@ const unionConverter: TypeConverter<ts.UnionTypeNode, ts.UnionType> = {
         );
     },
     convertType(context, type) {
-        return new UnionType(
-            type.types.map((type) => convertType(context, type)),
-        );
+        const types = type.types.map((type) => convertType(context, type));
+        sortLiteralUnion(types);
+
+        return new UnionType(types);
     },
 };
 
@@ -1104,4 +1122,19 @@ function kindToModifier(
         default:
             return undefined;
     }
+}
+
+function sortLiteralUnion(types: SomeType[]) {
+    if (
+        types.some((t) => t.type !== "literal" || typeof t.value !== "number")
+    ) {
+        return;
+    }
+
+    types.sort((a, b) => {
+        const aLit = a as LiteralType;
+        const bLit = b as LiteralType;
+
+        return (aLit.value as number) - (bLit.value as number);
+    });
 }

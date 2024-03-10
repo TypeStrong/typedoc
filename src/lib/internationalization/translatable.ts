@@ -92,6 +92,8 @@ export const translatable = {
     // conversion plugins
     not_all_search_category_boosts_used_0: `Not all categories specified in searchCategoryBoosts were used in the documentation. The unused categories were:\n\t{0}`,
     not_all_search_group_boosts_used_0: `Not all groups specified in searchGroupBoosts were used in the documentation. The unused groups were:\n\t{0}`,
+    comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group: `Comment for {0} includes @categoryDescription for "{1}", but no child is placed in that category.`,
+    comment_for_0_includes_groupDescription_for_1_but_no_child_in_group: `Comment for {0} includes @groupDescription for "{1}", but no child is placed in that group.`,
     label_0_for_1_cannot_be_referenced: `The label "{0}" for {1} cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.`,
     signature_0_has_unused_param_with_name_1: `The signature {0} has an @param with name "{1}", which was not used.`,
     declaration_reference_in_inheritdoc_for_0_not_fully_parsed: `Declaration reference in @inheritDoc for {0} was not fully parsed and may resolve incorrectly.`,
@@ -218,6 +220,8 @@ export const translatable = {
     help_customCss: "Path to a custom CSS file to for the theme to import.",
     help_markedOptions:
         "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
+    help_maxTypeConversionDepth:
+        "Set the maximum depth of types to be converted.",
     help_name:
         "Set the name of the project that will be used in the header of the template.",
     help_includeVersion: "Add the package version to the project name.",
@@ -325,7 +329,7 @@ export const translatable = {
     option_0_must_be_equal_to_or_greater_than_1:
         "{0} must be equal to or greater than {1}",
     option_0_must_be_less_than_or_equal_to_1:
-        "{0} must be equal to or greater than {1}",
+        "{0} must be less than or equal to {1}",
     option_0_must_be_one_of_1: "{0} must be one of {1}",
     flag_0_is_not_valid_for_1_expected_2:
         "The flag '{0}' is not valid for {1}, expected one of {2}",

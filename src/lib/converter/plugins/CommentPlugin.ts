@@ -453,23 +453,27 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         // Since this reflection has signatures, we need to remove the comment from the non-primary
-        // declaration location. For functions, this means removing it from the Function reflection.
-        // For type aliases, this means removing it from reflection.type.declaration.
+        // declaration location. For functions/methods/constructors, this means removing it from
+        // the wrapping reflection. For type aliases, classes, and interfaces, this means removing
+        // it from the contained signatures... if it's the same as what is on the signature.
         // This is important so that in type aliases we don't end up with a comment rendered twice.
-        if (
-            reflection.kindOf(
-                ReflectionKind.FunctionOrMethod | ReflectionKind.Constructor,
-            )
-        ) {
+        if (reflection.kindOf(ReflectionKind.SignatureContainer)) {
             delete reflection.comment;
-        }
-        if (reflection.kindOf(ReflectionKind.TypeAlias)) {
+        } else {
             reflection.comment?.removeTags("@param");
             reflection.comment?.removeTags("@typeParam");
             reflection.comment?.removeTags("@template");
 
+            const parentComment = Comment.combineDisplayParts(
+                reflection.comment?.summary,
+            );
             for (const sig of signatures) {
-                delete sig.comment;
+                if (
+                    Comment.combineDisplayParts(sig.comment?.summary) ===
+                    parentComment
+                ) {
+                    delete sig.comment;
+                }
             }
         }
     }

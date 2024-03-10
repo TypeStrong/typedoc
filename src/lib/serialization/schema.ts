@@ -103,11 +103,12 @@ export interface ReflectionSymbolId {
 }
 
 export interface ReflectionGroup
-    extends S<M.ReflectionGroup, "title" | "categories"> {
+    extends S<M.ReflectionGroup, "title" | "description" | "categories"> {
     children?: M.ReflectionGroup["children"][number]["id"][];
 }
 
-export interface ReflectionCategory extends S<M.ReflectionCategory, "title"> {
+export interface ReflectionCategory
+    extends S<M.ReflectionCategory, "title" | "description"> {
     children?: M.ReflectionCategory["children"][number]["id"][];
 }
 
@@ -176,6 +177,7 @@ export interface DeclarationReflection
             | "getSignature"
             | "setSignature"
             | "typeParameters"
+            | "readme"
         > {}
 
 /** @category Reflections */

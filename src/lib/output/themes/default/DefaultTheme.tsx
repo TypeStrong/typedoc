@@ -16,7 +16,8 @@ import type { PageEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
 import { JSX } from "../../../utils";
-import { classNames, getDisplayName, toStyleClass } from "../lib";
+import { classNames, getDisplayName, getHierarchyRoots, toStyleClass } from "../lib";
+import { icons } from "./partials/icon";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.
@@ -55,6 +56,21 @@ export interface NavigationElement {
 export class DefaultTheme extends Theme {
     /** @internal */
     markedPlugin: MarkedPlugin;
+
+    /**
+     * The icons which will actually be rendered. The source of truth lives on the theme, and
+     * the {@link DefaultThemeRenderContext.icons} member will produce references to these.
+     *
+     * These icons will be written twice. Once to an `icons.svg` file in the assets directory
+     * which will be referenced by icons on the context, and once to an `icons.js` file so that
+     * references to the icons can be dynamically embedded within the page for use by the search
+     * dropdown and when loading the page on `file://` urls.
+     *
+     * Custom themes may overwrite this entire object or individual properties on it to customize
+     * the icons used within the page, however TypeDoc currently assumes that all icons are svg
+     * elements, so custom themes must also use svg elements.
+     */
+    icons = { ...icons };
 
     getRenderContext(pageEvent: PageEvent<Reflection>) {
         return new DefaultThemeRenderContext(this, pageEvent, this.application.options);
@@ -155,7 +171,7 @@ export class DefaultTheme extends Theme {
             urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         }
 
-        if (includeHierarchyPage(project)) {
+        if (getHierarchyRoots(project).length) {
             urls.push(new UrlMapping("hierarchy.html", project, this.hierarchyTemplate));
         }
 
@@ -458,18 +474,4 @@ function shouldShowGroups(reflection: Reflection, opts: { includeCategories: boo
         return !reflection.comment?.hasModifier("@hideGroups");
     }
     return reflection.comment?.hasModifier("@showGroups") === true;
-}
-
-function includeHierarchyPage(project: ProjectReflection) {
-    for (const id in project.reflections) {
-        const refl = project.reflections[id] as DeclarationReflection;
-
-        if (refl.kindOf(ReflectionKind.ClassOrInterface)) {
-            // Keep this condition in sync with the one in hierarchy.tsx for determining roots
-            if (!(refl.implementedTypes || refl.extendedTypes) && (refl.implementedBy || refl.extendedBy)) {
-                return true;
-            }
-        }
-    }
-    return false;
 }

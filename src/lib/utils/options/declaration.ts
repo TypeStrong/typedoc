@@ -113,6 +113,7 @@ export interface TypeDocOptionMap {
     excludeProtected: boolean;
     excludeReferences: boolean;
     excludeCategories: string[];
+    maxTypeConversionDepth: number;
     name: string;
     includeVersion: boolean;
     disableSources: boolean;

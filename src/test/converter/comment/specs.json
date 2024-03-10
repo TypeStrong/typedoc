@@ -85,9 +85,9 @@
               "sources": [
                 {
                   "fileName": "comment.ts",
-                  "line": 36,
+                  "line": 39,
                   "character": 4,
-                  "url": "typedoc://comment.ts#L36"
+                  "url": "typedoc://comment.ts#L39"
                 }
               ],
               "type": {
@@ -104,9 +104,9 @@
               "sources": [
                 {
                   "fileName": "comment.ts",
-                  "line": 76,
+                  "line": 79,
                   "character": 4,
-                  "url": "typedoc://comment.ts#L76"
+                  "url": "typedoc://comment.ts#L79"
                 }
               ],
               "signatures": [
@@ -127,9 +127,9 @@
                   "sources": [
                     {
                       "fileName": "comment.ts",
-                      "line": 76,
+                      "line": 79,
                       "character": 4,
-                      "url": "typedoc://comment.ts#L76"
+                      "url": "typedoc://comment.ts#L79"
                     }
                   ],
                   "parameters": [
@@ -179,6 +179,12 @@
             },
             {
               "title": "Methods",
+              "description": [
+                {
+                  "kind": "text",
+                  "text": "Methods description!"
+                }
+              ],
               "children": [
                 19
               ]
@@ -187,9 +193,9 @@
           "sources": [
             {
               "fileName": "comment.ts",
-              "line": 32,
+              "line": 35,
               "character": 13,
-              "url": "typedoc://comment.ts#L32"
+              "url": "typedoc://comment.ts#L35"
             }
           ]
         }
