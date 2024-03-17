@@ -394,16 +394,17 @@ const typeRenderers: {
             );
         }
 
-        if (type.declaration.indexSignature) {
-            const index = type.declaration.indexSignature;
-            members.push(
-                <>
-                    [<span class={getKindClass(type.declaration.indexSignature)}>{index.parameters![0].name}</span>:{" "}
-                    {renderType(context, index.parameters![0].type, TypeContext.none)}]
-                    <span class="tsd-signature-symbol">: </span>
-                    {renderType(context, index.type, TypeContext.none)}
-                </>,
-            );
+        if (type.declaration.indexSignatures) {
+            for (const index of type.declaration.indexSignatures) {
+                members.push(
+                    <>
+                        [<span class={getKindClass(index)}>{index.parameters![0].name}</span>:{" "}
+                        {renderType(context, index.parameters![0].type, TypeContext.none)}]
+                        <span class="tsd-signature-symbol">: </span>
+                        {renderType(context, index.type, TypeContext.none)}
+                    </>,
+                );
+            }
         }
 
         if (!members.length && type.declaration.signatures?.length === 1) {

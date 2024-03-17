@@ -344,47 +344,49 @@
               "url": "typedoc://index-signature.ts#L5"
             }
           ],
-          "indexSignature": {
-            "id": 18,
-            "name": "__index",
-            "variant": "signature",
-            "kind": 8192,
-            "flags": {},
-            "sources": [
-              {
-                "fileName": "index-signature.ts",
-                "line": 6,
-                "character": 4,
-                "url": "typedoc://index-signature.ts#L6"
-              }
-            ],
-            "parameters": [
-              {
-                "id": 19,
-                "name": "optName",
-                "variant": "param",
-                "kind": 32768,
-                "flags": {},
-                "type": {
-                  "type": "templateLiteral",
-                  "head": "data-",
-                  "tail": [
-                    [
-                      {
-                        "type": "intrinsic",
-                        "name": "string"
-                      },
-                      ""
-                    ]
-                  ]
+          "indexSignatures": [
+            {
+              "id": 18,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 6,
+                  "character": 4,
+                  "url": "typedoc://index-signature.ts#L6"
                 }
+              ],
+              "parameters": [
+                {
+                  "id": 19,
+                  "name": "optName",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "templateLiteral",
+                    "head": "data-",
+                    "tail": [
+                      [
+                        {
+                          "type": "intrinsic",
+                          "name": "string"
+                        },
+                        ""
+                      ]
+                    ]
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "unknown"
               }
-            ],
-            "type": {
-              "type": "intrinsic",
-              "name": "unknown"
             }
-          }
+          ]
         },
         {
           "id": 14,
@@ -400,38 +402,40 @@
               "url": "typedoc://index-signature.ts#L1"
             }
           ],
-          "indexSignature": {
-            "id": 15,
-            "name": "__index",
-            "variant": "signature",
-            "kind": 8192,
-            "flags": {},
-            "sources": [
-              {
-                "fileName": "index-signature.ts",
-                "line": 2,
-                "character": 4,
-                "url": "typedoc://index-signature.ts#L2"
-              }
-            ],
-            "parameters": [
-              {
-                "id": 16,
-                "name": "sym",
-                "variant": "param",
-                "kind": 32768,
-                "flags": {},
-                "type": {
-                  "type": "intrinsic",
-                  "name": "symbol"
+          "indexSignatures": [
+            {
+              "id": 15,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 2,
+                  "character": 4,
+                  "url": "typedoc://index-signature.ts#L2"
                 }
+              ],
+              "parameters": [
+                {
+                  "id": 16,
+                  "name": "sym",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "symbol"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "unknown"
               }
-            ],
-            "type": {
-              "type": "intrinsic",
-              "name": "unknown"
             }
-          }
+          ]
         },
         {
           "id": 20,
@@ -447,47 +451,49 @@
               "url": "typedoc://index-signature.ts#L9"
             }
           ],
-          "indexSignature": {
-            "id": 21,
-            "name": "__index",
-            "variant": "signature",
-            "kind": 8192,
-            "flags": {},
-            "sources": [
-              {
-                "fileName": "index-signature.ts",
-                "line": 10,
-                "character": 4,
-                "url": "typedoc://index-signature.ts#L10"
-              }
-            ],
-            "parameters": [
-              {
-                "id": 22,
-                "name": "optName",
-                "variant": "param",
-                "kind": 32768,
-                "flags": {},
-                "type": {
-                  "type": "union",
-                  "types": [
-                    {
-                      "type": "intrinsic",
-                      "name": "string"
-                    },
-                    {
-                      "type": "intrinsic",
-                      "name": "symbol"
-                    }
-                  ]
+          "indexSignatures": [
+            {
+              "id": 21,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 10,
+                  "character": 4,
+                  "url": "typedoc://index-signature.ts#L10"
                 }
+              ],
+              "parameters": [
+                {
+                  "id": 22,
+                  "name": "optName",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "intrinsic",
+                        "name": "string"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "symbol"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "unknown"
               }
-            ],
-            "type": {
-              "type": "intrinsic",
-              "name": "unknown"
             }
-          }
+          ]
         }
       ],
       "groups": [

@@ -414,7 +414,9 @@ function createLink(
     link(reflection);
     link(reflection.getSignature);
     link(reflection.setSignature);
-    link(reflection.indexSignature);
+    for (const sig of reflection.indexSignatures || []) {
+        link(sig);
+    }
     for (const sig of reflection.signatures ?? []) {
         link(sig);
     }

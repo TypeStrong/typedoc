@@ -168,7 +168,13 @@ export class ProjectReflection extends ContainerReflection {
             } else if (property === TraverseProperty.GetSignature) {
                 delete parent.getSignature;
             } else if (property === TraverseProperty.IndexSignature) {
-                delete parent.indexSignature;
+                removeIfPresent(
+                    parent.indexSignatures,
+                    reflection as SignatureReflection,
+                );
+                if (!parent.indexSignatures?.length) {
+                    delete parent.indexSignatures;
+                }
             } else if (property === TraverseProperty.Parameters) {
                 removeIfPresent(
                     (reflection.parent as SignatureReflection).parameters,

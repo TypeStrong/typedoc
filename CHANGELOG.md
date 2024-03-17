@@ -5,6 +5,12 @@
 -   Removed deprecated `navigation.fullTree` option.
 -   API: `MapOptionDeclaration.mapError` has been removed.
 -   API: Deprecated `BindOption` decorator has been removed.
+-   API: `DeclarationReflection.indexSignature` has been renamed to `DeclarationReflection.indexSignatures`.
+    Note: This also affects JSON serialization. TypeDoc will support JSON output from 0.25 until 0.28.
+
+### Bug Fixes
+
+-   TypeDoc now supports objects with multiple index signatures, #2470.
 
 # Unreleased
 

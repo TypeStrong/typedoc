@@ -31,7 +31,7 @@ import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
 import { zip } from "../utils/array";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
-import { convertIndexSignature } from "./factories/index-signature";
+import { convertIndexSignatures } from "./factories/index-signature";
 import {
     convertParameterNodes,
     convertTypeParameterNodes,
@@ -611,7 +611,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             );
         }
 
-        convertIndexSignature(rc, symbol);
+        convertIndexSignatures(rc, symbol);
 
         return new ReflectionType(reflection);
     },
@@ -646,7 +646,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
         }
 
         if (symbol) {
-            convertIndexSignature(context.withScope(reflection), symbol);
+            convertIndexSignatures(context.withScope(reflection), symbol);
         }
 
         return new ReflectionType(reflection);

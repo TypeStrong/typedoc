@@ -1,7 +1,13 @@
-import { classNames, hasTypeParameters } from "../../lib";
+import { classNames, getKindClass, hasTypeParameters } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import type { PageEvent } from "../../../events";
-import { ContainerReflection, DeclarationReflection, ReflectionKind, ReflectionType } from "../../../../models";
+import {
+    ContainerReflection,
+    DeclarationReflection,
+    ReflectionKind,
+    ReflectionType,
+    SignatureReflection,
+} from "../../../../models";
 import { JSX, Raw } from "../../../../utils";
 
 export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {
@@ -55,26 +61,13 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                             </ul>
                         </section>
                     )}
-                    {!!props.model.signatures && (
+                    {!!props.model.signatures?.length && (
                         <section class="tsd-panel">{context.memberSignatures(props.model)}</section>
                     )}
-                    {!!props.model.indexSignature && (
+                    {!!props.model.indexSignatures?.length && (
                         <section class={classNames({ "tsd-panel": true }, context.getReflectionClasses(props.model))}>
                             <h4 class="tsd-before-signature">{context.i18n.theme_indexable()}</h4>
-                            <div class="tsd-signature">
-                                <span class="tsd-signature-symbol">[</span>
-                                {props.model.indexSignature.parameters!.map((item) => (
-                                    <>
-                                        {item.name}: {context.type(item.type)}
-                                    </>
-                                ))}
-                                <span class="tsd-signature-symbol">]: </span>
-                                {context.type(props.model.indexSignature.type)}
-                            </div>
-                            {context.commentSummary(props.model.indexSignature)}
-                            {context.commentTags(props.model.indexSignature)}
-                            {props.model.indexSignature?.type instanceof ReflectionType &&
-                                context.parameter(props.model.indexSignature.type.declaration)}
+                            {props.model.indexSignatures.map((index) => renderIndexSignature(context, index))}
                         </section>
                     )}
                     {!props.model.signatures && context.memberSources(props.model)}
@@ -82,6 +75,26 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
             )}
             {!!props.model.children?.length && context.index(props.model)}
             {context.members(props.model)}
+        </>
+    );
+}
+
+function renderIndexSignature(context: DefaultThemeRenderContext, index: SignatureReflection) {
+    return (
+        <>
+            <div class="tsd-signature">
+                <span class="tsd-signature-symbol">[</span>
+                {index.parameters!.map((item) => (
+                    <>
+                        <span class={getKindClass(item)}>{item.name}</span>: {context.type(item.type)}
+                    </>
+                ))}
+                <span class="tsd-signature-symbol">]: </span>
+                {context.type(index.type)}
+            </div>
+            {context.commentSummary(index)}
+            {context.commentTags(index)}
+            {index.type instanceof ReflectionType && context.parameter(index.type.declaration)}
         </>
     );
 }

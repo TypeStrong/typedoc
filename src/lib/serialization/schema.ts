@@ -165,7 +165,7 @@ export interface DeclarationReflection
             | "relevanceBoost"
             | "type"
             | "signatures"
-            | "indexSignature"
+            | "indexSignatures"
             | "defaultValue"
             | "overwrites"
             | "inheritedFrom"
@@ -178,7 +178,10 @@ export interface DeclarationReflection
             | "setSignature"
             | "typeParameters"
             | "readme"
-        > {}
+        > {
+    /** @deprecated moved to {@link indexSignatures} with 0.26. */
+    indexSignature?: SignatureReflection;
+}
 
 /** @category Reflections */
 export interface TypeParameterReflection

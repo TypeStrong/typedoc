@@ -46,7 +46,7 @@ export function discoverAllReferenceTypes(
             current.type?.visit(visitor);
             add(current.typeParameters);
             add(current.signatures);
-            add(current.indexSignature);
+            add(current.indexSignatures);
             add(current.getSignature);
             add(current.setSignature);
             current.overwrites?.visit(visitor);

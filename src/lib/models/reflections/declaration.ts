@@ -91,7 +91,7 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * The index signature of this declaration.
      */
-    indexSignature?: SignatureReflection;
+    indexSignatures?: SignatureReflection[];
 
     /**
      * The get signature of this declaration.
@@ -187,8 +187,8 @@ export class DeclarationReflection extends ContainerReflection {
         if (this.signatures) {
             result = result.concat(this.signatures);
         }
-        if (this.indexSignature) {
-            result.push(this.indexSignature);
+        if (this.indexSignatures) {
+            result = result.concat(this.indexSignatures);
         }
         if (this.getSignature) {
             result.push(this.getSignature);
@@ -233,12 +233,9 @@ export class DeclarationReflection extends ContainerReflection {
             }
         }
 
-        if (this.indexSignature) {
+        for (const signature of this.indexSignatures?.slice() || []) {
             if (
-                callback(
-                    this.indexSignature,
-                    TraverseProperty.IndexSignature,
-                ) === false
+                callback(signature, TraverseProperty.IndexSignature) === false
             ) {
                 return;
             }
@@ -298,7 +295,7 @@ export class DeclarationReflection extends ContainerReflection {
             typeParameters: serializer.toObjectsOptional(this.typeParameters),
             type: serializer.toObject(this.type),
             signatures: serializer.toObjectsOptional(this.signatures),
-            indexSignature: serializer.toObject(this.indexSignature),
+            indexSignatures: serializer.toObjectsOptional(this.indexSignatures),
             getSignature: serializer.toObject(this.getSignature),
             setSignature: serializer.toObject(this.setSignature),
             defaultValue: this.defaultValue,
@@ -367,9 +364,17 @@ export class DeclarationReflection extends ContainerReflection {
         this.signatures = de.reviveMany(obj.signatures, (r) =>
             de.constructReflection(r),
         );
-        this.indexSignature = de.revive(obj.indexSignature, (r) =>
-            de.constructReflection(r),
-        );
+
+        // TypeDoc 0.25, remove check with 0.28.
+        if (obj.indexSignature) {
+            this.indexSignatures = [
+                de.revive(obj.indexSignature, (r) => de.constructReflection(r)),
+            ];
+        } else {
+            this.indexSignatures = de.reviveMany(obj.indexSignatures, (r) =>
+                de.constructReflection(r),
+            );
+        }
         this.getSignature = de.revive(obj.getSignature, (r) =>
             de.constructReflection(r),
         );

@@ -1265,7 +1265,7 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(
             Comment.combineDisplayParts(
-                query(project, "ObjectWithIndexSignature").indexSignature
+                query(project, "ObjectWithIndexSignature").indexSignatures?.[0]
                     ?.comment?.summary,
             ),
             "Index comment.",

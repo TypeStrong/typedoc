@@ -18,7 +18,7 @@ import {
 } from "../utils/enum";
 import type { Context } from "./context";
 import { convertDefaultValue } from "./convert-expression";
-import { convertIndexSignature } from "./factories/index-signature";
+import { convertIndexSignatures } from "./factories/index-signature";
 import {
     createConstructSignatureWithType,
     createSignature,
@@ -413,7 +413,7 @@ function convertTypeAliasAsInterface(
     convertConstructSignatures(rc, symbol);
 
     // And finally, index signatures
-    convertIndexSignature(rc, symbol);
+    convertIndexSignatures(rc, symbol);
 }
 
 function convertFunctionOrMethod(
@@ -630,7 +630,7 @@ function convertClassOrInterface(
     convertConstructSignatures(reflectionContext, symbol);
 
     // And finally, index signatures
-    convertIndexSignature(reflectionContext, symbol);
+    convertIndexSignatures(reflectionContext, symbol);
 
     // Normally this shouldn't matter, unless someone did something with skipLibCheck on.
     return ts.SymbolFlags.Alias;

@@ -177,8 +177,8 @@ function resolveKeyword(
             return (refl as DeclarationReflection).signatures;
 
         case "index":
-            if ((refl as DeclarationReflection).indexSignature) {
-                return [(refl as DeclarationReflection).indexSignature!];
+            if ((refl as DeclarationReflection).indexSignatures) {
+                return (refl as DeclarationReflection).indexSignatures;
             }
             break;
 
