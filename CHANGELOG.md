@@ -2,9 +2,13 @@
 
 ## v0.25.12 (2024-03-10)
 
+### Features
+
+-   Added support for TypeScript 5.4, #2517.
+
 ### Bug Fixes
 
--   Updated page font to work around issues with Mac rendering, #2518
+-   Updated page font to work around issues with Mac rendering, #2518.
 
 ### Thanks!
 
