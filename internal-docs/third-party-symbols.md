@@ -154,7 +154,7 @@ and, if the link was defined by the user, the [CommentDisplayPart] which was par
 
 If `--useTsLinkResolution` is on (the default), it may also be passed a [ReflectionSymbolId] referencing the symbol that TypeScript resolves the link to.
 
-[externalSymbolLinkMappings]: https://typedoc.org/guides/options/#externalsymbollinkmappings
+[externalSymbolLinkMappings]: https://typedoc.org/options/comments/#externalsymbollinkmappings
 [CommentDisplayPart]: https://typedoc.org/api/types/CommentDisplayPart.html
 [DeclarationReference]: https://typedoc.org/api/interfaces/DeclarationReference.html
 [ReflectionSymbolId]: https://typedoc.org/api/classes/Application.html
