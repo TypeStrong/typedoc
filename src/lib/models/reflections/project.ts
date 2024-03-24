@@ -282,9 +282,13 @@ export class ProjectReflection extends ContainerReflection {
     getReflectionsFromSymbolId(symbolId: ReflectionSymbolId) {
         const id = this.symbolToReflectionIdMap.get(symbolId);
         if (typeof id === "number") {
-            return [this.getReflectionById(id)!];
+            const refl = this.getReflectionById(id);
+            if (refl === undefined) return [];
+            return [refl];
         } else if (typeof id === "object") {
-            return id.map((id) => this.getReflectionById(id)!);
+            return id
+                .map((id) => this.getReflectionById(id))
+                .filter((refl): refl is Reflection => refl !== undefined);
         }
 
         return [];
