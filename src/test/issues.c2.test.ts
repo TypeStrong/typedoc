@@ -1430,4 +1430,28 @@ describe("Issue Tests", () => {
         equal(cb2.type?.type, "reflection");
         equal(cb2.type.declaration.signatures![0].comment, undefined);
     });
+
+    it("const variable functions copy overrides summary from type, #2521", () => {
+        const project = convert();
+        const fooWithComment = query(project, "fooWithComment");
+        equal(Comment.combineDisplayParts(fooWithComment.comment?.summary), "New comment.")
+        const fooWithoutComment = query(project, "fooWithoutComment");
+        equal(Comment.combineDisplayParts(fooWithoutComment.comment?.summary), "Original comment.")
+    });
+
+    it("const variable functions copy signatures summary from type, #2521", () => {
+        const project = convert();
+        const fooWithComment = query(project, "fooWithComment");
+        const fooWithoutComment = query(project, "fooWithoutComment");
+        {
+            const [overload1, overload2] = fooWithComment.signatures || [];
+            equal(Comment.combineDisplayParts(overload1.comment?.summary), "Overload 1");
+            equal(Comment.combineDisplayParts(overload2.comment?.summary), "Overload 2");
+        }
+        {
+            const [overload1, overload2] = fooWithoutComment.signatures || [];
+            equal(Comment.combineDisplayParts(overload1.comment?.summary), "Overload 1");
+            equal(Comment.combineDisplayParts(overload2.comment?.summary), "Overload 2");
+        }
+    });
 });
