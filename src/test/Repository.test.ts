@@ -1,5 +1,12 @@
-import { guessSourceUrlTemplate } from "../lib/converter/utils/repository";
-import { strictEqual as equal } from "assert";
+import {
+    GitRepository,
+    guessSourceUrlTemplate,
+} from "../lib/converter/utils/repository";
+import { strictEqual as equal, ok } from "assert";
+import { tempdirProject } from "@typestrong/fs-fixture-builder";
+import { spawnSync } from "child_process";
+import { TestLogger } from "./TestLogger";
+import { join } from "path";
 
 describe("Repository", function () {
     describe("guessSourceUrlTemplate helper", () => {
@@ -97,6 +104,58 @@ describe("Repository", function () {
         it("Gracefully handles unknown urls", () => {
             const mockRemotes = ["git@example.com"];
             equal(guessSourceUrlTemplate(mockRemotes), undefined);
+        });
+    });
+
+    describe("getURL", () => {
+        const project = tempdirProject();
+        function git(...args: string[]) {
+            const env = {
+                GIT_AUTHOR_NAME: "test",
+                GIT_AUTHOR_EMAIL: "test@example.com",
+                GIT_AUTHOR_DATE: "2024-03-31T22:04:50.119Z",
+                GIT_COMMITTER_NAME: "test",
+                GIT_COMMITTER_EMAIL: "test@example.com",
+                GIT_COMMITTER_DATE: "2024-03-31T22:04:50.119Z",
+            };
+            return spawnSync("git", ["-C", project.cwd, ...args], {
+                encoding: "utf-8",
+                windowsHide: true,
+                env,
+            });
+        }
+
+        afterEach(() => {
+            project.rm();
+        });
+
+        it("Handles replacements", function () {
+            project.addFile("test.js", "console.log('hi!')");
+            project.write();
+
+            git("init", "-b", "test");
+            git("add", ".");
+            git("commit", "-m", "Test commit");
+            git(
+                "remote",
+                "add",
+                "origin",
+                "git@github.com:TypeStrong/typedoc.git",
+            );
+
+            const repo = GitRepository.tryCreateRepository(
+                project.cwd,
+                "{gitRevision}/{gitRevision:short}/{path}/{line}",
+                "", // revision, empty to get from repo
+                "origin", // remote
+                new TestLogger(),
+            );
+
+            ok(repo);
+            equal(
+                repo.getURL(join(project.cwd, "test.js"), 1),
+                "b53cc55bcdd9bc5920787a1d4a4a15fa24123b04/b53cc55b/test.js/1",
+            );
         });
     });
 });
