@@ -7,6 +7,7 @@ import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import { spawnSync } from "child_process";
 import { TestLogger } from "./TestLogger";
 import { join } from "path";
+import { normalizePath } from "../lib/utils/paths";
 
 describe("Repository", function () {
     describe("guessSourceUrlTemplate helper", () => {
@@ -153,7 +154,7 @@ describe("Repository", function () {
 
             ok(repo);
             equal(
-                repo.getURL(join(project.cwd, "test.js"), 1),
+                repo.getURL(normalizePath(join(project.cwd, "test.js")), 1),
                 "b53cc55bcdd9bc5920787a1d4a4a15fa24123b04/b53cc55b/test.js/1",
             );
         });

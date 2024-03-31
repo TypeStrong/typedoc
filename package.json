@@ -37,17 +37,17 @@
     "@types/marked": "^4.0.8",
     "@types/mocha": "^10.0.6",
     "@types/node": "16",
-    "@typescript-eslint/eslint-plugin": "^7.1.1",
-    "@typescript-eslint/parser": "^7.1.1",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
     "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#8abd1494280116ff5318dde2c50ad01e1663790c",
     "c8": "^9.1.0",
-    "esbuild": "^0.20.1",
+    "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
-    "mocha": "^10.3.0",
+    "mocha": "^10.4.0",
     "prettier": "3.0.3",
     "puppeteer": "^13.5.2",
     "ts-node": "^10.9.2",
-    "typescript": "5.4.2"
+    "typescript": "5.4.3"
   },
   "files": [
     "/bin",
