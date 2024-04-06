@@ -1177,6 +1177,6 @@ describe("Behavior Tests", () => {
         const sig = querySig(project, "createStreetLight");
         equal(sig.parameters?.length, 2);
         equal(sig.parameters[0].type?.toString(), "C[]");
-        equal(sig.parameters[1].type?.toString(), "NoInfer");
+        equal(sig.parameters[1].type?.toString(), "NoInfer<C>");
     });
 });

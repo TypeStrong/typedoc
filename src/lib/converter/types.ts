@@ -697,7 +697,7 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
 
 const referenceConverter: TypeConverter<
     ts.TypeReferenceNode,
-    ts.TypeReference | ts.StringMappingType
+    ts.TypeReference | ts.StringMappingType | ts.SubstitutionType
 > = {
     kind: [ts.SyntaxKind.TypeReference],
     convert(context, node) {
@@ -747,7 +747,12 @@ const referenceConverter: TypeConverter<
             context.resolveAliasedSymbol(symbol),
             context,
         );
-        if (type.flags & ts.TypeFlags.StringMapping) {
+        if (type.flags & ts.TypeFlags.Substitution) {
+            // NoInfer<T>
+            ref.typeArguments = [
+                convertType(context, (type as ts.SubstitutionType).baseType),
+            ];
+        } else if (type.flags & ts.TypeFlags.StringMapping) {
             ref.typeArguments = [
                 convertType(context, (type as ts.StringMappingType).type),
             ];
