@@ -10,6 +10,8 @@
 ### Bug Fixes
 
 -   Fixed conversion of `NoInfer` missing type parameter reference, #2539.
+-   Linking to a member on a page no longer incorrectly claims that
+    "This member is normally hidden due to your filter settings" for every member.
 
 ### Thanks!
 
