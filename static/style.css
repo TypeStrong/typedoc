@@ -327,17 +327,14 @@ dd {
 }
 
 /* Footer */
-.tsd-generator {
+footer {
     border-top: 1px solid var(--color-accent);
     padding-top: 1rem;
     padding-bottom: 1rem;
     max-height: 3.5rem;
 }
-
-.tsd-generator > p {
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 0 1rem;
+.tsd-generator {
+    margin: 0 1em;
 }
 
 .container-main {
