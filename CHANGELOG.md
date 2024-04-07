@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.25.13 (2024-04-07)
+
 ### Features
 
 -   Added `gitRevision:short` placeholder option to `--sourceLinkTemplate` option, #2529.
