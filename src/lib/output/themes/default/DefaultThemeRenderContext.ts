@@ -62,7 +62,7 @@ export class DefaultThemeRenderContext {
         options: Options,
     ) {
         this.options = options;
-        this._refIcons = buildRefIcons(icons, this);
+        this._refIcons = buildRefIcons(theme.icons, this);
     }
 
     /**
@@ -105,9 +105,12 @@ export class DefaultThemeRenderContext {
             return this.theme.markedPlugin.parseMarkdown(
                 Comment.displayPartsToMarkdown(md, this.urlTo),
                 this.page,
+                this,
             );
         }
-        return md ? this.theme.markedPlugin.parseMarkdown(md, this.page) : "";
+        return md
+            ? this.theme.markedPlugin.parseMarkdown(md, this.page, this)
+            : "";
     };
 
     getNavigation = () => this.theme.getNavigation(this.page.project);

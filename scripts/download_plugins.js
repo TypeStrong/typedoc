@@ -28,7 +28,16 @@ function exec(command) {
 
 async function getPlugins() {
     const plugins = JSON.parse(await exec("npm search --json typedocplugin"));
-    return plugins.filter((plugin) => Date.parse(plugin.date) > CUTOFF_MS);
+    const plugins2 = JSON.parse(await exec("npm search --json typedoc-plugin"));
+    const plugins3 = JSON.parse(await exec("npm search --json typedoc-theme"));
+    const recentlyUpdated = [...plugins, ...plugins2, ...plugins3].filter(
+        (plugin) => Date.parse(plugin.date) > CUTOFF_MS,
+    );
+
+    return recentlyUpdated.filter(
+        (plugin, i) =>
+            i === recentlyUpdated.findIndex((p) => p.name === plugin.name),
+    );
 }
 
 function getTarballUrl(package) {

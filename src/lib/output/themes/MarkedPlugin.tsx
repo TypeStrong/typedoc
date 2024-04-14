@@ -8,6 +8,8 @@ import { Option, readFile, copySync, isFile, JSX, renderElement } from "../../ut
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { Theme } from "shiki";
 import { escapeHtml, getTextContent } from "../../utils/html";
+import { anchorIcon } from "./default/partials/anchor-icon";
+import type { DefaultThemeRenderContext } from "..";
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -26,6 +28,12 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
     @Option("darkHighlightTheme")
     accessor darkTheme!: Theme;
+
+    /**
+     * This needing to be here really feels hacky... probably some nicer way to do this.
+     * Revisit when adding support for arbitrary pages.
+     */
+    private renderContext: DefaultThemeRenderContext = null!;
 
     /**
      * The path referenced files are located in.
@@ -89,7 +97,9 @@ output file :
      * @param text  The markdown string that should be parsed.
      * @returns The resulting html string.
      */
-    public parseMarkdown(text: string, page: PageEvent<any>) {
+    public parseMarkdown(text: string, page: PageEvent<any>, context: DefaultThemeRenderContext) {
+        this.renderContext = context;
+
         if (this.includes) {
             text = text.replace(this.includePattern, (_match, path) => {
                 path = Path.join(this.includes!, path.trim());
@@ -121,6 +131,7 @@ output file :
         const event = new MarkdownEvent(MarkdownEvent.PARSE, page, text, text);
 
         this.owner.trigger(event);
+        this.renderContext = null!;
         return event.parsedText;
     }
 
@@ -190,10 +201,9 @@ output file :
                 return renderElement(
                     <>
                         <a id={`md:${slug}`} class="tsd-anchor" />
-                        <H>
-                            <a href={`#md:${slug}`}>
-                                <JSX.Raw html={text} />
-                            </a>
+                        <H class="tsd-anchor-link">
+                            <JSX.Raw html={text} />
+                            {anchorIcon(this.renderContext, `md:${slug}`)}
                         </H>
                     </>,
                 );
@@ -218,6 +228,7 @@ output file :
 
 // Basically a copy/paste of Marked's code, with the addition of the button
 // https://github.com/markedjs/marked/blob/v4.3.0/src/Renderer.js#L15-L39
+// cSpell:ignore infostring
 function renderCode(this: Marked.marked.Renderer, code: string, infostring: string | undefined, escaped: boolean) {
     const lang = (infostring || "").match(/\S*/)![0];
     if (this.options.highlight) {

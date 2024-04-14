@@ -266,16 +266,6 @@ h6 {
     line-height: 1.2;
 }
 
-h1 > a:not(.link),
-h2 > a:not(.link),
-h3 > a:not(.link),
-h4 > a:not(.link),
-h5 > a:not(.link),
-h6 > a:not(.link) {
-    text-decoration: none;
-    color: var(--color-text);
-}
-
 h1 {
     font-size: 1.875rem;
     margin: 0.67rem 0;
@@ -420,6 +410,9 @@ a.external[target="_blank"] {
     background-position: top 3px right;
     background-repeat: no-repeat;
     padding-right: 13px;
+}
+a.tsd-anchor-link {
+    color: var(--color-text);
 }
 
 code,

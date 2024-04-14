@@ -21,11 +21,7 @@ export function hierarchy(context: DefaultThemeRenderContext, props: Declaration
     const fullLink = hasAnyLinkedReferenceType(props) ? (
         <>
             {" "}
-            (
-            <a class="link" href={context.relativeURL("hierarchy.html") + "#" + context.page.model.getFullName()}>
-                view full
-            </a>
-            )
+            (<a href={context.relativeURL("hierarchy.html") + "#" + context.page.model.getFullName()}>view full</a>)
         </>
     ) : (
         <></>
