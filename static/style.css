@@ -1343,11 +1343,11 @@ img {
     .has-menu .tsd-navigation {
         max-height: 100%;
     }
-    .tsd-toolbar-contents .tsd-toolbar-links {
+    #tsd-toolbar-links {
         display: none;
     }
     .tsd-navigation .tsd-nav-link {
-        display: unset;
+        display: flex;
     }
 }
 
