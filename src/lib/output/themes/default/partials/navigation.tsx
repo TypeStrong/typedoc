@@ -36,7 +36,9 @@ export function sidebarLinks(context: DefaultThemeRenderContext) {
                 <a href={url}>{label}</a>
             ))}
             {navLinks.map(([label, url]) => (
-                <a href={url} class="tsd-nav-link">{label}</a>
+                <a href={url} class="tsd-nav-link">
+                    {label}
+                </a>
             ))}
         </nav>
     );
