@@ -762,6 +762,9 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     padding: 0;
     max-width: 100%;
 }
+.tsd-navigation .tsd-nav-link {
+    display: none;
+}
 .tsd-nested-navigation {
     margin-left: 3rem;
 }
@@ -1339,6 +1342,12 @@ img {
     }
     .has-menu .tsd-navigation {
         max-height: 100%;
+    }
+    #tsd-toolbar-links {
+        display: none;
+    }
+    .tsd-navigation .tsd-nav-link {
+        display: flex;
     }
 }
 

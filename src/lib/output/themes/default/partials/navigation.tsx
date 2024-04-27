@@ -27,11 +27,18 @@ function buildFilterItem(context: DefaultThemeRenderContext, name: string, displ
 
 export function sidebarLinks(context: DefaultThemeRenderContext) {
     const links = Object.entries(context.options.getValue("sidebarLinks"));
-    if (!links.length) return null;
+    const navLinks = Object.entries(context.options.getValue("navigationLinks"));
+
+    if (!links.length && !navLinks.length) return null;
     return (
         <nav id="tsd-sidebar-links" class="tsd-navigation">
             {links.map(([label, url]) => (
                 <a href={url}>{label}</a>
+            ))}
+            {navLinks.map(([label, url]) => (
+                <a href={url} class="tsd-nav-link">
+                    {label}
+                </a>
             ))}
         </nav>
     );
