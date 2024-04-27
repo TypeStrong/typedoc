@@ -84,7 +84,7 @@ export function settings(context: DefaultThemeRenderContext) {
                     )}
                     <div class="tsd-theme-toggle">
                         <h4 class="uppercase">Theme</h4>
-                        <select id="tsd-theme">
+                        <select name="tsd-theme" id="tsd-theme">
                             <option value="os">OS</option>
                             <option value="light">Light</option>
                             <option value="dark">Dark</option>
