@@ -1,5 +1,6 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+    // If updating this, also update tsdoc-defaults.ts
     "noStandardTags": false,
     "tagDefinitions": [
         {
@@ -91,6 +92,14 @@
         },
         {
             "tagName": "@satisfies",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@license",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@import",
             "syntaxKind": "block"
         },
         {
