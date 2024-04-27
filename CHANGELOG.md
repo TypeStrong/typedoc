@@ -6,6 +6,7 @@
 -   Types rendered in the `Returns` header are now properly colored, #2546.
 -   Links added with the `navigationLinks` option are now moved into the pull out navigation on mobile displays, #2548.
 -   `@license` and `@import` comments will be ignored at the top of files, #2552.
+-   Fixed issue in documentation validation where constructor signatures where improperly considered not documented, #2553.
 
 ### Thanks!
 

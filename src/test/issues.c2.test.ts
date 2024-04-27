@@ -1438,4 +1438,10 @@ describe("Issue Tests", () => {
             "This is an awesome module.",
         );
     });
+
+    it("Does not warn about documented constructor signature type aliases, #2553", () => {
+        const project = convert();
+        app.validate(project);
+        logger.expectNoOtherMessages();
+    });
 });
