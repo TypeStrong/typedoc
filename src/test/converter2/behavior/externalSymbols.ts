@@ -1,4 +1,4 @@
-import { Lexer, Slugger } from "marked";
+import { Token, ParseResult } from "markdown-it";
 
 /**
  * Testing custom external link resolution
@@ -6,5 +6,5 @@ import { Lexer, Slugger } from "marked";
  */
 export type P = Promise<string>;
 
-export const L = new Lexer();
-export const S = new Slugger();
+export declare const T: Token;
+export declare const Pr: ParseResult;

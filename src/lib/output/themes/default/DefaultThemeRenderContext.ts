@@ -112,7 +112,7 @@ export class DefaultThemeRenderContext {
     ) => {
         if (md instanceof Array) {
             return this.theme.markedPlugin.parseMarkdown(
-                Comment.displayPartsToMarkdown(md, this.urlTo),
+                Comment.displayPartsToMarkdown(md, this.urlTo, false), // GERRIT come back here
                 this.page,
             );
         }

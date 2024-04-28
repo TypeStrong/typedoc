@@ -313,14 +313,29 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Path,
     });
     options.addDeclaration({
-        name: "markedOptions",
-        help: (i18n) => i18n.help_markedOptions(),
+        name: "markdownItOptions",
+        help: (i18n) => i18n.help_markdownItOptions(),
         type: ParameterType.Mixed,
         configFileOnly: true,
+        defaultValue: {},
         validate(value, i18n) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
-                    i18n.option_0_must_be_an_object("markedOptions"),
+                    i18n.option_0_must_be_an_object("markdownItOptions"),
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "markdownItLoader",
+        help: (i18n) => i18n.help_markdownItLoader(),
+        type: ParameterType.Mixed,
+        configFileOnly: true,
+        defaultValue: () => {},
+        validate(value, i18n) {
+            if (typeof value !== "function") {
+                throw new Error(
+                    i18n.option_0_must_be_a_function("markdownItLoader"),
                 );
             }
         },

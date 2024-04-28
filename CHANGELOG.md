@@ -2,6 +2,10 @@
 
 ## Breaking Changes
 
+-   Drop support for Node 16.
+-   Moved from `marked` to `markdown-it` for parsing as marked has moved to an async model which supporting would significantly complicate TypeDoc's rendering code.
+    This means that any projects setting `markedOptions` needs to be updated to use `markdownItOptions`.
+    Unlike `marked@4`, `markdown-it` pushes lots of functionality to plugins. To use plugins, a JavaScript config file must be used with the `markdownItLoader` option.
 -   Removed deprecated `navigation.fullTree` option.
 -   API: `MapOptionDeclaration.mapError` has been removed.
 -   API: Deprecated `BindOption` decorator has been removed.

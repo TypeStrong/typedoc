@@ -122,6 +122,7 @@ export const translatable = {
     could_not_empty_output_directory_0: `Could not empty the output directory {0}`,
     could_not_create_output_directory_0: `Could not create the output directory {0}`,
     theme_0_is_not_defined_available_are_1: `The theme '{0}' is not defined. The available themes are: {1}`,
+    custom_theme_does_not_define_getSlugger: `Custom theme does not define a getSlugger(reflection) method, but tries to render markdown`,
 
     // entry points
     no_entry_points_provided:
@@ -218,8 +219,10 @@ export const translatable = {
     help_darkHighlightTheme:
         "Specify the code highlighting theme in dark mode.",
     help_customCss: "Path to a custom CSS file to for the theme to import.",
-    help_markedOptions:
-        "Specify the options passed to Marked, the Markdown parser used by TypeDoc.",
+    help_markdownItOptions:
+        "Specify the options passed to markdown-it, the Markdown parser used by TypeDoc.",
+    help_markdownItLoader:
+        "Specify a callback to be called when loading the markdown-it instance. Will be passed the instance of the parser which TypeDoc will use.",
     help_maxTypeConversionDepth:
         "Set the maximum depth of types to be converted.",
     help_name:
@@ -346,6 +349,7 @@ export const translatable = {
     sitemap_must_start_with_http:
         "sitemapBaseUrl must start with http:// or https://",
     option_0_must_be_an_object: "The '{0}' option must be a non-array object.",
+    option_0_must_be_a_function: "The '{0}' option must be a function.",
     option_0_must_be_object_with_urls: `{0} must be an object with string labels as keys and URL values.`,
     visibility_filters_only_include_0: `visibilityFilters can only include the following non-@ keys: {0}`,
     visibility_filters_must_be_booleans: `All values of visibilityFilters must be booleans.`,

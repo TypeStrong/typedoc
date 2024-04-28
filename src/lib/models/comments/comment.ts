@@ -122,12 +122,14 @@ export class Comment {
 
     /**
      * Helper function to convert an array of comment display parts into markdown suitable for
-     * passing into Marked. `urlTo` will be used to resolve urls to any reflections linked to with
-     * `@link` tags.
+     * passing into markdown-it.
+     * @param urlTo - Used to resolve urls to any reflections linked to with `@link` tags..
+     * @param useHtml - If set, will produce `<a>` links which can be colored according to the reflection type they are pointed at.
      */
     static displayPartsToMarkdown(
         parts: readonly CommentDisplayPart[],
         urlTo: (ref: Reflection) => string,
+        useHtml: boolean,
     ) {
         const result: string[] = [];
 
@@ -158,19 +160,30 @@ export class Comment {
                                         part.target.kind,
                                     );
                                 }
-                                const text =
-                                    part.tag === "@linkcode"
-                                        ? `<code>${part.text}</code>`
-                                        : part.text;
-                                result.push(
-                                    url
-                                        ? `<a href="${url}"${
-                                              kindClass
-                                                  ? ` class="${kindClass}"`
-                                                  : ""
-                                          }>${text}</a>`
-                                        : part.text,
-                                );
+
+                                if (useHtml) {
+                                    const text =
+                                        part.tag === "@linkcode"
+                                            ? `<code>${part.text}</code>`
+                                            : part.text;
+                                    result.push(
+                                        url
+                                            ? `<a href="${url}"${
+                                                  kindClass
+                                                      ? ` class="${kindClass}"`
+                                                      : ""
+                                              }>${text}</a>`
+                                            : part.text,
+                                    );
+                                } else {
+                                    const text =
+                                        part.tag === "@linkcode"
+                                            ? "`" + part.text + "`"
+                                            : part.text;
+                                    result.push(
+                                        url ? `[${text}](${url})` : text,
+                                    );
+                                }
                             } else {
                                 result.push(part.text);
                             }

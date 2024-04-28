@@ -478,9 +478,10 @@ describe("Behavior Tests", () => {
             typescript: {
                 Promise: "/promise2",
             },
-            "@types/marked": {
-                Lexer: "https://marked.js.org/using_pro#lexer",
-                "*": "https://marked.js.org",
+            "@types/markdown-it": {
+                "MarkdownIt.Token":
+                    "https://markdown-it.github.io/markdown-it/#Token",
+                "*": "https://markdown-it.github.io/markdown-it/",
             },
         });
         const project = convert("externalSymbols");
@@ -495,13 +496,16 @@ describe("Behavior Tests", () => {
         equal(p.type?.type, "reference" as const);
         equal(p.type.externalUrl, "/promise2");
 
-        const m = query(project, "L");
+        const m = query(project, "T");
         equal(m.type?.type, "reference" as const);
-        equal(m.type.externalUrl, "https://marked.js.org/using_pro#lexer");
+        equal(
+            m.type.externalUrl,
+            "https://markdown-it.github.io/markdown-it/#Token",
+        );
 
-        const s = query(project, "S");
+        const s = query(project, "Pr");
         equal(s.type?.type, "reference" as const);
-        equal(s.type.externalUrl, "https://marked.js.org");
+        equal(s.type.externalUrl, "https://markdown-it.github.io/markdown-it/");
     });
 
     it("Handles @group tag", () => {

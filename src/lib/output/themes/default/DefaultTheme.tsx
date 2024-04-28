@@ -49,6 +49,40 @@ export interface NavigationElement {
     children?: NavigationElement[];
 }
 
+export class Slugger {
+    private seen = new Map<string, number>();
+
+    private serialize(value: string) {
+        // Extracted from marked@4.3.0
+        return (
+            value
+                .toLowerCase()
+                .trim()
+                // remove html tags
+                .replace(/<[!/a-z].*?>/gi, "")
+                // remove unwanted chars
+                .replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g, "")
+                .replace(/\s/g, "-")
+        );
+    }
+
+    slug(value: string) {
+        const originalSlug = this.serialize(value);
+        let slug = originalSlug;
+        let count = 0;
+        if (this.seen.has(slug)) {
+            count = this.seen.get(originalSlug)!;
+            do {
+                count++;
+                slug = originalSlug + "-" + count;
+            } while (this.seen.has(slug));
+        }
+        this.seen.set(originalSlug, count);
+        this.seen.set(slug, 0);
+        return slug;
+    }
+}
+
 /**
  * Default theme implementation of TypeDoc. If a theme does not provide a custom
  * {@link Theme} implementation, this theme class will be used.
@@ -156,6 +190,7 @@ export class DefaultTheme extends Theme {
      */
     getUrls(project: ProjectReflection): UrlMapping[] {
         const urls: UrlMapping[] = [];
+        this.sluggers.set(project, new Slugger());
 
         if (false == hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
@@ -225,6 +260,7 @@ export class DefaultTheme extends Theme {
             if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
                 const url = [mapping.directory, DefaultTheme.getUrl(reflection) + ".html"].join("/");
                 urls.push(new UrlMapping(url, reflection, mapping.template));
+                this.sluggers.set(reflection, new Slugger());
 
                 reflection.url = url;
                 reflection.hasOwnDocument = true;
@@ -387,6 +423,16 @@ export class DefaultTheme extends Theme {
 
             return result;
         }
+    }
+
+    private sluggers = new Map<Reflection, Slugger>();
+
+    getSlugger(reflection: Reflection): Slugger {
+        if (this.sluggers.has(reflection)) {
+            return this.sluggers.get(reflection)!;
+        }
+        // A slugger should always be defined at least for the project
+        return this.getSlugger(reflection.parent!);
     }
 
     /**

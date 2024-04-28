@@ -44,5 +44,10 @@
         "includeGroups": false
     },
     "includeVersion": true,
-    "logLevel": "Verbose"
+    "logLevel": "Verbose",
+    "externalSymbolLinkMappings": {
+        "@types/markdown-it": {
+            "MarkdownIt": "https://markdown-it.github.io/markdown-it/#MarkdownIt"
+        }
+    }
 }

@@ -21,11 +21,11 @@
     "url": "https://github.com/TypeStrong/TypeDoc/issues"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "dependencies": {
     "lunr": "^2.3.9",
-    "marked": "^4.3.0",
+    "markdown-it": "^14.1.0",
     "minimatch": "^9.0.4",
     "shiki": "^0.14.7"
   },
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/lunr": "^2.3.7",
-    "@types/marked": "^4.0.8",
+    "@types/markdown-it": "^14.0.1",
     "@types/mocha": "^10.0.6",
     "@types/node": "16",
     "@typescript-eslint/eslint-plugin": "^7.7.1",

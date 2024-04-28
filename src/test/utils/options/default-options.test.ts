@@ -47,19 +47,19 @@ describe("Default Options", () => {
         });
     });
 
-    describe("markedOptions", () => {
+    describe("markdownItOptions", () => {
         it("Errors if given a non-object", () => {
-            throws(() => opts.setValue("markedOptions", null));
-            throws(() => opts.setValue("markedOptions", "bad"));
-            throws(() => opts.setValue("markedOptions", []));
+            throws(() => opts.setValue("markdownItOptions", null));
+            throws(() => opts.setValue("markdownItOptions", "bad"));
+            throws(() => opts.setValue("markdownItOptions", []));
         });
     });
 
     describe("compilerOptions", () => {
         it("Errors if given a non-object", () => {
-            throws(() => opts.setValue("markedOptions", null));
-            throws(() => opts.setValue("markedOptions", "bad"));
-            throws(() => opts.setValue("markedOptions", []));
+            throws(() => opts.setValue("compilerOptions", "bad"));
+            throws(() => opts.setValue("compilerOptions", null));
+            throws(() => opts.setValue("compilerOptions", []));
         });
     });
 
