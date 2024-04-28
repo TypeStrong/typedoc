@@ -405,6 +405,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "footer",
+        help: "Set custom footer when hideGenerator option is set to true",
+        type: ParameterType.String,
+    });
+    options.addDeclaration({
         name: "hideParameterTypesInTitle",
         help: "Hides parameter types in signature titles for easier scanning.",
         type: ParameterType.Boolean,
