@@ -1,6 +1,6 @@
-import { Event } from "../utils/events";
-import type { ProjectReflection } from "../models";
-import type { ProjectReflection as JSONProjectReflection } from "./schema";
+import { Event } from "../utils/events.js";
+import type { ProjectReflection } from "../models/index.js";
+import type { ProjectReflection as JSONProjectReflection } from "./schema.js";
 
 /**
  * An event emitted by the {@link Serializer} class at the very beginning and

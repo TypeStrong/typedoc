@@ -3,21 +3,25 @@ import ts from "typescript";
 import {
     DeclarationReflection,
     SignatureReflection,
-} from "../../models/reflections/index";
-import { Component, ConverterComponent } from "../components";
-import { Converter } from "../converter";
-import type { Context } from "../context";
-import { Option, normalizePath, getCommonDirectory } from "../../utils";
-import { isNamedNode } from "../utils/nodes";
+} from "../../models/reflections/index.js";
+import { Component, ConverterComponent } from "../components.js";
+import { Converter } from "../converter.js";
+import type { Context } from "../context.js";
+import {
+    Option,
+    normalizePath,
+    getCommonDirectory,
+} from "../../utils/index.js";
+import { isNamedNode } from "../utils/nodes.js";
 import { dirname, relative } from "path";
-import { SourceReference } from "../../models";
+import { SourceReference } from "../../models/index.js";
 import {
     AssumedRepository,
     gitIsInstalled,
     GitRepository,
-    Repository,
-} from "../utils/repository";
-import { BasePath } from "../utils/base-path";
+    type Repository,
+} from "../utils/repository.js";
+import { BasePath } from "../utils/base-path.js";
 
 /**
  * A handler that attaches source file information to reflections.

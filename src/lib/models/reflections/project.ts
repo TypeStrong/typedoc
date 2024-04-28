@@ -1,19 +1,19 @@
-import { Reflection, TraverseProperty } from "./abstract";
-import { ContainerReflection } from "./container";
-import { ReferenceReflection } from "./reference";
-import type { DeclarationReflection } from "./declaration";
-import type { SignatureReflection } from "./signature";
-import type { ParameterReflection } from "./parameter";
-import { IntrinsicType } from "../types";
-import type { TypeParameterReflection } from "./type-parameter";
-import { removeIf, removeIfPresent } from "../../utils";
+import { Reflection, TraverseProperty } from "./abstract.js";
+import { ContainerReflection } from "./container.js";
+import { ReferenceReflection } from "./reference.js";
+import type { DeclarationReflection } from "./declaration.js";
+import type { SignatureReflection } from "./signature.js";
+import type { ParameterReflection } from "./parameter.js";
+import { IntrinsicType } from "../types.js";
+import type { TypeParameterReflection } from "./type-parameter.js";
+import { removeIf, removeIfPresent } from "../../utils/index.js";
 import type * as ts from "typescript";
-import { ReflectionKind } from "./kind";
-import { Comment, CommentDisplayPart } from "../comments";
-import { ReflectionSymbolId } from "./ReflectionSymbolId";
-import type { Serializer } from "../../serialization/serializer";
-import type { Deserializer, JSONOutput } from "../../serialization/index";
-import { DefaultMap, StableKeyMap } from "../../utils/map";
+import { ReflectionKind } from "./kind.js";
+import { Comment, type CommentDisplayPart } from "../comments/index.js";
+import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
+import type { Serializer } from "../../serialization/serializer.js";
+import type { Deserializer, JSONOutput } from "../../serialization/index.js";
+import { DefaultMap, StableKeyMap } from "../../utils/map.js";
 
 /**
  * A reflection that represents the root of the project.

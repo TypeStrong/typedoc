@@ -1,4 +1,4 @@
-import { insertOrderSorted } from "./array";
+import { insertOrderSorted } from "./array.js";
 
 const momentos = new WeakMap<
     EventHooksMomento<never, unknown>,

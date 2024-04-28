@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import { platform } from "os";
 import { resolve, join, dirname, relative } from "path";
-import { Application, EntryPointStrategy } from "..";
-import { glob } from "../lib/utils/fs";
+import { Application, EntryPointStrategy } from "../index.js";
+import { glob } from "../lib/utils/fs.js";
 
 // The @types package plays badly with non-dom packages.
 // eslint-disable-next-line @typescript-eslint/no-var-requires

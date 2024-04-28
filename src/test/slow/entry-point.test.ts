@@ -1,7 +1,7 @@
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
-import { Application, EntryPointStrategy } from "../..";
+import { Application, EntryPointStrategy } from "../../index.js";
 
 const fixture = tempdirProject();
 fixture.addJsonFile("tsconfig.json", {

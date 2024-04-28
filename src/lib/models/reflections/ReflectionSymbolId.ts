@@ -1,11 +1,11 @@
 import { existsSync } from "fs";
 import { isAbsolute, join, relative, resolve } from "path";
 import ts from "typescript";
-import type { JSONOutput, Serializer } from "../../serialization/index";
-import { getCommonDirectory, readFile } from "../../utils/fs";
-import { normalizePath } from "../../utils/paths";
-import { getQualifiedName } from "../../utils/tsutils";
-import { optional, validate } from "../../utils/validation";
+import type { JSONOutput, Serializer } from "../../serialization/index.js";
+import { getCommonDirectory, readFile } from "../../utils/fs.js";
+import { normalizePath } from "../../utils/paths.js";
+import { getQualifiedName } from "../../utils/tsutils.js";
+import { optional, validate } from "../../utils/validation.js";
 
 /**
  * See {@link ReflectionSymbolId}

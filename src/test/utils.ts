@@ -6,8 +6,8 @@ import {
     Reflection,
     ReflectionKind,
     SignatureReflection,
-} from "..";
-import { filterMap } from "../lib/utils";
+} from "../index.js";
+import { filterMap } from "../lib/utils/index.js";
 
 export function query(
     project: ProjectReflection,

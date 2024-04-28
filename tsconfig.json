@@ -38,8 +38,7 @@
         // TS 5 introduced verbatimModuleSyntax and deprecated importsNotUsedAsValues
         // But that flag is intentionally very unfriendly to projects emitting CommonJS
         // so for now, we're going to ignore that deprecation.
-        "ignoreDeprecations": "5.0",
-        "importsNotUsedAsValues": "error",
+        "verbatimModuleSyntax": true,
         "isolatedModules": true
     },
     "include": ["src"],
@@ -56,6 +55,8 @@
     ],
     // We use ts-node to support mocha runner directly on files
     "ts-node": {
-        "transpileOnly": true
+        "transpileOnly": true,
+        "esm": true,
+        "preferTsExts": true
     }
 }

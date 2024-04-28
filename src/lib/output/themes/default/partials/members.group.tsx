@@ -1,6 +1,6 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
-import type { ReflectionGroup } from "../../../../models";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { JSX } from "../../../../utils/index.js";
+import type { ReflectionGroup } from "../../../../models/index.js";
 
 export function membersGroup(context: DefaultThemeRenderContext, group: ReflectionGroup) {
     if (group.categories) {

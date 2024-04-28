@@ -1,6 +1,6 @@
-export * from "./linkResolution";
+export * from "./linkResolution.js";
 
-import { A as AnotherName, Meanings } from "./linkResolution";
+import { A as AnotherName, Meanings } from "./linkResolution.js";
 
 /** {@link AnotherName | A!}{@link AnotherName A2!}{@link AnotherName} */
 export const localSymbolRef = 1;

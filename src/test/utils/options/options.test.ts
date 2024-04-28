@@ -1,15 +1,15 @@
-import { LogLevel, Options, ParameterType } from "../../../lib/utils";
+import { LogLevel, Options, ParameterType } from "../../../lib/utils/index.js";
 import {
     Option,
-    MapDeclarationOption,
-    NumberDeclarationOption,
-} from "../../../lib/utils";
+    type MapDeclarationOption,
+    type NumberDeclarationOption,
+} from "../../../lib/utils/index.js";
 import { deepStrictEqual as equal, throws } from "assert";
 import type {
     DeclarationOption,
     EmitStrategy,
-} from "../../../lib/utils/options";
-import { Internationalization } from "../../../lib/internationalization/internationalization";
+} from "../../../lib/utils/options/index.js";
+import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 
 describe("Options", () => {
     let options: Options & {

@@ -1,9 +1,10 @@
 import ts from "typescript";
 import { ok } from "assert/strict";
-import { Logger, Options, TSConfigReader } from "../..";
+import { Logger, Options, TSConfigReader } from "../../index.js";
 import { join } from "path";
 import { existsSync, readFileSync } from "fs";
-import { Internationalization } from "../../lib/internationalization/internationalization";
+import { Internationalization } from "../../lib/internationalization/internationalization.js";
+import { fileURLToPath } from "url";
 
 describe("Internationalization", () => {
     it("Does not include strings in translatable object which are unused", () => {
@@ -12,8 +13,8 @@ describe("Internationalization", () => {
         tsconfigReader.read(options, new Logger(), process.cwd());
 
         const translatableTs = join(
-            __dirname,
-            "../../lib/internationalization/translatable.ts",
+            fileURLToPath(import.meta.url),
+            "../../../lib/internationalization/translatable.ts",
         );
 
         const host: ts.LanguageServiceHost = {

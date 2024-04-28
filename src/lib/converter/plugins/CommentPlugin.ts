@@ -1,6 +1,6 @@
-import { Component, ConverterComponent } from "../components";
-import { Converter } from "../converter";
-import type { Context } from "../context";
+import { Component, ConverterComponent } from "../components.js";
+import { Converter } from "../converter.js";
+import type { Context } from "../context.js";
 import {
     Reflection,
     ReflectionFlag,
@@ -12,9 +12,9 @@ import {
     Comment,
     ReflectionType,
     SourceReference,
-    TypeVisitor,
+    type TypeVisitor,
     CommentTag,
-} from "../../models";
+} from "../../models/index.js";
 import {
     Option,
     filterMap,
@@ -22,8 +22,8 @@ import {
     unique,
     partition,
     removeIf,
-} from "../../utils";
-import { CategoryPlugin } from "./CategoryPlugin";
+} from "../../utils/index.js";
+import { CategoryPlugin } from "./CategoryPlugin.js";
 
 /**
  * These tags are not useful to display in the generated documentation.

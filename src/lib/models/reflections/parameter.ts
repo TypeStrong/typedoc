@@ -1,8 +1,16 @@
-import type { SomeType } from "..";
-import { ReflectionType } from "../types";
-import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
-import type { SignatureReflection } from "./signature";
-import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
+import type { SomeType } from "../index.js";
+import { ReflectionType } from "../types.js";
+import {
+    Reflection,
+    type TraverseCallback,
+    TraverseProperty,
+} from "./abstract.js";
+import type { SignatureReflection } from "./signature.js";
+import type {
+    Serializer,
+    JSONOutput,
+    Deserializer,
+} from "../../serialization/index.js";
 
 /**
  * @category Reflections

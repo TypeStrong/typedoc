@@ -1,9 +1,9 @@
-import type { RenderTemplate } from "../../..";
-import type { Reflection } from "../../../../models";
-import { JSX, Raw } from "../../../../utils";
-import type { PageEvent } from "../../../events";
-import { getDisplayName } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { RenderTemplate } from "../../../index.js";
+import type { Reflection } from "../../../../models/index.js";
+import { JSX, Raw } from "../../../../utils/index.js";
+import type { PageEvent } from "../../../events.js";
+import { getDisplayName } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export const defaultLayout = (
     context: DefaultThemeRenderContext,

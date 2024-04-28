@@ -1,5 +1,9 @@
-import type { Comment, CommentDisplayPart, ProjectReflection } from "../models";
-import type { Logger } from "../utils";
+import type {
+    Comment,
+    CommentDisplayPart,
+    ProjectReflection,
+} from "../models/index.js";
+import type { Logger } from "../utils/index.js";
 
 const linkTags = ["@link", "@linkcode", "@linkplain"];
 

@@ -1,5 +1,5 @@
-import type { Serializer } from "./serializer";
-import type { ModelToObject } from "./schema";
+import type { Serializer } from "./serializer.js";
+import type { ModelToObject } from "./schema.js";
 
 /**
  * Represents Serializer plugin component.

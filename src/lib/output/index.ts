@@ -1,11 +1,18 @@
-export { PageEvent, RendererEvent, MarkdownEvent, IndexEvent } from "./events";
-export { UrlMapping } from "./models/UrlMapping";
-export type { RenderTemplate } from "./models/UrlMapping";
-export { Renderer } from "./renderer";
-export type { RendererHooks } from "./renderer";
-export { Theme } from "./theme";
+export {
+    PageEvent,
+    RendererEvent,
+    MarkdownEvent,
+    IndexEvent,
+} from "./events.js";
+export { UrlMapping } from "./models/UrlMapping.js";
+export type { RenderTemplate } from "./models/UrlMapping.js";
+export { Renderer } from "./renderer.js";
+export type { RendererHooks } from "./renderer.js";
+export { Theme } from "./theme.js";
 export {
     DefaultTheme,
     type NavigationElement,
-} from "./themes/default/DefaultTheme";
-export { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
+} from "./themes/default/DefaultTheme.js";
+export { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
+
+import "./plugins/index.js"

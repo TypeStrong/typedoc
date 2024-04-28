@@ -1,5 +1,5 @@
-import type { Deserializer } from "../../serialization/deserializer";
-import type { SourceReference as JSONSourceReference } from "../../serialization/schema";
+import type { Deserializer } from "../../serialization/deserializer.js";
+import type { SourceReference as JSONSourceReference } from "../../serialization/schema.js";
 
 /**
  * Represents references of reflections to their defining source files.

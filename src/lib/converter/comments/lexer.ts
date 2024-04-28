@@ -1,4 +1,4 @@
-import type { ReflectionSymbolId } from "../../models";
+import type { ReflectionSymbolId } from "../../models/index.js";
 
 export enum TokenSyntaxKind {
     Text = "text",

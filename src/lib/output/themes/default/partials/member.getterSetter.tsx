@@ -1,7 +1,7 @@
-import type { DeclarationReflection } from "../../../../models";
-import { JSX } from "../../../../utils";
-import { classNames } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DeclarationReflection } from "../../../../models/index.js";
+import { JSX } from "../../../../utils/index.js";
+import { classNames } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export const memberGetterSetter = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>

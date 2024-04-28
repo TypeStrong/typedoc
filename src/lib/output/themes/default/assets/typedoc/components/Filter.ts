@@ -1,5 +1,5 @@
-import { Component, IComponentOptions } from "../Component";
-import { storage } from "../utils/storage";
+import { Component, IComponentOptions } from "../Component.js";
+import { storage } from "../utils/storage.js";
 
 const style = document.head.appendChild(document.createElement("style"));
 style.dataset.for = "filters";

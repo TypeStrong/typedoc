@@ -1,13 +1,13 @@
-import type { Options } from "./options";
+import type { Options } from "./options.js";
 import {
     ParameterHint,
-    StringDeclarationOption,
+    type StringDeclarationOption,
     ParameterType,
-    DeclarationOption,
-} from "./declaration";
-import { getSupportedLanguages } from "../highlighter";
+    type DeclarationOption,
+} from "./declaration.js";
+import { getSupportedLanguages } from "../highlighter.js";
 import { BUNDLED_THEMES } from "shiki";
-import type { TranslationProxy } from "../../internationalization/internationalization";
+import type { TranslationProxy } from "../../internationalization/internationalization.js";
 
 export interface ParameterHelp {
     names: string[];

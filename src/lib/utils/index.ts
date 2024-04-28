@@ -5,10 +5,14 @@ export {
     removeIf,
     removeIfPresent,
     unique,
-} from "./array";
-export { AbstractComponent, ChildableComponent, Component } from "./component";
-export * from "./enum";
-export { Event, EventDispatcher } from "./events";
+} from "./array.js";
+export {
+    AbstractComponent,
+    ChildableComponent,
+    Component,
+} from "./component.js";
+export * from "./enum.js";
+export { Event, EventDispatcher } from "./events.js";
 export {
     isFile,
     copy,
@@ -19,12 +23,12 @@ export {
     writeFileSync,
     discoverInParentDir,
     discoverPackageJson,
-} from "./fs";
-export { normalizePath } from "./paths";
-export type { IfInternal, NeverIfInternal, Chars } from "./general";
-export { assertNever } from "./general";
-export { ConsoleLogger, Logger, LogLevel } from "./loggers";
-export { DefaultMap } from "./map";
+} from "./fs.js";
+export { normalizePath } from "./paths.js";
+export type { IfInternal, NeverIfInternal, Chars } from "./general.js";
+export { assertNever } from "./general.js";
+export { ConsoleLogger, Logger, LogLevel } from "./loggers.js";
+export { DefaultMap } from "./map.js";
 export {
     ArgumentsReader,
     Option,
@@ -35,7 +39,7 @@ export {
     ParameterType,
     TSConfigReader,
     TypeDocReader,
-} from "./options";
+} from "./options/index.js";
 export type {
     ArrayDeclarationOption,
     BooleanDeclarationOption,
@@ -57,21 +61,21 @@ export type {
     ParameterTypeToOptionTypeMap,
     ManuallyValidatedOption,
     JsDocCompatibility,
-} from "./options";
-export { loadPlugins } from "./plugins";
-export { getSortFunction } from "./sort";
-export type { SortStrategy } from "./sort";
+} from "./options/index.js";
+export { loadPlugins } from "./plugins.js";
+export { getSortFunction } from "./sort.js";
+export type { SortStrategy } from "./sort.js";
 
-export { EventHooks } from "./hooks";
+export { EventHooks } from "./hooks.js";
 
-export * from "./entry-point";
+export * from "./entry-point.js";
 
-import * as JSX from "./jsx";
+import * as JSX from "./jsx.js";
 export { JSX };
-export { Fragment, Raw, renderElement } from "./jsx";
+export { Fragment, Raw, renderElement } from "./jsx.js";
 
-export * as Validation from "./validation";
+export * as Validation from "./validation.js";
 
-export * from "./tsutils";
+export * from "./tsutils.js";
 
-export { MinimalSourceFile } from "./minimalSourceFile";
+export { MinimalSourceFile } from "./minimalSourceFile.js";

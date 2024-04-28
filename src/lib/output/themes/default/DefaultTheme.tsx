@@ -1,5 +1,5 @@
-import { Theme } from "../../theme";
-import type { Renderer } from "../../renderer";
+import { Theme } from "../../theme.js";
+import type { Renderer } from "../../renderer.js";
 import {
     Reflection,
     ReflectionKind,
@@ -10,14 +10,14 @@ import {
     ReflectionCategory,
     ReflectionGroup,
     TypeParameterReflection,
-} from "../../../models";
-import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
-import type { PageEvent } from "../../events";
-import type { MarkedPlugin } from "../../plugins";
-import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
-import { JSX } from "../../../utils";
-import { classNames, getDisplayName, getHierarchyRoots, toStyleClass } from "../lib";
-import { icons } from "./partials/icon";
+} from "../../../models/index.js";
+import { type RenderTemplate, UrlMapping } from "../../models/UrlMapping.js";
+import type { PageEvent } from "../../events.js";
+import type { MarkedPlugin } from "../../plugins/index.js";
+import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
+import { JSX } from "../../../utils/index.js";
+import { classNames, getDisplayName, getHierarchyRoots, toStyleClass } from "../lib.js";
+import { icons } from "./partials/icon.js";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.

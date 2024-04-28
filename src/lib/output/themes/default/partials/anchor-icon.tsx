@@ -1,5 +1,5 @@
-import { JSX } from "../../../../utils";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import { JSX } from "../../../../utils/index.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export function anchorIcon(context: DefaultThemeRenderContext, anchor: string | undefined) {
     if (!anchor) return <></>;

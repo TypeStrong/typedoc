@@ -1,6 +1,6 @@
 import { spawnSync } from "child_process";
-import type { Logger } from "../../utils";
-import { BasePath } from "../utils/base-path";
+import type { Logger } from "../../utils/index.js";
+import { BasePath } from "../utils/base-path.js";
 
 const TEN_MEGABYTES = 1024 * 10000;
 

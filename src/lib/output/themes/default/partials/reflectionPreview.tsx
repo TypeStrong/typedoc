@@ -1,7 +1,7 @@
-import { DeclarationReflection, ReflectionKind, type Reflection, ReflectionType } from "../../../../models";
-import { JSX } from "../../../../utils";
-import { getKindClass, renderTypeParametersSignature } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import { DeclarationReflection, ReflectionKind, type Reflection, ReflectionType } from "../../../../models/index.js";
+import { JSX } from "../../../../utils/index.js";
+import { getKindClass, renderTypeParametersSignature } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export function reflectionPreview(context: DefaultThemeRenderContext, props: Reflection) {
     if (!(props instanceof DeclarationReflection)) return;

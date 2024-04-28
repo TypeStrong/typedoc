@@ -5,16 +5,20 @@ import {
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
-} from "../../models";
-import { Component, ConverterComponent } from "../components";
-import { Converter } from "../converter";
-import type { Context } from "../context";
-import type { Reflection } from "../../models/reflections/abstract";
-import { Option, DefaultMap, ValidationOptions } from "../../utils";
-import { zip } from "../../utils/array";
-import { parseDeclarationReference } from "../comments/declarationReference";
-import { resolveDeclarationReference } from "../comments/declarationReferenceResolver";
-import { ApplicationEvents } from "../../application-events";
+} from "../../models/index.js";
+import { Component, ConverterComponent } from "../components.js";
+import { Converter } from "../converter.js";
+import type { Context } from "../context.js";
+import type { Reflection } from "../../models/reflections/abstract.js";
+import {
+    Option,
+    DefaultMap,
+    type ValidationOptions,
+} from "../../utils/index.js";
+import { zip } from "../../utils/array.js";
+import { parseDeclarationReference } from "../comments/declarationReference.js";
+import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";
+import { ApplicationEvents } from "../../application-events.js";
 
 /**
  * A plugin that handles `@inheritDoc` tags by copying documentation from another API item.

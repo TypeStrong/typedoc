@@ -8,9 +8,9 @@ import {
     ProjectReflection,
     SourceReference,
     TSConfigReader,
-} from "..";
-import type { ModelToObject } from "../lib/serialization/schema";
-import { createAppForTesting } from "../lib/application";
+} from "../index.js";
+import type { ModelToObject } from "../lib/serialization/schema.js";
+import { createAppForTesting } from "../lib/application.js";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;

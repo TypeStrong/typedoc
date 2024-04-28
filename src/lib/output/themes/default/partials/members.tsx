@@ -1,7 +1,7 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
-import { ContainerReflection, DeclarationReflection } from "../../../../models";
-import { classNames } from "../../lib";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { JSX } from "../../../../utils/index.js";
+import { ContainerReflection, DeclarationReflection } from "../../../../models/index.js";
+import { classNames } from "../../lib.js";
 
 export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {
     if (props.categories && props.categories.length) {

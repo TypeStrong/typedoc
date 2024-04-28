@@ -1,4 +1,4 @@
-import type { IComponentOptions } from "./Component";
+import type { IComponentOptions } from "./Component.js";
 
 /**
  * Component definition.

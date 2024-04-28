@@ -1,7 +1,9 @@
 import { deepEqual as equal, ok } from "assert/strict";
-import { Application } from "..";
+import { Application } from "../index.js";
 import { readdirSync } from "fs";
 import { join } from "path";
+import { fileURLToPath } from "url";
+import { createRequire } from "module";
 
 describe("Internationalization", async () => {
     const app = await Application.bootstrap({}, []);
@@ -34,12 +36,16 @@ describe("Internationalization", async () => {
 });
 
 describe("Locales", () => {
-    const localeRoot = join(__dirname, "../lib/internationalization/locales");
+    const localeRoot = join(
+        fileURLToPath(import.meta.url),
+        "../../lib/internationalization/locales",
+    );
 
     for (const locale of readdirSync(localeRoot)) {
         it(`${locale} defines a valid locale`, () => {
+            const req = createRequire(fileURLToPath(import.meta.url));
             // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const translations = require(join(localeRoot, locale)) as Record<
+            const translations = req(join(localeRoot, locale)) as Record<
                 string,
                 string
             >;

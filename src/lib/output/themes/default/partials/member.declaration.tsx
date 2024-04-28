@@ -1,7 +1,7 @@
-import type { DeclarationReflection, ReflectionType } from "../../../../models";
-import { JSX } from "../../../../utils";
-import { getKindClass, hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DeclarationReflection, ReflectionType } from "../../../../models/index.js";
+import { JSX } from "../../../../utils/index.js";
+import { getKindClass, hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export function memberDeclaration(context: DefaultThemeRenderContext, props: DeclarationReflection) {
     function renderTypeDeclaration(type: ReflectionType) {

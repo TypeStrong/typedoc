@@ -1,5 +1,6 @@
 import { dirname } from "path";
 import * as Util from "util";
+import url from "url";
 
 /**
  * This type provides a flag that can be used to turn off more lax overloads intended for
@@ -85,7 +86,9 @@ const g = globalThis as TypeDocGlobals;
 g[loadSymbol] = (g[loadSymbol] || 0) + 1;
 g[pathSymbol] ||= [];
 // transform /abs/path/to/typedoc/dist/lib/utils/general -> /abs/path/to/typedoc
-g[pathSymbol].push(dirname(dirname(dirname(__dirname))));
+g[pathSymbol].push(
+    dirname(dirname(dirname(dirname(url.fileURLToPath(import.meta.url))))),
+);
 
 export function hasBeenLoadedMultipleTimes() {
     return g[loadSymbol] !== 1;

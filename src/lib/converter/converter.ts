@@ -1,40 +1,40 @@
 import ts from "typescript";
 
-import type { Application } from "../application";
+import type { Application } from "../application.js";
 import {
     Comment,
-    CommentDisplayPart,
+    type CommentDisplayPart,
     ProjectReflection,
     Reflection,
     ReflectionKind,
     ReflectionSymbolId,
-    SomeType,
-} from "../models/index";
-import { Context } from "./context";
-import { ConverterComponent } from "./components";
-import { Component, ChildableComponent } from "../utils/component";
-import { Option, MinimalSourceFile, readFile, unique } from "../utils";
-import { convertType } from "./types";
-import { ConverterEvents } from "./converter-events";
-import { convertSymbol } from "./symbols";
-import { createMinimatch, matchesAny } from "../utils/paths";
+    type SomeType,
+} from "../models/index.js";
+import { Context } from "./context.js";
+import { ConverterComponent } from "./components.js";
+import { Component, ChildableComponent } from "../utils/component.js";
+import { Option, MinimalSourceFile, readFile, unique } from "../utils/index.js";
+import { convertType } from "./types.js";
+import { ConverterEvents } from "./converter-events.js";
+import { convertSymbol } from "./symbols.js";
+import { createMinimatch, matchesAny } from "../utils/paths.js";
 import type { Minimatch } from "minimatch";
-import { hasAllFlags, hasAnyFlag } from "../utils/enum";
-import type { DocumentationEntryPoint } from "../utils/entry-point";
-import type { CommentParserConfig } from "./comments";
+import { hasAllFlags, hasAnyFlag } from "../utils/enum.js";
+import type { DocumentationEntryPoint } from "../utils/entry-point.js";
+import type { CommentParserConfig } from "./comments/index.js";
 import type {
     CommentStyle,
     ValidationOptions,
-} from "../utils/options/declaration";
-import { parseComment } from "./comments/parser";
-import { lexCommentString } from "./comments/rawLexer";
+} from "../utils/options/declaration.js";
+import { parseComment } from "./comments/parser.js";
+import { lexCommentString } from "./comments/rawLexer.js";
 import {
     resolvePartLinks,
     resolveLinks,
-    ExternalSymbolResolver,
-    ExternalResolveResult,
-} from "./comments/linkResolver";
-import type { DeclarationReference } from "./comments/declarationReference";
+    type ExternalSymbolResolver,
+    type ExternalResolveResult,
+} from "./comments/linkResolver.js";
+import type { DeclarationReference } from "./comments/declarationReference.js";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.

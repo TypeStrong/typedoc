@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { isSupportedLanguage } from "../../lib/utils/highlighter";
+import { isSupportedLanguage } from "../../lib/utils/highlighter.js";
 
 describe("Language aliases", () => {
     describe("Original language aliases", () => {

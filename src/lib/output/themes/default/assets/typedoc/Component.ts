@@ -1,4 +1,4 @@
-import { Application } from "./Application";
+import { Application } from "./Application.js";
 
 export interface IComponentOptions {
     app: Application;

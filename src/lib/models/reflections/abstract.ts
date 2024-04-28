@@ -1,12 +1,16 @@
-import { Comment } from "../comments/comment";
-import { splitUnquotedString } from "./utils";
-import type { ProjectReflection } from "./project";
-import type { NeverIfInternal } from "../../utils";
-import { ReflectionKind } from "./kind";
-import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
-import type { ReflectionVariant } from "./variant";
-import type { DeclarationReflection } from "./declaration";
-import { NonEnumerable } from "../../utils/general";
+import { Comment } from "../comments/comment.js";
+import { splitUnquotedString } from "./utils.js";
+import type { ProjectReflection } from "./project.js";
+import type { NeverIfInternal } from "../../utils/index.js";
+import { ReflectionKind } from "./kind.js";
+import type {
+    Serializer,
+    Deserializer,
+    JSONOutput,
+} from "../../serialization/index.js";
+import type { ReflectionVariant } from "./variant.js";
+import type { DeclarationReflection } from "./declaration.js";
+import { NonEnumerable } from "../../utils/general.js";
 
 /**
  * Current reflection id.

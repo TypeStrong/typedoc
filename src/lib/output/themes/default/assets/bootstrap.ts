@@ -1,10 +1,10 @@
-import { Application, registerComponent } from "./typedoc/Application";
-import { initSearch } from "./typedoc/components/Search";
-import { Toggle } from "./typedoc/components/Toggle";
-import { Filter } from "./typedoc/components/Filter";
-import { Accordion } from "./typedoc/components/Accordion";
-import { initTheme } from "./typedoc/Theme";
-import { initNav } from "./typedoc/Navigation";
+import { Application, registerComponent } from "./typedoc/Application.js";
+import { initSearch } from "./typedoc/components/Search.js";
+import { Toggle } from "./typedoc/components/Toggle.js";
+import { Filter } from "./typedoc/components/Filter.js";
+import { Accordion } from "./typedoc/components/Accordion.js";
+import { initTheme } from "./typedoc/Theme.js";
+import { initNav } from "./typedoc/Navigation.js";
 
 registerComponent(Toggle, "a[data-toggle]");
 registerComponent(Accordion, ".tsd-index-accordion");

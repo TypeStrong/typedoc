@@ -1,15 +1,15 @@
 import * as Path from "path";
-import { Builder, trimmer } from "lunr";
+import lunr from "lunr";
 
 import {
     Comment,
     DeclarationReflection,
     ProjectReflection,
-} from "../../models";
-import { Component, RendererComponent } from "../components";
-import { IndexEvent, RendererEvent } from "../events";
-import { Option, writeFile } from "../../utils";
-import { DefaultTheme } from "../themes/default/DefaultTheme";
+} from "../../models/index.js";
+import { Component, RendererComponent } from "../components.js";
+import { IndexEvent, RendererEvent } from "../events.js";
+import { Option, writeFile } from "../../utils/index.js";
+import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { gzip } from "zlib";
 import { promisify } from "util";
 
@@ -88,8 +88,8 @@ export class JavascriptIndexPlugin extends RendererComponent {
             return;
         }
 
-        const builder = new Builder();
-        builder.pipeline.add(trimmer);
+        const builder = new lunr.Builder();
+        builder.pipeline.add(lunr.trimmer);
 
         builder.ref("id");
         for (const [key, boost] of Object.entries(

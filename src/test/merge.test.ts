@@ -5,9 +5,9 @@ import {
     DeclarationReflection,
     EntryPointStrategy,
     ReferenceType,
-} from "../index";
-import { getConverterBase } from "./programs";
-import { TestLogger } from "./TestLogger";
+} from "../index.js";
+import { getConverterBase } from "./programs.js";
+import { TestLogger } from "./TestLogger.js";
 
 const base = getConverterBase();
 

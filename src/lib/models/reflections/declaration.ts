@@ -1,14 +1,23 @@
 import type * as ts from "typescript";
-import { ReferenceType, ReflectionType, Type, type SomeType } from "../types";
-import { type TraverseCallback, TraverseProperty } from "./abstract";
-import { ContainerReflection } from "./container";
-import type { SignatureReflection } from "./signature";
-import type { TypeParameterReflection } from "./type-parameter";
-import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
-import { Comment, CommentDisplayPart } from "../comments";
-import { SourceReference } from "../sources/file";
-import { ReflectionSymbolId } from "./ReflectionSymbolId";
-import { ReflectionKind } from "./kind";
+import {
+    ReferenceType,
+    ReflectionType,
+    Type,
+    type SomeType,
+} from "../types.js";
+import { type TraverseCallback, TraverseProperty } from "./abstract.js";
+import { ContainerReflection } from "./container.js";
+import type { SignatureReflection } from "./signature.js";
+import type { TypeParameterReflection } from "./type-parameter.js";
+import type {
+    Serializer,
+    JSONOutput,
+    Deserializer,
+} from "../../serialization/index.js";
+import { Comment, type CommentDisplayPart } from "../comments/index.js";
+import { SourceReference } from "../sources/file.js";
+import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
+import { ReflectionKind } from "./kind.js";
 
 /**
  * Stores hierarchical type data.

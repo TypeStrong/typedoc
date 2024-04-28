@@ -1,11 +1,11 @@
 import { deepStrictEqual as equal } from "assert";
 import { join } from "path";
-import { normalizePath } from "../lib/utils";
-import { expandPackages } from "../lib/utils/package-manifest";
+import { normalizePath } from "../lib/utils/index.js";
+import { expandPackages } from "../lib/utils/package-manifest.js";
 
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
-import { TestLogger } from "./TestLogger";
-import { createMinimatch } from "../lib/utils/paths";
+import { TestLogger } from "./TestLogger.js";
+import { createMinimatch } from "../lib/utils/paths.js";
 
 describe("Packages support", () => {
     let project: ReturnType<typeof tempdirProject>;

@@ -1,4 +1,4 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import {
     DeclarationReflection,
     LiteralType,
@@ -8,10 +8,10 @@ import {
     ReflectionKind,
     Type,
     TypeContext,
-    TypeKindMap,
-} from "../../../../models";
-import { JSX } from "../../../../utils";
-import { getKindClass, join, stringify } from "../../lib";
+    type TypeKindMap,
+} from "../../../../models/index.js";
+import { JSX } from "../../../../utils/index.js";
+import { getKindClass, join, stringify } from "../../lib.js";
 import { ok } from "assert";
 
 const EXPORTABLE: ReflectionKind =

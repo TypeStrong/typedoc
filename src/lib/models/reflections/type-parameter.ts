@@ -1,9 +1,13 @@
-import type { SomeType } from "../types";
-import { Reflection, TraverseCallback } from "./abstract";
-import type { DeclarationReflection } from "./declaration";
-import { ReflectionKind } from "./kind";
-import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
-import type { SignatureReflection } from "./signature";
+import type { SomeType } from "../types.js";
+import { Reflection, type TraverseCallback } from "./abstract.js";
+import type { DeclarationReflection } from "./declaration.js";
+import { ReflectionKind } from "./kind.js";
+import type {
+    Serializer,
+    JSONOutput,
+    Deserializer,
+} from "../../serialization/index.js";
+import type { SignatureReflection } from "./signature.js";
 
 /**
  * Modifier flags for type parameters, added in TS 4.7

@@ -1,8 +1,8 @@
-import { classNames, getDisplayName, wbr } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
-import { DeclarationReflection, ReferenceReflection } from "../../../../models";
-import { anchorIcon } from "./anchor-icon";
+import { classNames, getDisplayName, wbr } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { JSX } from "../../../../utils/index.js";
+import { DeclarationReflection, ReferenceReflection } from "../../../../models/index.js";
+import { anchorIcon } from "./anchor-icon.js";
 
 export function member(context: DefaultThemeRenderContext, props: DeclarationReflection) {
     context.page.pageHeadings.push({

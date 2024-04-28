@@ -1,8 +1,8 @@
 import * as Path from "path";
-import { Component, RendererComponent } from "../components";
-import { RendererEvent } from "../events";
-import { writeFile } from "../../utils";
-import { DefaultTheme } from "../themes/default/DefaultTheme";
+import { Component, RendererComponent } from "../components.js";
+import { RendererEvent } from "../events.js";
+import { writeFile } from "../../utils/index.js";
+import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { gzip } from "zlib";
 import { promisify } from "util";
 

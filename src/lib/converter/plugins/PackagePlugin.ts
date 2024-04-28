@@ -1,18 +1,18 @@
 import * as Path from "path";
 
-import { Component, ConverterComponent } from "../components";
-import { Converter } from "../converter";
-import type { Context } from "../context";
-import { Option, EntryPointStrategy, readFile } from "../../utils";
+import { Component, ConverterComponent } from "../components.js";
+import { Converter } from "../converter.js";
+import type { Context } from "../context.js";
+import { Option, EntryPointStrategy, readFile } from "../../utils/index.js";
 import {
     deriveRootDir,
     discoverInParentDir,
     discoverPackageJson,
-} from "../../utils/fs";
-import { nicePath } from "../../utils/paths";
-import { MinimalSourceFile } from "../../utils/minimalSourceFile";
-import type { ProjectReflection } from "../../models/index";
-import { ApplicationEvents } from "../../application-events";
+} from "../../utils/fs.js";
+import { nicePath } from "../../utils/paths.js";
+import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
+import type { ProjectReflection } from "../../models/index.js";
+import { ApplicationEvents } from "../../application-events.js";
 import { join } from "path";
 
 /**

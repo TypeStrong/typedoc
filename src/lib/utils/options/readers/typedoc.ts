@@ -2,15 +2,15 @@ import { join, dirname, resolve } from "path";
 import * as FS from "fs";
 import ts from "typescript";
 
-import type { OptionsReader } from "..";
-import type { Logger } from "../../loggers";
-import type { Options } from "../options";
+import type { OptionsReader } from "../options.js";
+import type { Logger } from "../../loggers.js";
+import type { Options } from "../options.js";
 import { ok } from "assert";
-import { nicePath, normalizePath } from "../../paths";
-import { isFile } from "../../fs";
+import { nicePath, normalizePath } from "../../paths.js";
+import { isFile } from "../../fs.js";
 import { createRequire } from "module";
 import { pathToFileURL } from "url";
-import type { TranslatedString } from "../../../internationalization/internationalization";
+import type { TranslatedString } from "../../../internationalization/internationalization.js";
 
 /**
  * Obtains option values from typedoc.json
@@ -84,19 +84,10 @@ export class TypeDocReader implements OptionsReader {
             }
         } else {
             try {
-                try {
-                    // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    fileContent = await require(file);
-                } catch (error: any) {
-                    if (error?.code === "ERR_REQUIRE_ESM") {
-                        // On Windows, we need to ensure this path is a file path.
-                        // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
-                        const esmPath = pathToFileURL(file).toString();
-                        fileContent = await (await import(esmPath)).default;
-                    } else {
-                        throw error;
-                    }
-                }
+                // On Windows, we need to ensure this path is a file path.
+                // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
+                const esmPath = pathToFileURL(file).toString();
+                fileContent = await (await import(esmPath)).default;
             } catch (error) {
                 logger.error(
                     logger.i18n.failed_read_options_file_0(nicePath(file)),

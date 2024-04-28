@@ -1,17 +1,17 @@
 import ts from "typescript";
 import {
     Comment,
-    CommentDisplayPart,
+    type CommentDisplayPart,
     DeclarationReflection,
-    InlineTagDisplayPart,
+    type InlineTagDisplayPart,
     Reflection,
     ReflectionSymbolId,
-} from "../../models";
+} from "../../models/index.js";
 import {
-    DeclarationReference,
+    type DeclarationReference,
     parseDeclarationReference,
-} from "./declarationReference";
-import { resolveDeclarationReference } from "./declarationReferenceResolver";
+} from "./declarationReference.js";
+import { resolveDeclarationReference } from "./declarationReferenceResolver.js";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 

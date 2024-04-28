@@ -5,14 +5,14 @@ import {
     ReferenceReflection,
     Reflection,
     ReflectionKind,
-} from "../../models";
-import { assertNever, filterMap } from "../../utils";
+} from "../../models/index.js";
+import { assertNever, filterMap } from "../../utils/index.js";
 import type {
     ComponentPath,
     DeclarationReference,
     Meaning,
     MeaningKeyword,
-} from "./declarationReference";
+} from "./declarationReference.js";
 
 function resolveReferenceReflection(ref: Reflection): Reflection {
     if (ref instanceof ReferenceReflection) {

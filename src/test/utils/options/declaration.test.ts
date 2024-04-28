@@ -1,18 +1,18 @@
 import { deepStrictEqual as equal, ok, throws } from "assert";
 import { join, resolve } from "path";
 import {
-    ArrayDeclarationOption,
+    type ArrayDeclarationOption,
     convert,
-    DeclarationOption,
+    type DeclarationOption,
     getDefaultValue,
-    MapDeclarationOption,
-    MixedDeclarationOption,
-    ObjectDeclarationOption,
-    NumberDeclarationOption,
+    type MapDeclarationOption,
+    type MixedDeclarationOption,
+    type ObjectDeclarationOption,
+    type NumberDeclarationOption,
     ParameterType,
-    StringDeclarationOption,
-} from "../../../lib/utils/options/declaration";
-import { Internationalization } from "../../../lib/internationalization/internationalization";
+    type StringDeclarationOption,
+} from "../../../lib/utils/options/declaration.js";
+import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 
 const emptyHelp = () => "";
 

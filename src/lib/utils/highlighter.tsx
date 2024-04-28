@@ -1,7 +1,7 @@
 import { ok as assert } from "assert";
-import { BUNDLED_LANGUAGES, getHighlighter, Highlighter, Theme } from "shiki";
-import { unique, zip } from "./array";
-import * as JSX from "./jsx";
+import { BUNDLED_LANGUAGES, getHighlighter, type Highlighter, type Theme } from "shiki";
+import { unique, zip } from "./array.js";
+import * as JSX from "./jsx.js";
 
 const aliases = new Map<string, string>();
 for (const lang of BUNDLED_LANGUAGES) {

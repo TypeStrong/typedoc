@@ -2,12 +2,12 @@ import {
     ContainerReflection,
     DeclarationReflection,
     Comment,
-} from "../../models";
-import { ReflectionCategory } from "../../models";
-import { Component, ConverterComponent } from "../components";
-import { Converter } from "../converter";
-import type { Context } from "../context";
-import { Option, getSortFunction, removeIf } from "../../utils";
+} from "../../models/index.js";
+import { ReflectionCategory } from "../../models/index.js";
+import { Component, ConverterComponent } from "../components.js";
+import { Converter } from "../converter.js";
+import type { Context } from "../context.js";
+import { Option, getSortFunction, removeIf } from "../../utils/index.js";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.

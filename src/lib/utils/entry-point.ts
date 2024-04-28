@@ -1,12 +1,17 @@
 import { join, relative, resolve } from "path";
 import ts from "typescript";
 import * as FS from "fs";
-import { expandPackages } from "./package-manifest";
-import { createMinimatch, matchesAny, nicePath, normalizePath } from "./paths";
-import type { Logger } from "./loggers";
-import type { Options } from "./options";
-import { deriveRootDir, glob, isDir } from "./fs";
-import { assertNever } from "./general";
+import { expandPackages } from "./package-manifest.js";
+import {
+    createMinimatch,
+    matchesAny,
+    nicePath,
+    normalizePath,
+} from "./paths.js";
+import type { Logger } from "./loggers.js";
+import type { Options } from "./options/index.js";
+import { deriveRootDir, glob, isDir } from "./fs.js";
+import { assertNever } from "./general.js";
 
 /**
  * Defines how entry points are interpreted.

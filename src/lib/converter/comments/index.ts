@@ -1,20 +1,20 @@
 import ts from "typescript";
-import { Comment, ReflectionKind } from "../../models";
-import { assertNever, Logger } from "../../utils";
+import { Comment, ReflectionKind } from "../../models/index.js";
+import { assertNever, Logger } from "../../utils/index.js";
 import type {
     CommentStyle,
     JsDocCompatibility,
-} from "../../utils/options/declaration";
-import { lexBlockComment } from "./blockLexer";
+} from "../../utils/options/declaration.js";
+import { lexBlockComment } from "./blockLexer.js";
 import {
-    DiscoveredComment,
+    type DiscoveredComment,
     discoverComment,
     discoverFileComment,
     discoverNodeComment,
     discoverSignatureComment,
-} from "./discovery";
-import { lexLineComments } from "./lineLexer";
-import { parseComment } from "./parser";
+} from "./discovery.js";
+import { lexLineComments } from "./lineLexer.js";
+import { parseComment } from "./parser.js";
 
 export interface CommentParserConfig {
     blockTags: Set<string>;

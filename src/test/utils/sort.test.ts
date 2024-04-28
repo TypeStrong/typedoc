@@ -6,11 +6,11 @@ import {
     ReflectionFlag,
     ReflectionKind,
     ReflectionSymbolId,
-} from "../../lib/models";
-import { resetReflectionID } from "../../lib/models/reflections/abstract";
-import { Options } from "../../lib/utils";
-import { getSortFunction, SortStrategy } from "../../lib/utils/sort";
-import { Internationalization } from "../../lib/internationalization/internationalization";
+} from "../../lib/models/index.js";
+import { resetReflectionID } from "../../lib/models/reflections/abstract.js";
+import { Options } from "../../lib/utils/index.js";
+import { getSortFunction, type SortStrategy } from "../../lib/utils/sort.js";
+import { Internationalization } from "../../lib/internationalization/internationalization.js";
 
 describe("Sort", () => {
     function sortReflections(

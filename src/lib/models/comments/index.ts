@@ -1,2 +1,2 @@
-export { Comment, CommentTag } from "./comment";
-export type { CommentDisplayPart, InlineTagDisplayPart } from "./comment";
+export { Comment, CommentTag } from "./comment.js";
+export type { CommentDisplayPart, InlineTagDisplayPart } from "./comment.js";

@@ -13,12 +13,12 @@ import {
     SignatureReflection,
     TypeParameterReflection,
     VarianceModifier,
-} from "../../models";
-import type { Context } from "../context";
-import { ConverterEvents } from "../converter-events";
-import { convertDefaultValue } from "../convert-expression";
-import { removeUndefined } from "../utils/reflections";
-import { ReflectionSymbolId } from "../../models/reflections/ReflectionSymbolId";
+} from "../../models/index.js";
+import type { Context } from "../context.js";
+import { ConverterEvents } from "../converter-events.js";
+import { convertDefaultValue } from "../convert-expression.js";
+import { removeUndefined } from "../utils/reflections.js";
+import { ReflectionSymbolId } from "../../models/reflections/ReflectionSymbolId.js";
 
 export function createSignature(
     context: Context,

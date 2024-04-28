@@ -5,7 +5,7 @@ import {
 } from "assert";
 import { existsSync } from "fs";
 import { join } from "path";
-import { clearCommentCache } from "../lib/converter/comments";
+import { clearCommentCache } from "../lib/converter/comments/index.js";
 import {
     Comment,
     CommentTag,
@@ -19,16 +19,16 @@ import {
     ReflectionType,
     SignatureReflection,
     UnionType,
-} from "../lib/models";
-import type { InlineTagDisplayPart } from "../lib/models/comments/comment";
+} from "../lib/models/index.js";
+import type { InlineTagDisplayPart } from "../lib/models/comments/comment.js";
 import {
     getConverter2App,
     getConverter2Base,
     getConverter2Program,
-} from "./programs";
-import { TestLogger } from "./TestLogger";
-import { getComment, getLinks, query, querySig } from "./utils";
-import { DefaultTheme, PageEvent } from "..";
+} from "./programs.js";
+import { TestLogger } from "./TestLogger.js";
+import { getComment, getLinks, query, querySig } from "./utils.js";
+import { DefaultTheme, PageEvent } from "../index.js";
 
 const base = getConverter2Base();
 const app = getConverter2App();

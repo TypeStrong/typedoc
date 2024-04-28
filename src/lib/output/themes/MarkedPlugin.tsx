@@ -2,12 +2,13 @@ import * as fs from "fs";
 import * as Path from "path";
 import * as Marked from "marked";
 
-import { Component, ContextAwareRendererComponent } from "../components";
-import { RendererEvent, MarkdownEvent, PageEvent } from "../events";
-import { Option, readFile, copySync, isFile, JSX, renderElement } from "../../utils";
-import { highlight, isSupportedLanguage } from "../../utils/highlighter";
+import { Component, ContextAwareRendererComponent } from "../components.js";
+import { RendererEvent, MarkdownEvent, PageEvent } from "../events.js";
+import { Option, readFile, copySync, isFile, JSX, renderElement } from "../../utils/index.js";
+import { highlight, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { Theme } from "shiki";
-import { escapeHtml, getTextContent } from "../../utils/html";
+import html from "../../utils/html.cjs";
+const { escapeHtml, getTextContent } = html;
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -56,7 +57,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     }
 
     /**
-     * Highlight the syntax of the given text using HighlightJS.
+     * Highlight the syntax of the given text using Shiki.
      *
      * @param text  The text that should be highlighted.
      * @param lang  The language that should be used to highlight the string.

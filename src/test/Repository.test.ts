@@ -1,4 +1,4 @@
-import { guessSourceUrlTemplate } from "../lib/converter/utils/repository";
+import { guessSourceUrlTemplate } from "../lib/converter/utils/repository.js";
 import { strictEqual as equal } from "assert";
 
 describe("Repository", function () {

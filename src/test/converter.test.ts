@@ -12,17 +12,17 @@ import {
     CommentTag,
     ReferenceType,
     Comment,
-    CommentDisplayPart,
+    type CommentDisplayPart,
     SourceReference,
     ReferenceReflection,
-} from "..";
-import type { ModelToObject } from "../lib/serialization/schema";
-import { getExpandedEntryPointsForPaths } from "../lib/utils";
+} from "../index.js";
+import type { ModelToObject } from "../lib/serialization/schema.js";
+import { getExpandedEntryPointsForPaths } from "../lib/utils/index.js";
 import {
     getConverterApp,
     getConverterBase,
     getConverterProgram,
-} from "./programs";
+} from "./programs.js";
 
 const comparisonSerializer = new Serializer();
 comparisonSerializer.addSerializer({

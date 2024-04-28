@@ -1,15 +1,15 @@
 import {
     ReflectionKind,
     DeclarationReflection,
-    DeclarationHierarchy,
+    type DeclarationHierarchy,
     ProjectReflection,
     Reflection,
-} from "../../models/reflections/index";
-import { Type, ReferenceType } from "../../models/types";
-import { Component, ConverterComponent } from "../components";
-import { Converter } from "../converter";
-import type { Context } from "../context";
-import { ApplicationEvents } from "../../application-events";
+} from "../../models/reflections/index.js";
+import { Type, ReferenceType } from "../../models/types.js";
+import { Component, ConverterComponent } from "../components.js";
+import { Converter } from "../converter.js";
+import type { Context } from "../context.js";
+import { ApplicationEvents } from "../../application-events.js";
 
 /**
  * Responsible for adding `implementedBy` / `implementedFrom`

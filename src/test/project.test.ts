@@ -1,4 +1,4 @@
-import { splitUnquotedString } from "..";
+import { splitUnquotedString } from "../index.js";
 import Assert = require("assert");
 
 describe("Project", function () {

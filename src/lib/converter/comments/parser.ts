@@ -1,20 +1,20 @@
 import { ok } from "assert";
-import type { CommentParserConfig } from ".";
+import type { CommentParserConfig } from "../index.js";
 import {
     Comment,
-    CommentDisplayPart,
+    type CommentDisplayPart,
     CommentTag,
-    InlineTagDisplayPart,
-} from "../../models";
-import { assertNever, Logger, removeIf } from "../../utils";
-import type { MinimalSourceFile } from "../../utils/minimalSourceFile";
-import { nicePath } from "../../utils/paths";
-import { Token, TokenSyntaxKind } from "./lexer";
-import { extractTagName } from "./tagName";
+    type InlineTagDisplayPart,
+} from "../../models/index.js";
+import { assertNever, Logger, removeIf } from "../../utils/index.js";
+import type { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
+import { nicePath } from "../../utils/paths.js";
+import { type Token, TokenSyntaxKind } from "./lexer.js";
+import { extractTagName } from "./tagName.js";
 import type {
     TranslatedString,
     TranslationProxy,
-} from "../../internationalization/internationalization";
+} from "../../internationalization/internationalization.js";
 
 interface LookaheadGenerator<T> {
     done(): boolean;

@@ -1,7 +1,7 @@
 import { ok, throws, strictEqual, doesNotThrow } from "assert";
 import { BUNDLED_THEMES } from "shiki";
-import { Options } from "../../../lib/utils";
-import { Internationalization } from "../../../lib/internationalization/internationalization";
+import { Options } from "../../../lib/utils/index.js";
+import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 
 describe("Default Options", () => {
     const opts = new Options(new Internationalization(null).proxy);

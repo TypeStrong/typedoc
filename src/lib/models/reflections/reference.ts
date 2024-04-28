@@ -1,7 +1,11 @@
-import { DeclarationReflection } from "./declaration";
-import { ReflectionKind } from "./kind";
-import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
-import type { Reflection } from "./abstract";
+import { DeclarationReflection } from "./declaration.js";
+import { ReflectionKind } from "./kind.js";
+import type {
+    Serializer,
+    JSONOutput,
+    Deserializer,
+} from "../../serialization/index.js";
+import type { Reflection } from "./abstract.js";
 
 /**
  * Describes a reflection which does not exist at this location, but is referenced. Used for imported reflections.

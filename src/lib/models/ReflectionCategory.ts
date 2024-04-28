@@ -1,6 +1,13 @@
-import { Comment } from "./comments";
-import type { CommentDisplayPart, DeclarationReflection } from ".";
-import type { Serializer, JSONOutput, Deserializer } from "../serialization";
+import { Comment } from "./comments/index.js";
+import type {
+    CommentDisplayPart,
+    DeclarationReflection,
+} from "../models/index.js";
+import type {
+    Serializer,
+    JSONOutput,
+    Deserializer,
+} from "../serialization/index.js";
 
 /**
  * A category of reflections.

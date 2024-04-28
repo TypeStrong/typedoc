@@ -1,7 +1,7 @@
 // There is a fixed list of named character references which will not be expanded in the future.
 // This json file is based on https://html.spec.whatwg.org/multipage/named-characters.html#named-character-references
 // with some modifications to reduce the file size of the original JSON since we just need.
-import htmlEntities from "./html-entities.json";
+const htmlEntities = require("./html-entities.json") as Record<string, string | undefined>;
 
 // Three cases:
 // &#123; - numeric escape
@@ -18,12 +18,12 @@ function unescapeEntities(html: string) {
                         : parseInt(n.substring(1), 10),
                 );
             }
-            return htmlEntities[n as never] || "";
+            return htmlEntities[n] || "";
         },
     );
 }
 
-export function getTextContent(text: string) {
+function getTextContent(text: string) {
     return unescapeEntities(text.replace(/<.*?(?:>|$)/g, ""));
 }
 
@@ -35,6 +35,8 @@ const htmlEscapes: Record<string, string> = {
     "'": "&#39;",
 };
 
-export function escapeHtml(html: string) {
+function escapeHtml(html: string) {
     return html.replace(/[&<>'"]/g, (c) => htmlEscapes[c as never]);
 }
+
+export = { getTextContent, escapeHtml };

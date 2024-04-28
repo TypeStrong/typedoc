@@ -1,1 +1,1 @@
-export { SourceReference } from "./file";
+export { SourceReference } from "./file.js";

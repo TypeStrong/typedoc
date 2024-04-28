@@ -1,5 +1,6 @@
 import { strictEqual as equal } from "assert";
-import { getTextContent } from "../../lib/utils/html";
+import html from "../../lib/utils/html.cjs";
+const { getTextContent } = html;
 
 describe("getTextContent", () => {
     it("Handles simple text", () => {
