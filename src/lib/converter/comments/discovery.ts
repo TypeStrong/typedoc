@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { ReflectionKind } from "../../models";
-import { assertNever, Logger } from "../../utils";
+import { assertNever, type Logger } from "../../utils";
 import { CommentStyle } from "../../utils/options/declaration";
 import { nicePath } from "../../utils/paths";
 import { ok } from "assert";

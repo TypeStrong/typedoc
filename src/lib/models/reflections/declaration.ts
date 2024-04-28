@@ -1,11 +1,11 @@
 import type * as ts from "typescript";
-import { ReferenceType, ReflectionType, Type, type SomeType } from "../types";
+import { type ReferenceType, ReflectionType, type Type, type SomeType } from "../types";
 import { type TraverseCallback, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import type { SignatureReflection } from "./signature";
 import type { TypeParameterReflection } from "./type-parameter";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
-import { Comment, CommentDisplayPart } from "../comments";
+import { Comment, type CommentDisplayPart } from "../comments";
 import { SourceReference } from "../sources/file";
 import { ReflectionSymbolId } from "./ReflectionSymbolId";
 import { ReflectionKind } from "./kind";

@@ -1,14 +1,14 @@
 import ts from "typescript";
 import { ApplicationEvents } from "../../application-events";
 import {
-    ContainerReflection,
+    type ContainerReflection,
     DeclarationReflection,
-    ProjectReflection,
-    Reflection,
+    type ProjectReflection,
+    type Reflection,
     ReflectionKind,
     SignatureReflection,
 } from "../../models/reflections/index";
-import { ReferenceType, ReflectionType, Type } from "../../models/types";
+import { ReferenceType, ReflectionType, type Type } from "../../models/types";
 import { filterMap, zip } from "../../utils/array";
 import { Component, ConverterComponent } from "../components";
 import type { Context } from "../context";

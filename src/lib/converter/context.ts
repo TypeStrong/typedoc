@@ -2,8 +2,8 @@ import { ok as assert } from "assert";
 import ts from "typescript";
 
 import {
-    Reflection,
-    ProjectReflection,
+    type Reflection,
+    type ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
     ReflectionKind,

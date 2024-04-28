@@ -1,4 +1,4 @@
-import { Reflection, TraverseProperty } from "./abstract";
+import { type Reflection, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import { ReferenceReflection } from "./reference";
 import type { DeclarationReflection } from "./declaration";
@@ -9,7 +9,7 @@ import type { TypeParameterReflection } from "./type-parameter";
 import { removeIf, removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
-import { Comment, CommentDisplayPart } from "../comments";
+import { Comment, type CommentDisplayPart } from "../comments";
 import { ReflectionSymbolId } from "./ReflectionSymbolId";
 import type { Serializer } from "../../serialization/serializer";
 import type { Deserializer, JSONOutput } from "../../serialization/index";

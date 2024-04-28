@@ -5,7 +5,7 @@ import {
     IntrinsicType,
     LiteralType,
     ReferenceReflection,
-    Reflection,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     ConversionFlags,

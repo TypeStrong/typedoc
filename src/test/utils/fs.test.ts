@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { createServer } from "net";
-import { Project, tempdirProject } from "@typestrong/fs-fixture-builder";
-import { AssertionError, deepStrictEqual as equal } from "assert";
+import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
+import { type AssertionError, deepStrictEqual as equal } from "assert";
 import { basename, dirname, resolve, normalize } from "path";
 import { getCommonDirectory, glob } from "../../lib/utils/fs";
 

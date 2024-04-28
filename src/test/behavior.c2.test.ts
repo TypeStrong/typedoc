@@ -6,7 +6,7 @@ import {
     CommentTag,
     Reflection,
     SignatureReflection,
-    ContainerReflection,
+    type ContainerReflection,
 } from "../lib/models";
 import { filterMap } from "../lib/utils";
 import { CommentStyle } from "../lib/utils/options/declaration";

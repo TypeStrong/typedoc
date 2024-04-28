@@ -1,7 +1,7 @@
 import {
     DeclarationReflection,
-    ProjectReflection,
-    Reflection,
+    type ProjectReflection,
+    type Reflection,
     ReflectionKind,
     ReflectionType,
 } from "../models";

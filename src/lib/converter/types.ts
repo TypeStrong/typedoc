@@ -25,7 +25,7 @@ import {
     OptionalType,
     RestType,
     TemplateLiteralType,
-    SomeType,
+    type SomeType,
 } from "../models";
 import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
 import { zip } from "../utils/array";

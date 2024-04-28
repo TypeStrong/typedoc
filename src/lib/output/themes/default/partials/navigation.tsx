@@ -1,4 +1,4 @@
-import { Reflection, ReflectionKind } from "../../../../models";
+import { type Reflection, ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { camelToTitleCase, classNames, getDisplayName, wbr } from "../../lib";

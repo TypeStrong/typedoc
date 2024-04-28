@@ -1,11 +1,11 @@
 import {
     ReflectionKind,
     DeclarationReflection,
-    DeclarationHierarchy,
-    ProjectReflection,
-    Reflection,
+    type DeclarationHierarchy,
+    type ProjectReflection,
+    type Reflection,
 } from "../../models/reflections/index";
-import { Type, ReferenceType } from "../../models/types";
+import { type Type, ReferenceType } from "../../models/types";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";

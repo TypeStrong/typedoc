@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
-import { ReflectionType, SignatureReflection } from "../../../../models";
+import { ReflectionType, type SignatureReflection } from "../../../../models";
 import { hasTypeParameters } from "../../lib";
 
 export function memberSignatureBody(

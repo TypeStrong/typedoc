@@ -15,7 +15,7 @@ import {
     AssumedRepository,
     gitIsInstalled,
     GitRepository,
-    Repository,
+    type Repository,
 } from "../utils/repository";
 import { BasePath } from "../utils/base-path";
 

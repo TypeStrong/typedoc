@@ -3,10 +3,10 @@ import {
     DeclarationReflection,
     ProjectReflection,
     ReferenceReflection,
-    Reflection,
+    type Reflection,
     ReflectionKind,
     SignatureReflection,
-    TypeParameterReflection,
+    type TypeParameterReflection,
 } from "../../models";
 import { JSX } from "../../utils";
 

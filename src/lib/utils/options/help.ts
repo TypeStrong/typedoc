@@ -1,9 +1,9 @@
 import type { Options } from "./options";
 import {
     ParameterHint,
-    StringDeclarationOption,
+    type StringDeclarationOption,
     ParameterType,
-    DeclarationOption,
+    type DeclarationOption,
 } from "./declaration";
 import { getSupportedLanguages } from "../highlighter";
 import { BUNDLED_THEMES } from "shiki";

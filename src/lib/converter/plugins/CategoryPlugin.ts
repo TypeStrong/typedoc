@@ -1,6 +1,6 @@
 import {
     ContainerReflection,
-    DeclarationReflection,
+    type DeclarationReflection,
     Comment,
 } from "../../models";
 import { ReflectionCategory } from "../../models";

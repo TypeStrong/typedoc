@@ -1,13 +1,13 @@
 import ts from "typescript";
 import { Comment, ReflectionKind } from "../../models";
-import { assertNever, Logger } from "../../utils";
+import { assertNever, type Logger } from "../../utils";
 import type {
     CommentStyle,
     JsDocCompatibility,
 } from "../../utils/options/declaration";
 import { lexBlockComment } from "./blockLexer";
 import {
-    DiscoveredComment,
+    type DiscoveredComment,
     discoverComment,
     discoverFileComment,
     discoverNodeComment,

@@ -3,21 +3,21 @@ import ts from "typescript";
 
 import { Converter } from "./converter/index";
 import { Renderer } from "./output/renderer";
-import { Deserializer, JSONOutput, Serializer } from "./serialization";
+import { Deserializer, type JSONOutput, Serializer } from "./serialization";
 import type { ProjectReflection } from "./models/index";
 import {
     Logger,
     ConsoleLogger,
     loadPlugins,
     writeFile,
-    OptionsReader,
+    type OptionsReader,
     TSConfigReader,
     TypeDocReader,
     PackageJsonReader,
 } from "./utils/index";
 
 import {
-    AbstractComponent,
+    type AbstractComponent,
     ChildableComponent,
     Component,
 } from "./utils/component";
@@ -26,7 +26,7 @@ import type { TypeDocOptions } from "./utils/options/declaration";
 import { unique } from "./utils/array";
 import { ok } from "assert";
 import {
-    DocumentationEntryPoint,
+    type DocumentationEntryPoint,
     EntryPointStrategy,
     getEntryPoints,
     getPackageDirectories,
@@ -44,7 +44,7 @@ import { resetReflectionID } from "./models/reflections/abstract";
 import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId";
 import {
     Internationalization,
-    TranslatedString,
+    type TranslatedString,
 } from "./internationalization/internationalization";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

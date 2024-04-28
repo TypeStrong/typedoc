@@ -1,5 +1,5 @@
 import type { SomeType } from "../types";
-import { Reflection, TraverseCallback } from "./abstract";
+import { Reflection, type TraverseCallback } from "./abstract";
 import type { DeclarationReflection } from "./declaration";
 import { ReflectionKind } from "./kind";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";

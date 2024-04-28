@@ -3,7 +3,7 @@ import * as Path from "path";
 import * as Marked from "marked";
 
 import { Component, ContextAwareRendererComponent } from "../components";
-import { RendererEvent, MarkdownEvent, PageEvent } from "../events";
+import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events";
 import { Option, readFile, copySync, isFile, JSX, renderElement } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { Theme } from "shiki";

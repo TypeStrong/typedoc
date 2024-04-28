@@ -2,7 +2,7 @@ import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
 import {
     Application,
-    DeclarationReflection,
+    type DeclarationReflection,
     EntryPointStrategy,
     ReferenceType,
 } from "../index";

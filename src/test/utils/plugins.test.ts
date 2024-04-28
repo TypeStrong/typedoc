@@ -1,4 +1,4 @@
-import { Project, tempdirProject } from "@typestrong/fs-fixture-builder";
+import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import type { Application } from "../../index";
 import { loadPlugins } from "../../lib/utils/plugins";
 import { TestLogger } from "../TestLogger";

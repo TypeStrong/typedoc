@@ -1,7 +1,7 @@
 import {
     Comment,
     DeclarationReflection,
-    ProjectReflection,
+    type ProjectReflection,
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
@@ -10,7 +10,7 @@ import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import type { Reflection } from "../../models/reflections/abstract";
-import { Option, DefaultMap, ValidationOptions } from "../../utils";
+import { Option, DefaultMap, type ValidationOptions } from "../../utils";
 import { zip } from "../../utils/array";
 import { parseDeclarationReference } from "../comments/declarationReference";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver";

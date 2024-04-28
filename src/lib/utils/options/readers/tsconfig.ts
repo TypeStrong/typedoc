@@ -8,7 +8,7 @@ import { isFile } from "../../fs";
 import { ok } from "assert";
 import {
     additionalProperties,
-    Infer,
+    type Infer,
     isTagString,
     optional,
     validate,

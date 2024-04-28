@@ -1,8 +1,8 @@
 import { LogLevel, Options, ParameterType } from "../../../lib/utils";
 import {
     Option,
-    MapDeclarationOption,
-    NumberDeclarationOption,
+    type MapDeclarationOption,
+    type NumberDeclarationOption,
 } from "../../../lib/utils";
 import { deepStrictEqual as equal, throws } from "assert";
 import type {

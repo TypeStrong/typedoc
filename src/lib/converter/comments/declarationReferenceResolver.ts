@@ -3,7 +3,7 @@ import {
     ContainerReflection,
     DeclarationReflection,
     ReferenceReflection,
-    Reflection,
+    type Reflection,
     ReflectionKind,
 } from "../../models";
 import { assertNever, filterMap } from "../../utils";

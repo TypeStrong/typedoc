@@ -1,5 +1,5 @@
 import { ok as assert } from "assert";
-import { BUNDLED_LANGUAGES, getHighlighter, Highlighter, Theme } from "shiki";
+import { BUNDLED_LANGUAGES, getHighlighter, type Highlighter, type Theme } from "shiki";
 import { unique, zip } from "./array";
 import * as JSX from "./jsx";
 

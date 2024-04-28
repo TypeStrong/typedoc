@@ -2,11 +2,11 @@ import { classNames, getKindClass, hasTypeParameters } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import type { PageEvent } from "../../../events";
 import {
-    ContainerReflection,
+    type ContainerReflection,
     DeclarationReflection,
     ReflectionKind,
     ReflectionType,
-    SignatureReflection,
+    type SignatureReflection,
 } from "../../../../models";
 import { JSX, Raw } from "../../../../utils";
 

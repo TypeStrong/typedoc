@@ -2,9 +2,9 @@ import { deepStrictEqual as equal } from "assert";
 import { join } from "path";
 import ts from "typescript";
 import {
-    Application,
+    type Application,
     EntryPointStrategy,
-    JSONOutput,
+    type JSONOutput,
     ProjectReflection,
     SourceReference,
     TSConfigReader,

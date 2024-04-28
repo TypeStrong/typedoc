@@ -1,14 +1,14 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import {
-    DeclarationReflection,
+    type DeclarationReflection,
     LiteralType,
-    ProjectReflection,
+    type ProjectReflection,
     ReferenceType,
-    Reflection,
+    type Reflection,
     ReflectionKind,
-    Type,
+    type Type,
     TypeContext,
-    TypeKindMap,
+    type TypeKindMap,
 } from "../../../../models";
 import { JSX } from "../../../../utils";
 import { getKindClass, join, stringify } from "../../lib";

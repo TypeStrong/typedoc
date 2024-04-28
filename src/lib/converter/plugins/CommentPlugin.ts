@@ -2,17 +2,17 @@ import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import {
-    Reflection,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
-    TypeParameterReflection,
+    type TypeParameterReflection,
     DeclarationReflection,
     SignatureReflection,
-    ParameterReflection,
+    type ParameterReflection,
     Comment,
     ReflectionType,
-    SourceReference,
-    TypeVisitor,
+    type SourceReference,
+    type TypeVisitor,
     CommentTag,
 } from "../../models";
 import {

@@ -1,13 +1,13 @@
 import { Component, ConverterComponent } from "../components";
 import type { Context, ExternalResolveResult } from "../../converter";
 import { ConverterEvents } from "../converter-events";
-import { Option, ValidationOptions } from "../../utils";
+import { Option, type ValidationOptions } from "../../utils";
 import {
     ContainerReflection,
     DeclarationReflection,
-    ProjectReflection,
-    Reflection,
-    ReflectionCategory,
+    type ProjectReflection,
+    type Reflection,
+    type ReflectionCategory,
 } from "../../models";
 import { discoverAllReferenceTypes } from "../../utils/reflections";
 import { ApplicationEvents } from "../../application-events";

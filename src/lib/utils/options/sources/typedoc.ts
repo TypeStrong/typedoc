@@ -6,7 +6,7 @@ import {
     EmitStrategy,
     CommentStyle,
 } from "../declaration";
-import { BUNDLED_THEMES, Theme } from "shiki";
+import { BUNDLED_THEMES, type Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
 import { ReflectionKind } from "../../../models/reflections/kind";

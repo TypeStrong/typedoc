@@ -9,7 +9,7 @@ import {
 } from "../../lib/models";
 import { resetReflectionID } from "../../lib/models/reflections/abstract";
 import { Options } from "../../lib/utils";
-import { getSortFunction, SortStrategy } from "../../lib/utils/sort";
+import { getSortFunction, type SortStrategy } from "../../lib/utils/sort";
 import { Internationalization } from "../../lib/internationalization/internationalization";
 
 describe("Sort", () => {

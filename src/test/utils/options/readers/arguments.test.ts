@@ -4,8 +4,8 @@ import { Options } from "../../../../lib/utils";
 import { ArgumentsReader } from "../../../../lib/utils/options/readers";
 import {
     ParameterType,
-    NumberDeclarationOption,
-    MapDeclarationOption,
+    type NumberDeclarationOption,
+    type MapDeclarationOption,
 } from "../../../../lib/utils/options";
 import { join, resolve } from "path";
 import { TestLogger } from "../../../TestLogger";

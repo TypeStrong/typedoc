@@ -1,7 +1,7 @@
 import {
     ReflectionKind,
     ContainerReflection,
-    DeclarationReflection,
+    type DeclarationReflection,
 } from "../../models/reflections/index";
 import { ReflectionGroup } from "../../models/ReflectionGroup";
 import { Component, ConverterComponent } from "../components";

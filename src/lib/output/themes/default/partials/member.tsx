@@ -1,7 +1,7 @@
 import { classNames, getDisplayName, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import { DeclarationReflection, ReferenceReflection } from "../../../../models";
+import { type DeclarationReflection, ReferenceReflection } from "../../../../models";
 import { anchorIcon } from "./anchor-icon";
 
 export function member(context: DefaultThemeRenderContext, props: DeclarationReflection) {

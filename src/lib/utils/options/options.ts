@@ -6,12 +6,12 @@ import { insertOrderSorted, unique } from "../array";
 import type { Logger } from "../loggers";
 import {
     convert,
-    DeclarationOption,
+    type DeclarationOption,
     getDefaultValue,
-    KeyToDeclaration,
-    TypeDocOptionMap,
-    TypeDocOptions,
-    TypeDocOptionValues,
+    type KeyToDeclaration,
+    type TypeDocOptionMap,
+    type TypeDocOptions,
+    type TypeDocOptionValues,
 } from "./declaration";
 import { addTypeDocOptions } from "./sources";
 import { getOptionsHelp } from "./help";

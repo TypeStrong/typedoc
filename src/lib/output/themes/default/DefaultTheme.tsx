@@ -1,17 +1,17 @@
 import { Theme } from "../../theme";
 import type { Renderer } from "../../renderer";
 import {
-    Reflection,
+    type Reflection,
     ReflectionKind,
     ProjectReflection,
-    ContainerReflection,
+    type ContainerReflection,
     DeclarationReflection,
     SignatureReflection,
     ReflectionCategory,
     ReflectionGroup,
     TypeParameterReflection,
 } from "../../../models";
-import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
+import { type RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import type { PageEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";

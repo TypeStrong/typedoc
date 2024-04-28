@@ -12,7 +12,7 @@ import {
     DeclarationReflection,
     IntrinsicType,
     LiteralType,
-    ProjectReflection,
+    type ProjectReflection,
     QueryType,
     ReferenceReflection,
     ReflectionKind,

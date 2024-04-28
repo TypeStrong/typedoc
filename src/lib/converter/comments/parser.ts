@@ -2,14 +2,14 @@ import { ok } from "assert";
 import type { CommentParserConfig } from ".";
 import {
     Comment,
-    CommentDisplayPart,
+    type CommentDisplayPart,
     CommentTag,
-    InlineTagDisplayPart,
+    type InlineTagDisplayPart,
 } from "../../models";
-import { assertNever, Logger, removeIf } from "../../utils";
+import { assertNever, type Logger, removeIf } from "../../utils";
 import type { MinimalSourceFile } from "../../utils/minimalSourceFile";
 import { nicePath } from "../../utils/paths";
-import { Token, TokenSyntaxKind } from "./lexer";
+import { type Token, TokenSyntaxKind } from "./lexer";
 import { extractTagName } from "./tagName";
 import type {
     TranslatedString,

@@ -3,12 +3,12 @@ import ts from "typescript";
 import type { Application } from "../application";
 import {
     Comment,
-    CommentDisplayPart,
+    type CommentDisplayPart,
     ProjectReflection,
-    Reflection,
+    type Reflection,
     ReflectionKind,
-    ReflectionSymbolId,
-    SomeType,
+    type ReflectionSymbolId,
+    type SomeType,
 } from "../models/index";
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
@@ -31,8 +31,8 @@ import { lexCommentString } from "./comments/rawLexer";
 import {
     resolvePartLinks,
     resolveLinks,
-    ExternalSymbolResolver,
-    ExternalResolveResult,
+    type ExternalSymbolResolver,
+    type ExternalResolveResult,
 } from "./comments/linkResolver";
 import type { DeclarationReference } from "./comments/declarationReference";
 

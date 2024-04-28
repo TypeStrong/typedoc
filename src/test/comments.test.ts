@@ -4,7 +4,7 @@ import type { CommentParserConfig } from "../lib/converter/comments";
 
 import { lexBlockComment } from "../lib/converter/comments/blockLexer";
 import { lexLineComments } from "../lib/converter/comments/lineLexer";
-import { Token, TokenSyntaxKind } from "../lib/converter/comments/lexer";
+import { type Token, TokenSyntaxKind } from "../lib/converter/comments/lexer";
 import { parseComment } from "../lib/converter/comments/parser";
 import { lexCommentString } from "../lib/converter/comments/rawLexer";
 import { Comment, CommentTag } from "../lib/models";

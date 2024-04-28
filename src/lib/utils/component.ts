@@ -1,5 +1,5 @@
 import type { Application } from "../application";
-import { EventDispatcher, Event, EventMap } from "./events";
+import { EventDispatcher, Event, type EventMap } from "./events";
 
 /**
  * Exposes a reference to the root Application component.

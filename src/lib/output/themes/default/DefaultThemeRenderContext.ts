@@ -5,11 +5,11 @@ import type {
 } from "../../../internationalization/internationalization";
 import {
     Comment,
-    CommentDisplayPart,
-    DeclarationReflection,
-    Reflection,
+    type CommentDisplayPart,
+    type DeclarationReflection,
+    type Reflection,
 } from "../../../models";
-import { JSX, NeverIfInternal, Options } from "../../../utils";
+import { JSX, type NeverIfInternal, type Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
