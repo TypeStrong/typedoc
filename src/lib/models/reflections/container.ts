@@ -1,4 +1,8 @@
-import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract";
+import {
+    Reflection,
+    type TraverseCallback,
+    TraverseProperty,
+} from "./abstract";
 import { ReflectionCategory } from "../ReflectionCategory";
 import { ReflectionGroup } from "../ReflectionGroup";
 import type { ReflectionKind } from "./kind";

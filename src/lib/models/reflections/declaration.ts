@@ -1,5 +1,10 @@
 import type * as ts from "typescript";
-import { type ReferenceType, ReflectionType, type Type, type SomeType } from "../types";
+import {
+    type ReferenceType,
+    ReflectionType,
+    type Type,
+    type SomeType,
+} from "../types";
 import { type TraverseCallback, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import type { SignatureReflection } from "./signature";
