@@ -9,14 +9,14 @@ jobs:
             - name: Set up Node
               uses: actions/setup-node@v3
               with:
-                  node-version: 16
+                  node-version: 18
             - name: Upgrade npm
               run: npm i -g npm@latest
             - name: Get baseline screenshots
               run: |
                   git fetch
                   git checkout origin/$GITHUB_BASE_REF
-                  npm ci
+                  npm ci --legacy-peer-deps
                   npm run build
                   node dist/test/capture-screenshots.js
                   npm run test:visual:accept
@@ -24,7 +24,7 @@ jobs:
             - name: Get current screenshots
               run: |
                   git checkout $GITHUB_SHA
-                  npm ci
+                  npm ci --legacy-peer-deps
                   npm run build
                   node dist/test/capture-screenshots.js
             - name: Test

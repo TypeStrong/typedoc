@@ -5,7 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node: ["16", "18", "20"]
+                node: ["18", "20", "22"]
         name: Node ${{ matrix.node }}
         steps:
             - name: Checkout repository
@@ -15,7 +15,7 @@ jobs:
               with:
                   node-version: ${{ matrix.node }}
             - name: Install
-              run: npm ci
+              run: npm ci --legacy-peer-deps
             - name: Build
               run: npm run build
             - name: Test
@@ -43,7 +43,7 @@ jobs:
             - name: Upgrade npm
               run: npm i -g npm@latest
             - name: Install
-              run: npm ci
+              run: npm ci --legacy-peer-deps
             - name: Build
               run: npm run build
             - name: Test
