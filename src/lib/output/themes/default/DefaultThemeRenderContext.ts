@@ -9,7 +9,7 @@ import {
     type DeclarationReflection,
     type Reflection,
 } from "../../../models";
-import { JSX, type NeverIfInternal, type Options } from "../../../utils";
+import { type NeverIfInternal, type Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
@@ -72,13 +72,6 @@ export class DefaultThemeRenderContext {
         this.i18n = this.internationalization.proxy;
 
         this._refIcons = buildRefIcons(icons, this);
-    }
-
-    /**
-     * @deprecated Will be removed in 0.26, no longer required.
-     */
-    iconsCache(): JSX.Element {
-        return JSX.createElement(JSX.Fragment, null);
     }
 
     /**

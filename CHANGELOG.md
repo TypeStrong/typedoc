@@ -13,6 +13,7 @@
 -   API: Deprecated `BindOption` decorator has been removed.
 -   API: `DeclarationReflection.indexSignature` has been renamed to `DeclarationReflection.indexSignatures`.
     Note: This also affects JSON serialization. TypeDoc will support JSON output from 0.25 until 0.28.
+-   API: `DefaultThemeRenderContext.iconsCache` has been removed as it is no longer needed.
 
 ### Features
 
