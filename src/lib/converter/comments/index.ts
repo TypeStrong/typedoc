@@ -9,7 +9,7 @@ import { lexBlockComment } from "./blockLexer";
 import {
     type DiscoveredComment,
     discoverComment,
-    discoverFileComment,
+    discoverFileComments,
     discoverNodeComment,
     discoverSignatureComment,
 } from "./discovery";
@@ -143,8 +143,12 @@ export function getComment(
         );
     }
 
+    const sf = declarations.find(ts.isSourceFile);
+    if (sf) {
+        return getFileComment(sf, config, logger, commentStyle, checker);
+    }
+
     const isModule = declarations.some((decl) => {
-        if (ts.isSourceFile(decl)) return true;
         if (ts.isModuleDeclaration(decl) && ts.isStringLiteral(decl.name)) {
             return true;
         }
@@ -196,13 +200,26 @@ export function getFileComment(
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
 ): Comment | undefined {
-    return getCommentImpl(
-        discoverFileComment(file, commentStyle),
-        config,
-        logger,
-        /* moduleComment */ true,
-        checker,
-    );
+    for (const commentSource of discoverFileComments(file, commentStyle)) {
+        const comment = getCommentWithCache(
+            commentSource,
+            config,
+            logger,
+            checker,
+        );
+
+        if (comment?.getTag("@license") || comment?.getTag("@import")) {
+            continue;
+        }
+
+        if (
+            comment?.getTag("@module") ||
+            comment?.hasModifier("@packageDocumentation")
+        ) {
+            return comment;
+        }
+        return;
+    }
 }
 
 function getConstructorParamPropertyComment(

@@ -11,12 +11,12 @@ export function footer(context: DefaultThemeRenderContext) {
     const index = message.indexOf("TypeDoc");
     let display: JSX.Element;
     if (index == -1) {
-        display = <p>{message}</p>;
+        display = <p class="tsd-generator">{message}</p>;
     } else {
         const pre = message.substring(0, index);
         const post = message.substring(index + "TypeDoc".length);
         display = (
-            <p>
+            <p class="tsd-generator">
                 {pre}
                 <a href="https://typedoc.org/" target="_blank">
                     TypeDoc
@@ -26,5 +26,11 @@ export function footer(context: DefaultThemeRenderContext) {
         );
     }
 
-    return <div class="tsd-generator">{display}</div>;
+    return (
+        <footer>
+            {context.hook("footer.begin")}
+            {hideGenerator || display}
+            {context.hook("footer.end")}
+        </footer>
+    );
 }

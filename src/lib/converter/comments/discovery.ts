@@ -110,7 +110,7 @@ export interface DiscoveredComment {
     jsDoc: ts.JSDoc | undefined;
 }
 
-export function discoverFileComment(
+export function discoverFileComments(
     node: ts.SourceFile,
     commentStyle: CommentStyle,
 ) {
@@ -120,17 +120,17 @@ export function discoverFileComment(
         ts.getLeadingCommentRanges(text, node.pos),
     );
 
-    const selectedDocComment = comments.find((ranges) =>
+    const selectedDocComments = comments.filter((ranges) =>
         permittedRange(text, ranges, commentStyle),
     );
 
-    if (selectedDocComment) {
+    return selectedDocComments.map((ranges) => {
         return {
             file: node,
-            ranges: selectedDocComment,
-            jsDoc: findJsDocForComment(node, selectedDocComment),
+            ranges,
+            jsDoc: findJsDocForComment(node, ranges),
         };
-    }
+    });
 }
 
 export function discoverNodeComment(

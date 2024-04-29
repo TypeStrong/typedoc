@@ -42,8 +42,9 @@ export class Application {
         // We're on a *really* slow network connection and the inline JS
         // has already made the page display.
         if (!document.body.style.display) {
-            this.scrollToHash();
+            this.ensureFocusedElementVisible();
             this.updateIndexVisibility();
+            this.scrollToHash();
         }
     }
 
@@ -67,15 +68,18 @@ export class Application {
 
     public showPage() {
         if (!document.body.style.display) return;
+        console.log("Show page");
         document.body.style.removeProperty("display");
-        this.scrollToHash();
+        this.ensureFocusedElementVisible();
         this.updateIndexVisibility();
+        this.scrollToHash();
     }
 
     public scrollToHash() {
         // Because we hid the entire page until the navigation loaded or we hit a timeout,
         // we have to manually resolve the url hash here.
         if (location.hash) {
+            console.log("Scorlling");
             const reflAnchor = document.getElementById(
                 location.hash.substring(1),
             );

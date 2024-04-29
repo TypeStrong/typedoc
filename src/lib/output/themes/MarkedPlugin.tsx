@@ -4,12 +4,14 @@ import markdown from "markdown-it";
 
 import { Component, ContextAwareRendererComponent } from "../components";
 import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events";
-import { Option, readFile, copySync, isFile, type Logger } from "../../utils";
+import { Option, readFile, copySync, isFile, type Logger, renderElement } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { escapeHtml, getTextContent } from "../../utils/html";
 import type { DefaultTheme } from "..";
 import { Slugger } from "./default/DefaultTheme";
+import { anchorIcon } from "./default/partials/anchor-icon";
+import type { DefaultThemeRenderContext } from "..";
 
 let defaultSlugger: Slugger | undefined;
 function getDefaultSlugger(logger: Logger) {
@@ -39,6 +41,13 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     accessor darkTheme!: BundledTheme;
 
     private parser?: MarkdownIt;
+
+    /**
+     * This needing to be here really feels hacky... probably some nicer way to do this.
+     * Revisit when adding support for arbitrary pages.
+     */
+    private renderContext: DefaultThemeRenderContext = null!;
+    private lastHeaderSlug = "";
 
     /**
      * The path referenced files are located in.
@@ -97,7 +106,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      * @param text  The markdown string that should be parsed.
      * @returns The resulting html string.
      */
-    public parseMarkdown(text: string, page: PageEvent<any>) {
+    public parseMarkdown(text: string, page: PageEvent<any>, context: DefaultThemeRenderContext) {
+        this.renderContext = context;
+
         if (this.includes) {
             text = text.replace(this.includePattern, (_match, path) => {
                 path = Path.join(this.includes!, path.trim());
@@ -129,6 +140,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         const event = new MarkdownEvent(MarkdownEvent.PARSE, page, text, text);
 
         this.owner.trigger(event);
+        this.renderContext = null!;
         return event.parsedText;
     }
 
@@ -201,6 +213,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             const level = token.markup.length;
 
             const slug = this.getSlugger().slug(content);
+            this.lastHeaderSlug = slug;
+
             // Prefix the slug with an extra `md:` to prevent conflicts with TypeDoc's anchors.
             this.page!.pageHeadings.push({
                 link: `#md:${slug}`,
@@ -208,10 +222,10 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 level,
             });
 
-            return `<a id="md:${slug}" class="tsd-anchor"></a><${token.tag}><a href="#md:${slug}">`;
+            return `<a id="md:${slug}" class="tsd-anchor"></a><${token.tag}>`;
         };
         this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
-            return `</a></${tokens[idx].tag}>`;
+            return `${renderElement(anchorIcon(this.renderContext, `md:${this.lastHeaderSlug}`))}</${tokens[idx].tag}>`;
         };
 
         // Rewrite anchor links inline in a readme file to links targeting the `md:` prefixed anchors

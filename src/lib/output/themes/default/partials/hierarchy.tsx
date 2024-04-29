@@ -22,7 +22,7 @@ export function hierarchy(context: DefaultThemeRenderContext, props: Declaration
         <>
             {" "}
             (
-            <a class="link" href={context.relativeURL("hierarchy.html") + "#" + context.page.model.getFullName()}>
+            <a href={context.relativeURL("hierarchy.html") + "#" + context.page.model.getFullName()}>
                 {context.i18n.theme_hierarchy_view_full()}
             </a>
             )

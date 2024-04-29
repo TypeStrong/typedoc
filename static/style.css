@@ -266,16 +266,6 @@ h6 {
     line-height: 1.2;
 }
 
-h1 > a:not(.link),
-h2 > a:not(.link),
-h3 > a:not(.link),
-h4 > a:not(.link),
-h5 > a:not(.link),
-h6 > a:not(.link) {
-    text-decoration: none;
-    color: var(--color-text);
-}
-
 h1 {
     font-size: 1.875rem;
     margin: 0.67rem 0;
@@ -327,17 +317,14 @@ dd {
 }
 
 /* Footer */
-.tsd-generator {
+footer {
     border-top: 1px solid var(--color-accent);
     padding-top: 1rem;
     padding-bottom: 1rem;
     max-height: 3.5rem;
 }
-
-.tsd-generator > p {
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 0 1rem;
+.tsd-generator {
+    margin: 0 1em;
 }
 
 .container-main {
@@ -423,6 +410,9 @@ a.external[target="_blank"] {
     background-position: top 3px right;
     background-repeat: no-repeat;
     padding-right: 13px;
+}
+a.tsd-anchor-link {
+    color: var(--color-text);
 }
 
 code,
@@ -771,6 +761,9 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
 .tsd-page-navigation li {
     padding: 0;
     max-width: 100%;
+}
+.tsd-navigation .tsd-nav-link {
+    display: none;
 }
 .tsd-nested-navigation {
     margin-left: 3rem;
@@ -1349,6 +1342,12 @@ img {
     }
     .has-menu .tsd-navigation {
         max-height: 100%;
+    }
+    #tsd-toolbar-links {
+        display: none;
+    }
+    .tsd-navigation .tsd-nav-link {
+        display: flex;
     }
 }
 

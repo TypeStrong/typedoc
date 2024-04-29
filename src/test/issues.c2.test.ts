@@ -1463,4 +1463,18 @@ describe("Issue Tests", () => {
         equal(cb2.type?.type, "reflection");
         equal(cb2.type.declaration.signatures![0].comment, undefined);
     });
+
+    it("Ignores @license and @import comments at the top of the file, #2552", () => {
+        const project = convert();
+        equal(
+            Comment.combineDisplayParts(project.comment?.summary),
+            "This is an awesome module.",
+        );
+    });
+
+    it("Does not warn about documented constructor signature type aliases, #2553", () => {
+        const project = convert();
+        app.validate(project);
+        logger.expectNoOtherMessages();
+    });
 });

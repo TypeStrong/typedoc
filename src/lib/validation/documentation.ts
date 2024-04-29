@@ -71,6 +71,15 @@ export function validateDocumentation(
             continue;
         }
 
+        // Call signatures are considered documented if they are directly within a documented type alias.
+        if (
+            ref.kindOf(ReflectionKind.ConstructorSignature) &&
+            ref.parent?.parent?.kindOf(ReflectionKind.TypeAlias)
+        ) {
+            toProcess.push(ref.parent.parent);
+            continue;
+        }
+
         if (ref instanceof DeclarationReflection) {
             const signatures =
                 ref.type instanceof ReflectionType
