@@ -17,6 +17,7 @@
 
 ### Features
 
+-   Added support for TypeScript 5.5.
 -   TypeDoc now has the architecture in place to support localization. No languages besides English
     are currently shipped in the package, but it is now possible to add support for additional languages, #2475.
 -   `--hostedBaseUrl` will now be used to generate a `<link rel="canonical">` element in the project root page, #2550.

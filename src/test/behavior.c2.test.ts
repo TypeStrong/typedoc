@@ -272,10 +272,11 @@ describe("Behavior Tests", () => {
             ["Variable class", "Stat docs", "Inst docs"],
         );
 
-        equal(
-            project.children?.map((c) => c.name),
-            ["BadClass", "CallableClass", "VariableClass"],
-        );
+        equal(project.children?.map((c) => c.name), [
+            "BadClass",
+            "CallableClass",
+            "VariableClass",
+        ]);
     });
 
     it("Handles const type parameters", () => {
@@ -288,10 +289,7 @@ describe("Behavior Tests", () => {
 
     it("Handles declare global 'modules'", () => {
         const project = convert("declareGlobal");
-        equal(
-            project.children?.map((c) => c.name),
-            ["DeclareGlobal"],
-        );
+        equal(project.children?.map((c) => c.name), ["DeclareGlobal"]);
     });
 
     it("Handles duplicate heritage clauses", () => {
@@ -440,10 +438,7 @@ describe("Behavior Tests", () => {
         app.options.setValue("excludeCategories", ["A", "Default"]);
         app.options.setValue("defaultCategory", "Default");
         const project = convert("excludeCategories");
-        equal(
-            project.children?.map((c) => c.name),
-            ["c"],
-        );
+        equal(project.children?.map((c) => c.name), ["c"]);
     });
 
     it("Handles excludeNotDocumentedKinds", () => {
@@ -520,10 +515,12 @@ describe("Behavior Tests", () => {
         const C = query(project, "C");
         const D = query(project, "D");
 
-        equal(
-            project.groups?.map((g) => g.title),
-            ["Variables", "A", "B", "With Spaces"],
-        );
+        equal(project.groups?.map((g) => g.title), [
+            "Variables",
+            "A",
+            "B",
+            "With Spaces",
+        ]);
 
         equal(
             project.groups?.map((g) =>
@@ -541,10 +538,7 @@ describe("Behavior Tests", () => {
     it("Inherits @group tag if comment is not redefined", () => {
         const project = convert("groupInheritance");
         const cls = query(project, "Cls");
-        equal(
-            cls.groups?.map((g) => g.title),
-            ["Constructors", "Group"],
-        );
+        equal(cls.groups?.map((g) => g.title), ["Constructors", "Group"]);
         equal(
             cls.groups.map((g) => g.children),
             [[query(project, "Cls.constructor")], [query(project, "Cls.prop")]],
@@ -555,10 +549,7 @@ describe("Behavior Tests", () => {
         app.options.setValue("categorizeByGroup", false);
         const project = convert("categoryInheritance");
         const cls = query(project, "Cls");
-        equal(
-            cls.categories?.map((g) => g.title),
-            ["Cat", "Other"],
-        );
+        equal(cls.categories?.map((g) => g.title), ["Cat", "Other"]);
         equal(
             cls.categories?.map((g) =>
                 Comment.combineDisplayParts(g.description),
@@ -574,10 +565,12 @@ describe("Behavior Tests", () => {
     it("Handles hidden accessors", () => {
         const project = convert("hiddenAccessor");
         const test = query(project, "Test");
-        equal(
-            test.children?.map((c) => c.name),
-            ["constructor", "auto", "x", "y"],
-        );
+        equal(test.children?.map((c) => c.name), [
+            "constructor",
+            "auto",
+            "x",
+            "y",
+        ]);
     });
 
     it("Handles simple @inheritDoc cases", () => {
@@ -948,10 +941,10 @@ describe("Behavior Tests", () => {
         equal(fooComments, ["No arg comment\n", "No arg comment\n"]);
         equal(foo.comment, undefined);
 
-        equal(
-            foo.signatures?.map((s) => s.comment?.label),
-            ["NO_ARGS", "WITH_X"],
-        );
+        equal(foo.signatures?.map((s) => s.comment?.label), [
+            "NO_ARGS",
+            "WITH_X",
+        ]);
 
         const bar = query(project, "bar");
         const barComments = bar.signatures?.map((sig) =>
@@ -1069,10 +1062,7 @@ describe("Behavior Tests", () => {
         const project = convert("typeAliasInterface");
         const bar = query(project, "Bar");
         equal(bar.kind, ReflectionKind.Interface);
-        equal(
-            bar.children?.map((c) => c.name),
-            ["a", "b"],
-        );
+        equal(bar.children?.map((c) => c.name), ["a", "b"]);
 
         const comments = [bar, bar.children[0], bar.children[1]].map((r) =>
             Comment.combineDisplayParts(r.comment?.summary),
@@ -1084,35 +1074,34 @@ describe("Behavior Tests", () => {
     it("Allows specifying group sort order #2251", () => {
         app.options.setValue("groupOrder", ["B", "Variables", "A"]);
         const project = convert("groupTag");
-        equal(
-            project.groups?.map((g) => g.title),
-            ["B", "Variables", "A", "With Spaces"],
-        );
+        equal(project.groups?.map((g) => g.title), [
+            "B",
+            "Variables",
+            "A",
+            "With Spaces",
+        ]);
     });
 
     it("Supports disabling sorting of entry points #2393", () => {
         app.options.setValue("sort", ["alphabetical"]);
         const project = convert("blockComment", "asConstEnum");
-        equal(
-            project.children?.map((c) => c.name),
-            ["asConstEnum", "blockComment"],
-        );
+        equal(project.children?.map((c) => c.name), [
+            "asConstEnum",
+            "blockComment",
+        ]);
 
         app.options.setValue("sortEntryPoints", false);
         const project2 = convert("blockComment", "asConstEnum");
-        equal(
-            project2.children?.map((c) => c.name),
-            ["blockComment", "asConstEnum"],
-        );
+        equal(project2.children?.map((c) => c.name), [
+            "blockComment",
+            "asConstEnum",
+        ]);
     });
 
     it("Respects resolution-mode when resolving types", () => {
         app.options.setValue("excludeExternals", false);
         const MergedType = query(convert("resolutionMode"), "MergedType");
-        equal(
-            MergedType.children?.map((child) => child.name),
-            ["cjs", "esm"],
-        );
+        equal(MergedType.children?.map((child) => child.name), ["cjs", "esm"]);
     });
 
     it("Special cases some `this` type occurrences", () => {
@@ -1193,5 +1182,13 @@ describe("Behavior Tests", () => {
         equal(sig.parameters?.length, 2);
         equal(sig.parameters[0].type?.toString(), "C[]");
         equal(sig.parameters[1].type?.toString(), "NoInfer");
+    });
+
+    it("Handles inferred predicate functions from TS 5.5", () => {
+        const project = convert("inferredPredicates");
+        const sig = querySig(project, "isNumber");
+        equal(sig.type?.toString(), "x is number");
+        const sig2 = querySig(project, "isNonNullish");
+        equal(sig2.type?.toString(), "x is NonNullable<T>");
     });
 });
