@@ -25,10 +25,10 @@ export function member(context: DefaultThemeRenderContext, props: DeclarationRef
             {props.signatures
                 ? context.memberSignatures(props)
                 : props.hasGetterOrSetter()
-                ? context.memberGetterSetter(props)
-                : props instanceof ReferenceReflection
-                ? context.memberReference(props)
-                : context.memberDeclaration(props)}
+                  ? context.memberGetterSetter(props)
+                  : props instanceof ReferenceReflection
+                    ? context.memberReference(props)
+                    : context.memberDeclaration(props)}
 
             {props.groups?.map((item) => item.children.map((item) => !item.hasOwnDocument && context.member(item)))}
         </section>

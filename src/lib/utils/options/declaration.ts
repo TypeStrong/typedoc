@@ -1,4 +1,4 @@
-import type { BundledTheme as ShikiTheme } from "shiki" with { "resolution-mode": "import"};
+import type { BundledTheme as ShikiTheme } from "shiki" with { "resolution-mode": "import" };
 import type { LogLevel } from "../loggers";
 import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";
@@ -41,16 +41,16 @@ export type TypeDocOptions = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
         ? unknown
         : TypeDocOptionMap[K] extends ManuallyValidatedOption<
-              infer ManuallyValidated
-          >
-        ? ManuallyValidated
-        : TypeDocOptionMap[K] extends string | string[] | number | boolean
-        ? TypeDocOptionMap[K]
-        : TypeDocOptionMap[K] extends Record<string, boolean>
-        ? Partial<TypeDocOptionMap[K]> | boolean
-        :
-              | keyof TypeDocOptionMap[K]
-              | TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
+                infer ManuallyValidated
+            >
+          ? ManuallyValidated
+          : TypeDocOptionMap[K] extends string | string[] | number | boolean
+            ? TypeDocOptionMap[K]
+            : TypeDocOptionMap[K] extends Record<string, boolean>
+              ? Partial<TypeDocOptionMap[K]> | boolean
+              :
+                    | keyof TypeDocOptionMap[K]
+                    | TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
 
 /**
@@ -63,17 +63,17 @@ export type TypeDocOptionValues = {
     [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
         ? unknown
         : TypeDocOptionMap[K] extends ManuallyValidatedOption<
-              infer ManuallyValidated
-          >
-        ? ManuallyValidated
-        : TypeDocOptionMap[K] extends
-              | string
-              | string[]
-              | number
-              | boolean
-              | Record<string, boolean>
-        ? TypeDocOptionMap[K]
-        : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
+                infer ManuallyValidated
+            >
+          ? ManuallyValidated
+          : TypeDocOptionMap[K] extends
+                  | string
+                  | string[]
+                  | number
+                  | boolean
+                  | Record<string, boolean>
+            ? TypeDocOptionMap[K]
+            : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
 
 /**
@@ -275,26 +275,35 @@ export type KeyToDeclaration<K extends keyof TypeDocOptionMap> =
     TypeDocOptionMap[K] extends boolean
         ? BooleanDeclarationOption
         : TypeDocOptionMap[K] extends string
-        ? StringDeclarationOption
-        : TypeDocOptionMap[K] extends number
-        ? NumberDeclarationOption
-        : TypeDocOptionMap[K] extends string[]
-        ? ArrayDeclarationOption
-        : unknown extends TypeDocOptionMap[K]
-        ? MixedDeclarationOption | ObjectDeclarationOption
-        : TypeDocOptionMap[K] extends ManuallyValidatedOption<unknown>
-        ?
-              | (MixedDeclarationOption & {
-                    validate(value: unknown, i18n: TranslationProxy): void;
-                })
-              | (ObjectDeclarationOption & {
-                    validate(value: unknown, i18n: TranslationProxy): void;
-                })
-        : TypeDocOptionMap[K] extends Record<string, boolean>
-        ? FlagsDeclarationOption<TypeDocOptionMap[K]>
-        : TypeDocOptionMap[K] extends Record<string | number, infer U>
-        ? MapDeclarationOption<U>
-        : never;
+          ? StringDeclarationOption
+          : TypeDocOptionMap[K] extends number
+            ? NumberDeclarationOption
+            : TypeDocOptionMap[K] extends string[]
+              ? ArrayDeclarationOption
+              : unknown extends TypeDocOptionMap[K]
+                ? MixedDeclarationOption | ObjectDeclarationOption
+                : TypeDocOptionMap[K] extends ManuallyValidatedOption<unknown>
+                  ?
+                        | (MixedDeclarationOption & {
+                              validate(
+                                  value: unknown,
+                                  i18n: TranslationProxy,
+                              ): void;
+                          })
+                        | (ObjectDeclarationOption & {
+                              validate(
+                                  value: unknown,
+                                  i18n: TranslationProxy,
+                              ): void;
+                          })
+                  : TypeDocOptionMap[K] extends Record<string, boolean>
+                    ? FlagsDeclarationOption<TypeDocOptionMap[K]>
+                    : TypeDocOptionMap[K] extends Record<
+                            string | number,
+                            infer U
+                        >
+                      ? MapDeclarationOption<U>
+                      : never;
 
 export enum ParameterHint {
     File,
@@ -526,8 +535,8 @@ export type DeclarationOptionToOptionType<T extends DeclarationOption> =
     T extends MapDeclarationOption<infer U>
         ? U
         : T extends FlagsDeclarationOption<infer U>
-        ? U
-        : ParameterTypeToOptionTypeMap[Exclude<T["type"], undefined>];
+          ? U
+          : ParameterTypeToOptionTypeMap[Exclude<T["type"], undefined>];
 
 const converters: {
     [K in ParameterType]: (

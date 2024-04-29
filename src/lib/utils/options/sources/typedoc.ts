@@ -12,7 +12,7 @@ import { ReflectionKind } from "../../../models/reflections/kind";
 import * as Validation from "../../validation";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults";
 import { getEnumKeys } from "../../enum";
-import type { BundledTheme } from "shiki" with { "resolution-mode": "import"};
+import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { getSupportedThemes } from "../../highlighter";
 
 // For convenience, added in the same order as they are documented on the website.

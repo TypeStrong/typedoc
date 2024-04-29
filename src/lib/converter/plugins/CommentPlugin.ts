@@ -652,8 +652,8 @@ function moveNestedParamTags(
     for (const param of parameters) {
         const visitor: Partial<TypeVisitor> = {
             reflection(target) {
-                const tags = paramTags.filter(
-                    (t) => t.name?.startsWith(`${param.name}.`),
+                const tags = paramTags.filter((t) =>
+                    t.name?.startsWith(`${param.name}.`),
                 );
 
                 for (const tag of tags) {

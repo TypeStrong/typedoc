@@ -469,8 +469,8 @@ type BuildConstraint<
 > = [T] extends [never]
     ? `${Acc}${string}`
     : T extends T
-    ? BuildConstraint<Exclude<U, T>, `${Acc}${string}{${T}}`>
-    : never;
+      ? BuildConstraint<Exclude<U, T>, `${Acc}${string}{${T}}`>
+      : never;
 
 // Combinatorially explosive, but shouldn't matter for us, since we only need a few iterations.
 type TranslationConstraint = [
@@ -496,7 +496,7 @@ const _validatePlaceholdersPresent: {
     [K in keyof typeof translatable]: K extends `${string}_1${string}`
         ? TranslationConstraint[2]
         : K extends `${string}_0${string}`
-        ? TranslationConstraint[1]
-        : TranslationConstraint[0];
+          ? TranslationConstraint[1]
+          : TranslationConstraint[0];
 } = translatable;
 _validatePlaceholdersPresent;

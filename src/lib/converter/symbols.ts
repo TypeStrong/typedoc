@@ -1241,8 +1241,8 @@ function isInherited(context: Context, symbol: ts.Symbol) {
     parents.push(...constructorDecls);
 
     return (
-        parents.some(
-            (d) => symbol.getDeclarations()?.some((d2) => d2.parent === d),
+        parents.some((d) =>
+            symbol.getDeclarations()?.some((d2) => d2.parent === d),
         ) === false
     );
 }

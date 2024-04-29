@@ -27,7 +27,10 @@ describe("Merging projects", () => {
         logger.expectNoOtherMessages();
 
         equal(project?.name, "typedoc");
-        equal(project.children?.map((c) => c.name), ["alias", "class"]);
+        equal(
+            project.children?.map((c) => c.name),
+            ["alias", "class"],
+        );
 
         const crossRef = project.getChildByName(
             "alias.MergedCrossReference",

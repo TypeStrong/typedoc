@@ -12,6 +12,3 @@
 ../example/docs/
 **/tmp
 **/.vs
-
-# Remove once Prettier has support
-../src/test/converter2/behavior/resolutionMode.ts

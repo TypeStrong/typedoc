@@ -1,5 +1,10 @@
 import { ok as assert, ok } from "assert";
-import type { BundledLanguage, BundledTheme, Highlighter, TokenStyles } from "shiki" with { "resolution-mode": "import" };
+import type {
+    BundledLanguage,
+    BundledTheme,
+    Highlighter,
+    TokenStyles,
+} from "shiki" with { "resolution-mode": "import" };
 import * as JSX from "./jsx";
 import { unique } from "./array";
 
@@ -45,11 +50,7 @@ class DoubleHighlighter {
 
         for (const line of tokens) {
             for (const token of line) {
-                docEls.push(
-                    <span class={this.getClass(token.variants)}>
-                        {token.content}
-                    </span>,
-                );
+                docEls.push(<span class={this.getClass(token.variants)}>{token.content}</span>);
             }
 
             docEls.push(<br />);

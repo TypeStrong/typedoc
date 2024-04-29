@@ -316,10 +316,9 @@ export class ImplementsPlugin extends ConverterComponent {
             context.logger.warn(
                 `Failed to retrieve${
                     reflection.flags.isStatic ? " static" : ""
-                } member "${
-                    reflection.escapedName ?? reflection.name
-                }" of "${reflection.parent
-                    ?.name}" for inheritance analysis. Please report a bug.` as TranslatedString,
+                } member "${reflection.escapedName ?? reflection.name}" of "${
+                    reflection.parent?.name
+                }" for inheritance analysis. Please report a bug.` as TranslatedString,
             );
             return;
         }

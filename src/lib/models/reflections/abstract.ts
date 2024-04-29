@@ -476,8 +476,8 @@ export abstract class Reflection {
             declaration(decl) {
                 if (
                     decl.signatures?.length &&
-                    decl.signatures.every(
-                        (sig) => sig.comment?.getTag("@deprecated"),
+                    decl.signatures.every((sig) =>
+                        sig.comment?.getTag("@deprecated"),
                     )
                 ) {
                     signaturesDeprecated = true;
