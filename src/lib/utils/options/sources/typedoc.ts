@@ -405,7 +405,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "footer",
+        name: "customFooterHtml",
         help: "Set custom footer when hideGenerator option is set to true",
         type: ParameterType.String,
     });

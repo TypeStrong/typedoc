@@ -3,12 +3,12 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export function footer(context: DefaultThemeRenderContext) {
     const hideGenerator = context.options.getValue("hideGenerator");
-    const customFooter = context.options.getValue("footer");
+    const customFooterHtml = context.options.getValue("customFooterHtml");
     return (
         <footer>
             {context.hook("footer.begin")}
-            {customFooter ? (
-                <Raw html={customFooter} />
+            {customFooterHtml ? (
+                <Raw html={customFooterHtml} />
             ) : (
                 !hideGenerator && (
                     <p class="tsd-generator">

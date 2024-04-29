@@ -136,7 +136,7 @@ export interface TypeDocOptionMap {
     cacheBust: boolean;
     gaID: string;
     hideGenerator: boolean;
-    footer: string;
+    customFooterHtml: string;
     hideParameterTypesInTitle: boolean;
     searchInComments: boolean;
     cleanOutputDir: boolean;
