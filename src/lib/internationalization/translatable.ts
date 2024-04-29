@@ -251,8 +251,8 @@ export const translatable = {
         "Specifies that source links should be treated as external links to be opened in a new tab.",
     help_githubPages:
         "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`.",
-    help_sitemapBaseUrl:
-        "Specify a base URL to be used in generating a sitemap.xml in our output folder. If not specified, no sitemap will be generated.",
+    help_hostedBaseUrl:
+        "Specify a base URL to be used in generating a sitemap.xml in our output folder and canonical links. If not specified, no sitemap will be generated.",
     help_gaID:
         "Set the Google Analytics tracking ID and activate tracking code.",
     help_hideGenerator: "Do not print the TypeDoc link at the end of the page.",
@@ -346,8 +346,8 @@ export const translatable = {
     external_symbol_link_mappings_must_be_object:
         "externalSymbolLinkMappings must be a Record<package name, Record<symbol name, link>>",
     highlight_theme_0_must_be_one_of_1: "{0} must be one of the following: {1}",
-    sitemap_must_start_with_http:
-        "sitemapBaseUrl must start with http:// or https://",
+    hostedBaseUrl_must_start_with_http:
+        "hostedBaseUrl must start with http:// or https://",
     option_0_must_be_an_object: "The '{0}' option must be a non-array object.",
     option_0_must_be_a_function: "The '{0}' option must be a function.",
     option_0_must_be_object_with_urls: `{0} must be an object with string labels as keys and URL values.`,

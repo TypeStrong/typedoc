@@ -429,11 +429,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: true,
     });
     options.addDeclaration({
-        name: "sitemapBaseUrl",
-        help: (i18n) => i18n.help_sitemapBaseUrl(),
+        name: "hostedBaseUrl",
+        help: (i18n) => i18n.help_hostedBaseUrl(),
         validate(value, i18n) {
             if (!/https?:\/\//.test(value)) {
-                throw new Error(i18n.sitemap_must_start_with_http());
+                throw new Error(i18n.hostedBaseUrl_must_start_with_http());
             }
         },
     });

@@ -7,6 +7,7 @@
     This means that any projects setting `markedOptions` needs to be updated to use `markdownItOptions`.
     Unlike `marked@4`, `markdown-it` pushes lots of functionality to plugins. To use plugins, a JavaScript config file must be used with the `markdownItLoader` option.
 -   Updated Shiki from 0.14 to 1.3. This should mostly be a transparent update which adds another 23 supported languages and 13 supported themes.
+-   Renamed `--sitemapBaseUrl` to `--hostedBaseUrl` to reflect that it can be used for more than just the sitemap.
 -   Removed deprecated `navigation.fullTree` option.
 -   API: `MapOptionDeclaration.mapError` has been removed.
 -   API: Deprecated `BindOption` decorator has been removed.
@@ -17,6 +18,7 @@
 
 -   TypeDoc now has the architecture in place to support localization. No languages besides English
     are currently shipped in the package, but it is now possible to add support for additional languages, #2475.
+-   `--hostedBaseUrl` will now be used to generate a `<link rel="canonical">` element in the project root page, #2550.
 
 ### Bug Fixes
 
