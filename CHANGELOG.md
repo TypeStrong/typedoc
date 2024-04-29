@@ -6,11 +6,17 @@
 -   Moved from `marked` to `markdown-it` for parsing as marked has moved to an async model which supporting would significantly complicate TypeDoc's rendering code.
     This means that any projects setting `markedOptions` needs to be updated to use `markdownItOptions`.
     Unlike `marked@4`, `markdown-it` pushes lots of functionality to plugins. To use plugins, a JavaScript config file must be used with the `markdownItLoader` option.
+-   Updated Shiki from 0.14 to 1.3. This should mostly be a transparent update which adds another 23 supported languages and 13 supported themes.
 -   Removed deprecated `navigation.fullTree` option.
 -   API: `MapOptionDeclaration.mapError` has been removed.
 -   API: Deprecated `BindOption` decorator has been removed.
 -   API: `DeclarationReflection.indexSignature` has been renamed to `DeclarationReflection.indexSignatures`.
     Note: This also affects JSON serialization. TypeDoc will support JSON output from 0.25 until 0.28.
+
+### Features
+
+-   TypeDoc now has the architecture in place to support localization. No languages besides English
+    are currently shipped in the package, but it is now possible to add support for additional languages, #2475.
 
 ### Bug Fixes
 

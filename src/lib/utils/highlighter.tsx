@@ -1,74 +1,61 @@
-import { ok as assert } from "assert";
-import { BUNDLED_LANGUAGES, getHighlighter, type Highlighter, type Theme } from "shiki";
-import { unique, zip } from "./array";
+import { ok as assert, ok } from "assert";
+import type { BundledLanguage, BundledTheme, Highlighter, TokenStyles } from "shiki" with { "resolution-mode": "import" };
 import * as JSX from "./jsx";
+import { unique } from "./array";
 
 const aliases = new Map<string, string>();
-for (const lang of BUNDLED_LANGUAGES) {
-    for (const alias of lang.aliases || []) {
-        aliases.set(alias, lang.id);
-    }
-}
+let supportedLanguages: string[] = [];
+let supportedThemes: string[] = [];
 
-const supportedLanguages = unique(["text", ...aliases.keys(), ...BUNDLED_LANGUAGES.map((lang) => lang.id)]).sort();
+export async function loadShikiMetadata() {
+    if (aliases.size) return;
+
+    const shiki = await import("shiki");
+    for (const lang of shiki.bundledLanguagesInfo) {
+        for (const alias of lang.aliases || []) {
+            aliases.set(alias, lang.id);
+        }
+    }
+
+    supportedLanguages = unique([
+        "text",
+        ...aliases.keys(),
+        ...shiki.bundledLanguagesInfo.map((lang) => lang.id),
+    ]).sort();
+
+    supportedThemes = Object.keys(shiki.bundledThemes);
+}
 
 class DoubleHighlighter {
     private schemes = new Map<string, string>();
 
     constructor(
         private highlighter: Highlighter,
-        private light: Theme,
-        private dark: Theme,
+        private light: BundledTheme,
+        private dark: BundledTheme,
     ) {}
 
     highlight(code: string, lang: string) {
-        const lightTokens = this.highlighter.codeToThemedTokens(code, lang, this.light, { includeExplanation: false });
-        const darkTokens = this.highlighter.codeToThemedTokens(code, lang, this.dark, { includeExplanation: false });
-
-        // If this fails... something went *very* wrong.
-        assert(lightTokens.length === darkTokens.length);
+        const tokens = this.highlighter.codeToTokensWithThemes(code, {
+            themes: { light: this.light, dark: this.dark },
+            lang: lang as BundledLanguage,
+        });
 
         const docEls: JSX.Element[] = [];
 
-        for (const [lightLine, darkLine] of zip(lightTokens, darkTokens)) {
-            // Different themes can have different rules for when colors change... so unfortunately we have to deal with different
-            // sets of tokens.Example: light_plus and dark_plus tokenize " = " differently in the `schemes`
-            // declaration for this file.
-
-            while (lightLine.length && darkLine.length) {
-                // Simple case, same token.
-                if (lightLine[0].content === darkLine[0].content) {
-                    docEls.push(
-                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>
-                            {lightLine[0].content}
-                        </span>,
-                    );
-                    lightLine.shift();
-                    darkLine.shift();
-                    continue;
-                }
-
-                if (lightLine[0].content.length < darkLine[0].content.length) {
-                    docEls.push(
-                        <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>
-                            {lightLine[0].content}
-                        </span>,
-                    );
-                    darkLine[0].content = darkLine[0].content.substring(lightLine[0].content.length);
-                    lightLine.shift();
-                    continue;
-                }
-
+        for (const line of tokens) {
+            for (const token of line) {
                 docEls.push(
-                    <span class={this.getClass(lightLine[0].color, darkLine[0].color)}>{darkLine[0].content}</span>,
+                    <span class={this.getClass(token.variants)}>
+                        {token.content}
+                    </span>,
                 );
-                lightLine[0].content = lightLine[0].content.substring(darkLine[0].content.length);
-                darkLine.shift();
             }
 
             docEls.push(<br />);
         }
 
+        docEls.pop(); // Remove last <br>
         docEls.pop(); // Remove last <br>
 
         return JSX.renderElement(<>{docEls}</>);
@@ -121,8 +108,8 @@ class DoubleHighlighter {
         return style.join("\n");
     }
 
-    private getClass(lightColor?: string, darkColor?: string): string {
-        const key = `${lightColor} | ${darkColor}`;
+    private getClass(variants: Record<string, TokenStyles>): string {
+        const key = `${variants["light"].color} | ${variants["dark"].color}`;
         let scheme = this.schemes.get(key);
         if (scheme == null) {
             scheme = `hl-${this.schemes.size}`;
@@ -134,9 +121,11 @@ class DoubleHighlighter {
 
 let highlighter: DoubleHighlighter | undefined;
 
-export async function loadHighlighter(lightTheme: Theme, darkTheme: Theme) {
+export async function loadHighlighter(lightTheme: BundledTheme, darkTheme: BundledTheme) {
     if (highlighter) return;
-    const hl = await getHighlighter({ themes: [lightTheme, darkTheme] });
+
+    const shiki = await import("shiki");
+    const hl = await shiki.getHighlighter({ themes: [lightTheme, darkTheme], langs: getSupportedLanguages() });
     highlighter = new DoubleHighlighter(hl, lightTheme, darkTheme);
 }
 
@@ -145,7 +134,13 @@ export function isSupportedLanguage(lang: string) {
 }
 
 export function getSupportedLanguages(): string[] {
+    ok(supportedLanguages.length > 0, "loadShikiMetadata has not been called");
     return supportedLanguages;
+}
+
+export function getSupportedThemes(): string[] {
+    ok(supportedThemes.length > 0, "loadShikiMetadata has not been called");
+    return supportedThemes;
 }
 
 export function highlight(code: string, lang: string): string {

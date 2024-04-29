@@ -20,7 +20,7 @@ import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
 import { Option, EventHooks } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
-import type { Theme as ShikiTheme } from "shiki";
+import type { BundledTheme as ShikiTheme } from "shiki" with { "resolution-mode": "import" };
 import { Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";

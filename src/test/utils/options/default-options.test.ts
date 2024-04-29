@@ -1,5 +1,4 @@
 import { ok, throws, strictEqual, doesNotThrow } from "assert";
-import { BUNDLED_THEMES } from "shiki";
 import { Options } from "../../../lib/utils";
 import { Internationalization } from "../../../lib/internationalization/internationalization";
 
@@ -11,17 +10,14 @@ describe("Default Options", () => {
             throws(() =>
                 opts.setValue("lightHighlightTheme", "randomTheme" as never),
             );
-            opts.setValue("lightHighlightTheme", BUNDLED_THEMES[0]);
-            strictEqual(
-                opts.getValue("lightHighlightTheme"),
-                BUNDLED_THEMES[0],
-            );
+            opts.setValue("lightHighlightTheme", "github-light");
+            strictEqual(opts.getValue("lightHighlightTheme"), "github-light");
 
             throws(() =>
                 opts.setValue("darkHighlightTheme", "randomTheme" as never),
             );
-            opts.setValue("darkHighlightTheme", BUNDLED_THEMES[0]);
-            strictEqual(opts.getValue("darkHighlightTheme"), BUNDLED_THEMES[0]);
+            opts.setValue("darkHighlightTheme", "github-light");
+            strictEqual(opts.getValue("darkHighlightTheme"), "github-light");
         });
     });
 

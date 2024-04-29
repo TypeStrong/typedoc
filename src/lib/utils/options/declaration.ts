@@ -1,4 +1,4 @@
-import type { Theme as ShikiTheme } from "shiki";
+import type { BundledTheme as ShikiTheme } from "shiki" with { "resolution-mode": "import"};
 import type { LogLevel } from "../loggers";
 import type { SortStrategy } from "../sort";
 import { isAbsolute, join, resolve } from "path";

@@ -46,6 +46,7 @@ import {
     Internationalization,
     type TranslatedString,
 } from "./internationalization/internationalization";
+import { loadShikiMetadata } from "./utils/highlighter";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -188,6 +189,7 @@ export class Application extends ChildableComponent<
         options: Partial<TypeDocOptions> = {},
         readers: readonly OptionsReader[] = DEFAULT_READERS,
     ): Promise<Application> {
+        await loadShikiMetadata();
         const app = new Application(DETECTOR);
         readers.forEach((r) => app.options.addReader(r));
         app.options.reset();
@@ -217,6 +219,7 @@ export class Application extends ChildableComponent<
         options: Partial<TypeDocOptions> = {},
         readers: readonly OptionsReader[] = DEFAULT_READERS,
     ): Promise<Application> {
+        await loadShikiMetadata();
         const app = new Application(DETECTOR);
         readers.forEach((r) => app.options.addReader(r));
         await app._bootstrap(options);

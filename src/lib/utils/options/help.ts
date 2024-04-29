@@ -5,8 +5,7 @@ import {
     ParameterType,
     type DeclarationOption,
 } from "./declaration";
-import { getSupportedLanguages } from "../highlighter";
-import { BUNDLED_THEMES } from "shiki";
+import { getSupportedLanguages, getSupportedThemes } from "../highlighter";
 import type { TranslationProxy } from "../../internationalization/internationalization";
 
 export interface ParameterHelp {
@@ -69,7 +68,7 @@ function toEvenColumns(values: string[], maxLineWidth: number) {
     const columnWidth =
         values.reduce((acc, val) => Math.max(acc, val.length), 0) + 2;
 
-    const numColumns = Math.max(1, Math.min(maxLineWidth / columnWidth));
+    const numColumns = Math.max(1, Math.floor(maxLineWidth / columnWidth));
     let line = "";
     const out: string[] = [];
 
@@ -109,7 +108,7 @@ export function getOptionsHelp(
     output.push(
         "",
         "Supported highlighting themes:",
-        ...toEvenColumns(BUNDLED_THEMES, 80),
+        ...toEvenColumns(getSupportedThemes(), 80),
     );
 
     return output.join("\n");

@@ -6,7 +6,7 @@ import { Component, ContextAwareRendererComponent } from "../components";
 import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events";
 import { Option, readFile, copySync, isFile, type Logger } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
-import type { Theme } from "shiki";
+import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { escapeHtml, getTextContent } from "../../utils/html";
 import type { DefaultTheme } from "..";
 import { Slugger } from "./default/DefaultTheme";
@@ -33,10 +33,10 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     accessor mediaSource!: string;
 
     @Option("lightHighlightTheme")
-    accessor lightTheme!: Theme;
+    accessor lightTheme!: BundledTheme;
 
     @Option("darkHighlightTheme")
-    accessor darkTheme!: Theme;
+    accessor darkTheme!: BundledTheme;
 
     private parser?: MarkdownIt;
 

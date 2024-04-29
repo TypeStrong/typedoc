@@ -6,13 +6,14 @@ import {
     EmitStrategy,
     CommentStyle,
 } from "../declaration";
-import { BUNDLED_THEMES, type Theme } from "shiki";
 import { SORT_STRATEGIES } from "../../sort";
 import { EntryPointStrategy } from "../../entry-point";
 import { ReflectionKind } from "../../../models/reflections/kind";
 import * as Validation from "../../validation";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults";
 import { getEnumKeys } from "../../enum";
+import type { BundledTheme } from "shiki" with { "resolution-mode": "import"};
+import { getSupportedThemes } from "../../highlighter";
 
 // For convenience, added in the same order as they are documented on the website.
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
@@ -271,8 +272,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: "default",
     });
 
-    const defaultLightTheme: Theme = "light-plus";
-    const defaultDarkTheme: Theme = "dark-plus";
+    const defaultLightTheme: BundledTheme = "light-plus";
+    const defaultDarkTheme: BundledTheme = "dark-plus";
 
     options.addDeclaration({
         name: "lightHighlightTheme",
@@ -280,11 +281,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.String,
         defaultValue: defaultLightTheme,
         validate(value, i18n) {
-            if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
+            if (!getSupportedThemes().includes(value)) {
                 throw new Error(
                     i18n.highlight_theme_0_must_be_one_of_1(
                         "lightHighlightTheme",
-                        BUNDLED_THEMES.join(", "),
+                        getSupportedThemes().join(", "),
                     ),
                 );
             }
@@ -296,11 +297,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.String,
         defaultValue: defaultDarkTheme,
         validate(value, i18n) {
-            if (!(BUNDLED_THEMES as readonly string[]).includes(value)) {
+            if (!getSupportedThemes().includes(value)) {
                 throw new Error(
                     i18n.highlight_theme_0_must_be_one_of_1(
                         "darkHighlightTheme",
-                        BUNDLED_THEMES.join(", "),
+                        getSupportedThemes().join(", "),
                     ),
                 );
             }

@@ -49,6 +49,9 @@ export interface NavigationElement {
     children?: NavigationElement[];
 }
 
+/**
+ * Responsible for getting a unique anchor for elements within a page.
+ */
 export class Slugger {
     private seen = new Map<string, number>();
 
