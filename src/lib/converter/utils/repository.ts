@@ -32,12 +32,13 @@ export class AssumedRepository implements Repository {
     getURL(fileName: string, line: number): string | undefined {
         const replacements = {
             gitRevision: this.gitRevision,
+            "gitRevision:short": this.gitRevision.substring(0, 8),
             path: fileName.substring(this.path.length + 1),
             line,
         };
 
         return this.sourceLinkTemplate.replace(
-            /\{(gitRevision|path|line)\}/g,
+            /\{(gitRevision|gitRevision:short|path|line)\}/g,
             (_, key) => replacements[key as never],
         );
     }
@@ -93,12 +94,13 @@ export class GitRepository implements Repository {
 
         const replacements = {
             gitRevision: this.gitRevision,
+            "gitRevision:short": this.gitRevision.substring(0, 8),
             path: fileName.substring(this.path.length + 1),
             line,
         };
 
         return this.urlTemplate.replace(
-            /\{(gitRevision|path|line)\}/g,
+            /\{(gitRevision|gitRevision:short|path|line)\}/g,
             (_, key) => replacements[key as never],
         );
     }
@@ -122,13 +124,7 @@ export class GitRepository implements Repository {
         const topLevel = git("-C", path, "rev-parse", "--show-toplevel");
         if (topLevel.status !== 0) return;
 
-        gitRevision ||= git(
-            "-C",
-            path,
-            "rev-parse",
-            "--short",
-            "HEAD",
-        ).stdout.trim();
+        gitRevision ||= git("-C", path, "rev-parse", "HEAD").stdout.trim();
         if (!gitRevision) return; // Will only happen in a repo with no commits.
 
         let urlTemplate: string | undefined;
@@ -141,9 +137,7 @@ export class GitRepository implements Repository {
                     remotesOut.stdout.split("\n"),
                 );
             } else {
-                logger.warn(
-                    `The provided git remote "${gitRemote}" was not valid. Source links will be broken.`,
-                );
+                logger.warn(logger.i18n.git_remote_0_not_valid(gitRemote));
             }
         }
 

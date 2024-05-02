@@ -1,6 +1,10 @@
 import type { SomeType } from "..";
 import { ReflectionType } from "../types";
-import { Reflection, TraverseCallback, TraverseProperty } from "./abstract";
+import {
+    Reflection,
+    type TraverseCallback,
+    TraverseProperty,
+} from "./abstract";
 import type { SignatureReflection } from "./signature";
 import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
 

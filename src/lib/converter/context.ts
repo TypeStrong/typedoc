@@ -2,8 +2,8 @@ import { ok as assert } from "assert";
 import ts from "typescript";
 
 import {
-    Reflection,
-    ProjectReflection,
+    type Reflection,
+    type ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
     ReflectionKind,
@@ -22,6 +22,7 @@ import {
     getSignatureComment,
 } from "./comments";
 import { getHumanName } from "../utils/tsutils";
+import type { TranslationProxy } from "../internationalization/internationalization";
 
 /**
  * The context describes the current state the converter is in.
@@ -37,6 +38,13 @@ export class Context {
      */
     get checker(): ts.TypeChecker {
         return this.program.getTypeChecker();
+    }
+
+    /**
+     * Translation interface for log messages.
+     */
+    get i18n(): TranslationProxy {
+        return this.converter.application.i18n;
     }
 
     /**

@@ -1,14 +1,14 @@
 import ts from "typescript";
 import {
-    Comment,
-    CommentDisplayPart,
+    type Comment,
+    type CommentDisplayPart,
     DeclarationReflection,
-    InlineTagDisplayPart,
-    Reflection,
+    type InlineTagDisplayPart,
+    type Reflection,
     ReflectionSymbolId,
 } from "../../models";
 import {
-    DeclarationReference,
+    type DeclarationReference,
     parseDeclarationReference,
 } from "./declarationReference";
 import { resolveDeclarationReference } from "./declarationReferenceResolver";

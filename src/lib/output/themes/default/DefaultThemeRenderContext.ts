@@ -1,11 +1,15 @@
 import type { PageEvent, RendererHooks } from "../..";
+import type {
+    Internationalization,
+    TranslationProxy,
+} from "../../../internationalization/internationalization";
 import {
     Comment,
-    CommentDisplayPart,
-    DeclarationReflection,
-    Reflection,
+    type CommentDisplayPart,
+    type DeclarationReflection,
+    type Reflection,
 } from "../../../models";
-import { JSX, NeverIfInternal, Options } from "../../../utils";
+import { type NeverIfInternal, type Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
@@ -19,7 +23,7 @@ import {
 import { footer } from "./partials/footer";
 import { header } from "./partials/header";
 import { hierarchy } from "./partials/hierarchy";
-import { buildRefIcons, icons } from "./partials/icon";
+import { buildRefIcons, type icons } from "./partials/icon";
 import { member } from "./partials/member";
 import { memberDeclaration } from "./partials/member.declaration";
 import { memberGetterSetter } from "./partials/member.getterSetter";
@@ -55,6 +59,8 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 export class DefaultThemeRenderContext {
     private _refIcons: typeof icons;
     options: Options;
+    internationalization: Internationalization;
+    i18n: TranslationProxy;
 
     constructor(
         private theme: DefaultTheme,
@@ -62,14 +68,9 @@ export class DefaultThemeRenderContext {
         options: Options,
     ) {
         this.options = options;
-        this._refIcons = buildRefIcons(icons, this);
-    }
-
-    /**
-     * @deprecated Will be removed in 0.26, no longer required.
-     */
-    iconsCache(): JSX.Element {
-        return JSX.createElement(JSX.Fragment, null);
+        this.internationalization = theme.application.internationalization;
+        this.i18n = this.internationalization.proxy;
+        this._refIcons = buildRefIcons(theme.icons, this);
     }
 
     /**
@@ -103,11 +104,14 @@ export class DefaultThemeRenderContext {
     ) => {
         if (md instanceof Array) {
             return this.theme.markedPlugin.parseMarkdown(
-                Comment.displayPartsToMarkdown(md, this.urlTo),
+                Comment.displayPartsToMarkdown(md, this.urlTo, false), // GERRIT come back here
                 this.page,
+                this,
             );
         }
-        return md ? this.theme.markedPlugin.parseMarkdown(md, this.page) : "";
+        return md
+            ? this.theme.markedPlugin.parseMarkdown(md, this.page, this)
+            : "";
     };
 
     getNavigation = () => this.theme.getNavigation(this.page.project);

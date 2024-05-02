@@ -1,4 +1,4 @@
-import { Reflection, ReflectionKind } from "../../../../models";
+import { type Reflection, ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
 import { camelToTitleCase, classNames, getDisplayName, wbr } from "../../lib";
@@ -27,11 +27,18 @@ function buildFilterItem(context: DefaultThemeRenderContext, name: string, displ
 
 export function sidebarLinks(context: DefaultThemeRenderContext) {
     const links = Object.entries(context.options.getValue("sidebarLinks"));
-    if (!links.length) return null;
+    const navLinks = Object.entries(context.options.getValue("navigationLinks"));
+
+    if (!links.length && !navLinks.length) return null;
     return (
         <nav id="tsd-sidebar-links" class="tsd-navigation">
             {links.map(([label, url]) => (
                 <a href={url}>{label}</a>
+            ))}
+            {navLinks.map(([label, url]) => (
+                <a href={url} class="tsd-nav-link">
+                    {label}
+                </a>
             ))}
         </nav>
     );
@@ -70,24 +77,24 @@ export function settings(context: DefaultThemeRenderContext) {
                 <summary class="tsd-accordion-summary">
                     <h3>
                         {context.icons.chevronDown()}
-                        Settings
+                        {context.i18n.theme_settings()}
                     </h3>
                 </summary>
                 <div class="tsd-accordion-details">
                     {visibilityOptions.length && (
                         <div class="tsd-filter-visibility">
-                            <h4 class="uppercase">Member Visibility</h4>
+                            <h4 class="uppercase">{context.i18n.theme_member_visibility()}</h4>
                             <form>
                                 <ul id="tsd-filter-options">{...visibilityOptions}</ul>
                             </form>
                         </div>
                     )}
                     <div class="tsd-theme-toggle">
-                        <h4 class="uppercase">Theme</h4>
+                        <h4 class="uppercase">{context.i18n.theme_theme()}</h4>
                         <select id="tsd-theme">
-                            <option value="os">OS</option>
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
+                            <option value="os">{context.i18n.theme_os()}</option>
+                            <option value="light">{context.i18n.theme_light()}</option>
+                            <option value="dark">{context.i18n.theme_dark()}</option>
                         </select>
                     </div>
                 </div>
@@ -122,10 +129,16 @@ export function pageSidebar(context: DefaultThemeRenderContext, props: PageEvent
 export function pageNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     const levels: JSX.Element[][] = [[]];
 
-    function finalizeLevel() {
+    function finalizeLevel(finishedHandlingHeadings: boolean) {
+        const level = levels.pop()!;
+        if (levels[levels.length - 1].length === 0 && finishedHandlingHeadings) {
+            levels[levels.length - 1] = level;
+            return;
+        }
+
         const built = (
             <ul>
-                {levels.pop()!.map((l) => (
+                {level.map((l) => (
                     <li>{l}</li>
                 ))}
             </ul>
@@ -136,9 +149,9 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
     for (const heading of props.pageHeadings) {
         const inferredLevel = heading.level ? heading.level + 1 : 1;
         while (inferredLevel < levels.length) {
-            finalizeLevel();
+            finalizeLevel(false);
         }
-        if (inferredLevel > levels.length) {
+        while (inferredLevel > levels.length) {
             // Lower level than before
             levels.push([]);
         }
@@ -152,28 +165,25 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
     }
 
     while (levels.length > 1) {
-        finalizeLevel();
+        finalizeLevel(true);
     }
 
     if (!levels[0].length) {
         return <></>;
     }
 
+    levels.unshift([]);
+    finalizeLevel(true);
+
     return (
         <details open={true} class="tsd-index-accordion tsd-page-navigation">
             <summary class="tsd-accordion-summary">
                 <h3>
                     {context.icons.chevronDown()}
-                    On This Page
+                    {context.i18n.theme_on_this_page()}
                 </h3>
             </summary>
-            <div class="tsd-accordion-details">
-                <ul>
-                    {levels[0].map((l) => (
-                        <li>{l}</li>
-                    ))}
-                </ul>
-            </div>
+            <div class="tsd-accordion-details">{levels[0]}</div>
         </details>
     );
 }

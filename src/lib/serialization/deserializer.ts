@@ -21,13 +21,13 @@ import {
     Reflection,
     ReflectionKind,
     ReflectionType,
-    ReflectionVariant,
+    type ReflectionVariant,
     RestType,
     SignatureReflection,
-    SomeType,
+    type SomeType,
     TemplateLiteralType,
     TupleType,
-    TypeKindMap,
+    type TypeKindMap,
     TypeOperatorType,
     TypeParameterReflection,
     UnionType,
@@ -51,10 +51,10 @@ export class Deserializer {
     private deferred: Array<(project: ProjectReflection) => void> = [];
     private deserializers: DeserializerComponent[] = [];
     private activeReflection: Reflection[] = [];
-    constructor(private app: Application) {}
+    constructor(readonly application: Application) {}
 
     get logger(): Logger {
-        return this.app.logger;
+        return this.application.logger;
     }
 
     reflectionBuilders: {

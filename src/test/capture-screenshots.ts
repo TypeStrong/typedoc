@@ -37,7 +37,7 @@ class PQueue {
                         const nextPromise = Promise.resolve().then(next);
                         queue.push(nextPromise);
                         nextPromise.then(() => {
-                            queue.splice(queue.indexOf(nextPromise), 1);
+                            void queue.splice(queue.indexOf(nextPromise), 1);
                             tick();
                         }, doReject);
                     } else {

@@ -9,19 +9,14 @@ import {
 import type { Context } from "../context";
 import { ConverterEvents } from "../converter-events";
 
-export function convertIndexSignature(context: Context, symbol: ts.Symbol) {
+export function convertIndexSignatures(context: Context, symbol: ts.Symbol) {
     assert(context.scope instanceof DeclarationReflection);
 
     const indexSymbol = symbol.members?.get("__index" as ts.__String);
-    if (indexSymbol) {
-        // Right now TypeDoc models don't have a way to distinguish between string
-        // and number index signatures... { [x: string]: 1 | 2; [x: number]: 2 }
-        // will be misrepresented.
-        const indexDeclaration = indexSymbol.getDeclarations()?.[0];
-        assert(
-            indexDeclaration &&
-                ts.isIndexSignatureDeclaration(indexDeclaration),
-        );
+    if (!indexSymbol) return;
+
+    for (const indexDeclaration of indexSymbol.getDeclarations() || []) {
+        assert(ts.isIndexSignatureDeclaration(indexDeclaration));
         const param = indexDeclaration.parameters[0];
         assert(param && ts.isParameter(param));
         const index = new SignatureReflection(
@@ -29,7 +24,7 @@ export function convertIndexSignature(context: Context, symbol: ts.Symbol) {
             ReflectionKind.IndexSignature,
             context.scope,
         );
-        index.comment = context.getComment(indexSymbol, index.kind);
+        index.comment = context.getNodeComment(indexDeclaration, index.kind);
         index.parameters = [
             new ParameterReflection(
                 param.name.getText(),
@@ -46,7 +41,8 @@ export function convertIndexSignature(context: Context, symbol: ts.Symbol) {
             indexDeclaration.type,
         );
         context.registerReflection(index, indexSymbol);
-        context.scope.indexSignature = index;
+        context.scope.indexSignatures ||= [];
+        context.scope.indexSignatures.push(index);
 
         context.trigger(
             ConverterEvents.CREATE_SIGNATURE,

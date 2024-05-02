@@ -329,8 +329,10 @@ export abstract class Reflection {
      * Test whether this reflection is of the given kind.
      */
     kindOf(kind: ReflectionKind | ReflectionKind[]): boolean {
-        const kindArray = Array.isArray(kind) ? kind : [kind];
-        return kindArray.some((kind) => (this.kind & kind) !== 0);
+        const kindFlags = Array.isArray(kind)
+            ? kind.reduce((a, b) => a | b, 0)
+            : kind;
+        return (this.kind & kindFlags) !== 0;
     }
 
     /**
@@ -476,8 +478,8 @@ export abstract class Reflection {
             declaration(decl) {
                 if (
                     decl.signatures?.length &&
-                    decl.signatures.every(
-                        (sig) => sig.comment?.getTag("@deprecated"),
+                    decl.signatures.every((sig) =>
+                        sig.comment?.getTag("@deprecated"),
                     )
                 ) {
                     signaturesDeprecated = true;
@@ -496,7 +498,7 @@ export abstract class Reflection {
      * Traverse most potential child reflections of this reflection.
      *
      * Note: This may not necessarily traverse child reflections contained within the `type` property
-     * of the reflection, and should not be relied on for this. Support for checking object types will likely be removed in v0.26.
+     * of the reflection, and should not be relied on for this. Support for checking object types will likely be removed in v0.27.
      *
      * The given callback will be invoked for all children, signatures and type parameters
      * attached to this reflection.

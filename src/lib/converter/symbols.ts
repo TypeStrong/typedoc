@@ -5,7 +5,7 @@ import {
     IntrinsicType,
     LiteralType,
     ReferenceReflection,
-    Reflection,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     ConversionFlags,
@@ -18,7 +18,7 @@ import {
 } from "../utils/enum";
 import type { Context } from "./context";
 import { convertDefaultValue } from "./convert-expression";
-import { convertIndexSignature } from "./factories/index-signature";
+import { convertIndexSignatures } from "./factories/index-signature";
 import {
     createConstructSignatureWithType,
     createSignature,
@@ -385,7 +385,7 @@ function convertTypeAliasAsInterface(
 
     if (type.getFlags() & ts.TypeFlags.Union) {
         context.logger.warn(
-            `Using @interface on a union type will discard properties not present on all branches of the union. TypeDoc's output may not accurately describe your source code.`,
+            context.i18n.converting_union_as_interface(),
             declaration,
         );
     }
@@ -413,7 +413,7 @@ function convertTypeAliasAsInterface(
     convertConstructSignatures(rc, symbol);
 
     // And finally, index signatures
-    convertIndexSignature(rc, symbol);
+    convertIndexSignatures(rc, symbol);
 }
 
 function convertFunctionOrMethod(
@@ -486,8 +486,6 @@ function convertFunctionOrMethod(
 
     const scope = context.withScope(reflection);
 
-    // Can't use zip here. We might have less declarations than signatures
-    // or less signatures than declarations.
     for (const sig of signatures) {
         createSignature(scope, ReflectionKind.CallSignature, sig, symbol);
     }
@@ -630,7 +628,7 @@ function convertClassOrInterface(
     convertConstructSignatures(reflectionContext, symbol);
 
     // And finally, index signatures
-    convertIndexSignature(reflectionContext, symbol);
+    convertIndexSignatures(reflectionContext, symbol);
 
     // Normally this shouldn't matter, unless someone did something with skipLibCheck on.
     return ts.SymbolFlags.Alias;
@@ -1106,7 +1104,9 @@ function convertSymbolAsClass(
 
     if (!symbol.valueDeclaration) {
         context.logger.error(
-            `No value declaration found when converting ${symbol.name} as a class`,
+            context.i18n.converting_0_as_class_requires_value_declaration(
+                symbol.name,
+            ),
             symbol.declarations?.[0],
         );
         return;
@@ -1160,7 +1160,9 @@ function convertSymbolAsClass(
         }
     } else {
         context.logger.warn(
-            `${reflection.getFriendlyFullName()} is being converted as a class, but does not have any construct signatures`,
+            context.i18n.converting_0_as_class_without_construct_signatures(
+                reflection.getFriendlyFullName(),
+            ),
             symbol.valueDeclaration,
         );
     }
@@ -1237,8 +1239,8 @@ function isInherited(context: Context, symbol: ts.Symbol) {
     parents.push(...constructorDecls);
 
     return (
-        parents.some(
-            (d) => symbol.getDeclarations()?.some((d2) => d2.parent === d),
+        parents.some((d) =>
+            symbol.getDeclarations()?.some((d2) => d2.parent === d),
         ) === false
     );
 }

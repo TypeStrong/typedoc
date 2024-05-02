@@ -2,10 +2,10 @@ import { ok } from "assert";
 import {
     Comment,
     DeclarationReflection,
-    ProjectReflection,
+    type ProjectReflection,
     Reflection,
-    ReflectionKind,
-    SignatureReflection,
+    type ReflectionKind,
+    type SignatureReflection,
 } from "..";
 import { filterMap } from "../lib/utils";
 

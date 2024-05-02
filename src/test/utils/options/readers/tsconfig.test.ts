@@ -4,11 +4,12 @@ import { deepStrictEqual as equal } from "assert";
 import { TSConfigReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
 import { TestLogger } from "../../../TestLogger";
-import { tempdirProject, Project } from "@typestrong/fs-fixture-builder";
+import { tempdirProject, type Project } from "@typestrong/fs-fixture-builder";
 import { tmpdir } from "os";
+import { Internationalization } from "../../../../lib/internationalization/internationalization";
 
 describe("Options - TSConfigReader", () => {
-    const options = new Options();
+    const options = new Options(new Internationalization(null).proxy);
     options.addReader(new TSConfigReader());
     const logger = new TestLogger();
 
@@ -88,7 +89,7 @@ describe("Options - TSConfigReader", () => {
             override isSet() {
                 return false;
             }
-        })();
+        })(new Internationalization(null).proxy);
 
         options.setValue(
             "tsconfig",

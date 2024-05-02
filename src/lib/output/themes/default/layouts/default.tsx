@@ -10,7 +10,7 @@ export const defaultLayout = (
     template: RenderTemplate<PageEvent<Reflection>>,
     props: PageEvent<Reflection>,
 ) => (
-    <html class="default" lang={context.options.getValue("htmlLang")}>
+    <html class="default" lang={context.options.getValue("lang")}>
         <head>
             <meta charSet="utf-8" />
             {context.hook("head.begin")}
@@ -44,7 +44,7 @@ export const defaultLayout = (
                 {/* settings, this appears to be a reasonable tradeoff between displaying page content without the */}
                 {/* navigation on exceptionally slow connections and not having the navigation obviously repaint. */}
                 <Raw html='document.body.style.display="none";' />
-                <Raw html='setTimeout(() => document.body.style.removeProperty("display"),500)' />
+                <Raw html='setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)' />
             </script>
             {context.toolbar(props)}
 

@@ -1,7 +1,7 @@
 import {
     DeclarationReflection,
-    ProjectReflection,
-    Reflection,
+    type ProjectReflection,
+    type Reflection,
     ReflectionKind,
     ReflectionType,
 } from "../models";
@@ -43,7 +43,7 @@ export function validateDocumentation(
         if (seen.has(ref)) continue;
         seen.add(ref);
 
-        // If we're a non-parameter inside a parameter, we shouldn't care. Parameters don't get deeply documented
+        // If inside a parameter, we shouldn't care. Callback parameter's values don't get deeply documented.
         let r: Reflection | undefined = ref.parent;
         while (r) {
             if (r.kindOf(ReflectionKind.Parameter)) {
@@ -68,6 +68,15 @@ export function validateDocumentation(
             ref.parent?.kindOf(ReflectionKind.TypeLiteral)
         ) {
             toProcess.push(ref.parent.parent!);
+            continue;
+        }
+
+        // Construct signatures are considered documented if they are directly within a documented type alias.
+        if (
+            ref.kindOf(ReflectionKind.ConstructorSignature) &&
+            ref.parent?.parent?.kindOf(ReflectionKind.TypeAlias)
+        ) {
+            toProcess.push(ref.parent.parent);
             continue;
         }
 
@@ -97,11 +106,11 @@ export function validateDocumentation(
             }
 
             logger.warn(
-                `${ref.getFriendlyFullName()} (${
-                    ReflectionKind[ref.kind]
-                }), defined in ${nicePath(
-                    symbolId.fileName,
-                )}, does not have any documentation.`,
+                logger.i18n.reflection_0_kind_1_defined_in_2_does_not_have_any_documentation(
+                    ref.getFriendlyFullName(),
+                    ReflectionKind[ref.kind],
+                    nicePath(symbolId.fileName),
+                ),
             );
         }
     }

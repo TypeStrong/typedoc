@@ -7,7 +7,7 @@ import {
     ParameterReflection,
     PredicateType,
     ReferenceType,
-    Reflection,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     SignatureReflection,

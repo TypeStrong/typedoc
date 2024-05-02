@@ -1,6 +1,6 @@
 import {
     ContainerReflection,
-    DeclarationReflection,
+    type DeclarationReflection,
     Comment,
 } from "../../models";
 import { ReflectionCategory } from "../../models";
@@ -90,10 +90,9 @@ export class CategoryPlugin extends ConverterComponent {
 
         if (unusedBoosts.size) {
             context.logger.warn(
-                `Not all categories specified in searchCategoryBoosts were used in the documentation.` +
-                    ` The unused categories were:\n\t${Array.from(
-                        unusedBoosts,
-                    ).join("\n\t")}`,
+                context.i18n.not_all_search_category_boosts_used_0(
+                    Array.from(unusedBoosts).join("\n\t"),
+                ),
             );
         }
     }
@@ -189,7 +188,10 @@ export class CategoryPlugin extends ConverterComponent {
                         cat.description = body;
                     } else {
                         this.application.logger.warn(
-                            `Comment for ${parent.getFriendlyFullName()} includes @categoryDescription for "${header}", but no child is placed in that category.`,
+                            this.application.i18n.comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group(
+                                parent.getFriendlyFullName(),
+                                header,
+                            ),
                         );
                     }
 

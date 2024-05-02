@@ -6,6 +6,7 @@ export type { RendererHooks } from "./renderer";
 export { Theme } from "./theme";
 export {
     DefaultTheme,
+    Slugger,
     type NavigationElement,
 } from "./themes/default/DefaultTheme";
 export { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";

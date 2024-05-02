@@ -2,7 +2,7 @@ import * as Path from "path";
 import { Builder, trimmer } from "lunr";
 
 import {
-    Comment,
+    type Comment,
     DeclarationReflection,
     ProjectReflection,
 } from "../../models";

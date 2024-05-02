@@ -1,7 +1,7 @@
 import {
     Comment,
     DeclarationReflection,
-    ProjectReflection,
+    type ProjectReflection,
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
@@ -10,7 +10,7 @@ import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import type { Reflection } from "../../models/reflections/abstract";
-import { Option, DefaultMap, ValidationOptions } from "../../utils";
+import { Option, DefaultMap, type ValidationOptions } from "../../utils";
 import { zip } from "../../utils/array";
 import { parseDeclarationReference } from "../comments/declarationReference";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver";
@@ -65,7 +65,9 @@ export class InheritDocPlugin extends ConverterComponent {
             const declRef = parseDeclarationReference(source, 0, source.length);
             if (!declRef || /\S/.test(source.substring(declRef[1]))) {
                 this.application.logger.warn(
-                    `Declaration reference in @inheritDoc for ${reflection.getFriendlyFullName()} was not fully parsed and may resolve incorrectly.`,
+                    this.application.i18n.declaration_reference_in_inheritdoc_for_0_not_fully_parsed(
+                        reflection.getFriendlyFullName(),
+                    ),
                 );
             }
             let sourceRefl =
@@ -99,7 +101,10 @@ export class InheritDocPlugin extends ConverterComponent {
             if (!sourceRefl) {
                 if (this.validation.invalidLink) {
                     this.application.logger.warn(
-                        `Failed to find "${source}" to inherit the comment from in the comment for ${reflection.getFullName()}`,
+                        this.application.i18n.failed_to_find_0_to_inherit_comment_from_in_1(
+                            source,
+                            reflection.getFriendlyFullName(),
+                        ),
                     );
                 }
                 continue;
@@ -134,7 +139,10 @@ export class InheritDocPlugin extends ConverterComponent {
 
         if (!source.comment) {
             this.application.logger.warn(
-                `${target.getFullName()} tried to copy a comment from ${source.getFullName()} with @inheritDoc, but the source has no associated comment.`,
+                this.application.i18n.reflection_0_tried_to_copy_comment_from_1_but_source_had_no_comment(
+                    target.getFullName(),
+                    source.getFullName(),
+                ),
             );
             return;
         }
@@ -196,9 +204,9 @@ export class InheritDocPlugin extends ConverterComponent {
             parts.push(orig.name);
 
             this.application.logger.warn(
-                `@inheritDoc specifies a circular inheritance chain: ${parts
-                    .reverse()
-                    .join(" -> ")}`,
+                this.application.i18n.inheritdoc_circular_inheritance_chain_0(
+                    parts.reverse().join(" -> "),
+                ),
             );
         };
 

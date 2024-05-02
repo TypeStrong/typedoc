@@ -12,7 +12,7 @@ import {
     DeclarationReflection,
     IntrinsicType,
     LiteralType,
-    ProjectReflection,
+    type ProjectReflection,
     QueryType,
     ReferenceReflection,
     ReflectionKind,
@@ -112,7 +112,10 @@ describe("Issue Tests", () => {
             (r) => r.name === "Foo" && r.kind === ReflectionKind.Class,
         );
         ok(classFoo instanceof DeclarationReflection);
-        equal(classFoo.children?.find((r) => r.name === "x"), undefined);
+        equal(
+            classFoo.children?.find((r) => r.name === "x"),
+            undefined,
+        );
 
         const nsFoo = project.children?.find(
             (r) => r.name === "Foo" && r.kind === ReflectionKind.Namespace,
@@ -211,7 +214,10 @@ describe("Issue Tests", () => {
 
     it("#1436", () => {
         const project = convert();
-        equal(project.children?.map((c) => c.name), ["gh1436"]);
+        equal(
+            project.children?.map((c) => c.name),
+            ["gh1436"],
+        );
     });
 
     it("#1449", () => {
@@ -303,9 +309,10 @@ describe("Issue Tests", () => {
     it("#1522", () => {
         app.options.setValue("categorizeByGroup", true);
         const project = convert();
-        equal(project.groups?.map((g) => g.categories?.map((c) => c.title)), [
-            ["cat"],
-        ]);
+        equal(
+            project.groups?.map((g) => g.categories?.map((c) => c.title)),
+            [["cat"]],
+        );
     });
 
     it("#1524", () => {
@@ -330,11 +337,10 @@ describe("Issue Tests", () => {
 
     it("#1547", () => {
         const project = convert();
-        equal(project.children?.map((c) => c.name), [
-            "Test",
-            "ThingA",
-            "ThingB",
-        ]);
+        equal(
+            project.children?.map((c) => c.name),
+            ["Test", "ThingA", "ThingB"],
+        );
     });
 
     it("#1552", () => {
@@ -389,21 +395,24 @@ describe("Issue Tests", () => {
 
     it("Handles comment discovery with expando functions #1651", () => {
         const project = convert();
-        equal(project.children?.map((c) => c.name), ["bar"]);
+        equal(
+            project.children?.map((c) => c.name),
+            ["bar"],
+        );
 
-        equal(project.children[0].children?.map((c) => c.name), [
-            "metadata",
-            "fn",
-        ]);
+        equal(
+            project.children[0].children?.map((c) => c.name),
+            ["metadata", "fn"],
+        );
 
         const comments = [
-            project.children[0].comment?.summary,
-            project.children[0].children[0].comment?.summary,
-            project.children[0].children[1].signatures![0].comment?.summary,
-            project.children[0].signatures![0].comment?.summary,
-        ].map(Comment.combineDisplayParts);
+            query(project, "bar"),
+            query(project, "bar.metadata"),
+            querySig(project, "bar.fn"),
+            querySig(project, "bar"),
+        ].map((r) => Comment.combineDisplayParts(r.comment?.summary));
 
-        equal(comments, ["", "metadata", "fn", "bar"]);
+        equal(comments, ["bar", "metadata", "fn", ""]);
     });
 
     it("#1660", () => {
@@ -455,8 +464,8 @@ describe("Issue Tests", () => {
         ok(!Foo.comment?.getTag("@category"), "has cat tag");
         ok(!Foo.type.declaration.comment?.getTag("@category"), "has cat tag 2");
         ok(
-            !Foo.type.declaration.signatures?.some(
-                (s) => s.comment?.getTag("@category"),
+            !Foo.type.declaration.signatures?.some((s) =>
+                s.comment?.getTag("@category"),
             ),
             "has cat tag 3",
         );
@@ -466,7 +475,7 @@ describe("Issue Tests", () => {
         const project = convert();
         const sym1 = query(project, "sym1");
         equal(
-            Comment.combineDisplayParts(sym1.signatures?.[0].comment?.summary),
+            Comment.combineDisplayParts(sym1.comment?.summary),
             "Docs for Sym1",
         );
 
@@ -493,7 +502,10 @@ describe("Issue Tests", () => {
 
     it("#1795", () => {
         const project = convert();
-        equal(project.children?.map((c) => c.name), ["default", "foo"]);
+        equal(
+            project.children?.map((c) => c.name),
+            ["default", "foo"],
+        );
         ok(project.children![0].kind === ReflectionKind.Reference);
         ok(project.children![1].kind !== ReflectionKind.Reference);
     });
@@ -511,10 +523,10 @@ describe("Issue Tests", () => {
     it("#1875", () => {
         const project = convert();
         const test = query(project, "test");
-        equal(test.signatures?.[0].parameters?.map((p) => p.type?.toString()), [
-            "typeof globalThis",
-            "string",
-        ]);
+        equal(
+            test.signatures?.[0].parameters?.map((p) => p.type?.toString()),
+            ["typeof globalThis", "string"],
+        );
 
         const test2 = query(project, "test2");
         equal(
@@ -705,9 +717,7 @@ describe("Issue Tests", () => {
         equal(comments, ["A override", "B module"]);
 
         const comments2 = ["A.a", "B.b"].map((n) =>
-            Comment.combineDisplayParts(
-                query(project, n).signatures![0].comment?.summary,
-            ),
+            Comment.combineDisplayParts(query(project, n).comment?.summary),
         );
 
         equal(comments2, ["Comment for a", "Comment for b"]);
@@ -716,26 +726,29 @@ describe("Issue Tests", () => {
     it("#1980", () => {
         const project = convert();
         const link = query(project, "link");
-        equal(link.comment?.summary.filter((t) => t.kind === "inline-tag"), [
-            {
-                kind: "inline-tag",
-                tag: "@link",
-                target: "http://example.com",
-                text: "http://example.com",
-            },
-            {
-                kind: "inline-tag",
-                tag: "@link",
-                target: "http://example.com",
-                text: "with text",
-            },
-            {
-                kind: "inline-tag",
-                tag: "@link",
-                target: "http://example.com",
-                text: "jsdoc support",
-            },
-        ]);
+        equal(
+            link.comment?.summary.filter((t) => t.kind === "inline-tag"),
+            [
+                {
+                    kind: "inline-tag",
+                    tag: "@link",
+                    target: "http://example.com",
+                    text: "http://example.com",
+                },
+                {
+                    kind: "inline-tag",
+                    tag: "@link",
+                    target: "http://example.com",
+                    text: "with text",
+                },
+                {
+                    kind: "inline-tag",
+                    tag: "@link",
+                    target: "http://example.com",
+                    text: "jsdoc support",
+                },
+            ],
+        );
     });
 
     it("#1986", () => {
@@ -777,7 +790,7 @@ describe("Issue Tests", () => {
 
     it("#2008", () => {
         const project = convert();
-        const fn = query(project, "myFn").signatures![0];
+        const fn = query(project, "myFn");
         equal(Comment.combineDisplayParts(fn.comment?.summary), "Docs");
     });
 
@@ -876,20 +889,25 @@ describe("Issue Tests", () => {
 
     it("#2042", () => {
         const project = convert();
-        for (const [name, docs] of [
-            ["built", "inner docs"],
-            ["built2", "outer docs"],
-            ["fn", "inner docs"],
-            ["fn2", "outer docs"],
+        for (const [name, docs, sigDocs] of [
+            ["built", "", "inner docs"],
+            ["built2", "outer docs", ""],
+            ["fn", "", "inner docs"],
+            ["fn2", "outer docs", ""],
         ]) {
             const refl = query(project, name);
             ok(refl.signatures?.[0]);
             equal(
+                Comment.combineDisplayParts(refl.comment?.summary),
+                docs,
+                name + " docs",
+            );
+            equal(
                 Comment.combineDisplayParts(
                     refl.signatures[0].comment?.summary,
                 ),
-                docs,
-                name,
+                sigDocs,
+                name + " sig docs",
             );
         }
     });
@@ -994,7 +1012,7 @@ describe("Issue Tests", () => {
         const foo = query(project, "foo");
         equal(foo.signatures?.length, 1);
         equal(
-            Comment.combineDisplayParts(foo.signatures[0].comment?.summary),
+            Comment.combineDisplayParts(foo.comment?.summary),
             "Is documented",
         );
     });
@@ -1082,11 +1100,10 @@ describe("Issue Tests", () => {
     it("Handles implementationOf with symbols #2234", () => {
         const project = convert();
         const cm = query(project, "CharMap");
-        equal(cm.children?.map((c) => c.name), [
-            "constructor",
-            "[iterator]",
-            "at",
-        ]);
+        equal(
+            cm.children?.map((c) => c.name),
+            ["constructor", "[iterator]", "at"],
+        );
 
         equal(
             cm.children[1].implementationOf?.name,
@@ -1197,9 +1214,15 @@ describe("Issue Tests", () => {
 
     it("Handles duplicate declarations with @namespace #2364", () => {
         const project = convert();
-        equal(project.children?.map((c) => c.name), ["NS", "NS2", "NS2"]);
+        equal(
+            project.children?.map((c) => c.name),
+            ["NS", "NS2", "NS2"],
+        );
         const ns = query(project, "NS");
-        equal(ns.children?.map((c) => c.name), ["T", "property"]);
+        equal(
+            ns.children?.map((c) => c.name),
+            ["T", "property"],
+        );
     });
 
     it("Gets properties when types/variables are merged with @namespace #2364", () => {
@@ -1207,7 +1230,10 @@ describe("Issue Tests", () => {
         const ns = project.children?.find(
             (c) => c.name == "NS2" && c.kind == ReflectionKind.Namespace,
         );
-        equal(ns?.children?.map((c) => c.name), ["property"]);
+        equal(
+            ns?.children?.map((c) => c.name),
+            ["property"],
+        );
     });
 
     it("Puts delegate type alias comments on the type alias #2372", () => {
@@ -1265,7 +1291,7 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(
             Comment.combineDisplayParts(
-                query(project, "ObjectWithIndexSignature").indexSignature
+                query(project, "ObjectWithIndexSignature").indexSignatures?.[0]
                     ?.comment?.summary,
             ),
             "Index comment.",
@@ -1279,16 +1305,14 @@ describe("Issue Tests", () => {
         equal(Checkbox.parameters[0].name, "props");
         const type = Checkbox.parameters[0].type;
         equal(type?.type, "reflection");
-        equal(type.declaration.children?.map((c) => c.name), [
-            "falseValue",
-            "trueValue",
-            "value",
-        ]);
-        equal(type.declaration.children?.map((c) => c.defaultValue), [
-            "false",
-            "true",
-            undefined,
-        ]);
+        equal(
+            type.declaration.children?.map((c) => c.name),
+            ["falseValue", "trueValue", "value"],
+        );
+        equal(
+            type.declaration.children?.map((c) => c.defaultValue),
+            ["false", "true", undefined],
+        );
     });
 
     it("Handles function-namespaces created with Object.assign #2436", () => {
@@ -1350,23 +1374,35 @@ describe("Issue Tests", () => {
     it("Creates a separate namespace for `declare namespace` case #2476", () => {
         const project = convert();
 
-        equal(project.children?.map((c) => [c.name, c.kind]), [
-            ["test", ReflectionKind.Namespace],
-            ["test", ReflectionKind.Function],
-        ]);
+        equal(
+            project.children?.map((c) => [c.name, c.kind]),
+            [
+                ["test", ReflectionKind.Namespace],
+                ["test", ReflectionKind.Function],
+            ],
+        );
 
-        equal(project.children[0].children?.map((c) => c.name), ["Options"]);
+        equal(
+            project.children[0].children?.map((c) => c.name),
+            ["Options"],
+        );
     });
 
     it("Creates a separate namespace for `declare namespace` case with variables #2478", () => {
         const project = convert();
 
-        equal(project.children?.map((c) => [c.name, c.kind]), [
-            ["test", ReflectionKind.Namespace],
-            ["test", ReflectionKind.Function],
-        ]);
+        equal(
+            project.children?.map((c) => [c.name, c.kind]),
+            [
+                ["test", ReflectionKind.Namespace],
+                ["test", ReflectionKind.Function],
+            ],
+        );
 
-        equal(project.children[0].children?.map((c) => c.name), ["Options"]);
+        equal(
+            project.children[0].children?.map((c) => c.name),
+            ["Options"],
+        );
     });
 
     it("Does not crash when rendering recursive hierarchy, #2495", () => {
@@ -1431,6 +1467,7 @@ describe("Issue Tests", () => {
         equal(cb2.type.declaration.signatures![0].comment, undefined);
     });
 
+
     it("const variable functions copy overrides summary from type, #2521", () => {
         const project = convert();
         const fooWithComment = query(project, "fooWithComment");
@@ -1453,5 +1490,19 @@ describe("Issue Tests", () => {
             equal(Comment.combineDisplayParts(overload1.comment?.summary), "Overload 1");
             equal(Comment.combineDisplayParts(overload2.comment?.summary), "Overload 2");
         }
+    });
+
+    it("Ignores @license and @import comments at the top of the file, #2552", () => {
+        const project = convert();
+        equal(
+            Comment.combineDisplayParts(project.comment?.summary),
+            "This is an awesome module.",
+        );
+    });
+
+    it("Does not warn about documented constructor signature type aliases, #2553", () => {
+        const project = convert();
+        app.validate(project);
+        logger.expectNoOtherMessages();
     });
 });

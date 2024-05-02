@@ -2,15 +2,19 @@ import { ok } from "assert";
 import type { CommentParserConfig } from ".";
 import {
     Comment,
-    CommentDisplayPart,
+    type CommentDisplayPart,
     CommentTag,
-    InlineTagDisplayPart,
+    type InlineTagDisplayPart,
 } from "../../models";
-import { assertNever, Logger, removeIf } from "../../utils";
+import { assertNever, type Logger, removeIf } from "../../utils";
 import type { MinimalSourceFile } from "../../utils/minimalSourceFile";
 import { nicePath } from "../../utils/paths";
-import { Token, TokenSyntaxKind } from "./lexer";
+import { type Token, TokenSyntaxKind } from "./lexer";
 import { extractTagName } from "./tagName";
+import type {
+    TranslatedString,
+    TranslationProxy,
+} from "../../internationalization/internationalization";
 
 interface LookaheadGenerator<T> {
     done(): boolean;
@@ -70,24 +74,35 @@ export function parseComment(
     const tok = lexer.done() || lexer.peek();
 
     const comment = new Comment();
-    comment.summary = blockContent(comment, lexer, config, warningImpl);
+    comment.summary = blockContent(
+        comment,
+        lexer,
+        config,
+        logger.i18n,
+        warningImpl,
+    );
 
     while (!lexer.done()) {
-        comment.blockTags.push(blockTag(comment, lexer, config, warningImpl));
+        comment.blockTags.push(
+            blockTag(comment, lexer, config, logger.i18n, warningImpl),
+        );
     }
 
-    postProcessComment(comment, (message) => {
-        ok(typeof tok === "object");
-        logger.warn(
-            `${message} in comment at ${nicePath(file.fileName)}:${
-                file.getLineAndCharacterOfPosition(tok.pos).line + 1
+    const tok2 = tok as Token;
+
+    postProcessComment(
+        comment,
+        logger.i18n,
+        () =>
+            `${nicePath(file.fileName)}:${
+                file.getLineAndCharacterOfPosition(tok2.pos).line + 1
             }`,
-        );
-    });
+        (message) => logger.warn(message),
+    );
 
     return comment;
 
-    function warningImpl(message: string, token: Token) {
+    function warningImpl(message: TranslatedString, token: Token) {
         logger.warn(message, token.pos, file);
     }
 }
@@ -111,7 +126,12 @@ function makeCodeBlock(text: string) {
  * Loop over comment, produce lint warnings, and set tag names for tags
  * which have them.
  */
-function postProcessComment(comment: Comment, warning: (msg: string) => void) {
+function postProcessComment(
+    comment: Comment,
+    i18n: TranslationProxy,
+    getPosition: () => string,
+    warning: (msg: TranslatedString) => void,
+) {
     for (const tag of comment.blockTags) {
         if (HAS_USER_IDENTIFIER.includes(tag.tag) && tag.content.length) {
             const first = tag.content[0];
@@ -134,7 +154,9 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
             )
         ) {
             warning(
-                "An inline @inheritDoc tag should not appear within a block tag as it will not be processed",
+                i18n.inline_inheritdoc_should_not_appear_in_block_tag_in_comment_at_0(
+                    getPosition(),
+                ),
             );
         }
     }
@@ -142,7 +164,9 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
     const remarks = comment.blockTags.filter((tag) => tag.tag === "@remarks");
     if (remarks.length > 1) {
         warning(
-            "At most one @remarks tag is expected in a comment, ignoring all but the first",
+            i18n.at_most_one_remarks_tag_expected_in_comment_at_0(
+                getPosition(),
+            ),
         );
         removeIf(comment.blockTags, (tag) => remarks.indexOf(tag) > 0);
     }
@@ -150,7 +174,9 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
     const returns = comment.blockTags.filter((tag) => tag.tag === "@returns");
     if (remarks.length > 1) {
         warning(
-            "At most one @returns tag is expected in a comment, ignoring all but the first",
+            i18n.at_most_one_returns_tag_expected_in_comment_at_0(
+                getPosition(),
+            ),
         );
         removeIf(comment.blockTags, (tag) => returns.indexOf(tag) > 0);
     }
@@ -164,7 +190,9 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
 
     if (inlineInheritDoc.length + inheritDoc.length > 1) {
         warning(
-            "At most one @inheritDoc tag is expected in a comment, ignoring all but the first",
+            i18n.at_most_one_inheritdoc_tag_expected_in_comment_at_0(
+                getPosition(),
+            ),
         );
         const allInheritTags = [...inlineInheritDoc, ...inheritDoc];
         removeIf(comment.summary, (part) => allInheritTags.indexOf(part) > 0);
@@ -178,13 +206,17 @@ function postProcessComment(comment: Comment, warning: (msg: string) => void) {
         )
     ) {
         warning(
-            "Content in the summary section will be overwritten by the @inheritDoc tag",
+            i18n.content_in_summary_overwritten_by_inheritdoc_in_comment_at_0(
+                getPosition(),
+            ),
         );
     }
 
     if ((inlineInheritDoc.length || inheritDoc.length) && remarks.length) {
         warning(
-            "Content in the @remarks block will be overwritten by the @inheritDoc tag",
+            i18n.content_in_remarks_block_overwritten_by_inheritdoc_in_comment_at_0(
+                getPosition(),
+            ),
         );
     }
 }
@@ -195,7 +227,8 @@ function blockTag(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void,
+    i18n: TranslationProxy,
+    warning: (msg: TranslatedString, token: Token) => void,
 ): CommentTag {
     const blockTag = lexer.take();
     ok(
@@ -207,14 +240,14 @@ function blockTag(
 
     let content: CommentDisplayPart[];
     if (tagName === "@example") {
-        return exampleBlock(comment, lexer, config, warning);
+        return exampleBlock(comment, lexer, config, i18n, warning);
     } else if (
         ["@default", "@defaultValue"].includes(tagName) &&
         config.jsDocCompatibility.defaultTag
     ) {
-        content = defaultBlockContent(comment, lexer, config, warning);
+        content = defaultBlockContent(comment, lexer, config, i18n, warning);
     } else {
-        content = blockContent(comment, lexer, config, warning);
+        content = blockContent(comment, lexer, config, i18n, warning);
     }
 
     return new CommentTag(tagName as `@${string}`, content);
@@ -228,15 +261,16 @@ function defaultBlockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void,
+    i18n: TranslationProxy,
+    warning: (msg: TranslatedString, token: Token) => void,
 ): CommentDisplayPart[] {
     lexer.mark();
-    const content = blockContent(comment, lexer, config, () => {});
+    const content = blockContent(comment, lexer, config, i18n, () => {});
     const end = lexer.done() || lexer.peek();
     lexer.release();
 
     if (content.some((part) => part.kind === "code")) {
-        return blockContent(comment, lexer, config, warning);
+        return blockContent(comment, lexer, config, i18n, warning);
     }
 
     const tokens: Token[] = [];
@@ -267,10 +301,11 @@ function exampleBlock(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void,
+    i18n: TranslationProxy,
+    warning: (msg: TranslatedString, token: Token) => void,
 ): CommentTag {
     lexer.mark();
-    const content = blockContent(comment, lexer, config, () => {});
+    const content = blockContent(comment, lexer, config, i18n, () => {});
     const end = lexer.done() || lexer.peek();
     lexer.release();
 
@@ -307,11 +342,7 @@ function exampleBlock(
                 case TokenSyntaxKind.CloseBrace:
                 case TokenSyntaxKind.OpenBrace:
                     if (!warnedAboutRichNameContent) {
-                        warning(
-                            "The first line of an example tag will be taken literally as" +
-                                " the example name, and should only contain text.",
-                            lexer.peek(),
-                        );
+                        warning(i18n.example_tag_literal_name(), lexer.peek());
                         warnedAboutRichNameContent = true;
                     }
                     exampleName += lexer.take().text;
@@ -321,7 +352,7 @@ function exampleBlock(
             }
         }
 
-        const content = blockContent(comment, lexer, config, warning);
+        const content = blockContent(comment, lexer, config, i18n, warning);
         const tag = new CommentTag("@example", content);
         if (exampleName.trim()) {
             tag.name = exampleName.trim();
@@ -364,7 +395,8 @@ function blockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void,
+    i18n: TranslationProxy,
+    warning: (msg: TranslatedString, token: Token) => void,
 ): CommentDisplayPart[] {
     const content: CommentDisplayPart[] = [];
     let atNewLine = true;
@@ -387,7 +419,7 @@ function blockContent(
                 if (next.text === "@inheritdoc") {
                     if (!config.jsDocCompatibility.inheritDocTag) {
                         warning(
-                            "The @inheritDoc tag should be properly capitalized",
+                            i18n.inheritdoc_tag_properly_capitalized(),
                             next,
                         );
                     }
@@ -400,7 +432,7 @@ function blockContent(
                     // Treat unknown tag as a modifier, but warn about it.
                     comment.modifierTags.add(next.text as `@${string}`);
                     warning(
-                        `Treating unrecognized tag "${next.text}" as a modifier tag`,
+                        i18n.treating_unrecognized_tag_0_as_modifier(next.text),
                         next,
                     );
                     break;
@@ -417,13 +449,13 @@ function blockContent(
             case TokenSyntaxKind.CloseBrace:
                 // Unmatched closing brace, generate a warning, and treat it as text.
                 if (!config.jsDocCompatibility.ignoreUnescapedBraces) {
-                    warning(`Unmatched closing brace`, next);
+                    warning(i18n.unmatched_closing_brace(), next);
                 }
                 content.push({ kind: "text", text: next.text });
                 break;
 
             case TokenSyntaxKind.OpenBrace:
-                inlineTag(lexer, content, config, warning);
+                inlineTag(lexer, content, config, i18n, warning);
                 consume = false;
                 break;
 
@@ -469,7 +501,8 @@ function inlineTag(
     lexer: LookaheadGenerator<Token>,
     block: CommentDisplayPart[],
     config: CommentParserConfig,
-    warning: (msg: string, token: Token) => void,
+    i18n: TranslationProxy,
+    warning: (msg: TranslatedString, token: Token) => void,
 ) {
     const openBrace = lexer.take();
 
@@ -481,10 +514,7 @@ function inlineTag(
         ![TokenSyntaxKind.Text, TokenSyntaxKind.Tag].includes(lexer.peek().kind)
     ) {
         if (!config.jsDocCompatibility.ignoreUnescapedBraces) {
-            warning(
-                "Encountered an unescaped open brace without an inline tag",
-                openBrace,
-            );
+            warning(i18n.unescaped_open_brace_without_inline_tag(), openBrace);
         }
         block.push({ kind: "text", text: openBrace.text });
         return;
@@ -499,10 +529,7 @@ function inlineTag(
                 lexer.peek().kind != TokenSyntaxKind.Tag))
     ) {
         if (!config.jsDocCompatibility.ignoreUnescapedBraces) {
-            warning(
-                "Encountered an unescaped open brace without an inline tag",
-                openBrace,
-            );
+            warning(i18n.unescaped_open_brace_without_inline_tag(), openBrace);
         }
         block.push({ kind: "text", text: openBrace.text + tagName.text });
         return;
@@ -513,7 +540,7 @@ function inlineTag(
     }
 
     if (!config.inlineTags.has(tagName.text)) {
-        warning(`Encountered an unknown inline tag "${tagName.text}"`, tagName);
+        warning(i18n.unknown_inline_tag_0(tagName.text), tagName);
     }
 
     const content: string[] = [];
@@ -523,17 +550,14 @@ function inlineTag(
     while (!lexer.done() && lexer.peek().kind !== TokenSyntaxKind.CloseBrace) {
         const token = lexer.take();
         if (token.kind === TokenSyntaxKind.OpenBrace) {
-            warning(
-                "Encountered an open brace within an inline tag, this is likely a mistake",
-                token,
-            );
+            warning(i18n.open_brace_within_inline_tag(), token);
         }
 
         content.push(token.kind === TokenSyntaxKind.NewLine ? " " : token.text);
     }
 
     if (lexer.done()) {
-        warning("Inline tag is not closed", openBrace);
+        warning(i18n.inline_tag_not_closed(), openBrace);
     } else {
         lexer.take(); // Close brace
     }

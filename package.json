@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.25.10",
+  "version": "0.25.13",
   "homepage": "https://typedoc.org",
   "exports": {
     ".": "./dist/index.js",
@@ -21,33 +21,33 @@
     "url": "https://github.com/TypeStrong/TypeDoc/issues"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "dependencies": {
     "lunr": "^2.3.9",
-    "marked": "^4.3.0",
-    "minimatch": "^9.0.3",
-    "shiki": "^0.14.7"
+    "markdown-it": "^14.1.0",
+    "minimatch": "^9.0.4",
+    "shiki": "^1.4.0"
   },
   "peerDependencies": {
-    "typescript": "4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x"
+    "typescript": "4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x"
   },
   "devDependencies": {
-    "@types/lunr": "^2.3.5",
-    "@types/marked": "^4.0.8",
-    "@types/mocha": "^10.0.2",
+    "@types/lunr": "^2.3.7",
+    "@types/markdown-it": "^14.0.1",
+    "@types/mocha": "^10.0.6",
     "@types/node": "16",
-    "@typescript-eslint/eslint-plugin": "^6.16.0",
-    "@typescript-eslint/parser": "^6.16.0",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
     "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#8abd1494280116ff5318dde2c50ad01e1663790c",
-    "c8": "^8.0.1",
-    "esbuild": "^0.19.11",
-    "eslint": "^8.56.0",
-    "mocha": "^10.2.0",
-    "prettier": "3.0.3",
+    "c8": "^9.1.0",
+    "esbuild": "^0.20.2",
+    "eslint": "^8.57.0",
+    "mocha": "^10.4.0",
+    "prettier": "3.2.5",
     "puppeteer": "^13.5.2",
     "ts-node": "^10.9.2",
-    "typescript": "5.3.3"
+    "typescript": "5.5.0-beta"
   },
   "files": [
     "/bin",

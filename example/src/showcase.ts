@@ -2,7 +2,7 @@
  * # Markdown Showcase
  *
  * All comments are parsed as **Markdown**. TypeDoc uses the
- * [Marked](https://github.com/markedjs/marked) markdown parser to _convert
+ * [markdown-it](https://github.com/markdown-it/markdown-it) markdown parser to _convert
  * comments to HTML_.
  *
  * ## Symbol References

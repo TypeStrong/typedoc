@@ -7,7 +7,7 @@ export function memberDeclaration(context: DefaultThemeRenderContext, props: Dec
     function renderTypeDeclaration(type: ReflectionType) {
         return (
             <div class="tsd-type-declaration">
-                <h4>Type declaration</h4>
+                <h4>{context.i18n.theme_type_declaration()}</h4>
                 {context.parameter(type.declaration)}
             </div>
         );

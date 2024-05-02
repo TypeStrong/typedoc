@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
-import { ReflectionType, SignatureReflection } from "../../../../models";
+import { ReflectionType, type SignatureReflection } from "../../../../models";
 import { hasTypeParameters } from "../../lib";
 
 export function memberSignatureBody(
@@ -19,7 +19,7 @@ export function memberSignatureBody(
 
             {props.parameters && props.parameters.length > 0 && (
                 <div class="tsd-parameters">
-                    <h4 class="tsd-parameters-title">Parameters</h4>
+                    <h4 class="tsd-parameters-title">{context.i18n.kind_plural_parameter()}</h4>
                     <ul class="tsd-parameter-list">
                         {props.parameters.map((item) => (
                             <li>
@@ -47,8 +47,7 @@ export function memberSignatureBody(
             {props.type && (
                 <>
                     <h4 class="tsd-returns-title">
-                        {"Returns "}
-                        {context.type(props.type)}
+                        {context.i18n.theme_returns()} {context.type(props.type)}
                     </h4>
                     {returnsTag && <Raw html={context.markdown(returnsTag.content)} />}
                     {props.type instanceof ReflectionType && context.parameter(props.type.declaration)}

@@ -29,7 +29,9 @@ export function loadPackageManifest(
 ): Record<string, unknown> | undefined {
     const packageJson: unknown = JSON.parse(readFile(packageJsonPath));
     if (typeof packageJson !== "object" || !packageJson) {
-        logger.error(`The file ${packageJsonPath} is not an object.`);
+        logger.error(
+            logger.i18n.file_0_not_an_object(nicePath(packageJsonPath)),
+        );
         return undefined;
     }
     return packageJson as Record<string, unknown>;
@@ -66,7 +68,7 @@ function getPackagePaths(
 }
 
 /**
- * Given a list of (potentially wildcarded) package paths,
+ * Given a list of (potentially wildcard containing) package paths,
  * return all the actual package folders found.
  */
 export function expandPackages(
@@ -81,35 +83,34 @@ export function expandPackages(
     // be dealing with either a root or a leaf. So let's do this recursively,
     // as it actually is simpler from an implementation perspective anyway.
     return workspaces.flatMap((workspace) => {
-        const globbedPackageJsonPaths = glob(
+        const expandedPackageJsonPaths = glob(
             resolve(packageJsonDir, workspace, "package.json"),
             resolve(packageJsonDir),
         );
 
-        if (globbedPackageJsonPaths.length === 0) {
+        if (expandedPackageJsonPaths.length === 0) {
             logger.warn(
-                `The entrypoint glob ${nicePath(
-                    workspace,
-                )} did not match any directories containing package.json.`,
+                logger.i18n.entry_point_0_did_not_match_any_packages(
+                    nicePath(workspace),
+                ),
             );
         } else {
             logger.verbose(
                 `Expanded ${nicePath(
                     workspace,
-                )} to:\n\t${globbedPackageJsonPaths
+                )} to:\n\t${expandedPackageJsonPaths
                     .map(nicePath)
                     .join("\n\t")}`,
             );
         }
 
-        return globbedPackageJsonPaths.flatMap((packageJsonPath) => {
+        return expandedPackageJsonPaths.flatMap((packageJsonPath) => {
             if (matchesAny(exclude, dirname(packageJsonPath))) {
                 return [];
             }
 
             const packageJson = loadPackageManifest(logger, packageJsonPath);
             if (packageJson === undefined) {
-                logger.error(`Failed to load ${packageJsonPath}`);
                 return [];
             }
             const packagePaths = getPackagePaths(packageJson);

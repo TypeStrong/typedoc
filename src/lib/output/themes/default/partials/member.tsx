@@ -1,7 +1,7 @@
 import { classNames, getDisplayName, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import { DeclarationReflection, ReferenceReflection } from "../../../../models";
+import { type DeclarationReflection, ReferenceReflection } from "../../../../models";
 import { anchorIcon } from "./anchor-icon";
 
 export function member(context: DefaultThemeRenderContext, props: DeclarationReflection) {
@@ -25,10 +25,10 @@ export function member(context: DefaultThemeRenderContext, props: DeclarationRef
             {props.signatures
                 ? context.memberSignatures(props)
                 : props.hasGetterOrSetter()
-                ? context.memberGetterSetter(props)
-                : props instanceof ReferenceReflection
-                ? context.memberReference(props)
-                : context.memberDeclaration(props)}
+                  ? context.memberGetterSetter(props)
+                  : props instanceof ReferenceReflection
+                    ? context.memberReference(props)
+                    : context.memberDeclaration(props)}
 
             {props.groups?.map((item) => item.children.map((item) => !item.hasOwnDocument && context.member(item)))}
         </section>

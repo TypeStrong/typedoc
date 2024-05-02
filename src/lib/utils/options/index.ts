@@ -1,4 +1,4 @@
-export { Options, Option, BindOption } from "./options";
+export { Options, Option } from "./options";
 export type { OptionsReader } from "./options";
 export {
     ArgumentsReader,

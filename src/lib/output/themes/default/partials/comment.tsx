@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
-import { Reflection, ReflectionKind } from "../../../../models";
+import { type Reflection, ReflectionKind } from "../../../../models";
 import { camelToTitleCase } from "../../lib";
 
 // Note: Comment modifiers are handled in `renderFlags`

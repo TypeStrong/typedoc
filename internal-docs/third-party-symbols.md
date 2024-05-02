@@ -23,13 +23,13 @@ detected as belonging to the `typescript` package rather than the `global` packa
         // For these you should probably install typedoc-plugin-mdn-links instead
         "global": {
             // Handle {@link !Promise}
-            "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+            "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
         },
         "typescript": {
             // Handle type X = Promise<number>
-            "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
-        }
-    }
+            "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+        },
+    },
 }
 ```
 
@@ -41,9 +41,9 @@ A wildcard can be used to provide a fallback link to any unmapped type.
     "externalSymbolLinkMappings": {
         "external-lib": {
             "SomeObject": "https://external-lib.site/docs/SomeObject",
-            "*": "https://external-lib.site/docs"
-        }
-    }
+            "*": "https://external-lib.site/docs",
+        },
+    },
 }
 ```
 
@@ -154,7 +154,7 @@ and, if the link was defined by the user, the [CommentDisplayPart] which was par
 
 If `--useTsLinkResolution` is on (the default), it may also be passed a [ReflectionSymbolId] referencing the symbol that TypeScript resolves the link to.
 
-[externalSymbolLinkMappings]: https://typedoc.org/guides/options/#externalsymbollinkmappings
+[externalSymbolLinkMappings]: https://typedoc.org/options/comments/#externalsymbollinkmappings
 [CommentDisplayPart]: https://typedoc.org/api/types/CommentDisplayPart.html
 [DeclarationReference]: https://typedoc.org/api/interfaces/DeclarationReference.html
 [ReflectionSymbolId]: https://typedoc.org/api/classes/Application.html

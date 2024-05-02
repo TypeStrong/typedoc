@@ -1,26 +1,23 @@
 import { ok, throws, strictEqual, doesNotThrow } from "assert";
-import { BUNDLED_THEMES } from "shiki";
 import { Options } from "../../../lib/utils";
+import { Internationalization } from "../../../lib/internationalization/internationalization";
 
 describe("Default Options", () => {
-    const opts = new Options();
+    const opts = new Options(new Internationalization(null).proxy);
 
     describe("Highlighting theme", () => {
         it("Errors if an invalid theme is provided", () => {
             throws(() =>
                 opts.setValue("lightHighlightTheme", "randomTheme" as never),
             );
-            opts.setValue("lightHighlightTheme", BUNDLED_THEMES[0]);
-            strictEqual(
-                opts.getValue("lightHighlightTheme"),
-                BUNDLED_THEMES[0],
-            );
+            opts.setValue("lightHighlightTheme", "github-light");
+            strictEqual(opts.getValue("lightHighlightTheme"), "github-light");
 
             throws(() =>
                 opts.setValue("darkHighlightTheme", "randomTheme" as never),
             );
-            opts.setValue("darkHighlightTheme", BUNDLED_THEMES[0]);
-            strictEqual(opts.getValue("darkHighlightTheme"), BUNDLED_THEMES[0]);
+            opts.setValue("darkHighlightTheme", "github-light");
+            strictEqual(opts.getValue("darkHighlightTheme"), "github-light");
         });
     });
 
@@ -46,19 +43,19 @@ describe("Default Options", () => {
         });
     });
 
-    describe("markedOptions", () => {
+    describe("markdownItOptions", () => {
         it("Errors if given a non-object", () => {
-            throws(() => opts.setValue("markedOptions", null));
-            throws(() => opts.setValue("markedOptions", "bad"));
-            throws(() => opts.setValue("markedOptions", []));
+            throws(() => opts.setValue("markdownItOptions", null));
+            throws(() => opts.setValue("markdownItOptions", "bad"));
+            throws(() => opts.setValue("markdownItOptions", []));
         });
     });
 
     describe("compilerOptions", () => {
         it("Errors if given a non-object", () => {
-            throws(() => opts.setValue("markedOptions", null));
-            throws(() => opts.setValue("markedOptions", "bad"));
-            throws(() => opts.setValue("markedOptions", []));
+            throws(() => opts.setValue("compilerOptions", "bad"));
+            throws(() => opts.setValue("compilerOptions", null));
+            throws(() => opts.setValue("compilerOptions", []));
         });
     });
 

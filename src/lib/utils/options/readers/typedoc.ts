@@ -10,6 +10,7 @@ import { nicePath, normalizePath } from "../../paths";
 import { isFile } from "../../fs";
 import { createRequire } from "module";
 import { pathToFileURL } from "url";
+import type { TranslatedString } from "../../../internationalization/internationalization";
 
 /**
  * Obtains option values from typedoc.json
@@ -37,7 +38,7 @@ export class TypeDocReader implements OptionsReader {
         if (!file) {
             if (container.isSet("options")) {
                 logger.error(
-                    `The options file ${nicePath(path)} does not exist.`,
+                    logger.i18n.options_file_0_does_not_exist(nicePath(path)),
                 );
             }
             return;
@@ -61,9 +62,7 @@ export class TypeDocReader implements OptionsReader {
     ) {
         if (seen.has(file)) {
             logger.error(
-                `Tried to load the options file ${nicePath(
-                    file,
-                )} multiple times.`,
+                logger.i18n.circular_reference_extends_0(nicePath(file)),
             );
             return;
         }
@@ -77,9 +76,7 @@ export class TypeDocReader implements OptionsReader {
 
             if (readResult.error) {
                 logger.error(
-                    `Failed to parse ${nicePath(
-                        file,
-                    )}, ensure it exists and contains an object.`,
+                    logger.i18n.failed_read_options_file_0(nicePath(file)),
                 );
                 return;
             } else {
@@ -102,9 +99,12 @@ export class TypeDocReader implements OptionsReader {
                 }
             } catch (error) {
                 logger.error(
-                    `Failed to read ${nicePath(file)}: ${
-                        error instanceof Error ? error.message : error
-                    }`,
+                    logger.i18n.failed_read_options_file_0(nicePath(file)),
+                );
+                logger.error(
+                    String(
+                        error instanceof Error ? error.message : error,
+                    ) as TranslatedString,
                 );
                 return;
             }
@@ -112,7 +112,7 @@ export class TypeDocReader implements OptionsReader {
 
         if (typeof fileContent !== "object" || !fileContent) {
             logger.error(
-                `The root value of ${nicePath(file)} is not an object.`,
+                logger.i18n.failed_read_options_file_0(nicePath(file)),
             );
             return;
         }
@@ -130,9 +130,10 @@ export class TypeDocReader implements OptionsReader {
                     resolvedParent = resolver.resolve(extendedFile);
                 } catch {
                     logger.error(
-                        `Failed to resolve ${extendedFile} to a file in ${nicePath(
-                            file,
-                        )}`,
+                        logger.i18n.failed_resolve_0_to_file_in_1(
+                            extendedFile,
+                            nicePath(file),
+                        ),
                     );
                     continue;
                 }
@@ -150,7 +151,7 @@ export class TypeDocReader implements OptionsReader {
                 );
             } catch (error) {
                 ok(error instanceof Error);
-                logger.error(error.message);
+                logger.error(error.message as TranslatedString);
             }
         }
     }

@@ -125,8 +125,10 @@ export namespace ReflectionKind {
     export const SignatureContainer =
         ContainsCallSignatures | ReflectionKind.Accessor;
 
+    /** @internal */
     export const VariableContainer = SomeModule | ReflectionKind.Project;
 
+    /** @internal */
     export const MethodContainer =
         ClassOrInterface |
         VariableOrProperty |
@@ -146,6 +148,9 @@ export namespace ReflectionKind {
         [ReflectionKind.TypeAlias]: "Type Aliases",
     };
 
+    /**
+     * Get a non-localized kind string. For the localized string, use `app.internationalization.kindSingularString(kind)`
+     */
     export function singularString(kind: ReflectionKind): string {
         if (kind in SINGULARS) {
             return SINGULARS[kind as keyof typeof SINGULARS];
@@ -154,6 +159,9 @@ export namespace ReflectionKind {
         }
     }
 
+    /**
+     * Get a non-localized kind string. For the localized string, use `app.internationalization.kindPluralString(kind)`
+     */
     export function pluralString(kind: ReflectionKind): string {
         if (kind in PLURALS) {
             return PLURALS[kind as keyof typeof PLURALS];

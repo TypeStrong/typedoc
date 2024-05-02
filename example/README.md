@@ -23,7 +23,7 @@ This project shows off some of TypeDoc's features:
 
 -   Built-in support for various TypeScript language constructs
 -   Markdown in doc comments
--   Syntax highligting in code blocks
+-   Syntax highlighting in code blocks
 
 ## Index of Examples
 

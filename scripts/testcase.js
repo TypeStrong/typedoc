@@ -37,8 +37,8 @@ function guessExtension(code) {
 }
 
 async function main() {
-    if (process.argv.length !== 3) {
-        console.log("Usage: node scripts/testcase.js <issue number>");
+    if (process.argv.length !== 3 && process.argv.length !== 4) {
+        console.log("Usage: node scripts/testcase.js <issue number> [lang]");
         process.exit(1);
     }
 
@@ -62,7 +62,8 @@ async function main() {
         return;
     }
 
-    const file = `src/test/converter2/issues/gh${issue}${guessExtension(code)}`;
+    const ext = process.argv[3] ? `.${process.argv[3]}` : guessExtension(code);
+    const file = `src/test/converter2/issues/gh${issue}${ext}`;
     await writeFile(file, code.text);
     await exec(`code ${file} src/test/issues.c2.test.ts`);
 }

@@ -1,4 +1,4 @@
-import { Token, TokenSyntaxKind } from "./lexer";
+import { type Token, TokenSyntaxKind } from "./lexer";
 
 export function* lexCommentString(
     file: string,

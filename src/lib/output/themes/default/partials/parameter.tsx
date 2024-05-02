@@ -1,7 +1,7 @@
 import { classNames, getKindClass, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import { DeclarationReflection, ReflectionType } from "../../../../models";
+import { type DeclarationReflection, ReflectionType, type SignatureReflection } from "../../../../models";
 
 export const parameter = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
@@ -26,29 +26,7 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
                     </ul>
                 </li>
             )}
-            {!!props.indexSignature && (
-                <>
-                    <li class="tsd-parameter-index-signature">
-                        <h5>
-                            <span class="tsd-signature-symbol">[</span>
-                            {props.indexSignature?.parameters?.map((item) => (
-                                <>
-                                    {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
-                                    <span class={getKindClass(item)}>{item.name}</span>
-                                    {": "}
-                                    {context.type(item.type)}
-                                </>
-                            ))}
-                            <span class="tsd-signature-symbol">{"]: "}</span>
-                            {context.type(props.indexSignature.type)}
-                        </h5>
-                        {context.commentSummary(props.indexSignature)}
-                        {context.commentTags(props.indexSignature)}
-                        {props.indexSignature.type instanceof ReflectionType &&
-                            context.parameter(props.indexSignature.type.declaration)}
-                    </li>
-                </>
-            )}
+            {props.indexSignatures?.map((index) => renderParamIndexSignature(context, index))}
             {props.children?.map((item) => (
                 <>
                     {item.signatures ? (
@@ -134,3 +112,25 @@ export const parameter = (context: DefaultThemeRenderContext, props: Declaration
         </ul>
     </>
 );
+
+function renderParamIndexSignature(context: DefaultThemeRenderContext, index: SignatureReflection) {
+    return (
+        <li class="tsd-parameter-index-signature">
+            <h5>
+                <span class="tsd-signature-symbol">[</span>
+                {index.parameters!.map((item) => (
+                    <>
+                        <span class={getKindClass(item)}>{item.name}</span>
+                        {": "}
+                        {context.type(item.type)}
+                    </>
+                ))}
+                <span class="tsd-signature-symbol">{"]: "}</span>
+                {context.type(index.type)}
+            </h5>
+            {context.commentSummary(index)}
+            {context.commentTags(index)}
+            {index.type instanceof ReflectionType && context.parameter(index.type.declaration)}
+        </li>
+    );
+}

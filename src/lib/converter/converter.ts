@@ -3,12 +3,12 @@ import ts from "typescript";
 import type { Application } from "../application";
 import {
     Comment,
-    CommentDisplayPart,
+    type CommentDisplayPart,
     ProjectReflection,
-    Reflection,
+    type Reflection,
     ReflectionKind,
-    ReflectionSymbolId,
-    SomeType,
+    type ReflectionSymbolId,
+    type SomeType,
 } from "../models/index";
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
@@ -31,8 +31,8 @@ import { lexCommentString } from "./comments/rawLexer";
 import {
     resolvePartLinks,
     resolveLinks,
-    ExternalSymbolResolver,
-    ExternalResolveResult,
+    type ExternalSymbolResolver,
+    type ExternalResolveResult,
 } from "./comments/linkResolver";
 import type { DeclarationReference } from "./comments/declarationReference";
 
@@ -418,9 +418,9 @@ export class Converter extends ChildableComponent<
                         ...comment.modifierTags,
                     ];
                     context.logger.warn(
-                        `Block and modifier tags will be ignored within the readme:\n\t${ignored.join(
-                            "\n\t",
-                        )}`,
+                        this.application.i18n.block_and_modifier_tags_ignored_within_readme_0(
+                            ignored.join("\n\t"),
+                        ),
                     );
                 }
 
@@ -544,11 +544,8 @@ function getSymbolForModuleLike(
     const sourceFile = node.getSourceFile();
     const globalSymbols = context.checker
         .getSymbolsInScope(node, ts.SymbolFlags.ModuleMember)
-        .filter(
-            (s) =>
-                s
-                    .getDeclarations()
-                    ?.some((d) => d.getSourceFile() === sourceFile),
+        .filter((s) =>
+            s.getDeclarations()?.some((d) => d.getSourceFile() === sourceFile),
         );
 
     // Detect declaration files with declare module "foo" as their only export
@@ -609,11 +606,10 @@ function getExports(
                 if (globalSymbol) {
                     result = context.checker
                         .getExportsOfModule(globalSymbol)
-                        .filter(
-                            (exp) =>
-                                exp.declarations?.some(
-                                    (d) => d.getSourceFile() === node,
-                                ),
+                        .filter((exp) =>
+                            exp.declarations?.some(
+                                (d) => d.getSourceFile() === node,
+                            ),
                         );
                 }
             }
@@ -623,11 +619,10 @@ function getExports(
         const sourceFile = node.getSourceFile();
         result = context.checker
             .getSymbolsInScope(node, ts.SymbolFlags.ModuleMember)
-            .filter(
-                (s) =>
-                    s
-                        .getDeclarations()
-                        ?.some((d) => d.getSourceFile() === sourceFile),
+            .filter((s) =>
+                s
+                    .getDeclarations()
+                    ?.some((d) => d.getSourceFile() === sourceFile),
             );
     }
 

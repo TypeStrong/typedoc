@@ -3,7 +3,7 @@ import {
     ContainerReflection,
     DeclarationReflection,
     ReferenceReflection,
-    Reflection,
+    type Reflection,
     ReflectionKind,
 } from "../../models";
 import { assertNever, filterMap } from "../../utils";
@@ -177,8 +177,8 @@ function resolveKeyword(
             return (refl as DeclarationReflection).signatures;
 
         case "index":
-            if ((refl as DeclarationReflection).indexSignature) {
-                return [(refl as DeclarationReflection).indexSignature!];
+            if ((refl as DeclarationReflection).indexSignatures) {
+                return (refl as DeclarationReflection).indexSignatures;
             }
             break;
 

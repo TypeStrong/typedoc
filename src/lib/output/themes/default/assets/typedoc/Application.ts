@@ -39,8 +39,11 @@ export class Application {
             this.ensureFocusedElementVisible(),
         );
 
-        // We're on a *really* slow network connection.
+        // We're on a *really* slow network connection and the inline JS
+        // has already made the page display.
         if (!document.body.style.display) {
+            this.ensureFocusedElementVisible();
+            this.updateIndexVisibility();
             this.scrollToHash();
         }
     }
@@ -65,7 +68,10 @@ export class Application {
 
     public showPage() {
         if (!document.body.style.display) return;
+        console.log("Show page");
         document.body.style.removeProperty("display");
+        this.ensureFocusedElementVisible();
+        this.updateIndexVisibility();
         this.scrollToHash();
     }
 
@@ -73,6 +79,7 @@ export class Application {
         // Because we hid the entire page until the navigation loaded or we hit a timeout,
         // we have to manually resolve the url hash here.
         if (location.hash) {
+            console.log("Scorlling");
             const reflAnchor = document.getElementById(
                 location.hash.substring(1),
             );
@@ -99,6 +106,32 @@ export class Application {
             // If we are showing three columns, this will scroll the site menu down to
             // show the page we just loaded in the navigation.
             document.querySelector(".site-menu")!.scrollTop = top;
+        }
+    }
+
+    public updateIndexVisibility() {
+        const indexAccordion =
+            document.querySelector<HTMLDetailsElement>(".tsd-index-content");
+        const oldOpen = indexAccordion?.open;
+        if (indexAccordion) {
+            indexAccordion.open = true;
+        }
+
+        // Hide index headings where all index items are hidden.
+        // offsetParent == null checks for display: none
+        document
+            .querySelectorAll<HTMLElement>(".tsd-index-section")
+            .forEach((el) => {
+                el.style.display = "block";
+                const allChildrenHidden = Array.from(
+                    el.querySelectorAll<HTMLElement>(".tsd-index-link"),
+                ).every((child) => child.offsetParent == null);
+
+                el.style.display = allChildrenHidden ? "none" : "block";
+            });
+
+        if (indexAccordion) {
+            indexAccordion.open = oldOpen!;
         }
     }
 

@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { ReflectionKind } from "../../models";
-import { assertNever, Logger } from "../../utils";
+import { assertNever, type Logger } from "../../utils";
 import { CommentStyle } from "../../utils/options/declaration";
 import { nicePath } from "../../utils/paths";
 import { ok } from "assert";
@@ -110,7 +110,7 @@ export interface DiscoveredComment {
     jsDoc: ts.JSDoc | undefined;
 }
 
-export function discoverFileComment(
+export function discoverFileComments(
     node: ts.SourceFile,
     commentStyle: CommentStyle,
 ) {
@@ -120,17 +120,17 @@ export function discoverFileComment(
         ts.getLeadingCommentRanges(text, node.pos),
     );
 
-    const selectedDocComment = comments.find((ranges) =>
+    const selectedDocComments = comments.filter((ranges) =>
         permittedRange(text, ranges, commentStyle),
     );
 
-    if (selectedDocComment) {
+    return selectedDocComments.map((ranges) => {
         return {
             file: node,
-            ranges: selectedDocComment,
-            jsDoc: findJsDocForComment(node, selectedDocComment),
+            ranges,
+            jsDoc: findJsDocForComment(node, ranges),
         };
-    }
+    });
 }
 
 export function discoverNodeComment(
@@ -178,11 +178,11 @@ export function discoverComment(
             }
             seen.add(node);
 
-            // Special behavior here! We temporarily put the implementation comment
-            // on the reflection which contains all the signatures. This lets us pull
-            // the comment on the implementation if some signature does not have a comment.
-            // However, we don't want to skip the node if it is a reference to something.
-            // See the gh1770 test for an example.
+            // Special behavior here!
+            // Signatures and symbols have two distinct discovery methods as of TypeDoc 0.26.
+            // This method discovers comments for symbols, and function-likes will only have
+            // a symbol comment if there is more than one signature (== more than one declaration)
+            // and there is a comment on the implementation signature.
             if (
                 kind & ReflectionKind.ContainsCallSignatures &&
                 [
@@ -190,7 +190,10 @@ export function discoverComment(
                     ts.SyntaxKind.MethodDeclaration,
                     ts.SyntaxKind.Constructor,
                 ].includes(node.kind) &&
-                !(node as ts.FunctionDeclaration).body
+                (symbol.declarations!.filter((d) =>
+                    wantedKinds[kind].includes(d.kind),
+                ).length === 1 ||
+                    !(node as ts.FunctionDeclaration).body)
             ) {
                 continue;
             }
@@ -224,7 +227,9 @@ export function discoverComment(
             return discovered[0];
         default: {
             logger.warn(
-                `${symbol.name} has multiple declarations with a comment. An arbitrary comment will be used.`,
+                logger.i18n.symbol_0_has_multiple_declarations_with_comment(
+                    symbol.name,
+                ),
             );
             const locations = discovered.map(({ file, ranges: [{ pos }] }) => {
                 const path = nicePath(file.fileName);
@@ -233,9 +238,10 @@ export function discoverComment(
                 return `${path}:${line}`;
             });
             logger.info(
-                `The comments for ${
-                    symbol.name
-                } are declared at:\n\t${locations.join("\n\t")}`,
+                logger.i18n.comments_for_0_are_declared_at_1(
+                    symbol.name,
+                    locations.join("\n\t"),
+                ),
             );
             return discovered[0];
         }

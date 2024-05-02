@@ -3,6 +3,11 @@ import { url } from "inspector";
 import { resolve } from "path";
 import { nicePath } from "./paths";
 import type { MinimalSourceFile } from "./minimalSourceFile";
+import type {
+    TranslatedString,
+    TranslationProxy,
+} from "../internationalization/internationalization";
+import type { IfInternal } from ".";
 
 const isDebugging = () => !!url();
 
@@ -39,6 +44,18 @@ const messagePrefixes = {
     [LogLevel.Verbose]: color("[debug]", "gray"),
 };
 
+const dummyTranslationProxy: TranslationProxy = new Proxy(
+    {} as TranslationProxy,
+    {
+        get: (_target, key) => {
+            return (...args: string[]) =>
+                String(key).replace(/\{(\d+)\}/g, (_, index) => {
+                    return args[+index] ?? "(no placeholder)";
+                });
+        },
+    },
+);
+
 type FormatArgs = [ts.Node?] | [number, MinimalSourceFile];
 
 /**
@@ -48,6 +65,13 @@ type FormatArgs = [ts.Node?] | [number, MinimalSourceFile];
  * all the required utility functions.
  */
 export class Logger {
+    /**
+     * Translation utility for internationalization.
+     * @privateRemarks
+     * This is fully initialized by the application during bootstrapping.
+     */
+    i18n: TranslationProxy = dummyTranslationProxy;
+
     /**
      * How many error messages have been logged?
      */
@@ -106,7 +130,7 @@ export class Logger {
     }
 
     /** Log the given info message. */
-    info(text: string) {
+    info(text: IfInternal<TranslatedString, string>) {
         this.log(this.addContext(text, LogLevel.Info), LogLevel.Info);
     }
 
@@ -115,8 +139,12 @@ export class Logger {
      *
      * @param text  The warning that should be logged.
      */
-    warn(text: string, node?: ts.Node): void;
-    warn(text: string, pos: number, file: MinimalSourceFile): void;
+    warn(text: IfInternal<TranslatedString, string>, node?: ts.Node): void;
+    warn(
+        text: IfInternal<TranslatedString, string>,
+        pos: number,
+        file: MinimalSourceFile,
+    ): void;
     warn(text: string, ...args: FormatArgs): void {
         const text2 = this.addContext(text, LogLevel.Warn, ...args);
         if (this.seenWarnings.has(text2) && !isDebugging()) return;
@@ -129,24 +157,17 @@ export class Logger {
      *
      * @param text  The error that should be logged.
      */
-    error(text: string, node?: ts.Node): void;
-    error(text: string, pos: number, file: MinimalSourceFile): void;
+    error(text: IfInternal<TranslatedString, string>, node?: ts.Node): void;
+    error(
+        text: IfInternal<TranslatedString, string>,
+        pos: number,
+        file: MinimalSourceFile,
+    ): void;
     error(text: string, ...args: FormatArgs) {
         const text2 = this.addContext(text, LogLevel.Error, ...args);
         if (this.seenErrors.has(text2) && !isDebugging()) return;
         this.seenErrors.add(text2);
         this.log(text2, LogLevel.Error);
-    }
-
-    /** @internal */
-    deprecated(text: string, addStack = true) {
-        if (addStack) {
-            const stack = new Error().stack?.split("\n");
-            if (stack && stack.length >= 4) {
-                text = text + "\n" + stack[3];
-            }
-        }
-        this.warn(text);
     }
 
     /**
