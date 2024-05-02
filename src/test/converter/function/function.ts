@@ -95,12 +95,12 @@ export function multipleSignatures(value: string): string;
 export function multipleSignatures(value: { name: string }): string;
 
 /**
- * This is the actual implementation, this comment will not be visible
- * in the generated documentation. The `@inheritdoc` tag can not be used
- * to pull content from this signature into documentation for the real
- * signatures.
- *
- * @return This is the return value of the function.
+ * This comment is on the actual implementation of the function.
+ * TypeDoc used to allow this for providing "default" comments that would be
+ * copied to each signature. It no longer does this, and instead treats
+ * this comment as belonging to the function reflection itself.
+ * Any `@param` or `@returns` tags within this comment won't be applied
+ * to signatures.
  */
 export function multipleSignatures(): string {
     if (arguments.length > 0) {

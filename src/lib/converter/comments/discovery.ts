@@ -178,11 +178,11 @@ export function discoverComment(
             }
             seen.add(node);
 
-            // Special behavior here! We temporarily put the implementation comment
-            // on the reflection which contains all the signatures. This lets us pull
-            // the comment on the implementation if some signature does not have a comment.
-            // However, we don't want to skip the node if it is a reference to something.
-            // See the gh1770 test for an example.
+            // Special behavior here!
+            // Signatures and symbols have two distinct discovery methods as of TypeDoc 0.26.
+            // This method discovers comments for symbols, and function-likes will only have
+            // a symbol comment if there is more than one signature (== more than one declaration)
+            // and there is a comment on the implementation signature.
             if (
                 kind & ReflectionKind.ContainsCallSignatures &&
                 [
@@ -190,7 +190,10 @@ export function discoverComment(
                     ts.SyntaxKind.MethodDeclaration,
                     ts.SyntaxKind.Constructor,
                 ].includes(node.kind) &&
-                !(node as ts.FunctionDeclaration).body
+                (symbol.declarations!.filter((d) =>
+                    wantedKinds[kind].includes(d.kind),
+                ).length === 1 ||
+                    !(node as ts.FunctionDeclaration).body)
             ) {
                 continue;
             }

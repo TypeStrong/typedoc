@@ -406,13 +406,13 @@ describe("Issue Tests", () => {
         );
 
         const comments = [
-            project.children[0].comment?.summary,
-            project.children[0].children[0].comment?.summary,
-            project.children[0].children[1].signatures![0].comment?.summary,
-            project.children[0].signatures![0].comment?.summary,
-        ].map(Comment.combineDisplayParts);
+            query(project, "bar"),
+            query(project, "bar.metadata"),
+            querySig(project, "bar.fn"),
+            querySig(project, "bar"),
+        ].map((r) => Comment.combineDisplayParts(r.comment?.summary));
 
-        equal(comments, ["", "metadata", "fn", "bar"]);
+        equal(comments, ["bar", "metadata", "fn", ""]);
     });
 
     it("#1660", () => {
@@ -475,7 +475,7 @@ describe("Issue Tests", () => {
         const project = convert();
         const sym1 = query(project, "sym1");
         equal(
-            Comment.combineDisplayParts(sym1.signatures?.[0].comment?.summary),
+            Comment.combineDisplayParts(sym1.comment?.summary),
             "Docs for Sym1",
         );
 
@@ -717,9 +717,7 @@ describe("Issue Tests", () => {
         equal(comments, ["A override", "B module"]);
 
         const comments2 = ["A.a", "B.b"].map((n) =>
-            Comment.combineDisplayParts(
-                query(project, n).signatures![0].comment?.summary,
-            ),
+            Comment.combineDisplayParts(query(project, n).comment?.summary),
         );
 
         equal(comments2, ["Comment for a", "Comment for b"]);
@@ -792,7 +790,7 @@ describe("Issue Tests", () => {
 
     it("#2008", () => {
         const project = convert();
-        const fn = query(project, "myFn").signatures![0];
+        const fn = query(project, "myFn");
         equal(Comment.combineDisplayParts(fn.comment?.summary), "Docs");
     });
 
@@ -891,20 +889,25 @@ describe("Issue Tests", () => {
 
     it("#2042", () => {
         const project = convert();
-        for (const [name, docs] of [
-            ["built", "inner docs"],
-            ["built2", "outer docs"],
-            ["fn", "inner docs"],
-            ["fn2", "outer docs"],
+        for (const [name, docs, sigDocs] of [
+            ["built", "", "inner docs"],
+            ["built2", "outer docs", ""],
+            ["fn", "", "inner docs"],
+            ["fn2", "outer docs", ""],
         ]) {
             const refl = query(project, name);
             ok(refl.signatures?.[0]);
             equal(
+                Comment.combineDisplayParts(refl.comment?.summary),
+                docs,
+                name + " docs",
+            );
+            equal(
                 Comment.combineDisplayParts(
                     refl.signatures[0].comment?.summary,
                 ),
-                docs,
-                name,
+                sigDocs,
+                name + " sig docs",
             );
         }
     });
@@ -1009,7 +1012,7 @@ describe("Issue Tests", () => {
         const foo = query(project, "foo");
         equal(foo.signatures?.length, 1);
         equal(
-            Comment.combineDisplayParts(foo.signatures[0].comment?.summary),
+            Comment.combineDisplayParts(foo.comment?.summary),
             "Is documented",
         );
     });

@@ -318,7 +318,9 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_markdownItOptions(),
         type: ParameterType.Mixed,
         configFileOnly: true,
-        defaultValue: {},
+        defaultValue: {
+            linkify: true,
+        },
         validate(value, i18n) {
             if (!Validation.validate({}, value)) {
                 throw new Error(

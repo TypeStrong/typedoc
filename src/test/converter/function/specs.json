@@ -425,6 +425,14 @@
           "variant": "declaration",
           "kind": 64,
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "Returns true if fn returns true for every item in the iterator\n\nReturns true if the iterator is empty"
+              }
+            ]
+          },
           "sources": [
             {
               "fileName": "function.ts",
@@ -440,14 +448,6 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Returns true if fn returns true for every item in the iterator\n\nReturns true if the iterator is empty"
-                  }
-                ]
-              },
               "sources": [
                 {
                   "fileName": "function.ts",
@@ -565,14 +565,6 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Returns true if fn returns true for every item in the iterator\n\nReturns true if the iterator is empty"
-                  }
-                ]
-              },
               "sources": [
                 {
                   "fileName": "function.ts",
@@ -1745,6 +1737,30 @@
           "variant": "declaration",
           "kind": 64,
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This comment is on the actual implementation of the function.\nTypeDoc used to allow this for providing \"default\" comments that would be\ncopied to each signature. It no longer does this, and instead treats\nthis comment as belonging to the function reflection itself.\nAny "
+              },
+              {
+                "kind": "code",
+                "text": "`@param`"
+              },
+              {
+                "kind": "text",
+                "text": " or "
+              },
+              {
+                "kind": "code",
+                "text": "`@returns`"
+              },
+              {
+                "kind": "text",
+                "text": " tags within this comment won't be applied\nto signatures."
+              }
+            ]
+          },
           "sources": [
             {
               "fileName": "function.ts",
@@ -1921,6 +1937,14 @@
           "variant": "declaration",
           "kind": 64,
           "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is a function that is assigned to a variable."
+              }
+            ]
+          },
           "sources": [
             {
               "fileName": "function.ts",
@@ -1937,12 +1961,7 @@
               "kind": 4096,
               "flags": {},
               "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "This is a function that is assigned to a variable."
-                  }
-                ],
+                "summary": [],
                 "blockTags": [
                   {
                     "tag": "@returns",

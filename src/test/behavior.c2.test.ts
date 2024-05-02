@@ -957,8 +957,11 @@ describe("Behavior Tests", () => {
         const barComments = bar.signatures?.map((sig) =>
             Comment.combineDisplayParts(sig.comment?.summary),
         );
-        equal(barComments, ["Implementation comment", "Custom comment"]);
-        equal(bar.comment, undefined);
+        equal(barComments, ["", "Custom comment"]);
+        equal(
+            Comment.combineDisplayParts(bar.comment?.summary),
+            "Implementation comment",
+        );
 
         logger.expectMessage(
             'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.',

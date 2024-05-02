@@ -329,8 +329,10 @@ export abstract class Reflection {
      * Test whether this reflection is of the given kind.
      */
     kindOf(kind: ReflectionKind | ReflectionKind[]): boolean {
-        const kindArray = Array.isArray(kind) ? kind : [kind];
-        return kindArray.some((kind) => (this.kind & kind) !== 0);
+        const kindFlags = Array.isArray(kind)
+            ? kind.reduce((a, b) => a | b, 0)
+            : kind;
+        return (this.kind & kindFlags) !== 0;
     }
 
     /**

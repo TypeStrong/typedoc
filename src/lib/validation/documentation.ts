@@ -43,7 +43,7 @@ export function validateDocumentation(
         if (seen.has(ref)) continue;
         seen.add(ref);
 
-        // If we're a non-parameter inside a parameter, we shouldn't care. Parameters don't get deeply documented
+        // If inside a parameter, we shouldn't care. Callback parameter's values don't get deeply documented.
         let r: Reflection | undefined = ref.parent;
         while (r) {
             if (r.kindOf(ReflectionKind.Parameter)) {
@@ -71,7 +71,7 @@ export function validateDocumentation(
             continue;
         }
 
-        // Call signatures are considered documented if they are directly within a documented type alias.
+        // Construct signatures are considered documented if they are directly within a documented type alias.
         if (
             ref.kindOf(ReflectionKind.ConstructorSignature) &&
             ref.parent?.parent?.kindOf(ReflectionKind.TypeAlias)

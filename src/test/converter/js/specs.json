@@ -67,6 +67,14 @@
                   "variant": "param",
                   "kind": 32768,
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "x desc"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"

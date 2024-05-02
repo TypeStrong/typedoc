@@ -1,5 +1,10 @@
 # Beta
 
+Docs needing updating:
+@license, @import
+sitemapBaseUrl
+markedOptions -> markdownItOptions, markdownItLoader, navigation
+
 ## Breaking Changes
 
 -   Drop support for Node 16.
@@ -9,6 +14,11 @@
 -   Updated Shiki from 0.14 to 1.3. This should mostly be a transparent update which adds another 23 supported languages and 13 supported themes.
 -   Renamed `--sitemapBaseUrl` to `--hostedBaseUrl` to reflect that it can be used for more than just the sitemap.
 -   Removed deprecated `navigation.fullTree` option.
+-   All function-likes may now have comments directly attached to them. This is a change from previous versions of TypeDoc where functions comments
+    were always moved down to the signature level. This mostly worked, but caused problems with type aliases, so was partially changed in 0.25.13.
+    This change was extended to apply not only to type aliases, but also other function-likes declared with variables and callable properties.
+    As a part of this change, comments on the implementation signature of overloaded functions will now be added to the function reflection, and will
+    not be inherited by signatures of that function, #2521.
 -   API: `MapOptionDeclaration.mapError` has been removed.
 -   API: Deprecated `BindOption` decorator has been removed.
 -   API: `DeclarationReflection.indexSignature` has been renamed to `DeclarationReflection.indexSignatures`.
