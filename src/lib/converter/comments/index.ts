@@ -31,6 +31,7 @@ const jsDocCommentKinds = [
     ts.SyntaxKind.JSDocEnumTag,
 ];
 
+let commentDiscoveryId = 0;
 let commentCache = new WeakMap<ts.SourceFile, Map<number, Comment>>();
 
 // We need to do this for tests so that changing the tsLinkResolution option
@@ -38,6 +39,7 @@ let commentCache = new WeakMap<ts.SourceFile, Map<number, Comment>>();
 // have the TS symbols attached.
 export function clearCommentCache() {
     commentCache = new WeakMap();
+    commentDiscoveryId = 0;
 }
 
 function getCommentWithCache(
@@ -82,6 +84,7 @@ function getCommentWithCache(
             assertNever(ranges[0].kind);
     }
 
+    comment.discoveryId = ++commentDiscoveryId;
     cache.set(ranges[0].pos, comment);
     commentCache.set(file, cache);
 

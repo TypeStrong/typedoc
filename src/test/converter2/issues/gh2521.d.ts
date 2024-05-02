@@ -8,9 +8,11 @@ export interface Foo {
     (baz: number): void;
 }
 
+// Inherits overload comments, but not Foo comment
+// Foo comment could be inherited with {@inheritDoc Foo}
 export const fooWithoutComment: Foo;
 
-/** 
+/**
  * New comment.
  */
 export const fooWithComment: Foo;

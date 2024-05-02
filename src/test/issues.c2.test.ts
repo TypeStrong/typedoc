@@ -27,7 +27,7 @@ import {
     getConverter2Program,
 } from "./programs";
 import { TestLogger } from "./TestLogger";
-import { getComment, getLinks, query, querySig } from "./utils";
+import { getComment, getLinks, getSigComment, query, querySig } from "./utils";
 import { DefaultTheme, PageEvent } from "..";
 
 const base = getConverter2Base();
@@ -891,9 +891,9 @@ describe("Issue Tests", () => {
         const project = convert();
         for (const [name, docs, sigDocs] of [
             ["built", "", "inner docs"],
-            ["built2", "outer docs", ""],
+            ["built2", "outer docs", "inner docs"],
             ["fn", "", "inner docs"],
-            ["fn2", "outer docs", ""],
+            ["fn2", "outer docs", "inner docs"],
         ]) {
             const refl = query(project, name);
             ok(refl.signatures?.[0]);
@@ -1467,29 +1467,16 @@ describe("Issue Tests", () => {
         equal(cb2.type.declaration.signatures![0].comment, undefined);
     });
 
-
-    it("const variable functions copy overrides summary from type, #2521", () => {
+    it("Specifying comment on variable still inherits signature comments, #2521", () => {
         const project = convert();
-        const fooWithComment = query(project, "fooWithComment");
-        equal(Comment.combineDisplayParts(fooWithComment.comment?.summary), "New comment.")
-        const fooWithoutComment = query(project, "fooWithoutComment");
-        equal(Comment.combineDisplayParts(fooWithoutComment.comment?.summary), "Original comment.")
-    });
 
-    it("const variable functions copy signatures summary from type, #2521", () => {
-        const project = convert();
-        const fooWithComment = query(project, "fooWithComment");
-        const fooWithoutComment = query(project, "fooWithoutComment");
-        {
-            const [overload1, overload2] = fooWithComment.signatures || [];
-            equal(Comment.combineDisplayParts(overload1.comment?.summary), "Overload 1");
-            equal(Comment.combineDisplayParts(overload2.comment?.summary), "Overload 2");
-        }
-        {
-            const [overload1, overload2] = fooWithoutComment.signatures || [];
-            equal(Comment.combineDisplayParts(overload1.comment?.summary), "Overload 1");
-            equal(Comment.combineDisplayParts(overload2.comment?.summary), "Overload 2");
-        }
+        equal(getComment(project, "fooWithoutComment"), "");
+        equal(getSigComment(project, "fooWithoutComment", 0), "Overload 1");
+        equal(getSigComment(project, "fooWithoutComment", 1), "Overload 2");
+
+        equal(getComment(project, "fooWithComment"), "New comment.");
+        equal(getSigComment(project, "fooWithComment", 0), "Overload 1");
+        equal(getSigComment(project, "fooWithComment", 1), "Overload 2");
     });
 
     it("Ignores @license and @import comments at the top of the file, #2552", () => {

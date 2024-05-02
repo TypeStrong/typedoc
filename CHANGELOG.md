@@ -45,6 +45,7 @@ markedOptions -> markdownItOptions, markdownItLoader, navigation
 ### Thanks!
 
 -   @HarelM
+-   @kraenhansen
 
 # Unreleased
 

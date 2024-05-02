@@ -35,6 +35,16 @@ export function getComment(project: ProjectReflection, name: string) {
     return Comment.combineDisplayParts(query(project, name).comment?.summary);
 }
 
+export function getSigComment(
+    project: ProjectReflection,
+    name: string,
+    index = 0,
+) {
+    return Comment.combineDisplayParts(
+        querySig(project, name, index).comment?.summary,
+    );
+}
+
 export function getLinks(refl: Reflection): Array<{
     display: string;
     target: undefined | string | [ReflectionKind, string];
