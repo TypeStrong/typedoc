@@ -16,7 +16,7 @@ jobs:
               run: |
                   git fetch
                   git checkout origin/$GITHUB_BASE_REF
-                  npm ci --legacy-peer-deps
+                  npm ci
                   npm run build
                   node dist/test/capture-screenshots.js
                   npm run test:visual:accept
@@ -24,7 +24,7 @@ jobs:
             - name: Get current screenshots
               run: |
                   git checkout $GITHUB_SHA
-                  npm ci --legacy-peer-deps
+                  npm ci
                   npm run build
                   node dist/test/capture-screenshots.js
             - name: Test

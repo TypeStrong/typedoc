@@ -15,7 +15,7 @@ jobs:
               with:
                   node-version: ${{ matrix.node }}
             - name: Install
-              run: npm ci --legacy-peer-deps
+              run: npm ci
             - name: Build
               run: npm run build
             - name: Test
@@ -43,7 +43,7 @@ jobs:
             - name: Upgrade npm
               run: npm i -g npm@latest
             - name: Install
-              run: npm ci --legacy-peer-deps
+              run: npm ci
             - name: Build
               run: npm run build
             - name: Test

@@ -10,8 +10,7 @@
         // Speed up dev compilation time
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
-        // Shiki's types are broken again, https://github.com/shikijs/shiki/issues/665
-        "skipLibCheck": true,
+        "skipLibCheck": false,
 
         "strict": true,
         "alwaysStrict": true,
